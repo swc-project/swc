@@ -1,0 +1,11 @@
+[package]
+name = "swc_atoms"
+build = "build.rs"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+string_cache = "0.6"
+
+[build-dependencies]
+string_cache_codegen = "0.4"

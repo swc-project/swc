@@ -1,0 +1,6 @@
+[package]
+name = "swc_common"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
