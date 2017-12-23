@@ -1,5 +1,5 @@
 //! Macros used by swc project.
-#![allow(unused_import)]
+#![allow(unused_imports)]
 
 #[macro_use]
 extern crate ast_node;
