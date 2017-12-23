@@ -86,9 +86,17 @@ pub enum Token {
     #[kind(before_expr, starts_expr)]
     Tilde,
 
-    ///
+    /// String literal.
     #[kind(starts_expr)]
     Str(String),
+
+    /// Regexp literal.
+    #[kind(starts_expr)]
+    Regex(String, String),
+
+    /// TODO: Make Num as enum and separate decimal, binary, ..etc
+    #[kind(starts_expr)]
+    Num(usize),
 }
 
 #[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash)]
@@ -269,4 +277,50 @@ pub enum Keyword {
     #[kind(before_expr, starts_expr)] Void,
 
     #[kind(before_expr, starts_expr)] Delete,
+}
+
+impl Keyword {
+    pub fn try_from(s: &str) -> Option<Self> {
+        use self::Keyword::*;
+        Some(match s {
+            "break" => Break,
+            "case" => Case,
+            "catch" => Catch,
+            "continue" => Continue,
+            "debugger" => Debugger,
+            "default" => Default,
+            "do" => Do,
+            "else" => Else,
+            "finally" => Finally,
+            "for" => For,
+            "function" => Function,
+            "if" => If,
+            "return" => Return,
+            "switch" => Switch,
+            "throw" => Throw,
+            "try" => Try,
+            "var" => Var,
+            "while" => While,
+            "with" => With,
+            "null" => Null,
+            "true" => True,
+            "false" => False,
+            "instanceof" => InstanceOf,
+            "typeof" => TypeOf,
+            "void" => Void,
+            "delete" => Delete,
+            "new" => New,
+            "in" => In,
+            "this" => This,
+            "let" => Let,
+            "const" => Const,
+            "class" => Class,
+            "extends" => Extends,
+            "export" => Export,
+            "import" => Import,
+            "yield" => Yield,
+            "super" => Super,
+            _ => return None,
+        })
+    }
 }

@@ -1,9 +1,21 @@
+#![feature(conservative_impl_trait)]
+#![feature(const_fn)]
 #![feature(specialization)]
+#![feature(generators)]
 #![feature(proc_macros)]
 
+#[macro_use]
+extern crate failure;
+#[macro_use]
+extern crate log;
+#[cfg(test)]
+extern crate pretty_env_logger;
+#[macro_use(js_ident)]
 extern crate swc_atoms;
 extern crate swc_common;
 #[macro_use]
 extern crate swc_macros;
+extern crate unicode_xid;
 
+pub mod lexer;
 pub mod token;
