@@ -84,6 +84,10 @@ impl Synom for FnDef {
         syn!(tokens::Eq) >>
         return_type: syn!(Lit) >>
         ({
+            if name.sym.as_str() == "delegate" {
+                panic!("function name cannot be `delegate`")
+            }
+
             let return_type = parse_str_as_tokens(return_type);
             FnDef {
                 default_value: FnDef::def_value_for_type(&return_type),
@@ -117,9 +121,12 @@ impl Synom for VariantAttrs {
         >>
         ({
             let fn_values: Delimited<_, tokens::Comma> = fn_values;
+            let has_delegate = fn_values.items()
+                    .any(|f: &VariantAttr| f.fn_name == "delegate");
             VariantAttrs {
                 fn_values: fn_values.into_vec(),
                 extras: Default::default(),
+                has_delegate,
             }
         })
     ));
@@ -131,6 +138,7 @@ impl AddAssign<Result<Self, Attribute>> for VariantAttrs {
             Ok(attr) => {
                 self.fn_values.extend(attr.fn_values);
                 self.extras.extend(attr.extras);
+                self.has_delegate = self.has_delegate || attr.has_delegate;
             }
             Err(attr) => self.extras.push(attr),
         }

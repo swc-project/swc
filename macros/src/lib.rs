@@ -1,13 +1,18 @@
 //! Macros used by swc project.
+#![feature(macro_reexport)]
+#![feature(proc_macros)]
 #![allow(unused_imports)]
 
 #[macro_use]
-extern crate ast_node;
+pub extern crate ast_node;
 #[macro_use]
-extern crate enum_kind;
+pub extern crate enum_kind;
 #[macro_use]
-extern crate eq_ignore_span;
+pub extern crate eq_ignore_span;
 
+#[doc(inline)]
 pub use ast_node::*;
+#[doc(inline)]
 pub use enum_kind::*;
+#[doc(inline)]
 pub use eq_ignore_span::*;

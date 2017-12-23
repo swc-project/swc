@@ -15,17 +15,23 @@ pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = &input.ident;
 
+    let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
+
     let item: Item = Quote::new_call_site()
         .quote_with(smart_quote!(
             Vars {
                 CONST_NAME: type_name.new_ident_with(|n| format!("_IMPL_AST_NODE_FOR_{}", n)),
                 Type: type_name,
+                impl_generics,
+                ty_generics,
+                where_clause,
             },
             {
                 #[allow(non_upper_case_globals)]
                 const CONST_NAME: () = {
                     extern crate swc_common as _swc_common;
-                    impl _swc_common::AstNode for Type {}
+                    impl impl_generics _swc_common::AstNode for Type ty_generics
+                        where_clause {}
                     ()
                 };
             }

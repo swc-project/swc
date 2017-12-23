@@ -11,6 +11,31 @@ pub fn expand(
         vis,
     }: Input,
 ) -> Item {
+    // verify variant attributes.
+    {
+        for v in &variants {
+            if v.attrs.has_delegate {
+                match v.data {
+                    VariantData::Struct(ref fields, _) | VariantData::Tuple(ref fields, _)
+                        if fields.len() == 1 => {}
+                    _ => panic!(
+                        "currently #[kind(delegate)] can be applied to variant with only one field"
+                    ),
+                }
+            }
+            for value in &v.attrs.fn_values {
+                let used = attrs
+                    .fns
+                    .iter()
+                    .map(|f| f.name)
+                    .any(|fn_name| value.fn_name == fn_name || value.fn_name == "delegate");
+                if !used {
+                    panic!("Unknown function `{}` on variant {}", value.fn_name, v.name)
+                }
+            }
+        }
+    }
+
     let items = attrs
         .fns
         .into_iter()
@@ -54,36 +79,22 @@ impl FnDef {
         let arms = variants
             .iter()
             .map(|v| -> Arm {
-                // Pattern for this variant.
-                let pat = match v.data {
-                    VariantData::Struct(ref _fields, _) => Quote::new_call_site()
-                        .quote_with(smart_quote!(
+                let qual_path = Quote::new_call_site()
+                    .quote_with(smart_quote!(
                         Vars {
                             EnumName: enum_name,
                             VariantName: v.name,
                         },
-                        { &EnumName::VariantName {..} }
+                        { EnumName::VariantName }
                     ))
-                        .parse::<Pat>(),
-                    VariantData::Tuple(ref _fields, _) => Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                            Vars {
-                                EnumName: enum_name,
-                                VariantName: v.name,
-                            },
-                            { &EnumName::VariantName(..) }
-                        ))
-                        .parse::<Pat>(),
-                    VariantData::Unit => Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                            Vars {
-                                EnumName: enum_name,
-                                VariantName: v.name,
-                            },
-                            { &EnumName::VariantName }
-                        ))
-                        .parse::<Pat>(),
-                };
+                    .parse();
+                // Bind this variant.
+                let (pat, mut fields) = bind_variant(
+                    qual_path,
+                    &v.data,
+                    "_",
+                    BindingMode::ByRef(call_site(), Mutability::Immutable),
+                );
 
                 let body = {
                     let value = match v.attrs
@@ -94,7 +105,24 @@ impl FnDef {
                     {
                         Some(Some(value)) => Some(value),
 
-                        // if return type is bool and attribute is specified, it return true.
+                        // not specified, but has `#[kind(delegate)]`
+                        None if v.attrs.has_delegate => {
+                            assert_eq!(fields.len(), 1);
+                            let field = fields.remove(0);
+                            Some(
+                                Quote::new_call_site()
+                                    .quote_with(smart_quote!(
+                                        Vars {
+                                            field,
+                                            method: name,
+                                        },
+                                        { field.method() }
+                                    ))
+                                    .parse(),
+                            )
+                        }
+
+                        // if return type is bool and attribute is specified, value is true.
                         Some(None) if is_bool(&return_type) => Some(
                             ExprKind::Lit(Lit {
                                 value: LitKind::Bool(true),

@@ -8,5 +8,6 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
 swc_atoms = { path = "./atoms" }
+swc_ecmascript = { path = "./ecmascript" }
 swc_common = { path = "./common" }
 swc_macros = { path = "./macros" }

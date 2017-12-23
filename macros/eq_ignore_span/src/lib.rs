@@ -1,10 +1,9 @@
-#![feature(box_syntax)]
+#![feature(box_syntax, proc_macros)]
 
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro2;
 extern crate proc_macro;
-#[macro_use]
 extern crate swc_macros_common as common;
 extern crate syn;
 
@@ -22,18 +21,25 @@ fn expand(input: DeriveInput) -> Item {
     let type_name = &input.ident;
     let body = expand_method_body(&input.ident, input.body);
 
+    let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
+
     Quote::new_call_site()
         .quote_with(smart_quote!(
             Vars {
                 CONST_NAME: type_name.new_ident_with(|n| format!("_IMPL_EQ_IGNORE_SPAN_FOR_{}", n)),
                 Type: type_name,
                 body,
+                impl_generics,
+                ty_generics,
+                where_clause,
             },
             {
                 #[allow(non_upper_case_globals)]
                 const CONST_NAME: () = {
                     extern crate swc_common as _swc_common;
-                    impl _swc_common::EqIgnoreSpan for Type {
+                    impl impl_generics _swc_common::EqIgnoreSpan for Type ty_generics
+                     where_clause {
+                        #[allow(unused_attributes, unreachable_patterns)]
                         fn eq_ignore_span(&self, __rhs: &Self) -> bool {
                             body
                         }
@@ -45,110 +51,17 @@ fn expand(input: DeriveInput) -> Item {
         .parse()
 }
 
-/// Bind variants.
-/// name is Some(EnumName) for enum, and none for struct.
-fn bind_variant(
-    qual_name: Path,
-    v: &VariantData,
-    prefix: &str,
-    field_binding_mode: BindingMode,
-) -> (Pat, Vec<Ident>) {
-    match *v {
-        VariantData::Unit => {
-            // EnumName::VariantName
-            let pat = Pat::Path(PatPath {
-                qself: None,
-                path: qual_name,
-            });
-            let pat = Pat::Ref(PatRef {
-                pat: box pat,
-                and_token: Span::call_site().as_token(),
-                mutbl: Mutability::Immutable,
-            });
-
-            // Unit tuple does not have field bindings
-            (pat, vec![])
-        }
-        VariantData::Struct(ref fields, brace_token) => {
-            let mut bindings = vec![];
-
-            let fields = fields
-                .iter()
-                .map(Element::into_item)
-                .map(|f| f.ident.expect("struct field must have ident"))
-                .map(|ident| {
-                    let binded_ident = ident.new_ident_with(|s| format!("{}{}", prefix, s));
-                    bindings.push(binded_ident.clone());
-                    FieldPat {
-                        ident,
-                        pat: box PatIdent {
-                            mode: field_binding_mode,
-                            ident: binded_ident,
-                            subpat: None,
-                            at_token: None,
-                        }.into(),
-                        is_shorthand: false,
-                        colon_token: Some(ident.span.as_token()),
-                        attrs: Default::default(),
-                    }
-                })
-                .collect();
-            // EnumName::VariantName { fields }
-            let pat = Pat::Struct(PatStruct {
-                path: qual_name,
-                fields,
-                brace_token,
-                dot2_token: None,
-            });
-            let pat = Pat::Ref(PatRef {
-                pat: box pat,
-                and_token: Span::call_site().as_token(),
-                mutbl: Mutability::Immutable,
-            });
-            (pat, bindings)
-        }
-        VariantData::Tuple(ref fields, paren_token) => {
-            // TODO
-            let mut bindings = vec![];
-
-            let pats = fields
-                .iter()
-                .map(Element::into_item)
-                .enumerate()
-                .map(|(i, _)| {
-                    let binded_ident = Span::call_site().new_ident(format!("{}{}", prefix, i));
-                    bindings.push(binded_ident.clone());
-                    Pat::Ident(PatIdent {
-                        mode: field_binding_mode,
-                        ident: binded_ident,
-                        subpat: None,
-                        at_token: None,
-                    })
-                })
-                .collect();
-            // EnumName::VariantName { fields }
-            let pat = Pat::TupleStruct(PatTupleStruct {
-                path: qual_name,
-                pat: PatTuple {
-                    pats,
-                    paren_token,
-                    dots_pos: None,
-                    dot2_token: None,
-                    comma_token: None,
-                },
-            });
-            let pat = Pat::Ref(PatRef {
-                pat: box pat,
-                and_token: Span::call_site().as_token(),
-                mutbl: Mutability::Immutable,
-            });
-            (pat, bindings)
-        }
-    }
-}
-
 /// Creates method "eq_ignore_span"
 fn expand_method_body(name: &Ident, body: Body) -> Expr {
+    /// Creates `_ => false,`
+    fn make_default_arm() -> Arm {
+        Quote::new_call_site()
+            .quote_with(smart_quote!(Vars {}, {
+                _ => false,
+            }))
+            .parse()
+    }
+
     /// qual_name: EnumName::VariantName for enum,
     /// StructName for struct
     fn arm_for_variant(qual_name: Path, data: &VariantData) -> Arm {
@@ -162,7 +75,7 @@ fn expand_method_body(name: &Ident, body: Body) -> Expr {
             .map(|(lhs, rhs)| -> Box<Expr> {
                 box Quote::from_tokens(&lhs)
                     .quote_with(smart_quote!(Vars { lhs, rhs }, {
-                        _swc_ast_common::EqIgnoreSpan::eq_ignore_span(lhs, rhs)
+                        _swc_common::EqIgnoreSpan::eq_ignore_span(lhs, rhs)
                     }))
                     .parse()
             })
@@ -226,25 +139,7 @@ fn expand_method_body(name: &Ident, body: Body) -> Expr {
                     &v.data,
                 )
             })
-            .chain(iter::once({
-                // _ => false,
-                Arm {
-                    attrs: Default::default(),
-                    pats: vec![
-                        Pat::Wild(PatWild {
-                            underscore_token: span.as_token(),
-                        }),
-                    ].into(),
-                    if_token: None,
-                    guard: None,
-                    rocket_token: span.as_token(),
-                    body: box ExprKind::Lit(Lit {
-                        span: span.as_syn_span(),
-                        value: LitKind::Bool(false),
-                    }).into(),
-                    comma: Some(span.as_token()),
-                }
-            }))
+            .chain(iter::once({ make_default_arm() }))
             .collect();
 
         ExprKind::Match(ExprMatch {
@@ -261,25 +156,7 @@ fn expand_method_body(name: &Ident, body: Body) -> Expr {
         let span = Span::call_site();
 
         let arms = iter::once(arm_for_variant(name.clone().into(), &data))
-            .chain(iter::once({
-                // _ => false,
-                Arm {
-                    attrs: Default::default(),
-                    pats: vec![
-                        Pat::Wild(PatWild {
-                            underscore_token: span.as_token(),
-                        }),
-                    ].into(),
-                    if_token: None,
-                    guard: None,
-                    rocket_token: span.as_token(),
-                    body: box ExprKind::Lit(Lit {
-                        span: span.as_syn_span(),
-                        value: LitKind::Bool(false),
-                    }).into(),
-                    comma: Some(span.as_token()),
-                }
-            }))
+            .chain(iter::once({ make_default_arm() }))
             .collect();
 
         ExprKind::Match(ExprMatch {

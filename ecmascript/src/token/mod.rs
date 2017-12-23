@@ -1,0 +1,272 @@
+//! Ported from [babel/bablyon][]
+//!
+//! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
+
+pub use self::AssignOpToken::*;
+pub use self::BinOpToken::*;
+pub use self::Token::*;
+use swc_atoms::JsIdent;
+use swc_common::Span;
+
+#[derive(Kind, Debug, Clone, PartialEq, Eq, Hash)]
+#[kind(functions(starts_expr = "bool", before_expr = "bool"))]
+pub enum Token {
+    #[kind(delegate)] Keyword(Keyword),
+
+    Ident(JsIdent),
+
+    /// '=>'
+    #[kind(before_expr)]
+    Arrow,
+
+    /// '@'
+    At,
+    /// '.'
+    Dot,
+
+    /// '...'
+    #[kind(before_expr)]
+    DotDotDot,
+    /// '!'
+    #[kind(before_expr, starts_expr)]
+    Bang,
+
+    /// '('
+    #[kind(before_expr, starts_expr)]
+    LParen,
+    /// ')'
+    RParen,
+    /// ';'
+    #[kind(before_expr)]
+    Semi,
+    /// ','
+    #[kind(before_expr)]
+    Comma,
+    /// `[`
+    #[kind(before_expr, starts_expr)]
+    LBracket,
+    /// ']'
+    RBracket,
+    /// '{'
+    LBrace,
+    /// '}'
+    RBrace,
+    /// '`'
+
+    #[kind(starts_expr)]
+    BackQuote,
+    /// ':'
+    #[kind(before_expr)]
+    Colon,
+    /// '::'
+    #[kind(before_expr)]
+    ColonColon,
+    ///
+    BinOp(BinOpToken),
+    ///
+    #[kind(before_expr)]
+    AssignOp(AssignOpToken),
+
+    /// '${'
+    #[kind(before_expr, starts_expr)]
+    DollarLBrace,
+
+    /// '?'
+    #[kind(before_expr)]
+    Question,
+
+    /// `++`
+    #[kind(before_expr, starts_expr)]
+    PlusPlus,
+    /// `--`
+    #[kind(before_expr, starts_expr)]
+    MinusMinus,
+
+    /// `~`
+    #[kind(before_expr, starts_expr)]
+    Tilde,
+
+    ///
+    #[kind(starts_expr)]
+    Str(String),
+}
+
+#[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash)]
+#[kind(function(precedence = "u8"))]
+pub enum BinOpToken {
+    /// `==`
+    #[kind(precedence = "6")]
+    EqEq,
+    /// `!=`
+    #[kind(precedence = "6")]
+    NotEq,
+    /// `===`
+    #[kind(precedence = "6")]
+    EqEqEq,
+    /// `!==`
+    #[kind(precedence = "6")]
+    NotEqEq,
+    /// `<`
+    #[kind(precedence = "7")]
+    Lt,
+    /// `<=`
+    #[kind(precedence = "7")]
+    LtEq,
+    /// `>`
+    #[kind(precedence = "7")]
+    Gt,
+    #[kind(precedence = "7")]
+    /// `>=`
+    #[kind(precedence = "7")]
+    GtEq,
+    /// `<<`
+    #[kind(precedence = "8")]
+    LShift,
+    /// `>>`
+    #[kind(precedence = "8")]
+    RShift,
+    /// `>>>`
+    #[kind(precedence = "8")]
+    ZeroFillRShift,
+
+    /// `+`
+    #[kind(precedence = "9")]
+    Plus,
+    /// `-`
+    #[kind(precedence = "9")]
+    Minus,
+    /// `*`
+    #[kind(precedence = "10")]
+    Mul,
+    /// `/`
+    #[kind(precedence = "10")]
+    Div,
+    /// `%`
+    #[kind(precedence = "10")]
+    Mod,
+
+    /// `|`
+
+    #[kind(precedence = "3")]
+    BitOr,
+    /// `^`
+    #[kind(precedence = "4")]
+    BitXor,
+    /// `&`
+    #[kind(precedence = "5")]
+    BitAnd,
+
+    /// `in`
+    #[kind(precedence = "7")]
+    In,
+    /// `instanceof`
+    #[kind(precedence = "7")]
+    InstanceOf,
+
+    /// `**`
+    #[kind(precedence = "10")]
+    Exp,
+
+    /// `||`
+    #[kind(precedence = "1")]
+    LogicalOr,
+    /// `&&`
+    #[kind(precedence = "2")]
+    LogicalAnd,
+}
+
+#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash)]
+pub enum AssignOpToken {
+    /// `=`
+    Assign,
+    /// `+=`
+    AddAssign,
+    /// `-=`
+    MinusAssign,
+    /// `*=`
+    MulAssign,
+    /// `/=`
+    DivAssign,
+    /// `%=`
+    RemAssign,
+    /// `<<=`
+    LShiftAssign,
+    /// `>>=`
+    RShiftAssign,
+    /// `>>>=`
+    ZeroFillRShiftAssign,
+    /// `|=`
+    BitOrAssign,
+    /// `^=`
+    BitXorAssign,
+    /// `&=`
+    BitAndAssign,
+
+    /// `**=`
+    ExpAssign,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct TokenAndSpan {
+    pub token: Token,
+    pub span: Span,
+}
+
+#[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[kind(function(before_expr = "bool"))]
+#[kind(function(starts_expr = "bool"))]
+pub enum Keyword {
+    Break,
+    #[kind(before_expr)] Case,
+    Catch,
+    Continue,
+    Debugger,
+    #[kind(before_expr)] Default,
+    #[kind(before_expr)] Do,
+    #[kind(before_expr)] Else,
+
+    Finally,
+    For,
+
+    #[kind(starts_expr)] Function,
+
+    If,
+
+    #[kind(before_expr)] Return,
+
+    Switch,
+
+    #[kind(before_expr, starts_expr)] Throw,
+
+    Try,
+    Var,
+    Let,
+    Const,
+    While,
+    With,
+
+    #[kind(before_expr, starts_expr)] New,
+    #[kind(starts_expr)] This,
+    #[kind(starts_expr)] Super,
+
+    Class,
+
+    #[kind(before_expr)] Extends,
+
+    Export,
+    #[kind(starts_expr)] Import,
+
+    #[kind(before_expr, starts_expr)] Yield,
+    #[kind(starts_expr)] Null,
+    #[kind(starts_expr)] True,
+    #[kind(starts_expr)] False,
+
+    #[kind(before_expr)] In,
+    #[kind(before_expr)] InstanceOf,
+
+    #[kind(before_expr, starts_expr)] TypeOf,
+
+    #[kind(before_expr, starts_expr)] Void,
+
+    #[kind(before_expr, starts_expr)] Delete,
+}
