@@ -1,5 +1,6 @@
 use std::cmp::Ordering;
 use std::fmt::Debug;
+use std::str;
 use swc_common::BytePos;
 
 /// Used inside lexer.
@@ -14,7 +15,14 @@ impl<I: Input> LexerInput<I> {
     }
 
     pub fn bump(&mut self) -> BytePos {
-        self.cur.take().expect("bump called on eof").0
+        let pos = self.cur
+            .take()
+            .unwrap_or_else(|| unreachable!("bump called on eof"))
+            .0;
+
+        self.cur = self.input.next();
+
+        pos
     }
     pub fn peek(&mut self) -> OptChar {
         self.input.peek()
@@ -29,6 +37,24 @@ impl<I: Input> LexerInput<I> {
                 OptChar(next)
             }
         }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct CharIndices<'a>(pub str::CharIndices<'a>);
+
+impl<'a> Input for CharIndices<'a> {
+    type Error = ();
+
+    fn peek(&mut self) -> OptChar {
+        OptChar::from(self.clone().next())
+    }
+}
+impl<'a> Iterator for CharIndices<'a> {
+    type Item = (BytePos, char);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.0.next().map(|(i, c)| (BytePos(i as _), c))
     }
 }
 
@@ -63,6 +89,10 @@ impl OptChar {
     /// panics if `self` is `None`
     pub fn pos(self) -> BytePos {
         self.0.unwrap().0
+    }
+
+    pub fn is_digit(self, radix: u32) -> bool {
+        self.0.map(|c| c.1.is_digit(radix)).unwrap_or(false)
     }
 
     /// # Panics

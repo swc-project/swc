@@ -13,6 +13,7 @@ use unicode_xid::UnicodeXID;
 pub const BACKSPACE: char = 8 as char;
 pub const SHIFT_OUT: char = 14 as char;
 pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
+pub const LINE_FEED: char = '\n';
 
 // Test whether a given character code starts an identifier.
 pub fn is_ident_start(c: char) -> bool {

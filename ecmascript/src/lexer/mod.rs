@@ -8,13 +8,14 @@ use swc_atoms::JsIdent;
 use swc_common::{gen_iter, BytePos, Span};
 use token::*;
 
-pub mod util;
 pub mod input;
+mod number;
+mod state;
 #[cfg(test)]
 mod tests;
-mod state;
+pub mod util;
 
-#[derive(Fail, Debug)]
+#[derive(Fail, Debug, PartialEq, Eq, Hash)]
 pub enum Error<InputError> {
     #[fail(display = "input error: {}", err)] Input {
         err: InputError,
@@ -31,8 +32,20 @@ pub enum Error<InputError> {
     EscapeInKeyword {
         keyword: JsIdent,
     },
-    #[fail(display = "unterminated regexp (started at {})", start)]
+    #[fail(display = "unterminated regexp (regexp started at {})", start)]
     UnterminatedRegxp {
+        start: BytePos,
+    },
+    #[fail(display = "identifier directly after number at {}", pos)]
+    IdentAfterNum {
+        pos: BytePos,
+    },
+    #[fail(display = "Decimals with leading zeros (at {}) are not allowed in strict mode", start)]
+    DecimalStartsWithZero {
+        start: BytePos,
+    },
+    #[fail(display = "Octals with leading zeros (at {}) are not allowed in strict mode", start)]
+    ImplicitOctalOnStrict {
         start: BytePos,
     },
 }
@@ -41,6 +54,11 @@ pub enum Error<InputError> {
 pub struct Options {
     /// Support function bind expression.
     pub fn_bind: bool,
+
+    pub strict: bool,
+
+    /// Support numeric separator.
+    pub num_sep: bool,
 }
 
 pub fn tokenize<I>(opts: Options, input: I) -> impl Iterator<Item = TokenAndSpan>
@@ -114,180 +132,171 @@ impl<I: Input> Lexer<I> {
                 let cur = self.input.current().into_inner();
                 cur.map(move |t| (had_line_break, t))
             } {
-                let token = match c {
-                    // Identifier or keyword. '\uXXXX' sequences are allowed in
-                    // identifiers, so '\' also dispatches to that.
-                    c if c == '\\' || is_ident_start(c) => self.read_ident_or_keyword()
-                        .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err)),
+                let token = self.read_token(start, c, had_line_break)
+                    .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
 
-                    //
-                    '.' => {
-                        let end = self.input.bump(); // 1st `.`
+                self.state.update(&token.token, had_line_break);
+                yield token;
+            }
+        })
+    }
 
-                        // TODO Check for eof
-                        let next = self.input.current();
-                        if next >= '0' && next <= '9' {
-                            self.read_number(true)
-                                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
-                        } else if next == '.' && self.input.peek() == '.' {
-                            self.input.bump(); // 2nd `.`
-                            let end = self.input.bump(); // 3rd `.`
+    fn read_token(
+        &mut self,
+        start: BytePos,
+        c: char,
+        had_line_break: bool,
+    ) -> Result<TokenAndSpan, Error<I::Error>> {
+        debug_assert_eq!(
+            self.input.current().into_inner(),
+            Some((start, c)),
+            "read_token() is called with wrong arguments"
+        );
 
-                            TokenAndSpan {
-                                token: DotDotDot,
-                                span: Span { start, end },
-                            }
-                        } else {
-                            TokenAndSpan {
-                                token: Dot,
-                                span: Span { start, end },
-                            }
-                        }
+        let token = match c {
+            // Identifier or keyword. '\uXXXX' sequences are allowed in
+            // identifiers, so '\' also dispatches to that.
+            c if c == '\\' || is_ident_start(c) => return self.read_ident_or_keyword(),
+
+            //
+            '.' => {
+                // TODO Check for eof
+                let next = self.input.peek();
+                if next >= '0' && next <= '9' {
+                    return self.read_number(true);
+                }
+
+                let end = self.input.bump(); // 1st `.`
+
+                // ES7 Function bind operator
+                // e.g. foo::bar();
+                if next == '.' && self.input.peek() == '.' {
+                    self.input.bump(); // 2nd `.`
+                    let end = self.input.bump(); // 3rd `.`
+
+                    TokenAndSpan {
+                        token: DotDotDot,
+                        span: Span { start, end },
                     }
-
-                    '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' => {
-                        // These tokens are emitted directly.
-                        let end = self.input.bump();
-                        TokenAndSpan {
-                            token: match c {
-                                '(' => LParen,
-                                ')' => RParen,
-                                ';' => Semi,
-                                ',' => Comma,
-                                '[' => LBracket,
-                                ']' => RBracket,
-                                '{' => LBrace,
-                                '}' => RBrace,
-                                '@' => At,
-                                '`' => BackQuote,
-                                _ => unreachable!(),
-                            },
-                            span: Span { start, end },
-                        }
+                } else {
+                    TokenAndSpan {
+                        token: Dot,
+                        span: Span { start, end },
                     }
+                }
+            }
 
-                    ':' => {
-                        let end = self.input.bump();
+            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' => {
+                // These tokens are emitted directly.
+                let end = self.input.bump();
+                return Ok(TokenAndSpan {
+                    token: match c {
+                        '(' => LParen,
+                        ')' => RParen,
+                        ';' => Semi,
+                        ',' => Comma,
+                        '[' => LBracket,
+                        ']' => RBracket,
+                        '{' => LBrace,
+                        '}' => RBrace,
+                        '@' => At,
+                        '`' => BackQuote,
+                        _ => unreachable!(),
+                    },
+                    span: Span { start, end },
+                });
+            }
 
-                        if self.opts.fn_bind && self.input.current() == ':' {
-                            let end = self.input.bump();
-                            TokenAndSpan {
-                                token: ColonColon,
-                                span: Span { start, end },
-                            }
-                        } else {
-                            TokenAndSpan {
-                                token: Colon,
-                                span: Span { start, end: start },
-                            }
-                        }
+            ':' => {
+                let end = self.input.bump();
+
+                if self.opts.fn_bind && self.input.current() == ':' {
+                    let end = self.input.bump();
+                    TokenAndSpan {
+                        token: ColonColon,
+                        span: Span { start, end },
                     }
-                    '?' => {
-                        //          const next = this.input.charCodeAt(this.state.pos + 1);
-                        // const next2 = this.input.charCodeAt(this.state.pos + 2);
-                        // if (next === charCodes.questionMark) { //  '??'
-                        //   this.finishOp(tt.nullishCoalescing, 2);
-                        // } else if (
-                        //   next === charCodes.dot &&
-                        // !(next2 >= charCodes.digit0 && next2 <= charCodes.digit9)
-                        // // ) {   // '.' not followed by a number
-                        //   this.state.pos += 2;
-                        //   this.finishToken(tt.questionDot);
-                        // } else {
-                        //   ++this.state.pos;
-                        //   this.finishToken(tt.question);
-                        // }
-                        unimplemented!("?")
+                } else {
+                    TokenAndSpan {
+                        token: Colon,
+                        span: Span { start, end: start },
                     }
+                }
+            }
+            '?' => {
+                //          const next = this.input.charCodeAt(this.state.pos + 1);
+                // const next2 = this.input.charCodeAt(this.state.pos + 2);
+                // if (next === charCodes.questionMark) { //  '??'
+                //   this.finishOp(tt.nullishCoalescing, 2);
+                // } else if (
+                //   next === charCodes.dot &&
+                // !(next2 >= charCodes.digit0 && next2 <= charCodes.digit9)
+                // // ) {   // '.' not followed by a number
+                //   this.state.pos += 2;
+                //   this.finishToken(tt.questionDot);
+                // } else {
+                //   ++this.state.pos;
+                //   this.finishToken(tt.question);
+                // }
+                unimplemented!("?")
+            }
 
-                    //                     //    case charCodes.digit0: {
-// //         const next = this.input.charCodeAt(this.state.pos +
-// 1);             //         // '0x', '0X' - hex number
-// //         if (next === charCodes.lowercaseX || next ===
-// charCodes.uppercaseX) {             //           this.readRadixNumber(16);
-//             //           return;
-//             //         }
-//             //         // '0o', '0O' - octal number
-// //         if (next === charCodes.lowercaseO || next ===
-// charCodes.uppercaseO) {             //           this.readRadixNumber(8);
-//             //           return;
-//             //         }
-//             //         // '0b', '0B' - binary number
-// //         if (next === charCodes.lowercaseB || next ===
-// charCodes.uppercaseB) {             //           this.readRadixNumber(2);
-//             //           return;
-//             //         }
-//             //       }
-// //       // Anything else beginning with a digit is an integer,
-// octal             //       // number, or float.
-//             //       case charCodes.digit1:
-//             //       case charCodes.digit2:
-//             //       case charCodes.digit3:
-//             //       case charCodes.digit4:
-//             //       case charCodes.digit5:
-//             //       case charCodes.digit6:
-//             //       case charCodes.digit7:
-//             //       case charCodes.digit8:
-//             //       case charCodes.digit9:
-//             //         this.readNumber(false);
-//             //         return;
+            '0' => {
+                let next = self.input.peek();
 
-             // String literal.
-                    '"' | '\'' => self.read_str_lit()
-                        .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err)),
-                    '/' => {
-                        if self.state.is_expr_allowed {
-                            self.read_regexp()
-                                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
-                        } else {
-                            let end = self.input.bump();
+                // Hex
+                let radix = if next == 'x' || next == 'X' {
+                    Some(16)
+                } else if next == 'o' || next == 'O' {
+                    // Octal
+                    Some(8)
+                } else if next == 'b' || next == 'B' {
+                    Some(2)
+                } else {
+                    None
+                };
 
-                            if self.input.current() == '=' {
-                                let end = self.input.bump();
-                                TokenAndSpan {
-                                    token: AssignOp(DivAssign),
-                                    span: Span { start, end },
-                                }
-                            } else {
-                                TokenAndSpan {
-                                    token: BinOp(Div),
-                                    span: Span { start, end: start },
-                                }
-                            }
-                        }
+                if let Some(radix) = radix {
+                    return self.read_radix_number(radix);
+                } else {
+                    return self.read_number(false);
+                }
+            }
+            '1'...'9' => return self.read_number(false),
+
+            '"' | '\'' => return self.read_str_lit(),
+            '/' => return self.read_slash(),
+            c @ '%' | c @ '*' => {
+                let is_mul = c == '*';
+                let mut width = 1;
+
+                // check for **
+                if is_mul {
+                    if self.input.peek() == '*' {
+                        width += 1;
                     }
+                }
 
-                    c @ '%' | c @ '*' => {
-                        let is_mul = c == '*';
-                        let mut width = 1;
+                // let next = this.input.charCodeAt(this.state.pos + 1);
+                // const exprAllowed = this.state.exprAllowed;
 
-                        // check for **
-                        if is_mul {
-                            if self.input.peek() == '*' {
-                                width += 1;
-                            }
-                        }
+                // Exponentiation operator **
+                // if (code === charCodes.asterisk && next === charCodes.asterisk) {
+                //   width++;
+                //   next = this.input.charCodeAt(this.state.pos +2);
+                //   type = tt.exponent;
+                // }
 
-                        // let next = this.input.charCodeAt(this.state.pos + 1);
-                        // const exprAllowed = this.state.exprAllowed;
+                // if (next === charCodes.equalsTo &&!exprAllowed) {
+                //   width++;
+                //   type = tt.assign;
+                // }
 
-                        // Exponentiation operator **
-                        // if (code === charCodes.asterisk && next === charCodes.asterisk) {
-                        //   width++;
-                        //   next = this.input.charCodeAt(this.state.pos +2);
-                        //   type = tt.exponent;
-                        // }
+                // this.finishOp(type, width);
+                unimplemented!("**, *, %")
+            }
 
-                        // if (next === charCodes.equalsTo &&!exprAllowed) {
-                        //   width++;
-                        //   type = tt.assign;
-                        // }
-
-                        // this.finishOp(type, width);
-                        unimplemented!("**, *, %")
-                    }
-
-                    //                     // Logical operators
+            //                     // Logical operators
 //                     c @ '|' | c @ '&' => {
 //                         if peek!() == c {
 //                             match c {
@@ -320,25 +329,24 @@ impl<I: Input> Lexer<I> {
 // tt.bitwiseAND,                         //   1,
 //                         // );
 //                     }
-
-//                     // Bitwise xor
-                    '^' => {
-                        let end = self.input.bump();
-                        if self.input.current() == '=' {
-                            let end = self.input.bump();
-                            TokenAndSpan {
-                                token: AssignOp(BitXorAssign),
-                                span: Span { start, end },
-                            }
-                        } else {
-                            TokenAndSpan {
-                                token: BinOp(BitXor),
-                                span: Span { start, end },
-                            }
-                        }
+            '^' => {
+                // Bitwise xor
+                let end = self.input.bump();
+                if self.input.current() == '=' {
+                    let end = self.input.bump();
+                    TokenAndSpan {
+                        token: AssignOp(BitXorAssign),
+                        span: Span { start, end },
                     }
+                } else {
+                    TokenAndSpan {
+                        token: BinOp(BitXor),
+                        span: Span { start, end },
+                    }
+                }
+            }
 
-                    //                     '+' | '-' => {
+            //                     '+' | '-' => {
 // //         const next =
 // this.input.charCodeAt(this.state.pos + 1);
 
@@ -408,52 +416,87 @@ impl<I: Input> Lexer<I> {
 //                         // this.finishOp(tt.relational, size);
 //                         unimplemented!("<>")
 //                     }
-                    '!' | '=' => {
+            '!' | '=' => {
+                let end = self.input.bump();
+
+                if self.input.current() == '=' {
+                    // "=="
+                    let end = self.input.bump();
+
+                    if self.input.current() == '=' {
                         let end = self.input.bump();
-
-                        if self.input.current() == '=' {
-                            // "=="
-                            let end = self.input.bump();
-
-                            if self.input.current() == '=' {
-                                let end = self.input.bump();
-                                TokenAndSpan {
-                                    token: if c == '!' {
-                                        BinOp(NotEqEq)
-                                    } else {
-                                        BinOp(EqEqEq)
-                                    },
-                                    span: Span { start, end },
-                                }
+                        TokenAndSpan {
+                            token: if c == '!' {
+                                BinOp(NotEqEq)
                             } else {
-                                TokenAndSpan {
-                                    token: if c == '!' { BinOp(NotEq) } else { BinOp(EqEq) },
-                                    span: Span { start, end },
-                                }
-                            }
-                        } else if c == '=' && self.input.current() == '>' {
-                            // "=>"
-                            let end = self.input.bump();
-
-                            TokenAndSpan {
-                                token: Arrow,
-                                span: Span { start, end },
-                            }
-                        } else {
-                            TokenAndSpan {
-                                token: if c == '!' { Bang } else { AssignOp(Assign) },
-                                span: Span { start, end },
-                            }
+                                BinOp(EqEqEq)
+                            },
+                            span: Span { start, end },
+                        }
+                    } else {
+                        TokenAndSpan {
+                            token: if c == '!' { BinOp(NotEq) } else { BinOp(EqEq) },
+                            span: Span { start, end },
                         }
                     }
-                    '~' => unimplemented!("`~`"),
+                } else if c == '=' && self.input.current() == '>' {
+                    // "=>"
+                    let end = self.input.bump();
 
-                    // unexpected character
-                    c => unimplemented!("error reporting for unexpected character '{}'", c),
-                };
+                    TokenAndSpan {
+                        token: Arrow,
+                        span: Span { start, end },
+                    }
+                } else {
+                    TokenAndSpan {
+                        token: if c == '!' { Bang } else { AssignOp(Assign) },
+                        span: Span { start, end },
+                    }
+                }
+            }
+            '~' => unimplemented!("`~`"),
 
-                self.state.update(&token.token, had_line_break);
-                yield token;
+            // unexpected character
+            c => unimplemented!("error reporting for unexpected character '{}'", c),
+        };
+
+        Ok(token)
+    }
+
+    fn read_slash(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
+        debug_assert_eq!(self.input.current(), '/');
+        let start = self.input.current().pos();
+
+        // Line comment
+        if self.input.peek() == '/' {
+            self.input.bump();
+            self.input.bump();
+            unimplemented!("LineComment")
+        }
+
+        // Block comment
+        if self.input.peek() == '*' {
+            unimplemented!("BlockComment")
+        }
+
+        // Regex
+        if self.state.is_expr_allowed {
+            return self.read_regexp();
+        }
+
+        // Divide operator
+        let end = self.input.bump();
+
+        Ok(if self.input.current() == '=' {
+            let end = self.input.bump();
+            TokenAndSpan {
+                token: AssignOp(DivAssign),
+                span: Span { start, end },
+            }
+        } else {
+            TokenAndSpan {
+                token: BinOp(Div),
+                span: Span { start, end: start },
             }
         })
     }
@@ -590,9 +633,5 @@ impl<I: Input> Lexer<I> {
             token: Regex(content, flags),
             span: Span { start, end },
         })
-    }
-
-    fn read_number(&mut self, starts_with_dot: bool) -> Result<TokenAndSpan, Error<I::Error>> {
-        unimplemented!("read_number({})", starts_with_dot);
     }
 }

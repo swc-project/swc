@@ -1,8 +1,8 @@
-pub trait EqIgnoreSpan: Eq {
+pub trait EqIgnoreSpan: PartialEq {
     fn eq_ignore_span(&self, other: &Self) -> bool;
 }
 
-impl<T: ?Sized + Eq> EqIgnoreSpan for T {
+impl<T: ?Sized + PartialEq> EqIgnoreSpan for T {
     default fn eq_ignore_span(&self, other: &Self) -> bool {
         *self == *other
     }

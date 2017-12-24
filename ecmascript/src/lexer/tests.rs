@@ -1,25 +1,7 @@
 use super::*;
-use super::input::OptChar;
+use super::input::CharIndices;
 use std::ops::Range;
 use std::str;
-
-#[derive(Debug, Clone)]
-pub struct CharIndices<'a>(str::CharIndices<'a>);
-
-impl<'a> Input for CharIndices<'a> {
-    type Error = ();
-
-    fn peek(&mut self) -> OptChar {
-        OptChar::from(self.clone().next())
-    }
-}
-impl<'a> Iterator for CharIndices<'a> {
-    type Item = (BytePos, char);
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.0.next().map(|(i, c)| (BytePos(i as _), c))
-    }
-}
 
 fn make_lexer(s: &str) -> Lexer<CharIndices> {
     let input = CharIndices(s.char_indices());
@@ -35,17 +17,34 @@ fn lex_tokens(s: &str) -> Vec<Token> {
     lexer.tokenize().map(|ts| ts.token).collect()
 }
 
-trait WithSpan: Sized {
-    fn span(self, from: usize) -> TokenAndSpan {
-        self.spanned(from..from + 1)
+trait SpanRange: Sized {
+    fn into_span(self) -> Span;
+}
+impl SpanRange for usize {
+    fn into_span(self) -> Span {
+        Span {
+            start: BytePos(self as _),
+            end: BytePos(self as _),
+        }
     }
-    fn spanned(self, range: Range<usize>) -> TokenAndSpan {
+}
+impl SpanRange for Range<usize> {
+    fn into_span(self) -> Span {
+        Span {
+            start: BytePos(self.start as _),
+            end: BytePos((self.end - 1) as _),
+        }
+    }
+}
+
+trait WithSpan: Sized {
+    fn span<R>(self, span: R) -> TokenAndSpan
+    where
+        R: SpanRange,
+    {
         TokenAndSpan {
             token: self.into_token(),
-            span: Span {
-                start: BytePos(range.start as _),
-                end: BytePos((range.end - 1) as _),
-            },
+            span: span.into_span(),
         }
     }
     fn into_token(self) -> Token;
@@ -53,6 +52,11 @@ trait WithSpan: Sized {
 impl WithSpan for Token {
     fn into_token(self) -> Token {
         self
+    }
+}
+impl WithSpan for usize {
+    fn into_token(self) -> Token {
+        Num(Number::Decimal(self as _))
     }
 }
 impl<'a> WithSpan for &'a str {
@@ -102,7 +106,7 @@ fn ident_paren() {
         vec![
             "a".span(0),
             LParen.span(1),
-            "bc".spanned(2..4),
+            "bc".span(2..4),
             RParen.span(4),
             Semi.span(5),
         ],
@@ -125,15 +129,12 @@ fn simple_regex() {
         vec![
             "x".span(0),
             Assign.span(2),
-            Regex("42".into(), "i".into()).spanned(4..9),
+            Regex("42".into(), "i".into()).span(4..9),
         ],
         lex("x = /42/i")
     );
 
-    assert_eq!(
-        vec![Regex("42".into(), "".into()).spanned(0..4)],
-        lex("/42/")
-    );
+    assert_eq!(vec![Regex("42".into(), "".into()).span(0..4)], lex("/42/"));
 }
 
 #[test]
@@ -194,21 +195,99 @@ fn complex_divide() {
 
 #[test]
 fn after_if() {
+    let _ = ::pretty_env_logger::init();
+
     assert_eq!(
         vec![
-            Keyword::If.spanned(0..2),
+            Keyword::If.span(0..2),
             LParen.span(2),
             "x".span(3),
             RParen.span(4),
             LBrace.span(5),
             RBrace.span(6),
-            Regex("y".into(), "".into()).spanned(8..11),
+            Regex("y".into(), "".into()).span(8..11),
             Dot.span(11),
-            "test".spanned(12..16),
+            "test".span(12..16),
             LParen.span(16),
             "z".span(17),
             RParen.span(18),
         ],
         lex("if(x){} /y/.test(z)"),
+    )
+}
+
+#[test]
+fn empty() {
+    let _ = ::pretty_env_logger::init();
+
+    assert_eq!(lex(""), vec![]);
+}
+
+#[test]
+#[ignore]
+fn invalid_number_failure() {
+    let _ = ::pretty_env_logger::init();
+
+    unimplemented!()
+}
+
+#[test]
+fn leading_comment() {
+    let _ = ::pretty_env_logger::init();
+
+    assert_eq!(
+        vec![
+            BlockComment(" hello world ".into()).span(0..17),
+            Regex("42".into(), "".into()).span(17..21),
+        ],
+        lex("/* hello world */  /42/")
+    )
+}
+
+#[test]
+fn line_comment() {
+    let _ = ::pretty_env_logger::init();
+
+    assert_eq!(
+        vec![
+            Keyword::Var.span(0..3),
+            "answer".span(4..10),
+            Assign.span(11),
+            42.span(13..15),
+            LineComment(" the Ultimate".into()).span(17..32),
+        ],
+        lex("var answer = 42  // the Ultimate"),
+    )
+}
+
+#[test]
+fn migrated_0002() {
+    let _ = ::pretty_env_logger::init();
+
+    assert_eq!(
+        vec![
+            "tokenize".span(0..8),
+            LParen.span(8),
+            Regex("42".into(), "".into()).span(9..13),
+            RParen.span(13),
+        ],
+        lex("tokenize(/42/)")
+    )
+}
+
+#[test]
+fn migrated_0003() {
+    let _ = ::pretty_env_logger::init();
+
+    assert_eq!(
+        vec![
+            LParen.span(0),
+            Keyword::False.span(1..6),
+            RParen.span(6),
+            Div.span(8),
+            42.span(9..11),
+            Div.span(11),
+        ],
+        lex("(false) /42/"),
     )
 }

@@ -4,11 +4,13 @@
 
 pub use self::AssignOpToken::*;
 pub use self::BinOpToken::*;
+pub use self::Number::*;
 pub use self::Token::*;
+use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsIdent;
 use swc_common::Span;
 
-#[derive(Kind, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Token {
     #[kind(delegate)] Keyword(Keyword),
@@ -96,7 +98,27 @@ pub enum Token {
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
-    Num(usize),
+    Num(Number),
+
+    #[kind(before_expr)] BlockComment(String),
+
+    #[kind(before_expr)] LineComment(String),
+}
+
+#[derive(Debug, Clone, EqIgnoreSpan, PartialEq)]
+pub enum Number {
+    Float(f64),
+    Decimal(i64),
+    ImplicitOctal(i64),
+}
+impl Display for Number {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match *self {
+            Float(ref fl) => Display::fmt(fl, f),
+            Decimal(ref dec) => Display::fmt(dec, f),
+            ImplicitOctal(ref v) => Display::fmt(v, f),
+        }
+    }
 }
 
 #[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash)]
@@ -214,7 +236,7 @@ pub enum AssignOpToken {
     ExpAssign,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
     pub token: Token,
     pub span: Span,

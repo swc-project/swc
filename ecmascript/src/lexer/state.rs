@@ -33,6 +33,12 @@ impl State {
 
     /// `had_newline`: if line break exists between privous token and new token?
     pub fn update(&mut self, next: &Token, had_line_break: bool) {
+        match *next {
+            // skip comments
+            LineComment(..) | BlockComment(..) => return,
+            _ => {}
+        }
+
         trace!(
             "updating state: next={:?}, had_line_break={} ",
             next,
