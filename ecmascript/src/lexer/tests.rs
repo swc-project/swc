@@ -132,11 +132,11 @@ fn complex_divide() {
             LBrace,
             RBrace,
             BinOp(Div),
-            Num(42),
+            Ident("a".into()),
             BinOp(Div),
             Ident("i".into()),
         ],
-        lex_tokens("x = function foo() {} /42/i"),
+        lex_tokens("x = function foo() {} /a/i"),
         "/ should be parsed as div operator"
     )
 }

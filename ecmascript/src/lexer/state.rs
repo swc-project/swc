@@ -156,7 +156,13 @@ impl State {
                 PlusPlus | MinusMinus => is_expr_allowed,
 
                 Keyword(Keyword::Function) => {
-                    if context.current() != Some(Type::BraceStmt) {
+                    // This is required to lex
+                    /// `x = function(){}/42/i`
+                    let is_always_expr = match prev {
+                        Some(AssignOp(..)) | Some(BinOp(..)) => true,
+                        _ => false,
+                    };
+                    if context.current() != Some(Type::BraceStmt) || is_always_expr {
                         context.push(Type::FnExpr);
                     }
                     return false;

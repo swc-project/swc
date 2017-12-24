@@ -129,7 +129,7 @@ impl<I: Input> Lexer<I> {
                                 '[' => LBracket,
                                 ']' => RBracket,
                                 '{' => LBrace,
-                                '}' => LBrace,
+                                '}' => RBrace,
                                 '@' => At,
                                 '`' => BackQuote,
                                 _ => unreachable!(),
@@ -208,13 +208,21 @@ impl<I: Input> Lexer<I> {
                     '"' | '\'' => self.read_str_lit()
                         .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err)),
                     '/' => {
+                        let end = self.input.bump();
                         if self.state.is_expr_allowed {
-                            unimplemented!("regexp")
-                        }
-                        if self.input.peek() == '=' {
-                            unimplemented!("Token `/=`")
+                            self.read_regexp()
+                                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
+                        } else if self.input.current() == '=' {
+                            let end = self.input.bump();
+                            TokenAndSpan {
+                                token: AssignOp(DivAssign),
+                                span: Span { start, end },
+                            }
                         } else {
-                            unimplemented!("Token `/`")
+                            TokenAndSpan {
+                                token: BinOp(Div),
+                                span: Span { start, end: start },
+                            }
                         }
                     }
 
@@ -488,6 +496,12 @@ impl<I: Input> Lexer<I> {
     }
 
     fn read_str_lit(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        unimplemented!()
+        unimplemented!("string literal")
+    }
+
+    fn read_regexp(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
+        let (mut escaped, mut has_calss) = (false, false);
+
+        unimplemented!("regexp")
     }
 }
