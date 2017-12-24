@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::fmt::Debug;
 use swc_common::BytePos;
 
@@ -33,7 +34,29 @@ impl<I: Input> LexerInput<I> {
 
 /// Implements PartialEq<char>
 #[derive(Debug, Clone, Copy)]
-pub struct OptChar(pub Option<(BytePos, char)>);
+pub struct OptChar(Option<(BytePos, char)>);
+
+impl From<Option<(BytePos, char)>> for OptChar {
+    fn from(opt: Option<(BytePos, char)>) -> Self {
+        OptChar(opt)
+    }
+}
+
+impl PartialEq<char> for OptChar {
+    fn eq(&self, rhs: &char) -> bool {
+        match self.0 {
+            Some((_, c)) if c == *rhs => true,
+            _ => false,
+        }
+    }
+}
+
+impl PartialOrd<char> for OptChar {
+    fn partial_cmp(&self, other: &char) -> Option<Ordering> {
+        self.0.map(|(_, c)| c.cmp(other))
+    }
+}
+
 impl OptChar {
     /// # Panics
     ///
@@ -52,14 +75,12 @@ impl OptChar {
     pub const fn into_inner(self) -> Option<(BytePos, char)> {
         self.0
     }
-}
 
-impl PartialEq<char> for OptChar {
-    fn eq(&self, rhs: &char) -> bool {
-        match self.0 {
-            Some((_, c)) if c == *rhs => true,
-            _ => false,
-        }
+    pub fn is_some(&self) -> bool {
+        self.0.is_some()
+    }
+    pub fn is_none(&self) -> bool {
+        self.0.is_none()
     }
 }
 

@@ -92,7 +92,7 @@ pub enum Token {
 
     /// Regexp literal.
     #[kind(starts_expr)]
-    Regex(String, String),
+    Regex(String, JsIdent),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]

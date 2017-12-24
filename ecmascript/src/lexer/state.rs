@@ -1,5 +1,3 @@
-use super::Lexer;
-use super::input::Input;
 use swc_common::BytePos;
 use token::*;
 
@@ -157,7 +155,7 @@ impl State {
 
                 Keyword(Keyword::Function) => {
                     // This is required to lex
-                    /// `x = function(){}/42/i`
+                    // `x = function(){}/42/i`
                     let is_always_expr = match prev {
                         Some(AssignOp(..)) | Some(BinOp(..)) => true,
                         _ => false,

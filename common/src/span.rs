@@ -1,17 +1,29 @@
-use std::fmt::{self, Display, Formatter};
+use std::fmt::{self, Debug, Display, Formatter};
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct BytePos(pub u32);
 impl Display for BytePos {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        self.0.fmt(f)
+        Display::fmt(&self.0, f)
+    }
+}
+impl Debug for BytePos {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Debug::fmt(&self.0, f)
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Span {
+    /// Inclusive
     pub start: BytePos,
+    /// Inclusive
     pub end: BytePos,
+}
+impl Debug for Span {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "[{}, {}]", self.start, self.end)
+    }
 }
 
 impl Span {

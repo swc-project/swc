@@ -1,7 +1,7 @@
 use super::*;
 use super::input::OptChar;
+use std::ops::Range;
 use std::str;
-use swc_atoms::JsIdent;
 
 #[derive(Debug, Clone)]
 pub struct CharIndices<'a>(str::CharIndices<'a>);
@@ -10,7 +10,7 @@ impl<'a> Input for CharIndices<'a> {
     type Error = ();
 
     fn peek(&mut self) -> OptChar {
-        OptChar(self.clone().next())
+        OptChar::from(self.clone().next())
     }
 }
 impl<'a> Iterator for CharIndices<'a> {
@@ -26,28 +26,72 @@ fn make_lexer(s: &str) -> Lexer<CharIndices> {
     Lexer::new(input)
 }
 
+fn lex(s: &str) -> Vec<TokenAndSpan> {
+    let lexer = make_lexer(&s);
+    lexer.tokenize().collect()
+}
 fn lex_tokens(s: &str) -> Vec<Token> {
     let lexer = make_lexer(&s);
+    lexer.tokenize().map(|ts| ts.token).collect()
+}
 
-    lexer
-        .tokenize()
-        .map(|ts| ts.token)
-        .inspect(|t| {
-            // println!("Token {:?}", t)
-        })
-        .collect()
+trait WithSpan: Sized {
+    fn span(self, from: usize) -> TokenAndSpan {
+        self.spanned(from..from + 1)
+    }
+    fn spanned(self, range: Range<usize>) -> TokenAndSpan {
+        TokenAndSpan {
+            token: self.into_token(),
+            span: Span {
+                start: BytePos(range.start as _),
+                end: BytePos((range.end - 1) as _),
+            },
+        }
+    }
+    fn into_token(self) -> Token;
+}
+impl WithSpan for Token {
+    fn into_token(self) -> Token {
+        self
+    }
+}
+impl<'a> WithSpan for &'a str {
+    fn into_token(self) -> Token {
+        Ident(self.into())
+    }
+}
+impl WithSpan for Keyword {
+    fn into_token(self) -> Token {
+        Keyword(self)
+    }
+}
+impl WithSpan for BinOpToken {
+    fn into_token(self) -> Token {
+        BinOp(self)
+    }
+}
+impl WithSpan for AssignOpToken {
+    fn into_token(self) -> Token {
+        AssignOp(self)
+    }
 }
 
 #[test]
 fn invalid_but_lexable() {
     let _ = ::pretty_env_logger::init();
 
-    assert_eq!(vec![LParen, LBrace, Semi], lex_tokens("({;"));
+    assert_eq!(
+        vec![LParen.span(0), LBrace.span(1), Semi.span(2)],
+        lex("({;")
+    );
 }
 
 #[test]
 fn paren_semi() {
-    assert_eq!(vec![LParen, RParen, Semi], lex_tokens("();"));
+    assert_eq!(
+        vec![LParen.span(0), RParen.span(1), Semi.span(2)],
+        lex("();")
+    );
 }
 
 #[test]
@@ -55,8 +99,14 @@ fn ident_paren() {
     let _ = ::pretty_env_logger::init();
 
     assert_eq!(
-        vec![Ident("a".into()), LParen, Ident("b".into()), RParen, Semi],
-        lex_tokens("a(b);")
+        vec![
+            "a".span(0),
+            LParen.span(1),
+            "bc".spanned(2..4),
+            RParen.span(4),
+            Semi.span(5),
+        ],
+        lex("a(bc);")
     );
 }
 
@@ -64,10 +114,7 @@ fn ident_paren() {
 fn read_word() {
     let _ = ::pretty_env_logger::init();
 
-    assert_eq!(
-        vec![Ident("a".into()), Ident("b".into()), Ident("c".into())],
-        lex_tokens("a b c"),
-    )
+    assert_eq!(vec!["a".span(0), "b".span(2), "c".span(4)], lex("a b c"),)
 }
 
 #[test]
@@ -76,11 +123,16 @@ fn simple_regex() {
 
     assert_eq!(
         vec![
-            Ident("x".into()),
-            AssignOp(Assign),
-            Regex("42".into(), "i".into()),
+            "x".span(0),
+            Assign.span(2),
+            Regex("42".into(), "i".into()).spanned(4..9),
         ],
-        lex_tokens("x = /42/i")
+        lex("x = /42/i")
+    );
+
+    assert_eq!(
+        vec![Regex("42".into(), "".into()).spanned(0..4)],
+        lex("/42/")
     );
 }
 
@@ -111,10 +163,7 @@ fn complex_regex() {
 fn simple_div() {
     let _ = ::pretty_env_logger::init();
 
-    assert_eq!(
-        vec![Ident("a".into()), BinOp(Div), Ident("b".into())],
-        lex_tokens("a / b")
-    );
+    assert_eq!(vec!["a".span(0), Div.span(2), "b".span(4)], lex("a / b"));
 }
 
 #[test]
@@ -138,5 +187,28 @@ fn complex_divide() {
         ],
         lex_tokens("x = function foo() {} /a/i"),
         "/ should be parsed as div operator"
+    )
+}
+
+// ---------- Tests ported from esprima
+
+#[test]
+fn after_if() {
+    assert_eq!(
+        vec![
+            Keyword::If.spanned(0..2),
+            LParen.span(2),
+            "x".span(3),
+            RParen.span(4),
+            LBrace.span(5),
+            RBrace.span(6),
+            Regex("y".into(), "".into()).spanned(8..11),
+            Dot.span(11),
+            "test".spanned(12..16),
+            LParen.span(16),
+            "z".span(17),
+            RParen.span(18),
+        ],
+        lex("if(x){} /y/.test(z)"),
     )
 }

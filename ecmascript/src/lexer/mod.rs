@@ -31,6 +31,10 @@ pub enum Error<InputError> {
     EscapeInKeyword {
         keyword: JsIdent,
     },
+    #[fail(display = "unterminated regexp (started at {})", start)]
+    UnterminatedRegxp {
+        start: BytePos,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
@@ -81,7 +85,7 @@ impl<I: Input> Lexer<I> {
                 ' ' | '\u{A0}' => {}
 
                 // line breaks
-                '\r' | '\n' | '\u{2028}' | '\u{2029}' => {
+                _ if is_line_break(c) => {
                     line_break = true;
                 }
 
@@ -115,7 +119,31 @@ impl<I: Input> Lexer<I> {
                     // identifiers, so '\' also dispatches to that.
                     c if c == '\\' || is_ident_start(c) => self.read_ident_or_keyword()
                         .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err)),
-                    '.' => unimplemented!("`.`"),
+
+                    //
+                    '.' => {
+                        let end = self.input.bump(); // 1st `.`
+
+                        // TODO Check for eof
+                        let next = self.input.current();
+                        if next >= '0' && next <= '9' {
+                            self.read_number(true)
+                                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
+                        } else if next == '.' && self.input.peek() == '.' {
+                            self.input.bump(); // 2nd `.`
+                            let end = self.input.bump(); // 3rd `.`
+
+                            TokenAndSpan {
+                                token: DotDotDot,
+                                span: Span { start, end },
+                            }
+                        } else {
+                            TokenAndSpan {
+                                token: Dot,
+                                span: Span { start, end },
+                            }
+                        }
+                    }
 
                     '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' => {
                         // These tokens are emitted directly.
@@ -208,20 +236,23 @@ impl<I: Input> Lexer<I> {
                     '"' | '\'' => self.read_str_lit()
                         .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err)),
                     '/' => {
-                        let end = self.input.bump();
                         if self.state.is_expr_allowed {
                             self.read_regexp()
                                 .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
-                        } else if self.input.current() == '=' {
-                            let end = self.input.bump();
-                            TokenAndSpan {
-                                token: AssignOp(DivAssign),
-                                span: Span { start, end },
-                            }
                         } else {
-                            TokenAndSpan {
-                                token: BinOp(Div),
-                                span: Span { start, end: start },
+                            let end = self.input.bump();
+
+                            if self.input.current() == '=' {
+                                let end = self.input.bump();
+                                TokenAndSpan {
+                                    token: AssignOp(DivAssign),
+                                    span: Span { start, end },
+                                }
+                            } else {
+                                TokenAndSpan {
+                                    token: BinOp(Div),
+                                    span: Span { start, end: start },
+                                }
                             }
                         }
                     }
@@ -428,6 +459,8 @@ impl<I: Input> Lexer<I> {
     }
 
     fn read_ident_or_keyword(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
+        debug_assert!(self.input.current().is_some());
+
         let (word, span, has_escape) = self.read_word()?;
 
         if let Some(kwd) = Keyword::try_from(&word) {
@@ -447,9 +480,23 @@ impl<I: Input> Lexer<I> {
         }
     }
 
+    fn may_read_word(&mut self) -> Result<Option<(JsIdent, Span, bool)>, Error<I::Error>> {
+        if self.input.current().is_none() {
+            return Ok(None);
+        }
+
+        if is_ident_start(self.input.current().as_char()) {
+            self.read_word().map(Some)
+        } else {
+            Ok(None)
+        }
+    }
+
     /// returns (word, span, has_secape)
     fn read_word(&mut self) -> Result<(JsIdent, Span, bool), Error<I::Error>> {
-        let mut start = BytePos(0);
+        debug_assert!(self.input.current().is_some());
+
+        let start = self.input.current().pos();
         let mut end = start;
 
         let mut has_escape = false;
@@ -457,16 +504,11 @@ impl<I: Input> Lexer<I> {
         let mut first = true;
 
         while let Some((pos, c)) = self.input.current().into_inner() {
-            if start == BytePos(0) {
-                start = pos;
-            }
-
             // TODO: optimize (cow / chunk)
             match c {
                 c if is_ident_char(c) => {
                     self.input.bump();
                     word.push(c);
-                    end = pos;
                 }
                 // unicode escape
                 '\\' => {
@@ -500,8 +542,57 @@ impl<I: Input> Lexer<I> {
     }
 
     fn read_regexp(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        let (mut escaped, mut has_calss) = (false, false);
+        debug_assert!(self.input.current().is_some());
+        debug_assert_eq!(self.input.current(), '/');
+        let start = self.input.bump();
 
-        unimplemented!("regexp")
+        let (mut escaped, mut in_class) = (false, false);
+        // TODO: Optimize (chunk, cow)
+        let mut content = String::new();
+
+        while let Some((pos, c)) = self.input.current().into_inner() {
+            // This is ported from babel.
+            // Seems like regexp literal cannot contain linebreak.
+            if is_line_break(c) {
+                return Err(Error::UnterminatedRegxp { start: start });
+            }
+
+            if escaped {
+                escaped = false;
+            } else {
+                match c {
+                    '[' => in_class = true,
+                    ']' if in_class => in_class = false,
+                    // Termniates content part of regex literal
+                    '/' if !in_class => break,
+                    _ => {}
+                }
+                escaped = c == '\\';
+            }
+            self.input.bump();
+            content.push(c);
+        }
+
+        // input is terminated without following `/`
+        if self.input.current() != '/' {
+            return Err(Error::UnterminatedRegxp { start });
+        }
+
+        let end = self.input.bump();
+
+        // Need to use `read_word` because '\uXXXX' sequences are allowed
+        // here (don't ask).
+        let (flags, end) = self.may_read_word()?
+            .map(|(f, s, _)| (f, s.end))
+            .unwrap_or_else(|| ("".into(), end));
+
+        Ok(TokenAndSpan {
+            token: Regex(content, flags),
+            span: Span { start, end },
+        })
+    }
+
+    fn read_number(&mut self, starts_with_dot: bool) -> Result<TokenAndSpan, Error<I::Error>> {
+        unimplemented!("read_number({})", starts_with_dot);
     }
 }

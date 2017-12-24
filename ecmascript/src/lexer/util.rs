@@ -25,6 +25,13 @@ pub fn is_ident_char(c: char) -> bool {
     UnicodeXID::is_xid_continue(c)
 }
 
+pub fn is_line_break(c: char) -> bool {
+    match c {
+        '\r' | '\n' | '\u{2028}' | '\u{2029}' => true,
+        _ => false,
+    }
+}
+
 pub fn is_non_ascii_ws(c: char) -> bool {
     match c {
         '\u{1680}'

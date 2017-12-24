@@ -10,7 +10,6 @@ extern crate failure;
 extern crate log;
 #[cfg(test)]
 extern crate pretty_env_logger;
-#[macro_use(js_ident)]
 extern crate swc_atoms;
 extern crate swc_common;
 #[macro_use]
