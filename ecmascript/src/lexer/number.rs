@@ -1,15 +1,10 @@
 //! Lexer methods related to reading numbers.
+//!
+//!
+//! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 
 use super::*;
 use std::fmt::Display;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum NumType {
-    /// (implicit) octal number
-    Octal,
-    Decimal,
-    Float,
-}
 
 impl<I: Input> Lexer<I> {
     /// Reads an integer, octal integer, or floating-point number
@@ -19,6 +14,15 @@ impl<I: Input> Lexer<I> {
         &mut self,
         starts_with_dot: bool,
     ) -> Result<TokenAndSpan, Error<I::Error>> {
+        /// Type of decimal literal
+        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        enum NumType {
+            /// (implicit) octal number
+            Octal,
+            Decimal,
+            Float,
+        }
+
         debug_assert!(self.input.current().is_some());
         if starts_with_dot {
             debug_assert_eq!(
@@ -86,7 +90,7 @@ impl<I: Input> Lexer<I> {
 
         match num_type {
             NumType::Octal => {
-                self.ensure_not_ident();
+                self.ensure_not_ident()?;
                 return if self.opts.strict {
                     Err(Error::ImplicitOctalOnStrict { start })
                 } else {
@@ -129,7 +133,7 @@ impl<I: Input> Lexer<I> {
 
             // TODO
             val = Float(format!("{}.{}", val, minority).parse().unwrap());
-            num_type = NumType::Float;
+            // num_type = NumType::Float;
         }
 
         // Handle 'e' and 'E'
@@ -210,7 +214,7 @@ impl<I: Input> Lexer<I> {
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> Result<(), Error<I::Error>> {
         match self.input.peek().into_inner() {
-            Some((pos, c)) if is_ident_start(c) => Err(Error::IdentAfterNum { pos }),
+            Some((pos, c)) if c.is_ident_start() => Err(Error::IdentAfterNum { pos }),
             _ => Ok(()),
         }
     }

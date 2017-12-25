@@ -191,6 +191,43 @@ fn complex_divide() {
     )
 }
 
+// ---------- Tests from tc39 spec
+
+#[test]
+fn spec_001() {
+    let _ = ::pretty_env_logger::init();
+
+    let expected = vec![
+        Ident("a".into()),
+        AssignOp(Assign),
+        Ident("b".into()),
+        BinOp(Div),
+        Ident("hi".into()),
+        BinOp(Div),
+        Ident("g".into()),
+        Dot,
+        Ident("exec".into()),
+        LParen,
+        Ident("c".into()),
+        RParen,
+        Dot,
+        Ident("map".into()),
+        LParen,
+        Ident("d".into()),
+        RParen,
+        Semi,
+    ];
+
+    assert_eq!(
+        expected,
+        lex_tokens(
+            "a = b
+/hi/g.exec(c).map(d);"
+        )
+    );
+    assert_eq!(expected, lex_tokens("a = b / hi / g.exec(c).map(d);"));
+}
+
 // ---------- Tests ported from esprima
 
 #[test]

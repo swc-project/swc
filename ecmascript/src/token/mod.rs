@@ -75,7 +75,7 @@ pub enum Token {
 
     /// '?'
     #[kind(before_expr)]
-    Question,
+    QuestionMark,
 
     /// `++`
     #[kind(before_expr, starts_expr)]
@@ -161,10 +161,10 @@ pub enum BinOpToken {
 
     /// `+`
     #[kind(precedence = "9")]
-    Plus,
+    Add,
     /// `-`
     #[kind(precedence = "9")]
-    Minus,
+    Sub,
     /// `*`
     #[kind(precedence = "10")]
     Mul,
@@ -212,13 +212,13 @@ pub enum AssignOpToken {
     /// `+=`
     AddAssign,
     /// `-=`
-    MinusAssign,
+    SubAssign,
     /// `*=`
     MulAssign,
     /// `/=`
     DivAssign,
     /// `%=`
-    RemAssign,
+    ModAssign,
     /// `<<=`
     LShiftAssign,
     /// `>>=`
