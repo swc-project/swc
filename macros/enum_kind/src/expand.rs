@@ -1,6 +1,6 @@
 use common::prelude::*;
 use input::*;
-use util::{is_attr_name, is_bool};
+use util::is_bool;
 
 pub fn expand(
     Input {

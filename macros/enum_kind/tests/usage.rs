@@ -22,19 +22,16 @@ fn simple_bool() {
     assert!(!Tokens::TupleLike(5).is_a());
 }
 
-#[derive(Debug,Kind)]
+#[derive(Debug, Kind)]
 #[kind(functions(wanted = "bool"))]
-pub enum Delegate{
-    #[kind(wanted)]
-    Wanted,
-    #[kind(delegate)]
-    May(Del)
+pub enum Delegate {
+    #[kind(wanted)] Wanted,
+    #[kind(delegate)] May(Del),
 }
 
-#[derive(Debug,Kind)]
+#[derive(Debug, Kind)]
 #[kind(functions(wanted = "bool"))]
-pub enum Del{
-    #[kind(wanted)]
-    Yes,
+pub enum Del {
+    #[kind(wanted)] Yes,
     No,
 }

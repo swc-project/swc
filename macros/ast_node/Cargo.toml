@@ -19,3 +19,7 @@ features = ["full", "parsing", "printing", "extra-traits"]
 [dependencies.synom]
 git = "https://github.com/dtolnay/syn"
 
+[dev-dependencies]
+serde = { version = "1", features = ["derive"] }
+swc_macros = { path = "../" }
+swc_common = { path = "../../common" }

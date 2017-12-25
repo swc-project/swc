@@ -243,8 +243,7 @@ pub struct TokenAndSpan {
 }
 
 #[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
-#[kind(function(before_expr = "bool"))]
-#[kind(function(starts_expr = "bool"))]
+#[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
     Break,
     #[kind(before_expr)] Case,

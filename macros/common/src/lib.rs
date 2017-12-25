@@ -139,6 +139,24 @@ pub fn bind_variant(
     }
 }
 
+pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
+    match *attr {
+        Attribute {
+            path:
+                Path {
+                    leading_colon: None,
+                    ref segments,
+                },
+            is_sugared_doc: false,
+            ..
+        } if segments.len() == 1 =>
+        {
+            segments.first().unwrap().into_item().ident == name
+        }
+        _ => false,
+    }
+}
+
 /// fail! is a panic! with location reporting.
 #[macro_export]
 macro_rules! fail {

@@ -3,7 +3,7 @@ use input::*;
 use std::fmt::Display;
 use std::ops::AddAssign;
 use synom::Synom;
-use util::{is_attr_name, is_bool};
+use util::is_bool;
 
 impl From<DeriveInput> for Input {
     fn from(
