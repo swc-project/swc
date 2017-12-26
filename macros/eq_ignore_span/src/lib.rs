@@ -21,34 +21,24 @@ fn expand(input: DeriveInput) -> Item {
     let type_name = &input.ident;
     let body = expand_method_body(&input.ident, input.body);
 
-    let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
-
     Quote::new_call_site()
         .quote_with(smart_quote!(
             Vars {
-                CONST_NAME: type_name.new_ident_with(|n| format!("_IMPL_EQ_IGNORE_SPAN_FOR_{}", n)),
                 Type: type_name,
                 body,
-                impl_generics,
-                ty_generics,
-                where_clause,
             },
             {
-                #[allow(non_upper_case_globals)]
-                const CONST_NAME: () = {
-                    extern crate swc_common as _swc_common;
-                    impl impl_generics _swc_common::EqIgnoreSpan for Type ty_generics
-                     where_clause {
-                        #[allow(unused_attributes, unreachable_patterns)]
-                        fn eq_ignore_span(&self, __rhs: &Self) -> bool {
-                            body
-                        }
+                impl ::swc_common::EqIgnoreSpan for Type {
+                    #[allow(unused_attributes, unreachable_patterns)]
+                    fn eq_ignore_span(&self, __rhs: &Self) -> bool {
+                        body
                     }
-                    ()
-                };
+                }
             }
         ))
-        .parse()
+        .parse::<ItemImpl>()
+        .with_generics(input.generics)
+        .into()
 }
 
 /// Creates method "eq_ignore_span"
@@ -75,7 +65,7 @@ fn expand_method_body(name: &Ident, body: Body) -> Expr {
             .map(|(lhs, rhs)| -> Box<Expr> {
                 box Quote::from_tokens(&lhs)
                     .quote_with(smart_quote!(Vars { lhs, rhs }, {
-                        _swc_common::EqIgnoreSpan::eq_ignore_span(lhs, rhs)
+                        ::swc_common::EqIgnoreSpan::eq_ignore_span(lhs, rhs)
                     }))
                     .parse()
             })

@@ -3,6 +3,7 @@
 extern crate pmutil;
 extern crate proc_macro2;
 extern crate proc_macro;
+#[macro_use]
 extern crate quote;
 extern crate syn;
 use pmutil::{IdentExt, SpanExt};
@@ -12,6 +13,7 @@ use syn::*;
 use syn::delimited::Element;
 
 pub mod prelude;
+mod syn_ext;
 
 pub fn call_site<T: FromSpan>() -> T {
     Span::call_site().as_token()

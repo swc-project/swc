@@ -3,3 +3,4 @@ reorder_imports_in_group = true
 reorder_imported_names = true
 wrap_comments = true
 write_mode = "replace"
+same_line_attributes = false

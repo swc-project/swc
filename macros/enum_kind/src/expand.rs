@@ -46,24 +46,21 @@ pub fn expand(
             t
         });
 
-    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
-
     Quote::new_call_site()
         .quote_with(smart_quote!(
         Vars {
-            impl_generics,
-            name,
-            ty_generics,
-            where_clause,
+            Type: name,
             items,
         },
         {
-            impl impl_generics name ty_generics where_clause {
+            impl Type {
                 items
             }
         }
     ))
-        .parse()
+        .parse::<ItemImpl>()
+        .with_generics(generics)
+        .into()
 }
 
 impl FnDef {
