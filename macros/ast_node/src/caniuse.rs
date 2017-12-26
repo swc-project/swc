@@ -1,4 +1,5 @@
 use common::prelude::*;
+use std::iter;
 
 pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
     let arms = Binder::new_from(input)
@@ -59,6 +60,13 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
                 comma: Some(call_site()),
             }
         })
+        .chain(iter::once(
+            Quote::new_call_site()
+                .quote_with(smart_quote!(Vars {}, {
+                    _ => {},
+                }))
+                .parse::<Arm>(),
+        ))
         .collect();
 
     let match_expr: Expr = ExprKind::Match(ExprMatch {
@@ -78,6 +86,7 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
             },
             {
                 impl ::swc_common::compat::CanIUse for Type {
+                    #[allow(unreachable_patterns, unused_attributes)]
                     fn report_used_features(
                         &self,
                         __used_features: &mut ::swc_common::compat::UsedFeatures,
