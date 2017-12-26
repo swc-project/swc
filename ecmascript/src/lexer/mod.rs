@@ -23,42 +23,24 @@ pub mod util;
 
 #[derive(Fail, Debug, PartialEq, Eq, Hash)]
 pub enum Error<InputError> {
-    #[fail(display = "input error: {}", err)] Input {
-        err: InputError,
-    },
+    #[fail(display = "input error: {}", err)]
+    Input { err: InputError },
     #[fail(display = "unterminated string constant: {}", start)]
-    UnterminatedStrLit {
-        start: BytePos,
-    },
+    UnterminatedStrLit { start: BytePos },
     #[fail(display = "expected unicode escape sequence: {}", pos)]
-    ExpectedUnicodeEscape {
-        pos: BytePos,
-    },
+    ExpectedUnicodeEscape { pos: BytePos },
     #[fail(display = "unexpected escape sequence in keyword: {}", keyword)]
-    EscapeInKeyword {
-        keyword: JsIdent,
-    },
+    EscapeInKeyword { keyword: JsIdent },
     #[fail(display = "unterminated regexp (regexp started at {})", start)]
-    UnterminatedRegxp {
-        start: BytePos,
-    },
+    UnterminatedRegxp { start: BytePos },
     #[fail(display = "identifier directly after number at {}", pos)]
-    IdentAfterNum {
-        pos: BytePos,
-    },
+    IdentAfterNum { pos: BytePos },
     #[fail(display = "Decimals with leading zeros (at {}) are not allowed in strict mode", start)]
-    DecimalStartsWithZero {
-        start: BytePos,
-    },
+    DecimalStartsWithZero { start: BytePos },
     #[fail(display = "Octals with leading zeros (at {}) are not allowed in strict mode", start)]
-    ImplicitOctalOnStrict {
-        start: BytePos,
-    },
+    ImplicitOctalOnStrict { start: BytePos },
     #[fail(display = "Unexpected character '{}' on {}", c, pos)]
-    UnexpectedChar {
-        pos: BytePos,
-        c: char,
-    },
+    UnexpectedChar { pos: BytePos, c: char },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]

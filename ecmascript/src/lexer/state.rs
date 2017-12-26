@@ -264,13 +264,18 @@ impl Context {
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
 enum Type {
     BraceStmt,
-    #[kind(is_expr)] BraceExpr,
-    #[kind(is_expr)] TplQuasi,
+    #[kind(is_expr)]
+    BraceExpr,
+    #[kind(is_expr)]
+    TplQuasi,
     ParenStmt {
         /// Is this `for` loop?
         is_for_loop: bool,
     },
-    #[kind(is_expr)] ParenExpr,
-    #[kind(is_expr, preserve_space)] Tpl,
-    #[kind(is_expr)] FnExpr,
+    #[kind(is_expr)]
+    ParenExpr,
+    #[kind(is_expr, preserve_space)]
+    Tpl,
+    #[kind(is_expr)]
+    FnExpr,
 }
