@@ -76,22 +76,10 @@ impl FnDef {
         let arms = variants
             .iter()
             .map(|v| -> Arm {
-                let qual_path = Quote::new_call_site()
-                    .quote_with(smart_quote!(
-                        Vars {
-                            EnumName: enum_name,
-                            VariantName: v.name,
-                        },
-                        { EnumName::VariantName }
-                    ))
-                    .parse();
                 // Bind this variant.
-                let (pat, mut fields) = bind_variant(
-                    qual_path,
-                    &v.data,
-                    "_",
-                    BindingMode::ByRef(call_site(), Mutability::Immutable),
-                );
+                let (pat, mut fields) =
+                    VariantBinder::new(Some(enum_name), &v.name, &v.data, &v.attrs.extras)
+                        .bind("_", BindingMode::ByRef(call_site(), Mutability::Immutable));
 
                 let body = {
                     let value = match v.attrs

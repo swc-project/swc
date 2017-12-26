@@ -19,7 +19,7 @@ pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
 fn expand(input: DeriveInput) -> Item {
     let type_name = &input.ident;
-    let body = expand_method_body(&input.ident, input.body);
+    let body = expand_method_body(&input.ident, &input.body, &input.attrs);
 
     Quote::new_call_site()
         .quote_with(smart_quote!(
@@ -42,7 +42,7 @@ fn expand(input: DeriveInput) -> Item {
 }
 
 /// Creates method "eq_ignore_span"
-fn expand_method_body(name: &Ident, body: Body) -> Expr {
+fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
     /// Creates `_ => false,`
     fn make_default_arm() -> Arm {
         Quote::new_call_site()
@@ -54,12 +54,12 @@ fn expand_method_body(name: &Ident, body: Body) -> Expr {
 
     /// qual_name: EnumName::VariantName for enum,
     /// StructName for struct
-    fn arm_for_variant(qual_name: Path, data: &VariantData) -> Arm {
+    fn arm_for_variant(v: VariantBinder) -> Arm {
         let span = Span::call_site();
 
         let binding_mode = BindingMode::ByRef(span.as_token(), Mutability::Immutable);
-        let (lhs_pat, lhs_bindings) = bind_variant(qual_name.clone(), data, "lhs_", binding_mode);
-        let (rhs_pat, rhs_bindings) = bind_variant(qual_name, data, "rhs_", binding_mode);
+        let (lhs_pat, lhs_bindings) = v.bind("lhs_", binding_mode);
+        let (rhs_pat, rhs_bindings) = v.bind("rhs_", binding_mode);
 
         let guard = (lhs_bindings.into_iter().zip(rhs_bindings))
             .map(|(lhs, rhs)| -> Box<Expr> {
@@ -109,58 +109,20 @@ fn expand_method_body(name: &Ident, body: Body) -> Expr {
         }
     }
 
-    /// match *self + delegate to variants
-    fn body_for_enum(name: &Ident, BodyEnum { variants, .. }: BodyEnum) -> Expr {
-        let span = Span::call_site();
+    let span = Span::call_site();
+    let arms = Binder::new(ident, body, attrs)
+        .variants()
+        .into_iter()
+        .map(arm_for_variant)
+        .chain(iter::once(make_default_arm()))
+        .collect();
 
-        let arms = variants
-            .into_iter()
-            .map(syn::delimited::Element::into_item)
-            .map(|v| {
-                arm_for_variant(
-                    // EnumName::VariantName
-                    Path {
-                        leading_colon: None,
-                        segments: vec![name.clone(), v.ident]
-                            .into_iter()
-                            .map(PathSegment::from)
-                            .collect(),
-                    },
-                    &v.data,
-                )
-            })
-            .chain(iter::once({ make_default_arm() }))
-            .collect();
-
-        ExprKind::Match(ExprMatch {
-            match_token: span.as_token(),
-            expr: box Quote::new(span)
-                .quote_with(smart_quote!(Vars {}, { (&*self, &*__rhs) }))
-                .parse(),
-            brace_token: span.as_token(),
-            arms,
-        }).into()
-    }
-
-    fn body_for_struct(name: &Ident, BodyStruct { data, .. }: BodyStruct) -> Expr {
-        let span = Span::call_site();
-
-        let arms = iter::once(arm_for_variant(name.clone().into(), &data))
-            .chain(iter::once({ make_default_arm() }))
-            .collect();
-
-        ExprKind::Match(ExprMatch {
-            match_token: span.as_token(),
-            expr: box Quote::new(span)
-                .quote_with(smart_quote!(Vars {}, { (&*self, &*__rhs) }))
-                .parse(),
-            brace_token: span.as_token(),
-            arms,
-        }).into()
-    }
-
-    match body {
-        Body::Enum(e) => body_for_enum(name, e),
-        Body::Struct(s) => body_for_struct(name, s),
-    }
+    ExprKind::Match(ExprMatch {
+        match_token: span.as_token(),
+        expr: box Quote::new(span)
+            .quote_with(smart_quote!(Vars {}, { (&*self, &*__rhs) }))
+            .parse(),
+        brace_token: span.as_token(),
+        arms,
+    }).into()
 }
