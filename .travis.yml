@@ -12,8 +12,8 @@ before_script:
 script:
 - |
   export TRAVIS_CARGO_NIGHTLY_FEATURE="" &&
-  travis-cargo build --all &&
-  travis-cargo test --all &&
+  travis-cargo build -- --all &&
+  travis-cargo test -- --all &&
   travis-cargo doc
 after_success:
 - travis-cargo doc-upload
