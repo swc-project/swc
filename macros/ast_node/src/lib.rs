@@ -7,12 +7,18 @@ extern crate proc_macro;
 extern crate swc_macros_common as common;
 extern crate syn;
 
+use self::caniuse::derive_caniuse;
 use common::prelude::*;
+
+mod caniuse;
 
 #[proc_macro_derive(AstNode, attributes(fold, caniuse))]
 pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = &input.ident;
+
+    let mut tokens = Tokens::new();
+    derive_caniuse(&input).to_tokens(&mut tokens);
 
     let item = Quote::new_call_site()
         .quote_with(smart_quote!(Vars { Type: type_name }, {
@@ -20,8 +26,9 @@ pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }))
         .parse::<ItemImpl>()
         .with_generics(input.generics);
+    item.to_tokens(&mut tokens);
 
-    print("derive(AstNode)", item.into_tokens())
+    print("derive(AstNode)", tokens)
 }
 
 /// Alias for

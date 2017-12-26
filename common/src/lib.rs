@@ -3,11 +3,14 @@
 #![feature(specialization)]
 #![feature(generator_trait)]
 
+extern crate fnv;
+
 pub use self::ast_node::AstNode;
 pub use self::eq_ignore_span::EqIgnoreSpan;
 pub use self::gen_iter::gen_iter;
 pub use self::span::{BytePos, Span};
 
+pub mod compat;
 mod ast_node;
 mod eq_ignore_span;
 mod gen_iter;
