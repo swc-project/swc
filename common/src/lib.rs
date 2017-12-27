@@ -6,6 +6,8 @@
 #![feature(specialization)]
 #![feature(generator_trait)]
 extern crate fnv;
+#[macro_use]
+extern crate serde;
 
 pub use self::ast_node::AstNode;
 pub use self::eq_ignore_span::EqIgnoreSpan;

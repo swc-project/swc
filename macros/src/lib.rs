@@ -9,10 +9,10 @@ pub extern crate ast_node;
 pub extern crate enum_kind;
 #[macro_use]
 pub extern crate eq_ignore_span;
+#[macro_use]
+pub extern crate serde_derive;
 
-#[doc(inline)]
 pub use ast_node::*;
-#[doc(inline)]
 pub use enum_kind::*;
-#[doc(inline)]
 pub use eq_ignore_span::*;
+pub use serde_derive::*;

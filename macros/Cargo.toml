@@ -9,3 +9,4 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 ast_node = { path = "./ast_node" }
 enum_kind = { path = "./enum_kind" }
 eq_ignore_span = { path = "./eq_ignore_span" }
+serde_derive = "1"

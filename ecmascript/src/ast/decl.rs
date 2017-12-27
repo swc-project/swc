@@ -1,0 +1,45 @@
+use super::{Class, Expr, Ident, JsFn, Pat};
+use swc_common::Span;
+use swc_macros::ast_node;
+
+#[ast_node]
+pub enum Decl {
+    ClassDecl(ClassDecl),
+
+    #[serde = "FunctionDeclaration"]
+    FnDecl {
+        ident: Ident,
+        function: JsFn,
+    },
+
+    #[serde = "VariableDeclaration"]
+    VarDecl {
+        kind: VarDeclKind,
+        #[serde = "declarations"]
+        decls: Vec<VarDeclarator>,
+    },
+}
+
+#[ast_node]
+pub struct ClassDecl {
+    pub ident: Ident,
+    pub class: Class,
+}
+
+#[ast_node]
+pub enum VarDeclKind {
+    Var,
+    #[caniuse = "let"]
+    Let,
+    #[caniuse = "const"]
+    Const,
+}
+
+#[ast_node]
+pub struct VarDeclarator {
+    pub span: Span,
+    #[serde = "id"]
+    pub name: Pat,
+    /// Initialization expresion.
+    pub init: Option<Expr>,
+}

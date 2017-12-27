@@ -1,6 +1,6 @@
 use std::fmt::{self, Debug, Display, Formatter};
 
-#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct BytePos(pub u32);
 impl Display for BytePos {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
@@ -13,7 +13,7 @@ impl Debug for BytePos {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct Span {
     /// Inclusive
     pub start: BytePos,

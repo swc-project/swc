@@ -2,8 +2,9 @@
 #![feature(const_fn)]
 #![feature(specialization)]
 #![feature(generators)]
-#![feature(proc_macros)]
+#![feature(proc_macro)]
 
+extern crate either;
 #[macro_use]
 extern crate failure;
 #[macro_use]
@@ -16,5 +17,6 @@ extern crate swc_common;
 extern crate swc_macros;
 extern crate unicode_xid;
 
+pub mod ast;
 pub mod lexer;
 pub mod token;

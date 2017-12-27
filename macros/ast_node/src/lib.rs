@@ -45,6 +45,7 @@ pub fn ast_node(
     let tokens = pmutil::Quote::new_call_site().quote_with(smart_quote!(Vars { item }, {
         #[derive(::swc_macros::AstNode)]
         #[derive(::swc_macros::EqIgnoreSpan)]
+        #[derive(::swc_macros::Serialize, ::swc_macros::Deserialize)]
         #[derive(Clone, Debug, PartialEq)]
         item
     }));
