@@ -1,8 +1,10 @@
 #![feature(conservative_impl_trait)]
 #![feature(const_fn)]
+#![feature(try_trait)]
+#![feature(optin_builtin_traits)]
+#![feature(never_type)]
 #![feature(specialization)]
 #![feature(generator_trait)]
-
 extern crate fnv;
 
 pub use self::ast_node::AstNode;

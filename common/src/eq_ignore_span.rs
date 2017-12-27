@@ -1,48 +1,22 @@
+/// # Derive
+/// This trait can be derived with `#[derive(EqIgnoreSpan)]`.
 pub trait EqIgnoreSpan: PartialEq {
     fn eq_ignore_span(&self, other: &Self) -> bool;
 }
 
 impl<T: ?Sized + PartialEq> EqIgnoreSpan for T {
+    /// Default implementation of this trait.
+    /// This might be wrong.
     default fn eq_ignore_span(&self, other: &Self) -> bool {
         *self == *other
     }
 }
 
-macro_rules! impl_for_eq_ty {
-    ($Type:ty) => {
-        impl $crate::EqIgnoreSpan for $Type {
-            fn eq_ignore_span(&self, other: &Self) -> bool { *self == *other }
-        }
-    };
-    ($Type:ty,) => {
-        impl_for_eq_ty!($Type);
-    };
-    ($Type:ty, $($rest:tt)+) => {
-        impl_for_eq_ty!($Type);
-        impl_for_eq_ty!($($rest)*);
-    };
-}
-
-impl_for_eq_ty!(
-    bool,
-    u8,
-    u16,
-    u32,
-    u64,
-    usize,
-    i8,
-    i16,
-    i32,
-    i64,
-    isize,
-    String,
-    char,
-);
-
 impl<T: EqIgnoreSpan> EqIgnoreSpan for Option<T> {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         match (self.as_ref(), other.as_ref()) {
             (Some(l), Some(r)) if l.eq_ignore_span(r) => true,
+            (None, None) => true,
             _ => false,
         }
     }
