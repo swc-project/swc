@@ -5,12 +5,12 @@ pub enum Lit {
     Str(String),
     Bool(bool),
     Null,
-    Number(Number),
+    Num(Num),
     Regex(Regex),
 }
 
 #[ast_node]
-pub enum Number {
+pub enum Num {
     Dec(usize),
     /// bool field is true if it starts with '0o' and false if it starts with
     /// '0O'.
@@ -21,5 +21,7 @@ pub enum Number {
 pub struct Regex {
     pub exp: String,
     #[fold = "regex_flags"]
-    pub flags: String,
+    pub flags: RegexFlags,
 }
+
+pub type RegexFlags = ::swc_atoms::JsIdent;

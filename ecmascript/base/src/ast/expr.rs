@@ -2,6 +2,7 @@ use super::{BlockStmt, Class, Ident, JsFn, Lit, Pat, Prop};
 use either::Either;
 use swc_common::Span;
 use swc_macros::{ast_node, Deserialize, Serialize};
+use token::AssignOpToken;
 
 #[ast_node]
 pub struct Expr {
@@ -62,7 +63,7 @@ pub enum ExprKind {
     #[serde = "AssignmentExpression"]
     Assign {
         #[serde = "operator"]
-        op: AssignOp,
+        op: AssignOpToken,
         /// Pattern | Expr
         left: PatOrExpr,
         right: Box<Expr>,
@@ -149,10 +150,6 @@ pub enum ExprKind {
     #[serde = "ClassExpression"]
     Class(ClassExpr),
 
-    #[caniuse = "await"]
-    #[serde = "AwaitExpression"]
-    Await { arg: Box<Expr> },
-
     #[serde = "YieldExpression"]
     Yield {
         #[serde = "argument"]
@@ -165,6 +162,12 @@ pub enum ExprKind {
      *     meta: Identifier;
      *     property: Identifier;
      * } */
+    #[caniuse = "await"]
+    #[serde = "AwaitExpression"]
+    Await {
+        #[serde = "argument"]
+        arg: Box<Expr>,
+    },
 }
 
 /// Function expression.
@@ -250,7 +253,7 @@ pub enum BinaryOp {
     /// `/`
     Div,
     /// `%`
-    Rem,
+    Mod,
 
     /// `|`
     BitOr,
@@ -300,35 +303,4 @@ pub enum LogicalOp {
     LogicalOr,
     /// `&&`
     LogicalAnd,
-}
-
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
-pub enum AssignOp {
-    /// `=`
-    Assign,
-    /// `+=`
-    AddAssign,
-    /// `-=`
-    SubAssign,
-    /// `*=`
-    MulAssign,
-    /// `/=`
-    DivAssign,
-    /// `%=`
-    RemAssign,
-    /// `<<=`
-    LShiftAssign,
-    /// `>>=`
-    RShiftAssign,
-    /// `>>>=`
-    ZeroFillRShiftAssign,
-    /// `|=`
-    BitOrAssign,
-    /// `^=`
-    BitXorAssign,
-    /// `&=`
-    BitAndAssign,
-
-    /// `**=`
-    ExpAssign,
 }

@@ -269,6 +269,7 @@ fn invalid_number_failure() {
 }
 
 #[test]
+#[ignore]
 fn leading_comment() {
     let _ = ::pretty_env_logger::init();
 
@@ -282,6 +283,7 @@ fn leading_comment() {
 }
 
 #[test]
+#[ignore]
 fn line_comment() {
     let _ = ::pretty_env_logger::init();
 

@@ -1,0 +1,12 @@
+[package]
+name = "ecma_parser"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+swc_atoms = { path = "../../atoms" }
+swc_common = { path = "../../common" }
+ecma_base = { path = "../base" }
+lalrpop-util = "0.13.1"
+
+

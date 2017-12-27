@@ -1,0 +1,18 @@
+[package]
+name = "ecma_base"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+swc_atoms = { path = "../../atoms" }
+swc_macros = { path = "../../macros" }
+swc_common = { path = "../../common" }
+unicode-xid = "0.1"
+failure = "0.1"
+log = "0.3"
+serde = "1"
+either = { version = "1.4", features = ["serde"] }
+
+
+[dev-dependencies]
+pretty_env_logger = "0.1"

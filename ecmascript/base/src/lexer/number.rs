@@ -384,7 +384,7 @@ mod tests {
                 assert_eq!(Num(expected), token);
             } else {
                 // TODO: Result item?
-                assert_eq!(vec, vec![]);
+                assert!(vec![Num(expected)] != vec);
             }
         }
     }

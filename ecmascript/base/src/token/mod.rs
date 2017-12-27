@@ -9,6 +9,7 @@ pub use self::Token::*;
 use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsIdent;
 use swc_common::Span;
+use swc_macros::{Deserialize, Serialize};
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
@@ -16,7 +17,7 @@ pub enum Token {
     #[kind(delegate)]
     Keyword(Keyword),
 
-    Ident(JsIdent),
+    Ident(Ident),
 
     /// '=>'
     #[kind(before_expr)]
@@ -39,12 +40,6 @@ pub enum Token {
     LParen,
     /// ')'
     RParen,
-    /// ';'
-    #[kind(before_expr)]
-    Semi,
-    /// ','
-    #[kind(before_expr)]
-    Comma,
     /// `[`
     #[kind(before_expr, starts_expr)]
     LBracket,
@@ -54,8 +49,15 @@ pub enum Token {
     LBrace,
     /// '}'
     RBrace,
-    /// '`'
 
+    /// ';'
+    #[kind(before_expr)]
+    Semi,
+    /// ','
+    #[kind(before_expr)]
+    Comma,
+
+    /// '`'
     #[kind(starts_expr)]
     BackQuote,
     /// ':'
@@ -124,7 +126,7 @@ impl Display for Number {
     }
 }
 
-#[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash)]
+#[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 #[kind(function(precedence = "u8"))]
 pub enum BinOpToken {
     /// `==`
@@ -208,7 +210,7 @@ pub enum BinOpToken {
     LogicalAnd,
 }
 
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash)]
+#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 pub enum AssignOpToken {
     /// `=`
     Assign,
@@ -243,6 +245,13 @@ pub enum AssignOpToken {
 pub struct TokenAndSpan {
     pub token: Token,
     pub span: Span,
+}
+
+#[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Ident {
+    Yield,
+    Await,
+    Normal(JsIdent),
 }
 
 #[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
