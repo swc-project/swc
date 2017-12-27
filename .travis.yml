@@ -14,6 +14,7 @@ script:
   export TRAVIS_CARGO_NIGHTLY_FEATURE="" &&
   travis-cargo build -- --all &&
   travis-cargo test -- --all &&
+  export RUSTDOC="./scripts/rustdoc.sh" &&
   travis-cargo doc
 after_success:
 - travis-cargo doc-upload
