@@ -7,11 +7,12 @@
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 
-use self::input::{Input, LexerInput};
+pub use self::input::Input;
+use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
-use swc_atoms::JsIdent;
-use swc_common::{gen_iter, BytePos, Span};
+use swc_atoms::JsWord;
+use swc_common::{BytePos, Span};
 use token::*;
 
 pub mod input;
@@ -29,8 +30,8 @@ pub enum Error<InputError> {
     UnterminatedStrLit { start: BytePos },
     #[fail(display = "expected unicode escape sequence: {}", pos)]
     ExpectedUnicodeEscape { pos: BytePos },
-    #[fail(display = "unexpected escape sequence in keyword: {}", keyword)]
-    EscapeInKeyword { keyword: JsIdent },
+    #[fail(display = "unexpected escape sequence in reserved word: {:?}", word)]
+    EscapeInReservedWord { word: Word },
     #[fail(display = "unterminated regexp (regexp started at {})", start)]
     UnterminatedRegxp { start: BytePos },
     #[fail(display = "identifier directly after number at {}", pos)]
@@ -52,13 +53,6 @@ pub struct Options {
 
     /// Support numeric separator.
     pub num_sep: bool,
-}
-
-pub fn tokenize<I>(opts: Options, input: I) -> impl Iterator<Item = TokenAndSpan>
-where
-    I: Input,
-{
-    Lexer::new_with(opts, input).tokenize()
 }
 
 pub struct Lexer<I: Input> {
@@ -85,7 +79,7 @@ impl<I: Input> Lexer<I> {
     /// returns true if linebreak was skipped.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
-    fn skip_space(&mut self) -> bool {
+    fn skip_space(&mut self) {
         debug_assert!(self.state.can_skip_space());
         let mut line_break = false;
 
@@ -99,7 +93,7 @@ impl<I: Input> Lexer<I> {
 
                 // line breaks
                 _ if c.is_line_break() => {
-                    line_break = true;
+                    self.state.had_line_break = true;
                 }
 
                 _ => break,
@@ -107,38 +101,9 @@ impl<I: Input> Lexer<I> {
 
             self.input.bump();
         }
-
-        line_break
     }
 
-    pub fn tokenize(mut self) -> impl Iterator<Item = TokenAndSpan> {
-        gen_iter(move || {
-            while let Some((had_line_break, (start, c))) = {
-                // skip spaces before getting next character, if we are allowed to.
-                let had_line_break = if self.state.can_skip_space() {
-                    self.skip_space()
-                } else {
-                    false
-                };
-
-                let cur = self.input.current().into_inner();
-                cur.map(move |t| (had_line_break, t))
-            } {
-                let token = self.read_token(start, c, had_line_break)
-                    .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
-
-                self.state.update(&token.token, had_line_break);
-                yield token;
-            }
-        })
-    }
-
-    fn read_token(
-        &mut self,
-        start: BytePos,
-        c: char,
-        had_line_break: bool,
-    ) -> Result<TokenAndSpan, Error<I::Error>> {
+    fn read_token(&mut self, start: BytePos, c: char) -> Result<TokenAndSpan, Error<I::Error>> {
         debug_assert_eq!(
             self.input.current().into_inner(),
             Some((start, c)),
@@ -485,46 +450,33 @@ impl<I: Input> Lexer<I> {
     fn read_ident_or_keyword(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
         debug_assert!(self.input.current().is_some());
 
-        let (word, span, has_escape) = self.read_word()?;
+        let (word, span, has_escape) = self.read_word_as_str()?;
 
-        // TODO: let / static / yield / await can be identifier
-        // TODO: In strict mode, 'let', 'static' is keyword.
-        // TODO: In strict mode,
-        // implements package protected
-        // interface private public
-        // are reserved.
-
-        if let Some(kwd) = Keyword::try_from(&word) {
-            if has_escape {
-                return Err(Error::EscapeInKeyword { keyword: word });
-            } else {
-                Ok(TokenAndSpan {
-                    token: Keyword(kwd),
-                    span,
-                })
-            }
-        } else {
-            Ok(TokenAndSpan {
-                token: Ident(word),
-                span,
-            })
+        let word = Word::from(word);
+        if has_escape && word.is_reserved_word(self.opts.strict) {
+            return Err(Error::EscapeInReservedWord { word });
         }
+
+        Ok(TokenAndSpan {
+            token: Word(word),
+            span,
+        })
     }
 
-    fn may_read_word(&mut self) -> Result<Option<(JsIdent, Span, bool)>, Error<I::Error>> {
+    fn may_read_word_as_str(&mut self) -> Result<Option<(JsWord, Span, bool)>, Error<I::Error>> {
         if self.input.current().is_none() {
             return Ok(None);
         }
 
         if self.input.current().is_ident_start() {
-            self.read_word().map(Some)
+            self.read_word_as_str().map(Some)
         } else {
             Ok(None)
         }
     }
 
     /// returns (word, span, has_secape)
-    fn read_word(&mut self) -> Result<(JsIdent, Span, bool), Error<I::Error>> {
+    fn read_word_as_str(&mut self) -> Result<(JsWord, Span, bool), Error<I::Error>> {
         debug_assert!(self.input.current().is_some());
 
         let start = self.input.current().pos();
@@ -621,7 +573,7 @@ impl<I: Input> Lexer<I> {
 
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
-        let (flags, end) = self.may_read_word()?
+        let (flags, end) = self.may_read_word_as_str()?
             .map(|(f, s, _)| (f, s.end))
             .unwrap_or_else(|| ("".into(), end));
 
@@ -629,5 +581,36 @@ impl<I: Input> Lexer<I> {
             token: Regex(content, flags),
             span: Span { start, end },
         })
+    }
+}
+
+impl<I: Input> Iterator for Lexer<I> {
+    type Item = TokenAndSpan;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.state.had_line_break = false;
+
+        while let Some((start, c)) = {
+            // skip spaces before getting next character, if we are allowed to.
+            if self.state.can_skip_space() {
+                self.skip_space()
+            };
+
+            let cur = self.input.current().into_inner();
+            cur
+        } {
+            let token = self.read_token(start, c)
+                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
+
+            self.state.update(&token.token);
+            return Some(token);
+        }
+
+        None
+    }
+}
+
+impl<I: Input> ::parser::Input for Lexer<I> {
+    fn had_line_break_after_last(&self) -> bool {
+        self.state.had_line_break
     }
 }

@@ -1,6 +1,6 @@
 use super::{BlockStmt, Class, Ident, JsFn, Lit, Pat, Prop};
 use either::Either;
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_macros::{ast_node, Deserialize, Serialize};
 use token::AssignOpToken;
 
@@ -8,6 +8,13 @@ use token::AssignOpToken;
 pub struct Expr {
     pub span: Span,
     pub node: ExprKind,
+}
+
+impl Spanned for Expr {
+    type Item = ExprKind;
+    fn from_unspanned(node: ExprKind, span: Span) -> Self {
+        Expr { span, node }
+    }
 }
 
 #[ast_node]
@@ -114,7 +121,7 @@ pub enum ExprKind {
     },
 
     #[serde = "SequenceExpression"]
-    Sequence {
+    Seq {
         #[serde = "expressions"]
         exprs: Vec<Expr>,
     },
@@ -203,14 +210,27 @@ pub struct TplElement {
 
 #[ast_node]
 pub enum ExprOrSuper {
-    Super,
+    Super(Span),
     Expr(Box<Expr>),
+}
+
+impl ExprOrSuper {
+    pub fn span(&self) -> Span {
+        match *self {
+            ExprOrSuper::Super(s) => s,
+            ExprOrSuper::Expr(ref e) => e.span,
+        }
+    }
 }
 
 #[ast_node]
 pub enum ExprOrSpread {
     Expr(Box<Expr>),
-    Sperad,
+    #[serde(rename = "SpreadElement")]
+    Sperad(
+        #[serde(rename = "argument")]
+        Box<Expr>,
+    ),
 }
 
 #[ast_node]

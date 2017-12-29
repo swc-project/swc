@@ -8,8 +8,8 @@ pub use self::module_decl::*;
 pub use self::pat::*;
 pub use self::prop::*;
 pub use self::stmt::*;
-use swc_atoms;
-use swc_common::Span;
+use swc_atoms::JsWord;
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 mod class;
@@ -28,5 +28,12 @@ mod stmt;
 pub struct Ident {
     pub span: Span,
     #[fold(ignore)]
-    pub sym: swc_atoms::JsIdent,
+    pub sym: JsWord,
+}
+
+impl Spanned for Ident {
+    type Item = JsWord;
+    fn from_unspanned(sym: JsWord, span: Span) -> Self {
+        Ident { span, sym }
+    }
 }

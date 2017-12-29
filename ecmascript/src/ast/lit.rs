@@ -24,4 +24,4 @@ pub struct Regex {
     pub flags: RegexFlags,
 }
 
-pub type RegexFlags = ::swc_atoms::JsIdent;
+pub type RegexFlags = ::swc_atoms::JsWord;

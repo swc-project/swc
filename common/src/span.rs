@@ -1,4 +1,6 @@
+use std::cmp::{max, min};
 use std::fmt::{self, Debug, Display, Formatter};
+use std::ops::Add;
 
 #[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct BytePos(pub u32);
@@ -25,6 +27,15 @@ impl Debug for Span {
         write!(f, "[{}, {}]", self.start, self.end)
     }
 }
+impl Add for Span {
+    type Output = Self;
+    fn add(self, rhs: Span) -> Self {
+        Span {
+            start: min(self.start, rhs.start),
+            end: max(self.end, rhs.end),
+        }
+    }
+}
 
 impl Span {
     pub const DUMMY: Span = Span {
@@ -46,4 +57,9 @@ impl ::EqIgnoreSpan for Span {
     fn eq_ignore_span(&self, _: &Self) -> bool {
         true
     }
+}
+
+pub trait Spanned {
+    type Item;
+    fn from_unspanned(node: Self::Item, span: Span) -> Self;
 }

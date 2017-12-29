@@ -8,6 +8,8 @@ use token::*;
 pub(super) struct State {
     pub is_expr_allowed: bool,
     pub octal_pos: Option<BytePos>,
+    /// if line break exists between previous token and new token?
+    pub had_line_break: bool,
 
     context: Context,
 
@@ -20,6 +22,7 @@ impl State {
         State {
             is_expr_allowed: true,
             octal_pos: None,
+            had_line_break: false,
             context: Context(vec![Type::BraceStmt]),
             token_type: None,
         }
@@ -31,8 +34,7 @@ impl State {
             .unwrap_or(false)
     }
 
-    /// `had_newline`: if line break exists between privous token and new token?
-    pub fn update(&mut self, next: &Token, had_line_break: bool) {
+    pub fn update(&mut self, next: &Token) {
         match *next {
             // skip comments
             LineComment(..) | BlockComment(..) => return,
@@ -42,7 +44,7 @@ impl State {
         trace!(
             "updating state: next={:?}, had_line_break={} ",
             next,
-            had_line_break
+            self.had_line_break
         );
         let prev = self.token_type.take();
         self.token_type = Some(next.clone());
@@ -51,7 +53,7 @@ impl State {
             &mut self.context,
             prev,
             next,
-            had_line_break,
+            self.had_line_break,
             self.is_expr_allowed,
         );
     }
@@ -65,7 +67,7 @@ impl State {
         is_expr_allowed: bool,
     ) -> bool {
         let is_next_keyword = match next {
-            &Keyword(..) => true,
+            &Word(Keyword(..)) => true,
             _ => false,
         };
 
@@ -97,21 +99,34 @@ impl State {
                     return !out.is_expr();
                 }
 
-                Ident(ref ident) => {
-                    // for (a of b) {}
-                    let for_loop = Type::ParenStmt { is_for_loop: true };
-                    if ident == "of" && context.current() == Some(for_loop) {
-                        // e.g. for (a of _) => true
-                        return !prev.expect("TODO:").before_expr();
+                Word(Keyword(Function)) => {
+                    // This is required to lex
+                    // `x = function(){}/42/i`
+                    let is_always_expr = match prev {
+                        Some(AssignOp(..)) | Some(BinOp(..)) => true,
+                        _ => false,
+                    };
+                    if context.current() != Some(Type::BraceStmt) || is_always_expr {
+                        context.push(Type::FnExpr);
                     }
+                    return false;
+                }
 
+                // for (a of b) {}
+                Word(Ident(js_word!("of")))
+                    if Some(Type::ParenStmt { is_for_loop: true }) == context.current() =>
+                {
+                    // e.g. for (a of _) => true
+                    !prev.expect("TODO: remove expect()").before_expr()
+                }
+
+                Word(ref ident) => {
                     // variable declaration
                     return match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
-                            Keyword(Keyword::Let)
-                            | Keyword(Keyword::Const)
-                            | Keyword(Keyword::Var) if had_line_break =>
+                            Word(Keyword(Let)) | Word(Keyword(Const)) | Word(Keyword(Var))
+                                if had_line_break =>
                             {
                                 true
                             }
@@ -144,11 +159,9 @@ impl State {
                     // if, for, with, while is statement
 
                     context.push(match prev {
-                        Some(Keyword(k)) => match k {
-                            Keyword::If | Keyword::With | Keyword::While => {
-                                Type::ParenStmt { is_for_loop: false }
-                            }
-                            Keyword::For => Type::ParenStmt { is_for_loop: true },
+                        Some(Word(Keyword(k))) => match k {
+                            If | With | While => Type::ParenStmt { is_for_loop: false },
+                            For => Type::ParenStmt { is_for_loop: true },
                             _ => Type::ParenExpr,
                         },
                         _ => Type::ParenExpr,
@@ -158,19 +171,6 @@ impl State {
 
                 // remains unchanged.
                 PlusPlus | MinusMinus => is_expr_allowed,
-
-                Keyword(Keyword::Function) => {
-                    // This is required to lex
-                    // `x = function(){}/42/i`
-                    let is_always_expr = match prev {
-                        Some(AssignOp(..)) | Some(BinOp(..)) => true,
-                        _ => false,
-                    };
-                    if context.current() != Some(Type::BraceStmt) || is_always_expr {
-                        context.push(Type::FnExpr);
-                    }
-                    return false;
-                }
 
                 BackQuote => {
                     // If we are in template, ` terminates template.
@@ -219,11 +219,11 @@ fn is_brace_block(
         //          function b(){}
         //      };
         //  }
-        Some(Keyword(Keyword::Return)) | Some(Keyword(Keyword::Yield)) => {
+        Some(Word(Keyword(Return))) | Some(Word(Keyword(Yield))) => {
             return had_line_break;
         }
 
-        Some(Keyword(Keyword::Else)) | Some(Semi) | None | Some(RParen) => return true,
+        Some(Word(Keyword(Else))) | Some(Semi) | None | Some(RParen) => return true,
 
         // If previous token was `{`
         Some(LBrace) => return ctx.current() == Some(Type::BraceStmt),

@@ -1,6 +1,5 @@
 [workspace]
 
-
 [package]
 name = "swc"
 version = "0.1.0"

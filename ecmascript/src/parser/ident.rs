@@ -1,0 +1,105 @@
+//! 12.1 Identifiers
+
+use super::*;
+
+impl<I: Input> Parser<I> {
+    /// IdentifierReference
+    pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
+        let ctx = self.ctx;
+
+        self.parse_ident(!ctx.is_in_generator, !ctx.is_in_async_fn)
+    }
+
+    /// BindingIdentifier
+    pub(super) fn parse_binding_ident(&mut self) -> PResult<Ident> {
+        // "yield" and "await" is **lexically** accepted.
+        self.parse_ident(true, true).and_then(|ident| {
+            if self.ctx.strict {
+                if &*ident.sym == "arguments" || &*ident.sym == "eval" {
+                    syntax_error!("12.1.1: 'arguments' and 'eval' is not permitted in strict mode")
+                }
+            }
+
+            Ok(ident)
+        })
+    }
+
+    /// LabelIdentifier
+    pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
+        let ctx = self.ctx;
+
+        self.parse_ident(!ctx.is_in_generator, !ctx.is_in_async_fn)
+    }
+
+    /// Use this when spec says "IdentiferName".
+    /// This allows idents like `catch`.
+    pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
+        self.spanned(|p| {
+            let w = match p.i.cur() {
+                Some(&Word(..)) => match p.i.bump() {
+                    Word(w) => w,
+                    _ => unreachable!(),
+                },
+                _ => return Err(Error::ExpectedIdent),
+            };
+
+            Ok(w.into_js_word())
+        })
+    }
+
+    /// Identifier
+    ///
+    /// In strict mode, "yield" is SyntaxError if matched.
+    fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
+        self.spanned(|p| {
+            let strict = p.ctx.strict;
+            let w = match p.i.cur() {
+                Some(&Word(..)) => match p.i.bump() {
+                    Word(w) => w,
+                    _ => unreachable!(),
+                },
+                _ => return Err(Error::ExpectedIdent),
+            };
+
+            // Spec:
+            // It is a Syntax Error if this phrase is contained in strict mode code and the
+            // StringValue of IdentifierName is: "implements", "interface", "let",
+            // "package", "private", "protected",  "public", "static", or "yield".
+            if strict {
+                match w {
+                    Keyword(Yield)
+                    | Ident(js_word!("static"))
+                    | Ident(js_word!("implements"))
+                    | Ident(js_word!("interface"))
+                    | Ident(js_word!("let"))
+                    | Ident(js_word!("package"))
+                    | Ident(js_word!("private"))
+                    | Ident(js_word!("protected"))
+                    | Ident(js_word!("public")) => syntax_error!(
+                        r#"12.1.1: "implements", "interface", "let", "package",\
+ "private", "protected",  "public", "static", or "yield" cannot\
+  be used as a identifier in strict mode"#
+                    ),
+                    _ => {}
+                }
+            }
+
+            //TODO
+            // Spec:
+            // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
+            // and the StringValue of IdentifierName is "await".
+
+            //TODO
+            // Spec:
+            // It is a Syntax Error if StringValue of IdentifierName is the same String
+            // value as the StringValue of any ReservedWord except for yield or await.
+
+            match w {
+                Ident(ident) => Ok(ident),
+                Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
+                Keyword(Await) if incl_await => Ok(js_word!("await")),
+                Keyword(..) | Null | True | False => Err(Error::ExpectedIdent),
+            }
+        })
+    }
+}

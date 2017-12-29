@@ -4,20 +4,23 @@
 
 pub use self::AssignOpToken::*;
 pub use self::BinOpToken::*;
+pub use self::Keyword::*;
 pub use self::Number::*;
 pub use self::Token::*;
+pub use self::Word::*;
 use std::fmt::{self, Display, Formatter};
-use swc_atoms::JsIdent;
+use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_macros::{Deserialize, Serialize};
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Token {
+    /// Identifier, "null", "true", "false".
+    ///
+    /// Contains `null` and ``
     #[kind(delegate)]
-    Keyword(Keyword),
-
-    Ident(Ident),
+    Word(Word),
 
     /// '=>'
     #[kind(before_expr)]
@@ -97,7 +100,7 @@ pub enum Token {
 
     /// Regexp literal.
     #[kind(starts_expr)]
-    Regex(String, JsIdent),
+    Regex(String, JsWord),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
@@ -191,13 +194,12 @@ pub enum BinOpToken {
     #[kind(precedence = "5")]
     BitAnd,
 
-    /// `in`
-    #[kind(precedence = "7")]
-    In,
-    /// `instanceof`
-    #[kind(precedence = "7")]
-    InstanceOf,
-
+    // /// `in`
+    // #[kind(precedence = "7")]
+    // In,
+    // /// `instanceof`
+    // #[kind(precedence = "7")]
+    // InstanceOf,
     /// `**`
     #[kind(precedence = "10")]
     Exp,
@@ -247,16 +249,167 @@ pub struct TokenAndSpan {
     pub span: Span,
 }
 
-#[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum Ident {
-    Yield,
-    Await,
-    Normal(JsIdent),
+#[derive(Kind, Debug, Clone, PartialEq, Eq, Hash)]
+#[kind(functions(starts_expr = "bool", before_expr = "bool"))]
+pub enum Word {
+    #[kind(delegate)]
+    Keyword(Keyword),
+
+    #[kind(starts_expr)]
+    Null,
+    #[kind(starts_expr)]
+    True,
+    #[kind(starts_expr)]
+    False,
+
+    Ident(JsWord),
 }
 
+impl From<JsWord> for Word {
+    fn from(i: JsWord) -> Self {
+        match i {
+            js_word!("null") => Null,
+            js_word!("true") => True,
+            js_word!("false") => False,
+            js_word!("await") => Await.into(),
+            js_word!("break") => Break.into(),
+            js_word!("case") => Case.into(),
+            js_word!("catch") => Catch.into(),
+            js_word!("continue") => Continue.into(),
+            js_word!("debugger") => Debugger.into(),
+            js_word!("default") => Default_.into(),
+            js_word!("do") => Do.into(),
+            js_word!("else") => Else.into(),
+            js_word!("finally") => Finally.into(),
+            js_word!("for") => For.into(),
+            js_word!("function") => Function.into(),
+            js_word!("if") => If.into(),
+            js_word!("return") => Return.into(),
+            js_word!("switch") => Switch.into(),
+            js_word!("throw") => Throw.into(),
+            js_word!("try") => Try.into(),
+            js_word!("var") => Var.into(),
+            js_word!("let") => Let.into(),
+            js_word!("const") => Const.into(),
+            js_word!("while") => While.into(),
+            js_word!("with") => With.into(),
+            js_word!("new") => New.into(),
+            js_word!("this") => This.into(),
+            js_word!("super") => Super.into(),
+            js_word!("class") => Class.into(),
+            js_word!("extends") => Extends.into(),
+            js_word!("import") => Import.into(),
+            js_word!("yield") => Yield.into(),
+            js_word!("in") => In.into(),
+            js_word!("instanceof") => InstanceOf.into(),
+            js_word!("typeof") => TypeOf.into(),
+            js_word!("void") => Void.into(),
+            js_word!("delete") => Delete.into(),
+            _ => Ident(i),
+        }
+    }
+}
+impl From<Keyword> for Word {
+    fn from(kwd: Keyword) -> Self {
+        Keyword(kwd)
+    }
+}
+
+impl Word {
+    pub fn into_js_word(self) -> JsWord {
+        match self {
+            Keyword(k) => match k {
+                Await => js_word!("await"),
+                Break => js_word!("break"),
+                Case => js_word!("case"),
+                Catch => js_word!("catch"),
+                Continue => js_word!("continue"),
+                Debugger => js_word!("debugger"),
+                Default_ => js_word!("default"),
+                Do => js_word!("do"),
+                Else => js_word!("else"),
+
+                Finally => js_word!("finally"),
+                For => js_word!("for"),
+
+                Function => js_word!("function"),
+
+                If => js_word!("if"),
+
+                Return => js_word!("return"),
+
+                Switch => js_word!("switch"),
+
+                Throw => js_word!("throw"),
+
+                Try => js_word!("try"),
+                Var => js_word!("var"),
+                Let => js_word!("let"),
+                Const => js_word!("const"),
+                While => js_word!("while"),
+                With => js_word!("with"),
+
+                New => js_word!("new"),
+                This => js_word!("this"),
+                Super => js_word!("super"),
+
+                Class => js_word!("class"),
+
+                Extends => js_word!("extends"),
+
+                Export => js_word!("export"),
+                Import => js_word!("import"),
+
+                Yield => js_word!("yield"),
+
+                In => js_word!("in"),
+                InstanceOf => js_word!("instanceof"),
+
+                TypeOf => js_word!("typeof"),
+
+                Void => js_word!("void"),
+
+                Delete => js_word!("delete"),
+            },
+
+            Null => js_word!("null"),
+            True => js_word!("true"),
+            False => js_word!("false"),
+
+            Ident(w) => w,
+        }
+    }
+    pub fn is_reserved_word(&self, strict: bool) -> bool {
+        match *self {
+            Keyword(Await) | Keyword(Yield) if !strict => false,
+            Keyword(_) => true,
+
+            Null | True | False => true,
+            Ident(ref name) => {
+                if name == "enum" {
+                    return true;
+                }
+                if strict {
+                    match &**name {
+                        "implements" | "package" | "protected" | "interface" | "private"
+                        | "public" => return true,
+                        _ => {}
+                    }
+                }
+                false
+            }
+        }
+    }
+}
+
+/// Keywords
 #[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
+    /// Spec says this might be identifier.
+    #[kind(before_expr)]
+    Await,
+
     Break,
     #[kind(before_expr)]
     Case,
@@ -264,7 +417,7 @@ pub enum Keyword {
     Continue,
     Debugger,
     #[kind(before_expr)]
-    Default,
+    Default_,
     #[kind(before_expr)]
     Do,
     #[kind(before_expr)]
@@ -309,14 +462,9 @@ pub enum Keyword {
     #[kind(starts_expr)]
     Import,
 
+    /// Spec says this might be identifier.
     #[kind(before_expr, starts_expr)]
     Yield,
-    #[kind(starts_expr)]
-    Null,
-    #[kind(starts_expr)]
-    True,
-    #[kind(starts_expr)]
-    False,
 
     #[kind(before_expr)]
     In,
@@ -331,50 +479,4 @@ pub enum Keyword {
 
     #[kind(before_expr, starts_expr)]
     Delete,
-}
-
-impl Keyword {
-    pub fn try_from(s: &str) -> Option<Self> {
-        use self::Keyword::*;
-        Some(match s {
-            "break" => Break,
-            "case" => Case,
-            "catch" => Catch,
-            "continue" => Continue,
-            "debugger" => Debugger,
-            "default" => Default,
-            "do" => Do,
-            "else" => Else,
-            "finally" => Finally,
-            "for" => For,
-            "function" => Function,
-            "if" => If,
-            "return" => Return,
-            "switch" => Switch,
-            "throw" => Throw,
-            "try" => Try,
-            "var" => Var,
-            "while" => While,
-            "with" => With,
-            "null" => Null,
-            "true" => True,
-            "false" => False,
-            "instanceof" => InstanceOf,
-            "typeof" => TypeOf,
-            "void" => Void,
-            "delete" => Delete,
-            "new" => New,
-            "in" => In,
-            "this" => This,
-            "let" => Let,
-            "const" => Const,
-            "class" => Class,
-            "extends" => Extends,
-            "export" => Export,
-            "import" => Import,
-            "yield" => Yield,
-            "super" => Super,
-            _ => return None,
-        })
-    }
 }

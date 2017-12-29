@@ -12,9 +12,10 @@ extern crate serde;
 pub use self::ast_node::AstNode;
 pub use self::eq_ignore_span::EqIgnoreSpan;
 pub use self::gen_iter::gen_iter;
-pub use self::span::{BytePos, Span};
+pub use self::span::{BytePos, Span, Spanned};
 
 pub mod compat;
+pub mod parser;
 mod ast_node;
 mod eq_ignore_span;
 mod gen_iter;
