@@ -23,7 +23,7 @@ impl<I: Input> Lexer<I> {
             Float,
         }
 
-        debug_assert!(self.input.current().is_some());
+        assert!(self.input.current().is_some());
         if starts_with_dot {
             debug_assert_eq!(
                 self.input.current(),
@@ -84,7 +84,9 @@ impl<I: Input> Lexer<I> {
 
                     val
                 }
-                None => unreachable!("input starts with number, but read_int() returned None"),
+                None => unreachable!(
+                    "read_int() cannot return None as input starts with a numeric character"
+                ),
             }
         };
 
@@ -176,8 +178,8 @@ impl<I: Input> Lexer<I> {
 
         match val {
             Float(..) | Decimal(..) => {
-                // strict mode for decimal should be handled before this code.
-                // because it also hates some floats like "08.1".
+                // strict mode for decimal should be handled before this code
+                // because it also prohibits some floats like "08.1".
 
                 Ok(TokenAndSpan {
                     token: Num(val),
@@ -374,8 +376,7 @@ mod tests {
                     ..Default::default()
                 },
                 input,
-            ).tokenize()
-                .map(|ts| ts.token)
+            ).map(|ts| ts.token)
                 .collect::<Vec<_>>();
 
             if success {

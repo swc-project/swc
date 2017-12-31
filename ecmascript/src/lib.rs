@@ -1,5 +1,6 @@
 #![feature(conservative_impl_trait)]
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(const_fn)]
 #![feature(specialization)]
 #![feature(try_trait)]

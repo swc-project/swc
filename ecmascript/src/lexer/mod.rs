@@ -42,6 +42,8 @@ pub enum Error<InputError> {
     ImplicitOctalOnStrict { start: BytePos },
     #[fail(display = "Unexpected character '{}' on {}", c, pos)]
     UnexpectedChar { pos: BytePos, c: char },
+    #[fail(display = "Invalid string escape on {}", start)]
+    InvalidStrEscape { start: BytePos },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
@@ -477,7 +479,7 @@ impl<I: Input> Lexer<I> {
 
     /// returns (word, span, has_secape)
     fn read_word_as_str(&mut self) -> Result<(JsWord, Span, bool), Error<I::Error>> {
-        debug_assert!(self.input.current().is_some());
+        assert!(self.input.current().is_some());
 
         let start = self.input.current().pos();
         let mut end = start;
@@ -499,6 +501,7 @@ impl<I: Input> Lexer<I> {
                     if self.input.current() != 'u' {
                         return Err(Error::ExpectedUnicodeEscape { pos });
                     }
+                    self.input.bump();
 
                     // ++this.state.pos;
                     // const esc = this.readCodePoint(true);
@@ -522,12 +525,38 @@ impl<I: Input> Lexer<I> {
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        unimplemented!("string literal")
+        assert!(self.input.current() == '\'' || self.input.current() == '"');
+        let (start, quote) = self.input.current().into_inner().unwrap();
+        self.input.bump();
+
+        let mut out = String::new();
+
+        //TODO: Optimize (Cow, Chunk)
+
+        while let Some((_, c)) = self.input.current().into_inner() {
+            match c {
+                c if c == quote => {
+                    let end = self.input.bump();
+                    return Ok(TokenAndSpan {
+                        token: Str(out, c == '"'),
+                        span: Span { start, end },
+                    });
+                }
+                '\\' => out.extend(self.read_escaped_char(false)?),
+                c if c.is_line_break() => return Err(Error::UnterminatedStrLit { start }),
+                _ => {
+                    out.push(c);
+                    self.input.bump();
+                }
+            }
+        }
+
+        Err(Error::UnterminatedStrLit { start })
     }
 
     fn read_regexp(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        debug_assert!(self.input.current().is_some());
-        debug_assert_eq!(
+        assert!(self.input.current().is_some());
+        assert_eq!(
             self.input.current(),
             '/',
             "read_regexp expects current char to be '/'"
@@ -582,6 +611,56 @@ impl<I: Input> Lexer<I> {
             span: Span { start, end },
         })
     }
+
+    fn read_escaped_char(&mut self, in_template: bool) -> Result<Option<char>, Error<I::Error>> {
+        assert!(self.input.current() == '\\');
+        let start = self.input.bump(); // '\\'
+
+        let c = match self.input.current().into_inner() {
+            Some((_, c)) => c,
+            None => return Err(Error::InvalidStrEscape { start }),
+        };
+        let c = match c {
+            'n' => '\n',
+            'r' => '\r',
+            't' => '\t',
+            'b' => '\u{0008}',
+            'v' => '\u{000b}',
+            'f' => '\u{000c}',
+            '\r' => {
+                self.input.bump(); // remove '\r'
+
+                if self.input.current() == '\n' {
+                    self.input.bump();
+                }
+                return Ok(None);
+            }
+            '\n' => {
+                self.input.bump();
+                return Ok(None);
+            }
+
+            'x' => {
+                // read hex
+
+                // const code = this.readHexChar(2, throwOnInvalid);
+                // return code === null ? null : String.fromCharCode(code);
+                unimplemented!("hexadecimal in string literal")
+            }
+
+            'u' => {
+                // read unicode escape
+
+                // const code = this.readCodePoint(throwOnInvalid);
+                // return code === null ? null : codePointToString(code);
+                unimplemented!("unicode escape in string literal")
+            }
+            '0'...'7' => unimplemented!("octal escape in string literal"),
+            _ => c,
+        };
+
+        Ok(Some(c))
+    }
 }
 
 impl<I: Input> Iterator for Lexer<I> {
@@ -612,5 +691,11 @@ impl<I: Input> Iterator for Lexer<I> {
 impl<I: Input> ::parser::Input for Lexer<I> {
     fn had_line_break_after_last(&self) -> bool {
         self.state.had_line_break
+    }
+}
+
+impl<'a> From<&'a str> for Lexer<input::CharIndices<'a>> {
+    fn from(s: &'a str) -> Self {
+        Lexer::new(input::CharIndices(s.char_indices()))
     }
 }

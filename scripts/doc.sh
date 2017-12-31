@@ -1,4 +1,4 @@
 #!/bin/sh
 
 BASEDIR=$(dirname "$0")
-RUSTDOC="$BASEDIR/rustdoc.sh" cargo doc
+RUSTDOC="$BASEDIR/rustdoc.sh" cargo doc $@

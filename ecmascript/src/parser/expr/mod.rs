@@ -1,0 +1,460 @@
+use super::*;
+
+mod ops;
+
+impl<I: Input> Parser<I> {
+    pub fn parse_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
+        let expr = self.parse_assignment_expr(include_in)?;
+        let start = expr.span.start;
+
+        if self.i.is(&Comma) {
+            let mut exprs = vec![expr];
+            while self.i.eat(&Comma) {
+                exprs.push(self.parse_assignment_expr(include_in)?);
+            }
+            let end = exprs.last().unwrap().span.end;
+            return Ok(box Expr {
+                span: Span { start, end },
+                node: ExprKind::Seq { exprs },
+            });
+        }
+
+        Ok(expr)
+    }
+
+    /// Parse an assignment expression. This includes applications of
+    /// operators like `+=`.
+    ///
+    fn parse_assignment_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
+        if self.ctx.is_in_generator && self.i.is(&Word(Keyword(Yield))) {
+            return self.parse_yield_expr(include_in);
+        }
+
+        // self.parse_arrow_fn();
+        // self.parse_async_arrow_fn();
+
+        // Try to parse conditional expression.
+        let cond = self.parse_cond_expr(include_in)?;
+
+        match cond.node {
+            // if cond is conditional expression but not left-hand-side expression,
+            // just return it.
+            ExprKind::Cond { .. }
+            | ExprKind::Binary { .. }
+            | ExprKind::Unary { .. }
+            | ExprKind::Update { .. } => return Ok(cond),
+            _ => {}
+        }
+
+        match self.i.cur() {
+            Some(&AssignOp(ref op)) => {
+                self.i.bump();
+                let right = self.parse_assignment_expr(include_in)?;
+                Ok(box Expr {
+                    span: cond.span + right.span,
+                    node: ExprKind::Assign {
+                        op: op.clone(),
+                        // TODO:
+                        left: PatOrExpr::Expr(cond),
+                        right,
+                    },
+                })
+            }
+            _ => Ok(cond),
+        }
+    }
+
+    /// Spec: 'ConditionalExpression'
+    fn parse_cond_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
+        let test = self.parse_bin_expr(include_in)?;
+
+        if self.i.eat(&QuestionMark) {
+            let start = self.i.last_span();
+            let cons = self.parse_assignment_expr(true)?;
+            assert!(self.i.eat(&Colon));
+            let alt = self.parse_assignment_expr(include_in)?;
+
+            return Ok(box Expr {
+                span: start + alt.span,
+                node: ExprKind::Cond { test, cons, alt },
+            });
+        }
+
+        Ok(test)
+    }
+
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        let t = self.i.cur()?;
+
+        match *t {
+            Word(Keyword(This)) => {
+                let span = self.i.cur_span();
+                return Ok(box Expr {
+                    node: ExprKind::This,
+                    span,
+                });
+            }
+
+            Word(Ident(js_word!("async"))) => {
+                // Handle async function expression
+                if self.i.peek() == Some(&Word(Keyword(Function)))
+                    && !self.i.has_linebreak_between_cur_and_peeked()
+                {
+                    return self.parse_async_fn_expr();
+                }
+            }
+
+            Word(Ident(..)) => {
+                // TODO: Handle [Yield, Await]
+                return self.parse_ident_ref().map(ident_to_expr);
+            }
+            Word(Null) | Word(True) | Word(False) | Num(..) | Str(..) => {
+                return self.spanned(|p| p.parse_lit().map(ExprKind::Lit))
+            }
+            LBracket => return self.parse_array_lit(),
+            LBrace => return self.parse_obj_lit(),
+
+            // Handle FunctionExpression and GeneratorExpression
+            Word(Keyword(Function)) => return self.parse_fn_expr(),
+            Word(Keyword(Class)) => return self.parse_class_expr(),
+
+            Regex(_, _) => {
+                let span = self.i.cur_span();
+                return match self.i.bump() {
+                    Regex(exp, flags) => Ok(box Expr {
+                        span,
+                        node: ExprKind::Lit(Lit::Regex(Regex { exp, flags })),
+                    }),
+                    _ => unreachable!(),
+                };
+            }
+
+            BackQuote => return self.parse_tpl_lit(),
+
+            LParen => return self.parse_parenthesized_expr_and_arrow_params(),
+
+            _ => {}
+        }
+
+        unimplemented!("Something like Err(None) to indicate no error was occured")
+    }
+
+    fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_member_expr_or_new_expr(false)
+    }
+
+    fn parse_member_expr_or_new_expr(
+        &mut self,
+        allow_new_without_paren: bool,
+    ) -> PResult<Box<Expr>> {
+        if self.i.eat_keyword(New) {
+            let span_of_new = self.i.last_span();
+
+            if self.i.eat(&Dot) {
+                if self.i.eat(&Word(Ident(js_word!("target")))) {
+                    let span_of_target = self.i.last_span();
+
+                    return Ok(box Expr {
+                        span: span_of_new + span_of_target,
+                        node: ExprKind::MetaProp {
+                            meta: Ident {
+                                span: span_of_new,
+                                sym: js_word!("new"),
+                            },
+                            prop: Ident {
+                                span: span_of_target,
+                                sym: js_word!("target"),
+                            },
+                        },
+                    });
+                }
+
+                unimplemented!("MemberExpr: excepted 'target' after 'new.' ")
+            }
+
+            let callee = self.parse_member_expr()?;
+            if allow_new_without_paren && !self.i.is(&LParen) {
+                // Parsed as NewExpression.
+                let span = span_of_new + self.i.last_span();
+
+                return Ok(box Expr {
+                    span,
+                    node: ExprKind::New { callee, args: None },
+                });
+            }
+
+            // Parsed as MemberExpression
+            // As this is parsed as MemberExpression, we should parse subscripts.
+            let args = self.parse_args().map(Some)?;
+
+            return self.parse_subscripts(
+                ExprOrSuper::Expr(box Expr {
+                    span: span_of_new + self.i.last_span(),
+                    node: ExprKind::New { callee, args },
+                }),
+                true,
+            );
+        }
+
+        if self.i.eat(&Word(Ident(js_word!("super")))) {
+            let base = ExprOrSuper::Super(self.i.last_span());
+            return self.parse_subscripts(base, true);
+        }
+        let obj = self.parse_primary_expr().map(ExprOrSuper::Expr)?;
+        self.parse_subscripts(obj, true)
+    }
+
+    /// Parse `NewExpresion`.
+    /// This includes `MemberExpression`.
+    fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_member_expr_or_new_expr(true)
+    }
+
+    fn parse_call_expr(&mut self) -> PResult<Box<Expr>> {
+        if self.i.eat_keyword(Super) {
+            let obj = ExprOrSuper::Super(self.i.last_span());
+            return self.parse_subscripts(obj, false);
+        }
+        unimplemented!("parse_call_expr")
+    }
+
+    /// Parse `Arguments[Yield, Await]`
+    fn parse_args(&mut self) -> PResult<Vec<ExprOrSpread>> {
+        assert!(self.i.cur() == Some(&LParen));
+        self.i.bump();
+
+        // TODO
+        if self.i.eat(&RParen) {
+            return Ok(vec![]);
+        }
+
+        unimplemented!("parse_args")
+    }
+
+    /// 12.2.5 Array Initializer
+    fn parse_lit(&mut self) -> PResult<Lit> {
+        unimplemented!()
+    }
+
+    /// 12.2.6 Object Initializer
+    fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!()
+    }
+    fn parse_obj_lit(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!()
+    }
+    fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!("async function")
+    }
+    fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!("function")
+    }
+    fn parse_class_expr(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!()
+    }
+    fn parse_tpl_lit(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!()
+    }
+
+    fn parse_parenthesized_expr_and_arrow_params(&mut self) -> PResult<Box<Expr>> {
+        unimplemented!()
+    }
+
+    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
+        loop {
+            obj = match self.parse_subscript(obj, no_call)? {
+                (expr, false) => return Ok(expr),
+                (expr, true) => ExprOrSuper::Expr(expr),
+            }
+        }
+    }
+
+    fn parse_tpl(&mut self, _is_tagged: bool) -> PResult<TplLit> {
+        unimplemented!("parse_tpl")
+    }
+
+    /// returned bool is true if this method should be called again.
+    fn parse_subscript(&mut self, obj: ExprOrSuper, no_call: bool) -> PResult<(Box<Expr>, bool)> {
+        // member expression
+        // $obj.name
+        if self.i.eat(&Dot) {
+            let prop = self.parse_ident_name().map(ident_to_expr)?;
+            return Ok((
+                box Expr {
+                    span: obj.span() + prop.span,
+                    node: ExprKind::Member {
+                        obj,
+                        prop,
+                        computed: false,
+                    },
+                },
+                true,
+            ));
+        }
+
+        // $obj[name()]
+        if self.i.eat(&LBracket) {
+            let prop = self.parse_expr(false)?;
+            assert!(self.i.eat(&RBracket)); //TODO
+            return Ok((
+                box Expr {
+                    span: obj.span() + self.i.last_span(),
+                    node: ExprKind::Member {
+                        obj,
+                        prop,
+                        computed: true,
+                    },
+                },
+                true,
+            ));
+        }
+
+        if !no_call && self.i.eat(&LParen) {
+            // const possibleAsync = this.atPossibleAsync(base);
+
+            // node.callee = base;
+            // node.arguments = this.parseCallExpressionArguments(
+            //   tt.parenR,
+            //   possibleAsync,
+            // );
+            // node.optional = true;
+
+            // return this.finishNode(node, "CallExpression");
+            unimplemented!("CallExpr")
+        }
+
+        match obj {
+            ExprOrSuper::Expr(expr) => {
+                // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+                if self.i.is(&BackQuote) {
+                    let _tpl_lit = self.parse_tpl(true);
+                    unimplemented!("TaggedTemplateExpression")
+                }
+
+                Ok((expr, false))
+            }
+            ExprOrSuper::Super(..) => {
+                if no_call {
+                    unimplemented!(
+                        "MemberExpr: expected '.' or '[' after super.
+e.g.
+    'super.name'
+    'super[name]' "
+                    );
+                }
+                unimplemented!(
+                    "CallExpr: expected '.', '[' or '(' after super.
+e.g.
+    'super.name'
+    'super[name]'
+    'super(args)'"
+                );
+            }
+        }
+    }
+
+    /// Parse call, dot, and `[]`-subscript expressions.
+    ///
+    ///
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        // parseExprSubscripts(refShorthandDefaultPos: ?Pos): N.Expression {
+        //     const startPos = this.state.start;
+        //     const startLoc = this.state.startLoc;
+        //     const potentialArrowAt = this.state.potentialArrowAt;
+        //     const expr = this.parseExprAtom(refShorthandDefaultPos);
+
+        //     if (
+        //       expr.type === "ArrowFunctionExpression" &&
+        //       expr.start === potentialArrowAt
+        //     ) {
+        //       return expr;
+        //     }
+
+        //     if (refShorthandDefaultPos && refShorthandDefaultPos.start) {
+        //       return expr;
+        //     }
+
+        //     return this.parseSubscripts(expr, startPos, startLoc);
+        // }
+        unimplemented!()
+    }
+
+    fn parse_call_expr_args(
+        &mut self,
+        close_delim: &'static Token,
+        is_async_arrow_possible: bool,
+    ) -> PResult<ExprOrSpread> {
+        unimplemented!()
+    }
+}
+
+/// Leaf methods.
+impl<I: Input> Parser<I> {
+    fn parse_yield_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
+        debug_assert!(self.i.is(&Word(Keyword(Yield))));
+        debug_assert!(self.ctx.is_in_generator);
+
+        unimplemented!("parse_yield_expr")
+    }
+}
+
+fn ident_to_expr(i: Ident) -> Box<Expr> {
+    let span = i.span;
+    box Expr {
+        span,
+        node: ExprKind::Ident(i),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use lexer::Lexer;
+    use swc_common::EqIgnoreSpan;
+
+    fn mk<'a>(s: &'a str) -> Parser<impl 'a + Input> {
+        Parser::new_for_module(Lexer::from(s))
+    }
+
+    #[test]
+    fn new_expr() {
+        let _ = ::pretty_env_logger::init();
+
+        assert!(
+            mk("new Date().toString()")
+                .parse_new_expr()
+                .unwrap()
+                .eq_ignore_span(&box Expr {
+                    span: Default::default(),
+                    node: ExprKind::Member {
+                        obj: mk("new Date()")
+                            .parse_member_expr()
+                            .map(ExprOrSuper::Expr)
+                            .unwrap(),
+                        prop: ident_to_expr(Ident {
+                            sym: "toString".into(),
+                            span: Default::default(),
+                        }),
+                        computed: false,
+                    },
+                })
+        );
+    }
+    #[test]
+    fn new_expr_dot() {
+        let _ = ::pretty_env_logger::init();
+
+        assert!(
+            mk("new Date.toString()")
+                .parse_new_expr()
+                .unwrap()
+                .eq_ignore_span(&box Expr {
+                    span: Default::default(),
+                    node: ExprKind::New {
+                        callee: mk("Date.toString").parse_member_expr().unwrap(),
+                        args: Some(vec![]),
+                    },
+                })
+        );
+    }
+}

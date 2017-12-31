@@ -18,6 +18,16 @@ pub(super) struct ParserInput<I: Input> {
 }
 
 impl<I: Input> ParserInput<I> {
+    pub const fn new(lexer: I) -> Self {
+        ParserInput {
+            iter: lexer,
+            cur: None,
+            cur_span: Span::DUMMY,
+            last_span: Span::DUMMY,
+            next: None,
+        }
+    }
+
     /// Returns previous token.
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();

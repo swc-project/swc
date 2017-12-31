@@ -49,6 +49,13 @@ impl<'a> Input for CharIndices<'a> {
     fn peek(&mut self) -> OptChar {
         OptChar::from(self.clone().next())
     }
+    fn uncons_while<F>(&mut self, f: F) -> Option<&str>
+    where
+        F: FnMut(char) -> bool,
+    {
+        //TODO?
+        None
+    }
 }
 impl<'a> Iterator for CharIndices<'a> {
     type Item = (BytePos, char);
@@ -118,9 +125,11 @@ pub trait Input: Iterator<Item = (BytePos, char)> {
     type Error: Debug;
     fn peek(&mut self) -> OptChar;
 
-    fn chunk(&self, _from: BytePos, _to: BytePos) -> Option<&str> {
-        None
-    }
+    ///Takes items from stream, testing each one with predicate. returns the
+    /// range of items which passed predicate.
+    fn uncons_while<F>(&mut self, f: F) -> Option<&str>
+    where
+        F: FnMut(char) -> bool;
 }
 
 impl<'a, I> Input for &'a mut I
@@ -132,7 +141,10 @@ where
     fn peek(&mut self) -> OptChar {
         <I as Input>::peek(*self)
     }
-    fn chunk(&self, from: BytePos, to: BytePos) -> Option<&str> {
-        <I as Input>::chunk(*self, from, to)
+    fn uncons_while<F>(&mut self, f: F) -> Option<&str>
+    where
+        F: FnMut(char) -> bool,
+    {
+        <I as Input>::uncons_while(self, f)
     }
 }

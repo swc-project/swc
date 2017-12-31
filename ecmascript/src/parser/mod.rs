@@ -1,6 +1,9 @@
+#![allow(dead_code, unused_variables)]
+#![deny(non_snake_case)]
 pub use self::input::Input;
 use self::input::ParserInput;
 use ast::*;
+use std::option::NoneError;
 use swc_common::{Span, Spanned};
 use token::*;
 
@@ -27,10 +30,15 @@ pub type PResult<T> = Result<T, Error>;
 
 #[derive(Debug)]
 pub enum Error {
-    /// From<NoneError> is not implemented to prevent mistake.
     Eof,
     ExpectedIdent,
     Syntax(SyntaxError),
+}
+
+impl From<NoneError> for Error {
+    fn from(_: NoneError) -> Self {
+        Error::Eof
+    }
 }
 
 #[derive(Debug)]
@@ -44,6 +52,28 @@ pub struct Parser<I: Input> {
 }
 
 impl<I: Input> Parser<I> {
+    pub const fn new_for_module(lexer: I) -> Self {
+        Parser {
+            i: ParserInput::new(lexer),
+            ctx: Context {
+                strict: true,
+                is_in_async_fn: false,
+                is_in_generator: false,
+            },
+        }
+    }
+
+    pub const fn new_for_script(lexer: I, strict: bool) -> Self {
+        Parser {
+            i: ParserInput::new(lexer),
+            ctx: Context {
+                strict,
+                is_in_async_fn: false,
+                is_in_generator: false,
+            },
+        }
+    }
+
     fn spanned<F, Node, Sp>(&mut self, parse: F) -> PResult<Sp>
     where
         F: FnOnce(&mut Self) -> PResult<Node>,

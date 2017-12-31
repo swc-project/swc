@@ -95,8 +95,9 @@ pub enum Token {
     Tilde,
 
     /// String literal.
+    /// bool field is true if it's enclosed by '"' ( double quote).
     #[kind(starts_expr)]
-    Str(String),
+    Str(String, bool),
 
     /// Regexp literal.
     #[kind(starts_expr)]
@@ -129,69 +130,48 @@ impl Display for Number {
     }
 }
 
-#[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
-#[kind(function(precedence = "u8"))]
+#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[repr(u8)]
 pub enum BinOpToken {
     /// `==`
-    #[kind(precedence = "6")]
     EqEq,
     /// `!=`
-    #[kind(precedence = "6")]
     NotEq,
     /// `===`
-    #[kind(precedence = "6")]
     EqEqEq,
     /// `!==`
-    #[kind(precedence = "6")]
     NotEqEq,
     /// `<`
-    #[kind(precedence = "7")]
     Lt,
     /// `<=`
-    #[kind(precedence = "7")]
     LtEq,
     /// `>`
-    #[kind(precedence = "7")]
     Gt,
-    #[kind(precedence = "7")]
     /// `>=`
-    #[kind(precedence = "7")]
     GtEq,
     /// `<<`
-    #[kind(precedence = "8")]
     LShift,
     /// `>>`
-    #[kind(precedence = "8")]
     RShift,
     /// `>>>`
-    #[kind(precedence = "8")]
     ZeroFillRShift,
 
     /// `+`
-    #[kind(precedence = "9")]
     Add,
     /// `-`
-    #[kind(precedence = "9")]
     Sub,
     /// `*`
-    #[kind(precedence = "10")]
     Mul,
     /// `/`
-    #[kind(precedence = "10")]
     Div,
     /// `%`
-    #[kind(precedence = "10")]
     Mod,
 
     /// `|`
-
-    #[kind(precedence = "3")]
     BitOr,
     /// `^`
-    #[kind(precedence = "4")]
     BitXor,
     /// `&`
-    #[kind(precedence = "5")]
     BitAnd,
 
     // /// `in`
@@ -201,18 +181,16 @@ pub enum BinOpToken {
     // #[kind(precedence = "7")]
     // InstanceOf,
     /// `**`
-    #[kind(precedence = "10")]
     Exp,
 
     /// `||`
-    #[kind(precedence = "1")]
     LogicalOr,
     /// `&&`
-    #[kind(precedence = "2")]
     LogicalAnd,
 }
 
 #[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[repr(u8)]
 pub enum AssignOpToken {
     /// `=`
     Assign,
@@ -405,6 +383,7 @@ impl Word {
 /// Keywords
 #[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
+#[repr(u8)]
 pub enum Keyword {
     /// Spec says this might be identifier.
     #[kind(before_expr)]

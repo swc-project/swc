@@ -2,7 +2,7 @@ use super::{BlockStmt, Class, Ident, JsFn, Lit, Pat, Prop};
 use either::Either;
 use swc_common::{Span, Spanned};
 use swc_macros::{ast_node, Deserialize, Serialize};
-use token::AssignOpToken;
+use token::{AssignOpToken, BinOpToken};
 
 #[ast_node]
 pub struct Expr {
@@ -76,14 +76,13 @@ pub enum ExprKind {
         right: Box<Expr>,
     },
 
-    #[serde = "LogicalExpression"]
-    Logical {
-        #[serde = "operator"]
-        op: LogicalOp,
-        left: Box<Expr>,
-        right: Box<Expr>,
-    },
-
+    // #[serde = "LogicalExpression"]
+    // Logical {
+    //     #[serde = "operator"]
+    //     op: LogicalOp,
+    //     left: Box<Expr>,
+    //     right: Box<Expr>,
+    // },
     /// A member expression. If computed is true, the node corresponds to a computed
     /// (a[b]) member expression and property is an Expression. If computed is false, the node
     /// corresponds to a static (a.b) member expression and property is an Identifier.
@@ -98,9 +97,10 @@ pub enum ExprKind {
 
     /// true ? 'a' : 'b'
     #[serde = "ConditionalExpression"]
-    Conditional {
+    Cond {
         test: Box<Expr>,
-        consequent: Box<Expr>,
+        #[serde = "consequent"]
+        cons: Box<Expr>,
         #[serde = "alternate"]
         alt: Box<Expr>,
     },
@@ -112,18 +112,19 @@ pub enum ExprKind {
         args: Vec<ExprOrSpread>,
     },
 
-    /// new Cat()
+    /// `new Cat()`
     #[serde = "NewExpression"]
     New {
         callee: Box<Expr>,
         #[serde = "arguments"]
-        args: Vec<Expr>,
+        /// `None` for `new Cat`.
+        args: Option<Vec<ExprOrSpread>>,
     },
 
     #[serde = "SequenceExpression"]
     Seq {
         #[serde = "expressions"]
-        exprs: Vec<Expr>,
+        exprs: Vec<Box<Expr>>,
     },
 
     #[serde = "Identifier"]
@@ -163,12 +164,14 @@ pub enum ExprKind {
         arg: Option<Box<Expr>>,
         delegate: bool,
     },
-    /* TODO
-     *     interface MetaProperty <: Expression {
-     *     type: "MetaProperty";
-     *     meta: Identifier;
-     *     property: Identifier;
-     * } */
+
+    #[serde = "MetaProperty"]
+    MetaProp {
+        meta: Ident,
+        #[serde = "property"]
+        prop: Ident,
+    },
+
     #[caniuse = "await"]
     #[serde = "AwaitExpression"]
     Await {
@@ -196,7 +199,7 @@ pub struct TplLit {
     pub tag: Option<Box<Expr>>,
 
     #[serde = "expressions"]
-    pub exprs: Vec<Expr>,
+    pub exprs: Vec<Box<Expr>>,
 
     pub quasis: Vec<TplElement>,
 }
@@ -239,56 +242,118 @@ pub enum PatOrExpr {
     Expr(Box<Expr>),
 }
 
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[repr(u8)]
+#[kind(function(precedence = "u8"))]
 pub enum BinaryOp {
     /// `==`
+    #[kind(precedence = "6")]
     EqEq,
     /// `!=`
+    #[kind(precedence = "6")]
     NotEq,
     /// `==="`
+    #[kind(precedence = "6")]
     EqEqEq,
     /// `!==`
+    #[kind(precedence = "6")]
     NotEqEq,
     /// `<`
+    #[kind(precedence = "7")]
     Lt,
     /// `<=`
+    #[kind(precedence = "7")]
     LtEq,
     /// `>`
+    #[kind(precedence = "7")]
     Gt,
     /// `>=`
+    #[kind(precedence = "7")]
     GtEq,
     /// `<<`
+    #[kind(precedence = "8")]
     LShift,
     /// `>>`
+    #[kind(precedence = "8")]
     RShift,
     /// `>>>`
+    #[kind(precedence = "8")]
     ZeroFillRShift,
 
     /// `+`
+    #[kind(precedence = "9")]
     Add,
     /// `-`
+    #[kind(precedence = "9")]
     Sub,
     /// `*`
+    #[kind(precedence = "10")]
     Mul,
     /// `/`
+    #[kind(precedence = "10")]
     Div,
     /// `%`
+    #[kind(precedence = "10")]
     Mod,
 
     /// `|`
+    #[kind(precedence = "3")]
     BitOr,
     /// `^`
+    #[kind(precedence = "4")]
     BitXor,
     /// `&`
+    #[kind(precedence = "5")]
     BitAnd,
 
+    /// `||`
+    #[kind(precedence = "1")]
+    LogicalOr,
+
+    /// `&&`
+    #[kind(precedence = "2")]
+    LogicalAnd,
+
     /// `in`
+    #[kind(precedence = "7")]
     In,
     /// `instanceof`
+    #[kind(precedence = "7")]
     InstanceOf,
 
     /// `**`
-    Exponential,
+    #[kind(precedence = "11")]
+    Exp,
+}
+
+impl From<BinOpToken> for BinaryOp {
+    fn from(t: BinOpToken) -> Self {
+        use self::BinaryOp::*;
+        match t {
+            BinOpToken::EqEq => EqEq,
+            BinOpToken::NotEq => NotEq,
+            BinOpToken::EqEqEq => EqEqEq,
+            BinOpToken::NotEqEq => NotEqEq,
+            BinOpToken::Lt => Lt,
+            BinOpToken::LtEq => LtEq,
+            BinOpToken::Gt => Gt,
+            BinOpToken::GtEq => GtEq,
+            BinOpToken::LShift => LShift,
+            BinOpToken::RShift => RShift,
+            BinOpToken::ZeroFillRShift => ZeroFillRShift,
+            BinOpToken::Add => Add,
+            BinOpToken::Sub => Sub,
+            BinOpToken::Mul => Mul,
+            BinOpToken::Div => Div,
+            BinOpToken::Mod => Mod,
+            BinOpToken::BitOr => BitOr,
+            BinOpToken::BitXor => BitXor,
+            BinOpToken::BitAnd => BitAnd,
+            BinOpToken::LogicalOr => LogicalOr,
+            BinOpToken::LogicalAnd => LogicalAnd,
+            BinOpToken::Exp => Exp,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
