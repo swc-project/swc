@@ -4,16 +4,16 @@ use swc_macros::ast_node;
 
 #[ast_node]
 pub enum Decl {
-    ClassDecl(ClassDecl),
+    Class(ClassDecl),
 
     #[serde = "FunctionDeclaration"]
-    FnDecl {
+    Fn {
         ident: Ident,
         function: JsFn,
     },
 
     #[serde = "VariableDeclaration"]
-    VarDecl {
+    Var {
         kind: VarDeclKind,
         #[serde = "declarations"]
         decls: Vec<VarDeclarator>,

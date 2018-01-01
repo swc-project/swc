@@ -47,13 +47,13 @@ impl<I: Input> Parser<I> {
         }
 
         match self.i.cur() {
-            Some(&AssignOp(ref op)) => {
+            Some(&AssignOp(op)) => {
                 self.i.bump();
                 let right = self.parse_assignment_expr(include_in)?;
                 Ok(box Expr {
                     span: cond.span + right.span,
                     node: ExprKind::Assign {
-                        op: op.clone(),
+                        op,
                         // TODO:
                         left: PatOrExpr::Expr(cond),
                         right,
@@ -174,7 +174,7 @@ impl<I: Input> Parser<I> {
 
             let callee = self.parse_member_expr()?;
             if allow_new_without_paren && !self.i.is(&LParen) {
-                // Parsed as NewExpression.
+                // Parsed with NewExpression rule.
                 let span = span_of_new + self.i.last_span();
 
                 return Ok(box Expr {
@@ -183,10 +183,10 @@ impl<I: Input> Parser<I> {
                 });
             }
 
-            // Parsed as MemberExpression
-            // As this is parsed as MemberExpression, we should parse subscripts.
+            // Parsed with MemberExpression rule.
             let args = self.parse_args().map(Some)?;
 
+            // We should parse subscripts for MemberExpression.
             return self.parse_subscripts(
                 ExprOrSuper::Expr(box Expr {
                     span: span_of_new + self.i.last_span(),
@@ -231,17 +231,12 @@ impl<I: Input> Parser<I> {
         unimplemented!("parse_args")
     }
 
-    /// 12.2.5 Array Initializer
-    fn parse_lit(&mut self) -> PResult<Lit> {
-        unimplemented!()
-    }
-
     /// 12.2.6 Object Initializer
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!()
+        unimplemented!("array lit")
     }
     fn parse_obj_lit(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!()
+        unimplemented!("object lit")
     }
     fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         unimplemented!("async function")
@@ -250,14 +245,15 @@ impl<I: Input> Parser<I> {
         unimplemented!("function")
     }
     fn parse_class_expr(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!()
+        unimplemented!("class expr")
     }
     fn parse_tpl_lit(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!()
+        unimplemented!("tpl lit")
     }
 
     fn parse_parenthesized_expr_and_arrow_params(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!()
+        assert_eq!(self.i.cur(), Some(&LParen));
+        unimplemented!("parse_parenthesized_expr_and_arrow_params")
     }
 
     fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
@@ -352,31 +348,47 @@ e.g.
             }
         }
     }
-
     /// Parse call, dot, and `[]`-subscript expressions.
     ///
     ///
     fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
-        // parseExprSubscripts(refShorthandDefaultPos: ?Pos): N.Expression {
-        //     const startPos = this.state.start;
-        //     const startLoc = this.state.startLoc;
-        //     const potentialArrowAt = this.state.potentialArrowAt;
-        //     const expr = this.parseExprAtom(refShorthandDefaultPos);
+        // `super()` can't be handled from parse_new_expr()
+        if self.i.eat_keyword(Super) {
+            let obj = ExprOrSuper::Super(self.i.last_span());
+            return self.parse_subscripts(obj, false);
+        }
 
-        //     if (
-        //       expr.type === "ArrowFunctionExpression" &&
-        //       expr.start === potentialArrowAt
-        //     ) {
-        //       return expr;
-        //     }
+        let callee = self.parse_new_expr()?;
+        match callee.node {
+            // If this is parsed using 'NewExpression' rule, just return it.
+            ExprKind::New { args: None, .. } => {
+                assert_ne!(
+                    self.i.cur(),
+                    Some(&LParen),
+                    "parse_new_expr() should eat paren if it exists"
+                );
+                return Ok(callee);
+            }
+            _ => {}
+        }
+        // 'CallExpr' rule contains 'MemberExpr (...)',
+        // and 'MemberExpr' rule contains 'new MemberExpr (...)'
 
-        //     if (refShorthandDefaultPos && refShorthandDefaultPos.start) {
-        //       return expr;
-        //     }
+        // This is parsed using 'NewExpr' rule, which contains 'MemberExpr'
+        if !self.i.is(&LParen) {
+            return Ok(callee);
+        }
 
-        //     return this.parseSubscripts(expr, startPos, startLoc);
-        // }
-        unimplemented!()
+        let args = self.parse_args()?;
+        let call_expr = box Expr {
+            span: callee.span + self.i.last_span(),
+            node: ExprKind::Call {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+            },
+        };
+
+        self.parse_subscripts(ExprOrSuper::Expr(call_expr), false)
     }
 
     fn parse_call_expr_args(
@@ -384,17 +396,37 @@ e.g.
         close_delim: &'static Token,
         is_async_arrow_possible: bool,
     ) -> PResult<ExprOrSpread> {
-        unimplemented!()
+        unimplemented!("parse_call_expr_args")
     }
 }
 
-/// Leaf methods.
+/// simple leaf methods.
 impl<I: Input> Parser<I> {
     fn parse_yield_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
         debug_assert!(self.i.is(&Word(Keyword(Yield))));
         debug_assert!(self.ctx.is_in_generator);
 
         unimplemented!("parse_yield_expr")
+    }
+
+    /// 12.2.5 Array Initializer
+    fn parse_lit(&mut self) -> PResult<Lit> {
+        let v = match self.i.cur()? {
+            &Word(Null) => Lit::Null,
+            &Word(True) => Lit::Bool(true),
+            &Word(False) => Lit::Bool(false),
+            &Str(..) => match self.i.bump() {
+                //FIXME
+                Str(s, _) => Lit::Str(s),
+                _ => unreachable!(),
+            },
+            &Num(..) => match self.i.bump() {
+                Num(num) => Lit::Num(num),
+                _ => unreachable!(),
+            },
+            _ => unreachable!("parse_lit should not be called"),
+        };
+        Ok(v)
     }
 }
 
@@ -410,51 +442,69 @@ fn ident_to_expr(i: Ident) -> Box<Expr> {
 mod tests {
     use super::*;
     use lexer::Lexer;
-    use swc_common::EqIgnoreSpan;
 
     fn mk<'a>(s: &'a str) -> Parser<impl 'a + Input> {
         Parser::new_for_module(Lexer::from(s))
     }
 
+    fn lhs(s: &str) -> Box<Expr> {
+        mk(s)
+            .parse_lhs_expr()
+            .expect("failed to parse lhs expression")
+    }
+
     #[test]
-    fn new_expr() {
+    fn new_expr_should_not_eat_too_much() {
         let _ = ::pretty_env_logger::init();
 
-        assert!(
-            mk("new Date().toString()")
-                .parse_new_expr()
-                .unwrap()
-                .eq_ignore_span(&box Expr {
-                    span: Default::default(),
-                    node: ExprKind::Member {
-                        obj: mk("new Date()")
-                            .parse_member_expr()
-                            .map(ExprOrSuper::Expr)
-                            .unwrap(),
-                        prop: ident_to_expr(Ident {
-                            sym: "toString".into(),
-                            span: Default::default(),
-                        }),
-                        computed: false,
-                    },
-                })
+        assert_eq_ignore_span!(
+            mk("new Date().toString()").parse_new_expr().unwrap(),
+            box Expr {
+                span: Default::default(),
+                node: ExprKind::Member {
+                    obj: mk("new Date()")
+                        .parse_member_expr()
+                        .map(ExprOrSuper::Expr)
+                        .unwrap(),
+                    prop: ident_to_expr(Ident {
+                        sym: "toString".into(),
+                        span: Default::default(),
+                    }),
+                    computed: false,
+                },
+            }
         );
     }
     #[test]
-    fn new_expr_dot() {
+    fn lhs_expr_as_new_expr_prod() {
         let _ = ::pretty_env_logger::init();
 
-        assert!(
-            mk("new Date.toString()")
-                .parse_new_expr()
-                .unwrap()
-                .eq_ignore_span(&box Expr {
-                    span: Default::default(),
-                    node: ExprKind::New {
-                        callee: mk("Date.toString").parse_member_expr().unwrap(),
-                        args: Some(vec![]),
-                    },
-                })
+        assert_eq_ignore_span!(
+            lhs("new Date.toString()"),
+            &box Expr {
+                span: Default::default(),
+                node: ExprKind::New {
+                    callee: lhs("Date.toString"),
+                    args: Some(vec![]),
+                },
+            }
         );
     }
+
+    #[test]
+    fn lhs_expr_as_call() {
+        let _ = ::pretty_env_logger::init();
+
+        assert_eq_ignore_span!(
+            lhs("new Date.toString()()"),
+            box Expr {
+                span: Default::default(),
+                node: ExprKind::Call {
+                    callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
+                    args: vec![],
+                },
+            }
+        )
+    }
+
 }

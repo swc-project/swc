@@ -5,10 +5,6 @@ impl<I: Input> Parser<I> {
         unimplemented!("parse_module")
     }
 
-    fn parse_module_item(&mut self) -> PResult<Module> {
-        unimplemented!("parse_module_item")
-    }
-
     fn parse_import(&mut self) -> PResult<Lit> {
         unimplemented!("parse_module_item")
     }

@@ -2,7 +2,8 @@ use super::{BlockStmt, Class, Ident, JsFn, Lit, Pat, Prop};
 use either::Either;
 use swc_common::{Span, Spanned};
 use swc_macros::{ast_node, Deserialize, Serialize};
-use token::{AssignOpToken, BinOpToken};
+pub use token::AssignOpToken;
+use token::BinOpToken;
 
 #[ast_node]
 pub struct Expr {
@@ -137,7 +138,10 @@ pub enum ExprKind {
     Tpl(TplLit),
 
     #[serde = "TaggedTemplateExpression"]
-    TaggedTpl { tag: Box<Expr>, quasi: TplLit },
+    TaggedTpl {
+        tag: Box<Expr>,
+        quasi: TplLit,
+    },
 
     // TODO: Use JsFn
     #[serde = "ArrowFunctionExpression"]
@@ -178,6 +182,8 @@ pub enum ExprKind {
         #[serde = "argument"]
         arg: Box<Expr>,
     },
+
+    Paren(Box<Expr>),
 }
 
 /// Function expression.

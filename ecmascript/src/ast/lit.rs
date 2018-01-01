@@ -1,20 +1,13 @@
 use swc_macros::ast_node;
+pub use token::Number;
 
 #[ast_node]
 pub enum Lit {
     Str(String),
     Bool(bool),
     Null,
-    Num(Num),
+    Num(Number),
     Regex(Regex),
-}
-
-#[ast_node]
-pub enum Num {
-    Dec(usize),
-    /// bool field is true if it starts with '0o' and false if it starts with
-    /// '0O'.
-    LegacyOct(bool, usize),
 }
 
 #[ast_node]

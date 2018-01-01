@@ -12,6 +12,7 @@ use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_macros::{Deserialize, Serialize};
+use swc_macros::ast_node;
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
@@ -114,7 +115,7 @@ pub enum Token {
     LineComment(String),
 }
 
-#[derive(Debug, Clone, EqIgnoreSpan, PartialEq)]
+#[ast_node]
 pub enum Number {
     Float(f64),
     Decimal(i64),
@@ -130,7 +131,7 @@ impl Display for Number {
     }
 }
 
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 #[repr(u8)]
 pub enum BinOpToken {
     /// `==`
@@ -189,7 +190,7 @@ pub enum BinOpToken {
     LogicalAnd,
 }
 
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 #[repr(u8)]
 pub enum AssignOpToken {
     /// `=`

@@ -4,45 +4,62 @@ use token::*;
 
 /// Input for parser.
 pub trait Input: Iterator<Item = TokenAndSpan> {
-    fn had_line_break_after_last(&self) -> bool;
+    fn had_line_break_before_last(&self) -> bool;
 }
 
 /// This struct is responsible for managing current token and peeked token.
 pub(super) struct ParserInput<I: Input> {
-    iter: I,
-    cur: Option<Token>,
-    cur_span: Span,
-    last_span: Span,
+    iter: ItemIter<I>,
+    cur: Option<Item>,
+    /// Previous span
+    prev_span: Span,
     /// Peeked token
-    next: Option<TokenAndSpan>,
+    next: Option<Item>,
+}
+
+/// One token
+#[derive(Debug)]
+struct Item {
+    token: Token,
+    /// Had a line break before this token?
+    had_line_break: bool,
+    span: Span,
+}
+struct ItemIter<I: Input>(I);
+impl<I: Input> ItemIter<I> {
+    fn next(&mut self) -> Option<Item> {
+        match self.0.next() {
+            Some(TokenAndSpan { token, span }) => Some(Item {
+                token,
+                span,
+                had_line_break: self.0.had_line_break_before_last(),
+            }),
+            None => None,
+        }
+    }
 }
 
 impl<I: Input> ParserInput<I> {
     pub const fn new(lexer: I) -> Self {
         ParserInput {
-            iter: lexer,
+            iter: ItemIter(lexer),
             cur: None,
-            cur_span: Span::DUMMY,
-            last_span: Span::DUMMY,
+            prev_span: Span::DUMMY,
             next: None,
         }
     }
 
-    /// Returns previous token.
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
-        self.last_span = self.cur_span;
+        self.prev_span = prev.as_ref().map(|item| item.span).unwrap_or(Span::DUMMY);
 
         // If we have peeked a token, take it instead of calling lexer.next()
-        let (next, next_span) = match self.next.take().or_else(|| self.iter.next()) {
-            Some(TokenAndSpan { token, span }) => (Some(token), span),
-            None => (None, Default::default()),
-        };
-        self.cur = next;
-        self.cur_span = next_span;
+        self.cur = self.next.take().or_else(|| self.iter.next());
 
-        prev
+        prev.map(|it| it.token)
     }
+
+    /// Returns current token.
     pub fn bump(&mut self) -> Token {
         self.bump_inner().expect(
             "Current token is `None`. Parser should not call bump()\
@@ -63,20 +80,32 @@ impl<I: Input> ParserInput<I> {
         self.next.as_ref().map(|ts| &ts.token)
     }
 
+    /// This returns true on eof.
+    pub fn had_line_break_before_cur(&self) -> bool {
+        self.cur
+            .as_ref()
+            .map(|it| it.had_line_break)
+            .unwrap_or(true)
+    }
+
+    /// This returns true on eof.
     pub fn has_linebreak_between_cur_and_peeked(&mut self) -> bool {
         let _ = self.peek();
-        self.iter.had_line_break_after_last()
+        self.next
+            .as_ref()
+            .map(|item| item.had_line_break)
+            .unwrap_or({
+                // return true on eof.
+                true
+            })
     }
 
     /// Get current token. Returns `None` only on eof.
     pub fn cur(&mut self) -> Option<&Token> {
-        match self.cur {
-            Some(..) => self.cur.as_ref(),
-            None => {
-                self.bump_inner();
-                self.cur.as_ref()
-            }
+        if self.cur.is_none() {
+            self.bump_inner();
         }
+        self.cur.as_ref().map(|item| &item.token)
     }
 
     pub fn is(&mut self, expected: &Token) -> bool {
@@ -103,10 +132,13 @@ impl<I: Input> ParserInput<I> {
         self.eat(&Word(Keyword(kwd)))
     }
 
-    pub const fn cur_span(&self) -> Span {
-        self.cur_span
+    pub fn cur_span(&self) -> Span {
+        self.cur
+            .as_ref()
+            .map(|item| item.span)
+            .unwrap_or(Span::DUMMY)
     }
     pub const fn last_span(&self) -> Span {
-        self.last_span
+        self.prev_span
     }
 }

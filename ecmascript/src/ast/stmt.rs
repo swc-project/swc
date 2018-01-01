@@ -1,11 +1,18 @@
 use super::{Decl, Expr, Ident, Pat};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]
 pub struct Stmt {
     pub span: Span,
-    pub kind: StmtKind,
+    pub node: StmtKind,
+}
+
+impl Spanned for Stmt {
+    type Item = StmtKind;
+    fn from_unspanned(node: StmtKind, span: Span) -> Self {
+        Stmt { span, node }
+    }
 }
 
 /// Use when only block statements are allowed.
@@ -19,7 +26,7 @@ pub enum StmtKind {
     #[serde = "ExpressionStatement"]
     Expr(
         #[serde = "expression"]
-        Expr,
+        Box<Expr>,
     ),
 
     #[serde = "BlockStatement"]
@@ -37,14 +44,14 @@ pub enum StmtKind {
     #[serde = "WithStatement"]
     With {
         #[serde = "object"]
-        obj: Expr,
+        obj: Box<Expr>,
         body: Box<Stmt>,
     },
 
     #[serde = "ReturnStatement"]
     Return {
         #[serde = "argument"]
-        arg: Option<Expr>,
+        arg: Option<Box<Expr>>,
     },
 
     #[serde = "LabeledStatement"]
@@ -58,7 +65,7 @@ pub enum StmtKind {
 
     #[serde = "IfStatement"]
     If {
-        test: Expr,
+        test: Box<Expr>,
         consequent: Box<Stmt>,
         #[serde = "alternate"]
         alt: Option<Box<Stmt>>,
@@ -66,14 +73,14 @@ pub enum StmtKind {
 
     #[serde = "SwitchStatement"]
     Switch {
-        discriminant: Expr,
+        discriminant: Box<Expr>,
         cases: Vec<SwitchCase>,
     },
 
     #[serde = "ThrowStatement"]
     Throw {
         #[serde = "argument"]
-        arg: Expr,
+        arg: Box<Expr>,
     },
 
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
@@ -85,19 +92,19 @@ pub enum StmtKind {
     },
 
     #[serde = "WhileStatement"]
-    While { test: Expr, body: Box<Stmt> },
+    While { test: Box<Expr>, body: Box<Stmt> },
 
     #[serde = "DoWhileStatement"]
-    DoWhile { test: Expr, body: Box<Stmt> },
+    DoWhile { test: Box<Expr>, body: Box<Stmt> },
 
     #[serde = "ForStatement"]
     For {
         /// VarDecl | Expr | null
         init: Option<Box<Stmt>>,
 
-        test: Option<Expr>,
+        test: Option<Box<Expr>>,
 
-        update: Option<Expr>,
+        update: Option<Box<Expr>>,
 
         body: Box<Stmt>,
     },
@@ -107,7 +114,7 @@ pub enum StmtKind {
         /// VarDecl | Pattern
         left: Box<Stmt>,
 
-        right: Expr,
+        right: Box<Expr>,
 
         body: Box<Stmt>,
     },
@@ -117,7 +124,7 @@ pub enum StmtKind {
         /// VarDecl | Pattern
         left: Box<Stmt>,
 
-        right: Expr,
+        right: Box<Expr>,
 
         body: Box<Stmt>,
     },
@@ -131,7 +138,7 @@ pub struct SwitchCase {
     pub span: Span,
 
     /// None for `default:`
-    pub test: Option<Expr>,
+    pub test: Option<Box<Expr>>,
 
     pub consequent: Vec<Stmt>,
 }

@@ -20,17 +20,37 @@ impl<I: Input> Parser<I> {
         min_prec: u8,
         include_in: bool,
     ) -> PResult<Box<Expr>> {
-        let op = match self.i.cur()? {
+        let op = match {
+            // Return left on eof
+            match self.i.cur() {
+                Some(cur) => cur,
+                None => return Ok(left),
+            }
+        } {
             &Word(Keyword(In)) if include_in => BinaryOp::In,
             &Word(Keyword(InstanceOf)) => BinaryOp::InstanceOf,
-            &BinOp(ref op) => op.clone().into(),
+            &BinOp(op) => op.into(),
             _ => return Ok(left),
         };
         self.i.bump();
 
         if op.precedence() <= min_prec {
+            debug!(
+                "returning {:?} without parsing {:?} because min_prec={}, prec={}",
+                left,
+                op,
+                min_prec,
+                op.precedence()
+            );
+
             return Ok(left);
         }
+        debug!(
+            "parsing binary op {:?} min_prec={}, prec={}",
+            op,
+            min_prec,
+            op.precedence()
+        );
 
         match left.node {
             // This is invalid syntax.
@@ -39,7 +59,7 @@ impl<I: Input> Parser<I> {
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
 
-                syntax_error!("Illegal expression. Wrap left hand side in parentheses.")
+                syntax_error!(UnaryInExp)
             }
             _ => {}
         }
@@ -63,7 +83,9 @@ impl<I: Input> Parser<I> {
             node: ExprKind::Binary { op, left, right },
         };
 
-        self.parse_bin_op_recursively(node, min_prec, include_in)
+        let expr = self.parse_bin_op_recursively(node, min_prec, include_in)?;
+        debug!("parsed binary operation: {:?}", expr,);
+        Ok(expr)
     }
 
     /// Parse unary expression and update expression.
@@ -163,18 +185,25 @@ mod tests {
         Parser::new_for_module(Lexer::from(s))
     }
 
-    fn parse_bin(s: &str) -> Expr {
-        *mk(s).parse_bin_expr(true).unwrap()
+    fn bin(s: &str) -> Box<Expr> {
+        mk(s).parse_bin_expr(true).unwrap_or_else(|err| {
+            panic!("failed to parse '{}' as a binary expression: {:?}", s, err)
+        })
     }
 
     #[test]
     fn simple() {
-        assert_eq!(
-            parse_bin("5 + 4 * 7").node,
-            ExprKind::Binary {
-                op: BinaryOp::Add,
-                left: box parse_bin("5"),
-                right: box parse_bin("4 * 7"),
+        let _ = ::pretty_env_logger::init();
+
+        assert_eq_ignore_span!(
+            bin("5 + 4 * 7"),
+            box Expr {
+                span: Default::default(),
+                node: ExprKind::Binary {
+                    op: BinaryOp::Add,
+                    left: bin("5"),
+                    right: bin("4 * 7"),
+                },
             }
         );
     }

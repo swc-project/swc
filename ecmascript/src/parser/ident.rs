@@ -16,7 +16,7 @@ impl<I: Input> Parser<I> {
         self.parse_ident(true, true).and_then(|ident| {
             if self.ctx.strict {
                 if &*ident.sym == "arguments" || &*ident.sym == "eval" {
-                    syntax_error!("12.1.1: 'arguments' and 'eval' is not permitted in strict mode")
+                    syntax_error!(EvalAndArgumentsInStrict)
                 }
             }
 
@@ -75,11 +75,7 @@ impl<I: Input> Parser<I> {
                     | Ident(js_word!("package"))
                     | Ident(js_word!("private"))
                     | Ident(js_word!("protected"))
-                    | Ident(js_word!("public")) => syntax_error!(
-                        r#"12.1.1: "implements", "interface", "let", "package",\
- "private", "protected",  "public", "static", or "yield" cannot\
-  be used as a identifier in strict mode"#
-                    ),
+                    | Ident(js_word!("public")) => syntax_error!(InvalidIdentInStrict),
                     _ => {}
                 }
             }

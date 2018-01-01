@@ -12,12 +12,15 @@ mod macros;
 mod expr;
 mod ident;
 mod module;
+mod stmt;
 pub mod input;
 
 #[derive(Debug, Copy, Clone)]
 struct Context {
     /// Is in strict mode?
     strict: bool,
+    /// Is in module?
+    module: bool,
     /// If true await expression will be parsed, and "await" will be treated as
     /// a keyword.
     is_in_async_fn: bool,
@@ -32,6 +35,7 @@ pub type PResult<T> = Result<T, Error>;
 pub enum Error {
     Eof,
     ExpectedIdent,
+    ExpectedSemi,
     Syntax(SyntaxError),
 }
 
@@ -43,9 +47,16 @@ impl From<NoneError> for Error {
 
 #[derive(Debug)]
 pub enum SyntaxError {
-
+    /// "implements", "interface", "let", "package",\
+    ///  "private", "protected",  "public", "static", or "yield"
+    InvalidIdentInStrict,
+    /// 'eval' and 'arguments' are invalid identfier in strict mode.
+    EvalAndArgumentsInStrict,
+    UnaryInExp,
+    LineBreakInThrow,
 }
 
+/// EcmaScript parser.
 pub struct Parser<I: Input> {
     ctx: Context,
     i: ParserInput<I>,
@@ -57,6 +68,7 @@ impl<I: Input> Parser<I> {
             i: ParserInput::new(lexer),
             ctx: Context {
                 strict: true,
+                module: true,
                 is_in_async_fn: false,
                 is_in_generator: false,
             },
@@ -68,6 +80,7 @@ impl<I: Input> Parser<I> {
             i: ParserInput::new(lexer),
             ctx: Context {
                 strict,
+                module: false,
                 is_in_async_fn: false,
                 is_in_generator: false,
             },
@@ -83,5 +96,24 @@ impl<I: Input> Parser<I> {
         let val = parse(self)?;
         let end = self.i.last_span().end;
         Ok(Sp::from_unspanned(val, Span { start, end }))
+    }
+
+    fn eat_or_inject_semi(&mut self) -> bool {
+        self.i.eat(&Semi) || self.i.cur() == None || self.i.is(&RBrace)
+            || self.i.had_line_break_before_cur()
+    }
+
+    /// eat or inject semicolon if we can.
+    fn expect_semi(&mut self) -> PResult<()> {
+        if self.eat_or_inject_semi() {
+            Ok(())
+        } else {
+            panic!("expected ';', got {:?}", self.i.cur())
+            // Err(Error::ExpectedSemi)
+        }
+    }
+
+    pub fn parse_script(&mut self) -> PResult<Vec<Stmt>> {
+        self.parse_block_body(true, None)
     }
 }

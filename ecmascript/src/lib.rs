@@ -7,6 +7,7 @@
 #![feature(generators)]
 #![feature(nll)]
 #![feature(proc_macro)]
+#![deny(unreachable_patterns)]
 
 extern crate either;
 #[macro_use]
@@ -17,6 +18,7 @@ extern crate log;
 extern crate pretty_env_logger;
 #[macro_use(js_word)]
 extern crate swc_atoms;
+#[macro_use]
 extern crate swc_common;
 #[macro_use]
 extern crate swc_macros;

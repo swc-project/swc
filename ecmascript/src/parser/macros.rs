@@ -1,5 +1,13 @@
+macro_rules! unexpected {
+    (
+        $($expected:expr),*
+    ) => {{
+        unimplemented!("Unexpected token.")
+    }};
+}
+
 macro_rules! syntax_error {
-    ($s:expr) => {{
-        unimplemented!("Syntax Error: {}", $s)
+    ($s:ident) => {{
+        return Err(Error::Syntax(SyntaxError::$s))
     }};
 }

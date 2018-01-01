@@ -689,7 +689,7 @@ impl<I: Input> Iterator for Lexer<I> {
 }
 
 impl<I: Input> ::parser::Input for Lexer<I> {
-    fn had_line_break_after_last(&self) -> bool {
+    fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
     }
 }

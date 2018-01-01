@@ -1,4 +1,4 @@
-use {BytePos, Span};
+use BytePos;
 
 pub trait SpannedToken {
     type Token;
