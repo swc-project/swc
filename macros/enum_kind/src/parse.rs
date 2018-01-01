@@ -2,7 +2,7 @@ use common::prelude::*;
 use input::*;
 use std::fmt::Display;
 use std::ops::AddAssign;
-use synom::Synom;
+use syn::synom::Synom;
 use util::is_bool;
 
 impl From<DeriveInput> for Input {
@@ -16,7 +16,7 @@ impl From<DeriveInput> for Input {
         }: DeriveInput,
     ) -> Self {
         let variants = match data {
-            Body::Enum(data) => body.variants
+            Data::Enum(data) => data.variants
                 .into_iter()
                 .map(Element::into_item)
                 .map(From::from)
@@ -38,13 +38,13 @@ impl Synom for EnumAttrs {
     named!(parse -> Self, do_parse!(
         _function: syn!(Ident) >>
         fns: parens!(
-            call!(Delimited::parse_terminated)
+            call!(Punctuated::parse_terminated)
         ) >>
         ({
-            let fns: Delimited<_, tokens::Comma> = fns.0;
+            let fns: Punctuated<_, token::Comma> = fns.1;
             // TODO: Verify `functions`.
             EnumAttrs {
-                fns: fns.into_vec(),
+                fns: fns.into_iter().map(Element::into_item).collect(),
                 extras: Default::default(),
             }
         })
@@ -66,12 +66,13 @@ impl AddAssign<Result<Self, Attribute>> for EnumAttrs {
 impl FnDef {
     fn def_value_for_type(ty: &Type) -> Option<Expr> {
         if is_bool(ty) {
-            return Some(
-                ExprKind::Lit(Lit {
+            return Some(Expr::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit {
                     value: LitKind::Bool(false),
-                    span: SynSpan(Span::call_site()),
-                }).into(),
-            );
+                    span: Span::call_site(),
+                },
+            }));
         }
 
         None
@@ -81,7 +82,7 @@ impl FnDef {
 impl Synom for FnDef {
     named!(parse -> Self, do_parse!(
         name: syn!(Ident) >>
-        syn!(tokens::Eq) >>
+        syn!(token::Eq) >>
         return_type: syn!(Lit) >>
         ({
             if name.as_ref() == "delegate" {
@@ -117,14 +118,14 @@ impl From<Variant> for EnumVar {
 
 impl Synom for VariantAttrs {
     named!(parse -> Self, do_parse!(
-        fn_values: call!(Delimited::parse_terminated)
+        fn_values: call!(Punctuated::parse_terminated)
         >>
         ({
-            let fn_values: Delimited<_, tokens::Comma> = fn_values;
-            let has_delegate = fn_values.items()
+            let fn_values: Punctuated<_, token::Comma> = fn_values;
+            let has_delegate = fn_values.iter().map(Element::into_item)
                     .any(|f: &VariantAttr| f.fn_name == "delegate");
             VariantAttrs {
-                fn_values: fn_values.into_vec(),
+                fn_values: fn_values.into_iter().map(Element::into_item).collect(),
                 extras: Default::default(),
                 has_delegate,
             }
@@ -150,7 +151,7 @@ impl Synom for VariantAttr {
             fn_name: syn!(Ident) >>
             value: option!(
                 do_parse!(
-                    syn!(tokens::Eq) >>
+                    syn!(token::Eq) >>
                     p: syn!(Lit) >>
                     ({
                         parse_str_as_tokens(p)

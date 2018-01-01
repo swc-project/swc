@@ -16,8 +16,8 @@ pub fn expand(
         for v in &variants {
             if v.attrs.has_delegate {
                 match v.data {
-                    Data::Struct(ref fields, _) | Data::Tuple(ref fields, _)
-                        if fields.len() == 1 => {}
+                    Fields::Named(FieldsNamed { ref fields, .. })
+                    | Fields::Unnamed(FieldsUnnamed { ref fields, .. }) if fields.len() == 1 => {}
                     _ => panic!(
                         "currently #[kind(delegate)] can be applied to variant with only one field"
                     ),
@@ -109,12 +109,13 @@ impl FnDef {
                             }
 
                             // if return type is bool and attribute is specified, value is true.
-                            Some(None) if is_bool(&return_type) => Some(
-                                ExprKind::Lit(Lit {
+                            Some(None) if is_bool(&return_type) => Some(Expr::Lit(ExprLit {
+                                attrs: Default::default(),
+                                lit: Lit {
                                     value: LitKind::Bool(true),
-                                    span: SynSpan(Span::call_site()),
-                                }).into(),
-                            ),
+                                    span: Span::call_site(),
+                                },
+                            })),
                             _ => None,
                         };
 
@@ -131,7 +132,7 @@ impl FnDef {
                     };
 
                     Arm {
-                        pats: vec![pat].into(),
+                        pats: vec![Element::End(pat)].into_iter().collect(),
                         body,
 
                         // Forward cfg attributes.
@@ -144,13 +145,13 @@ impl FnDef {
                         rocket_token: call_site(),
                         comma: Some(call_site()),
                         guard: None,
-                        if_token: None,
                     }
                 })
                 .collect();
 
         // match self {}
-        let match_expr = ExprKind::Match(ExprMatch {
+        let match_expr = Expr::Match(ExprMatch {
+            attrs: Default::default(),
             match_token: call_site(),
             brace_token: call_site(),
 
@@ -160,12 +161,12 @@ impl FnDef {
                 .into(),
 
             arms,
-        }).into();
+        });
 
         ImplItemMethod {
             sig: MethodSig {
-                constness: Constness::NotConst,
-                unsafety: Unsafety::Normal,
+                constness: None,
+                unsafety: None,
                 abi: None,
                 ident: name,
                 // fn (&self) -> ReturnTpe
@@ -174,17 +175,17 @@ impl FnDef {
                     paren_token: name.span.as_token(),
                     inputs: vec![
                         // TODO
-                        FnArg::SelfRef(ArgSelfRef {
+                        Element::End(FnArg::SelfRef(ArgSelfRef {
                             and_token: name_span.as_token(),
                             self_token: name_span.as_token(),
                             lifetime: None,
-                            mutbl: Mutability::Immutable,
-                        }),
-                    ].into(),
-                    output: ReturnType::Type(name_span.as_token(), return_type),
+                            mutability: None,
+                        })),
+                    ].into_iter()
+                        .collect(),
+                    output: ReturnType::Type(name_span.as_token(), box return_type),
                     generics: Default::default(),
                     variadic: None,
-                    dot_tokens: None,
                 },
             },
 
@@ -197,7 +198,7 @@ impl FnDef {
             vis,
 
             attrs: Default::default(),
-            defaultness: Defaultness::Final,
+            defaultness: None,
         }
     }
 }

@@ -135,6 +135,7 @@
 //!
 //!
 //!
+#![feature(box_syntax)]
 
 #[macro_use]
 extern crate pmutil;

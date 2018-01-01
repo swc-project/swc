@@ -167,15 +167,17 @@ impl<'a> VariantBinder<'a> {
                                 binded_ident: binded_ident.clone(),
                                 field: f,
                             });
-                            Quote::new_call_site()
-                                .quote_with(smart_quote!(
-                                    Vars {
-                                        ident,
-                                        binded_ident,
-                                    },
-                                    { ident: binded_ident }
-                                ))
-                                .parse::<FieldPat>()
+                            FieldPat {
+                                attrs: Default::default(),
+                                colon_token: f.colon_token,
+                                member: Member::Named(ident),
+                                pat: box Pat::Ident(PatIdent {
+                                    by_ref,
+                                    mutability,
+                                    ident: binded_ident,
+                                    subpat: None,
+                                }),
+                            }
                         })
                     })
                     .collect();

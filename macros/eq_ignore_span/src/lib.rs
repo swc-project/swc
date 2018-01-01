@@ -19,7 +19,7 @@ pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
 fn expand(input: DeriveInput) -> Item {
     let type_name = &input.ident;
-    let body = expand_method_body(&input.ident, &input.body, &input.attrs);
+    let body = expand_method_body(&input.ident, &input.data, &input.attrs);
 
     Quote::new_call_site()
         .quote_with(smart_quote!(
@@ -42,7 +42,7 @@ fn expand(input: DeriveInput) -> Item {
 }
 
 /// Creates method "eq_ignore_span"
-fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
+fn expand_method_body(ident: &Ident, body: &Data, attrs: &[Attribute]) -> Expr {
     /// Creates `_ => false,`
     fn make_default_arm() -> Arm {
         Quote::new_call_site()
@@ -88,14 +88,19 @@ fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
         Arm {
             attrs: Default::default(),
             pats: vec![
-                Pat::Tuple(PatTuple {
-                    pats: vec![lhs_pat, rhs_pat].into(),
+                Element::End(Pat::Tuple(PatTuple {
+                    front: vec![
+                        Element::Punctuated(lhs_pat, call_site()),
+                        Element::End(rhs_pat),
+                    ].into_iter()
+                        .collect(),
                     comma_token: None,
-                    dots_pos: None,
                     dot2_token: None,
                     paren_token: span.as_token(),
-                }),
-            ].into(),
+                    back: Default::default(),
+                })),
+            ].into_iter()
+                .collect(),
             guard,
             rocket_token: span.as_token(),
             body: box Expr::Lit(ExprLit {
@@ -117,12 +122,13 @@ fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
         .chain(iter::once(make_default_arm()))
         .collect();
 
-    ExprKind::Match(ExprMatch {
+    Expr::Match(ExprMatch {
+        attrs: Default::default(),
         match_token: span.as_token(),
         expr: box Quote::new(span)
             .quote_with(smart_quote!(Vars {}, { (&*self, &*__rhs) }))
             .parse(),
         brace_token: span.as_token(),
         arms,
-    }).into()
+    })
 }

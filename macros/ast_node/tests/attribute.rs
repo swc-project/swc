@@ -11,3 +11,6 @@ use swc_macros::ast_node;
 pub struct Class {
     pub s: String,
 }
+
+#[ast_node]
+pub struct Tuple(usize, usize);

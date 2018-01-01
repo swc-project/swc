@@ -37,7 +37,7 @@ pub struct EnumVar {
     /// Name of variant.
     pub name: Ident,
     pub attrs: VariantAttrs,
-    pub data: VariantData,
+    pub data: Fields,
 }
 
 /// Parsed attributes.
