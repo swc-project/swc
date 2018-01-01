@@ -1,4 +1,5 @@
 use syn::*;
+use syn::punctuated::Element;
 
 /// Extension trait for `ItemImpl` (impl block).
 pub trait ItemImplExt {
@@ -91,3 +92,17 @@ impl ItemImplExt for ItemImpl {
         }
     }
 }
+
+pub trait ElementExt<T, P>: Sized + Into<Element<T, P>> {
+    fn map_item<F, NewItem>(self, op: F) -> Element<NewItem, P>
+    where
+        F: FnOnce(T) -> NewItem,
+    {
+        match self.into() {
+            Element::Punctuated(t, p) => Element::Punctuated(op(t), p),
+            Element::End(t) => Element::End(op(t)),
+        }
+    }
+}
+
+impl<T, P> ElementExt<T, P> for Element<T, P> {}

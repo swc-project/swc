@@ -16,7 +16,7 @@ pub fn expand(
         for v in &variants {
             if v.attrs.has_delegate {
                 match v.data {
-                    VariantData::Struct(ref fields, _) | VariantData::Tuple(ref fields, _)
+                    Data::Struct(ref fields, _) | Data::Tuple(ref fields, _)
                         if fields.len() == 1 => {}
                     _ => panic!(
                         "currently #[kind(delegate)] can be applied to variant with only one field"
@@ -73,80 +73,81 @@ impl FnDef {
 
         let name_span = name.span;
 
-        let arms = variants
-            .iter()
-            .map(|v| -> Arm {
-                // Bind this variant.
-                let (pat, mut fields) =
-                    VariantBinder::new(Some(enum_name), &v.name, &v.data, &v.attrs.extras)
-                        .bind("_", BindingMode::ByRef(call_site(), Mutability::Immutable));
+        let arms =
+            variants
+                .iter()
+                .map(|v| -> Arm {
+                    // Bind this variant.
+                    let (pat, mut fields) =
+                        VariantBinder::new(Some(enum_name), &v.name, &v.data, &v.attrs.extras)
+                            .bind("_", Some(call_site()), None);
 
-                let body = {
-                    let value = match v.attrs
-                        .fn_values
-                        .iter()
-                        .find(|fn_val| fn_val.fn_name == name)
-                        .map(|attr| attr.value.clone())
-                    {
-                        Some(Some(value)) => Some(value),
+                    let body = {
+                        let value = match v.attrs
+                            .fn_values
+                            .iter()
+                            .find(|fn_val| fn_val.fn_name == name)
+                            .map(|attr| attr.value.clone())
+                        {
+                            Some(Some(value)) => Some(value),
 
-                        // not specified, but has `#[kind(delegate)]`
-                        None if v.attrs.has_delegate => {
-                            assert_eq!(fields.len(), 1);
-                            let field = fields.remove(0);
-                            Some(
-                                Quote::new_call_site()
-                                    .quote_with(smart_quote!(
-                                        Vars {
-                                            field,
-                                            method: name,
-                                        },
-                                        { field.method() }
-                                    ))
-                                    .parse(),
-                            )
-                        }
+                            // not specified, but has `#[kind(delegate)]`
+                            None if v.attrs.has_delegate => {
+                                assert_eq!(fields.len(), 1);
+                                let field = fields.remove(0);
+                                Some(
+                                    Quote::new_call_site()
+                                        .quote_with(smart_quote!(
+                                            Vars {
+                                                field,
+                                                method: name,
+                                            },
+                                            { field.method() }
+                                        ))
+                                        .parse(),
+                                )
+                            }
 
-                        // if return type is bool and attribute is specified, value is true.
-                        Some(None) if is_bool(&return_type) => Some(
-                            ExprKind::Lit(Lit {
-                                value: LitKind::Bool(true),
-                                span: SynSpan(Span::call_site()),
-                            }).into(),
-                        ),
-                        _ => None,
+                            // if return type is bool and attribute is specified, value is true.
+                            Some(None) if is_bool(&return_type) => Some(
+                                ExprKind::Lit(Lit {
+                                    value: LitKind::Bool(true),
+                                    span: SynSpan(Span::call_site()),
+                                }).into(),
+                            ),
+                            _ => None,
+                        };
+
+                        value
+                            .or_else(|| default_value.clone())
+                            .map(Box::new)
+                            .unwrap_or_else(|| {
+                                panic!(
+                                    "value of {fn_name} for {variant} is not specified.",
+                                    fn_name = name,
+                                    variant = v.name
+                                );
+                            })
                     };
 
-                    value
-                        .or_else(|| default_value.clone())
-                        .map(Box::new)
-                        .unwrap_or_else(|| {
-                            panic!(
-                                "value of {fn_name} for {variant} is not specified.",
-                                fn_name = name,
-                                variant = v.name
-                            );
-                        })
-                };
+                    Arm {
+                        pats: vec![pat].into(),
+                        body,
 
-                Arm {
-                    pats: vec![pat].into(),
-                    body,
-
-                    // Forward cfg attributes.
-                    attrs: v.attrs
-                        .extras
-                        .iter()
-                        .filter(|attr| is_attr_name(attr, "cfg"))
-                        .cloned()
-                        .collect(),
-                    rocket_token: call_site(),
-                    comma: Some(call_site()),
-                    guard: None,
-                    if_token: None,
-                }
-            })
-            .collect();
+                        // Forward cfg attributes.
+                        attrs: v.attrs
+                            .extras
+                            .iter()
+                            .filter(|attr| is_attr_name(attr, "cfg"))
+                            .cloned()
+                            .collect(),
+                        rocket_token: call_site(),
+                        comma: Some(call_site()),
+                        guard: None,
+                        if_token: None,
+                    }
+                })
+                .collect();
 
         // match self {}
         let match_expr = ExprKind::Match(ExprMatch {
@@ -180,9 +181,9 @@ impl FnDef {
                             mutbl: Mutability::Immutable,
                         }),
                     ].into(),
-                    output: ReturnType::Type(return_type, name_span.as_token()),
+                    output: ReturnType::Type(name_span.as_token(), return_type),
                     generics: Default::default(),
-                    variadic: false,
+                    variadic: None,
                     dot_tokens: None,
                 },
             },

@@ -1,0 +1,4 @@
+
+[build]
+rustflags = ["--cfg", "procmacro2_unstable"] 
+rustdocflags = ["--cfg", "procmacro2_unstable", "--document-private-items"] 

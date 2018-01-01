@@ -6,8 +6,7 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
         .variants()
         .into_iter()
         .map(|v| {
-            let (pat, bindings) =
-                v.bind("_", BindingMode::ByRef(call_site(), Mutability::Immutable));
+            let (pat, bindings) = v.bind("_", Some(call_site()), None);
 
             let mut stmts = vec![];
             match extract(v.attrs()) {
@@ -39,12 +38,13 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
                 );
             }
 
-            let body = box ExprKind::Block(ExprBlock {
+            let body = box Expr::Block(ExprBlock {
+                attrs: Default::default(),
                 block: Block {
                     brace_token: call_site(),
                     stmts,
                 },
-            }).into();
+            });
 
             Arm {
                 attrs: v.attrs()
@@ -52,8 +52,7 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
-                pats: vec![pat].into(),
-                if_token: None,
+                pats: vec![Element::End(pat)].into_iter().collect(),
                 guard: None,
                 rocket_token: call_site(),
                 body,
@@ -69,14 +68,15 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
         ))
         .collect();
 
-    let match_expr: Expr = ExprKind::Match(ExprMatch {
+    let match_expr = Expr::Match(ExprMatch {
+        attrs: Default::default(),
         match_token: call_site(),
         brace_token: call_site(),
         expr: box Quote::new_call_site()
             .quote_with(smart_quote!(Vars {}, { &*self }))
             .parse(),
         arms,
-    }).into();
+    });
 
     Quote::new_call_site()
         .quote_with(smart_quote!(
@@ -110,13 +110,15 @@ fn extract(attrs: &[Attribute]) -> Option<Stmt> {
                 panic!("#[caniuse] cannot be specified multiple time on one node")
             }
 
-            assert_eq!(attr.tts.len(), 2, "expected `= 'feature'`");
-            match attr.tts[0].0.kind {
+            let tts: Vec<_> = attr.tts.clone().into_iter().collect();
+
+            assert_eq!(tts.len(), 2, "expected `= 'feature'`");
+            match tts[0].kind {
                 TokenNode::Op('=', _) => {}
                 _ => panic!("expected `= 'feature'`"),
             }
-            match attr.tts[1].0.kind {
-                TokenNode::Literal(ref lit) => found = Some(lit),
+            match tts[1].kind {
+                TokenNode::Literal(ref lit) => found = Some(lit.clone()),
                 _ => panic!("expected `= 'feature'`"),
             }
         }
@@ -129,7 +131,7 @@ fn extract(attrs: &[Attribute]) -> Option<Stmt> {
     };
 
     let feat = Lit {
-        span: SynSpan(Span::call_site()),
+        span: Span::call_site(),
         value: LitKind::Other(lit.clone()),
     };
 
@@ -153,8 +155,7 @@ fn is_bool(ty: &Type) -> bool {
                 },
         }) => {
             // check for bool
-            if segments.len() == 1 && segments.first().unwrap().item().ident.sym.as_str() == "bool"
-            {
+            if segments.len() == 1 && segments.first().unwrap().item().ident.as_ref() == "bool" {
                 return true;
             }
         }

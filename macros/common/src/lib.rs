@@ -1,6 +1,7 @@
 #![feature(box_syntax)]
 #![feature(const_fn)]
 
+#[macro_use]
 extern crate pmutil;
 extern crate proc_macro2;
 extern crate proc_macro;

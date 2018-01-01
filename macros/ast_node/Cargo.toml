@@ -16,9 +16,6 @@ git = "https://github.com/dtolnay/syn"
 features = ["full", "parsing", "printing", "extra-traits"]
 
 
-[dependencies.synom]
-git = "https://github.com/dtolnay/syn"
-
 [dev-dependencies]
 serde = "1"
 swc_macros = { path = "../" }

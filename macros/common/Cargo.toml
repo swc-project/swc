@@ -12,8 +12,5 @@ git = "https://github.com/dtolnay/syn"
 features = ["full", "parsing", "printing", "extra-traits"]
 
 
-[dependencies.synom]
-git = "https://github.com/dtolnay/syn"
-
 [dependencies.quote]
 git = "https://github.com/dtolnay/quote"

@@ -11,8 +11,7 @@ pub fn is_bool(ty: &Type) -> bool {
                 },
         }) => {
             // check for bool
-            if segments.len() == 1 && segments.first().unwrap().item().ident.sym.as_str() == "bool"
-            {
+            if segments.len() == 1 && segments.first().unwrap().item().ident.as_ref() == "bool" {
                 return true;
             }
         }

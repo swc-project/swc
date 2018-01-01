@@ -57,9 +57,8 @@ fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
     fn arm_for_variant(v: VariantBinder) -> Arm {
         let span = Span::call_site();
 
-        let binding_mode = BindingMode::ByRef(span.as_token(), Mutability::Immutable);
-        let (lhs_pat, lhs_bindings) = v.bind("lhs_", binding_mode);
-        let (rhs_pat, rhs_bindings) = v.bind("rhs_", binding_mode);
+        let (lhs_pat, lhs_bindings) = v.bind("lhs_", Some(span.as_token()), None);
+        let (rhs_pat, rhs_bindings) = v.bind("rhs_", Some(span.as_token()), None);
 
         let guard = (lhs_bindings.into_iter().zip(rhs_bindings))
             .map(|(lhs, rhs)| -> Box<Expr> {
@@ -70,16 +69,19 @@ fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
                     .parse()
             })
             .fold(None, |orig, additional_guard| match orig {
-                Some(orig) => Some(box Quote::new_call_site()
-                    .quote_with(smart_quote!(
-                        Vars {
-                            orig,
-                            additional_guard,
-                        },
-                        { orig && additional_guard }
-                    ))
-                    .parse()),
-                None => Some(additional_guard),
+                Some((if_token, orig)) => Some((
+                    if_token,
+                    box Quote::new_call_site()
+                        .quote_with(smart_quote!(
+                            Vars {
+                                orig,
+                                additional_guard,
+                            },
+                            { orig && additional_guard }
+                        ))
+                        .parse(),
+                )),
+                None => Some((span.as_token(), additional_guard)),
             });
 
         // (lhs_pat, rhs_pat) if guard => true
@@ -94,17 +96,15 @@ fn expand_method_body(ident: &Ident, body: &Body, attrs: &[Attribute]) -> Expr {
                     paren_token: span.as_token(),
                 }),
             ].into(),
-            if_token: if guard.is_some() {
-                Some(span.as_token())
-            } else {
-                None
-            },
             guard,
             rocket_token: span.as_token(),
-            body: box ExprKind::Lit(Lit {
-                span: span.as_syn_span(),
-                value: LitKind::Bool(true),
-            }).into(),
+            body: box Expr::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit {
+                    span,
+                    value: LitKind::Bool(true),
+                },
+            }),
             comma: Some(span.as_token()),
         }
     }

@@ -12,11 +12,11 @@ impl From<DeriveInput> for Input {
             vis,
             attrs,
             generics,
-            body,
+            data,
         }: DeriveInput,
     ) -> Self {
-        let variants = match body {
-            Body::Enum(body) => body.variants
+        let variants = match data {
+            Body::Enum(data) => body.variants
                 .into_iter()
                 .map(Element::into_item)
                 .map(From::from)
@@ -84,7 +84,7 @@ impl Synom for FnDef {
         syn!(tokens::Eq) >>
         return_type: syn!(Lit) >>
         ({
-            if name.sym.as_str() == "delegate" {
+            if name.as_ref() == "delegate" {
                 panic!("function name cannot be `delegate`")
             }
 
@@ -102,14 +102,14 @@ impl From<Variant> for EnumVar {
     fn from(
         Variant {
             attrs,
-            data,
+            fields,
             ident: name,
             ..
         }: Variant,
     ) -> Self {
         EnumVar {
             name,
-            data,
+            data: fields,
             attrs: parse_attrs(attrs),
         }
     }
@@ -207,11 +207,7 @@ where
         }
 
         if is_attr_name(&attr, "kind") {
-            let tts = attr.tts.into_iter().map(|t| {
-                // syn::parse doesn't like Vec<syn::TokenTree>.
-                t.0
-            });
-            let tts = unwrap_paren(tts);
+            let tts = unwrap_paren(attr.tts);
             let parsed: T = parse(tts.into())
                 .unwrap_or_else(|err| panic!("failed to parse attribute: {}", err));
 
@@ -229,7 +225,7 @@ fn parse_str_as_tokens<T>(lit: Lit) -> T
 where
     T: Synom,
 {
-    let span = lit.span.0;
+    let span = lit.span;
     // WTF? Literal does not provide a way to get string...
     let tt = lit.value.to_string();
 

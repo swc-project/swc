@@ -15,9 +15,5 @@ proc-macro2 = { version = "0.1", features = ["unstable"] }
 git = "https://github.com/dtolnay/syn"
 features = ["full", "parsing", "printing", "extra-traits"]
 
-
-[dependencies.synom]
-git = "https://github.com/dtolnay/syn"
-
 [dev-dependencies]
 swc_common = { path = "../../common" }
