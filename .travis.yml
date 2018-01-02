@@ -5,6 +5,12 @@ rust:
 - nightly
 cache:
 - cargo
+git:
+    submodules: false
+before_install:
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
+
 before_script:
 - |
   pip install 'travis-cargo<0.2' --user &&
