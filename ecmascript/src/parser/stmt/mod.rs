@@ -83,7 +83,7 @@ impl<I: Input> Parser<I> {
                 Import | Export => unimplemented!("import,export"),
                 _ => {}
             },
-            LBrace => return self.parse_block(),
+            LBrace => return self.spanned(|p| p.parse_block().map(StmtKind::Block)),
 
             Semi => {
                 return self.spanned(|p| {
@@ -178,10 +178,52 @@ impl<I: Input> Parser<I> {
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
         unimplemented!("with")
     }
-    fn parse_block(&mut self) -> PResult<Stmt> {
+    pub(super) fn parse_block(&mut self) -> PResult<BlockStmt> {
         unimplemented!("block stmt")
     }
     fn parse_labelled_stmt(&mut self, ident: Ident) -> PResult<Stmt> {
         unimplemented!("labelled stmt")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use lexer::Lexer;
+
+    fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
+        let logger = ::testing::logger().new(o!("src" => s));
+        Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
+    }
+
+    fn stmt(s: &'static str) -> Stmt {
+        mk(s)
+            .parse_stmt(true, true)
+            .expect("failed to parse a statement")
+    }
+    fn expr(s: &'static str) -> Box<Expr> {
+        mk(s)
+            .parse_expr(true)
+            .expect("failed to parse an expression")
+    }
+    #[test]
+    fn expr_stmt() {
+        assert_eq_ignore_span!(
+            stmt("a + b + c"),
+            Stmt {
+                span: Default::default(),
+                node: StmtKind::Expr(expr("a + b + c")),
+            }
+        )
+    }
+    #[test]
+    fn throw_this() {
+        assert_eq_ignore_span!(
+            stmt("throw this"),
+            Stmt {
+                span: Default::default(),
+                node: StmtKind::Throw { arg: expr("this") },
+            }
+        )
     }
 }

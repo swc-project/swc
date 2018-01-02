@@ -3,16 +3,16 @@ use super::input::CharIndices;
 use std::ops::Range;
 use std::str;
 
-fn make_lexer(s: &str) -> Lexer<CharIndices> {
-    let input = CharIndices(s.char_indices());
-    Lexer::new(input)
+fn make_lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
+    let logger = ::testing::logger().new(o!("src" => s));
+    Lexer::new_from_str(logger, s)
 }
 
-fn lex(s: &str) -> Vec<TokenAndSpan> {
+fn lex(s: &'static str) -> Vec<TokenAndSpan> {
     let lexer = make_lexer(&s);
     lexer.collect()
 }
-fn lex_tokens(s: &str) -> Vec<Token> {
+fn lex_tokens(s: &'static str) -> Vec<Token> {
     let lexer = make_lexer(&s);
     lexer.map(|ts| ts.token).collect()
 }
@@ -87,8 +87,6 @@ impl WithSpan for AssignOpToken {
 
 #[test]
 fn invalid_but_lexable() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![LParen.span(0), LBrace.span(1), Semi.span(2)],
         lex("({;")
@@ -105,8 +103,6 @@ fn paren_semi() {
 
 #[test]
 fn ident_paren() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             "a".span(0),
@@ -121,15 +117,11 @@ fn ident_paren() {
 
 #[test]
 fn read_word() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(vec!["a".span(0), "b".span(2), "c".span(4)], lex("a b c"),)
 }
 
 #[test]
 fn simple_regex() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             "x".span(0),
@@ -144,8 +136,6 @@ fn simple_regex() {
 
 #[test]
 fn complex_regex() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             Word(Ident("f".into())),
@@ -167,15 +157,11 @@ fn complex_regex() {
 
 #[test]
 fn simple_div() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(vec!["a".span(0), Div.span(2), "b".span(4)], lex("a / b"));
 }
 
 #[test]
 fn complex_divide() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             Word(Ident("x".into())),
@@ -200,8 +186,6 @@ fn complex_divide() {
 
 #[test]
 fn spec_001() {
-    let _ = ::pretty_env_logger::init();
-
     let expected = vec![
         Word(Ident("a".into())),
         AssignOp(Assign),
@@ -237,8 +221,6 @@ fn spec_001() {
 
 #[test]
 fn after_if() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             Keyword::If.span(0..2),
@@ -260,24 +242,18 @@ fn after_if() {
 
 #[test]
 fn empty() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(lex(""), vec![]);
 }
 
 #[test]
 #[ignore]
 fn invalid_number_failure() {
-    let _ = ::pretty_env_logger::init();
-
     unimplemented!()
 }
 
 #[test]
 #[ignore]
 fn leading_comment() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             BlockComment(" hello world ".into()).span(0..17),
@@ -290,8 +266,6 @@ fn leading_comment() {
 #[test]
 #[ignore]
 fn line_comment() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             Keyword::Var.span(0..3),
@@ -306,8 +280,6 @@ fn line_comment() {
 
 #[test]
 fn migrated_0002() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             "tokenize".span(0..8),
@@ -321,8 +293,6 @@ fn migrated_0002() {
 
 #[test]
 fn migrated_0003() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             LParen.span(0),
@@ -338,8 +308,6 @@ fn migrated_0003() {
 
 #[test]
 fn migrated_0004() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(
         vec![
             Function.span(0..8),
@@ -358,8 +326,6 @@ fn migrated_0004() {
 //
 // #[test]
 // fn migrated_0005() {
-//     let _ = ::pretty_env_logger::init();
-//
 //     assert_eq!(
 //         vec![
 //             Function.span(0..8),
@@ -376,8 +342,6 @@ fn migrated_0004() {
 
 #[test]
 fn migrated_0006() {
-    let _ = ::pretty_env_logger::init();
-
     // This test seems wrong.
     // assert_eq!(
     //     vec![LBrace.span(0), RBrace.span(1), Div.span(3), 42.span(4..6)],
@@ -396,8 +360,6 @@ fn migrated_0006() {
 
 #[test]
 fn str_lit() {
-    let _ = ::pretty_env_logger::init();
-
     assert_eq!(vec![Str("abcde".into(), false)], lex_tokens("'abcde'"));
     assert_eq!(vec![Str("abcde".into(), true)], lex_tokens(r#""abcde""#));
     assert_eq!(vec![Str("abc".into(), false)], lex_tokens("'\\\nabc'"));

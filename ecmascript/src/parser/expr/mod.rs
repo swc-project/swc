@@ -1,5 +1,6 @@
 use super::*;
 
+mod obj;
 mod ops;
 
 impl<I: Input> Parser<I> {
@@ -26,7 +27,7 @@ impl<I: Input> Parser<I> {
     /// operators like `+=`.
     ///
     fn parse_assignment_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
-        if self.ctx.is_in_generator && self.i.is(&Word(Keyword(Yield))) {
+        if self.ctx.in_generator.is_some() && self.i.is(&Word(Keyword(Yield))) {
             return self.parse_yield_expr(include_in);
         }
 
@@ -88,6 +89,7 @@ impl<I: Input> Parser<I> {
 
         match *t {
             Word(Keyword(This)) => {
+                self.i.bump();
                 let span = self.i.cur_span();
                 return Ok(box Expr {
                     node: ExprKind::This,
@@ -106,7 +108,7 @@ impl<I: Input> Parser<I> {
 
             Word(Ident(..)) => {
                 // TODO: Handle [Yield, Await]
-                return self.parse_ident_ref().map(ident_to_expr);
+                return self.parse_ident_ref().map(From::from);
             }
             Word(Null) | Word(True) | Word(False) | Num(..) | Str(..) => {
                 return self.spanned(|p| p.parse_lit().map(ExprKind::Lit))
@@ -231,13 +233,10 @@ impl<I: Input> Parser<I> {
         unimplemented!("parse_args")
     }
 
-    /// 12.2.6 Object Initializer
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         unimplemented!("array lit")
     }
-    fn parse_obj_lit(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!("object lit")
-    }
+
     fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         unimplemented!("async function")
     }
@@ -274,7 +273,7 @@ impl<I: Input> Parser<I> {
         // member expression
         // $obj.name
         if self.i.eat(&Dot) {
-            let prop = self.parse_ident_name().map(ident_to_expr)?;
+            let prop: Box<Expr> = self.parse_ident_name().map(From::from)?;
             return Ok((
                 box Expr {
                     span: obj.span() + prop.span,
@@ -404,7 +403,7 @@ e.g.
 impl<I: Input> Parser<I> {
     fn parse_yield_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
         debug_assert!(self.i.is(&Word(Keyword(Yield))));
-        debug_assert!(self.ctx.is_in_generator);
+        debug_assert!(self.ctx.in_generator.is_some());
 
         unimplemented!("parse_yield_expr")
     }
@@ -412,9 +411,14 @@ impl<I: Input> Parser<I> {
     /// 12.2.5 Array Initializer
     fn parse_lit(&mut self) -> PResult<Lit> {
         let v = match self.i.cur()? {
-            &Word(Null) => Lit::Null,
-            &Word(True) => Lit::Bool(true),
-            &Word(False) => Lit::Bool(false),
+            &Word(Null) => {
+                self.i.bump();
+                Lit::Null
+            }
+            &Word(ref w @ True) | &Word(ref w @ False) => {
+                self.i.bump();
+                Lit::Bool(*w == True)
+            }
             &Str(..) => match self.i.bump() {
                 //FIXME
                 Str(s, _) => Lit::Str(s),
@@ -430,24 +434,17 @@ impl<I: Input> Parser<I> {
     }
 }
 
-fn ident_to_expr(i: Ident) -> Box<Expr> {
-    let span = i.span;
-    box Expr {
-        span,
-        node: ExprKind::Ident(i),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use lexer::Lexer;
 
-    fn mk<'a>(s: &'a str) -> Parser<impl 'a + Input> {
-        Parser::new_for_module(Lexer::from(s))
+    fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
+        let logger = ::testing::logger().new(o!("src" => s));
+        Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
     }
 
-    fn lhs(s: &str) -> Box<Expr> {
+    fn lhs(s: &'static str) -> Box<Expr> {
         mk(s)
             .parse_lhs_expr()
             .expect("failed to parse lhs expression")
@@ -455,8 +452,6 @@ mod tests {
 
     #[test]
     fn new_expr_should_not_eat_too_much() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq_ignore_span!(
             mk("new Date().toString()").parse_new_expr().unwrap(),
             box Expr {
@@ -466,10 +461,10 @@ mod tests {
                         .parse_member_expr()
                         .map(ExprOrSuper::Expr)
                         .unwrap(),
-                    prop: ident_to_expr(Ident {
+                    prop: Ident {
                         sym: "toString".into(),
                         span: Default::default(),
-                    }),
+                    }.into(),
                     computed: false,
                 },
             }
@@ -477,8 +472,6 @@ mod tests {
     }
     #[test]
     fn lhs_expr_as_new_expr_prod() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq_ignore_span!(
             lhs("new Date.toString()"),
             &box Expr {
@@ -493,8 +486,6 @@ mod tests {
 
     #[test]
     fn lhs_expr_as_call() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq_ignore_span!(
             lhs("new Date.toString()()"),
             box Expr {

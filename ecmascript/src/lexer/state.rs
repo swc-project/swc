@@ -1,3 +1,4 @@
+use slog::Logger;
 use swc_common::BytePos;
 use token::*;
 
@@ -34,7 +35,7 @@ impl State {
             .unwrap_or(false)
     }
 
-    pub fn update(&mut self, next: &Token) {
+    pub fn update(&mut self, logger: &Logger, next: &Token) {
         match *next {
             // skip comments
             LineComment(..) | BlockComment(..) => return,
@@ -42,6 +43,7 @@ impl State {
         }
 
         trace!(
+            logger,
             "updating state: next={:?}, had_line_break={} ",
             next,
             self.had_line_break
@@ -50,6 +52,7 @@ impl State {
         self.token_type = Some(next.clone());
 
         self.is_expr_allowed = Self::is_expr_allowed_on_next(
+            logger,
             &mut self.context,
             prev,
             next,
@@ -60,6 +63,7 @@ impl State {
 
     /// `is_expr_allowed`: previous value.
     fn is_expr_allowed_on_next(
+        logger: &Logger,
         context: &mut Context,
         prev: Option<Token>,
         next: &Token,
@@ -82,11 +86,11 @@ impl State {
                         return true;
                     }
 
-                    let out = context.pop().unwrap();
+                    let out = context.pop(logger).unwrap();
 
                     // function(){}
                     if out == Type::BraceStmt && context.current() == Some(Type::FnExpr) {
-                        context.pop();
+                        context.pop(logger);
                         return false;
                     }
 
@@ -107,7 +111,7 @@ impl State {
                         _ => false,
                     };
                     if context.current() != Some(Type::BraceStmt) || is_always_expr {
-                        context.push(Type::FnExpr);
+                        context.push(logger, Type::FnExpr);
                     }
                     return false;
                 }
@@ -144,13 +148,13 @@ impl State {
                         } else {
                             Type::BraceExpr
                         };
-                    context.push(next_ctxt);
+                    context.push(logger, next_ctxt);
                     true
                 }
 
                 // `${`
                 DollarLBrace => {
-                    context.push(Type::TplQuasi);
+                    context.push(logger, Type::TplQuasi);
                     return true;
                 }
 
@@ -158,14 +162,17 @@ impl State {
                 LParen => {
                     // if, for, with, while is statement
 
-                    context.push(match prev {
-                        Some(Word(Keyword(k))) => match k {
-                            If | With | While => Type::ParenStmt { is_for_loop: false },
-                            For => Type::ParenStmt { is_for_loop: true },
+                    context.push(
+                        logger,
+                        match prev {
+                            Some(Word(Keyword(k))) => match k {
+                                If | With | While => Type::ParenStmt { is_for_loop: false },
+                                For => Type::ParenStmt { is_for_loop: true },
+                                _ => Type::ParenExpr,
+                            },
                             _ => Type::ParenExpr,
                         },
-                        _ => Type::ParenExpr,
-                    });
+                    );
                     return true;
                 }
 
@@ -175,9 +182,9 @@ impl State {
                 BackQuote => {
                     // If we are in template, ` terminates template.
                     if context.current() == Some(Type::Tpl) {
-                        context.pop();
+                        context.pop(logger);
                     } else {
-                        context.push(Type::Tpl);
+                        context.push(logger, Type::Tpl);
                     }
                     return false;
                 }
@@ -242,16 +249,16 @@ impl Context {
     fn len(&self) -> usize {
         self.0.len()
     }
-    fn pop(&mut self) -> Option<Type> {
+    fn pop(&mut self, logger: &Logger) -> Option<Type> {
         let opt = self.0.pop();
-        trace!("context.pop({:?})", opt);
+        trace!(logger, "context.pop({:?})", opt);
         opt
     }
     fn current(&self) -> Option<Type> {
         self.0.last().cloned()
     }
-    fn push(&mut self, t: Type) {
-        trace!("context.push({:?})", t);
+    fn push(&mut self, logger: &Logger, t: Type) {
+        trace!(logger, "context.push({:?})", t);
         self.0.push(t)
     }
 }

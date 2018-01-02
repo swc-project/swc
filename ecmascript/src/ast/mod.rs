@@ -8,9 +8,10 @@ pub use self::module_decl::*;
 pub use self::pat::*;
 pub use self::prop::*;
 pub use self::stmt::*;
+use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};
-use swc_macros::ast_node;
+use swc_macros::{AstNode, Deserialize, EqIgnoreSpan, Serialize};
 
 mod class;
 mod decl;
@@ -24,11 +25,27 @@ mod prop;
 mod stmt;
 
 /// Ident with span.
-#[ast_node]
+#[derive(AstNode, EqIgnoreSpan, Serialize, Deserialize, Clone, PartialEq)]
 pub struct Ident {
     pub span: Span,
     #[fold(ignore)]
     pub sym: JsWord,
+}
+
+impl Debug for Ident {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        f.debug_tuple("Ident")
+            .field(&DebugUsingDisplay(&self.sym))
+            .field(&self.span)
+            .finish()
+    }
+}
+
+struct DebugUsingDisplay<T: Display>(T);
+impl<T: Display> Debug for DebugUsingDisplay<T> {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Display::fmt(&self.0, f)
+    }
 }
 
 impl Spanned for Ident {

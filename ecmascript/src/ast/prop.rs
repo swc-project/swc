@@ -1,24 +1,68 @@
-use super::Expr;
+use super::{BlockStmt, Expr, Function, Ident, Number, Pat};
 use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
 pub struct Prop {
     pub span: Span,
-    pub key: Box<Expr>,
-    pub value: Box<Expr>,
-    pub kind: PropKind,
+    pub node: PropKind,
+    //  pub key: Box<Expr>,
+//     pub value: Box<Expr>,
+//     pub kind: PropKind,
 
-    pub method: bool,
-    pub shorthand: bool,
-    pub computed: bool,
+//     pub method: bool,
+//     pub shorthand: bool,
+//     pub computed: bool,
 }
 
 #[ast_node]
 pub enum PropKind {
-    Init,
-    Get,
-    Set,
+    /// `a` in `{ a, }`
+    Shorthand(Ident),
+
+    /// `key: value` in `{ key: value, }`
+    KeyValue {
+        key: Box<Expr>,
+        value: Box<Expr>,
+    },
+    Getter {
+        name: PropName,
+        body: BlockStmt,
+    },
+    Setter {
+        name: PropName,
+        arg: Pat,
+    },
+    Method {
+        key: PropName,
+        function: Function,
+    },
+}
+
+#[ast_node]
+pub enum PropName {
+    Ident(Ident),
+    /// String literal.
+    Str(String),
+    /// Numeric literal.
+    Num(Number),
+    Computed(Box<Expr>),
+}
+
+impl From<Ident> for PropName {
+    fn from(i: Ident) -> Self {
+        PropName::Ident(i)
+    }
+}
+
+impl Prop {
+    pub fn new_shorthand(ident: Ident) -> Self {
+        let span = ident.span;
+        Prop {
+            span,
+            node: PropKind::Shorthand(ident),
+        }
+    }
 }
 
 // TODO:

@@ -3,6 +3,7 @@
 pub use self::input::Input;
 use self::input::ParserInput;
 use ast::*;
+use slog::Logger;
 use std::option::NoneError;
 use swc_common::{Span, Spanned};
 use token::*;
@@ -23,11 +24,16 @@ struct Context {
     module: bool,
     /// If true await expression will be parsed, and "await" will be treated as
     /// a keyword.
-    is_in_async_fn: bool,
+    in_async: Option<Async>,
     /// If true yield expression will be parsed, and "yield" will be treated as
     /// a keyword.
-    is_in_generator: bool,
+    in_generator: Option<Generator>,
 }
+
+#[derive(Debug, Copy, Clone)]
+struct Async;
+#[derive(Debug, Copy, Clone)]
+struct Generator;
 
 pub type PResult<T> = Result<T, Error>;
 
@@ -54,35 +60,39 @@ pub enum SyntaxError {
     EvalAndArgumentsInStrict,
     UnaryInExp,
     LineBreakInThrow,
+    Expected(&'static Token),
 }
 
 /// EcmaScript parser.
 pub struct Parser<I: Input> {
+    logger: Logger,
     ctx: Context,
     i: ParserInput<I>,
 }
 
 impl<I: Input> Parser<I> {
-    pub const fn new_for_module(lexer: I) -> Self {
+    pub fn new_for_module(logger: Logger, lexer: I) -> Self {
         Parser {
+            logger,
             i: ParserInput::new(lexer),
             ctx: Context {
                 strict: true,
                 module: true,
-                is_in_async_fn: false,
-                is_in_generator: false,
+                in_async: None,
+                in_generator: None,
             },
         }
     }
 
-    pub const fn new_for_script(lexer: I, strict: bool) -> Self {
+    pub fn new_for_script(logger: Logger, lexer: I, strict: bool) -> Self {
         Parser {
+            logger,
             i: ParserInput::new(lexer),
             ctx: Context {
                 strict,
                 module: false,
-                is_in_async_fn: false,
-                is_in_generator: false,
+                in_async: None,
+                in_generator: None,
             },
         }
     }
@@ -99,6 +109,7 @@ impl<I: Input> Parser<I> {
     }
 
     fn eat_or_inject_semi(&mut self) -> bool {
+        debug!(self.logger, "eat_or_inject_semi: cur={:?}", self.i.cur());
         self.i.eat(&Semi) || self.i.cur() == None || self.i.is(&RBrace)
             || self.i.had_line_break_before_cur()
     }
@@ -108,12 +119,37 @@ impl<I: Input> Parser<I> {
         if self.eat_or_inject_semi() {
             Ok(())
         } else {
-            panic!("expected ';', got {:?}", self.i.cur())
-            // Err(Error::ExpectedSemi)
+            Err(Error::ExpectedSemi)
+        }
+    }
+
+    fn expect(&mut self, t: &'static Token) -> PResult<()> {
+        if self.i.eat(t) {
+            Ok(())
+        } else {
+            Err(SyntaxError::Expected(t).into())
         }
     }
 
     pub fn parse_script(&mut self) -> PResult<Vec<Stmt>> {
         self.parse_block_body(true, None)
+    }
+
+    /// Call `op` with `ctx`, and restore original context after it.
+    fn with_ctx<F, Ret>(&mut self, ctx: Context, op: F) -> Ret
+    where
+        F: FnOnce(&mut Self) -> Ret,
+    {
+        let orig = self.ctx;
+        self.ctx = ctx;
+        let ret = op(self);
+        self.ctx = orig;
+        ret
+    }
+}
+
+impl From<SyntaxError> for Error {
+    fn from(se: SyntaxError) -> Self {
+        Error::Syntax(se)
     }
 }

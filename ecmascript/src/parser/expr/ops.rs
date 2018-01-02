@@ -30,12 +30,14 @@ impl<I: Input> Parser<I> {
             &Word(Keyword(In)) if include_in => BinaryOp::In,
             &Word(Keyword(InstanceOf)) => BinaryOp::InstanceOf,
             &BinOp(op) => op.into(),
-            _ => return Ok(left),
+            _ => {
+                return Ok(left);
+            }
         };
-        self.i.bump();
 
         if op.precedence() <= min_prec {
             debug!(
+                self.logger,
                 "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                 left,
                 op,
@@ -45,7 +47,9 @@ impl<I: Input> Parser<I> {
 
             return Ok(left);
         }
+        self.i.bump();
         debug!(
+            self.logger,
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
             min_prec,
@@ -84,7 +88,6 @@ impl<I: Input> Parser<I> {
         };
 
         let expr = self.parse_bin_op_recursively(node, min_prec, include_in)?;
-        debug!("parsed binary operation: {:?}", expr,);
         Ok(expr)
     }
 
@@ -139,7 +142,7 @@ impl<I: Input> Parser<I> {
             });
         }
 
-        if self.ctx.is_in_async_fn && self.i.is(&Word(Keyword(Await))) {
+        if self.ctx.in_async.is_some() && self.i.is(&Word(Keyword(Await))) {
             return self.parse_await_expr();
         }
 
@@ -170,7 +173,7 @@ impl<I: Input> Parser<I> {
 
     fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
         debug_assert!(self.i.is(&Word(Keyword(Await))));
-        debug_assert!(self.ctx.is_in_async_fn);
+        debug_assert!(self.ctx.in_async.is_some());
 
         unimplemented!("parse_await_expr")
     }
@@ -181,11 +184,12 @@ mod tests {
     use super::*;
     use lexer::Lexer;
 
-    fn mk<'a>(s: &'a str) -> Parser<impl 'a + Input> {
-        Parser::new_for_module(Lexer::from(s))
+    fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
+        let logger = ::testing::logger().new(o!("src" => s));
+        Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
     }
 
-    fn bin(s: &str) -> Box<Expr> {
+    fn bin(s: &'static str) -> Box<Expr> {
         mk(s).parse_bin_expr(true).unwrap_or_else(|err| {
             panic!("failed to parse '{}' as a binary expression: {:?}", s, err)
         })
@@ -193,8 +197,6 @@ mod tests {
 
     #[test]
     fn simple() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
             box Expr {
@@ -203,6 +205,21 @@ mod tests {
                     op: BinaryOp::Add,
                     left: bin("5"),
                     right: bin("4 * 7"),
+                },
+            }
+        );
+    }
+
+    #[test]
+    fn same_prec() {
+        assert_eq_ignore_span!(
+            bin("5 + 4 + 7"),
+            box Expr {
+                span: Default::default(),
+                node: ExprKind::Binary {
+                    op: BinaryOp::Add,
+                    left: bin("5 + 4"),
+                    right: bin("7"),
                 },
             }
         );

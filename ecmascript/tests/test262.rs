@@ -2,21 +2,24 @@
 #![feature(conservative_impl_trait)]
 #![feature(test)]
 
-extern crate pretty_env_logger;
+#[macro_use]
+extern crate slog;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecmascript;
 extern crate test;
+extern crate testing;
+use slog::Logger;
 use std::env;
 use std::fmt::Write as FmtWrite;
 use std::fs::File;
 use std::fs::read_dir;
-use std::io::{self, stdout, Read, Write};
+use std::io::{self, Read};
 use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
 use swc_ecmascript::ast::*;
 use swc_ecmascript::lexer::Lexer;
-use swc_ecmascript::parser::{Input, PResult, Parser};
+use swc_ecmascript::parser::{PResult, Parser};
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
 
@@ -77,12 +80,16 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let name = format!("test262_parser_pass_{}", file_name);
         add_test(tests, name, false, move || {
             let mut s = String::new();
-            writeln!(s, "\nSource:\n{}\nExplicit:\n{}", input, explicit).unwrap();
+            writeln!(
+                s,
+                "\nRunning test {}\nSource:\n{}\nExplicit:\n{}",
+                file_name, input, explicit
+            ).unwrap();
 
             let res = catch_unwind(move || {
                 if module {
                     let p = |ty, s| {
-                        parse_module(s).unwrap_or_else(|err| {
+                        parse_module(&file_name, s).unwrap_or_else(|err| {
                             panic!("failed to parse {}: {:?}\ncode:\n{}", ty, err, s)
                         })
                     };
@@ -92,7 +99,7 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     assert_eq_ignore_span!(src, expected, "{}", s);
                 } else {
                     let p = |ty, s| {
-                        parse_script(s).unwrap_or_else(|err| {
+                        parse_script(&file_name, s).unwrap_or_else(|err| {
                             panic!("failed to parse {}: {:?}\ncode:\n{}", ty, err, s)
                         })
                     };
@@ -113,13 +120,20 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     Ok(())
 }
 
-fn parse_script(s: &str) -> PResult<Vec<Stmt>> {
-    Parser::new_for_script(Lexer::from(s), false)
+fn logger(file_name: &str, src: &str) -> Logger {
+    let (f, s): (String, String) = (file_name.into(), src.into());
+    ::testing::logger().new(o!("file name" => f, "src" => s,))
+}
+
+fn parse_script(file_name: &str, s: &str) -> PResult<Vec<Stmt>> {
+    let l = logger(file_name, s);
+    Parser::new_for_script(l.clone(), Lexer::new_from_str(l, s), false)
         .parse_script()
         .map(Normalize::normalize)
 }
-fn parse_module(s: &str) -> PResult<Module> {
-    Parser::new_for_module(Lexer::from(s)).parse_module()
+fn parse_module(file_name: &str, s: &str) -> PResult<Module> {
+    let l = logger(file_name, s);
+    Parser::new_for_module(l.clone(), Lexer::new_from_str(l, s)).parse_module()
 }
 
 trait Normalize {
@@ -198,10 +212,8 @@ impl Normalize for Number {
 }
 
 #[test]
+// #[main]
 fn main() {
-    let _ = ::pretty_env_logger::init();
-
-    println!("Preparing test..");
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     unit_tests(&mut tests).unwrap();

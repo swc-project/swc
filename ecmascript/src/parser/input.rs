@@ -115,6 +115,13 @@ impl<I: Input> ParserInput<I> {
         }
     }
 
+    pub fn is_peeked(&mut self, expected: &Token) -> bool {
+        match self.peek() {
+            Some(t) => *expected == *t,
+            _ => false,
+        }
+    }
+
     pub fn eat(&mut self, expected: &Token) -> bool {
         match self.cur() {
             Some(t) => {

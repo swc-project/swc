@@ -1,4 +1,4 @@
-use super::{BlockStmt, Class, Ident, JsFn, Lit, Pat, Prop};
+use super::{BlockStmt, Class, Function, Ident, Lit, Pat, Prop};
 use either::Either;
 use swc_common::{Span, Spanned};
 use swc_macros::{ast_node, Deserialize, Serialize};
@@ -190,7 +190,7 @@ pub enum ExprKind {
 #[ast_node]
 pub struct FnExpr {
     pub ident: Option<Ident>,
-    pub function: JsFn,
+    pub function: Function,
 }
 
 /// Class expression.
@@ -332,6 +332,16 @@ pub enum BinaryOp {
     Exp,
 }
 
+impl From<Ident> for Box<Expr> {
+    fn from(i: Ident) -> Self {
+        let span = i.span;
+        box Expr {
+            span,
+            node: ExprKind::Ident(i),
+        }
+    }
+}
+
 impl From<BinOpToken> for BinaryOp {
     fn from(t: BinOpToken) -> Self {
         use self::BinaryOp::*;
@@ -386,12 +396,4 @@ pub enum UnaryOp {
     Void,
     /// `delete`
     Delete,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, EqIgnoreSpan, Hash, Serialize, Deserialize)]
-pub enum LogicalOp {
-    /// `||`
-    LogicalOr,
-    /// `&&`
-    LogicalAnd,
 }

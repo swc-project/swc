@@ -11,6 +11,7 @@ pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
+use slog::Logger;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use token::*;
@@ -58,18 +59,20 @@ pub struct Options {
 }
 
 pub struct Lexer<I: Input> {
+    logger: Logger,
     input: LexerInput<I>,
     opts: Options,
     state: State,
 }
 
 impl<I: Input> Lexer<I> {
-    pub fn new(input: I) -> Self {
-        Self::new_with(Options::default(), input)
+    pub fn new(logger: Logger, input: I) -> Self {
+        Self::new_with(logger, Options::default(), input)
     }
 
-    pub fn new_with(opts: Options, input: I) -> Self {
+    pub fn new_with(logger: Logger, opts: Options, input: I) -> Self {
         Lexer {
+            logger,
             opts,
             state: State::new(),
             input: LexerInput::new(input),
@@ -680,7 +683,7 @@ impl<I: Input> Iterator for Lexer<I> {
             let token = self.read_token(start, c)
                 .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
 
-            self.state.update(&token.token);
+            self.state.update(&self.logger, &token.token);
             return Some(token);
         }
 
@@ -694,8 +697,8 @@ impl<I: Input> ::parser::Input for Lexer<I> {
     }
 }
 
-impl<'a> From<&'a str> for Lexer<input::CharIndices<'a>> {
-    fn from(s: &'a str) -> Self {
-        Lexer::new(input::CharIndices(s.char_indices()))
+impl<'a> Lexer<input::CharIndices<'a>> {
+    pub fn new_from_str(logger: Logger, s: &'a str) -> Self {
+        Lexer::new(logger, input::CharIndices(s.char_indices()))
     }
 }

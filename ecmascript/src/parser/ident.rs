@@ -7,7 +7,7 @@ impl<I: Input> Parser<I> {
     pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
         let ctx = self.ctx;
 
-        self.parse_ident(!ctx.is_in_generator, !ctx.is_in_async_fn)
+        self.parse_ident(ctx.in_generator.is_none(), ctx.in_async.is_none())
     }
 
     /// BindingIdentifier
@@ -28,7 +28,7 @@ impl<I: Input> Parser<I> {
     pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
         let ctx = self.ctx;
 
-        self.parse_ident(!ctx.is_in_generator, !ctx.is_in_async_fn)
+        self.parse_ident(ctx.in_generator.is_none(), ctx.in_async.is_none())
     }
 
     /// Use this when spec says "IdentiferName".
@@ -43,7 +43,7 @@ impl<I: Input> Parser<I> {
                 _ => return Err(Error::ExpectedIdent),
             };
 
-            Ok(w.into_js_word())
+            Ok(w.into())
         })
     }
 

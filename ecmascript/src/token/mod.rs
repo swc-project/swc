@@ -8,7 +8,7 @@ pub use self::Keyword::*;
 pub use self::Number::*;
 pub use self::Token::*;
 pub use self::Word::*;
-use std::fmt::{self, Display, Formatter};
+use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_macros::{Deserialize, Serialize};
@@ -228,7 +228,7 @@ pub struct TokenAndSpan {
     pub span: Span,
 }
 
-#[derive(Kind, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Kind, Clone, PartialEq, Eq, Hash)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Word {
     #[kind(delegate)]
@@ -294,9 +294,9 @@ impl From<Keyword> for Word {
     }
 }
 
-impl Word {
-    pub fn into_js_word(self) -> JsWord {
-        match self {
+impl From<Word> for JsWord {
+    fn from(w: Word) -> Self {
+        match w {
             Keyword(k) => match k {
                 Await => js_word!("await"),
                 Break => js_word!("break"),
@@ -358,6 +358,20 @@ impl Word {
             Ident(w) => w,
         }
     }
+}
+impl Debug for Word {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match *self {
+            Word::Ident(ref s) => Display::fmt(s, f),
+            _ => {
+                let s: JsWord = self.clone().into();
+                Display::fmt(&s, f)
+            }
+        }
+    }
+}
+
+impl Word {
     pub fn is_reserved_word(&self, strict: bool) -> bool {
         match *self {
             Keyword(Await) | Keyword(Yield) if !strict => false,

@@ -1,4 +1,4 @@
-use super::{Class, Expr, Ident, JsFn, Pat};
+use super::{Class, Expr, Function, Ident, Pat};
 use swc_common::Span;
 use swc_macros::ast_node;
 
@@ -9,7 +9,7 @@ pub enum Decl {
     #[serde = "FunctionDeclaration"]
     Fn {
         ident: Ident,
-        function: JsFn,
+        function: Function,
     },
 
     #[serde = "VariableDeclaration"]
@@ -41,5 +41,5 @@ pub struct VarDeclarator {
     #[serde = "id"]
     pub name: Pat,
     /// Initialization expresion.
-    pub init: Option<Expr>,
+    pub init: Option<Box<Expr>>,
 }

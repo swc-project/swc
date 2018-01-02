@@ -222,10 +222,10 @@ impl<I: Input> Lexer<I> {
     }
 
     fn read_int(&mut self, radix: u8) -> Result<Option<(i64, BytePos)>, Error<I::Error>> {
-        debug!("read_int(radix = {})", radix);
+        debug!(self.logger, "read_int(radix = {})", radix);
 
         let res = self.read_int_real(radix);
-        debug!("read_int(radix = {}) -> {:?}", radix, res);
+        debug!(self.logger, "read_int(radix = {}) -> {:?}", radix, res);
         res
     }
 
@@ -311,13 +311,14 @@ impl<I: Input> Lexer<I> {
 mod tests {
     use super::*;
     use lexer::input::CharIndices;
+    use std::panic;
 
-    fn lexer(s: &str) -> Lexer<CharIndices> {
-        let input = CharIndices(s.char_indices());
-        Lexer::new(input)
+    fn lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
+        let l = ::testing::logger().new(o!("src" => s));
+        Lexer::new_from_str(l, s)
     }
 
-    fn read(radix: u8, s: &str) -> i64 {
+    fn read(radix: u8, s: &'static str) -> i64 {
         lexer(s)
             .read_int(radix)
             .expect("read_int failed")
@@ -327,23 +328,17 @@ mod tests {
 
     #[test]
     fn read_int() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq!(60, read(10, "60"));
         assert_eq!(0o73, read(8, "73"));
     }
 
     #[test]
     fn read_int_short() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq!(7, read(10, "7"));
     }
 
     #[test]
     fn read_radix_number() {
-        let _ = ::pretty_env_logger::init();
-
         assert_eq!(
             Ok(Num(Decimal(0o73))),
             lexer("0o73").read_radix_number(8).map(|ts| ts.token)
@@ -355,14 +350,13 @@ mod tests {
     const INVALID_CASES_ON_STRICT: &[&str] = &["08e1", "08.1", "08.8e1", "08", "01"];
     const INVALID_CASES: &[&str] = &[".e-1", "01.8e1", "012e1", "00e1", "00.0"];
 
-    fn test_floats(strict: bool, success: bool, cases: &[&str]) {
+    fn test_floats(strict: bool, success: bool, cases: &'static [&'static str]) {
         for case in cases {
-            println!(
-                "Testing {}; strict = {}, expects {}",
-                case,
-                strict,
-                if success { "success" } else { "error" }
-            );
+            let logger = ::testing::logger().new(o!("src" => case,
+                "strict" => strict,
+                "expected" => if success { "success" } else { "error" }
+            ));
+
             // lazy way to get expected value..
             let expected = (i64::from_str_radix(case, 8).map(ImplicitOctal))
                 .or_else(|_| case.parse::<i64>().map(Decimal))
@@ -370,30 +364,37 @@ mod tests {
                 .expect("failed to parse `expected` as float using str.parse()");
 
             let input = CharIndices(case.char_indices());
-            let vec = Lexer::new_with(
-                Options {
-                    strict,
-                    ..Default::default()
-                },
-                input,
-            ).map(|ts| ts.token)
-                .collect::<Vec<_>>();
+            let vec = panic::catch_unwind(|| {
+                Lexer::new_with(
+                    logger,
+                    Options {
+                        strict,
+                        ..Default::default()
+                    },
+                    input,
+                ).map(|ts| ts.token)
+                    .collect::<Vec<_>>()
+            });
 
             if success {
+                let vec = match vec {
+                    Ok(vec) => vec,
+                    Err(err) => panic::resume_unwind(err),
+                };
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
                 assert_eq!(Num(expected), token);
             } else {
-                // TODO: Result item?
-                assert!(vec![Num(expected)] != vec);
+                match vec {
+                    Ok(vec) => assert!(vec![Num(expected)] != vec),
+                    _ => {}
+                }
             }
         }
     }
 
     #[test]
     fn strict_mode() {
-        let _ = ::pretty_env_logger::init();
-
         test_floats(true, true, VALID_CASES);
         test_floats(true, false, INVALID_CASES_ON_STRICT);
         test_floats(true, false, INVALID_CASES);
@@ -401,8 +402,6 @@ mod tests {
 
     #[test]
     fn non_strict() {
-        let _ = ::pretty_env_logger::init();
-
         test_floats(false, true, VALID_CASES);
         test_floats(false, true, INVALID_CASES_ON_STRICT);
         test_floats(false, false, INVALID_CASES);

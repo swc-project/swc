@@ -1,0 +1,10 @@
+[package]
+name = "testing"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+slog = "2"
+slog-envlogger = "2.1"
+slog-term = "2.3"
+lazy_static = "1"
