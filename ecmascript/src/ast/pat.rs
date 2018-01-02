@@ -25,8 +25,28 @@ pub enum PatKind {
     ),
 
     #[serde = "AssignmentPattern"]
+    Object {
+        props: Vec<AssignProp>,
+    },
+
+    #[serde = "AssignmentPattern"]
     Assign {
         left: Box<Pat>,
         right: Box<Expr>,
     },
+}
+
+#[ast_node]
+pub struct AssignProp {
+    pub value: Box<Pat>,
+    pub method: bool,
+}
+
+impl From<Ident> for Pat {
+    fn from(id: Ident) -> Self {
+        Pat {
+            span: id.span,
+            node: PatKind::Ident(id),
+        }
+    }
 }

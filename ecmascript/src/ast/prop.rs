@@ -22,16 +22,17 @@ pub enum PropKind {
 
     /// `key: value` in `{ key: value, }`
     KeyValue {
-        key: Box<Expr>,
+        key: PropName,
         value: Box<Expr>,
     },
     Getter {
-        name: PropName,
+        key: PropName,
         body: BlockStmt,
     },
     Setter {
-        name: PropName,
-        arg: Pat,
+        key: PropName,
+        param: Pat,
+        body: BlockStmt,
     },
     Method {
         key: PropName,
@@ -64,16 +65,3 @@ impl Prop {
         }
     }
 }
-
-// TODO:
-// interface AssignmentProperty <: Property {
-//     type: "Property"; // inherited
-//     value: Pattern;
-//     kind: "init";
-//     method: false;
-// }
-
-// interface ObjectPattern <: Pattern {
-//     type: "ObjectPattern";
-//     properties: [ AssignmentProperty ];
-// }

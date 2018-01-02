@@ -1,6 +1,6 @@
 use super::*;
 
-mod obj;
+mod obj_and_arr;
 mod ops;
 
 impl<I: Input> Parser<I> {
@@ -210,14 +210,6 @@ impl<I: Input> Parser<I> {
     /// This includes `MemberExpression`.
     fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_member_expr_or_new_expr(true)
-    }
-
-    fn parse_call_expr(&mut self) -> PResult<Box<Expr>> {
-        if self.i.eat_keyword(Super) {
-            let obj = ExprOrSuper::Super(self.i.last_span());
-            return self.parse_subscripts(obj, false);
-        }
-        unimplemented!("parse_call_expr")
     }
 
     /// Parse `Arguments[Yield, Await]`
