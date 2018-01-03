@@ -1,12 +1,10 @@
-#![feature(conservative_impl_trait)]
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(const_fn)]
 #![feature(specialization)]
-#![feature(try_trait)]
-#![feature(generators)]
 #![feature(nll)]
 #![feature(proc_macro)]
+#![feature(try_trait)]
 #![deny(unreachable_patterns)]
 
 extern crate either;

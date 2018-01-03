@@ -143,16 +143,33 @@ fn parse_script(file_name: &str, s: &str) -> PResult<Vec<Stmt>> {
     let l = logger(file_name, s);
     Parser::new_for_script(l.clone(), Lexer::new_from_str(l, s), false)
         .parse_script()
-        .map(|script| Normalizer.fold(script))
+        .map(normalize)
 }
 fn parse_module(file_name: &str, s: &str) -> PResult<Module> {
     let l = logger(file_name, s);
     Parser::new_for_module(l.clone(), Lexer::new_from_str(l, s))
         .parse_module()
-        .map(|module| Normalizer.fold(module))
+        .map(normalize)
 }
 
-struct Normalizer;
+fn normalize<T>(mut t: T) -> T
+where
+    Normalizer: Folder<T>,
+{
+    loop {
+        let mut n = Normalizer {
+            did_something: false,
+        };
+        t = n.fold(t);
+        if !n.did_something {
+            return t;
+        }
+    }
+}
+
+struct Normalizer {
+    did_something: bool,
+}
 impl Folder<Span> for Normalizer {
     fn fold(&mut self, _: Span) -> Span {
         Span::DUMMY
@@ -162,10 +179,13 @@ impl Folder<ExprKind> for Normalizer {
     fn fold(&mut self, e: ExprKind) -> ExprKind {
         match e {
             ExprKind::Paren(e) => self.fold(e.node),
-            ExprKind::New { callee, args: None } => ExprKind::New {
-                callee: self.fold(callee),
-                args: Some(vec![]),
-            },
+            ExprKind::New { callee, args: None } => {
+                self.did_something = true;
+                ExprKind::New {
+                    callee: self.fold(callee),
+                    args: Some(vec![]),
+                }
+            }
             _ => e.fold_children(self),
         }
     }
@@ -175,7 +195,10 @@ impl Folder<Number> for Normalizer {
     fn fold(&mut self, n: Number) -> Number {
         match n {
             Number::Float(..) => n,
-            Number::Decimal(v) | Number::ImplicitOctal(v) => Number::Float(v as _),
+            Number::Decimal(v) | Number::ImplicitOctal(v) => {
+                self.did_something = true;
+                Number::Float(v as _)
+            }
         }
     }
 }
@@ -183,7 +206,10 @@ impl Folder<Number> for Normalizer {
 impl Folder<PropName> for Normalizer {
     fn fold(&mut self, n: PropName) -> PropName {
         match n {
-            PropName::Ident(Ident { sym, .. }) => PropName::Str(String::from(&*sym)),
+            PropName::Ident(Ident { sym, .. }) => {
+                self.did_something = true;
+                PropName::Str(String::from(&*sym))
+            }
             _ => n.fold_children(self),
         }
     }

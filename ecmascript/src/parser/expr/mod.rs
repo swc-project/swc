@@ -111,7 +111,7 @@ impl<I: Input> Parser<I> {
                 return self.parse_ident_ref().map(From::from);
             }
             Word(Null) | Word(True) | Word(False) | Num(..) | Str(..) => {
-                return self.spanned(|p| p.parse_lit().map(ExprKind::Lit))
+                return spanned!(self, { self.parse_lit().map(ExprKind::Lit) })
             }
             LBracket => return self.parse_array_lit(),
             LBrace => return self.parse_obj_lit(),
@@ -224,7 +224,7 @@ impl<I: Input> Parser<I> {
 
     /// Parse `Arguments[Yield, Await]`
     fn parse_args(&mut self) -> PResult<Vec<ExprOrSpread>> {
-        assert!(self.i.cur() == Some(&LParen));
+        assert_eq!(self.i.cur() , Some(&LParen));
         self.i.bump();
 
         // TODO

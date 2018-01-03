@@ -34,9 +34,9 @@ impl<I: Input> Parser<I> {
     /// Use this when spec says "IdentiferName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
-        self.spanned(|p| {
-            let w = match p.i.cur() {
-                Some(&Word(..)) => match p.i.bump() {
+        spanned!(self, {
+            let w = match self.i.cur() {
+                Some(&Word(..)) => match self.i.bump() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -51,10 +51,10 @@ impl<I: Input> Parser<I> {
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
     fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
-        self.spanned(|p| {
-            let strict = p.ctx.strict;
-            let w = match p.i.cur() {
-                Some(&Word(..)) => match p.i.bump() {
+        spanned!(self, {
+            let strict = self.ctx.strict;
+            let w = match self.i.cur() {
+                Some(&Word(..)) => match self.i.bump() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },

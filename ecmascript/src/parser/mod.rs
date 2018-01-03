@@ -5,7 +5,7 @@ use self::input::ParserInput;
 use ast::*;
 use slog::Logger;
 use std::option::NoneError;
-use swc_common::{Span, Spanned};
+use swc_common::Span;
 use token::*;
 
 #[macro_use]
@@ -95,17 +95,6 @@ impl<I: Input> Parser<I> {
                 in_generator: None,
             },
         }
-    }
-
-    fn spanned<F, Node, Sp>(&mut self, parse: F) -> PResult<Sp>
-    where
-        F: FnOnce(&mut Self) -> PResult<Node>,
-        Sp: Spanned<Item = Node>,
-    {
-        let start = self.i.cur_span().start;
-        let val = parse(self)?;
-        let end = self.i.last_span().end;
-        Ok(Sp::from_unspanned(val, Span { start, end }))
     }
 
     fn eat_or_inject_semi(&mut self) -> bool {

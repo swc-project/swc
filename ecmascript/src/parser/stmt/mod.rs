@@ -23,14 +23,14 @@ impl<I: Input> Parser<I> {
         match *self.i.cur()? {
             Word(Keyword(w)) => match w {
                 Break | Continue => {
-                    return self.spanned(|p| {
-                        p.i.bump();
+                    return spanned!(self, {
+                        self.i.bump();
                         let is_break = w == Break;
-                        let label = if p.eat_or_inject_semi() {
+                        let label = if self.eat_or_inject_semi() {
                             None
                         } else {
-                            let i = p.parse_label_ident().map(Some)?;
-                            p.expect_semi()?;
+                            let i = self.parse_label_ident().map(Some)?;
+                            self.expect_semi()?;
                             i
                         };
 
@@ -43,9 +43,9 @@ impl<I: Input> Parser<I> {
                 }
 
                 Debugger => {
-                    return self.spanned(|p| {
-                        p.i.bump();
-                        p.expect_semi()?;
+                    return spanned!(self, {
+                        self.i.bump();
+                        self.expect_semi()?;
                         Ok(StmtKind::Debugger)
                     })
                 }
@@ -63,8 +63,8 @@ impl<I: Input> Parser<I> {
                 }
                 Class if !include_decl => unimplemented!("Error: unexpected token class"),
                 Class => {
-                    return self.spanned(|p| {
-                        p.parse_class_decl().map(Decl::Class).map(StmtKind::Decl)
+                    return spanned!(self, {
+                        self.parse_class_decl().map(Decl::Class).map(StmtKind::Decl)
                     })
                 }
 
@@ -83,11 +83,11 @@ impl<I: Input> Parser<I> {
                 Import | Export => unimplemented!("import,export"),
                 _ => {}
             },
-            LBrace => return self.spanned(|p| p.parse_block().map(StmtKind::Block)),
+            LBrace => return spanned!(self, { self.parse_block().map(StmtKind::Block) }),
 
             Semi => {
-                return self.spanned(|p| {
-                    p.i.bump();
+                return spanned!(self, {
+                    self.i.bump();
                     Ok(StmtKind::Empty)
                 })
             }
@@ -129,19 +129,39 @@ impl<I: Input> Parser<I> {
     }
 
     fn parse_if_stmt(&mut self) -> PResult<Stmt> {
-        unimplemented!("parse_if_stmt")
+        spanned!(self, {
+            assert_eq!(self.i.cur(), Some(&Word(Keyword(If))));
+            self.i.bump();
+
+            self.expect(&LParen)?;
+            let test = self.parse_expr(true)?;
+            self.expect(&RParen)?;
+
+            let consequent = box self.parse_stmt(false, false)?;
+
+            let alt = if self.i.eat_keyword(Else) {
+                Some(box self.parse_stmt(false, false)?)
+            } else {
+                None
+            };
+
+            Ok(StmtKind::If {
+                test,
+                consequent,
+                alt,
+            })
+        })
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
+        spanned!(self, {
         assert_eq!(self.i.cur(), Some(&Word(Keyword(Return))));
+            self.i.bump();
 
-        self.spanned(|p| {
-            p.i.bump();
-
-            let arg = if p.eat_or_inject_semi() {
+            let arg = if self.eat_or_inject_semi() {
                 None
             } else {
-                p.parse_expr(true).map(Some)?
+                self.parse_expr(true).map(Some)?
             };
             Ok(StmtKind::Return { arg })
         })
@@ -150,17 +170,18 @@ impl<I: Input> Parser<I> {
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
         unimplemented!("parse_switch_stmt")
     }
+
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
         assert_eq!(self.i.cur(), Some(&Word(Keyword(Throw))));
 
-        self.spanned(|p| {
-            p.i.bump();
-            if p.i.had_line_break_before_cur() {
+        spanned!(self, {
+            self.i.bump();
+            if self.i.had_line_break_before_cur() {
                 syntax_error!(LineBreakInThrow)
             }
 
-            let arg = p.parse_expr(true)?;
-            p.expect_semi()?;
+            let arg = self.parse_expr(true)?;
+            self.expect_semi()?;
 
             Ok(StmtKind::Throw { arg })
         })
@@ -169,18 +190,50 @@ impl<I: Input> Parser<I> {
     fn parse_try_stmt(&mut self) -> PResult<Stmt> {
         unimplemented!("try")
     }
+
     fn parse_var_stmt(&mut self) -> PResult<Stmt> {
         unimplemented!("var stmt")
     }
+
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
-        unimplemented!("while")
+        spanned!(self, {
+            assert_eq!(self.i.cur(), Some(&Word(Keyword(While))));
+            self.i.bump();
+
+            self.expect(&LParen)?;
+            let test = self.parse_expr(true)?;
+            self.expect(&RParen)?;
+
+            let body = box self.parse_stmt(false, false)?;
+
+            Ok(StmtKind::While { test, body })
+        })
     }
+
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
-        unimplemented!("with")
+        spanned!(self, {
+            assert_eq!(self.i.cur(), Some(&Word(Keyword(With))));
+
+            self.i.bump();
+
+            self.expect(&LParen)?;
+            let obj = self.parse_expr(true)?;
+            self.expect(&RParen)?;
+
+            let body = box self.parse_stmt(false, false)?;
+            Ok(StmtKind::With { obj, body })
+        })
     }
+
     pub(super) fn parse_block(&mut self) -> PResult<BlockStmt> {
-        unimplemented!("block stmt")
+        assert_eq!(self.i.cur(), Some(&LBrace));
+        self.i.bump();
+
+        let stmts = self.parse_block_body(false, Some(&RBrace))?;
+
+        Ok(BlockStmt { stmts })
     }
+
     fn parse_labelled_stmt(&mut self, ident: Ident) -> PResult<Stmt> {
         unimplemented!("labelled stmt")
     }
