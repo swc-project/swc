@@ -133,7 +133,17 @@ impl<I: Input> Parser<I> {
 
             BackQuote => return self.parse_tpl_lit(),
 
-            LParen => return self.parse_parenthesized_expr_and_arrow_params(),
+            LParen => {
+                //TODO: CoverParenthesizedExpressionAndArrowParameterList
+                self.i.bump();
+                let start = self.i.last_span();
+                let expr = self.parse_expr(true)?;
+                self.expect(&RParen)?;
+                return Ok(box Expr {
+                    span: start + self.i.last_span(),
+                    node: ExprKind::Paren(expr),
+                });
+            }
 
             _ => {}
         }
