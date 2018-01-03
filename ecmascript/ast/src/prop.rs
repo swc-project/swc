@@ -16,7 +16,6 @@ pub struct Prop {
 }
 
 #[ast_node]
-#[fold(skip_bounds(Prop, BlockStmt, Expr, Pat, Function))]
 pub enum PropKind {
     /// `a` in `{ a, }`
     Shorthand(Ident),

@@ -1,3 +1,14 @@
+#![feature(box_syntax)]
+#![feature(box_patterns)]
+#![feature(specialization)]
+#![feature(proc_macro)]
+#![deny(unreachable_patterns)]
+
+extern crate swc_atoms;
+extern crate swc_common;
+#[macro_use]
+extern crate swc_macros;
+
 pub use self::class::*;
 pub use self::decl::*;
 pub use self::expr::*;

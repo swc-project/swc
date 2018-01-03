@@ -2,8 +2,6 @@ use super::{BlockStmt, Class, Function, Ident, Lit, Pat, Prop};
 use swc_common::{Span, Spanned};
 use swc_common::fold::FoldWith;
 use swc_macros::{ast_node, Deserialize, Serialize};
-pub use token::AssignOpToken;
-use token::BinOpToken;
 
 #[ast_node]
 pub struct Expr {
@@ -19,8 +17,6 @@ impl Spanned for Expr {
 }
 
 #[ast_node]
-#[fold(skip_bounds(Expr, Stmt, FnExpr, Prop, ClassExpr, Pat, BlockStmtOrExpr, TplLit, UnaryOp,
-                   UpdateOp, AssignOpToken, BinaryOp, ExprOrSpread, ExprOrSuper, PatOrExpr))]
 pub enum ExprKind {
     #[serde = "ThisExpression"]
     This,
@@ -73,7 +69,7 @@ pub enum ExprKind {
     #[serde = "AssignmentExpression"]
     Assign {
         #[serde = "operator"]
-        op: AssignOpToken,
+        op: AssignOp,
         /// Pattern | Expr
         left: PatOrExpr,
         right: Box<Expr>,
@@ -245,20 +241,18 @@ pub enum ExprOrSpread {
 }
 
 #[ast_node]
-#[fold(skip_bounds(Expr, BlockStmt))]
 pub enum BlockStmtOrExpr {
     BlockStmt(BlockStmt),
     Expr(Box<Expr>),
 }
 
 #[ast_node]
-#[fold(skip_bounds(Expr, Pat))]
 pub enum PatOrExpr {
     Pat(Pat),
     Expr(Box<Expr>),
 }
 
-#[derive(Kind, Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Kind, Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 #[repr(u8)]
 #[kind(function(precedence = "u8"))]
 pub enum BinaryOp {
@@ -358,50 +352,19 @@ impl From<Ident> for Box<Expr> {
     }
 }
 
-impl From<BinOpToken> for BinaryOp {
-    fn from(t: BinOpToken) -> Self {
-        use self::BinaryOp::*;
-        match t {
-            BinOpToken::EqEq => EqEq,
-            BinOpToken::NotEq => NotEq,
-            BinOpToken::EqEqEq => EqEqEq,
-            BinOpToken::NotEqEq => NotEqEq,
-            BinOpToken::Lt => Lt,
-            BinOpToken::LtEq => LtEq,
-            BinOpToken::Gt => Gt,
-            BinOpToken::GtEq => GtEq,
-            BinOpToken::LShift => LShift,
-            BinOpToken::RShift => RShift,
-            BinOpToken::ZeroFillRShift => ZeroFillRShift,
-            BinOpToken::Add => Add,
-            BinOpToken::Sub => Sub,
-            BinOpToken::Mul => Mul,
-            BinOpToken::Div => Div,
-            BinOpToken::Mod => Mod,
-            BinOpToken::BitOr => BitOr,
-            BinOpToken::BitXor => BitXor,
-            BinOpToken::BitAnd => BitAnd,
-            BinOpToken::LogicalOr => LogicalOr,
-            BinOpToken::LogicalAnd => LogicalAnd,
-            BinOpToken::Exp => Exp,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[ast_node]
+#[derive(Copy)]
+#[repr(u8)]
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
     /// `--`
     MinusMinus,
 }
-impl<F> FoldWith<F> for UpdateOp {
-    fn fold_children(self, _: &mut F) -> Self {
-        self
-    }
-}
 
-#[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[ast_node]
+#[derive(Copy)]
+#[repr(u8)]
 pub enum UnaryOp {
     /// `-`
     Minus,
@@ -419,8 +382,35 @@ pub enum UnaryOp {
     Delete,
 }
 
-impl<F> FoldWith<F> for UnaryOp {
-    fn fold_children(self, _: &mut F) -> Self {
-        self
-    }
+#[ast_node]
+#[derive(Copy)]
+#[repr(u8)]
+pub enum AssignOp {
+    /// `=`
+    Assign,
+    /// `+=`
+    AddAssign,
+    /// `-=`
+    SubAssign,
+    /// `*=`
+    MulAssign,
+    /// `/=`
+    DivAssign,
+    /// `%=`
+    ModAssign,
+    /// `<<=`
+    LShiftAssign,
+    /// `>>=`
+    RShiftAssign,
+    /// `>>>=`
+    ZeroFillRShiftAssign,
+    /// `|=`
+    BitOrAssign,
+    /// `^=`
+    BitXorAssign,
+    /// `&=`
+    BitAndAssign,
+
+    /// `**=`
+    ExpAssign,
 }

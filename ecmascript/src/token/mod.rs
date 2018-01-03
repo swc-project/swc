@@ -5,15 +5,16 @@
 pub use self::AssignOpToken::*;
 pub use self::BinOpToken::*;
 pub use self::Keyword::*;
-pub use self::Number::*;
 pub use self::Token::*;
 pub use self::Word::*;
+pub use ast::AssignOp as AssignOpToken;
+use ast::BinaryOp;
+pub use ast::Number;
+pub use ast::Number::*;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
-use swc_common::fold::FoldWith;
 use swc_macros::{Deserialize, Serialize};
-use swc_macros::ast_node;
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
@@ -116,22 +117,6 @@ pub enum Token {
     LineComment(String),
 }
 
-#[ast_node]
-pub enum Number {
-    Float(f64),
-    Decimal(i64),
-    ImplicitOctal(i64),
-}
-impl Display for Number {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        match *self {
-            Float(ref fl) => Display::fmt(fl, f),
-            Decimal(ref dec) => Display::fmt(dec, f),
-            ImplicitOctal(ref v) => Display::fmt(v, f),
-        }
-    }
-}
-
 #[derive(Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 #[repr(u8)]
 pub enum BinOpToken {
@@ -189,44 +174,6 @@ pub enum BinOpToken {
     LogicalOr,
     /// `&&`
     LogicalAnd,
-}
-
-#[derive(Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
-#[repr(u8)]
-pub enum AssignOpToken {
-    /// `=`
-    Assign,
-    /// `+=`
-    AddAssign,
-    /// `-=`
-    SubAssign,
-    /// `*=`
-    MulAssign,
-    /// `/=`
-    DivAssign,
-    /// `%=`
-    ModAssign,
-    /// `<<=`
-    LShiftAssign,
-    /// `>>=`
-    RShiftAssign,
-    /// `>>>=`
-    ZeroFillRShiftAssign,
-    /// `|=`
-    BitOrAssign,
-    /// `^=`
-    BitXorAssign,
-    /// `&=`
-    BitAndAssign,
-
-    /// `**=`
-    ExpAssign,
-}
-
-impl<F> FoldWith<F> for AssignOpToken {
-    fn fold_children(self, _: &mut F) -> Self {
-        self
-    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -480,4 +427,34 @@ pub enum Keyword {
 
     #[kind(before_expr, starts_expr)]
     Delete,
+}
+
+impl From<BinOpToken> for BinaryOp {
+    fn from(t: BinOpToken) -> Self {
+        use self::BinaryOp::*;
+        match t {
+            BinOpToken::EqEq => EqEq,
+            BinOpToken::NotEq => NotEq,
+            BinOpToken::EqEqEq => EqEqEq,
+            BinOpToken::NotEqEq => NotEqEq,
+            BinOpToken::Lt => Lt,
+            BinOpToken::LtEq => LtEq,
+            BinOpToken::Gt => Gt,
+            BinOpToken::GtEq => GtEq,
+            BinOpToken::LShift => LShift,
+            BinOpToken::RShift => RShift,
+            BinOpToken::ZeroFillRShift => ZeroFillRShift,
+            BinOpToken::Add => Add,
+            BinOpToken::Sub => Sub,
+            BinOpToken::Mul => Mul,
+            BinOpToken::Div => Div,
+            BinOpToken::Mod => Mod,
+            BinOpToken::BitOr => BitOr,
+            BinOpToken::BitXor => BitXor,
+            BinOpToken::BitAnd => BitAnd,
+            BinOpToken::LogicalOr => LogicalOr,
+            BinOpToken::LogicalAnd => LogicalAnd,
+            BinOpToken::Exp => Exp,
+        }
+    }
 }

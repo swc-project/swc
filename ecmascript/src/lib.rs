@@ -23,8 +23,8 @@ extern crate swc_macros;
 #[cfg(test)]
 extern crate testing;
 extern crate unicode_xid;
+pub extern crate swc_ecma_ast as ast;
 
-pub mod ast;
 pub mod lexer;
 pub mod token;
 pub mod parser;

@@ -1,0 +1,10 @@
+[package]
+name = "swc_ecma_ast"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+swc_atoms = { path = "../../atoms" }
+swc_macros = { path = "../../macros" }
+swc_common = { path = "../../common" }
+serde = "1"
