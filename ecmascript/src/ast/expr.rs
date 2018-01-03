@@ -1,6 +1,6 @@
 use super::{BlockStmt, Class, Function, Ident, Lit, Pat, Prop};
-use either::Either;
 use swc_common::{Span, Spanned};
+use swc_common::fold::FoldWith;
 use swc_macros::{ast_node, Deserialize, Serialize};
 pub use token::AssignOpToken;
 use token::BinOpToken;
@@ -19,6 +19,8 @@ impl Spanned for Expr {
 }
 
 #[ast_node]
+#[fold(skip_bounds(Expr, Stmt, FnExpr, Prop, ClassExpr, Pat, BlockStmtOrExpr, TplLit, UnaryOp,
+                   UpdateOp, AssignOpToken, BinaryOp, ExprOrSpread, ExprOrSuper, PatOrExpr))]
 pub enum ExprKind {
     #[serde = "ThisExpression"]
     This,
@@ -148,7 +150,7 @@ pub enum ExprKind {
     Arrow {
         params: Vec<Pat>,
 
-        body: Either<BlockStmt, Box<Expr>>,
+        body: BlockStmtOrExpr,
 
         #[caniuse = "es6-generators"]
         #[serde = "generator"]
@@ -243,6 +245,14 @@ pub enum ExprOrSpread {
 }
 
 #[ast_node]
+#[fold(skip_bounds(Expr, BlockStmt))]
+pub enum BlockStmtOrExpr {
+    BlockStmt(BlockStmt),
+    Expr(Box<Expr>),
+}
+
+#[ast_node]
+#[fold(skip_bounds(Expr, Pat))]
 pub enum PatOrExpr {
     Pat(Pat),
     Expr(Box<Expr>),
@@ -332,6 +342,12 @@ pub enum BinaryOp {
     Exp,
 }
 
+impl<F> FoldWith<F> for BinaryOp {
+    fn fold_children(self, _: &mut F) -> Self {
+        self
+    }
+}
+
 impl From<Ident> for Box<Expr> {
     fn from(i: Ident) -> Self {
         let span = i.span;
@@ -379,6 +395,11 @@ pub enum UpdateOp {
     /// `--`
     MinusMinus,
 }
+impl<F> FoldWith<F> for UpdateOp {
+    fn fold_children(self, _: &mut F) -> Self {
+        self
+    }
+}
 
 #[derive(Debug, Clone, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
 pub enum UnaryOp {
@@ -396,4 +417,10 @@ pub enum UnaryOp {
     Void,
     /// `delete`
     Delete,
+}
+
+impl<F> FoldWith<F> for UnaryOp {
+    fn fold_children(self, _: &mut F) -> Self {
+        self
+    }
 }

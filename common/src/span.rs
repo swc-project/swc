@@ -1,3 +1,4 @@
+use fold::FoldWith;
 use std::cmp::{max, min};
 use std::fmt::{self, Debug, Display, Formatter};
 use std::ops::Add;
@@ -72,5 +73,12 @@ where
 
     fn from_unspanned(node: Self::Item, span: Span) -> Self {
         box S::from_unspanned(node, span)
+    }
+}
+
+impl<F> FoldWith<F> for Span {
+    /// no-op
+    fn fold_children(self, _: &mut F) -> Span {
+        self
     }
 }

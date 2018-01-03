@@ -3,7 +3,6 @@ use swc_macros::ast_node;
 
 /// Common parts of function and method.
 #[ast_node]
-#[fold = "fn"]
 pub struct Function {
     pub params: Vec<Pat>,
 

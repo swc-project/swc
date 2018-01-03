@@ -6,3 +6,5 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 [dependencies]
 fnv = "1"
 serde = { version = "1", features = ["derive"] }
+string_cache = "0.6"
+either = "1.4"

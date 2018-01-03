@@ -8,9 +8,11 @@ extern crate swc_macros_common as common;
 extern crate syn;
 
 use self::caniuse::derive_caniuse;
+use self::fold::derive_fold;
 use common::prelude::*;
 
 mod caniuse;
+mod fold;
 
 #[proc_macro_derive(AstNode, attributes(fold, caniuse))]
 pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
@@ -18,6 +20,7 @@ pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let type_name = &input.ident;
 
     let mut tokens = Tokens::new();
+    derive_fold(&input).to_tokens(&mut tokens);
     derive_caniuse(&input).to_tokens(&mut tokens);
 
     let item = Quote::new_call_site()

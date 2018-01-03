@@ -29,6 +29,7 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
+use is_attr_name;
 use pmutil::prelude::*;
 use proc_macro2::Span;
 use quote::{ToTokens, Tokens};
@@ -168,7 +169,11 @@ impl<'a> VariantBinder<'a> {
                                 field: f,
                             });
                             FieldPat {
-                                attrs: Default::default(),
+                                attrs: f.attrs
+                                    .iter()
+                                    .filter(|attr| is_attr_name(attr, "cfg"))
+                                    .cloned()
+                                    .collect(),
                                 colon_token: f.colon_token,
                                 member: Member::Named(ident),
                                 pat: box Pat::Ident(PatIdent {

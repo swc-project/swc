@@ -9,6 +9,7 @@ pub struct Pat {
 }
 
 #[ast_node]
+#[fold(skip_bounds(Pat, Expr))]
 pub enum PatKind {
     Ident(Ident),
 

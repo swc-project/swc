@@ -11,6 +11,7 @@ pub use self::Word::*;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
+use swc_common::fold::FoldWith;
 use swc_macros::{Deserialize, Serialize};
 use swc_macros::ast_node;
 
@@ -220,6 +221,12 @@ pub enum AssignOpToken {
 
     /// `**=`
     ExpAssign,
+}
+
+impl<F> FoldWith<F> for AssignOpToken {
+    fn fold_children(self, _: &mut F) -> Self {
+        self
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
