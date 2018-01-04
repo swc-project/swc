@@ -328,7 +328,8 @@ impl Debug for Word {
 impl Word {
     pub fn is_reserved_word(&self, strict: bool) -> bool {
         match *self {
-            Keyword(Await) | Keyword(Yield) if !strict => false,
+            Keyword(Let) => strict,
+            Keyword(Await) | Keyword(Yield) => strict,
             Keyword(_) => true,
 
             Null | True | False => true,

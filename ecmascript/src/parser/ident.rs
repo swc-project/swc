@@ -16,7 +16,7 @@ impl<I: Input> Parser<I> {
         self.parse_ident(true, true).and_then(|ident| {
             if self.ctx.strict {
                 if &*ident.sym == "arguments" || &*ident.sym == "eval" {
-                    syntax_error!(EvalAndArgumentsInStrict)
+                    syntax_error!(self, SyntaxError::EvalAndArgumentsInStrict)
                 }
             }
 
@@ -35,8 +35,8 @@ impl<I: Input> Parser<I> {
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
         spanned!(self, {
-            let w = match self.i.cur() {
-                Some(&Word(..)) => match self.i.bump() {
+            let w = match cur!(self) {
+                Some(&Word(..)) => match bump!(self) {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -53,8 +53,8 @@ impl<I: Input> Parser<I> {
     fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         spanned!(self, {
             let strict = self.ctx.strict;
-            let w = match self.i.cur() {
-                Some(&Word(..)) => match self.i.bump() {
+            let w = match cur!(self) {
+                Some(&Word(..)) => match bump!(self) {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -75,7 +75,9 @@ impl<I: Input> Parser<I> {
                     | Ident(js_word!("package"))
                     | Ident(js_word!("private"))
                     | Ident(js_word!("protected"))
-                    | Ident(js_word!("public")) => syntax_error!(InvalidIdentInStrict),
+                    | Ident(js_word!("public")) => {
+                        syntax_error!(self, SyntaxError::InvalidIdentInStrict)
+                    }
                     _ => {}
                 }
             }

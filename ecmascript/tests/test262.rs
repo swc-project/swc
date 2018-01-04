@@ -32,6 +32,8 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "247a3a57e8176ebd.js",
     "47f974d6fc52e3e4.js",
     "72d79750e81ef03d.js",
+    "a8a03a88237c4e8f.js",
+    "ad06370e34811a6a.js",
     "db3c01738aaf0b92.js",
 ];
 
@@ -185,6 +187,25 @@ impl Folder<ExprKind> for Normalizer {
                     callee: self.fold(callee),
                     args: Some(vec![]),
                 }
+            }
+            ExprKind::Seq { exprs } => {
+                let mut exprs = self.fold(exprs);
+                let need_work = exprs.iter().map(|e| &e.node).any(|n| match *n {
+                    ExprKind::Seq { .. } => true,
+                    _ => false,
+                });
+
+                if need_work {
+                    self.did_something = true;
+                    exprs = exprs.into_iter().fold(vec![], |mut v, e| {
+                        match e.node {
+                            ExprKind::Seq { exprs } => v.extend(exprs),
+                            _ => v.push(e),
+                        }
+                        v
+                    });
+                }
+                ExprKind::Seq { exprs }
             }
             _ => e.fold_children(self),
         }

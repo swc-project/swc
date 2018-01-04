@@ -135,8 +135,7 @@ pub enum StmtKind {
 
 #[ast_node]
 pub struct SwitchCase {
-    pub span: Span,
-
+    // pub span: Span,
     /// None for `default:`
     pub test: Option<Box<Expr>>,
 
@@ -145,8 +144,6 @@ pub struct SwitchCase {
 
 #[ast_node]
 pub struct CatchClause {
-    pub span: Span,
-
     pub param: Pat,
 
     pub body: BlockStmt,

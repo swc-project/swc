@@ -1,5 +1,5 @@
 use super::{BlockStmt, Expr, Function, Ident, Number, Pat};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]
@@ -13,6 +13,13 @@ pub struct Prop {
 //     pub method: bool,
 //     pub shorthand: bool,
 //     pub computed: bool,
+}
+
+impl Spanned for Prop {
+    type Item = PropKind;
+    fn from_unspanned(node: PropKind, span: Span) -> Self {
+        Prop { span, node }
+    }
 }
 
 #[ast_node]

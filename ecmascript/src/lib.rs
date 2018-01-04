@@ -5,6 +5,8 @@
 #![feature(nll)]
 #![feature(proc_macro)]
 #![feature(try_trait)]
+#![feature(trace_macros)]
+#![cfg_attr(test, feature(conservative_impl_trait))]
 #![deny(unreachable_patterns)]
 
 extern crate either;
@@ -14,7 +16,7 @@ extern crate failure;
 extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
-#[macro_use]
+#[cfg_attr(test, macro_use)]
 extern crate swc_common;
 #[macro_use]
 extern crate swc_macros;

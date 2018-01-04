@@ -6,7 +6,7 @@ impl<I: Input> Parser<I> {
     }
 
     fn parse_import(&mut self) -> PResult<Lit> {
-        unimplemented!("parse_module_item")
+        unimplemented!("parse_import")
     }
 
     fn parse_export(&mut self) -> PResult<Lit> {

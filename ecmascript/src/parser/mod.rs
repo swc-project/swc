@@ -22,11 +22,11 @@ struct Context {
     strict: bool,
     /// Is in module?
     module: bool,
-    /// If true await expression will be parsed, and "await" will be treated as
-    /// a keyword.
+    /// If true await expression will be parsed, and "await" will be treated
+    /// as a keyword.
     in_async: Option<Async>,
-    /// If true yield expression will be parsed, and "yield" will be treated as
-    /// a keyword.
+    /// If true yield expression will be parsed, and "yield" will be treated
+    ///as a keyword.
     in_generator: Option<Generator>,
 }
 
@@ -42,7 +42,7 @@ pub enum Error {
     Eof,
     ExpectedIdent,
     ExpectedSemi,
-    Syntax(SyntaxError),
+    Syntax(Option<Token>, Span, SyntaxError),
 }
 
 impl From<NoneError> for Error {
@@ -61,20 +61,28 @@ pub enum SyntaxError {
     UnaryInExp,
     LineBreakInThrow,
     Expected(&'static Token),
+
+    /// "await* has been removed from the async functions proposal. Use
+    /// Promise.all() instead."
+    AwaitStar,
+    /// "cannot use a reserved word as a shorthand property"
+    ReservedWordInShorthand,
+
+    MultipleDefault,
 }
 
 /// EcmaScript parser.
 pub struct Parser<I: Input> {
     logger: Logger,
     ctx: Context,
-    i: ParserInput<I>,
+    input: ParserInput<I>,
 }
 
 impl<I: Input> Parser<I> {
     pub fn new_for_module(logger: Logger, lexer: I) -> Self {
         Parser {
             logger,
-            i: ParserInput::new(lexer),
+            input: ParserInput::new(lexer),
             ctx: Context {
                 strict: true,
                 module: true,
@@ -87,36 +95,13 @@ impl<I: Input> Parser<I> {
     pub fn new_for_script(logger: Logger, lexer: I, strict: bool) -> Self {
         Parser {
             logger,
-            i: ParserInput::new(lexer),
+            input: ParserInput::new(lexer),
             ctx: Context {
                 strict,
                 module: false,
                 in_async: None,
                 in_generator: None,
             },
-        }
-    }
-
-    fn eat_or_inject_semi(&mut self) -> bool {
-        debug!(self.logger, "eat_or_inject_semi: cur={:?}", self.i.cur());
-        self.i.eat(&Semi) || self.i.cur() == None || self.i.is(&RBrace)
-            || self.i.had_line_break_before_cur()
-    }
-
-    /// eat or inject semicolon if we can.
-    fn expect_semi(&mut self) -> PResult<()> {
-        if self.eat_or_inject_semi() {
-            Ok(())
-        } else {
-            Err(Error::ExpectedSemi)
-        }
-    }
-
-    fn expect(&mut self, t: &'static Token) -> PResult<()> {
-        if self.i.eat(t) {
-            Ok(())
-        } else {
-            Err(SyntaxError::Expected(t).into())
         }
     }
 
@@ -134,11 +119,5 @@ impl<I: Input> Parser<I> {
         let ret = op(self);
         self.ctx = orig;
         ret
-    }
-}
-
-impl From<SyntaxError> for Error {
-    fn from(se: SyntaxError) -> Self {
-        Error::Syntax(se)
     }
 }

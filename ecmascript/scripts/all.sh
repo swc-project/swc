@@ -4,6 +4,7 @@ set -eu
 reset
 
 cargo fmt --all
+cargo check
 cargo doc
 
 export RUST_LOG="swc_ecmascript::parser=debug" 
