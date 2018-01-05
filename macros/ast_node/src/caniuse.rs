@@ -60,6 +60,7 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
             }
         })
         .chain(iter::once(
+            #[cfg_attr(rustfmt, rustfmt_skip)]
             Quote::new_call_site()
                 .quote_with(smart_quote!(Vars {}, {
                     _ => {},
