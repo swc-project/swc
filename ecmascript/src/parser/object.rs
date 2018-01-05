@@ -3,14 +3,7 @@
 use super::*;
 
 impl<I: Input> Parser<I> {
-    pub(super) fn parse_object_lit(&mut self) -> PResult<Box<Expr>> {
-        self.parse_object()
-    }
-    pub(super) fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
-        self.parse_array()
-    }
-
-    fn parse_object<T>(&mut self) -> PResult<T>
+    pub(super) fn parse_object<T>(&mut self) -> PResult<T>
     where
         Self: ParseObject<T>,
     {
@@ -38,14 +31,7 @@ impl<I: Input> Parser<I> {
         Ok(Self::make_object(start + prev_span!(self), props))
     }
 
-    fn parse_array<T>(&mut self) -> PResult<T>
-    where
-        Self: ParseArray<T>,
-    {
-        unimplemented!("parse_arr")
-    }
-
-    /// Production 'PropertyName'
+    /// spec: 'PropertyName'
     fn parse_prop_name(&mut self) -> PResult<PropName> {
         let v = match *cur!(self)? {
             Str(_, _) => match bump!(self) {
@@ -65,7 +51,9 @@ impl<I: Input> Parser<I> {
             },
             LBracket => {
                 bump!(self);
-                let expr = self.parse_assignment_expr(true).map(PropName::Computed)?;
+                let expr = self.include_in_expr(true)
+                    .parse_assignment_expr()
+                    .map(PropName::Computed)?;
                 expect!(self, ']');
                 expr
             }
@@ -75,91 +63,37 @@ impl<I: Input> Parser<I> {
         Ok(v)
     }
 
-    pub(in parser) fn parse_binding_pat(&mut self) -> PResult<Pat> {
-        if is!(self, '{') {
-            return self.parse_object();
-        }
-        if is!(self, '[') {
-            return self.parse_array();
-        }
-
-        unexpected!(self)
-    }
-
-    fn parse_formal_param(&mut self) -> PResult<Pat> {
-        let pat = match *cur!(self)? {
-            LBrace | LBracket => self.parse_binding_pat()?,
-            Word(..) => self.parse_binding_ident().map(Pat::from)?,
-            _ => unexpected!(self),
-        };
-
-        unimplemented!("parse_opt_initializer")
-
-        // TODO: optional initializer
-    }
-
-    fn parse_formal_params(&mut self) -> PResult<Vec<Pat>> {
-        // TODO
-        if is!(self, ')') {
-            return Ok(vec![]);
-        }
-
-        unimplemented!("parse_formal_params")
-    }
-
-    fn parse_unique_formal_params(&mut self) -> PResult<Vec<Pat>> {
-        // TODO
-        if is!(self, ')') {
-            return Ok(vec![]);
-        }
-        unimplemented!("parse_unique_formal_params")
-    }
-
     /// `parse_args` closure should not eat '(' or ')'.
     fn parse_fn_args_body<F>(
         &mut self,
         parse_args: F,
-        is_async: Option<Async>,
-        is_generator: Option<Generator>,
+        is_async: bool,
+        is_generator: bool,
     ) -> PResult<Function>
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Pat>>,
     {
-        self.with_ctx(
-            Context {
-                in_async: is_async,
-                in_generator: is_generator,
-                ..self.ctx
-            },
-            |p| {
-                expect!(p, '(');
+        let mut p = self.with_ctx(Context {
+            in_async: is_async,
+            in_generator: is_generator,
+            ..self.ctx
+        });
 
-                let params = parse_args(p)?;
+        expect!(p, '(');
 
-                expect!(p, ')');
+        let params = parse_args(&mut p)?;
 
-                let body = p.parse_block()?;
+        expect!(p, ')');
 
-                Ok(Function {
-                    params,
-                    body,
-                    is_async: is_async.is_some(),
-                    is_generator: is_generator.is_some(),
-                })
-            },
-        )
+        let body = p.parse_fn_body(is_async, is_generator)?;
+
+        Ok(Function {
+            params,
+            body,
+            is_async,
+            is_generator,
+        })
     }
-}
-
-trait ParseArray<Arr> {
-    /// Type of element without elision.
-    type Elem;
-}
-
-trait ParseObject<Obj> {
-    type Prop;
-    fn make_object(span: Span, props: Vec<Self::Prop>) -> Obj;
-    fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
 }
 
 impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
@@ -172,7 +106,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
         }
     }
 
-    /// Production 'PropertyDefinition'
+    /// spec: 'PropertyDefinition'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
         spanned!(self, {
             // Parse as 'MethodDefinition'
@@ -180,17 +114,14 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
             if eat!(self, '*') {
                 let span = prev_span!(self);
                 let name = self.parse_prop_name()?;
-                return self.parse_fn_args_body(
-                    Parser::parse_unique_formal_params,
-                    None,
-                    Some(Generator),
-                ).map(|function| Prop {
-                    span: span + prev_span!(self),
-                    node: PropKind::Method {
-                        key: name,
-                        function,
-                    },
-                });
+                return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, true)
+                    .map(|function| Prop {
+                        span: span + prev_span!(self),
+                        node: PropKind::Method {
+                            key: name,
+                            function,
+                        },
+                    });
             }
 
             let start = cur_span!(self);
@@ -201,7 +132,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
             // { 0: 1, }
             // { a: expr, }
             if eat!(self, ':') {
-                let value = self.parse_assignment_expr(true)?;
+                let value = self.include_in_expr(true).parse_assignment_expr()?;
                 return Ok(Prop {
                     span: start + value.span,
                     node: PropKind::KeyValue { key, value },
@@ -210,7 +141,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
 
             // Handle `a(){}` (and async(){} / get(){} / set(){})
             if is!(self, '(') {
-                return self.parse_fn_args_body(Parser::parse_unique_formal_params, None, None)
+                return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
                     .map(|function| Prop {
                         span: start + prev_span!(self),
                         node: PropKind::Method { key, function },
@@ -226,7 +157,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
 
             // `ident` from parse_prop_name is parsed as 'IdentifierName'
             // It means we should check for invalid expressions like { for, }
-            if is_one_of!(self, ',', '}') {
+            if is_one_of!(self, '=', ',', '}') {
                 let is_reserved_word = {
                     // TODO extension trait
                     let word = Word::from(ident.sym);
@@ -238,7 +169,11 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                     r
                 };
                 if is_reserved_word {
-                    syntax_error!(self, SyntaxError::ReservedWordInShorthand)
+                    syntax_error!(self, SyntaxError::ReservedWordInObjShorthandOrPat)
+                }
+
+                if is!(self, '=') {
+                    unimplemented!("parse_initialized_name in object literal")
                 }
 
                 return Ok(Prop::new_shorthand(ident));
@@ -253,7 +188,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                     let key = self.parse_prop_name()?;
 
                     return match ident.sym {
-                        js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), None, None)
+                        js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), false, false)
                             .map(|Function { body, .. }| Prop {
                                 span: ident.span + prev_span!(self),
                                 node: PropKind::Getter { key, body },
@@ -261,8 +196,8 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                         js_word!("set") => {
                             self.parse_fn_args_body(
                                 |p| p.parse_formal_param().map(|pat| vec![pat]),
-                                None,
-                                None,
+                                false,
+                                false,
                             ).map(|Function { params, body, .. }| {
                                 //TODO
                                 assert_eq!(params.len(), 1);
@@ -276,14 +211,13 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                                 }
                             })
                         }
-                        js_word!("async") => self.parse_fn_args_body(
-                            Parser::parse_unique_formal_params,
-                            Some(Async),
-                            None,
-                        ).map(|function| Prop {
-                            span: ident.span + prev_span!(self),
-                            node: PropKind::Method { key, function },
-                        }),
+                        js_word!("async") => {
+                            self.parse_fn_args_body(Parser::parse_unique_formal_params, true, false)
+                                .map(|function| Prop {
+                                    span: ident.span + prev_span!(self),
+                                    node: PropKind::Method { key, function },
+                                })
+                        }
                         _ => unreachable!(),
                     };
                 }
@@ -291,15 +225,6 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
             }
         })
     }
-}
-
-impl<I: Input> ParseArray<Box<Expr>> for Parser<I> {
-    type Elem = ExprOrSpread;
-}
-
-/// 13.3.3 Destructuring Binding Patterns
-impl<I: Input> ParseArray<Pat> for Parser<I> {
-    type Elem = Pat;
 }
 
 impl<I: Input> ParseObject<Pat> for Parser<I> {
@@ -314,6 +239,8 @@ impl<I: Input> ParseObject<Pat> for Parser<I> {
 
     /// Production 'BindingProperty'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+        let key = self.parse_prop_name()?;
+
         unimplemented!()
     }
 }

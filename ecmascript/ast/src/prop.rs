@@ -15,8 +15,7 @@ pub struct Prop {
 //     pub computed: bool,
 }
 
-impl Spanned for Prop {
-    type Item = PropKind;
+impl Spanned<PropKind> for Prop {
     fn from_unspanned(node: PropKind, span: Span) -> Self {
         Prop { span, node }
     }

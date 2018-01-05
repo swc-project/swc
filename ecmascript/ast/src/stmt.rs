@@ -8,8 +8,7 @@ pub struct Stmt {
     pub node: StmtKind,
 }
 
-impl Spanned for Stmt {
-    type Item = StmtKind;
+impl Spanned<StmtKind> for Stmt {
     fn from_unspanned(node: StmtKind, span: Span) -> Self {
         Stmt { span, node }
     }
@@ -18,7 +17,15 @@ impl Spanned for Stmt {
 /// Use when only block statements are allowed.
 #[ast_node]
 pub struct BlockStmt {
+    /// Span of brace.
+    pub span: Span,
     pub stmts: Vec<Stmt>,
+}
+
+impl Spanned<Vec<Stmt>> for BlockStmt {
+    fn from_unspanned(stmts: Vec<Stmt>, span: Span) -> Self {
+        BlockStmt { span, stmts }
+    }
 }
 
 #[ast_node]

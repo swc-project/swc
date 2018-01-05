@@ -60,18 +60,15 @@ impl ::EqIgnoreSpan for Span {
     }
 }
 
-pub trait Spanned: Sized {
-    type Item;
-    fn from_unspanned(node: Self::Item, span: Span) -> Self;
+pub trait Spanned<T>: Sized {
+    fn from_unspanned(node: T, span: Span) -> Self;
 }
 
-impl<S> Spanned for Box<S>
+impl<S, T> Spanned<T> for Box<S>
 where
-    S: Spanned,
+    S: Spanned<T>,
 {
-    type Item = S::Item;
-
-    fn from_unspanned(node: Self::Item, span: Span) -> Self {
+    fn from_unspanned(node: T, span: Span) -> Self {
         box S::from_unspanned(node, span)
     }
 }

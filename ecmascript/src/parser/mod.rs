@@ -2,46 +2,30 @@
 #![deny(non_snake_case)]
 pub use self::input::Input;
 use self::input::ParserInput;
+use self::util::ParseObject;
 use ast::*;
 use slog::Logger;
+use std::ops::{Deref, DerefMut};
 use std::option::NoneError;
-use swc_common::Span;
+use swc_atoms::JsWord;
+use swc_common::{BytePos, Span};
 use token::*;
 
 #[macro_use]
 mod macros;
+mod object;
 mod expr;
 mod ident;
-mod module;
 mod stmt;
+mod pat;
 pub mod input;
-
-#[derive(Debug, Copy, Clone)]
-struct Context {
-    /// Is in strict mode?
-    strict: bool,
-    /// Is in module?
-    module: bool,
-    /// If true await expression will be parsed, and "await" will be treated
-    /// as a keyword.
-    in_async: Option<Async>,
-    /// If true yield expression will be parsed, and "yield" will be treated
-    ///as a keyword.
-    in_generator: Option<Generator>,
-}
-
-#[derive(Debug, Copy, Clone)]
-struct Async;
-#[derive(Debug, Copy, Clone)]
-struct Generator;
+mod util;
 
 pub type PResult<T> = Result<T, Error>;
 
 #[derive(Debug)]
 pub enum Error {
     Eof,
-    ExpectedIdent,
-    ExpectedSemi,
     Syntax(Option<Token>, Span, SyntaxError),
 }
 
@@ -66,16 +50,45 @@ pub enum SyntaxError {
     /// Promise.all() instead."
     AwaitStar,
     /// "cannot use a reserved word as a shorthand property"
-    ReservedWordInShorthand,
+    ReservedWordInObjShorthandOrPat,
 
     MultipleDefault,
+    CommaAfterRestElement,
+    NonLastRestParam,
+    SpreadInParenExpr,
+    /// `()`
+    EmptyParenExpr,
+
+    ExpectedIdent,
+    ExpctedSemi,
+    DuplicateLabel(JsWord),
+    AsyncGenerator,
 }
 
 /// EcmaScript parser.
 pub struct Parser<I: Input> {
     logger: Logger,
     ctx: Context,
+    state: State,
     input: ParserInput<I>,
+}
+#[derive(Debug, Clone, Copy, Default)]
+struct Context {
+    strict: bool,
+    include_in_expr: bool,
+    /// If true, await expression is parsed, and "await" is treated as a
+    /// keyword.
+    in_async: bool,
+    /// If true, yield expression is parsed, and "yield" is treated as a
+    /// keyword.
+    in_generator: bool,
+    in_module: bool,
+}
+
+#[derive(Debug, Default)]
+struct State {
+    labels: Vec<JsWord>,
+    potential_arrow_start: Option<BytePos>,
 }
 
 impl<I: Input> Parser<I> {
@@ -85,10 +98,10 @@ impl<I: Input> Parser<I> {
             input: ParserInput::new(lexer),
             ctx: Context {
                 strict: true,
-                module: true,
-                in_async: None,
-                in_generator: None,
+                in_module: true,
+                ..Default::default()
             },
+            state: Default::default(),
         }
     }
 
@@ -98,10 +111,9 @@ impl<I: Input> Parser<I> {
             input: ParserInput::new(lexer),
             ctx: Context {
                 strict,
-                module: false,
-                in_async: None,
-                in_generator: None,
+                ..Default::default()
             },
+            state: Default::default(),
         }
     }
 
@@ -109,15 +121,8 @@ impl<I: Input> Parser<I> {
         self.parse_block_body(true, None)
     }
 
-    /// Call `op` with `ctx`, and restore original context after it.
-    fn with_ctx<F, Ret>(&mut self, ctx: Context, op: F) -> Ret
-    where
-        F: FnOnce(&mut Self) -> Ret,
-    {
-        let orig = self.ctx;
-        self.ctx = ctx;
-        let ret = op(self);
-        self.ctx = orig;
-        ret
+    pub fn parse_module(&mut self) -> PResult<Module> {
+        self.parse_block_body(true, None)
+            .map(|body| Module { body })
     }
 }

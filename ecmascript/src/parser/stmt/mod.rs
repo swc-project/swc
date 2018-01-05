@@ -1,17 +1,24 @@
 use super::*;
+use swc_common::Spanned;
+
+mod module_item;
 
 impl<I: Input> Parser<I> {
-    pub(super) fn parse_block_body(
+    pub(super) fn parse_block_body<Type>(
         &mut self,
         top_level: bool,
         end: Option<&Token>,
-    ) -> PResult<Vec<Stmt>> {
+    ) -> PResult<Vec<Type>>
+    where
+        Self: StmtLikeParser<Type>,
+        Type: Spanned<StmtKind> + From<Stmt>,
+    {
         let mut stmts = vec![];
         while {
             let b = cur!(self) != end;
             b
         } {
-            let stmt = self.parse_stmt(true, top_level)?;
+            let stmt = self.parse_stmt_like(true, top_level)?;
             stmts.push(stmt);
         }
         if end.is_some() {
@@ -21,8 +28,20 @@ impl<I: Input> Parser<I> {
         Ok(stmts)
     }
 
-    /// Parse statement or declaration.
-    fn parse_stmt(&mut self, include_decl: bool, top_level: bool) -> PResult<Stmt> {
+    fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
+        self.parse_stmt_like(false, top_level)
+    }
+
+    fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
+        self.parse_stmt_like(true, top_level)
+    }
+
+    /// Parse a statement, declaration or module item.
+    fn parse_stmt_like<Type>(&mut self, include_decl: bool, top_level: bool) -> PResult<Type>
+    where
+        Self: StmtLikeParser<Type>,
+        Type: Spanned<StmtKind> + From<Stmt>,
+    {
         match *cur!(self)? {
             Word(Keyword(w)) => match w {
                 Break | Continue => {
@@ -53,16 +72,16 @@ impl<I: Input> Parser<I> {
                     })
                 }
 
-                Do => return self.parse_do_stmt(),
+                Do => return self.parse_do_stmt().map(From::from),
 
                 For => unimplemented!("parse_for_stmt"),
 
                 Function => {
-                    // if (this.lookahead().type === tt.dot) break;
-                    // if (!declaration) this.unexpected();
-                    // return this.parseFunctionStatement(node);
+                    if !include_decl {
+                        unexpected!(self)
+                    }
 
-                    unimplemented!("parse_function_decl")
+                    return self.parse_fn_decl().map(From::from);
                 }
                 Class if !include_decl => unexpected!(self),
                 Class => {
@@ -71,19 +90,27 @@ impl<I: Input> Parser<I> {
                     })
                 }
 
-                If => return self.parse_if_stmt(),
-                Return => return self.parse_return_stmt(),
-                Switch => return self.parse_switch_stmt(),
-                Throw => return self.parse_throw_stmt(),
-                Try => return self.parse_try_stmt(),
+                If => return self.parse_if_stmt().map(From::from),
+                Return => return self.parse_return_stmt().map(From::from),
+                Switch => return self.parse_switch_stmt().map(From::from),
+                Throw => return self.parse_throw_stmt().map(From::from),
+                Try => return self.parse_try_stmt().map(From::from),
 
-                Let | Const if !include_decl => unexpected!(self),
-                Let | Const | Var => return self.parse_var_stmt(),
+                Let | Const | Var => match peek!(self) {
+                    Some(&Word(..)) | Some(&tok!('{')) | Some(&tok!('[')) => {
+                        if w == Var || include_decl {
+                            return self.parse_var_stmt().map(From::from);
+                        } else {
+                            unexpected!(self)
+                        }
+                    }
+                    _ => {}
+                },
 
-                While => return self.parse_while_stmt(),
-                With => return self.parse_with_stmt(),
+                While => return self.parse_while_stmt().map(From::from),
+                With => return self.parse_with_stmt().map(From::from),
 
-                Import | Export => unimplemented!("import,export"),
+                Import | Export => return self.handle_import_export(top_level),
                 _ => {}
             },
             LBrace => return spanned!(self, { self.parse_block().map(StmtKind::Block) }),
@@ -104,13 +131,14 @@ impl<I: Input> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
-        let expr = match self.parse_expr(true)? {
+        let expr = self.include_in_expr(true).parse_expr()?;
+        let expr = match expr {
             box Expr {
                 span,
                 node: ExprKind::Ident(ident),
             } => {
                 if eat!(self, ':') {
-                    return self.parse_labelled_stmt(ident);
+                    return self.parse_labelled_stmt(ident).map(From::from);
                 }
                 box Expr {
                     span,
@@ -124,7 +152,7 @@ impl<I: Input> Parser<I> {
         Ok(Stmt {
             span: expr.span + prev_span!(self),
             node: StmtKind::Expr(expr),
-        })
+        }.into())
     }
 
     fn parse_class_decl(&mut self) -> PResult<ClassDecl> {
@@ -136,13 +164,13 @@ impl<I: Input> Parser<I> {
             assert_and_bump!(self, "if");
 
             expect!(self, '(');
-            let test = self.parse_expr(true)?;
+            let test = self.include_in_expr(true).parse_expr()?;
             expect!(self, ')');
 
-            let consequent = box self.parse_stmt(false, false)?;
+            let consequent = box self.parse_stmt(false)?;
 
             let alt = if eat!(self, "else") {
-                Some(box self.parse_stmt(false, false)?)
+                Some(box self.parse_stmt(false)?)
             } else {
                 None
             };
@@ -162,7 +190,7 @@ impl<I: Input> Parser<I> {
             let arg = if eat!(self, ';') {
                 None
             } else {
-                let arg = self.parse_expr(true).map(Some)?;
+                let arg = self.include_in_expr(true).parse_expr().map(Some)?;
                 expect!(self, ';');
                 arg
             };
@@ -175,7 +203,7 @@ impl<I: Input> Parser<I> {
             assert_and_bump!(self, "switch");
 
             expect!(self, '(');
-            let discriminant = self.parse_expr(true)?;
+            let discriminant = self.include_in_expr(true).parse_expr()?;
             expect!(self, ')');
 
             let mut cur = None;
@@ -187,29 +215,26 @@ impl<I: Input> Parser<I> {
                 if is_one_of!(self, "case", "default") {
                     let is_case = is!(self, "case");
                     bump!(self);
-                    match cur.take() {
-                        Some(case) => cases.push(case),
-                        None => {
-                            let test = if is_case {
-                                self.parse_expr(true).map(Some)?
-                            } else {
-                                if has_default {
-                                    syntax_error!(self, SyntaxError::MultipleDefault)
-                                }
-                                has_default = true;
-                                None
-                            };
-                            expect!(self, ':');
-                            cur = Some(SwitchCase {
-                                test,
-                                consequent: vec![],
-                            });
+                    cases.extend(cur.take());
+                    let test = if is_case {
+                        self.include_in_expr(true).parse_expr().map(Some)?
+                    } else {
+                        if has_default {
+                            syntax_error!(self, SyntaxError::MultipleDefault)
                         }
-                    }
+                        has_default = true;
+                        None
+                    };
+                    expect!(self, ':');
+
+                    cur = Some(SwitchCase {
+                        test,
+                        consequent: vec![],
+                    });
                 } else {
                     match cur {
                         Some(ref mut cur) => {
-                            cur.consequent.push(self.parse_stmt(false, false)?);
+                            cur.consequent.push(self.parse_stmt(false)?);
                         }
                         None => unexpected!(self),
                     }
@@ -233,7 +258,7 @@ impl<I: Input> Parser<I> {
                 syntax_error!(self, SyntaxError::LineBreakInThrow)
             }
 
-            let arg = self.parse_expr(true)?;
+            let arg = self.include_in_expr(true).parse_expr()?;
             expect!(self, ';');
 
             Ok(StmtKind::Throw { arg })
@@ -247,7 +272,7 @@ impl<I: Input> Parser<I> {
             let block = self.parse_block()?;
 
             let handler = if eat!(self, "catch") {
-                let param = self.parse_binding_pat()?;
+                let param = self.parse_catch_param()?;
                 self.parse_block()
                     .map(|body| CatchClause { param, body })
                     .map(Some)?
@@ -272,18 +297,27 @@ impl<I: Input> Parser<I> {
         })
     }
 
+    fn parse_catch_param(&mut self) -> PResult<Pat> {
+        expect!(self, '(');
+        let pat = self.parse_binding_element()?;
+        expect!(self, ')');
+        Ok(pat)
+    }
+
     fn parse_var_stmt(&mut self) -> PResult<Stmt> {
-        unimplemented!("var stmt")
+        unimplemented!("var_stmt")
     }
 
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
         spanned!(self, {
             assert_and_bump!(self, "do");
 
-            let body = box self.parse_stmt(false, false)?;
+            let body = box self.parse_stmt(false)?;
             expect!(self, "while");
-            let test = self.parse_expr(true)?;
-            expect!(self, ';');
+            let test = self.include_in_expr(true).parse_expr()?;
+
+            // We *may* eat semicolon.
+            let _ = eat!(self, ';');
 
             Ok(StmtKind::DoWhile { test, body })
         })
@@ -294,10 +328,10 @@ impl<I: Input> Parser<I> {
             assert_and_bump!(self, "while");
 
             expect!(self, '(');
-            let test = self.parse_expr(true)?;
+            let test = self.include_in_expr(true).parse_expr()?;
             expect!(self, ')');
 
-            let body = box self.parse_stmt(false, false)?;
+            let body = box self.parse_stmt(false)?;
 
             Ok(StmtKind::While { test, body })
         })
@@ -308,24 +342,45 @@ impl<I: Input> Parser<I> {
             assert_and_bump!(self, "with");
 
             expect!(self, '(');
-            let obj = self.parse_expr(true)?;
+            let obj = self.include_in_expr(true).parse_expr()?;
             expect!(self, ')');
 
-            let body = box self.parse_stmt(false, false)?;
+            let body = box self.parse_stmt(false)?;
             Ok(StmtKind::With { obj, body })
         })
     }
 
     pub(super) fn parse_block(&mut self) -> PResult<BlockStmt> {
-        expect!(self, '{');
+        spanned!(self, {
+            expect!(self, '{');
 
-        let stmts = self.parse_block_body(false, Some(&RBrace))?;
+            let stmts = self.parse_block_body(false, Some(&RBrace))?;
 
-        Ok(BlockStmt { stmts })
+            Ok(stmts)
+        })
     }
 
-    fn parse_labelled_stmt(&mut self, ident: Ident) -> PResult<Stmt> {
+    fn parse_labelled_stmt(&mut self, label: Ident) -> PResult<Stmt> {
+        for l in &self.state.labels {
+            if label.sym == *l {
+                syntax_error!(self, SyntaxError::DuplicateLabel(label.sym.clone()))
+            }
+        }
         unimplemented!("labelled stmt")
+    }
+
+    pub(super) fn parse_fn_decl(&mut self) -> PResult<Stmt> {
+        unimplemented!("parse_fn_decl")
+    }
+}
+
+pub(super) trait StmtLikeParser<Type> {
+    fn handle_import_export(&mut self, top_level: bool) -> PResult<Type>;
+}
+
+impl<I: Input> StmtLikeParser<Stmt> for Parser<I> {
+    fn handle_import_export(&mut self, top_level: bool) -> PResult<Stmt> {
+        unexpected!(self)
     }
 }
 
@@ -345,10 +400,12 @@ mod tests {
             .expect("failed to parse a statement")
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        mk(s)
-            .parse_expr(true)
-            .expect("failed to parse an expression")
+        mk(s).parse_expr().expect("failed to parse an expression")
     }
+
+    #[allow(non_upper_case_globals)]
+    const span: Span = Span::DUMMY;
+
     #[test]
     fn expr_stmt() {
         assert_eq_ignore_span!(
@@ -384,8 +441,9 @@ mod tests {
         assert_eq_ignore_span!(
             stmt("{ return 1; }"),
             Stmt {
-                span: Span::DUMMY,
+                span,
                 node: StmtKind::Block(BlockStmt {
+                    span,
                     stmts: vec![stmt("return 1")],
                 }),
             }

@@ -2,6 +2,7 @@
 #![feature(box_patterns)]
 #![feature(const_fn)]
 #![feature(specialization)]
+#![feature(never_type)]
 #![feature(nll)]
 #![feature(proc_macro)]
 #![feature(try_trait)]

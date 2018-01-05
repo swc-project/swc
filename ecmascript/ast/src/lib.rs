@@ -59,8 +59,7 @@ impl<T: Display> Debug for DebugUsingDisplay<T> {
     }
 }
 
-impl Spanned for Ident {
-    type Item = JsWord;
+impl Spanned<JsWord> for Ident {
     fn from_unspanned(sym: JsWord, span: Span) -> Self {
         Ident { span, sym }
     }

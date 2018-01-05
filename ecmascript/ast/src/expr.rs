@@ -9,8 +9,7 @@ pub struct Expr {
     pub node: ExprKind,
 }
 
-impl Spanned for Expr {
-    type Item = ExprKind;
+impl Spanned<ExprKind> for Expr {
     fn from_unspanned(node: ExprKind, span: Span) -> Self {
         Expr { span, node }
     }
@@ -234,7 +233,7 @@ impl ExprOrSuper {
 pub enum ExprOrSpread {
     Expr(Box<Expr>),
     #[serde(rename = "SpreadElement")]
-    Sperad(
+    Spread(
         #[serde(rename = "argument")]
         Box<Expr>,
     ),
@@ -244,6 +243,15 @@ pub enum ExprOrSpread {
 pub enum BlockStmtOrExpr {
     BlockStmt(BlockStmt),
     Expr(Box<Expr>),
+}
+
+impl BlockStmtOrExpr {
+    pub fn span(&self) -> Span {
+        match *self {
+            BlockStmtOrExpr::BlockStmt(BlockStmt { span, .. }) => span,
+            BlockStmtOrExpr::Expr(box Expr { span, .. }) => span,
+        }
+    }
 }
 
 #[ast_node]

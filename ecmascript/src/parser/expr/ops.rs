@@ -4,9 +4,11 @@ use super::*;
 
 impl<I: Input> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self, include_in: bool) -> PResult<Box<Expr>> {
+    pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         let left = self.parse_unary_expr()?;
-        self.parse_bin_op_recursively(left, 0, include_in)
+
+        return_if_arrow!(self, left);
+        self.parse_bin_op_recursively(left, 0)
     }
 
     /// Parse binary operators with the operator precedence parsing
@@ -14,12 +16,7 @@ impl<I: Input> Parser<I> {
     /// `minPrec` provides context that allows the function to stop and
     /// defer further parser to one of its callers when it encounters an
     /// operator that has a lower precedence than the set it is parsing.
-    fn parse_bin_op_recursively(
-        &mut self,
-        left: Box<Expr>,
-        min_prec: u8,
-        include_in: bool,
-    ) -> PResult<Box<Expr>> {
+    fn parse_bin_op_recursively(&mut self, left: Box<Expr>, min_prec: u8) -> PResult<Box<Expr>> {
         let op = match {
             // Return left on eof
             match cur!(self) {
@@ -27,7 +24,7 @@ impl<I: Input> Parser<I> {
                 None => return Ok(left),
             }
         } {
-            &Word(Keyword(In)) if include_in => BinaryOp::In,
+            &Word(Keyword(In)) if self.ctx.include_in_expr => BinaryOp::In,
             &Word(Keyword(InstanceOf)) => BinaryOp::InstanceOf,
             &BinOp(op) => op.into(),
             _ => {
@@ -36,7 +33,7 @@ impl<I: Input> Parser<I> {
         };
 
         if op.precedence() <= min_prec {
-            debug!(
+            trace!(
                 self.logger,
                 "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                 left,
@@ -48,7 +45,7 @@ impl<I: Input> Parser<I> {
             return Ok(left);
         }
         bump!(self);
-        debug!(
+        trace!(
             self.logger,
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
@@ -78,7 +75,6 @@ impl<I: Input> Parser<I> {
                 } else {
                     op.precedence()
                 },
-                include_in,
             )?
         };
 
@@ -87,13 +83,13 @@ impl<I: Input> Parser<I> {
             node: ExprKind::Binary { op, left, right },
         };
 
-        let expr = self.parse_bin_op_recursively(node, min_prec, include_in)?;
+        let expr = self.parse_bin_op_recursively(node, min_prec)?;
         Ok(expr)
     }
 
     /// Parse unary expression and update expression.
     ///
-    /// Name from spec: 'UnaryExpression'
+    /// spec: 'UnaryExpression'
     fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         // Parse update expression
         if is!(self, "++") || is!(self, "--") {
@@ -139,12 +135,13 @@ impl<I: Input> Parser<I> {
             });
         }
 
-        if self.ctx.in_async.is_some() && is!(self, "await") {
+        if self.ctx.in_async && is!(self, "await") {
             return self.parse_await_expr();
         }
 
         // UpdateExpression
         let expr = self.parse_lhs_expr()?;
+        return_if_arrow!(self, expr);
 
         //TODO: Handle ASI
         if is_one_of!(self, "++", "--") {
@@ -171,7 +168,7 @@ impl<I: Input> Parser<I> {
     fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
         spanned!(self, {
             assert_and_bump!(self, "await");
-            assert!(self.ctx.in_async.is_some());
+            assert!(self.ctx.in_async);
 
             if is!(self, '*') {
                 syntax_error!(self, SyntaxError::AwaitStar)
@@ -194,7 +191,8 @@ mod tests {
     }
 
     fn bin(s: &'static str) -> Box<Expr> {
-        mk(s).parse_bin_expr(true).unwrap_or_else(|err| {
+        let expr = mk(s).parse_bin_expr();
+        expr.unwrap_or_else(|err| {
             panic!("failed to parse '{}' as a binary expression: {:?}", s, err)
         })
     }

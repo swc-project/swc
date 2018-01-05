@@ -1,5 +1,5 @@
 use super::{Expr, Ident};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]
@@ -8,6 +8,11 @@ pub struct Pat {
     pub node: PatKind,
 }
 
+impl Spanned<PatKind> for Pat {
+    fn from_unspanned(node: PatKind, span: Span) -> Self {
+        Pat { span, node }
+    }
+}
 #[ast_node]
 pub enum PatKind {
     Ident(Ident),

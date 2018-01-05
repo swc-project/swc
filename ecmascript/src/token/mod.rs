@@ -212,6 +212,7 @@ impl From<JsWord> for Word {
             js_word!("debugger") => Debugger.into(),
             js_word!("default") => Default_.into(),
             js_word!("do") => Do.into(),
+            js_word!("export") => Export.into(),
             js_word!("else") => Else.into(),
             js_word!("finally") => Finally.into(),
             js_word!("for") => For.into(),

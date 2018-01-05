@@ -5,6 +5,8 @@ macro_rules! tok {
     ('?') => { Token::QuestionMark };
     (':') => { Token::Colon };
     ('.') => { Token::Dot };
+    ("=>") => { Token::Arrow };
+    ("...") => { Token::DotDotDot };
 
     ('+') => { Token::BinOp(Add) };
     ('-') => { Token::BinOp(Sub) };
@@ -16,6 +18,9 @@ macro_rules! tok {
 
     ("++") => { Token::PlusPlus };
     ("--") => { Token::MinusMinus };
+
+    ('=') => { Token::AssignOp(Assign) };
+
 
 
     ('(') => { Token::LParen };
@@ -35,14 +40,18 @@ macro_rules! tok {
     ("delete") => { Token::Word(Keyword(Delete)) };
     ("do") => { Token::Word(Keyword(Do)) };
     ("else") => { Token::Word(Keyword(Else)) };
+    ("export") => { Token::Word(Ident(js_word!("export"))) };
     ("false") => { Token::Word(False) };
     ("finally") => { Token::Word(Keyword(Finally)) };
     ("function") => { Token::Word(Keyword(Function)) };
     ("if") => { Token::Word(Keyword(If)) };
+    ("import") => { Token::Word(Ident(js_word!("import"))) };
+    ("let") => { Token::Word(Keyword(Let)) };
     ("new") => { Token::Word(Keyword(New)) };
     ("null") => { Token::Word(Null) };
     ("return") => { Token::Word(Keyword(Return)) };
     ("super") => { Token::Word(Keyword(Super)) };
+    ("static") => { Token::Word(Word::Ident(js_word!("static"))) };
     ("switch") => { Token::Word(Keyword(Switch)) };
     ("target") => { Token::Word(Word::Ident(js_word!("target"))) };
     ("this") => { Token::Word(Keyword(This)) };
@@ -50,6 +59,7 @@ macro_rules! tok {
     ("true") => { Token::Word(True) };
     ("try") => { Token::Word(Keyword(Try)) };
     ("typeof") => { Token::Word(Keyword(TypeOf)) };
+    ("var") => { Token::Word(Keyword(Var)) };
     ("void") => { Token::Word(Keyword(Void)) };
     ("while") => { Token::Word(Keyword(While)) };
     ("with") => { Token::Word(Keyword(With)) };
@@ -58,13 +68,16 @@ macro_rules! tok {
 
 macro_rules! unexpected {
     ($p:expr) => {{
-        unimplemented!("unexpected token: {:?}", cur!($p))
+        let cur_span = cur_span!($p);
+        let cur = cur!($p);
+        error!($p.logger, "unexpected token {:?} at {:?}",cur,cur_span);
+        unimplemented!("unexpected token: {:?} at {:?}", cur, cur_span);
     }};
 }
 
 macro_rules! syntax_error {
     ($p:expr, $s:expr) => {{
-        let err: PResult<()> = Err(
+        let err: PResult<!> = Err(
             Error::Syntax($p.input.cur().cloned(), cur_span!($p), $s)
         );
         err?
@@ -73,9 +86,15 @@ macro_rules! syntax_error {
 
 /// This does **not** handle automatic semicolon insertion.
 macro_rules! is {
-    ($p:expr, $t:tt) => {{
-        $p.input.is(&tok!($t))
+    ($p:expr, ident) => {{
+        match cur!($p) {
+            Some(&Word(..)) => true,
+            _ => false,
+        }
     }};
+    ($p:expr, $t:tt) => {
+        $p.input.is(&tok!($t))
+    };
 }
 
 macro_rules! peeked_is {
@@ -178,4 +197,19 @@ macro_rules! cur_span {
     ($p:expr) => {
         $p.input.cur_span()
     };
+}
+
+macro_rules! return_if_arrow {
+    ($p:expr, $expr:expr) => {{
+        let is_cur = match $p.state.potential_arrow_start {
+            Some(start) => $expr.span.start == start,
+            None => false
+        };
+        if is_cur {
+            match $expr.node {
+                ExprKind::Arrow{..} => return Ok($expr),
+                _ => {},
+            }
+        }
+    }};
 }
