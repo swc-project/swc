@@ -16,8 +16,13 @@ pub fn expand(
         for v in &variants {
             if v.attrs.has_delegate {
                 match v.data {
-                    Fields::Named(FieldsNamed { ref fields, .. })
-                    | Fields::Unnamed(FieldsUnnamed { ref fields, .. }) if fields.len() == 1 => {}
+                    Fields::Named(FieldsNamed {
+                        named: ref fields, ..
+                    })
+                    | Fields::Unnamed(FieldsUnnamed {
+                        unnamed: ref fields,
+                        ..
+                    }) if fields.len() == 1 => {}
                     _ => panic!(
                         "currently #[kind(delegate)] can be applied to variant with only one field"
                     ),

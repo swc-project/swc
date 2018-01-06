@@ -3,13 +3,14 @@ set -eu
 
 reset
 
-cargo fmt
-cargo doc -p swc_ecma_ast
-cargo doc
-cargo check
+export DBG_DUMP=1
+cargo fmt >&2
+cargo doc -p swc_ecma_ast -p swc_macros_common -p 'https://github.com/dtolnay/syn#0.11.11' >&2
+cargo check >&2
+cargo doc >&2
 
 export RUST_TEST_THREADS=1
 export RUST_LOG="swc_ecmascript::parser=debug" 
 
 # cargo test --lib parser
-cargo test --test test262 -- --test-threads 1
+cargo test --test test262

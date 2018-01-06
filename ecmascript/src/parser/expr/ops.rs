@@ -2,12 +2,13 @@
 
 use super::*;
 
+#[parser]
 impl<I: Input> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         let left = self.parse_unary_expr()?;
 
-        return_if_arrow!(self, left);
+        return_if_arrow!(left);
         self.parse_bin_op_recursively(left, 0)
     }
 
@@ -19,7 +20,7 @@ impl<I: Input> Parser<I> {
     fn parse_bin_op_recursively(&mut self, left: Box<Expr>, min_prec: u8) -> PResult<Box<Expr>> {
         let op = match {
             // Return left on eof
-            match cur!(self) {
+            match cur!() {
                 Some(cur) => cur,
                 None => return Ok(left),
             }
@@ -44,7 +45,7 @@ impl<I: Input> Parser<I> {
 
             return Ok(left);
         }
-        bump!(self);
+        bump!();
         trace!(
             self.logger,
             "parsing binary op {:?} min_prec={}, prec={}",
@@ -60,7 +61,7 @@ impl<I: Input> Parser<I> {
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
 
-                syntax_error!(self, SyntaxError::UnaryInExp)
+                syntax_error!(SyntaxError::UnaryInExp)
             }
             _ => {}
         }
@@ -92,9 +93,9 @@ impl<I: Input> Parser<I> {
     /// spec: 'UnaryExpression'
     fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         // Parse update expression
-        if is!(self, "++") || is!(self, "--") {
-            let start = cur_span!(self);
-            let op = if bump!(self) == PlusPlus {
+        if is!("++") || is!("--") {
+            let start = cur_span!();
+            let op = if bump!() == PlusPlus {
                 UpdateOp::PlusPlus
             } else {
                 UpdateOp::MinusMinus
@@ -113,8 +114,8 @@ impl<I: Input> Parser<I> {
         }
 
         // Parse unary expression
-        if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
-            let op = match bump!(self) {
+        if is_one_of!("delete", "void", "typeof", '+', '-', '~', '!') {
+            let op = match bump!() {
                 Word(Keyword(Delete)) => UnaryOp::Delete,
                 Word(Keyword(Void)) => UnaryOp::Void,
                 Word(Keyword(TypeOf)) => UnaryOp::TypeOf,
@@ -126,7 +127,7 @@ impl<I: Input> Parser<I> {
             };
             let arg = self.parse_unary_expr()?;
             return Ok(box Expr {
-                span: prev_span!(self) + arg.span,
+                span: prev_span!() + arg.span,
                 node: ExprKind::Unary {
                     prefix: true,
                     op,
@@ -135,18 +136,18 @@ impl<I: Input> Parser<I> {
             });
         }
 
-        if self.ctx.in_async && is!(self, "await") {
+        if self.ctx.in_async && is!("await") {
             return self.parse_await_expr();
         }
 
         // UpdateExpression
         let expr = self.parse_lhs_expr()?;
-        return_if_arrow!(self, expr);
+        return_if_arrow!(expr);
 
         //TODO: Handle ASI
-        if is_one_of!(self, "++", "--") {
-            let start = cur_span!(self);
-            let op = if bump!(self) == PlusPlus {
+        if is_one_of!("++", "--") {
+            let start = cur_span!();
+            let op = if bump!() == PlusPlus {
                 UpdateOp::PlusPlus
             } else {
                 UpdateOp::MinusMinus
@@ -166,12 +167,12 @@ impl<I: Input> Parser<I> {
     }
 
     fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
-        spanned!(self, {
-            assert_and_bump!(self, "await");
+        spanned!({
+            assert_and_bump!("await");
             assert!(self.ctx.in_async);
 
-            if is!(self, '*') {
-                syntax_error!(self, SyntaxError::AwaitStar)
+            if is!('*') {
+                syntax_error!(SyntaxError::AwaitStar)
             }
 
             let arg = self.parse_unary_expr()?;

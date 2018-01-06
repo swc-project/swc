@@ -4,6 +4,7 @@ pub use self::input::Input;
 use self::input::ParserInput;
 use self::util::ParseObject;
 use ast::*;
+use parser_macros::parser;
 use slog::Logger;
 use std::ops::{Deref, DerefMut};
 use std::option::NoneError;
@@ -13,6 +14,7 @@ use token::*;
 
 #[macro_use]
 mod macros;
+mod class_and_fn;
 mod object;
 mod expr;
 mod ident;
@@ -26,7 +28,7 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug)]
 pub enum Error {
     Eof,
-    Syntax(Option<Token>, Span, SyntaxError),
+    Syntax(Option<Token>, Span, SyntaxError, &'static str, u32),
 }
 
 impl From<NoneError> for Error {
@@ -63,6 +65,7 @@ pub enum SyntaxError {
     ExpctedSemi,
     DuplicateLabel(JsWord),
     AsyncGenerator,
+    NonTopLevelImportExport,
 }
 
 /// EcmaScript parser.
@@ -117,10 +120,12 @@ impl<I: Input> Parser<I> {
         }
     }
 
+    #[parser]
     pub fn parse_script(&mut self) -> PResult<Vec<Stmt>> {
         self.parse_block_body(true, None)
     }
 
+    #[parser]
     pub fn parse_module(&mut self) -> PResult<Module> {
         self.parse_block_body(true, None)
             .map(|body| Module { body })

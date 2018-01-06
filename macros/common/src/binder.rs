@@ -62,7 +62,6 @@ impl<'a> Binder<'a> {
                 let enum_name = &self.ident;
                 variants
                     .iter()
-                    .map(Element::into_item)
                     .map(|v| VariantBinder::new(Some(enum_name), &v.ident, &v.fields, &v.attrs))
                     .collect()
             }
@@ -145,13 +144,13 @@ impl<'a> VariantBinder<'a> {
                 (pat, vec![])
             }
             &Fields::Named(FieldsNamed {
-                ref fields,
+                named: ref fields,
                 brace_token,
             }) => {
                 let mut bindings = vec![];
 
                 let fields = fields
-                    .iter()
+                    .elements()
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Element::new(t, p.cloned())
@@ -196,14 +195,14 @@ impl<'a> VariantBinder<'a> {
                 (pat, bindings)
             }
             &Fields::Unnamed(FieldsUnnamed {
-                ref fields,
+                unnamed: ref fields,
                 paren_token,
             }) => {
                 // TODO
                 let mut bindings = vec![];
 
                 let pats = fields
-                    .iter()
+                    .elements()
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Element::new(t, p.cloned())

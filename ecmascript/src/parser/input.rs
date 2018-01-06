@@ -59,12 +59,20 @@ impl<I: Input> ParserInput<I> {
         prev.map(|it| it.token)
     }
 
+    pub fn cur_debug(&self) -> Option<&Token> {
+        self.cur.as_ref().map(|it| &it.token)
+    }
+
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
         self.bump_inner().expect(
             "Current token is `None`. Parser should not call bump()\
              without knowing current token",
         )
+    }
+
+    pub fn knows_cur(&self) -> bool {
+        self.cur.is_some()
     }
 
     pub fn peek(&mut self) -> Option<&Token> {
@@ -138,7 +146,6 @@ impl<I: Input> ParserInput<I> {
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
         self.eat(&Word(Keyword(kwd)))
     }
-
     pub fn cur_span(&self) -> Span {
         self.cur
             .as_ref()

@@ -1,4 +1,4 @@
-use super::{Expr, Function};
+use super::{Expr, Function, PropName};
 use swc_common::Span;
 use swc_common::fold::FoldWith;
 use swc_macros::{ast_node, Deserialize, Serialize};
@@ -8,19 +8,17 @@ use swc_macros::{ast_node, Deserialize, Serialize};
 pub struct Class {
     #[serde = "superClass"]
     pub super_class: Option<Box<Expr>>,
-    pub body: Vec<Option<ClassMethod>>,
+    pub body: Vec<ClassMethod>,
 }
 
 #[ast_node]
 pub struct ClassMethod {
     pub span: Span,
-    pub key: Box<Expr>,
+    pub key: PropName,
     pub function: Function,
 
     #[fold(ignore)]
     pub kind: ClassMethodKind,
-
-    pub computed: bool,
 
     #[serde = "static"]
     pub is_static: bool,
@@ -29,7 +27,7 @@ pub struct ClassMethod {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, EqIgnoreSpan, Hash, Serialize, Deserialize)]
 pub enum ClassMethodKind {
     Constructor,
-    Methor,
+    Method,
     Getter,
     Setter,
 }

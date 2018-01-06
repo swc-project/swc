@@ -51,7 +51,7 @@ impl ItemImplExt for ItemImpl {
             None => {}
         }
 
-        self.generics.params.extend(generics.params);
+        self.generics.params.extend(generics.params.into_elements());
         match self.generics.where_clause {
             Some(WhereClause {
                 ref mut predicates, ..
@@ -59,7 +59,7 @@ impl ItemImplExt for ItemImpl {
                 generics
                     .where_clause
                     .into_iter()
-                    .flat_map(|wc| wc.predicates),
+                    .flat_map(|wc| wc.predicates.into_elements()),
             ),
             ref mut opt @ None => *opt = generics.where_clause,
         }

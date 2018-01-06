@@ -13,17 +13,20 @@ pub enum Decl {
     },
 
     #[serde = "VariableDeclaration"]
-    Var {
-        kind: VarDeclKind,
-        #[serde = "declarations"]
-        decls: Vec<VarDeclarator>,
-    },
+    Var(VarDecl),
 }
 
 #[ast_node]
 pub struct ClassDecl {
     pub ident: Ident,
     pub class: Class,
+}
+
+#[ast_node]
+pub struct VarDecl {
+    pub kind: VarDeclKind,
+    #[serde = "declarations"]
+    pub decls: Vec<VarDeclarator>,
 }
 
 #[ast_node]

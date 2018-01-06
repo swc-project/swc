@@ -1,4 +1,4 @@
-use super::{Decl, Expr, Ident, Lit};
+use super::{Class, Decl, Expr, Function, Ident, Lit, VarDecl};
 use swc_common::Span;
 use swc_macros::ast_node;
 
@@ -12,9 +12,9 @@ pub struct ModuleDecl {
 pub enum ModuleDeclKind {
     #[serde = "ImportDeclaration"]
     Import {
-        specifiers: Vec<ImportDeclSpecifier>,
+        specifiers: Vec<ImportSpecifier>,
         #[serde = "source"]
-        src: Lit,
+        src: String,
     },
     ExportDecl(Decl),
     /// `export { foo } from 'mod'`
@@ -28,7 +28,7 @@ pub enum ModuleDeclKind {
     #[serde = "ExportDefaultDeclaration"]
     ExportDefaultDecl(
         #[serde = "declaration"]
-        Decl,
+        ExportDefaultDecl,
     ),
     #[serde = "ExportDefaultDeclaration"]
     ExportDefaultExpr(
@@ -44,25 +44,40 @@ pub enum ModuleDeclKind {
 }
 
 #[ast_node]
-pub struct ImportDeclSpecifier {
-    pub span: Span,
-    pub local: Ident,
-    pub node: ImportDeclSpecifierKind,
+pub enum ExportDefaultDecl {
+    Class {
+        ident: Option<Ident>,
+        class: Class,
+    },
+
+    #[serde = "FunctionDeclaration"]
+    Fn {
+        ident: Option<Ident>,
+        function: Function,
+    },
+
+    Var(VarDecl),
 }
 
 #[ast_node]
-pub enum ImportDeclSpecifierKind {
-    /// e.g. `import { foo } from 'mod.js'`
-    /// e.g. `import { foo as bar } from 'mod.js'`
-    /// -> local = bar, imported = foo
+pub struct ImportSpecifier {
+    pub span: Span,
+    pub local: Ident,
+    pub node: ImportSpecifierKind,
+}
+
+#[ast_node]
+pub enum ImportSpecifierKind {
+    /// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
+    /// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from 'mod.js'`
     #[serde = "ImportSpecifier"]
-    Specific { imported: Ident },
+    Specific { imported: Option<Ident> },
     /// e.g. `import foo from 'mod.js'`
     #[serde = "ImportDefaultSpecifier"]
     Default,
-    /// e.g. `* as foo` in `import * as foo from 'mod.js'`.
+    /// e.g. `import * as foo from 'mod.js'`.
     #[serde = "ImportNamespaceSpecifier"]
-    Namespace { from: Lit },
+    Namespace,
 }
 
 #[ast_node]

@@ -13,6 +13,7 @@
 extern crate either;
 #[macro_use]
 extern crate failure;
+extern crate parser_macros;
 #[macro_use]
 extern crate slog;
 #[macro_use(js_word)]

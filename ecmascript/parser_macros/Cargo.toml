@@ -1,15 +1,18 @@
 [package]
-name = "swc_macros_common"
+name = "parser_macros"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
+[lib]
+proc-macro = true
+
 [dependencies]
-pmutil = { git = "https://github.com/kdy1/rust-pmutil" }
-proc-macro2 = { version = "0.1.8", features = ["nightly"] }
+swc_macros_common = { path = "../../macros/common" }
+proc-macro2 = "0.1"
 
 [dependencies.syn]
 git = "https://github.com/dtolnay/syn"
-features = ["full", "parsing", "printing", "extra-traits"]
+features = ["fold"]
 
 
 [dependencies.quote]

@@ -1,6 +1,6 @@
 macro_rules! tok {
     ('`') => { Token::BackQuote };
-    (';') => { Token::Semi };
+    // (';') => { Token::Semi };
     (',') => { Token::Comma };
     ('?') => { Token::QuestionMark };
     (':') => { Token::Colon };
@@ -32,6 +32,7 @@ macro_rules! tok {
 
 
     ("async") => { Token::Word(Word::Ident(js_word!("async"))) };
+    ("as") => { Token::Word(Word::Ident(js_word!("as"))) };
     ("await") => { Token::Word(Keyword(Await)) };
     ("case") => { Token::Word(Keyword(Case)) };
     ("catch") => { Token::Word(Keyword(Catch)) };
@@ -40,12 +41,14 @@ macro_rules! tok {
     ("delete") => { Token::Word(Keyword(Delete)) };
     ("do") => { Token::Word(Keyword(Do)) };
     ("else") => { Token::Word(Keyword(Else)) };
-    ("export") => { Token::Word(Ident(js_word!("export"))) };
+    ("export") => { Token::Word(Keyword(Export)) };
+    ("extends") => { Token::Word(Keyword(Extends)) };
     ("false") => { Token::Word(False) };
     ("finally") => { Token::Word(Keyword(Finally)) };
+    ("from") => { Token::Word(Word::Ident(js_word!("from"))) };
     ("function") => { Token::Word(Keyword(Function)) };
     ("if") => { Token::Word(Keyword(If)) };
-    ("import") => { Token::Word(Ident(js_word!("import"))) };
+    ("import") => { Token::Word(Keyword(Import)) };
     ("let") => { Token::Word(Keyword(Let)) };
     ("new") => { Token::Word(Keyword(New)) };
     ("null") => { Token::Word(Null) };
@@ -66,6 +69,11 @@ macro_rules! tok {
     ("yield") => { Token::Word(Keyword(Yield)) };
 }
 
+macro_rules! token_including_semi {
+    (';') => { Token::Semi };
+    ($t:tt) => { tok!($t) };
+}
+
 macro_rules! unexpected {
     ($p:expr) => {{
         let cur_span = cur_span!($p);
@@ -78,20 +86,37 @@ macro_rules! unexpected {
 macro_rules! syntax_error {
     ($p:expr, $s:expr) => {{
         let err: PResult<!> = Err(
-            Error::Syntax($p.input.cur().cloned(), cur_span!($p), $s)
+            Error::Syntax($p.input.cur().cloned(), cur_span!($p), $s, file!(), line!())
         );
         err?
     }};
 }
 
-/// This does **not** handle automatic semicolon insertion.
+/// This handles automatic semicolon insertion.
+///
+/// Returns bool.
 macro_rules! is {
-    ($p:expr, ident) => {{
+    ($p:expr, BindingIdent) => {{
+        match cur!($p) {
+            // TODO: Exclude some keywords
+            Some(&Word(ref w)) => !w.is_reserved_word($p.ctx.strict),
+            _ => false,
+        }
+    }};
+
+    ($p:expr, IdentName) => {{
         match cur!($p) {
             Some(&Word(..)) => true,
             _ => false,
         }
     }};
+
+    ($p:expr, ';') => {{
+        $p.input.is(&Token::Semi) || cur!($p) == None || is!($p, '}')
+            || $p.input.had_line_break_before_cur()
+    }};
+
+
     ($p:expr, $t:tt) => {
         $p.input.is(&tok!($t))
     };
@@ -112,6 +137,15 @@ macro_rules! is_one_of {
     }};
 }
 
+macro_rules! peeked_is_one_of {
+    ($p:expr, $($t:tt),+) => {{
+        false
+        $(
+            || peeked_is!($p, $t)
+        )*
+    }};
+}
+
 // This will panic if current != token
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
@@ -119,32 +153,49 @@ macro_rules! assert_and_bump {
         if !$p.input.is(TOKEN) {
             unreachable!("assertion failed: expected {:?}, got {:?}", TOKEN, $p.input.cur());
         }
-        $p.input.bump()
+        bump!($p);
     }};
 }
 
 /// This handles automatic semicolon insertion.
 ///
-/// Returns bool
+/// Returns bool if token is static, and Option<Token>
+///     if token has data like string.
 macro_rules! eat {
     ($p:expr, ';') => {{
-        debug!($p.logger, "eat_or_inject_semi: cur={:?}", cur!($p));
+        debug!($p.logger, "eat(';'): cur={:?}", cur!($p));
         $p.input.eat(&Token::Semi) || cur!($p) == None || is!($p, '}')
             || $p.input.had_line_break_before_cur()
     }};
 
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &tok!($t);
-        $p.input.eat(TOKEN)
+        if is!($p, $t) {
+            bump!($p);
+            true
+        } else {
+            false
+        }
+    }};
+}
+
+macro_rules! eat_exact {
+    ($p:expr, $t:tt) => {{
+        const TOKEN: &Token = &token_including_semi!($t);
+        if $p.input.is(TOKEN) {
+            bump!($p);
+            true
+        } else {
+            false
+        }
     }};
 }
 
 /// This handles automatic semicolon insertion.
 ///
-/// Returns PResult<()>
 macro_rules! expect {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &tok!($t);
+        const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
             syntax_error!($p, SyntaxError::Expected(TOKEN))
         }
@@ -158,15 +209,24 @@ macro_rules! cur {
 }
 
 macro_rules! peek {
-    ($p:expr) => {
+    ($p:expr) => {{
+        assert!(
+            $p.input.knows_cur(),
+            "parser should not call peek() without knowing current token.
+Current token is {:?}", cur!($p)
+        );
         $p.input.peek()
-    };
+    }};
 }
 
 macro_rules! bump {
-    ($parser:expr) => {
-        $parser.input.bump()
-    };
+    ($p:expr) => {{
+        assert!(
+            $p.input.knows_cur(),
+            "parser should not call bump() without knowing current token"
+        );
+        $p.input.bump()
+    }};
 }
 
 macro_rules! spanned {

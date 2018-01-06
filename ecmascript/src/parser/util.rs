@@ -17,6 +17,14 @@ impl<I: Input> Parser<I> {
             ..self.ctx
         })
     }
+
+    /// Parse with given closure
+    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> Ret
+    where
+        F: FnOnce(&mut Self) -> Ret,
+    {
+        f(self)
+    }
 }
 
 pub trait ParseObject<Obj> {

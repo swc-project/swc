@@ -16,11 +16,7 @@ impl From<DeriveInput> for Input {
         }: DeriveInput,
     ) -> Self {
         let variants = match data {
-            Data::Enum(data) => data.variants
-                .into_iter()
-                .map(Element::into_item)
-                .map(From::from)
-                .collect(),
+            Data::Enum(data) => data.variants.into_iter().map(From::from).collect(),
             _ => panic!("#[derive(Kind)] only works for enums"),
         };
 
@@ -44,7 +40,7 @@ impl Synom for EnumAttrs {
             let fns: Punctuated<_, token::Comma> = fns.1;
             // TODO: Verify `functions`.
             EnumAttrs {
-                fns: fns.into_iter().map(Element::into_item).collect(),
+                fns: fns.into_iter().collect(),
                 extras: Default::default(),
             }
         })
@@ -122,10 +118,10 @@ impl Synom for VariantAttrs {
         >>
         ({
             let fn_values: Punctuated<_, token::Comma> = fn_values;
-            let has_delegate = fn_values.iter().map(Element::into_item)
+            let has_delegate = fn_values.iter()
                     .any(|f: &VariantAttr| f.fn_name == "delegate");
             VariantAttrs {
-                fn_values: fn_values.into_iter().map(Element::into_item).collect(),
+                fn_values: fn_values.into_iter().collect(),
                 extras: Default::default(),
                 has_delegate,
             }

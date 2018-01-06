@@ -59,14 +59,12 @@ pub fn derive_caniuse(input: &DeriveInput) -> ItemImpl {
                 comma: Some(call_site()),
             }
         })
-        .chain(iter::once(
-            #[cfg_attr(rustfmt, rustfmt_skip)]
+        .chain(iter::once(#[cfg_attr(rustfmt, rustfmt_skip)]
             Quote::new_call_site()
                 .quote_with(smart_quote!(Vars {}, {
                     _ => {},
                 }))
-                .parse::<Arm>(),
-        ))
+                .parse::<Arm>()))
         .collect();
 
     let match_expr = Expr::Match(ExprMatch {

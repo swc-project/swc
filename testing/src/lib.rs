@@ -15,7 +15,7 @@ pub fn logger() -> Logger {
     fn root() -> Logger {
         let dec = slog_term::TermDecorator::new()
             .force_color()
-            .stderr()
+            .stdout()
             .build();
         let drain = slog_term::FullFormat::new(dec)
             .use_custom_timestamp(no_timestamp)
@@ -33,5 +33,6 @@ pub fn logger() -> Logger {
 
     // hack for cargo test
     println!("");
-    ROOT.new(o!())
+    root()
+    // ROOT.new(o!())
 }

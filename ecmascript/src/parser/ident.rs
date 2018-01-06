@@ -2,6 +2,7 @@
 
 use super::*;
 
+#[parser]
 impl<I: Input> Parser<I> {
     /// IdentifierReference
     pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
@@ -20,13 +21,13 @@ impl<I: Input> Parser<I> {
     /// Use this when spec says "IdentiferName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
-        spanned!(self, {
-            let w = match cur!(self) {
-                Some(&Word(..)) => match bump!(self) {
+        spanned!({
+            let w = match cur!() {
+                Some(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
-                _ => syntax_error!(self, SyntaxError::ExpectedIdent),
+                _ => syntax_error!(SyntaxError::ExpectedIdent),
             };
 
             Ok(w.into())
@@ -37,14 +38,14 @@ impl<I: Input> Parser<I> {
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
-        spanned!(self, {
+        spanned!({
             let strict = self.ctx.strict;
-            let w = match cur!(self) {
-                Some(&Word(..)) => match bump!(self) {
+            let w = match cur!() {
+                Some(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
-                _ => syntax_error!(self, SyntaxError::ExpectedIdent),
+                _ => syntax_error!(SyntaxError::ExpectedIdent),
             };
 
             // Spec:
@@ -61,9 +62,7 @@ impl<I: Input> Parser<I> {
                     | Ident(js_word!("package"))
                     | Ident(js_word!("private"))
                     | Ident(js_word!("protected"))
-                    | Ident(js_word!("public")) => {
-                        syntax_error!(self, SyntaxError::InvalidIdentInStrict)
-                    }
+                    | Ident(js_word!("public")) => syntax_error!(SyntaxError::InvalidIdentInStrict),
                     _ => {}
                 }
             }
@@ -79,17 +78,29 @@ impl<I: Input> Parser<I> {
             // value as the StringValue of any ReservedWord except for yield or await.
 
             match w {
+                Keyword(Let) => Ok(w.into()),
                 Ident(ident) => Ok(ident),
                 Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
                 Keyword(Await) if incl_await => Ok(js_word!("await")),
                 Keyword(..) | Null | True | False => {
-                    syntax_error!(self, SyntaxError::ExpectedIdent)
+                    println!("Word: {:?}", w);
+                    syntax_error!(SyntaxError::ExpectedIdent)
                 }
             }
         })
     }
 }
 
-pub(super) trait MaybeOptionalIdentParser<Ident> {}
-impl<I: Input> MaybeOptionalIdentParser<Ident> for Parser<I> {}
-impl<I: Input> MaybeOptionalIdentParser<Option<Ident>> for Parser<I> {}
+pub(super) trait MaybeOptionalIdentParser<Ident> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident>;
+}
+impl<I: Input> MaybeOptionalIdentParser<Ident> for Parser<I> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident> {
+        self.parse_binding_ident()
+    }
+}
+impl<I: Input> MaybeOptionalIdentParser<Option<Ident>> for Parser<I> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
+        self.parse_opt_binding_ident()
+    }
+}

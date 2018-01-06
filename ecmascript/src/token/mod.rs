@@ -327,7 +327,7 @@ impl Debug for Word {
 }
 
 impl Word {
-    pub fn is_reserved_word(&self, strict: bool) -> bool {
+    pub(crate) fn is_reserved_word(&self, strict: bool) -> bool {
         match *self {
             Keyword(Let) => strict,
             Keyword(Await) | Keyword(Yield) => strict,
