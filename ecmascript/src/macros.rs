@@ -37,6 +37,7 @@ macro_rules! tok {
     ("case") => { Token::Word(Keyword(Case)) };
     ("catch") => { Token::Word(Keyword(Catch)) };
     ("class") => { Token::Word(Keyword(Class)) };
+    ("const") => { Token::Word(Keyword(Const)) };
     ("default") => { Token::Word(Keyword(Default_)) };
     ("delete") => { Token::Word(Keyword(Delete)) };
     ("do") => { Token::Word(Keyword(Do)) };
@@ -45,13 +46,16 @@ macro_rules! tok {
     ("extends") => { Token::Word(Keyword(Extends)) };
     ("false") => { Token::Word(False) };
     ("finally") => { Token::Word(Keyword(Finally)) };
+    ("for") => { Token::Word(Keyword(For)) };
     ("from") => { Token::Word(Word::Ident(js_word!("from"))) };
     ("function") => { Token::Word(Keyword(Function)) };
     ("if") => { Token::Word(Keyword(If)) };
+    ("in") => { Token::Word(Keyword(In)) };
     ("import") => { Token::Word(Keyword(Import)) };
     ("let") => { Token::Word(Keyword(Let)) };
     ("new") => { Token::Word(Keyword(New)) };
     ("null") => { Token::Word(Null) };
+    ("of") => { Token::Word(Ident(js_word!("of"))) };
     ("return") => { Token::Word(Keyword(Return)) };
     ("super") => { Token::Word(Keyword(Super)) };
     ("static") => { Token::Word(Word::Ident(js_word!("static"))) };

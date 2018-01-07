@@ -123,39 +123,6 @@ impl<I: Input> Parser<I> {
                 }
             }
 
-            tok!("let") | Word(Ident(..)) => {
-                return spanned!({
-                    // TODO: Handle [Yield, Await]
-                    let id = self.parse_ident_ref()?;
-
-                    if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
-                        // async a => body
-                        let arg = self.parse_binding_ident().map(Pat::from)?;
-                        let params = vec![arg];
-                        expect!("=>");
-                        let body = self.parse_fn_body(true, false)?;
-                        Ok(ExprKind::Arrow {
-                            body,
-                            params,
-                            is_async: true,
-                            is_generator: false,
-                        })
-                    } else if can_be_arrow && !is!(';') && eat!("=>") {
-                        // async is parameter
-
-                        let params = vec![id.into()];
-                        let body = self.parse_fn_body(false, false)?;
-                        Ok(ExprKind::Arrow {
-                            body,
-                            params,
-                            is_async: false,
-                            is_generator: false,
-                        })
-                    } else {
-                        return Ok(id.into());
-                    }
-                });
-            }
             tok!("null") | tok!("true") | tok!("false") | Num(..) | Str(..) => {
                 return spanned!({ self.parse_lit().map(ExprKind::Lit) })
             }
@@ -184,28 +151,58 @@ impl<I: Input> Parser<I> {
             _ => {}
         }
 
+        if is!("let") || is!(IdentRef) {
+            return spanned!({
+                // TODO: Handle [Yield, Await]
+                let id = self.parse_ident_ref()?;
+
+                if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
+                    // async a => body
+                    let arg = self.parse_binding_ident().map(Pat::from)?;
+                    let params = vec![arg];
+                    expect!("=>");
+                    let body = self.parse_fn_body(true, false)?;
+                    Ok(ExprKind::Arrow {
+                        body,
+                        params,
+                        is_async: true,
+                        is_generator: false,
+                    })
+                } else if can_be_arrow && !is!(';') && eat!("=>") {
+                    // async is parameter
+
+                    let params = vec![id.into()];
+                    let body = self.parse_fn_body(false, false)?;
+                    Ok(ExprKind::Arrow {
+                        body,
+                        params,
+                        is_async: false,
+                        is_generator: false,
+                    })
+                } else {
+                    return Ok(id.into());
+                }
+            });
+        }
+
         unexpected!()
     }
 
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         spanned!({
             assert_and_bump!('[');
-            let mut first = true;
             let mut elems = vec![];
             let mut comma = 0;
 
             while !is!(']') {
-                if first {
-                    first = false;
-                } else {
-                    if eat!(',') {
-                        comma += 1;
-                    } else {
-                        elems.extend(iter::repeat(None).take(comma));
-                        comma = 0;
-                        elems.push(self.parse_expr_or_spread().map(Some)?);
-                    }
+                if eat!(',') {
+                    comma += 1;
+                    continue;
                 }
+
+                elems.extend(iter::repeat(None).take(comma));
+                comma = 0;
+                elems.push(self.parse_expr_or_spread().map(Some)?);
             }
 
             expect!(']');

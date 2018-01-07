@@ -1,20 +1,9 @@
 //! 13.3.3 Destructuring Binding Patterns
-
 use super::*;
+use std::iter;
 
 #[parser]
 impl<I: Input> Parser<I> {
-    ///
-    /// babel: `parseRest`
-    pub(super) fn parse_binding_rest_element(&mut self) -> PResult<Pat> {
-        spanned!({
-            expect!("...");
-            self.parse_binding_element()
-                .map(Box::new)
-                .map(PatKind::Rest)
-        })
-    }
-
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
         if is!(BindingIdent) {
             self.parse_binding_ident().map(Some)
@@ -38,23 +27,74 @@ impl<I: Input> Parser<I> {
         Ok(ident)
     }
 
-    /// babel: `parseBindingAtom`
-    pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
-        let pat = match *cur!()? {
+    pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
+        match *cur!()? {
             tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),
+            tok!('(') => {
+                bump!();
+                let pat = self.parse_binding_pat_or_ident()?;
+                expect!(')');
+                Ok(pat)
+            }
             _ => unexpected!(),
-        };
-
-        if is!('=') {
-            unimplemented!("optional initializer pattern")
         }
-        pat
+    }
+
+    /// babel: `parseBindingAtom`
+    pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
+        let start = cur_pos!();
+        let left = self.parse_binding_pat_or_ident()?;
+
+        if eat!('=') {
+            let right = self.include_in_expr(true).parse_assignment_expr()?;
+            return Ok(Pat {
+                span: span!(start),
+                node: PatKind::Assign {
+                    left: box left,
+                    right,
+                },
+            });
+        }
+
+        Ok(left)
     }
 
     fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
-        unimplemented!("parse_array_binding_pat")
+        spanned!({
+            assert_and_bump!('[');
+
+            let mut elems = vec![];
+            let mut comma = 0;
+
+            while !is!(']') {
+                if eat!(',') {
+                    comma += 1;
+                    continue;
+                }
+
+                elems.extend(iter::repeat(None).take(comma));
+                comma = 0;
+                let start = cur_pos!();
+
+                if eat!("...") {
+                    let pat = self.parse_binding_pat_or_ident()?;
+                    let pat = Pat {
+                        span: span!(start),
+                        node: PatKind::Rest(box pat),
+                    };
+                    elems.push(Some(pat));
+                    break;
+                } else {
+                    elems.push(self.parse_binding_element().map(Some)?);
+                }
+            }
+
+            expect!(']');
+
+            Ok(PatKind::Array(elems))
+        })
     }
 
     /// spec: 'FormalParameter'
@@ -65,28 +105,36 @@ impl<I: Input> Parser<I> {
     ///
     /// spec: 'FormalParameterList'
     pub(super) fn parse_formal_params(&mut self) -> PResult<Vec<Pat>> {
-        // FIXME: This is wrong. (copied from parse_args())
-        let expr_or_spreads = {
-            let mut first = true;
-            let mut expr_or_spreads = vec![];
+        let mut first = true;
+        let mut params = vec![];
 
-            while !is!(')') {
-                if first {
-                    first = false;
-                } else {
-                    expect!(',');
-                    // Handle trailing comma.
-                    if is!(')') {
-                        break;
-                    }
+        while !is!(')') {
+            if first {
+                first = false;
+            } else {
+                expect!(',');
+                // Handle trailing comma.
+                if is!(')') {
+                    break;
                 }
-
-                expr_or_spreads.push(self.include_in_expr(true).parse_expr_or_spread()?);
             }
 
-            expr_or_spreads
-        };
-        self.parse_exprs_as_params(expr_or_spreads)
+            let start = cur_pos!();
+            let rest = eat!("...");
+            if rest {
+                let pat = self.parse_binding_pat_or_ident()?;
+                let pat = Pat {
+                    span: span!(start),
+                    node: PatKind::Rest(box pat),
+                };
+                params.push(pat);
+                break;
+            } else {
+                params.push(self.parse_binding_element()?);
+            }
+        }
+
+        Ok(params)
     }
 
     pub(super) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Pat>> {

@@ -10,7 +10,7 @@ cargo check >&2
 cargo doc >&2
 
 export RUST_TEST_THREADS=1
-export RUST_LOG="swc_ecmascript=debug" 
+export RUST_LOG="swc_ecmascript::parser=debug" 
 
 # cargo test --lib parser
 cargo test --test test262

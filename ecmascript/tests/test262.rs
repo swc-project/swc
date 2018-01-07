@@ -34,12 +34,14 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "247a3a57e8176ebd.js",
     "441a92357939904a.js",
     "47f974d6fc52e3e4.js",
+    "4e1a0da46ca45afe.js",
     "5829d742ab805866.js",
     "598a5cedba92154d.js",
     "72d79750e81ef03d.js",
     "7788d3c1e1247da9.js",
     "82c827ccaecbe22b.js",
     "8c80f7ee04352eba.js",
+    "96f5d93be9a54573.js",
     "988e362ed9ddcac5.js",
     "9bcae7c7f00b4e3c.js",
     "a8a03a88237c4e8f.js",
@@ -244,6 +246,10 @@ impl Folder<PropName> for Normalizer {
             PropName::Ident(Ident { sym, .. }) => {
                 self.did_something = true;
                 PropName::Str(String::from(&*sym))
+            }
+            PropName::Num(num) => {
+                self.did_something = true;
+                PropName::Str(num.to_string())
             }
             _ => n.fold_children(self),
         }

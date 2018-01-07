@@ -1,4 +1,4 @@
-use super::{Decl, Expr, Ident, Pat};
+use super::{Decl, Expr, Ident, Pat, VarDecl};
 use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
@@ -107,7 +107,7 @@ pub enum StmtKind {
     #[serde = "ForStatement"]
     For {
         /// VarDecl | Expr | null
-        init: Option<Box<Stmt>>,
+        init: Option<VarDeclOrPat>,
 
         test: Option<Box<Expr>>,
 
@@ -118,8 +118,7 @@ pub enum StmtKind {
 
     #[serde = "ForInStatement"]
     ForIn {
-        /// VarDecl | Pattern
-        left: Box<Stmt>,
+        left: VarDeclOrPat,
 
         right: Box<Expr>,
 
@@ -128,8 +127,7 @@ pub enum StmtKind {
 
     #[serde = "ForOfStatement"]
     ForOf {
-        /// VarDecl | Pattern
-        left: Box<Stmt>,
+        left: VarDeclOrPat,
 
         right: Box<Expr>,
 
@@ -154,4 +152,10 @@ pub struct CatchClause {
     pub param: Pat,
 
     pub body: BlockStmt,
+}
+
+#[ast_node]
+pub enum VarDeclOrPat {
+    VarDecl(VarDecl),
+    Pat(Pat),
 }

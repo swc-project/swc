@@ -114,8 +114,8 @@ impl Folder for MyFolder {
 
             //TODO: Collect expect and give that list to unexpected
             "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eat_exact" | "expect"
-            | "is" | "is_one_of" | "peeked_is" | "peek" | "last_pos" | "return_if_arrow"
-            | "span" | "syntax_error" | "unexpected" => {
+            | "expect_exact" | "is" | "is_one_of" | "peeked_is" | "peek" | "last_pos"
+            | "return_if_arrow" | "span" | "syntax_error" | "unexpected" => {
                 return Macro {
                     tts: if i.tts.is_empty() {
                         quote_spanned!(span, self).into()

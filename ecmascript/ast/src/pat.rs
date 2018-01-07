@@ -1,4 +1,4 @@
-use super::{Expr, Ident};
+use super::{Expr, Ident, PropName};
 use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
@@ -29,9 +29,9 @@ pub enum PatKind {
         Box<Pat>,
     ),
 
-    #[serde = "AssignmentPattern"]
+    #[serde = "ObjectPattern"]
     Object {
-        props: Vec<AssignProp>,
+        props: Vec<ObjectPatProp>,
     },
 
     #[serde = "AssignmentPattern"]
@@ -42,9 +42,14 @@ pub enum PatKind {
 }
 
 #[ast_node]
-pub struct AssignProp {
-    pub value: Box<Pat>,
-    pub method: bool,
+pub enum ObjectPatProp {
+    /// `{key: value}`
+    KeyValue { key: PropName, value: Box<Pat> },
+    /// `{key}` or `{key = value}`
+    Assign {
+        key: PropName,
+        value: Option<Box<Expr>>,
+    },
 }
 
 impl From<Ident> for Pat {

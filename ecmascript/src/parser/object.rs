@@ -201,8 +201,9 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
     }
 }
 
+#[parser]
 impl<I: Input> ParseObject<Pat> for Parser<I> {
-    type Prop = AssignProp;
+    type Prop = ObjectPatProp;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
         Pat {
@@ -214,7 +215,23 @@ impl<I: Input> ParseObject<Pat> for Parser<I> {
     /// Production 'BindingProperty'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
         let key = self.parse_prop_name()?;
+        if eat!(':') {
+            let value = box self.parse_binding_element()?;
+            return Ok(ObjectPatProp::KeyValue { key, value });
+        }
+        match key {
+            PropName::Ident(..) => {}
+            _ => unexpected!(),
+        }
 
-        unimplemented!()
+        let value = if eat!('=') {
+            self.include_in_expr(true)
+                .parse_assignment_expr()
+                .map(Some)?
+        } else {
+            None
+        };
+
+        Ok(ObjectPatProp::Assign { key, value })
     }
 }

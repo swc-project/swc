@@ -24,6 +24,7 @@ pub struct ClassDecl {
 
 #[ast_node]
 pub struct VarDecl {
+    pub span: Span,
     pub kind: VarDeclKind,
     #[serde = "declarations"]
     pub decls: Vec<VarDeclarator>,

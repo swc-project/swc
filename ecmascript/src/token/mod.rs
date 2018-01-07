@@ -460,3 +460,19 @@ impl From<BinOpToken> for BinaryOp {
         }
     }
 }
+
+impl Token {
+    /// Returns true if `self` can follow keyword let.
+    ///
+    /// e.g. `let a = xx;`, `let {a:{}} = 1`
+    pub(crate) fn follows_keyword_let(&self, _strict: bool) -> bool {
+        match *self {
+            // This is required to recognize `let let` in strict mode.
+            tok!("let") => true,
+
+            tok!('{') | tok!('[') | Word(Ident(..)) | tok!("yield") | tok!("await") => true,
+
+            _ => false,
+        }
+    }
+}

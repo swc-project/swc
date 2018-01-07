@@ -28,6 +28,14 @@ macro_rules! is {
         }
     }};
 
+    ($p:expr, IdentRef) => {{
+        match cur!($p) {
+            // TODO: Exclude some keywords
+            Some(&Word(ref w)) => !w.is_reserved_word($p.ctx.strict),
+            _ => false,
+        }
+    }};
+
     ($p:expr, IdentName) => {{
         match cur!($p) {
             Some(&Word(..)) => true,
@@ -121,6 +129,15 @@ macro_rules! expect {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
+            syntax_error!($p, SyntaxError::Expected(TOKEN))
+        }
+    }};
+}
+
+macro_rules! expect_exact {
+    ($p:expr, $t:tt) => {{
+        const TOKEN: &Token = &token_including_semi!($t);
+        if !eat_exact!($p, $t) {
             syntax_error!($p, SyntaxError::Expected(TOKEN))
         }
     }};

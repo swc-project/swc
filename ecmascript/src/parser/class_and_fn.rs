@@ -176,7 +176,24 @@ impl<I: Input> Parser<I> {
                 });
         }
 
-        let start = cur_pos!();
+        // Handle static(){}
+        if let Some(start_of_static) = start_of_static {
+            if is!('(') {
+                let span_of_static = span!(start_of_static);
+                return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
+                    .map(|function| ClassMethod {
+                        span: span!(start),
+                        is_static: false,
+                        key: PropName::Ident(Ident {
+                            span: span_of_static,
+                            sym: js_word!("static"),
+                        }),
+                        function,
+                        kind: ClassMethodKind::Method,
+                    });
+            }
+        }
+
         let key = self.parse_prop_name()?;
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
