@@ -1,92 +1,16 @@
-macro_rules! tok {
-    ('`') => { Token::BackQuote };
-    // (';') => { Token::Semi };
-    (',') => { Token::Comma };
-    ('?') => { Token::QuestionMark };
-    (':') => { Token::Colon };
-    ('.') => { Token::Dot };
-    ("=>") => { Token::Arrow };
-    ("...") => { Token::DotDotDot };
-
-    ('+') => { Token::BinOp(Add) };
-    ('-') => { Token::BinOp(Sub) };
-    ('*') => { Token::BinOp(Mul) };
-    ('/') => { Token::BinOp(Div) };
-    ('%') => { Token::BinOp(Mod) };
-    ('!') => { Token::Bang };
-    ('~') => { Token::Tilde };
-
-    ("++") => { Token::PlusPlus };
-    ("--") => { Token::MinusMinus };
-
-    ('=') => { Token::AssignOp(Assign) };
-
-
-
-    ('(') => { Token::LParen };
-    (')') => { Token::RParen };
-    ('{') => { Token::LBrace };
-    ('}') => { Token::RBrace };
-    ('[') => { Token::LBracket };
-    (']') => { Token::RBracket };
-
-
-    ("async") => { Token::Word(Word::Ident(js_word!("async"))) };
-    ("as") => { Token::Word(Word::Ident(js_word!("as"))) };
-    ("await") => { Token::Word(Keyword(Await)) };
-    ("case") => { Token::Word(Keyword(Case)) };
-    ("catch") => { Token::Word(Keyword(Catch)) };
-    ("class") => { Token::Word(Keyword(Class)) };
-    ("default") => { Token::Word(Keyword(Default_)) };
-    ("delete") => { Token::Word(Keyword(Delete)) };
-    ("do") => { Token::Word(Keyword(Do)) };
-    ("else") => { Token::Word(Keyword(Else)) };
-    ("export") => { Token::Word(Keyword(Export)) };
-    ("extends") => { Token::Word(Keyword(Extends)) };
-    ("false") => { Token::Word(False) };
-    ("finally") => { Token::Word(Keyword(Finally)) };
-    ("from") => { Token::Word(Word::Ident(js_word!("from"))) };
-    ("function") => { Token::Word(Keyword(Function)) };
-    ("if") => { Token::Word(Keyword(If)) };
-    ("import") => { Token::Word(Keyword(Import)) };
-    ("let") => { Token::Word(Keyword(Let)) };
-    ("new") => { Token::Word(Keyword(New)) };
-    ("null") => { Token::Word(Null) };
-    ("return") => { Token::Word(Keyword(Return)) };
-    ("super") => { Token::Word(Keyword(Super)) };
-    ("static") => { Token::Word(Word::Ident(js_word!("static"))) };
-    ("switch") => { Token::Word(Keyword(Switch)) };
-    ("target") => { Token::Word(Word::Ident(js_word!("target"))) };
-    ("this") => { Token::Word(Keyword(This)) };
-    ("throw") => { Token::Word(Keyword(Throw)) };
-    ("true") => { Token::Word(True) };
-    ("try") => { Token::Word(Keyword(Try)) };
-    ("typeof") => { Token::Word(Keyword(TypeOf)) };
-    ("var") => { Token::Word(Keyword(Var)) };
-    ("void") => { Token::Word(Keyword(Void)) };
-    ("while") => { Token::Word(Keyword(While)) };
-    ("with") => { Token::Word(Keyword(With)) };
-    ("yield") => { Token::Word(Keyword(Yield)) };
-}
-
-macro_rules! token_including_semi {
-    (';') => { Token::Semi };
-    ($t:tt) => { tok!($t) };
-}
-
 macro_rules! unexpected {
     ($p:expr) => {{
-        let cur_span = cur_span!($p);
+        let pos = cur_pos!($p);
         let cur = cur!($p);
-        error!($p.logger, "unexpected token {:?} at {:?}",cur,cur_span);
-        unimplemented!("unexpected token: {:?} at {:?}", cur, cur_span);
+        error!($p.logger, "unexpected token {:?} at {:?}", cur, pos);
+        unimplemented!("unexpected token: {:?} at {:?}", cur, pos);
     }};
 }
 
 macro_rules! syntax_error {
     ($p:expr, $s:expr) => {{
         let err: PResult<!> = Err(
-            Error::Syntax($p.input.cur().cloned(), cur_span!($p), $s, file!(), line!())
+            Error::Syntax($p.input.cur().cloned(), cur_pos!($p), $s, file!(), line!())
         );
         err?
     }};
@@ -229,34 +153,12 @@ macro_rules! bump {
     }};
 }
 
-macro_rules! spanned {
-    (
-        $parser:expr, $($body:tt)*
-    ) => {{
-        let start = cur_span!($parser).start;
-        let val: PResult<_> = {
-            $($body)*
-        };
-        #[allow(unreachable_code)]
-        {
-            let val = val?;
-
-            let end = prev_span!($parser).end;
-            Ok(::swc_common::Spanned::from_unspanned(val, Span { start, end }))
-        }
-    }};
+macro_rules! cur_pos {
+    ($p:expr) => { $p.input.cur_pos() }
 }
 
-macro_rules! prev_span {
-    ($p:expr) => {
-        $p.input.last_span()
-    };
-}
-
-macro_rules! cur_span {
-    ($p:expr) => {
-        $p.input.cur_span()
-    };
+macro_rules! last_pos {
+    ($p:expr) => { $p.input.last_pos()};
 }
 
 macro_rules! return_if_arrow {

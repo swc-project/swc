@@ -6,15 +6,20 @@ use swc_common::BytePos;
 /// Used inside lexer.
 pub(super) struct LexerInput<I: Input> {
     cur: Option<(BytePos, char)>,
+    last_pos: BytePos,
     input: I,
 }
 
 impl<I: Input> LexerInput<I> {
     pub const fn new(input: I) -> Self {
-        LexerInput { input, cur: None }
+        LexerInput {
+            input,
+            last_pos: BytePos(0),
+            cur: None,
+        }
     }
 
-    pub fn bump(&mut self) -> BytePos {
+    pub fn bump(&mut self) {
         let pos = self.cur
             .take()
             .unwrap_or_else(|| unreachable!("bump called on eof"))
@@ -22,8 +27,9 @@ impl<I: Input> LexerInput<I> {
 
         self.cur = self.input.next();
 
-        pos
+        self.last_pos = pos;
     }
+
     pub fn peek(&mut self) -> OptChar {
         self.input.peek()
     }
@@ -37,6 +43,13 @@ impl<I: Input> LexerInput<I> {
                 OptChar(next)
             }
         }
+    }
+
+    pub fn cur_pos(&mut self) -> BytePos {
+        self.current().0.map(|v| v.0).unwrap_or_default()
+    }
+    pub fn last_pos(&self) -> BytePos {
+        self.last_pos
     }
 }
 
@@ -91,13 +104,6 @@ impl PartialOrd<char> for OptChar {
 }
 
 impl OptChar {
-    /// # Panics
-    ///
-    /// panics if `self` is `None`
-    pub fn pos(self) -> BytePos {
-        self.0.unwrap().0
-    }
-
     pub fn is_digit(self, radix: u32) -> bool {
         self.0.map(|c| c.1.is_digit(radix)).unwrap_or(false)
     }

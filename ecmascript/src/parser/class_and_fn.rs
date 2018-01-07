@@ -6,9 +6,9 @@ use super::ident::MaybeOptionalIdentParser;
 #[parser]
 impl<I: Input> Parser<I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
+        let start = cur_pos!();
         expect!("async");
-        let async = Some(prev_span!());
-        self.parse_fn(async)
+        self.parse_fn(Some(start))
     }
 
     /// Parse function expression
@@ -17,9 +17,9 @@ impl<I: Input> Parser<I> {
     }
 
     pub(super) fn parse_async_fn_decl(&mut self) -> PResult<Stmt> {
+        let start = cur_pos!();
         expect!("async");
-        let async = Some(prev_span!());
-        self.parse_fn(async)
+        self.parse_fn(Some(start))
     }
 
     pub(super) fn parse_fn_decl(&mut self) -> PResult<Stmt> {
@@ -39,7 +39,7 @@ impl<I: Input> Parser<I> {
         T: OutputType,
         Self: MaybeOptionalIdentParser<T::Ident>,
     {
-        let start = cur_span!();
+        let start = cur_pos!();
         expect!("class");
 
         let ident = self.parse_maybe_opt_binding_ident()?;
@@ -53,8 +53,12 @@ impl<I: Input> Parser<I> {
         expect!('{');
         let body = self.parse_class_body()?;
         expect!('}');
-        let span = start + prev_span!();
-        Ok(T::finish_class(span, ident, Class { super_class, body }))
+        let end = last_pos!();
+        Ok(T::finish_class(
+            Span { start, end },
+            ident,
+            Class { super_class, body },
+        ))
     }
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMethod>> {
@@ -72,23 +76,26 @@ impl<I: Input> Parser<I> {
     fn parse_class_element(&mut self) -> PResult<ClassMethod> {
         // ignore semi
 
-        let span_of_static = if eat!("static") {
-            Some(prev_span!())
-        } else {
-            None
+        let start_of_static = {
+            let pos = cur_pos!();
+            if eat!("static") {
+                Some(pos)
+            } else {
+                None
+            }
         };
 
-        self.parse_method_def(span_of_static)
+        self.parse_method_def(start_of_static)
     }
 
-    fn parse_fn<T>(&mut self, async: Option<Span>) -> PResult<T>
+    fn parse_fn<T>(&mut self, start_of_async: Option<BytePos>) -> PResult<T>
     where
         T: OutputType,
         Self: MaybeOptionalIdentParser<T::Ident>,
     {
+        let start = start_of_async.unwrap_or(cur_pos!());
         assert_and_bump!("function");
-        let start = async.unwrap_or(prev_span!());
-        let is_async = async.is_some();
+        let is_async = start_of_async.is_some();
 
         if is_async && is!('*') {
             syntax_error!(SyntaxError::AsyncGenerator);
@@ -106,10 +113,11 @@ impl<I: Input> Parser<I> {
 
         let body = self.parse_fn_body(is_async, is_generator)?;
 
-        let span = start + prev_span!();
-
         Ok(T::finish_fn(
-            span,
+            Span {
+                start,
+                end: last_pos!(),
+            },
             ident,
             Function {
                 is_async,
@@ -152,15 +160,15 @@ impl<I: Input> Parser<I> {
         })
     }
 
-    fn parse_method_def(&mut self, span_of_static: Option<Span>) -> PResult<ClassMethod> {
-        let is_static = span_of_static.is_some();
-        let start = span_of_static.unwrap_or(cur_span!());
+    fn parse_method_def(&mut self, start_of_static: Option<BytePos>) -> PResult<ClassMethod> {
+        let is_static = start_of_static.is_some();
+        let start = start_of_static.unwrap_or(cur_pos!());
 
         if eat!('*') {
             let key = self.parse_prop_name()?;
             return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, true)
                 .map(|function| ClassMethod {
-                    span: start + prev_span!(),
+                    span: span!(start),
                     is_static,
                     key,
                     function,
@@ -168,14 +176,14 @@ impl<I: Input> Parser<I> {
                 });
         }
 
-        let start = cur_span!();
+        let start = cur_pos!();
         let key = self.parse_prop_name()?;
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
                 .map(|function| ClassMethod {
-                    span: start + prev_span!(),
+                    span: span!(start),
                     is_static,
                     key,
                     function,
@@ -199,7 +207,7 @@ impl<I: Input> Parser<I> {
                 return match ident.sym {
                     js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), false, false).map(
                         |function| ClassMethod {
-                            span: start + prev_span!(),
+                            span: span!(start),
                             is_static,
                             key,
                             function,
@@ -212,7 +220,7 @@ impl<I: Input> Parser<I> {
                         false,
                     ).map(|function| ClassMethod {
                         key,
-                        span: start + prev_span!(),
+                        span: span!(start),
                         is_static,
                         function,
                         kind: ClassMethodKind::Setter,
@@ -220,7 +228,7 @@ impl<I: Input> Parser<I> {
                     js_word!("async") => {
                         self.parse_fn_args_body(Parser::parse_unique_formal_params, true, false)
                             .map(|function| ClassMethod {
-                                span: start + prev_span!(),
+                                span: span!(start),
                                 is_static,
                                 key,
                                 function,

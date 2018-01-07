@@ -6,16 +6,20 @@
 
 #![allow(unused_mut)]
 #![allow(unused_variables)]
-
 pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
+use parser_macros::parser;
 use slog::Logger;
+use std::char;
+use std::convert::TryFrom;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use token::*;
 
+#[macro_use]
+mod macros;
 pub mod input;
 mod number;
 mod state;
@@ -41,10 +45,19 @@ pub enum Error<InputError> {
     DecimalStartsWithZero { start: BytePos },
     #[fail(display = "Octals with leading zeros (at {}) are not allowed in strict mode", start)]
     ImplicitOctalOnStrict { start: BytePos },
-    #[fail(display = "Unexpected character '{}' on {}", c, pos)]
+    #[fail(display = "Unexpected character '{}' at {}", c, pos)]
     UnexpectedChar { pos: BytePos, c: char },
-    #[fail(display = "Invalid string escape on {}", start)]
+    #[fail(display = "Invalid string escape at {}", start)]
     InvalidStrEscape { start: BytePos },
+
+    #[fail(display = "Invalid unciode escape at {:?}", pos)]
+    InvalidUnicodeEscape { pos: Span },
+
+    #[fail(display = "Invalid unciode code point at {:?}", pos)]
+    InvalidCodePoint { pos: Span },
+
+    #[fail(display = "Invalid identifier character at {:?}", pos)]
+    InvalidIdentChar { pos: Span },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
@@ -108,7 +121,7 @@ impl<I: Input> Lexer<I> {
         }
     }
 
-    fn read_token(&mut self, start: BytePos, c: char) -> Result<TokenAndSpan, Error<I::Error>> {
+    fn read_token(&mut self, start: BytePos, c: char) -> Result<Token, Error<I::Error>> {
         debug_assert_eq!(
             self.input.current().into_inner(),
             Some((start, c)),
@@ -128,86 +141,65 @@ impl<I: Input> Lexer<I> {
                     return self.read_number(true);
                 }
 
-                let end = self.input.bump(); // 1st `.`
+                self.input.bump(); // 1st `.`
 
-                // ES7 Function bind operator
-                // e.g. foo::bar();
                 if next == '.' && self.input.peek() == '.' {
                     self.input.bump(); // 2nd `.`
-                    let end = self.input.bump(); // 3rd `.`
+                    self.input.bump(); // 3rd `.`
 
-                    TokenAndSpan {
-                        token: DotDotDot,
-                        span: Span { start, end },
-                    }
-                } else {
-                    TokenAndSpan {
-                        token: Dot,
-                        span: Span { start, end },
-                    }
+                    return Ok(DotDotDot);
                 }
+
+                return Ok(Dot);
             }
 
             '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '?' => {
                 // These tokens are emitted directly.
-                let end = self.input.bump();
-                return Ok(TokenAndSpan {
-                    token: match c {
-                        '(' => LParen,
-                        ')' => RParen,
-                        ';' => Semi,
-                        ',' => Comma,
-                        '[' => LBracket,
-                        ']' => RBracket,
-                        '{' => LBrace,
-                        '}' => RBrace,
-                        '@' => At,
-                        '?' => QuestionMark,
-                        _ => unreachable!(),
-                    },
-                    span: Span { start, end },
+                self.input.bump();
+                return Ok(match c {
+                    '(' => LParen,
+                    ')' => RParen,
+                    ';' => Semi,
+                    ',' => Comma,
+                    '[' => LBracket,
+                    ']' => RBracket,
+                    '{' => LBrace,
+                    '}' => RBrace,
+                    '@' => At,
+                    '?' => QuestionMark,
+                    _ => unreachable!(),
                 });
             }
 
             '`' => unimplemented!("template literal"),
 
             ':' => {
-                let end = self.input.bump();
+                self.input.bump();
 
                 if self.opts.fn_bind && self.input.current() == ':' {
-                    let end = self.input.bump();
-                    TokenAndSpan {
-                        token: ColonColon,
-                        span: Span { start, end },
-                    }
-                } else {
-                    TokenAndSpan {
-                        token: Colon,
-                        span: Span { start, end: start },
-                    }
+                    self.input.bump();
+                    return Ok(ColonColon);
                 }
+
+                return Ok(Colon);
             }
 
             '0' => {
                 let next = self.input.peek();
 
-                // Hex
                 let radix = if next == 'x' || next == 'X' {
-                    Some(16)
+                    // Hex
+                    16
                 } else if next == 'o' || next == 'O' {
                     // Octal
-                    Some(8)
+                    8
                 } else if next == 'b' || next == 'B' {
-                    Some(2)
-                } else {
-                    None
-                };
-
-                if let Some(radix) = radix {
-                    return self.read_radix_number(radix);
+                    2
                 } else {
                     return self.read_number(false);
-                }
+                };
+
+                return self.read_radix_number(radix);
             }
             '1'...'9' => return self.read_number(false),
 
@@ -217,19 +209,19 @@ impl<I: Input> Lexer<I> {
 
             c @ '%' | c @ '*' => {
                 let is_mul = c == '*';
-                let mut end = self.input.bump();
+                self.input.bump();
                 let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
 
                 // check for **
                 if is_mul {
                     if self.input.current() == '*' {
-                        end = self.input.bump();
+                        self.input.bump();
                         token = BinOp(Exp)
                     }
                 }
 
                 if self.input.current() == '=' {
-                    end = self.input.bump();
+                    self.input.bump();
                     token = match token {
                         BinOp(Div) => AssignOp(DivAssign),
                         BinOp(Exp) => AssignOp(ExpAssign),
@@ -238,129 +230,102 @@ impl<I: Input> Lexer<I> {
                     }
                 }
 
-                TokenAndSpan {
-                    token,
-                    span: Span { start, end },
-                }
+                token
             }
 
             // Logical operators
             c @ '|' | c @ '&' => {
-                let end = self.input.bump();
+                self.input.bump();
                 let token = if c == '&' { BitAnd } else { BitOr };
 
                 // '|=', '&='
                 if self.input.current() == '=' {
-                    let end = self.input.bump();
-                    return Ok(TokenAndSpan {
-                        token: AssignOp(match token {
-                            BitAnd => BitAndAssign,
-                            BitOr => BitOrAssign,
-                            _ => unreachable!(),
-                        }),
-                        span: Span { start, end },
-                    });
+                    self.input.bump();
+                    return Ok(AssignOp(match token {
+                        BitAnd => BitAndAssign,
+                        BitOr => BitOrAssign,
+                        _ => unreachable!(),
+                    }));
                 }
 
                 // '||', '&&'
                 if self.input.current() == c {
-                    let end = self.input.bump();
-                    return Ok(TokenAndSpan {
-                        token: BinOp(match token {
-                            BitAnd => LogicalAnd,
-                            BitOr => LogicalOr,
-                            _ => unreachable!(),
-                        }),
-                        span: Span { start, end },
-                    });
+                    self.input.bump();
+                    return Ok(BinOp(match token {
+                        BitAnd => LogicalAnd,
+                        BitOr => LogicalOr,
+                        _ => unreachable!(),
+                    }));
                 }
 
-                TokenAndSpan {
-                    token: BinOp(token),
-                    span: Span { start, end },
-                }
+                BinOp(token)
             }
             '^' => {
                 // Bitwise xor
-                let end = self.input.bump();
+                self.input.bump();
                 if self.input.current() == '=' {
-                    let end = self.input.bump();
-                    TokenAndSpan {
-                        token: AssignOp(BitXorAssign),
-                        span: Span { start, end },
-                    }
+                    self.input.bump();
+                    AssignOp(BitXorAssign)
                 } else {
-                    TokenAndSpan {
-                        token: BinOp(BitXor),
-                        span: Span { start, end },
-                    }
+                    BinOp(BitXor)
                 }
             }
 
             '+' | '-' => {
-                let end = self.input.bump();
+                self.input.bump();
 
                 // '++', '--'
                 if self.input.current() == c {
-                    let end = self.input.bump();
+                    self.input.bump();
 
                     // TODO: may handle '-->' line comment?
 
-                    TokenAndSpan {
-                        token: if c == '+' { PlusPlus } else { MinusMinus },
-                        span: Span { start, end },
+                    if c == '+' {
+                        PlusPlus
+                    } else {
+                        MinusMinus
                     }
                 } else if self.input.current() == '=' {
-                    let end = self.input.bump();
-                    TokenAndSpan {
-                        token: AssignOp(if c == '+' { AddAssign } else { SubAssign }),
-                        span: Span { start, end },
-                    }
+                    self.input.bump();
+                    AssignOp(if c == '+' { AddAssign } else { SubAssign })
                 } else {
-                    TokenAndSpan {
-                        token: BinOp(if c == '+' { Add } else { Sub }),
-                        span: Span { start, end },
-                    }
+                    BinOp(if c == '+' { Add } else { Sub })
                 }
             }
 
             '<' | '>' => return self.read_token_lt_gt(),
 
             '!' | '=' => {
-                let end = self.input.bump();
+                self.input.bump();
 
                 if self.input.current() == '=' {
                     // "=="
-                    let end = self.input.bump();
+                    self.input.bump();
 
                     if self.input.current() == '=' {
-                        let end = self.input.bump();
-                        TokenAndSpan {
-                            token: if c == '!' {
-                                BinOp(NotEqEq)
-                            } else {
-                                BinOp(EqEqEq)
-                            },
-                            span: Span { start, end },
+                        self.input.bump();
+                        if c == '!' {
+                            BinOp(NotEqEq)
+                        } else {
+                            BinOp(EqEqEq)
                         }
                     } else {
-                        TokenAndSpan {
-                            token: if c == '!' { BinOp(NotEq) } else { BinOp(EqEq) },
-                            span: Span { start, end },
+                        if c == '!' {
+                            BinOp(NotEq)
+                        } else {
+                            BinOp(EqEq)
                         }
                     }
                 } else if c == '=' && self.input.current() == '>' {
                     // "=>"
-                    let end = self.input.bump();
+                    self.input.bump();
 
-                    TokenAndSpan {
-                        token: Arrow,
-                        span: Span { start, end },
-                    }
+                    Arrow
                 } else {
-                    TokenAndSpan {
-                        token: if c == '!' { Bang } else { AssignOp(Assign) },
-                        span: Span { start, end },
+                    if c == '!' {
+                        Bang
+                    } else {
+                        AssignOp(Assign)
                     }
                 }
             }
@@ -373,254 +338,13 @@ impl<I: Input> Lexer<I> {
         Ok(token)
     }
 
-    fn read_slash(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        debug_assert_eq!(self.input.current(), '/');
-        let start = self.input.current().pos();
-
-        // Line comment
-        if self.input.peek() == '/' {
-            self.input.bump();
-            self.input.bump();
-            unimplemented!("LineComment")
-        }
-
-        // Block comment
-        if self.input.peek() == '*' {
-            unimplemented!("BlockComment")
-        }
-
-        // Regex
-        if self.state.is_expr_allowed {
-            return self.read_regexp();
-        }
-
-        // Divide operator
-        let end = self.input.bump();
-
-        Ok(if self.input.current() == '=' {
-            let end = self.input.bump();
-            TokenAndSpan {
-                token: AssignOp(DivAssign),
-                span: Span { start, end },
-            }
-        } else {
-            TokenAndSpan {
-                token: BinOp(Div),
-                span: Span { start, end: start },
-            }
-        })
-    }
-
-    fn read_token_lt_gt(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        debug_assert!(self.input.current() == '<' || self.input.current() == '>');
-
-        let start = self.input.current().pos();
-        let c = self.input.current().as_char();
-        let mut end = self.input.bump();
-        let mut op = if c == '<' { Lt } else { Gt };
-
-        // '<<', '>>'
-        if self.input.current() == c {
-            end = self.input.bump();
-            op = if c == '<' { LShift } else { RShift };
-
-            //'>>>'
-            if c == '>' && self.input.current() == c {
-                end = self.input.bump();
-                op = ZeroFillRShift;
-            }
-        }
-
-        let token = if self.input.current() == '=' {
-            end = self.input.bump();
-            match op {
-                Lt => BinOp(LtEq),
-                Gt => BinOp(GtEq),
-                LShift => AssignOp(LShiftAssign),
-                RShift => AssignOp(RShiftAssign),
-                ZeroFillRShift => AssignOp(ZeroFillRShiftAssign),
-                _ => unreachable!(),
-            }
-        } else {
-            BinOp(op)
-        };
-
-        Ok(TokenAndSpan {
-            token,
-            span: Span { start, end },
-        })
-    }
-
-    /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
-    fn read_ident_or_keyword(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        debug_assert!(self.input.current().is_some());
-
-        let (word, span, has_escape) = self.read_word_as_str()?;
-
-        let word = Word::from(word);
-        if has_escape && word.is_reserved_word(self.opts.strict) {
-            return Err(Error::EscapeInReservedWord { word });
-        }
-
-        Ok(TokenAndSpan {
-            token: Word(word),
-            span,
-        })
-    }
-
-    fn may_read_word_as_str(&mut self) -> Result<Option<(JsWord, Span, bool)>, Error<I::Error>> {
-        if self.input.current().is_none() {
-            return Ok(None);
-        }
-
-        if self.input.current().is_ident_start() {
-            self.read_word_as_str().map(Some)
-        } else {
-            Ok(None)
-        }
-    }
-
-    /// returns (word, span, has_secape)
-    fn read_word_as_str(&mut self) -> Result<(JsWord, Span, bool), Error<I::Error>> {
-        assert!(self.input.current().is_some());
-
-        let start = self.input.current().pos();
-        let mut end = start;
-
-        let mut has_escape = false;
-        let mut word = String::new();
-        let mut first = true;
-
-        while let Some((pos, c)) = self.input.current().into_inner() {
-            // TODO: optimize (cow / chunk)
-            match c {
-                c if c.is_ident_part() => {
-                    self.input.bump();
-                    word.push(c);
-                }
-                // unicode escape
-                '\\' => {
-                    self.input.bump();
-                    if self.input.current() != 'u' {
-                        return Err(Error::ExpectedUnicodeEscape { pos });
-                    }
-                    self.input.bump();
-
-                    // ++this.state.pos;
-                    // const esc = this.readCodePoint(true);
-                    // // $FlowFixMe (thinks esc may be null, but throwOnInvalid is true)
-                    // if (!(first ? isIdentifierStart : isIdentifierChar)(esc, true)) {
-                    //   this.raise(escStart, "Invalid Unicode escape");
-
-                    // end=pos;
-                    unimplemented!("read unicode escape char")
-                }
-
-                _ => {
-                    break;
-                }
-            }
-            end = pos;
-            first = false;
-        }
-        Ok((word.into(), Span { start, end }, has_escape))
-    }
-
-    /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    fn read_str_lit(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        assert!(self.input.current() == '\'' || self.input.current() == '"');
-        let (start, quote) = self.input.current().into_inner().unwrap();
-        self.input.bump();
-
-        let mut out = String::new();
-
-        //TODO: Optimize (Cow, Chunk)
-
-        while let Some((_, c)) = self.input.current().into_inner() {
-            match c {
-                c if c == quote => {
-                    let end = self.input.bump();
-                    return Ok(TokenAndSpan {
-                        token: Str(out, c == '"'),
-                        span: Span { start, end },
-                    });
-                }
-                '\\' => out.extend(self.read_escaped_char(false)?),
-                c if c.is_line_break() => return Err(Error::UnterminatedStrLit { start }),
-                _ => {
-                    out.push(c);
-                    self.input.bump();
-                }
-            }
-        }
-
-        Err(Error::UnterminatedStrLit { start })
-    }
-
-    fn read_regexp(&mut self) -> Result<TokenAndSpan, Error<I::Error>> {
-        assert!(self.input.current().is_some());
-        assert_eq!(
-            self.input.current(),
-            '/',
-            "read_regexp expects current char to be '/'"
-        );
-        let start = self.input.bump();
-
-        let (mut escaped, mut in_class) = (false, false);
-        // TODO: Optimize (chunk, cow)
-        let mut content = String::new();
-
-        while let Some((pos, c)) = self.input.current().into_inner() {
-            // This is ported from babel.
-            // Seems like regexp literal cannot contain linebreak.
-            if c.is_line_break() {
-                return Err(Error::UnterminatedRegxp { start: start });
-            }
-
-            if escaped {
-                escaped = false;
-            } else {
-                match c {
-                    '[' => in_class = true,
-                    ']' if in_class => in_class = false,
-                    // Termniates content part of regex literal
-                    '/' if !in_class => break,
-                    _ => {}
-                }
-                escaped = c == '\\';
-            }
-            self.input.bump();
-            content.push(c);
-        }
-
-        // input is terminated without following `/`
-        if self.input.current() != '/' {
-            return Err(Error::UnterminatedRegxp { start });
-        }
-
-        let end = self.input.bump();
-
-        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
-        // sequence." TODO: check for escape
-
-        // Need to use `read_word` because '\uXXXX' sequences are allowed
-        // here (don't ask).
-        let (flags, end) = self.may_read_word_as_str()?
-            .map(|(f, s, _)| (f, s.end))
-            .unwrap_or_else(|| ("".into(), end));
-
-        Ok(TokenAndSpan {
-            token: Regex(content, flags),
-            span: Span { start, end },
-        })
-    }
-
     fn read_escaped_char(&mut self, in_template: bool) -> Result<Option<char>, Error<I::Error>> {
-        assert!(self.input.current() == '\\');
-        let start = self.input.bump(); // '\\'
+        assert_eq!(cur!(self), Some('\\'));
+        let start = cur_pos!(self);
+        bump!(self); // '\'
 
-        let c = match self.input.current().into_inner() {
-            Some((_, c)) => c,
+        let c = match cur!(self) {
+            Some(c) => c,
             None => return Err(Error::InvalidStrEscape { start }),
         };
         let c = match c {
@@ -648,7 +372,7 @@ impl<I: Input> Lexer<I> {
 
                 // const code = this.readHexChar(2, throwOnInvalid);
                 // return code === null ? null : String.fromCharCode(code);
-                unimplemented!("hexadecimal in string literal")
+                unimplemented!("hex escape in string literal")
             }
 
             'u' => {
@@ -666,6 +390,280 @@ impl<I: Input> Lexer<I> {
     }
 }
 
+#[parser]
+impl<I: Input> Lexer<I> {
+    fn read_slash(&mut self) -> Result<Token, Error<I::Error>> {
+        debug_assert_eq!(cur!(), Some('/'));
+        let start = cur_pos!();
+
+        // Line comment
+        if peek!() == Some('/') {
+            bump!();
+            bump!();
+            unimplemented!("LineComment")
+        }
+
+        // Block comment
+        if peek!() == Some('*') {
+            unimplemented!("BlockComment")
+        }
+
+        // Regex
+        if self.state.is_expr_allowed {
+            return self.read_regexp();
+        }
+
+        // Divide operator
+        bump!();
+
+        Ok(if cur!() == Some('=') {
+            bump!();
+            AssignOp(DivAssign)
+        } else {
+            BinOp(Div)
+        })
+    }
+
+    fn read_token_lt_gt(&mut self) -> Result<Token, Error<I::Error>> {
+        assert!(cur!() == Some('<') || cur!() == Some('>'));
+
+        let c = cur!().unwrap();
+        bump!();
+        let mut op = if c == '<' { Lt } else { Gt };
+
+        // '<<', '>>'
+        if cur!() == Some(c) {
+            bump!();
+            op = if c == '<' { LShift } else { RShift };
+
+            //'>>>'
+            if c == '>' && cur!() == Some(c) {
+                bump!();
+                op = ZeroFillRShift;
+            }
+        }
+
+        let token = if eat!('=') {
+            match op {
+                Lt => BinOp(LtEq),
+                Gt => BinOp(GtEq),
+                LShift => AssignOp(LShiftAssign),
+                RShift => AssignOp(RShiftAssign),
+                ZeroFillRShift => AssignOp(ZeroFillRShiftAssign),
+                _ => unreachable!(),
+            }
+        } else {
+            BinOp(op)
+        };
+
+        Ok(token)
+    }
+
+    /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
+    fn read_ident_or_keyword(&mut self) -> Result<Token, Error<I::Error>> {
+        assert!(cur!().is_some());
+
+        let (word, has_escape) = self.read_word_as_str()?;
+
+        let word = Word::from(word);
+        if has_escape && word.is_reserved_word(self.opts.strict) {
+            return Err(Error::EscapeInReservedWord { word });
+        }
+
+        Ok(Word(word))
+    }
+
+    fn may_read_word_as_str(&mut self) -> Result<Option<(JsWord, bool)>, Error<I::Error>> {
+        match cur!() {
+            Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
+            _ => Ok(None),
+        }
+    }
+
+    /// returns (word, has_escape)
+    fn read_word_as_str(&mut self) -> Result<(JsWord, bool), Error<I::Error>> {
+        assert!(cur!().is_some());
+
+        let mut has_escape = false;
+        let mut word = String::new();
+        let mut first = true;
+
+        while let Some(c) = cur!() {
+            let start = cur_pos!();
+            // TODO: optimize (cow / chunk)
+            match c {
+                c if c.is_ident_part() => {
+                    bump!();
+                    word.push(c);
+                }
+                // unicode escape
+                '\\' => {
+                    bump!();
+                    if !eat!('u') {
+                        return Err(Error::ExpectedUnicodeEscape { pos: cur_pos!() });
+                    }
+
+                    if eat!('{') {
+                        let cp_start = cur_pos!();
+                        let c = self.read_code_point()?;
+                        let valid = if first {
+                            c.is_ident_start()
+                        } else {
+                            c.is_ident_part()
+                        };
+
+                        if !valid {
+                            return Err(Error::InvalidIdentChar {
+                                pos: span!(cp_start),
+                            });
+                        }
+
+                        if !eat!('}') {
+                            return Err(Error::InvalidUnicodeEscape { pos: span!(start) });
+                        }
+                        word.push(c);
+                    } else {
+                        let start = cur_pos!();
+                        let c = match self.read_int(16, 4)? {
+                            Some(val) => {
+                                let val = TryFrom::try_from(val)
+                                    .expect("read_int(16, 4) cannot return non-u32 value");
+                                match char::from_u32(val) {
+                                    Some(c) => c,
+                                    None => {
+                                        return Err(Error::InvalidCodePoint { pos: span!(start) })
+                                    }
+                                }
+                            }
+                            None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+                        };
+                        let valid = if first {
+                            c.is_ident_start()
+                        } else {
+                            c.is_ident_part()
+                        };
+                        if !valid {
+                            return Err(Error::InvalidIdentChar { pos: span!(start) });
+                        }
+                        word.push(c);
+                    }
+                }
+
+                _ => {
+                    break;
+                }
+            }
+            first = false;
+        }
+        Ok((word.into(), has_escape))
+    }
+
+    /// Read `CodePoint`.
+    fn read_code_point(&mut self) -> Result<char, Error<I::Error>> {
+        // TODO
+        let start = cur_pos!();
+        let val = self.read_int(16, 0)?;
+        match val {
+            Some(val) if 0x10FFFF >= val && val >= 0 => {
+                let val = match TryFrom::try_from(val) {
+                    Ok(val) => val,
+                    Err(_) => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+                };
+                match char::from_u32(val) {
+                    Some(c) => Ok(c),
+                    None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+                }
+            }
+            _ => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+        }
+    }
+
+    /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
+    fn read_str_lit(&mut self) -> Result<Token, Error<I::Error>> {
+        assert!(cur!() == Some('\'') || cur!() == Some('"'));
+        let start = cur_pos!();
+        let quote = cur!().unwrap();
+        bump!(); // '"'
+
+        let mut out = String::new();
+
+        //TODO: Optimize (Cow, Chunk)
+
+        while let Some(c) = cur!() {
+            match c {
+                c if c == quote => {
+                    bump!();
+                    return Ok(Str(out, c == '"'));
+                }
+                '\\' => out.extend(self.read_escaped_char(false)?),
+                c if c.is_line_break() => return Err(Error::UnterminatedStrLit { start }),
+                _ => {
+                    out.push(c);
+                    bump!();
+                }
+            }
+        }
+
+        Err(Error::UnterminatedStrLit { start })
+    }
+
+    fn read_regexp(&mut self) -> Result<Token, Error<I::Error>> {
+        assert_eq!(
+            cur!(),
+            Some('/'),
+            "read_regexp expects current char to be '/'"
+        );
+        let start = cur_pos!();
+        bump!();
+
+        let (mut escaped, mut in_class) = (false, false);
+        // TODO: Optimize (chunk, cow)
+        let mut content = String::new();
+
+        while let Some(c) = cur!() {
+            // This is ported from babel.
+            // Seems like regexp literal cannot contain linebreak.
+            if c.is_line_break() {
+                return Err(Error::UnterminatedRegxp { start });
+            }
+
+            if escaped {
+                escaped = false;
+            } else {
+                match c {
+                    '[' => in_class = true,
+                    ']' if in_class => in_class = false,
+                    // Termniates content part of regex literal
+                    '/' if !in_class => break,
+                    _ => {}
+                }
+                escaped = c == '\\';
+            }
+            bump!();
+            content.push(c);
+        }
+
+        // input is terminated without following `/`
+        if cur!() != Some('/') {
+            return Err(Error::UnterminatedRegxp { start });
+        }
+
+        bump!();
+
+        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
+        // sequence." TODO: check for escape
+
+        // Need to use `read_word` because '\uXXXX' sequences are allowed
+        // here (don't ask).
+        let flags = self.may_read_word_as_str()?
+            .map(|(f, _)| f)
+            .unwrap_or_else(|| "".into());
+
+        Ok(Regex(content, flags))
+    }
+}
+
+#[parser]
 impl<I: Input> Iterator for Lexer<I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
@@ -683,8 +681,11 @@ impl<I: Input> Iterator for Lexer<I> {
             let token = self.read_token(start, c)
                 .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
 
-            self.state.update(&self.logger, &token.token);
-            return Some(token);
+            self.state.update(&self.logger, &token);
+            return Some(TokenAndSpan {
+                token,
+                span: span!(start),
+            });
         }
 
         None

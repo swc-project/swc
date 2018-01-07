@@ -80,7 +80,7 @@ impl<I: Input> Parser<I> {
         };
 
         let node = box Expr {
-            span: left.span + right.span,
+            span: span!(left.span.start),
             node: ExprKind::Binary { op, left, right },
         };
 
@@ -92,9 +92,10 @@ impl<I: Input> Parser<I> {
     ///
     /// spec: 'UnaryExpression'
     fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        let start = cur_pos!();
+
         // Parse update expression
         if is!("++") || is!("--") {
-            let start = cur_span!();
             let op = if bump!() == PlusPlus {
                 UpdateOp::PlusPlus
             } else {
@@ -102,9 +103,8 @@ impl<I: Input> Parser<I> {
             };
 
             let arg = self.parse_unary_expr()?;
-            let span = start + arg.span;
             return Ok(box Expr {
-                span,
+                span: span!(start),
                 node: ExprKind::Update {
                     prefix: true,
                     op,
@@ -127,7 +127,7 @@ impl<I: Input> Parser<I> {
             };
             let arg = self.parse_unary_expr()?;
             return Ok(box Expr {
-                span: prev_span!() + arg.span,
+                span: span!(start),
                 node: ExprKind::Unary {
                     prefix: true,
                     op,
@@ -146,16 +146,15 @@ impl<I: Input> Parser<I> {
 
         //TODO: Handle ASI
         if is_one_of!("++", "--") {
-            let start = cur_span!();
+            let start = cur_pos!();
             let op = if bump!() == PlusPlus {
                 UpdateOp::PlusPlus
             } else {
                 UpdateOp::MinusMinus
             };
 
-            let span = start + expr.span;
             return Ok(box Expr {
-                span,
+                span: span!(start),
                 node: ExprKind::Update {
                     prefix: false,
                     op,

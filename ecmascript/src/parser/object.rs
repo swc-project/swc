@@ -9,9 +9,9 @@ impl<I: Input> Parser<I> {
     where
         Self: ParseObject<T>,
     {
+        let start = cur_pos!();
         assert_and_bump!('{');
 
-        let start = prev_span!();
         let mut props = vec![];
 
         let mut first = true;
@@ -30,11 +30,13 @@ impl<I: Input> Parser<I> {
             props.push(prop);
         }
 
-        Ok(Self::make_object(start + prev_span!(), props))
+        Ok(Self::make_object(span!(start), props))
     }
 
     /// spec: 'PropertyName'
     pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
+        let start = cur_pos!();
+
         let v = match *cur!()? {
             Str(_, _) => match bump!() {
                 Str(s, _) => PropName::Str(s),
@@ -47,7 +49,7 @@ impl<I: Input> Parser<I> {
             Word(..) => match bump!() {
                 Word(w) => PropName::Ident(Ident {
                     sym: w.into(),
-                    span: prev_span!(),
+                    span: span!(start),
                 }),
                 _ => unreachable!(),
             },
@@ -79,122 +81,123 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
 
     /// spec: 'PropertyDefinition'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
-        spanned!({
-            // Parse as 'MethodDefinition'
+        let start = cur_pos!();
+        // Parse as 'MethodDefinition'
 
-            if eat!('*') {
-                let span = prev_span!();
-                let name = self.parse_prop_name()?;
-                return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, true)
-                    .map(|function| Prop {
-                        span: span + prev_span!(),
-                        node: PropKind::Method {
-                            key: name,
-                            function,
-                        },
-                    });
-            }
-
-            let start = cur_span!();
-            let key = self.parse_prop_name()?;
-            //
-            // {[computed()]: a,}
-            // { 'a': a, }
-            // { 0: 1, }
-            // { a: expr, }
-            if eat!(':') {
-                let value = self.include_in_expr(true).parse_assignment_expr()?;
-                return Ok(Prop {
-                    span: start + value.span,
-                    node: PropKind::KeyValue { key, value },
+        if eat!('*') {
+            let name = self.parse_prop_name()?;
+            return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, true)
+                .map(|function| Prop {
+                    span: span!(start),
+                    node: PropKind::Method {
+                        key: name,
+                        function,
+                    },
                 });
-            }
+        }
 
-            // Handle `a(){}` (and async(){} / get(){} / set(){})
-            if is!('(') {
-                return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
-                    .map(|function| Prop {
-                        span: start + prev_span!(),
-                        node: PropKind::Method { key, function },
-                    });
-            }
+        let key = self.parse_prop_name()?;
+        //
+        // {[computed()]: a,}
+        // { 'a': a, }
+        // { 0: 1, }
+        // { a: expr, }
+        if eat!(':') {
+            let value = self.include_in_expr(true).parse_assignment_expr()?;
+            return Ok(Prop {
+                span: Span {
+                    start,
+                    end: value.span.end,
+                },
+                node: PropKind::KeyValue { key, value },
+            });
+        }
 
-            let mut ident = match key {
-                PropName::Ident(ident) => ident,
-                _ => unexpected!(),
-            };
+        // Handle `a(){}` (and async(){} / get(){} / set(){})
+        if is!('(') {
+            return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
+                .map(|function| Prop {
+                    span: span!(start),
+                    node: PropKind::Method { key, function },
+                });
+        }
 
-            // TODO: Handle CoverInitializedName
+        let mut ident = match key {
+            PropName::Ident(ident) => ident,
+            _ => unexpected!(),
+        };
 
-            // `ident` from parse_prop_name is parsed as 'IdentifierName'
-            // It means we should check for invalid expressions like { for, }
-            if is_one_of!('=', ',', '}') {
-                let is_reserved_word = {
-                    // TODO extension trait
-                    let word = Word::from(ident.sym);
-                    let r = word.is_reserved_word(self.ctx.strict);
-                    ident = Ident {
-                        sym: word.into(),
-                        ..ident
-                    };
-                    r
+        // TODO: Handle CoverInitializedName
+
+        // `ident` from parse_prop_name is parsed as 'IdentifierName'
+        // It means we should check for invalid expressions like { for, }
+        if is_one_of!('=', ',', '}') {
+            let is_reserved_word = {
+                // TODO extension trait
+                let word = Word::from(ident.sym);
+                let r = word.is_reserved_word(self.ctx.strict);
+                ident = Ident {
+                    sym: word.into(),
+                    ..ident
                 };
-                if is_reserved_word {
-                    syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat)
-                }
-
-                if is!('=') {
-                    unimplemented!("parse_initialized_name in object literal")
-                }
-
-                return Ok(Prop::new_shorthand(ident));
+                r
+            };
+            if is_reserved_word {
+                syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat)
             }
 
-            // get a(){}
-            // set a(v){}
-            // async a(){}
+            if is!('=') {
+                unimplemented!("parse_initialized_name in object literal")
+            }
 
-            match ident.sym {
-                js_word!("get") | js_word!("set") | js_word!("async") => {
-                    let key = self.parse_prop_name()?;
+            return Ok(Prop::new_shorthand(ident));
+        }
 
-                    return match ident.sym {
-                        js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), false, false)
-                            .map(|Function { body, .. }| Prop {
-                                span: ident.span + prev_span!(),
-                                node: PropKind::Getter { key, body },
-                            }),
-                        js_word!("set") => {
-                            self.parse_fn_args_body(
-                                |p| p.parse_formal_param().map(|pat| vec![pat]),
-                                false,
-                                false,
-                            ).map(|Function { params, body, .. }| {
-                                //TODO
-                                assert_eq!(params.len(), 1);
-                                Prop {
-                                    span: ident.span + prev_span!(),
-                                    node: PropKind::Setter {
-                                        key,
-                                        body,
-                                        param: params.into_iter().next().unwrap(),
-                                    },
-                                }
+        // get a(){}
+        // set a(v){}
+        // async a(){}
+
+        match ident.sym {
+            js_word!("get") | js_word!("set") | js_word!("async") => {
+                let key = self.parse_prop_name()?;
+
+                return match ident.sym {
+                    js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), false, false).map(
+                        |Function { body, .. }| Prop {
+                            span: span!(start),
+                            node: PropKind::Getter { key, body },
+                        },
+                    ),
+                    js_word!("set") => {
+                        self.parse_fn_args_body(
+                            |p| p.parse_formal_param().map(|pat| vec![pat]),
+                            false,
+                            false,
+                        ).map(|Function { params, body, .. }| {
+                            //TODO
+                            assert_eq!(params.len(), 1);
+                            Prop {
+                                span: span!(start),
+                                node: PropKind::Setter {
+                                    key,
+                                    body,
+                                    param: params.into_iter().next().unwrap(),
+                                },
+                            }
+                        })
+                    }
+                    js_word!("async") => {
+                        self.parse_fn_args_body(Parser::parse_unique_formal_params, true, false)
+                            .map(|function| Prop {
+                                span: span!(start),
+                                node: PropKind::Method { key, function },
                             })
-                        }
-                        js_word!("async") => {
-                            self.parse_fn_args_body(Parser::parse_unique_formal_params, true, false)
-                                .map(|function| Prop {
-                                    span: ident.span + prev_span!(),
-                                    node: PropKind::Method { key, function },
-                                })
-                        }
-                        _ => unreachable!(),
-                    };
-                }
-                _ => unexpected!(),
+                    }
+                    _ => unreachable!(),
+                };
             }
-        })
+            _ => unexpected!(),
+        }
     }
 }
 

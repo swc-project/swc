@@ -83,8 +83,8 @@ impl Folder for MyFolder {
 
         match &*name {
             "vec" | "unreachable" | "tok" | "js_word" => return i,
-            "println" | "assert" | "assert_eq" | "assert_ne" | "debug_assert"
-            | "debug_assert_eq" | "debug_assert_ne" => {
+            "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
+            | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" => {
                 let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
                 args = args.into_elements()
                     .map(|el| el.map_item(|expr| self.fold_expr(expr)))
@@ -113,9 +113,9 @@ impl Folder for MyFolder {
             }
 
             //TODO: Collect expect and give that list to unexpected
-            "assert_and_bump" | "bump" | "cur" | "cur_span" | "eat" | "eat_exact" | "expect"
-            | "is" | "is_one_of" | "peeked_is" | "peek" | "prev_span" | "return_if_arrow"
-            | "syntax_error" | "unexpected" => {
+            "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eat_exact" | "expect"
+            | "is" | "is_one_of" | "peeked_is" | "peek" | "last_pos" | "return_if_arrow"
+            | "span" | "syntax_error" | "unexpected" => {
                 return Macro {
                     tts: if i.tts.is_empty() {
                         quote_spanned!(span, self).into()

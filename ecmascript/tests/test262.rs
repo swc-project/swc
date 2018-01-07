@@ -229,11 +229,11 @@ impl Folder<ExprKind> for Normalizer {
 impl Folder<Number> for Normalizer {
     fn fold(&mut self, n: Number) -> Number {
         match n {
-            Number::Float(..) => n,
             Number::Decimal(v) | Number::ImplicitOctal(v) => {
                 self.did_something = true;
                 Number::Float(v as _)
             }
+            _ => n,
         }
     }
 }

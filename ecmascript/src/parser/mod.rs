@@ -4,6 +4,7 @@ pub use self::input::Input;
 use self::input::ParserInput;
 use self::util::ParseObject;
 use ast::*;
+use error::SyntaxError;
 use parser_macros::parser;
 use slog::Logger;
 use std::ops::{Deref, DerefMut};
@@ -28,44 +29,13 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug)]
 pub enum Error {
     Eof,
-    Syntax(Option<Token>, Span, SyntaxError, &'static str, u32),
+    Syntax(Option<Token>, BytePos, SyntaxError, &'static str, u32),
 }
 
 impl From<NoneError> for Error {
     fn from(_: NoneError) -> Self {
         Error::Eof
     }
-}
-
-#[derive(Debug)]
-pub enum SyntaxError {
-    /// "implements", "interface", "let", "package",\
-    ///  "private", "protected",  "public", "static", or "yield"
-    InvalidIdentInStrict,
-    /// 'eval' and 'arguments' are invalid identfier in strict mode.
-    EvalAndArgumentsInStrict,
-    UnaryInExp,
-    LineBreakInThrow,
-    Expected(&'static Token),
-
-    /// "await* has been removed from the async functions proposal. Use
-    /// Promise.all() instead."
-    AwaitStar,
-    /// "cannot use a reserved word as a shorthand property"
-    ReservedWordInObjShorthandOrPat,
-
-    MultipleDefault,
-    CommaAfterRestElement,
-    NonLastRestParam,
-    SpreadInParenExpr,
-    /// `()`
-    EmptyParenExpr,
-
-    ExpectedIdent,
-    ExpctedSemi,
-    DuplicateLabel(JsWord),
-    AsyncGenerator,
-    NonTopLevelImportExport,
 }
 
 /// EcmaScript parser.

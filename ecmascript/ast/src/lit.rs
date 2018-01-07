@@ -20,6 +20,7 @@ pub struct Regex {
 pub type RegexFlags = ::swc_atoms::JsWord;
 #[ast_node]
 pub enum Number {
+    Infinity,
     Float(f64),
     Decimal(i64),
     ImplicitOctal(i64),
@@ -27,6 +28,7 @@ pub enum Number {
 impl Display for Number {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
+            Number::Infinity => Display::fmt(&"Infinity", f),
             Number::Float(ref fl) => Display::fmt(fl, f),
             Number::Decimal(ref dec) => Display::fmt(dec, f),
             Number::ImplicitOctal(ref v) => Display::fmt(v, f),

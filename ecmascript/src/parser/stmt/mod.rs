@@ -50,6 +50,8 @@ impl<I: Input> Parser<I> {
     }
 
     fn parse_stmt_internal(&mut self, include_decl: bool, top_level: bool) -> PResult<Stmt> {
+        let start = cur_pos!();
+
         match *cur!()? {
             Word(Keyword(w)) => match w {
                 Break | Continue => {
@@ -152,7 +154,7 @@ impl<I: Input> Parser<I> {
 
         expect!(';');
         Ok(Stmt {
-            span: expr.span + prev_span!(),
+            span: span!(start),
             node: StmtKind::Expr(expr),
         }.into())
     }
@@ -358,7 +360,7 @@ impl<I: Input> Parser<I> {
     }
 
     fn parse_labelled_stmt(&mut self, label: Ident) -> PResult<Stmt> {
-        let start = label.span;
+        let start = label.span.start;
 
         for l in &self.state.labels {
             if label.sym == *l {
@@ -372,7 +374,7 @@ impl<I: Input> Parser<I> {
         };
 
         Ok(Stmt {
-            span: start + body.span,
+            span: span!(start),
             node: StmtKind::Labeled { label, body },
         })
     }

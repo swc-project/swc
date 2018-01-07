@@ -5,6 +5,7 @@
 #![feature(never_type)]
 #![feature(nll)]
 #![feature(proc_macro)]
+#![feature(try_from)]
 #![feature(try_trait)]
 #![feature(trace_macros)]
 #![cfg_attr(test, feature(conservative_impl_trait))]
@@ -27,6 +28,9 @@ extern crate testing;
 extern crate unicode_xid;
 pub extern crate swc_ecma_ast as ast;
 
+#[macro_use]
+mod macros;
+pub mod error;
 pub mod lexer;
 pub mod token;
 pub mod parser;

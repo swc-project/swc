@@ -3,17 +3,16 @@ use super::*;
 #[parser]
 impl<I: Input> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
+        let start = cur_pos!();
         assert_and_bump!("import");
-        let start = prev_span!();
 
         // Handle import 'mod.js'
         match *cur!()? {
             Str(..) => match bump!() {
                 Str(src, _) => {
                     expect!(';');
-                    let last = prev_span!();
                     return Ok(ModuleItem::ModuleDecl(ModuleDecl {
-                        span: start + last,
+                        span: span!(start),
                         node: ModuleDeclKind::Import {
                             src,
                             specifiers: vec![],
@@ -40,31 +39,33 @@ impl<I: Input> Parser<I> {
             });
         }
 
-        if eat!('*') {
-            let start = prev_span!();
-            expect!("as");
-            let local = self.parse_imported_binding()?;
-            specifiers.push(ImportSpecifier {
-                span: start + prev_span!(),
-                local,
-                node: ImportSpecifierKind::Namespace,
-            });
-        } else if eat!('{') {
-            let mut first = true;
-            while !is!('}') {
-                if first {
-                    first = false;
-                } else {
-                    if eat!(',') {
-                        if is!('}') {
-                            break;
+        {
+            let import_spec_start = cur_pos!();
+            if eat!('*') {
+                expect!("as");
+                let local = self.parse_imported_binding()?;
+                specifiers.push(ImportSpecifier {
+                    span: span!(import_spec_start),
+                    local,
+                    node: ImportSpecifierKind::Namespace,
+                });
+            } else if eat!('{') {
+                let mut first = true;
+                while !is!('}') {
+                    if first {
+                        first = false;
+                    } else {
+                        if eat!(',') {
+                            if is!('}') {
+                                break;
+                            }
                         }
                     }
-                }
 
-                specifiers.push(self.parse_import_specifier()?);
+                    specifiers.push(self.parse_import_specifier()?);
+                }
+                expect!('}');
             }
-            expect!('}');
         }
 
         if specifiers.is_empty() {
@@ -84,14 +85,14 @@ impl<I: Input> Parser<I> {
         };
 
         Ok(ModuleItem::ModuleDecl(ModuleDecl {
-            span: start + prev_span!(),
+            span: span!(start),
             node: ModuleDeclKind::Import { specifiers, src },
         }))
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
-        let start = cur_span!();
+        let start = cur_pos!();
         match *cur!()? {
             Word(..) => {
                 let orig_name = self.parse_ident_name()?;
@@ -99,7 +100,10 @@ impl<I: Input> Parser<I> {
                 if eat!("as") {
                     let local = self.parse_binding_ident()?;
                     return Ok(ImportSpecifier {
-                        span: start + local.span,
+                        span: Span {
+                            start,
+                            end: local.span.end,
+                        },
                         local,
                         node: ImportSpecifierKind::Specific {
                             imported: Some(orig_name),
@@ -110,7 +114,7 @@ impl<I: Input> Parser<I> {
                 // TODO: Check if it's binding ident.
                 let local = orig_name;
                 return Ok(ImportSpecifier {
-                    span: start,
+                    span: span!(start),
                     local,
                     node: ImportSpecifierKind::Specific { imported: None },
                 });

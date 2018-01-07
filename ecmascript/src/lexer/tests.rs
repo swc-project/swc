@@ -9,6 +9,7 @@ fn make_lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
 }
 
 fn lex(s: &'static str) -> Vec<TokenAndSpan> {
+    println!("Source:\n{}", s);
     let lexer = make_lexer(&s);
     lexer.collect()
 }
@@ -59,6 +60,11 @@ impl WithSpan for usize {
         Num(Number::Decimal(self as _))
     }
 }
+impl WithSpan for f64 {
+    fn into_token(self) -> Token {
+        Num(Number::Float(self as _))
+    }
+}
 impl<'a> WithSpan for &'a str {
     fn into_token(self) -> Token {
         Word(Ident(self.into()))
@@ -84,6 +90,56 @@ impl WithSpan for AssignOpToken {
         AssignOp(self)
     }
 }
+
+#[test]
+fn test262_lexer_error_0001() {
+    assert_eq!(
+        vec![
+            123f64.span(0..4),
+            Dot.span(4..5),
+            "a".span(5..6),
+            LParen.span(6..7),
+            1.span(7..8),
+            RParen.span(8..9),
+        ],
+        lex("123..a(1)")
+    )
+}
+
+#[test]
+fn test262_lexer_error_0002() {
+    assert_eq!(
+        vec![Str("use strict".into(), false).span(0..15), Semi.span(15)],
+        lex(r#"'use\x20strict';"#)
+    );
+}
+
+#[test]
+fn test262_lexer_error_0003() {
+    assert_eq!(vec!["a".span(0..6)], lex(r#"\u0061"#));
+}
+
+#[test]
+fn test262_lexer_error_0004() {
+    assert_eq!(
+        vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), Num(Decimal(1))],
+        lex_tokens("+{} / 1")
+    );
+}
+
+#[test]
+fn ident_escape_unicode() {
+    assert_eq!(vec!["aa".span(0..7)], lex(r#"a\u0061"#));
+}
+
+#[test]
+fn ident_escape_unicode_2() {
+    assert_eq!(lex("℘℘"), vec!["℘℘".span(0..4)]);
+
+    assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9)]);
+}
+
+// ----------
 
 #[test]
 fn invalid_but_lexable() {

@@ -32,8 +32,10 @@ impl<I: Input> Parser<I> {
             return self.parse_yield_expr();
         }
 
+        let start = cur_pos!();
+
         self.state.potential_arrow_start = match *cur!()? {
-            Word(Ident(..)) | tok!('(') | tok!("yield") => Some(cur_span!().start),
+            Word(Ident(..)) | tok!('(') | tok!("yield") => Some(start),
             _ => None,
         };
 
@@ -60,7 +62,7 @@ impl<I: Input> Parser<I> {
                 bump!();
                 let right = self.parse_assignment_expr()?;
                 Ok(box Expr {
-                    span: cond.span + right.span,
+                    span: span!(start),
                     node: ExprKind::Assign {
                         op,
                         // TODO:
@@ -95,7 +97,7 @@ impl<I: Input> Parser<I> {
     fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         let can_be_arrow = self.state
             .potential_arrow_start
-            .map(|s| s == cur_span!().start)
+            .map(|s| s == cur_pos!())
             .unwrap_or(false);
 
         // debug!(
@@ -220,22 +222,21 @@ impl<I: Input> Parser<I> {
         &mut self,
         allow_new_without_paren: bool,
     ) -> PResult<Box<Expr>> {
+        let start = cur_pos!();
         if eat!("new") {
-            let span_of_new = prev_span!();
-
+            let span_of_new = span!(start);
             if eat!('.') {
+                let start_of_target = cur_pos!();
                 if eat!("target") {
-                    let span_of_target = prev_span!();
-
                     return Ok(box Expr {
-                        span: span_of_new + span_of_target,
+                        span: span!(start),
                         node: ExprKind::MetaProp {
                             meta: Ident {
                                 span: span_of_new,
                                 sym: js_word!("new"),
                             },
                             prop: Ident {
-                                span: span_of_target,
+                                span: span!(start_of_target),
                                 sym: js_word!("target"),
                             },
                         },
@@ -248,10 +249,9 @@ impl<I: Input> Parser<I> {
             let callee = self.parse_member_expr()?;
             if allow_new_without_paren && !is!('(') {
                 // Parsed with 'NewExpression' production.
-                let span = span_of_new + prev_span!();
 
                 return Ok(box Expr {
-                    span,
+                    span: span!(start),
                     node: ExprKind::New { callee, args: None },
                 });
             }
@@ -262,7 +262,7 @@ impl<I: Input> Parser<I> {
             // We should parse subscripts for MemberExpression.
             return self.parse_subscripts(
                 ExprOrSuper::Expr(box Expr {
-                    span: span_of_new + prev_span!(),
+                    span: span!(start),
                     node: ExprKind::New { callee, args },
                 }),
                 true,
@@ -270,7 +270,7 @@ impl<I: Input> Parser<I> {
         }
 
         if eat!("super") {
-            let base = ExprOrSuper::Super(prev_span!());
+            let base = ExprOrSuper::Super(span!(start));
             return self.parse_subscripts(base, true);
         }
         let obj = self.parse_primary_expr().map(ExprOrSuper::Expr)?;
@@ -321,7 +321,7 @@ impl<I: Input> Parser<I> {
     /// Parse paren expression or arrow function expression.
     ///
     fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<Box<Expr>> {
-        let start = prev_span!();
+        let start = cur_pos!();
 
         // At this point, we can't know if it's parenthesized
         // expression or head of arrow function.
@@ -329,7 +329,6 @@ impl<I: Input> Parser<I> {
         // expressions, we can parse both as expression.
 
         let expr_or_spreads = self.parse_args()?;
-        let span_of_rparen = prev_span!();
 
         // we parse arrow function at here, to handle it efficiently.
         if is!("=>") {
@@ -342,7 +341,7 @@ impl<I: Input> Parser<I> {
 
             let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
             return Ok(box Expr {
-                span: start + body.span(),
+                span: span!(start),
                 node: ExprKind::Arrow {
                     is_async: false,
                     is_generator: false,
@@ -364,7 +363,7 @@ impl<I: Input> Parser<I> {
             };
             return Ok(box Expr {
                 node: ExprKind::Paren(expr),
-                span: start + span_of_rparen,
+                span: span!(start),
             });
         } else {
             assert!(expr_or_spreads.len() >= 2);
@@ -380,11 +379,14 @@ impl<I: Input> Parser<I> {
 
             // span of sequence expression should not include '(' and ')'
             let seq_expr = box Expr {
-                span: exprs.first().unwrap().span + exprs.last().unwrap().span,
+                span: Span {
+                    start: exprs.first().unwrap().span.start,
+                    end: exprs.last().unwrap().span.end,
+                },
                 node: ExprKind::Seq { exprs },
             };
             return Ok(box Expr {
-                span: start + span_of_rparen,
+                span: span!(start),
                 node: ExprKind::Paren(seq_expr),
             });
         }
@@ -409,13 +411,14 @@ impl<I: Input> Parser<I> {
 
     /// returned bool is true if this method should be called again.
     fn parse_subscript(&mut self, obj: ExprOrSuper, no_call: bool) -> PResult<(Box<Expr>, bool)> {
+        let start = cur_pos!();
         // member expression
         // $obj.name
         if eat!('.') {
             let prop: Box<Expr> = self.parse_ident_name().map(From::from)?;
             return Ok((
                 box Expr {
-                    span: obj.span() + prop.span,
+                    span: span!(start),
                     node: ExprKind::Member {
                         obj,
                         prop,
@@ -432,7 +435,7 @@ impl<I: Input> Parser<I> {
             expect!(']'); //TODO
             return Ok((
                 box Expr {
-                    span: obj.span() + prev_span!(),
+                    span: span!(start),
                     node: ExprKind::Member {
                         obj,
                         prop,
@@ -479,9 +482,11 @@ impl<I: Input> Parser<I> {
     ///
     ///
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        let start = cur_pos!();
+
         // `super()` can't be handled from parse_new_expr()
         if eat!("super") {
-            let obj = ExprOrSuper::Super(prev_span!());
+            let obj = ExprOrSuper::Super(span!(start));
             return self.parse_subscripts(obj, false);
         }
 
@@ -511,7 +516,7 @@ impl<I: Input> Parser<I> {
 
         let args = self.parse_args()?;
         let call_expr = box Expr {
-            span: callee.span + prev_span!(),
+            span: span!(start),
             node: ExprKind::Call {
                 callee: ExprOrSuper::Expr(callee),
                 args,

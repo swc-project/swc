@@ -1,7 +1,5 @@
 use fold::FoldWith;
-use std::cmp::{max, min};
 use std::fmt::{self, Debug, Display, Formatter};
-use std::ops::Add;
 
 #[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct BytePos(pub u32);
@@ -25,15 +23,10 @@ pub struct Span {
 }
 impl Debug for Span {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "[{}, {}]", self.start, self.end)
-    }
-}
-impl Add for Span {
-    type Output = Self;
-    fn add(self, rhs: Span) -> Self {
-        Span {
-            start: min(self.start, rhs.start),
-            end: max(self.end, rhs.end),
+        if self.start == BytePos(0) && self.end == BytePos(0) {
+            write!(f, "_")
+        } else {
+            write!(f, "{}..{}", self.start, self.end.0 + 1)
         }
     }
 }

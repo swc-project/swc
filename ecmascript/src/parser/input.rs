@@ -1,5 +1,5 @@
 //! Note: this module requires `#![feature(nll)]`.
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 use token::*;
 
 /// Input for parser.
@@ -11,8 +11,8 @@ pub trait Input: Iterator<Item = TokenAndSpan> {
 pub(super) struct ParserInput<I: Input> {
     iter: ItemIter<I>,
     cur: Option<Item>,
-    /// Previous span
-    prev_span: Span,
+    /// Last of previous span
+    last_pos: BytePos,
     /// Peeked token
     next: Option<Item>,
 }
@@ -44,14 +44,16 @@ impl<I: Input> ParserInput<I> {
         ParserInput {
             iter: ItemIter(lexer),
             cur: None,
-            prev_span: Span::DUMMY,
+            last_pos: BytePos(0),
             next: None,
         }
     }
 
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
-        self.prev_span = prev.as_ref().map(|item| item.span).unwrap_or(Span::DUMMY);
+        self.last_pos = prev.as_ref()
+            .map(|item| item.span.end)
+            .unwrap_or(BytePos(0));
 
         // If we have peeked a token, take it instead of calling lexer.next()
         self.cur = self.next.take().or_else(|| self.iter.next());
@@ -146,13 +148,15 @@ impl<I: Input> ParserInput<I> {
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
         self.eat(&Word(Keyword(kwd)))
     }
-    pub fn cur_span(&self) -> Span {
+    /// Returns start of current token.
+    pub fn cur_pos(&self) -> BytePos {
         self.cur
             .as_ref()
-            .map(|item| item.span)
-            .unwrap_or(Span::DUMMY)
+            .map(|item| item.span.start)
+            .unwrap_or(BytePos(0))
     }
-    pub const fn last_span(&self) -> Span {
-        self.prev_span
+    /// Returns last of previous token.
+    pub const fn last_pos(&self) -> BytePos {
+        self.last_pos
     }
 }
