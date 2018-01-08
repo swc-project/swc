@@ -139,6 +139,58 @@ fn ident_escape_unicode_2() {
     assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9)]);
 }
 
+#[test]
+fn str_escape_hex() {
+    assert_eq!(lex(r#"'\x61'"#), vec![Str("a".into(), false).span(0..6)]);
+}
+
+#[test]
+fn str_escape_octal() {
+    assert_eq!(
+        lex(r#"'Hello\012World'"#),
+        vec![Str("Hello\nWorld".into(), false).span(0..16)]
+    )
+}
+
+#[test]
+fn str_escape_unicode_long() {
+    assert_eq!(
+        lex(r#"'\u{00000000034}'"#),
+        vec![Str("4".into(), false).span(0..17)]
+    );
+}
+
+#[test]
+fn regexp_unary_void() {
+    assert_eq!(
+        lex("void /test/"),
+        vec![Void.span(0..4), Regex("test".into(), "".into()).span(5..11)]
+    );
+    assert_eq!(
+        lex("void (/test/)"),
+        vec![
+            Void.span(0..4),
+            LParen.span(5..6),
+            Regex("test".into(), "".into()).span(6..12),
+            RParen.span(12..13),
+        ]
+    );
+}
+
+#[test]
+fn non_regexp_unary_plus() {
+    assert_eq!(
+        lex("+{} / 1"),
+        vec![
+            tok!('+').span(0..1),
+            tok!('{').span(1..2),
+            tok!('}').span(2..3),
+            tok!('/').span(4..5),
+            1.span(6..7),
+        ]
+    );
+}
+
 // ----------
 
 #[test]

@@ -338,6 +338,7 @@ impl<I: Input> Lexer<I> {
         Ok(token)
     }
 
+    /// Read an escaped charater for string literal.
     fn read_escaped_char(&mut self, in_template: bool) -> Result<Option<char>, Error<I::Error>> {
         assert_eq!(cur!(self), Some('\\'));
         let start = cur_pos!(self);
@@ -355,34 +356,58 @@ impl<I: Input> Lexer<I> {
             'v' => '\u{000b}',
             'f' => '\u{000c}',
             '\r' => {
-                self.input.bump(); // remove '\r'
+                bump!(self); // remove '\r'
 
-                if self.input.current() == '\n' {
-                    self.input.bump();
+                if cur!(self) == Some('\n') {
+                    bump!(self);
                 }
                 return Ok(None);
             }
             '\n' => {
-                self.input.bump();
+                bump!(self);
                 return Ok(None);
             }
 
+            // read hexadecimal escape sequences
             'x' => {
-                // read hex
-
-                // const code = this.readHexChar(2, throwOnInvalid);
-                // return code === null ? null : String.fromCharCode(code);
-                unimplemented!("hex escape in string literal")
+                bump!(self);
+                return self.read_hex_char(2).map(Some);
             }
 
+            // read unicode escape sequences
             'u' => {
-                // read unicode escape
-
-                // const code = this.readCodePoint(throwOnInvalid);
-                // return code === null ? null : codePointToString(code);
-                unimplemented!("unicode escape in string literal")
+                return self.read_unicode_escape(start).map(Some);
             }
-            '0'...'7' => unimplemented!("octal escape in string literal"),
+            // octal escape sequences
+            '0'...'7' => {
+                bump!(self);
+                let first_c = if c == '0' {
+                    match cur!(self) {
+                        Some(next) if next.is_digit(8) => c,
+                        _ => return Ok(Some('\u{0000}')),
+                    }
+                } else {
+                    c
+                };
+                let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
+                macro_rules! one {
+                    () => {{
+                        match cur!(self).and_then(|c| c.to_digit(8)) {
+                            Some(v) => {
+                                bump!(self);
+                                value = value * 8 + v as u8;
+                            }
+                            _ => {
+                                return Ok(Some(value as char))
+                            },
+                        }
+                    }};
+                }
+                one!();
+                one!();
+
+                return Ok(Some(value as char));
+            }
             _ => c,
         };
         self.input.bump();
@@ -500,54 +525,20 @@ impl<I: Input> Lexer<I> {
                 // unicode escape
                 '\\' => {
                     bump!();
-                    if !eat!('u') {
+                    if !is!('u') {
                         return Err(Error::ExpectedUnicodeEscape { pos: cur_pos!() });
                     }
-
-                    if eat!('{') {
-                        let cp_start = cur_pos!();
-                        let c = self.read_code_point()?;
-                        let valid = if first {
-                            c.is_ident_start()
-                        } else {
-                            c.is_ident_part()
-                        };
-
-                        if !valid {
-                            return Err(Error::InvalidIdentChar {
-                                pos: span!(cp_start),
-                            });
-                        }
-
-                        if !eat!('}') {
-                            return Err(Error::InvalidUnicodeEscape { pos: span!(start) });
-                        }
-                        word.push(c);
+                    let c = self.read_unicode_escape(start)?;
+                    let valid = if first {
+                        c.is_ident_start()
                     } else {
-                        let start = cur_pos!();
-                        let c = match self.read_int(16, 4)? {
-                            Some(val) => {
-                                let val = TryFrom::try_from(val)
-                                    .expect("read_int(16, 4) cannot return non-u32 value");
-                                match char::from_u32(val) {
-                                    Some(c) => c,
-                                    None => {
-                                        return Err(Error::InvalidCodePoint { pos: span!(start) })
-                                    }
-                                }
-                            }
-                            None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
-                        };
-                        let valid = if first {
-                            c.is_ident_start()
-                        } else {
-                            c.is_ident_part()
-                        };
-                        if !valid {
-                            return Err(Error::InvalidIdentChar { pos: span!(start) });
-                        }
-                        word.push(c);
+                        c.is_ident_part()
+                    };
+
+                    if !valid {
+                        return Err(Error::InvalidIdentChar { pos: span!(start) });
                     }
+                    word.push(c);
                 }
 
                 _ => {
@@ -557,6 +548,42 @@ impl<I: Input> Lexer<I> {
             first = false;
         }
         Ok((word.into(), has_escape))
+    }
+
+    fn read_unicode_escape(&mut self, start: BytePos) -> Result<char, Error<I::Error>> {
+        assert_eq!(cur!(), Some('u'));
+        bump!();
+
+        if eat!('{') {
+            let cp_start = cur_pos!();
+            let c = self.read_code_point()?;
+
+            if !eat!('}') {
+                return Err(Error::InvalidUnicodeEscape { pos: span!(start) });
+            }
+
+            Ok(c)
+        } else {
+            self.read_hex_char(4)
+        }
+    }
+
+    fn read_hex_char(&mut self, count: usize) -> Result<char, Error<I::Error>> {
+        let pos = cur_pos!();
+
+        match self.read_int(16, count)? {
+            Some(val) => {
+                let val = match TryFrom::try_from(val) {
+                    Ok(val) => val,
+                    Err(err) => unimplemented!("failed to parse hex char: {:?}", err),
+                };
+                match char::from_u32(val) {
+                    Some(c) => Ok(c),
+                    None => unimplemented!("Syntax Error: not char? val = {}", val),
+                }
+            }
+            None => unimplemented!("Syntax Error: expected {} hex chars", count),
+        }
     }
 
     /// Read `CodePoint`.
@@ -649,7 +676,7 @@ impl<I: Input> Lexer<I> {
             return Err(Error::UnterminatedRegxp { start });
         }
 
-        bump!();
+        bump!(); // '/'
 
         // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
         // sequence." TODO: check for escape

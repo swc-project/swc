@@ -80,7 +80,7 @@ impl State {
         } else {
             // ported updateContext
             match *next {
-                RParen | RBrace => {
+                tok!(')') | tok!('}') => {
                     // TODO: Verify
                     if context.len() == 1 {
                         return true;
@@ -88,7 +88,7 @@ impl State {
 
                     let out = context.pop(logger).unwrap();
 
-                    // function(){}
+                    // let a = function(){}
                     if out == Type::BraceStmt && context.current() == Some(Type::FnExpr) {
                         context.pop(logger);
                         return false;
@@ -103,28 +103,24 @@ impl State {
                     return !out.is_expr();
                 }
 
-                Word(Keyword(Function)) => {
+                tok!("function") => {
                     // This is required to lex
                     // `x = function(){}/42/i`
-                    let is_always_expr = match prev {
-                        Some(AssignOp(..)) | Some(BinOp(..)) => true,
-                        _ => false,
-                    };
-                    if context.current() != Some(Type::BraceStmt) || is_always_expr {
+                    if is_expr_allowed
+                        && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
+                    {
                         context.push(logger, Type::FnExpr);
                     }
                     return false;
                 }
 
                 // for (a of b) {}
-                Word(Ident(js_word!("of")))
-                    if Some(Type::ParenStmt { is_for_loop: true }) == context.current() =>
-                {
+                tok!("of") if Some(Type::ParenStmt { is_for_loop: true }) == context.current() => {
                     // e.g. for (a of _) => true
                     !prev.expect("TODO: remove expect()").before_expr()
                 }
 
-                Word(ref ident) => {
+                Word(Ident(ref ident)) => {
                     // variable declaration
                     return match prev {
                         Some(prev) => match prev {
@@ -140,26 +136,23 @@ impl State {
                     };
                 }
 
-                // `{`
-                LBrace => {
-                    let next_ctxt =
-                        if is_brace_block(context, prev, had_line_break, is_expr_allowed) {
-                            Type::BraceStmt
-                        } else {
-                            Type::BraceExpr
-                        };
+                tok!('{') => {
+                    let next_ctxt = if context.is_brace_block(prev, had_line_break, is_expr_allowed)
+                    {
+                        Type::BraceStmt
+                    } else {
+                        Type::BraceExpr
+                    };
                     context.push(logger, next_ctxt);
                     true
                 }
 
-                // `${`
-                DollarLBrace => {
+                tok!("${") => {
                     context.push(logger, Type::TplQuasi);
                     return true;
                 }
 
-                // `(`
-                LParen => {
+                tok!('(') => {
                     // if, for, with, while is statement
 
                     context.push(
@@ -177,9 +170,9 @@ impl State {
                 }
 
                 // remains unchanged.
-                PlusPlus | MinusMinus => is_expr_allowed,
+                tok!("++") | tok!("--") => is_expr_allowed,
 
-                BackQuote => {
+                tok!('`') => {
                     // If we are in template, ` terminates template.
                     if context.current() == Some(Type::Tpl) {
                         context.pop(logger);
@@ -197,55 +190,55 @@ impl State {
     }
 }
 
-/// Returns true if following `LBrace` token is `block statement` according to
-///  `ctx`, `prev`, `is_expr_allowed`.
-fn is_brace_block(
-    ctx: &Context,
-    prev: Option<Token>,
-    had_line_break: bool,
-    is_expr_allowed: bool,
-) -> bool {
-    match prev {
-        Some(Colon) => match ctx.current() {
-            Some(Type::BraceStmt) => return true,
-            // `{ a: {} }`
-            //     ^ ^
-            Some(Type::BraceExpr) => return false,
-            _ => {}
-        },
-        _ => {}
-    }
-
-    match prev {
-        //  function a() {
-        //      return { a: "" };
-        //  }
-        //  function a() {
-        //      return
-        //      {
-        //          function b(){}
-        //      };
-        //  }
-        Some(Word(Keyword(Return))) | Some(Word(Keyword(Yield))) => {
-            return had_line_break;
-        }
-
-        Some(Word(Keyword(Else))) | Some(Semi) | None | Some(RParen) => return true,
-
-        // If previous token was `{`
-        Some(LBrace) => return ctx.current() == Some(Type::BraceStmt),
-
-        // `class C<T> { ... }`
-        Some(BinOp(Gt)) | Some(BinOp(Lt)) => return true,
-        _ => {}
-    }
-
-    return !is_expr_allowed;
-}
-
 #[derive(Debug, Default)]
 struct Context(Vec<Type>);
 impl Context {
+    /// Returns true if following `LBrace` token is `block statement` according to
+    ///  `ctx`, `prev`, `is_expr_allowed`.
+    fn is_brace_block(
+        &self,
+        prev: Option<Token>,
+        had_line_break: bool,
+        is_expr_allowed: bool,
+    ) -> bool {
+        match prev {
+            Some(tok!(':')) => match self.current() {
+                Some(Type::BraceStmt) => return true,
+                // `{ a: {} }`
+                //     ^ ^
+                Some(Type::BraceExpr) => return false,
+                _ => {}
+            },
+            _ => {}
+        }
+
+        match prev {
+            //  function a() {
+            //      return { a: "" };
+            //  }
+            //  function a() {
+            //      return
+            //      {
+            //          function b(){}
+            //      };
+            //  }
+            Some(tok!("return")) | Some(tok!("yield")) => {
+                return had_line_break;
+            }
+
+            Some(tok!("else")) | Some(Semi) | None | Some(tok!(')')) => return true,
+
+            // If previous token was `{`
+            Some(tok!('{')) => return self.current() == Some(Type::BraceStmt),
+
+            // `class C<T> { ... }`
+            Some(tok!('<')) | Some(tok!('>')) => return true,
+            _ => {}
+        }
+
+        return !is_expr_allowed;
+    }
+
     fn len(&self) -> usize {
         self.0.len()
     }

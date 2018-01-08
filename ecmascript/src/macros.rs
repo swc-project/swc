@@ -7,6 +7,7 @@ macro_rules! tok {
     ('.') => { Token::Dot };
     ("=>") => { Token::Arrow };
     ("...") => { Token::DotDotDot };
+    ("${") => { Token::DollarLBrace };
 
     ('+') => { Token::BinOp(Add) };
     ('-') => { Token::BinOp(Sub) };
@@ -15,6 +16,8 @@ macro_rules! tok {
     ('%') => { Token::BinOp(Mod) };
     ('!') => { Token::Bang };
     ('~') => { Token::Tilde };
+    ('<') => { Token::BinOp(Lt) };
+    ('>') => { Token::BinOp(Gt) };
 
     ("++") => { Token::PlusPlus };
     ("--") => { Token::MinusMinus };

@@ -119,7 +119,7 @@ pub enum Token {
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
-#[kind(functions(starts_expr = "bool", before_expr = "bool"))]
+#[kind(functions(starts_expr = "bool"))]
 #[repr(u8)]
 pub enum BinOpToken {
     /// `==`
@@ -178,6 +178,12 @@ pub enum BinOpToken {
     LogicalOr,
     /// `&&`
     LogicalAnd,
+}
+
+impl BinOpToken {
+    fn before_expr(&self) -> bool {
+        true
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
