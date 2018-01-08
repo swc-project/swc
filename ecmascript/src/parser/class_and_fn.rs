@@ -392,6 +392,7 @@ mod tests {
                     node: ExprKind::Class(ClassExpr {
                         ident: None,
                         class: Class {
+                            span,
                             body: vec![],
                             super_class: Some(expr("a")),
                         },
