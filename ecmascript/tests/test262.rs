@@ -56,7 +56,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "e1387fe892984e2b.js",
     "e71c1d5f0b6b833c.js",
     "e8ea384458526db0.js",
-    // We doesn't implement Annex B fully.
+    // We don't implement Annex B fully.
     "1c1e2a43fe5515b6.js",
     "3dabeca76119d501.js",
     "52aeec7b8da212a2.js",
