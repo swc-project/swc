@@ -91,6 +91,9 @@ impl<I: Input> Lexer<I> {
                 return if self.opts.strict {
                     Err(Error::ImplicitOctalOnStrict { start })
                 } else {
+                    // FIXME
+                    let val = i64::from_str_radix(&format!("{}", val), 8)
+                        .expect("Does this can really happen?");
                     Ok(Num(ImplicitOctal(val)))
                 };
             }
@@ -303,7 +306,17 @@ mod tests {
         Lexer::new_from_str(l, s)
     }
 
-    fn read(radix: u8, s: &'static str) -> i64 {
+    fn num(s: &'static str) -> Number {
+        lexer(s)
+            .read_number(s.starts_with("."))
+            .map(|token| match token {
+                Num(n) => n,
+                _ => unreachable!(),
+            })
+            .expect("read_number failed")
+    }
+
+    fn int(radix: u8, s: &'static str) -> i64 {
         lexer(s)
             .read_int(radix, 0)
             .expect("read_int failed")
@@ -313,19 +326,24 @@ mod tests {
     const LONG: &str = "1e10000000000000000000000000000000000000000\
                         0000000000000000000000000000000000000000000000000000";
     #[test]
-    fn big() {
-        assert_eq!(lexer(LONG).read_number(false), Ok(Num(Number::Infinity)));
+    fn num_big() {
+        assert_eq!(num(LONG), Number::Infinity);
     }
 
     #[test]
-    fn read_int() {
-        assert_eq!(60, read(10, "60"));
-        assert_eq!(0o73, read(8, "73"));
+    fn num_octal() {
+        assert_eq!(Number::ImplicitOctal(0o12), num("0012"));
+    }
+
+    #[test]
+    fn read_int_1() {
+        assert_eq!(60, int(10, "60"));
+        assert_eq!(0o73, int(8, "73"));
     }
 
     #[test]
     fn read_int_short() {
-        assert_eq!(7, read(10, "7"));
+        assert_eq!(7, int(10, "7"));
     }
 
     #[test]
