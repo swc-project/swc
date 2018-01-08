@@ -15,7 +15,7 @@ pub fn logger() -> Logger {
     fn root() -> Logger {
         let dec = slog_term::TermDecorator::new()
             .force_color()
-            .stdout()
+            .stderr()
             .build();
         let drain = slog_term::FullFormat::new(dec)
             .use_custom_timestamp(no_timestamp)

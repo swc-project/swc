@@ -1,4 +1,5 @@
 use swc_atoms::JsWord;
+use swc_common::Span;
 use token::Token;
 
 #[derive(Debug)]
@@ -30,4 +31,8 @@ pub enum SyntaxError {
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
+    /// Destructuring bindings require initializers.
+    PatVarWithoutInit {
+        span: Span,
+    },
 }

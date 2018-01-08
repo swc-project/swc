@@ -6,6 +6,7 @@ use swc_macros::{ast_node, Deserialize, Serialize};
 #[ast_node]
 #[caniuse = "es6-class"]
 pub struct Class {
+    pub span: Span,
     #[serde = "superClass"]
     pub super_class: Option<Box<Expr>>,
     pub body: Vec<ClassMethod>,
@@ -13,7 +14,6 @@ pub struct Class {
 
 #[ast_node]
 pub struct ClassMethod {
-    pub span: Span,
     pub key: PropName,
     pub function: Function,
 

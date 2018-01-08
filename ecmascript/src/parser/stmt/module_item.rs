@@ -2,7 +2,7 @@ use super::*;
 
 #[parser]
 impl<I: Input> Parser<I> {
-    fn parse_import(&mut self) -> PResult<ModuleItem> {
+    fn parse_import(&mut self) -> PResult<ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
@@ -11,13 +11,13 @@ impl<I: Input> Parser<I> {
             Str(..) => match bump!() {
                 Str(src, _) => {
                     expect!(';');
-                    return Ok(ModuleItem::ModuleDecl(ModuleDecl {
+                    return Ok(ModuleDecl {
                         span: span!(start),
                         node: ModuleDeclKind::Import {
                             src,
                             specifiers: vec![],
                         },
-                    }));
+                    });
                 }
                 _ => unreachable!(),
             },
@@ -51,7 +51,7 @@ impl<I: Input> Parser<I> {
                 });
             } else if eat!('{') {
                 let mut first = true;
-                while !is!('}') {
+                while !eof!() && !is!('}') {
                     if first {
                         first = false;
                     } else {
@@ -72,22 +72,12 @@ impl<I: Input> Parser<I> {
             unexpected!();
         }
 
-        expect!("from");
-        let src = match *cur!()? {
-            Str(..) => match bump!() {
-                Str(src, _) => {
-                    expect!(';');
-                    src
-                }
-                _ => unreachable!(),
-            },
-            _ => unexpected!(),
-        };
+        let src = self.parse_from_clause_and_semi()?;
 
-        Ok(ModuleItem::ModuleDecl(ModuleDecl {
+        Ok(ModuleDecl {
             span: span!(start),
             node: ModuleDeclKind::Import { specifiers, src },
-        }))
+        })
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
@@ -135,8 +125,122 @@ impl<I: Input> Parser<I> {
         }).parse_binding_ident()
     }
 
-    fn parse_export(&mut self) -> PResult<ModuleItem> {
-        unimplemented!("parse_export")
+    fn parse_export(&mut self) -> PResult<ModuleDecl> {
+        let start = cur_pos!();
+        assert_and_bump!("export");
+
+        if eat!('*') {
+            let src = self.parse_from_clause_and_semi()?;
+            return Ok(ModuleDecl {
+                span: span!(start),
+                node: ModuleDeclKind::ExportAll { src },
+            });
+        }
+
+        if eat!("default") {
+            let decl = if is!("class") {
+                self.parse_default_class()?
+            } else if is!("async") && peeked_is!("function")
+                && !self.input.has_linebreak_between_cur_and_peeked()
+            {
+                self.parse_default_async_fn()?
+            } else if is!("function") {
+                self.parse_default_fn()?
+            } else {
+                let expr = self.include_in_expr(true).parse_assignment_expr()?;
+                expect!(';');
+                return Ok(ModuleDecl {
+                    span: span!(start),
+                    node: ModuleDeclKind::ExportDefaultExpr(expr),
+                });
+            };
+
+            return Ok(ModuleDecl {
+                span: span!(start),
+                node: ModuleDeclKind::ExportDefaultDecl(decl),
+            });
+        }
+
+        let decl = if is!("class") {
+            self.parse_class_decl()?
+        } else if is!("async") && peeked_is!("function")
+            && !self.input.has_linebreak_between_cur_and_peeked()
+        {
+            self.parse_async_fn_decl()?
+        } else if is!("function") {
+            self.parse_fn_decl()?
+        } else if is!("var") || is!("const")
+            || (is!("let")
+                && peek!()
+                    .map(|t| {
+                        // module code is always in strict mode.
+                        t.follows_keyword_let(true)
+                    })
+                    .unwrap_or(false))
+        {
+            self.parse_var_stmt(false).map(Decl::Var)?
+        } else {
+            // export {};
+            // export {} from '';
+
+            expect!('{');
+            let mut specifiers = vec![];
+            let mut first = true;
+            while is_one_of!(',', IdentName) {
+                if first {
+                    first = false;
+                } else {
+                    if eat!(',') {
+                        if is!('}') {
+                            break;
+                        }
+                    }
+                }
+
+                specifiers.push(self.parse_export_specifier()?);
+            }
+            expect!('}');
+
+            let src = if is!("from") {
+                Some(self.parse_from_clause_and_semi()?)
+            } else {
+                None
+            };
+            return Ok(ModuleDecl {
+                span: span!(start),
+                node: ModuleDeclKind::ExportNamed { specifiers, src },
+            });
+        };
+
+        return Ok(ModuleDecl {
+            span: span!(start),
+            node: ModuleDeclKind::ExportDecl(decl),
+        });
+    }
+
+    fn parse_export_specifier(&mut self) -> PResult<ExportSpecifier> {
+        let orig = self.parse_ident_name()?;
+
+        let exported = if eat!("as") {
+            Some(self.parse_ident_name()?)
+        } else {
+            None
+        };
+        Ok(ExportSpecifier { orig, exported })
+    }
+
+    fn parse_from_clause_and_semi(&mut self) -> PResult<String> {
+        expect!("from");
+        match *cur!()? {
+            Str(..) => match bump!() {
+                Str(src, _) => {
+                    expect!(';');
+                    Ok(src)
+                }
+                _ => unreachable!(),
+            },
+            _ => unexpected!(),
+        }
     }
 }
 
@@ -151,10 +255,15 @@ impl<I: Input> StmtLikeParser<ModuleItem> for Parser<I> {
             syntax_error!(SyntaxError::NonTopLevelImportExport);
         }
 
-        if is!("import") {
-            self.parse_import()
+        let start = cur_pos!();
+        let decl = if is!("import") {
+            self.parse_import()?
+        } else if is!("export") {
+            self.parse_export()?
         } else {
-            self.parse_export()
-        }
+            unreachable!("handle_import_export should not be called if current token isn't import nor export")
+        };
+
+        Ok(ModuleItem::ModuleDecl(decl))
     }
 }

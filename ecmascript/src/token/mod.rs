@@ -73,6 +73,7 @@ pub enum Token {
     #[kind(before_expr)]
     ColonColon,
     ///
+    #[kind(delegate)]
     BinOp(BinOpToken),
     ///
     #[kind(before_expr)]
@@ -117,7 +118,8 @@ pub enum Token {
     LineComment(String),
 }
 
-#[derive(Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Kind, Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 #[repr(u8)]
 pub enum BinOpToken {
     /// `==`
@@ -144,8 +146,10 @@ pub enum BinOpToken {
     ZeroFillRShift,
 
     /// `+`
+    #[kind(starts_expr)]
     Add,
     /// `-`
+    #[kind(starts_expr)]
     Sub,
     /// `*`
     Mul,
@@ -195,6 +199,7 @@ pub enum Word {
     #[kind(starts_expr)]
     False,
 
+    #[kind(starts_expr)]
     Ident(JsWord),
 }
 
@@ -403,6 +408,7 @@ pub enum Keyword {
     #[kind(starts_expr)]
     Super,
 
+    #[kind(starts_expr)]
     Class,
 
     #[kind(before_expr)]

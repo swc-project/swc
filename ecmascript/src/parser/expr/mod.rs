@@ -194,7 +194,7 @@ impl<I: Input> Parser<I> {
             let mut elems = vec![];
             let mut comma = 0;
 
-            while !is!(']') {
+            while !eof!() && !is!(']') {
                 if eat!(',') {
                     comma += 1;
                     continue;
@@ -287,7 +287,7 @@ impl<I: Input> Parser<I> {
         let mut first = true;
         let mut expr_or_spreads = vec![];
 
-        while !is!(')') {
+        while !eof!() && !is!(')') {
             if first {
                 first = false;
             } else {
@@ -428,7 +428,7 @@ impl<I: Input> Parser<I> {
 
         // $obj[name()]
         if eat!('[') {
-            let prop = self.include_in_expr(false).parse_expr()?;
+            let prop = self.include_in_expr(true).parse_expr()?;
             expect!(']'); //TODO
             return Ok((
                 box Expr {
@@ -505,22 +505,24 @@ impl<I: Input> Parser<I> {
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
 
-        // This is parsed using production 'NewExpression', which contains
-        // 'MemberExpression'
-        if !is!('(') {
-            return Ok(callee);
+        if is!('(') {
+            // This is parsed using production MemberExpression,
+            // which is left-recursive.
+            let args = self.parse_args()?;
+            let call_expr = box Expr {
+                span: span!(start),
+                node: ExprKind::Call {
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                },
+            };
+
+            return self.parse_subscripts(ExprOrSuper::Expr(call_expr), false);
         }
 
-        let args = self.parse_args()?;
-        let call_expr = box Expr {
-            span: span!(start),
-            node: ExprKind::Call {
-                callee: ExprOrSuper::Expr(callee),
-                args,
-            },
-        };
-
-        self.parse_subscripts(ExprOrSuper::Expr(call_expr), false)
+        // This is parsed using production 'NewExpression', which contains
+        // 'MemberExpression'
+        Ok(callee)
     }
 
     fn parse_call_expr_args(
@@ -540,7 +542,26 @@ impl<I: Input> Parser<I> {
             assert_and_bump!("yield");
             assert!(self.ctx.in_generator);
 
-            unimplemented!("parse_yield_expr")
+            //TODO
+            // Spec says
+            // YieldExpression cannot be used within the FormalParameters of a generator
+            // function because any expressions that are part of FormalParameters are
+            // evaluated before the resulting generator object is in a resumable state.
+
+            if is!(';') || (!is!('*') && !cur!().map(Token::starts_expr).unwrap_or(true)) {
+                Ok(ExprKind::Yield {
+                    arg: None,
+                    delegate: false,
+                })
+            } else {
+                let has_star = eat!('*');
+                let arg = self.parse_assignment_expr()?;
+
+                Ok(ExprKind::Yield {
+                    arg: Some(arg),
+                    delegate: has_star,
+                })
+            }
         })
     }
 

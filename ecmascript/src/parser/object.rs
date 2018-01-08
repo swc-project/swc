@@ -86,7 +86,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
 
         if eat!('*') {
             let name = self.parse_prop_name()?;
-            return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, true)
+            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
                 .map(|function| Prop {
                     span: span!(start),
                     node: PropKind::Method {
@@ -115,7 +115,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
-            return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
+            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
                 .map(|function| Prop {
                     span: span!(start),
                     node: PropKind::Method { key, function },
@@ -162,14 +162,14 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                 let key = self.parse_prop_name()?;
 
                 return match ident.sym {
-                    js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), false, false).map(
-                        |Function { body, .. }| Prop {
+                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), false, false)
+                        .map(|Function { body, .. }| Prop {
                             span: span!(start),
                             node: PropKind::Getter { key, body },
-                        },
-                    ),
+                        }),
                     js_word!("set") => {
                         self.parse_fn_args_body(
+                            start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
                             false,
                             false,
@@ -186,13 +186,15 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                             }
                         })
                     }
-                    js_word!("async") => {
-                        self.parse_fn_args_body(Parser::parse_unique_formal_params, true, false)
-                            .map(|function| Prop {
-                                span: span!(start),
-                                node: PropKind::Method { key, function },
-                            })
-                    }
+                    js_word!("async") => self.parse_fn_args_body(
+                        start,
+                        Parser::parse_unique_formal_params,
+                        true,
+                        false,
+                    ).map(|function| Prop {
+                        span: span!(start),
+                        node: PropKind::Method { key, function },
+                    }),
                     _ => unreachable!(),
                 };
             }

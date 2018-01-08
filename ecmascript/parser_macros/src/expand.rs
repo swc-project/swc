@@ -113,20 +113,25 @@ impl Folder for MyFolder {
             }
 
             //TODO: Collect expect and give that list to unexpected
-            "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eat_exact" | "expect"
-            | "expect_exact" | "is" | "is_one_of" | "peeked_is" | "peek" | "last_pos"
-            | "return_if_arrow" | "span" | "syntax_error" | "unexpected" => {
-                return Macro {
-                    tts: if i.tts.is_empty() {
-                        quote_spanned!(span, self).into()
-                    } else {
-                        TokenStream::from(quote_spanned!(span, self,))
-                            .into_iter()
-                            .chain(i.tts)
-                            .collect()
-                    },
-                    ..i
+            "assert_and_bump" | "bump" | "cur" | "cur_pos" | "eat" | "eof" | "eat_exact"
+            | "expect" | "expect_exact" | "into_spanned" | "is" | "is_one_of" | "peeked_is"
+            | "peek" | "last_pos" | "return_if_arrow" | "span" | "syntax_error" | "unexpected" => {
+                let tts = if i.tts.is_empty() {
+                    quote_spanned!(span, self).into()
+                } else {
+                    let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
+                    let args = args.into_elements()
+                        .map(|el| el.map_item(|expr| self.fold_expr(expr)))
+                        .map(|arg| arg.dump())
+                        .flat_map(|t| TokenStream::from(t));
+
+                    TokenStream::from(quote_spanned!(span, self,))
+                        .into_iter()
+                        .chain(args)
+                        .collect()
                 };
+
+                return Macro { tts, ..i };
             }
             _ => {
                 unimplemented!("Macro: {:#?}", i);

@@ -2,17 +2,16 @@ macro_rules! unexpected {
     ($p:expr) => {{
         let pos = cur_pos!($p);
         let cur = cur!($p);
-        error!($p.logger, "unexpected token {:?} at {:?}", cur, pos);
         unimplemented!("unexpected token: {:?} at {:?}", cur, pos);
     }};
 }
 
 macro_rules! syntax_error {
     ($p:expr, $s:expr) => {{
-        let err: PResult<!> = Err(
-            Error::Syntax($p.input.cur().cloned(), cur_pos!($p), $s, file!(), line!())
-        );
-        err?
+        let err = Error::Syntax($p.input.cur().cloned(), cur_pos!($p), $s, file!(), line!());
+        error!($p.logger, "failed to parse: {:?}", err);
+        let res: PResult<!> = Err(err);
+        res?
     }};
 }
 
@@ -51,6 +50,13 @@ macro_rules! is {
 
     ($p:expr, $t:tt) => {
         $p.input.is(&tok!($t))
+    };
+}
+
+/// Returns true on eof.
+macro_rules! eof {
+    ($p:expr) => {
+        cur!($p) == None
     };
 }
 

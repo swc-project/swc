@@ -68,7 +68,7 @@ impl<I: Input> Parser<I> {
             let mut elems = vec![];
             let mut comma = 0;
 
-            while !is!(']') {
+            while !eof!() && !is!(']') {
                 if eat!(',') {
                     comma += 1;
                     continue;
@@ -108,7 +108,7 @@ impl<I: Input> Parser<I> {
         let mut first = true;
         let mut params = vec![];
 
-        while !is!(')') {
+        while !eof!() && !is!(')') {
             if first {
                 first = false;
             } else {
@@ -147,10 +147,18 @@ impl<I: Input> Parser<I> {
 impl<I: Input> Parser<I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
-    fn parse_non_last_expr_as_param(&mut self, expr: Box<Expr>) -> PResult<Pat> {
+    pub(super) fn parse_non_last_expr_as_param(&mut self, expr: Box<Expr>) -> PResult<Pat> {
         let span = expr.span;
 
         match expr.node {
+            ExprKind::Paren(inner) => {
+                // TODO: (maybe) add paren to PatKind.
+                let inner_pat = self.parse_non_last_expr_as_param(inner)?;
+                return Ok(Pat {
+                    span,
+                    node: inner_pat.node,
+                });
+            }
             ExprKind::Ident(ident) => return Ok(ident.into()),
             ExprKind::Array { elems: mut exprs } => {
                 if exprs.len() == 0 {

@@ -47,6 +47,13 @@ where
     }
 }
 
+impl<F> FoldWith<F> for String {
+    /// No op.
+    fn fold_children(self, _: &mut F) -> Self {
+        self
+    }
+}
+
 impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
     /// No op.
     fn fold_children(self, _: &mut F) -> Self {

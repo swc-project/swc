@@ -25,10 +25,13 @@ use swc_ecmascript::parser::{PResult, Parser};
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
 
-/// Wrong tests.
 const IGNORED_PASS_TESTS: &[&str] = &[
+    // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
+    "0426f15dac46e92d.js",
     "0b4d61559ccce0f9.js",
+    "0f88c334715d2489.js",
+    "1093d98f5fc0758d.js",
     "15d9592709b947a0.js",
     "2179895ec5cc6276.js",
     "247a3a57e8176ebd.js",
@@ -47,9 +50,19 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "a8a03a88237c4e8f.js",
     "ad06370e34811a6a.js",
     "b0fdc038ee292aba.js",
+    "cb211fadccb029c7.js",
+    "ce968fcdf3a1987c.js",
     "db3c01738aaf0b92.js",
     "e1387fe892984e2b.js",
     "e71c1d5f0b6b833c.js",
+    "e8ea384458526db0.js",
+    // We doesn't implement Annex B fully.
+    "1c1e2a43fe5515b6.js",
+    "3dabeca76119d501.js",
+    "52aeec7b8da212a2.js",
+    "59ae0289778b80cd.js",
+    "a4d62a651f69d815.js",
+    "c06df922631aeabc.js",
 ];
 
 fn add_test<F: FnOnce() + Send + 'static>(

@@ -8,6 +8,15 @@ pub struct Stmt {
     pub node: StmtKind,
 }
 
+impl From<Decl> for Stmt {
+    fn from(decl: Decl) -> Self {
+        Stmt {
+            span: decl.span(),
+            node: StmtKind::Decl(decl),
+        }
+    }
+}
+
 impl Spanned<StmtKind> for Stmt {
     fn from_unspanned(node: StmtKind, span: Span) -> Self {
         Stmt { span, node }
@@ -107,7 +116,7 @@ pub enum StmtKind {
     #[serde = "ForStatement"]
     For {
         /// VarDecl | Expr | null
-        init: Option<VarDeclOrPat>,
+        init: Option<VarDeclOrExpr>,
 
         test: Option<Box<Expr>>,
 
@@ -158,4 +167,10 @@ pub struct CatchClause {
 pub enum VarDeclOrPat {
     VarDecl(VarDecl),
     Pat(Pat),
+}
+
+#[ast_node]
+pub enum VarDeclOrExpr {
+    VarDecl(VarDecl),
+    Expr(Box<Expr>),
 }

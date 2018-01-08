@@ -385,6 +385,7 @@ impl<I: Input> Lexer<I> {
             '0'...'7' => unimplemented!("octal escape in string literal"),
             _ => c,
         };
+        self.input.bump();
 
         Ok(Some(c))
     }

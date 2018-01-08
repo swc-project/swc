@@ -38,9 +38,13 @@ impl From<NoneError> for Error {
     }
 }
 
+#[derive(Debug, Clone, Copy, Default)]
+pub struct Config {}
+
 /// EcmaScript parser.
 pub struct Parser<I: Input> {
     logger: Logger,
+    cfg: Config,
     ctx: Context,
     state: State,
     input: ParserInput<I>,
@@ -74,6 +78,7 @@ impl<I: Input> Parser<I> {
                 in_module: true,
                 ..Default::default()
             },
+            cfg: Default::default(),
             state: Default::default(),
         }
     }
@@ -86,6 +91,7 @@ impl<I: Input> Parser<I> {
                 strict,
                 ..Default::default()
             },
+            cfg: Default::default(),
             state: Default::default(),
         }
     }

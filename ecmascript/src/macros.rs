@@ -85,6 +85,17 @@ macro_rules! span {
     };
 }
 
+/// Takes `(parser, start)`, Returns  |t| { Spanned::from }
+macro_rules! into_spanned {
+    ($p:expr, $start:expr) => {{
+        |val| {
+            let start = $start;
+            let end = last_pos!($p);
+            return ::swc_common::Spanned::from_unspanned(val, Span { start, end });
+        }
+    }}
+}
+
 macro_rules! spanned {
     (
         $p:expr, { $($body:tt)* }
@@ -95,10 +106,7 @@ macro_rules! spanned {
         };
         #[allow(unreachable_code)]
         {
-            val.map(|val| {
-                let end = last_pos!($p);
-                ::swc_common::Spanned::from_unspanned(val, Span { start, end })
-            })
+            val.map(into_spanned!($p, start))
         }
     }};
 }

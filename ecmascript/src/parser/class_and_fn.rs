@@ -16,21 +16,35 @@ impl<I: Input> Parser<I> {
         self.parse_fn(None)
     }
 
-    pub(super) fn parse_async_fn_decl(&mut self) -> PResult<Stmt> {
+    pub(super) fn parse_async_fn_decl(&mut self) -> PResult<Decl> {
         let start = cur_pos!();
         expect!("async");
         self.parse_fn(Some(start))
     }
 
-    pub(super) fn parse_fn_decl(&mut self) -> PResult<Stmt> {
+    pub(super) fn parse_fn_decl(&mut self) -> PResult<Decl> {
         self.parse_fn(None)
     }
 
-    pub(super) fn parse_class_decl(&mut self) -> PResult<Stmt> {
+    pub(super) fn parse_default_async_fn(&mut self) -> PResult<ExportDefaultDecl> {
+        let start = cur_pos!();
+        expect!("async");
+        self.parse_fn(Some(start))
+    }
+
+    pub(super) fn parse_default_fn(&mut self) -> PResult<ExportDefaultDecl> {
+        self.parse_fn(None)
+    }
+
+    pub(super) fn parse_class_decl(&mut self) -> PResult<Decl> {
         self.parse_class()
     }
 
     pub(super) fn parse_class_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_class()
+    }
+
+    pub(super) fn parse_default_class(&mut self) -> PResult<ExportDefaultDecl> {
         self.parse_class()
     }
 
@@ -55,15 +69,18 @@ impl<I: Input> Parser<I> {
         expect!('}');
         let end = last_pos!();
         Ok(T::finish_class(
-            Span { start, end },
             ident,
-            Class { super_class, body },
+            Class {
+                span: Span { start, end },
+                super_class,
+                body,
+            },
         ))
     }
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMethod>> {
         let mut elems = vec![];
-        while !is!('}') {
+        while !eof!() && !is!('}') {
             if eat_exact!(';') {
                 continue;
             }
@@ -114,12 +131,13 @@ impl<I: Input> Parser<I> {
         let body = self.parse_fn_body(is_async, is_generator)?;
 
         Ok(T::finish_fn(
-            Span {
-                start,
-                end: last_pos!(),
-            },
             ident,
             Function {
+                span: Span {
+                    start,
+                    end: last_pos!(),
+                },
+
                 is_async,
                 is_generator,
                 params,
@@ -131,6 +149,7 @@ impl<I: Input> Parser<I> {
     /// `parse_args` closure should not eat '(' or ')'.
     pub(super) fn parse_fn_args_body<F>(
         &mut self,
+        start: BytePos,
         parse_args: F,
         is_async: bool,
         is_generator: bool,
@@ -152,6 +171,7 @@ impl<I: Input> Parser<I> {
             let body = p.parse_fn_body(is_async, is_generator)?;
 
             Ok(Function {
+                span: span!(p, start),
                 params,
                 body,
                 is_async,
@@ -166,9 +186,8 @@ impl<I: Input> Parser<I> {
 
         if eat!('*') {
             let key = self.parse_prop_name()?;
-            return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, true)
+            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
                 .map(|function| ClassMethod {
-                    span: span!(start),
                     is_static,
                     key,
                     function,
@@ -180,17 +199,20 @@ impl<I: Input> Parser<I> {
         if let Some(start_of_static) = start_of_static {
             if is!('(') {
                 let span_of_static = span!(start_of_static);
-                return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
-                    .map(|function| ClassMethod {
-                        span: span!(start),
-                        is_static: false,
-                        key: PropName::Ident(Ident {
-                            span: span_of_static,
-                            sym: js_word!("static"),
-                        }),
-                        function,
-                        kind: ClassMethodKind::Method,
-                    });
+                return self.parse_fn_args_body(
+                    start,
+                    Parser::parse_unique_formal_params,
+                    false,
+                    false,
+                ).map(|function| ClassMethod {
+                    is_static: false,
+                    key: PropName::Ident(Ident {
+                        span: span_of_static,
+                        sym: js_word!("static"),
+                    }),
+                    function,
+                    kind: ClassMethodKind::Method,
+                });
             }
         }
 
@@ -198,9 +220,8 @@ impl<I: Input> Parser<I> {
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
-            return self.parse_fn_args_body(Parser::parse_unique_formal_params, false, false)
+            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
                 .map(|function| ClassMethod {
-                    span: span!(start),
                     is_static,
                     key,
                     function,
@@ -222,36 +243,35 @@ impl<I: Input> Parser<I> {
                 let key = self.parse_prop_name()?;
 
                 return match ident.sym {
-                    js_word!("get") => self.parse_fn_args_body(|_| Ok(vec![]), false, false).map(
-                        |function| ClassMethod {
-                            span: span!(start),
+                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), false, false)
+                        .map(|function| ClassMethod {
                             is_static,
                             key,
                             function,
                             kind: ClassMethodKind::Getter,
-                        },
-                    ),
+                        }),
                     js_word!("set") => self.parse_fn_args_body(
+                        start,
                         |p| p.parse_formal_param().map(|pat| vec![pat]),
                         false,
                         false,
                     ).map(|function| ClassMethod {
                         key,
-                        span: span!(start),
                         is_static,
                         function,
                         kind: ClassMethodKind::Setter,
                     }),
-                    js_word!("async") => {
-                        self.parse_fn_args_body(Parser::parse_unique_formal_params, true, false)
-                            .map(|function| ClassMethod {
-                                span: span!(start),
-                                is_static,
-                                key,
-                                function,
-                                kind: ClassMethodKind::Method,
-                            })
-                    }
+                    js_word!("async") => self.parse_fn_args_body(
+                        start,
+                        Parser::parse_unique_formal_params,
+                        true,
+                        false,
+                    ).map(|function| ClassMethod {
+                        is_static,
+                        key,
+                        function,
+                        kind: ClassMethodKind::Method,
+                    }),
                     _ => unreachable!(),
                 };
             }
@@ -274,22 +294,22 @@ impl<I: Input> Parser<I> {
 trait OutputType {
     type Ident;
 
-    fn finish_fn(span: Span, ident: Self::Ident, f: Function) -> Self;
-    fn finish_class(span: Span, ident: Self::Ident, class: Class) -> Self;
+    fn finish_fn(ident: Self::Ident, f: Function) -> Self;
+    fn finish_class(ident: Self::Ident, class: Class) -> Self;
 }
 
 impl OutputType for Box<Expr> {
     type Ident = Option<Ident>;
 
-    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
+    fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
         box Expr {
-            span,
+            span: function.span,
             node: ExprKind::Function(FnExpr { ident, function }),
         }
     }
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
+    fn finish_class(ident: Option<Ident>, class: Class) -> Self {
         box Expr {
-            span,
+            span: class.span,
             node: ExprKind::Class(ClassExpr { ident, class }),
         }
     }
@@ -298,28 +318,22 @@ impl OutputType for Box<Expr> {
 impl OutputType for ExportDefaultDecl {
     type Ident = Option<Ident>;
 
-    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
+    fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
         ExportDefaultDecl::Fn { ident, function }
     }
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
+    fn finish_class(ident: Option<Ident>, class: Class) -> Self {
         ExportDefaultDecl::Class { ident, class }
     }
 }
 
-impl OutputType for Stmt {
+impl OutputType for Decl {
     type Ident = Ident;
 
-    fn finish_fn(span: Span, ident: Ident, function: Function) -> Self {
-        Stmt {
-            span,
-            node: StmtKind::Decl(Decl::Fn { ident, function }),
-        }
+    fn finish_fn(ident: Ident, function: Function) -> Self {
+        Decl::Fn { ident, function }
     }
-    fn finish_class(span: Span, ident: Ident, class: Class) -> Self {
-        Stmt {
-            span,
-            node: StmtKind::Decl(Decl::Class(ClassDecl { ident, class })),
-        }
+    fn finish_class(ident: Ident, class: Class) -> Self {
+        Decl::Class(ClassDecl { ident, class })
     }
 }
 

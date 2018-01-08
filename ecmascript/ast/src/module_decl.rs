@@ -1,5 +1,5 @@
-use super::{Class, Decl, Expr, Function, Ident, Lit, VarDecl};
-use swc_common::Span;
+use super::{Class, Decl, Expr, Function, Ident, VarDecl};
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]
@@ -23,7 +23,7 @@ pub enum ModuleDeclKind {
     ExportNamed {
         specifiers: Vec<ExportSpecifier>,
         #[serde = "source"]
-        src: Option<Lit>,
+        src: Option<String>,
     },
     #[serde = "ExportDefaultDeclaration"]
     ExportDefaultDecl(
@@ -33,13 +33,13 @@ pub enum ModuleDeclKind {
     #[serde = "ExportDefaultDeclaration"]
     ExportDefaultExpr(
         #[serde = "declaration"]
-        Expr,
+        Box<Expr>,
     ),
     /// `export * from 'mod'`
     #[serde = "ExportAllDeclaration"]
     ExportAll {
         #[serde = "source"]
-        src: Lit,
+        src: String,
     },
 }
 
@@ -83,7 +83,13 @@ pub enum ImportSpecifierKind {
 #[ast_node]
 pub struct ExportSpecifier {
     /// `foo` in `export { foo as bar }`
-    pub local: Ident,
-    /// `bar` in `export { foo as bar }`
-    pub exported: Ident,
+    pub orig: Ident,
+    /// `Some(bar)` in `export { foo as bar }`
+    pub exported: Option<Ident>,
+}
+
+impl Spanned<ModuleDeclKind> for ModuleDecl {
+    fn from_unspanned(node: ModuleDeclKind, span: Span) -> Self {
+        ModuleDecl { span, node }
+    }
 }

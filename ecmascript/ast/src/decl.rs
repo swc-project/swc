@@ -16,6 +16,22 @@ pub enum Decl {
     Var(VarDecl),
 }
 
+impl Decl {
+    pub fn span(&self) -> Span {
+        match *self {
+            Decl::Class(ClassDecl {
+                class: Class { span, .. },
+                ..
+            })
+            | Decl::Fn {
+                function: Function { span, .. },
+                ..
+            }
+            | Decl::Var(VarDecl { span, .. }) => span,
+        }
+    }
+}
+
 #[ast_node]
 pub struct ClassDecl {
     pub ident: Ident,

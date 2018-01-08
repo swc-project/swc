@@ -44,7 +44,9 @@ impl<I: Input> Parser<I> {
         Type: From<Stmt>,
     {
         if <Self as StmtLikeParser<Type>>::accept_import_export() {
-            return self.handle_import_export(top_level);
+            if is_one_of!("import", "export") {
+                return self.handle_import_export(top_level);
+            }
         }
         self.parse_stmt_internal(include_decl, top_level)
             .map(From::from)
@@ -92,10 +94,10 @@ impl<I: Input> Parser<I> {
                         unexpected!()
                     }
 
-                    return self.parse_fn_decl();
+                    return self.parse_fn_decl().map(Stmt::from);
                 }
                 Class if !include_decl => unexpected!(),
-                Class => return self.parse_class_decl(),
+                Class => return self.parse_class_decl().map(Stmt::from),
 
                 If => return self.parse_if_stmt(),
                 Return => return self.parse_return_stmt(),
@@ -139,9 +141,15 @@ impl<I: Input> Parser<I> {
                     Ok(StmtKind::Empty)
                 })
             }
-            Word(Ident(js_word!("async"))) => unimplemented!("(maybe) async function"),
 
             _ => {}
+        }
+
+        // Handle async function foo() {}
+        if is!("async") && peeked_is!("function")
+            && !self.input.has_linebreak_between_cur_and_peeked()
+        {
+            return self.parse_async_fn_decl().map(From::from);
         }
 
         // If the statement does not start with a statement keyword or a
@@ -181,7 +189,13 @@ impl<I: Input> Parser<I> {
             let test = self.include_in_expr(true).parse_expr()?;
             expect!(')');
 
-            let consequent = box self.parse_stmt(false)?;
+            let consequent = {
+                // Annex B
+                if !self.ctx.strict && is!("function") {
+                    // TODO: report error
+                }
+                box self.parse_stmt(false)?
+            };
 
             let alt = if eat!("else") {
                 Some(box self.parse_stmt(false)?)
@@ -224,7 +238,7 @@ impl<I: Input> Parser<I> {
             let mut has_default = false;
 
             expect!('{');
-            while !is!('}') {
+            while !eof!() && !is!('}') {
                 if is_one_of!("case", "default") {
                     let is_case = is!("case");
                     bump!();
@@ -331,7 +345,7 @@ impl<I: Input> Parser<I> {
             if first {
                 first = false;
             }
-            decls.push(self.parse_var_declarator(false)?);
+            decls.push(self.parse_var_declarator(for_loop)?);
         }
         if !for_loop {
             expect!(';');
@@ -348,28 +362,27 @@ impl<I: Input> Parser<I> {
         let start = cur_pos!();
         let name = self.parse_binding_pat_or_ident()?;
 
-        let init = match name.node {
-            PatKind::Ident(..) => if eat!('=') {
-                self.parse_assignment_expr().map(Some)?
+        //FIXME: This is wrong. Should check in/of only on first loop.
+        let init = if !for_loop || !is_one_of!("in", "of") {
+            if eat!('=') {
+                Some(self.parse_assignment_expr()?)
             } else {
-                None
-            },
-            _ => {
                 // Destructuring bindings require initializers.
-                if !for_loop || !(is!("in") || is!("of")) {
-                    expect!('=');
-                    self.parse_assignment_expr().map(Some)?
-                } else {
-                    None
+                match name.node {
+                    PatKind::Ident(..) => None,
+                    _ => syntax_error!(SyntaxError::PatVarWithoutInit { span: span!(start) }),
                 }
             }
+        } else {
+            // e.g. for(let a;;)
+            None
         };
 
-        Ok(VarDeclarator {
+        return Ok(VarDeclarator {
             span: span!(start),
             name,
             init,
-        })
+        });
     }
 
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
@@ -433,7 +446,7 @@ impl<I: Input> Parser<I> {
             }
         }
         let body = box if is!("function") {
-            self.parse_fn_decl()?
+            self.parse_fn_decl().map(Stmt::from)?
         } else {
             self.parse_stmt(false)?
         };
@@ -471,32 +484,31 @@ impl<I: Input> Parser<I> {
         if is_one_of!("const", "var")
             || (is!("let") && peek!()?.follows_keyword_let(self.ctx.strict))
         {
-            let decls = self.parse_var_stmt(true).map(VarDeclOrPat::VarDecl)?;
+            let decl = self.parse_var_stmt(true)?;
 
             if is_one_of!("of", "in") {
-                return self.parse_for_each_head(decls);
+                return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
             }
 
             expect_exact!(';');
-            return self.parse_normal_for_head(Some(decls));
+            return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        let pat = if eat_exact!(';') {
+        let init = if eat_exact!(';') {
             return self.parse_normal_for_head(None);
         } else {
-            self.include_in_expr(false)
-                .parse_binding_pat_or_ident()
-                .map(VarDeclOrPat::Pat)?
+            self.include_in_expr(false).parse_expr()?
         };
 
         // for (a of b)
         if is_one_of!("of", "in") {
-            return self.parse_for_each_head(pat);
+            let pat = self.parse_non_last_expr_as_param(init)?;
+            return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 
         expect_exact!(';');
 
-        self.parse_normal_for_head(Some(pat))
+        self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
     fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<ForHead> {
@@ -510,7 +522,7 @@ impl<I: Input> Parser<I> {
         }
     }
 
-    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrPat>) -> PResult<ForHead> {
+    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<ForHead> {
         let test = if eat_exact!(';') {
             None
         } else {
@@ -533,7 +545,7 @@ impl<I: Input> Parser<I> {
 #[ast_node]
 enum ForHead {
     For {
-        init: Option<VarDeclOrPat>,
+        init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
         update: Option<Box<Expr>>,
     },
