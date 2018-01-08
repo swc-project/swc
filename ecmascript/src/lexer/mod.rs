@@ -391,11 +391,21 @@ impl<I: Input> Lexer<I> {
                 };
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
-                    () => {{
+                    ($check:expr) => {{
                         match cur!(self).and_then(|c| c.to_digit(8)) {
                             Some(v) => {
+                                value = if $check {
+                                    let new_val = value
+                                        .checked_mul(8)
+                                        .and_then(|value| value.checked_add(v as u8));
+                                    match new_val {
+                                        Some(val) => val,
+                                        None => return Ok(Some(value as char)),
+                                    }
+                                } else {
+                                    value * 8 + v as u8
+                                };
                                 bump!(self);
-                                value = value * 8 + v as u8;
                             }
                             _ => {
                                 return Ok(Some(value as char))
@@ -403,8 +413,8 @@ impl<I: Input> Lexer<I> {
                         }
                     }};
                 }
-                one!();
-                one!();
+                one!(false);
+                one!(true);
 
                 return Ok(Some(value as char));
             }
