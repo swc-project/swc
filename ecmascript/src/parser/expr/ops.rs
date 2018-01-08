@@ -144,7 +144,11 @@ impl<I: Input> Parser<I> {
         let expr = self.parse_lhs_expr()?;
         return_if_arrow!(expr);
 
-        //TODO: Handle ASI
+        // Line terminator isn't allowed here.
+        if self.input.had_line_break_before_cur() {
+            return Ok(expr);
+        }
+
         if is_one_of!("++", "--") {
             let start = cur_pos!();
             let op = if bump!() == PlusPlus {
