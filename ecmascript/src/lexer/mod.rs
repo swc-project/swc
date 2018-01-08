@@ -223,9 +223,9 @@ impl<I: Input> Lexer<I> {
                 if self.input.current() == '=' {
                     self.input.bump();
                     token = match token {
-                        BinOp(Div) => AssignOp(DivAssign),
-                        BinOp(Exp) => AssignOp(ExpAssign),
+                        BinOp(Mul) => AssignOp(MulAssign),
                         BinOp(Mod) => AssignOp(ModAssign),
+                        BinOp(Exp) => AssignOp(ExpAssign),
                         _ => unreachable!(),
                     }
                 }
