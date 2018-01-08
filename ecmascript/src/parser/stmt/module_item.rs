@@ -68,10 +68,6 @@ impl<I: Input> Parser<I> {
             }
         }
 
-        if specifiers.is_empty() {
-            unexpected!();
-        }
-
         let src = self.parse_from_clause_and_semi()?;
 
         Ok(ModuleDecl {
