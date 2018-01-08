@@ -39,7 +39,7 @@ pub trait CharExt: Copy {
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$' || c == '_' || UnicodeXID::is_xid_continue(c)
+        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || UnicodeXID::is_xid_continue(c)
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators

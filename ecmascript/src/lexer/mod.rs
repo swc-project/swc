@@ -363,7 +363,7 @@ impl<I: Input> Lexer<I> {
                 }
                 return Ok(None);
             }
-            '\n' => {
+            '\n' | '\u{2028}' | '\u{2029}' => {
                 bump!(self);
                 return Ok(None);
             }
