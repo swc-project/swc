@@ -39,6 +39,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "47f974d6fc52e3e4.js",
     "4e1a0da46ca45afe.js",
     "5829d742ab805866.js",
+    "589dc8ad3b9aa28f.js",
     "598a5cedba92154d.js",
     "72d79750e81ef03d.js",
     "7788d3c1e1247da9.js",
