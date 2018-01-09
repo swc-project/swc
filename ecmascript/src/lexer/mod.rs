@@ -13,7 +13,6 @@ use self::util::*;
 use parser_macros::parser;
 use slog::Logger;
 use std::char;
-use std::convert::TryFrom;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use token::*;

@@ -4,7 +4,6 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 
 use super::*;
-use std::convert::TryInto;
 use std::fmt::Display;
 
 #[parser]
