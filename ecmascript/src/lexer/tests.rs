@@ -57,12 +57,12 @@ impl WithSpan for Token {
 }
 impl WithSpan for usize {
     fn into_token(self) -> Token {
-        Num(Number::Decimal(self as _))
+        Num(Number(self as f64))
     }
 }
 impl WithSpan for f64 {
     fn into_token(self) -> Token {
-        Num(Number::Float(self as _))
+        Num(Number(self))
     }
 }
 impl<'a> WithSpan for &'a str {
@@ -122,7 +122,7 @@ fn test262_lexer_error_0003() {
 #[test]
 fn test262_lexer_error_0004() {
     assert_eq!(
-        vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), Num(Decimal(1))],
+        vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), 1.into_token()],
         lex_tokens("+{} / 1")
     );
 }

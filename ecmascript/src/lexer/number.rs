@@ -4,6 +4,7 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 
 use super::*;
+use std::convert::TryInto;
 use std::fmt::Display;
 
 #[parser]
@@ -11,16 +12,7 @@ impl<I: Input> Lexer<I> {
     /// Reads an integer, octal integer, or floating-point number
     ///
     ///
-    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> Result<Token, Error<I::Error>> {
-        /// Type of decimal literal
-        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-        enum NumType {
-            /// (implicit) octal number
-            Octal,
-            Decimal,
-            Float,
-        }
-
+    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> Result<Number, Error<I::Error>> {
         assert!(cur!().is_some());
         if starts_with_dot {
             debug_assert_eq!(
@@ -33,74 +25,57 @@ impl<I: Input> Lexer<I> {
 
         let starts_with_zero = cur!().unwrap() == '0';
 
-        let mut num_type = if starts_with_dot {
-            NumType::Float
-        } else if starts_with_zero {
-            NumType::Octal
-        } else {
-            NumType::Decimal
-        };
-
         let val = if starts_with_dot {
             // first char is '.'
-            debug_assert_eq!(num_type, NumType::Float);
-            0
+            0f64
         } else {
-            match self.read_int(10, 0)? {
-                Some(val) => {
-                    if val == 0 {
-                        // if value is 0, it might be float.
-                        num_type = if start == last_pos!() {
-                            // if only one zero is used, it's decimal
-                            //
-                            // e.g. `0`
-                            NumType::Decimal
-                        } else {
-                            // if multiple zero is used, it's octal
-                            //
-                            // e.g. `000`
-                            NumType::Octal
-                        };
-                    } else {
-                        // strict mode hates non-zero decimals starting with zero.
-                        // e.g. 08.1 is strict mode violation but 0.1 is valid float.
+            // Use read_number_no_dot to support long numbers.
+            let val = self.read_number_no_dot(10)?;
+            if starts_with_zero {
+                // TODO: I guess it would be okay if I don't use -ffast-math
+                // (or something like that), but needs review.
 
-                        if self.opts.strict && starts_with_zero {
-                            return Err(Error::DecimalStartsWithZero { start });
-                        }
+                if val == 0.0f64 {
+                    // If only one zero is used, it's decimal.
+                    // And if multiple zero is used, it's octal.
+                    //
+                    // e.g. `0` is decimal (so it can be part of float)
+                    //
+                    // e.g. `000` is octal
+                    if start != last_pos!() {
+                        return self.make_legacy_octal(start, 0f64);
+                    }
+                } else {
+                    // strict mode hates non-zero decimals starting with zero.
+                    // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
-                        // if it contains '8' or '9', it's decimal.
-
-                        let s = format!("{}", val); // TODO: Remove allocation.
-                        if s.contains('8') || s.contains('9') {
-                            num_type = NumType::Decimal;
-                        }
+                    if self.opts.strict {
+                        return Err(Error::DecimalStartsWithZero { start });
                     }
 
-                    val
+                    let s = format!("{}", val); // TODO: Remove allocation.
+
+                    // if it contains '8' or '9', it's decimal.
+                    if s.contains('8') || s.contains('9') {
+
+                    } else {
+                        // It's Legacy octal, and we should reinterpret value.
+                        let val = u64::from_str_radix(&format!("{}", val), 8)
+                            .expect("Does this can really happen?");
+                        let val = format!("{}", val)
+                            .parse()
+                            .expect("failed to parse numeric value as f64");
+                        return self.make_legacy_octal(start, val);
+                    }
                 }
-                None => unreachable!(
-                    "read_int() cannot return None as input starts with a numeric character"
-                ),
             }
+
+            val
         };
 
-        match num_type {
-            NumType::Octal => {
-                self.ensure_not_ident()?;
-                return if self.opts.strict {
-                    Err(Error::ImplicitOctalOnStrict { start })
-                } else {
-                    // FIXME
-                    let val = i64::from_str_radix(&format!("{}", val), 8)
-                        .expect("Does this can really happen?");
-                    Ok(Num(ImplicitOctal(val)))
-                };
-            }
-            _ => {}
-        }
+        // At this point, number cannot be an octal literal.
 
-        let mut val = Decimal(val);
+        let mut val: f64 = val;
 
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
@@ -115,24 +90,16 @@ impl<I: Input> Lexer<I> {
             // Read numbers after dot
             let minority_val = self.read_int(10, 0)?;
 
-            // TODO: Handle comment..
-            let minority: &Display = match num_type {
-                NumType::Float => minority_val.as_ref().expect("read_int(10) returned None"),
-                NumType::Decimal => match minority_val {
-                    Some(ref n) => n,
-                    // "0.", "0.e1" is valid
-                    None => &"",
-                },
-                _ => unreachable!(),
+            let minority: &Display = match minority_val {
+                Some(ref n) => n,
+                // "0.", "0.e1" is valid
+                None => &"",
             };
 
             // TODO
-            val = Float(
-                format!("{}.{}", val, minority)
-                    .parse()
-                    .expect("failed to parse float using rust's impl"),
-            );
-            // num_type = NumType::Float;
+            val = format!("{}.{}", val, minority)
+                .parse()
+                .expect("failed to parse float using rust's impl");
         }
 
         // Handle 'e' and 'E'
@@ -154,36 +121,21 @@ impl<I: Input> Lexer<I> {
                 true
             };
 
-            match self.read_int(10, 0)? {
-                Some(exp) => {
-                    let flag = if positive { '+' } else { '-' };
-                    // TODO
-                    val = Float(
-                        format!("{}e{}{}", val, flag, exp)
-                            .parse()
-                            .expect("failed to parse float literal"),
-                    )
-                }
-                // Syntax error.
-                None => unimplemented!("Error(Invalid number (need number after `e`))"),
-            }
+            // TODO: Optimize this
+            let exp = self.read_number_no_dot(10)?;
+            let flag = if positive { '+' } else { '-' };
+            // TODO:
+            val = format!("{}e{}{}", val, flag, exp)
+                .parse()
+                .expect("failed to parse float literal");
         }
 
         self.ensure_not_ident()?;
 
-        match val {
-            Float(f) if f.is_infinite() => Ok(Num(Infinity)),
-            Float(..) | Decimal(..) => {
-                // strict mode for decimal should be handled before this code
-                // because it also prohibits some floats like "08.1".
-
-                Ok(Num(val))
-            }
-            _ => unreachable!(),
-        }
+        Ok(Number(val))
     }
 
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> Result<Token, Error<I::Error>> {
+    pub(super) fn read_radix_number(&mut self, radix: u8) -> Result<Number, Error<I::Error>> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -194,13 +146,24 @@ impl<I: Input> Lexer<I> {
         let start = bump!(); // 0
         bump!(); // x
 
-        let val = match self.read_int(radix, 0)? {
-            Some(v) => v,
-            None => unimplemented!("Error(Expected number in radix {})", radix),
-        };
+        let val = self.read_number_no_dot(radix)?;
         self.ensure_not_ident()?;
 
-        Ok(Num(Decimal(val as _)))
+        Ok(Number(val))
+    }
+
+    /// This can read long integers like
+    /// "13612536612375123612312312312312312312312".
+    fn read_number_no_dot(&mut self, radix: u8) -> Result<f64, Error<I::Error>> {
+        debug_assert!(
+            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
+            radix
+        );
+
+        self.read_digits(radix, |total, radix, v| {
+            (f64::mul_add(total, radix as f64, v as f64), true)
+        })
     }
 
     /// Ensure that ident cannot directly follow numbers.
@@ -215,35 +178,32 @@ impl<I: Input> Lexer<I> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(
-        &mut self,
-        radix: u8,
-        len: usize,
-    ) -> Result<Option<i64>, Error<I::Error>> {
-        debug!(self.logger, "read_int(radix = {})", radix);
+    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> Result<Option<u32>, Error<I::Error>> {
+        let mut count = 0;
+        self.read_digits(radix, |opt: Option<u32>, radix, val| {
+            count += 1;
+            let total = opt.unwrap_or_default() * radix as u32 + val as u32;
 
-        let res = self.read_int_real(radix, len);
-        debug!(self.logger, "read_int(radix = {}) -> {:?}", radix, res);
-        res
+            (Some(total), count != len)
+        })
     }
 
-    fn read_int_real(&mut self, radix: u8, len: usize) -> Result<Option<i64>, Error<I::Error>> {
+    /// `op`- |total, radix, value| -> (total * radix + value, continue)
+    fn read_digits<F, Ret>(&mut self, radix: u8, mut op: F) -> Result<Ret, Error<I::Error>>
+    where
+        F: FnMut(Ret, u8, u32) -> (Ret, bool),
+        Ret: Copy + Default,
+    {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 10 || radix == 16,
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             radix
         );
-
-        // Input is terminated
-        match cur!() {
-            Some(_) => {}
-            _ => return Ok(None),
-        }
+        debug!(self.logger, "read_digits(radix = {})", radix);
 
         let start = cur_pos!();
 
-        let mut count = 0;
-        let mut total = 0i64;
+        let mut total: Ret = Default::default();
 
         while let Some(c) = cur!() {
             if self.opts.num_sep {
@@ -264,7 +224,7 @@ impl<I: Input> Lexer<I> {
                 //     // Ignore this _ character
                 //     self.input.bump();
                 // }
-                unimplemented!("support for numeric separator")
+                unimplemented!("numeric separator")
             }
 
             // e.g. (val for a) = 10  where radix = 16
@@ -275,23 +235,24 @@ impl<I: Input> Lexer<I> {
             };
 
             bump!();
-            count += 1;
-            total = total
-                .saturating_mul(radix as i64)
-                .saturating_add(val as i64);
-
-            if len != 0 && count == len {
-                return Ok(Some(total));
+            let (t, cont) = op(total, radix, val);
+            if !cont {
+                break;
             }
+            total = t;
         }
 
-        Ok(if len != 0 && count != len {
-            None
-        } else if count != 0 {
-            Some(total)
+        Ok(total)
+    }
+
+    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> Result<Number, Error<I::Error>> {
+        self.ensure_not_ident()?;
+        return if self.opts.strict {
+            Err(Error::ImplicitOctalOnStrict { start })
         } else {
-            None
-        })
+            // FIXME
+            Ok(Number(val))
+        };
     }
 }
 
@@ -299,6 +260,7 @@ impl<I: Input> Lexer<I> {
 mod tests {
     use super::*;
     use lexer::input::CharIndices;
+    use std::f64::INFINITY;
     use std::panic;
 
     fn lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
@@ -306,17 +268,14 @@ mod tests {
         Lexer::new_from_str(l, s)
     }
 
-    fn num(s: &'static str) -> Number {
+    fn num(s: &'static str) -> f64 {
         lexer(s)
             .read_number(s.starts_with("."))
-            .map(|token| match token {
-                Num(n) => n,
-                _ => unreachable!(),
-            })
             .expect("read_number failed")
+            .0
     }
 
-    fn int(radix: u8, s: &'static str) -> i64 {
+    fn int(radix: u8, s: &'static str) -> u32 {
         lexer(s)
             .read_int(radix, 0)
             .expect("read_int failed")
@@ -326,13 +285,27 @@ mod tests {
     const LONG: &str = "1e10000000000000000000000000000000000000000\
                         0000000000000000000000000000000000000000000000000000";
     #[test]
-    fn num_big() {
-        assert_eq!(num(LONG), Number::Infinity);
+    fn num_inf() {
+        assert_eq!(num(LONG), INFINITY);
+    }
+
+    /// Number >= 2^53
+    #[test]
+    fn num_big_exp() {
+        assert_eq!(1e30, num("1e30"));
     }
 
     #[test]
-    fn num_octal() {
-        assert_eq!(Number::ImplicitOctal(0o12), num("0012"));
+    fn num_big_many_zero() {
+        assert_eq!(
+            1000000000000000000000000000000f64,
+            num("1000000000000000000000000000000")
+        )
+    }
+
+    #[test]
+    fn num_legacy_octal() {
+        assert_eq!(0o12 as f64, num("0012"));
     }
 
     #[test]
@@ -348,7 +321,7 @@ mod tests {
 
     #[test]
     fn read_radix_number() {
-        assert_eq!(Ok(Num(Decimal(0o73))), lexer("0o73").read_radix_number(8));
+        assert_eq!(Ok(Number(0o73 as f64)), lexer("0o73").read_radix_number(8));
     }
 
     /// Valid even on strict mode.
@@ -364,9 +337,9 @@ mod tests {
             ));
 
             // lazy way to get expected value..
-            let expected = (i64::from_str_radix(case, 8).map(ImplicitOctal))
-                .or_else(|_| case.parse::<i64>().map(Decimal))
-                .or_else(|_| case.parse::<f64>().map(Float))
+            let expected: f64 = (i64::from_str_radix(case, 8).map(|v| v as f64))
+                .or_else(|_| case.parse::<i64>().map(|v| v as f64))
+                .or_else(|_| case.parse::<f64>())
                 .expect("failed to parse `expected` as float using str.parse()");
 
             let input = CharIndices(case.char_indices());
@@ -389,10 +362,10 @@ mod tests {
                 };
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(expected), token);
+                assert_eq!(Num(Number(expected)), token);
             } else {
                 match vec {
-                    Ok(vec) => assert!(vec![Num(expected)] != vec),
+                    Ok(vec) => assert!(vec![Num(Number(expected))] != vec),
                     _ => {}
                 }
             }

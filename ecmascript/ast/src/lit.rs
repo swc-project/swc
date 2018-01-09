@@ -19,19 +19,18 @@ pub struct Regex {
 
 pub type RegexFlags = ::swc_atoms::JsWord;
 #[ast_node]
-pub enum Number {
-    Infinity,
-    Float(f64),
-    Decimal(i64),
-    ImplicitOctal(i64),
-}
+pub struct Number(pub f64);
+
 impl Display for Number {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        match *self {
-            Number::Infinity => Display::fmt(&"Infinity", f),
-            Number::Float(ref fl) => Display::fmt(fl, f),
-            Number::Decimal(ref dec) => Display::fmt(dec, f),
-            Number::ImplicitOctal(ref v) => Display::fmt(v, f),
+        if self.0.is_infinite() {
+            if self.0.is_sign_positive() {
+                Display::fmt("Infinity", f)
+            } else {
+                Display::fmt("-Infinity", f)
+            }
+        } else {
+            Display::fmt(&self.0, f)
         }
     }
 }

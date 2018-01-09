@@ -10,7 +10,6 @@ pub use self::Word::*;
 pub use ast::AssignOp as AssignOpToken;
 use ast::BinaryOp;
 pub use ast::Number;
-pub use ast::Number::*;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;

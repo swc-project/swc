@@ -138,7 +138,7 @@ impl<I: Input> Lexer<I> {
                 // TODO Check for eof
                 let next = self.input.peek();
                 if next >= '0' && next <= '9' {
-                    return self.read_number(true);
+                    return self.read_number(true).map(Token::Num);
                 }
 
                 self.input.bump(); // 1st `.`
@@ -196,12 +196,12 @@ impl<I: Input> Lexer<I> {
                 } else if next == 'b' || next == 'B' {
                     2
                 } else {
-                    return self.read_number(false);
+                    return self.read_number(false).map(Token::Num);
                 };
 
-                return self.read_radix_number(radix);
+                return self.read_radix_number(radix).map(Token::Num);
             }
-            '1'...'9' => return self.read_number(false),
+            '1'...'9' => return self.read_number(false).map(Token::Num),
 
             '"' | '\'' => return self.read_str_lit(),
 
@@ -578,20 +578,16 @@ impl<I: Input> Lexer<I> {
         }
     }
 
-    fn read_hex_char(&mut self, count: usize) -> Result<char, Error<I::Error>> {
+    fn read_hex_char(&mut self, count: u8) -> Result<char, Error<I::Error>> {
+        debug_assert!(count == 2 || count == 4);
+
         let pos = cur_pos!();
 
         match self.read_int(16, count)? {
-            Some(val) => {
-                let val = match TryFrom::try_from(val) {
-                    Ok(val) => val,
-                    Err(err) => unimplemented!("failed to parse hex char: {:?}", err),
-                };
-                match char::from_u32(val) {
-                    Some(c) => Ok(c),
-                    None => unimplemented!("Syntax Error: not char? val = {}", val),
-                }
-            }
+            Some(val) => match char::from_u32(val) {
+                Some(c) => Ok(c),
+                None => unimplemented!("Syntax Error: not char? val = {}", val),
+            },
             None => unimplemented!("Syntax Error: expected {} hex chars", count),
         }
     }
@@ -602,16 +598,10 @@ impl<I: Input> Lexer<I> {
         let start = cur_pos!();
         let val = self.read_int(16, 0)?;
         match val {
-            Some(val) if 0x10FFFF >= val && val >= 0 => {
-                let val = match TryFrom::try_from(val) {
-                    Ok(val) => val,
-                    Err(_) => return Err(Error::InvalidCodePoint { pos: span!(start) }),
-                };
-                match char::from_u32(val) {
-                    Some(c) => Ok(c),
-                    None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
-                }
-            }
+            Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
+                Some(c) => Ok(c),
+                None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+            },
             _ => return Err(Error::InvalidCodePoint { pos: span!(start) }),
         }
     }
