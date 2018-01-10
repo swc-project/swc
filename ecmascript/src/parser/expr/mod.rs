@@ -444,7 +444,7 @@ impl<I: Input> Parser<I> {
             ));
         }
 
-        if !no_call && eat!('(') {
+        if !no_call && is!('(') {
             let args = self.parse_args()?;
             return Ok((
                 box Expr {
