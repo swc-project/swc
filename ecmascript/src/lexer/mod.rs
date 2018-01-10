@@ -369,7 +369,7 @@ impl<I: Input> Lexer<I> {
 
             // read hexadecimal escape sequences
             'x' => {
-                bump!(self);
+                bump!(self); // 'x'
                 return self.read_hex_char(2).map(Some);
             }
 
@@ -581,7 +581,6 @@ impl<I: Input> Lexer<I> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = cur_pos!();
-
         match self.read_int(16, count)? {
             Some(val) => match char::from_u32(val) {
                 Some(c) => Ok(c),

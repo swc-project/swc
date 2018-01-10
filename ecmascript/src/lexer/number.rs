@@ -182,7 +182,6 @@ impl<I: Input> Lexer<I> {
         self.read_digits(radix, |opt: Option<u32>, radix, val| {
             count += 1;
             let total = opt.unwrap_or_default() * radix as u32 + val as u32;
-
             (Some(total), count != len)
         })
     }
@@ -198,7 +197,12 @@ impl<I: Input> Lexer<I> {
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             radix
         );
-        debug!(self.logger, "read_digits(radix = {})", radix);
+        debug!(
+            self.logger,
+            "read_digits(radix = {}), cur = {:?}",
+            radix,
+            cur!(self)
+        );
 
         let start = cur_pos!();
 
@@ -235,10 +239,10 @@ impl<I: Input> Lexer<I> {
 
             bump!();
             let (t, cont) = op(total, radix, val);
+            total = t;
             if !cont {
                 break;
             }
-            total = t;
         }
 
         Ok(total)
