@@ -116,10 +116,10 @@ impl FnDef {
                             // if return type is bool and attribute is specified, value is true.
                             Some(None) if is_bool(&return_type) => Some(Expr::Lit(ExprLit {
                                 attrs: Default::default(),
-                                lit: Lit {
-                                    value: LitKind::Bool(true),
+                                lit: Lit::Bool(LitBool {
+                                    value: true,
                                     span: Span::call_site(),
-                                },
+                                }),
                             })),
                             _ => None,
                         };
@@ -196,7 +196,7 @@ impl FnDef {
 
             block: Block {
                 brace_token: call_site(),
-                stmts: vec![Stmt::Expr(Box::new(match_expr))],
+                stmts: vec![Stmt::Expr(match_expr)],
             },
 
             // TODO

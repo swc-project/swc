@@ -129,10 +129,7 @@ fn extract(attrs: &[Attribute]) -> Option<Stmt> {
         }
     };
 
-    let feat = Lit {
-        span: Span::call_site(),
-        value: LitKind::Other(lit.clone()),
-    };
+    let feat = Lit::Str(LitStr::new(&lit.to_string(), call_site()));
 
     Some(
         Quote::new_call_site()
@@ -154,7 +151,7 @@ fn is_bool(ty: &Type) -> bool {
                 },
         }) => {
             // check for bool
-            if segments.len() == 1 && segments.first().unwrap().item().ident.as_ref() == "bool" {
+            if segments.len() == 1 && segments.first().unwrap().value().ident.as_ref() == "bool" {
                 return true;
             }
         }

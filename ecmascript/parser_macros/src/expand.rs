@@ -1,5 +1,5 @@
 use swc_macros_common::prelude::*;
-use syn::fold::{self, Folder};
+use syn::fold::{self, Fold};
 use syn::synom::Synom;
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {
@@ -30,13 +30,13 @@ where
     T: Synom,
     P: Synom,
 {
-    let buf = synom::SynomBuffer::new(t);
+    let buf = ::syn::buffer::TokenBuffer::new(t.into());
     Punctuated::parse_separated(buf.begin())
         .expect("failed parse args")
         .0
 }
 
-impl Folder for MyFolder {
+impl Fold for MyFolder {
     fn fold_expr_method_call(&mut self, i: ExprMethodCall) -> ExprMethodCall {
         match i.method.as_ref() {
             "parse_with" => {
@@ -52,7 +52,7 @@ impl Folder for MyFolder {
         self.parser = i.decl
             .inputs
             .first()
-            .map(Element::into_item)
+            .map(Pair::into_value)
             .cloned()
             .and_then(|arg| match arg {
                 FnArg::SelfRef(ArgSelfRef {
@@ -86,7 +86,7 @@ impl Folder for MyFolder {
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" => {
                 let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
-                args = args.into_elements()
+                args = args.into_pairs()
                     .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                     .collect();
                 return Macro {
@@ -104,7 +104,7 @@ impl Folder for MyFolder {
                     parse(i.tts.into()).expect("failed to parse input to spanned as a block");
                 let block = self.fold_block(block);
                 return Macro {
-                    tts: TokenStream::from(quote_spanned!(span, self,))
+                    tts: TokenStream::from(quote_spanned!(span => self,))
                         .into_iter()
                         .chain(TokenStream::from(block.dump()))
                         .collect(),
@@ -117,15 +117,15 @@ impl Folder for MyFolder {
             | "expect" | "expect_exact" | "into_spanned" | "is" | "is_one_of" | "peeked_is"
             | "peek" | "last_pos" | "return_if_arrow" | "span" | "syntax_error" | "unexpected" => {
                 let tts = if i.tts.is_empty() {
-                    quote_spanned!(span, self).into()
+                    quote_spanned!(span => self).into()
                 } else {
                     let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
-                    let args = args.into_elements()
+                    let args = args.into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                         .map(|arg| arg.dump())
                         .flat_map(|t| TokenStream::from(t));
 
-                    TokenStream::from(quote_spanned!(span, self,))
+                    TokenStream::from(quote_spanned!(span => self,))
                         .into_iter()
                         .chain(args)
                         .collect()

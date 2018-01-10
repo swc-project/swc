@@ -5,4 +5,5 @@ pub use pmutil::prelude::*;
 pub use proc_macro2::{Delimiter, Literal, Span, TokenNode, TokenStream, TokenTree};
 pub use quote::{ToTokens, Tokens};
 pub use syn::*;
-pub use syn::punctuated::{Element, Punctuated};
+pub use syn::punctuated::{Pair, Punctuated};
+pub use syn::punctuated::Pair as Element;

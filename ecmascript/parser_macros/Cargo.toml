@@ -8,12 +8,12 @@ proc-macro = true
 
 [dependencies]
 swc_macros_common = { path = "../../macros/common" }
-proc-macro2 = "0.1"
+proc-macro2 = "0.2"
 
 [dependencies.syn]
-git = "https://github.com/dtolnay/syn"
+version = "0.12"
 features = ["fold"]
 
 
 [dependencies.quote]
-git = "https://github.com/dtolnay/quote"
+version = "0.4"

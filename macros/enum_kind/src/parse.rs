@@ -64,10 +64,10 @@ impl FnDef {
         if is_bool(ty) {
             return Some(Expr::Lit(ExprLit {
                 attrs: Default::default(),
-                lit: Lit {
-                    value: LitKind::Bool(false),
+                lit: Lit::Bool(LitBool {
+                    value: false,
                     span: Span::call_site(),
-                },
+                }),
             }));
         }
 
@@ -79,7 +79,7 @@ impl Synom for FnDef {
     named!(parse -> Self, do_parse!(
         name: syn!(Ident) >>
         syn!(token::Eq) >>
-        return_type: syn!(Lit) >>
+        return_type: syn!(LitStr) >>
         ({
             if name.as_ref() == "delegate" {
                 panic!("function name cannot be `delegate`")
@@ -148,7 +148,7 @@ impl Synom for VariantAttr {
             value: option!(
                 do_parse!(
                     syn!(token::Eq) >>
-                    p: syn!(Lit) >>
+                    p: syn!(LitStr) >>
                     ({
                         parse_str_as_tokens(p)
                     })
@@ -217,14 +217,14 @@ where
     res
 }
 
-/// Parse content of string literal as if it's tts.
-fn parse_str_as_tokens<T>(lit: Lit) -> T
+/// Parse content of string literal.
+fn parse_str_as_tokens<T>(lit: LitStr) -> T
 where
     T: Synom,
 {
     let span = lit.span;
     // WTF? Literal does not provide a way to get string...
-    let tt = lit.value.to_string();
+    let tt = lit.value();
 
     // TODO:Remove '"' only for first and last.
     let tts = tt.replace("\"", "")

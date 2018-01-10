@@ -4,13 +4,10 @@ version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
-pmutil = { git = "https://github.com/kdy1/rust-pmutil" }
-proc-macro2 = { version = "0.1.8", features = ["nightly"] }
+pmutil = "0.1"
+proc-macro2 = "0.2"
+quote = "0.4"
 
 [dependencies.syn]
-git = "https://github.com/dtolnay/syn"
+version = "0.12"
 features = ["full", "parsing", "printing", "extra-traits"]
-
-
-[dependencies.quote]
-git = "https://github.com/dtolnay/quote"

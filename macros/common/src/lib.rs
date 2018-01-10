@@ -50,7 +50,7 @@ pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
             ..
         } if segments.len() == 1 =>
         {
-            segments.first().unwrap().into_item().ident == name
+            segments.first().unwrap().into_value().ident == name
         }
         _ => false,
     }

@@ -5,7 +5,7 @@ reset
 
 export DBG_DUMP=1
 cargo fmt >&2
-cargo doc -p swc_ecma_ast -p swc_macros_common -p 'https://github.com/dtolnay/syn#0.11.11' >&2
+cargo doc -p swc_ecma_ast -p swc_macros_common >&2
 cargo check >&2
 cargo doc >&2
 

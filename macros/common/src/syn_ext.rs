@@ -1,5 +1,5 @@
 use syn::*;
-use syn::punctuated::Element;
+use syn::punctuated::Pair as Element;
 
 /// Extension trait for `ItemImpl` (impl block).
 pub trait ItemImplExt {
@@ -51,7 +51,7 @@ impl ItemImplExt for ItemImpl {
             None => {}
         }
 
-        self.generics.params.extend(generics.params.into_elements());
+        self.generics.params.extend(generics.params.into_pairs());
         match self.generics.where_clause {
             Some(WhereClause {
                 ref mut predicates, ..
@@ -59,7 +59,7 @@ impl ItemImplExt for ItemImpl {
                 generics
                     .where_clause
                     .into_iter()
-                    .flat_map(|wc| wc.predicates.into_elements()),
+                    .flat_map(|wc| wc.predicates.into_pairs()),
             ),
             ref mut opt @ None => *opt = generics.where_clause,
         }

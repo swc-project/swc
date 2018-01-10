@@ -105,10 +105,7 @@ fn expand_method_body(ident: &Ident, body: &Data, attrs: &[Attribute]) -> Expr {
             rocket_token: span.as_token(),
             body: box Expr::Lit(ExprLit {
                 attrs: Default::default(),
-                lit: Lit {
-                    span,
-                    value: LitKind::Bool(true),
-                },
+                lit: Lit::Bool(LitBool { span, value: true }),
             }),
             comma: Some(span.as_token()),
         }

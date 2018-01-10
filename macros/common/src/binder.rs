@@ -34,7 +34,7 @@ use pmutil::prelude::*;
 use proc_macro2::Span;
 use quote::{ToTokens, Tokens};
 use syn::*;
-use syn::punctuated::Element;
+use syn::punctuated::Pair as Element;
 use syn::token::{Mut, Ref};
 use syn_ext::ElementExt;
 
@@ -150,7 +150,7 @@ impl<'a> VariantBinder<'a> {
                 let mut bindings = vec![];
 
                 let fields = fields
-                    .elements()
+                    .pairs()
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Element::new(t, p.cloned())
@@ -202,7 +202,7 @@ impl<'a> VariantBinder<'a> {
                 let mut bindings = vec![];
 
                 let pats = fields
-                    .elements()
+                    .pairs()
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Element::new(t, p.cloned())
