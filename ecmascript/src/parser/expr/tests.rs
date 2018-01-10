@@ -1,4 +1,3 @@
-
 use super::*;
 use lexer::Lexer;
 
@@ -151,6 +150,34 @@ fn arrow_fn_no_paren() {
                     },
                 ],
                 body: BlockStmtOrExpr::Expr(expr("1")),
+            },
+        }
+    );
+}
+
+#[test]
+fn new_no_paren() {
+    assert_eq_ignore_span!(
+        expr("new a"),
+        box Expr {
+            span,
+            node: ExprKind::New {
+                callee: expr("a"),
+                args: None,
+            },
+        }
+    );
+}
+
+#[test]
+fn new_new_no_paren() {
+    assert_eq_ignore_span!(
+        expr("new new a"),
+        box Expr {
+            span,
+            node: ExprKind::New {
+                callee: expr("new a"),
+                args: None,
             },
         }
     );

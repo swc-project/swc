@@ -217,10 +217,8 @@ impl<I: Input> Parser<I> {
         self.parse_member_expr_or_new_expr(false)
     }
 
-    fn parse_member_expr_or_new_expr(
-        &mut self,
-        allow_new_without_paren: bool,
-    ) -> PResult<Box<Expr>> {
+    /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         let start = cur_pos!();
         if eat!("new") {
             let span_of_new = span!(start);
@@ -245,27 +243,28 @@ impl<I: Input> Parser<I> {
                 unexpected!()
             }
 
-            let callee = self.parse_member_expr()?;
-            if allow_new_without_paren && !is!('(') {
-                // Parsed with 'NewExpression' production.
+            // 'NewExpression' allows new call without paren.
+            let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
+            if !is_new_expr || is!('(') {
+                // Parsed with 'MemberExpression' production.
+                let args = self.parse_args().map(Some)?;
 
-                return Ok(box Expr {
-                    span: span!(start),
-                    node: ExprKind::New { callee, args: None },
-                });
+                // We should parse subscripts for MemberExpression.
+                return self.parse_subscripts(
+                    ExprOrSuper::Expr(box Expr {
+                        span: span!(start),
+                        node: ExprKind::New { callee, args },
+                    }),
+                    true,
+                );
             }
 
-            // Parsed with 'MemberExpression' production.
-            let args = self.parse_args().map(Some)?;
+            // Parsed with 'NewExpression' production.
 
-            // We should parse subscripts for MemberExpression.
-            return self.parse_subscripts(
-                ExprOrSuper::Expr(box Expr {
-                    span: span!(start),
-                    node: ExprKind::New { callee, args },
-                }),
-                true,
-            );
+            return Ok(box Expr {
+                span: span!(start),
+                node: ExprKind::New { callee, args: None },
+            });
         }
 
         if eat!("super") {
@@ -395,6 +394,10 @@ impl<I: Input> Parser<I> {
         unimplemented!("tpl lit")
     }
 
+    fn parse_tpl(&mut self, _is_tagged: bool) -> PResult<TplLit> {
+        unimplemented!("parse_tpl")
+    }
+
     fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
         loop {
             obj = match self.parse_subscript(obj, no_call)? {
@@ -402,10 +405,6 @@ impl<I: Input> Parser<I> {
                 (expr, true) => ExprOrSuper::Expr(expr),
             }
         }
-    }
-
-    fn parse_tpl(&mut self, _is_tagged: bool) -> PResult<TplLit> {
-        unimplemented!("parse_tpl")
     }
 
     /// returned bool is true if this method should be called again.
@@ -446,17 +445,14 @@ impl<I: Input> Parser<I> {
         }
 
         if !no_call && eat!('(') {
-            // const possibleAsync = this.atPossibleAsync(base);
-
-            // node.callee = base;
-            // node.arguments = this.parseCallExpressionArguments(
-            //   tt.parenR,
-            //   possibleAsync,
-            // );
-            // node.optional = true;
-
-            // return this.finishNode(node, "CallExpression");
-            unimplemented!("CallExpr")
+            let args = self.parse_args()?;
+            return Ok((
+                box Expr {
+                    span: span!(start),
+                    node: ExprKind::Call { callee: obj, args },
+                },
+                true,
+            ));
         }
 
         match obj {

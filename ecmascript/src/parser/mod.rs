@@ -65,6 +65,7 @@ struct Context {
 #[derive(Debug, Default)]
 struct State {
     labels: Vec<JsWord>,
+    /// Start position of an assignment expression.
     potential_arrow_start: Option<BytePos>,
 }
 
