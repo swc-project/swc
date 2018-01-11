@@ -121,9 +121,7 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         };
 
         // TODO: remove this
-        let ignore = IGNORED_PASS_TESTS.contains(&&*file_name) || input.contains("`")
-            || input.contains("//") || input.contains("/*")
-            || input.contains("<!--") || input.contains("-->");
+        let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
 
         let module = file_name.contains("module");
 
