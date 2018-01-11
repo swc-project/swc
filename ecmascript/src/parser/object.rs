@@ -146,10 +146,13 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                 syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat)
             }
 
-            if is!('=') {
-                unimplemented!("parse_initialized_name in object literal")
+            if eat!('=') {
+                let value = self.include_in_expr(true).parse_assignment_expr()?;
+                return Ok(Prop {
+                    span: span!(start),
+                    node: PropKind::Assign { key: ident, value },
+                });
             }
-
             return Ok(Prop::new_shorthand(ident));
         }
 
@@ -221,10 +224,10 @@ impl<I: Input> ParseObject<Pat> for Parser<I> {
             let value = box self.parse_binding_element()?;
             return Ok(ObjectPatProp::KeyValue { key, value });
         }
-        match key {
-            PropName::Ident(..) => {}
+        let key = match key {
+            PropName::Ident(ident) => ident,
             _ => unexpected!(),
-        }
+        };
 
         let value = if eat!('=') {
             self.include_in_expr(true)

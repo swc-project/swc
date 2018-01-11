@@ -189,7 +189,8 @@ impl<I: Input> Parser<I> {
                     node: PatKind::Object {
                         props: props
                             .into_iter()
-                            .map(|prop| match prop.node {
+                            .map(|prop| {
+                                match prop.node {
                                 PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
                                     key: id.into(),
                                     value: None,
@@ -198,8 +199,15 @@ impl<I: Input> Parser<I> {
                                     key,
                                     value: box self.reparse_expr_as_pat(value)?,
                                 }),
+                                PropKind::Assign { key, value } => Ok(ObjectPatProp::Assign {
+                                    key,
+                                    value: Some(value),
+                                }),
 
-                                _ => unimplemented!("Object reparse_expr_as_pat: {:?}", prop),
+                                _ => {
+                                    unimplemented!("error reporting: object pattern cannot contain method property: {:?}", prop)
+                                }
+                            }
                             })
                             .collect::<PResult<_>>()?,
                     },

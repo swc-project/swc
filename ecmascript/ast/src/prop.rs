@@ -26,6 +26,11 @@ pub enum PropKind {
 
         value: Box<Expr>,
     },
+    /// This is **invalid** for object literal.
+    Assign {
+        key: Ident,
+        value: Box<Expr>,
+    },
     Getter {
         key: PropName,
         body: BlockStmt,

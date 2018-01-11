@@ -41,7 +41,7 @@ pub enum ObjectPatProp {
     KeyValue { key: PropName, value: Box<Pat> },
     /// `{key}` or `{key = value}`
     Assign {
-        key: PropName,
+        key: Ident,
 
         value: Option<Box<Expr>>,
     },
