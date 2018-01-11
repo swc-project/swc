@@ -497,7 +497,7 @@ impl<I: Input> Parser<I> {
         let init = if eat_exact!(';') {
             return self.parse_normal_for_head(None);
         } else {
-            self.include_in_expr(false).parse_expr()?
+            self.include_in_expr(false).parse_expr_or_pat()?
         };
 
         // for (a of b)

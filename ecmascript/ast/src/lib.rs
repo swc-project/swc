@@ -1,6 +1,7 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(specialization)]
+#![feature(never_type)]
 #![feature(proc_macro)]
 #![deny(unreachable_patterns)]
 
@@ -22,7 +23,7 @@ pub use self::stmt::*;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};
-use swc_macros::{AstNode, Deserialize, EqIgnoreSpan, Serialize};
+use swc_macros::AstNode;
 
 mod class;
 mod decl;
@@ -36,7 +37,7 @@ mod prop;
 mod stmt;
 
 /// Ident with span.
-#[derive(AstNode, EqIgnoreSpan, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(AstNode, Clone, PartialEq)]
 pub struct Ident {
     pub span: Span,
     #[fold(ignore)]

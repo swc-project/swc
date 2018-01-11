@@ -3,7 +3,7 @@
 extern crate swc_common;
 extern crate swc_macros;
 use swc_common::fold::{FoldWith, Folder};
-use swc_macros::{ast_node, Deserialize, Serialize};
+use swc_macros::ast_node;
 
 pub trait AssertFolder<T>: Folder<T> {}
 
@@ -31,7 +31,7 @@ pub struct Expr {
      * pub never_exists: Lit, */
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct PanicOnFold;
 
 impl<F> FoldWith<F> for PanicOnFold {

@@ -13,10 +13,9 @@ proc-macro2 = "0.2"
 
 [dependencies.syn]
 version = "0.12"
-features = ["full", "parsing", "printing", "extra-traits"]
+features = ["derive", "fold", "parsing", "printing"]
 
 
 [dev-dependencies]
-serde = "1"
 swc_macros = { path = "../" }
 swc_common = { path = "../../common" }

@@ -299,6 +299,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn num_big_many_zero() {
         assert_eq!(
             1000000000000000000000000000000f64,

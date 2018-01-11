@@ -5,6 +5,7 @@ use swc_macros::ast_node;
 #[ast_node]
 pub struct Stmt {
     pub span: Span,
+
     pub node: StmtKind,
 }
 
@@ -28,6 +29,7 @@ impl Spanned<StmtKind> for Stmt {
 pub struct BlockStmt {
     /// Span of brace.
     pub span: Span,
+
     pub stmts: Vec<Stmt>,
 }
 
@@ -39,81 +41,69 @@ impl Spanned<Vec<Stmt>> for BlockStmt {
 
 #[ast_node]
 pub enum StmtKind {
-    #[serde = "ExpressionStatement"]
-    Expr(
-        #[serde = "expression"]
-        Box<Expr>,
-    ),
+    Expr(Box<Expr>),
 
-    #[serde = "BlockStatement"]
-    Block(
-        #[serde = "body"]
-        BlockStmt,
-    ),
+    Block(BlockStmt),
 
-    #[serde = "EmptyStatement"]
     Empty,
 
-    #[serde = "DebuggerStatement"]
     Debugger,
 
-    #[serde = "WithStatement"]
     With {
-        #[serde = "object"]
         obj: Box<Expr>,
         body: Box<Stmt>,
     },
 
-    #[serde = "ReturnStatement"]
     Return {
-        #[serde = "argument"]
         arg: Option<Box<Expr>>,
     },
 
-    #[serde = "LabeledStatement"]
-    Labeled { label: Ident, body: Box<Stmt> },
+    Labeled {
+        label: Ident,
+        body: Box<Stmt>,
+    },
 
-    #[serde = "BreakStatement"]
-    Break { label: Option<Ident> },
+    Break {
+        label: Option<Ident>,
+    },
 
-    #[serde = "ContinueStatement"]
-    Continue { label: Option<Ident> },
+    Continue {
+        label: Option<Ident>,
+    },
 
-    #[serde = "IfStatement"]
     If {
         test: Box<Expr>,
         consequent: Box<Stmt>,
-        #[serde = "alternate"]
+
         alt: Option<Box<Stmt>>,
     },
 
-    #[serde = "SwitchStatement"]
     Switch {
         discriminant: Box<Expr>,
         cases: Vec<SwitchCase>,
     },
 
-    #[serde = "ThrowStatement"]
     Throw {
-        #[serde = "argument"]
         arg: Box<Expr>,
     },
 
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
-    #[serde = "TryStatement"]
     Try {
         block: BlockStmt,
         handler: Option<CatchClause>,
         finalizer: Option<BlockStmt>,
     },
 
-    #[serde = "WhileStatement"]
-    While { test: Box<Expr>, body: Box<Stmt> },
+    While {
+        test: Box<Expr>,
+        body: Box<Stmt>,
+    },
 
-    #[serde = "DoWhileStatement"]
-    DoWhile { test: Box<Expr>, body: Box<Stmt> },
+    DoWhile {
+        test: Box<Expr>,
+        body: Box<Stmt>,
+    },
 
-    #[serde = "ForStatement"]
     For {
         /// VarDecl | Expr | null
         init: Option<VarDeclOrExpr>,
@@ -125,7 +115,6 @@ pub enum StmtKind {
         body: Box<Stmt>,
     },
 
-    #[serde = "ForInStatement"]
     ForIn {
         left: VarDeclOrPat,
 
@@ -134,7 +123,6 @@ pub enum StmtKind {
         body: Box<Stmt>,
     },
 
-    #[serde = "ForOfStatement"]
     ForOf {
         left: VarDeclOrPat,
 
@@ -143,7 +131,6 @@ pub enum StmtKind {
         body: Box<Stmt>,
     },
 
-    #[serde = "Declaration"]
     Decl(Decl),
 }
 

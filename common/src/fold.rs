@@ -20,6 +20,12 @@ where
     }
 }
 
+impl<F> FoldWith<F> for ! {
+    fn fold_children(self, _: &mut F) -> Self {
+        self
+    }
+}
+
 impl<T, F> FoldWith<F> for Box<T>
 where
     T: FoldWith<F>,

@@ -1,4 +1,5 @@
 use super::*;
+
 impl<I: Input> Parser<I> {
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I> {
@@ -26,7 +27,6 @@ impl<I: Input> Parser<I> {
         f(self)
     }
 }
-
 pub trait ParseObject<Obj> {
     type Prop;
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Obj;

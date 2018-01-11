@@ -43,7 +43,7 @@ fn new_expr_should_not_eat_too_much() {
 fn lhs_expr_as_new_expr_prod() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()"),
-        &box Expr {
+        box Expr {
             span: Default::default(),
             node: ExprKind::New {
                 callee: lhs("Date.toString"),

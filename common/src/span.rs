@@ -1,7 +1,7 @@
 use fold::FoldWith;
 use std::fmt::{self, Debug, Display, Formatter};
 
-#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct BytePos(pub u32);
 impl Display for BytePos {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
@@ -14,7 +14,7 @@ impl Debug for BytePos {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Span {
     /// Inclusive
     pub start: BytePos,
@@ -42,14 +42,6 @@ impl Default for Span {
     #[inline]
     fn default() -> Self {
         Span::DUMMY
-    }
-}
-
-impl ::EqIgnoreSpan for Span {
-    /// always returns true
-    #[inline]
-    fn eq_ignore_span(&self, _: &Self) -> bool {
-        true
     }
 }
 

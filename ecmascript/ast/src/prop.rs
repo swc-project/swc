@@ -5,6 +5,7 @@ use swc_macros::ast_node;
 #[ast_node]
 pub struct Prop {
     pub span: Span,
+
     pub node: PropKind,
     //  pub key: Box<Expr>,
 //     pub value: Box<Expr>,
@@ -29,6 +30,7 @@ pub enum PropKind {
     /// `key: value` in `{ key: value, }`
     KeyValue {
         key: PropName,
+
         value: Box<Expr>,
     },
     Getter {

@@ -13,7 +13,6 @@ pub use ast::Number;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
-use swc_macros::{Deserialize, Serialize};
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
@@ -117,7 +116,7 @@ pub enum Token {
     LineComment(String),
 }
 
-#[derive(Kind, Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
 #[kind(functions(starts_expr = "bool"))]
 #[repr(u8)]
 pub enum BinOpToken {

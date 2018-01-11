@@ -19,11 +19,11 @@ extern crate parser_macros;
 extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
-#[cfg_attr(test, macro_use)]
 extern crate swc_common;
 #[macro_use]
 extern crate swc_macros;
 #[cfg(test)]
+#[macro_use]
 extern crate testing;
 extern crate unicode_xid;
 pub extern crate swc_ecma_ast as ast;

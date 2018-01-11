@@ -1,11 +1,12 @@
 use super::{BlockStmt, Class, Function, Ident, Lit, Pat, Prop};
 use swc_common::{Span, Spanned};
 use swc_common::fold::FoldWith;
-use swc_macros::{ast_node, Deserialize, Serialize};
+use swc_macros::ast_node;
 
 #[ast_node]
 pub struct Expr {
     pub span: Span,
+
     pub node: ExprKind,
 }
 
@@ -17,47 +18,35 @@ impl Spanned<ExprKind> for Expr {
 
 #[ast_node]
 pub enum ExprKind {
-    #[serde = "ThisExpression"]
     This,
 
-    #[serde = "ArrayExpression"]
     Array {
-        #[serde = "elements"]
         elems: Vec<Option<ExprOrSpread>>,
     },
 
-    #[serde = "ObjectExpression"]
     Object {
-        #[serde = "properties"]
         props: Vec<Prop>,
     },
 
-    #[serde = "FunctionExpression"]
     Function(FnExpr),
 
-    #[serde = "UnaryExpression"]
     Unary {
-        #[serde = "operator"]
         op: UnaryOp,
         prefix: bool,
-        #[serde = "argument"]
+
         arg: Box<Expr>,
     },
 
     /// `++v`, `--v`, `v++`, `v--`
     ///
-    #[serde = "UpdateExpression"]
     Update {
-        #[serde = "operator"]
         op: UpdateOp,
         prefix: bool,
-        #[serde = "argument"]
+
         arg: Box<Expr>,
     },
 
-    #[serde = "BinaryExpression"]
     Binary {
-        #[serde = "operator"]
         op: BinaryOp,
 
         left: Box<Expr>,
@@ -65,18 +54,16 @@ pub enum ExprKind {
         right: Box<Expr>,
     },
 
-    #[serde = "AssignmentExpression"]
     Assign {
-        #[serde = "operator"]
         op: AssignOp,
         /// Pattern | Expr
         left: PatOrExpr,
         right: Box<Expr>,
     },
 
-    // #[serde = "LogicalExpression"]
+    //
     // Logical {
-    //     #[serde = "operator"]
+    //
     //     op: LogicalOp,
     //     left: Box<Expr>,
     //     right: Box<Expr>,
@@ -84,99 +71,76 @@ pub enum ExprKind {
     /// A member expression. If computed is true, the node corresponds to a computed
     /// (a[b]) member expression and property is an Expression. If computed is false, the node
     /// corresponds to a static (a.b) member expression and property is an Identifier.
-    #[serde = "MemberExpression"]
     Member {
-        #[serde = "object"]
         obj: ExprOrSuper,
-        #[serde = "property"]
+
         prop: Box<Expr>,
         computed: bool,
     },
 
     /// true ? 'a' : 'b'
-    #[serde = "ConditionalExpression"]
     Cond {
         test: Box<Expr>,
-        #[serde = "consequent"]
+
         cons: Box<Expr>,
-        #[serde = "alternate"]
+
         alt: Box<Expr>,
     },
 
-    #[serde = "CallExpression"]
     Call {
         callee: ExprOrSuper,
-        #[serde = "arguments"]
+
         args: Vec<ExprOrSpread>,
     },
 
     /// `new Cat()`
-    #[serde = "NewExpression"]
     New {
         callee: Box<Expr>,
-        #[serde = "arguments"]
+
         /// `None` for `new Cat`.
         args: Option<Vec<ExprOrSpread>>,
     },
 
-    #[serde = "SequenceExpression"]
     Seq {
-        #[serde = "expressions"]
         exprs: Vec<Box<Expr>>,
     },
 
-    #[serde = "Identifier"]
     Ident(Ident),
 
-    #[serde = "Literal"]
     Lit(Lit),
 
-    #[serde = "TemplateLiteral"]
     Tpl(TplLit),
 
-    #[serde = "TaggedTemplateExpression"]
     TaggedTpl {
         tag: Box<Expr>,
         quasi: TplLit,
     },
 
     // TODO: Use JsFn
-    #[serde = "ArrowFunctionExpression"]
     Arrow {
         params: Vec<Pat>,
 
         body: BlockStmtOrExpr,
 
-        #[caniuse = "es6-generators"]
-        #[serde = "generator"]
         is_generator: bool,
 
-        #[caniuse = "async-functions"]
-        #[serde = "async"]
         is_async: bool,
     },
 
-    #[serde = "ClassExpression"]
     Class(ClassExpr),
 
-    #[serde = "YieldExpression"]
     Yield {
-        #[serde = "argument"]
         arg: Option<Box<Expr>>,
         delegate: bool,
     },
 
-    #[serde = "MetaProperty"]
     MetaProp {
         meta: Ident,
-        #[serde = "property"]
+
         prop: Ident,
     },
 
-    #[caniuse = "await"]
-    #[serde = "AwaitExpression"]
     Await {
-        #[serde = "argument"]
         arg: Box<Expr>,
     },
 
@@ -187,6 +151,7 @@ pub enum ExprKind {
 #[ast_node]
 pub struct FnExpr {
     pub ident: Option<Ident>,
+
     pub function: Function,
 }
 
@@ -194,6 +159,7 @@ pub struct FnExpr {
 #[ast_node]
 pub struct ClassExpr {
     pub ident: Option<Ident>,
+
     pub class: Class,
 }
 
@@ -201,7 +167,6 @@ pub struct ClassExpr {
 pub struct TplLit {
     pub tag: Option<Box<Expr>>,
 
-    #[serde = "expressions"]
     pub exprs: Vec<Box<Expr>>,
 
     pub quasis: Vec<TplElement>,
@@ -232,11 +197,7 @@ impl ExprOrSuper {
 #[ast_node]
 pub enum ExprOrSpread {
     Expr(Box<Expr>),
-    #[serde(rename = "SpreadElement")]
-    Spread(
-        #[serde(rename = "argument")]
-        Box<Expr>,
-    ),
+    Spread(Box<Expr>),
 }
 
 #[ast_node]
@@ -260,8 +221,7 @@ pub enum PatOrExpr {
     Expr(Box<Expr>),
 }
 
-#[derive(Kind, Debug, Clone, Copy, Eq, EqIgnoreSpan, PartialEq, Hash, Serialize, Deserialize)]
-#[repr(u8)]
+#[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
 #[kind(function(precedence = "u8"))]
 pub enum BinaryOp {
     /// `==`
@@ -362,7 +322,7 @@ impl From<Ident> for Box<Expr> {
 
 #[ast_node]
 #[derive(Copy)]
-#[repr(u8)]
+
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
@@ -372,7 +332,7 @@ pub enum UpdateOp {
 
 #[ast_node]
 #[derive(Copy)]
-#[repr(u8)]
+
 pub enum UnaryOp {
     /// `-`
     Minus,
@@ -392,7 +352,6 @@ pub enum UnaryOp {
 
 #[ast_node]
 #[derive(Copy)]
-#[repr(u8)]
 pub enum AssignOp {
     /// `=`
     Assign,

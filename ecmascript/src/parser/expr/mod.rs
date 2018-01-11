@@ -326,7 +326,7 @@ impl<I: Input> Parser<I> {
         // But as all patterns of javascript is subset of
         // expressions, we can parse both as expression.
 
-        let expr_or_spreads = self.parse_args()?;
+        let expr_or_spreads = self.parse_args_or_pats()?;
 
         // we parse arrow function at here, to handle it efficiently.
         if is!("=>") {
@@ -523,12 +523,11 @@ impl<I: Input> Parser<I> {
         Ok(callee)
     }
 
-    fn parse_call_expr_args(
-        &mut self,
-        close_delim: &'static Token,
-        is_async_arrow_possible: bool,
-    ) -> PResult<ExprOrSpread> {
-        unimplemented!("parse_call_expr_args")
+    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<Box<Expr>> {
+        self.parse_expr()
+    }
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<ExprOrSpread>> {
+        self.parse_args()
     }
 }
 

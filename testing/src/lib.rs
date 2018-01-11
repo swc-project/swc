@@ -1,12 +1,17 @@
+#![feature(specialization)]
+
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate slog;
 extern crate slog_envlogger;
 extern crate slog_term;
+extern crate swc_common;
 
 use slog::{Drain, Logger};
 use std::io::{self, Write};
+use swc_common::Span;
+use swc_common::fold::{FoldWith, Folder};
 
 pub fn logger() -> Logger {
     fn no_timestamp(_: &mut Write) -> io::Result<()> {
@@ -35,4 +40,26 @@ pub fn logger() -> Logger {
     println!("");
     root()
     // ROOT.new(o!())
+}
+
+/// Remove all span from `t`.
+pub fn drop_span<T>(t: T) -> T
+where
+    T: FoldWith<DropSpan>,
+{
+    Folder::<T>::fold(&mut DropSpan, t)
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct DropSpan;
+impl Folder<Span> for DropSpan {
+    fn fold(&mut self, _: Span) -> Span {
+        Span::default()
+    }
+}
+
+#[macro_export]
+macro_rules! assert_eq_ignore_span {
+    ($l:expr, $r:expr) => {{
+        assert_eq!($crate::drop_span($l), $crate::drop_span($r))
+    }}
 }

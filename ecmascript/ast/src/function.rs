@@ -10,11 +10,7 @@ pub struct Function {
 
     pub body: BlockStmt,
 
-    #[caniuse = "es6-generators"]
-    #[serde = "generator"]
     pub is_generator: bool,
 
-    #[caniuse = "async-functions"]
-    #[serde = "async"]
     pub is_async: bool,
 }

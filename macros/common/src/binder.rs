@@ -34,9 +34,9 @@ use pmutil::prelude::*;
 use proc_macro2::Span;
 use quote::{ToTokens, Tokens};
 use syn::*;
-use syn::punctuated::Pair as Element;
+use syn::punctuated::Pair;
 use syn::token::{Mut, Ref};
-use syn_ext::ElementExt;
+use syn_ext::PairExt;
 
 /// Used to bind whole struct or enum.
 #[derive(Debug, Clone)]
@@ -153,7 +153,7 @@ impl<'a> VariantBinder<'a> {
                     .pairs()
                     .map(|e| {
                         let (t, p) = e.into_tuple();
-                        Element::new(t, p.cloned())
+                        Pair::new(t, p.cloned())
                     })
                     .enumerate()
                     .map(|(idx, f)| {
@@ -205,7 +205,7 @@ impl<'a> VariantBinder<'a> {
                     .pairs()
                     .map(|e| {
                         let (t, p) = e.into_tuple();
-                        Element::new(t, p.cloned())
+                        Pair::new(t, p.cloned())
                     })
                     .enumerate()
                     .map(|(idx, f)| {

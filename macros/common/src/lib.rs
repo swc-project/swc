@@ -1,3 +1,4 @@
+#![feature(box_patterns)]
 #![feature(box_syntax)]
 #![feature(const_fn)]
 
@@ -5,6 +6,7 @@
 extern crate pmutil;
 extern crate proc_macro2;
 extern crate proc_macro;
+#[macro_use]
 extern crate quote;
 extern crate syn;
 use pmutil::SpanExt;
@@ -12,6 +14,7 @@ use pmutil::synom_ext::FromSpan;
 use proc_macro2::Span;
 use syn::*;
 
+pub mod derive;
 pub mod prelude;
 mod syn_ext;
 pub mod binder;

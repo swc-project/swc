@@ -7,12 +7,6 @@
 pub extern crate ast_node;
 #[macro_use]
 pub extern crate enum_kind;
-#[macro_use]
-pub extern crate eq_ignore_span;
-#[macro_use]
-pub extern crate serde_derive;
 
 pub use ast_node::*;
 pub use enum_kind::*;
-pub use eq_ignore_span::*;
-pub use serde_derive::*;

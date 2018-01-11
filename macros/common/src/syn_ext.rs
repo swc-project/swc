@@ -1,5 +1,7 @@
+use call_site;
+use pmutil::prelude::*;
 use syn::*;
-use syn::punctuated::Pair as Element;
+use syn::punctuated::Pair;
 
 /// Extension trait for `ItemImpl` (impl block).
 pub trait ItemImplExt {
@@ -39,9 +41,15 @@ pub trait ItemImplExt {
 }
 
 impl ItemImplExt for ItemImpl {
-    fn with_generics(mut self, generics: Generics) -> Self {
+    fn with_generics(mut self, mut generics: Generics) -> Self {
         // TODO: Check conflicting name
 
+        let need_new_punct = !generics.params.empty_or_trailing();
+        if need_new_punct {
+            generics.params.push_punct(call_site());
+        }
+
+        // Respan
         match generics.lt_token {
             Some(t) => self.generics.lt_token = Some(t),
             None => {}
@@ -51,7 +59,29 @@ impl ItemImplExt for ItemImpl {
             None => {}
         }
 
-        self.generics.params.extend(generics.params.into_pairs());
+        let ty = self.self_ty;
+
+        // Handle generics defined on struct, enum, or union.
+        let mut item: ItemImpl = {
+            let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
+            let item = if let Some((ref polarity, ref path, ref for_token)) = self.trait_ {
+                quote!{
+                    impl #impl_generics #polarity #path #for_token #ty #ty_generics #where_clause {}
+                }
+            } else {
+                quote!{
+                    impl #impl_generics #ty #ty_generics #where_clause {}
+
+                }
+            };
+            parse(item.dump().into())
+                .unwrap_or_else(|err| panic!("with_generics failed: {}\n{}", err, item.dump()))
+        };
+
+        // Handle generics added by proc-macro.
+        item.generics
+            .params
+            .extend(self.generics.params.into_pairs());
         match self.generics.where_clause {
             Some(WhereClause {
                 ref mut predicates, ..
@@ -64,20 +94,28 @@ impl ItemImplExt for ItemImpl {
             ref mut opt @ None => *opt = generics.where_clause,
         }
 
-        self
-    }
-}
-
-pub trait ElementExt<T, P>: Sized + Into<Element<T, P>> {
-    fn map_item<F, NewItem>(self, op: F) -> Element<NewItem, P>
-    where
-        F: FnOnce(T) -> NewItem,
-    {
-        match self.into() {
-            Element::Punctuated(t, p) => Element::Punctuated(op(t), p),
-            Element::End(t) => Element::End(op(t)),
+        ItemImpl {
+            attrs: self.attrs,
+            defaultness: self.defaultness,
+            unsafety: self.unsafety,
+            impl_token: self.impl_token,
+            brace_token: self.brace_token,
+            items: self.items,
+            ..item
         }
     }
 }
 
-impl<T, P> ElementExt<T, P> for Element<T, P> {}
+pub trait PairExt<T, P>: Sized + Into<Pair<T, P>> {
+    fn map_item<F, NewItem>(self, op: F) -> Pair<NewItem, P>
+    where
+        F: FnOnce(T) -> NewItem,
+    {
+        match self.into() {
+            Pair::Punctuated(t, p) => Pair::Punctuated(op(t), p),
+            Pair::End(t) => Pair::End(op(t)),
+        }
+    }
+}
+
+impl<T, P> PairExt<T, P> for Pair<T, P> {}
