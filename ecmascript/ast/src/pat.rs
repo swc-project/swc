@@ -22,9 +22,17 @@ pub enum PatKind {
 
     Rest(Box<Pat>),
 
-    Object { props: Vec<ObjectPatProp> },
+    Object {
+        props: Vec<ObjectPatProp>,
+    },
 
-    Assign { left: Box<Pat>, right: Box<Expr> },
+    Assign {
+        left: Box<Pat>,
+        right: Box<Expr>,
+    },
+
+    /// Only for for-in / for-of loops. This is *syntatically* valid.
+    Expr(Box<Expr>),
 }
 
 #[ast_node]

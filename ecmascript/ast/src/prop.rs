@@ -7,13 +7,6 @@ pub struct Prop {
     pub span: Span,
 
     pub node: PropKind,
-    //  pub key: Box<Expr>,
-//     pub value: Box<Expr>,
-//     pub kind: PropKind,
-
-//     pub method: bool,
-//     pub shorthand: bool,
-//     pub computed: bool,
 }
 
 impl Spanned<PropKind> for Prop {

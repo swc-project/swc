@@ -151,6 +151,13 @@ impl<I: Input> Parser<I> {
         let span = expr.span;
 
         match expr.node {
+            ExprKind::Member { .. } | ExprKind::Call { .. } | ExprKind::New { .. } => {
+                return Ok(Pat {
+                    span,
+                    node: PatKind::Expr(box expr),
+                })
+            }
+
             ExprKind::Paren(inner) => {
                 // TODO: (maybe) add paren to PatKind.
                 let inner_pat = self.reparse_expr_as_pat(inner)?;
