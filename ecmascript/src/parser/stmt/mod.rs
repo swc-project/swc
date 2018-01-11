@@ -502,7 +502,7 @@ impl<I: Input> Parser<I> {
 
         // for (a of b)
         if is_one_of!("of", "in") {
-            let pat = self.parse_non_last_expr_as_param(init)?;
+            let pat = self.reparse_expr_as_pat(init)?;
             return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 

@@ -147,16 +147,55 @@ impl<I: Input> Parser<I> {
 impl<I: Input> Parser<I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
-    pub(super) fn parse_non_last_expr_as_param(&mut self, expr: Box<Expr>) -> PResult<Pat> {
+    pub(super) fn reparse_expr_as_pat(&mut self, box expr: Box<Expr>) -> PResult<Pat> {
         let span = expr.span;
 
         match expr.node {
             ExprKind::Paren(inner) => {
                 // TODO: (maybe) add paren to PatKind.
-                let inner_pat = self.parse_non_last_expr_as_param(inner)?;
+                let inner_pat = self.reparse_expr_as_pat(inner)?;
                 return Ok(Pat {
                     span,
                     node: inner_pat.node,
+                });
+            }
+            ExprKind::Assign {
+                left,
+                op: Assign,
+                right,
+            } => {
+                return Ok(Pat {
+                    span,
+                    node: PatKind::Assign {
+                        left: match left {
+                            PatOrExpr::Expr(left) => box self.reparse_expr_as_pat(left)?,
+                            PatOrExpr::Pat(left) => box left,
+                        },
+                        right,
+                    },
+                })
+            }
+            ExprKind::Object { props } => {
+                // {}
+                return Ok(Pat {
+                    span,
+                    node: PatKind::Object {
+                        props: props
+                            .into_iter()
+                            .map(|prop| match prop.node {
+                                PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
+                                    key: id.into(),
+                                    value: None,
+                                }),
+                                PropKind::KeyValue { key, value } => Ok(ObjectPatProp::KeyValue {
+                                    key,
+                                    value: box self.reparse_expr_as_pat(value)?,
+                                }),
+
+                                _ => unimplemented!("Object reparse_expr_as_pat: {:?}", prop),
+                            })
+                            .collect::<PResult<_>>()?,
+                    },
                 });
             }
             ExprKind::Ident(ident) => return Ok(ident.into()),
@@ -177,7 +216,7 @@ impl<I: Input> Parser<I> {
                             syntax_error!(SyntaxError::NonLastRestParam)
                         }
                         Some(ExprOrSpread::Expr(expr)) => {
-                            params.push(self.parse_non_last_expr_as_param(expr).map(Some)?)
+                            params.push(self.reparse_expr_as_pat(expr).map(Some)?)
                         }
                         None => params.push(None),
                     }
@@ -190,16 +229,14 @@ impl<I: Input> Parser<I> {
                     Some(ExprOrSpread::Spread(expr)) => {
                         let span = expr.span; //TODO
 
-                        self.parse_non_last_expr_as_param(expr)
+                        self.reparse_expr_as_pat(expr)
                             .map(|pat| Pat {
                                 span,
                                 node: PatKind::Rest(box pat),
                             })
                             .map(Some)?
                     }
-                    Some(ExprOrSpread::Expr(expr)) => {
-                        self.parse_non_last_expr_as_param(expr).map(Some)?
-                    }
+                    Some(ExprOrSpread::Expr(expr)) => self.reparse_expr_as_pat(expr).map(Some)?,
                     // TODO: sytax error if last element is ellison and ...rest exists.
                     None => None,
                 };
@@ -210,7 +247,7 @@ impl<I: Input> Parser<I> {
                     node: PatKind::Array(params),
                 });
             }
-            _ => unimplemented!("parse_non_last_expr_as_param: {:?}", expr),
+            _ => unimplemented!("reparse_expr_as_pat: {:?}", expr),
         }
     }
 
@@ -228,7 +265,7 @@ impl<I: Input> Parser<I> {
         for expr in exprs.drain(..len - 1) {
             match expr {
                 ExprOrSpread::Spread(expr) => syntax_error!(SyntaxError::NonLastRestParam),
-                ExprOrSpread::Expr(expr) => params.push(self.parse_non_last_expr_as_param(expr)?),
+                ExprOrSpread::Expr(expr) => params.push(self.reparse_expr_as_pat(expr)?),
             }
         }
 
@@ -239,12 +276,12 @@ impl<I: Input> Parser<I> {
             ExprOrSpread::Spread(expr) => {
                 let span = expr.span; //TODO
 
-                self.parse_non_last_expr_as_param(expr).map(|pat| Pat {
+                self.reparse_expr_as_pat(expr).map(|pat| Pat {
                     span,
                     node: PatKind::Rest(box pat),
                 })?
             }
-            ExprOrSpread::Expr(expr) => self.parse_non_last_expr_as_param(expr)?,
+            ExprOrSpread::Expr(expr) => self.reparse_expr_as_pat(expr)?,
         };
         params.push(last);
 
