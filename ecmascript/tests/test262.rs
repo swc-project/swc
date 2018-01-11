@@ -5,7 +5,6 @@
 
 #[macro_use]
 extern crate slog;
-#[macro_use]
 extern crate swc_common;
 extern crate swc_ecmascript;
 extern crate test;
