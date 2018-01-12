@@ -2,8 +2,8 @@ use common::prelude::*;
 use input::*;
 use std::fmt::Display;
 use std::ops::AddAssign;
-use synom::Synom;
-use util::{is_attr_name, is_bool};
+use syn::synom::Synom;
+use util::is_bool;
 
 impl From<DeriveInput> for Input {
     fn from(
@@ -12,15 +12,11 @@ impl From<DeriveInput> for Input {
             vis,
             attrs,
             generics,
-            body,
+            data,
         }: DeriveInput,
     ) -> Self {
-        let variants = match body {
-            Body::Enum(body) => body.variants
-                .into_iter()
-                .map(Element::into_item)
-                .map(From::from)
-                .collect(),
+        let variants = match data {
+            Data::Enum(data) => data.variants.into_iter().map(From::from).collect(),
             _ => panic!("#[derive(Kind)] only works for enums"),
         };
 
@@ -38,13 +34,13 @@ impl Synom for EnumAttrs {
     named!(parse -> Self, do_parse!(
         _function: syn!(Ident) >>
         fns: parens!(
-            call!(Delimited::parse_terminated)
+            call!(Punctuated::parse_terminated)
         ) >>
         ({
-            let fns: Delimited<_, tokens::Comma> = fns.0;
+            let fns: Punctuated<_, token::Comma> = fns.1;
             // TODO: Verify `functions`.
             EnumAttrs {
-                fns: fns.into_vec(),
+                fns: fns.into_iter().collect(),
                 extras: Default::default(),
             }
         })
@@ -66,12 +62,13 @@ impl AddAssign<Result<Self, Attribute>> for EnumAttrs {
 impl FnDef {
     fn def_value_for_type(ty: &Type) -> Option<Expr> {
         if is_bool(ty) {
-            return Some(
-                ExprKind::Lit(Lit {
-                    value: LitKind::Bool(false),
-                    span: SynSpan(Span::call_site()),
-                }).into(),
-            );
+            return Some(Expr::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit::Bool(LitBool {
+                    value: false,
+                    span: Span::call_site(),
+                }),
+            }));
         }
 
         None
@@ -81,9 +78,13 @@ impl FnDef {
 impl Synom for FnDef {
     named!(parse -> Self, do_parse!(
         name: syn!(Ident) >>
-        syn!(tokens::Eq) >>
-        return_type: syn!(Lit) >>
+        syn!(token::Eq) >>
+        return_type: syn!(LitStr) >>
         ({
+            if name.as_ref() == "delegate" {
+                panic!("function name cannot be `delegate`")
+            }
+
             let return_type = parse_str_as_tokens(return_type);
             FnDef {
                 default_value: FnDef::def_value_for_type(&return_type),
@@ -98,14 +99,14 @@ impl From<Variant> for EnumVar {
     fn from(
         Variant {
             attrs,
-            data,
+            fields,
             ident: name,
             ..
         }: Variant,
     ) -> Self {
         EnumVar {
             name,
-            data,
+            data: fields,
             attrs: parse_attrs(attrs),
         }
     }
@@ -113,13 +114,16 @@ impl From<Variant> for EnumVar {
 
 impl Synom for VariantAttrs {
     named!(parse -> Self, do_parse!(
-        fn_values: call!(Delimited::parse_terminated)
+        fn_values: call!(Punctuated::parse_terminated)
         >>
         ({
-            let fn_values: Delimited<_, tokens::Comma> = fn_values;
+            let fn_values: Punctuated<_, token::Comma> = fn_values;
+            let has_delegate = fn_values.iter()
+                    .any(|f: &VariantAttr| f.fn_name == "delegate");
             VariantAttrs {
-                fn_values: fn_values.into_vec(),
+                fn_values: fn_values.into_iter().collect(),
                 extras: Default::default(),
+                has_delegate,
             }
         })
     ));
@@ -131,6 +135,7 @@ impl AddAssign<Result<Self, Attribute>> for VariantAttrs {
             Ok(attr) => {
                 self.fn_values.extend(attr.fn_values);
                 self.extras.extend(attr.extras);
+                self.has_delegate = self.has_delegate || attr.has_delegate;
             }
             Err(attr) => self.extras.push(attr),
         }
@@ -142,8 +147,8 @@ impl Synom for VariantAttr {
             fn_name: syn!(Ident) >>
             value: option!(
                 do_parse!(
-                    syn!(tokens::Eq) >>
-                    p: syn!(Lit) >>
+                    syn!(token::Eq) >>
+                    p: syn!(LitStr) >>
                     ({
                         parse_str_as_tokens(p)
                     })
@@ -199,11 +204,7 @@ where
         }
 
         if is_attr_name(&attr, "kind") {
-            let tts = attr.tts.into_iter().map(|t| {
-                // syn::parse doesn't like Vec<syn::TokenTree>.
-                t.0
-            });
-            let tts = unwrap_paren(tts);
+            let tts = unwrap_paren(attr.tts);
             let parsed: T = parse(tts.into())
                 .unwrap_or_else(|err| panic!("failed to parse attribute: {}", err));
 
@@ -216,14 +217,14 @@ where
     res
 }
 
-/// Parse content of string literal as if it's tts.
-fn parse_str_as_tokens<T>(lit: Lit) -> T
+/// Parse content of string literal.
+fn parse_str_as_tokens<T>(lit: LitStr) -> T
 where
     T: Synom,
 {
-    let span = lit.span.0;
+    let span = lit.span;
     // WTF? Literal does not provide a way to get string...
-    let tt = lit.value.to_string();
+    let tt = lit.value();
 
     // TODO:Remove '"' only for first and last.
     let tts = tt.replace("\"", "")

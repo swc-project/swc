@@ -5,6 +5,12 @@ rust:
 - nightly
 cache:
 - cargo
+git:
+    submodules: false
+before_install:
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
+
 before_script:
 - |
   pip install 'travis-cargo<0.2' --user &&
@@ -12,8 +18,9 @@ before_script:
 script:
 - |
   export TRAVIS_CARGO_NIGHTLY_FEATURE="" &&
-  travis-cargo build &&
-  travis-cargo test &&
+  travis-cargo build -- --all &&
+  travis-cargo test -- --all &&
+  export RUSTDOC="./scripts/rustdoc.sh" &&
   travis-cargo doc
 after_success:
 - travis-cargo doc-upload

@@ -4,40 +4,35 @@
 extern crate pmutil;
 extern crate proc_macro2;
 extern crate proc_macro;
-#[macro_use]
 extern crate swc_macros_common as common;
 extern crate syn;
 
+use self::fold::derive_fold;
 use common::prelude::*;
 
-#[proc_macro_derive(AstNode)]
+mod fold;
+
+#[proc_macro_derive(AstNode, attributes(fold))]
 pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = &input.ident;
 
-    let item: Item = Quote::new_call_site()
-        .quote_with(smart_quote!(
-            Vars {
-                CONST_NAME: type_name.new_ident_with(|n| format!("_IMPL_AST_NODE_FOR_{}", n)),
-                Type: type_name,
-            },
-            {
-                #[allow(non_upper_case_globals)]
-                const CONST_NAME: () = {
-                    extern crate swc_common as _swc_common;
-                    impl _swc_common::AstNode for Type {}
-                    ()
-                };
-            }
-        ))
-        .parse();
+    let mut tokens = Tokens::new();
+    derive_fold(&input).to_tokens(&mut tokens);
 
-    print("derive(AstNode)", item.into_tokens())
+    let item = Quote::new_call_site()
+        .quote_with(smart_quote!(Vars { Type: type_name }, {
+            impl ::swc_common::AstNode for Type {}
+        }))
+        .parse::<ItemImpl>()
+        .with_generics(input.generics);
+    item.to_tokens(&mut tokens);
+
+    print("derive(AstNode)", tokens)
 }
 
 /// Alias for
-///
-/// `#[derive(Clone, Debug, Eq, PartialEq, Hash, EqIgnoreSpan, AstNode)]`
+/// `#[derive(Clone, Debug, PartialEq, AstNode)]`
 #[proc_macro_attribute]
 pub fn ast_node(
     _attr: proc_macro::TokenStream,
@@ -45,12 +40,11 @@ pub fn ast_node(
 ) -> proc_macro::TokenStream {
     let item: Item = syn::parse(s).expect("failed to parse tokens as an item");
 
+    // With proc_macro feature enabled, only attributes for first derive works.
+    // https://github.com/rust-lang/rust/issues/44925
     let tokens = pmutil::Quote::new_call_site().quote_with(smart_quote!(Vars { item }, {
-        #[derive(
-                Clone, Debug, Eq, PartialEq, Hash,
-                ::swc_macros::EqIgnoreSpan,
-                ::swc_macros::AstNode
-        )]
+        #[derive(::swc_macros::AstNode)]
+        #[derive(Clone, Debug, PartialEq)]
         item
     }));
 

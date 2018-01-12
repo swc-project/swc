@@ -8,14 +8,14 @@ proc-macro = true
 
 [dependencies]
 swc_macros_common = { path = "../common" }
-pmutil = { git = "https://github.com/kdy1/rust-pmutil" }
-proc-macro2 = { version = "0.1", features = ["unstable"] }
+pmutil = "0.1"
+proc-macro2 = "0.2"
 
 [dependencies.syn]
-git = "https://github.com/dtolnay/syn"
-features = ["full", "parsing", "printing", "extra-traits"]
+version = "0.12"
+features = ["derive", "fold", "parsing", "printing"]
 
 
-[dependencies.synom]
-git = "https://github.com/dtolnay/syn"
-
+[dev-dependencies]
+swc_macros = { path = "../" }
+swc_common = { path = "../../common" }

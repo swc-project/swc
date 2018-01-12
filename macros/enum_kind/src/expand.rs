@@ -1,6 +1,6 @@
 use common::prelude::*;
 use input::*;
-use util::{is_attr_name, is_bool};
+use util::is_bool;
 
 pub fn expand(
     Input {
@@ -11,6 +11,36 @@ pub fn expand(
         vis,
     }: Input,
 ) -> Item {
+    // verify variant attributes.
+    {
+        for v in &variants {
+            if v.attrs.has_delegate {
+                match v.data {
+                    Fields::Named(FieldsNamed {
+                        named: ref fields, ..
+                    })
+                    | Fields::Unnamed(FieldsUnnamed {
+                        unnamed: ref fields,
+                        ..
+                    }) if fields.len() == 1 => {}
+                    _ => panic!(
+                        "currently #[kind(delegate)] can be applied to variant with only one field"
+                    ),
+                }
+            }
+            for value in &v.attrs.fn_values {
+                let used = attrs
+                    .fns
+                    .iter()
+                    .map(|f| f.name)
+                    .any(|fn_name| value.fn_name == fn_name || value.fn_name == "delegate");
+                if !used {
+                    panic!("Unknown function `{}` on variant {}", value.fn_name, v.name)
+                }
+            }
+        }
+    }
+
     let items = attrs
         .fns
         .into_iter()
@@ -21,24 +51,21 @@ pub fn expand(
             t
         });
 
-    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
-
     Quote::new_call_site()
         .quote_with(smart_quote!(
         Vars {
-            impl_generics,
-            name,
-            ty_generics,
-            where_clause,
+            Type: name,
             items,
         },
         {
-            impl impl_generics name ty_generics where_clause {
+            impl Type {
                 items
             }
         }
     ))
-        .parse()
+        .parse::<ItemImpl>()
+        .with_generics(generics)
+        .into()
 }
 
 impl FnDef {
@@ -51,92 +78,85 @@ impl FnDef {
 
         let name_span = name.span;
 
-        let arms = variants
-            .iter()
-            .map(|v| -> Arm {
-                // Pattern for this variant.
-                let pat = match v.data {
-                    VariantData::Struct(ref _fields, _) => Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                        Vars {
-                            EnumName: enum_name,
-                            VariantName: v.name,
-                        },
-                        { &EnumName::VariantName {..} }
-                    ))
-                        .parse::<Pat>(),
-                    VariantData::Tuple(ref _fields, _) => Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                            Vars {
-                                EnumName: enum_name,
-                                VariantName: v.name,
-                            },
-                            { &EnumName::VariantName(..) }
-                        ))
-                        .parse::<Pat>(),
-                    VariantData::Unit => Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                            Vars {
-                                EnumName: enum_name,
-                                VariantName: v.name,
-                            },
-                            { &EnumName::VariantName }
-                        ))
-                        .parse::<Pat>(),
-                };
+        let arms =
+            variants
+                .iter()
+                .map(|v| -> Arm {
+                    // Bind this variant.
+                    let (pat, mut fields) =
+                        VariantBinder::new(Some(enum_name), &v.name, &v.data, &v.attrs.extras)
+                            .bind("_", Some(call_site()), None);
 
-                let body = {
-                    let value = match v.attrs
-                        .fn_values
-                        .iter()
-                        .find(|fn_val| fn_val.fn_name == name)
-                        .map(|attr| attr.value.clone())
-                    {
-                        Some(Some(value)) => Some(value),
+                    let body = {
+                        let value = match v.attrs
+                            .fn_values
+                            .iter()
+                            .find(|fn_val| fn_val.fn_name == name)
+                            .map(|attr| attr.value.clone())
+                        {
+                            Some(Some(value)) => Some(value),
 
-                        // if return type is bool and attribute is specified, it return true.
-                        Some(None) if is_bool(&return_type) => Some(
-                            ExprKind::Lit(Lit {
-                                value: LitKind::Bool(true),
-                                span: SynSpan(Span::call_site()),
-                            }).into(),
-                        ),
-                        _ => None,
+                            // not specified, but has `#[kind(delegate)]`
+                            None if v.attrs.has_delegate => {
+                                assert_eq!(fields.len(), 1);
+                                let field = fields.remove(0);
+                                Some(
+                                    Quote::new_call_site()
+                                        .quote_with(smart_quote!(
+                                            Vars {
+                                                field,
+                                                method: name,
+                                            },
+                                            { field.method() }
+                                        ))
+                                        .parse(),
+                                )
+                            }
+
+                            // if return type is bool and attribute is specified, value is true.
+                            Some(None) if is_bool(&return_type) => Some(Expr::Lit(ExprLit {
+                                attrs: Default::default(),
+                                lit: Lit::Bool(LitBool {
+                                    value: true,
+                                    span: Span::call_site(),
+                                }),
+                            })),
+                            _ => None,
+                        };
+
+                        value
+                            .or_else(|| default_value.clone())
+                            .map(Box::new)
+                            .unwrap_or_else(|| {
+                                panic!(
+                                    "value of {fn_name} for {variant} is not specified.",
+                                    fn_name = name,
+                                    variant = v.name
+                                );
+                            })
                     };
 
-                    value
-                        .or_else(|| default_value.clone())
-                        .map(Box::new)
-                        .unwrap_or_else(|| {
-                            panic!(
-                                "value of {fn_name} for {variant} is not specified.",
-                                fn_name = name,
-                                variant = v.name
-                            );
-                        })
-                };
+                    Arm {
+                        pats: vec![Element::End(pat)].into_iter().collect(),
+                        body,
 
-                Arm {
-                    pats: vec![pat].into(),
-                    body,
-
-                    // Forward cfg attributes.
-                    attrs: v.attrs
-                        .extras
-                        .iter()
-                        .filter(|attr| is_attr_name(attr, "cfg"))
-                        .cloned()
-                        .collect(),
-                    rocket_token: call_site(),
-                    comma: Some(call_site()),
-                    guard: None,
-                    if_token: None,
-                }
-            })
-            .collect();
+                        // Forward cfg attributes.
+                        attrs: v.attrs
+                            .extras
+                            .iter()
+                            .filter(|attr| is_attr_name(attr, "cfg"))
+                            .cloned()
+                            .collect(),
+                        rocket_token: call_site(),
+                        comma: Some(call_site()),
+                        guard: None,
+                    }
+                })
+                .collect();
 
         // match self {}
-        let match_expr = ExprKind::Match(ExprMatch {
+        let match_expr = Expr::Match(ExprMatch {
+            attrs: Default::default(),
             match_token: call_site(),
             brace_token: call_site(),
 
@@ -146,12 +166,12 @@ impl FnDef {
                 .into(),
 
             arms,
-        }).into();
+        });
 
         ImplItemMethod {
             sig: MethodSig {
-                constness: Constness::NotConst,
-                unsafety: Unsafety::Normal,
+                constness: None,
+                unsafety: None,
                 abi: None,
                 ident: name,
                 // fn (&self) -> ReturnTpe
@@ -160,30 +180,30 @@ impl FnDef {
                     paren_token: name.span.as_token(),
                     inputs: vec![
                         // TODO
-                        FnArg::SelfRef(ArgSelfRef {
+                        Element::End(FnArg::SelfRef(ArgSelfRef {
                             and_token: name_span.as_token(),
                             self_token: name_span.as_token(),
                             lifetime: None,
-                            mutbl: Mutability::Immutable,
-                        }),
-                    ].into(),
-                    output: ReturnType::Type(return_type, name_span.as_token()),
+                            mutability: None,
+                        })),
+                    ].into_iter()
+                        .collect(),
+                    output: ReturnType::Type(name_span.as_token(), box return_type),
                     generics: Default::default(),
-                    variadic: false,
-                    dot_tokens: None,
+                    variadic: None,
                 },
             },
 
             block: Block {
                 brace_token: call_site(),
-                stmts: vec![Stmt::Expr(Box::new(match_expr))],
+                stmts: vec![Stmt::Expr(match_expr)],
             },
 
             // TODO
             vis,
 
             attrs: Default::default(),
-            defaultness: Defaultness::Final,
+            defaultness: None,
         }
     }
 }

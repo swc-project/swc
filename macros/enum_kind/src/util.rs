@@ -11,8 +11,7 @@ pub fn is_bool(ty: &Type) -> bool {
                 },
         }) => {
             // check for bool
-            if segments.len() == 1 && segments.first().unwrap().item().ident.sym.as_str() == "bool"
-            {
+            if segments.len() == 1 && segments.first().unwrap().value().ident.as_ref() == "bool" {
                 return true;
             }
         }
@@ -20,22 +19,4 @@ pub fn is_bool(ty: &Type) -> bool {
     }
 
     false
-}
-
-pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
-    match *attr {
-        Attribute {
-            path:
-                Path {
-                    leading_colon: None,
-                    ref segments,
-                },
-            is_sugared_doc: false,
-            ..
-        } if segments.len() == 1 =>
-        {
-            segments.first().unwrap().into_item().ident == name
-        }
-        _ => false,
-    }
 }

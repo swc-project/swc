@@ -37,7 +37,7 @@ pub struct EnumVar {
     /// Name of variant.
     pub name: Ident,
     pub attrs: VariantAttrs,
-    pub data: VariantData,
+    pub data: Fields,
 }
 
 /// Parsed attributes.
@@ -45,6 +45,8 @@ pub struct EnumVar {
 pub struct VariantAttrs {
     pub fn_values: Vec<VariantAttr>,
     pub extras: Vec<Attribute>,
+    /// Does this variant has `#[kind(delegate)]`?
+    pub has_delegate: bool,
 }
 
 #[derive(Debug)]

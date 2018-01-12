@@ -135,16 +135,15 @@
 //!
 //!
 //!
+#![feature(box_syntax)]
 
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro2;
 extern crate proc_macro;
-#[macro_use]
 extern crate swc_macros_common as common;
-extern crate syn;
 #[macro_use]
-extern crate synom;
+extern crate syn;
 
 use common::prelude::*;
 
