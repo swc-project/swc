@@ -1,4 +1,3 @@
-use std::cmp::Ordering;
 use std::fmt::Debug;
 use std::str;
 use swc_common::BytePos;
@@ -85,55 +84,6 @@ impl<'a> Iterator for CharIndices<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         self.0.next().map(|(i, c)| (BytePos(i as _), c))
-    }
-}
-
-/// Implements PartialEq<char>
-#[derive(Debug, Clone, Copy)]
-pub struct OptChar(Option<(BytePos, char)>);
-
-impl From<Option<(BytePos, char)>> for OptChar {
-    fn from(opt: Option<(BytePos, char)>) -> Self {
-        OptChar(opt)
-    }
-}
-
-impl PartialEq<char> for OptChar {
-    fn eq(&self, rhs: &char) -> bool {
-        match self.0 {
-            Some((_, c)) if c == *rhs => true,
-            _ => false,
-        }
-    }
-}
-
-impl PartialOrd<char> for OptChar {
-    fn partial_cmp(&self, other: &char) -> Option<Ordering> {
-        self.0.map(|(_, c)| c.cmp(other))
-    }
-}
-
-impl OptChar {
-    pub fn is_digit(self, radix: u32) -> bool {
-        self.0.map(|c| c.1.is_digit(radix)).unwrap_or(false)
-    }
-
-    /// # Panics
-    ///
-    /// panics if `self` is `None`
-    pub fn as_char(self) -> char {
-        self.0.unwrap().1
-    }
-
-    pub const fn into_inner(self) -> Option<(BytePos, char)> {
-        self.0
-    }
-
-    pub fn is_some(&self) -> bool {
-        self.0.is_some()
-    }
-    pub fn is_none(&self) -> bool {
-        self.0.is_none()
     }
 }
 

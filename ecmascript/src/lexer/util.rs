@@ -9,7 +9,7 @@
 //! exists)
 
 use super::Lexer;
-use super::input::{Input, OptChar};
+use super::input::Input;
 use parser_macros::parser;
 use unicode_xid::UnicodeXID;
 
@@ -106,7 +106,7 @@ impl<I: Input> Lexer<I> {
     }
 }
 
-/// Implemented for `char` and `OptChar`.
+/// Implemented for `char`.
 pub trait CharExt: Copy {
     fn to_char(self) -> Option<char>;
 
@@ -171,12 +171,5 @@ impl CharExt for char {
     #[inline(always)]
     fn to_char(self) -> Option<char> {
         Some(self)
-    }
-}
-
-impl CharExt for OptChar {
-    #[inline]
-    fn to_char(self) -> Option<char> {
-        self.into_inner().map(|v| v.1)
     }
 }

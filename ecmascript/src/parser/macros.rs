@@ -75,15 +75,6 @@ macro_rules! is_one_of {
     }};
 }
 
-macro_rules! peeked_is_one_of {
-    ($p:expr, $($t:tt),+) => {{
-        false
-        $(
-            || peeked_is!($p, $t)
-        )*
-    }};
-}
-
 // This will panic if current != token
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
