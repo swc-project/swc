@@ -209,7 +209,7 @@ impl<I: Input> Parser<I> {
 
                 elems.extend(iter::repeat(None).take(comma));
                 comma = 0;
-                elems.push(self.parse_expr_or_spread().map(Some)?);
+                elems.push(self.include_in_expr(true).parse_expr_or_spread().map(Some)?);
             }
 
             expect!(']');
@@ -315,7 +315,9 @@ impl<I: Input> Parser<I> {
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
     pub(super) fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         if eat!("...") {
-            self.parse_assignment_expr().map(ExprOrSpread::Spread)
+            self.include_in_expr(true)
+                .parse_assignment_expr()
+                .map(ExprOrSpread::Spread)
         } else {
             self.parse_assignment_expr().map(ExprOrSpread::Expr)
         }
@@ -331,7 +333,7 @@ impl<I: Input> Parser<I> {
         // But as all patterns of javascript is subset of
         // expressions, we can parse both as expression.
 
-        let expr_or_spreads = self.parse_args_or_pats()?;
+        let expr_or_spreads = self.include_in_expr(true).parse_args_or_pats()?;
 
         // we parse arrow function at here, to handle it efficiently.
         if is!("=>") {
@@ -408,7 +410,7 @@ impl<I: Input> Parser<I> {
 
         while !is_tail {
             expect!("${");
-            exprs.push(self.parse_expr()?);
+            exprs.push(self.include_in_expr(true).parse_expr()?);
             expect!('}');
             let elem = self.parse_tpl_element(is_tagged)?;
             is_tail = elem.tail;
