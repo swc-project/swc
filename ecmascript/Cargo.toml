@@ -4,16 +4,8 @@ version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
-swc_atoms = { path = "../atoms" }
-swc_macros = { path = "../macros" }
-swc_common = { path = "../common" }
 swc_ecma_ast = { path = "./ast" }
-parser_macros = { path = "./parser_macros" }
-unicode-xid = "0.1"
-failure = "0.1"
-slog = "2.1"
-either = { version = "1.4" }
+swc_ecma_parser = { path = "./parser" }
 
 
 [dev-dependencies]
-testing = { path = "../testing" }

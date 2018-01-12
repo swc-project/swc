@@ -466,7 +466,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_ecmascript"
+name = "swc_ecma_parser"
 version = "0.1.0"
 dependencies = [
  "either 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -479,6 +479,14 @@ dependencies = [
  "swc_macros 0.1.0",
  "testing 0.1.0",
  "unicode-xid 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "swc_ecmascript"
+version = "0.1.0"
+dependencies = [
+ "swc_ecma_ast 0.1.0",
+ "swc_ecma_parser 0.1.0",
 ]
 
 [[package]]
