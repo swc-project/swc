@@ -7,9 +7,9 @@
 #![feature(proc_macro)]
 #![feature(try_from)]
 #![feature(try_trait)]
-#![feature(trace_macros)]
 #![cfg_attr(test, feature(conservative_impl_trait))]
 #![deny(unreachable_patterns)]
+#![deny(unsafe_code)]
 
 extern crate either;
 #[macro_use]

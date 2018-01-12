@@ -113,7 +113,6 @@ pub enum Token {
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
 #[kind(functions(starts_expr = "bool"))]
-#[repr(u8)]
 pub enum BinOpToken {
     /// `==`
     EqEq,
@@ -358,7 +357,6 @@ impl Word {
 /// Keywords
 #[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
-#[repr(u8)]
 pub enum Keyword {
     /// Spec says this might be identifier.
     #[kind(before_expr)]

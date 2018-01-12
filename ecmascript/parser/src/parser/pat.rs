@@ -159,7 +159,7 @@ impl<I: Input> Parser<I> {
             }
 
             ExprKind::Paren(inner) => {
-                // TODO: (maybe) add paren to PatKind.
+                // FIXME: Check if this is correct?
                 let inner_pat = self.reparse_expr_as_pat(inner)?;
                 return Ok(Pat {
                     span,
@@ -242,7 +242,8 @@ impl<I: Input> Parser<I> {
                 let last = match expr {
                     // Rest
                     Some(ExprOrSpread::Spread(expr)) => {
-                        let span = expr.span; //TODO
+                        // FIXME: Span should start from ...
+                        let span = expr.span;
 
                         self.reparse_expr_as_pat(expr)
                             .map(|pat| Pat {

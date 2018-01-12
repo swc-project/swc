@@ -105,7 +105,7 @@ impl<I: Input> Lexer<I> {
 
             //
             '.' => {
-                // TODO Check for eof
+                // Check for eof
                 let next = match self.input.peek() {
                     Some(next) => next,
                     None => {
@@ -258,8 +258,6 @@ impl<I: Input> Lexer<I> {
                         self.skip_space();
                         return self.read_token();
                     }
-
-                    // TODO: may handle '-->' line comment?
 
                     if c == '+' {
                         PlusPlus
@@ -575,7 +573,6 @@ impl<I: Input> Lexer<I> {
 
     /// Read `CodePoint`.
     fn read_code_point(&mut self) -> Result<char, Error<I::Error>> {
-        // TODO
         let start = cur_pos!();
         let val = self.read_int(16, 0)?;
         match val {
@@ -616,12 +613,9 @@ impl<I: Input> Lexer<I> {
         Err(Error::UnterminatedStrLit { start })
     }
 
+    /// Expects current char to be '/'
     fn read_regexp(&mut self) -> Result<Token, Error<I::Error>> {
-        assert_eq!(
-            cur!(),
-            Some('/'),
-            "read_regexp expects current char to be '/'"
-        );
+        assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
         bump!();
 

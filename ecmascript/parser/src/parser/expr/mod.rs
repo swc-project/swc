@@ -419,12 +419,7 @@ impl<I: Input> Parser<I> {
 
         expect!('`');
 
-        Ok(TplLit {
-            // TODO
-            tag,
-            exprs,
-            quasis,
-        })
+        Ok(TplLit { tag, exprs, quasis })
     }
 
     fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
@@ -440,7 +435,7 @@ impl<I: Input> Parser<I> {
             raw,
             tail,
 
-            // TODO
+            // FIXME
             cooked: false,
         })
     }
@@ -477,7 +472,7 @@ impl<I: Input> Parser<I> {
         // $obj[name()]
         if eat!('[') {
             let prop = self.include_in_expr(true).parse_expr()?;
-            expect!(']'); //TODO
+            expect!(']');
             return Ok((
                 box Expr {
                     span: span!(start),

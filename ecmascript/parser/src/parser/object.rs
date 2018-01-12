@@ -127,13 +127,11 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
             _ => unexpected!(),
         };
 
-        // TODO: Handle CoverInitializedName
-
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
         // It means we should check for invalid expressions like { for, }
         if is_one_of!('=', ',', '}') {
             let is_reserved_word = {
-                // TODO extension trait
+                // FIXME: Use extension trait instead of this.
                 let word = Word::from(ident.sym);
                 let r = word.is_reserved_word(self.ctx.strict);
                 ident = Ident {
@@ -170,25 +168,22 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                             span: span!(start),
                             node: PropKind::Getter { key, body },
                         }),
-                    js_word!("set") => {
-                        self.parse_fn_args_body(
-                            start,
-                            |p| p.parse_formal_param().map(|pat| vec![pat]),
-                            false,
-                            false,
-                        ).map(|Function { params, body, .. }| {
-                            //TODO
-                            assert_eq!(params.len(), 1);
-                            Prop {
-                                span: span!(start),
-                                node: PropKind::Setter {
-                                    key,
-                                    body,
-                                    param: params.into_iter().next().unwrap(),
-                                },
-                            }
-                        })
-                    }
+                    js_word!("set") => self.parse_fn_args_body(
+                        start,
+                        |p| p.parse_formal_param().map(|pat| vec![pat]),
+                        false,
+                        false,
+                    ).map(|Function { params, body, .. }| {
+                        assert_eq!(params.len(), 1);
+                        Prop {
+                            span: span!(start),
+                            node: PropKind::Setter {
+                                key,
+                                body,
+                                param: params.into_iter().next().unwrap(),
+                            },
+                        }
+                    }),
                     js_word!("async") => self.parse_fn_args_body(
                         start,
                         Parser::parse_unique_formal_params,

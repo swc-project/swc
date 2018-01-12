@@ -192,7 +192,7 @@ impl<I: Input> Parser<I> {
             let consequent = {
                 // Annex B
                 if !self.ctx.strict && is!("function") {
-                    // TODO: report error
+                    // TODO: report error?
                 }
                 box self.parse_stmt(false)?
             };
@@ -527,7 +527,6 @@ impl<I: Input> Parser<I> {
             None
         } else {
             let test = self.include_in_expr(true).parse_expr().map(Some)?;
-            // TODO
             expect_exact!(';');
             test
         };

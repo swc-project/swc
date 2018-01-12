@@ -165,7 +165,8 @@ impl State {
                 // for (a of b) {}
                 tok!("of") if Some(Type::ParenStmt { is_for_loop: true }) == context.current() => {
                     // e.g. for (a of _) => true
-                    !prev.expect("TODO: remove expect()").before_expr()
+                    !prev.expect("context.current() if ParenStmt, so prev token cannot be None")
+                        .before_expr()
                 }
 
                 Word(Ident(ref ident)) => {

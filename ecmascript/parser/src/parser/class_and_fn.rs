@@ -118,8 +118,6 @@ impl<I: Input> Parser<I> {
             syntax_error!(SyntaxError::AsyncGenerator);
         }
 
-        //TODO: Proper handling
-
         let is_generator = eat!('*');
 
         let ident = self.parse_maybe_opt_binding_ident()?;

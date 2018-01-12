@@ -141,7 +141,6 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         })
                     };
                     let src = p("", &input);
-                    //FIXME: remove parens
                     let expected = p("explicit ", &explicit);
                     assert_eq!(src, expected);
                 } else {
@@ -151,7 +150,6 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         })
                     };
                     let src = p("", &input);
-                    //FIXME: remove parens
                     let expected = p("explicit ", &explicit);
                     assert_eq!(src, expected);
                 }
