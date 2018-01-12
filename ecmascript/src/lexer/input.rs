@@ -30,23 +30,29 @@ impl<I: Input> LexerInput<I> {
         self.last_pos = pos;
     }
 
-    pub fn peek(&mut self) -> OptChar {
-        self.input.peek()
+    pub fn peek(&mut self) -> Option<char> {
+        self.input.peek().map(|(_, c)| c)
     }
 
-    pub fn current(&mut self) -> OptChar {
+    /// Get char at `cur + 2`.
+    pub fn peek_ahead(&mut self) -> Option<char> {
+        self.input.peek_ahead().map(|(_, c)| c)
+    }
+
+    pub fn current(&mut self) -> Option<char> {
         match self.cur {
-            Some(c) => OptChar(Some(c)),
+            Some((_, c)) => Some(c),
             None => {
                 let next = self.input.next();
                 self.cur = next;
-                OptChar(next)
+                self.cur.map(|(_, c)| c)
             }
         }
     }
 
     pub fn cur_pos(&mut self) -> BytePos {
-        self.current().0.map(|v| v.0).unwrap_or_default()
+        self.current();
+        self.cur.map(|(p, _)| p).unwrap_or(self.last_pos)
     }
     pub fn last_pos(&self) -> BytePos {
         self.last_pos
@@ -59,8 +65,12 @@ pub struct CharIndices<'a>(pub str::CharIndices<'a>);
 impl<'a> Input for CharIndices<'a> {
     type Error = ();
 
-    fn peek(&mut self) -> OptChar {
-        OptChar::from(self.clone().next())
+    fn peek(&mut self) -> Option<(BytePos, char)> {
+        self.clone().nth(0)
+    }
+
+    fn peek_ahead(&mut self) -> Option<(BytePos, char)> {
+        self.clone().nth(1)
     }
     fn uncons_while<F>(&mut self, f: F) -> Option<&str>
     where
@@ -129,7 +139,9 @@ impl OptChar {
 
 pub trait Input: Iterator<Item = (BytePos, char)> {
     type Error: Debug;
-    fn peek(&mut self) -> OptChar;
+    fn peek(&mut self) -> Option<(BytePos, char)>;
+
+    fn peek_ahead(&mut self) -> Option<(BytePos, char)>;
 
     ///Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
@@ -144,9 +156,14 @@ where
 {
     type Error = I::Error;
 
-    fn peek(&mut self) -> OptChar {
+    fn peek(&mut self) -> Option<(BytePos, char)> {
         <I as Input>::peek(*self)
     }
+
+    fn peek_ahead(&mut self) -> Option<(BytePos, char)> {
+        <I as Input>::peek_ahead(*self)
+    }
+
     fn uncons_while<F>(&mut self, f: F) -> Option<&str>
     where
         F: FnMut(char) -> bool,

@@ -11,6 +11,8 @@ pub(super) struct State {
     pub octal_pos: Option<BytePos>,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
+    /// TODO: Remove this field.
+    pub is_first: bool,
 
     context: Context,
 
@@ -23,11 +25,13 @@ impl State {
         State {
             is_expr_allowed: true,
             octal_pos: None,
+            is_first: true,
             had_line_break: false,
             context: Context(vec![Type::BraceStmt]),
             token_type: None,
         }
     }
+
     pub fn can_skip_space(&self) -> bool {
         !self.context
             .current()

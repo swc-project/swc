@@ -1,6 +1,6 @@
 macro_rules! cur {
     ($l:expr) => {{
-        $l.input.current().into_inner().map(|(_, c)| c)
+        $l.input.current()
     }};
 }
 macro_rules! bump {
@@ -10,7 +10,12 @@ macro_rules! bump {
 }
 macro_rules! peek {
     ($l:expr) => {{
-        $l.input.peek().into_inner().map(|(_, c)| c)
+        $l.input.peek()
+    }};
+}
+macro_rules! peek_ahead {
+    ($l:expr) => {{
+        $l.input.peek_ahead()
     }};
 }
 

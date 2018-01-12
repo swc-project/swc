@@ -4,6 +4,7 @@ macro_rules! tok {
     (',') => { Token::Comma };
     ('?') => { Token::QuestionMark };
     (':') => { Token::Colon };
+    ("::") => { Token::ColonColon };
     ('.') => { Token::Dot };
     ("=>") => { Token::Arrow };
     ("...") => { Token::DotDotDot };
@@ -13,6 +14,7 @@ macro_rules! tok {
     ('-') => { Token::BinOp(Sub) };
     ('*') => { Token::BinOp(Mul) };
     ('/') => { Token::BinOp(Div) };
+    ("/=") => { Token::AssignOp(DivAssign) };
     ('%') => { Token::BinOp(Mod) };
     ('!') => { Token::Bang };
     ('~') => { Token::Tilde };
