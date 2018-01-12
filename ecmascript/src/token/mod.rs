@@ -64,6 +64,7 @@ pub enum Token {
     /// '`'
     #[kind(starts_expr)]
     BackQuote,
+    Template(String),
     /// ':'
     #[kind(before_expr)]
     Colon,
@@ -108,12 +109,6 @@ pub enum Token {
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
     Num(Number),
-
-    #[kind(before_expr)]
-    BlockComment(String),
-
-    #[kind(before_expr)]
-    LineComment(String),
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]

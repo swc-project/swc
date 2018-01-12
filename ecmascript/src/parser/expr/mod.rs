@@ -144,7 +144,12 @@ impl<I: Input> Parser<I> {
                 });
             }
 
-            tok!('`') => return self.parse_tpl_lit(),
+            tok!('`') => {
+                return spanned!({
+                    // parse template literal
+                    Ok(ExprKind::Tpl(self.parse_tpl_lit(None)?))
+                });
+            }
 
             tok!('(') => {
                 return self.parse_paren_expr_or_arrow_fn(can_be_arrow);
@@ -390,12 +395,52 @@ impl<I: Input> Parser<I> {
         }
     }
 
-    fn parse_tpl_lit(&mut self) -> PResult<Box<Expr>> {
-        unimplemented!("tpl lit")
+    fn parse_tpl_lit(&mut self, tag: Option<Box<Expr>>) -> PResult<TplLit> {
+        assert_and_bump!('`');
+
+        let is_tagged = tag.is_some();
+
+        let mut exprs = vec![];
+
+        let cur_elem = self.parse_tpl_element(is_tagged)?;
+        let mut is_tail = cur_elem.tail;
+        let mut quasis = vec![cur_elem];
+
+        while !is_tail {
+            expect!("${");
+            exprs.push(self.parse_expr()?);
+            expect!('}');
+            let elem = self.parse_tpl_element(is_tagged)?;
+            is_tail = elem.tail;
+            quasis.push(elem);
+        }
+
+        expect!('`');
+
+        Ok(TplLit {
+            // TODO
+            tag,
+            exprs,
+            quasis,
+        })
     }
 
-    fn parse_tpl(&mut self, _is_tagged: bool) -> PResult<TplLit> {
-        unimplemented!("parse_tpl")
+    fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
+        let raw = match *cur!()? {
+            Template(_) => match bump!() {
+                Template(s) => s,
+                _ => unreachable!(),
+            },
+            _ => unexpected!(),
+        };
+        let tail = is!('`');
+        Ok(TplElement {
+            raw,
+            tail,
+
+            // TODO
+            cooked: false,
+        })
     }
 
     fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
@@ -459,8 +504,14 @@ impl<I: Input> Parser<I> {
             ExprOrSuper::Expr(expr) => {
                 // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
                 if is!('`') {
-                    let _tpl_lit = self.parse_tpl(true);
-                    unimplemented!("TaggedTemplateExpression")
+                    let tpl = self.parse_tpl_lit(Some(expr))?;
+                    return Ok((
+                        box Expr {
+                            span: span!(start),
+                            node: ExprKind::Tpl(tpl),
+                        },
+                        true,
+                    ));
                 }
 
                 Ok((expr, false))

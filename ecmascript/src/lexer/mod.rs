@@ -147,7 +147,10 @@ impl<I: Input> Lexer<I> {
                 }));
             }
 
-            '`' => unimplemented!("template literal"),
+            '`' => {
+                bump!(self);
+                return Ok(Some(tok!('`')));
+            }
 
             ':' => {
                 self.input.bump();
@@ -474,27 +477,6 @@ impl<I: Input> Lexer<I> {
         Ok(Some(token))
     }
 
-    fn skip_line_comment(&mut self, start_skip: usize) {
-        let start = cur_pos!();
-        for _ in 0..start_skip {
-            bump!();
-        }
-
-        while let Some(c) = cur!() {
-            bump!();
-            if c.is_line_break() {
-                self.state.had_line_break = true;
-            }
-            match c {
-                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
-                    break;
-                }
-                _ => {}
-            }
-        }
-        // TODO: push comment
-    }
-
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident_or_keyword(&mut self) -> Result<Token, Error<I::Error>> {
         assert!(cur!().is_some());
@@ -689,93 +671,49 @@ impl<I: Input> Lexer<I> {
         Ok(Regex(content, flags))
     }
 
-    /// Skip comments or whitespaces.
-    ///
-    /// See https://tc39.github.io/ecma262/#sec-white-space
-    fn skip_space(&mut self) {
-        let mut line_break = false;
+    fn read_tmpl_token(&mut self) -> Result<Token, Error<I::Error>> {
+        let start = cur_pos!();
+
+        // TODO: Optimize
+        let mut out = String::new();
 
         while let Some(c) = cur!() {
-            match c {
-                // white spaces
-                _ if c.is_ws() => {}
-
-                // line breaks
-                _ if c.is_line_break() => {
-                    self.state.had_line_break = true;
-                }
-                '/' => {
-                    if peek!() == Some('/') {
-                        self.skip_line_comment(2);
-                        continue;
-                    } else if peek!() == Some('*') {
-                        self.skip_block_comment();
-                        continue;
+            if c == '`' || (c == '$' && peek!() == Some('{')) {
+                if start == cur_pos!() && self.state.last_was_tpl_element() {
+                    if c == '$' {
+                        bump!();
+                        bump!();
+                        return Ok(tok!("${"));
+                    } else {
+                        bump!();
+                        return Ok(tok!('`'));
                     }
-                    break;
                 }
 
-                _ => break,
+                // TODO: Handle error
+                return Ok(Template(out));
             }
 
-            bump!();
-        }
-    }
-
-    /// Expects current char to be '/' and next char to be '*'.
-    fn skip_block_comment(&mut self) {
-        let start = cur_pos!();
-
-        debug_assert_eq!(cur!(), Some('/'));
-        debug_assert_eq!(peek!(), Some('*'));
-
-        bump!();
-        bump!();
-
-        let mut was_star = false;
-
-        while let Some(c) = cur!() {
-            if was_star && is!('/') {
-                bump!();
-                // TODO: push comment
-                return;
-            }
-            if c.is_line_break() {
+            if c == '\\' {
+                let ch = self.read_escaped_char(true)?;
+                out.extend(ch);
+            } else if c.is_line_break() {
                 self.state.had_line_break = true;
+                let c = if c == '\r' && peek!() == Some('\n') {
+                    bump!(); // '\r'
+                    '\n'
+                } else {
+                    c
+                };
+                bump!();
+                out.push(c);
+            } else {
+                bump!();
+                out.push(c);
             }
-
-            was_star = is!('*');
-            bump!();
         }
 
-        unimplemented!("error: unterminated block comment");
-    }
-}
-
-#[parser]
-impl<I: Input> Iterator for Lexer<I> {
-    type Item = TokenAndSpan;
-    fn next(&mut self) -> Option<Self::Item> {
-        self.state.had_line_break = self.state.is_first;
-        self.state.is_first = false;
-
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            self.skip_space()
-        };
-
-        let start = cur_pos!();
-        if let Some(token) = self.read_token()
-            .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
-        {
-            self.state.update(&self.logger, &token);
-            return Some(TokenAndSpan {
-                token,
-                span: span!(start),
-            });
-        }
-
-        None
+        unimplemented!("error: unterminated template");
     }
 }
 

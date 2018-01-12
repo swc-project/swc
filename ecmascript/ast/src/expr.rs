@@ -111,11 +111,6 @@ pub enum ExprKind {
 
     Tpl(TplLit),
 
-    TaggedTpl {
-        tag: Box<Expr>,
-        quasi: TplLit,
-    },
-
     // TODO: Use JsFn
     Arrow {
         params: Vec<Pat>,

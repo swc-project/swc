@@ -8,7 +8,9 @@
 //! Note: Currently this use xid instead of id. (because unicode_xid crate
 //! exists)
 
-use lexer::input::OptChar;
+use super::Lexer;
+use super::input::{Input, OptChar};
+use parser_macros::parser;
 use unicode_xid::UnicodeXID;
 
 pub const BACKSPACE: char = 8 as char;
@@ -17,6 +19,92 @@ pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
 pub const LINE_FEED: char = '\n';
 pub const LINE_SEPARATOR: char = '\u{2028}';
 pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
+
+#[parser]
+impl<I: Input> Lexer<I> {
+    /// Skip comments or whitespaces.
+    ///
+    /// See https://tc39.github.io/ecma262/#sec-white-space
+    pub(super) fn skip_space(&mut self) {
+        let mut line_break = false;
+
+        while let Some(c) = cur!() {
+            match c {
+                // white spaces
+                _ if c.is_ws() => {}
+
+                // line breaks
+                _ if c.is_line_break() => {
+                    self.state.had_line_break = true;
+                }
+                '/' => {
+                    if peek!() == Some('/') {
+                        self.skip_line_comment(2);
+                        continue;
+                    } else if peek!() == Some('*') {
+                        self.skip_block_comment();
+                        continue;
+                    }
+                    break;
+                }
+
+                _ => break,
+            }
+
+            bump!();
+        }
+    }
+
+    pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
+        let start = cur_pos!();
+        for _ in 0..start_skip {
+            bump!();
+        }
+
+        while let Some(c) = cur!() {
+            bump!();
+            if c.is_line_break() {
+                self.state.had_line_break = true;
+            }
+            match c {
+                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
+                    break;
+                }
+                _ => {}
+            }
+        }
+        // TODO: push comment
+    }
+
+    /// Expects current char to be '/' and next char to be '*'.
+    pub(super) fn skip_block_comment(&mut self) {
+        let start = cur_pos!();
+
+        debug_assert_eq!(cur!(), Some('/'));
+        debug_assert_eq!(peek!(), Some('*'));
+
+        bump!();
+        bump!();
+
+        let mut was_star = false;
+
+        while let Some(c) = cur!() {
+            if was_star && is!('/') {
+                bump!();
+                // TODO: push comment
+                return;
+            }
+            if c.is_line_break() {
+                self.state.had_line_break = true;
+            }
+
+            was_star = is!('*');
+            bump!();
+        }
+
+        unimplemented!("error: unterminated block comment");
+    }
+}
 
 /// Implemented for `char` and `OptChar`.
 pub trait CharExt: Copy {

@@ -1,5 +1,7 @@
+use super::{Input, Lexer};
+use parser_macros::parser;
 use slog::Logger;
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use token::*;
 
 /// State of lexer.
@@ -12,12 +14,49 @@ pub(super) struct State {
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// TODO: Remove this field.
-    pub is_first: bool,
+    is_first: bool,
 
     context: Context,
 
     // TODO: Create a new enum `TokenType` instead of cloning token.
     token_type: Option<Token>,
+}
+
+#[parser]
+impl<I: Input> Iterator for Lexer<I> {
+    type Item = TokenAndSpan;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.state.had_line_break = self.state.is_first;
+        self.state.is_first = false;
+
+        // skip spaces before getting next character, if we are allowed to.
+        if self.state.can_skip_space() {
+            self.skip_space()
+        };
+
+        let start = cur_pos!();
+        if self.state.is_in_template() {
+            let token = self.read_tmpl_token()
+                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
+            self.state.update(&self.logger, &token);
+            return Some(TokenAndSpan {
+                token,
+                span: span!(start),
+            });
+        }
+
+        if let Some(token) = self.read_token()
+            .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
+        {
+            self.state.update(&self.logger, &token);
+            return Some(TokenAndSpan {
+                token,
+                span: span!(start),
+            });
+        }
+
+        None
+    }
 }
 
 impl State {
@@ -39,13 +78,18 @@ impl State {
             .unwrap_or(false)
     }
 
-    pub fn update(&mut self, logger: &Logger, next: &Token) {
-        match *next {
-            // skip comments
-            LineComment(..) | BlockComment(..) => return,
-            _ => {}
-        }
+    fn is_in_template(&self) -> bool {
+        self.context.current() == Some(Type::Tpl)
+    }
 
+    pub fn last_was_tpl_element(&self) -> bool {
+        match self.token_type {
+            Some(Template(..)) => true,
+            _ => false,
+        }
+    }
+
+    fn update(&mut self, logger: &Logger, next: &Token) {
         trace!(
             logger,
             "updating state: next={:?}, had_line_break={} ",

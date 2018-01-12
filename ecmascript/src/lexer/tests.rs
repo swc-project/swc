@@ -359,32 +359,32 @@ fn invalid_number_failure() {
     unimplemented!()
 }
 
-#[test]
-#[ignore]
-fn leading_comment() {
-    assert_eq!(
-        vec![
-            BlockComment(" hello world ".into()).span(0..17),
-            Regex("42".into(), "".into()).span(17..21),
-        ],
-        lex("/* hello world */  /42/")
-    )
-}
+// #[test]
+// #[ignore]
+// fn leading_comment() {
+//     assert_eq!(
+//         vec![
+//             BlockComment(" hello world ".into()).span(0..17),
+//             Regex("42".into(), "".into()).span(17..21),
+//         ],
+//         lex("/* hello world */  /42/")
+//     )
+// }
 
-#[test]
-#[ignore]
-fn line_comment() {
-    assert_eq!(
-        vec![
-            Keyword::Var.span(0..3),
-            "answer".span(4..10),
-            Assign.span(11),
-            42.span(13..15),
-            LineComment(" the Ultimate".into()).span(17..32),
-        ],
-        lex("var answer = 42  // the Ultimate"),
-    )
-}
+// #[test]
+// #[ignore]
+// fn line_comment() {
+//     assert_eq!(
+//         vec![
+//             Keyword::Var.span(0..3),
+//             "answer".span(4..10),
+//             Assign.span(11),
+//             42.span(13..15),
+//             LineComment(" the Ultimate".into()).span(17..32),
+//         ],
+//         lex("var answer = 42  // the Ultimate"),
+//     )
+// }
 
 #[test]
 fn migrated_0002() {
@@ -471,4 +471,28 @@ fn str_lit() {
     assert_eq!(vec![Str("abcde".into(), false)], lex_tokens("'abcde'"));
     assert_eq!(vec![Str("abcde".into(), true)], lex_tokens(r#""abcde""#));
     assert_eq!(vec![Str("abc".into(), false)], lex_tokens("'\\\nabc'"));
+}
+
+#[test]
+fn tpl_empty() {
+    assert_eq!(
+        lex_tokens(r#"``"#),
+        vec![tok!('`'), Template("".into()), tok!('`')]
+    )
+}
+
+#[test]
+fn tpl() {
+    assert_eq!(
+        lex_tokens(r#"`${a}`"#),
+        vec![
+            tok!('`'),
+            Template("".into()),
+            tok!("${"),
+            Word(Ident("a".into())),
+            tok!('}'),
+            Template("".into()),
+            tok!('`'),
+        ]
+    )
 }
