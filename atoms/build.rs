@@ -66,6 +66,18 @@ fn main() {
             "private",
             "protected",
             "public",
+            // Used by transforms.
+            "Array",
+            "Object",
+            "Infinity",
+            "NaN",
+            "function",
+            "string",
+            "number",
+            "boolean",
+            "object",
+            "undefined",
+            "length",
         ],
     );
 }
