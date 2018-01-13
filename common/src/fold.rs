@@ -28,7 +28,7 @@ impl<F> FoldWith<F> for ! {
 
 impl<T, F> FoldWith<F> for Box<T>
 where
-    T: FoldWith<F>,
+    F: Folder<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         box f.fold(*self)
@@ -37,7 +37,7 @@ where
 
 impl<T, F> FoldWith<F> for Vec<T>
 where
-    T: FoldWith<F>,
+    F: Folder<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         self.into_iter().map(|it| f.fold(it)).collect()
@@ -46,10 +46,10 @@ where
 
 impl<T, F> FoldWith<F> for Option<T>
 where
-    T: FoldWith<F>,
+    F: Folder<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
-        self.map(|t| t.fold_children(f))
+        self.map(|t| f.fold(t))
     }
 }
 
