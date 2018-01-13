@@ -16,7 +16,6 @@ pub use self::span::{BytePos, Span, Spanned};
 
 pub mod compat;
 pub mod fold;
-pub mod parser;
 mod ast_node;
 mod gen_iter;
 mod span;
