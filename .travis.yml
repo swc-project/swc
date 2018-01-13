@@ -1,10 +1,18 @@
 sudo: false
 dist: trusty
+
+addons:
+    apt:
+        packages:
+            - libssl-dev
+
 language: rust
 rust:
 - nightly
 cache:
 - cargo
+
+
 git:
     submodules: false
 before_install:
@@ -18,11 +26,13 @@ before_script:
 script:
 - |
   export TRAVIS_CARGO_NIGHTLY_FEATURE="" &&
-  travis-cargo build -- --all &&
-  travis-cargo test -- --all &&
-  export RUSTDOC="./scripts/rustdoc.sh" &&
+  cargo build --verbose --all &&
+  cargo test --verbose --all &&
   travis-cargo doc
 after_success:
+- bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)  
+- cargo tarpaulin --out Xml
+- bash <(curl -s https://codecov.io/bash)
 - travis-cargo doc-upload
 notifications:
   email:
