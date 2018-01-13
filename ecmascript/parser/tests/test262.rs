@@ -6,7 +6,7 @@
 #[macro_use]
 extern crate slog;
 extern crate swc_common;
-extern crate swc_ecmascript;
+extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
 use slog::Logger;
@@ -18,9 +18,9 @@ use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
 use swc_common::Span;
 use swc_common::fold::{FoldWith, Folder};
-use swc_ecmascript::ast::*;
-use swc_ecmascript::lexer::Lexer;
-use swc_ecmascript::parser::{PResult, Parser};
+use swc_ecma_parser::ast::*;
+use swc_ecma_parser::lexer::Lexer;
+use swc_ecma_parser::parser::{PResult, Parser};
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
 

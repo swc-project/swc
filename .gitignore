@@ -3,3 +3,4 @@
 **/*.bk
 core
 *.log
+Cargo.lock
