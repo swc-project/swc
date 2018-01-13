@@ -19,21 +19,18 @@ before_install:
     - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
     - git submodule update --init --recursive
 
-before_script:
-- |
-  pip install 'travis-cargo<0.2' --user &&
-  export PATH=$HOME/.local/bin:$PATH
 script:
 - |
   export TRAVIS_CARGO_NIGHTLY_FEATURE="" &&
   cargo build --verbose --all &&
-  cargo test --verbose --all &&
-  travis-cargo doc
+  cargo test --all
 after_success:
 - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)  
 - cargo tarpaulin --out Xml
 - bash <(curl -s https://codecov.io/bash)
-- travis-cargo doc-upload
+- '[ $TRAVIS_PULL_REQUEST = false ] &&
+     [ "$TRAVIS_BRANCH" == "master" ] &&
+    ./.travis/docs.sh'
 notifications:
   email:
     on_success: never
