@@ -1,10 +1,59 @@
 pub use self::Purity::{MayBeImpure, Pure};
-pub use self::Value::{Known, Unknown};
+pub use self::value::Type::{self, Bool as BoolType, Null as NullType, Num as NumberType,
+                            Obj as ObjectType, Str as StringType, Symbol as SymbolType,
+                            Undefined as UndefinedType};
+pub use self::value::Value::{self, Known, Unknown};
 use ast::*;
 use std::borrow::Cow;
 use std::f64::{INFINITY, NAN};
 use std::num::FpCategory;
-use std::ops::{Add, Not};
+use std::ops::Add;
+
+mod value;
+
+pub type Bool = Value<bool>;
+
+pub trait IsEmpty {
+    fn is_empty(&self) -> bool;
+}
+
+impl IsEmpty for BlockStmt {
+    fn is_empty(&self) -> bool {
+        self.stmts.is_empty()
+    }
+}
+impl IsEmpty for CatchClause {
+    fn is_empty(&self) -> bool {
+        self.body.stmts.is_empty()
+    }
+}
+impl IsEmpty for StmtKind {
+    fn is_empty(&self) -> bool {
+        match *self {
+            StmtKind::Empty => true,
+            StmtKind::Block(ref b) => b.is_empty(),
+            _ => false,
+        }
+    }
+}
+impl IsEmpty for Stmt {
+    fn is_empty(&self) -> bool {
+        self.node.is_empty()
+    }
+}
+impl<T: IsEmpty> IsEmpty for Option<T> {
+    fn is_empty(&self) -> bool {
+        match *self {
+            Some(ref node) => node.is_empty(),
+            None => true,
+        }
+    }
+}
+impl<T: IsEmpty> IsEmpty for Box<T> {
+    fn is_empty(&self) -> bool {
+        <T as IsEmpty>::is_empty(&*self)
+    }
+}
 
 pub trait ExprExt: Sized + AsRef<Expr> {
     ///
@@ -20,7 +69,7 @@ pub trait ExprExt: Sized + AsRef<Expr> {
 
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Bang,
+                op: op!("!"),
                 ref arg,
             } => {
                 let (p, v) = arg.as_bool();
@@ -29,12 +78,12 @@ pub trait ExprExt: Sized + AsRef<Expr> {
 
             ExprKind::Binary {
                 ref left,
-                op: op @ BinaryOp::LogicalAnd,
+                op: op @ op!("&"),
                 ref right,
             }
             | ExprKind::Binary {
                 ref left,
-                op: op @ BinaryOp::LogicalOr,
+                op: op @ op!("|"),
                 ref right,
             } => {
                 // TODO: Ignore purity if value cannot be reached.
@@ -45,7 +94,7 @@ pub trait ExprExt: Sized + AsRef<Expr> {
                 if lp + rp == Pure {
                     return (Pure, lv.and(rv));
                 }
-                if op == BinaryOp::LogicalAnd {
+                if op == op!("&") {
                     lv.and(rv)
                 } else {
                     lv.or(rv)
@@ -60,7 +109,7 @@ pub trait ExprExt: Sized + AsRef<Expr> {
 
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Void,
+                op: op!("void"),
                 arg: _,
             } => Known(false),
 
@@ -105,7 +154,7 @@ pub trait ExprExt: Sized + AsRef<Expr> {
             },
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Minus,
+                op: op!(unary "-"),
                 arg:
                     box Expr {
                         span: _,
@@ -118,7 +167,7 @@ pub trait ExprExt: Sized + AsRef<Expr> {
             } => -INFINITY,
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Bang,
+                op: op!("!"),
                 ref arg,
             } => match arg.as_bool() {
                 (Pure, Known(v)) => {
@@ -132,14 +181,14 @@ pub trait ExprExt: Sized + AsRef<Expr> {
             },
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Void,
-                ref arg,
+                op: op!("void"),
+                arg: _,
             } => {
-                if arg.may_have_side_effects() {
-                    return Unknown;
-                } else {
-                    NAN
-                }
+                // if arg.may_have_side_effects() {
+                return Unknown;
+                // } else {
+                //     NAN
+                // }
             }
 
             ExprKind::Tpl(..) | ExprKind::Object { .. } | ExprKind::Array { .. } => {
@@ -160,7 +209,7 @@ pub trait ExprExt: Sized + AsRef<Expr> {
         match expr.node {
             ExprKind::Lit(ref l) => match *l {
                 Lit::Str(ref s) => Some(Cow::Borrowed(s)),
-                Lit::Num(n) => Some(format!("{}", n).into()),
+                Lit::Num(ref n) => Some(format!("{}", n).into()),
                 Lit::Bool(true) => Some(Cow::Borrowed("true")),
                 Lit::Bool(false) => Some(Cow::Borrowed("false")),
                 Lit::Null => Some(Cow::Borrowed("null")),
@@ -177,12 +226,12 @@ pub trait ExprExt: Sized + AsRef<Expr> {
             },
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Void,
+                op: op!("void"),
                 ..
             } => Some(Cow::Borrowed("undefined")),
             ExprKind::Unary {
                 prefix: true,
-                op: UnaryOp::Bang,
+                op: op!("!"),
                 ref arg,
             } => match arg.as_bool() {
                 (Pure, Known(v)) => Some(Cow::Borrowed(if v { "false" } else { "true" })),
@@ -222,6 +271,78 @@ pub trait ExprExt: Sized + AsRef<Expr> {
             }
             ExprKind::Object { .. } => Some(Cow::Borrowed("[object Object]")),
             _ => None,
+        }
+    }
+
+    fn get_type(&self) -> Value<Type> {
+        let expr = self.as_ref();
+
+        match expr.node {
+            ExprKind::Assign { ref right, .. } => right.get_type(),
+            ExprKind::Seq { ref exprs } => exprs
+                .last()
+                .expect("sequence expression should not be empty")
+                .get_type(),
+            ExprKind::Binary {
+                ref left,
+                op: op!("&&"),
+                ref right,
+            }
+            | ExprKind::Binary {
+                ref left,
+                op: op!("||"),
+                ref right,
+            } => {}
+
+
+            ExprKind::Assign {
+                ref left,
+                op: AssignOp::AddAssign,
+                ref right,
+            } => {
+                if right.get_type() == Known(StringType) {
+                    return Known(StringType);
+                }
+                return Unknown;
+            }
+
+            ExprKind::Ident(Ident { ref sym, .. }) => {
+                return Known(match *sym {
+                    js_word!("undefined") => UndefinedType,
+                    js_word!("NaN") | js_word!("Infinity") => NumberType,
+                    _ => return Unknown,
+                })
+            }
+
+ExprKind::Lit(Lit::Num(..))|
+ExprKind::Assign{op:op!("&="),..}|
+ExprKind::Assign{op:op!("^="),..}|
+ExprKind::Assign{op:op!("|="),..}|
+ExprKind::Assign{op:op!("<<="),..}|
+ExprKind::Assign{op:op!(">>="),..}|
+ExprKind::Assign{op:op!(">>>="),..}|
+ExprKind::Assign{op:op!("-="),..}|
+ExprKind::Assign{op:op!("*="),..}|
+ExprKind::Assign{op:op!("**="),..}|
+ExprKind::Assign{op:op!("/="),..}|
+ExprKind::Assign{op:op!("%="),..}
+// case BITNOT:
+//       case BITOR:
+//       case BITXOR:
+//       case BITAND:
+//       case LSH:
+//       case RSH:
+//       case URSH:
+//       case SUB:
+//       case MUL:
+//       case MOD:
+//       case DIV:
+//       case EXPONENT:
+//       case INC:
+//       case DEC:
+//       case POS:
+//       case NEG:
+   =>     return Known(NumberType),
         }
     }
 }
@@ -281,56 +402,6 @@ impl Add for Purity {
         match (self, rhs) {
             (Pure, Pure) => Pure,
             _ => MayBeImpure,
-        }
-    }
-}
-
-/// Value.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum Value<T> {
-    Known(T),
-    Unknown,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum Type {
-    Str,
-    Obj,
-    Undetermined,
-}
-
-pub type Bool = Value<bool>;
-
-impl Value<bool> {
-    pub fn and(self, other: Self) -> Self {
-        match self {
-            Known(true) => other,
-            Known(false) => Known(false),
-            Unknown => match other {
-                Known(false) => Known(false),
-                _ => Unknown,
-            },
-        }
-    }
-
-    pub fn or(self, other: Self) -> Self {
-        match self {
-            Known(true) => Known(true),
-            Known(false) => other,
-            Unknown => match other {
-                Known(true) => Known(true),
-                _ => Unknown,
-            },
-        }
-    }
-}
-
-impl Not for Value<bool> {
-    type Output = Self;
-    fn not(self) -> Self {
-        match self {
-            Value::Known(b) => Value::Known(!b),
-            Value::Unknown => Value::Unknown,
         }
     }
 }

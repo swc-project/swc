@@ -81,6 +81,14 @@ impl Folder<StmtKind> for Simplify {
                 ExprKind::Lit(Lit::Num(..))
                 | ExprKind::Lit(Lit::Bool(..))
                 | ExprKind::Lit(Lit::Regex(..)) => StmtKind::Empty,
+
+                //
+                // Function expressions are useless if they are not used.
+                //
+                // As function expressions cannot start with 'function',
+                // this will be reached only if other things
+                // are removed while folding chilren.
+                ExprKind::Function(..) => StmtKind::Empty,
                 _ => StmtKind::Expr(box Expr { node, span }),
             },
 
@@ -88,10 +96,55 @@ impl Folder<StmtKind> for Simplify {
                 if stmts.len() == 0 {
                     return StmtKind::Empty;
                 } else if stmts.len() == 1 {
-                    // TODO: Check lexical variable
+                    // TODO: Check if lexical variable exists.
                     return stmts.into_iter().next().unwrap().node;
                 } else {
                     StmtKind::Block(BlockStmt { span, stmts })
+                }
+            }
+
+            StmtKind::Try {
+                block,
+                handler,
+                finalizer,
+            } => {
+                // Only leave the finally block if try block is empty
+                if block.is_empty() {
+                    return finalizer.map(StmtKind::Block).unwrap_or(StmtKind::Empty);
+                }
+
+                // If catch block and finally block is empty, remove try-catch is useless.
+                if handler.is_empty() && finalizer.is_empty() {
+                    return StmtKind::Block(block);
+                }
+
+                StmtKind::Try {
+                    block,
+                    handler,
+                    finalizer,
+                }
+            }
+
+            // Remove empty else block.
+            // As we fold children before parent, unused expression
+            // statements without side effects are converted to
+            // StmtKind::Empty before here.
+            StmtKind::If {
+                test,
+                consequent,
+                alt,
+            } => {
+                if alt.is_empty() {
+                    return StmtKind::If {
+                        test,
+                        consequent,
+                        alt: None,
+                    };
+                }
+                StmtKind::If {
+                    test,
+                    consequent,
+                    alt,
                 }
             }
 

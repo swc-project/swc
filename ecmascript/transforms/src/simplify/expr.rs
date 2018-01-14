@@ -7,6 +7,7 @@ use util::*;
 
 impl Folder<ExprKind> for Simplify {
     fn fold(&mut self, expr: ExprKind) -> ExprKind {
+        // fold children nodes.
         let expr = expr.fold_children(self);
 
         match expr {
@@ -47,10 +48,10 @@ impl Folder<ExprKind> for Simplify {
 
 fn fold_bin(left: Box<Expr>, op: BinaryOp, right: Box<Expr>) -> ExprKind {
     let (left, right) = match op {
-        BinaryOp::Add => return fold_add(left, right),
-        BinaryOp::LogicalAnd | BinaryOp::LogicalOr => match left.as_bool() {
+        op!(bin "+") => return fold_add(left, right),
+        op!("&&") | op!("||") => match left.as_bool() {
             (Pure, Known(val)) => {
-                if op == BinaryOp::LogicalAnd {
+                if op == op!("&&") {
                     if val {
                         // 1 && $right
                         return right.node;
@@ -70,9 +71,9 @@ fn fold_bin(left: Box<Expr>, op: BinaryOp, right: Box<Expr>) -> ExprKind {
             }
             _ => (left, right),
         },
-        BinaryOp::InstanceOf => (left, right),
+        op!("instanceof") => (left, right),
 
-        BinaryOp::Sub | BinaryOp::Div | BinaryOp::Mod => {
+        op!(bin "-") | op!("/") | op!("%") => {
             // Arithmetic operations
 
             (left, right)
@@ -89,7 +90,7 @@ fn fold_add(left: Box<Expr>, right: Box<Expr>) -> ExprKind {
 
     Binary {
         left,
-        op: BinaryOp::Add,
+        op: op!(bin "+"),
         right,
     }
 }
@@ -98,7 +99,7 @@ fn fold_unary(prefix: bool, op: UnaryOp, arg: Box<Expr>) -> ExprKind {
     let span = arg.span;
 
     match op {
-        UnaryOp::TypeOf => {
+        op!("typeof") => {
             let val = match arg.node {
                 Function(..) => "function",
                 Lit(Lit::Str(..)) => "string",
@@ -107,7 +108,7 @@ fn fold_unary(prefix: bool, op: UnaryOp, arg: Box<Expr>) -> ExprKind {
                 Lit(Lit::Null) | Object { .. } | Array { .. } => "object",
                 Unary {
                     prefix: true,
-                    op: UnaryOp::Void,
+                    op: op!("void"),
                     ..
                 }
                 | Ident(Ident {
@@ -122,7 +123,7 @@ fn fold_unary(prefix: bool, op: UnaryOp, arg: Box<Expr>) -> ExprKind {
                 _ => {
                     return Unary {
                         prefix: true,
-                        op: UnaryOp::TypeOf,
+                        op: op!("typeof"),
                         arg,
                     }
                 }
@@ -130,7 +131,7 @@ fn fold_unary(prefix: bool, op: UnaryOp, arg: Box<Expr>) -> ExprKind {
 
             return Lit(Lit::Str(val.into()));
         }
-        UnaryOp::Bang => match arg.as_bool() {
+        op!("!") => match arg.as_bool() {
             (p, Known(val)) => {
                 let new = Lit(Lit::Bool(!val));
                 return if p.is_pure() {
@@ -149,8 +150,8 @@ fn fold_unary(prefix: bool, op: UnaryOp, arg: Box<Expr>) -> ExprKind {
                 }
             }
         },
-        UnaryOp::Plus => {}
-        UnaryOp::Minus => match arg.node {
+        op!(unary "+") => {}
+        op!(unary "-") => match arg.node {
             Ident(Ident {
                 sym: js_word!("Infinity"),
                 ..
@@ -173,4 +174,18 @@ fn fold_unary(prefix: bool, op: UnaryOp, arg: Box<Expr>) -> ExprKind {
 }
 
 /// Try to fold arithmetic binary operators
-fn perform_arithmetic_op(op: BinaryOp, left: Box<Expr>, right: Box<Expr>) -> ExprKind {}
+fn perform_arithmetic_op(op: BinaryOp, left: Box<Expr>, right: Box<Expr>) -> ExprKind {
+    let (lv, rv) = (left.as_number(), right.as_number());
+
+    if lv.is_unknown() && rv.is_unknown() {
+        return Binary { left, op, right };
+    }
+
+    Binary { left, op, right }
+}
+
+/// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
+fn perform_abstract_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {}
+
+/// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
+fn perform_strict_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {}
