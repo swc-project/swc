@@ -82,7 +82,7 @@ impl Fold for MyFolder {
         let span = get_joinned_span(&i.path);
 
         match &*name {
-            "vec" | "unreachable" | "tok" | "js_word" => return i,
+            "vec" | "unreachable" | "tok" | "op" | "js_word" => return i,
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" => {
                 let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());

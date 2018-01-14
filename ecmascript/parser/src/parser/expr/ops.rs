@@ -25,8 +25,8 @@ impl<I: Input> Parser<I> {
                 None => return Ok(left),
             }
         } {
-            &Word(Keyword(In)) if self.ctx.include_in_expr => BinaryOp::In,
-            &Word(Keyword(InstanceOf)) => BinaryOp::InstanceOf,
+            &Word(Keyword(In)) if self.ctx.include_in_expr => op!("in"),
+            &Word(Keyword(InstanceOf)) => op!("instanceof"),
             &BinOp(op) => op.into(),
             _ => {
                 return Ok(left);
@@ -56,7 +56,7 @@ impl<I: Input> Parser<I> {
 
         match left.node {
             // This is invalid syntax.
-            ExprKind::Unary { .. } if op == BinaryOp::Exp => {
+            ExprKind::Unary { .. } if op == op!("**") => {
                 // Correct implementation would be returning Ok(left) and
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
@@ -70,7 +70,7 @@ impl<I: Input> Parser<I> {
             let left_of_right = self.parse_unary_expr()?;
             self.parse_bin_op_recursively(
                 left_of_right,
-                if op == BinaryOp::Exp {
+                if op == op!("**") {
                     // exponential operator is right associative
                     op.precedence() - 1
                 } else {
@@ -97,9 +97,9 @@ impl<I: Input> Parser<I> {
         // Parse update expression
         if is!("++") || is!("--") {
             let op = if bump!() == PlusPlus {
-                UpdateOp::PlusPlus
+                op!("++")
             } else {
-                UpdateOp::MinusMinus
+                op!("--")
             };
 
             let arg = self.parse_unary_expr()?;
@@ -116,13 +116,13 @@ impl<I: Input> Parser<I> {
         // Parse unary expression
         if is_one_of!("delete", "void", "typeof", '+', '-', '~', '!') {
             let op = match bump!() {
-                Word(Keyword(Delete)) => UnaryOp::Delete,
-                Word(Keyword(Void)) => UnaryOp::Void,
-                Word(Keyword(TypeOf)) => UnaryOp::TypeOf,
-                BinOp(Add) => UnaryOp::Plus,
-                BinOp(Sub) => UnaryOp::Minus,
-                Tilde => UnaryOp::Tilde,
-                Bang => UnaryOp::Bang,
+                Word(Keyword(Delete)) => op!("delete"),
+                Word(Keyword(Void)) => op!("void"),
+                Word(Keyword(TypeOf)) => op!("typeof"),
+                BinOp(Add) => op!(unary, "+"),
+                BinOp(Sub) => op!(unary, "-"),
+                Tilde => op!("~"),
+                Bang => op!("!"),
                 _ => unreachable!(),
             };
             let arg = self.parse_unary_expr()?;
@@ -152,9 +152,9 @@ impl<I: Input> Parser<I> {
         if is_one_of!("++", "--") {
             let start = cur_pos!();
             let op = if bump!() == PlusPlus {
-                UpdateOp::PlusPlus
+                op!("++")
             } else {
-                UpdateOp::MinusMinus
+                op!("--")
             };
 
             return Ok(box Expr {
@@ -208,7 +208,7 @@ mod tests {
             box Expr {
                 span: Default::default(),
                 node: ExprKind::Binary {
-                    op: BinaryOp::Add,
+                    op: op!(bin, "+"),
                     left: bin("5"),
                     right: bin("4 * 7"),
                 },
@@ -223,7 +223,7 @@ mod tests {
             box Expr {
                 span: Default::default(),
                 node: ExprKind::Binary {
-                    op: BinaryOp::Add,
+                    op: op!(bin, "+"),
                     left: bin("5 + 4"),
                     right: bin("7"),
                 },

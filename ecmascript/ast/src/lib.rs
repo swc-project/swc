@@ -25,6 +25,7 @@ use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};
 use swc_macros::AstNode;
 
+mod macros;
 mod class;
 mod decl;
 mod expr;
