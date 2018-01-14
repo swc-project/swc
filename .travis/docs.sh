@@ -23,8 +23,8 @@ if [ "$TRAVIS_TAG" = ""  ]; then
 fi
 
 
-git add -A .
-git commit -m "rebuild pages at ${TRAVIS_COMMIT}"
+git add -A . > /dev/null @>&1
+git commit -q -m "rebuild pages at ${TRAVIS_COMMIT}"
 
 echo
 echo "Pushing docs..."
