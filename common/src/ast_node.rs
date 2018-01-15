@@ -9,6 +9,3 @@ use std::fmt::Debug;
 /// This trait can be derived with `#[derive(AstNode)]`.
 ///
 pub trait AstNode: Debug + PartialEq + Clone {}
-
-/// Marker.
-impl AstNode for ! {}

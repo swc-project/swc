@@ -1,20 +1,42 @@
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
 
-/// This trait requires `specialization` feature.
+/// Folder based on a type system.
+///
+/// This trait requires `#![feature(specialization)]`.
 pub trait Folder<T> {
-    fn fold(&mut self, t: T) -> T;
+    /// By default, this folds fields of `node`
+    ///  and reconstruct `node` with folded fields
+    fn fold(&mut self, node: T) -> T;
 }
+
+/// Trait implemented for types which know how to fold itself.
+///
+///
+///#Derive
+///
 /// This trait can be derived with `#[derive(AstNode)]`.
-pub trait FoldWith<F> {
+///
+/// Note that derive ignores all fields with primitive type
+/// because it would encourage mistakes. Use new type instead.
+///
+/// `#[fold(ignore)]` can be used to ignore a field.
+pub trait FoldWith<F>: Sized {
+    /// This is used by default implementation of `Folder<Self>::fold`.
     fn fold_children(self, f: &mut F) -> Self;
+
+    /// Call `f.fold(self)`.
+    ///
+    /// This bypasses a type inference bug which is caused by specialization.
+    fn fold_with(self, f: &mut F) -> Self {
+        f.fold(self)
+    }
 }
 
 impl<T, F> Folder<T> for F
 where
     T: FoldWith<F>,
 {
-    /// Default implementation which folds childrens with `self`.
     default fn fold(&mut self, t: T) -> T {
         t.fold_children(self)
     }

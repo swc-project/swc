@@ -17,7 +17,7 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
             Quote::new_call_site()
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
-                    (Type: ::swc_common::fold::FoldWith<__Folder>)
+                    (Type: ::swc_common::FoldWith<__Folder>)
                 ))
                 .parse()
         });
@@ -61,12 +61,7 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
                                 FieldType: &binding.field().ty,
                                 binded_field: binding.name(),
                             },
-                            {
-                                ::swc_common::fold::Folder::<FieldType>::fold(
-                                    __folder,
-                                    binded_field,
-                                )
-                            }
+                            { ::swc_common::Folder::<FieldType>::fold(__folder, binded_field,) }
                         )),
                     };
 
@@ -146,7 +141,7 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
                 body,
             },
             {
-                impl<__Folder> ::swc_common::fold::FoldWith<__Folder> for Type {
+                impl<__Folder> ::swc_common::FoldWith<__Folder> for Type {
                     fn fold_children(self, __folder: &mut __Folder) -> Self {
                         body
                     }
