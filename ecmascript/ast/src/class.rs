@@ -1,6 +1,5 @@
 use super::{Expr, Function, PropName};
-use swc_common::Span;
-use swc_common::fold::FoldWith;
+use swc_common::{FoldWith, Span};
 use swc_macros::ast_node;
 
 #[ast_node]

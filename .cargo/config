@@ -1,4 +1,4 @@
 
 [build]
 rustflags = ["--cfg", "procmacro2_semver_exempt"] 
-rustdocflags = ["--cfg", "procmacro2_semver_exempt", "--document-private-items"] 
+rustdocflags = ["--cfg", "procmacro2_semver_exempt"] 

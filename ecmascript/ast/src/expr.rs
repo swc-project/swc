@@ -1,6 +1,5 @@
 use super::{BlockStmt, Class, Function, Ident, Lit, Pat, Prop};
-use swc_common::{Span, Spanned};
-use swc_common::fold::FoldWith;
+use swc_common::{FoldWith, Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]

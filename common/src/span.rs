@@ -1,6 +1,9 @@
 use fold::FoldWith;
 use std::fmt::{self, Debug, Display, Formatter};
 
+/// A new-type struct for position of specific byte.
+///
+/// See [Span](./struct.Span.html).
 #[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct BytePos(pub u32);
 impl Display for BytePos {
@@ -14,6 +17,7 @@ impl Debug for BytePos {
     }
 }
 
+/// Byte range of a token or node.
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Span {
     /// Inclusive
@@ -32,6 +36,7 @@ impl Debug for Span {
 }
 
 impl Span {
+    /// Dummy span. This is same as `Span::defult()`.
     pub const DUMMY: Span = Span {
         start: BytePos(0),
         end: BytePos(0),
@@ -46,6 +51,7 @@ impl Default for Span {
 }
 
 pub trait Spanned<T>: Sized {
+    /// Creates `Self` from `node` and `span.
     fn from_unspanned(node: T, span: Span) -> Self;
 }
 
@@ -59,7 +65,7 @@ where
 }
 
 impl<F> FoldWith<F> for Span {
-    /// no-op
+    /// No op as span does not have any child.
     fn fold_children(self, _: &mut F) -> Span {
         self
     }
