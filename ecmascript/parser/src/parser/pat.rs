@@ -189,25 +189,25 @@ impl<I: Input> Parser<I> {
                     span,
                     node: PatKind::Object(props
                         .into_iter()
-                        .map(|prop| {
-                            match prop.node {
-                                PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
-                                    key: id.into(),
-                                    value: None,
-                                }),
-                                PropKind::KeyValue { key, value } => Ok(ObjectPatProp::KeyValue {
-                                    key,
-                                    value: box self.reparse_expr_as_pat(value)?,
-                                }),
-                                PropKind::Assign { key, value } => Ok(ObjectPatProp::Assign {
-                                    key,
-                                    value: Some(value),
-                                }),
+                        .map(|prop| match prop.node {
+                            PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
+                                key: id.into(),
+                                value: None,
+                            }),
+                            PropKind::KeyValue { key, value } => Ok(ObjectPatProp::KeyValue {
+                                key,
+                                value: box self.reparse_expr_as_pat(value)?,
+                            }),
+                            PropKind::Assign { key, value } => Ok(ObjectPatProp::Assign {
+                                key,
+                                value: Some(value),
+                            }),
 
-                                _ => {
-                                    unimplemented!("error reporting: object pattern cannot contain method property: {:?}", prop)
-                                }
-                            }
+                            _ => unimplemented!(
+                                "error reporting: object pattern cannot contain method property: \
+                                 {:?}",
+                                prop
+                            ),
                         })
                         .collect::<PResult<_>>()?),
                 });

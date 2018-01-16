@@ -20,13 +20,13 @@ extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate swc_common;
+pub extern crate swc_ecma_ast as ast;
 #[macro_use]
 extern crate swc_macros;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
 extern crate unicode_xid;
-pub extern crate swc_ecma_ast as ast;
 
 #[macro_use]
 mod macros;

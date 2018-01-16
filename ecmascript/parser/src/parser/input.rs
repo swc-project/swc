@@ -68,8 +68,7 @@ impl<I: Input> ParserInput<I> {
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
         self.bump_inner().expect(
-            "Current token is `None`. Parser should not call bump()\
-             without knowing current token",
+            "Current token is `None`. Parser should not call bump()without knowing current token",
         )
     }
 

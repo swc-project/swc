@@ -257,7 +257,10 @@ impl<I: Input> StmtLikeParser<ModuleItem> for Parser<I> {
         } else if is!("export") {
             self.parse_export()?
         } else {
-            unreachable!("handle_import_export should not be called if current token isn't import nor export")
+            unreachable!(
+                "handle_import_export should not be called if current token isn't import nor \
+                 export"
+            )
         };
 
         Ok(ModuleItem::ModuleDecl(decl))
