@@ -5,23 +5,26 @@
 //!
 //! ```rust
 //! struct S {
-//!   a: u8,
-//!   b: u16,
+//!     a: u8,
+//!     b: u16,
 //! }
-//! let s = S { a: 0, b: 0, };
+//! let s = S { a: 0, b: 0 };
 //! match s {
-//!   S { a: _binded_a, b: _binded_b } => {}
+//!     S {
+//!         a: _binded_a,
+//!         b: _binded_b,
+//!     } => {}
 //! }
 //! enum E {
-//!   V1 { a: u8 },
-//!   V2(u16),
-//!   V3,
+//!     V1 { a: u8 },
+//!     V2(u16),
+//!     V3,
 //! }
-//! let e = E::V1{ a: 0 };
+//! let e = E::V1 { a: 0 };
 //! match e {
-//!   E::V1 { a: _binded_a } => {}
-//!   E::V2(_binded_0) => {}
-//!   E::V3 => {}
+//!     E::V1 { a: _binded_a } => {}
+//!     E::V2(_binded_0) => {}
+//!     E::V3 => {}
 //! }
 //! ```
 //!
