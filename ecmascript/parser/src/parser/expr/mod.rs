@@ -19,7 +19,7 @@ impl<I: Input> Parser<I> {
             let end = exprs.last().unwrap().span.end;
             return Ok(box Expr {
                 span: Span { start, end },
-                node: ExprKind::Seq { exprs },
+                node: ExprKind::Seq(SeqExpr { exprs }),
             });
         }
 
@@ -52,10 +52,9 @@ impl<I: Input> Parser<I> {
         match cond.node {
             // if cond is conditional expression but not left-hand-side expression,
             // just return it.
-            ExprKind::Cond { .. }
-            | ExprKind::Binary { .. }
-            | ExprKind::Unary { .. }
-            | ExprKind::Update { .. } => return Ok(cond),
+            ExprKind::Cond(..) | ExprKind::Bin(..) | ExprKind::Unary(..) | ExprKind::Update(..) => {
+                return Ok(cond)
+            }
             _ => {}
         }
 
@@ -65,12 +64,12 @@ impl<I: Input> Parser<I> {
                 let right = self.parse_assignment_expr()?;
                 Ok(box Expr {
                     span: span!(start),
-                    node: ExprKind::Assign {
+                    node: ExprKind::Assign(AssignExpr {
                         op,
                         // TODO:
                         left: PatOrExpr::Expr(cond),
                         right,
-                    },
+                    }),
                 })
             }
             _ => Ok(cond),
@@ -88,7 +87,7 @@ impl<I: Input> Parser<I> {
                 expect!(':');
                 let alt = self.parse_assignment_expr()?;
 
-                Ok(ExprKind::Cond { test, cons, alt })
+                Ok(ExprKind::Cond(CondExpr { test, cons, alt }))
             } else {
                 return Ok(test);
             }
@@ -169,23 +168,23 @@ impl<I: Input> Parser<I> {
                     let params = vec![arg];
                     expect!("=>");
                     let body = self.parse_fn_body(true, false)?;
-                    Ok(ExprKind::Arrow {
+                    Ok(ExprKind::Arrow(ArrowExpr {
                         body,
                         params,
                         is_async: true,
                         is_generator: false,
-                    })
+                    }))
                 } else if can_be_arrow && !is!(';') && eat!("=>") {
                     // async is parameter
 
                     let params = vec![id.into()];
                     let body = self.parse_fn_body(false, false)?;
-                    Ok(ExprKind::Arrow {
+                    Ok(ExprKind::Arrow(ArrowExpr {
                         body,
                         params,
                         is_async: false,
                         is_generator: false,
-                    })
+                    }))
                 } else {
                     return Ok(id.into());
                 }
@@ -214,7 +213,7 @@ impl<I: Input> Parser<I> {
 
             expect!(']');
 
-            Ok(ExprKind::Array { elems })
+            Ok(ExprKind::Array(ArrayLit { elems }))
         })
     }
 
@@ -232,7 +231,7 @@ impl<I: Input> Parser<I> {
                 if eat!("target") {
                     return Ok(box Expr {
                         span: span!(start),
-                        node: ExprKind::MetaProp {
+                        node: ExprKind::MetaProp(MetaPropExpr {
                             meta: Ident {
                                 span: span_of_new,
                                 sym: js_word!("new"),
@@ -241,7 +240,7 @@ impl<I: Input> Parser<I> {
                                 span: span!(start_of_target),
                                 sym: js_word!("target"),
                             },
-                        },
+                        }),
                     });
                 }
 
@@ -258,7 +257,7 @@ impl<I: Input> Parser<I> {
                 return self.parse_subscripts(
                     ExprOrSuper::Expr(box Expr {
                         span: span!(start),
-                        node: ExprKind::New { callee, args },
+                        node: ExprKind::New(NewExpr { callee, args }),
                     }),
                     true,
                 );
@@ -268,7 +267,7 @@ impl<I: Input> Parser<I> {
 
             return Ok(box Expr {
                 span: span!(start),
-                node: ExprKind::New { callee, args: None },
+                node: ExprKind::New(NewExpr { callee, args: None }),
             });
         }
 
@@ -347,12 +346,12 @@ impl<I: Input> Parser<I> {
             let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
             return Ok(box Expr {
                 span: span!(start),
-                node: ExprKind::Arrow {
+                node: ExprKind::Arrow(ArrowExpr {
                     is_async: false,
                     is_generator: false,
                     params,
                     body,
-                },
+                }),
             });
         }
 
@@ -388,7 +387,7 @@ impl<I: Input> Parser<I> {
                     start: exprs.first().unwrap().span.start,
                     end: exprs.last().unwrap().span.end,
                 },
-                node: ExprKind::Seq { exprs },
+                node: ExprKind::Seq(SeqExpr { exprs }),
             };
             return Ok(box Expr {
                 span: span!(start),
@@ -459,11 +458,11 @@ impl<I: Input> Parser<I> {
             return Ok((
                 box Expr {
                     span: span!(start),
-                    node: ExprKind::Member {
+                    node: ExprKind::Member(MemberExpr {
                         obj,
                         prop,
                         computed: false,
-                    },
+                    }),
                 },
                 true,
             ));
@@ -476,11 +475,11 @@ impl<I: Input> Parser<I> {
             return Ok((
                 box Expr {
                     span: span!(start),
-                    node: ExprKind::Member {
+                    node: ExprKind::Member(MemberExpr {
                         obj,
                         prop,
                         computed: true,
-                    },
+                    }),
                 },
                 true,
             ));
@@ -491,7 +490,7 @@ impl<I: Input> Parser<I> {
             return Ok((
                 box Expr {
                     span: span!(start),
-                    node: ExprKind::Call { callee: obj, args },
+                    node: ExprKind::Call(CallExpr { callee: obj, args }),
                 },
                 true,
             ));
@@ -538,7 +537,7 @@ impl<I: Input> Parser<I> {
 
         match callee.node {
             // If this is parsed using 'NewExpression' rule, just return it.
-            ExprKind::New { args: None, .. } => {
+            ExprKind::New(NewExpr { args: None, .. }) => {
                 assert_ne!(
                     cur!(),
                     Some(&LParen),
@@ -557,10 +556,10 @@ impl<I: Input> Parser<I> {
             let args = self.parse_args()?;
             let call_expr = box Expr {
                 span: span!(start),
-                node: ExprKind::Call {
+                node: ExprKind::Call(CallExpr {
                     callee: ExprOrSuper::Expr(callee),
                     args,
-                },
+                }),
             };
 
             return self.parse_subscripts(ExprOrSuper::Expr(call_expr), false);
@@ -594,18 +593,18 @@ impl<I: Input> Parser<I> {
             // evaluated before the resulting generator object is in a resumable state.
 
             if is!(';') || (!is!('*') && !cur!().map(Token::starts_expr).unwrap_or(true)) {
-                Ok(ExprKind::Yield {
+                Ok(ExprKind::Yield(YieldExpr {
                     arg: None,
                     delegate: false,
-                })
+                }))
             } else {
                 let has_star = eat!('*');
                 let arg = self.parse_assignment_expr()?;
 
-                Ok(ExprKind::Yield {
+                Ok(ExprKind::Yield(YieldExpr {
                     arg: Some(arg),
                     delegate: has_star,
-                })
+                }))
             }
         })
     }

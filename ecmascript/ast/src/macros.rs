@@ -1,4 +1,7 @@
+/// Creates a corresponding operator.
+///
 /// Unary +,- is `op!(unary, "+")`, `op!(unary, "-")`.
+///
 /// Binary +,- is `op!(bin, "+")`, `op!(bin, "-")`.
 #[macro_export]
 macro_rules! op {

@@ -49,89 +49,111 @@ pub enum StmtKind {
 
     Debugger,
 
-    With {
-        obj: Box<Expr>,
-        body: Box<Stmt>,
-    },
+    With(WithStmt),
 
-    Return {
-        arg: Option<Box<Expr>>,
-    },
+    Return(ReturnStmt),
 
-    Labeled {
-        label: Ident,
-        body: Box<Stmt>,
-    },
+    Labeled(LabeledStmt),
 
-    Break {
-        label: Option<Ident>,
-    },
+    Break(BreakStmt),
 
-    Continue {
-        label: Option<Ident>,
-    },
+    Continue(ContinueStmt),
 
-    If {
-        test: Box<Expr>,
-        consequent: Box<Stmt>,
+    If(IfStmt),
 
-        alt: Option<Box<Stmt>>,
-    },
+    Switch(SwitchStmt),
 
-    Switch {
-        discriminant: Box<Expr>,
-        cases: Vec<SwitchCase>,
-    },
-
-    Throw {
-        arg: Box<Expr>,
-    },
+    Throw(ThrowStmt),
 
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
-    Try {
-        block: BlockStmt,
-        handler: Option<CatchClause>,
-        finalizer: Option<BlockStmt>,
-    },
+    Try(TryStmt),
 
-    While {
-        test: Box<Expr>,
-        body: Box<Stmt>,
-    },
+    While(WhileStmt),
 
-    DoWhile {
-        test: Box<Expr>,
-        body: Box<Stmt>,
-    },
+    DoWhile(DoWhileStmt),
 
-    For {
-        /// VarDecl | Expr | null
-        init: Option<VarDeclOrExpr>,
+    For(ForStmt),
 
-        test: Option<Box<Expr>>,
+    ForIn(ForInStmt),
 
-        update: Option<Box<Expr>>,
-
-        body: Box<Stmt>,
-    },
-
-    ForIn {
-        left: VarDeclOrPat,
-
-        right: Box<Expr>,
-
-        body: Box<Stmt>,
-    },
-
-    ForOf {
-        left: VarDeclOrPat,
-
-        right: Box<Expr>,
-
-        body: Box<Stmt>,
-    },
+    ForOf(ForOfStmt),
 
     Decl(Decl),
+}
+
+#[ast_node]
+pub struct WithStmt {
+    pub obj: Box<Expr>,
+    pub body: Box<Stmt>,
+}
+
+#[ast_node]
+pub struct ReturnStmt {
+    pub arg: Option<Box<Expr>>,
+}
+
+#[ast_node]
+pub struct LabeledStmt {
+    pub label: Ident,
+    pub body: Box<Stmt>,
+}
+#[ast_node]
+pub struct BreakStmt {
+    pub label: Option<Ident>,
+}
+#[ast_node]
+pub struct ContinueStmt {
+    pub label: Option<Ident>,
+}
+#[ast_node]
+pub struct IfStmt {
+    pub test: Box<Expr>,
+    pub cons: Box<Stmt>,
+    pub alt: Option<Box<Stmt>>,
+}
+#[ast_node]
+pub struct SwitchStmt {
+    pub discriminant: Box<Expr>,
+    pub cases: Vec<SwitchCase>,
+}
+#[ast_node]
+pub struct ThrowStmt {
+    pub arg: Box<Expr>,
+}
+#[ast_node]
+pub struct TryStmt {
+    pub block: BlockStmt,
+    pub handler: Option<CatchClause>,
+    pub finalizer: Option<BlockStmt>,
+}
+#[ast_node]
+pub struct WhileStmt {
+    pub test: Box<Expr>,
+    pub body: Box<Stmt>,
+}
+#[ast_node]
+pub struct DoWhileStmt {
+    pub test: Box<Expr>,
+    pub body: Box<Stmt>,
+}
+#[ast_node]
+pub struct ForStmt {
+    pub init: Option<VarDeclOrExpr>,
+    pub test: Option<Box<Expr>>,
+    pub update: Option<Box<Expr>>,
+    pub body: Box<Stmt>,
+}
+#[ast_node]
+pub struct ForInStmt {
+    pub left: VarDeclOrPat,
+    pub right: Box<Expr>,
+    pub body: Box<Stmt>,
+}
+#[ast_node]
+pub struct ForOfStmt {
+    pub left: VarDeclOrPat,
+    pub right: Box<Expr>,
+    pub body: Box<Stmt>,
 }
 
 #[ast_node]
@@ -140,7 +162,7 @@ pub struct SwitchCase {
     /// None for `default:`
     pub test: Option<Box<Expr>>,
 
-    pub consequent: Vec<Stmt>,
+    pub cons: Vec<Stmt>,
 }
 
 #[ast_node]

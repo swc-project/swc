@@ -213,14 +213,14 @@ impl Folder<ExprKind> for Normalizer {
     fn fold(&mut self, e: ExprKind) -> ExprKind {
         match e {
             ExprKind::Paren(e) => self.fold(e.node),
-            ExprKind::New { callee, args: None } => {
+            ExprKind::New(NewExpr { callee, args: None }) => {
                 self.did_something = true;
-                ExprKind::New {
+                ExprKind::New(NewExpr {
                     callee: self.fold(callee),
                     args: Some(vec![]),
-                }
+                })
             }
-            ExprKind::Seq { exprs } => {
+            ExprKind::Seq(SeqExpr { exprs }) => {
                 let mut exprs = self.fold(exprs);
                 let need_work = exprs.iter().map(|e| &e.node).any(|n| match *n {
                     ExprKind::Seq { .. } => true,
@@ -231,13 +231,13 @@ impl Folder<ExprKind> for Normalizer {
                     self.did_something = true;
                     exprs = exprs.into_iter().fold(vec![], |mut v, e| {
                         match e.node {
-                            ExprKind::Seq { exprs } => v.extend(exprs),
+                            ExprKind::Seq(SeqExpr { exprs }) => v.extend(exprs),
                             _ => v.push(e),
                         }
                         v
                     });
                 }
-                ExprKind::Seq { exprs }
+                ExprKind::Seq(SeqExpr { exprs })
             }
             _ => e.fold_children(self),
         }

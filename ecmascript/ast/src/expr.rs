@@ -1,11 +1,11 @@
-use super::{BlockStmt, Class, Function, Ident, Lit, Pat, Prop};
-use swc_common::{FoldWith, Span, Spanned};
+use super::{AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp,
+            UpdateOp};
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]
 pub struct Expr {
     pub span: Span,
-
     pub node: ExprKind,
 }
 
@@ -19,46 +19,21 @@ impl Spanned<ExprKind> for Expr {
 pub enum ExprKind {
     This,
 
-    Array {
-        elems: Vec<Option<ExprOrSpread>>,
-    },
+    Array(ArrayLit),
 
-    Object {
-        props: Vec<Prop>,
-    },
+    Object(ObjectLit),
 
-    Function(FnExpr),
+    Fn(FnExpr),
 
-    Unary {
-        op: UnaryOp,
-        prefix: bool,
-
-        arg: Box<Expr>,
-    },
+    Unary(UnaryExpr),
 
     /// `++v`, `--v`, `v++`, `v--`
     ///
-    Update {
-        op: UpdateOp,
-        prefix: bool,
+    Update(UpdateExpr),
 
-        arg: Box<Expr>,
-    },
+    Bin(BinExpr),
 
-    Binary {
-        op: BinaryOp,
-
-        left: Box<Expr>,
-
-        right: Box<Expr>,
-    },
-
-    Assign {
-        op: AssignOp,
-        /// Pattern | Expr
-        left: PatOrExpr,
-        right: Box<Expr>,
-    },
+    Assign(AssignExpr),
 
     //
     // Logical {
@@ -70,39 +45,17 @@ pub enum ExprKind {
     /// A member expression. If computed is true, the node corresponds to a computed
     /// (a[b]) member expression and property is an Expression. If computed is false, the node
     /// corresponds to a static (a.b) member expression and property is an Identifier.
-    Member {
-        obj: ExprOrSuper,
-
-        prop: Box<Expr>,
-        computed: bool,
-    },
+    Member(MemberExpr),
 
     /// true ? 'a' : 'b'
-    Cond {
-        test: Box<Expr>,
+    Cond(CondExpr),
 
-        cons: Box<Expr>,
-
-        alt: Box<Expr>,
-    },
-
-    Call {
-        callee: ExprOrSuper,
-
-        args: Vec<ExprOrSpread>,
-    },
+    Call(CallExpr),
 
     /// `new Cat()`
-    New {
-        callee: Box<Expr>,
+    New(NewExpr),
 
-        /// `None` for `new Cat`.
-        args: Option<Vec<ExprOrSpread>>,
-    },
-
-    Seq {
-        exprs: Vec<Box<Expr>>,
-    },
+    Seq(SeqExpr),
 
     Ident(Ident),
 
@@ -110,35 +63,53 @@ pub enum ExprKind {
 
     Tpl(TplLit),
 
-    // TODO: Use JsFn
-    Arrow {
-        params: Vec<Pat>,
-
-        body: BlockStmtOrExpr,
-
-        is_generator: bool,
-
-        is_async: bool,
-    },
+    Arrow(ArrowExpr),
 
     Class(ClassExpr),
 
-    Yield {
-        arg: Option<Box<Expr>>,
-        delegate: bool,
-    },
+    Yield(YieldExpr),
 
-    MetaProp {
-        meta: Ident,
+    MetaProp(MetaPropExpr),
 
-        prop: Ident,
-    },
-
-    Await {
-        arg: Box<Expr>,
-    },
+    Await(AwaitExpr),
 
     Paren(Box<Expr>),
+}
+
+/// Array literal.
+#[ast_node]
+pub struct ArrayLit {
+    pub elems: Vec<Option<ExprOrSpread>>,
+}
+
+/// Object literal.
+#[ast_node]
+pub struct ObjectLit {
+    pub props: Vec<Prop>,
+}
+
+#[ast_node]
+pub struct UnaryExpr {
+    pub op: UnaryOp,
+
+    pub arg: Box<Expr>,
+}
+
+#[ast_node]
+pub struct UpdateExpr {
+    pub op: UpdateOp,
+    pub prefix: bool,
+
+    pub arg: Box<Expr>,
+}
+
+#[ast_node]
+pub struct BinExpr {
+    pub op: BinaryOp,
+
+    pub left: Box<Expr>,
+
+    pub right: Box<Expr>,
 }
 
 /// Function expression.
@@ -155,6 +126,64 @@ pub struct ClassExpr {
     pub ident: Option<Ident>,
 
     pub class: Class,
+}
+
+#[ast_node]
+pub struct AssignExpr {
+    pub op: AssignOp,
+    pub left: PatOrExpr,
+    pub right: Box<Expr>,
+}
+
+#[ast_node]
+pub struct MemberExpr {
+    pub obj: ExprOrSuper,
+    pub prop: Box<Expr>,
+    pub computed: bool,
+}
+#[ast_node]
+pub struct CondExpr {
+    pub test: Box<Expr>,
+    pub cons: Box<Expr>,
+    pub alt: Box<Expr>,
+}
+
+#[ast_node]
+pub struct CallExpr {
+    pub callee: ExprOrSuper,
+    pub args: Vec<ExprOrSpread>,
+}
+#[ast_node]
+pub struct NewExpr {
+    pub callee: Box<Expr>,
+    pub args: Option<Vec<ExprOrSpread>>,
+}
+#[ast_node]
+pub struct SeqExpr {
+    pub exprs: Vec<Box<Expr>>,
+}
+#[ast_node]
+pub struct ArrowExpr {
+    pub params: Vec<Pat>,
+
+    pub body: BlockStmtOrExpr,
+    pub is_generator: bool,
+    pub is_async: bool,
+}
+
+#[ast_node]
+pub struct YieldExpr {
+    pub arg: Option<Box<Expr>>,
+    pub delegate: bool,
+}
+#[ast_node]
+pub struct MetaPropExpr {
+    pub meta: Ident,
+    pub prop: Ident,
+}
+#[ast_node]
+pub struct AwaitExpr {
+    pub arg: Box<Expr>,
 }
 
 #[ast_node]
@@ -215,95 +244,6 @@ pub enum PatOrExpr {
     Expr(Box<Expr>),
 }
 
-#[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
-#[kind(function(precedence = "u8"))]
-pub enum BinaryOp {
-    /// `==`
-    #[kind(precedence = "6")]
-    EqEq,
-    /// `!=`
-    #[kind(precedence = "6")]
-    NotEq,
-    /// `==="`
-    #[kind(precedence = "6")]
-    EqEqEq,
-    /// `!==`
-    #[kind(precedence = "6")]
-    NotEqEq,
-    /// `<`
-    #[kind(precedence = "7")]
-    Lt,
-    /// `<=`
-    #[kind(precedence = "7")]
-    LtEq,
-    /// `>`
-    #[kind(precedence = "7")]
-    Gt,
-    /// `>=`
-    #[kind(precedence = "7")]
-    GtEq,
-    /// `<<`
-    #[kind(precedence = "8")]
-    LShift,
-    /// `>>`
-    #[kind(precedence = "8")]
-    RShift,
-    /// `>>>`
-    #[kind(precedence = "8")]
-    ZeroFillRShift,
-
-    /// `+`
-    #[kind(precedence = "9")]
-    Add,
-    /// `-`
-    #[kind(precedence = "9")]
-    Sub,
-    /// `*`
-    #[kind(precedence = "10")]
-    Mul,
-    /// `/`
-    #[kind(precedence = "10")]
-    Div,
-    /// `%`
-    #[kind(precedence = "10")]
-    Mod,
-
-    /// `|`
-    #[kind(precedence = "3")]
-    BitOr,
-    /// `^`
-    #[kind(precedence = "4")]
-    BitXor,
-    /// `&`
-    #[kind(precedence = "5")]
-    BitAnd,
-
-    /// `||`
-    #[kind(precedence = "1")]
-    LogicalOr,
-
-    /// `&&`
-    #[kind(precedence = "2")]
-    LogicalAnd,
-
-    /// `in`
-    #[kind(precedence = "7")]
-    In,
-    /// `instanceof`
-    #[kind(precedence = "7")]
-    InstanceOf,
-
-    /// `**`
-    #[kind(precedence = "11")]
-    Exp,
-}
-
-impl<F> FoldWith<F> for BinaryOp {
-    fn fold_children(self, _: &mut F) -> Self {
-        self
-    }
-}
-
 impl From<Ident> for Box<Expr> {
     fn from(i: Ident) -> Self {
         let span = i.span;
@@ -312,66 +252,4 @@ impl From<Ident> for Box<Expr> {
             node: ExprKind::Ident(i),
         }
     }
-}
-
-#[ast_node]
-#[derive(Copy)]
-
-pub enum UpdateOp {
-    /// `++`
-    PlusPlus,
-    /// `--`
-    MinusMinus,
-}
-
-#[ast_node]
-#[derive(Copy)]
-
-pub enum UnaryOp {
-    /// `-`
-    Minus,
-    /// `+`
-    Plus,
-    /// `!`
-    Bang,
-    /// `~`
-    Tilde,
-    /// `typeof`
-    TypeOf,
-    /// `void`
-    Void,
-    /// `delete`
-    Delete,
-}
-
-#[ast_node]
-#[derive(Copy)]
-pub enum AssignOp {
-    /// `=`
-    Assign,
-    /// `+=`
-    AddAssign,
-    /// `-=`
-    SubAssign,
-    /// `*=`
-    MulAssign,
-    /// `/=`
-    DivAssign,
-    /// `%=`
-    ModAssign,
-    /// `<<=`
-    LShiftAssign,
-    /// `>>=`
-    RShiftAssign,
-    /// `>>>=`
-    ZeroFillRShiftAssign,
-    /// `|=`
-    BitOrAssign,
-    /// `^=`
-    BitXorAssign,
-    /// `&=`
-    BitAndAssign,
-
-    /// `**=`
-    ExpAssign,
 }

@@ -75,7 +75,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
         box Expr {
             span,
-            node: ExprKind::Object { props },
+            node: ExprKind::Object(ObjectLit { props }),
         }
     }
 
@@ -208,7 +208,7 @@ impl<I: Input> ParseObject<Pat> for Parser<I> {
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
         Pat {
             span,
-            node: PatKind::Object { props },
+            node: PatKind::Object(props),
         }
     }
 
