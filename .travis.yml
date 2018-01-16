@@ -45,5 +45,5 @@ branches:
     - staging
     # This is where pull requests from "bors try" are built.
     - trying
-    # Don't build pull requests.
-    # - master
+    # This is required to update docs.
+    - master
