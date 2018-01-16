@@ -22,9 +22,7 @@ pub enum PatKind {
 
     Rest(Box<Pat>),
 
-    Object {
-        props: Vec<ObjectPatProp>,
-    },
+    Object(Vec<ObjectPatProp>),
 
     Assign {
         left: Box<Pat>,
