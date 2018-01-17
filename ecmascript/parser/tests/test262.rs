@@ -16,8 +16,8 @@ use std::fs::read_dir;
 use std::io::{self, Read};
 use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
+use swc_common::{FoldWith, Folder};
 use swc_common::Span;
-use swc_common::fold::{FoldWith, Folder};
 use swc_ecma_parser::ast::*;
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::parser::{PResult, Parser};
@@ -213,14 +213,14 @@ impl Folder<ExprKind> for Normalizer {
     fn fold(&mut self, e: ExprKind) -> ExprKind {
         match e {
             ExprKind::Paren(e) => self.fold(e.node),
-            ExprKind::New { callee, args: None } => {
+            ExprKind::New(NewExpr { callee, args: None }) => {
                 self.did_something = true;
-                ExprKind::New {
+                ExprKind::New(NewExpr {
                     callee: self.fold(callee),
                     args: Some(vec![]),
-                }
+                })
             }
-            ExprKind::Seq { exprs } => {
+            ExprKind::Seq(SeqExpr { exprs }) => {
                 let mut exprs = self.fold(exprs);
                 let need_work = exprs.iter().map(|e| &e.node).any(|n| match *n {
                     ExprKind::Seq { .. } => true,
@@ -231,13 +231,13 @@ impl Folder<ExprKind> for Normalizer {
                     self.did_something = true;
                     exprs = exprs.into_iter().fold(vec![], |mut v, e| {
                         match e.node {
-                            ExprKind::Seq { exprs } => v.extend(exprs),
+                            ExprKind::Seq(SeqExpr { exprs }) => v.extend(exprs),
                             _ => v.push(e),
                         }
                         v
                     });
                 }
-                ExprKind::Seq { exprs }
+                ExprKind::Seq(SeqExpr { exprs })
             }
             _ => e.fold_children(self),
         }

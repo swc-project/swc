@@ -81,7 +81,7 @@ impl<I: Input> Parser<I> {
 
         let node = box Expr {
             span: span!(left.span.start),
-            node: ExprKind::Binary { op, left, right },
+            node: ExprKind::Bin(BinExpr { op, left, right }),
         };
 
         let expr = self.parse_bin_op_recursively(node, min_prec)?;
@@ -105,11 +105,11 @@ impl<I: Input> Parser<I> {
             let arg = self.parse_unary_expr()?;
             return Ok(box Expr {
                 span: span!(start),
-                node: ExprKind::Update {
+                node: ExprKind::Update(UpdateExpr {
                     prefix: true,
                     op,
                     arg,
-                },
+                }),
             });
         }
 
@@ -128,11 +128,7 @@ impl<I: Input> Parser<I> {
             let arg = self.parse_unary_expr()?;
             return Ok(box Expr {
                 span: span!(start),
-                node: ExprKind::Unary {
-                    prefix: true,
-                    op,
-                    arg,
-                },
+                node: ExprKind::Unary(UnaryExpr { op, arg }),
             });
         }
 
@@ -159,11 +155,11 @@ impl<I: Input> Parser<I> {
 
             return Ok(box Expr {
                 span: span!(start),
-                node: ExprKind::Update {
+                node: ExprKind::Update(UpdateExpr {
                     prefix: false,
                     op,
                     arg: expr,
-                },
+                }),
             });
         }
         Ok(expr)
@@ -179,7 +175,7 @@ impl<I: Input> Parser<I> {
             }
 
             let arg = self.parse_unary_expr()?;
-            Ok(ExprKind::Await { arg })
+            Ok(ExprKind::Await(AwaitExpr { arg }))
         })
     }
 }
@@ -207,11 +203,11 @@ mod tests {
             bin("5 + 4 * 7"),
             box Expr {
                 span: Default::default(),
-                node: ExprKind::Binary {
+                node: ExprKind::Bin(BinExpr {
                     op: op!(bin, "+"),
                     left: bin("5"),
                     right: bin("4 * 7"),
-                },
+                }),
             }
         );
     }
@@ -222,11 +218,11 @@ mod tests {
             bin("5 + 4 + 7"),
             box Expr {
                 span: Default::default(),
-                node: ExprKind::Binary {
+                node: ExprKind::Bin(BinExpr {
                     op: op!(bin, "+"),
                     left: bin("5 + 4"),
                     right: bin("7"),
-                },
+                }),
             }
         );
     }

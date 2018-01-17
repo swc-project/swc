@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 dist: trusty
 
 addons:
@@ -26,7 +26,7 @@ script:
 after_success:
 - bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)  
 - |
-  cargo tarpaulin --out Xml &&
+  cargo tarpaulin --all --ignore-tests --out Xml &&
   bash <(curl -s https://codecov.io/bash)
 - '[ $TRAVIS_PULL_REQUEST = false ] &&
      [ "$TRAVIS_BRANCH" == "master" ] &&
@@ -38,3 +38,12 @@ env:
   global:
     - RUSTFLAGS="--cfg procmacro2_semver_exempt"
     - secure: Z4RSNlpg/12Qx2fIjS+7TToYxPJQgK70X7u9A5lJiCIa0JfzWCxr1ZEKXfAVLG9o4nQok+nWOZa+vxR1IgyUVnf6oSanjjWl1pSRbvccxMS799NvHmGzIAiqSKAlxiSJuxf7MQbs1XBuI3XahsWLfXGPo7vPT6sKe4AAf9gT6igJr61D5hpHkVIXK7P6rnrWQALQYplyaox0NlU9UlqSXXBjdJfp3138rl7FIeYRsMMow44unBNPvs+mhVP8PWpeFWeop0jxbNbTHwnJUbCm4ZWrvqnJ/m70IMlBMN1AskLmz4KeXOhPx+XR9VtdWBX4q8lJ7s9J0hMBxrEnxgiYVBPMlLoEX+wW3zwZ5F+DQs7uLpRHYRUpxpi/7ZuQjp+uT3mN9PMMSvbHwHLH2r/CC9olKYWySXIsGsGVyyMnZeUwvgzwxiYLoeCWe4zZY99zc7jvGKbSmk0RtPu6hApPwL5A6novXbXL2QsXzqqeWpgMLmZyb7KYhM5IGIAB1oPQIqI++Re9Z+/ea/DRSUJOsA96yRQ+vVbiuClrVgDhaAaJOGYCtR1XZ5N2zRb9+Spu/ECtfisLOb9Xs1584DyRbqG69nRdjuscjYOTFZUlOoOeFvuADY65Jt0kF6u7g8NIDkJ1ROb3heKQtY/bAQUrBNUJydOQnn5tBwn8Z618+Ac=
+
+branches:
+  only:
+    # This is where pull requests from "bors r+" are built.
+    - staging
+    # This is where pull requests from "bors try" are built.
+    - trying
+    # This is required to update docs.
+    - master

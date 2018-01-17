@@ -7,10 +7,8 @@ pub enum Tokens {
     #[kind(is_a)]
     #[kind(prec = "7")]
     A,
-    #[kind(prec = "6")]
-    StructLike {},
-    #[kind(prec = "5")]
-    TupleLike(u8),
+    #[kind(prec = "6")] StructLike {},
+    #[kind(prec = "5")] TupleLike(u8),
 
     #[kind(prec = "6")]
     #[cfg(feature = "not-used")]
@@ -27,16 +25,13 @@ fn simple_bool() {
 #[derive(Debug, Kind)]
 #[kind(functions(wanted = "bool"))]
 pub enum Delegate {
-    #[kind(wanted)]
-    Wanted,
-    #[kind(delegate)]
-    May(Del),
+    #[kind(wanted)] Wanted,
+    #[kind(delegate)] May(Del),
 }
 
 #[derive(Debug, Kind)]
 #[kind(functions(wanted = "bool"))]
 pub enum Del {
-    #[kind(wanted)]
-    Yes,
+    #[kind(wanted)] Yes,
     No,
 }

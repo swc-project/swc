@@ -151,7 +151,8 @@ impl<I: Input> Parser<I> {
         let span = expr.span;
 
         match expr.node {
-            ExprKind::Member { .. } | ExprKind::Call { .. } | ExprKind::New { .. } => {
+            // syntatically valid left-hand-side expressions.
+            ExprKind::Member(..) | ExprKind::Call(..) | ExprKind::New(..) => {
                 return Ok(Pat {
                     span,
                     node: PatKind::Expr(box expr),
@@ -166,11 +167,11 @@ impl<I: Input> Parser<I> {
                     node: inner_pat.node,
                 });
             }
-            ExprKind::Assign {
+            ExprKind::Assign(AssignExpr {
                 left,
                 op: Assign,
                 right,
-            } => {
+            }) => {
                 return Ok(Pat {
                     span,
                     node: PatKind::Assign {
@@ -182,39 +183,37 @@ impl<I: Input> Parser<I> {
                     },
                 })
             }
-            ExprKind::Object { props } => {
+            ExprKind::Object(ObjectLit { props }) => {
                 // {}
                 return Ok(Pat {
                     span,
-                    node: PatKind::Object {
-                        props: props
-                            .into_iter()
-                            .map(|prop| {
-                                match prop.node {
-                                PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
-                                    key: id.into(),
-                                    value: None,
-                                }),
-                                PropKind::KeyValue { key, value } => Ok(ObjectPatProp::KeyValue {
-                                    key,
-                                    value: box self.reparse_expr_as_pat(value)?,
-                                }),
-                                PropKind::Assign { key, value } => Ok(ObjectPatProp::Assign {
-                                    key,
-                                    value: Some(value),
-                                }),
+                    node: PatKind::Object(props
+                        .into_iter()
+                        .map(|prop| match prop.node {
+                            PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
+                                key: id.into(),
+                                value: None,
+                            }),
+                            PropKind::KeyValue { key, value } => Ok(ObjectPatProp::KeyValue {
+                                key,
+                                value: box self.reparse_expr_as_pat(value)?,
+                            }),
+                            PropKind::Assign { key, value } => Ok(ObjectPatProp::Assign {
+                                key,
+                                value: Some(value),
+                            }),
 
-                                _ => {
-                                    unimplemented!("error reporting: object pattern cannot contain method property: {:?}", prop)
-                                }
-                            }
-                            })
-                            .collect::<PResult<_>>()?,
-                    },
+                            _ => unimplemented!(
+                                "error reporting: object pattern cannot contain method property: \
+                                 {:?}",
+                                prop
+                            ),
+                        })
+                        .collect::<PResult<_>>()?),
                 });
             }
             ExprKind::Ident(ident) => return Ok(ident.into()),
-            ExprKind::Array { elems: mut exprs } => {
+            ExprKind::Array(ArrayLit { elems: mut exprs }) => {
                 if exprs.len() == 0 {
                     return Ok(Pat {
                         span,

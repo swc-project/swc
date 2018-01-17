@@ -25,7 +25,7 @@ fn new_expr_should_not_eat_too_much() {
         mk("new Date().toString()").parse_new_expr().unwrap(),
         box Expr {
             span: Default::default(),
-            node: ExprKind::Member {
+            node: ExprKind::Member(MemberExpr {
                 obj: mk("new Date()")
                     .parse_member_expr()
                     .map(ExprOrSuper::Expr)
@@ -35,7 +35,7 @@ fn new_expr_should_not_eat_too_much() {
                     span: Default::default(),
                 }.into(),
                 computed: false,
-            },
+            }),
         }
     );
 }
@@ -45,10 +45,10 @@ fn lhs_expr_as_new_expr_prod() {
         lhs("new Date.toString()"),
         box Expr {
             span: Default::default(),
-            node: ExprKind::New {
+            node: ExprKind::New(NewExpr {
                 callee: lhs("Date.toString"),
                 args: Some(vec![]),
-            },
+            }),
         }
     );
 }
@@ -59,10 +59,10 @@ fn lhs_expr_as_call() {
         lhs("new Date.toString()()"),
         box Expr {
             span: Default::default(),
-            node: ExprKind::Call {
+            node: ExprKind::Call(CallExpr {
                 callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
                 args: vec![],
-            },
+            }),
         }
     )
 }
@@ -73,12 +73,12 @@ fn arrow_fn_no_args() {
         expr("() => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow {
+            node: ExprKind::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![],
                 body: BlockStmtOrExpr::Expr(expr("1")),
-            },
+            }),
         }
     );
 }
@@ -88,7 +88,7 @@ fn arrow_fn() {
         expr("(a) => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow {
+            node: ExprKind::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![
@@ -101,7 +101,7 @@ fn arrow_fn() {
                     },
                 ],
                 body: BlockStmtOrExpr::Expr(expr("1")),
-            },
+            }),
         }
     );
 }
@@ -111,7 +111,7 @@ fn arrow_fn_rest() {
         expr("(...a) => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow {
+            node: ExprKind::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![
@@ -127,7 +127,7 @@ fn arrow_fn_rest() {
                     },
                 ],
                 body: BlockStmtOrExpr::Expr(expr("1")),
-            },
+            }),
         }
     );
 }
@@ -137,7 +137,7 @@ fn arrow_fn_no_paren() {
         expr("a => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow {
+            node: ExprKind::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![
@@ -150,7 +150,7 @@ fn arrow_fn_no_paren() {
                     },
                 ],
                 body: BlockStmtOrExpr::Expr(expr("1")),
-            },
+            }),
         }
     );
 }
@@ -161,10 +161,10 @@ fn new_no_paren() {
         expr("new a"),
         box Expr {
             span,
-            node: ExprKind::New {
+            node: ExprKind::New(NewExpr {
                 callee: expr("a"),
                 args: None,
-            },
+            }),
         }
     );
 }
@@ -175,10 +175,10 @@ fn new_new_no_paren() {
         expr("new new a"),
         box Expr {
             span,
-            node: ExprKind::New {
+            node: ExprKind::New(NewExpr {
                 callee: expr("new a"),
                 args: None,
-            },
+            }),
         }
     );
 }

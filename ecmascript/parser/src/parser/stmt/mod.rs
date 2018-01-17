@@ -70,9 +70,9 @@ impl<I: Input> Parser<I> {
                         };
 
                         Ok(if is_break {
-                            StmtKind::Break { label }
+                            StmtKind::Break(BreakStmt { label })
                         } else {
-                            StmtKind::Continue { label }
+                            StmtKind::Continue(ContinueStmt { label })
                         })
                     })
                 }
@@ -189,7 +189,7 @@ impl<I: Input> Parser<I> {
             let test = self.include_in_expr(true).parse_expr()?;
             expect!(')');
 
-            let consequent = {
+            let cons = {
                 // Annex B
                 if !self.ctx.strict && is!("function") {
                     // TODO: report error?
@@ -203,11 +203,7 @@ impl<I: Input> Parser<I> {
                 None
             };
 
-            Ok(StmtKind::If {
-                test,
-                consequent,
-                alt,
-            })
+            Ok(StmtKind::If(IfStmt { test, cons, alt }))
         })
     }
 
@@ -221,7 +217,7 @@ impl<I: Input> Parser<I> {
                 self.include_in_expr(true).parse_expr().map(Some)?
             };
             expect!(';');
-            Ok(StmtKind::Return { arg })
+            Ok(StmtKind::Return(ReturnStmt { arg }))
         })
     }
 
@@ -254,14 +250,11 @@ impl<I: Input> Parser<I> {
                     };
                     expect!(':');
 
-                    cur = Some(SwitchCase {
-                        test,
-                        consequent: vec![],
-                    });
+                    cur = Some(SwitchCase { test, cons: vec![] });
                 } else {
                     match cur {
                         Some(ref mut cur) => {
-                            cur.consequent.push(self.parse_stmt_list_item(false)?);
+                            cur.cons.push(self.parse_stmt_list_item(false)?);
                         }
                         None => unexpected!(),
                     }
@@ -270,10 +263,10 @@ impl<I: Input> Parser<I> {
             assert_and_bump!('}');
             cases.extend(cur);
 
-            Ok(StmtKind::Switch {
+            Ok(StmtKind::Switch(SwitchStmt {
                 discriminant,
                 cases,
-            })
+            }))
         })
     }
 
@@ -288,7 +281,7 @@ impl<I: Input> Parser<I> {
             let arg = self.include_in_expr(true).parse_expr()?;
             expect!(';');
 
-            Ok(StmtKind::Throw { arg })
+            Ok(StmtKind::Throw(ThrowStmt { arg }))
         })
     }
 
@@ -316,11 +309,11 @@ impl<I: Input> Parser<I> {
                 None
             };
 
-            Ok(StmtKind::Try {
+            Ok(StmtKind::Try(TryStmt {
                 block,
                 handler,
                 finalizer,
-            })
+            }))
         })
     }
 
@@ -396,7 +389,7 @@ impl<I: Input> Parser<I> {
             // We *may* eat semicolon.
             let _ = eat!(';');
 
-            Ok(StmtKind::DoWhile { test, body })
+            Ok(StmtKind::DoWhile(DoWhileStmt { test, body }))
         })
     }
 
@@ -410,7 +403,7 @@ impl<I: Input> Parser<I> {
 
             let body = box self.parse_stmt(false)?;
 
-            Ok(StmtKind::While { test, body })
+            Ok(StmtKind::While(WhileStmt { test, body }))
         })
     }
 
@@ -423,7 +416,7 @@ impl<I: Input> Parser<I> {
             expect!(')');
 
             let body = box self.parse_stmt(false)?;
-            Ok(StmtKind::With { obj, body })
+            Ok(StmtKind::With(WithStmt { obj, body }))
         })
     }
 
@@ -453,7 +446,7 @@ impl<I: Input> Parser<I> {
 
         Ok(Stmt {
             span: span!(start),
-            node: StmtKind::Labeled { label, body },
+            node: StmtKind::Labeled(LabeledStmt { label, body }),
         })
     }
 
@@ -466,14 +459,14 @@ impl<I: Input> Parser<I> {
             let body = box self.parse_stmt(false)?;
 
             Ok(match head {
-                ForHead::For { init, test, update } => StmtKind::For {
+                ForHead::For { init, test, update } => StmtKind::For(ForStmt {
                     init,
                     test,
                     update,
                     body,
-                },
-                ForHead::ForIn { left, right } => StmtKind::ForIn { left, right, body },
-                ForHead::ForOf { left, right } => StmtKind::ForOf { left, right, body },
+                }),
+                ForHead::ForIn { left, right } => StmtKind::ForIn(ForInStmt { left, right, body }),
+                ForHead::ForOf { left, right } => StmtKind::ForOf(ForOfStmt { left, right, body }),
             })
         })
     }
@@ -608,7 +601,7 @@ mod tests {
             stmt("throw this"),
             Stmt {
                 span: Default::default(),
-                node: StmtKind::Throw { arg: expr("this") },
+                node: StmtKind::Throw(ThrowStmt { arg: expr("this") }),
             }
         )
     }
@@ -642,11 +635,11 @@ mod tests {
             stmt("if (a) b; else c"),
             Stmt {
                 span,
-                node: StmtKind::If {
+                node: StmtKind::If(IfStmt {
                     test: expr("a"),
-                    consequent: box stmt("b;"),
+                    cons: box stmt("b;"),
                     alt: Some(box stmt("c")),
-                },
+                }),
             }
         );
     }

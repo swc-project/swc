@@ -10,8 +10,7 @@ extern crate swc_common;
 
 use slog::{Drain, Logger};
 use std::io::{self, Write};
-use swc_common::Span;
-use swc_common::fold::{FoldWith, Folder};
+use swc_common::{FoldWith, Folder, Span};
 
 pub fn logger() -> Logger {
     fn no_timestamp(_: &mut Write) -> io::Result<()> {

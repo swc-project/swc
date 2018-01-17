@@ -302,7 +302,7 @@ impl OutputType for Box<Expr> {
     fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
         box Expr {
             span: function.span,
-            node: ExprKind::Function(FnExpr { ident, function }),
+            node: ExprKind::Fn(FnExpr { ident, function }),
         }
     }
     fn finish_class(ident: Option<Ident>, class: Class) -> Self {
@@ -328,7 +328,7 @@ impl OutputType for Decl {
     type Ident = Ident;
 
     fn finish_fn(ident: Ident, function: Function) -> Self {
-        Decl::Fn { ident, function }
+        Decl::Fn(FnDecl { ident, function })
     }
     fn finish_class(ident: Ident, class: Class) -> Self {
         Decl::Class(ClassDecl { ident, class })

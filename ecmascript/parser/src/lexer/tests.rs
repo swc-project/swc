@@ -25,7 +25,7 @@ impl SpanRange for usize {
     fn into_span(self) -> Span {
         Span {
             start: BytePos(self as _),
-            end: BytePos(self as _),
+            end: BytePos((self + 1usize) as _),
         }
     }
 }
@@ -33,7 +33,7 @@ impl SpanRange for Range<usize> {
     fn into_span(self) -> Span {
         Span {
             start: BytePos(self.start as _),
-            end: BytePos((self.end - 1) as _),
+            end: BytePos(self.end as _),
         }
     }
 }
@@ -109,7 +109,10 @@ fn test262_lexer_error_0001() {
 #[test]
 fn test262_lexer_error_0002() {
     assert_eq!(
-        vec![Str("use strict".into(), false).span(0..15), Semi.span(15)],
+        vec![
+            Str("use strict".into(), false).span(0..15),
+            Semi.span(15..16),
+        ],
         lex(r#"'use\x20strict';"#)
     );
 }
@@ -134,7 +137,7 @@ fn ident_escape_unicode() {
 
 #[test]
 fn ident_escape_unicode_2() {
-    assert_eq!(lex("℘℘"), vec!["℘℘".span(0..4)]);
+    assert_eq!(lex("℘℘"), vec!["℘℘".span(0..6)]);
 
     assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9)]);
 }

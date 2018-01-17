@@ -5,9 +5,7 @@ use swc_macros::ast_node;
 #[ast_node]
 pub enum Decl {
     Class(ClassDecl),
-
-    Fn { ident: Ident, function: Function },
-
+    Fn(FnDecl),
     Var(VarDecl),
 }
 
@@ -18,13 +16,19 @@ impl Decl {
                 class: Class { span, .. },
                 ..
             })
-            | Decl::Fn {
+            | Decl::Fn(FnDecl {
                 function: Function { span, .. },
                 ..
-            }
+            })
             | Decl::Var(VarDecl { span, .. }) => span,
         }
     }
+}
+
+#[ast_node]
+pub struct FnDecl {
+    pub ident: Ident,
+    pub function: Function,
 }
 
 #[ast_node]

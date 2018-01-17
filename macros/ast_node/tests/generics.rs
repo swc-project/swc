@@ -26,10 +26,7 @@ pub struct Expr<A: Ast> {
 
 #[ast_node]
 pub enum ExprKind<A: Ast> {
-    Custom(
-        #[fold(bound)]
-        A::CustomExpr,
-    ),
+    Custom(#[fold(bound)] A::CustomExpr),
     /// Recursive
     Stmt(Box<Stmt<A>>),
 }

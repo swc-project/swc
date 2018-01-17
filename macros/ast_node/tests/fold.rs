@@ -2,7 +2,7 @@
 
 extern crate swc_common;
 extern crate swc_macros;
-use swc_common::fold::{FoldWith, Folder};
+use swc_common::{FoldWith, Folder};
 use swc_macros::ast_node;
 
 pub trait AssertFolder<T>: Folder<T> {}
