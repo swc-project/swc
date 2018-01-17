@@ -8,7 +8,7 @@ macro_rules! op {
     (unary, "-") => { $crate::UnaryOp::Minus };
     (unary, "+") => { $crate::UnaryOp::Plus };
     ("!") => { $crate::UnaryOp::Bang };
-    ("~") => { $crate::UnaryOp::Tilde };
+    ("~") => { $crate::UnaryOp::BitNot };
     ("typeof") => { $crate::UnaryOp::TypeOf };
     ("void") => { $crate::UnaryOp::Void };
     ("delete") => { $crate::UnaryOp::Delete };
