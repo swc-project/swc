@@ -12,17 +12,17 @@ pub trait ItemImplExt {
     ///
     /// let item: Item = Quote::new_call_site()
     ///     .quote_with(smart_quote!(
-    ///         Vars {
-    ///             Type: type_name,
-    ///             impl_generics,
-    ///             ty_generics,
-    ///             where_clause,
-    ///         },
-    ///         {
-    ///             impl impl_generics ::swc_common::AstNode for Type ty_generics
-    ///                     where_clause {}
-    ///         }
-    ///     ))
+    /// Vars {
+    /// Type: type_name,
+    /// impl_generics,
+    /// ty_generics,
+    /// where_clause,
+    /// },
+    /// {
+    /// impl impl_generics ::swc_common::AstNode for Type ty_generics
+    /// where_clause {}
+    /// }
+    /// ))
     ///     .parse();
     /// ```
     ///
@@ -36,7 +36,6 @@ pub trait ItemImplExt {
     ///     .parse::<ItemImpl>()
     ///     .with_generics(input.generics);
     /// ```
-    ///
     fn with_generics(self, generics: Generics) -> Self;
 }
 

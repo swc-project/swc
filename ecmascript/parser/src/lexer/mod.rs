@@ -26,35 +26,61 @@ pub mod util;
 
 #[derive(Fail, Debug, PartialEq, Eq, Hash)]
 pub enum Error<InputError> {
-    #[fail(display = "input error: {}", err)]
-    Input { err: InputError },
+    #[fail(display = "input error: {}", err)] Input {
+        err: InputError,
+    },
     #[fail(display = "unterminated string constant: {}", start)]
-    UnterminatedStrLit { start: BytePos },
+    UnterminatedStrLit {
+        start: BytePos,
+    },
     #[fail(display = "expected unicode escape sequence: {}", pos)]
-    ExpectedUnicodeEscape { pos: BytePos },
+    ExpectedUnicodeEscape {
+        pos: BytePos,
+    },
     #[fail(display = "unexpected escape sequence in reserved word: {:?}", word)]
-    EscapeInReservedWord { word: Word },
+    EscapeInReservedWord {
+        word: Word,
+    },
     #[fail(display = "unterminated regexp (regexp started at {})", start)]
-    UnterminatedRegxp { start: BytePos },
+    UnterminatedRegxp {
+        start: BytePos,
+    },
     #[fail(display = "identifier directly after number at {}", pos)]
-    IdentAfterNum { pos: BytePos },
+    IdentAfterNum {
+        pos: BytePos,
+    },
     #[fail(display = "Decimals with leading zeros (at {}) are not allowed in strict mode", start)]
-    DecimalStartsWithZero { start: BytePos },
+    DecimalStartsWithZero {
+        start: BytePos,
+    },
     #[fail(display = "Octals with leading zeros (at {}) are not allowed in strict mode", start)]
-    ImplicitOctalOnStrict { start: BytePos },
+    ImplicitOctalOnStrict {
+        start: BytePos,
+    },
     #[fail(display = "Unexpected character '{}' at {}", c, pos)]
-    UnexpectedChar { pos: BytePos, c: char },
+    UnexpectedChar {
+        pos: BytePos,
+        c: char,
+    },
     #[fail(display = "Invalid string escape at {}", start)]
-    InvalidStrEscape { start: BytePos },
+    InvalidStrEscape {
+        start: BytePos,
+    },
 
     #[fail(display = "Invalid unciode escape at {:?}", pos)]
-    InvalidUnicodeEscape { pos: Span },
+    InvalidUnicodeEscape {
+        pos: Span,
+    },
 
     #[fail(display = "Invalid unciode code point at {:?}", pos)]
-    InvalidCodePoint { pos: Span },
+    InvalidCodePoint {
+        pos: Span,
+    },
 
     #[fail(display = "Invalid identifier character at {:?}", pos)]
-    InvalidIdentChar { pos: Span },
+    InvalidIdentChar {
+        pos: Span,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]

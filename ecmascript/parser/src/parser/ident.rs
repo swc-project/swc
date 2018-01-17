@@ -83,7 +83,6 @@ impl<I: Input> Parser<I> {
                 Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
                 Keyword(Await) if incl_await => Ok(js_word!("await")),
                 Keyword(..) | Null | True | False => {
-                    println!("Word: {:?}", w);
                     syntax_error!(SyntaxError::ExpectedIdent)
                 }
             }

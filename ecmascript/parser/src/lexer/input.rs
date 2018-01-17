@@ -19,13 +19,12 @@ impl<I: Input> LexerInput<I> {
     }
 
     pub fn bump(&mut self) {
-        let pos = self.cur
-            .take()
-            .unwrap_or_else(|| unreachable!("bump called on eof"))
-            .0;
+        let pos = match self.cur.take() {
+            Some((p, prev_c)) => BytePos(p.0 + prev_c.len_utf8() as u32),
+            None => unreachable!("bump is called without knowing current character"),
+        };
 
         self.cur = self.input.next();
-
         self.last_pos = pos;
     }
 
