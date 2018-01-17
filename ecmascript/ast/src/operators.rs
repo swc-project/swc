@@ -131,7 +131,7 @@ pub enum UnaryOp {
     /// `!`
     Bang,
     /// `~`
-    Tilde,
+    BitNot,
     /// `typeof`
     TypeOf,
     /// `void`

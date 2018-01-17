@@ -1,0 +1,15 @@
+[package]
+name = "swc_ecma_transforms"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+swc_atoms = { path = "../../atoms" }
+swc_common = { path = "../../common" }
+swc_ecma_ast = { path = "../ast" }
+
+
+[dev-dependencies]
+testing = { path = "../../testing" }
+swc_ecma_parser = { path = "../parser" }
+pretty_assertions = "0.4"

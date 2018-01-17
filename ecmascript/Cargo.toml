@@ -6,5 +6,6 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 [dependencies]
 swc_ecma_ast = { path = "./ast" }
 swc_ecma_parser = { path = "./parser" }
+swc_ecma_transforms = { path = "./transforms" }
 
 [dev-dependencies]
