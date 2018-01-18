@@ -198,7 +198,7 @@ impl<I: Input> Parser<I> {
         spanned!({
             assert_and_bump!('[');
             let mut elems = vec![];
-            let mut comma = 0;
+            let mut comma = 1;
 
             while !eof!() && !is!(']') {
                 if eat!(',') {
@@ -206,7 +206,11 @@ impl<I: Input> Parser<I> {
                     continue;
                 }
 
-                elems.extend(iter::repeat(None).take(comma));
+                // Should have at least one comma between elements.
+                if comma == 0 {
+                    expect!(',');
+                }
+                elems.extend(iter::repeat(None).take(comma - 1));
                 comma = 0;
                 elems.push(self.include_in_expr(true).parse_expr_or_spread().map(Some)?);
             }

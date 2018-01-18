@@ -22,7 +22,7 @@ impl Debug for BytePos {
 pub struct Span {
     /// Inclusive
     pub start: BytePos,
-    /// Inclusive
+    /// Exclusive
     pub end: BytePos,
 }
 impl Debug for Span {
@@ -30,7 +30,7 @@ impl Debug for Span {
         if self.start == BytePos(0) && self.end == BytePos(0) {
             write!(f, "_")
         } else {
-            write!(f, "{}..{}", self.start, self.end.0 + 1)
+            write!(f, "{}..{}", self.start, self.end)
         }
     }
 }

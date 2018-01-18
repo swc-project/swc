@@ -85,20 +85,15 @@ macro_rules! token_including_semi {
 
 /// This macro requires macro named 'last_pos' to be in scope.
 macro_rules! span {
-    ($p:expr, $start:expr) => {
-        Span { start: $start, end: last_pos!($p), }
-    };
-}
-
-/// Takes `(parser, start)`, Returns  |t| { Spanned::from }
-macro_rules! into_spanned {
     ($p:expr, $start:expr) => {{
-        |val| {
-            let start = $start;
-            let end = last_pos!($p);
-            return ::swc_common::Spanned::from_unspanned(val, Span { start, end });
+        let start: ::swc_common::BytePos = $start;
+        let end: ::swc_common::BytePos = last_pos!($p);
+        if cfg!(debug_assertions) && start > end {
+            unreachable!("assertion failed: (span.start <= span.end).
+ start = {}, end = {}", start, end)
         }
-    }}
+        Span { start, end }
+    }};
 }
 
 macro_rules! spanned {
@@ -110,8 +105,12 @@ macro_rules! spanned {
             $($body)*
         };
         #[allow(unreachable_code)]
-        {
-            val.map(into_spanned!($p, start))
+        match val {
+            Ok(val) => {
+                let end = last_pos!($p);
+                Ok(::swc_common::Spanned::from_unspanned(val, Span { start, end }))
+            },
+            Err(err) => Err(err),
         }
     }};
 }

@@ -51,9 +51,13 @@ impl<I: Input> ParserInput<I> {
 
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
-        self.last_pos = prev.as_ref()
-            .map(|item| item.span.end)
-            .unwrap_or(BytePos(0));
+        self.last_pos = match prev {
+            Some(Item {
+                span: Span { end, .. },
+                ..
+            }) => end,
+            _ => self.last_pos,
+        };
 
         // If we have peeked a token, take it instead of calling lexer.next()
         self.cur = self.next.take().or_else(|| self.iter.next());

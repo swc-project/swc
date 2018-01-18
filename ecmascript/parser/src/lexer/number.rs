@@ -41,7 +41,9 @@ impl<I: Input> Lexer<I> {
                     // e.g. `0` is decimal (so it can be part of float)
                     //
                     // e.g. `000` is octal
-                    if start != last_pos!() {
+                    if start.0 != last_pos!().0 - 1 {
+                        // `-1` is utf 8 length of `0`
+                         
                         return self.make_legacy_octal(start, 0f64);
                     }
                 } else {
