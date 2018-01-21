@@ -6,7 +6,7 @@ use std::fmt;
 
 #[must_use]
 pub struct Diagnostic<'a> {
-    db: Builder<'a>,
+    db: Box<Builder<'a>>,
 }
 
 impl<'a> Diagnostic<'a> {
@@ -21,7 +21,7 @@ impl<'a> Diagnostic<'a> {
         msg: &str,
     ) -> Self {
         Diagnostic {
-            db: Builder::new_diagnostic(
+            db: box Builder::new_diagnostic(
                 &handler.inner,
                 RustcDiagnostic::new_with_code(level, code, msg),
             ),
