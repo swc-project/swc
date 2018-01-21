@@ -23,7 +23,7 @@ pub(super) struct State {
 }
 
 #[parser]
-impl<I: Input> Iterator for Lexer<I> {
+impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
         self.state.had_line_break = self.state.is_first;

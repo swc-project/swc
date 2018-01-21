@@ -1,35 +1,42 @@
 use super::*;
-use lexer::Lexer;
-
-fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
-    let logger = ::testing::logger().new(o!("src" => s));
-    Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
-}
+use swc_common::DUMMY_SP;
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    mk(s)
-        .parse_lhs_expr()
-        .expect("failed to parse lhs expression")
+    test_parser(s, |p| {
+        p.parse_lhs_expr().expect("failed to parse lhs expression")
+    })
+}
+
+fn new_expr(s: &'static str) -> Box<Expr> {
+    test_parser(s, |p| {
+        p.parse_new_expr().expect("failed to parse an expression")
+    })
+}
+
+fn member_expr(s: &'static str) -> Box<Expr> {
+    test_parser(s, |p| {
+        p.parse_member_expr()
+            .expect("failed to parse an expression")
+    })
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
-    mk(s).parse_expr().expect("failed to parse an expression")
+    test_parser(s, |p| {
+        p.parse_expr().expect("failed to parse an expression")
+    })
 }
 
 #[allow(non_upper_case_globals)]
-const span: Span = Span::DUMMY;
+const span: Span = DUMMY_SP;
 
 #[test]
 fn new_expr_should_not_eat_too_much() {
     assert_eq_ignore_span!(
-        mk("new Date().toString()").parse_new_expr().unwrap(),
+        new_expr("new Date().toString()"),
         box Expr {
             span: Default::default(),
             node: ExprKind::Member(MemberExpr {
-                obj: mk("new Date()")
-                    .parse_member_expr()
-                    .map(ExprOrSuper::Expr)
-                    .unwrap(),
+                obj: ExprOrSuper::Expr(member_expr("new Date()")),
                 prop: Ident {
                     sym: "toString".into(),
                     span: Default::default(),

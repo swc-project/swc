@@ -7,7 +7,7 @@ use super::*;
 use std::fmt::Display;
 
 #[parser]
-impl<I: Input> Lexer<I> {
+impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     ///
     ///
@@ -43,14 +43,14 @@ impl<I: Input> Lexer<I> {
                     // e.g. `000` is octal
                     if start.0 != last_pos!().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                         
+
                         return self.make_legacy_octal(start, 0f64);
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
-                    if self.opts.strict {
+                    if self.cfg.strict {
                         return Err(Error::DecimalStartsWithZero { start });
                     }
 
@@ -211,7 +211,7 @@ impl<I: Input> Lexer<I> {
         let mut total: Ret = Default::default();
 
         while let Some(c) = cur!() {
-            if self.opts.num_sep {
+            if self.cfg.num_sep {
                 // let prev: char = unimplemented!("prev");
                 // let next = self.input.peek();
 
@@ -252,7 +252,7 @@ impl<I: Input> Lexer<I> {
 
     fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> Result<Number, Error<I::Error>> {
         self.ensure_not_ident()?;
-        return if self.opts.strict {
+        return if self.cfg.strict {
             Err(Error::ImplicitOctalOnStrict { start })
         } else {
             // FIXME
@@ -268,23 +268,29 @@ mod tests {
     use std::f64::INFINITY;
     use std::panic;
 
-    fn lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
+    fn lex<F, Ret>(s: &'static str, f: F) -> Ret
+    where
+        F: FnOnce(&mut Lexer<CharIndices>) -> Ret,
+    {
         let l = ::testing::logger().new(o!("src" => s));
-        Lexer::new_from_str(l, s)
+        let mut lexer = Lexer::new(&l, Default::default(), CharIndices(s.char_indices()));
+        f(&mut lexer)
     }
 
     fn num(s: &'static str) -> f64 {
-        lexer(s)
-            .read_number(s.starts_with("."))
-            .expect("read_number failed")
-            .0
+        lex(s, |l| {
+            l.read_number(s.starts_with("."))
+                .expect("read_number failed")
+                .0
+        })
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
-        lexer(s)
-            .read_int(radix, 0)
-            .expect("read_int failed")
-            .expect("read_int returned None")
+        lex(s, |l| {
+            l.read_int(radix, 0)
+                .expect("read_int failed")
+                .expect("read_int returned None")
+        })
     }
 
     const LONG: &str = "1e10000000000000000000000000000000000000000\
@@ -327,7 +333,10 @@ mod tests {
 
     #[test]
     fn read_radix_number() {
-        assert_eq!(Ok(Number(0o73 as f64)), lexer("0o73").read_radix_number(8));
+        assert_eq!(
+            Ok(Number(0o73 as f64)),
+            lex("0o73", |l| l.read_radix_number(8))
+        );
     }
 
     /// Valid even on strict mode.
@@ -350,9 +359,9 @@ mod tests {
 
             let input = CharIndices(case.char_indices());
             let vec = panic::catch_unwind(|| {
-                Lexer::new_with(
-                    logger,
-                    Options {
+                Lexer::new(
+                    &logger,
+                    Config {
                         strict,
                         ..Default::default()
                     },

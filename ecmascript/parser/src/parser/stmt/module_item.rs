@@ -1,7 +1,7 @@
 use super::*;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     fn parse_import(&mut self) -> PResult<ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("import");
@@ -86,10 +86,7 @@ impl<I: Input> Parser<I> {
                 if eat!("as") {
                     let local = self.parse_binding_ident()?;
                     return Ok(ImportSpecifier {
-                        span: Span {
-                            start,
-                            end: local.span.end,
-                        },
+                        span: Span::new(start, local.span.hi(), Default::default()),
                         local,
                         node: ImportSpecifierKind::Specific {
                             imported: Some(orig_name),
@@ -241,7 +238,7 @@ impl<I: Input> Parser<I> {
 }
 
 #[parser]
-impl<I: Input> StmtLikeParser<ModuleItem> for Parser<I> {
+impl<'a, I: Input> StmtLikeParser<ModuleItem> for Parser<'a, I> {
     fn accept_import_export() -> bool {
         true
     }

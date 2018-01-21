@@ -9,7 +9,7 @@ pub(super) struct LexerInput<I: Input> {
     input: I,
 }
 
-impl<I: Input> LexerInput<I> {
+impl<'a, I: Input> LexerInput<I> {
     pub const fn new(input: I) -> Self {
         LexerInput {
             input,

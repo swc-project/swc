@@ -8,11 +8,12 @@ pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
+use Config;
 use parser_macros::parser;
 use slog::Logger;
 use std::char;
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, SpanData};
 use token::*;
 
 #[macro_use]
@@ -29,11 +30,11 @@ pub enum Error<InputError> {
     #[fail(display = "input error: {}", err)] Input {
         err: InputError,
     },
-    #[fail(display = "unterminated string constant: {}", start)]
+    #[fail(display = "unterminated string constant: {:?}", start)]
     UnterminatedStrLit {
         start: BytePos,
     },
-    #[fail(display = "expected unicode escape sequence: {}", pos)]
+    #[fail(display = "expected unicode escape sequence: {:?}", pos)]
     ExpectedUnicodeEscape {
         pos: BytePos,
     },
@@ -41,79 +42,63 @@ pub enum Error<InputError> {
     EscapeInReservedWord {
         word: Word,
     },
-    #[fail(display = "unterminated regexp (regexp started at {})", start)]
+    #[fail(display = "unterminated regexp (regexp started at {:?})", start)]
     UnterminatedRegxp {
         start: BytePos,
     },
-    #[fail(display = "identifier directly after number at {}", pos)]
+    #[fail(display = "identifier directly after number at {:?}", pos)]
     IdentAfterNum {
         pos: BytePos,
     },
-    #[fail(display = "Decimals with leading zeros (at {}) are not allowed in strict mode", start)]
+    #[fail(display = "Decimals with leading zeros (at {:?}) are not allowed in strict mode",
+           start)]
     DecimalStartsWithZero {
         start: BytePos,
     },
-    #[fail(display = "Octals with leading zeros (at {}) are not allowed in strict mode", start)]
+    #[fail(display = "Octals with leading zeros (at {:?}) are not allowed in strict mode", start)]
     ImplicitOctalOnStrict {
         start: BytePos,
     },
-    #[fail(display = "Unexpected character '{}' at {}", c, pos)]
+    #[fail(display = "Unexpected character '{}' at {:?}", c, pos)]
     UnexpectedChar {
         pos: BytePos,
         c: char,
     },
-    #[fail(display = "Invalid string escape at {}", start)]
+    #[fail(display = "Invalid string escape at {:?}", start)]
     InvalidStrEscape {
         start: BytePos,
     },
 
     #[fail(display = "Invalid unciode escape at {:?}", pos)]
     InvalidUnicodeEscape {
-        pos: Span,
+        pos: SpanData,
     },
 
     #[fail(display = "Invalid unciode code point at {:?}", pos)]
     InvalidCodePoint {
-        pos: Span,
+        pos: SpanData,
     },
 
     #[fail(display = "Invalid identifier character at {:?}", pos)]
     InvalidIdentChar {
-        pos: Span,
+        pos: SpanData,
     },
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub struct Options {
-    /// Support function bind expression.
-    pub fn_bind: bool,
-
-    pub strict: bool,
-
-    /// Support numeric separator.
-    pub num_sep: bool,
-
-    pub module: bool,
-}
-
-pub struct Lexer<I: Input> {
-    logger: Logger,
+pub struct Lexer<'a, I: Input> {
+    logger: &'a Logger,
     input: LexerInput<I>,
-    opts: Options,
+    cfg: Config,
     state: State,
 }
 
-impl<I: Input> Lexer<I> {
-    pub fn new(logger: Logger, input: I) -> Self {
-        Self::new_with(logger, Options::default(), input)
-    }
-
-    pub fn new_with(logger: Logger, opts: Options, input: I) -> Self {
+impl<'a, I: Input> Lexer<'a, I> {
+    pub fn new(logger: &'a Logger, cfg: Config, input: I) -> Self {
         Lexer {
             logger,
-            opts,
-            state: State::new(),
             input: LexerInput::new(input),
+            cfg,
+            state: State::new(),
         }
     }
 
@@ -181,7 +166,7 @@ impl<I: Input> Lexer<I> {
             ':' => {
                 self.input.bump();
 
-                if self.opts.fn_bind && self.input.current() == Some(':') {
+                if self.cfg.fn_bind && self.input.current() == Some(':') {
                     self.input.bump();
                     return Ok(Some(tok!("::")));
                 }
@@ -435,7 +420,7 @@ impl<I: Input> Lexer<I> {
 }
 
 #[parser]
-impl<I: Input> Lexer<I> {
+impl<'a, I: Input> Lexer<'a, I> {
     fn read_slash(&mut self) -> Result<Option<Token>, Error<I::Error>> {
         debug_assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
@@ -463,7 +448,7 @@ impl<I: Input> Lexer<I> {
         bump!();
 
         // XML style comment. `<!--`
-        if !self.opts.module && c == '<' && is!('!') && peek!() == Some('-')
+        if !self.cfg.module && c == '<' && is!('!') && peek!() == Some('-')
             && peek_ahead!() == Some('-')
         {
             self.skip_line_comment(3);
@@ -508,7 +493,7 @@ impl<I: Input> Lexer<I> {
         let (word, has_escape) = self.read_word_as_str()?;
 
         let word = Word::from(word);
-        if has_escape && word.is_reserved_word(self.opts.strict) {
+        if has_escape && word.is_reserved_word(self.cfg.strict) {
             return Err(Error::EscapeInReservedWord { word });
         }
 
@@ -552,7 +537,9 @@ impl<I: Input> Lexer<I> {
                     };
 
                     if !valid {
-                        return Err(Error::InvalidIdentChar { pos: span!(start) });
+                        return Err(Error::InvalidIdentChar {
+                            pos: span!(start).data(),
+                        });
                     }
                     word.push(c);
                 }
@@ -575,7 +562,9 @@ impl<I: Input> Lexer<I> {
             let c = self.read_code_point()?;
 
             if !eat!('}') {
-                return Err(Error::InvalidUnicodeEscape { pos: span!(start) });
+                return Err(Error::InvalidUnicodeEscape {
+                    pos: span!(start).data(),
+                });
             }
 
             Ok(c)
@@ -604,9 +593,17 @@ impl<I: Input> Lexer<I> {
         match val {
             Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
                 Some(c) => Ok(c),
-                None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+                None => {
+                    return Err(Error::InvalidCodePoint {
+                        pos: span!(start).data(),
+                    })
+                }
             },
-            _ => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+            _ => {
+                return Err(Error::InvalidCodePoint {
+                    pos: span!(start).data(),
+                })
+            }
         }
     }
 
@@ -735,16 +732,8 @@ impl<I: Input> Lexer<I> {
 
         unimplemented!("error: unterminated template");
     }
-}
 
-impl<I: Input> ::parser::Input for Lexer<I> {
-    fn had_line_break_before_last(&self) -> bool {
+    pub fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
-    }
-}
-
-impl<'a> Lexer<input::CharIndices<'a>> {
-    pub fn new_from_str(logger: Logger, s: &'a str) -> Self {
-        Lexer::new(logger, input::CharIndices(s.char_indices()))
     }
 }

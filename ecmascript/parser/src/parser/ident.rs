@@ -3,7 +3,7 @@
 use super::*;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     /// IdentifierReference
     pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
         let ctx = self.ctx;
@@ -39,7 +39,7 @@ impl<I: Input> Parser<I> {
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         spanned!({
-            let strict = self.ctx.strict;
+            let strict = self.cfg.strict;
             let w = match cur!() {
                 Some(&Word(..)) => match bump!() {
                     Word(w) => w,
@@ -82,9 +82,7 @@ impl<I: Input> Parser<I> {
                 Ident(ident) => Ok(ident),
                 Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
                 Keyword(Await) if incl_await => Ok(js_word!("await")),
-                Keyword(..) | Null | True | False => {
-                    syntax_error!(SyntaxError::ExpectedIdent)
-                }
+                Keyword(..) | Null | True | False => syntax_error!(SyntaxError::ExpectedIdent),
             }
         })
     }
@@ -93,12 +91,12 @@ impl<I: Input> Parser<I> {
 pub(super) trait MaybeOptionalIdentParser<Ident> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident>;
 }
-impl<I: Input> MaybeOptionalIdentParser<Ident> for Parser<I> {
+impl<'a, I: Input> MaybeOptionalIdentParser<Ident> for Parser<'a, I> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident> {
         self.parse_binding_ident()
     }
 }
-impl<I: Input> MaybeOptionalIdentParser<Option<Ident>> for Parser<I> {
+impl<'a, I: Input> MaybeOptionalIdentParser<Option<Ident>> for Parser<'a, I> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
         self.parse_opt_binding_ident()
     }

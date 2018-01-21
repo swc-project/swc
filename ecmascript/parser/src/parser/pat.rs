@@ -3,7 +3,7 @@ use super::*;
 use std::iter;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
         if is!(BindingIdent) {
             self.parse_binding_ident().map(Some)
@@ -18,7 +18,7 @@ impl<I: Input> Parser<I> {
     pub(super) fn parse_binding_ident(&mut self) -> PResult<Ident> {
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
-        if self.ctx.strict {
+        if self.cfg.strict {
             if &*ident.sym == "arguments" || &*ident.sym == "eval" {
                 syntax_error!(SyntaxError::EvalAndArgumentsInStrict)
             }
@@ -144,7 +144,7 @@ impl<I: Input> Parser<I> {
 }
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
     pub(super) fn reparse_expr_as_pat(&mut self, box expr: Box<Expr>) -> PResult<Pat> {

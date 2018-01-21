@@ -27,10 +27,34 @@ extern crate swc_macros;
 #[macro_use]
 extern crate testing;
 extern crate unicode_xid;
+pub use self::error::*;
+pub use self::lexer::input::{CharIndices, Input};
+pub use self::parser::*;
+use slog::Logger;
 
 #[macro_use]
 mod macros;
 pub mod error;
-pub mod lexer;
-pub mod token;
-pub mod parser;
+mod lexer;
+mod token;
+mod parser;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub struct Config {
+    pub strict: bool,
+
+    /// Support numeric separator.
+    pub num_sep: bool,
+
+    /// Support function bind expression.
+    pub fn_bind: bool,
+
+    /// Is in module code?
+    pub module: bool,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct Session<'a> {
+    pub cfg: Config,
+    pub logger: &'a Logger,
+}

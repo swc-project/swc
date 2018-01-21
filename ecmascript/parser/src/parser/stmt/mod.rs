@@ -4,7 +4,7 @@ use swc_macros::ast_node;
 mod module_item;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_block_body<Type>(
         &mut self,
         top_level: bool,
@@ -107,7 +107,7 @@ impl<I: Input> Parser<I> {
 
                 // `let;` is identifier reference.
                 Let if include_decl => match peek!() {
-                    Some(t) if t.follows_keyword_let(self.ctx.strict) => {
+                    Some(t) if t.follows_keyword_let(self.cfg.strict) => {
                         let v = self.parse_var_stmt(false)?;
                         return Ok(Stmt {
                             span: v.span,
@@ -191,7 +191,7 @@ impl<I: Input> Parser<I> {
 
             let cons = {
                 // Annex B
-                if !self.ctx.strict && is!("function") {
+                if !self.cfg.strict && is!("function") {
                     // TODO: report error?
                 }
                 box self.parse_stmt(false)?
@@ -431,7 +431,7 @@ impl<I: Input> Parser<I> {
     }
 
     fn parse_labelled_stmt(&mut self, label: Ident) -> PResult<Stmt> {
-        let start = label.span.start;
+        let start = label.span.lo();
 
         for l in &self.state.labels {
             if label.sym == *l {
@@ -475,7 +475,7 @@ impl<I: Input> Parser<I> {
         let start = cur_pos!();
 
         if is_one_of!("const", "var")
-            || (is!("let") && peek!()?.follows_keyword_let(self.ctx.strict))
+            || (is!("let") && peek!()?.follows_keyword_let(self.cfg.strict))
         {
             let decl = self.parse_var_stmt(true)?;
 
@@ -556,7 +556,7 @@ pub(super) trait StmtLikeParser<Type> {
     fn handle_import_export(&mut self, top_level: bool) -> PResult<Type>;
 }
 
-impl<I: Input> StmtLikeParser<Stmt> for Parser<I> {
+impl<'a, I: Input> StmtLikeParser<Stmt> for Parser<'a, I> {
     fn accept_import_export() -> bool {
         false
     }
@@ -568,22 +568,21 @@ impl<I: Input> StmtLikeParser<Stmt> for Parser<I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lexer::Lexer;
-
-    fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
-        let logger = ::testing::logger().new(o!("src" => s));
-        Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
-    }
+    use swc_common::DUMMY_SP;
 
     fn stmt(s: &'static str) -> Stmt {
-        mk(s).parse_stmt(true).expect("failed to parse a statement")
+        test_parser(s, |p| {
+            p.parse_stmt(true).expect("failed to parse a statement")
+        })
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        mk(s).parse_expr().expect("failed to parse an expression")
+        test_parser(s, |p| {
+            p.parse_expr().expect("failed to parse an expression")
+        })
     }
 
     #[allow(non_upper_case_globals)]
-    const span: Span = Span::DUMMY;
+    const span: Span = DUMMY_SP;
 
     #[test]
     fn expr_stmt() {

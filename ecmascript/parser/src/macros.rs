@@ -90,9 +90,9 @@ macro_rules! span {
         let end: ::swc_common::BytePos = last_pos!($p);
         if cfg!(debug_assertions) && start > end {
             unreachable!("assertion failed: (span.start <= span.end).
- start = {}, end = {}", start, end)
+ start = {}, end = {}", start.0, end.0)
         }
-        Span { start, end }
+        Span::new(start, end, Default::default())
     }};
 }
 
@@ -105,12 +105,15 @@ macro_rules! spanned {
             $($body)*
         };
         #[allow(unreachable_code)]
-        match val {
-            Ok(val) => {
-                let end = last_pos!($p);
-                Ok(::swc_common::Spanned::from_unspanned(val, Span { start, end }))
-            },
-            Err(err) => Err(err),
+        {
+            match val {
+                Ok(val) => {
+                    let span = span!($p, start);
+                    let val = ::swc_common::Spanned::from_unspanned(val, span);
+                    Ok(val)
+                },
+                Err(err) => Err(err),
+            }
         }
     }};
 }

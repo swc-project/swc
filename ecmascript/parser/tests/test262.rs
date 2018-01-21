@@ -18,9 +18,8 @@ use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
 use swc_common::{FoldWith, Folder};
 use swc_common::Span;
+use swc_ecma_parser::{CharIndices, PResult, Parser};
 use swc_ecma_parser::ast::*;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::parser::{PResult, Parser};
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
 
@@ -173,17 +172,24 @@ fn logger(file_name: &str, src: &str) -> Logger {
     ::testing::logger().new(o!("file name" => f, "src" => s,))
 }
 
+fn with_parser<F, Ret>(file_name: &str, src: &str, f: F) -> Ret
+where
+    F: FnOnce(&mut Parser<CharIndices>) -> Ret,
+{
+    let logger = logger(file_name, src);
+    let mut p = Parser::new(
+        &logger,
+        Default::default(),
+        ::CharIndices(src.char_indices()),
+    );
+    f(&mut p)
+}
+
 fn parse_script(file_name: &str, s: &str) -> PResult<Vec<Stmt>> {
-    let l = logger(file_name, s);
-    Parser::new_for_script(l.clone(), Lexer::new_from_str(l, s), false)
-        .parse_script()
-        .map(normalize)
+    with_parser(file_name, s, |p| p.parse_script().map(normalize))
 }
 fn parse_module(file_name: &str, s: &str) -> PResult<Module> {
-    let l = logger(file_name, s);
-    Parser::new_for_module(l.clone(), Lexer::new_from_str(l, s))
-        .parse_module()
-        .map(normalize)
+    with_parser(file_name, s, |p| p.parse_module().map(normalize))
 }
 
 fn normalize<T>(mut t: T) -> T
@@ -206,7 +212,7 @@ struct Normalizer {
 }
 impl Folder<Span> for Normalizer {
     fn fold(&mut self, _: Span) -> Span {
-        Span::DUMMY
+        Span::default()
     }
 }
 impl Folder<ExprKind> for Normalizer {

@@ -4,7 +4,7 @@ use super::*;
 use super::ident::MaybeOptionalIdentParser;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!();
         expect!("async");
@@ -71,7 +71,7 @@ impl<I: Input> Parser<I> {
         Ok(T::finish_class(
             ident,
             Class {
-                span: Span { start, end },
+                span: Span::new(start, end, Default::default()),
                 super_class,
                 body,
             },
@@ -131,11 +131,7 @@ impl<I: Input> Parser<I> {
         Ok(T::finish_fn(
             ident,
             Function {
-                span: Span {
-                    start,
-                    end: last_pos!(),
-                },
-
+                span: span!(start),
                 is_async,
                 is_generator,
                 params,
@@ -340,7 +336,7 @@ pub(super) trait FnBodyParser<Body> {
 }
 
 #[parser]
-impl<I: Input> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
+impl<'a, I: Input> FnBodyParser<BlockStmtOrExpr> for Parser<'a, I> {
     fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
         if is!('{') {
             self.parse_block().map(BlockStmtOrExpr::BlockStmt)
@@ -350,7 +346,7 @@ impl<I: Input> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     }
 }
 
-impl<I: Input> FnBodyParser<BlockStmt> for Parser<I> {
+impl<'a, I: Input> FnBodyParser<BlockStmt> for Parser<'a, I> {
     fn parse_fn_body_inner(&mut self) -> PResult<BlockStmt> {
         self.parse_block()
     }
@@ -359,25 +355,22 @@ impl<I: Input> FnBodyParser<BlockStmt> for Parser<I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lexer::Lexer;
-
-    fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
-        let logger = ::testing::logger().new(o!("src" => s));
-        Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
-    }
+    use swc_common::DUMMY_SP;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        mk(s)
-            .parse_lhs_expr()
-            .expect("failed to parse lhs expression")
+        test_parser(s, |p| {
+            p.parse_lhs_expr().expect("failed to parse lhs expression")
+        })
     }
 
     fn expr(s: &'static str) -> Box<Expr> {
-        mk(s).parse_expr().expect("failed to parse an expression")
+        test_parser(s, |p| {
+            p.parse_expr().expect("failed to parse an expression")
+        })
     }
 
     #[allow(non_upper_case_globals)]
-    const span: Span = Span::DUMMY;
+    const span: Span = DUMMY_SP;
 
     #[test]
     fn class_expr() {

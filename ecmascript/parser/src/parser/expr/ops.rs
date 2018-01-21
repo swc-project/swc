@@ -3,7 +3,7 @@
 use super::*;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         let left = self.parse_unary_expr()?;
@@ -80,7 +80,7 @@ impl<I: Input> Parser<I> {
         };
 
         let node = box Expr {
-            span: span!(left.span.start),
+            span: span!(left.span.lo()),
             node: ExprKind::Bin(BinExpr { op, left, right }),
         };
 
@@ -183,17 +183,12 @@ impl<I: Input> Parser<I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lexer::Lexer;
-
-    fn mk<'a>(s: &'static str) -> Parser<impl 'a + Input> {
-        let logger = ::testing::logger().new(o!("src" => s));
-        Parser::new_for_module(logger.clone(), Lexer::new_from_str(logger, s))
-    }
 
     fn bin(s: &'static str) -> Box<Expr> {
-        let expr = mk(s).parse_bin_expr();
-        expr.unwrap_or_else(|err| {
-            panic!("failed to parse '{}' as a binary expression: {:?}", s, err)
+        test_parser(s, |p| {
+            p.parse_bin_expr().unwrap_or_else(|err| {
+                panic!("failed to parse '{}' as a binary expression: {:?}", s, err)
+            })
         })
     }
 

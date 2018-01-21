@@ -3,19 +3,22 @@ use super::input::CharIndices;
 use std::ops::Range;
 use std::str;
 
-fn make_lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
-    let logger = ::testing::logger().new(o!("src" => s));
-    Lexer::new_from_str(logger, s)
+fn with_lexer<F, Ret>(s: &'static str, f: F) -> Ret
+where
+    F: FnOnce(&mut Lexer<CharIndices>) -> Ret,
+{
+    let l = ::testing::logger().new(o!("src" => s));
+    let mut lexer = Lexer::new(&l, Default::default(), CharIndices(s.char_indices()));
+
+    f(&mut lexer)
 }
 
 fn lex(s: &'static str) -> Vec<TokenAndSpan> {
     println!("Source:\n{}", s);
-    let lexer = make_lexer(&s);
-    lexer.collect()
+    with_lexer(s, |l| l.collect())
 }
 fn lex_tokens(s: &'static str) -> Vec<Token> {
-    let lexer = make_lexer(&s);
-    lexer.map(|ts| ts.token).collect()
+    with_lexer(s, |l| l.map(|ts| ts.token).collect())
 }
 
 trait SpanRange: Sized {
@@ -23,18 +26,20 @@ trait SpanRange: Sized {
 }
 impl SpanRange for usize {
     fn into_span(self) -> Span {
-        Span {
-            start: BytePos(self as _),
-            end: BytePos((self + 1usize) as _),
-        }
+        Span::new(
+            BytePos(self as _),
+            BytePos((self + 1usize) as _),
+            Default::default(),
+        )
     }
 }
 impl SpanRange for Range<usize> {
     fn into_span(self) -> Span {
-        Span {
-            start: BytePos(self.start as _),
-            end: BytePos(self.end as _),
-        }
+        Span::new(
+            BytePos(self.start as _),
+            BytePos(self.end as _),
+            Default::default(),
+        )
     }
 }
 

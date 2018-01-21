@@ -6,19 +6,19 @@ mod ops;
 mod tests;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         let expr = self.parse_assignment_expr()?;
-        let start = expr.span.start;
+        let start = expr.span.lo();
 
         if is!(',') {
             let mut exprs = vec![expr];
             while eat!(',') {
                 exprs.push(self.parse_assignment_expr()?);
             }
-            let end = exprs.last().unwrap().span.end;
+            let end = exprs.last().unwrap().span.hi();
             return Ok(box Expr {
-                span: Span { start, end },
+                span: Span::new(start, end, Default::default()),
                 node: ExprKind::Seq(SeqExpr { exprs }),
             });
         }
@@ -387,10 +387,11 @@ impl<I: Input> Parser<I> {
 
             // span of sequence expression should not include '(' and ')'
             let seq_expr = box Expr {
-                span: Span {
-                    start: exprs.first().unwrap().span.start,
-                    end: exprs.last().unwrap().span.end,
-                },
+                span: Span::new(
+                    exprs.first().unwrap().span.lo(),
+                    exprs.last().unwrap().span.hi(),
+                    Default::default(),
+                ),
                 node: ExprKind::Seq(SeqExpr { exprs }),
             };
             return Ok(box Expr {
@@ -584,7 +585,7 @@ impl<I: Input> Parser<I> {
 
 /// simple leaf methods.
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         spanned!({
             assert_and_bump!("yield");

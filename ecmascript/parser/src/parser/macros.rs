@@ -22,7 +22,7 @@ macro_rules! is {
     ($p:expr, BindingIdent) => {{
         match cur!($p) {
             // TODO: Exclude some keywords
-            Some(&Word(ref w)) => !w.is_reserved_word($p.ctx.strict),
+            Some(&Word(ref w)) => !w.is_reserved_word($p.cfg.strict),
             _ => false,
         }
     }};
@@ -30,7 +30,7 @@ macro_rules! is {
     ($p:expr, IdentRef) => {{
         match cur!($p) {
             // TODO: Exclude some keywords
-            Some(&Word(ref w)) => !w.is_reserved_word($p.ctx.strict),
+            Some(&Word(ref w)) => !w.is_reserved_word($p.cfg.strict),
             _ => false,
         }
     }};
@@ -178,7 +178,7 @@ macro_rules! last_pos {
 macro_rules! return_if_arrow {
     ($p:expr, $expr:expr) => {{
         let is_cur = match $p.state.potential_arrow_start {
-            Some(start) => $expr.span.start == start,
+            Some(start) => $expr.span.lo() == start,
             None => false
         };
         if is_cur {
