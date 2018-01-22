@@ -3,7 +3,7 @@
 #![feature(const_fn)]
 #![feature(specialization)]
 #![feature(never_type)]
-#![feature(nll)]
+// #![feature(nll)]
 #![feature(proc_macro)]
 #![feature(try_from)]
 #![feature(try_trait)]
@@ -12,25 +12,68 @@
 #![deny(unsafe_code)]
 
 extern crate either;
-#[macro_use]
-extern crate failure;
 extern crate parser_macros;
 #[macro_use]
 extern crate slog;
 #[macro_use(js_word)]
-extern crate swc_atoms;
-extern crate swc_common;
+pub extern crate swc_atoms;
+pub extern crate swc_common;
 pub extern crate swc_ecma_ast as ast;
 #[macro_use]
-extern crate swc_macros;
+pub extern crate swc_macros;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
 extern crate unicode_xid;
+pub use self::lexer::input::{CharIndices, Input};
+pub use self::parser::*;
+use slog::Logger;
+use swc_common::errors::Handler;
 
 #[macro_use]
 mod macros;
-pub mod error;
-pub mod lexer;
-pub mod token;
-pub mod parser;
+mod error;
+mod lexer;
+mod token;
+mod parser;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub struct Config {
+    pub strict: bool,
+
+    /// Support numeric separator.
+    pub num_sep: bool,
+
+    /// Support function bind expression.
+    pub fn_bind: bool,
+
+    /// Is in module code?
+    pub module: bool,
+}
+
+#[derive(Clone, Copy)]
+pub struct Session<'a> {
+    pub cfg: Config,
+    pub logger: &'a Logger,
+    pub handler: &'a Handler,
+}
+
+#[cfg(test)]
+fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
+where
+    F: FnOnce(Session) -> Ret,
+{
+    let handler = ::swc_common::errors::Handler::with_tty_emitter(
+        ::swc_common::errors::ColorConfig::Never,
+        true,
+        false,
+        None,
+    );
+    let logger = ::testing::logger().new(o!("src" => src));
+
+    f(Session {
+        handler: &handler,
+        logger: &logger,
+        cfg: Default::default(),
+    })
+}

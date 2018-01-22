@@ -6,19 +6,19 @@ mod ops;
 mod tests;
 
 #[parser]
-impl<I: Input> Parser<I> {
-    pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
+impl<'a, I: Input> Parser<'a, I> {
+    pub fn parse_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let expr = self.parse_assignment_expr()?;
-        let start = expr.span.start;
+        let start = expr.span.lo();
 
         if is!(',') {
             let mut exprs = vec![expr];
             while eat!(',') {
                 exprs.push(self.parse_assignment_expr()?);
             }
-            let end = exprs.last().unwrap().span.end;
+            let end = exprs.last().unwrap().span.hi();
             return Ok(box Expr {
-                span: Span { start, end },
+                span: Span::new(start, end, Default::default()),
                 node: ExprKind::Seq(SeqExpr { exprs }),
             });
         }
@@ -29,7 +29,7 @@ impl<I: Input> Parser<I> {
     /// Parse an assignment expression. This includes applications of
     /// operators like `+=`.
     ///
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, Box<Expr>> {
         if self.ctx.in_generator && is!("yield") {
             return self.parse_yield_expr();
         }
@@ -59,7 +59,7 @@ impl<I: Input> Parser<I> {
         }
 
         match cur!() {
-            Some(&AssignOp(op)) => {
+            Ok(&AssignOp(op)) => {
                 bump!();
                 let right = self.parse_assignment_expr()?;
                 Ok(box Expr {
@@ -77,7 +77,7 @@ impl<I: Input> Parser<I> {
     }
 
     /// Spec: 'ConditionalExpression'
-    fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
+    fn parse_cond_expr(&mut self) -> PResult<'a, Box<Expr>> {
         spanned!({
             let test = self.parse_bin_expr()?;
             return_if_arrow!(test);
@@ -95,79 +95,87 @@ impl<I: Input> Parser<I> {
     }
 
     /// Parse a primary expression or arrow function
-    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+    fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let can_be_arrow = self.state
             .potential_arrow_start
             .map(|s| s == cur_pos!())
             .unwrap_or(false);
 
-        // debug!(
-        //     self.logger,
-        //     "Parsing a primary expression. cur={:?} can_be_arrow={}",
-        //     cur!(),
-        //     can_be_arrow
-        // );
+        if is!("this") {
+            return self.spanned(|p| {
+                assert_and_bump!("this");
+                Ok(ExprKind::This)
+            });
+        }
 
-        let t = cur!()?;
-        match *t {
-            tok!("this") => {
-                return spanned!({
-                    assert_and_bump!("this");
-                    Ok(ExprKind::This)
-                });
+        // Handle async function expression
+        if { is!("async") } && { peeked_is!("function") } && {
+            !self.input.has_linebreak_between_cur_and_peeked()
+        } {
+            return self.parse_async_fn_expr();
+        }
+
+        if is!('[') {
+            return self.parse_array_lit();
+        }
+        if is!('{') {
+            return self.parse_object();
+        }
+
+        // Handle FunctionExpression and GeneratorExpression
+        if is!("function") {
+            return self.parse_fn_expr();
+        }
+
+        if is!("class") {
+            return self.parse_class_expr();
+        }
+
+        // Literals
+        if {
+            match *cur!()? {
+                tok!("null") | tok!("true") | tok!("false") | Num(..) | Str(..) => true,
+                _ => false,
             }
+        } {
+            return self.spanned(|p| p.parse_lit().map(ExprKind::Lit));
+        }
 
-            tok!("async") => {
-                // Handle async function expression
-                if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked() {
-                    return self.parse_async_fn_expr();
-                }
+        // Regexp
+        if {
+            match *cur!()? {
+                Regex(..) => true,
+                _ => false,
             }
+        } {
+            return self.spanned(|p| match bump!() {
+                Regex(exp, flags) => Ok(ExprKind::Lit(Lit::Regex(Regex { exp, flags }))),
+                _ => unreachable!(),
+            });
+        }
 
-            tok!("null") | tok!("true") | tok!("false") | Num(..) | Str(..) => {
-                return spanned!({ self.parse_lit().map(ExprKind::Lit) })
-            }
-            tok!('[') => return self.parse_array_lit(),
-            tok!('{') => return self.parse_object(),
+        if is!('`') {
+            return self.spanned(|p| {
+                // parse template literal
+                Ok(ExprKind::Tpl(p.parse_tpl_lit(None)?))
+            });
+        }
 
-            // Handle FunctionExpression and GeneratorExpression
-            tok!("function") => return self.parse_fn_expr(),
-            tok!("class") => return self.parse_class_expr(),
-
-            Regex(_, _) => {
-                return spanned!({
-                    match bump!() {
-                        Regex(exp, flags) => Ok(ExprKind::Lit(Lit::Regex(Regex { exp, flags }))),
-                        _ => unreachable!(),
-                    }
-                });
-            }
-
-            tok!('`') => {
-                return spanned!({
-                    // parse template literal
-                    Ok(ExprKind::Tpl(self.parse_tpl_lit(None)?))
-                });
-            }
-
-            tok!('(') => {
-                return self.parse_paren_expr_or_arrow_fn(can_be_arrow);
-            }
-
-            _ => {}
+        if is!('(') {
+            return self.parse_paren_expr_or_arrow_fn(can_be_arrow);
         }
 
         if is!("let") || is!(IdentRef) {
-            return spanned!({
+            return self.spanned(|p| {
                 // TODO: Handle [Yield, Await]
-                let id = self.parse_ident_ref()?;
+                let id = p.parse_ident_ref()?;
 
                 if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
                     // async a => body
-                    let arg = self.parse_binding_ident().map(Pat::from)?;
+                    let arg = p.parse_binding_ident().map(Pat::from)?;
                     let params = vec![arg];
                     expect!("=>");
-                    let body = self.parse_fn_body(true, false)?;
+                    let body = p.parse_fn_body(true, false)?;
                     Ok(ExprKind::Arrow(ArrowExpr {
                         body,
                         params,
@@ -178,7 +186,7 @@ impl<I: Input> Parser<I> {
                     // async is parameter
 
                     let params = vec![id.into()];
-                    let body = self.parse_fn_body(false, false)?;
+                    let body = p.parse_fn_body(false, false)?;
                     Ok(ExprKind::Arrow(ArrowExpr {
                         body,
                         params,
@@ -186,7 +194,7 @@ impl<I: Input> Parser<I> {
                         is_generator: false,
                     }))
                 } else {
-                    return Ok(id.into());
+                    return Ok(ExprKind::Ident(id.into()));
                 }
             });
         }
@@ -194,8 +202,8 @@ impl<I: Input> Parser<I> {
         unexpected!()
     }
 
-    fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
-        spanned!({
+    fn parse_array_lit(&mut self) -> PResult<'a, Box<Expr>> {
+        self.spanned(|p| {
             assert_and_bump!('[');
             let mut elems = vec![];
             let mut comma = 1;
@@ -212,7 +220,7 @@ impl<I: Input> Parser<I> {
                 }
                 elems.extend(iter::repeat(None).take(comma - 1));
                 comma = 0;
-                elems.push(self.include_in_expr(true).parse_expr_or_spread().map(Some)?);
+                elems.push(p.include_in_expr(true).parse_expr_or_spread().map(Some)?);
             }
 
             expect!(']');
@@ -221,12 +229,12 @@ impl<I: Input> Parser<I> {
         })
     }
 
-    fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
+    fn parse_member_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
-    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
         if eat!("new") {
             let span_of_new = span!(start);
@@ -257,14 +265,14 @@ impl<I: Input> Parser<I> {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args().map(Some)?;
 
+                let new_expr = ExprOrSuper::Expr(box Expr {
+                    span: span!(start),
+                    node: ExprKind::New(NewExpr { callee, args }),
+                });
+
                 // We should parse subscripts for MemberExpression.
-                return self.parse_subscripts(
-                    ExprOrSuper::Expr(box Expr {
-                        span: span!(start),
-                        node: ExprKind::New(NewExpr { callee, args }),
-                    }),
-                    true,
-                );
+                // Because it's left recursive.
+                return self.parse_subscripts(new_expr, true);
             }
 
             // Parsed with 'NewExpression' production.
@@ -285,12 +293,12 @@ impl<I: Input> Parser<I> {
 
     /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
-    fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
+    fn parse_new_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_member_expr_or_new_expr(true)
     }
 
     /// Parse `Arguments[Yield, Await]`
-    pub(super) fn parse_args(&mut self) -> PResult<Vec<ExprOrSpread>> {
+    pub(super) fn parse_args(&mut self) -> PResult<'a, Vec<ExprOrSpread>> {
         expect!('(');
 
         let mut first = true;
@@ -316,7 +324,7 @@ impl<I: Input> Parser<I> {
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
-    pub(super) fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
+    pub(super) fn parse_expr_or_spread(&mut self) -> PResult<'a, ExprOrSpread> {
         if eat!("...") {
             self.include_in_expr(true)
                 .parse_assignment_expr()
@@ -328,7 +336,7 @@ impl<I: Input> Parser<I> {
 
     /// Parse paren expression or arrow function expression.
     ///
-    fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<Box<Expr>> {
+    fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         // At this point, we can't know if it's parenthesized
@@ -363,7 +371,7 @@ impl<I: Input> Parser<I> {
 
         // ParenthesizedExpression cannot contain spread.
         if expr_or_spreads.len() == 0 {
-            syntax_error!(SyntaxError::EmptyParenExpr)
+            syntax_error!(SyntaxError::EmptyParenExpr);
         } else if expr_or_spreads.len() == 1 {
             let expr = match expr_or_spreads.into_iter().next().unwrap() {
                 ExprOrSpread::Spread(_) => syntax_error!(SyntaxError::SpreadInParenExpr),
@@ -387,10 +395,11 @@ impl<I: Input> Parser<I> {
 
             // span of sequence expression should not include '(' and ')'
             let seq_expr = box Expr {
-                span: Span {
-                    start: exprs.first().unwrap().span.start,
-                    end: exprs.last().unwrap().span.end,
-                },
+                span: Span::new(
+                    exprs.first().unwrap().span.lo(),
+                    exprs.last().unwrap().span.hi(),
+                    Default::default(),
+                ),
                 node: ExprKind::Seq(SeqExpr { exprs }),
             };
             return Ok(box Expr {
@@ -400,7 +409,7 @@ impl<I: Input> Parser<I> {
         }
     }
 
-    fn parse_tpl_lit(&mut self, tag: Option<Box<Expr>>) -> PResult<TplLit> {
+    fn parse_tpl_lit(&mut self, tag: Option<Box<Expr>>) -> PResult<'a, TplLit> {
         assert_and_bump!('`');
 
         let is_tagged = tag.is_some();
@@ -425,7 +434,7 @@ impl<I: Input> Parser<I> {
         Ok(TplLit { tag, exprs, quasis })
     }
 
-    fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<TplElement> {
+    fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<'a, TplElement> {
         let raw = match *cur!()? {
             Template(_) => match bump!() {
                 Template(s) => s,
@@ -443,7 +452,7 @@ impl<I: Input> Parser<I> {
         })
     }
 
-    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
+    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<'a, Box<Expr>> {
         loop {
             obj = match self.parse_subscript(obj, no_call)? {
                 (expr, false) => return Ok(expr),
@@ -453,7 +462,11 @@ impl<I: Input> Parser<I> {
     }
 
     /// returned bool is true if this method should be called again.
-    fn parse_subscript(&mut self, obj: ExprOrSuper, no_call: bool) -> PResult<(Box<Expr>, bool)> {
+    fn parse_subscript(
+        &mut self,
+        obj: ExprOrSuper,
+        no_call: bool,
+    ) -> PResult<'a, (Box<Expr>, bool)> {
         let start = cur_pos!();
         // member expression
         // $obj.name
@@ -527,7 +540,7 @@ impl<I: Input> Parser<I> {
     /// Parse call, dot, and `[]`-subscript expressions.
     ///
     ///
-    pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         // `super()` can't be handled from parse_new_expr()
@@ -541,9 +554,10 @@ impl<I: Input> Parser<I> {
 
         match callee.node {
             // If this is parsed using 'NewExpression' rule, just return it.
+            // Because it's not left-recursive.
             ExprKind::New(NewExpr { args: None, .. }) => {
                 assert_ne!(
-                    cur!(),
+                    cur!().ok(),
                     Some(&LParen),
                     "parse_new_expr() should eat paren if it exists"
                 );
@@ -574,21 +588,21 @@ impl<I: Input> Parser<I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, Box<Expr>> {
         self.parse_expr()
     }
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<ExprOrSpread>> {
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<ExprOrSpread>> {
         self.parse_args()
     }
 }
 
 /// simple leaf methods.
 #[parser]
-impl<I: Input> Parser<I> {
-    fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
-        spanned!({
+impl<'a, I: Input> Parser<'a, I> {
+    fn parse_yield_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        self.spanned(|p| {
             assert_and_bump!("yield");
-            assert!(self.ctx.in_generator);
+            assert!(p.ctx.in_generator);
 
             //TODO
             // Spec says
@@ -603,7 +617,7 @@ impl<I: Input> Parser<I> {
                 }))
             } else {
                 let has_star = eat!('*');
-                let arg = self.parse_assignment_expr()?;
+                let arg = p.parse_assignment_expr()?;
 
                 Ok(ExprKind::Yield(YieldExpr {
                     arg: Some(arg),
@@ -614,7 +628,7 @@ impl<I: Input> Parser<I> {
     }
 
     /// 12.2.5 Array Initializer
-    fn parse_lit(&mut self) -> PResult<Lit> {
+    fn parse_lit(&mut self) -> PResult<'a, Lit> {
         let v = match *cur!()? {
             Word(Null) => {
                 bump!();

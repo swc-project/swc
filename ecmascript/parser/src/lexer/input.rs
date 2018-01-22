@@ -1,4 +1,3 @@
-use std::fmt::Debug;
 use std::str;
 use swc_common::BytePos;
 
@@ -9,7 +8,7 @@ pub(super) struct LexerInput<I: Input> {
     input: I,
 }
 
-impl<I: Input> LexerInput<I> {
+impl<'a, I: Input> LexerInput<I> {
     pub const fn new(input: I) -> Self {
         LexerInput {
             input,
@@ -61,8 +60,6 @@ impl<I: Input> LexerInput<I> {
 pub struct CharIndices<'a>(pub str::CharIndices<'a>);
 
 impl<'a> Input for CharIndices<'a> {
-    type Error = ();
-
     fn peek(&mut self) -> Option<(BytePos, char)> {
         self.clone().nth(0)
     }
@@ -87,7 +84,6 @@ impl<'a> Iterator for CharIndices<'a> {
 }
 
 pub trait Input: Iterator<Item = (BytePos, char)> {
-    type Error: Debug;
     fn peek(&mut self) -> Option<(BytePos, char)>;
 
     fn peek_ahead(&mut self) -> Option<(BytePos, char)>;
@@ -103,8 +99,6 @@ impl<'a, I> Input for &'a mut I
 where
     I: Input,
 {
-    type Error = I::Error;
-
     fn peek(&mut self) -> Option<(BytePos, char)> {
         <I as Input>::peek(*self)
     }

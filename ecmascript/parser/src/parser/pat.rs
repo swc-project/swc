@@ -3,8 +3,8 @@ use super::*;
 use std::iter;
 
 #[parser]
-impl<I: Input> Parser<I> {
-    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
+impl<'a, I: Input> Parser<'a, I> {
+    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
         if is!(BindingIdent) {
             self.parse_binding_ident().map(Some)
         } else {
@@ -15,19 +15,19 @@ impl<I: Input> Parser<I> {
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub(super) fn parse_binding_ident(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_binding_ident(&mut self) -> PResult<'a, Ident> {
         // "yield" and "await" is **lexically** accepted.
         let ident = self.parse_ident(true, true)?;
-        if self.ctx.strict {
+        if self.session.cfg.strict {
             if &*ident.sym == "arguments" || &*ident.sym == "eval" {
-                syntax_error!(SyntaxError::EvalAndArgumentsInStrict)
+                syntax_error!(SyntaxError::EvalAndArgumentsInStrict);
             }
         }
 
         Ok(ident)
     }
 
-    pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
+    pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<'a, Pat> {
         match *cur!()? {
             tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
@@ -43,7 +43,7 @@ impl<I: Input> Parser<I> {
     }
 
     /// babel: `parseBindingAtom`
-    pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
+    pub(super) fn parse_binding_element(&mut self) -> PResult<'a, Pat> {
         let start = cur_pos!();
         let left = self.parse_binding_pat_or_ident()?;
 
@@ -61,8 +61,8 @@ impl<I: Input> Parser<I> {
         Ok(left)
     }
 
-    fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
-        spanned!({
+    fn parse_array_binding_pat(&mut self) -> PResult<'a, Pat> {
+        self.spanned(|p| {
             assert_and_bump!('[');
 
             let mut elems = vec![];
@@ -79,7 +79,7 @@ impl<I: Input> Parser<I> {
                 let start = cur_pos!();
 
                 if eat!("...") {
-                    let pat = self.parse_binding_pat_or_ident()?;
+                    let pat = p.parse_binding_pat_or_ident()?;
                     let pat = Pat {
                         span: span!(start),
                         node: PatKind::Rest(box pat),
@@ -87,7 +87,7 @@ impl<I: Input> Parser<I> {
                     elems.push(Some(pat));
                     break;
                 } else {
-                    elems.push(self.parse_binding_element().map(Some)?);
+                    elems.push(p.parse_binding_element().map(Some)?);
                 }
             }
 
@@ -98,13 +98,13 @@ impl<I: Input> Parser<I> {
     }
 
     /// spec: 'FormalParameter'
-    pub(super) fn parse_formal_param(&mut self) -> PResult<Pat> {
+    pub(super) fn parse_formal_param(&mut self) -> PResult<'a, Pat> {
         self.parse_binding_element()
     }
 
     ///
     /// spec: 'FormalParameterList'
-    pub(super) fn parse_formal_params(&mut self) -> PResult<Vec<Pat>> {
+    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
         let mut first = true;
         let mut params = vec![];
 
@@ -137,17 +137,17 @@ impl<I: Input> Parser<I> {
         Ok(params)
     }
 
-    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Pat>> {
+    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
         // FIXME: This is wrong.
         self.parse_formal_params()
     }
 }
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
-    pub(super) fn reparse_expr_as_pat(&mut self, box expr: Box<Expr>) -> PResult<Pat> {
+    pub(super) fn reparse_expr_as_pat(&mut self, box expr: Box<Expr>) -> PResult<'a, Pat> {
         let span = expr.span;
 
         match expr.node {
@@ -209,7 +209,7 @@ impl<I: Input> Parser<I> {
                                 prop
                             ),
                         })
-                        .collect::<PResult<_>>()?),
+                        .collect::<PResult<'a, _>>()?),
                 });
             }
             ExprKind::Ident(ident) => return Ok(ident.into()),
@@ -269,7 +269,7 @@ impl<I: Input> Parser<I> {
     pub(super) fn parse_exprs_as_params(
         &mut self,
         mut exprs: Vec<ExprOrSpread>,
-    ) -> PResult<Vec<Pat>> {
+    ) -> PResult<'a, Vec<Pat>> {
         let len = exprs.len();
         if len == 0 {
             return Ok(vec![]);

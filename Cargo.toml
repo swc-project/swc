@@ -6,10 +6,19 @@ version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
-swc_atoms = { path = "./atoms" }
-swc_ecmascript = { path = "./ecmascript" }
+libswc = { path = "./swc" }
 swc_common = { path = "./common" }
-swc_macros = { path = "./macros" }
+
+rayon = "0.9"
+slog = "2"
+slog-envlogger = "2.1"
+slog-term = "2.3"
+
+
+[dependencies.clap]
+version = "2.29"
+default-features = false
+features = [ "suggestions", "color" ]
 
 
 [profile.bench]

@@ -8,11 +8,13 @@ pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
+use Session;
+use error::SyntaxError;
 use parser_macros::parser;
-use slog::Logger;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
+use swc_common::errors::Diagnostic;
 use token::*;
 
 #[macro_use]
@@ -24,100 +26,24 @@ mod state;
 mod tests;
 pub mod util;
 
-#[derive(Fail, Debug, PartialEq, Eq, Hash)]
-pub enum Error<InputError> {
-    #[fail(display = "input error: {}", err)] Input {
-        err: InputError,
-    },
-    #[fail(display = "unterminated string constant: {}", start)]
-    UnterminatedStrLit {
-        start: BytePos,
-    },
-    #[fail(display = "expected unicode escape sequence: {}", pos)]
-    ExpectedUnicodeEscape {
-        pos: BytePos,
-    },
-    #[fail(display = "unexpected escape sequence in reserved word: {:?}", word)]
-    EscapeInReservedWord {
-        word: Word,
-    },
-    #[fail(display = "unterminated regexp (regexp started at {})", start)]
-    UnterminatedRegxp {
-        start: BytePos,
-    },
-    #[fail(display = "identifier directly after number at {}", pos)]
-    IdentAfterNum {
-        pos: BytePos,
-    },
-    #[fail(display = "Decimals with leading zeros (at {}) are not allowed in strict mode", start)]
-    DecimalStartsWithZero {
-        start: BytePos,
-    },
-    #[fail(display = "Octals with leading zeros (at {}) are not allowed in strict mode", start)]
-    ImplicitOctalOnStrict {
-        start: BytePos,
-    },
-    #[fail(display = "Unexpected character '{}' at {}", c, pos)]
-    UnexpectedChar {
-        pos: BytePos,
-        c: char,
-    },
-    #[fail(display = "Invalid string escape at {}", start)]
-    InvalidStrEscape {
-        start: BytePos,
-    },
+pub type LexResult<'a, T> = Result<T, Diagnostic<'a>>;
 
-    #[fail(display = "Invalid unciode escape at {:?}", pos)]
-    InvalidUnicodeEscape {
-        pos: Span,
-    },
-
-    #[fail(display = "Invalid unciode code point at {:?}", pos)]
-    InvalidCodePoint {
-        pos: Span,
-    },
-
-    #[fail(display = "Invalid identifier character at {:?}", pos)]
-    InvalidIdentChar {
-        pos: Span,
-    },
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub struct Options {
-    /// Support function bind expression.
-    pub fn_bind: bool,
-
-    pub strict: bool,
-
-    /// Support numeric separator.
-    pub num_sep: bool,
-
-    pub module: bool,
-}
-
-pub struct Lexer<I: Input> {
-    logger: Logger,
+pub struct Lexer<'a, I: Input> {
+    session: Session<'a>,
     input: LexerInput<I>,
-    opts: Options,
     state: State,
 }
 
-impl<I: Input> Lexer<I> {
-    pub fn new(logger: Logger, input: I) -> Self {
-        Self::new_with(logger, Options::default(), input)
-    }
-
-    pub fn new_with(logger: Logger, opts: Options, input: I) -> Self {
+impl<'a, I: Input> Lexer<'a, I> {
+    pub fn new(session: Session<'a>, input: I) -> Self {
         Lexer {
-            logger,
-            opts,
-            state: State::new(),
+            session,
             input: LexerInput::new(input),
+            state: State::new(),
         }
     }
 
-    fn read_token(&mut self) -> Result<Option<Token>, Error<I::Error>> {
+    fn read_token(&mut self) -> LexResult<'a, Option<Token>> {
         let c = match self.input.current() {
             Some(c) => c,
             None => return Ok(None),
@@ -181,7 +107,7 @@ impl<I: Input> Lexer<I> {
             ':' => {
                 self.input.bump();
 
-                if self.opts.fn_bind && self.input.current() == Some(':') {
+                if self.session.cfg.fn_bind && self.input.current() == Some(':') {
                     self.input.bump();
                     return Ok(Some(tok!("::")));
                 }
@@ -340,21 +266,21 @@ impl<I: Input> Lexer<I> {
             }
 
             // unexpected character
-            c => return Err(Error::UnexpectedChar { c, pos: start }),
+            c => syntax_error!(self, pos_span(start), SyntaxError::UnexpectedChar { c }),
         };
 
         Ok(Some(token))
     }
 
     /// Read an escaped charater for string literal.
-    fn read_escaped_char(&mut self, in_template: bool) -> Result<Option<char>, Error<I::Error>> {
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<'a, Option<char>> {
         assert_eq!(cur!(self), Some('\\'));
         let start = cur_pos!(self);
         bump!(self); // '\'
 
         let c = match cur!(self) {
             Some(c) => c,
-            None => return Err(Error::InvalidStrEscape { start }),
+            None => syntax_error!(self, pos_span(start), SyntaxError::InvalidStrEscape),
         };
         let c = match c {
             'n' => '\n',
@@ -435,8 +361,8 @@ impl<I: Input> Lexer<I> {
 }
 
 #[parser]
-impl<I: Input> Lexer<I> {
-    fn read_slash(&mut self) -> Result<Option<Token>, Error<I::Error>> {
+impl<'a, I: Input> Lexer<'a, I> {
+    fn read_slash(&mut self) -> LexResult<'a, Option<Token>> {
         debug_assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
 
@@ -456,14 +382,14 @@ impl<I: Input> Lexer<I> {
         }))
     }
 
-    fn read_token_lt_gt(&mut self) -> Result<Option<Token>, Error<I::Error>> {
+    fn read_token_lt_gt(&mut self) -> LexResult<'a, Option<Token>> {
         assert!(cur!() == Some('<') || cur!() == Some('>'));
 
         let c = cur!().unwrap();
         bump!();
 
         // XML style comment. `<!--`
-        if !self.opts.module && c == '<' && is!('!') && peek!() == Some('-')
+        if !self.session.cfg.module && c == '<' && is!('!') && peek!() == Some('-')
             && peek_ahead!() == Some('-')
         {
             self.skip_line_comment(3);
@@ -502,20 +428,25 @@ impl<I: Input> Lexer<I> {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
-    fn read_ident_or_keyword(&mut self) -> Result<Token, Error<I::Error>> {
+    fn read_ident_or_keyword(&mut self) -> LexResult<'a, Token> {
         assert!(cur!().is_some());
+        let start = cur_pos!();
 
         let (word, has_escape) = self.read_word_as_str()?;
 
+        // TODO: Use extension trait instead of into/from
         let word = Word::from(word);
-        if has_escape && word.is_reserved_word(self.opts.strict) {
-            return Err(Error::EscapeInReservedWord { word });
+        if has_escape && word.is_reserved_word(self.session.cfg.strict) {
+            syntax_error!(
+                span!(start),
+                SyntaxError::EscapeInReservedWord { word: word.into() }
+            );
+        } else {
+            Ok(Word(word))
         }
-
-        Ok(Word(word))
     }
 
-    fn may_read_word_as_str(&mut self) -> Result<Option<(JsWord, bool)>, Error<I::Error>> {
+    fn may_read_word_as_str(&mut self) -> LexResult<'a, Option<(JsWord, bool)>> {
         match cur!() {
             Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
             _ => Ok(None),
@@ -523,7 +454,7 @@ impl<I: Input> Lexer<I> {
     }
 
     /// returns (word, has_escape)
-    fn read_word_as_str(&mut self) -> Result<(JsWord, bool), Error<I::Error>> {
+    fn read_word_as_str(&mut self) -> LexResult<'a, (JsWord, bool)> {
         assert!(cur!().is_some());
 
         let mut has_escape = false;
@@ -542,7 +473,7 @@ impl<I: Input> Lexer<I> {
                 '\\' => {
                     bump!();
                     if !is!('u') {
-                        return Err(Error::ExpectedUnicodeEscape { pos: cur_pos!() });
+                        syntax_error!(pos_span(start), SyntaxError::ExpectedUnicodeEscape);
                     }
                     let c = self.read_unicode_escape(start)?;
                     let valid = if first {
@@ -552,7 +483,7 @@ impl<I: Input> Lexer<I> {
                     };
 
                     if !valid {
-                        return Err(Error::InvalidIdentChar { pos: span!(start) });
+                        syntax_error!(span!(start), SyntaxError::InvalidIdentChar);
                     }
                     word.push(c);
                 }
@@ -566,7 +497,7 @@ impl<I: Input> Lexer<I> {
         Ok((word.into(), has_escape))
     }
 
-    fn read_unicode_escape(&mut self, start: BytePos) -> Result<char, Error<I::Error>> {
+    fn read_unicode_escape(&mut self, start: BytePos) -> LexResult<'a, char> {
         assert_eq!(cur!(), Some('u'));
         bump!();
 
@@ -575,7 +506,7 @@ impl<I: Input> Lexer<I> {
             let c = self.read_code_point()?;
 
             if !eat!('}') {
-                return Err(Error::InvalidUnicodeEscape { pos: span!(start) });
+                syntax_error!(span!(start), SyntaxError::InvalidUnicodeEscape);
             }
 
             Ok(c)
@@ -584,7 +515,7 @@ impl<I: Input> Lexer<I> {
         }
     }
 
-    fn read_hex_char(&mut self, count: u8) -> Result<char, Error<I::Error>> {
+    fn read_hex_char(&mut self, count: u8) -> LexResult<'a, char> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = cur_pos!();
@@ -598,20 +529,20 @@ impl<I: Input> Lexer<I> {
     }
 
     /// Read `CodePoint`.
-    fn read_code_point(&mut self) -> Result<char, Error<I::Error>> {
+    fn read_code_point(&mut self) -> LexResult<'a, char> {
         let start = cur_pos!();
         let val = self.read_int(16, 0)?;
         match val {
             Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
                 Some(c) => Ok(c),
-                None => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+                None => syntax_error!(span!(start), SyntaxError::InvalidCodePoint),
             },
-            _ => return Err(Error::InvalidCodePoint { pos: span!(start) }),
+            _ => syntax_error!(span!(start), SyntaxError::InvalidCodePoint),
         }
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    fn read_str_lit(&mut self) -> Result<Token, Error<I::Error>> {
+    fn read_str_lit(&mut self) -> LexResult<'a, Token> {
         assert!(cur!() == Some('\'') || cur!() == Some('"'));
         let start = cur_pos!();
         let quote = cur!().unwrap();
@@ -628,7 +559,9 @@ impl<I: Input> Lexer<I> {
                     return Ok(Str(out, c == '"'));
                 }
                 '\\' => out.extend(self.read_escaped_char(false)?),
-                c if c.is_line_break() => return Err(Error::UnterminatedStrLit { start }),
+                c if c.is_line_break() => {
+                    syntax_error!(span!(start), SyntaxError::UnterminatedStrLit)
+                }
                 _ => {
                     out.push(c);
                     bump!();
@@ -636,11 +569,11 @@ impl<I: Input> Lexer<I> {
             }
         }
 
-        Err(Error::UnterminatedStrLit { start })
+        syntax_error!(span!(start), SyntaxError::UnterminatedStrLit)
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self) -> Result<Token, Error<I::Error>> {
+    fn read_regexp(&mut self) -> LexResult<'a, Token> {
         assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
         bump!();
@@ -653,7 +586,7 @@ impl<I: Input> Lexer<I> {
             // This is ported from babel.
             // Seems like regexp literal cannot contain linebreak.
             if c.is_line_break() {
-                return Err(Error::UnterminatedRegxp { start });
+                syntax_error!(span!(start), SyntaxError::UnterminatedRegxp);
             }
 
             if escaped {
@@ -674,7 +607,7 @@ impl<I: Input> Lexer<I> {
 
         // input is terminated without following `/`
         if cur!() != Some('/') {
-            return Err(Error::UnterminatedRegxp { start });
+            syntax_error!(span!(start), SyntaxError::UnterminatedRegxp);
         }
 
         bump!(); // '/'
@@ -691,7 +624,7 @@ impl<I: Input> Lexer<I> {
         Ok(Regex(content, flags))
     }
 
-    fn read_tmpl_token(&mut self) -> Result<Token, Error<I::Error>> {
+    fn read_tmpl_token(&mut self) -> LexResult<'a, Token> {
         let start = cur_pos!();
 
         // TODO: Optimize
@@ -735,16 +668,12 @@ impl<I: Input> Lexer<I> {
 
         unimplemented!("error: unterminated template");
     }
-}
 
-impl<I: Input> ::parser::Input for Lexer<I> {
-    fn had_line_break_before_last(&self) -> bool {
+    pub fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
     }
 }
 
-impl<'a> Lexer<input::CharIndices<'a>> {
-    pub fn new_from_str(logger: Logger, s: &'a str) -> Self {
-        Lexer::new(logger, input::CharIndices(s.char_indices()))
-    }
+fn pos_span(p: BytePos) -> Span {
+    Span::new(p, p, Default::default())
 }

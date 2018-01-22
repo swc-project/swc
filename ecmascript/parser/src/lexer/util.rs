@@ -13,15 +13,15 @@ use super::input::Input;
 use parser_macros::parser;
 use unicode_xid::UnicodeXID;
 
-pub const BACKSPACE: char = 8 as char;
-pub const SHIFT_OUT: char = 14 as char;
-pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
-pub const LINE_FEED: char = '\n';
-pub const LINE_SEPARATOR: char = '\u{2028}';
-pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
+// pub const BACKSPACE: char = 8 as char;
+// pub const SHIFT_OUT: char = 14 as char;
+// pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
+// pub const LINE_FEED: char = '\n';
+// pub const LINE_SEPARATOR: char = '\u{2028}';
+// pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 #[parser]
-impl<I: Input> Lexer<I> {
+impl<'a, I: Input> Lexer<'a, I> {
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space

@@ -1,8 +1,8 @@
 use super::*;
 
 #[parser]
-impl<I: Input> Parser<I> {
-    fn parse_import(&mut self) -> PResult<ModuleDecl> {
+impl<'a, I: Input> Parser<'a, I> {
+    fn parse_import(&mut self) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
@@ -77,7 +77,7 @@ impl<I: Input> Parser<I> {
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
-    fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
+    fn parse_import_specifier(&mut self) -> PResult<'a, ImportSpecifier> {
         let start = cur_pos!();
         match *cur!()? {
             Word(..) => {
@@ -86,10 +86,7 @@ impl<I: Input> Parser<I> {
                 if eat!("as") {
                     let local = self.parse_binding_ident()?;
                     return Ok(ImportSpecifier {
-                        span: Span {
-                            start,
-                            end: local.span.end,
-                        },
+                        span: Span::new(start, local.span.hi(), Default::default()),
                         local,
                         node: ImportSpecifierKind::Specific {
                             imported: Some(orig_name),
@@ -109,19 +106,20 @@ impl<I: Input> Parser<I> {
         }
     }
 
-    fn parse_imported_default_binding(&mut self) -> PResult<Ident> {
+    fn parse_imported_default_binding(&mut self) -> PResult<'a, Ident> {
         self.parse_imported_binding()
     }
 
-    fn parse_imported_binding(&mut self) -> PResult<Ident> {
-        self.with_ctx(Context {
+    fn parse_imported_binding(&mut self) -> PResult<'a, Ident> {
+        let ctx = Context {
             in_async: false,
             in_generator: false,
             ..self.ctx
-        }).parse_binding_ident()
+        };
+        self.with_ctx(ctx).parse_binding_ident()
     }
 
-    fn parse_export(&mut self) -> PResult<ModuleDecl> {
+    fn parse_export(&mut self) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
 
@@ -214,7 +212,7 @@ impl<I: Input> Parser<I> {
         });
     }
 
-    fn parse_export_specifier(&mut self) -> PResult<ExportSpecifier> {
+    fn parse_export_specifier(&mut self) -> PResult<'a, ExportSpecifier> {
         let orig = self.parse_ident_name()?;
 
         let exported = if eat!("as") {
@@ -225,7 +223,7 @@ impl<I: Input> Parser<I> {
         Ok(ExportSpecifier { orig, exported })
     }
 
-    fn parse_from_clause_and_semi(&mut self) -> PResult<String> {
+    fn parse_from_clause_and_semi(&mut self) -> PResult<'a, String> {
         expect!("from");
         match *cur!()? {
             Str(..) => match bump!() {
@@ -241,12 +239,12 @@ impl<I: Input> Parser<I> {
 }
 
 #[parser]
-impl<I: Input> StmtLikeParser<ModuleItem> for Parser<I> {
+impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
     fn accept_import_export() -> bool {
         true
     }
 
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<ModuleItem> {
+    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, ModuleItem> {
         if !top_level {
             syntax_error!(SyntaxError::NonTopLevelImportExport);
         }

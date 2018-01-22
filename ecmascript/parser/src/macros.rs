@@ -39,10 +39,13 @@ macro_rules! tok {
     ("async") => { Token::Word(Word::Ident(js_word!("async"))) };
     ("as") => { Token::Word(Word::Ident(js_word!("as"))) };
     ("await") => { Token::Word(Keyword(Await)) };
+    ("break") => { Token::Word(Keyword(Break)) };
     ("case") => { Token::Word(Keyword(Case)) };
     ("catch") => { Token::Word(Keyword(Catch)) };
     ("class") => { Token::Word(Keyword(Class)) };
     ("const") => { Token::Word(Keyword(Const)) };
+    ("continue") => { Token::Word(Keyword(Continue)) };
+    ("debugger") => { Token::Word(Keyword(Debugger)) };
     ("default") => { Token::Word(Keyword(Default_)) };
     ("delete") => { Token::Word(Keyword(Delete)) };
     ("do") => { Token::Word(Keyword(Do)) };
@@ -90,9 +93,9 @@ macro_rules! span {
         let end: ::swc_common::BytePos = last_pos!($p);
         if cfg!(debug_assertions) && start > end {
             unreachable!("assertion failed: (span.start <= span.end).
- start = {}, end = {}", start, end)
+ start = {}, end = {}", start.0, end.0)
         }
-        Span { start, end }
+        ::swc_common::Span::new(start, end, Default::default())
     }};
 }
 
@@ -100,17 +103,35 @@ macro_rules! spanned {
     (
         $p:expr, { $($body:tt)* }
     ) => {{
-        let start = cur_pos!($p);
+        let start = { cur_pos!($p) };
         let val: Result<_, _> = {
             $($body)*
         };
-        #[allow(unreachable_code)]
-        match val {
-            Ok(val) => {
-                let end = last_pos!($p);
-                Ok(::swc_common::Spanned::from_unspanned(val, Span { start, end }))
-            },
-            Err(err) => Err(err),
+        {
+            match val {
+                Ok(val) => {
+                    let span = span!($p, start);
+                    let val = ::swc_common::Spanned::from_unspanned(val, span);
+                    Ok(val)
+                },
+                Err(err) => Err(err),
+            }
         }
+    }};
+}
+
+macro_rules! syntax_error {
+    ($p:expr, $err:expr) => {{
+        syntax_error!($p, $p.input.cur_span(), $err)
+    }};
+
+    ($p:expr, $span:expr, $err:expr) => {{
+        let err = $crate::error::Error {
+            handler: $p.session.handler,
+            span: $span,
+            error: $err,
+        };
+        let res: Result<!, _> = Err(err);
+        res?
     }};
 }

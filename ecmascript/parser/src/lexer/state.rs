@@ -1,7 +1,7 @@
 use super::{Input, Lexer};
 use parser_macros::parser;
 use slog::Logger;
-use swc_common::{BytePos, Span};
+use swc_common::BytePos;
 use token::*;
 
 /// State of lexer.
@@ -23,7 +23,7 @@ pub(super) struct State {
 }
 
 #[parser]
-impl<I: Input> Iterator for Lexer<I> {
+impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
         self.state.had_line_break = self.state.is_first;
@@ -35,27 +35,31 @@ impl<I: Input> Iterator for Lexer<I> {
         };
 
         let start = cur_pos!();
-        if self.state.is_in_template() {
-            let token = self.read_tmpl_token()
-                .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err));
-            self.state.update(&self.logger, &token);
-            return Some(TokenAndSpan {
-                token,
-                span: span!(start),
-            });
+
+        let res = if self.state.is_in_template() {
+            self.read_tmpl_token().map(Some)
+        } else {
+            self.read_token()
+        };
+
+        let token = res.unwrap_or_else(|err| {
+            // Report error
+            err.emit();
+            Some(Token::Error)
+        });
+
+        if let Some(ref token) = token {
+            self.state.update(&self.session.logger, &token)
         }
 
-        if let Some(token) = self.read_token()
-            .unwrap_or_else(|err| unimplemented!("error handling: {:?}", err))
-        {
-            self.state.update(&self.logger, &token);
-            return Some(TokenAndSpan {
+        token.map(|token| {
+            // Attatch span to token.
+            TokenAndSpan {
                 token,
+                had_line_break: self.had_line_break_before_last(),
                 span: span!(start),
-            });
-        }
-
-        None
+            }
+        })
     }
 }
 
