@@ -6,11 +6,15 @@ extern crate slog;
 extern crate slog_envlogger;
 extern crate slog_term;
 pub extern crate swc;
+pub extern crate swc_common;
 use clap::{AppSettings, Arg, SubCommand};
 use slog::{Drain, Logger};
 use std::error::Error;
 use std::io::{self, Write};
+use std::path::Path;
+use std::rc::Rc;
 use swc::Compiler;
+use swc_common::errors::{CodeMap, FilePathMapping, Handler};
 
 fn main() {
     run().unwrap()
@@ -37,7 +41,11 @@ fn run() -> Result<(), Box<Error>> {
                         .takes_value(true)
                         .multiple(true),
                 )
-                .arg(Arg::with_name("input file").takes_value(true)),
+                .arg(
+                    Arg::with_name("input file")
+                        .required(true)
+                        .takes_value(true),
+                ),
         )
         .get_matches();
 
@@ -52,7 +60,28 @@ fn run() -> Result<(), Box<Error>> {
         .build()
         .expect("failed to create rayon::ThreadPool?");
 
-    let mut comp = Compiler::new(logger(), thread_pool);
+    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+
+    let handler = Handler::with_tty_emitter(
+        ::swc_common::errors::ColorConfig::Always,
+        true,
+        false,
+        Some(cm.clone()),
+    );
+
+    let comp = Compiler::new(logger(), cm.clone(), handler, thread_pool);
+
+    if let Some(ref matches) = matches.subcommand_matches("js") {
+        let input = matches.value_of("input file").unwrap();
+        let res = comp.parse_js(Path::new(input));
+        match res {
+            Ok(module) => println!("Module {:?}", module),
+            Err(err) => {
+                err.emit();
+                panic!("Failed to parse module");
+            }
+        }
+    }
 
     Ok(())
 }
