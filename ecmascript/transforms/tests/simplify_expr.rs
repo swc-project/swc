@@ -2,6 +2,8 @@
 
 #[macro_use]
 extern crate pretty_assertions;
+#[macro_use]
+extern crate slog;
 extern crate swc_common;
 extern crate swc_ecma_ast as ast;
 extern crate swc_ecma_parser;
@@ -10,17 +12,44 @@ extern crate swc_ecma_transforms as transforms;
 extern crate testing;
 
 use swc_common::{FoldWith, Folder};
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::parser::Parser;
-use testing::logger;
+use swc_ecma_parser::{CharIndices, Parser, Session};
 use transforms::simplify::Simplify;
 
-fn parse_expr(s: &str) -> Box<ast::Expr> {
-    let l = logger();
-    let module = Parser::new_for_module(l.clone(), Lexer::new_from_str(l, s))
-        .parse_module()
-        .unwrap_or_else(|err| panic!("failed to parse module: {:?}", err));
+fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
+where
+    F: FnOnce(Session) -> Ret,
+{
+    let handler = ::swc_common::errors::Handler::with_tty_emitter(
+        ::swc_common::errors::ColorConfig::Never,
+        true,
+        false,
+        None,
+    );
+    let logger = ::testing::logger().new(o!("src" => src));
 
+    f(Session {
+        handler: &handler,
+        logger: &logger,
+        cfg: Default::default(),
+    })
+}
+
+fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
+where
+    F: FnOnce(&mut Parser<::CharIndices>) -> Ret,
+{
+    ::with_test_sess(s, |session| {
+        f(&mut Parser::new(session, CharIndices(s.char_indices())))
+    })
+}
+
+fn parse_expr(s: &'static str) -> Box<ast::Expr> {
+    let module = test_parser(s, |p| {
+        p.parse_module().unwrap_or_else(|err| {
+            err.emit();
+            unreachable!("failed to parse module")
+        })
+    });
     match module.body.into_iter().next().unwrap() {
         ast::ModuleItem::Stmt(ast::Stmt {
             node: ast::StmtKind::Expr(expr),

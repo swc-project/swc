@@ -95,10 +95,7 @@ fn fold_member_expr(e: MemberExpr) -> ExprKind {
 }
 
 fn fold_bin(left: Box<Expr>, op: BinaryOp, right: Box<Expr>) -> ExprKind {
-    let span = Span {
-        start: left.span.start,
-        end: right.span.end,
-    };
+    let span = left.span.to(right.span);
     macro_rules! try_replace {
         ($v:expr) => {{
             match $v {

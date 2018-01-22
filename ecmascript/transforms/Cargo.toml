@@ -13,3 +13,4 @@ swc_ecma_ast = { path = "../ast" }
 testing = { path = "../../testing" }
 swc_ecma_parser = { path = "../parser" }
 pretty_assertions = "0.4"
+slog = "2"
