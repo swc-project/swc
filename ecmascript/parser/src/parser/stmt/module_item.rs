@@ -2,7 +2,7 @@ use super::*;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    fn parse_import(&mut self) -> PResult<ModuleDecl> {
+    fn parse_import(&mut self) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
@@ -77,7 +77,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
-    fn parse_import_specifier(&mut self) -> PResult<ImportSpecifier> {
+    fn parse_import_specifier(&mut self) -> PResult<'a, ImportSpecifier> {
         let start = cur_pos!();
         match *cur!()? {
             Word(..) => {
@@ -106,19 +106,20 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn parse_imported_default_binding(&mut self) -> PResult<Ident> {
+    fn parse_imported_default_binding(&mut self) -> PResult<'a, Ident> {
         self.parse_imported_binding()
     }
 
-    fn parse_imported_binding(&mut self) -> PResult<Ident> {
-        self.with_ctx(Context {
+    fn parse_imported_binding(&mut self) -> PResult<'a, Ident> {
+        let ctx = Context {
             in_async: false,
             in_generator: false,
             ..self.ctx
-        }).parse_binding_ident()
+        };
+        self.with_ctx(ctx).parse_binding_ident()
     }
 
-    fn parse_export(&mut self) -> PResult<ModuleDecl> {
+    fn parse_export(&mut self) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
 
@@ -211,7 +212,7 @@ impl<'a, I: Input> Parser<'a, I> {
         });
     }
 
-    fn parse_export_specifier(&mut self) -> PResult<ExportSpecifier> {
+    fn parse_export_specifier(&mut self) -> PResult<'a, ExportSpecifier> {
         let orig = self.parse_ident_name()?;
 
         let exported = if eat!("as") {
@@ -222,7 +223,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(ExportSpecifier { orig, exported })
     }
 
-    fn parse_from_clause_and_semi(&mut self) -> PResult<String> {
+    fn parse_from_clause_and_semi(&mut self) -> PResult<'a, String> {
         expect!("from");
         match *cur!()? {
             Str(..) => match bump!() {
@@ -238,12 +239,12 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> StmtLikeParser<ModuleItem> for Parser<'a, I> {
+impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
     fn accept_import_export() -> bool {
         true
     }
 
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<ModuleItem> {
+    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, ModuleItem> {
         if !top_level {
             syntax_error!(SyntaxError::NonTopLevelImportExport);
         }

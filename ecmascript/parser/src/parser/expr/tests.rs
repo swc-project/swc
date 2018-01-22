@@ -3,26 +3,37 @@ use swc_common::DUMMY_SP;
 
 fn lhs(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_lhs_expr().expect("failed to parse lhs expression")
+        p.parse_lhs_expr().unwrap_or_else(|err| {
+            err.emit();
+            unreachable!("failed to parse lhs expression")
+        })
     })
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_new_expr().expect("failed to parse an expression")
+        p.parse_new_expr().unwrap_or_else(|err| {
+            err.emit();
+            unreachable!("failed to parse an expression")
+        })
     })
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_member_expr()
-            .expect("failed to parse an expression")
+        p.parse_member_expr().unwrap_or_else(|err| {
+            err.emit();
+            unreachable!("failed to parse an expression")
+        })
     })
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_expr().expect("failed to parse an expression")
+        p.parse_expr().unwrap_or_else(|err| {
+            err.emit();
+            unreachable!("failed to parse an expression")
+        })
     })
 }
 

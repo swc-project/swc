@@ -1,5 +1,7 @@
 use super::*;
+use swc_common::Spanned;
 
+#[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'w, 'a, I> {
@@ -13,10 +15,11 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Original context is restored when returned guard is dropped.
     pub(super) fn include_in_expr<'w>(&'w mut self, include_in_expr: bool) -> WithCtx<'w, 'a, I> {
-        self.with_ctx(Context {
+        let ctx = Context {
             include_in_expr,
             ..self.ctx
-        })
+        };
+        self.with_ctx(ctx)
     }
 
     /// Parse with given closure
@@ -26,11 +29,23 @@ impl<'a, I: Input> Parser<'a, I> {
     {
         f(self)
     }
+
+    pub(super) fn spanned<F, Node, Ret>(&mut self, f: F) -> PResult<'a, Node>
+    where
+        F: FnOnce(&mut Self) -> PResult<'a, Ret>,
+        Node: Spanned<Ret>,
+    {
+        let start = self.input.cur_pos();
+        let val = f(self)?;
+
+        let span = span!(start);
+        Ok(Spanned::from_unspanned(val, span))
+    }
 }
-pub trait ParseObject<Obj> {
+pub trait ParseObject<'a, Obj> {
     type Prop;
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Obj;
-    fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
+    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
 }
 
 pub struct WithCtx<'w, 'a: 'w, I: 'w + Input> {

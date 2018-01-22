@@ -109,6 +109,8 @@ pub enum Token {
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
     Num(Number),
+
+    Error,
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -181,6 +183,8 @@ impl BinOpToken {
 #[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
     pub token: Token,
+    /// Had a line break before this token?
+    pub had_line_break: bool,
     pub span: Span,
 }
 

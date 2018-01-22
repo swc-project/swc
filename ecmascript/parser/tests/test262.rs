@@ -18,7 +18,9 @@ use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
 use swc_common::{FoldWith, Folder};
 use swc_common::Span;
-use swc_ecma_parser::{CharIndices, PResult, Parser};
+use swc_common::errors::Handler;
+
+use swc_ecma_parser::{CharIndices, PResult, Parser, Session};
 use swc_ecma_parser::ast::*;
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
@@ -136,19 +138,23 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
 
             let res = catch_unwind(move || {
+                let mut sess = TestSess::new();
+
                 if module {
-                    let p = |ty, s| {
-                        parse_module(&file_name, s).unwrap_or_else(|err| {
-                            panic!("failed to parse {}: {:?}\ncode:\n{}", ty, err, s)
+                    let mut p = |ty, s| {
+                        sess.parse_module(&file_name, s).unwrap_or_else(|err| {
+                            err.emit();
+                            panic!("failed to parse {} code:\n{}", ty, s)
                         })
                     };
                     let src = p("", &input);
                     let expected = p("explicit ", &explicit);
                     assert_eq!(src, expected);
                 } else {
-                    let p = |ty, s| {
-                        parse_script(&file_name, s).unwrap_or_else(|err| {
-                            panic!("failed to parse {}: {:?}\ncode:\n{}", ty, err, s)
+                    let mut p = |ty, s| {
+                        sess.parse_script(&file_name, s).unwrap_or_else(|err| {
+                            err.emit();
+                            panic!("failed to parse {} code:\n{}", ty, s)
                         })
                     };
                     let src = p("", &input);
@@ -172,24 +178,45 @@ fn logger(file_name: &str, src: &str) -> Logger {
     ::testing::logger().new(o!("file name" => f, "src" => s,))
 }
 
-fn with_parser<F, Ret>(file_name: &str, src: &str, f: F) -> Ret
-where
-    F: FnOnce(&mut Parser<CharIndices>) -> Ret,
-{
-    let logger = logger(file_name, src);
-    let mut p = Parser::new(
-        &logger,
-        Default::default(),
-        ::CharIndices(src.char_indices()),
-    );
-    f(&mut p)
+struct TestSess {
+    handler: Handler,
+    logger: Logger,
 }
 
-fn parse_script(file_name: &str, s: &str) -> PResult<Vec<Stmt>> {
-    with_parser(file_name, s, |p| p.parse_script().map(normalize))
-}
-fn parse_module(file_name: &str, s: &str) -> PResult<Module> {
-    with_parser(file_name, s, |p| p.parse_module().map(normalize))
+impl TestSess {
+    fn new() -> Self {
+        let handler = ::swc_common::errors::Handler::with_tty_emitter(
+            ::swc_common::errors::ColorConfig::Never,
+            true,
+            false,
+            None,
+        );
+        TestSess {
+            handler,
+            logger: ::testing::logger(),
+        }
+    }
+    fn parse_script<'a>(&'a mut self, file_name: &str, s: &str) -> PResult<'a, Vec<Stmt>> {
+        self.with_parser(file_name, s, |p| p.parse_script().map(normalize))
+    }
+    fn parse_module<'a>(&'a mut self, file_name: &str, s: &str) -> PResult<'a, Module> {
+        self.with_parser(file_name, s, |p| p.parse_module().map(normalize))
+    }
+
+    fn with_parser<'a, F, Ret>(&'a mut self, file_name: &str, src: &str, f: F) -> PResult<'a, Ret>
+    where
+        F: FnOnce(&mut Parser<'a, CharIndices>) -> PResult<'a, Ret>,
+    {
+        self.logger = logger(file_name, src);
+        f(&mut Parser::new(
+            Session {
+                logger: &self.logger,
+                handler: &self.handler,
+                cfg: Default::default(),
+            },
+            ::CharIndices(src.char_indices()),
+        ))
+    }
 }
 
 fn normalize<T>(mut t: T) -> T

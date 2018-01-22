@@ -5,9 +5,9 @@ use super::*;
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// Parse a object literal or object pattern.
-    pub(super) fn parse_object<T>(&mut self) -> PResult<T>
+    pub(super) fn parse_object<T>(&mut self) -> PResult<'a, T>
     where
-        Self: ParseObject<T>,
+        Self: ParseObject<'a, T>,
     {
         let start = cur_pos!();
         assert_and_bump!('{');
@@ -34,7 +34,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// spec: 'PropertyName'
-    pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
+    pub(super) fn parse_prop_name(&mut self) -> PResult<'a, PropName> {
         let start = cur_pos!();
 
         let v = match *cur!()? {
@@ -69,7 +69,7 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> ParseObject<Box<Expr>> for Parser<'a, I> {
+impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
     type Prop = Prop;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
@@ -80,7 +80,7 @@ impl<'a, I: Input> ParseObject<Box<Expr>> for Parser<'a, I> {
     }
 
     /// spec: 'PropertyDefinition'
-    fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
         let start = cur_pos!();
         // Parse as 'MethodDefinition'
 
@@ -130,7 +130,7 @@ impl<'a, I: Input> ParseObject<Box<Expr>> for Parser<'a, I> {
             let is_reserved_word = {
                 // FIXME: Use extension trait instead of this.
                 let word = Word::from(ident.sym);
-                let r = word.is_reserved_word(self.cfg.strict);
+                let r = word.is_reserved_word(self.session.cfg.strict);
                 ident = Ident {
                     sym: word.into(),
                     ..ident
@@ -138,7 +138,7 @@ impl<'a, I: Input> ParseObject<Box<Expr>> for Parser<'a, I> {
                 r
             };
             if is_reserved_word {
-                syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat)
+                syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
             if eat!('=') {
@@ -199,7 +199,7 @@ impl<'a, I: Input> ParseObject<Box<Expr>> for Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> ParseObject<Pat> for Parser<'a, I> {
+impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
     type Prop = ObjectPatProp;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
@@ -210,7 +210,7 @@ impl<'a, I: Input> ParseObject<Pat> for Parser<'a, I> {
     }
 
     /// Production 'BindingProperty'
-    fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
         let key = self.parse_prop_name()?;
         if eat!(':') {
             let value = box self.parse_binding_element()?;

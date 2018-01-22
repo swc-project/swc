@@ -1,5 +1,6 @@
 
-/target/
+
+target/
 **/*.bk
 core
 *.log

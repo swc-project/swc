@@ -5,7 +5,7 @@ use super::*;
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let left = self.parse_unary_expr()?;
 
         return_if_arrow!(left);
@@ -17,12 +17,16 @@ impl<'a, I: Input> Parser<'a, I> {
     /// `minPrec` provides context that allows the function to stop and
     /// defer further parser to one of its callers when it encounters an
     /// operator that has a lower precedence than the set it is parsing.
-    fn parse_bin_op_recursively(&mut self, left: Box<Expr>, min_prec: u8) -> PResult<Box<Expr>> {
+    fn parse_bin_op_recursively(
+        &mut self,
+        left: Box<Expr>,
+        min_prec: u8,
+    ) -> PResult<'a, Box<Expr>> {
         let op = match {
             // Return left on eof
             match cur!() {
-                Some(cur) => cur,
-                None => return Ok(left),
+                Ok(cur) => cur,
+                Err(..) => return Ok(left),
             }
         } {
             &Word(Keyword(In)) if self.ctx.include_in_expr => op!("in"),
@@ -35,7 +39,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if op.precedence() <= min_prec {
             trace!(
-                self.logger,
+                self.session.logger,
                 "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                 left,
                 op,
@@ -47,7 +51,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
         bump!();
         trace!(
-            self.logger,
+            self.session.logger,
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
             min_prec,
@@ -61,7 +65,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
 
-                syntax_error!(SyntaxError::UnaryInExp)
+                syntax_error!(SyntaxError::UnaryInExp {
+                    // FIXME: Use display
+                    left: format!("{:?}", left),
+                    left_span: left.span,
+                })
             }
             _ => {}
         }
@@ -91,7 +99,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+    fn parse_unary_expr(&mut self) -> PResult<'a, Box<Expr>> {
         let start = cur_pos!();
 
         // Parse update expression
@@ -165,16 +173,16 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(expr)
     }
 
-    fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
-        spanned!({
+    fn parse_await_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        self.spanned(|p| {
             assert_and_bump!("await");
-            assert!(self.ctx.in_async);
+            assert!(p.ctx.in_async);
 
             if is!('*') {
-                syntax_error!(SyntaxError::AwaitStar)
+                syntax_error!(SyntaxError::AwaitStar);
             }
 
-            let arg = self.parse_unary_expr()?;
+            let arg = p.parse_unary_expr()?;
             Ok(ExprKind::Await(AwaitExpr { arg }))
         })
     }
@@ -187,7 +195,9 @@ mod tests {
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
             p.parse_bin_expr().unwrap_or_else(|err| {
-                panic!("failed to parse '{}' as a binary expression: {:?}", s, err)
+                err.emit();
+
+                panic!("failed to parse '{}' as a binary expression", s)
             })
         })
     }

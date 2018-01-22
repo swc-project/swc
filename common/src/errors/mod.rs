@@ -9,12 +9,12 @@
 
 pub use self::codemap::{CodeMap, FileLoader, FilePathMapping, RealFileLoader};
 pub use self::diagnostic::*;
-pub use self::handler::Handler;
+pub use self::handler::*;
 pub use rustc_errors::{ColorConfig, Level};
 pub use rustc_errors::Level::*;
 
 mod codemap;
 mod diagnostic;
-pub mod handler;
+mod handler;
 #[cfg(test)]
 mod tests;

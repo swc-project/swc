@@ -5,14 +5,14 @@ use super::*;
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// IdentifierReference
-    pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_ident_ref(&mut self) -> PResult<'a, Ident> {
         let ctx = self.ctx;
 
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
 
     /// LabelIdentifier
-    pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
+    pub(super) fn parse_label_ident(&mut self) -> PResult<'a, Ident> {
         let ctx = self.ctx;
 
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
@@ -20,10 +20,10 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Use this when spec says "IdentiferName".
     /// This allows idents like `catch`.
-    pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
-        spanned!({
+    pub(super) fn parse_ident_name(&mut self) -> PResult<'a, Ident> {
+        self.spanned(|p| {
             let w = match cur!() {
-                Some(&Word(..)) => match bump!() {
+                Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -37,11 +37,11 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
-    pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
-        spanned!({
-            let strict = self.cfg.strict;
+    pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<'a, Ident> {
+        self.spanned(|p| {
+            let strict = p.session.cfg.strict;
             let w = match cur!() {
-                Some(&Word(..)) => match bump!() {
+                Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -88,16 +88,16 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 }
 
-pub(super) trait MaybeOptionalIdentParser<Ident> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident>;
+pub(super) trait MaybeOptionalIdentParser<'a, Ident> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Ident>;
 }
-impl<'a, I: Input> MaybeOptionalIdentParser<Ident> for Parser<'a, I> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident> {
+impl<'a, I: Input> MaybeOptionalIdentParser<'a, Ident> for Parser<'a, I> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Ident> {
         self.parse_binding_ident()
     }
 }
-impl<'a, I: Input> MaybeOptionalIdentParser<Option<Ident>> for Parser<'a, I> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
+impl<'a, I: Input> MaybeOptionalIdentParser<'a, Option<Ident>> for Parser<'a, I> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
         self.parse_opt_binding_ident()
     }
 }

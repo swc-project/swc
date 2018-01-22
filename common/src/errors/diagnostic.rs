@@ -165,3 +165,9 @@ impl<'a> Diagnostic<'a> {
     //     self.children.extend(from.children.iter().cloned())
     // }
 }
+
+impl<'a> From<Builder<'a>> for Diagnostic<'a> {
+    fn from(db: Builder<'a>) -> Self {
+        Diagnostic { db: box db }
+    }
+}

@@ -2,17 +2,16 @@
 #![deny(non_snake_case)]
 use self::input::ParserInput;
 use self::util::ParseObject;
-use Config;
+use Session;
 use ast::*;
 use error::SyntaxError;
 use lexer::Input;
 use lexer::Lexer;
 use parser_macros::parser;
-use slog::Logger;
 use std::ops::{Deref, DerefMut};
-use std::option::NoneError;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
+use swc_common::errors::Diagnostic;
 use token::*;
 
 #[macro_use]
@@ -26,23 +25,11 @@ mod pat;
 pub mod input;
 mod util;
 
-pub type PResult<T> = Result<T, Error>;
+pub type PResult<'a, T> = Result<T, Diagnostic<'a>>;
 
-#[derive(Debug)]
-pub enum Error {
-    Eof,
-    Syntax(Option<Token>, BytePos, SyntaxError, &'static str, u32),
-}
-
-impl From<NoneError> for Error {
-    fn from(_: NoneError) -> Self {
-        Error::Eof
-    }
-}
 /// EcmaScript parser.
 pub struct Parser<'a, I: Input> {
-    logger: &'a Logger,
-    cfg: Config,
+    session: Session<'a>,
     ctx: Context,
     state: State,
     input: ParserInput<'a, I>,
@@ -66,28 +53,27 @@ struct State {
 }
 
 impl<'a, I: Input> Parser<'a, I> {
-    pub fn new(logger: &'a Logger, cfg: Config, input: I) -> Self {
+    pub fn new(session: Session<'a>, input: I) -> Self {
         Parser {
-            logger,
-            input: ParserInput::new(Lexer::new(logger, cfg, input)),
+            session,
+            input: ParserInput::new(Lexer::new(session, input)),
             ctx: Default::default(),
-            cfg: cfg,
             state: Default::default(),
         }
     }
 
     #[parser]
-    pub fn parse_script(&mut self) -> PResult<Vec<Stmt>> {
-        self.cfg.module = false;
+    pub fn parse_script(&mut self) -> PResult<'a, Vec<Stmt>> {
+        self.session.cfg.module = false;
 
         self.parse_block_body(true, None)
     }
 
     #[parser]
-    pub fn parse_module(&mut self) -> PResult<Module> {
-        //TOOD: parse() -> PResult<Program>
-        self.cfg.module = true;
-        self.cfg.strict = true;
+    pub fn parse_module(&mut self) -> PResult<'a, Module> {
+        //TOOD: parse() -> PResult<'a, Program>
+        self.session.cfg.module = true;
+        self.session.cfg.strict = true;
 
         self.parse_block_body(true, None)
             .map(|body| Module { body })
@@ -99,7 +85,7 @@ fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
     F: FnOnce(&mut Parser<::CharIndices>) -> Ret,
 {
-    let logger = ::testing::logger().new(o!("src" => s));
-    let mut p = Parser::new(&logger, Default::default(), ::CharIndices(s.char_indices()));
-    f(&mut p)
+    ::with_test_sess(s, |session| {
+        f(&mut Parser::new(session, ::CharIndices(s.char_indices())))
+    })
 }

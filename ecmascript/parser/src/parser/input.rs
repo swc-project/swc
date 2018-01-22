@@ -1,55 +1,33 @@
 //! Note: this module requires `#![feature(nll)]`.
 use lexer::{Input, Lexer};
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, DUMMY_SP};
 use token::*;
 
 /// This struct is responsible for managing current token and peeked token.
 pub(super) struct ParserInput<'a, I: Input> {
-    iter: ItemIter<'a, I>,
-    cur: Option<Item>,
-    /// Last of previous span
-    last_pos: BytePos,
+    iter: Lexer<'a, I>,
+    /// Span of the previous token.
+    last_span: Span,
+    cur: Option<TokenAndSpan>,
     /// Peeked token
-    next: Option<Item>,
-}
-
-/// One token
-#[derive(Debug)]
-struct Item {
-    token: Token,
-    /// Had a line break before this token?
-    had_line_break: bool,
-    span: Span,
-}
-struct ItemIter<'a, I: Input>(Lexer<'a, I>);
-impl<'a, I: Input> ItemIter<'a, I> {
-    fn next(&mut self) -> Option<Item> {
-        match self.0.next() {
-            Some(TokenAndSpan { token, span }) => Some(Item {
-                token,
-                span,
-                had_line_break: self.0.had_line_break_before_last(),
-            }),
-            None => None,
-        }
-    }
+    next: Option<TokenAndSpan>,
 }
 
 impl<'a, I: Input> ParserInput<'a, I> {
     pub fn new(lexer: Lexer<'a, I>) -> Self {
         ParserInput {
-            iter: ItemIter(lexer),
+            iter: lexer,
             cur: None,
-            last_pos: BytePos(0),
+            last_span: DUMMY_SP,
             next: None,
         }
     }
 
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
-        self.last_pos = match prev {
-            Some(Item { span, .. }) => span.hi(),
-            _ => self.last_pos,
+        self.last_span = match prev {
+            Some(TokenAndSpan { span, .. }) => span,
+            _ => self.last_span,
         };
 
         // If we have peeked a token, take it instead of calling lexer.next()
@@ -129,18 +107,13 @@ impl<'a, I: Input> ParserInput<'a, I> {
     }
 
     pub fn eat(&mut self, expected: &Token) -> bool {
-        match self.cur() {
-            Some(t) => {
-                if *expected == *t {
-                    self.bump();
-                    true
-                } else {
-                    false
-                }
-            }
-            _ => false,
+        let v = self.is(expected);
+        if v {
+            self.bump();
         }
+        v
     }
+
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
         self.eat(&Word(Keyword(kwd)))
     }
@@ -149,10 +122,23 @@ impl<'a, I: Input> ParserInput<'a, I> {
         self.cur
             .as_ref()
             .map(|item| item.span.lo())
-            .unwrap_or(self.last_pos)
+            .unwrap_or_else(|| self.last_pos())
     }
-    /// Returns last of previous token.
-    pub const fn last_pos(&self) -> BytePos {
-        self.last_pos
+
+    pub fn cur_span(&self) -> Span {
+        self.cur
+            .as_ref()
+            .map(|item| item.span)
+            .unwrap_or(self.last_span)
+    }
+
+    /// Returns last byte position of previous token.
+    pub fn last_pos(&self) -> BytePos {
+        self.last_span.hi()
+    }
+
+    /// Returns span of the previous token.
+    pub const fn last_span(&self) -> Span {
+        self.last_span
     }
 }
