@@ -90,7 +90,7 @@
  - [ ] babel-plugin-transform-regenerator
  - [ ] babel-plugin-transform-reserved-words
  - [x] babel-plugin-transform-shorthand-properties
- - [ ] babel-plugin-transform-sticky-regex
+ - [x] babel-plugin-transform-sticky-regex
  - [ ] babel-plugin-transform-spread
  - [ ] babel-plugin-transform-strict-mode
  - [ ] babel-plugin-transform-template-literals
