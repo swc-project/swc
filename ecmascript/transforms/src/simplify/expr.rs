@@ -1,9 +1,9 @@
 use super::Simplify;
-use ast::*;
-use ast::{Ident, Lit};
-use ast::ExprKind::*;
 use std::iter;
 use swc_common::{FoldWith, Folder, Span};
+use swc_ecma_ast::*;
+use swc_ecma_ast::{Ident, Lit};
+use swc_ecma_ast::ExprKind::*;
 use util::*;
 
 impl Folder<ExprKind> for Simplify {
@@ -152,6 +152,7 @@ fn fold_bin(left: Box<Expr>, op: BinaryOp, right: Box<Expr>) -> ExprKind {
                         _ => unreachable!(),
                     };
                 }
+                Known(StringType) => {}
                 _ => {}
             }
 

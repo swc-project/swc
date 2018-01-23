@@ -43,7 +43,7 @@ where
     })
 }
 
-fn parse_expr(s: &'static str) -> Box<ast::Expr> {
+fn parse_expr(s: &'static str) -> Box<swc_ecma_ast::Expr> {
     let module = test_parser(s, |p| {
         p.parse_module().unwrap_or_else(|err| {
             err.emit();
@@ -51,19 +51,19 @@ fn parse_expr(s: &'static str) -> Box<ast::Expr> {
         })
     });
     match module.body.into_iter().next().unwrap() {
-        ast::ModuleItem::Stmt(ast::Stmt {
-            node: ast::StmtKind::Expr(expr),
+        swc_ecma_ast::ModuleItem::Stmt(swc_ecma_ast::Stmt {
+            node: swc_ecma_ast::StmtKind::Expr(expr),
             ..
         }) => expr,
         _ => unreachable!("expected an expression statement. \nCode:\n{}", s),
     }
 }
 
-fn sim(e: Box<ast::Expr>) -> Box<ast::Expr> {
-    Folder::<Box<ast::Expr>>::fold(&mut Simplify, e)
+fn sim(e: Box<swc_ecma_ast::Expr>) -> Box<swc_ecma_ast::Expr> {
+    Folder::<Box<swc_ecma_ast::Expr>>::fold(&mut Simplify, e)
 }
-fn remove_paren(e: Box<ast::Expr>) -> Box<ast::Expr> {
-    Folder::<Box<ast::Expr>>::fold(&mut RemoveParen, e)
+fn remove_paren(e: Box<swc_ecma_ast::Expr>) -> Box<swc_ecma_ast::Expr> {
+    Folder::<Box<swc_ecma_ast::Expr>>::fold(&mut RemoveParen, e)
 }
 
 macro_rules! test_expr {
@@ -89,11 +89,11 @@ macro_rules! same_expr {
 }
 
 struct RemoveParen;
-impl Folder<ast::ExprKind> for RemoveParen {
-    fn fold(&mut self, e: ast::ExprKind) -> ast::ExprKind {
+impl Folder<swc_ecma_ast::ExprKind> for RemoveParen {
+    fn fold(&mut self, e: swc_ecma_ast::ExprKind) -> swc_ecma_ast::ExprKind {
         let e = e.fold_children(self);
         match e {
-            ast::ExprKind::Paren(e) => e.node,
+            swc_ecma_ast::ExprKind::Paren(e) => e.node,
             _ => e,
         }
     }

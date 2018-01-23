@@ -1,6 +1,6 @@
 //! Ported from closure compiler.
-use ast::*;
 use swc_common::{FoldWith, Folder};
+use swc_ecma_ast::*;
 use util::*;
 
 mod expr;

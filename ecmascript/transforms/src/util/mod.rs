@@ -3,12 +3,12 @@ pub use self::value::Type::{self, Bool as BoolType, Null as NullType, Num as Num
                             Obj as ObjectType, Str as StringType, Symbol as SymbolType,
                             Undefined as UndefinedType};
 pub use self::value::Value::{self, Known, Unknown};
-use ast::*;
 use std::borrow::Cow;
 use std::f64::{INFINITY, NAN};
 use std::num::FpCategory;
 use std::ops::Add;
 use swc_atoms::JsWord;
+use swc_ecma_ast::*;
 
 mod value;
 
