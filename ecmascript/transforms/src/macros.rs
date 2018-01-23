@@ -3,10 +3,10 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
     use std::rc::Rc;
     use swc_common::FileName;
     use swc_common::errors::{CodeMap, FilePathMapping};
-    use swc_ecma_parser::{CharIndices, Parser, Session};
+    use swc_ecma_parser::{FileMapInput, Parser, Session};
 
     let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
-    cm.new_filemap_and_lines(FileName::Real(name.into()), src.into());
+    let fm = cm.new_filemap_and_lines(FileName::Real(name.into()), src.into());
 
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
         ::swc_common::errors::ColorConfig::Auto,
@@ -23,7 +23,7 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
     };
 
     let module = {
-        let mut p = Parser::new(sess, CharIndices(src.char_indices()));
+        let mut p = Parser::new(sess, FileMapInput::from(&*fm));
         p.parse_module().unwrap_or_else(|err| {
             err.emit();
             panic!("failed to parse")

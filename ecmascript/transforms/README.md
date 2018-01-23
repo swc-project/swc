@@ -89,7 +89,7 @@
  - [ ] babel-plugin-transform-proto-to-assign
  - [ ] babel-plugin-transform-regenerator
  - [ ] babel-plugin-transform-reserved-words
- - [ ] babel-plugin-transform-shorthand-properties
+ - [x] babel-plugin-transform-shorthand-properties
  - [ ] babel-plugin-transform-sticky-regex
  - [ ] babel-plugin-transform-spread
  - [ ] babel-plugin-transform-strict-mode
