@@ -1,12 +1,18 @@
 #[cfg(test)]
 pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Module {
+    use std::rc::Rc;
+    use swc_common::FileName;
+    use swc_common::errors::{CodeMap, FilePathMapping};
     use swc_ecma_parser::{CharIndices, Parser, Session};
 
+    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+    cm.new_filemap_and_lines(FileName::Real(name.into()), src.into());
+
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Never,
+        ::swc_common::errors::ColorConfig::Auto,
         true,
         false,
-        None,
+        Some(cm),
     );
     let logger = ::testing::logger().new(o!("src" => src));
 
