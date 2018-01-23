@@ -16,11 +16,13 @@ use std::fs::read_dir;
 use std::io::{self, Read};
 use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
+use std::rc::Rc;
 use swc_common::{FoldWith, Folder};
+use swc_common::FileName;
 use swc_common::Span;
+use swc_common::errors::{CodeMap, FilePathMapping};
 use swc_common::errors::Handler;
-
-use swc_ecma_parser::{CharIndices, PResult, Parser, Session};
+use swc_ecma_parser::{FileMapInput, PResult, Parser, Session};
 use swc_ecma_parser::ast::*;
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
@@ -179,19 +181,23 @@ fn logger(file_name: &str, src: &str) -> Logger {
 }
 
 struct TestSess {
+    cm: Rc<CodeMap>,
     handler: Handler,
     logger: Logger,
 }
 
 impl TestSess {
     fn new() -> Self {
+        let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+
         let handler = ::swc_common::errors::Handler::with_tty_emitter(
             ::swc_common::errors::ColorConfig::Never,
             true,
             false,
-            None,
+            Some(cm.clone()),
         );
         TestSess {
+            cm,
             handler,
             logger: ::testing::logger(),
         }
@@ -205,16 +211,19 @@ impl TestSess {
 
     fn with_parser<'a, F, Ret>(&'a mut self, file_name: &str, src: &str, f: F) -> PResult<'a, Ret>
     where
-        F: FnOnce(&mut Parser<'a, CharIndices>) -> PResult<'a, Ret>,
+        F: FnOnce(&mut Parser<'a, FileMapInput>) -> PResult<'a, Ret>,
     {
         self.logger = logger(file_name, src);
+        let fm = self.cm
+            .new_filemap(FileName::Real(file_name.into()), src.into());
+
         f(&mut Parser::new(
             Session {
                 logger: &self.logger,
                 handler: &self.handler,
                 cfg: Default::default(),
             },
-            ::CharIndices(src.char_indices()),
+            (&*fm).into(),
         ))
     }
 }

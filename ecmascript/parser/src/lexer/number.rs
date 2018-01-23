@@ -267,16 +267,16 @@ impl<'a, I: Input> Lexer<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use lexer::input::CharIndices;
+    use super::input::FileMapInput;
     use std::f64::INFINITY;
     use std::panic;
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<CharIndices>) -> Ret,
+        F: FnOnce(&mut Lexer<FileMapInput>) -> Ret,
     {
-        ::with_test_sess(s, |sess| {
-            let mut l = Lexer::new(sess, CharIndices(s.char_indices()));
+        ::with_test_sess(s, |sess, fm| {
+            let mut l = Lexer::new(sess, fm.into());
             f(&mut l)
         })
     }
@@ -369,9 +369,8 @@ mod tests {
                 .or_else(|_| case.parse::<f64>())
                 .expect("failed to parse `expected` as float using str.parse()");
 
-            let input = CharIndices(case.char_indices());
             let vec = panic::catch_unwind(|| {
-                ::with_test_sess(case, |mut sess| {
+                ::with_test_sess(case, |mut sess, input| {
                     sess.cfg.strict = strict;
                     Lexer::new(sess, input)
                         .map(|ts| ts.token)
