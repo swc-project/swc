@@ -7,9 +7,9 @@ pub extern crate swc_macros;
 use slog::Logger;
 use std::path::Path;
 use std::rc::Rc;
-use swc_common::errors::{CodeMap, FilePathMapping, Handler};
+use swc_common::errors::{CodeMap, Handler};
 use swc_ecmascript::ast::Module;
-use swc_ecmascript::parser::{CharIndices, PResult, Parser, Session as ParseSess};
+use swc_ecmascript::parser::{FileMapInput, PResult, Parser, Session as ParseSess};
 
 pub struct Compiler {
     codemap: Rc<CodeMap>,
@@ -35,10 +35,9 @@ impl Compiler {
 
     /// TODO
     pub fn parse_js(&self, path: &Path) -> PResult<Module> {
-        let file = self.codemap
+        let fm = self.codemap
             .load_file_and_lines(path)
             .expect("failed to load file");
-        let src = file.src.clone().expect("we loaded this right before");
 
         Parser::new(
             ParseSess {
@@ -46,7 +45,7 @@ impl Compiler {
                 logger: &self.logger,
                 cfg: Default::default(),
             },
-            CharIndices(src.char_indices()),
+            FileMapInput::from(&*fm),
         ).parse_module()
     }
 }

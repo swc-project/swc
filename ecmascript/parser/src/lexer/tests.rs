@@ -1,14 +1,14 @@
 use super::*;
-use super::input::CharIndices;
+use super::input::FileMapInput;
 use std::ops::Range;
 use std::str;
 
 fn with_lexer<F, Ret>(s: &'static str, f: F) -> Ret
 where
-    F: FnOnce(&mut Lexer<CharIndices>) -> Ret,
+    F: FnOnce(&mut Lexer<FileMapInput>) -> Ret,
 {
-    ::with_test_sess(s, |sess| {
-        let mut l = Lexer::new(sess, CharIndices(s.char_indices()));
+    ::with_test_sess(s, |sess, fm| {
+        let mut l = Lexer::new(sess, fm);
         f(&mut l)
     })
 }

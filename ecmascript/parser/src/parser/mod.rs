@@ -81,11 +81,9 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[cfg(test)]
-fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
+pub fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<::CharIndices>) -> Ret,
+    F: FnOnce(&mut Parser<::FileMapInput>) -> Ret,
 {
-    ::with_test_sess(s, |session| {
-        f(&mut Parser::new(session, ::CharIndices(s.char_indices())))
-    })
+    ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, input)))
 }

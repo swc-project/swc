@@ -1,5 +1,5 @@
 use std::str;
-use swc_common::BytePos;
+use swc_common::{BytePos, FileMap};
 
 /// Used inside lexer.
 pub(super) struct LexerInput<I: Input> {
@@ -8,7 +8,7 @@ pub(super) struct LexerInput<I: Input> {
     input: I,
 }
 
-impl<'a, I: Input> LexerInput<I> {
+impl<I: Input> LexerInput<I> {
     pub const fn new(input: I) -> Self {
         LexerInput {
             input,
@@ -57,9 +57,37 @@ impl<'a, I: Input> LexerInput<I> {
 }
 
 #[derive(Debug, Clone)]
-pub struct CharIndices<'a>(pub str::CharIndices<'a>);
+pub struct FileMapInput<'a> {
+    fm: &'a FileMap,
+    start_pos: BytePos,
+    iter: str::CharIndices<'a>,
+}
 
-impl<'a> Input for CharIndices<'a> {
+impl<'a> From<&'a FileMap> for FileMapInput<'a> {
+    fn from(fm: &'a FileMap) -> Self {
+        let src = match fm.src {
+            Some(ref s) => s,
+            None => unreachable!("Cannot lex filemap without source: {}", fm.name),
+        };
+
+        FileMapInput {
+            start_pos: fm.start_pos,
+            iter: src.char_indices(),
+            fm,
+        }
+    }
+}
+
+impl<'a> Iterator for FileMapInput<'a> {
+    type Item = (BytePos, char);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter
+            .next()
+            .map(|(i, c)| (BytePos(i as u32 + self.start_pos.0), c))
+    }
+}
+impl<'a> Input for FileMapInput<'a> {
     fn peek(&mut self) -> Option<(BytePos, char)> {
         self.clone().nth(0)
     }
@@ -75,13 +103,6 @@ impl<'a> Input for CharIndices<'a> {
         None
     }
 }
-impl<'a> Iterator for CharIndices<'a> {
-    type Item = (BytePos, char);
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.0.next().map(|(i, c)| (BytePos(i as _), c))
-    }
-}
 
 pub trait Input: Iterator<Item = (BytePos, char)> {
     fn peek(&mut self) -> Option<(BytePos, char)>;
@@ -93,24 +114,4 @@ pub trait Input: Iterator<Item = (BytePos, char)> {
     fn uncons_while<F>(&mut self, f: F) -> Option<&str>
     where
         F: FnMut(char) -> bool;
-}
-
-impl<'a, I> Input for &'a mut I
-where
-    I: Input,
-{
-    fn peek(&mut self) -> Option<(BytePos, char)> {
-        <I as Input>::peek(*self)
-    }
-
-    fn peek_ahead(&mut self) -> Option<(BytePos, char)> {
-        <I as Input>::peek_ahead(*self)
-    }
-
-    fn uncons_while<F>(&mut self, f: F) -> Option<&str>
-    where
-        F: FnMut(char) -> bool,
-    {
-        <I as Input>::uncons_while(self, f)
-    }
 }

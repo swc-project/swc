@@ -25,7 +25,7 @@ pub extern crate swc_macros;
 #[macro_use]
 extern crate testing;
 extern crate unicode_xid;
-pub use self::lexer::input::{CharIndices, Input};
+pub use self::lexer::input::{FileMapInput, Input};
 pub use self::parser::*;
 use slog::Logger;
 use swc_common::errors::Handler;
@@ -61,19 +61,30 @@ pub struct Session<'a> {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
 where
-    F: FnOnce(Session) -> Ret,
+    F: FnOnce(Session, FileMapInput) -> Ret,
 {
+    use std::rc::Rc;
+    use swc_common::FileName;
+    use swc_common::errors::{CodeMap, FilePathMapping};
+
+    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+    let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());
+
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Never,
+        ::swc_common::errors::ColorConfig::Auto,
         true,
         false,
-        None,
+        Some(cm),
     );
+
     let logger = ::testing::logger().new(o!("src" => src));
 
-    f(Session {
-        handler: &handler,
-        logger: &logger,
-        cfg: Default::default(),
-    })
+    f(
+        Session {
+            handler: &handler,
+            logger: &logger,
+            cfg: Default::default(),
+        },
+        (&*fm).into(),
+    )
 }
