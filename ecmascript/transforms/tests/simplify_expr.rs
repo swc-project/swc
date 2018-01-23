@@ -5,42 +5,52 @@ extern crate pretty_assertions;
 #[macro_use]
 extern crate slog;
 extern crate swc_common;
-extern crate swc_ecma_ast as ast;
+extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
 extern crate swc_ecma_transforms as transforms;
 #[macro_use]
 extern crate testing;
 
 use swc_common::{FoldWith, Folder};
-use swc_ecma_parser::{CharIndices, Parser, Session};
+use swc_ecma_parser::{FileMapInput, Parser, Session};
 use transforms::simplify::Simplify;
 
+#[cfg(test)]
 fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
 where
-    F: FnOnce(Session) -> Ret,
+    F: FnOnce(Session, FileMapInput) -> Ret,
 {
+    use std::rc::Rc;
+    use swc_common::FileName;
+    use swc_common::errors::{CodeMap, FilePathMapping};
+
+    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+    let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());
+
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Never,
+        ::swc_common::errors::ColorConfig::Auto,
         true,
         false,
-        None,
+        Some(cm),
     );
+
     let logger = ::testing::logger().new(o!("src" => src));
 
-    f(Session {
-        handler: &handler,
-        logger: &logger,
-        cfg: Default::default(),
-    })
+    f(
+        Session {
+            handler: &handler,
+            logger: &logger,
+            cfg: Default::default(),
+        },
+        (&*fm).into(),
+    )
 }
 
 fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<::CharIndices>) -> Ret,
+    F: FnOnce(&mut Parser<FileMapInput>) -> Ret,
 {
-    ::with_test_sess(s, |session| {
-        f(&mut Parser::new(session, CharIndices(s.char_indices())))
-    })
+    ::with_test_sess(s, |session, input| f(&mut Parser::new(session, input)))
 }
 
 fn parse_expr(s: &'static str) -> Box<swc_ecma_ast::Expr> {
