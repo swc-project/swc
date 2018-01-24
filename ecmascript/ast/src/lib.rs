@@ -42,7 +42,7 @@ mod prop;
 mod stmt;
 
 /// Ident with span.
-#[derive(AstNode, Clone, PartialEq)]
+#[derive(AstNode, Fold, Clone, PartialEq)]
 pub struct Ident {
     pub span: Span,
     #[fold(ignore)]

@@ -1,5 +1,5 @@
 use super::{Expr, Function, PropName};
-use swc_common::{FoldWith, Span};
+use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
@@ -22,16 +22,10 @@ pub struct ClassMethod {
     pub is_static: bool,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Fold)]
 pub enum ClassMethodKind {
     Constructor,
     Method,
     Getter,
     Setter,
-}
-
-impl<F> FoldWith<F> for ClassMethodKind {
-    fn fold_children(self, _: &mut F) -> Self {
-        self
-    }
 }

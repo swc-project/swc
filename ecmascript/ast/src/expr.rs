@@ -143,8 +143,8 @@ pub struct MemberExpr {
 }
 
 #[ast_node]
-#[derive(ToCode)]
-#[code = "$test ? $cons : $alt"]
+// #[derive(ToCode)]
+// #[code = "$test ? $cons : $alt"]
 pub struct CondExpr {
     pub test: Box<Expr>,
     pub cons: Box<Expr>,
@@ -152,24 +152,24 @@ pub struct CondExpr {
 }
 
 #[ast_node]
-#[derive(ToCode)]
-#[code = "$callee ( $args )"]
+// #[derive(ToCode)]
+// #[code = "$callee ( $args )"]
 pub struct CallExpr {
     pub callee: ExprOrSuper,
-    #[code = "$( $args ),*"]
+    // #[code = "$( $args ),*"]
     pub args: Vec<ExprOrSpread>,
 }
 
 #[ast_node]
-#[code = "$callee ( $args )"]
+// #[code = "$callee ( $args )"]
 pub struct NewExpr {
     pub callee: Box<Expr>,
-    #[code = "$( $( $args ),* )?"]
+    // #[code = "$( $( $args ),* )?"]
     pub args: Option<Vec<ExprOrSpread>>,
 }
 
 #[ast_node]
-#[code = "( $( $exprs ) ,* )"]
+// #[code = "( $( $exprs ) ,* )"]
 pub struct SeqExpr {
     pub exprs: Vec<Box<Expr>>,
 }

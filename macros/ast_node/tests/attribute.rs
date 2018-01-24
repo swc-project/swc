@@ -7,6 +7,7 @@ use swc_macros::ast_node;
 #[ast_node]
 // See https://github.com/rust-lang/rust/issues/44925
 pub struct Class {
+    #[fold(ignore)]
     pub s: String,
 }
 

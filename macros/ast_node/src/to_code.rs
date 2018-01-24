@@ -19,7 +19,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             let body = box Quote::new_call_site()
                 .quote_with(smart_quote!(
                     Vars { binding },
-                    (return ::swc_common::ToCode::to_code(binding, __w))
+                    (return swc_common::ToCode::to_code(binding, __w))
                 ))
                 .parse();
 
@@ -54,7 +54,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 body,
             },
             {
-                impl ::swc_common::ToCode for Type {
+                impl swc_common::ToCode for Type {
                     fn to_code<W: ::std::io::Write>(&self, __w: W) -> ::std::io::Result<()> {
                         body
                     }

@@ -1,6 +1,6 @@
 use swc_macros::{AstNode, Kind};
 
-#[derive(Kind, AstNode, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(Kind, AstNode, Fold, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 #[kind(function(precedence = "u8"))]
 pub enum BinaryOp {
     /// `==`
@@ -83,7 +83,7 @@ pub enum BinaryOp {
     Exp,
 }
 
-#[derive(AstNode, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(AstNode, Fold, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 pub enum AssignOp {
     /// `=`
     Assign,
@@ -114,7 +114,7 @@ pub enum AssignOp {
     ExpAssign,
 }
 
-#[derive(AstNode, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(AstNode, Fold, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
@@ -122,7 +122,7 @@ pub enum UpdateOp {
     MinusMinus,
 }
 
-#[derive(AstNode, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(AstNode, Fold, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 pub enum UnaryOp {
     /// `-`
     Minus,
