@@ -1,9 +1,10 @@
 use swc_common::{FoldWith, Folder};
 use swc_ecma_ast::*;
 
-/// Compile ES2015 shorthand properties to ES5
+///Compile ES2015 shorthand properties to ES5
 ///
 ///# Example
+///
 ///## In
 ///
 /// ```js

@@ -14,6 +14,7 @@ pub extern crate swc_ecma_ast;
 #[cfg(test)]
 extern crate swc_ecma_parser;
 #[cfg(test)]
+#[macro_use]
 extern crate testing;
 
 #[macro_use]
