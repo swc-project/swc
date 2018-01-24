@@ -22,8 +22,10 @@ pub use self::pat::*;
 pub use self::prop::*;
 pub use self::stmt::*;
 use std::fmt::{self, Debug, Display, Formatter};
+use std::io::{self, Write};
 use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};
+use swc_common::ToCode;
 use swc_macros::AstNode;
 
 mod macros;
@@ -45,6 +47,13 @@ pub struct Ident {
     pub span: Span,
     #[fold(ignore)]
     pub sym: JsWord,
+}
+
+impl ToCode for Ident {
+    fn to_code<W: io::Write>(&self, mut w: W) -> io::Result<()> {
+        w.write(&self.sym[..].as_bytes())?;
+        Ok(())
+    }
 }
 
 impl Debug for Ident {

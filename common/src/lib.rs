@@ -12,10 +12,12 @@ extern crate string_cache;
 extern crate syntax_pos;
 
 pub use self::ast_node::AstNode;
+pub use self::codegen::ToCode;
 pub use self::fold::{FoldWith, Folder};
 pub use self::pos::*;
 
 mod ast_node;
+mod codegen;
 pub mod errors;
 mod fold;
 pub mod pos;

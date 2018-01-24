@@ -1,7 +1,7 @@
 use common::prelude::*;
 
-pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
-    let mut derive_generics = Derive::new(input);
+pub fn derive(input: DeriveInput) -> ItemImpl {
+    let mut derive_generics = Derive::new(&input);
 
     let preds = derive_generics
         .all_generic_fields()
@@ -23,7 +23,7 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
         });
     derive_generics.add_where_predicates(preds);
 
-    let arms = Binder::new_from(input)
+    let arms = Binder::new_from(&input)
         .variants()
         .into_iter()
         .map(|v| {

@@ -4,21 +4,41 @@
 extern crate pmutil;
 extern crate proc_macro;
 extern crate proc_macro2;
+extern crate quote;
 extern crate swc_macros_common as common;
 extern crate syn;
 
-use self::fold::derive_fold;
 use common::prelude::*;
 
 mod fold;
+mod to_code;
 
-#[proc_macro_derive(AstNode, attributes(fold))]
-pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+#[proc_macro_derive(Fold, attributes(fold))]
+pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let mut tokens = Tokens::new();
+    self::fold::derive(input).to_tokens(&mut tokens);
+
+    print("derive(Fold)", tokens)
+}
+
+#[proc_macro_derive(ToCode, attributes(code))]
+pub fn derive_to_code(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let mut tokens = Tokens::new();
+    self::to_code::derive(input).to_tokens(&mut tokens);
+
+    print("derive(ToCode)", tokens)
+}
+
+#[proc_macro_derive(AstNode)]
+pub fn derive_ast_node(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = &input.ident;
 
     let mut tokens = Tokens::new();
-    derive_fold(&input).to_tokens(&mut tokens);
 
     let item = Quote::new_call_site()
         .quote_with(smart_quote!(Vars { Type: type_name }, {
@@ -35,18 +55,27 @@ pub fn derive(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 /// `#[derive(Clone, Debug, PartialEq, AstNode)]`
 #[proc_macro_attribute]
 pub fn ast_node(
-    _attr: proc_macro::TokenStream,
-    s: proc_macro::TokenStream,
+    args: proc_macro::TokenStream,
+    input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let item: Item = syn::parse(s).expect("failed to parse tokens as an item");
+    if !args.is_empty() {
+        panic!("#[ast_node] takes no arguments");
+    }
 
-    // With proc_macro feature enabled, only attributes for first derive works.
+    let item: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+
+    // If we use call_site with proc_macro feature enabled,
+    // only attributes for first derive works.
+    //
     // https://github.com/rust-lang/rust/issues/44925
-    let tokens = pmutil::Quote::new_call_site().quote_with(smart_quote!(Vars { item }, {
+    // https://github.com/rust-lang/rust/issues/46489
+
+    let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item }, {
         #[derive(::swc_macros::AstNode)]
+        #[derive(::swc_macros::Fold)]
         #[derive(Clone, Debug, PartialEq)]
         item
     }));
 
-    print("ast_node", tokens)
+    print("ast_node", item)
 }
