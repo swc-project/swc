@@ -29,6 +29,7 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
             panic!("failed to parse")
         })
     };
+    println!("parsed {} as a module", src);
 
     module
 }
