@@ -3,7 +3,7 @@ use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
-#[derive(ToCode)]
+// #[derive(ToCode)]
 pub enum Decl {
     Class(ClassDecl),
     Fn(FnDecl),

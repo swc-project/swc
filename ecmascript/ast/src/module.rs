@@ -8,17 +8,17 @@ pub struct Module {
     pub body: Vec<ModuleItem>,
 }
 
-impl ToCode for Module {
-    fn to_code<W: Write>(&self, w: W) -> io::Result<()> {
-        for item in &self.body {
-            item.to_code(w)?;
-        }
-        Ok(())
-    }
-}
+// impl ToCode for Module {
+//     fn to_code<W: Write>(&self, w: W) -> io::Result<()> {
+//         for item in &self.body {
+//             item.to_code(w)?;
+//         }
+//         Ok(())
+//     }
+// }
 
 #[ast_node]
-#[derive(ToCode)]
+// #[derive(ToCode)]
 pub enum ModuleItem {
     Stmt(Stmt),
     ModuleDecl(ModuleDecl),
