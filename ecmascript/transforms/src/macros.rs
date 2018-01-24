@@ -33,6 +33,14 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
     module
 }
 
+#[cfg(test)]
+pub fn fold<F>(module: ::swc_ecma_ast::Module, f: &mut F) -> ::swc_ecma_ast::Module
+where
+    F: ::swc_common::Folder<::swc_ecma_ast::Module>,
+{
+    f.fold(module)
+}
+
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test {
@@ -41,8 +49,13 @@ macro_rules! test {
         fn $test_name() {
             let _ = $tr;
 
-            let _module = $crate::macros::parse(stringify!($test_name), $input);
-            let _expected_module = $crate::macros::parse(stringify!($test_name), $expected);
+            let module = $crate::macros::parse(stringify!($test_name), $input);
+            let expected_module = $crate::macros::parse(stringify!($test_name), $expected);
+
+            let module = $crate::macros::fold(module, &mut $tr);
+            let expected_module = $crate::macros::fold(expected_module, &mut $tr);
+
+            assert_eq_ignore_span!(module, expected_module);
         }
     };
 }
