@@ -29,13 +29,11 @@ pub use self::stmt::{BlockStmt, BreakStmt, CatchClause, ContinueStmt, DoWhileStm
                      SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat,
                      WhileStmt, WithStmt};
 use std::fmt::{self, Debug, Display, Formatter};
+use std::io::{self, Write};
 use swc_atoms::JsWord;
-use swc_common::{Span, Spanned};
-use swc_macros::{AstNode, Fold};
-
+use swc_common::{Span, Spanned, ToCode};
 mod macros;
 mod class;
-mod decl;
 mod expr;
 mod function;
 mod lit;
@@ -47,11 +45,18 @@ mod prop;
 mod stmt;
 
 /// Ident with span.
-#[derive(AstNode, Fold, Clone, PartialEq)]
+#[derive(AstNode, Fold, Clone, PartialEq, Eq)]
 pub struct Ident {
     pub span: Span,
     #[fold(ignore)]
     pub sym: JsWord,
+}
+
+impl ToCode for Ident {
+    fn to_code<W: io::Write>(&self, mut w: W) -> io::Result<()> {
+        w.write(&self.sym[..].as_bytes())?;
+        Ok(())
+    }
 }
 
 impl Debug for Ident {

@@ -48,8 +48,6 @@ macro_rules! test {
     ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            let _ = $tr;
-
             let module = $crate::macros::parse(stringify!($test_name), $input);
             let expected_module = $crate::macros::parse(stringify!($test_name), $expected);
 

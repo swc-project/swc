@@ -11,15 +11,28 @@ extern crate syn;
 use common::prelude::*;
 
 mod fold;
+mod to_code;
 
 #[proc_macro_derive(Fold, attributes(fold))]
 pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = input.ident.clone();
 
-    let item = self::fold::derive(input);
+    let mut tokens = Tokens::new();
+    self::fold::derive(input).to_tokens(&mut tokens);
 
-    wrap_in_const(&format!("DERIVE_FOLD_FOR_{}", type_name), item.dump())
+    wrap_in_const(&format!("DERIVE_FOLD_FOR_{}", type_name), tokens)
+}
+
+#[proc_macro_derive(ToCode, attributes(code))]
+pub fn derive_to_code(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+    let type_name = input.ident.clone();
+
+    let mut tokens = Tokens::new();
+    self::to_code::derive(input).to_tokens(&mut tokens);
+
+    wrap_in_const(&format!("DERIVE_TO_CODE_{}", type_name), tokens)
 }
 
 #[proc_macro_derive(AstNode)]
@@ -48,15 +61,20 @@ pub fn ast_node(
         panic!("#[ast_node] takes no arguments");
     }
 
-    let item: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+    // let item: DeriveInput = parse(input).expect("failed to parse input as a
+    // DeriveInput");
+    let input: TokenStream = input.into();
 
     // If we use call_site with proc_macro feature enabled,
     // only attributes for first derive works.
     // https://github.com/rust-lang/rust/issues/46489
-    let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item }, {
-        #[derive(AstNode, Fold, Clone, Debug, PartialEq)]
+
+    let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item: &input }, {
+        #[derive(Fold, ToCode, AstNode, Clone, Debug, PartialEq)]
         item
     }));
+
+    let item=TokenStream::from(item).to_string().parse::<TokenStream>().unwrap();
 
     print("ast_node", item)
 }

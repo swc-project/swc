@@ -16,8 +16,8 @@ pub enum Lit {
 
 #[ast_node]
 pub struct Regex {
+    #[fold(ignore)]
     pub exp: String,
-    #[fold = "regex_flags"]
     pub flags: RegexFlags,
 }
 
