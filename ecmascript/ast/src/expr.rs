@@ -154,20 +154,16 @@ pub struct CondExpr {
 #[code = "$callee ( $args )"]
 pub struct CallExpr {
     pub callee: ExprOrSuper,
-    #[code = "$( $args ),*"]
+    // #[code = "$( $args ),*"]
     pub args: Vec<ExprOrSpread>,
 }
 
 #[ast_node]
-#[code = "$callee ( $args )"]
+// #[code = "$callee ( $args )"]
 pub struct NewExpr {
     pub callee: Box<Expr>,
     // #[code = "$( $( $args ),* )?"]
-    pub args: Option<(Vec<ExprOrSpread>)>,
 }
-
-#[ast_node]
-#[code = "( $( $exprs ) ,* )"]
 pub struct SeqExpr {
     pub exprs: Vec<(Box<Expr>)>,
 }

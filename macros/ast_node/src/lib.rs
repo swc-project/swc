@@ -18,10 +18,9 @@ pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = input.ident.clone();
 
-    let mut tokens = Tokens::new();
-    self::fold::derive(input).to_tokens(&mut tokens);
+    let item = self::fold::derive(input);
 
-    wrap_in_const(&format!("DERIVE_FOLD_FOR_{}", type_name), tokens)
+    wrap_in_const(&format!("DERIVE_FOLD_FOR_{}", type_name), item.dump())
 }
 
 #[proc_macro_derive(ToCode, attributes(code))]
@@ -29,10 +28,9 @@ pub fn derive_to_code(input: proc_macro::TokenStream) -> proc_macro::TokenStream
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = input.ident.clone();
 
-    let mut tokens = Tokens::new();
-    self::to_code::derive(input).to_tokens(&mut tokens);
+    let item = self::to_code::derive(input);
 
-    wrap_in_const(&format!("DERIVE_TO_CODE_{}", type_name), tokens)
+    wrap_in_const(&format!("DERIVE_TO_CODE_FOR_{}", type_name), item.dump())
 }
 
 #[proc_macro_derive(AstNode)]
