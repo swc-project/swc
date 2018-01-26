@@ -1,3 +1,4 @@
+use super::util::CharExt;
 use std::str;
 use swc_common::{BytePos, FileMap};
 
@@ -9,22 +10,32 @@ pub(super) struct LexerInput<I: Input> {
 }
 
 impl<I: Input> LexerInput<I> {
-    pub const fn new(input: I) -> Self {
-        LexerInput {
+    pub fn new(input: I) -> Self {
+        let mut i = LexerInput {
             input,
             last_pos: BytePos(0),
             cur: None,
-        }
+        };
+        i.input.record_new_line(i.last_pos);
+        i
     }
 
     pub fn bump(&mut self) {
-        let pos = match self.cur.take() {
-            Some((p, prev_c)) => BytePos(p.0 + prev_c.len_utf8() as u32),
+        let is_new_line = match self.cur.take() {
+            Some((p, prev_c)) => {
+                self.last_pos = BytePos(p.0 + prev_c.len_utf8() as u32);
+                prev_c.is_line_break()
+            }
             None => unreachable!("bump is called without knowing current character"),
         };
 
         self.cur = self.input.next();
-        self.last_pos = pos;
+        if is_new_line {
+            match self.cur {
+                Some((p, _)) => self.input.record_new_line(p),
+                None => {}
+            }
+        }
     }
 
     pub fn peek(&mut self) -> Option<char> {
@@ -102,12 +113,16 @@ impl<'a> Input for FileMapInput<'a> {
         //TODO?
         None
     }
+    fn record_new_line(&self, pos: BytePos) {
+        self.fm.next_line(pos)
+    }
 }
 
 pub trait Input: Iterator<Item = (BytePos, char)> {
     fn peek(&mut self) -> Option<(BytePos, char)>;
 
     fn peek_ahead(&mut self) -> Option<(BytePos, char)>;
+    fn record_new_line(&self, _pos: BytePos) {}
 
     ///Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.

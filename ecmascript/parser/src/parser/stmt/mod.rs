@@ -1,4 +1,5 @@
 use super::*;
+use super::pat::PatType;
 use swc_macros::ast_node;
 
 mod module_item;
@@ -7,25 +8,49 @@ mod module_item;
 impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_block_body<Type>(
         &mut self,
+        mut allow_directives: bool,
         top_level: bool,
         end: Option<&Token>,
     ) -> PResult<'a, Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
-        Type: From<Stmt>,
+        Type: IsDirective + From<Stmt>,
     {
+        let old_ctx = self.ctx();
+
         let mut stmts = vec![];
         while {
             let b = cur!().ok() != end;
             b
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
+            if allow_directives {
+                allow_directives = false;
+                if stmt.is_use_strict() {
+                    let ctx = Context {
+                        strict: true,
+                        ..old_ctx
+                    };
+                    self.set_ctx(ctx);
+
+                    if self.input.knows_cur() && !is_one_of!('}') {
+                        unreachable!(
+                            "'use strict'; directive requires parser.input.cur to be empty or \
+                             '}}', but current token was: {:?}",
+                            self.input.cur()
+                        )
+                    }
+                }
+            }
+
             stmts.push(stmt);
         }
 
         if end.is_some() {
             bump!();
         }
+
+        self.set_ctx(old_ctx);
 
         Ok(stmts)
     }
@@ -42,7 +67,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_stmt_like<Type>(&mut self, include_decl: bool, top_level: bool) -> PResult<'a, Type>
     where
         Self: StmtLikeParser<'a, Type>,
-        Type: From<Stmt>,
+        Type: IsDirective + From<Stmt>,
     {
         if <Self as StmtLikeParser<Type>>::accept_import_export() {
             if is_one_of!("import", "export") {
@@ -146,8 +171,9 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // 'let' can start an identifier reference.
         if include_decl && is!("let") {
+            let strict = self.ctx().strict;
             let is_keyword = match peek!() {
-                Ok(t) => t.follows_keyword_let(self.session.cfg.strict),
+                Ok(t) => t.follows_keyword_let(strict),
                 _ => false,
             };
 
@@ -161,7 +187,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         match *cur!()? {
-            LBrace => return self.spanned(|p| p.parse_block().map(StmtKind::Block)),
+            LBrace => return self.spanned(|p| p.parse_block(false).map(StmtKind::Block)),
 
             Semi => {
                 return self.spanned(|p| {
@@ -199,7 +225,11 @@ impl<'a, I: Input> Parser<'a, I> {
                     node: ExprKind::Ident(ident),
                 }
             }
-            expr => expr,
+            expr => {
+                let expr = self.verify_expr(expr)?;
+
+                expr
+            }
         };
 
         expect!(';');
@@ -219,7 +249,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let cons = {
                 // Annex B
-                if !p.session.cfg.strict && is!("function") {
+                if !p.ctx().strict && is!("function") {
                     // TODO: report error?
                 }
                 box p.parse_stmt(false)?
@@ -236,7 +266,9 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_return_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
+        let start = cur_pos!();
+
+        let stmt = self.spanned(|p| {
             assert_and_bump!("return");
 
             let arg = if is!(';') {
@@ -246,7 +278,17 @@ impl<'a, I: Input> Parser<'a, I> {
             };
             expect!(';');
             Ok(StmtKind::Return(ReturnStmt { arg }))
-        })
+        });
+
+        if !self.ctx().in_function {
+            match stmt {
+                Ok(_) => {}
+                Err(e) => e.emit(),
+            }
+            syntax_error!(span!(start), SyntaxError::ReturnNotAllowed)
+        } else {
+            stmt
+        }
     }
 
     fn parse_switch_stmt(&mut self) -> PResult<'a, Stmt> {
@@ -288,7 +330,9 @@ impl<'a, I: Input> Parser<'a, I> {
                     }
                 }
             }
-            assert_and_bump!('}');
+
+            // eof or rbrace
+            expect!('}');
             cases.extend(cur);
 
             Ok(StmtKind::Switch(SwitchStmt {
@@ -318,11 +362,11 @@ impl<'a, I: Input> Parser<'a, I> {
         self.spanned(|p| {
             assert_and_bump!("try");
 
-            let block = p.parse_block()?;
+            let block = p.parse_block(false)?;
 
             let handler = if eat!("catch") {
                 let param = p.parse_catch_param()?;
-                p.parse_block()
+                p.parse_block(false)
                     .map(|body| CatchClause { param, body })
                     .map(Some)?
             } else {
@@ -330,7 +374,7 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             let finalizer = if eat!("finally") {
-                p.parse_block().map(Some)?
+                p.parse_block(false).map(Some)?
             } else {
                 if handler.is_none() {
                     unexpected!();
@@ -437,6 +481,10 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_with_stmt(&mut self) -> PResult<'a, Stmt> {
+        if self.ctx().strict {
+            syntax_error!(SyntaxError::WithInStrict)
+        }
+
         self.spanned(|p| {
             assert_and_bump!("with");
 
@@ -449,11 +497,11 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    pub(super) fn parse_block(&mut self) -> PResult<'a, BlockStmt> {
+    pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<'a, BlockStmt> {
         self.spanned(|p| {
             expect!('{');
 
-            let stmts = p.parse_block_body(false, Some(&RBrace))?;
+            let stmts = p.parse_block_body(allow_directives, false, Some(&RBrace))?;
 
             Ok(stmts)
         })
@@ -468,7 +516,21 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
         let body = box if is!("function") {
-            self.parse_fn_decl().map(Stmt::from)?
+            let f = self.parse_fn_decl()?;
+            match f {
+                Decl::Fn(FnDecl {
+                    function:
+                        Function {
+                            span,
+                            is_generator: true,
+                            ..
+                        },
+                    ..
+                }) => syntax_error!(span, SyntaxError::LabelledGenerator),
+                _ => {}
+            }
+
+            f.into()
         } else {
             self.parse_stmt(false)?
         };
@@ -502,13 +564,19 @@ impl<'a, I: Input> Parser<'a, I> {
 
     fn parse_for_head(&mut self) -> PResult<'a, ForHead> {
         let start = cur_pos!();
+        let strict = self.ctx().strict;
 
-        if is_one_of!("const", "var")
-            || (is!("let") && peek!()?.follows_keyword_let(self.session.cfg.strict))
-        {
+        if is_one_of!("const", "var") || (is!("let") && peek!()?.follows_keyword_let(strict)) {
             let decl = self.parse_var_stmt(true)?;
 
             if is_one_of!("of", "in") {
+                if decl.decls.len() != 1 {
+                    syntax_error!(decl.span, SyntaxError::TooManyVarInForInHead);
+                }
+                if decl.decls[0].init.is_some() {
+                    syntax_error!(decl.span, SyntaxError::VarInitializerInForInHead);
+                }
+
                 return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
             }
 
@@ -524,12 +592,13 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // for (a of b)
         if is_one_of!("of", "in") {
-            let pat = self.reparse_expr_as_pat(init)?;
+            let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
             return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
         }
 
         expect_exact!(';');
 
+        let init = self.verify_expr(init)?;
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
@@ -580,7 +649,30 @@ enum ForHead {
     },
 }
 
-pub(super) trait StmtLikeParser<'a, Type> {
+pub(super) trait IsDirective {
+    fn as_ref(&self) -> Option<&StmtKind>;
+    fn is_use_strict(&self) -> bool {
+        match self.as_ref() {
+            Some(&StmtKind::Expr(box Expr {
+                node:
+                    ExprKind::Lit(Lit::Str {
+                        ref value,
+                        has_escape: false,
+                    }),
+                ..
+            })) => value == "use strict",
+            _ => false,
+        }
+    }
+}
+
+impl IsDirective for Stmt {
+    fn as_ref(&self) -> Option<&StmtKind> {
+        Some(&self.node)
+    }
+}
+
+pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     fn accept_import_export() -> bool;
     fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Type>;
 }

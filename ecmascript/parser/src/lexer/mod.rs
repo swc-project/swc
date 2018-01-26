@@ -4,17 +4,17 @@
 
 #![allow(unused_mut)]
 #![allow(unused_variables)]
+
 pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
-use Session;
+use {Context, Session};
 use error::SyntaxError;
 use parser_macros::parser;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
-use swc_common::errors::Diagnostic;
 use token::*;
 
 #[macro_use]
@@ -26,10 +26,11 @@ mod state;
 mod tests;
 pub mod util;
 
-pub type LexResult<'a, T> = Result<T, Diagnostic<'a>>;
+pub(crate) type LexResult<T> = Result<T, ::error::Error>;
 
-pub struct Lexer<'a, I: Input> {
+pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
+    pub ctx: Context,
     input: LexerInput<I>,
     state: State,
 }
@@ -39,11 +40,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         Lexer {
             session,
             input: LexerInput::new(input),
-            state: State::new(),
+            state: Default::default(),
+            ctx: Default::default(),
         }
     }
 
-    fn read_token(&mut self) -> LexResult<'a, Option<Token>> {
+    fn read_token(&mut self) -> LexResult<Option<Token>> {
         let c = match self.input.current() {
             Some(c) => c,
             None => return Ok(None),
@@ -206,8 +208,15 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                     // Handle -->
                     if self.state.had_line_break && c == '-' && is!(self, '>') {
+                        if self.ctx.module {
+                            syntax_error!(
+                                self,
+                                span!(self, start),
+                                SyntaxError::LegacyCommentInModule
+                            )
+                        }
                         self.skip_line_comment(1);
-                        self.skip_space();
+                        self.skip_space()?;
                         return self.read_token();
                     }
 
@@ -273,7 +282,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Read an escaped charater for string literal.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<'a, Option<char>> {
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<char>> {
         assert_eq!(cur!(self), Some('\\'));
         let start = cur_pos!(self);
         bump!(self); // '\'
@@ -305,7 +314,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             // read hexadecimal escape sequences
             'x' => {
                 bump!(self); // 'x'
-                return self.read_hex_char(2).map(Some);
+                return self.read_hex_char(start, 2).map(Some);
             }
 
             // read unicode escape sequences
@@ -318,11 +327,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let first_c = if c == '0' {
                     match cur!(self) {
                         Some(next) if next.is_digit(8) => c,
+                        // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some('\u{0000}')),
                     }
                 } else {
                     c
                 };
+
+                // TODO: Show template instead of strict mode
+                if in_template {
+                    syntax_error!(self, span!(self, start), SyntaxError::LegacyOctal)
+                }
+
+                if self.ctx.strict {
+                    syntax_error!(self, span!(self, start), SyntaxError::LegacyOctal)
+                }
+
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
                 macro_rules! one {
                     ($check:expr) => {{
@@ -362,7 +382,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[parser]
 impl<'a, I: Input> Lexer<'a, I> {
-    fn read_slash(&mut self) -> LexResult<'a, Option<Token>> {
+    fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
 
@@ -382,18 +402,18 @@ impl<'a, I: Input> Lexer<'a, I> {
         }))
     }
 
-    fn read_token_lt_gt(&mut self) -> LexResult<'a, Option<Token>> {
+    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         assert!(cur!() == Some('<') || cur!() == Some('>'));
 
         let c = cur!().unwrap();
         bump!();
 
         // XML style comment. `<!--`
-        if !self.session.cfg.module && c == '<' && is!('!') && peek!() == Some('-')
+        if !self.ctx.module && c == '<' && is!('!') && peek!() == Some('-')
             && peek_ahead!() == Some('-')
         {
             self.skip_line_comment(3);
-            self.skip_space();
+            self.skip_space()?;
             return self.read_token();
         }
 
@@ -428,25 +448,27 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
-    fn read_ident_or_keyword(&mut self) -> LexResult<'a, Token> {
+    fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
         assert!(cur!().is_some());
         let start = cur_pos!();
 
         let (word, has_escape) = self.read_word_as_str()?;
 
-        // TODO: Use extension trait instead of into/from
-        let word = Word::from(word);
-        if has_escape && word.is_reserved_word(self.session.cfg.strict) {
+        // Note: ctx is store in lexer because of this error.
+        // 'await' and 'yield' may have semantic of reserved word, which means lexer
+        // should know context or parser should handle this error. Our approach to this
+        // problem is former one.
+        if has_escape && self.ctx.is_reserved_word(&word) {
             syntax_error!(
                 span!(start),
                 SyntaxError::EscapeInReservedWord { word: word.into() }
             );
         } else {
-            Ok(Word(word))
+            Ok(Word(word.into()))
         }
     }
 
-    fn may_read_word_as_str(&mut self) -> LexResult<'a, Option<(JsWord, bool)>> {
+    fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
         match cur!() {
             Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
             _ => Ok(None),
@@ -454,7 +476,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// returns (word, has_escape)
-    fn read_word_as_str(&mut self) -> LexResult<'a, (JsWord, bool)> {
+    fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
         assert!(cur!().is_some());
 
         let mut has_escape = false;
@@ -497,7 +519,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok((word.into(), has_escape))
     }
 
-    fn read_unicode_escape(&mut self, start: BytePos) -> LexResult<'a, char> {
+    fn read_unicode_escape(&mut self, start: BytePos) -> LexResult<char> {
         assert_eq!(cur!(), Some('u'));
         bump!();
 
@@ -511,25 +533,25 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             Ok(c)
         } else {
-            self.read_hex_char(4)
+            self.read_hex_char(start, 4)
         }
     }
 
-    fn read_hex_char(&mut self, count: u8) -> LexResult<'a, char> {
+    fn read_hex_char(&mut self, start: BytePos, count: u8) -> LexResult<char> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = cur_pos!();
         match self.read_int(16, count)? {
             Some(val) => match char::from_u32(val) {
                 Some(c) => Ok(c),
-                None => unimplemented!("Syntax Error: not char? val = {}", val),
+                None => syntax_error!(span!(start), SyntaxError::NonUtf8Char { val }),
             },
-            None => unimplemented!("Syntax Error: expected {} hex chars", count),
+            None => syntax_error!(span!(start), SyntaxError::ExpectedHexChars { count }),
         }
     }
 
     /// Read `CodePoint`.
-    fn read_code_point(&mut self) -> LexResult<'a, char> {
+    fn read_code_point(&mut self) -> LexResult<char> {
         let start = cur_pos!();
         let val = self.read_int(16, 0)?;
         match val {
@@ -542,13 +564,14 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    fn read_str_lit(&mut self) -> LexResult<'a, Token> {
+    fn read_str_lit(&mut self) -> LexResult<Token> {
         assert!(cur!() == Some('\'') || cur!() == Some('"'));
         let start = cur_pos!();
         let quote = cur!().unwrap();
         bump!(); // '"'
 
         let mut out = String::new();
+        let mut has_escape = false;
 
         //TODO: Optimize (Cow, Chunk)
 
@@ -556,9 +579,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             match c {
                 c if c == quote => {
                     bump!();
-                    return Ok(Str(out, c == '"'));
+                    return Ok(Str {
+                        value: out,
+                        has_escape,
+                    });
                 }
-                '\\' => out.extend(self.read_escaped_char(false)?),
+                '\\' => {
+                    out.extend(self.read_escaped_char(false)?);
+                    has_escape = true
+                }
                 c if c.is_line_break() => {
                     syntax_error!(span!(start), SyntaxError::UnterminatedStrLit)
                 }
@@ -573,7 +602,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self) -> LexResult<'a, Token> {
+    fn read_regexp(&mut self) -> LexResult<Token> {
         assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
         bump!();
@@ -624,7 +653,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(Regex(content, flags))
     }
 
-    fn read_tmpl_token(&mut self) -> LexResult<'a, Token> {
+    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
         let start = cur_pos!();
 
         // TODO: Optimize
@@ -666,7 +695,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         }
 
-        unimplemented!("error: unterminated template");
+        syntax_error!(span!(start_of_tpl), SyntaxError::UnterminatedTpl)
     }
 
     pub fn had_line_break_before_last(&self) -> bool {

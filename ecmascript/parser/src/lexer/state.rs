@@ -31,25 +31,41 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
         // skip spaces before getting next character, if we are allowed to.
         if self.state.can_skip_space() {
-            self.skip_space()
+            let start = cur_pos!();
+
+            match self.skip_space() {
+                Err(err) => {
+                    return Some(Token::Error(err)).map(|token| {
+                        // Attatch span to token.
+                        TokenAndSpan {
+                            token,
+                            had_line_break: self.had_line_break_before_last(),
+                            span: span!(start),
+                        }
+                    });
+                }
+                _ => {}
+            }
         };
 
         let start = cur_pos!();
 
-        let res = if self.state.is_in_template() {
-            self.read_tmpl_token().map(Some)
+        let res = if let Some(Type::Tpl {
+            start: start_pos_of_tpl,
+        }) = self.state.context.current()
+        {
+            self.read_tmpl_token(start_pos_of_tpl).map(Some)
         } else {
             self.read_token()
         };
 
-        let token = res.unwrap_or_else(|err| {
-            // Report error
-            err.emit();
-            Some(Token::Error)
-        });
+        let token = match res.map_err(Token::Error).map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
 
         if let Some(ref token) = token {
-            self.state.update(&self.session.logger, &token)
+            self.state.update(&self.session.logger, start, &token)
         }
 
         token.map(|token| {
@@ -63,8 +79,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
     }
 }
 
-impl State {
-    pub fn new() -> Self {
+impl Default for State {
+    fn default() -> Self {
         State {
             is_expr_allowed: true,
             octal_pos: None,
@@ -74,16 +90,14 @@ impl State {
             token_type: None,
         }
     }
+}
 
+impl State {
     pub fn can_skip_space(&self) -> bool {
         !self.context
             .current()
             .map(|t| t.preserve_space())
             .unwrap_or(false)
-    }
-
-    fn is_in_template(&self) -> bool {
-        self.context.current() == Some(Type::Tpl)
     }
 
     pub fn last_was_tpl_element(&self) -> bool {
@@ -93,7 +107,7 @@ impl State {
         }
     }
 
-    fn update(&mut self, logger: &Logger, next: &Token) {
+    fn update(&mut self, logger: &Logger, start: BytePos, next: &Token) {
         trace!(
             logger,
             "updating state: next={:?}, had_line_break={} ",
@@ -107,6 +121,7 @@ impl State {
             logger,
             &mut self.context,
             prev,
+            start,
             next,
             self.had_line_break,
             self.is_expr_allowed,
@@ -114,10 +129,12 @@ impl State {
     }
 
     /// `is_expr_allowed`: previous value.
+    /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
         logger: &Logger,
         context: &mut Context,
         prev: Option<Token>,
+        start: BytePos,
         next: &Token,
         had_line_break: bool,
         is_expr_allowed: bool,
@@ -227,10 +244,10 @@ impl State {
 
                 tok!('`') => {
                     // If we are in template, ` terminates template.
-                    if context.current() == Some(Type::Tpl) {
+                    if let Some(Type::Tpl { .. }) = context.current() {
                         context.pop(logger);
                     } else {
-                        context.push(logger, Type::Tpl);
+                        context.push(logger, Type::Tpl { start });
                     }
                     return false;
                 }
@@ -324,6 +341,10 @@ enum Type {
         is_for_loop: bool,
     },
     #[kind(is_expr)] ParenExpr,
-    #[kind(is_expr, preserve_space)] Tpl,
+    #[kind(is_expr, preserve_space)]
+    Tpl {
+        /// Start of a template literal.
+        start: BytePos,
+    },
     #[kind(is_expr)] FnExpr,
 }

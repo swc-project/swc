@@ -8,13 +8,13 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Handle import 'mod.js'
         match *cur!()? {
-            Str(..) => match bump!() {
-                Str(src, _) => {
+            Str { .. } => match bump!() {
+                Str { value, .. } => {
                     expect!(';');
                     return Ok(ModuleDecl {
                         span: span!(start),
                         node: ModuleDeclKind::Import {
-                            src,
+                            src: value,
                             specifiers: vec![],
                         },
                     });
@@ -94,7 +94,14 @@ impl<'a, I: Input> Parser<'a, I> {
                     });
                 }
 
-                // TODO: Check if it's binding ident.
+                // Handle difference between
+                //
+                // 'ImportedBinding'
+                // 'IdentifierName' as 'ImportedBinding'
+                if self.ctx().is_reserved_word(&orig_name.sym) {
+                    syntax_error!(orig_name.span, SyntaxError::Unexpected)
+                }
+
                 let local = orig_name;
                 return Ok(ImportSpecifier {
                     span: span!(start),
@@ -114,7 +121,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let ctx = Context {
             in_async: false,
             in_generator: false,
-            ..self.ctx
+            ..self.ctx()
         };
         self.with_ctx(ctx).parse_binding_ident()
     }
@@ -226,14 +233,23 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_from_clause_and_semi(&mut self) -> PResult<'a, String> {
         expect!("from");
         match *cur!()? {
-            Str(..) => match bump!() {
-                Str(src, _) => {
+            Str { .. } => match bump!() {
+                Str { value, .. } => {
                     expect!(';');
-                    Ok(src)
+                    Ok(value)
                 }
                 _ => unreachable!(),
             },
             _ => unexpected!(),
+        }
+    }
+}
+
+impl IsDirective for ModuleItem {
+    fn as_ref(&self) -> Option<&StmtKind> {
+        match *self {
+            ModuleItem::Stmt(ref s) => Some(&s.node),
+            _ => None,
         }
     }
 }

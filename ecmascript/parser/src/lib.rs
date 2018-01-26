@@ -39,16 +39,30 @@ mod parser;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub struct Config {
-    pub strict: bool,
-
     /// Support numeric separator.
     pub num_sep: bool,
 
     /// Support function bind expression.
     pub fn_bind: bool,
+}
 
+/// Syntatic context.
+#[derive(Debug, Clone, Copy, Default)]
+struct Context {
     /// Is in module code?
-    pub module: bool,
+    module: bool,
+    strict: bool,
+    include_in_expr: bool,
+    /// If true, await expression is parsed, and "await" is treated as a
+    /// keyword.
+    in_async: bool,
+    /// If true, yield expression is parsed, and "yield" is treated as a
+    /// keyword.
+    in_generator: bool,
+
+    in_function: bool,
+
+    in_parameters: bool,
 }
 
 #[derive(Clone, Copy)]

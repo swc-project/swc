@@ -126,7 +126,11 @@ fn test262_lexer_error_0001() {
 fn test262_lexer_error_0002() {
     assert_eq!(
         vec![
-            Str("use strict".into(), false).span(0..15).lb(),
+            Str {
+                value: "use strict".into(),
+                has_escape: true,
+            }.span(0..15)
+                .lb(),
             Semi.span(15..16),
         ],
         lex(r#"'use\x20strict';"#)
@@ -162,7 +166,13 @@ fn ident_escape_unicode_2() {
 fn str_escape_hex() {
     assert_eq!(
         lex(r#"'\x61'"#),
-        vec![Str("a".into(), false).span(0..6).lb()]
+        vec![
+            Str {
+                value: "a".into(),
+                has_escape: true,
+            }.span(0..6)
+                .lb(),
+        ]
     );
 }
 
@@ -170,7 +180,13 @@ fn str_escape_hex() {
 fn str_escape_octal() {
     assert_eq!(
         lex(r#"'Hello\012World'"#),
-        vec![Str("Hello\nWorld".into(), false).span(0..16).lb()]
+        vec![
+            Str {
+                value: "Hello\nWorld".into(),
+                has_escape: true,
+            }.span(0..16)
+                .lb(),
+        ]
     )
 }
 
@@ -178,7 +194,13 @@ fn str_escape_octal() {
 fn str_escape_unicode_long() {
     assert_eq!(
         lex(r#"'\u{00000000034}'"#),
-        vec![Str("4".into(), false).span(0..17).lb()]
+        vec![
+            Str {
+                value: "4".into(),
+                has_escape: true,
+            }.span(0..17)
+                .lb(),
+        ]
     );
 }
 
@@ -502,9 +524,24 @@ fn migrated_0006() {
 
 #[test]
 fn str_lit() {
-    assert_eq!(vec![Str("abcde".into(), false)], lex_tokens("'abcde'"));
-    assert_eq!(vec![Str("abcde".into(), true)], lex_tokens(r#""abcde""#));
-    assert_eq!(vec![Str("abc".into(), false)], lex_tokens("'\\\nabc'"));
+    assert_eq!(
+        vec![
+            Str {
+                value: "abcde".into(),
+                has_escape: false,
+            },
+        ],
+        lex_tokens("'abcde'")
+    );
+    assert_eq!(
+        vec![
+            Str {
+                value: "abc".into(),
+                has_escape: true,
+            },
+        ],
+        lex_tokens("'\\\nabc'")
+    );
 }
 
 #[test]

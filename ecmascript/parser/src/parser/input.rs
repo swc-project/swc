@@ -1,4 +1,5 @@
 //! Note: this module requires `#![feature(nll)]`.
+use Context;
 use lexer::{Input, Lexer};
 use swc_common::{BytePos, Span, DUMMY_SP};
 use token::*;
@@ -7,7 +8,7 @@ use token::*;
 pub(super) struct ParserInput<'a, I: Input> {
     iter: Lexer<'a, I>,
     /// Span of the previous token.
-    last_span: Span,
+    prev_span: Span,
     cur: Option<TokenAndSpan>,
     /// Peeked token
     next: Option<TokenAndSpan>,
@@ -18,16 +19,16 @@ impl<'a, I: Input> ParserInput<'a, I> {
         ParserInput {
             iter: lexer,
             cur: None,
-            last_span: DUMMY_SP,
+            prev_span: DUMMY_SP,
             next: None,
         }
     }
 
     fn bump_inner(&mut self) -> Option<Token> {
         let prev = self.cur.take();
-        self.last_span = match prev {
+        self.prev_span = match prev {
             Some(TokenAndSpan { span, .. }) => span,
-            _ => self.last_span,
+            _ => self.prev_span,
         };
 
         // If we have peeked a token, take it instead of calling lexer.next()
@@ -42,9 +43,17 @@ impl<'a, I: Input> ParserInput<'a, I> {
 
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
-        self.bump_inner().expect(
-            "Current token is `None`. Parser should not call bump()without knowing current token",
-        )
+        let prev = match self.cur.take() {
+            Some(t) => t,
+
+            None => unreachable!(
+                "Current token is `None`. Parser should not call bump()without knowing current \
+                 token"
+            ),
+        };
+        self.prev_span = prev.span;
+
+        prev.token
     }
 
     pub fn knows_cur(&self) -> bool {
@@ -64,12 +73,14 @@ impl<'a, I: Input> ParserInput<'a, I> {
         self.next.as_ref().map(|ts| &ts.token)
     }
 
-    /// This returns true on eof.
-    pub fn had_line_break_before_cur(&self) -> bool {
+    /// Returns true on eof.
+    pub fn had_line_break_before_cur(&mut self) -> bool {
+        self.cur();
+
         self.cur
             .as_ref()
             .map(|it| it.had_line_break)
-            .unwrap_or(true)
+            .unwrap_or_else(|| true)
     }
 
     /// This returns true on eof.
@@ -117,28 +128,41 @@ impl<'a, I: Input> ParserInput<'a, I> {
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
         self.eat(&Word(Keyword(kwd)))
     }
+
     /// Returns start of current token.
-    pub fn cur_pos(&self) -> BytePos {
+    pub fn cur_pos(&mut self) -> BytePos {
+        let _ = self.cur();
         self.cur
             .as_ref()
             .map(|item| item.span.lo())
-            .unwrap_or_else(|| self.last_pos())
+            .unwrap_or_else(|| {
+                // eof
+                self.last_pos()
+            })
     }
 
     pub fn cur_span(&self) -> Span {
         self.cur
             .as_ref()
             .map(|item| item.span)
-            .unwrap_or(self.last_span)
+            .unwrap_or(self.prev_span)
     }
 
     /// Returns last byte position of previous token.
     pub fn last_pos(&self) -> BytePos {
-        self.last_span.hi()
+        self.prev_span.hi()
     }
 
     /// Returns span of the previous token.
-    pub const fn last_span(&self) -> Span {
-        self.last_span
+    pub const fn prev_span(&self) -> Span {
+        self.prev_span
+    }
+
+    pub const fn get_ctx(&self) -> Context {
+        self.iter.ctx
+    }
+
+    pub fn set_ctx(&mut self, ctx: Context) {
+        self.iter.ctx = ctx;
     }
 }

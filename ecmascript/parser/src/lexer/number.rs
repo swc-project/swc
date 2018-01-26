@@ -12,7 +12,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     ///
     ///
-    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<'a, Number> {
+    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<Number> {
         assert!(cur!().is_some());
         if starts_with_dot {
             debug_assert_eq!(
@@ -51,7 +51,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // strict mode hates non-zero decimals starting with zero.
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
-                    if self.session.cfg.strict {
+                    if self.ctx.strict {
                         syntax_error!(span!(start), SyntaxError::LegacyDecimal);
                     }
 
@@ -113,7 +113,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         if eat!('e') || eat!('E') {
             let next = match cur!() {
                 Some(next) => next,
-                None => unimplemented!("expected +, - or digit after e"),
+                None => syntax_error!(span!(start), SyntaxError::NumLitTerminatedWithExp),
             };
 
             let positive = if next == '+' || next == '-' {
@@ -123,7 +123,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 true
             };
 
-            // TODO: Optimize this
             let exp = self.read_number_no_dot(10)?;
             let flag = if positive { '+' } else { '-' };
             // TODO:
@@ -137,7 +136,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(Number(val))
     }
 
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<'a, Number> {
+    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Number> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -156,20 +155,29 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot(&mut self, radix: u8) -> LexResult<'a, f64> {
+    fn read_number_no_dot(&mut self, radix: u8) -> LexResult<f64> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 10 || radix == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
             radix
         );
+        let start = cur_pos!();
 
-        self.read_digits(radix, |total, radix, v| {
+        let mut read_any = false;
+
+        let res = self.read_digits(radix, |total, radix, v| {
+            read_any = true;
             (f64::mul_add(total, radix as f64, v as f64), true)
-        })
+        });
+
+        if !read_any {
+            syntax_error!(span!(start), SyntaxError::ExpectedDigit { radix });
+        }
+        res
     }
 
     /// Ensure that ident cannot directly follow numbers.
-    fn ensure_not_ident(&mut self) -> LexResult<'a, ()> {
+    fn ensure_not_ident(&mut self) -> LexResult<()> {
         match cur!() {
             Some(c) if c.is_ident_start() => {
                 syntax_error!(pos_span(cur_pos!()), SyntaxError::IdentAfterNum)
@@ -182,17 +190,22 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<'a, Option<u32>> {
+    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<Option<u32>> {
         let mut count = 0;
-        self.read_digits(radix, |opt: Option<u32>, radix, val| {
+        let v = self.read_digits(radix, |opt: Option<u32>, radix, val| {
             count += 1;
             let total = opt.unwrap_or_default() * radix as u32 + val as u32;
             (Some(total), count != len)
-        })
+        })?;
+        if len != 0 && count != len {
+            Ok(None)
+        } else {
+            Ok(v)
+        }
     }
 
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
-    fn read_digits<F, Ret>(&mut self, radix: u8, mut op: F) -> LexResult<'a, Ret>
+    fn read_digits<F, Ret>(&mut self, radix: u8, mut op: F) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> (Ret, bool),
         Ret: Copy + Default,
@@ -239,23 +252,23 @@ impl<'a, I: Input> Lexer<'a, I> {
             let val = if let Some(val) = c.to_digit(radix as _) {
                 val
             } else {
-                break;
+                return Ok(total);
             };
 
             bump!();
             let (t, cont) = op(total, radix, val);
             total = t;
             if !cont {
-                break;
+                return Ok(total);
             }
         }
 
         Ok(total)
     }
 
-    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<'a, Number> {
+    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<Number> {
         self.ensure_not_ident()?;
-        return if self.session.cfg.strict {
+        return if self.ctx.strict {
             syntax_error!(span!(start), SyntaxError::LegacyOctal)
         } else {
             // FIXME
@@ -371,10 +384,9 @@ mod tests {
 
             let vec = panic::catch_unwind(|| {
                 ::with_test_sess(case, |mut sess, input| {
-                    sess.cfg.strict = strict;
-                    Lexer::new(sess, input)
-                        .map(|ts| ts.token)
-                        .collect::<Vec<_>>()
+                    let mut l = Lexer::new(sess, input);
+                    l.ctx.strict = strict;
+                    l.map(|ts| ts.token).collect::<Vec<_>>()
                 })
             });
 

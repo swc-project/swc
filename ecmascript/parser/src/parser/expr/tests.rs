@@ -41,16 +41,31 @@ fn expr(s: &'static str) -> Box<Expr> {
 const span: Span = DUMMY_SP;
 
 #[test]
+fn arrow_assign() {
+    assert_eq_ignore_span!(
+        expr("a = b => false"),
+        box Expr {
+            span,
+            node: ExprKind::Assign(AssignExpr {
+                left: PatOrExpr::Expr(expr("a")),
+                op: op!("="),
+                right: expr("b => false"),
+            }),
+        }
+    );
+}
+
+#[test]
 fn new_expr_should_not_eat_too_much() {
     assert_eq_ignore_span!(
         new_expr("new Date().toString()"),
         box Expr {
-            span: Default::default(),
+            span,
             node: ExprKind::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(member_expr("new Date()")),
                 prop: Ident {
                     sym: "toString".into(),
-                    span: Default::default(),
+                    span,
                 }.into(),
                 computed: false,
             }),
@@ -62,7 +77,7 @@ fn lhs_expr_as_new_expr_prod() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()"),
         box Expr {
-            span: Default::default(),
+            span,
             node: ExprKind::New(NewExpr {
                 callee: lhs("Date.toString"),
                 args: Some(vec![]),
@@ -76,7 +91,7 @@ fn lhs_expr_as_call() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()()"),
         box Expr {
-            span: Default::default(),
+            span,
             node: ExprKind::Call(CallExpr {
                 callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
                 args: vec![],

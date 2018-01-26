@@ -6,14 +6,14 @@ use super::*;
 impl<'a, I: Input> Parser<'a, I> {
     /// IdentifierReference
     pub(super) fn parse_ident_ref(&mut self) -> PResult<'a, Ident> {
-        let ctx = self.ctx;
+        let ctx = self.ctx();
 
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
 
     /// LabelIdentifier
     pub(super) fn parse_label_ident(&mut self) -> PResult<'a, Ident> {
-        let ctx = self.ctx;
+        let ctx = self.ctx();
 
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
@@ -39,7 +39,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<'a, Ident> {
         self.spanned(|p| {
-            let strict = p.session.cfg.strict;
+            let strict = p.ctx().strict;
             let w = match cur!() {
                 Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
@@ -52,25 +52,24 @@ impl<'a, I: Input> Parser<'a, I> {
             // It is a Syntax Error if this phrase is contained in strict mode code and the
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected",  "public", "static", or "yield".
-            if strict {
-                match w {
-                    Keyword(Yield)
-                    | Ident(js_word!("static"))
-                    | Ident(js_word!("implements"))
-                    | Ident(js_word!("interface"))
-                    | Ident(js_word!("let"))
-                    | Ident(js_word!("package"))
-                    | Ident(js_word!("private"))
-                    | Ident(js_word!("protected"))
-                    | Ident(js_word!("public")) => syntax_error!(SyntaxError::InvalidIdentInStrict),
-                    _ => {}
+            match w {
+                Ident(js_word!("enum")) => {
+                    syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
                 }
+                Keyword(Yield)
+                | Ident(js_word!("static"))
+                | Ident(js_word!("implements"))
+                | Ident(js_word!("interface"))
+                | Ident(js_word!("let"))
+                | Ident(js_word!("package"))
+                | Ident(js_word!("private"))
+                | Ident(js_word!("protected"))
+                | Ident(js_word!("public")) if strict =>
+                {
+                    syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
+                }
+                _ => {}
             }
-
-            //TODO
-            // Spec:
-            // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
-            // and the StringValue of IdentifierName is "await".
 
             //TODO
             // Spec:
@@ -78,11 +77,18 @@ impl<'a, I: Input> Parser<'a, I> {
             // value as the StringValue of any ReservedWord except for yield or await.
 
             match w {
+                // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
+                // and the StringValue of IdentifierName is "await".
+                Keyword(Await) if p.ctx().module => {
+                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
+                }
                 Keyword(Let) => Ok(w.into()),
                 Ident(ident) => Ok(ident),
                 Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
                 Keyword(Await) if incl_await => Ok(js_word!("await")),
-                Keyword(..) | Null | True | False => syntax_error!(SyntaxError::ExpectedIdent),
+                Keyword(..) | Null | True | False => {
+                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
+                }
             }
         })
     }
