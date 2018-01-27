@@ -195,10 +195,15 @@ impl<'a, I: Input> Parser<'a, I> {
                     if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         syntax_error!(span, SyntaxError::NotSimpleAssign)
                     }
-                    return Ok(Pat {
-                        span,
-                        node: PatKind::Expr(box expr),
-                    });
+                    match expr.node {
+                        ExprKind::Ident(i) => return Ok(i.into()),
+                        _ => {
+                            return Ok(Pat {
+                                span,
+                                node: PatKind::Expr(box expr),
+                            });
+                        }
+                    }
                 }
             }
         }
@@ -225,10 +230,15 @@ impl<'a, I: Input> Parser<'a, I> {
                     {
                         syntax_error!(span, SyntaxError::NotSimpleAssign)
                     }
-                    return Ok(Pat {
-                        span,
-                        node: PatKind::Expr(box expr),
-                    });
+                    match expr.node {
+                        ExprKind::Ident(i) => return Ok(i.into()),
+                        _ => {
+                            return Ok(Pat {
+                                span,
+                                node: PatKind::Expr(box expr),
+                            });
+                        }
+                    }
                 }
 
                 // It's special because of optional intializer

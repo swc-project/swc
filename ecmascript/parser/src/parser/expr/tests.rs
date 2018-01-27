@@ -47,7 +47,12 @@ fn arrow_assign() {
         box Expr {
             span,
             node: ExprKind::Assign(AssignExpr {
-                left: PatOrExpr::Expr(expr("a")),
+                left: PatOrExpr::Pat(
+                    Ident {
+                        span,
+                        sym: "a".into(),
+                    }.into()
+                ),
                 op: op!("="),
                 right: expr("b => false"),
             }),
