@@ -1,4 +1,3 @@
-//! Note: this module requires `#![feature(nll)]`.
 use Context;
 use lexer::{Input, Lexer};
 use swc_common::{BytePos, Span, DUMMY_SP};

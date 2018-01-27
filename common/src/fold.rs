@@ -15,7 +15,7 @@ pub trait Folder<T> {
 ///
 ///#Derive
 ///
-/// This trait can be derived with `#[derive(AstNode)]`.
+/// This trait can be derived with `#[derive(Fold)]`.
 ///
 /// Note that derive ignores all fields with primitive type
 /// because it would encourage mistakes. Use new type instead.
