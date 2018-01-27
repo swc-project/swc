@@ -196,6 +196,12 @@ impl<'a, I: Input> Parser<'a, I> {
                         syntax_error!(span, SyntaxError::NotSimpleAssign)
                     }
                     match expr.node {
+                        // It is a Syntax Error if the LeftHandSideExpression is
+                        // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
+                        // Expression derives a phrase that would produce a Syntax Error according
+                        // to these rules if that phrase were substituted for
+                        // LeftHandSideExpression. This rule is recursively applied.
+                        ExprKind::Paren(expr) => return self.reparse_expr_as_pat(pat_ty, expr),
                         ExprKind::Ident(i) => return Ok(i.into()),
                         _ => {
                             return Ok(Pat {
@@ -249,17 +255,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         match expr.node {
-            ExprKind::Paren(inner) => {
-                if pat_ty == PatType::AssignPat {
-                    let inner_pat = self.reparse_expr_as_pat(pat_ty, inner)?;
-                    return Ok(Pat {
-                        span,
-                        node: inner_pat.node,
-                    });
-                } else {
-                    syntax_error!(span, SyntaxError::InvalidPat)
-                }
-            }
+            ExprKind::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
             ExprKind::Assign(AssignExpr {
                 left,
                 op: Assign,
