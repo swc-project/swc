@@ -32,8 +32,7 @@ after_success:
      [ "$TRAVIS_BRANCH" == "master" ] &&
     ./.travis/docs.sh'
 notifications:
-  email:
-    on_success: never
+  email: never
 env:
   global:
     - RUST_MIN_STACK=4194304

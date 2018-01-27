@@ -13,12 +13,12 @@ impl FileLoader for MyFileLoader {
     }
 
     /// Return an absolute path to a file, if possible.
-    fn abs_path(&self, path: &Path) -> Option<PathBuf> {
+    fn abs_path(&self, _path: &Path) -> Option<PathBuf> {
         Some("/tmp.js".into())
     }
 
     /// Read the contents of an UTF-8 file into memory.
-    fn read_file(&self, path: &Path) -> io::Result<String> {
+    fn read_file(&self, _path: &Path) -> io::Result<String> {
         Ok("
 function foo() {
     with (window) {
