@@ -3,6 +3,7 @@
 #![feature(try_trait)]
 #![feature(specialization)]
 
+pub extern crate rustc_data_structures;
 #[cfg(test)]
 #[macro_use]
 extern crate slog;
@@ -22,3 +23,4 @@ mod macros;
 pub mod compat;
 pub mod simplify;
 pub mod util;
+pub mod scope;

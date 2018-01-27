@@ -52,7 +52,7 @@ macro_rules! test {
             let expected_module = $crate::macros::parse(stringify!($test_name), $expected);
 
             let module = $crate::macros::fold(module, &mut $tr);
-            let expected_module = $crate::macros::fold(expected_module, &mut $tr);
+            let expected_module = expected_module;
 
             assert_eq_ignore_span!(module, expected_module);
         }
