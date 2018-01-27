@@ -141,7 +141,7 @@ pub trait ExprExt: Sized {
                             _ => true,
                         },
                         Lit::Bool(b) => b,
-                        Lit::Str(ref s) => !s.is_empty(),
+                        Lit::Str { ref value, .. } => !value.is_empty(),
                         Lit::Null => false,
                         Lit::Regex(..) => true,
                     }),
@@ -163,7 +163,7 @@ pub trait ExprExt: Sized {
                 Lit::Bool(true) => 1.0,
                 Lit::Bool(false) | Lit::Null => 0.0,
                 Lit::Num(Number(n)) => n,
-                Lit::Str(ref s) => return num_from_str(s),
+                Lit::Str { ref value, .. } => return num_from_str(value),
                 _ => return Unknown,
             },
             ExprKind::Ident(Ident { ref sym, .. }) => match &**sym {
@@ -221,7 +221,7 @@ pub trait ExprExt: Sized {
         let expr = self.as_expr_kind();
         match *expr {
             ExprKind::Lit(ref l) => match *l {
-                Lit::Str(ref s) => Known(Cow::Borrowed(s)),
+                Lit::Str { ref value, .. } => Known(Cow::Borrowed(value)),
                 Lit::Num(ref n) => Known(format!("{}", n).into()),
                 Lit::Bool(true) => Known(Cow::Borrowed("true")),
                 Lit::Bool(false) => Known(Cow::Borrowed("false")),
@@ -435,7 +435,7 @@ pub trait ExprExt: Sized {
             ExprKind::Unary(UnaryExpr {
                 op: op!("typeof"), ..
             })
-            | ExprKind::Lit(Lit::Str(..)) => return Known(StringType),
+            | ExprKind::Lit(Lit::Str { .. }) => return Known(StringType),
 
             ExprKind::Lit(Lit::Null) => return Known(NullType),
 
