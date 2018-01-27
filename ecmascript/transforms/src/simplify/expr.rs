@@ -81,7 +81,9 @@ fn fold_member_expr(e: MemberExpr) -> ExprKind {
     };
 
     match o.node {
-        Lit(Lit::Str(ref s)) if op == KnownOp::Len => Lit(Lit::Num(Number(s.len() as _))),
+        Lit(Lit::Str { ref value, .. }) if op == KnownOp::Len => {
+            Lit(Lit::Num(Number(value.len() as _)))
+        }
         Array(ArrayLit { ref elems }) if op == KnownOp::Len && !o.may_have_side_effects() => {
             Lit(Lit::Num(Number(elems.len() as _)))
         }
@@ -194,7 +196,7 @@ fn fold_bin(left: Box<Expr>, op: BinaryOp, right: Box<Expr>) -> ExprKind {
             fn is_non_obj(e: &ExprKind) -> bool {
                 match *e {
                     // Non-object types are never instances.
-                    Lit(Lit::Str(..))
+                    Lit(Lit::Str { .. })
                     | Lit(Lit::Num(..))
                     | Lit(Lit::Null)
                     | Lit(Lit::Bool(..))
@@ -278,7 +280,7 @@ fn fold_unary(op: UnaryOp, arg: Box<Expr>) -> ExprKind {
         op!("typeof") if !may_have_side_effects => {
             let val = match arg.node {
                 Fn(..) => "function",
-                Lit(Lit::Str(..)) => "string",
+                Lit(Lit::Str { .. }) => "string",
                 Lit(Lit::Num(..)) => "number",
                 Lit(Lit::Bool(..)) => "boolean",
                 Lit(Lit::Null) | Object { .. } | Array { .. } => "object",
@@ -302,7 +304,10 @@ fn fold_unary(op: UnaryOp, arg: Box<Expr>) -> ExprKind {
                 }
             };
 
-            return Lit(Lit::Str(val.into()));
+            return Lit(Lit::Str {
+                value: val.into(),
+                has_escape: false,
+            });
         }
         op!("!") => match arg.as_bool() {
             (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),

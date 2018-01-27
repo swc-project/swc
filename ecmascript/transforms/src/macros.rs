@@ -6,7 +6,7 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
     use swc_ecma_parser::{FileMapInput, Parser, Session};
 
     let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
-    let fm = cm.new_filemap_and_lines(FileName::Real(name.into()), src.into());
+    let fm = cm.new_filemap(FileName::Real(name.into()), src.into());
 
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
         ::swc_common::errors::ColorConfig::Auto,

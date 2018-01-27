@@ -29,7 +29,10 @@ impl Folder<ExprKind> for StickyRegex {
                 if flags.contains("y") {
                     let str_lit = |s| box Expr {
                         span: DUMMY_SP,
-                        node: ExprKind::Lit(Lit::Str(s)),
+                        node: ExprKind::Lit(Lit::Str {
+                            value: s,
+                            has_escape: false,
+                        }),
                     };
 
                     return ExprKind::New(NewExpr {
