@@ -14,7 +14,7 @@ pub(crate) struct Eof<'a> {
 
 impl<'a> From<Eof<'a>> for Diagnostic<'a> {
     fn from(Eof { handler, last }: Eof<'a>) -> Self {
-        handler.error("expected some tokens after here").span(last)
+        handler.error("Unexpected eof").span(last)
     }
 }
 
@@ -24,18 +24,31 @@ impl<'a> Debug for Eof<'a> {
     }
 }
 
-pub(crate) struct Error<'a> {
+pub(crate) struct ErrorToDiag<'a> {
     pub handler: &'a Handler,
     pub span: Span,
     pub error: SyntaxError,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
+pub(crate) struct Error {
+    pub span: Span,
+    pub error: SyntaxError,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 pub(crate) enum SyntaxError {
     LegacyDecimal,
     LegacyOctal,
     InvalidIdentChar,
+    NonUtf8Char {
+        val: u32,
+    },
+    ExpectedDigit {
+        radix: u8,
+    },
 
+    UnterminatedBlockComment,
     // #[fail(display = "unterminated string constant: {:?}", start)]
     UnterminatedStrLit,
     // #[fail(display = "expected unicode escape sequence: {:?}", pos)]
@@ -46,20 +59,22 @@ pub(crate) enum SyntaxError {
     },
     // #[fail(display = "unterminated regexp (regexp started at {:?})", start)]
     UnterminatedRegxp,
+    UnterminatedTpl,
     // #[fail(display = "identifier directly after number at {:?}", pos)]
     IdentAfterNum,
     // #[fail(display = "Unexpected character '{}' at {:?}", c, pos)]
     UnexpectedChar {
         c: char,
     },
-    // #[fail(display = "Invalid string escape at {:?}", start)]
     InvalidStrEscape,
-
-    // #[fail(display = "Invalid unciode escape at {:?}", pos)]
     InvalidUnicodeEscape,
-
-    // #[fail(display = "Invalid unciode code point at {:?}", pos)]
     InvalidCodePoint,
+    ExpectedHexChars {
+        /// Number of expected characters.
+        count: u8,
+    },
+    NumLitTerminatedWithExp,
+    LegacyCommentInModule,
 
     /// "implements", "interface", "let", "package",\
     ///  "private", "protected",  "public", "static", or "yield"
@@ -71,12 +86,13 @@ pub(crate) enum SyntaxError {
         left_span: Span,
     },
     LineBreakInThrow,
+    LineBreakBeforeArrow,
+
+    /// Unexpected token
+    Unexpected,
     Expected(&'static Token),
 
-    /// "await* has been removed from the async functions proposal. Use
-    /// Promise.all() instead."
     AwaitStar,
-    /// "cannot use a reserved word as a shorthand property"
     ReservedWordInObjShorthandOrPat,
 
     MultipleDefault,
@@ -85,33 +101,66 @@ pub(crate) enum SyntaxError {
     SpreadInParenExpr,
     /// `()`
     EmptyParenExpr,
-
+    InvalidPat,
+    NotSimpleAssign,
     ExpectedIdent,
     ExpctedSemi,
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
     PatVarWithoutInit,
+    WithInStrict,
+    ReturnNotAllowed,
+    TooManyVarInForInHead,
+    VarInitializerInForInHead,
+    LabelledGenerator,
+    YieldParamInGen,
 }
 
-impl<'a> From<Error<'a>> for Diagnostic<'a> {
-    fn from(e: Error<'a>) -> Self {
-        let msg: Cow<'static, _> = match e.error {
-            LegacyDecimal => "Legacy decimal literal is not permitted in strict mode".into(),
-            LegacyOctal => "Legacy octal literal is not permitted in strict mode".into(),
-            InvalidIdentChar => "Invalid character in identifier".into(),
+impl<'a> From<ErrorToDiag<'a>> for Error {
+    #[inline(always)]
+    fn from(e: ErrorToDiag<'a>) -> Self {
+        Error {
+            span: e.span,
+            error: e.error,
+        }
+    }
+}
 
+impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
+    #[inline(always)]
+    fn from(e: ErrorToDiag<'a>) -> Self {
+        let msg: Cow<'static, _> = match e.error {
+            LegacyDecimal => "Legacy decimal escape is not permitted in strict mode".into(),
+            LegacyOctal => "Legacy octal escape is not permitted in strict mode".into(),
+            InvalidIdentChar => "Invalid character in identifier".into(),
+            NonUtf8Char { val } => format!("Not an utf-8 character: {}", val).into(),
+            ExpectedDigit { radix } => format!(
+                "Expected {} digit",
+                match radix {
+                    2 => "a binary",
+                    8 => "an octal",
+                    10 => "a decimal",
+                    16 => "a hexadecimal",
+                    _ => unreachable!(),
+                }
+            ).into(),
+            UnterminatedBlockComment => "Unterminated block comment".into(),
             UnterminatedStrLit => "Unterminated string constant".into(),
             ExpectedUnicodeEscape => "Expected unicode escape".into(),
             EscapeInReservedWord { word } => {
-                format!("unexpected escape sequence in reserved word: {}", word).into()
+                format!("Unexpected escape sequence in reserved word: {}", word).into()
             }
             UnterminatedRegxp => "Unterminated regexp literal".into(),
+            UnterminatedTpl => "Unterminated template".into(),
             IdentAfterNum => "Identifier cannot follow number".into(),
             UnexpectedChar { c } => format!("Unexpected character '{}'", c).into(),
             InvalidStrEscape => "Invalid string escape".into(),
             InvalidUnicodeEscape => "Invalid unciode escape".into(),
             InvalidCodePoint => "Invalid unciode code point".into(),
+            ExpectedHexChars { count } => format!("Expected {} hex characters", count).into(),
+            LegacyCommentInModule => "Legacy comments cannot be used in module code".into(),
+            NumLitTerminatedWithExp => "Expected +, - or decimal digit after e".into(),
 
             InvalidIdentInStrict => "'implements', 'interface', 'let', 'package', 'private', \
                                      'protected',  'public', 'static', or 'yield' cannot be used \
@@ -122,11 +171,12 @@ impl<'a> From<Error<'a>> for Diagnostic<'a> {
             }
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
+            LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
+            Unexpected => "Unexpected token".into(),
             Expected(token) => format!("Expected {:?}", token).into(),
 
-            AwaitStar => "await* has been removed from the async functions proposal. Use
-            \
-                          // Promise.all() instead."
+            AwaitStar => "await* has been removed from the async functions proposal. Use \
+                          Promise.all() instead."
                 .into(),
 
             ReservedWordInObjShorthandOrPat => {
@@ -137,7 +187,10 @@ impl<'a> From<Error<'a>> for Diagnostic<'a> {
             CommaAfterRestElement => "Trailing comma isn't permitted after a rest element".into(),
             NonLastRestParam => "Rest element must be final element".into(),
             SpreadInParenExpr => "Parenthesized expression cannot contain spread operator".into(),
-            EmptyParenExpr => "Parenthized exprssion cannot be empty".into(),
+            EmptyParenExpr => "Parenthized expression cannot be empty".into(),
+            InvalidPat => "Not a pattern".into(),
+            // TODO
+            NotSimpleAssign => "Cannot assign to this".into(),
             ExpectedIdent => "Expected ident".into(),
             ExpctedSemi => "Expected ';' or line break".into(),
             DuplicateLabel(label) => format!("Label {} is already declared", label).into(),
@@ -145,6 +198,12 @@ impl<'a> From<Error<'a>> for Diagnostic<'a> {
             NonTopLevelImportExport => "'import', and 'export' are not permitted here".into(),
 
             PatVarWithoutInit => "Destructuring bindings require initializers".into(),
+            WithInStrict => "With statement are not allowed in strict mode".into(),
+            ReturnNotAllowed => "Return statement is not allowed here".into(),
+            TooManyVarInForInHead => "Expected one variable binding".into(),
+            VarInitializerInForInHead => "Unexpected initializer in for in/of loop".into(),
+            LabelledGenerator => "Generator cannot be labelled".into(),
+            YieldParamInGen => "'yield' cannot be used as a parameter within generator".into(),
         };
 
         e.handler.error(&msg).span(e.span)

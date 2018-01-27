@@ -121,12 +121,12 @@ macro_rules! spanned {
 }
 
 macro_rules! syntax_error {
-    ($p:expr, $err:expr) => {{
+    ($p:expr, $err:expr) => {
         syntax_error!($p, $p.input.cur_span(), $err)
-    }};
+    };
 
     ($p:expr, $span:expr, $err:expr) => {{
-        let err = $crate::error::Error {
+        let err = $crate::error::ErrorToDiag {
             handler: $p.session.handler,
             span: $span,
             error: $err,

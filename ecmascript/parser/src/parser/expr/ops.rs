@@ -1,6 +1,6 @@
 //! Parser for unary operations and binary operations.
-
 use super::*;
+use super::util::ExprExt;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -29,7 +29,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 Err(..) => return Ok(left),
             }
         } {
-            &Word(Keyword(In)) if self.ctx.include_in_expr => op!("in"),
+            &Word(Keyword(In)) if self.ctx().include_in_expr => op!("in"),
             &Word(Keyword(InstanceOf)) => op!("instanceof"),
             &BinOp(op) => op.into(),
             _ => {
@@ -111,6 +111,10 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             let arg = self.parse_unary_expr()?;
+            if !arg.is_valid_simple_assignment_target(self.ctx().strict) {
+                // This is eary ReferenceError
+                syntax_error!(arg.span, SyntaxError::NotSimpleAssign)
+            }
             return Ok(box Expr {
                 span: span!(start),
                 node: ExprKind::Update(UpdateExpr {
@@ -140,7 +144,7 @@ impl<'a, I: Input> Parser<'a, I> {
             });
         }
 
-        if self.ctx.in_async && is!("await") {
+        if self.ctx().in_async && is!("await") {
             return self.parse_await_expr();
         }
 
@@ -154,6 +158,11 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if is_one_of!("++", "--") {
+            if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
+                // This is eary ReferenceError
+                syntax_error!(expr.span, SyntaxError::NotSimpleAssign)
+            }
+
             let start = cur_pos!();
             let op = if bump!() == PlusPlus {
                 op!("++")
@@ -176,7 +185,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_await_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.spanned(|p| {
             assert_and_bump!("await");
-            assert!(p.ctx.in_async);
+            assert!(p.ctx().in_async);
 
             if is!('*') {
                 syntax_error!(SyntaxError::AwaitStar);

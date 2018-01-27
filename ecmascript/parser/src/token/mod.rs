@@ -1,22 +1,21 @@
 //! Ported from [babel/bablyon][]
 //!
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
-
-pub use self::AssignOpToken::*;
-pub use self::BinOpToken::*;
-pub use self::Keyword::*;
-pub use self::Token::*;
-pub use self::Word::*;
-pub use ast::AssignOp as AssignOpToken;
+pub(crate) use self::AssignOpToken::*;
+pub(crate) use self::BinOpToken::*;
+pub(crate) use self::Keyword::*;
+pub(crate) use self::Token::*;
+pub(crate) use self::Word::*;
+pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::BinaryOp;
-pub use ast::Number;
+pub(crate) use ast::Number;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
-pub enum Token {
+pub(crate) enum Token {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
@@ -98,9 +97,13 @@ pub enum Token {
     Tilde,
 
     /// String literal.
-    /// bool field is true if it's enclosed by '"' ( double quote).
     #[kind(starts_expr)]
-    Str(String, bool),
+    Str {
+        value: String,
+        /// This field exsits because 'use\x20strict' is **not** an use strict
+        /// directive.
+        has_escape: bool,
+    },
 
     /// Regexp literal.
     #[kind(starts_expr)]
@@ -110,7 +113,7 @@ pub enum Token {
     #[kind(starts_expr)]
     Num(Number),
 
-    Error,
+    Error(::error::Error),
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -181,7 +184,7 @@ impl BinOpToken {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct TokenAndSpan {
+pub(crate) struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?
     pub had_line_break: bool,
@@ -316,6 +319,7 @@ impl From<Word> for JsWord {
         }
     }
 }
+
 impl Debug for Word {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
@@ -323,31 +327,6 @@ impl Debug for Word {
             _ => {
                 let s: JsWord = self.clone().into();
                 Display::fmt(&s, f)
-            }
-        }
-    }
-}
-
-impl Word {
-    pub(crate) fn is_reserved_word(&self, strict: bool) -> bool {
-        match *self {
-            Keyword(Let) => strict,
-            Keyword(Await) | Keyword(Yield) => strict,
-            Keyword(_) => true,
-
-            Null | True | False => true,
-            Ident(ref name) => {
-                if name == "enum" {
-                    return true;
-                }
-                if strict {
-                    match &**name {
-                        "implements" | "package" | "protected" | "interface" | "private"
-                        | "public" => return true,
-                        _ => {}
-                    }
-                }
-                false
             }
         }
     }

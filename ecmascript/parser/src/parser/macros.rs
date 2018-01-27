@@ -1,8 +1,7 @@
 macro_rules! unexpected {
     ($p:expr) => {{
-        let pos = cur_pos!($p);
-        let cur = cur!($p)?;
-        unimplemented!("unexpected token: {:?} at {:?}", cur, pos);
+        // unimplemented!("Unexpected token")
+        syntax_error!($p, $p.input.cur_span(), SyntaxError::Unexpected)
     }};
 }
 
@@ -11,17 +10,17 @@ macro_rules! unexpected {
 /// Returns bool.
 macro_rules! is {
     ($p:expr, BindingIdent) => {{
+        let ctx = $p.ctx();
         match cur!($p) {
-            // TODO: Exclude some keywords
-            Ok(&Word(ref w)) => !w.is_reserved_word($p.session.cfg.strict),
+            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
             _ => false,
         }
     }};
 
     ($p:expr, IdentRef) => {{
+        let ctx = $p.ctx();
         match cur!($p) {
-            // TODO: Exclude some keywords
-            Ok(&Word(ref w)) => !w.is_reserved_word($p.session.cfg.strict),
+            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
             _ => false,
         }
     }};
@@ -115,7 +114,7 @@ macro_rules! expect {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
-            syntax_error!($p, SyntaxError::Expected(TOKEN))
+            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN))
         }
     }};
 }
@@ -124,7 +123,7 @@ macro_rules! expect_exact {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat_exact!($p, $t) {
-            syntax_error!($p, SyntaxError::Expected(TOKEN))
+            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN))
         }
     }};
 }
@@ -133,6 +132,24 @@ macro_rules! cur {
     ($p:expr) => {{
         let pos = $p.input.last_pos();
         let last = Span::new(pos, pos, Default::default());
+        let is_err_token = match $p.input.cur() {
+            Some(&$crate::token::Token::Error(..)) => { true },
+            _ => false,
+        };
+        if is_err_token {
+            match $p.input.bump() {
+                $crate::token::Token::Error(e) => {
+                    let err: Result<!, _> = Err($crate::error::ErrorToDiag {
+                        handler: &$p.session.handler,
+                        span: e.span,
+                        error: e.error,
+                    });
+                    err?
+                }
+                _ => unreachable!(),
+            }
+        }
+
         match $p.input.cur() {
             Some(c) => Ok(c),
             None => Err($crate::error::Eof {
@@ -183,20 +200,24 @@ macro_rules! cur_pos {
 }
 
 macro_rules! last_pos {
-    ($p:expr) => { $p.input.last_span().hi() };
+    ($p:expr) => { $p.input.prev_span().hi() };
 }
 
 macro_rules! return_if_arrow {
     ($p:expr, $expr:expr) => {{
-        let is_cur = match $p.state.potential_arrow_start {
-            Some(start) => $expr.span.lo() == start,
-            None => false
-        };
-        if is_cur {
+        // FIXME:
+        //
+        //
+
+        // let is_cur = match $p.state.potential_arrow_start {
+        //     Some(start) => $expr.span.lo() == start,
+        //     None => false
+        // };
+        // if is_cur {
             match $expr.node {
                 ExprKind::Arrow{..} => return Ok($expr),
                 _ => {},
             }
-        }
+        // }
     }};
 }

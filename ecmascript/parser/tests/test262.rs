@@ -14,7 +14,6 @@ use std::env;
 use std::fs::File;
 use std::fs::read_dir;
 use std::io::{self, Read};
-use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
 use std::rc::Rc;
 use swc_common::{FoldWith, Folder};
@@ -92,7 +91,85 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+    const IGNORED_ERROR_TESTS: &[&str] = &[
+        // Wrong tests
+        "0d5e450f1da8a92a.js",
+        "748656edbfb2d0bb.js",
+        "79f882da06f88c9f.js",
+        "92b6af54adef3624.js",
+        "ef2d369cccc5386c.js",
+        // Temporarily ignore tests for using octal escape before use strict
+        "147fa078a7436e0e.js",
+        "15a6123f6b825c38.js",
+        "3bc2b27a7430f818.js",
+    ];
+
+    let root = {
+        let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
+        root.push("tests");
+        root.push("test262-parser");
+        root
+    };
+
+    eprintln!("Loading tests from {}", root.display());
+
+    const TYPES: &[&str] = &[
+        "fail" /* TODO
+ * "early" */
+    ];
+
+    for err_type in TYPES {
+        let dir = root.join(err_type);
+
+        for entry in read_dir(&dir)? {
+            let entry = entry?;
+            let file_name = entry
+                .path()
+                .strip_prefix(&dir)
+                .expect("failed to string prefix")
+                .to_str()
+                .unwrap()
+                .to_string();
+
+            let input = {
+                let mut buf = String::new();
+                File::open(entry.path())?.read_to_string(&mut buf)?;
+                buf
+            };
+
+            let ignore = IGNORED_ERROR_TESTS.contains(&&*file_name);
+
+            let module = file_name.contains("module");
+
+            let name = format!("parser::error::{}::{}", err_type, file_name);
+            add_test(tests, name, ignore, move || {
+                eprintln!(
+                    "\n\nRunning error reporting test {}\nSource:\n{}\n",
+                    file_name, input
+                );
+
+                let mut sess = TestSess::new();
+
+                // Parse source
+                let err = if module {
+                    sess.parse_module(&file_name, &input)
+                        .expect_err("should fail, but parsed as")
+                } else {
+                    sess.parse_script(&file_name, &input)
+                        .expect_err("should fail, but parsed as")
+                };
+
+                // Diff it.
+                err.emit();
+            });
+        }
+    }
+
+    Ok(())
+}
+
+fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
@@ -132,42 +209,39 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
         let module = file_name.contains("module");
 
-        let name = format!("test262_parser_pass_{}", file_name);
+        let name = format!("test262-identity-{}", file_name);
         add_test(tests, name, ignore, move || {
-            println!(
+            eprintln!(
                 "\n\n\nRunning test {}\nSource:\n{}\nExplicit:\n{}",
                 file_name, input, explicit
             );
 
-            let res = catch_unwind(move || {
-                let mut sess = TestSess::new();
+            let mut sess = TestSess::new();
 
-                if module {
-                    let mut p = |ty, s| {
-                        sess.parse_module(&file_name, s).unwrap_or_else(|err| {
+            if module {
+                let mut p = |ty, s| {
+                    sess.parse_module(&file_name, s)
+                        .map(normalize)
+                        .unwrap_or_else(|err| {
                             err.emit();
                             panic!("failed to parse {} code:\n{}", ty, s)
                         })
-                    };
-                    let src = p("", &input);
-                    let expected = p("explicit ", &explicit);
-                    assert_eq!(src, expected);
-                } else {
-                    let mut p = |ty, s| {
-                        sess.parse_script(&file_name, s).unwrap_or_else(|err| {
+                };
+                let src = p("", &input);
+                let expected = p("explicit ", &explicit);
+                assert_eq!(src, expected);
+            } else {
+                let mut p = |ty, s| {
+                    sess.parse_script(&file_name, s)
+                        .map(normalize)
+                        .unwrap_or_else(|err| {
                             err.emit();
                             panic!("failed to parse {} code:\n{}", ty, s)
                         })
-                    };
-                    let src = p("", &input);
-                    let expected = p("explicit ", &explicit);
-                    assert_eq!(src, expected);
-                }
-            });
-
-            match res {
-                Ok(()) => {}
-                Err(err) => resume_unwind(err),
+                };
+                let src = p("", &input);
+                let expected = p("explicit ", &explicit);
+                assert_eq!(src, expected);
             }
         });
     }
@@ -203,10 +277,10 @@ impl TestSess {
         }
     }
     fn parse_script<'a>(&'a mut self, file_name: &str, s: &str) -> PResult<'a, Vec<Stmt>> {
-        self.with_parser(file_name, s, |p| p.parse_script().map(normalize))
+        self.with_parser(file_name, s, |p| p.parse_script())
     }
     fn parse_module<'a>(&'a mut self, file_name: &str, s: &str) -> PResult<'a, Module> {
-        self.with_parser(file_name, s, |p| p.parse_module().map(normalize))
+        self.with_parser(file_name, s, |p| p.parse_module())
     }
 
     fn with_parser<'a, F, Ret>(&'a mut self, file_name: &str, src: &str, f: F) -> PResult<'a, Ret>
@@ -249,6 +323,17 @@ struct Normalizer {
 impl Folder<Span> for Normalizer {
     fn fold(&mut self, _: Span) -> Span {
         Span::default()
+    }
+}
+impl Folder<Lit> for Normalizer {
+    fn fold(&mut self, lit: Lit) -> Lit {
+        match lit {
+            Lit::Str { value, .. } => Lit::Str {
+                value,
+                has_escape: false,
+            },
+            _ => lit,
+        }
     }
 }
 impl Folder<ExprKind> for Normalizer {
@@ -303,10 +388,17 @@ impl Folder<PropName> for Normalizer {
 }
 
 #[test]
-// #[main]
-fn main() {
+fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    unit_tests(&mut tests).unwrap();
+    identity_tests(&mut tests).unwrap();
+    test_main(&args, tests, Options::new());
+}
+
+#[test]
+fn error() {
+    let args: Vec<_> = env::args().collect();
+    let mut tests = Vec::new();
+    error_tests(&mut tests).unwrap();
     test_main(&args, tests, Options::new());
 }

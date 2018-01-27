@@ -53,29 +53,31 @@ impl<'a, I: Input> Parser<'a, I> {
         T: OutputType,
         Self: MaybeOptionalIdentParser<'a, T::Ident>,
     {
-        let start = cur_pos!();
-        expect!("class");
+        self.strict_mode().parse_with(|p| {
+            let start = cur_pos!();
+            expect!("class");
 
-        let ident = self.parse_maybe_opt_binding_ident()?;
+            let ident = p.parse_maybe_opt_binding_ident()?;
 
-        let super_class = if eat!("extends") {
-            self.parse_lhs_expr().map(Some)?
-        } else {
-            None
-        };
+            let super_class = if eat!("extends") {
+                p.parse_lhs_expr().map(Some)?
+            } else {
+                None
+            };
 
-        expect!('{');
-        let body = self.parse_class_body()?;
-        expect!('}');
-        let end = last_pos!();
-        Ok(T::finish_class(
-            ident,
-            Class {
-                span: Span::new(start, end, Default::default()),
-                super_class,
-                body,
-            },
-        ))
+            expect!('{');
+            let body = p.parse_class_body()?;
+            expect!('}');
+            let end = last_pos!();
+            Ok(T::finish_class(
+                ident,
+                Class {
+                    span: Span::new(start, end, Default::default()),
+                    super_class,
+                    body,
+                },
+            ))
+        })
     }
 
     fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMethod>> {
@@ -120,24 +122,42 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let is_generator = eat!('*');
 
-        let ident = self.parse_maybe_opt_binding_ident()?;
+        let ctx = Context {
+            in_async: is_async,
+            in_generator: is_generator,
+            ..self.ctx()
+        };
 
-        expect!('(');
-        let params = self.parse_formal_params()?;
-        expect!(')');
+        let ident = if T::is_fn_expr() {
+            //
+            self.with_ctx(ctx).parse_maybe_opt_binding_ident()?
+        } else {
+            // function declaration does not change context for `BindingIdentifier`.
+            self.parse_maybe_opt_binding_ident()?
+        };
 
-        let body = self.parse_fn_body(is_async, is_generator)?;
+        self.with_ctx(ctx).parse_with(|p| {
+            expect!('(');
+            let params_ctx = Context {
+                in_parameters: true,
+                ..p.ctx()
+            };
+            let params = p.with_ctx(params_ctx).parse_formal_params()?;
+            expect!(')');
 
-        Ok(T::finish_fn(
-            ident,
-            Function {
-                span: span!(start),
-                is_async,
-                is_generator,
-                params,
-                body,
-            },
-        ))
+            let body = p.parse_fn_body(is_async, is_generator)?;
+
+            Ok(T::finish_fn(
+                ident,
+                Function {
+                    span: span!(start),
+                    is_async,
+                    is_generator,
+                    params,
+                    body,
+                },
+            ))
+        })
     }
 
     /// `parse_args` closure should not eat '(' or ')'.
@@ -154,12 +174,16 @@ impl<'a, I: Input> Parser<'a, I> {
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
-            ..self.ctx
+            ..self.ctx()
         };
-        self.with_ctx(ctx).parse_with(|mut p| {
+        self.with_ctx(ctx).parse_with(|p| {
             expect!('(');
 
-            let params = parse_args(&mut p)?;
+            let arg_ctx = Context {
+                in_parameters: true,
+                ..p.ctx()
+            };
+            let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
 
             expect!(')');
 
@@ -281,7 +305,8 @@ impl<'a, I: Input> Parser<'a, I> {
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
-            ..self.ctx
+            in_function: true,
+            ..self.ctx()
         };
         self.with_ctx(ctx).parse_fn_body_inner()
     }
@@ -290,12 +315,30 @@ impl<'a, I: Input> Parser<'a, I> {
 trait OutputType {
     type Ident;
 
+    /// From babel..
+    ///
+    /// When parsing function expression, the binding identifier is parsed
+    /// according to the rules inside the function.
+    /// e.g. (function* yield() {}) is invalid because "yield" is disallowed in
+    /// generators.
+    /// This isn't the case with function declarations: function* yield() {} is
+    /// valid because yield is parsed as if it was outside the generator.
+    /// Therefore, this.state.inGenerator is set before or after parsing the
+    /// function id according to the "isStatement" parameter.
+    fn is_fn_expr() -> bool {
+        false
+    }
+
     fn finish_fn(ident: Self::Ident, f: Function) -> Self;
     fn finish_class(ident: Self::Ident, class: Class) -> Self;
 }
 
 impl OutputType for Box<Expr> {
     type Ident = Option<Ident>;
+
+    fn is_fn_expr() -> bool {
+        true
+    }
 
     fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
         box Expr {
@@ -341,7 +384,7 @@ pub(super) trait FnBodyParser<'a, Body> {
 impl<'a, I: Input> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
     fn parse_fn_body_inner(&mut self) -> PResult<'a, BlockStmtOrExpr> {
         if is!('{') {
-            self.parse_block().map(BlockStmtOrExpr::BlockStmt)
+            self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
         } else {
             self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
         }
@@ -350,7 +393,7 @@ impl<'a, I: Input> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
 
 impl<'a, I: Input> FnBodyParser<'a, BlockStmt> for Parser<'a, I> {
     fn parse_fn_body_inner(&mut self) -> PResult<'a, BlockStmt> {
-        self.parse_block()
+        self.parse_block(true)
     }
 }
 

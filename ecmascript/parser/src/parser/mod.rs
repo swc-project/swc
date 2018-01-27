@@ -2,7 +2,7 @@
 #![deny(non_snake_case)]
 use self::input::ParserInput;
 use self::util::ParseObject;
-use Session;
+use {Context, Session};
 use ast::*;
 use error::SyntaxError;
 use lexer::Input;
@@ -30,19 +30,8 @@ pub type PResult<'a, T> = Result<T, Diagnostic<'a>>;
 /// EcmaScript parser.
 pub struct Parser<'a, I: Input> {
     session: Session<'a>,
-    ctx: Context,
     state: State,
     input: ParserInput<'a, I>,
-}
-#[derive(Debug, Clone, Copy, Default)]
-struct Context {
-    include_in_expr: bool,
-    /// If true, await expression is parsed, and "await" is treated as a
-    /// keyword.
-    in_async: bool,
-    /// If true, yield expression is parsed, and "yield" is treated as a
-    /// keyword.
-    in_generator: bool,
 }
 
 #[derive(Debug, Default)]
@@ -57,26 +46,38 @@ impl<'a, I: Input> Parser<'a, I> {
         Parser {
             session,
             input: ParserInput::new(Lexer::new(session, input)),
-            ctx: Default::default(),
             state: Default::default(),
         }
     }
 
     #[parser]
     pub fn parse_script(&mut self) -> PResult<'a, Vec<Stmt>> {
-        self.session.cfg.module = false;
+        let ctx = Context {
+            module: false,
+            ..self.ctx()
+        };
+        self.set_ctx(ctx);
 
-        self.parse_block_body(true, None)
+        self.parse_block_body(true, true, None)
     }
 
     #[parser]
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
         //TOOD: parse() -> PResult<'a, Program>
-        self.session.cfg.module = true;
-        self.session.cfg.strict = true;
+        let ctx = Context {
+            module: true,
+            strict: true,
+            ..self.ctx()
+        };
+        // module code is always in strict mode
+        self.set_ctx(ctx);
 
-        self.parse_block_body(true, None)
+        self.parse_block_body(true, true, None)
             .map(|body| Module { body })
+    }
+
+    const fn ctx(&self) -> Context {
+        self.input.get_ctx()
     }
 }
 

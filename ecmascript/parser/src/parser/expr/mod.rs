@@ -1,9 +1,11 @@
 use super::*;
-use std::iter;
+use super::pat::PatType;
+use super::util::ExprExt;
 
 mod ops;
 #[cfg(test)]
 mod tests;
+mod verifier;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -30,19 +32,16 @@ impl<'a, I: Input> Parser<'a, I> {
     /// operators like `+=`.
     ///
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, Box<Expr>> {
-        if self.ctx.in_generator && is!("yield") {
+        if self.ctx().in_generator && is!("yield") {
             return self.parse_yield_expr();
         }
 
-        let start = cur_pos!();
-
         self.state.potential_arrow_start = match *cur!()? {
-            Word(Ident(..)) | tok!('(') | tok!("yield") => Some(start),
+            Word(Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
             _ => None,
         };
 
-        // self.parse_arrow_fn();
-        // self.parse_async_arrow_fn();
+        let start = cur_pos!();
 
         // Try to parse conditional expression.
         let cond = self.parse_cond_expr()?;
@@ -60,6 +59,20 @@ impl<'a, I: Input> Parser<'a, I> {
 
         match cur!() {
             Ok(&AssignOp(op)) => {
+                let left = if op == Assign {
+                    self.reparse_expr_as_pat(PatType::AssignPat, cond)
+                        .map(PatOrExpr::Pat)?
+                } else {
+                    //It is an early Reference Error if IsValidSimpleAssignmentTarget of
+                    // LeftHandSideExpression is false.
+                    if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
+                        syntax_error!(cond.span, SyntaxError::NotSimpleAssign)
+                    }
+
+                    // TODO
+                    PatOrExpr::Expr(cond)
+                };
+
                 bump!();
                 let right = self.parse_assignment_expr()?;
                 Ok(box Expr {
@@ -67,7 +80,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     node: ExprKind::Assign(AssignExpr {
                         op,
                         // TODO:
-                        left: PatOrExpr::Expr(cond),
+                        left,
                         right,
                     }),
                 })
@@ -96,6 +109,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Parse a primary expression or arrow function
     fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        let _ = cur!();
+
         let can_be_arrow = self.state
             .potential_arrow_start
             .map(|s| s == cur_pos!())
@@ -134,7 +149,7 @@ impl<'a, I: Input> Parser<'a, I> {
         // Literals
         if {
             match *cur!()? {
-                tok!("null") | tok!("true") | tok!("false") | Num(..) | Str(..) => true,
+                tok!("null") | tok!("true") | tok!("false") | Num(..) | Str { .. } => true,
                 _ => false,
             }
         } {
@@ -182,9 +197,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         is_async: true,
                         is_generator: false,
                     }))
-                } else if can_be_arrow && !is!(';') && eat!("=>") {
-                    // async is parameter
-
+                } else if can_be_arrow && !p.input.had_line_break_before_cur() && eat!("=>") {
                     let params = vec![id.into()];
                     let body = p.parse_fn_body(false, false)?;
                     Ok(ExprKind::Arrow(ArrowExpr {
@@ -206,20 +219,17 @@ impl<'a, I: Input> Parser<'a, I> {
         self.spanned(|p| {
             assert_and_bump!('[');
             let mut elems = vec![];
-            let mut comma = 1;
+            let mut allow_elem = true;
 
             while !eof!() && !is!(']') {
-                if eat!(',') {
-                    comma += 1;
+                if is!(',') || !allow_elem {
+                    expect!(',');
+                    elems.push(None);
+                    allow_elem = true;
                     continue;
                 }
+                allow_elem = false;
 
-                // Should have at least one comma between elements.
-                if comma == 0 {
-                    expect!(',');
-                }
-                elems.extend(iter::repeat(None).take(comma - 1));
-                comma = 0;
                 elems.push(p.include_in_expr(true).parse_expr_or_spread().map(Some)?);
             }
 
@@ -261,6 +271,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
             // 'NewExpression' allows new call without paren.
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
+            return_if_arrow!(callee);
+
             if !is_new_expr || is!('(') {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args().map(Some)?;
@@ -287,8 +299,10 @@ impl<'a, I: Input> Parser<'a, I> {
             let base = ExprOrSuper::Super(span!(start));
             return self.parse_subscripts(base, true);
         }
-        let obj = self.parse_primary_expr().map(ExprOrSuper::Expr)?;
-        self.parse_subscripts(obj, true)
+        let obj = self.parse_primary_expr()?;
+        return_if_arrow!(obj);
+
+        self.parse_subscripts(ExprOrSuper::Expr(obj), true)
     }
 
     /// Parse `NewExpresion`.
@@ -348,6 +362,9 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // we parse arrow function at here, to handle it efficiently.
         if is!("=>") {
+            if self.input.had_line_break_before_cur() {
+                syntax_error!(span!(start), SyntaxError::LineBreakBeforeArrow);
+            }
             if !can_be_arrow {
                 unexpected!();
             }
@@ -369,12 +386,21 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // It was not head of arrow function.
 
-        // ParenthesizedExpression cannot contain spread.
         if expr_or_spreads.len() == 0 {
-            syntax_error!(SyntaxError::EmptyParenExpr);
-        } else if expr_or_spreads.len() == 1 {
+            syntax_error!(
+                Span::new(start, last_pos!(), Default::default()),
+                SyntaxError::EmptyParenExpr
+            );
+        }
+
+        // TODO: Verify that invalid expression like {a = 1} does not exists.
+
+        // ParenthesizedExpression cannot contain spread.
+        if expr_or_spreads.len() == 1 {
             let expr = match expr_or_spreads.into_iter().next().unwrap() {
-                ExprOrSpread::Spread(_) => syntax_error!(SyntaxError::SpreadInParenExpr),
+                ExprOrSpread::Spread(expr) => {
+                    syntax_error!(expr.span, SyntaxError::SpreadInParenExpr)
+                }
                 ExprOrSpread::Expr(expr) => expr,
             };
             return Ok(box Expr {
@@ -387,13 +413,15 @@ impl<'a, I: Input> Parser<'a, I> {
             let mut exprs = Vec::with_capacity(expr_or_spreads.len());
             for expr in expr_or_spreads {
                 match expr {
-                    ExprOrSpread::Spread(_) => syntax_error!(SyntaxError::SpreadInParenExpr),
+                    ExprOrSpread::Spread(expr) => {
+                        syntax_error!(expr.span, SyntaxError::SpreadInParenExpr)
+                    }
                     ExprOrSpread::Expr(expr) => exprs.push(expr),
                 }
             }
             assert!(exprs.len() >= 2);
 
-            // span of sequence expression should not include '(' and ')'
+            // span of sequence expression should not include '(', ')'
             let seq_expr = box Expr {
                 span: Span::new(
                     exprs.first().unwrap().span.lo(),
@@ -467,6 +495,8 @@ impl<'a, I: Input> Parser<'a, I> {
         obj: ExprOrSuper,
         no_call: bool,
     ) -> PResult<'a, (Box<Expr>, bool)> {
+        let _ = cur!();
+
         let start = cur_pos!();
         // member expression
         // $obj.name
@@ -602,13 +632,15 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_yield_expr(&mut self) -> PResult<'a, Box<Expr>> {
         self.spanned(|p| {
             assert_and_bump!("yield");
-            assert!(p.ctx.in_generator);
+            assert!(p.ctx().in_generator);
 
-            //TODO
             // Spec says
             // YieldExpression cannot be used within the FormalParameters of a generator
             // function because any expressions that are part of FormalParameters are
             // evaluated before the resulting generator object is in a resumable state.
+            if p.ctx().in_parameters {
+                syntax_error!(p.input.prev_span(), SyntaxError::YieldParamInGen)
+            }
 
             if is!(';') || (!is!('*') && !cur!().map(Token::starts_expr).unwrap_or(true)) {
                 Ok(ExprKind::Yield(YieldExpr {
@@ -639,9 +671,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 bump!();
                 Lit::Bool(v)
             }
-            Str(..) => match bump!() {
-                //FIXME
-                Str(s, _) => Lit::Str(s),
+            Str { .. } => match bump!() {
+                Str { value, has_escape } => Lit::Str { value, has_escape },
                 _ => unreachable!(),
             },
             Num(..) => match bump!() {

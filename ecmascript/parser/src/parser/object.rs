@@ -38,8 +38,8 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         let v = match *cur!()? {
-            Str(_, _) => match bump!() {
-                Str(s, _) => PropName::Str(s),
+            Str { .. } => match bump!() {
+                Str { value, .. } => PropName::Str(value),
                 _ => unreachable!(),
             },
             Num(_) => match bump!() {
@@ -119,7 +119,7 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                 });
         }
 
-        let mut ident = match key {
+        let ident = match key {
             PropName::Ident(ident) => ident,
             _ => unexpected!(),
         };
@@ -127,18 +127,9 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
         // It means we should check for invalid expressions like { for, }
         if is_one_of!('=', ',', '}') {
-            let is_reserved_word = {
-                // FIXME: Use extension trait instead of this.
-                let word = Word::from(ident.sym);
-                let r = word.is_reserved_word(self.session.cfg.strict);
-                ident = Ident {
-                    sym: word.into(),
-                    ..ident
-                };
-                r
-            };
+            let is_reserved_word = { self.ctx().is_reserved_word(&ident.sym) };
             if is_reserved_word {
-                syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat);
+                syntax_error!(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
             if eat!('=') {
@@ -214,6 +205,7 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
         let key = self.parse_prop_name()?;
         if eat!(':') {
             let value = box self.parse_binding_element()?;
+
             return Ok(ObjectPatProp::KeyValue { key, value });
         }
         let key = match key {
@@ -226,6 +218,10 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
                 .parse_assignment_expr()
                 .map(Some)?
         } else {
+            if self.ctx().is_reserved_word(&key.sym) {
+                syntax_error!(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
+            }
+
             None
         };
 
