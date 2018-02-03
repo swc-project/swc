@@ -3,8 +3,4 @@
 rustflags = ["--cfg", "procmacro2_semver_exempt"] 
 rustdocflags = [
     "--cfg", "procmacro2_semver_exempt",
-    # "--no-defaults",
-    # "--passes", "collapse-docs",
-    # "--passes", "unindent-comments",
-    # "--passes", "strip-priv-imports"
 ]

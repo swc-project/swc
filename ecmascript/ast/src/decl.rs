@@ -60,5 +60,5 @@ pub struct VarDeclarator {
 
     pub name: Pat,
     /// Initialization expresion.
-    pub init: Option<Box<Expr>>,
+    pub init: Option<(Box<Expr>)>,
 }

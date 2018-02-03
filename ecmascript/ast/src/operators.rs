@@ -1,4 +1,4 @@
-use swc_macros::{AstNode, Kind};
+use swc_macros::{AstNode, Fold, Kind};
 
 #[derive(Kind, AstNode, Fold, Debug, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 #[kind(function(precedence = "u8"))]

@@ -114,7 +114,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
     eprintln!("Loading tests from {}", root.display());
 
-    const TYPES: &[&str] = [
+    const TYPES: &[&str] = &[
         "fail" /* TODO
  * "early" */
     ];

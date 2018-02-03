@@ -79,7 +79,7 @@ pub enum ExprKind {
 /// Array literal.
 #[ast_node]
 pub struct ArrayLit {
-    pub elems: Vec<Option<ExprOrSpread>>,
+    pub elems: Vec<(Option<ExprOrSpread>)>,
 }
 
 /// Object literal.
@@ -165,13 +165,13 @@ pub struct CallExpr {
 pub struct NewExpr {
     pub callee: Box<Expr>,
     // #[code = "$( $( $args ),* )?"]
-    pub args: Option<Vec<ExprOrSpread>>,
+    pub args: Option<(Vec<ExprOrSpread>)>,
 }
 
 #[ast_node]
 // #[code = "( $( $exprs ) ,* )"]
 pub struct SeqExpr {
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: Vec<(Box<Expr>)>,
 }
 
 #[ast_node]
@@ -185,7 +185,7 @@ pub struct ArrowExpr {
 
 #[ast_node]
 pub struct YieldExpr {
-    pub arg: Option<Box<Expr>>,
+    pub arg: Option<(Box<Expr>)>,
     pub delegate: bool,
 }
 
@@ -202,9 +202,9 @@ pub struct AwaitExpr {
 
 #[ast_node]
 pub struct TplLit {
-    pub tag: Option<Box<Expr>>,
+    pub tag: Option<(Box<Expr>)>,
 
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: Vec<(Box<Expr>)>,
 
     pub quasis: Vec<TplElement>,
 }

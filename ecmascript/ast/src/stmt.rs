@@ -9,6 +9,15 @@ pub struct Stmt {
     pub node: StmtKind,
 }
 
+impl From<(Box<Expr>)> for Stmt {
+    fn from(t: Box<Expr>) -> Self {
+        Stmt {
+            span: t.span,
+            node: StmtKind::Expr(t),
+        }
+    }
+}
+
 impl From<Decl> for Stmt {
     fn from(decl: Decl) -> Self {
         Stmt {
@@ -25,7 +34,7 @@ impl Spanned<StmtKind> for Stmt {
 }
 
 /// Use when only block statements are allowed.
-#[ast_node]
+#[derive(AstNode, Fold, Clone, Debug, PartialEq, Default)]
 pub struct BlockStmt {
     /// Span of brace.
     pub span: Span,
@@ -89,7 +98,7 @@ pub struct WithStmt {
 
 #[ast_node]
 pub struct ReturnStmt {
-    pub arg: Option<Box<Expr>>,
+    pub arg: Option<(Box<Expr>)>,
 }
 
 #[ast_node]
@@ -109,7 +118,7 @@ pub struct ContinueStmt {
 pub struct IfStmt {
     pub test: Box<Expr>,
     pub cons: Box<Stmt>,
-    pub alt: Option<Box<Stmt>>,
+    pub alt: Option<(Box<Stmt>)>,
 }
 #[ast_node]
 pub struct SwitchStmt {
@@ -139,8 +148,8 @@ pub struct DoWhileStmt {
 #[ast_node]
 pub struct ForStmt {
     pub init: Option<VarDeclOrExpr>,
-    pub test: Option<Box<Expr>>,
-    pub update: Option<Box<Expr>>,
+    pub test: Option<(Box<Expr>)>,
+    pub update: Option<(Box<Expr>)>,
     pub body: Box<Stmt>,
 }
 #[ast_node]
@@ -160,7 +169,7 @@ pub struct ForOfStmt {
 pub struct SwitchCase {
     // pub span: Span,
     /// None for `default:`
-    pub test: Option<Box<Expr>>,
+    pub test: Option<(Box<Expr>)>,
 
     pub cons: Vec<Stmt>,
 }

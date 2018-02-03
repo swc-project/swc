@@ -735,21 +735,21 @@ mod tests {
     #[test]
     fn no_empty_without_semi() {
         assert_eq_ignore_span!(
-            stmt("{ return 1 }"),
+            stmt("(function foo() { return 1 })"),
             stmt(
-                "{
+                "(function foo () {
                 return 1
-            }"
+            })"
             )
         );
 
         assert_eq_ignore_span!(
-            stmt("{ return 1; }"),
+            stmt("{ 1; }"),
             Stmt {
                 span,
                 node: StmtKind::Block(BlockStmt {
                     span,
-                    stmts: vec![stmt("return 1")],
+                    stmts: vec![stmt("1")],
                 }),
             }
         );

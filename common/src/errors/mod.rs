@@ -2,10 +2,8 @@
 //!
 //! -----
 //!
-//! This module is almost copied from [rustc_errors][].
+//! This module use [`::rustc_errors`][] internally.
 //!
-//!
-//![rustc_errors]:http://manishearth.github.io/rust-internals-docs/rustc_errors/
 
 pub use self::codemap::{CodeMap, FileLoader, FilePathMapping, RealFileLoader};
 pub use self::diagnostic::*;

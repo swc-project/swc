@@ -1,5 +1,4 @@
 use super::Diagnostic;
-use Span;
 use rustc_errors::{CodeMapper, ColorConfig, Diagnostic as RustcDiagnostic,
                    Handler as RustcHandler, HandlerFlags, Level};
 use std::rc::Rc;
@@ -27,8 +26,8 @@ impl Handler {
         RustcHandler::with_tty_emitter_and_flags(color_config, cm, flags).into()
     }
 
-    pub fn note<'a, 'b>(&'a self, sp: Span, msg: &'b str) -> Diagnostic<'a> {
-        Diagnostic::new(self, Level::Note, msg).span(sp)
+    pub fn note<'a, 'b>(&'a self, msg: &'b str) -> Diagnostic<'a> {
+        Diagnostic::new(self, Level::Note, msg)
     }
 
     pub fn warn<'a, 'b>(&'a self, msg: &'b str) -> Diagnostic<'a> {

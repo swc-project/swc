@@ -295,23 +295,13 @@ mod tests {
     }
 
     fn num(s: &'static str) -> f64 {
-        lex(s, |l| {
-            l.read_number(s.starts_with("."))
-                .unwrap_or_else(|err| {
-                    err.emit();
-                    unreachable!()
-                })
-                .0
-        })
+        lex(s, |l| l.read_number(s.starts_with(".")).unwrap().0)
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
             l.read_int(radix, 0)
-                .unwrap_or_else(|err| {
-                    err.emit();
-                    unreachable!()
-                })
+                .unwrap()
                 .expect("read_int returned None")
         })
     }
@@ -358,10 +348,7 @@ mod tests {
     fn read_radix_number() {
         assert_eq!(
             Number(0o73 as f64),
-            lex("0o73", |l| l.read_radix_number(8).unwrap_or_else(|err| {
-                err.emit();
-                unreachable!()
-            }))
+            lex("0o73", |l| l.read_radix_number(8).unwrap())
         );
     }
 
