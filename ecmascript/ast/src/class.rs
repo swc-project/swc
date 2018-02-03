@@ -6,8 +6,8 @@ use swc_macros::ast_node;
 pub struct Class {
     pub span: Span,
 
-    pub super_class: Option<Box<Expr>>,
     pub body: Vec<ClassMethod>,
+    pub super_class: Option<(Box<Expr>)>,
 }
 
 #[ast_node]

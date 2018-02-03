@@ -10,18 +10,26 @@ extern crate swc_common;
 #[macro_use]
 extern crate swc_macros;
 
-pub use self::class::*;
-pub use self::decl::*;
-pub use self::expr::*;
-pub use self::function::*;
-pub use self::lit::*;
-pub use self::module::*;
-pub use self::module_decl::*;
-pub use self::operators::*;
-pub use self::pat::*;
-pub use self::prop::*;
-pub use self::stmt::*;
+pub use self::class::{Class, ClassMethod, ClassMethodKind};
+pub use self::decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator};
+pub use self::expr::{ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr,
+                     CallExpr, ClassExpr, CondExpr, Expr, ExprKind, ExprOrSpread, ExprOrSuper,
+                     FnExpr, MemberExpr, MetaPropExpr, NewExpr, ObjectLit, PatOrExpr, SeqExpr,
+                     TplElement, TplLit, UnaryExpr, UpdateExpr, YieldExpr};
+pub use self::function::Function;
+pub use self::lit::{Lit, Number, Regex, RegexFlags};
+pub use self::module::{Module, ModuleItem};
+pub use self::module_decl::{ExportDefaultDecl, ExportSpecifier, ImportSpecifier,
+                            ImportSpecifierKind, ModuleDecl, ModuleDeclKind};
+pub use self::operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp};
+pub use self::pat::{ObjectPatProp, Pat, PatKind};
+pub use self::prop::{Prop, PropKind, PropName};
+pub use self::stmt::{BlockStmt, BreakStmt, CatchClause, ContinueStmt, DoWhileStmt, ForInStmt,
+                     ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, StmtKind,
+                     SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat,
+                     WhileStmt, WithStmt};
 use std::fmt::{self, Debug, Display, Formatter};
+use std::io;
 use swc_atoms::JsWord;
 use swc_common::{Span, Spanned};
 use swc_macros::AstNode;
