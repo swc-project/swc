@@ -1,5 +1,4 @@
 use super::Diagnostic;
-use Span;
 use rustc_errors::{CodeMapper, ColorConfig, Diagnostic as RustcDiagnostic,
                    Handler as RustcHandler, HandlerFlags, Level};
 use std::rc::Rc;

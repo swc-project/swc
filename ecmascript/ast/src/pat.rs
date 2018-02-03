@@ -18,7 +18,7 @@ impl Spanned<PatKind> for Pat {
 pub enum PatKind {
     Ident(Ident),
 
-    Array(Vec<Option<Pat>>),
+    Array(Vec<(Option<Pat>)>),
 
     Rest(Box<Pat>),
 
@@ -41,7 +41,7 @@ pub enum ObjectPatProp {
     Assign {
         key: Ident,
 
-        value: Option<Box<Expr>>,
+        value: Option<(Box<Expr>)>,
     },
 }
 
