@@ -1,0 +1,6 @@
+error: Unterminated block comment
+ --> $DIR/tests/test262-parser/fail/86308fd40fa95e9d.js:1:1
+  |
+1 | /*hello
+  | ^^^^^^^
+

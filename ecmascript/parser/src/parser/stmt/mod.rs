@@ -522,7 +522,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     function:
                         Function {
                             span,
-                            is_generator: true,
+                            generator: Some(..),
                             ..
                         },
                     ..

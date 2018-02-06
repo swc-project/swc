@@ -1,11 +1,13 @@
-use super::Diagnostic;
-use rustc_errors::{CodeMapper, ColorConfig, Diagnostic as RustcDiagnostic,
-                   Handler as RustcHandler, HandlerFlags, Level};
+use super::{Diagnostic, DiagnosticBuilder};
+use rustc_errors::{CodeMapper, ColorConfig, DiagnosticBuilder as RustcDiagnosticBuilder,
+                   Handler as RustcHandler, Level};
+pub use rustc_errors::HandlerFlags;
+pub use rustc_errors::emitter::{Emitter, EmitterWriter};
 use std::rc::Rc;
 
 /// A handler deals with errors.
 pub struct Handler {
-    pub(super) inner: RustcHandler,
+    pub(crate) inner: RustcHandler,
 }
 
 impl Handler {
@@ -26,20 +28,28 @@ impl Handler {
         RustcHandler::with_tty_emitter_and_flags(color_config, cm, flags).into()
     }
 
-    pub fn note<'a, 'b>(&'a self, msg: &'b str) -> Diagnostic<'a> {
-        Diagnostic::new(self, Level::Note, msg)
+    pub fn with_emitter(e: Box<Emitter>, flags: HandlerFlags) -> Self {
+        RustcHandler::with_emitter_and_flags(e, flags).into()
     }
 
-    pub fn warn<'a, 'b>(&'a self, msg: &'b str) -> Diagnostic<'a> {
+    pub(crate) fn emit(&self, d: Diagnostic) {
+        RustcDiagnosticBuilder::new_diagnostic(&self.inner, *d.inner).emit()
+    }
+
+    pub fn note<'a, 'b>(&'a self, msg: &'b str) -> DiagnosticBuilder<'a> {
+        DiagnosticBuilder::new(self, Level::Note, msg)
+    }
+
+    pub fn warn<'a, 'b>(&'a self, msg: &'b str) -> DiagnosticBuilder<'a> {
         self.inner.struct_warn(msg).into()
     }
 
-    pub fn error<'a, 'b>(&'a self, msg: &'b str) -> Diagnostic<'a> {
-        Diagnostic::new(self, Level::Error, msg)
+    pub fn error<'a, 'b>(&'a self, msg: &'b str) -> DiagnosticBuilder<'a> {
+        DiagnosticBuilder::new(self, Level::Error, msg)
     }
 
-    pub fn fatal<'a, 'b>(&'a self, msg: &'b str) -> Diagnostic<'a> {
-        Diagnostic::new(self, Level::Fatal, msg)
+    pub fn fatal<'a, 'b>(&'a self, msg: &'b str) -> DiagnosticBuilder<'a> {
+        DiagnosticBuilder::new(self, Level::Fatal, msg)
     }
 
     pub fn has_errors(&self) -> bool {
@@ -50,11 +60,13 @@ impl Handler {
         self.inner.abort_if_errors()
     }
 
-    pub fn track_diagnostics<F, R>(&self, f: F) -> (R, Vec<RustcDiagnostic>)
+    pub fn track_diagnostics<F, R>(&self, f: F) -> (R, Vec<Diagnostic>)
     where
         F: FnOnce() -> R,
     {
-        self.inner.track_diagnostics(f)
+        let (result, errors) = self.inner.track_diagnostics(f);
+
+        (result, errors.into_iter().map(From::from).collect())
     }
 }
 

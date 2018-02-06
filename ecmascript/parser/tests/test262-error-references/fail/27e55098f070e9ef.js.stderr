@@ -1,0 +1,6 @@
+error: Invalid unciode escape
+ --> $DIR/tests/test262-parser/fail/27e55098f070e9ef.js:1:2
+  |
+1 | "\u{FFFF"
+  |  ^^^^^^^
+

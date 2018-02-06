@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/7562c2148b3f455c.js:1:8
+  |
+1 | ;/**/-->
+  |        ^
+

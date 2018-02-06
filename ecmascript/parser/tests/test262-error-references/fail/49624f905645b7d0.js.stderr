@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/49624f905645b7d0.js:1:24
+  |
+1 | for (let x, y, z, let;;;) {}
+  |                        ^
+

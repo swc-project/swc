@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/deb0fe0c1e3822f2.js:1:7
+  |
+1 | f(... ... a)
+  |       ^^^
+

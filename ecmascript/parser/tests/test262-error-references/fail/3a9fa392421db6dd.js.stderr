@@ -1,0 +1,6 @@
+error: Expected RBracket
+ --> $DIR/tests/test262-parser/fail/3a9fa392421db6dd.js:1:5
+  |
+1 | ({[a,b]:0})
+  |     ^
+

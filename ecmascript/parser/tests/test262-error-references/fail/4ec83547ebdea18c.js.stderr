@@ -1,0 +1,6 @@
+error: Expected Semi
+ --> $DIR/tests/test262-parser/fail/4ec83547ebdea18c.js:1:7
+  |
+1 | yield 10
+  |       ^^
+

@@ -1,0 +1,6 @@
+error: Unterminated regexp literal
+ --> $DIR/tests/test262-parser/fail/60ccdc5a8217f2ce.js:1:1
+  |
+1 | /\
+  | ^^
+

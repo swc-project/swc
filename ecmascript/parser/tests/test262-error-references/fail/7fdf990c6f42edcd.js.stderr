@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/7fdf990c6f42edcd.js:1:1
+  |
+1 | export * from "a"
+  | ^^^^^^
+

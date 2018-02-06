@@ -1,0 +1,6 @@
+error: Not an utf-8 character: 55296
+ --> $DIR/tests/test262-parser/fail/c3afed3cb0fb92ab.js:1:1
+  |
+1 | \uD800\u
+  | ^^^^^^
+

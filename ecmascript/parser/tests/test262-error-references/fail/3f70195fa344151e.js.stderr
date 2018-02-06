@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/3f70195fa344151e.js:1:9
+  |
+1 | new X()."s"
+  |         ^^^
+

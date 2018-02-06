@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/2dddc87017946cca.js:1:1
+  |
+1 | import foo
+  | ^^^^^^
+

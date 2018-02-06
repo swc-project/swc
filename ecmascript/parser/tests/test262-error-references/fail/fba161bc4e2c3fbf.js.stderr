@@ -1,0 +1,6 @@
+error: Expected Semi
+ --> $DIR/tests/test262-parser/fail/fba161bc4e2c3fbf.js:1:4
+  |
+1 | 0B18
+  |    ^
+

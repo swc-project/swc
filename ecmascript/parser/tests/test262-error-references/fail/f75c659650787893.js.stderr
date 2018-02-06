@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/f75c659650787893.js:1:6
+  |
+1 | const
+  |      ^
+

@@ -1,0 +1,6 @@
+error: Unexpected line break between arrow head and arrow
+ --> $DIR/tests/test262-parser/fail/9cc8f0d9f8555a71.js:1:1
+  |
+1 | (a,...a)/*
+  | ^^^^^^^^
+

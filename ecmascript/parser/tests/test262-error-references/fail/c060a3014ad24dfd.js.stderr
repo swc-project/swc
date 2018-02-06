@@ -1,0 +1,6 @@
+error: Unexpected character '\u{2b81e}'
+ --> $DIR/tests/test262-parser/fail/c060a3014ad24dfd.js:1:5
+  |
+1 | var 𫠞_ = 12;
+  |     ^
+

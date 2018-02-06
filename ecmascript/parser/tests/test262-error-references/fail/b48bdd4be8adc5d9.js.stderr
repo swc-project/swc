@@ -1,0 +1,6 @@
+error: Expected an octal digit
+ --> $DIR/tests/test262-parser/fail/b48bdd4be8adc5d9.js:1:3
+  |
+1 | 0O9
+  |   ^
+

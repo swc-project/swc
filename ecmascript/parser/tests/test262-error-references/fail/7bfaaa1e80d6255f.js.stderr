@@ -1,0 +1,6 @@
+error: Return statement is not allowed here
+ --> $DIR/tests/test262-parser/fail/7bfaaa1e80d6255f.js:1:14
+  |
+1 | if (false) { return; }
+  |              ^^^^^^^
+

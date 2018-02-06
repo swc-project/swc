@@ -3,7 +3,7 @@ use std::borrow::Cow;
 use std::fmt::{self, Debug, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
-use swc_common::errors::{Diagnostic, Handler};
+use swc_common::errors::{DiagnosticBuilder, Handler};
 use token::Token;
 
 #[derive(Copy, Clone)]
@@ -12,7 +12,7 @@ pub(crate) struct Eof<'a> {
     pub handler: &'a Handler,
 }
 
-impl<'a> From<Eof<'a>> for Diagnostic<'a> {
+impl<'a> From<Eof<'a>> for DiagnosticBuilder<'a> {
     fn from(Eof { handler, last }: Eof<'a>) -> Self {
         handler.error("Unexpected eof").span(last)
     }
@@ -49,20 +49,14 @@ pub(crate) enum SyntaxError {
     },
 
     UnterminatedBlockComment,
-    // #[fail(display = "unterminated string constant: {:?}", start)]
     UnterminatedStrLit,
-    // #[fail(display = "expected unicode escape sequence: {:?}", pos)]
     ExpectedUnicodeEscape,
-    // #[fail(display = "unexpected escape sequence in reserved word: {:?}", word)]
     EscapeInReservedWord {
         word: JsWord,
     },
-    // #[fail(display = "unterminated regexp (regexp started at {:?})", start)]
     UnterminatedRegxp,
     UnterminatedTpl,
-    // #[fail(display = "identifier directly after number at {:?}", pos)]
     IdentAfterNum,
-    // #[fail(display = "Unexpected character '{}' at {:?}", c, pos)]
     UnexpectedChar {
         c: char,
     },
@@ -127,7 +121,7 @@ impl<'a> From<ErrorToDiag<'a>> for Error {
     }
 }
 
-impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
+impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
     #[inline(always)]
     fn from(e: ErrorToDiag<'a>) -> Self {
         let msg: Cow<'static, _> = match e.error {
@@ -154,7 +148,7 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
             UnterminatedRegxp => "Unterminated regexp literal".into(),
             UnterminatedTpl => "Unterminated template".into(),
             IdentAfterNum => "Identifier cannot follow number".into(),
-            UnexpectedChar { c } => format!("Unexpected character '{}'", c).into(),
+            UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),
             InvalidStrEscape => "Invalid string escape".into(),
             InvalidUnicodeEscape => "Invalid unciode escape".into(),
             InvalidCodePoint => "Invalid unciode code point".into(),
@@ -166,9 +160,9 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
                                      'protected',  'public', 'static', or 'yield' cannot be used \
                                      as an identifier in strict mode"
                 .into(),
-            EvalAndArgumentsInStrict => {
-                r#"'eval' and 'arguments' cannot be used as a binding identifier in string mode"#.into()
-            }
+            EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a binding \
+                                         identifier in string mode"
+                .into(),
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),

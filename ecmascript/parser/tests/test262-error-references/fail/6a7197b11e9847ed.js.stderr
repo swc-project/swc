@@ -1,0 +1,6 @@
+error: Expected Semi
+ --> $DIR/tests/test262-parser/fail/6a7197b11e9847ed.js:1:12
+  |
+1 | if (1) let x = 10;
+  |            ^
+

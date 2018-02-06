@@ -1,0 +1,6 @@
+error: Expected a decimal digit
+ --> $DIR/tests/test262-parser/fail/fe285bda427ecdfa.js:1:5
+  |
+1 | 1.e+
+  |     ^
+

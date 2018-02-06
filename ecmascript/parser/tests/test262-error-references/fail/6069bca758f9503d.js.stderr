@@ -1,0 +1,6 @@
+error: Expected RParen
+ --> $DIR/tests/test262-parser/fail/6069bca758f9503d.js:1:19
+  |
+1 | function f(a, ...b, c){}
+  |                   ^
+

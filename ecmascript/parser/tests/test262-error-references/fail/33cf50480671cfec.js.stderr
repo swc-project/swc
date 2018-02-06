@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/33cf50480671cfec.js:1:15
+  |
+1 | try { } catch() {}
+  |               ^
+

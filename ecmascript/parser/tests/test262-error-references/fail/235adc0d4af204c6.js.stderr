@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/235adc0d4af204c6.js:1:7
+  |
+1 | var [a.b] = 0
+  |       ^
+

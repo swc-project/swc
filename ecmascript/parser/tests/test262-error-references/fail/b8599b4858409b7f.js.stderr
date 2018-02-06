@@ -1,0 +1,6 @@
+error: Expected Semi
+ --> $DIR/tests/test262-parser/fail/b8599b4858409b7f.js:1:17
+  |
+1 | 'use strict'; a package
+  |                 ^^^^^^^
+

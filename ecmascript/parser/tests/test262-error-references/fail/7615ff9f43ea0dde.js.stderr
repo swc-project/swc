@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/7615ff9f43ea0dde.js:1:7
+  |
+1 | class default
+  |       ^^^^^^^
+

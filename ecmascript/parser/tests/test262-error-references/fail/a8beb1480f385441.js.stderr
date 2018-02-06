@@ -1,0 +1,6 @@
+error: Cannot assign to this
+ --> $DIR/tests/test262-parser/fail/a8beb1480f385441.js:1:1
+  |
+1 | func() = 4
+  | ^^^^^^
+

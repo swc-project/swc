@@ -1,0 +1,6 @@
+error: Expected a decimal digit
+ --> $DIR/tests/test262-parser/fail/d0f4c42dcbc9d139.js:1:4
+  |
+1 | 3e+
+  |    ^
+

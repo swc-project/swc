@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/8373e2a6865dc08c.js:1:15
+  |
+1 | class A {a(){},b(){}}
+  |               ^
+

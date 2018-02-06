@@ -1,0 +1,6 @@
+error: Invalid string escape
+ --> $DIR/tests/test262-parser/fail/f095a5180aa287d1.js:1:2
+  |
+1 | '\
+  |  ^
+

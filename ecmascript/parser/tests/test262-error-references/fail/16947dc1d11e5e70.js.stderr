@@ -1,0 +1,6 @@
+error: Expected LParen
+ --> $DIR/tests/test262-parser/fail/16947dc1d11e5e70.js:1:11
+  |
+1 | (function*yield(){})
+  |           ^^^^^
+
