@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "lib": [
+            "es2016"
+        ],
+        "module": "commonjs",
+        "outDir": "./out",
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "sourceMap": true,
+        "rootDir": "src",
+        "skipLibCheck": true,
+        "experimentalDecorators": true,
+        "allowUnreachableCode": false,
+        "allowJs": false,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "strictFunctionTypes": true
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

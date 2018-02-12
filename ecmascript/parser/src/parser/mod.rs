@@ -51,7 +51,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     #[parser]
-    pub fn parse_script(&mut self) -> PResult<'a, Vec<Stmt>> {
+    pub fn parse_script(&mut self) -> PResult<'a, (Vec<Stmt>)> {
         let ctx = Context {
             module: false,
             ..self.ctx()

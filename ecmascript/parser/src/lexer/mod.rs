@@ -207,7 +207,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.input.bump();
 
                     // Handle -->
-                    if self.state.had_line_break && c == '-' && is!(self, '>') {
+                    if self.state.had_line_break && c == '-' && eat!(self, '>') {
                         if self.ctx.module {
                             syntax_error!(
                                 self,
@@ -215,7 +215,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 SyntaxError::LegacyCommentInModule
                             )
                         }
-                        self.skip_line_comment(1);
+                        self.skip_line_comment(0);
                         self.skip_space()?;
                         return self.read_token();
                     }
@@ -382,7 +382,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[parser]
 impl<'a, I: Input> Lexer<'a, I> {
-    fn read_slash(&mut self) -> LexResult<Option<Token>> {
+    fn read_slash(&mut self) -> LexResult<(Option<Token>)> {
         debug_assert_eq!(cur!(), Some('/'));
         let start = cur_pos!();
 
@@ -402,7 +402,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }))
     }
 
-    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_lt_gt(&mut self) -> LexResult<(Option<Token>)> {
         assert!(cur!() == Some('<') || cur!() == Some('>'));
 
         let c = cur!().unwrap();
@@ -468,7 +468,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    fn may_read_word_as_str(&mut self) -> LexResult<Option<(JsWord, bool)>> {
+    fn may_read_word_as_str(&mut self) -> LexResult<(Option<(JsWord, bool)>)> {
         match cur!() {
             Some(c) if c.is_ident_start() => self.read_word_as_str().map(Some),
             _ => Ok(None),

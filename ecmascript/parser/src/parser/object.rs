@@ -69,7 +69,7 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
+impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = Prop;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {

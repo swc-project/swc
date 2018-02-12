@@ -3,7 +3,6 @@
 #![feature(specialization)]
 #![feature(test)]
 
-#[macro_use]
 extern crate slog;
 extern crate swc_common;
 extern crate swc_ecma_parser;

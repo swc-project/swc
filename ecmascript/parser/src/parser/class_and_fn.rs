@@ -5,14 +5,14 @@ use super::ident::MaybeOptionalIdentParser;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
         expect!("async");
         self.parse_fn(Some(start))
     }
 
     /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_fn(None)
     }
 
@@ -40,7 +40,7 @@ impl<'a, I: Input> Parser<'a, I> {
         self.parse_class()
     }
 
-    pub(super) fn parse_class_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_class_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_class()
     }
 
@@ -80,7 +80,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMethod>> {
+    fn parse_class_body(&mut self) -> PResult<'a, (Vec<ClassMethod>)> {
         let mut elems = vec![];
         while !eof!() && !is!('}') {
             if eat_exact!(';') {
@@ -116,22 +116,17 @@ impl<'a, I: Input> Parser<'a, I> {
         assert_and_bump!("function");
         let async = start_of_async.map(|start| span!(start));
 
-        if async.is_some() && is!('*') {
-            syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
-        }
-
         let generator = {
             let start = cur_pos!();
             if eat!('*') {
+                if async.is_some() {
+                    syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
+                }
                 Some(span!(start))
             } else {
                 None
             }
         };
-
-        if async.is_some() && generator.is_some() {
-            syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
-        }
 
         let ctx = Context {
             in_async: async.is_some(),
@@ -180,7 +175,7 @@ impl<'a, I: Input> Parser<'a, I> {
         generator: Option<Span>,
     ) -> PResult<'a, Function>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<Pat>>,
+        F: FnOnce(&mut Self) -> PResult<'a, (Vec<Pat>)>,
     {
         let ctx = Context {
             in_async: async.is_some(),

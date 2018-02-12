@@ -190,7 +190,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<Option<u32>> {
+    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<(Option<u32>)> {
         let mut count = 0;
         let v = self.read_digits(radix, |opt: Option<u32>, radix, val| {
             count += 1;

@@ -85,11 +85,17 @@ pub(crate) enum SyntaxError {
     /// Unexpected token
     Unexpected,
     Expected(&'static Token),
+    ExpectedSemiForExprStmt {
+        expr: Span,
+    },
 
     AwaitStar,
     ReservedWordInObjShorthandOrPat,
 
-    MultipleDefault,
+    MultipleDefault {
+        /// Span of the previous default case
+        previous: Span,
+    },
     CommaAfterRestElement,
     NonLastRestParam,
     SpreadInParenExpr,
@@ -142,7 +148,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             UnterminatedBlockComment => "Unterminated block comment".into(),
             UnterminatedStrLit => "Unterminated string constant".into(),
             ExpectedUnicodeEscape => "Expected unicode escape".into(),
-            EscapeInReservedWord { word } => {
+            EscapeInReservedWord { ref word } => {
                 format!("Unexpected escape sequence in reserved word: {}", word).into()
             }
             UnterminatedRegxp => "Unterminated regexp literal".into(),
@@ -168,6 +174,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
             Unexpected => "Unexpected token".into(),
             Expected(token) => format!("Expected {:?}", token).into(),
+            ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 
             AwaitStar => "await* has been removed from the async functions proposal. Use \
                           Promise.all() instead."
@@ -177,7 +184,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 "Cannot use a reserved word as a shorthand property".into()
             }
 
-            MultipleDefault => "A switch block cannot have multiple defaults".into(),
+            MultipleDefault { .. } => "A switch block cannot have multiple defaults".into(),
             CommaAfterRestElement => "Trailing comma isn't permitted after a rest element".into(),
             NonLastRestParam => "Rest element must be final element".into(),
             SpreadInParenExpr => "Parenthesized expression cannot contain spread operator".into(),
@@ -187,7 +194,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             NotSimpleAssign => "Cannot assign to this".into(),
             ExpectedIdent => "Expected ident".into(),
             ExpctedSemi => "Expected ';' or line break".into(),
-            DuplicateLabel(label) => format!("Label {} is already declared", label).into(),
+            DuplicateLabel(ref label) => format!("Label {} is already declared", label).into(),
             AsyncGenerator => "An async function cannot be generator".into(),
             NonTopLevelImportExport => "'import', and 'export' are not permitted here".into(),
 
@@ -200,6 +207,19 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             YieldParamInGen => "'yield' cannot be used as a parameter within generator".into(),
         };
 
-        e.handler.error(&msg).span(e.span)
+        let d = e.handler.error(&msg).span(e.span);
+
+        let d = match e.error {
+            ExpectedSemiForExprStmt { expr } => d.span_note(
+                expr,
+                "This is the expression part of an expression statement",
+            ),
+            MultipleDefault { previous } => {
+                d.span_note(previous, "previous default case is declared at here")
+            }
+            _ => d,
+        };
+
+        d
     }
 }

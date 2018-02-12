@@ -129,5 +129,5 @@ pub type StdOut = NormalizedOutput;
 impl<R> TestOutput<Option<R>> {
     /// Expects **`result`** to be `None` and **`errors`** to be match content
     /// of `${path}.stderr`.
-    pub fn expect_err(self, path: &Path) {}
+    pub fn expect_err(self, _path: &Path) {}
 }

@@ -2,7 +2,7 @@ use super::*;
 use swc_common::{FoldWith, Folder, Span};
 
 impl<'a, I: Input> Parser<'a, I> {
-    pub(in parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
+    pub(in parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, (Box<Expr>)> {
         let mut v = Verifier { errors: vec![] };
 
         let expr = v.fold(expr);

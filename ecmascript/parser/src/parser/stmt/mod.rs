@@ -11,7 +11,7 @@ impl<'a, I: Input> Parser<'a, I> {
         mut allow_directives: bool,
         top_level: bool,
         end: Option<&Token>,
-    ) -> PResult<'a, Vec<Type>>
+    ) -> PResult<'a, (Vec<Type>)>
     where
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
@@ -232,11 +232,14 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         };
 
-        expect!(';');
-        Ok(Stmt {
-            span: span!(start),
-            node: StmtKind::Expr(expr),
-        }.into())
+        if eat!(';') {
+            Ok(Stmt {
+                span: span!(start),
+                node: StmtKind::Expr(expr),
+            }.into())
+        } else {
+            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span });
+        }
     }
 
     fn parse_if_stmt(&mut self) -> PResult<'a, Stmt> {
@@ -301,21 +304,23 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let mut cur = None;
             let mut cases = vec![];
-            let mut has_default = false;
+            let mut span_of_previous_default = None;
 
             expect!('{');
             while !eof!() && !is!('}') {
                 if is_one_of!("case", "default") {
                     let is_case = is!("case");
+                    let start_of_case = cur_pos!();
                     bump!();
                     cases.extend(cur.take());
                     let test = if is_case {
                         p.include_in_expr(true).parse_expr().map(Some)?
                     } else {
-                        if has_default {
-                            syntax_error!(SyntaxError::MultipleDefault);
+                        if let Some(previous) = span_of_previous_default {
+                            syntax_error!(SyntaxError::MultipleDefault { previous });
                         }
-                        has_default = true;
+                        span_of_previous_default = Some(span!(start_of_case));
+
                         None
                     };
                     expect!(':');
@@ -436,7 +441,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 // Destructuring bindings require initializers.
                 match name.node {
                     PatKind::Ident(..) => None,
-                    _ => syntax_error!(SyntaxError::PatVarWithoutInit),
+                    _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
                 }
             }
         } else {
@@ -636,8 +641,8 @@ impl<'a, I: Input> Parser<'a, I> {
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
-        test: Option<Box<Expr>>,
-        update: Option<Box<Expr>>,
+        test: Option<(Box<Expr>)>,
+        update: Option<(Box<Expr>)>,
     },
     ForIn {
         left: VarDeclOrPat,
