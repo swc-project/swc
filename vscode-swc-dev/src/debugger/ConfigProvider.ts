@@ -98,16 +98,6 @@ export default class CargoConfigProvider implements DebugConfigurationProvider, 
             c.program = executables[0];
 
 
-            // Enable pretty printing by default.
-            if (c.pretty !== false) {
-                c.setupCommand.push({
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                });
-            }
-
-
             //TODO: Use cppvsdbg for msvc toolchains
             c.type = 'cppdbg';
 
@@ -116,18 +106,43 @@ export default class CargoConfigProvider implements DebugConfigurationProvider, 
 
 
 
+            // Enable pretty printing by default.
+            if (c.pretty !== false) {
+                // But if user has did it already, don't add it.
+
+                let has = false;
+                for (const sc of c.setupCommand) {
+                    if (sc && sc.text === '-enable-pretty-printing') {
+                        has = true;
+                        break;
+                    }
+                }
+                if (!has) {
+                    c.setupCommand.push({
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    });
+                }
+            }
+
+
+
+
+
 
             if (os.platform() === 'win32') {
-                // 
+                // We should configure this.
                 const rustup = await this.rustup.get(ws);
                 const rustSysroot = (await rustup.run({ cwd: ws.uri.fsPath }, ['rustc', '--print', 'sysroot']).exec())
                     .stdout.replace('\r', '').replace('\n', '');
                 const rustSrcPath = join(rustSysroot, 'lib', 'rustlib', 'src', 'rust');
 
 
+                // 'C:\\projects\\rust' is hardcoded in rust lang's windows builder script.
                 c.sourceFileMap['C:\\projects\\rust'] = rustSrcPath;
 
-                // TODO: Need some general way
+                // TODO: some general way
                 c.sourceFileMap["/c/"] = "C:\\";
             }
 
