@@ -2,7 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { Disposable, Uri, SourceControlResourceState, window, workspace, WorkspaceEdit, Range, Position, TextEdit } from 'vscode';
+import { Disposable, Uri, SourceControlResourceState, window, workspace, WorkspaceEdit, Range, Position, TextEdit, debug } from 'vscode';
 import * as path from 'path';
 import { parse } from 'url';
 import * as fs from 'fs';
@@ -13,6 +13,7 @@ import CargoExt from './cargo';
 import { RustupResolver } from './rustup';
 import { CargoWorkspaceFactory } from './cargo/Workspace';
 import { MetadataFactory } from './cargo/Metadata';
+import CargoConfigProvider from './debugger/ConfigProvider';
 
 
 
@@ -35,6 +36,9 @@ export async function activate(context: vscode.ExtensionContext) {
     add(new CargoExt(new CargoTaskProvider(rustup, cargoWorkspace)));
 
     const uiTest = add(new UiTest(cargoWorkspace));
+
+    const debugConfigProvider = add(new CargoConfigProvider(rustup));
+    debug.registerDebugConfigurationProvider('rust', debugConfigProvider);
 
 
     vscode.window.activeTextEditor && uiTest.openDiffIfRequried(vscode.window.activeTextEditor.document);

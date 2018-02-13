@@ -1,6 +1,7 @@
 import { WorkspaceFolder, Disposable, Event, EventEmitter } from "vscode";
 import { relative } from "path";
 import * as fs from "fs";
+import { ChildProcess, execFile, spawn } from "child_process";
 
 export function isDescendant(parent: string, descendant: string): boolean {
 
@@ -163,5 +164,73 @@ export abstract class CachingFactory<T> extends Factory<T>{
     }
 
     protected abstract get_uncached(ws: WorkspaceFolder): Promise<T>;
+
+}
+
+export interface ProcessOptions {
+    readonly cwd: string;
+    readonly env?: Map<string, string>;
+    /**
+     * Defaults to 10 seconds.
+     */
+    readonly timeout?: number;
+}
+
+export class ProcessBuilder {
+    constructor(
+        private readonly executable: string,
+        private readonly args: string[],
+        private readonly opts: ProcessOptions,
+    ) {
+    }
+
+    private get timeout(): number {
+        if (this.opts.timeout !== undefined) {
+            return this.opts.timeout
+        }
+
+        return 10000
+    }
+
+    spawn(): ChildProcess {
+        const p = spawn(this.executable, this.args, {
+            cwd: this.opts.cwd,
+            env: this.opts.env,
+        });
+
+
+        // TODO: Timeout
+
+        p.stdin.end();
+        return p;
+    }
+
+
+    /**
+     * @returns Returned promise will be resolved when child process is terminated.
+     */
+    async exec(): Promise<{ stdout: string, stderr: string }> {
+        return new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
+            execFile(this.executable, this.args, {
+                encoding: 'utf8',
+                timeout: this.timeout,
+                env: this.opts.env,
+                cwd: this.opts.cwd,
+            }, (err, stdout: string, stderr: string): void => {
+                if (!!err) {
+                    const command = `${this.executable} ${this.args.join(' ')}`;
+                    console.error(`${command} failed: ${err}\nStdout: ${stdout}\nStdErr: ${stderr}`);
+                    return reject(err)
+                }
+
+
+                resolve({ stdout, stderr })
+            })
+        })
+    }
+
+
+
+
 
 }

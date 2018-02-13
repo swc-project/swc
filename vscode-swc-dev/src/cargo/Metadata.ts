@@ -47,9 +47,9 @@ export class MetadataFactory extends CachingFactory<Metadata> {
     async get_uncached(ws: WorkspaceFolder): Promise<Metadata> {
         let rustup = await this.rustup.get(ws);
 
-        let { stdout, stderr } = await rustup.run({ cwd: ws.uri.fsPath, }, 'cargo', 'metadata', '--no-deps', '--format-version', '1');
-
-
+        let { stdout, stderr } = await rustup.run({ cwd: ws.uri.fsPath, }, [
+            'cargo', 'metadata', '--no-deps', '--format-version', '1'
+        ]).exec();
 
         if (stderr) {
             throw new Error(`cargo metadata printed something on stderr: ${stderr}\nstdout: ${stdout}`)
@@ -146,7 +146,7 @@ export interface Features {
 
 export interface PkgTarget {
     /**
-     * e.g. `["lib"]`, `["example"]`, `["test"]`, `["bench"]`, `["proc-macro"]`
+     * e.g. `["lib"]`, `["example"]`, `["test"]`, `["bench"]`, `["proc-macro"]`, `["custom-build"]`
      */
     readonly kind: string[];
     /**

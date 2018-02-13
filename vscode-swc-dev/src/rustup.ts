@@ -1,12 +1,7 @@
-import { ProcessExecution, workspace, window } from "vscode";
-import { execFile } from "child_process";
-import { Factory } from "./util";
+import { ProcessExecution, workspace, window, WorkspaceFolder } from "vscode";
+import { execFile, ChildProcess, spawn } from "child_process";
+import { Factory, ProcessOptions, ProcessBuilder } from "./util";
 
-export interface RunOpts {
-    readonly cwd: string;
-    readonly env?: Map<string, string>;
-    readonly timeout?: number;
-}
 
 /**
  * Resolved rustup.
@@ -22,24 +17,10 @@ export default class Rustup {
     /**
      * Invoke `rustup run`
      */
-    public run(opts: RunOpts, ...cmd: string[]): Promise<{ stdout: string, stderr: string }> {
-        return new Promise((resolve, reject) => {
-            execFile(this.executable, ['run', this.toolchain, ...cmd,], {
-                encoding: 'utf8',
-                timeout: opts.timeout || 10000,
-                env: opts.env,
-                cwd: opts.cwd,
-            }, (err, stdout: string, stderr: string): void => {
-                if (!!err) {
-                    console.log('`rustup run` failed', err, 'Stdout:\n', stdout, 'Stderr:\n', stderr);
-                    return reject(err)
-                }
+    public run(opts: ProcessOptions, cmd: string[]): ProcessBuilder {
+        const timeout = opts.timeout === undefined ? 10000 : opts.timeout;
 
-
-                resolve({ stdout, stderr })
-            })
-        })
-
+        return new ProcessBuilder(this.executable, ['run', this.toolchain, ...cmd], opts)
     }
 }
 
@@ -51,7 +32,7 @@ export class RustupResolver extends Factory<Rustup>{
     /**
      * Resolve path to rustup.
      */
-    public async get(): Promise<Rustup> {
+    public async get(ws: WorkspaceFolder): Promise<Rustup> {
         //TODO
         return new Rustup("rustup", "nightly")
     }

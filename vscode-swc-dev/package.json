@@ -1,92 +1,180 @@
 {
-  "name": "swc",
-  "displayName": "swc",
-  "description": "",
-  "version": "0.0.1",
-  "publisher": "kdy",
-  "engines": {
-    "vscode": "^1.19.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:workbench.action.tasks.runTask",
-    "onCommand:swc.dev.uiTest.update",
-    "onLanguage:swc-ui-test-output",
-    "onLanguage:rust",
-    "workspaceContains:**/Cargo.toml"
-  ],
-  "main": "./out/extension",
-  "extensionDependencies": [
-    "rust-lang.rust"
-  ],
-  "contributes": {
-    "taskDefinitions": [
-      {
-        "type": "cargo",
-        "required": [
-          "task"
-        ],
-        "properties": {
-          "task": {
-            "type": "string",
-            "description": "The cargo task to customize"
-          },
-          "crate": {
-            "type": "string",
-            "description": "Name of the crate"
-          }
-        }
-      }
-    ],
-    "commands": [
-      {
-        "command": "swc.dev.uiTest.update",
-        "title": "Update reference",
-        "category": "Swc"
-      }
-    ],
-    "menus": {
-      "editor/title": [
-        {
-          "command": "swc.dev.uiTest.update",
-          "group": "navigation",
-          "when": "resourceLangId == swc-ui-test-output"
-        }
-      ],
-      "commandPalette": [
-        {
-          "command": "swc.dev.uiTest.update",
-          "when": "resourceLangId == swc-ui-test-output"
-        }
-      ]
-    },
-    "languages": [
-      {
-        "id": "swc-ui-test-output",
-        "aliases": [
-          "Swc ui test"
-        ],
-        "extensions": [
-          ".stdout",
-          ".stderr"
-        ]
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "npm run compile && node ./node_modules/vscode/bin/test"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.10",
-    "@types/node": "^7.0.43",
-    "@types/mocha": "^2.2.42"
-  }
+	"name": "swc",
+	"displayName": "swc",
+	"description": "",
+	"version": "0.0.1",
+	"publisher": "kdy",
+	"engines": {
+		"vscode": "^1.19.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:workbench.action.tasks.runTask",
+		"onCommand:swc.dev.uiTest.update",
+		"onCommand:extension.rustExt.pickCrateName",
+		"onCommand:extension.rustExt.pickBuildTargets",
+		"onLanguage:swc-ui-test-output",
+		"onLanguage:rust",
+		"onDebug",
+		"workspaceContains:**/Cargo.toml"
+	],
+	"main": "./out/extension",
+	"extensionDependencies": [
+		"rust-lang.rust"
+	],
+	"contributes": {
+		"breakpoints": [
+			{
+				"language": "rust"
+			}
+		],
+		"commands": [
+			{
+				"command": "swc.dev.uiTest.update",
+				"title": "Update reference",
+				"category": "Swc"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "rust",
+				"label": "rust: Launch (GDB / LLDB / VSDebug)",
+				"variables": {
+					"pickCrateName": "extension.rustExt.pickCrateName",
+					"pickBuildTargets": "extension.rustExt.pickBuildTargets"
+				},
+				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"crate"
+						],
+						"properties": {
+							"crate": {
+								"type": "string",
+								"decsription": "Crate name.",
+								"default": ""
+							},
+							"targets": {
+								"type": "string",
+								"decsription": "e.g. ",
+								"default": ""
+							},
+							"cwd": {
+								"type": "string",
+								"description": "The working directory of the target",
+								"default": "."
+							},
+							"stopOnEntry": {
+								"type": "boolean",
+								"description": "Automatically stop after launch.",
+								"default": true
+							},
+							"args": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								},
+								"description": "JSON array of command line arguments to pass to the program when it is launched. Example [\"arg1\", \"arg2\"].",
+								"default": []
+							},
+							"env": {
+								"type": "array",
+								"description": "Environment variables to add to the environment for the program. Example: [ { \"name\": \"squid\", \"value\": \"clam\" } ].",
+								"items": {
+									"type": "object",
+									"properties": {
+										"name": "string",
+										"value": "string"
+									}
+								},
+								"default": []
+							},
+							"sourceFileMap": {
+								"type": "object",
+								"description": "Optional source file mappings passed to the debug engine. Example: '{ \"/original/source/path\":\"/current/source/path\" }'",
+								"default": {
+									"<source-path>": "<target-path>"
+								}
+							}
+						}
+					}
+				},
+				"configurationSnippets": [
+					{
+						"label": "rust: Launch (GDB / LLDB / VSDebug)",
+						"description": "A new configuration for launching a mock debug program",
+						"body": {
+							"type": "rust",
+							"request": "launch",
+							"name": "${2:Launch Program}",
+							"program": "^\"\\${workspaceFolder}/${1:Program}\""
+						}
+					}
+				]
+			}
+		],
+		"taskDefinitions": [
+			{
+				"type": "cargo",
+				"required": [
+					"task"
+				],
+				"properties": {
+					"task": {
+						"type": "string",
+						"description": "The cargo task to customize"
+					},
+					"crate": {
+						"type": "string",
+						"description": "Name of the crate"
+					}
+				}
+			}
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "swc.dev.uiTest.update",
+					"group": "navigation",
+					"when": "resourceLangId == swc-ui-test-output"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "swc.dev.uiTest.update",
+					"when": "resourceLangId == swc-ui-test-output"
+				}
+			]
+		},
+		"languages": [
+			{
+				"id": "swc-ui-test-output",
+				"aliases": [
+					"Swc ui test"
+				],
+				"extensions": [
+					".stdout",
+					".stderr"
+				]
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"dependencies": {
+		"JSONStream": "^1.3.2"
+	},
+	"devDependencies": {
+		"typescript": "^2.6.1",
+		"vscode": "^1.1.10",
+		"@types/node": "^7.0.43",
+		"@types/mocha": "^2.2.42"
+	}
 }
