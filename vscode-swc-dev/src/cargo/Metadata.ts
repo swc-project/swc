@@ -47,13 +47,10 @@ export class MetadataFactory extends CachingFactory<Metadata> {
     async get_uncached(ws: WorkspaceFolder): Promise<Metadata> {
         let rustup = await this.rustup.get(ws);
 
-        let { stdout, stderr } = await rustup.run({ cwd: ws.uri.fsPath, }, [
+        let stdout = await rustup.run({ cwd: ws.uri.fsPath, }, [
             'cargo', 'metadata', '--no-deps', '--format-version', '1'
-        ]).exec();
+        ]).exec({ noStderr: true });
 
-        if (stderr) {
-            throw new Error(`cargo metadata printed something on stderr: ${stderr}\nstdout: ${stdout}`)
-        }
         console.log(`'cargo metadata'  was successful`);
         return <Metadata>JSON.parse(stdout);
     }

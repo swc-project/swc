@@ -13,7 +13,8 @@ import CargoExt from './cargo';
 import { RustupResolver } from './rustup';
 import { CargoWorkspaceFactory } from './cargo/Workspace';
 import { MetadataFactory } from './cargo/Metadata';
-import CargoConfigProvider from './debugger/ConfigProvider';
+import RustConfigProvider from './debugger/RustConfigProvider';
+import { RustcResolver } from './rustc/rustc';
 
 
 
@@ -27,6 +28,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 
     const rustup = add(new RustupResolver());
+    const rustc = add(new RustcResolver());
     const cargoMetadata = add(new MetadataFactory(rustup));
     const cargoWorkspace = add(new CargoWorkspaceFactory(cargoMetadata));
 
@@ -37,7 +39,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     const uiTest = add(new UiTest(cargoWorkspace));
 
-    const debugConfigProvider = add(new CargoConfigProvider(rustup));
+    const debugConfigProvider = add(new RustConfigProvider(rustc, rustup));
     debug.registerDebugConfigurationProvider('rust', debugConfigProvider);
 
 

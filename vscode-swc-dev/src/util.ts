@@ -176,12 +176,23 @@ export interface ProcessOptions {
     readonly timeout?: number;
 }
 
+export interface ExecOpts {
+    readonly noStderr: boolean;
+}
+
 export class ProcessBuilder {
+    private logger?: (cmd: string) => void;
+
     constructor(
         private readonly executable: string,
         private readonly args: string[],
         private readonly opts: ProcessOptions,
     ) {
+    }
+
+    logWith(f: (cmd: string) => void): ProcessBuilder {
+        this.logger = f;
+        return this;
     }
 
     private get timeout(): number {
@@ -193,6 +204,8 @@ export class ProcessBuilder {
     }
 
     spawn(): ChildProcess {
+        if (this.logger) { this.logger(this.command) }
+
         const p = spawn(this.executable, this.args, {
             cwd: this.opts.cwd,
             env: this.opts.env,
@@ -206,11 +219,16 @@ export class ProcessBuilder {
     }
 
 
+    exec(opts: { noStderr: true } & ExecOpts): Promise<string>;
+    exec(opts: ExecOpts): Promise<{ stdout: string, stderr: string }>;
     /**
      * @returns Returned promise will be resolved when child process is terminated.
      */
-    async exec(): Promise<{ stdout: string, stderr: string }> {
-        return new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
+    async exec(opts: ExecOpts): Promise<{ stdout: string, stderr: string } | string> {
+        if (this.logger) { await this.logger(this.command) }
+
+
+        const { stdout, stderr } = await new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
             execFile(this.executable, this.args, {
                 encoding: 'utf8',
                 timeout: this.timeout,
@@ -218,17 +236,28 @@ export class ProcessBuilder {
                 cwd: this.opts.cwd,
             }, (err, stdout: string, stderr: string): void => {
                 if (!!err) {
-                    const command = `${this.executable} ${this.args.join(' ')}`;
-                    console.error(`${command} failed: ${err}\nStdout: ${stdout}\nStdErr: ${stderr}`);
+                    console.error(`${this.command} failed: ${err}\nStdout: ${stdout}\nStdErr: ${stderr}`);
                     return reject(err)
                 }
 
 
                 resolve({ stdout, stderr })
             })
-        })
+        });
+
+        if (opts.noStderr) {
+            if (stderr) {
+                console.error(`${this.command} printed something on stderr.\nStdout: ${stdout}\nStdErr: ${stderr}`);
+                throw new Error(`${this.command} printed something on stderr.\nStdout: ${stdout}\nStderr: ${stderr}`)
+            }
+            return stdout
+        }
+
+        return { stderr, stdout }
+
     }
 
+    private get command(): string { return `${this.executable} ${this.args.join(' ')}`; }
 
 
 
