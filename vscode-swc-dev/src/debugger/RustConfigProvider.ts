@@ -248,13 +248,19 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
                     [...cfg.buildFlags, '-p', crate],
                     {
                         onStdout(d: BuildOutput) {
-                            if (d.reason === 'compiler-artifact' && d.target.crate_types[0] === 'bin' && d.target.kind[0] !== 'custom-build') {
-                                executables.push(...d.filenames)
-                            }
+                            if (d.reason !== 'compiler-artifact') return
+                            if (d.target.kind[0] === 'custom-build') return
 
+                            if (d.target.crate_types[0] === 'bin' || (d.target.kind[0] === 'lib' && d.profile.test)) {
+                                executables.push(...d.filenames);
+                                return
+                            }
                         },
                         onStderr(s: string) {
                             debug.activeDebugConsole.append(s)
+                        },
+                        logWith(s: string) {
+                            debug.activeDebugConsole.appendLine(s)
                         }
                     });
             } catch (e) {

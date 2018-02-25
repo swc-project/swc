@@ -255,7 +255,7 @@ export class ProcessBuilder {
     ) {
     }
 
-    logWith(f: (cmd: string) => void): ProcessBuilder {
+    logWith(f: undefined | ((cmd: string) => void)): ProcessBuilder {
         this.logger = f;
         return this;
     }

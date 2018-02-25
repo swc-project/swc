@@ -36,6 +36,7 @@ export class Cargo extends Cli {
         check: boolean,
         flags: string[],
         opts: {
+            logWith?: (s: string) => any,
             onStdout: (BuildOutput) => any,
             onStderr: (s: string) => any,
         },
@@ -52,7 +53,7 @@ export class Cargo extends Cli {
                     ...base, '--message-format=json', ...flags
                 ],
                 {})
-                .logWith(s => console.log(s))
+                .logWith(opts.logWith)
                 .spawn();
 
 
