@@ -8,9 +8,10 @@ import * as fs from 'fs';
 import { Stats } from "fs";
 import { Factory, isDescendant, exists, readFile, rename, clock, profile } from "./util";
 import CargoWorkspace from "./cargo/Workspace";
+import { Context } from "./util/context";
 
 
-export const SCHEME: string = 'swc-ui-test-output';
+export const SCHEME: string = 'rust-ui-test-output';
 export const LANG: string = SCHEME;
 
 export default class UiTest implements Disposable {
@@ -112,7 +113,7 @@ export default class UiTest implements Disposable {
         }
 
 
-        const cargoWorkspace = await this.cargoWorkspace.get(ws);
+        const cargoWorkspace = await this.cargoWorkspace.get(Context.root(ws, 'Fetching cargo workspace'));
 
 
         const dir = cargoWorkspace.getManifestDir(uri);
@@ -179,7 +180,7 @@ export default class UiTest implements Disposable {
         }
     }
 
-    async dispose() { }
+    dispose() { }
 }
 
 export class ContentProvider implements TextDocumentContentProvider {

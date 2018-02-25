@@ -9,12 +9,13 @@ import * as fs from 'fs';
 import { resolve } from 'path';
 import UiTest from './UiTest';
 import CargoTaskProvider from './cargo/TaskProvider'
-import CargoExt from './cargo';
-import { RustupResolver } from './rustup';
+import CargoExt, { CargoResolver } from './cargo';
 import { CargoWorkspaceFactory } from './cargo/Workspace';
 import { MetadataFactory } from './cargo/Metadata';
 import RustConfigProvider from './debugger/RustConfigProvider';
 import { RustcResolver } from './rustc/rustc';
+import CratesExplorer from './crates-explorer/CratesExplorer';
+import { setContext } from './util';
 
 
 
@@ -26,24 +27,33 @@ export async function activate(context: vscode.ExtensionContext) {
         return t
     }
 
-
-    const rustup = add(new RustupResolver());
     const rustc = add(new RustcResolver());
-    const cargoMetadata = add(new MetadataFactory(rustup));
+    const cargo = add(new CargoResolver());
+    const cargoMetadata = add(new MetadataFactory(cargo));
     const cargoWorkspace = add(new CargoWorkspaceFactory(cargoMetadata));
 
 
 
+    add(new CargoExt(new CargoTaskProvider(cargo, cargoWorkspace)));
 
-    add(new CargoExt(new CargoTaskProvider(rustup, cargoWorkspace)));
+    const debugConfigProvider = add(new RustConfigProvider(rustc, cargo, cargoWorkspace));
 
-    const uiTest = add(new UiTest(cargoWorkspace));
+    add(window.registerTreeDataProvider(CratesExplorer.ID, new CratesExplorer(context, cargo, cargoWorkspace, debugConfigProvider)))
 
-    const debugConfigProvider = add(new RustConfigProvider(rustc, rustup));
     debug.registerDebugConfigurationProvider('rust', debugConfigProvider);
 
 
+    const uiTest = add(new UiTest(cargoWorkspace));
     vscode.window.activeTextEditor && uiTest.openDiffIfRequried(vscode.window.activeTextEditor.document);
+
+
+    workspace.findFiles('**/Cargo.toml', undefined, 1)
+        .then(files => {
+            if (files.length) {
+                return setContext('isCargoProject', true)
+            }
+        });
+
 }
 
 

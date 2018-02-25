@@ -1,10 +1,10 @@
-import { WorkspaceFolder, Disposable, Event, EventEmitter } from "vscode";
+import { WorkspaceFolder, Disposable, Event, EventEmitter, commands, SymbolInformation, Uri, DocumentLink, DebugSession, window, workspace } from "vscode";
 import { relative } from "path";
 import * as fs from "fs";
 import { ChildProcess, execFile, spawn } from "child_process";
+import { Context } from "./context";
 
 export function isDescendant(parent: string, descendant: string): boolean {
-
     return !relative(parent, descendant).startsWith('..')
 }
 
@@ -43,6 +43,33 @@ export async function readFile(path: string): Promise<string> {
         });
     })
 }
+
+export async function setContext(key: string, value: any): Promise<void> {
+    await commands.executeCommand('setContext', key, value);
+}
+
+
+export async function executeDocumentSymbolProvider(uri: Uri): Promise<SymbolInformation[]> {
+    try {
+        const res = await commands.executeCommand<SymbolInformation[]>('vscode.executeDocumentSymbolProvider', uri);
+        console.log('executeDocumentSymbolProvider was successful');
+        if (!res) { return [] } return res
+    } catch (e) {
+        throw new Error(`Cannot fetch symbols of ${uri} : ${e}`)
+    }
+}
+
+export async function executeLinkProvider(uri: Uri): Promise<DocumentLink[]> {
+    try {
+        const res = await commands.executeCommand<DocumentLink[]>('vscode.executeLinkProvider', uri);
+        console.log('executeLinkProvider was successful');
+        if (!res) { return [] } return res
+    } catch (e) {
+        throw e
+        // throw new Error(`Cannot fetch symbols of ${uri} : ${e}`)
+    }
+}
+
 
 function decorate(
     decorator: (fn: Function, key: string) => Function,
@@ -95,6 +122,42 @@ export function profile(name: string): Function {
     });
 }
 
+export interface IDisposable {
+    dispose(): any;
+}
+
+const nop = () => { };
+
+/**
+ * 
+ * @param target prototype for instance property, class for static property.
+ * @param key name of the property.
+ */
+export function dispose(target: IDisposable, key: string) {
+    const origDispose = target.dispose;
+
+
+    const merged = function () {
+        const promises: any[] = [];
+        // Call dispose declared on original class.
+        promises.push(origDispose.call(this));
+
+        if (this[key]) {
+            promises.push(this[key].dispose());
+        }
+        return Promise.all(promises)
+    };
+    target.dispose = merged;
+}
+
+
+export function progress(name: string): Function {
+    return decorate(function (fn: Function, key: string): Function {
+        return function withProgress(ctx: Context, ...args: any[]): Promise<any> {
+            return ctx.subTask(name, ctx => fn.apply(this, [ctx, ...args]))
+        };
+    });
+}
 
 export function clock(start: [number, number]): number;
 export function clock(): [number, number];
@@ -106,6 +169,7 @@ export function clock(start?: [number, number] | undefined): number | [number, n
 
 
 export abstract class Factory<T> {
+    @dispose
     private readonly _factory_disposable: Disposable;
     /**
      * 
@@ -132,9 +196,8 @@ export abstract class Factory<T> {
         this._onChange.fire(ws)
     }
 
-    public abstract get(ws: WorkspaceFolder): Promise<T>;
+    public abstract get(ctx: Context): Promise<T>;
     public dispose(): any {
-        this._factory_disposable.dispose();
         this._onChange.dispose()
     }
 }
@@ -153,22 +216,21 @@ export abstract class CachingFactory<T> extends Factory<T>{
         this._cached.delete(ws);
     }
 
-    async get(ws: WorkspaceFolder): Promise<T> {
-        let cached = this._cached.get(ws);
+    async get(ctx: Context): Promise<T> {
+        let cached = this._cached.get(ctx.ws);
         if (cached !== undefined) {
             return cached
         }
-        cached = await this.get_uncached(ws);
-        this._cached.set(ws, cached)
+        cached = await this.get_uncached(ctx);
+        this._cached.set(ctx.ws, cached)
         return cached;
     }
 
-    protected abstract get_uncached(ws: WorkspaceFolder): Promise<T>;
+    protected abstract get_uncached(ctx: Context): Promise<T>;
 
 }
 
 export interface ProcessOptions {
-    readonly cwd: string;
     readonly env?: Map<string, string>;
     /**
      * Defaults to 10 seconds.
@@ -180,10 +242,13 @@ export interface ExecOpts {
     readonly noStderr: boolean;
 }
 
+
+
 export class ProcessBuilder {
     private logger?: (cmd: string) => void;
 
     constructor(
+        private readonly ctx: Context,
         private readonly executable: string,
         private readonly args: string[],
         private readonly opts: ProcessOptions,
@@ -207,16 +272,18 @@ export class ProcessBuilder {
         if (this.logger) { this.logger(this.command) }
 
         const p = spawn(this.executable, this.args, {
-            cwd: this.opts.cwd,
+            cwd: this.ctx.ws.uri.fsPath,
             env: this.opts.env,
         });
 
+        p.stderr.setEncoding('utf8');
 
         // TODO: Timeout
 
         p.stdin.end();
         return p;
     }
+
 
 
     exec(opts: { noStderr: true } & ExecOpts): Promise<string>;
@@ -233,7 +300,7 @@ export class ProcessBuilder {
                 encoding: 'utf8',
                 timeout: this.timeout,
                 env: this.opts.env,
-                cwd: this.opts.cwd,
+                cwd: this.ctx.ws.uri.fsPath,
             }, (err, stdout: string, stderr: string): void => {
                 if (!!err) {
                     console.error(`${this.command} failed: ${err}\nStdout: ${stdout}\nStdErr: ${stderr}`);
@@ -254,7 +321,6 @@ export class ProcessBuilder {
         }
 
         return { stderr, stdout }
-
     }
 
     private get command(): string { return `${this.executable} ${this.args.join(' ')}`; }

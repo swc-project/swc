@@ -1,6 +1,7 @@
 import { Uri, WorkspaceFolder, Disposable, window, workspace } from "vscode";
-import Rustup from "../rustup";
-import { Factory, CachingFactory } from "../util";
+import { Factory, CachingFactory, setContext, dispose, progress, ProcessBuilder } from "../util";
+import { Context } from "../util/context";
+import { Cargo } from ".";
 
 /**
  * Output of `cargo metadata --format-version 1`
@@ -14,16 +15,17 @@ export default interface Metadata {
 }
 
 export class MetadataFactory extends CachingFactory<Metadata> {
+    @dispose
     private readonly disposable: Disposable;
 
     constructor(
-        private readonly rustup: Factory<Rustup>,
+        private readonly cargo: Factory<Cargo>,
     ) {
-        super([rustup]);
+        super([cargo]);
 
         const disposables: Disposable[] = [];
 
-        const watcher = workspace.createFileSystemWatcher('**/Cargo.{lock,toml}');
+        const watcher = workspace.createFileSystemWatcher('**/Cargo.lock');
         disposables.push(watcher);
 
         watcher.onDidCreate(this.invalidateFor, this, disposables);
@@ -41,22 +43,34 @@ export class MetadataFactory extends CachingFactory<Metadata> {
     }
 
 
+    async get(ctx: Context): Promise<Metadata> {
+        return this.get_uncached(ctx)
+    }
     /**
      * Run `cargo metadata`
      */
-    async get_uncached(ws: WorkspaceFolder): Promise<Metadata> {
-        let rustup = await this.rustup.get(ws);
+    @progress('Running cargo metadata')
+    async get_uncached(ctx: Context): Promise<Metadata> {
+        const cargo = await this.cargo.get(ctx);
 
-        let stdout = await rustup.run({ cwd: ws.uri.fsPath, }, [
-            'cargo', 'metadata', '--no-deps', '--format-version', '1'
-        ]).exec({ noStderr: true });
+        let stdout;
+        try {
+            stdout = await new ProcessBuilder(
+                ctx,
+                cargo.executable,
+                ['metadata', '--format-version', '1'],
+                {}
+            ).exec({ noStderr: true })
+
+
+            await setContext('validCargoMetadata', true);
+        } catch (e) {
+            await setContext('validCargoMetadata', false);
+            throw e
+        }
 
         console.log(`'cargo metadata'  was successful`);
         return <Metadata>JSON.parse(stdout);
-    }
-    dispose() {
-        this.disposable.dispose()
-        return super.dispose();
     }
 }
 

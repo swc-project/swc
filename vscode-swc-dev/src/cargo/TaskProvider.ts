@@ -1,23 +1,23 @@
 //
 
-import { TaskProvider, CancellationToken, Task, ProcessExecution, workspace, TaskDefinition, window, ProgressLocation, WorkspaceFolder, Uri } from "vscode";
-import Rustup from "../rustup";
+import { TaskProvider, CancellationToken, Task, ProcessExecution, workspace, TaskDefinition, window, ProgressLocation, WorkspaceFolder, Uri, Disposable } from "vscode";
 import CargoWorkspace from "./Workspace";
 import { join, dirname } from "path";
 import Package from "./Package";
-import { Factory, CachingFactory } from "../util";
+import { Factory, CachingFactory, IDisposable, dispose } from "../util";
+import { Context } from "../util/context";
+import { Cargo } from ".";
 
 
 
-export default class CargoTaskProvider implements TaskProvider {
-    private readonly tasksFactory: CargoTaskFactory;
+export default class CargoTaskProvider implements TaskProvider, IDisposable {
+    @dispose
+    private readonly tasksFactory: CargoTaskFactory = new CargoTaskFactory(this.cargo, this.cargoWorkspace);
 
     constructor(
-        readonly rustup: Factory<Rustup>,
+        readonly cargo: Factory<Cargo>,
         readonly cargoWorkspace: Factory<CargoWorkspace>
     ) {
-        this.tasksFactory = new CargoTaskFactory(rustup, cargoWorkspace)
-
     }
 
 
@@ -36,9 +36,10 @@ export default class CargoTaskProvider implements TaskProvider {
         let tasks: Task[] = [];
 
         for (const ws of workspace.workspaceFolders) {
-            const promise = this.tasksFactory.get(ws).then((ts): void => {
-                tasks.push(...ts);
-            });
+            const promise = this.tasksFactory.get(Context.root(ws, 'Resolving cargo tasks'))
+                .then((ts): void => {
+                    tasks.push(...ts);
+                });
             promises.push(promise);
         }
 
@@ -47,19 +48,21 @@ export default class CargoTaskProvider implements TaskProvider {
         return tasks;
 
     }
+
+    dispose() { }
 }
 
 
 class CargoTaskFactory extends CachingFactory<Task[]> {
     constructor(
-        private readonly rustup: Factory<Rustup>,
+        private readonly cargo: Factory<Cargo>,
         private readonly cargoWorkspace: Factory<CargoWorkspace>,
     ) {
-        super([rustup, cargoWorkspace])
+        super([cargo, cargoWorkspace])
     }
 
-    async get_uncached(ws: WorkspaceFolder): Promise<Task[]> {
-        let rustup = await this.rustup.get(ws);
+    async get_uncached(ctx: Context): Promise<Task[]> {
+        const cargo = await this.cargo.get(ctx);
         function makeTask(crate: Package, cmd: string[]): Task {
             const dir = dirname(crate.manifest_path);
 
@@ -70,15 +73,11 @@ class CargoTaskFactory extends CachingFactory<Task[]> {
                     crate: crate.name,
                     cmd,
                 },
-                ws,
+                ctx.ws,
                 `${cmd.join(' ')} (${crate.name})`,
                 `Cargo`,
-                new ProcessExecution(rustup.executable,
-                    [
-                        'run', rustup.toolchain,
-                        'cargo',
-                        ...cmd,
-                    ],
+                new ProcessExecution(cargo.executable,
+                    cmd,
                     {
                         cwd: dir,
                     }
@@ -87,13 +86,13 @@ class CargoTaskFactory extends CachingFactory<Task[]> {
             );
         }
 
-        const cargoWorkspace = await this.cargoWorkspace.get(ws);
+        const cargoWorkspace = await this.cargoWorkspace.get(ctx);
 
         const tasks: Task[] = [];
 
         for (const member of cargoWorkspace.members) {
-            if (workspace.getWorkspaceFolder(Uri.file(member.manifest_path)) !== ws) {
-                console.log('Not mine', member.manifest_path, ws.uri.fsPath);
+            if (workspace.getWorkspaceFolder(Uri.file(member.manifest_path)) !== ctx.ws) {
+                console.log('Not mine', member.manifest_path, ctx.ws.uri.fsPath);
                 continue;
             }
             tasks.push(makeTask(member, ['check']));

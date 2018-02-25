@@ -1,17 +1,20 @@
 import {
     DebugConfigurationProvider, Disposable,
     DebugConfiguration, CancellationToken, WorkspaceFolder,
-    commands, window, languages, DocumentSelector, extensions, ProgressLocation, debug
+    commands, window, languages, DocumentSelector, extensions, ProgressLocation, debug, QuickPickItem
 } from "vscode";
 import * as os from 'os';
-import { Factory } from "../util";
+import { Factory, IDisposable, ProcessBuilder } from "../util";
 import * as JSONStream from 'JSONStream';
-import Rustup from "../rustup";
-import { BuildOutput } from "../cargo/BuildOutput";
+import { BuildOutput, Buildable } from "../cargo/Build";
 import { sep, join } from "path";
 import RustCfg from "../rustc/RustCfg";
 import Rustc from "../rustc/rustc";
 import CargoWorkspace from "../cargo/Workspace";
+import { Context } from "../util/context";
+import { Cargo } from "../cargo";
+import * as which from 'which';
+import { askBuildFlags, askCrate } from "./Ask";
 
 
 
@@ -63,22 +66,26 @@ interface SetupCommand {
 
 type WrappedConfig = MsvcCfg | MiDebuggerCfg;
 /** Wrapper class for `default behavior`s */
-interface RustDebugConfig extends DebugConfiguration {
+export interface RustDebugConfig extends DebugConfiguration {
     /**
      * true by default
      */
     readonly pretty: boolean;
+    readonly noDebug: boolean;
     readonly crate: string;
+    readonly buildFlags: string[];
 
     readonly sourceFileMap: { [from: string]: string };
 
     readonly mode: DebuggerType;
+    readonly MIDebuggerPath?: string;
 
 }
 
 
 async function parseRustDebugConfig(
-    ws: WorkspaceFolder,
+    ctx: Context,
+    cargoWorkspace: Factory<CargoWorkspace>,
     rustc: Rustc,
     raw: DebugConfiguration
 ): Promise<RustDebugConfig> {
@@ -87,16 +94,32 @@ async function parseRustDebugConfig(
     const pretty = raw.pretty !== false;
     delete raw.pretty;
 
-    const crate = await (async () => {
+    const noDebug = !!raw.noDebug;
+
+
+
+    const crate: string = await (async () => {
         if (raw.crate) {
             return raw.crate
         }
 
-        return await window.showInputBox({ value: '', placeHolder: 'Crate name' })
+        return askCrate(ctx, cargoWorkspace)
     })();
     delete raw.crate;
 
-    const cwd: string = raw.cwd || ws.uri.fsPath;
+
+
+    const buildFlags: string[] = await (async () => {
+        if (raw.buildFlags) {
+            return raw.buildFlags
+        }
+        return askBuildFlags(ctx, cargoWorkspace, crate)
+    })();
+    delete raw.buildFlags;
+
+
+
+    const cwd: string = raw.cwd || ctx.ws.uri.fsPath;
     const env: Object = raw.env || {};
 
 
@@ -142,12 +165,33 @@ async function parseRustDebugConfig(
         }
     })();
 
+    const miDebuggerPath = await (async (): Promise<string | undefined> => {
+        if (!!raw.MIDebuggerPath || noDebug) {
+            return raw.MIDebuggerPath
+        }
+
+        // mi engine is not used in msvc mode.
+        if (mode === 'msvc') { return }
+
+        return new Promise<string | undefined>((resolve, reject) => {
+            which(mode, function (err, resolvedPath: string) {
+                if (!!err) { return reject(err) }
+                console.log(`Resolved ${mode} as ${resolvedPath} `)
+                resolve(resolvedPath)
+            })
+        })
+    })();
+    delete raw.MIDebuggerPath;
+
     return {
         ...raw,
+        noDebug,
         pretty,
         crate,
+        buildFlags,
         sourceFileMap,
         mode,
+        MIDebuggerPath: miDebuggerPath,
     }
 }
 
@@ -155,24 +199,13 @@ async function parseRustDebugConfig(
 
 
 
-export default class RustConfigProvider implements DebugConfigurationProvider, Disposable {
+export default class RustConfigProvider implements DebugConfigurationProvider, IDisposable {
 
     constructor(
         private readonly rustc: Factory<Rustc>,
-        private readonly rustup: Factory<Rustup>,
+        private readonly cargo: Factory<Cargo>,
+        private readonly cargoWorkspace: Factory<CargoWorkspace>,
     ) {
-        // TODO: Move these to cargo
-
-        commands.registerCommand('extension.rustExt.pickCrateName', async (...args) => {
-            console.log('extension.rustExt.pickCrateName', ...args)
-            return window.showInputBox({ value: '', placeHolder: 'Crate name' })
-        });
-        commands.registerCommand('extension.rustExt.pickBuildTargets', async (...args) => {
-            console.log('extension.rustExt.pickBuildTargets', ...args)
-            return window.showInputBox({ value: '', placeHolder: 'Build targets' })
-        });
-
-
     }
 
     async resolveDebugConfiguration(
@@ -183,18 +216,18 @@ export default class RustConfigProvider implements DebugConfigurationProvider, D
         if (!ws) {
             throw new Error('Not supported yet: rust debugger for files without vscode workspace')
         }
+        const msg = debugCfg.noDebug ? 'Launching' : 'Launching debugger';
+        return Context.root(ws, msg).runWith(async (ctx): Promise<WrappedConfig> => {
+            const cargo = await this.cargo.get(ctx);
+            const rustc = await this.rustc.get(ctx);
 
+            const cfg = await ctx.subTask('Parsing configuration', async ctx => parseRustDebugConfig(
+                ctx,
+                this.cargoWorkspace,
+                rustc,
+                debugCfg,
+            ));
 
-        return window.withProgress({
-            location: ProgressLocation.Window,
-            title: 'launching debugger',
-        }, async (progress): Promise<WrappedConfig> => {
-
-            progress.report({ message: 'resolving rustup' });
-            const rustup = await this.rustup.get(ws);
-
-            progress.report({ message: 'parsing configuration' });
-            const cfg = await parseRustDebugConfig(ws, await this.rustc.get(ws), debugCfg);
 
             const { crate, sourceFileMap, env } = cfg;
 
@@ -206,41 +239,47 @@ export default class RustConfigProvider implements DebugConfigurationProvider, D
 
 
 
+
             const executables: string[] = [];
             try {
-                progress.report({ message: 'building executable' });
-                await new Promise<string[]>((resolve, reject) => {
-
-                    const proc = rustup.run({ cwd: ws.uri.fsPath, timeout: 0 }, [
-                        'cargo', 'test', '--no-run', '--message-format=json', ...extras,
-                    ])
-                        .logWith(cmd => debug.activeDebugConsole.appendLine(cmd))
-                        .spawn();
-
-                    proc.stdout
-                        .pipe(JSONStream.parse())
-                        .on('data', function (data) {
-                            const d = <BuildOutput>data;
+                await cargo.buildBinary(
+                    ctx,
+                    false,
+                    [...cfg.buildFlags, '-p', crate],
+                    {
+                        onStdout(d: BuildOutput) {
                             if (d.reason === 'compiler-artifact' && d.target.crate_types[0] === 'bin' && d.target.kind[0] !== 'custom-build') {
                                 executables.push(...d.filenames)
                             }
-                        });
 
-
-                    proc.stderr.on('data', (s) => debug.activeDebugConsole.append(s.toString()))
-
-                    proc.once('error', reject)
-
-                    proc.once('exit', () => resolve(executables))
-                });
-
+                        },
+                        onStderr(s: string) {
+                            debug.activeDebugConsole.append(s)
+                        }
+                    });
             } catch (e) {
                 throw new Error(`Failed to build executable: ${e}`);
             }
             if (executables.length === 0) {
                 throw new Error(`cargo build did not produce any executable file. `)
             }
-            debug.activeDebugConsole.appendLine(executables.join('\n'));
+
+            // Print executable names to debug console.
+            debug.activeDebugConsole.appendLine('Built executables:');
+            for (const e of executables) {
+                debug.activeDebugConsole.appendLine(`\t${e}`);
+            }
+
+            if (cfg.noDebug) {
+                // TODO
+            }
+
+
+
+            // Redirect to cpptools.
+
+
+
             if (executables.length !== 1) {
                 throw new Error(`cargo build produced too many executable files. Debugging multiple files is not supported yet and\
  built executables are printed on the debug console.`)
@@ -274,27 +313,25 @@ export default class RustConfigProvider implements DebugConfigurationProvider, D
                 };
 
 
-            // Enable pretty printing by default.
+            // Enable pretty printing
             if (cfg.pretty && resolved.type === 'cppdbg') {
-                {
-                    // `-enable-pretty-printing`
+                // `-enable-pretty-printing`
 
 
-                    // But if user did it already, skip it.
-                    let has = false;
-                    for (const sc of resolved.setupCommands) {
-                        if (sc && sc.text === '-enable-pretty-printing') {
-                            has = true;
-                            break;
-                        }
+                // But if user did it already, skip it.
+                let has = false;
+                for (const sc of resolved.setupCommands) {
+                    if (sc && sc.text === '-enable-pretty-printing') {
+                        has = true;
+                        break;
                     }
-                    if (!has) {
-                        resolved.setupCommands.push({
-                            "description": "Enable pretty-printing for gdb",
-                            "text": "-enable-pretty-printing",
-                            "ignoreFailures": true
-                        });
-                    }
+                }
+                if (!has) {
+                    resolved.setupCommands.push({
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    });
                 }
 
 
@@ -311,11 +348,10 @@ export default class RustConfigProvider implements DebugConfigurationProvider, D
 
 
             return resolved
-        });
+        })
     }
 
 
-    dispose() {
-    }
+    dispose() { }
 }
 
