@@ -108,6 +108,7 @@ pub(crate) enum SyntaxError {
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
+    ImportExportInScript,
     PatVarWithoutInit,
     WithInStrict,
     ReturnNotAllowed,
@@ -197,6 +198,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             DuplicateLabel(ref label) => format!("Label {} is already declared", label).into(),
             AsyncGenerator => "An async function cannot be generator".into(),
             NonTopLevelImportExport => "'import', and 'export' are not permitted here".into(),
+            ImportExportInScript => {
+                "'import', and 'export' cannot be used outside of module code".into()
+            }
 
             PatVarWithoutInit => "Destructuring bindings require initializers".into(),
             WithInStrict => "With statement are not allowed in strict mode".into(),

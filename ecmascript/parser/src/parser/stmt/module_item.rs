@@ -256,10 +256,6 @@ impl IsDirective for ModuleItem {
 
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
-    fn accept_import_export() -> bool {
-        true
-    }
-
     fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, ModuleItem> {
         if !top_level {
             syntax_error!(SyntaxError::NonTopLevelImportExport);

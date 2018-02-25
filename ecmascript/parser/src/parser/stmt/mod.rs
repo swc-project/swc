@@ -69,10 +69,8 @@ impl<'a, I: Input> Parser<'a, I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
-        if <Self as StmtLikeParser<Type>>::accept_import_export() {
-            if is_one_of!("import", "export") {
-                return self.handle_import_export(top_level);
-            }
+        if is_one_of!("import", "export") {
+            return self.handle_import_export(top_level);
         }
         self.parse_stmt_internal(include_decl, top_level)
             .map(From::from)
@@ -678,16 +676,13 @@ impl IsDirective for Stmt {
 }
 
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
-    fn accept_import_export() -> bool;
     fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Type>;
 }
 
+#[parser]
 impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
-    fn accept_import_export() -> bool {
-        false
-    }
     fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Stmt> {
-        unreachable!()
+        syntax_error!(SyntaxError::ImportExportInScript);
     }
 }
 

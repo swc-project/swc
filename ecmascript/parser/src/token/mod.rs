@@ -338,7 +338,7 @@ impl Debug for Word {
 }
 
 /// Keywords
-#[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Kind, Clone, Copy, PartialEq, Eq, Hash)]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
     /// Spec says this might be identifier.
@@ -415,6 +415,72 @@ pub enum Keyword {
 
     #[kind(before_expr, starts_expr)]
     Delete,
+}
+
+impl Keyword {
+    fn into_js_word(self) -> JsWord {
+        match self {
+            Await => js_word!("await"),
+            Break => js_word!("break"),
+            Case => js_word!("case"),
+            Catch => js_word!("catch"),
+            Continue => js_word!("continue"),
+            Debugger => js_word!("debugger"),
+            Default_ => js_word!("default"),
+            Do => js_word!("do"),
+            Else => js_word!("else"),
+
+            Finally => js_word!("finally"),
+            For => js_word!("for"),
+
+            Function => js_word!("function"),
+
+            If => js_word!("if"),
+
+            Return => js_word!("return"),
+
+            Switch => js_word!("switch"),
+
+            Throw => js_word!("throw"),
+
+            Try => js_word!("try"),
+            Var => js_word!("var"),
+            Let => js_word!("let"),
+            Const => js_word!("const"),
+            While => js_word!("while"),
+            With => js_word!("with"),
+
+            New => js_word!("new"),
+            This => js_word!("this"),
+            Super => js_word!("super"),
+
+            Class => js_word!("class"),
+
+            Extends => js_word!("extends"),
+
+            Export => js_word!("export"),
+            Import => js_word!("import"),
+
+            Yield => js_word!("yield"),
+
+            In => js_word!("in"),
+            InstanceOf => js_word!("instanceof"),
+
+            TypeOf => js_word!("typeof"),
+
+            Void => js_word!("void"),
+
+            Delete => js_word!("delete"),
+        }
+    }
+}
+
+impl Debug for Keyword {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "keyword '{}'", self.into_js_word())?;
+
+        Ok(())
+    }
 }
 
 impl From<BinOpToken> for BinaryOp {
