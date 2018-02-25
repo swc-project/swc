@@ -248,8 +248,6 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
                     [...cfg.buildFlags, '-p', crate],
                     {
                         onStdout(d: BuildOutput) {
-                            console.log(d)
-
                             if (d.reason !== 'compiler-artifact') return
                             if (d.target.kind[0] === 'custom-build') return
 
