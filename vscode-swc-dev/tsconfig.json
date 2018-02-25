@@ -11,13 +11,20 @@
         ],
         "sourceMap": true,
         "rootDir": "src",
-        "skipLibCheck": true,
+        // Required.
         "experimentalDecorators": true,
-        "allowUnreachableCode": false,
-        "allowJs": false,
+        // Consistently emit lf.
+        "newLine": "lf",
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
+        // 
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
-        "strictFunctionTypes": true
+        "strictFunctionTypes": true,
     },
     "include": [
         "src/**/*"

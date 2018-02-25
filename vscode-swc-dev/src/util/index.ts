@@ -3,6 +3,7 @@ import { relative } from "path";
 import * as fs from "fs";
 import { ChildProcess, execFile, spawn } from "child_process";
 import { Context } from "./context";
+import { trueCasePath } from "./cli";
 
 export function isDescendant(parent: string, descendant: string): boolean {
     return !relative(parent, descendant).startsWith('..')
@@ -103,7 +104,7 @@ function decorate(
 
 export function profile(name: string): Function {
     return decorate(function (fn: Function, key: string): Function {
-        return function timeTracked(...args: any[]): any {
+        return function timeTracked(this: any, ...args: any[]): any {
             const start = clock();
             let res: any = fn.apply(this, args);
 
@@ -137,7 +138,7 @@ export function dispose(target: IDisposable, key: string) {
     const origDispose = target.dispose;
 
 
-    const merged = function () {
+    const merged = function (this: any) {
         const promises: any[] = [];
         // Call dispose declared on original class.
         promises.push(origDispose.call(this));
@@ -153,7 +154,7 @@ export function dispose(target: IDisposable, key: string) {
 
 export function progress(name: string): Function {
     return decorate(function (fn: Function, key: string): Function {
-        return function withProgress(ctx: Context, ...args: any[]): Promise<any> {
+        return function withProgress(this: any, ctx: Context, ...args: any[]): Promise<any> {
             return ctx.subTask(name, ctx => fn.apply(this, [ctx, ...args]))
         };
     });
@@ -268,11 +269,11 @@ export class ProcessBuilder {
         return 10000
     }
 
-    spawn(): ChildProcess {
+    async spawn(): Promise<ChildProcess> {
         if (this.logger) { this.logger(this.command) }
 
         const p = spawn(this.executable, this.args, {
-            cwd: this.ctx.ws.uri.fsPath,
+            cwd: await trueCasePath(this.ctx.ws.uri.fsPath),
             env: this.opts.env,
         });
 

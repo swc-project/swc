@@ -5,7 +5,7 @@ import {
 } from "vscode";
 import * as os from 'os';
 import { Factory, IDisposable, ProcessBuilder } from "../util";
-import * as JSONStream from 'JSONStream';
+import * as JSONStream from 'jsonstream';
 import { BuildOutput, Buildable } from "../cargo/Build";
 import { sep, join } from "path";
 import RustCfg from "../rustc/RustCfg";
@@ -174,7 +174,7 @@ async function parseRustDebugConfig(
         if (mode === 'msvc') { return }
 
         return new Promise<string | undefined>((resolve, reject) => {
-            which(mode, function (err, resolvedPath: string) {
+            which(mode, function (err, resolvedPath: string | undefined) {
                 if (!!err) { return reject(err) }
                 console.log(`Resolved ${mode} as ${resolvedPath} `)
                 resolve(resolvedPath)
@@ -248,6 +248,8 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
                     [...cfg.buildFlags, '-p', crate],
                     {
                         onStdout(d: BuildOutput) {
+                            console.log(d)
+
                             if (d.reason !== 'compiler-artifact') return
                             if (d.target.kind[0] === 'custom-build') return
 

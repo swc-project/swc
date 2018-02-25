@@ -24,14 +24,14 @@ const noDebug = [
 
 
 
-const contexts: NodeType[] = Object.keys(NodeType).map(v => NodeType[v]);
+const contexts: NodeType[] = Object.keys(NodeType).map((v: string) => NodeType[<any>v] as NodeType);
 
 type CheckFn = (c: NodeType) => boolean;
 
 function calcCond(enable: NodeType[] | CheckFn): string {
     const cond = ['view == cratesExplorer'];
 
-    const check = isArray(enable) ? (c) => enable.indexOf(c) !== -1 : enable;
+    const check = isArray(enable) ? (c: NodeType) => enable.indexOf(c) !== -1 : enable;
 
 
     contexts

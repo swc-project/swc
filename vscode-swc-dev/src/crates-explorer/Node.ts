@@ -88,6 +88,7 @@ export class Crate extends HasChild<CrateChild> {
 
                 case 'example':
                     this.examples.push(new Example(pkg, target.name, target.src_path));
+                    break;
 
                 case 'custom-build': break;
 
