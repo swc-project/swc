@@ -203,7 +203,7 @@ export abstract class Factory<T> {
 }
 
 export abstract class CachingFactory<T> extends Factory<T>{
-    private _cached: WeakMap<WorkspaceFolder, T>;
+    private _cached: WeakMap<WorkspaceFolder, Promise<T>>;
 
     protected constructor(deps: Factory<any>[], ) {
         super(deps);
@@ -221,7 +221,7 @@ export abstract class CachingFactory<T> extends Factory<T>{
         if (cached !== undefined) {
             return cached
         }
-        cached = await this.get_uncached(ctx);
+        cached = this.get_uncached(ctx);
         this._cached.set(ctx.ws, cached)
         return cached;
     }
