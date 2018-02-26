@@ -270,10 +270,12 @@ export class ProcessBuilder {
     }
 
     async spawn(): Promise<ChildProcess> {
-        if (this.logger) { this.logger(this.command) }
+        if (this.logger) { this.logger(`${this.command}`) }
+
+        const cwd = await trueCasePath(this.ctx.ws.uri.fsPath);
 
         const p = spawn(this.executable, this.args, {
-            cwd: await trueCasePath(this.ctx.ws.uri.fsPath),
+            cwd,
             env: this.opts.env,
         });
 
@@ -293,7 +295,9 @@ export class ProcessBuilder {
      * @returns Returned promise will be resolved when child process is terminated.
      */
     async exec(opts: ExecOpts): Promise<{ stdout: string, stderr: string } | string> {
-        if (this.logger) { await this.logger(this.command) }
+        if (this.logger) { await this.logger(`${this.command}`) }
+
+        const cwd = await trueCasePath(this.ctx.ws.uri.fsPath);
 
 
         const { stdout, stderr } = await new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
@@ -301,7 +305,7 @@ export class ProcessBuilder {
                 encoding: 'utf8',
                 timeout: this.timeout,
                 env: this.opts.env,
-                cwd: this.ctx.ws.uri.fsPath,
+                cwd,
             }, (err, stdout: string, stderr: string): void => {
                 if (!!err) {
                     console.error(`${this.command} failed: ${err}\nStdout: ${stdout}\nStdErr: ${stderr}`);

@@ -15,6 +15,7 @@ import { Context } from "../util/context";
 import { Cargo } from "../cargo";
 import * as which from 'which';
 import { askBuildFlags, askCrate } from "./Ask";
+import { trueCasePath } from "../util/cli";
 
 
 
@@ -119,7 +120,7 @@ async function parseRustDebugConfig(
 
 
 
-    const cwd: string = raw.cwd || ctx.ws.uri.fsPath;
+    const cwd: string = await trueCasePath(raw.cwd || ctx.ws.uri.fsPath);
     const env: Object = raw.env || {};
 
 
@@ -188,6 +189,7 @@ async function parseRustDebugConfig(
         noDebug,
         pretty,
         crate,
+        cwd,
         buildFlags,
         sourceFileMap,
         mode,
@@ -287,6 +289,7 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
 
 
                 env.CARGO = cargo.executable;
+                env.CARGO_TARGET_DIR = pkg.targetDir;
                 env.CARGO_MANIFEST_DIR = pkg.manifest_dir;
                 env.CARGO_PKG_NAME = pkg.name;
             }
@@ -314,7 +317,7 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
                 type,
                 request: cfg.request,
                 program,
-                cwd: ws.uri.fsPath,
+                cwd: cfg.cwd,
                 args: cfg.args || [],
                 env,
                 sourceFileMap,
