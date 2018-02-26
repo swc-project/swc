@@ -1,9 +1,9 @@
-use std::env;
+use paths;
 use std::fmt;
-use std::fs::{create_dir_all, File};
+use std::fs::{create_dir_all, remove_file, File};
 use std::io::Read;
 use std::ops::Deref;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 #[must_use]
 pub struct TestOutput<R> {
@@ -42,8 +42,8 @@ impl fmt::Display for NormalizedOutput {
 }
 
 impl NormalizedOutput {
-    /// If diff fails, prints actual stdout/stderr to
-    /// `CARGO_MANIFEST_DIR/target/ui/$rel_path` where `$rel_path`:
+    /// If output differs, prints actual stdout/stderr to
+    /// `CARGO_MANIFEST_DIR/target/swc-test-results/ui/$rel_path` where `$rel_path`:
     /// `path.strip_prefix(CARGO_MANIFEST_DIR)`
     pub fn compare_to_file<P>(self, path: P) -> Result<(), Diff>
     where
@@ -62,20 +62,15 @@ impl NormalizedOutput {
                 String::new()
             });
 
+        let path_for_actual = {
+            paths::test_results_dir()
+                .join("ui")
+                .join(path.strip_prefix(&paths::manifest_dir()).unwrap())
+        };
         if self.0 == expected {
+            let _ = remove_file(path_for_actual);
             return Ok(());
         }
-
-        let path_for_actual = {
-            let manifest_dir = env::var("CARGO_MANIFEST_DIR")
-                .map(PathBuf::from)
-                .expect("failed to read `CARGO_MANIFEST_DIR`");
-
-            manifest_dir
-                .join("target")
-                .join("ui")
-                .join(path.strip_prefix(&manifest_dir).unwrap())
-        };
         create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
         ::write_to_file(&path_for_actual, &self.0);
 
@@ -97,8 +92,7 @@ impl From<String> for NormalizedOutput {
             return NormalizedOutput(s);
         }
 
-        let manifest_dir =
-            env::var("CARGO_MANIFEST_DIR").expect("failed to read `CARGO_MANIFEST_DIR`");
+        let manifest_dir = format!("{}", paths::manifest_dir().display());
 
         let s = s.replace("\r\n", "\n");
 

@@ -55,12 +55,27 @@ export default class UiTest implements Disposable {
         })()));
 
 
-        workspace.findFiles('**/target/ui/**/*.stderr').then((files) => {
+        workspace.findFiles('**/target/swc-test-results/ui/**/*.stderr').then((files) => {
             for (const f of files) {
                 this.diagnostics.set(f, [new Diagnostic(new Range(0, 0, 0, 0), 'Assertion failed: output is changed', DiagnosticSeverity.Error)]);
             }
 
         })
+        const watcher = workspace.createFileSystemWatcher('**/target/swc-test-results/ui/**/*.stderr');
+        watcher.onDidChange(f => {
+            this.diagnostics.set(f, [new Diagnostic(new Range(0, 0, 0, 0), 'Assertion failed: output is changed', DiagnosticSeverity.Error)]);
+        })
+        watcher.onDidCreate(f => {
+            this.diagnostics.set(f, [new Diagnostic(new Range(0, 0, 0, 0), 'Assertion failed: output is changed', DiagnosticSeverity.Error)]);
+        })
+        watcher.onDidDelete(f => {
+            this.diagnostics.set(f, []);
+        })
+
+
+
+
+
 
 
         disposables.push(commands.registerTextEditorCommand('swc.dev.uiTest.update', async (editor) => {

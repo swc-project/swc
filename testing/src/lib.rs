@@ -16,7 +16,6 @@ pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use regex::Regex;
 use slog::Drain;
 use slog::Logger;
-use std::env;
 use std::fmt::Debug;
 use std::fs::{create_dir_all, File};
 use std::io;
@@ -31,6 +30,7 @@ use swc_common::errors::{CodeMap, FilePathMapping, Handler};
 mod macros;
 mod errors;
 mod output;
+mod paths;
 
 pub fn run_test<F, Ret>(op: F) -> TestOutput<Ret>
 where
@@ -108,18 +108,9 @@ pub fn print_left_right(left: &Debug, right: &Debug) -> String {
     let test_name = cur.name()
         .expect("rustc sets test name as the name of thread");
 
-    // Hack to get the name of testing crate.
-    let _testing_pkg = env::var("CARGO_PKG_NAME")
-        .unwrap_or_else(|err| panic!("cargo test didn't set 'CARGO_PKG_NAME'? Error: {}", err));
-    let manifest_dir = env::var("CARGO_MANIFEST_DIR")
-        .unwrap_or_else(|err| panic!("cargo test didn't set 'CARGO_MANIFEST_DIR'? Error: {}", err));
-
     // ./target/debug/tests/${test_name}/
     let target_dir = {
-        let mut buf = Path::new(&*manifest_dir).to_path_buf();
-        buf.push("target");
-        buf.push("debug");
-        buf.push("tests");
+        let mut buf = paths::test_results_dir().to_path_buf();
         for m in test_name.split("::") {
             buf.push(m)
         }
