@@ -2,7 +2,7 @@
     "name": "swc-dev",
     "displayName": "swc developement",
     "description": "",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "preview": true,
     "publisher": "swc",
     "engines": {
