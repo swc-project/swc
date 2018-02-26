@@ -14,16 +14,18 @@ export async function askCrate(
     cargoWorkspace: Factory<CargoWorkspace>,
 ): Promise<string> {
     const items: Promise<CrateQuickPickItem[]> = cargoWorkspace.get(ctx)
-        .then(ws => ws.packages.map((pkg): CrateQuickPickItem => {
-            const cratePath = pkg.isMember ? relative(ctx.ws.uri.fsPath, pkg.manifest_dir) : pkg.manifest_dir;
+        .then(ws => ws.packages
+            .filter(pkg => pkg.isMember)
+            .map((pkg): CrateQuickPickItem => {
+                const cratePath = relative(ctx.ws.uri.fsPath, pkg.manifest_dir);
 
-            return {
-                label: `${pkg.name} ${pkg.version}`,
-                description: '',
-                detail: cratePath,
-                pkgId: pkg.name,
-            }
-        })
+                return {
+                    label: `${pkg.name} ${pkg.version}`,
+                    description: '',
+                    detail: cratePath,
+                    pkgId: pkg.name,
+                }
+            })
         );
 
     const s = await window.showQuickPick(items, {
