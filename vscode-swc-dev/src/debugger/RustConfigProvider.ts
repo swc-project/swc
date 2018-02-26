@@ -239,7 +239,6 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
 
 
 
-
             const executables: string[] = [];
             try {
                 await cargo.buildBinary(
@@ -274,6 +273,22 @@ export default class RustConfigProvider implements DebugConfigurationProvider, I
             debug.activeDebugConsole.appendLine('Built executables:');
             for (const e of executables) {
                 debug.activeDebugConsole.appendLine(`\t${e}`);
+            }
+
+            {
+                // Add environment variables related to cargo.
+                const cargoWs = await this.cargoWorkspace.get(ctx);
+
+                // TODO: Use cargo pacakge id instead of name.
+                const pkg = cargoWs.packages.find(pkg => pkg.name === crate);
+                if (!pkg) {
+                    throw new Error(`Cannot build unknown package ${crate}`)
+                }
+
+
+                env.CARGO = cargo.executable;
+                env.CARGO_MANIFEST_DIR = pkg.manifest_dir;
+                env.CARGO_PKG_NAME = pkg.name;
             }
 
             if (cfg.noDebug) {
