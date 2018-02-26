@@ -19,7 +19,7 @@ export default class CargoWorkspace {
 
     }
 
-    public getManifestDir(uri: Uri): string | void {
+    public getManifestDir(uri: Uri): string | undefined {
         let candidate: string = '';
 
         for (const m of this.members) {

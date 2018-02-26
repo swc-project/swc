@@ -7,15 +7,47 @@ import { PkgTarget } from "../cargo/Metadata";
 import Package from "../cargo/Package";
 import { relative } from "path";
 
+/**
+ * Try to get manifest directory of currently opened file.
+ */
+async function getCurrentManifestDir(
+    ctx: Context,
+    cargoWorkspace: Factory<CargoWorkspace>,
+): Promise<string | undefined> {
+    const editor = window.activeTextEditor;
+    if (!editor) {
+        return;
+    }
+
+    return await cargoWorkspace.get(ctx)
+        .then(cargoWs => cargoWs.getManifestDir(editor.document.uri));
+}
+
 type CrateQuickPickItem = QuickPickItem & { pkgId: string };
 
 export async function askCrate(
     ctx: Context,
     cargoWorkspace: Factory<CargoWorkspace>,
 ): Promise<string> {
+
+    const curManifestDir: string | undefined = await getCurrentManifestDir(ctx, cargoWorkspace);
+
     const items: Promise<CrateQuickPickItem[]> = cargoWorkspace.get(ctx)
         .then(ws => ws.packages
             .filter(pkg => pkg.isMember)
+            .sort((l, r) => {
+                // If editor is opened, show the current crate first.
+
+                if (curManifestDir) {
+                    if (l.manifest_dir === curManifestDir) {
+                        return -1;
+                    }
+                    if (r.manifest_dir === curManifestDir) {
+                        return 1;
+                    }
+                }
+                return l.name.localeCompare(r.name)
+            })
             .map((pkg): CrateQuickPickItem => {
                 const cratePath = relative(ctx.ws.uri.fsPath, pkg.manifest_dir);
 
