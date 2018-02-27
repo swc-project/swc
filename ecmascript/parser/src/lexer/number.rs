@@ -355,7 +355,7 @@ mod tests {
     /// Valid even on strict mode.
     const VALID_CASES: &[&str] = &[".0", "0.e-1", "0e8", ".8e1", "0.8e1", "1.18e1"];
     const INVALID_CASES_ON_STRICT: &[&str] = &["08e1", "08.1", "08.8e1", "08", "01"];
-    const INVALID_CASES: &[&str] = &[".e-1", "01.8e1", "012e1", "00e1", "00.0"];
+    const INVALID_CASES: &[&str] = &["01.8e1", "012e1", "00e1", "00.0"];
 
     fn test_floats(strict: bool, success: bool, cases: &'static [&'static str]) {
         for case in cases {
@@ -367,7 +367,12 @@ mod tests {
             let expected: f64 = (i64::from_str_radix(case, 8).map(|v| v as f64))
                 .or_else(|_| case.parse::<i64>().map(|v| v as f64))
                 .or_else(|_| case.parse::<f64>())
-                .expect("failed to parse `expected` as float using str.parse()");
+                .unwrap_or_else(|err| {
+                    panic!(
+                        "failed to parse '{}' as float using str.parse(): {}",
+                        case, err
+                    )
+                });
 
             let vec = panic::catch_unwind(|| {
                 ::with_test_sess(case, |mut sess, input| {
