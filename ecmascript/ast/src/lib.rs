@@ -34,6 +34,7 @@ use swc_atoms::JsWord;
 use swc_common::{Span, Spanned, ToCode};
 mod macros;
 mod class;
+mod decl;
 mod expr;
 mod function;
 mod lit;

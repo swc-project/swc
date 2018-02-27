@@ -59,22 +59,30 @@ pub fn ast_node(
         panic!("#[ast_node] takes no arguments");
     }
 
-    // let item: DeriveInput = parse(input).expect("failed to parse input as a
-    // DeriveInput");
-    let input: TokenStream = input.into();
+    let mut item: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+
+    let attrs = item.attrs.clone();
+    item.attrs = vec![];
 
     // If we use call_site with proc_macro feature enabled,
     // only attributes for first derive works.
     // https://github.com/rust-lang/rust/issues/46489
 
-    let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item: &input }, {
-        #[derive(Fold, ToCode, AstNode, Clone, Debug, PartialEq)]
+    let mut tokens = Tokens::new();
+
+    for a in attrs {
+        a.to_tokens(&mut tokens)
+    }
+
+    let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item }, {
+        #[derive(Fold, AstNode, Clone, Debug, PartialEq)]
         item
     }));
+    item.to_tokens(&mut tokens);
 
-    let item=TokenStream::from(item).to_string().parse::<TokenStream>().unwrap();
+    // let item=TokenStream::from(item).to_string().parse::<TokenStream>().unwrap();
 
-    print("ast_node", item)
+    print("ast_node", tokens)
 }
 
 /// Workarounds https://github.com/rust-lang/rust/issues/44925
@@ -88,6 +96,7 @@ fn wrap_in_const<T: Into<TokenStream>>(const_name: &str, item: T) -> proc_macro:
             #[allow(dead_code, non_upper_case_globals)]
             const CONST_NAME: () = {
                 extern crate swc_common;
+                extern crate std;
                 item
             };
         }

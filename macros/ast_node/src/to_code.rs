@@ -9,11 +9,8 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .map(|v| {
             let (pat, bindings) = v.bind("_", Some(call_site()), None);
 
-
-
             if bindings.len() == 1 {
-//delegate
-
+                //delegate
 
                 let binding = bindings.into_iter().next().unwrap();
                 let body = box Quote::new_call_site()
@@ -37,18 +34,20 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 };
             }
 
- Arm {
-                    body:box Quote::new_call_site().quote_with(smart_quote!(Vars{},{unimplemented!()})).parse(),
-                    attrs: v.attrs()
-                        .iter()
-                        .filter(|attr| is_attr_name(attr, "cfg"))
-                        .cloned()
-                        .collect(),
-                    pats: vec![Element::End(pat)].into_iter().collect(),
-                    guard: None,
-                    rocket_token: call_site(),
-                    comma: Some(call_site()),
-                }
+            Arm {
+                body: box Quote::new_call_site()
+                    .quote_with(smart_quote!(Vars {}, { unimplemented!() }))
+                    .parse(),
+                attrs: v.attrs()
+                    .iter()
+                    .filter(|attr| is_attr_name(attr, "cfg"))
+                    .cloned()
+                    .collect(),
+                pats: vec![Element::End(pat)].into_iter().collect(),
+                guard: None,
+                rocket_token: call_site(),
+                comma: Some(call_site()),
+            }
         })
         .collect();
     let body = Expr::Match(ExprMatch {
@@ -69,7 +68,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             },
             {
                 impl swc_common::ToCode for Type {
-                    fn to_code<W: ::std::io::Write>(&self, __w: W) -> ::std::io::Result<()> {
+                    fn to_code<W: std::io::Write>(&self, __w: W) -> std::io::Result<()> {
                         body
                     }
                 }
