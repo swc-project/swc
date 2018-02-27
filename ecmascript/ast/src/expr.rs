@@ -165,7 +165,7 @@ pub struct CallExpr {
 pub struct NewExpr {
     pub callee: Box<Expr>,
     // #[code = "$( $( $args ),* )?"]
-    pub args: Option<Vec<(Box<Expr>)>>,
+    pub args: Option<Vec<ExprOrSpread>>,
 }
 
 #[ast_node]
