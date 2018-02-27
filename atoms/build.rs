@@ -60,6 +60,7 @@ fn main() {
             "async",
             "as",
             // future reserved words?
+            "enum",
             "implements",
             "interface",
             "package",

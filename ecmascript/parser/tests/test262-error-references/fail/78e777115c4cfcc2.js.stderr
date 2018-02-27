@@ -1,0 +1,6 @@
+error: Expected Word(while)
+ --> $DIR/tests/test262-parser/fail/78e777115c4cfcc2.js:1:10
+  |
+1 | do { x } *
+  |          ^
+

@@ -1,40 +1,55 @@
 use super::*;
-use super::input::CharIndices;
+use super::input::FileMapInput;
 use std::ops::Range;
 use std::str;
 
-fn make_lexer(s: &'static str) -> Lexer<CharIndices<'static>> {
-    let logger = ::testing::logger().new(o!("src" => s));
-    Lexer::new_from_str(logger, s)
+fn with_lexer<F, Ret>(s: &'static str, f: F) -> Ret
+where
+    F: FnOnce(&mut Lexer<FileMapInput>) -> Ret,
+{
+    ::with_test_sess(s, |sess, fm| {
+        let mut l = Lexer::new(sess, fm);
+        f(&mut l)
+    })
 }
 
 fn lex(s: &'static str) -> Vec<TokenAndSpan> {
     println!("Source:\n{}", s);
-    let lexer = make_lexer(&s);
-    lexer.collect()
+    with_lexer(s, |l| l.collect())
 }
 fn lex_tokens(s: &'static str) -> Vec<Token> {
-    let lexer = make_lexer(&s);
-    lexer.map(|ts| ts.token).collect()
+    with_lexer(s, |l| l.map(|ts| ts.token).collect())
 }
+
+trait LineBreak: Into<TokenAndSpan> {
+    fn lb(self) -> TokenAndSpan {
+        TokenAndSpan {
+            had_line_break: true,
+            ..self.into()
+        }
+    }
+}
+impl LineBreak for TokenAndSpan {}
 
 trait SpanRange: Sized {
     fn into_span(self) -> Span;
 }
 impl SpanRange for usize {
     fn into_span(self) -> Span {
-        Span {
-            start: BytePos(self as _),
-            end: BytePos((self + 1usize) as _),
-        }
+        Span::new(
+            BytePos(self as _),
+            BytePos((self + 1usize) as _),
+            Default::default(),
+        )
     }
 }
 impl SpanRange for Range<usize> {
     fn into_span(self) -> Span {
-        Span {
-            start: BytePos(self.start as _),
-            end: BytePos(self.end as _),
-        }
+        Span::new(
+            BytePos(self.start as _),
+            BytePos(self.end as _),
+            Default::default(),
+        )
     }
 }
 
@@ -45,6 +60,7 @@ trait WithSpan: Sized {
     {
         TokenAndSpan {
             token: self.into_token(),
+            had_line_break: false,
             span: span.into_span(),
         }
     }
@@ -95,7 +111,7 @@ impl WithSpan for AssignOpToken {
 fn test262_lexer_error_0001() {
     assert_eq!(
         vec![
-            123f64.span(0..4),
+            123f64.span(0..4).lb(),
             Dot.span(4..5),
             "a".span(5..6),
             LParen.span(6..7),
@@ -110,7 +126,11 @@ fn test262_lexer_error_0001() {
 fn test262_lexer_error_0002() {
     assert_eq!(
         vec![
-            Str("use strict".into(), false).span(0..15),
+            Str {
+                value: "use strict".into(),
+                has_escape: true,
+            }.span(0..15)
+                .lb(),
             Semi.span(15..16),
         ],
         lex(r#"'use\x20strict';"#)
@@ -119,7 +139,7 @@ fn test262_lexer_error_0002() {
 
 #[test]
 fn test262_lexer_error_0003() {
-    assert_eq!(vec!["a".span(0..6)], lex(r#"\u0061"#));
+    assert_eq!(vec!["a".span(0..6).lb()], lex(r#"\u0061"#));
 }
 
 #[test]
@@ -132,26 +152,41 @@ fn test262_lexer_error_0004() {
 
 #[test]
 fn ident_escape_unicode() {
-    assert_eq!(vec!["aa".span(0..7)], lex(r#"a\u0061"#));
+    assert_eq!(vec!["aa".span(0..7).lb()], lex(r#"a\u0061"#));
 }
 
 #[test]
 fn ident_escape_unicode_2() {
-    assert_eq!(lex("℘℘"), vec!["℘℘".span(0..6)]);
+    assert_eq!(lex("℘℘"), vec!["℘℘".span(0..6).lb()]);
 
-    assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9)]);
+    assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9).lb()]);
 }
 
 #[test]
 fn str_escape_hex() {
-    assert_eq!(lex(r#"'\x61'"#), vec![Str("a".into(), false).span(0..6)]);
+    assert_eq!(
+        lex(r#"'\x61'"#),
+        vec![
+            Str {
+                value: "a".into(),
+                has_escape: true,
+            }.span(0..6)
+                .lb(),
+        ]
+    );
 }
 
 #[test]
 fn str_escape_octal() {
     assert_eq!(
         lex(r#"'Hello\012World'"#),
-        vec![Str("Hello\nWorld".into(), false).span(0..16)]
+        vec![
+            Str {
+                value: "Hello\nWorld".into(),
+                has_escape: true,
+            }.span(0..16)
+                .lb(),
+        ]
     )
 }
 
@@ -159,7 +194,13 @@ fn str_escape_octal() {
 fn str_escape_unicode_long() {
     assert_eq!(
         lex(r#"'\u{00000000034}'"#),
-        vec![Str("4".into(), false).span(0..17)]
+        vec![
+            Str {
+                value: "4".into(),
+                has_escape: true,
+            }.span(0..17)
+                .lb(),
+        ]
     );
 }
 
@@ -167,12 +208,15 @@ fn str_escape_unicode_long() {
 fn regexp_unary_void() {
     assert_eq!(
         lex("void /test/"),
-        vec![Void.span(0..4), Regex("test".into(), "".into()).span(5..11)]
+        vec![
+            Void.span(0..4).lb(),
+            Regex("test".into(), "".into()).span(5..11),
+        ]
     );
     assert_eq!(
         lex("void (/test/)"),
         vec![
-            Void.span(0..4),
+            Void.span(0..4).lb(),
             LParen.span(5..6),
             Regex("test".into(), "".into()).span(6..12),
             RParen.span(12..13),
@@ -185,7 +229,7 @@ fn non_regexp_unary_plus() {
     assert_eq!(
         lex("+{} / 1"),
         vec![
-            tok!('+').span(0..1),
+            tok!('+').span(0..1).lb(),
             tok!('{').span(1..2),
             tok!('}').span(2..3),
             tok!('/').span(4..5),
@@ -199,7 +243,7 @@ fn non_regexp_unary_plus() {
 #[test]
 fn invalid_but_lexable() {
     assert_eq!(
-        vec![LParen.span(0), LBrace.span(1), Semi.span(2)],
+        vec![LParen.span(0).lb(), LBrace.span(1), Semi.span(2)],
         lex("({;")
     );
 }
@@ -207,7 +251,7 @@ fn invalid_but_lexable() {
 #[test]
 fn paren_semi() {
     assert_eq!(
-        vec![LParen.span(0), RParen.span(1), Semi.span(2)],
+        vec![LParen.span(0).lb(), RParen.span(1), Semi.span(2)],
         lex("();")
     );
 }
@@ -216,7 +260,7 @@ fn paren_semi() {
 fn ident_paren() {
     assert_eq!(
         vec![
-            "a".span(0),
+            "a".span(0).lb(),
             LParen.span(1),
             "bc".span(2..4),
             RParen.span(4),
@@ -228,21 +272,27 @@ fn ident_paren() {
 
 #[test]
 fn read_word() {
-    assert_eq!(vec!["a".span(0), "b".span(2), "c".span(4)], lex("a b c"),)
+    assert_eq!(
+        vec!["a".span(0).lb(), "b".span(2), "c".span(4)],
+        lex("a b c"),
+    )
 }
 
 #[test]
 fn simple_regex() {
     assert_eq!(
+        lex("x = /42/i"),
         vec![
-            "x".span(0),
+            "x".span(0).lb(),
             Assign.span(2),
             Regex("42".into(), "i".into()).span(4..9),
         ],
-        lex("x = /42/i")
     );
 
-    assert_eq!(vec![Regex("42".into(), "".into()).span(0..4)], lex("/42/"));
+    assert_eq!(
+        lex("/42/"),
+        vec![Regex("42".into(), "".into()).span(0..4).lb()]
+    );
 }
 
 #[test]
@@ -268,7 +318,10 @@ fn complex_regex() {
 
 #[test]
 fn simple_div() {
-    assert_eq!(vec!["a".span(0), Div.span(2), "b".span(4)], lex("a / b"));
+    assert_eq!(
+        vec!["a".span(0).lb(), Div.span(2), "b".span(4)],
+        lex("a / b")
+    );
 }
 
 #[test]
@@ -333,8 +386,9 @@ fn spec_001() {
 #[test]
 fn after_if() {
     assert_eq!(
+        lex("if(x){} /y/.test(z)"),
         vec![
-            Keyword::If.span(0..2),
+            Keyword::If.span(0..2).lb(),
             LParen.span(2),
             "x".span(3),
             RParen.span(4),
@@ -347,7 +401,6 @@ fn after_if() {
             "z".span(17),
             RParen.span(18),
         ],
-        lex("if(x){} /y/.test(z)"),
     )
 }
 
@@ -393,7 +446,7 @@ fn invalid_number_failure() {
 fn migrated_0002() {
     assert_eq!(
         vec![
-            "tokenize".span(0..8),
+            "tokenize".span(0..8).lb(),
             LParen.span(8),
             Regex("42".into(), "".into()).span(9..13),
             RParen.span(13),
@@ -406,7 +459,7 @@ fn migrated_0002() {
 fn migrated_0003() {
     assert_eq!(
         vec![
-            LParen.span(0),
+            LParen.span(0).lb(),
             Word::False.span(1..6),
             RParen.span(6),
             Div.span(8),
@@ -421,7 +474,7 @@ fn migrated_0003() {
 fn migrated_0004() {
     assert_eq!(
         vec![
-            Function.span(0..8),
+            Function.span(0..8).lb(),
             "f".span(9),
             LParen.span(10),
             RParen.span(11),
@@ -455,13 +508,13 @@ fn migrated_0004() {
 fn migrated_0006() {
     // This test seems wrong.
     // assert_eq!(
-    //     vec![LBrace.span(0), RBrace.span(1), Div.span(3), 42.span(4..6)],
+    //     vec![LBrace.span(0).lb(), RBrace.span(1), Div.span(3), 42.span(4..6)],
     //     lex("{} /42")
     // )
 
     assert_eq!(
         vec![
-            LBrace.span(0),
+            LBrace.span(0).lb(),
             RBrace.span(1),
             Regex("42".into(), "".into()).span(3..7),
         ],
@@ -471,9 +524,24 @@ fn migrated_0006() {
 
 #[test]
 fn str_lit() {
-    assert_eq!(vec![Str("abcde".into(), false)], lex_tokens("'abcde'"));
-    assert_eq!(vec![Str("abcde".into(), true)], lex_tokens(r#""abcde""#));
-    assert_eq!(vec![Str("abc".into(), false)], lex_tokens("'\\\nabc'"));
+    assert_eq!(
+        vec![
+            Str {
+                value: "abcde".into(),
+                has_escape: false,
+            },
+        ],
+        lex_tokens("'abcde'")
+    );
+    assert_eq!(
+        vec![
+            Str {
+                value: "abc".into(),
+                has_escape: true,
+            },
+        ],
+        lex_tokens("'\\\nabc'")
+    );
 }
 
 #[test]

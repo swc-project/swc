@@ -3,27 +3,27 @@
 use super::*;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     /// IdentifierReference
-    pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx;
+    pub(super) fn parse_ident_ref(&mut self) -> PResult<'a, Ident> {
+        let ctx = self.ctx();
 
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
 
     /// LabelIdentifier
-    pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx;
+    pub(super) fn parse_label_ident(&mut self) -> PResult<'a, Ident> {
+        let ctx = self.ctx();
 
         self.parse_ident(!ctx.in_generator, !ctx.in_async)
     }
 
     /// Use this when spec says "IdentiferName".
     /// This allows idents like `catch`.
-    pub(super) fn parse_ident_name(&mut self) -> PResult<Ident> {
-        spanned!({
+    pub(super) fn parse_ident_name(&mut self) -> PResult<'a, Ident> {
+        self.spanned(|p| {
             let w = match cur!() {
-                Some(&Word(..)) => match bump!() {
+                Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -37,11 +37,11 @@ impl<I: Input> Parser<I> {
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
-    pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
-        spanned!({
-            let strict = self.ctx.strict;
+    pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<'a, Ident> {
+        self.spanned(|p| {
+            let strict = p.ctx().strict;
             let w = match cur!() {
-                Some(&Word(..)) => match bump!() {
+                Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
@@ -52,25 +52,24 @@ impl<I: Input> Parser<I> {
             // It is a Syntax Error if this phrase is contained in strict mode code and the
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected",  "public", "static", or "yield".
-            if strict {
-                match w {
-                    Keyword(Yield)
-                    | Ident(js_word!("static"))
-                    | Ident(js_word!("implements"))
-                    | Ident(js_word!("interface"))
-                    | Ident(js_word!("let"))
-                    | Ident(js_word!("package"))
-                    | Ident(js_word!("private"))
-                    | Ident(js_word!("protected"))
-                    | Ident(js_word!("public")) => syntax_error!(SyntaxError::InvalidIdentInStrict),
-                    _ => {}
+            match w {
+                Ident(js_word!("enum")) => {
+                    syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
                 }
+                Keyword(Yield)
+                | Ident(js_word!("static"))
+                | Ident(js_word!("implements"))
+                | Ident(js_word!("interface"))
+                | Ident(js_word!("let"))
+                | Ident(js_word!("package"))
+                | Ident(js_word!("private"))
+                | Ident(js_word!("protected"))
+                | Ident(js_word!("public")) if strict =>
+                {
+                    syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
+                }
+                _ => {}
             }
-
-            //TODO
-            // Spec:
-            // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
-            // and the StringValue of IdentifierName is "await".
 
             //TODO
             // Spec:
@@ -78,28 +77,33 @@ impl<I: Input> Parser<I> {
             // value as the StringValue of any ReservedWord except for yield or await.
 
             match w {
+                // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
+                // and the StringValue of IdentifierName is "await".
+                Keyword(Await) if p.ctx().module => {
+                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
+                }
                 Keyword(Let) => Ok(w.into()),
                 Ident(ident) => Ok(ident),
                 Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
                 Keyword(Await) if incl_await => Ok(js_word!("await")),
                 Keyword(..) | Null | True | False => {
-                    syntax_error!(SyntaxError::ExpectedIdent)
+                    syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
             }
         })
     }
 }
 
-pub(super) trait MaybeOptionalIdentParser<Ident> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident>;
+pub(super) trait MaybeOptionalIdentParser<'a, Ident> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Ident>;
 }
-impl<I: Input> MaybeOptionalIdentParser<Ident> for Parser<I> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident> {
+impl<'a, I: Input> MaybeOptionalIdentParser<'a, Ident> for Parser<'a, I> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Ident> {
         self.parse_binding_ident()
     }
 }
-impl<I: Input> MaybeOptionalIdentParser<Option<Ident>> for Parser<I> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
+impl<'a, I: Input> MaybeOptionalIdentParser<'a, Option<Ident>> for Parser<'a, I> {
+    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
         self.parse_opt_binding_ident()
     }
 }

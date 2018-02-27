@@ -1,6 +1,6 @@
-use std::fmt::Debug;
+use super::util::CharExt;
 use std::str;
-use swc_common::BytePos;
+use swc_common::{BytePos, FileMap};
 
 /// Used inside lexer.
 pub(super) struct LexerInput<I: Input> {
@@ -10,22 +10,33 @@ pub(super) struct LexerInput<I: Input> {
 }
 
 impl<I: Input> LexerInput<I> {
-    pub const fn new(input: I) -> Self {
-        LexerInput {
-            input,
-            last_pos: BytePos(0),
+    pub fn new(input: I) -> Self {
+        let mut i = LexerInput {
+            last_pos: input.start_pos(),
             cur: None,
-        }
+            input,
+        };
+        i.input.record_new_line(i.last_pos);
+        i
     }
 
     pub fn bump(&mut self) {
-        let pos = match self.cur.take() {
-            Some((p, prev_c)) => BytePos(p.0 + prev_c.len_utf8() as u32),
+        let is_new_line = match self.cur.take() {
+            Some((p, prev_c)) => {
+                self.last_pos = BytePos(p.0 + prev_c.len_utf8() as u32);
+                prev_c.is_line_break()
+            }
             None => unreachable!("bump is called without knowing current character"),
         };
+        // TODO: Handle \r\n
 
         self.cur = self.input.next();
-        self.last_pos = pos;
+        if is_new_line {
+            match self.cur {
+                Some((p, _)) => self.input.record_new_line(p),
+                None => {}
+            }
+        }
     }
 
     pub fn peek(&mut self) -> Option<char> {
@@ -58,11 +69,37 @@ impl<I: Input> LexerInput<I> {
 }
 
 #[derive(Debug, Clone)]
-pub struct CharIndices<'a>(pub str::CharIndices<'a>);
+pub struct FileMapInput<'a> {
+    fm: &'a FileMap,
+    start_pos: BytePos,
+    iter: str::CharIndices<'a>,
+}
 
-impl<'a> Input for CharIndices<'a> {
-    type Error = ();
+impl<'a> From<&'a FileMap> for FileMapInput<'a> {
+    fn from(fm: &'a FileMap) -> Self {
+        let src = match fm.src {
+            Some(ref s) => s,
+            None => unreachable!("Cannot lex filemap without source: {}", fm.name),
+        };
 
+        FileMapInput {
+            start_pos: fm.start_pos,
+            iter: src.char_indices(),
+            fm,
+        }
+    }
+}
+
+impl<'a> Iterator for FileMapInput<'a> {
+    type Item = (BytePos, char);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.iter
+            .next()
+            .map(|(i, c)| (BytePos(i as u32 + self.start_pos.0), c))
+    }
+}
+impl<'a> Input for FileMapInput<'a> {
     fn peek(&mut self) -> Option<(BytePos, char)> {
         self.clone().nth(0)
     }
@@ -77,46 +114,25 @@ impl<'a> Input for CharIndices<'a> {
         //TODO?
         None
     }
-}
-impl<'a> Iterator for CharIndices<'a> {
-    type Item = (BytePos, char);
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.0.next().map(|(i, c)| (BytePos(i as _), c))
+    fn record_new_line(&self, pos: BytePos) {
+        self.fm.next_line(pos)
+    }
+    fn start_pos(&self) -> BytePos {
+        self.fm.start_pos
     }
 }
 
 pub trait Input: Iterator<Item = (BytePos, char)> {
-    type Error: Debug;
     fn peek(&mut self) -> Option<(BytePos, char)>;
 
     fn peek_ahead(&mut self) -> Option<(BytePos, char)>;
+    fn record_new_line(&self, _pos: BytePos) {}
+
+    fn start_pos(&self) -> BytePos;
 
     ///Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
     fn uncons_while<F>(&mut self, f: F) -> Option<&str>
     where
         F: FnMut(char) -> bool;
-}
-
-impl<'a, I> Input for &'a mut I
-where
-    I: Input,
-{
-    type Error = I::Error;
-
-    fn peek(&mut self) -> Option<(BytePos, char)> {
-        <I as Input>::peek(*self)
-    }
-
-    fn peek_ahead(&mut self) -> Option<(BytePos, char)> {
-        <I as Input>::peek_ahead(*self)
-    }
-
-    fn uncons_while<F>(&mut self, f: F) -> Option<&str>
-    where
-        F: FnMut(char) -> bool,
-    {
-        <I as Input>::uncons_while(self, f)
-    }
 }

@@ -1,0 +1,6 @@
+error: Expected LBrace
+ --> $DIR/tests/test262-parser/fail/98e0b4521b7ec370.module.js:1:7
+  |
+1 | export;
+  |       ^
+

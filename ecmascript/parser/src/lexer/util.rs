@@ -7,25 +7,25 @@
 //!
 //! Note: Currently this use xid instead of id. (because unicode_xid crate
 //! exists)
-
-use super::Lexer;
+use super::{LexResult, Lexer};
 use super::input::Input;
+use error::SyntaxError;
 use parser_macros::parser;
 use unicode_xid::UnicodeXID;
 
-pub const BACKSPACE: char = 8 as char;
-pub const SHIFT_OUT: char = 14 as char;
-pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
-pub const LINE_FEED: char = '\n';
-pub const LINE_SEPARATOR: char = '\u{2028}';
-pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
+// pub const BACKSPACE: char = 8 as char;
+// pub const SHIFT_OUT: char = 14 as char;
+// pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
+// pub const LINE_FEED: char = '\n';
+// pub const LINE_SEPARATOR: char = '\u{2028}';
+// pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 #[parser]
-impl<I: Input> Lexer<I> {
+impl<'a, I: Input> Lexer<'a, I> {
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
-    pub(super) fn skip_space(&mut self) {
+    pub(super) fn skip_space(&mut self) -> LexResult<()> {
         let mut line_break = false;
 
         while let Some(c) = cur!() {
@@ -42,7 +42,7 @@ impl<I: Input> Lexer<I> {
                         self.skip_line_comment(2);
                         continue;
                     } else if peek!() == Some('*') {
-                        self.skip_block_comment();
+                        self.skip_block_comment()?;
                         continue;
                     }
                     break;
@@ -53,6 +53,8 @@ impl<I: Input> Lexer<I> {
 
             bump!();
         }
+
+        Ok(())
     }
 
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
@@ -77,7 +79,7 @@ impl<I: Input> Lexer<I> {
     }
 
     /// Expects current char to be '/' and next char to be '*'.
-    pub(super) fn skip_block_comment(&mut self) {
+    pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
         let start = cur_pos!();
 
         debug_assert_eq!(cur!(), Some('/'));
@@ -92,7 +94,7 @@ impl<I: Input> Lexer<I> {
             if was_star && is!('/') {
                 bump!();
                 // TODO: push comment
-                return;
+                return Ok(());
             }
             if c.is_line_break() {
                 self.state.had_line_break = true;
@@ -102,7 +104,7 @@ impl<I: Input> Lexer<I> {
             bump!();
         }
 
-        unimplemented!("error: unterminated block comment");
+        syntax_error!(span!(start), SyntaxError::UnterminatedBlockComment)
     }
 }
 

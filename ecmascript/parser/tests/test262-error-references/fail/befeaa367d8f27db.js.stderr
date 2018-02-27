@@ -1,0 +1,6 @@
+error: Invalid character in identifier
+ --> $DIR/tests/test262-parser/fail/befeaa367d8f27db.js:1:2
+  |
+1 | x\u002a
+  |  ^^^^^^
+

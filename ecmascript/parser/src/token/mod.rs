@@ -1,22 +1,21 @@
 //! Ported from [babel/bablyon][]
 //!
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
-
-pub use self::AssignOpToken::*;
-pub use self::BinOpToken::*;
-pub use self::Keyword::*;
-pub use self::Token::*;
-pub use self::Word::*;
-pub use ast::AssignOp as AssignOpToken;
+pub(crate) use self::AssignOpToken::*;
+pub(crate) use self::BinOpToken::*;
+pub(crate) use self::Keyword::*;
+pub(crate) use self::Token::*;
+pub(crate) use self::Word::*;
+pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::BinaryOp;
-pub use ast::Number;
+pub(crate) use ast::Number;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
 
 #[derive(Kind, Debug, Clone, PartialEq)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
-pub enum Token {
+pub(crate) enum Token {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
@@ -98,9 +97,13 @@ pub enum Token {
     Tilde,
 
     /// String literal.
-    /// bool field is true if it's enclosed by '"' ( double quote).
     #[kind(starts_expr)]
-    Str(String, bool),
+    Str {
+        value: String,
+        /// This field exsits because 'use\x20strict' is **not** an use strict
+        /// directive.
+        has_escape: bool,
+    },
 
     /// Regexp literal.
     #[kind(starts_expr)]
@@ -109,6 +112,8 @@ pub enum Token {
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
     Num(Number),
+
+    Error(::error::Error),
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -179,21 +184,28 @@ impl BinOpToken {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct TokenAndSpan {
+pub(crate) struct TokenAndSpan {
     pub token: Token,
+    /// Had a line break before this token?
+    pub had_line_break: bool,
     pub span: Span,
 }
 
 #[derive(Kind, Clone, PartialEq, Eq, Hash)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Word {
-    #[kind(delegate)] Keyword(Keyword),
+    #[kind(delegate)]
+    Keyword(Keyword),
 
-    #[kind(starts_expr)] Null,
-    #[kind(starts_expr)] True,
-    #[kind(starts_expr)] False,
+    #[kind(starts_expr)]
+    Null,
+    #[kind(starts_expr)]
+    True,
+    #[kind(starts_expr)]
+    False,
 
-    #[kind(starts_expr)] Ident(JsWord),
+    #[kind(starts_expr)]
+    Ident(JsWord),
 }
 
 impl From<JsWord> for Word {
@@ -312,6 +324,7 @@ impl From<Word> for JsWord {
         }
     }
 }
+
 impl Debug for Word {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
@@ -324,33 +337,8 @@ impl Debug for Word {
     }
 }
 
-impl Word {
-    pub(crate) fn is_reserved_word(&self, strict: bool) -> bool {
-        match *self {
-            Keyword(Let) => strict,
-            Keyword(Await) | Keyword(Yield) => strict,
-            Keyword(_) => true,
-
-            Null | True | False => true,
-            Ident(ref name) => {
-                if name == "enum" {
-                    return true;
-                }
-                if strict {
-                    match &**name {
-                        "implements" | "package" | "protected" | "interface" | "private"
-                        | "public" => return true,
-                        _ => {}
-                    }
-                }
-                false
-            }
-        }
-    }
-}
-
 /// Keywords
-#[derive(Kind, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Kind, Clone, Copy, PartialEq, Eq, Hash)]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
     /// Spec says this might be identifier.
@@ -358,26 +346,33 @@ pub enum Keyword {
     Await,
 
     Break,
-    #[kind(before_expr)] Case,
+    #[kind(before_expr)]
+    Case,
     Catch,
     Continue,
     Debugger,
-    #[kind(before_expr)] Default_,
-    #[kind(before_expr)] Do,
-    #[kind(before_expr)] Else,
+    #[kind(before_expr)]
+    Default_,
+    #[kind(before_expr)]
+    Do,
+    #[kind(before_expr)]
+    Else,
 
     Finally,
     For,
 
-    #[kind(starts_expr)] Function,
+    #[kind(starts_expr)]
+    Function,
 
     If,
 
-    #[kind(before_expr)] Return,
+    #[kind(before_expr)]
+    Return,
 
     Switch,
 
-    #[kind(before_expr, starts_expr)] Throw,
+    #[kind(before_expr, starts_expr)]
+    Throw,
 
     Try,
     Var,
@@ -386,29 +381,106 @@ pub enum Keyword {
     While,
     With,
 
-    #[kind(before_expr, starts_expr)] New,
-    #[kind(starts_expr)] This,
-    #[kind(starts_expr)] Super,
+    #[kind(before_expr, starts_expr)]
+    New,
+    #[kind(starts_expr)]
+    This,
+    #[kind(starts_expr)]
+    Super,
 
-    #[kind(starts_expr)] Class,
+    #[kind(starts_expr)]
+    Class,
 
-    #[kind(before_expr)] Extends,
+    #[kind(before_expr)]
+    Extends,
 
     Export,
-    #[kind(starts_expr)] Import,
+    #[kind(starts_expr)]
+    Import,
 
     /// Spec says this might be identifier.
     #[kind(before_expr, starts_expr)]
     Yield,
 
-    #[kind(before_expr)] In,
-    #[kind(before_expr)] InstanceOf,
+    #[kind(before_expr)]
+    In,
+    #[kind(before_expr)]
+    InstanceOf,
 
-    #[kind(before_expr, starts_expr)] TypeOf,
+    #[kind(before_expr, starts_expr)]
+    TypeOf,
 
-    #[kind(before_expr, starts_expr)] Void,
+    #[kind(before_expr, starts_expr)]
+    Void,
 
-    #[kind(before_expr, starts_expr)] Delete,
+    #[kind(before_expr, starts_expr)]
+    Delete,
+}
+
+impl Keyword {
+    fn into_js_word(self) -> JsWord {
+        match self {
+            Await => js_word!("await"),
+            Break => js_word!("break"),
+            Case => js_word!("case"),
+            Catch => js_word!("catch"),
+            Continue => js_word!("continue"),
+            Debugger => js_word!("debugger"),
+            Default_ => js_word!("default"),
+            Do => js_word!("do"),
+            Else => js_word!("else"),
+
+            Finally => js_word!("finally"),
+            For => js_word!("for"),
+
+            Function => js_word!("function"),
+
+            If => js_word!("if"),
+
+            Return => js_word!("return"),
+
+            Switch => js_word!("switch"),
+
+            Throw => js_word!("throw"),
+
+            Try => js_word!("try"),
+            Var => js_word!("var"),
+            Let => js_word!("let"),
+            Const => js_word!("const"),
+            While => js_word!("while"),
+            With => js_word!("with"),
+
+            New => js_word!("new"),
+            This => js_word!("this"),
+            Super => js_word!("super"),
+
+            Class => js_word!("class"),
+
+            Extends => js_word!("extends"),
+
+            Export => js_word!("export"),
+            Import => js_word!("import"),
+
+            Yield => js_word!("yield"),
+
+            In => js_word!("in"),
+            InstanceOf => js_word!("instanceof"),
+
+            TypeOf => js_word!("typeof"),
+
+            Void => js_word!("void"),
+
+            Delete => js_word!("delete"),
+        }
+    }
+}
+
+impl Debug for Keyword {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "keyword '{}'", self.into_js_word())?;
+
+        Ok(())
+    }
 }
 
 impl From<BinOpToken> for BinaryOp {

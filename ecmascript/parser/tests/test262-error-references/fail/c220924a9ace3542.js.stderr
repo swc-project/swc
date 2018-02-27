@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/c220924a9ace3542.js:1:15
+  |
+1 | class Foo { * }
+  |               ^
+

@@ -1,6 +1,14 @@
 
-/target/
+
+
+target/
 **/*.bk
 core
 *.log
 Cargo.lock
+
+.vscode/*
+!.vscode/settings.json
+
+/.idea
+*.iml

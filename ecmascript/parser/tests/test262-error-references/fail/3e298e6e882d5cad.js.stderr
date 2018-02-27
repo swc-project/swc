@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/test262-parser/fail/3e298e6e882d5cad.js:1:16
+  |
+1 | with(true) let a
+  |                ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/3e298e6e882d5cad.js:1:12
+  |
+1 | with(true) let a
+  |            ^^^
+

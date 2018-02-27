@@ -3,10 +3,12 @@ use syn::fold::{self, Fold};
 use syn::synom::Synom;
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {
-    MyFolder { parser: None }.fold_item(item)
+    let item = InjectSelf { parser: None }.fold_item(item);
+
+    item
 }
 
-struct MyFolder {
+struct InjectSelf {
     parser: Option<Ident>,
 }
 
@@ -36,15 +38,39 @@ where
         .0
 }
 
-impl Fold for MyFolder {
+impl Fold for InjectSelf {
     fn fold_expr_method_call(&mut self, i: ExprMethodCall) -> ExprMethodCall {
+        /// Extract `p` from `self.parse_with(|p|{})`
+        fn get_parser_arg(call: &ExprMethodCall) -> Ident {
+            assert_eq!(call.args.len(), 1);
+            let expr = call.args.iter().next().unwrap();
+
+            let inputs = match expr {
+                &Expr::Closure(ref c) => &c.inputs,
+                _ => unreachable!("Parser.parse_with and Parser.spanned accepts a closure"),
+            };
+            assert_eq!(inputs.len(), 1);
+
+            let p = inputs.clone().into_iter().next().unwrap();
+            match p {
+                FnArg::Inferred(Pat::Ident(PatIdent { ident, .. })) => ident,
+                _ => unreachable!("Expected (|p| {..})"),
+            }
+        }
+
         match i.method.as_ref() {
-            "parse_with" => {
+            "parse_with" | "spanned" => {
                 //TODO
-                return fold::fold_expr_method_call(&mut MyFolder { parser: None }, i);
+                let parser = get_parser_arg(&i);
+                return fold::fold_expr_method_call(
+                    &mut InjectSelf {
+                        parser: Some(parser),
+                    },
+                    i,
+                );
             }
             _ => {}
-        }
+        };
 
         fold::fold_expr_method_call(self, i)
     }
@@ -68,16 +94,12 @@ impl Fold for MyFolder {
         i
     }
 
-    fn fold_expr_closure(&mut self, i: ExprClosure) -> ExprClosure {
-        if self.parser.is_none() {
-            // if we don't know what closure is this, don't do anything.
-            i
-        } else {
-            fold::fold_expr_closure(self, i)
-        }
-    }
-
     fn fold_macro(&mut self, i: Macro) -> Macro {
+        let parser = match self.parser {
+            Some(s) => s,
+            _ => return i,
+        };
+
         let name = i.path.dump().to_string();
         let span = get_joinned_span(&i.path);
 
@@ -104,7 +126,7 @@ impl Fold for MyFolder {
                     parse(i.tts.into()).expect("failed to parse input to spanned as a block");
                 let block = self.fold_block(block);
                 return Macro {
-                    tts: TokenStream::from(quote_spanned!(span => self,))
+                    tts: TokenStream::from(quote_spanned!(span => #parser, ))
                         .into_iter()
                         .chain(TokenStream::from(block.dump()))
                         .collect(),
@@ -118,7 +140,7 @@ impl Fold for MyFolder {
             | "peek" | "peek_ahead" | "last_pos" | "return_if_arrow" | "span" | "syntax_error"
             | "unexpected" => {
                 let tts = if i.tts.is_empty() {
-                    quote_spanned!(span => self).into()
+                    quote_spanned!(span => #parser).into()
                 } else {
                     let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
                     let args = args.into_pairs()
@@ -126,7 +148,7 @@ impl Fold for MyFolder {
                         .map(|arg| arg.dump())
                         .flat_map(|t| TokenStream::from(t));
 
-                    TokenStream::from(quote_spanned!(span => self,))
+                    TokenStream::from(quote_spanned!(span => #parser,))
                         .into_iter()
                         .chain(args)
                         .collect()

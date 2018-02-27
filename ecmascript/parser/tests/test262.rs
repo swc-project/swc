@@ -3,26 +3,24 @@
 #![feature(specialization)]
 #![feature(test)]
 
-#[macro_use]
 extern crate slog;
 extern crate swc_common;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
-use slog::Logger;
 use std::env;
 use std::fs::File;
 use std::fs::read_dir;
 use std::io::{self, Read};
-use std::panic::{catch_unwind, resume_unwind};
 use std::path::Path;
 use swc_common::{FoldWith, Folder};
+use swc_common::FileName;
 use swc_common::Span;
+use swc_ecma_parser::{FileMapInput, PResult, Parser, Session};
 use swc_ecma_parser::ast::*;
-use swc_ecma_parser::lexer::Lexer;
-use swc_ecma_parser::parser::{PResult, Parser};
 use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use test::ShouldPanic::No;
+use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
@@ -89,7 +87,96 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+    const IGNORED_ERROR_TESTS: &[&str] = &[
+        // Wrong tests
+        "0d5e450f1da8a92a.js",
+        "748656edbfb2d0bb.js",
+        "79f882da06f88c9f.js",
+        "92b6af54adef3624.js",
+        "ef2d369cccc5386c.js",
+        // Temporarily ignore tests for using octal escape before use strict
+        "147fa078a7436e0e.js",
+        "15a6123f6b825c38.js",
+        "3bc2b27a7430f818.js",
+    ];
+
+    let root = {
+        let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
+        root.push("tests");
+        root.push("test262-parser");
+        root
+    };
+
+    eprintln!("Loading tests from {}", root.display());
+
+    const TYPES: &[&str] = &[
+        "fail" /* TODO
+ * "early" */
+    ];
+
+    for err_type in TYPES {
+        let dir = root.join(err_type);
+        let error_reference_dir = {
+            let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
+            root.push("tests");
+            root.push("test262-error-references");
+            root.push(err_type);
+            root
+        };
+
+        for entry in read_dir(&dir)? {
+            let entry = entry?;
+            let file_name = entry
+                .path()
+                .strip_prefix(&dir)
+                .expect("failed to strip prefix")
+                .to_str()
+                .unwrap()
+                .to_string();
+
+            let input = {
+                let mut buf = String::new();
+                File::open(entry.path())?.read_to_string(&mut buf)?;
+                buf
+            };
+
+            let ignore = IGNORED_ERROR_TESTS.contains(&&*file_name);
+
+            let module = file_name.contains("module");
+
+            let dir = dir.clone();
+            let error_reference_dir = error_reference_dir.clone();
+            let name = format!("test262::error_reporting::{}::{}", err_type, file_name);
+            add_test(tests, name, ignore, move || {
+                eprintln!(
+                    "\n\n========== Running error reporting test {}\nSource:\n{}\n",
+                    file_name, input
+                );
+
+                let path = dir.join(&file_name);
+                // Parse source
+                let err = if module {
+                    parse_module(&path, &input).expect_err("should fail, but parsed as")
+                } else {
+                    parse_script(&path, &input).expect_err("should fail, but parsed as")
+                };
+
+                if err.compare_to_file(format!(
+                    "{}.stderr",
+                    error_reference_dir.join(file_name).display()
+                )).is_err()
+                {
+                    panic!()
+                }
+            });
+        }
+    }
+
+    Ok(())
+}
+
+fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
@@ -108,7 +195,7 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let file_name = entry
             .path()
             .strip_prefix(&pass_dir)
-            .expect("failed to string prefix")
+            .expect("failed to strip prefix")
             .to_str()
             .unwrap()
             .to_string();
@@ -124,43 +211,40 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             buf
         };
 
-        // TODO: remove this
         let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
 
         let module = file_name.contains("module");
 
-        let name = format!("test262_parser_pass_{}", file_name);
+        let root = root.clone();
+        let name = format!("test262::identity::{}", file_name);
         add_test(tests, name, ignore, move || {
-            println!(
-                "\n\n\nRunning test {}\nSource:\n{}\nExplicit:\n{}",
+            eprintln!(
+                "\n\n\n========== Running test {}\nSource:\n{}\nExplicit:\n{}",
                 file_name, input, explicit
             );
 
-            let res = catch_unwind(move || {
-                if module {
-                    let p = |ty, s| {
-                        parse_module(&file_name, s).unwrap_or_else(|err| {
-                            panic!("failed to parse {}: {:?}\ncode:\n{}", ty, err, s)
-                        })
-                    };
-                    let src = p("", &input);
-                    let expected = p("explicit ", &explicit);
-                    assert_eq!(src, expected);
-                } else {
-                    let p = |ty, s| {
-                        parse_script(&file_name, s).unwrap_or_else(|err| {
-                            panic!("failed to parse {}: {:?}\ncode:\n{}", ty, err, s)
-                        })
-                    };
-                    let src = p("", &input);
-                    let expected = p("explicit ", &explicit);
-                    assert_eq!(src, expected);
-                }
-            });
-
-            match res {
-                Ok(()) => {}
-                Err(err) => resume_unwind(err),
+            if module {
+                let p = |explicit, s| {
+                    parse_module(
+                        &root.join(if explicit { "pass-explicit" } else { "passs" }),
+                        s,
+                    ).map(normalize)
+                        .unwrap()
+                };
+                let src = p(false, &input);
+                let expected = p(true, &explicit);
+                assert_eq!(src, expected);
+            } else {
+                let p = |explicit, s| {
+                    parse_script(
+                        &root.join(if explicit { "pass-explicit" } else { "passs" }),
+                        s,
+                    ).map(normalize)
+                        .unwrap()
+                };
+                let src = p(false, &input);
+                let expected = p(true, &explicit);
+                assert_eq!(src, expected);
             }
         });
     }
@@ -168,22 +252,43 @@ fn unit_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     Ok(())
 }
 
-fn logger(file_name: &str, src: &str) -> Logger {
-    let (f, s): (String, String) = (file_name.into(), src.into());
-    ::testing::logger().new(o!("file name" => f, "src" => s,))
+fn parse_script(file_name: &Path, s: &str) -> Result<Vec<Stmt>, NormalizedOutput> {
+    with_parser(file_name, s, |p| p.parse_script())
+}
+fn parse_module<'a>(file_name: &Path, s: &str) -> Result<Module, NormalizedOutput> {
+    with_parser(file_name, s, |p| p.parse_module())
 }
 
-fn parse_script(file_name: &str, s: &str) -> PResult<Vec<Stmt>> {
-    let l = logger(file_name, s);
-    Parser::new_for_script(l.clone(), Lexer::new_from_str(l, s), false)
-        .parse_script()
-        .map(normalize)
-}
-fn parse_module(file_name: &str, s: &str) -> PResult<Module> {
-    let l = logger(file_name, s);
-    Parser::new_for_module(l.clone(), Lexer::new_from_str(l, s))
-        .parse_module()
-        .map(normalize)
+fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, NormalizedOutput>
+where
+    F: for<'a> FnOnce(&mut Parser<'a, FileMapInput>) -> PResult<'a, Ret>,
+{
+    let output = ::testing::run_test(|logger, cm, handler| {
+        let fm = cm.new_filemap(FileName::Real(file_name.into()), src.into());
+
+        let res = f(&mut Parser::new(
+            Session {
+                logger: &logger,
+                handler: &handler,
+                cfg: Default::default(),
+            },
+            (&*fm).into(),
+        ));
+
+        match res {
+            Ok(res) => Some(res),
+            Err(err) => {
+                err.emit();
+                None
+            }
+        }
+    });
+
+    if output.errors.is_empty() {
+        Ok(output.result.unwrap())
+    } else {
+        Err(output.errors)
+    }
 }
 
 fn normalize<T>(mut t: T) -> T
@@ -206,7 +311,18 @@ struct Normalizer {
 }
 impl Folder<Span> for Normalizer {
     fn fold(&mut self, _: Span) -> Span {
-        Span::DUMMY
+        Span::default()
+    }
+}
+impl Folder<Lit> for Normalizer {
+    fn fold(&mut self, lit: Lit) -> Lit {
+        match lit {
+            Lit::Str { value, .. } => Lit::Str {
+                value,
+                has_escape: false,
+            },
+            _ => lit,
+        }
     }
 }
 impl Folder<ExprKind> for Normalizer {
@@ -261,10 +377,17 @@ impl Folder<PropName> for Normalizer {
 }
 
 #[test]
-// #[main]
-fn main() {
+fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    unit_tests(&mut tests).unwrap();
+    identity_tests(&mut tests).unwrap();
+    test_main(&args, tests, Options::new());
+}
+
+#[test]
+fn error() {
+    let args: Vec<_> = env::args().collect();
+    let mut tests = Vec::new();
+    error_tests(&mut tests).unwrap();
     test_main(&args, tests, Options::new());
 }

@@ -1,0 +1,6 @@
+error: Cannot assign to this
+ --> $DIR/tests/test262-parser/fail/939b16a89d0e8704.js:1:15
+  |
+1 | "use strict"; ({ v: arguments }) = obj
+  |               ^^^^^^^^^^^^^^^^^^
+

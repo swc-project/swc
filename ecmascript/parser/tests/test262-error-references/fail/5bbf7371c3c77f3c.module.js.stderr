@@ -1,0 +1,6 @@
+error: Expected Word(from)
+ --> $DIR/tests/test262-parser/fail/5bbf7371c3c77f3c.module.js:1:7
+  |
+1 | import;
+  |       ^
+

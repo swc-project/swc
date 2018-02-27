@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/219ce45c23f9e1cc.js:1:10
+  |
+1 | function if() { }
+  |          ^^
+

@@ -1,0 +1,6 @@
+error: Expected 4 hex characters
+ --> $DIR/tests/test262-parser/fail/26031afc9eaef976.js:1:2
+  |
+1 | a\u11z 
+  |  ^^^^
+

@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/98f5714a70195f28.module.js:1:14
+  |
+1 | import {a as function} from 'a';
+  |              ^^^^^^^^
+

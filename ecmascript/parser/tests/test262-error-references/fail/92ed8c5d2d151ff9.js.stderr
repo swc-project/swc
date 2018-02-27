@@ -1,0 +1,6 @@
+error: Expected 2 hex characters
+ --> $DIR/tests/test262-parser/fail/92ed8c5d2d151ff9.js:1:2
+  |
+1 | '\x
+  |  ^^
+

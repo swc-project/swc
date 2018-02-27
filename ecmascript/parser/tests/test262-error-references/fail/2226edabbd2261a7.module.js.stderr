@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/2226edabbd2261a7.module.js:1:20
+  |
+1 | function f() { var await }
+  |                    ^^^^^
+

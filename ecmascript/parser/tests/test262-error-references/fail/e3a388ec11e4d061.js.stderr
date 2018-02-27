@@ -1,0 +1,6 @@
+error: Expected LParen
+ --> $DIR/tests/test262-parser/fail/e3a388ec11e4d061.js:1:18
+  |
+1 | var obj = { *test** }
+  |                  ^^
+

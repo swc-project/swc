@@ -1,7 +1,7 @@
 use common::prelude::*;
 
-pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
-    let mut derive_generics = Derive::new(input);
+pub fn derive(input: DeriveInput) -> ItemImpl {
+    let mut derive_generics = Derive::new(&input);
 
     let preds = derive_generics
         .all_generic_fields()
@@ -17,13 +17,13 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
             Quote::new_call_site()
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
-                    (Type: ::swc_common::FoldWith<__Folder>)
+                    (Type: swc_common::FoldWith<__Folder>)
                 ))
                 .parse()
         });
     derive_generics.add_where_predicates(preds);
 
-    let arms = Binder::new_from(input)
+    let arms = Binder::new_from(&input)
         .variants()
         .into_iter()
         .map(|v| {
@@ -61,7 +61,7 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
                                 FieldType: &binding.field().ty,
                                 binded_field: binding.name(),
                             },
-                            { ::swc_common::Folder::<FieldType>::fold(__folder, binded_field,) }
+                            { swc_common::Folder::<FieldType>::fold(__folder, binded_field,) }
                         )),
                     };
 
@@ -141,7 +141,7 @@ pub fn derive_fold(input: &DeriveInput) -> ItemImpl {
                 body,
             },
             {
-                impl<__Folder> ::swc_common::FoldWith<__Folder> for Type {
+                impl<__Folder> swc_common::FoldWith<__Folder> for Type {
                     fn fold_children(self, __folder: &mut __Folder) -> Self {
                         body
                     }

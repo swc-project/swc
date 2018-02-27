@@ -1,16 +1,17 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
-pub use self::input::Input;
 use self::input::ParserInput;
 use self::util::ParseObject;
+use {Context, Session};
 use ast::*;
 use error::SyntaxError;
+use lexer::Input;
+use lexer::Lexer;
 use parser_macros::parser;
-use slog::Logger;
 use std::ops::{Deref, DerefMut};
-use std::option::NoneError;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
+use swc_common::errors::DiagnosticBuilder;
 use token::*;
 
 #[macro_use]
@@ -24,42 +25,13 @@ mod pat;
 pub mod input;
 mod util;
 
-pub type PResult<T> = Result<T, Error>;
-
-#[derive(Debug)]
-pub enum Error {
-    Eof,
-    Syntax(Option<Token>, BytePos, SyntaxError, &'static str, u32),
-}
-
-impl From<NoneError> for Error {
-    fn from(_: NoneError) -> Self {
-        Error::Eof
-    }
-}
-
-#[derive(Debug, Clone, Copy, Default)]
-pub struct Config {}
+pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
-pub struct Parser<I: Input> {
-    logger: Logger,
-    cfg: Config,
-    ctx: Context,
+pub struct Parser<'a, I: Input> {
+    session: Session<'a>,
     state: State,
-    input: ParserInput<I>,
-}
-#[derive(Debug, Clone, Copy, Default)]
-struct Context {
-    strict: bool,
-    include_in_expr: bool,
-    /// If true, await expression is parsed, and "await" is treated as a
-    /// keyword.
-    in_async: bool,
-    /// If true, yield expression is parsed, and "yield" is treated as a
-    /// keyword.
-    in_generator: bool,
-    in_module: bool,
+    input: ParserInput<'a, I>,
 }
 
 #[derive(Debug, Default)]
@@ -69,42 +41,50 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 }
 
-impl<I: Input> Parser<I> {
-    pub fn new_for_module(logger: Logger, lexer: I) -> Self {
+impl<'a, I: Input> Parser<'a, I> {
+    pub fn new(session: Session<'a>, input: I) -> Self {
         Parser {
-            logger,
-            input: ParserInput::new(lexer),
-            ctx: Context {
-                strict: true,
-                in_module: true,
-                ..Default::default()
-            },
-            cfg: Default::default(),
-            state: Default::default(),
-        }
-    }
-
-    pub fn new_for_script(logger: Logger, lexer: I, strict: bool) -> Self {
-        Parser {
-            logger,
-            input: ParserInput::new(lexer),
-            ctx: Context {
-                strict,
-                ..Default::default()
-            },
-            cfg: Default::default(),
+            session,
+            input: ParserInput::new(Lexer::new(session, input)),
             state: Default::default(),
         }
     }
 
     #[parser]
-    pub fn parse_script(&mut self) -> PResult<Vec<Stmt>> {
-        self.parse_block_body(true, None)
+    pub fn parse_script(&mut self) -> PResult<'a, (Vec<Stmt>)> {
+        let ctx = Context {
+            module: false,
+            ..self.ctx()
+        };
+        self.set_ctx(ctx);
+
+        self.parse_block_body(true, true, None)
     }
 
     #[parser]
-    pub fn parse_module(&mut self) -> PResult<Module> {
-        self.parse_block_body(true, None)
+    pub fn parse_module(&mut self) -> PResult<'a, Module> {
+        //TOOD: parse() -> PResult<'a, Program>
+        let ctx = Context {
+            module: true,
+            strict: true,
+            ..self.ctx()
+        };
+        // module code is always in strict mode
+        self.set_ctx(ctx);
+
+        self.parse_block_body(true, true, None)
             .map(|body| Module { body })
     }
+
+    const fn ctx(&self) -> Context {
+        self.input.get_ctx()
+    }
+}
+
+#[cfg(test)]
+pub fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
+where
+    F: FnOnce(&mut Parser<::FileMapInput>) -> Ret,
+{
+    ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, input)))
 }

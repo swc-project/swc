@@ -1,0 +1,6 @@
+error: Expected LBrace
+ --> $DIR/tests/test262-parser/fail/1976350e287d5156.js:1:19
+  |
+1 | class A extends a + b {}
+  |                   ^
+

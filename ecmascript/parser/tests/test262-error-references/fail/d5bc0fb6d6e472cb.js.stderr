@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/d5bc0fb6d6e472cb.js:1:19
+  |
+1 | function*g(){ var yield; }
+  |                   ^^^^^
+

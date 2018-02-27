@@ -1,0 +1,6 @@
+error: Legacy octal escape is not permitted in strict mode
+ --> $DIR/tests/test262-parser/fail/5c63ac420337d014.js:1:35
+  |
+1 | function hello() { 'use strict'; "\000"; }
+  |                                   ^^
+

@@ -3,11 +3,11 @@
 use super::*;
 
 #[parser]
-impl<I: Input> Parser<I> {
+impl<'a, I: Input> Parser<'a, I> {
     /// Parse a object literal or object pattern.
-    pub(super) fn parse_object<T>(&mut self) -> PResult<T>
+    pub(super) fn parse_object<T>(&mut self) -> PResult<'a, T>
     where
-        Self: ParseObject<T>,
+        Self: ParseObject<'a, T>,
     {
         let start = cur_pos!();
         assert_and_bump!('{');
@@ -34,12 +34,12 @@ impl<I: Input> Parser<I> {
     }
 
     /// spec: 'PropertyName'
-    pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
+    pub(super) fn parse_prop_name(&mut self) -> PResult<'a, PropName> {
         let start = cur_pos!();
 
         let v = match *cur!()? {
-            Str(_, _) => match bump!() {
-                Str(s, _) => PropName::Str(s),
+            Str { .. } => match bump!() {
+                Str { value, .. } => PropName::Str(value),
                 _ => unreachable!(),
             },
             Num(_) => match bump!() {
@@ -69,7 +69,7 @@ impl<I: Input> Parser<I> {
 }
 
 #[parser]
-impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
+impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = Prop;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
@@ -80,20 +80,26 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
     }
 
     /// spec: 'PropertyDefinition'
-    fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
         let start = cur_pos!();
         // Parse as 'MethodDefinition'
 
         if eat!('*') {
+            let span_of_gen = span!(start);
+
             let name = self.parse_prop_name()?;
-            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
-                .map(|function| Prop {
-                    span: span!(start),
-                    node: PropKind::Method {
-                        key: name,
-                        function,
-                    },
-                });
+            return self.parse_fn_args_body(
+                start,
+                Parser::parse_unique_formal_params,
+                None,
+                Some(span_of_gen),
+            ).map(|function| Prop {
+                span: span!(start),
+                node: PropKind::Method {
+                    key: name,
+                    function,
+                },
+            });
         }
 
         let key = self.parse_prop_name()?;
@@ -105,24 +111,21 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
         if eat!(':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
             return Ok(Prop {
-                span: Span {
-                    start,
-                    end: value.span.end,
-                },
+                span: Span::new(start, value.span.hi(), Default::default()),
                 node: PropKind::KeyValue { key, value },
             });
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
-            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
+            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
                 .map(|function| Prop {
                     span: span!(start),
                     node: PropKind::Method { key, function },
                 });
         }
 
-        let mut ident = match key {
+        let ident = match key {
             PropName::Ident(ident) => ident,
             _ => unexpected!(),
         };
@@ -130,18 +133,9 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
         // `ident` from parse_prop_name is parsed as 'IdentifierName'
         // It means we should check for invalid expressions like { for, }
         if is_one_of!('=', ',', '}') {
-            let is_reserved_word = {
-                // FIXME: Use extension trait instead of this.
-                let word = Word::from(ident.sym);
-                let r = word.is_reserved_word(self.ctx.strict);
-                ident = Ident {
-                    sym: word.into(),
-                    ..ident
-                };
-                r
-            };
+            let is_reserved_word = { self.ctx().is_reserved_word(&ident.sym) };
             if is_reserved_word {
-                syntax_error!(SyntaxError::ReservedWordInObjShorthandOrPat)
+                syntax_error!(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
             if eat!('=') {
@@ -163,7 +157,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                 let key = self.parse_prop_name()?;
 
                 return match ident.sym {
-                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), false, false)
+                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), None, None)
                         .map(|Function { body, .. }| Prop {
                             span: span!(start),
                             node: PropKind::Getter { key, body },
@@ -171,8 +165,8 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                     js_word!("set") => self.parse_fn_args_body(
                         start,
                         |p| p.parse_formal_param().map(|pat| vec![pat]),
-                        false,
-                        false,
+                        None,
+                        None,
                     ).map(|Function { params, body, .. }| {
                         assert_eq!(params.len(), 1);
                         Prop {
@@ -187,8 +181,8 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
                     js_word!("async") => self.parse_fn_args_body(
                         start,
                         Parser::parse_unique_formal_params,
-                        true,
-                        false,
+                        Some(ident.span),
+                        None,
                     ).map(|function| Prop {
                         span: span!(start),
                         node: PropKind::Method { key, function },
@@ -202,7 +196,7 @@ impl<I: Input> ParseObject<Box<Expr>> for Parser<I> {
 }
 
 #[parser]
-impl<I: Input> ParseObject<Pat> for Parser<I> {
+impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
     type Prop = ObjectPatProp;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
@@ -213,10 +207,11 @@ impl<I: Input> ParseObject<Pat> for Parser<I> {
     }
 
     /// Production 'BindingProperty'
-    fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+    fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
         let key = self.parse_prop_name()?;
         if eat!(':') {
             let value = box self.parse_binding_element()?;
+
             return Ok(ObjectPatProp::KeyValue { key, value });
         }
         let key = match key {
@@ -229,6 +224,10 @@ impl<I: Input> ParseObject<Pat> for Parser<I> {
                 .parse_assignment_expr()
                 .map(Some)?
         } else {
+            if self.ctx().is_reserved_word(&key.sym) {
+                syntax_error!(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
+            }
+
             None
         };
 

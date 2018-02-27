@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/test262-parser/fail/03d335d8e007f61e.js:2:5
+  |
+2 |  is y
+  |     ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/03d335d8e007f61e.js:2:2
+  |
+2 |  is y
+  |  ^^
+

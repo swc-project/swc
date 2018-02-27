@@ -1,0 +1,6 @@
+error: Expected RParen
+ --> $DIR/tests/test262-parser/fail/8b6b9c72c875f0d8.js:1:14
+  |
+1 | ({ set prop(x, y) {} })
+  |              ^
+

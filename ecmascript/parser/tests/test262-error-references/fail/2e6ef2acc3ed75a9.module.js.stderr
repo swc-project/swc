@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/2e6ef2acc3ed75a9.module.js:1:18
+  |
+1 | export {a,b} from
+  |                  ^
+

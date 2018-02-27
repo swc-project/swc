@@ -3,7 +3,11 @@ use swc_macros::ast_node;
 
 #[ast_node]
 pub enum Lit {
-    Str(String),
+    Str {
+        value: String,
+        /// This includes line escape.
+        has_escape: bool,
+    },
     Bool(bool),
     Null,
     Num(Number),
