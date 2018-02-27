@@ -194,13 +194,18 @@ pub(crate) struct TokenAndSpan {
 #[derive(Kind, Clone, PartialEq, Eq, Hash)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Word {
-    #[kind(delegate)] Keyword(Keyword),
+    #[kind(delegate)]
+    Keyword(Keyword),
 
-    #[kind(starts_expr)] Null,
-    #[kind(starts_expr)] True,
-    #[kind(starts_expr)] False,
+    #[kind(starts_expr)]
+    Null,
+    #[kind(starts_expr)]
+    True,
+    #[kind(starts_expr)]
+    False,
 
-    #[kind(starts_expr)] Ident(JsWord),
+    #[kind(starts_expr)]
+    Ident(JsWord),
 }
 
 impl From<JsWord> for Word {
@@ -341,26 +346,33 @@ pub enum Keyword {
     Await,
 
     Break,
-    #[kind(before_expr)] Case,
+    #[kind(before_expr)]
+    Case,
     Catch,
     Continue,
     Debugger,
-    #[kind(before_expr)] Default_,
-    #[kind(before_expr)] Do,
-    #[kind(before_expr)] Else,
+    #[kind(before_expr)]
+    Default_,
+    #[kind(before_expr)]
+    Do,
+    #[kind(before_expr)]
+    Else,
 
     Finally,
     For,
 
-    #[kind(starts_expr)] Function,
+    #[kind(starts_expr)]
+    Function,
 
     If,
 
-    #[kind(before_expr)] Return,
+    #[kind(before_expr)]
+    Return,
 
     Switch,
 
-    #[kind(before_expr, starts_expr)] Throw,
+    #[kind(before_expr, starts_expr)]
+    Throw,
 
     Try,
     Var,
@@ -369,29 +381,40 @@ pub enum Keyword {
     While,
     With,
 
-    #[kind(before_expr, starts_expr)] New,
-    #[kind(starts_expr)] This,
-    #[kind(starts_expr)] Super,
+    #[kind(before_expr, starts_expr)]
+    New,
+    #[kind(starts_expr)]
+    This,
+    #[kind(starts_expr)]
+    Super,
 
-    #[kind(starts_expr)] Class,
+    #[kind(starts_expr)]
+    Class,
 
-    #[kind(before_expr)] Extends,
+    #[kind(before_expr)]
+    Extends,
 
     Export,
-    #[kind(starts_expr)] Import,
+    #[kind(starts_expr)]
+    Import,
 
     /// Spec says this might be identifier.
     #[kind(before_expr, starts_expr)]
     Yield,
 
-    #[kind(before_expr)] In,
-    #[kind(before_expr)] InstanceOf,
+    #[kind(before_expr)]
+    In,
+    #[kind(before_expr)]
+    InstanceOf,
 
-    #[kind(before_expr, starts_expr)] TypeOf,
+    #[kind(before_expr, starts_expr)]
+    TypeOf,
 
-    #[kind(before_expr, starts_expr)] Void,
+    #[kind(before_expr, starts_expr)]
+    Void,
 
-    #[kind(before_expr, starts_expr)] Delete,
+    #[kind(before_expr, starts_expr)]
+    Delete,
 }
 
 impl Keyword {
