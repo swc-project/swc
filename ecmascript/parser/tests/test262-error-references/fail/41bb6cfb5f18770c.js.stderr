@@ -1,0 +1,6 @@
+error: 'import', and 'export' cannot be used outside of module code
+ --> $DIR/tests/test262-parser/fail/41bb6cfb5f18770c.js:1:1
+  |
+1 | import { a as class } from 'foo'
+  | ^^^^^^
+

@@ -1,0 +1,6 @@
+error: Legacy comments cannot be used in module code
+ --> $DIR/tests/test262-parser/fail/0df19c6187ef3cbc.module.js:2:1
+  |
+2 | -->
+  | ^^^
+

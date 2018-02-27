@@ -11,7 +11,7 @@ use parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
-use swc_common::errors::Diagnostic;
+use swc_common::errors::DiagnosticBuilder;
 use token::*;
 
 #[macro_use]
@@ -25,7 +25,7 @@ mod pat;
 pub mod input;
 mod util;
 
-pub type PResult<'a, T> = Result<T, Diagnostic<'a>>;
+pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
 pub struct Parser<'a, I: Input> {
@@ -51,7 +51,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     #[parser]
-    pub fn parse_script(&mut self) -> PResult<'a, Vec<Stmt>> {
+    pub fn parse_script(&mut self) -> PResult<'a, (Vec<Stmt>)> {
         let ctx = Context {
             module: false,
             ..self.ctx()

@@ -1,0 +1,6 @@
+error: Expected Comma
+ --> $DIR/tests/test262-parser/fail/1a5b0dfa9fde985d.js:1:24
+  |
+1 | function* f() { [yield {a = 0}]; }
+  |                        ^
+

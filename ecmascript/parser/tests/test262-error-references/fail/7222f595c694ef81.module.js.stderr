@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/7222f595c694ef81.module.js:1:11
+  |
+1 | export {a,,}
+  |           ^
+

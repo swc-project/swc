@@ -1,0 +1,6 @@
+error: Unexpected character '🀒'
+ --> $DIR/tests/test262-parser/fail/959004d1d6a439d7.js:1:5
+  |
+1 | var 🀒
+  |     ^
+

@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/4ef1d6ca8eceb313.js:1:26
+  |
+1 | function* f() { [yield* {a = 0}]; }
+  |                          ^^^^^
+

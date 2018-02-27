@@ -44,7 +44,7 @@ fn test() {
 
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(Rc::new(cm)));
 
-    Diagnostic::new_with_code(
+    DiagnosticBuilder::new_with_code(
         &handler,
         Error,
         Some(DiagnosticId::Error("ABCDE".into())),
@@ -52,7 +52,7 @@ fn test() {
     ).span(full)
         .emit();
 
-    Diagnostic::new_with_code(
+    DiagnosticBuilder::new_with_code(
         &handler,
         Warning,
         Some(DiagnosticId::Lint("WITH_STMT".into())),

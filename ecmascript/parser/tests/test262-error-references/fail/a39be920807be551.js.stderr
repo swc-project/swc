@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/a39be920807be551.js:1:5
+  |
+1 | var default
+  |     ^^^^^^^
+

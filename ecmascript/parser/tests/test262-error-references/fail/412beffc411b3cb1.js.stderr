@@ -1,0 +1,6 @@
+error: Expected unicode escape
+ --> $DIR/tests/test262-parser/fail/412beffc411b3cb1.js:1:2
+  |
+1 | a\x
+  |  ^
+

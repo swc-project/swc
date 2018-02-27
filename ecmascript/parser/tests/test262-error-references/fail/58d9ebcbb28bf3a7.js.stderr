@@ -1,0 +1,6 @@
+error: Destructuring bindings require initializers
+ --> $DIR/tests/test262-parser/fail/58d9ebcbb28bf3a7.js:1:8
+  |
+1 | for(let[a].b of 0);
+  |        ^^^
+

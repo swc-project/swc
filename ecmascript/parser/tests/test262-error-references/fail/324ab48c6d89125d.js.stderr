@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/324ab48c6d89125d.js:1:20
+  |
+1 | function f() { new..target; }
+  |                    ^
+

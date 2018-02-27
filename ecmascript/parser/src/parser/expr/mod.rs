@@ -9,7 +9,7 @@ mod verifier;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub fn parse_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub fn parse_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span.lo();
 
@@ -31,7 +31,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse an assignment expression. This includes applications of
     /// operators like `+=`.
     ///
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         if self.ctx().in_generator && is!("yield") {
             return self.parse_yield_expr();
         }
@@ -90,7 +90,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Spec: 'ConditionalExpression'
-    fn parse_cond_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_cond_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         spanned!({
             let test = self.parse_bin_expr()?;
             return_if_arrow!(test);
@@ -108,7 +108,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse a primary expression or arrow function
-    fn parse_primary_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_primary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let _ = cur!();
 
         let can_be_arrow = self.state
@@ -215,7 +215,7 @@ impl<'a, I: Input> Parser<'a, I> {
         unexpected!()
     }
 
-    fn parse_array_lit(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_array_lit(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.spanned(|p| {
             assert_and_bump!('[');
             let mut elems = vec![];
@@ -239,12 +239,12 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_member_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_member_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
-    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, Box<Expr>> {
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
         if eat!("new") {
             let span_of_new = span!(start);
@@ -307,12 +307,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
-    fn parse_new_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_new_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_member_expr_or_new_expr(true)
     }
 
     /// Parse `Arguments[Yield, Await]`
-    pub(super) fn parse_args(&mut self) -> PResult<'a, Vec<ExprOrSpread>> {
+    pub(super) fn parse_args(&mut self) -> PResult<'a, (Vec<ExprOrSpread>)> {
         expect!('(');
 
         let mut first = true;
@@ -350,7 +350,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Parse paren expression or arrow function expression.
     ///
-    fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<'a, Box<Expr>> {
+    fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
         // At this point, we can't know if it's parenthesized
@@ -437,7 +437,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn parse_tpl_lit(&mut self, tag: Option<Box<Expr>>) -> PResult<'a, TplLit> {
+    fn parse_tpl_lit(&mut self, tag: Option<(Box<Expr>)>) -> PResult<'a, TplLit> {
         assert_and_bump!('`');
 
         let is_tagged = tag.is_some();
@@ -480,7 +480,11 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<'a, Box<Expr>> {
+    fn parse_subscripts(
+        &mut self,
+        mut obj: ExprOrSuper,
+        no_call: bool,
+    ) -> PResult<'a, (Box<Expr>)> {
         loop {
             obj = match self.parse_subscript(obj, no_call)? {
                 (expr, false) => return Ok(expr),
@@ -570,7 +574,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse call, dot, and `[]`-subscript expressions.
     ///
     ///
-    pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
         // `super()` can't be handled from parse_new_expr()
@@ -618,10 +622,10 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_expr()
     }
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<ExprOrSpread>> {
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, (Vec<ExprOrSpread>)> {
         self.parse_args()
     }
 }
@@ -629,7 +633,7 @@ impl<'a, I: Input> Parser<'a, I> {
 /// simple leaf methods.
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    fn parse_yield_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_yield_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.spanned(|p| {
             assert_and_bump!("yield");
             assert!(p.ctx().in_generator);

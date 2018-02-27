@@ -1,0 +1,6 @@
+error: Expected Semi
+ --> $DIR/tests/test262-parser/fail/49861fa3ca0ffc30.js:1:15
+  |
+1 | for ((i in {}));
+  |               ^
+

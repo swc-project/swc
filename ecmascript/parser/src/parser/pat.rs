@@ -5,7 +5,7 @@ use std::iter;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, Option<Ident>> {
+    pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, (Option<Ident>)> {
         if is!(BindingIdent) {
             self.parse_binding_ident().map(Some)
         } else {
@@ -112,7 +112,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     ///
     /// spec: 'FormalParameterList'
-    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
+    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, (Vec<Pat>)> {
         let mut first = true;
         let mut params = vec![];
 
@@ -145,7 +145,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(params)
     }
 
-    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
+    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, (Vec<Pat>)> {
         // FIXME: This is wrong.
         self.parse_formal_params()
     }
@@ -294,7 +294,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                             _ => syntax_error!(prop.span, SyntaxError::InvalidPat),
                         })
-                        .collect::<PResult<'a, _>>()?),
+                        .collect::<(PResult<'a, _>)>()?),
                 });
             }
             ExprKind::Ident(ident) => return Ok(ident.into()),
@@ -389,7 +389,7 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_exprs_as_params(
         &mut self,
         mut exprs: Vec<ExprOrSpread>,
-    ) -> PResult<'a, Vec<Pat>> {
+    ) -> PResult<'a, (Vec<Pat>)> {
         let pat_ty = PatType::BindingPat;
 
         let len = exprs.len();

@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/f0463cd0addb96cc.module.js:1:15
+  |
+1 | import {} from;
+  |               ^
+

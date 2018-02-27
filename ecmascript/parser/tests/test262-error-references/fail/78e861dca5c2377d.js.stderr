@@ -1,0 +1,6 @@
+error: Cannot use a reserved word as a shorthand property
+ --> $DIR/tests/test262-parser/fail/78e861dca5c2377d.js:1:14
+  |
+1 | function* y({yield}) {}
+  |              ^^^^^
+

@@ -3,7 +3,7 @@ use std::borrow::Cow;
 use std::fmt::{self, Debug, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
-use swc_common::errors::{Diagnostic, Handler};
+use swc_common::errors::{DiagnosticBuilder, Handler};
 use token::Token;
 
 #[derive(Copy, Clone)]
@@ -12,7 +12,7 @@ pub(crate) struct Eof<'a> {
     pub handler: &'a Handler,
 }
 
-impl<'a> From<Eof<'a>> for Diagnostic<'a> {
+impl<'a> From<Eof<'a>> for DiagnosticBuilder<'a> {
     fn from(Eof { handler, last }: Eof<'a>) -> Self {
         handler.error("Unexpected eof").span(last)
     }
@@ -49,20 +49,14 @@ pub(crate) enum SyntaxError {
     },
 
     UnterminatedBlockComment,
-    // #[fail(display = "unterminated string constant: {:?}", start)]
     UnterminatedStrLit,
-    // #[fail(display = "expected unicode escape sequence: {:?}", pos)]
     ExpectedUnicodeEscape,
-    // #[fail(display = "unexpected escape sequence in reserved word: {:?}", word)]
     EscapeInReservedWord {
         word: JsWord,
     },
-    // #[fail(display = "unterminated regexp (regexp started at {:?})", start)]
     UnterminatedRegxp,
     UnterminatedTpl,
-    // #[fail(display = "identifier directly after number at {:?}", pos)]
     IdentAfterNum,
-    // #[fail(display = "Unexpected character '{}' at {:?}", c, pos)]
     UnexpectedChar {
         c: char,
     },
@@ -91,11 +85,17 @@ pub(crate) enum SyntaxError {
     /// Unexpected token
     Unexpected,
     Expected(&'static Token),
+    ExpectedSemiForExprStmt {
+        expr: Span,
+    },
 
     AwaitStar,
     ReservedWordInObjShorthandOrPat,
 
-    MultipleDefault,
+    MultipleDefault {
+        /// Span of the previous default case
+        previous: Span,
+    },
     CommaAfterRestElement,
     NonLastRestParam,
     SpreadInParenExpr,
@@ -108,6 +108,7 @@ pub(crate) enum SyntaxError {
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
+    ImportExportInScript,
     PatVarWithoutInit,
     WithInStrict,
     ReturnNotAllowed,
@@ -127,7 +128,7 @@ impl<'a> From<ErrorToDiag<'a>> for Error {
     }
 }
 
-impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
+impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
     #[inline(always)]
     fn from(e: ErrorToDiag<'a>) -> Self {
         let msg: Cow<'static, _> = match e.error {
@@ -148,13 +149,13 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
             UnterminatedBlockComment => "Unterminated block comment".into(),
             UnterminatedStrLit => "Unterminated string constant".into(),
             ExpectedUnicodeEscape => "Expected unicode escape".into(),
-            EscapeInReservedWord { word } => {
+            EscapeInReservedWord { ref word } => {
                 format!("Unexpected escape sequence in reserved word: {}", word).into()
             }
             UnterminatedRegxp => "Unterminated regexp literal".into(),
             UnterminatedTpl => "Unterminated template".into(),
             IdentAfterNum => "Identifier cannot follow number".into(),
-            UnexpectedChar { c } => format!("Unexpected character '{}'", c).into(),
+            UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),
             InvalidStrEscape => "Invalid string escape".into(),
             InvalidUnicodeEscape => "Invalid unciode escape".into(),
             InvalidCodePoint => "Invalid unciode code point".into(),
@@ -166,14 +167,15 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
                                      'protected',  'public', 'static', or 'yield' cannot be used \
                                      as an identifier in strict mode"
                 .into(),
-            EvalAndArgumentsInStrict => {
-                r#"'eval' and 'arguments' cannot be used as a binding identifier in string mode"#.into()
-            }
+            EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a binding \
+                                         identifier in string mode"
+                .into(),
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
             Unexpected => "Unexpected token".into(),
             Expected(token) => format!("Expected {:?}", token).into(),
+            ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 
             AwaitStar => "await* has been removed from the async functions proposal. Use \
                           Promise.all() instead."
@@ -183,7 +185,7 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
                 "Cannot use a reserved word as a shorthand property".into()
             }
 
-            MultipleDefault => "A switch block cannot have multiple defaults".into(),
+            MultipleDefault { .. } => "A switch block cannot have multiple defaults".into(),
             CommaAfterRestElement => "Trailing comma isn't permitted after a rest element".into(),
             NonLastRestParam => "Rest element must be final element".into(),
             SpreadInParenExpr => "Parenthesized expression cannot contain spread operator".into(),
@@ -193,9 +195,12 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
             NotSimpleAssign => "Cannot assign to this".into(),
             ExpectedIdent => "Expected ident".into(),
             ExpctedSemi => "Expected ';' or line break".into(),
-            DuplicateLabel(label) => format!("Label {} is already declared", label).into(),
+            DuplicateLabel(ref label) => format!("Label {} is already declared", label).into(),
             AsyncGenerator => "An async function cannot be generator".into(),
             NonTopLevelImportExport => "'import', and 'export' are not permitted here".into(),
+            ImportExportInScript => {
+                "'import', and 'export' cannot be used outside of module code".into()
+            }
 
             PatVarWithoutInit => "Destructuring bindings require initializers".into(),
             WithInStrict => "With statement are not allowed in strict mode".into(),
@@ -206,6 +211,19 @@ impl<'a> From<ErrorToDiag<'a>> for Diagnostic<'a> {
             YieldParamInGen => "'yield' cannot be used as a parameter within generator".into(),
         };
 
-        e.handler.error(&msg).span(e.span)
+        let d = e.handler.error(&msg).span(e.span);
+
+        let d = match e.error {
+            ExpectedSemiForExprStmt { expr } => d.span_note(
+                expr,
+                "This is the expression part of an expression statement",
+            ),
+            MultipleDefault { previous } => {
+                d.span_note(previous, "previous default case is declared at here")
+            }
+            _ => d,
+        };
+
+        d
     }
 }

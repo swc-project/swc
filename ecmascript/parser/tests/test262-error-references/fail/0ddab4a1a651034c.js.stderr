@@ -1,0 +1,6 @@
+error: Unexpected initializer in for in/of loop
+ --> $DIR/tests/test262-parser/fail/0ddab4a1a651034c.js:1:6
+  |
+1 | for (let x = 42 in list) process(x);
+  |      ^^^^^^^^^^
+

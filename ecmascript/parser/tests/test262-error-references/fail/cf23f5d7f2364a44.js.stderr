@@ -1,0 +1,6 @@
+error: Parenthized expression cannot be empty
+ --> $DIR/tests/test262-parser/fail/cf23f5d7f2364a44.js:1:1
+  |
+1 | () + 1
+  | ^^
+

@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/test262-parser/fail/c473ffb7c354496e.js:1:7
+  |
+1 | { set 1 }
+  |       ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/c473ffb7c354496e.js:1:3
+  |
+1 | { set 1 }
+  |   ^^^
+

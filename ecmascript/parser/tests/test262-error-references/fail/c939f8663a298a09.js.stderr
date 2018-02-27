@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/test262-parser/fail/c939f8663a298a09.js:1:12
+  |
+1 | class A {a static(){}}
+  |            ^^^^^^
+

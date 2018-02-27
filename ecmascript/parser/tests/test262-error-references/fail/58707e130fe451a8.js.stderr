@@ -1,0 +1,6 @@
+error: Expected RBracket
+ --> $DIR/tests/test262-parser/fail/58707e130fe451a8.js:1:10
+  |
+1 | void { [1, 2]: 3 };
+  |          ^
+

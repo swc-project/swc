@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/test262-parser/fail/d83b095618ef4c4f.js:1:7
+  |
+1 | class extends A{}
+  |       ^^^^^^^
+

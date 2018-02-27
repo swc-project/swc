@@ -5,7 +5,7 @@ use super::util::ExprExt;
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_bin_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let left = self.parse_unary_expr()?;
 
         return_if_arrow!(left);
@@ -21,7 +21,7 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         left: Box<Expr>,
         min_prec: u8,
-    ) -> PResult<'a, Box<Expr>> {
+    ) -> PResult<'a, (Box<Expr>)> {
         let op = match {
             // Return left on eof
             match cur!() {
@@ -99,7 +99,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    fn parse_unary_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
         // Parse update expression
@@ -182,7 +182,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(expr)
     }
 
-    fn parse_await_expr(&mut self) -> PResult<'a, Box<Expr>> {
+    fn parse_await_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.spanned(|p| {
             assert_and_bump!("await");
             assert!(p.ctx().in_async);

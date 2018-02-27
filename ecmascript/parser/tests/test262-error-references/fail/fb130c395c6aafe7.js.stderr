@@ -1,0 +1,12 @@
+error: A switch block cannot have multiple defaults
+ --> $DIR/tests/test262-parser/fail/fb130c395c6aafe7.js:1:23
+  |
+1 | switch (c) { default: default: }
+  |                       ^^^^^^^
+  |
+note: previous default case is declared at here
+ --> $DIR/tests/test262-parser/fail/fb130c395c6aafe7.js:1:14
+  |
+1 | switch (c) { default: default: }
+  |              ^^^^^^^
+

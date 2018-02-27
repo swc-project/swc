@@ -1,0 +1,6 @@
+error: Expected 4 hex characters
+ --> $DIR/tests/test262-parser/fail/bdb40451ba403567.js:1:2
+  |
+1 | a\u1
+  |  ^^^
+

@@ -1,0 +1,6 @@
+error: 'import', and 'export' cannot be used outside of module code
+ --> $DIR/tests/test262-parser/fail/975d02f132c05a98.js:1:1
+  |
+1 | export { if } from 'foo'
+  | ^^^^^^
+

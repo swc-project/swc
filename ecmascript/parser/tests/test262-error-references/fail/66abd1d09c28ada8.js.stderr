@@ -1,0 +1,6 @@
+error: Cannot assign to this
+ --> $DIR/tests/test262-parser/fail/66abd1d09c28ada8.js:1:5
+  |
+1 | for(this of 0);
+  |     ^^^^
+

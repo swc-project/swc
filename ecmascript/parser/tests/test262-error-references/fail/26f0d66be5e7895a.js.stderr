@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/26f0d66be5e7895a.js:1:25
+  |
+1 | if(false) doThis(); else
+  |                         ^
+

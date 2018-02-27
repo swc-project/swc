@@ -1,0 +1,6 @@
+error: Destructuring bindings require initializers
+ --> $DIR/tests/test262-parser/fail/96060983e86029b6.js:1:5
+  |
+1 | var [a];
+  |     ^^^
+

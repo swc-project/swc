@@ -69,7 +69,7 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[parser]
-impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
+impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = Prop;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
@@ -85,15 +85,21 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
         // Parse as 'MethodDefinition'
 
         if eat!('*') {
+            let span_of_gen = span!(start);
+
             let name = self.parse_prop_name()?;
-            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
-                .map(|function| Prop {
-                    span: span!(start),
-                    node: PropKind::Method {
-                        key: name,
-                        function,
-                    },
-                });
+            return self.parse_fn_args_body(
+                start,
+                Parser::parse_unique_formal_params,
+                None,
+                Some(span_of_gen),
+            ).map(|function| Prop {
+                span: span!(start),
+                node: PropKind::Method {
+                    key: name,
+                    function,
+                },
+            });
         }
 
         let key = self.parse_prop_name()?;
@@ -112,7 +118,7 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
-            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
+            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
                 .map(|function| Prop {
                     span: span!(start),
                     node: PropKind::Method { key, function },
@@ -151,7 +157,7 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                 let key = self.parse_prop_name()?;
 
                 return match ident.sym {
-                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), false, false)
+                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), None, None)
                         .map(|Function { body, .. }| Prop {
                             span: span!(start),
                             node: PropKind::Getter { key, body },
@@ -159,8 +165,8 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                     js_word!("set") => self.parse_fn_args_body(
                         start,
                         |p| p.parse_formal_param().map(|pat| vec![pat]),
-                        false,
-                        false,
+                        None,
+                        None,
                     ).map(|Function { params, body, .. }| {
                         assert_eq!(params.len(), 1);
                         Prop {
@@ -175,8 +181,8 @@ impl<'a, I: Input> ParseObject<'a, Box<Expr>> for Parser<'a, I> {
                     js_word!("async") => self.parse_fn_args_body(
                         start,
                         Parser::parse_unique_formal_params,
-                        true,
-                        false,
+                        Some(ident.span),
+                        None,
                     ).map(|function| Prop {
                         span: span!(start),
                         node: PropKind::Method { key, function },

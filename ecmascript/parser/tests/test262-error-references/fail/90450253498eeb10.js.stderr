@@ -1,0 +1,6 @@
+error: LineBreak cannot follow 'throw'
+ --> $DIR/tests/test262-parser/fail/90450253498eeb10.js:2:1
+  |
+2 | 10;
+  | ^^
+

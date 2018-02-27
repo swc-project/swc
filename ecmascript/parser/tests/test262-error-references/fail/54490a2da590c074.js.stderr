@@ -1,0 +1,6 @@
+error: Identifier cannot follow number
+ --> $DIR/tests/test262-parser/fail/54490a2da590c074.js:1:4
+  |
+1 | 0B1a
+  |    ^
+

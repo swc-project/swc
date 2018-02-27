@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/test262-parser/fail/b8599b4858409b7f.js:1:17
+  |
+1 | 'use strict'; a package
+  |                 ^^^^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/test262-parser/fail/b8599b4858409b7f.js:1:15
+  |
+1 | 'use strict'; a package
+  |               ^
+

@@ -1,0 +1,6 @@
+error: Unterminated string constant
+ --> $DIR/tests/test262-parser/fail/bdb0f8dd27e0e164.js:1:9
+  |
+1 | var x = "
+  |         ^
+

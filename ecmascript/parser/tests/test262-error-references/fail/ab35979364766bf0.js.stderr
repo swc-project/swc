@@ -1,0 +1,6 @@
+error: Legacy decimal escape is not permitted in strict mode
+ --> $DIR/tests/test262-parser/fail/ab35979364766bf0.js:1:15
+  |
+1 | 'use strict'; 07
+  |               ^^
+

@@ -1,0 +1,6 @@
+error: Cannot assign to this
+ --> $DIR/tests/test262-parser/fail/d012888b0c720723.js:1:1
+  |
+1 | ( { get x() {} } ) = 0
+  | ^^^^^^^^^^^^^^^^^^
+

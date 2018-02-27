@@ -1,0 +1,6 @@
+error: Rest element must be final element
+ --> $DIR/tests/test262-parser/fail/ae0a7ac275bc9f5c.js:1:5
+  |
+1 | [...a, ] = b
+  |     ^
+

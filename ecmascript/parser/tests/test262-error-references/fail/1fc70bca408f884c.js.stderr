@@ -1,0 +1,6 @@
+error: 'import', and 'export' cannot be used outside of module code
+ --> $DIR/tests/test262-parser/fail/1fc70bca408f884c.js:1:1
+  |
+1 | export var await
+  | ^^^^^^
+
