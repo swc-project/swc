@@ -62,7 +62,6 @@ impl Context {
     }
 }
 
-#[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'w, 'a, I> {
@@ -103,6 +102,18 @@ impl<'a, I: Input> Parser<'a, I> {
         f(self)
     }
 
+    pub(super) fn span(&mut self, start: BytePos) -> Span {
+        let end = last_pos!(self);
+        if cfg!(debug_assertions) && start > end {
+            unreachable!(
+                "assertion failed: (span.start <= span.end).
+ start = {}, end = {}",
+                start.0, end.0
+            )
+        }
+        Span::new(start, end, Default::default())
+    }
+
     pub(super) fn spanned<F, Node, Ret>(&mut self, f: F) -> PResult<'a, Node>
     where
         F: FnOnce(&mut Self) -> PResult<'a, Ret>,
@@ -111,7 +122,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = self.input.cur_pos();
         let val = f(self)?;
 
-        let span = span!(start);
+        let span = self.span(start);
         Ok(Spanned::from_unspanned(val, span))
     }
 }

@@ -7,23 +7,22 @@ use super::*;
 use error::SyntaxError;
 use std::fmt::Display;
 
-#[parser]
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     ///
     ///
     pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<Number> {
-        assert!(cur!().is_some());
+        assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
-                cur!(),
+                self.cur(),
                 Some('.'),
                 "read_number(starts_with_dot = true) expects current char to be '.'"
             );
         }
-        let start = cur_pos!();
+        let start = self.cur_pos();
 
-        let starts_with_zero = cur!().unwrap() == '0';
+        let starts_with_zero = self.cur().unwrap() == '0';
 
         let val = if starts_with_dot {
             // first char is '.'
@@ -42,7 +41,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. `0` is decimal (so it can be part of float)
                     //
                     // e.g. `000` is octal
-                    if start.0 != last_pos!().0 - 1 {
+                    if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
 
                         return self.make_legacy_octal(start, 0f64);
@@ -52,7 +51,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
                     if self.ctx.strict {
-                        syntax_error!(span!(start), SyntaxError::LegacyDecimal);
+                        self.error(start, SyntaxError::LegacyDecimal)?
                     }
 
                     let s = format!("{}", val); // TODO: Remove allocation.
@@ -82,11 +81,11 @@ impl<'a, I: Input> Lexer<'a, I> {
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
         // `.1.a`, `.1e-4.a` are valid,
-        if cur!() == Some('.') {
-            bump!();
+        if self.cur() == Some('.') {
+            self.bump();
             if starts_with_dot {
-                debug_assert!(cur!().is_some());
-                debug_assert!(cur!().unwrap().is_digit(10));
+                debug_assert!(self.cur().is_some());
+                debug_assert!(self.cur().unwrap().is_digit(10));
             }
 
             // Read numbers after dot
@@ -110,14 +109,14 @@ impl<'a, I: Input> Lexer<'a, I> {
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        if eat!('e') || eat!('E') {
-            let next = match cur!() {
+        if self.eat('e') || self.eat('E') {
+            let next = match self.cur() {
                 Some(next) => next,
-                None => syntax_error!(span!(start), SyntaxError::NumLitTerminatedWithExp),
+                None => self.error(start, SyntaxError::NumLitTerminatedWithExp)?,
             };
 
             let positive = if next == '+' || next == '-' {
-                bump!(); // remove '+', '-'
+                self.bump(); // remove '+', '-'
                 next == '+'
             } else {
                 true
@@ -142,10 +141,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             "radix should be one of 2, 8, 16, but got {}",
             radix
         );
-        debug_assert_eq!(cur!(), Some('0'));
+        debug_assert_eq!(self.cur(), Some('0'));
 
-        let start = bump!(); // 0
-        bump!(); // x
+        let start = self.bump(); // 0
+        self.bump(); // x
 
         let val = self.read_number_no_dot(radix)?;
         self.ensure_not_ident()?;
@@ -161,7 +160,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
             radix
         );
-        let start = cur_pos!();
+        let start = self.cur_pos();
 
         let mut read_any = false;
 
@@ -171,16 +170,17 @@ impl<'a, I: Input> Lexer<'a, I> {
         });
 
         if !read_any {
-            syntax_error!(span!(start), SyntaxError::ExpectedDigit { radix });
+            self.error(start, SyntaxError::ExpectedDigit { radix })?;
         }
         res
     }
 
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
-        match cur!() {
+        match self.cur() {
             Some(c) if c.is_ident_start() => {
-                syntax_error!(pos_span(cur_pos!()), SyntaxError::IdentAfterNum)
+                let span = pos_span(self.cur_pos());
+                self.error_span(span, SyntaxError::IdentAfterNum)?
             }
             _ => Ok(()),
         }
@@ -190,7 +190,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<(Option<u32>)> {
+    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<Option<u32>> {
         let mut count = 0;
         let v = self.read_digits(radix, |opt: Option<u32>, radix, val| {
             count += 1;
@@ -219,14 +219,14 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.session.logger,
             "read_digits(radix = {}), cur = {:?}",
             radix,
-            cur!(self)
+            self.cur()
         );
 
-        let start = cur_pos!();
+        let start = self.cur_pos();
 
         let mut total: Ret = Default::default();
 
-        while let Some(c) = cur!() {
+        while let Some(c) = self.cur() {
             if self.session.cfg.num_sep {
                 // let prev: char = unimplemented!("prev");
                 // let next = self.input.peek();
@@ -255,7 +255,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(total);
             };
 
-            bump!();
+            self.bump();
             let (t, cont) = op(total, radix, val);
             total = t;
             if !cont {
@@ -269,7 +269,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<Number> {
         self.ensure_not_ident()?;
         return if self.ctx.strict {
-            syntax_error!(span!(start), SyntaxError::LegacyOctal)
+            self.error(start, SyntaxError::LegacyOctal)?
         } else {
             // FIXME
             Ok(Number(val))
