@@ -5,12 +5,12 @@
 //! https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 //!
 //!
-//! Note: Currently this use xid instead of id. (because unicode_xid crate
-//! exists)
+//! Note: Currently this use xid instead of id because unicode_xid crate
+//! exists.
 use super::{LexResult, Lexer};
 use super::input::Input;
-use error::SyntaxError;
-use parser_macros::parser;
+use error::{ErrorToDiag, SyntaxError};
+use swc_common::{BytePos, Span};
 use unicode_xid::UnicodeXID;
 
 // pub const BACKSPACE: char = 8 as char;
@@ -20,15 +20,75 @@ use unicode_xid::UnicodeXID;
 // pub const LINE_SEPARATOR: char = '\u{2028}';
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
-#[parser]
 impl<'a, I: Input> Lexer<'a, I> {
+    pub(super) fn span(&self, start: BytePos) -> Span {
+        let end = self.last_pos();
+        if cfg!(debug_assertions) && start > end {
+            unreachable!(
+                "assertion failed: (span.start <= span.end).
+ start = {}, end = {}",
+                start.0, end.0
+            )
+        }
+        Span::new(start, end, Default::default())
+    }
+
+    pub(super) fn bump(&mut self) {
+        self.input.bump()
+    }
+
+    pub(super) fn is(&mut self, c: char) -> bool {
+        self.cur() == Some(c)
+    }
+
+    pub(super) fn eat(&mut self, c: char) -> bool {
+        if self.is(c) {
+            self.bump();
+            true
+        } else {
+            false
+        }
+    }
+
+    pub(super) fn cur(&mut self) -> Option<char> {
+        self.input.current()
+    }
+    pub(super) fn peek(&mut self) -> Option<char> {
+        self.input.peek()
+    }
+    pub(super) fn peek_ahead(&mut self) -> Option<char> {
+        self.input.peek_ahead()
+    }
+
+    pub(super) fn cur_pos(&mut self) -> BytePos {
+        self.input.cur_pos()
+    }
+    pub(super) fn last_pos(&self) -> BytePos {
+        self.input.last_pos()
+    }
+
+    /// Shorthand for `let span = self.span(start); self.error_span(span)`
+    pub(super) fn error(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<!> {
+        let span = self.span(start);
+        self.error_span(span, kind)
+    }
+
+    pub(super) fn error_span(&mut self, span: Span, kind: SyntaxError) -> LexResult<!> {
+        let err = ErrorToDiag {
+            handler: self.session.handler,
+            span,
+            error: kind,
+        };
+        Err(err)?
+    }
+
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self) -> LexResult<()> {
         let mut line_break = false;
 
-        while let Some(c) = cur!() {
+        while let Some(c) = self.cur() {
             match c {
                 // white spaces
                 _ if c.is_ws() => {}
@@ -38,10 +98,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.state.had_line_break = true;
                 }
                 '/' => {
-                    if peek!() == Some('/') {
+                    if self.peek() == Some('/') {
                         self.skip_line_comment(2);
                         continue;
-                    } else if peek!() == Some('*') {
+                    } else if self.peek() == Some('*') {
                         self.skip_block_comment()?;
                         continue;
                     }
@@ -51,20 +111,20 @@ impl<'a, I: Input> Lexer<'a, I> {
                 _ => break,
             }
 
-            bump!();
+            self.bump();
         }
 
         Ok(())
     }
 
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
-        let start = cur_pos!();
+        let start = self.cur_pos();
         for _ in 0..start_skip {
-            bump!();
+            self.bump();
         }
 
-        while let Some(c) = cur!() {
-            bump!();
+        while let Some(c) = self.cur() {
+            self.bump();
             if c.is_line_break() {
                 self.state.had_line_break = true;
             }
@@ -80,19 +140,18 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Expects current char to be '/' and next char to be '*'.
     pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
-        let start = cur_pos!();
+        let start = self.cur_pos();
 
-        debug_assert_eq!(cur!(), Some('/'));
-        debug_assert_eq!(peek!(), Some('*'));
+        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.peek(), Some('*'));
 
-        bump!();
-        bump!();
+        self.bump();
+        self.bump();
 
         let mut was_star = false;
 
-        while let Some(c) = cur!() {
-            if was_star && is!('/') {
-                bump!();
+        while let Some(c) = self.cur() {
+            if was_star && self.eat('/') {
                 // TODO: push comment
                 return Ok(());
             }
@@ -100,11 +159,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.state.had_line_break = true;
             }
 
-            was_star = is!('*');
-            bump!();
+            was_star = self.is('*');
+            self.bump();
         }
 
-        syntax_error!(span!(start), SyntaxError::UnterminatedBlockComment)
+        self.error(start, SyntaxError::UnterminatedBlockComment)?
     }
 }
 
