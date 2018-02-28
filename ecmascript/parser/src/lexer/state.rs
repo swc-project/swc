@@ -1,5 +1,4 @@
 use super::{Input, Lexer};
-use parser_macros::parser;
 use slog::Logger;
 use swc_common::BytePos;
 use token::*;
@@ -22,7 +21,6 @@ pub(super) struct State {
     token_type: Option<Token>,
 }
 
-#[parser]
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
@@ -31,7 +29,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
         // skip spaces before getting next character, if we are allowed to.
         if self.state.can_skip_space() {
-            let start = cur_pos!();
+            let start = self.cur_pos();
 
             match self.skip_space() {
                 Err(err) => {
@@ -40,7 +38,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         TokenAndSpan {
                             token,
                             had_line_break: self.had_line_break_before_last(),
-                            span: span!(start),
+                            span: self.span(start),
                         }
                     });
                 }
@@ -48,7 +46,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             }
         };
 
-        let start = cur_pos!();
+        let start = self.cur_pos();
 
         let res = if let Some(Type::Tpl {
             start: start_pos_of_tpl,
@@ -73,7 +71,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             TokenAndSpan {
                 token,
                 had_line_break: self.had_line_break_before_last(),
-                span: span!(start),
+                span: self.span(start),
             }
         })
     }
@@ -334,17 +332,21 @@ impl Context {
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
 enum Type {
     BraceStmt,
-    #[kind(is_expr)] BraceExpr,
-    #[kind(is_expr)] TplQuasi,
+    #[kind(is_expr)]
+    BraceExpr,
+    #[kind(is_expr)]
+    TplQuasi,
     ParenStmt {
         /// Is this `for` loop?
         is_for_loop: bool,
     },
-    #[kind(is_expr)] ParenExpr,
+    #[kind(is_expr)]
+    ParenExpr,
     #[kind(is_expr, preserve_space)]
     Tpl {
         /// Start of a template literal.
         start: BytePos,
     },
-    #[kind(is_expr)] FnExpr,
+    #[kind(is_expr)]
+    FnExpr,
 }
