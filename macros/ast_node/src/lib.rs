@@ -25,11 +25,10 @@ pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 #[proc_macro_derive(ToCode, attributes(code))]
 pub fn derive_to_code(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
-    let type_name = input.ident.clone();
 
     let item = self::to_code::derive(input);
 
-    wrap_in_const(&format!("DERIVE_TO_CODE_FOR_{}", type_name), item.dump())
+    print_item(item.dump())
 }
 
 #[proc_macro_derive(AstNode)]
@@ -88,6 +87,7 @@ pub fn ast_node(
 fn print_item<T: Into<TokenStream>>(item: T) -> proc_macro::TokenStream {
     let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item: item.into() }, {
         extern crate swc_common;
+        extern crate std;
         item
     }));
     item.into()
