@@ -1,4 +1,4 @@
-use call_site;
+use def_site;
 use pmutil::ToTokensExt;
 use quote::{ToTokens, Tokens};
 use std::iter;
@@ -62,8 +62,8 @@ impl<'a> Derive<'a> {
             input,
             out: ItemImpl {
                 attrs: vec![],
-                impl_token: call_site(),
-                brace_token: call_site(),
+                impl_token: def_site(),
+                brace_token: def_site(),
                 defaultness: None,
                 unsafety: None,
                 generics,
@@ -90,7 +90,7 @@ impl<'a> Derive<'a> {
     pub fn append_to(mut self, item: ItemImpl) -> ItemImpl {
         assert_eq!(self.out.trait_, None);
         if !self.out.generics.params.empty_or_trailing() {
-            self.out.generics.params.push_punct(call_site());
+            self.out.generics.params.push_punct(def_site());
         }
 
         self.out

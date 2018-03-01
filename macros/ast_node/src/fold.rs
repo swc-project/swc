@@ -14,7 +14,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .map(|f| f.ty.clone())
         .map(normalize_type_for_bound)
         .map(|ty| {
-            Quote::new_call_site()
+            Quote::new(Span::def_site())
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
                     (Type: swc_common::FoldWith<__Folder>)
@@ -45,18 +45,18 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         .unwrap_or_else(|| {
                             Index {
                                 index: binding.idx() as _,
-                                span: call_site(),
+                                span: def_site(),
                             }.dump()
                         });
 
                     let value = match should_skip_field(binding.field()) {
-                        true => Quote::new_call_site().quote_with(smart_quote!(
+                        true => Quote::new(Span::def_site()).quote_with(smart_quote!(
                             Vars {
                                 binded_field: binding.name(),
                             },
                             { binded_field }
                         )),
-                        false => Quote::new_call_site().quote_with(smart_quote!(
+                        false => Quote::new(Span::def_site()).quote_with(smart_quote!(
                             Vars {
                                 FieldType: &binding.field().ty,
                                 binded_field: binding.name(),
@@ -65,7 +65,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         )),
                     };
 
-                    let v = Quote::new_call_site()
+                    let v = Quote::new(Span::def_site())
                         .quote_with(smart_quote!(
                             Vars { field_name, value },
                             (field_name: value)
@@ -82,19 +82,19 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         ..v
                     }
                 })
-                .map(|t| Element::Punctuated(t, call_site()))
+                .map(|t| Element::Punctuated(t, def_site()))
                 .collect();
 
             let body = match *v.data() {
                 // Handle unit like structs separately
-                Fields::Unit => box Quote::new_call_site()
+                Fields::Unit => box Quote::new(Span::def_site())
                     .quote_with(smart_quote!(Vars { Name: qual_name }, {
                         {
                             return Name;
                         }
                     }))
                     .parse(),
-                _ => box Quote::new_call_site()
+                _ => box Quote::new(Span::def_site())
                     .quote_with(smart_quote!(
                         Vars {
                             Name: qual_name,
@@ -118,23 +118,23 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                     .collect(),
                 pats: vec![Element::End(pat)].into_iter().collect(),
                 guard: None,
-                rocket_token: call_site(),
-                comma: Some(call_site()),
+                rocket_token: def_site(),
+                comma: Some(def_site()),
             }
         })
         .collect();
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
-        match_token: call_site(),
-        brace_token: call_site(),
-        expr: box Quote::new_call_site()
+        match_token: def_site(),
+        brace_token: def_site(),
+        expr: box Quote::new(Span::def_site())
             .quote_with(smart_quote!(Vars {}, { self }))
             .parse(),
         arms,
     });
 
-    let item = Quote::new_call_site()
+    let item = Quote::new(Span::def_site())
         .quote_with(smart_quote!(
             Vars {
                 Type: &input.ident,

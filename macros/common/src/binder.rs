@@ -116,7 +116,7 @@ impl<'a> VariantBinder<'a> {
     /// `EnumName::VariantName` for enum, and `StructName` for struct.
     pub fn qual_path(&self) -> Path {
         match self.enum_name {
-            Some(enum_name) => Quote::new_call_site()
+            Some(enum_name) => Quote::new(Span::def_site())
                 .quote_with(smart_quote!(
                     Vars {
                         EnumName: enum_name,
@@ -214,7 +214,7 @@ impl<'a> VariantBinder<'a> {
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
-                                Span::call_site().new_ident(format!("{}{}", prefix, idx));
+                                Span::def_site().new_ident(format!("{}{}", prefix, idx));
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),

@@ -1,4 +1,4 @@
-use call_site;
+use def_site;
 use pmutil::prelude::*;
 use syn::*;
 use syn::punctuated::Pair;
@@ -10,7 +10,7 @@ pub trait ItemImplExt {
     /// ```rust,ignore
     /// let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
     ///
-    /// let item: Item = Quote::new_call_site()
+    /// let item: Item = Quote::new(Span::def_site())
     ///     .quote_with(smart_quote!(
     /// Vars {
     /// Type: type_name,
@@ -29,7 +29,7 @@ pub trait ItemImplExt {
     /// You can use this like
     ///
     /// ```rust,ignore
-    // let item = Quote::new_call_site()
+    // let item = Quote::new(Span::def_site())
     ///     .quote_with(smart_quote!(Vars { Type: type_name }, {
     ///         impl ::swc_common::AstNode for Type {}
     ///     }))
@@ -45,7 +45,7 @@ impl ItemImplExt for ItemImpl {
 
         let need_new_punct = !generics.params.empty_or_trailing();
         if need_new_punct {
-            generics.params.push_punct(call_site());
+            generics.params.push_punct(def_site());
         }
 
         // Respan
