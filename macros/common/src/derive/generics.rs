@@ -73,21 +73,21 @@ impl<'a> Derive<'a> {
     where
         I: IntoIterator<Item = WherePredicate>,
     {
-        let preds = preds.into_iter().map(|t| Pair::Punctuated(t, call_site()));
+        let preds = preds.into_iter().map(|t| Pair::Punctuated(t, def_site()));
 
         match self.out.generics.where_clause {
             Some(WhereClause {
                 ref mut predicates, ..
             }) => {
                 if !predicates.empty_or_trailing() {
-                    predicates.push_punct(call_site());
+                    predicates.push_punct(def_site());
                 }
 
                 predicates.extend(preds)
             }
             None => {
                 self.out.generics.where_clause = Some(WhereClause {
-                    where_token: call_site(),
+                    where_token: def_site(),
                     predicates: preds.collect(),
                 })
             }

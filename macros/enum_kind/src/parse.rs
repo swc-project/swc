@@ -66,7 +66,7 @@ impl FnDef {
                 attrs: Default::default(),
                 lit: Lit::Bool(LitBool {
                     value: false,
-                    span: Span::call_site(),
+                    span: Span::def_site(),
                 }),
             }));
         }

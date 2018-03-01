@@ -23,6 +23,10 @@ pub fn call_site<T: FromSpan>() -> T {
     Span::call_site().as_token()
 }
 
+pub fn def_site<T: FromSpan>() -> T {
+    Span::def_site().as_token()
+}
+
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node
 pub fn print<T: Into<proc_macro2::TokenStream>>(
     attr: &'static str,

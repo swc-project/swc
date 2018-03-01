@@ -16,11 +16,10 @@ mod to_code;
 #[proc_macro_derive(Fold, attributes(fold))]
 pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
-    let type_name = input.ident.clone();
 
     let item = self::fold::derive(input);
 
-    wrap_in_const(&format!("DERIVE_FOLD_FOR_{}", type_name), item.dump())
+    print_item(item.dump())
 }
 
 #[proc_macro_derive(ToCode, attributes(code))]
@@ -38,14 +37,14 @@ pub fn derive_ast_node(input: proc_macro::TokenStream) -> proc_macro::TokenStrea
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
     let type_name = &input.ident;
 
-    let item = Quote::new(Span::call_site())
+    let item = Quote::new(Span::def_site())
         .quote_with(smart_quote!(Vars { Type: type_name }, {
             impl swc_common::AstNode for Type {}
         }))
         .parse::<ItemImpl>()
         .with_generics(input.generics);
 
-    wrap_in_const(&format!("DERIVE_AST_NODE_FOR_{}", type_name), item.dump())
+    print_item(item.dump())
 }
 
 /// Alias for
@@ -86,20 +85,10 @@ pub fn ast_node(
 }
 
 /// Workarounds https://github.com/rust-lang/rust/issues/44925
-fn wrap_in_const<T: Into<TokenStream>>(const_name: &str, item: T) -> proc_macro::TokenStream {
-    let item = Quote::new(Span::call_site()).quote_with(smart_quote!(
-        Vars {
-            item: item.into(),
-            CONST_NAME: Ident::new(const_name, call_site()),
-        },
-        {
-            #[allow(dead_code, non_upper_case_globals)]
-            const CONST_NAME: () = {
-                extern crate swc_common;
-                extern crate std;
-                item
-            };
-        }
-    ));
+fn print_item<T: Into<TokenStream>>(item: T) -> proc_macro::TokenStream {
+    let item = Quote::new(Span::def_site()).quote_with(smart_quote!(Vars { item: item.into() }, {
+        extern crate swc_common;
+        item
+    }));
     item.into()
 }
