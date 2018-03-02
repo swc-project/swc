@@ -14,26 +14,26 @@ pub extern crate sourcemap;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 
-use self::list::ListFormat;
-use self::text_writer::TextWriter;
-use self::util::{CodeMapExt, SpanExt};
+use self::{
+    list::ListFormat, text_writer::TextWriter, util::{CodeMapExt, SpanExt},
+};
 use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
-use std::io::{self, Write};
-use std::rc::Rc;
-use swc_common::{BytePos, Span, Spanned};
-use swc_common::errors::CodeMap;
+use std::{
+    io::{self, Write}, rc::Rc,
+};
+use swc_common::{errors::CodeMap, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[macro_use]
 pub mod macros;
 mod comments;
-pub mod list;
 pub mod config;
-pub mod text_writer;
-pub mod util;
+pub mod list;
 #[cfg(test)]
 mod tests;
+pub mod text_writer;
+pub mod util;
 
 pub type Result = io::Result<()>;
 
@@ -453,7 +453,8 @@ impl<'a> Emitter<'a> {
             let may_emit_intervening_comments =
                 !format.intersects(ListFormat::NoInterveningComments);
             let mut should_emit_intervening_comments = may_emit_intervening_comments;
-            if self.cm
+            if self
+                .cm
                 .should_write_leading_line_terminator(parent_node, children, format)
             {
                 self.wr.write_line()?;
@@ -571,7 +572,8 @@ impl<'a> Emitter<'a> {
             }
 
             // Write the closing line terminator or closing whitespace.
-            if self.cm
+            if self
+                .cm
                 .should_write_closing_line_terminator(parent_node, children, format)
             {
                 self.wr.write_line()?;
@@ -828,7 +830,8 @@ impl<'a> Emitter<'a> {
         let emit_as_single_stmt = node.cons.len() == 1 && {
             // treat synthesized nodes as located on the same line for emit purposes
             node.is_synthesized() || node.cons[0].is_synthesized()
-                || self.cm
+                || self
+                    .cm
                     .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
         };
 
