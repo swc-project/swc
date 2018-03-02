@@ -53,13 +53,48 @@ pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
                     leading_colon: None,
                     ref segments,
                 },
-            is_sugared_doc: false,
             ..
         } if segments.len() == 1 =>
         {
             segments.first().unwrap().into_value().ident == name
         }
         _ => false,
+    }
+}
+
+/// Returns `None` if `attr` is not a doc attribute.
+pub fn doc_str(attr: &Attribute) -> Option<String> {
+    fn parse_tts(attr: &Attribute) -> String {
+        let meta = attr.interpret_meta();
+        match meta {
+            Some(Meta::NameValue(MetaNameValue {
+                lit: Lit::Str(s), ..
+            })) => s.value(),
+            _ => panic!("failed to parse {}", attr.tts),
+        }
+    }
+
+    match *attr {
+        Attribute {
+            is_sugared_doc: true,
+            ..
+        } => {
+            // Remove '///'.
+            let mut s = parse_tts(attr);
+            Some(if s.starts_with("///") {
+                s.split_off(3)
+            } else {
+                s
+            })
+        }
+
+        Attribute { .. } => {
+            if !is_attr_name(attr, "doc") {
+                return None;
+            }
+
+            Some(parse_tts(attr))
+        }
     }
 }
 
