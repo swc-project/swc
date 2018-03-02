@@ -1,0 +1,12 @@
+[package]
+name = "swc_ecma_codegen"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+
+[dependencies]
+
+swc_ecma_ast = { path = "../ast" }
+sourcemap = "2.2"
+
+[dev-dependencies]
+testing = { path = "../../testing" }
