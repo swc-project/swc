@@ -116,6 +116,7 @@ impl<W: TextWriter> TextWriter for OmitTrailingSemi<W> {
 
     fn write_semi(&mut self) -> Result {
         self.pending_semi = true;
+        Ok(())
     }
 
     with_semi!(write_space());
