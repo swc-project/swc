@@ -7,61 +7,65 @@ extern crate proc_macro2;
 #[macro_use]
 extern crate quote;
 extern crate swc_macros_common;
-#[macro_use]
 extern crate syn;
 
 use swc_macros_common::prelude::*;
 
 /// Creates `.as_str()` and then implements `Debug` and `Display` using it.
-/// 
-///# Input 
+///
+///# Input
 /// Enum with \`str_value\`-style **doc** comment for each variant.
-/// 
+///
 /// e.g.
-/// 
-/// ```no_run
+///
+///```no_run
 /// pub enum BinOp {
 ///     /// `+`
 ///     Add,
 ///     /// `-`
 ///     Minus,
 /// }
-/// 
 /// ```
-/// 
+///
 /// Currently, \`str_value\` must be live in it's own line.
-/// 
+///
 ///# Output
 ///
 ///  - `pub fn as_str(&self) -> &'static str`
 ///  - `impl Debug`
 ///  - `impl Display`
-/// 
+///
 ///# Example
-/// 
-/// ```
+///
+///
+///```
 /// 
 /// #[macro_use]
 /// extern crate string_enum;
 ///
 /// #[derive(StringEnum)]
 /// pub enum Tokens {
-///     ///`a`
-///     A,
-///     ///`struct-like`
-///     StructLike {},
-///     /// `tuple-like`
-///     TupleLike(u8),
+///    /// `a`
+///    A,
+///    ///`struct-like`
+///    StructLike {},
+///    /// `tuple-like`
+///    TupleLike(u8),
 /// }
+/// # fn main() {
 ///
 /// assert_eq!(Tokens::A.as_str(), "a");
 /// assert_eq!(Tokens::StructLike {}.as_str(), "struct-like");
 /// assert_eq!(Tokens::TupleLike(13).as_str(), "tuple-like");
 ///
 /// assert_eq!(Tokens::A.to_string(), "a");
-/// assert_eq!(format!("{:?}", Tokens::A), "a");
+/// assert_eq!(format!("{:?}", Tokens::A), format!("{:?}", "a"));
+///
+/// # }
 /// ```
-
+///
+///
+/// All formatting flags are handled correctly.
 #[proc_macro_derive(StringEnum)]
 pub fn derive_string_enum(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse::<syn::DeriveInput>(input)
