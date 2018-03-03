@@ -81,26 +81,44 @@ add_bitflags!(
     Values {
         Modifiers: SingleLine | SpaceBetweenSiblings | NoInterveningComments,
         HeritageClauses: SingleLine | SpaceBetweenSiblings,
-        SingleLineTypeLiteralMembers: SingleLine | SpaceBetweenBraces | SpaceBetweenSiblings
+        SingleLineTypeLiteralMembers: SingleLine
+            | SpaceBetweenBraces
+            | SpaceBetweenSiblings
             | Indented,
         MultiLineTypeLiteralMembers: MultiLine | Indented,
         TupleTypeElements: CommaDelimited | SpaceBetweenSiblings | SingleLine | Indented,
         UnionTypeConstituents: BarDelimited | SpaceBetweenSiblings | SingleLine,
         IntersectionTypeConstituents: AmpersandDelimited | SpaceBetweenSiblings | SingleLine,
-        ObjectBindingPatternElements: SingleLine | AllowTrailingComma | SpaceBetweenBraces
-            | CommaDelimited | SpaceBetweenSiblings
+        ObjectBindingPatternElements: SingleLine
+            | AllowTrailingComma
+            | SpaceBetweenBraces
+            | CommaDelimited
+            | SpaceBetweenSiblings
             | NoSpaceIfEmpty,
-        ArrayBindingPatternElements: SingleLine | AllowTrailingComma | CommaDelimited
-            | SpaceBetweenSiblings | NoSpaceIfEmpty,
-        ObjectLiteralExpressionProperties: PreserveLines | CommaDelimited | SpaceBetweenSiblings
-            | SpaceBetweenBraces | Indented | Braces
+        ArrayBindingPatternElements: SingleLine
+            | AllowTrailingComma
+            | CommaDelimited
+            | SpaceBetweenSiblings
             | NoSpaceIfEmpty,
-        ArrayLiteralExpressionElements: PreserveLines | CommaDelimited | SpaceBetweenSiblings
-            | AllowTrailingComma | Indented
+        ObjectLiteralExpressionProperties: PreserveLines
+            | CommaDelimited
+            | SpaceBetweenSiblings
+            | SpaceBetweenBraces
+            | Indented
+            | Braces
+            | NoSpaceIfEmpty,
+        ArrayLiteralExpressionElements: PreserveLines
+            | CommaDelimited
+            | SpaceBetweenSiblings
+            | AllowTrailingComma
+            | Indented
             | SquareBrackets,
         CommaListElements: CommaDelimited | SpaceBetweenSiblings | SingleLine,
         CallExpressionArguments: CommaDelimited | SpaceBetweenSiblings | SingleLine | Parenthesis,
-        NewExpressionArguments: CommaDelimited | SpaceBetweenSiblings | SingleLine | Parenthesis
+        NewExpressionArguments: CommaDelimited
+            | SpaceBetweenSiblings
+            | SingleLine
+            | Parenthesis
             | OptionalIfUndefined,
         TemplateExpressionSpans: SingleLine | NoInterveningComments,
         SingleLineBlockStatements: SpaceBetweenBraces | SpaceBetweenSiblings | SingleLine,
@@ -113,20 +131,32 @@ add_bitflags!(
         InterfaceMembers: Indented | MultiLine,
         EnumMembers: CommaDelimited | Indented | MultiLine,
         CaseBlockClauses: Indented | MultiLine,
-        NamedImportsOrExportsElements: CommaDelimited | SpaceBetweenSiblings | AllowTrailingComma
-            | SingleLine | SpaceBetweenBraces,
+        NamedImportsOrExportsElements: CommaDelimited
+            | SpaceBetweenSiblings
+            | AllowTrailingComma
+            | SingleLine
+            | SpaceBetweenBraces,
         JsxElementOrFragmentChildren: SingleLine | NoInterveningComments,
         JsxElementAttributes: SingleLine | SpaceBetweenSiblings | NoInterveningComments,
         CaseOrDefaultClauseStatements: Indented | MultiLine | NoTrailingNewLine | OptionalIfEmpty,
         HeritageClauseTypes: CommaDelimited | SpaceBetweenSiblings | SingleLine,
         SourceFileStatements: MultiLine | NoTrailingNewLine,
         Decorators: MultiLine | Optional,
-        TypeArguments: CommaDelimited | SpaceBetweenSiblings | SingleLine | AngleBrackets
+        TypeArguments: CommaDelimited
+            | SpaceBetweenSiblings
+            | SingleLine
+            | AngleBrackets
             | Optional,
-        TypeParameters: CommaDelimited | SpaceBetweenSiblings | SingleLine | AngleBrackets
+        TypeParameters: CommaDelimited
+            | SpaceBetweenSiblings
+            | SingleLine
+            | AngleBrackets
             | Optional,
         Parameters: CommaDelimited | SpaceBetweenSiblings | SingleLine | Parenthesis,
-        IndexSignatureParameters: CommaDelimited | SpaceBetweenSiblings | SingleLine | Indented
+        IndexSignatureParameters: CommaDelimited
+            | SpaceBetweenSiblings
+            | SingleLine
+            | Indented
             | SquareBrackets,
     },
 );
