@@ -1,5 +1,5 @@
 pub use super::{call_site, def_site, doc_str, is_attr_name, print};
-pub use super::binder::{Binder, VariantBinder};
+pub use super::binder::{BindedField, Binder, VariantBinder};
 pub use super::derive::Derive;
 pub use super::syn_ext::{ItemImplExt, PairExt};
 pub use pmutil::prelude::*;

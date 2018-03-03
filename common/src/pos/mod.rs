@@ -1,18 +1,31 @@
 use fold::FoldWith;
+pub use swc_macros::Spanned;
 pub use syntax_pos::{hygiene, BytePos, ExpnFormat, ExpnInfo, FileMap, FileName, MultiSpan,
                      NameAndSpan, Span, SpanData, SyntaxContext, DUMMY_SP, NO_EXPANSION};
 
-pub trait Spanned<T>: Sized {
-    /// Creates `Self` from `node` and `span.
-    fn from_unspanned(node: T, span: Span) -> Self;
+///
+/// # Derive
+/// This trait can be derived with `#[derive(Spanned)]`.
+pub trait Spanned {
+    /// Get span of `self`.
+    fn span(&self) -> Span;
 }
 
-impl<S, T> Spanned<T> for Box<S>
+impl<S> Spanned for Box<S>
 where
-    S: Spanned<T>,
+    S: ?Sized + Spanned,
 {
-    fn from_unspanned(node: T, span: Span) -> Self {
-        box S::from_unspanned(node, span)
+    fn span(&self) -> Span {
+        <S as Spanned>::span(&*self)
+    }
+}
+
+impl<'a,S> Spanned for &'a S
+where
+    S: ?Sized + Spanned,
+{
+    fn span(&self) -> Span {
+        <S as Spanned>::span(&*self)
     }
 }
 

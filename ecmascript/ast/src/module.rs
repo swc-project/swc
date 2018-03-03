@@ -1,9 +1,10 @@
-use super::{ModuleDecl, Stmt, StmtKind};
-use swc_common::{Span, Spanned};
+use super::{ModuleDecl, Stmt};
+use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
 pub struct Module {
+    pub span: Span,
     pub body: Vec<ModuleItem>,
 }
 
@@ -11,16 +12,4 @@ pub struct Module {
 pub enum ModuleItem {
     Stmt(Stmt),
     ModuleDecl(ModuleDecl),
-}
-
-impl Spanned<StmtKind> for ModuleItem {
-    fn from_unspanned(node: StmtKind, span: Span) -> Self {
-        ModuleItem::Stmt(Stmt::from_unspanned(node, span))
-    }
-}
-
-impl From<Stmt> for ModuleItem {
-    fn from(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
-    }
 }

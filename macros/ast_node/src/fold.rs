@@ -1,4 +1,4 @@
-use common::prelude::*;
+use swc_macros_common::prelude::*;
 
 pub fn derive(input: DeriveInput) -> ItemImpl {
     let mut derive_generics = Derive::new(&input);

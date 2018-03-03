@@ -1,23 +1,11 @@
 use super::{AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp,
             UpdateOp};
-use swc_common::{Span, Spanned};
+use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
-pub struct Expr {
-    pub span: Span,
-    pub node: ExprKind,
-}
-
-impl Spanned<ExprKind> for Expr {
-    fn from_unspanned(node: ExprKind, span: Span) -> Self {
-        Expr { span, node }
-    }
-}
-
-#[ast_node]
-pub enum ExprKind {
-    This,
+pub enum Expr {
+    This(ThisExpr),
 
     Array(ArrayLit),
 
@@ -73,23 +61,31 @@ pub enum ExprKind {
 
     Await(AwaitExpr),
 
-    Paren(Box<Expr>),
+    Paren(ParenExpr),
+}
+
+#[ast_node]
+pub struct ThisExpr {
+    pub span: Span,
 }
 
 /// Array literal.
 #[ast_node]
 pub struct ArrayLit {
+    pub span: Span,
     pub elems: Vec<(Option<ExprOrSpread>)>,
 }
 
 /// Object literal.
 #[ast_node]
 pub struct ObjectLit {
+    pub span: Span,
     pub props: Vec<Prop>,
 }
 
 #[ast_node]
 pub struct UnaryExpr {
+    pub span: Span,
     pub op: UnaryOp,
 
     pub arg: Box<Expr>,
@@ -97,6 +93,7 @@ pub struct UnaryExpr {
 
 #[ast_node]
 pub struct UpdateExpr {
+    pub span: Span,
     pub op: UpdateOp,
     pub prefix: bool,
 
@@ -105,6 +102,7 @@ pub struct UpdateExpr {
 
 #[ast_node]
 pub struct BinExpr {
+    pub span: Span,
     pub op: BinaryOp,
 
     pub left: Box<Expr>,
@@ -130,6 +128,7 @@ pub struct ClassExpr {
 
 #[ast_node]
 pub struct AssignExpr {
+    pub span: Span,
     pub op: AssignOp,
     pub left: PatOrExpr,
     pub right: Box<Expr>,
@@ -204,24 +203,21 @@ pub struct TplElement {
 }
 
 #[ast_node]
+pub struct ParenExpr {
+    pub span: Span,
+    pub expr: Box<Expr>,
+}
+
+#[ast_node]
 pub enum ExprOrSuper {
     Super(Span),
     Expr(Box<Expr>),
 }
 
-impl ExprOrSuper {
-    pub fn span(&self) -> Span {
-        match *self {
-            ExprOrSuper::Super(s) => s,
-            ExprOrSuper::Expr(ref e) => e.span,
-        }
-    }
-}
-
 #[ast_node]
-pub enum ExprOrSpread {
-    Expr(Box<Expr>),
-    Spread(Box<Expr>),
+pub struct ExprOrSpread {
+    pub spread: Option<Span>,
+    pub expr: Box<Expr>,
 }
 
 #[ast_node]
@@ -230,27 +226,8 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
-impl BlockStmtOrExpr {
-    pub fn span(&self) -> Span {
-        match *self {
-            BlockStmtOrExpr::BlockStmt(BlockStmt { span, .. }) => span,
-            BlockStmtOrExpr::Expr(box Expr { span, .. }) => span,
-        }
-    }
-}
-
 #[ast_node]
 pub enum PatOrExpr {
     Pat(Pat),
     Expr(Box<Expr>),
-}
-
-impl From<Ident> for Box<Expr> {
-    fn from(i: Ident) -> Self {
-        let span = i.span;
-        box Expr {
-            span,
-            node: ExprKind::Ident(i),
-        }
-    }
 }

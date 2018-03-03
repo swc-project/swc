@@ -1,40 +1,9 @@
 use super::{Decl, Expr, Ident, Pat, VarDecl};
-use swc_common::{Span, Spanned};
+use swc_common::Span;
 use swc_macros::ast_node;
 
-#[ast_node]
-pub struct Stmt {
-    pub span: Span,
-
-    pub node: StmtKind,
-}
-
-impl From<(Box<Expr>)> for Stmt {
-    fn from(t: Box<Expr>) -> Self {
-        Stmt {
-            span: t.span,
-            node: StmtKind::Expr(t),
-        }
-    }
-}
-
-impl From<Decl> for Stmt {
-    fn from(decl: Decl) -> Self {
-        Stmt {
-            span: decl.span(),
-            node: StmtKind::Decl(decl),
-        }
-    }
-}
-
-impl Spanned<StmtKind> for Stmt {
-    fn from_unspanned(node: StmtKind, span: Span) -> Self {
-        Stmt { span, node }
-    }
-}
-
 /// Use when only block statements are allowed.
-#[derive(AstNode, Fold, Clone, Debug, PartialEq, Default)]
+#[ast_node]
 pub struct BlockStmt {
     /// Span of brace.
     pub span: Span,
@@ -42,21 +11,15 @@ pub struct BlockStmt {
     pub stmts: Vec<Stmt>,
 }
 
-impl Spanned<Vec<Stmt>> for BlockStmt {
-    fn from_unspanned(stmts: Vec<Stmt>, span: Span) -> Self {
-        BlockStmt { span, stmts }
-    }
-}
-
 #[ast_node]
-pub enum StmtKind {
+pub enum Stmt {
     Expr(Box<Expr>),
 
     Block(BlockStmt),
 
-    Empty,
+    Empty(EmptyStmt),
 
-    Debugger,
+    Debugger(DebuggerStmt),
 
     With(WithStmt),
 
@@ -91,62 +54,85 @@ pub enum StmtKind {
 }
 
 #[ast_node]
+pub struct EmptyStmt {
+    /// Span of semicolon.
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct DebuggerStmt {
+    pub span: Span,
+}
+
+#[ast_node]
 pub struct WithStmt {
+    pub span: Span,
     pub obj: Box<Expr>,
     pub body: Box<Stmt>,
 }
 
 #[ast_node]
 pub struct ReturnStmt {
+    pub span: Span,
     pub arg: Option<(Box<Expr>)>,
 }
 
 #[ast_node]
 pub struct LabeledStmt {
+    pub span: Span,
     pub label: Ident,
     pub body: Box<Stmt>,
 }
 #[ast_node]
 pub struct BreakStmt {
+    pub span: Span,
     pub label: Option<Ident>,
 }
 #[ast_node]
 pub struct ContinueStmt {
+    pub span: Span,
     pub label: Option<Ident>,
 }
 #[ast_node]
 pub struct IfStmt {
+    pub span: Span,
     pub test: Box<Expr>,
     pub cons: Box<Stmt>,
     pub alt: Option<(Box<Stmt>)>,
 }
 #[ast_node]
 pub struct SwitchStmt {
+    pub span: Span,
     pub discriminant: Box<Expr>,
     pub cases: Vec<SwitchCase>,
 }
 #[ast_node]
 pub struct ThrowStmt {
+    pub span: Span,
     pub arg: Box<Expr>,
 }
 #[ast_node]
 pub struct TryStmt {
+    pub span: Span,
     pub block: BlockStmt,
     pub handler: Option<CatchClause>,
     pub finalizer: Option<BlockStmt>,
 }
 #[ast_node]
 pub struct WhileStmt {
+    pub span: Span,
     pub test: Box<Expr>,
     pub body: Box<Stmt>,
 }
 #[ast_node]
 pub struct DoWhileStmt {
+    pub span: Span,
     pub test: Box<Expr>,
     pub body: Box<Stmt>,
 }
 #[ast_node]
 pub struct ForStmt {
+    pub span: Span,
     pub init: Option<VarDeclOrExpr>,
     pub test: Option<(Box<Expr>)>,
     pub update: Option<(Box<Expr>)>,
@@ -154,12 +140,14 @@ pub struct ForStmt {
 }
 #[ast_node]
 pub struct ForInStmt {
+    pub span: Span,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
 }
 #[ast_node]
 pub struct ForOfStmt {
+    pub span: Span,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
@@ -167,7 +155,7 @@ pub struct ForOfStmt {
 
 #[ast_node]
 pub struct SwitchCase {
-    // pub span: Span,
+    pub span: Span,
     /// None for `default:`
     pub test: Option<(Box<Expr>)>,
 
@@ -176,6 +164,7 @@ pub struct SwitchCase {
 
 #[ast_node]
 pub struct CatchClause {
+    pub span: Span,
     pub param: Pat,
 
     pub body: BlockStmt,

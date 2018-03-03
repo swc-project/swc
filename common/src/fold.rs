@@ -1,10 +1,13 @@
+#[deprecated = "Use Fold"]
+pub use self::Fold as Folder;
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
+pub use swc_macros::Fold;
 
 /// Folder based on a type system.
 ///
 /// This trait requires `#![feature(specialization)]`.
-pub trait Folder<T> {
+pub trait Fold<T> {
     /// By default, this folds fields of `node`
     ///  and reconstruct `node` with folded fields
     fn fold(&mut self, node: T) -> T;
