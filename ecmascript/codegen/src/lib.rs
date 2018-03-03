@@ -1,5 +1,10 @@
 #![feature(box_syntax)]
+#![feature(specialization)]
+#![feature(trace_macros)]
+#![recursion_limit = "1024"]
 
+#[macro_use]
+extern crate bitflags;
 pub extern crate sourcemap;
 extern crate swc_ecma_ast;
 
@@ -7,6 +12,7 @@ use sourcemap::SourceMapBuilder;
 use std::io::{self, Write};
 use text_writer::TextWriter;
 
+pub mod list;
 pub mod config;
 pub mod text_writer;
 
