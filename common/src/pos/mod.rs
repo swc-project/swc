@@ -11,6 +11,21 @@ pub trait Spanned {
     fn span(&self) -> Span;
 }
 
+impl Spanned for Span {
+    #[inline(always)]
+    fn span(&self) -> Span {
+        *self
+    }
+}
+
+impl Spanned for BytePos {
+    /// Creates a new single-byte span.
+    #[inline(always)]
+    fn span(&self) -> Span {
+        Span::new(*self, *self, Default::default())
+    }
+}
+
 impl<S> Spanned for Box<S>
 where
     S: ?Sized + Spanned,
