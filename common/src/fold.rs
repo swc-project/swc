@@ -1,5 +1,3 @@
-#[deprecated = "Use Fold"]
-pub use self::Fold as Folder;
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
 pub use swc_macros::Fold;
@@ -25,7 +23,7 @@ pub trait Fold<T> {
 ///
 /// `#[fold(ignore)]` can be used to ignore a field.
 pub trait FoldWith<F>: Sized {
-    /// This is used by default implementation of `Folder<Self>::fold`.
+    /// This is used by default implementation of `Fold<Self>::fold`.
     fn fold_children(self, f: &mut F) -> Self;
 
     /// Call `f.fold(self)`.
@@ -36,7 +34,7 @@ pub trait FoldWith<F>: Sized {
     }
 }
 
-impl<T, F> Folder<T> for F
+impl<T, F> Fold<T> for F
 where
     T: FoldWith<F>,
 {
@@ -53,7 +51,7 @@ impl<F> FoldWith<F> for ! {
 
 impl<T, F> FoldWith<F> for Box<T>
 where
-    F: Folder<T>,
+    F: Fold<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         box f.fold(*self)
@@ -62,7 +60,7 @@ where
 
 impl<T, F> FoldWith<F> for Vec<T>
 where
-    F: Folder<T>,
+    F: Fold<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         self.into_iter().map(|it| f.fold(it)).collect()
@@ -71,7 +69,7 @@ where
 
 impl<T, F> FoldWith<F> for Option<T>
 where
-    F: Folder<T>,
+    F: Fold<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         self.map(|t| f.fold(t))
@@ -94,12 +92,12 @@ impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
 
 impl<A, B, F> FoldWith<F> for Either<A, B>
 where
-    F: Folder<A> + Folder<B>,
+    F: Fold<A> + Fold<B>,
 {
     fn fold_children(self, f: &mut F) -> Self {
         match self {
-            Either::Left(a) => Either::Left(Folder::<A>::fold(f, a)),
-            Either::Right(b) => Either::Right(Folder::<B>::fold(f, b)),
+            Either::Left(a) => Either::Left(Fold::<A>::fold(f, a)),
+            Either::Right(b) => Either::Right(Fold::<B>::fold(f, b)),
         }
     }
 }

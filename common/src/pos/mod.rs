@@ -20,7 +20,7 @@ where
     }
 }
 
-impl<'a,S> Spanned for &'a S
+impl<'a, S> Spanned for &'a S
 where
     S: ?Sized + Spanned,
 {

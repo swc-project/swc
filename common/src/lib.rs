@@ -14,7 +14,9 @@ extern crate swc_macros;
 extern crate syntax_pos;
 
 pub use self::ast_node::AstNode;
-pub use self::fold::{FoldWith, Folder};
+pub use self::fold::{Fold, FoldWith};
+#[deprecated(note = "please use Fold instead")]
+pub use self::fold::Fold as Folder;
 pub use self::pos::*;
 
 mod ast_node;
