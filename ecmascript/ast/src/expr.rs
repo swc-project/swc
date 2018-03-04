@@ -1,6 +1,6 @@
 use super::{AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp,
             UpdateOp};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
 #[ast_node]
@@ -114,7 +114,7 @@ pub struct BinExpr {
 #[ast_node]
 pub struct FnExpr {
     pub ident: Option<Ident>,
-
+    #[span]
     pub function: Function,
 }
 
@@ -122,7 +122,7 @@ pub struct FnExpr {
 #[ast_node]
 pub struct ClassExpr {
     pub ident: Option<Ident>,
-
+    #[span]
     pub class: Class,
 }
 
@@ -136,34 +136,42 @@ pub struct AssignExpr {
 
 #[ast_node]
 pub struct MemberExpr {
+    pub span: Span,
     pub obj: ExprOrSuper,
     pub prop: Box<Expr>,
     pub computed: bool,
 }
 #[ast_node]
 pub struct CondExpr {
+    #[span(lo)]
     pub test: Box<Expr>,
     pub cons: Box<Expr>,
+    #[span(hi)]
     pub alt: Box<Expr>,
 }
 
 #[ast_node]
 pub struct CallExpr {
+    pub span: Span,
     pub callee: ExprOrSuper,
     pub args: Vec<ExprOrSpread>,
 }
 #[ast_node]
 pub struct NewExpr {
+    pub span: Span,
     pub callee: Box<Expr>,
-    // #[code = "$( $( $args ),* )?"]
     pub args: Option<(Vec<ExprOrSpread>)>,
 }
 #[ast_node]
 pub struct SeqExpr {
+    /// TODO: Calculate
+    pub span: Span,
     pub exprs: Vec<(Box<Expr>)>,
 }
+
 #[ast_node]
 pub struct ArrowExpr {
+    pub span: Span,
     pub params: Vec<Pat>,
 
     pub body: BlockStmtOrExpr,
@@ -173,21 +181,26 @@ pub struct ArrowExpr {
 
 #[ast_node]
 pub struct YieldExpr {
+    pub span: Span,
     pub arg: Option<(Box<Expr>)>,
     pub delegate: bool,
 }
 #[ast_node]
 pub struct MetaPropExpr {
+    #[span(lo)]
     pub meta: Ident,
+    #[span(hi)]
     pub prop: Ident,
 }
 #[ast_node]
 pub struct AwaitExpr {
+    pub span: Span,
     pub arg: Box<Expr>,
 }
 
 #[ast_node]
 pub struct TplLit {
+    pub span: Span,
     pub tag: Option<(Box<Expr>)>,
 
     pub exprs: Vec<(Box<Expr>)>,
@@ -197,6 +210,7 @@ pub struct TplLit {
 
 #[ast_node]
 pub struct TplElement {
+    pub span: Span,
     pub tail: bool,
     pub cooked: bool,
     pub raw: String,
@@ -214,10 +228,19 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
-#[ast_node]
+#[derive(Fold, Clone, Debug, PartialEq)]
 pub struct ExprOrSpread {
     pub spread: Option<Span>,
     pub expr: Box<Expr>,
+}
+impl Spanned for ExprOrSpread {
+    fn span(&self) -> Span {
+        let expr = self.expr.span();
+        match self.spread {
+            Some(spread) => expr.with_lo(spread.lo()),
+            None => expr,
+        }
+    }
 }
 
 #[ast_node]

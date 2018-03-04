@@ -18,18 +18,18 @@ pub enum Prop {
 
 #[ast_node]
 pub struct KeyValueProp {
-    // #[span(lo)]
+    #[span(lo)]
     pub key: PropName,
 
-    // #[span(hi)]
+    #[span(hi)]
     pub value: Box<Expr>,
 }
 
 #[ast_node]
 pub struct AssignProp {
-    // #[span(lo)]
+    #[span(lo)]
     key: Ident,
-    // #[span(hi)]
+    #[span(hi)]
     value: Box<Expr>,
 }
 #[ast_node]
@@ -47,9 +47,9 @@ pub struct SetterProp {
 }
 #[ast_node]
 pub struct MethodProp {
-    // #[span(lo)]
+    #[span(lo)]
     key: PropName,
-    // #[span(hi)]
+    #[span(hi)]
     function: Function,
 }
 

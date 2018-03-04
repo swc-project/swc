@@ -12,13 +12,14 @@ pub enum Decl {
 #[ast_node]
 pub struct FnDecl {
     pub ident: Ident,
+    #[span]
     pub function: Function,
 }
 
 #[ast_node]
 pub struct ClassDecl {
     pub ident: Ident,
-
+    #[span]
     pub class: Class,
 }
 

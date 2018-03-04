@@ -10,7 +10,7 @@ pub enum Pat {
 
     Rest(Box<Pat>),
 
-    Object(Vec<ObjectPatProp>),
+    Object(ObjectPat),
 
     Assign(AssignPat),
 
@@ -22,6 +22,12 @@ pub enum Pat {
 pub struct ArrayPat {
     pub span: Span,
     pub elems: Vec<(Option<Pat>)>,
+}
+
+#[ast_node]
+pub struct ObjectPat {
+    pub span: Span,
+    pub props: Vec<ObjectPatProp>,
 }
 
 #[ast_node]
@@ -40,12 +46,15 @@ pub enum ObjectPatProp {
 /// `{key: value}`
 #[ast_node]
 pub struct KeyValuePatProp {
+    #[span(lo)]
     pub key: PropName,
+    #[span(hi)]
     pub value: Box<Pat>,
 }
 /// `{key}` or `{key = value}`
 #[ast_node]
 pub struct AssignPatProp {
+    pub span: Span,
     pub key: Ident,
 
     pub value: Option<(Box<Expr>)>,

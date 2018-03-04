@@ -1,4 +1,21 @@
+use darling::FromField;
 use swc_macros_common::prelude::*;
+
+#[derive(Debug, FromField)]
+#[darling(attributes(span))]
+struct MyField {
+    /// Name of the field.
+    pub ident: Option<Ident>,
+    /// Type of the field.
+    pub ty: Type,
+
+    /// `#[span(lo)]`
+    #[darling(default)]
+    pub lo: bool,
+    /// `#[span(hi)]`
+    #[darling(default)]
+    pub hi: bool,
+}
 
 pub fn derive(input: DeriveInput) -> ItemImpl {
     let arms = Binder::new_from(&input)
@@ -53,6 +70,15 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 }
 
 fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<Expr> {
+    /// `swc_common::Spanned::span(#field)`
+    fn simple_field(field: &ToTokens) -> Box<Expr> {
+        box Quote::new(Span::def_site())
+            .quote_with(smart_quote!(Vars { field }, {
+                swc_common::Spanned::span(field)
+            }))
+            .parse()
+    }
+
     if bindings.len() == 0 {
         panic!("#[derive(Spanned)] requires a field to get span from")
     }
@@ -61,35 +87,75 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
         match *v.data() {
             Fields::Unnamed(..) => {
                 // Call self.0.span()
-                return box Quote::new(Span::def_site())
-                    .quote_with(smart_quote!(
-                        Vars {
-                            field: &bindings[0],
-                        },
-                        { swc_common::Spanned::span(field) }
-                    ))
-                    .parse();
+                return simple_field(&bindings[0]);
             }
             _ => {}
         }
     }
 
-    // TODO: Handle #[span] attribute.
-
-    let span_field = bindings
+    //  Handle #[span] attribute.
+    if let Some(f) = bindings
         .iter()
-        .find(|b| {
-            let s = b.field().ident.as_ref().map(|ident| ident.as_ref());
-            Some("span") == s
-        })
-        .unwrap_or_else(|| {
-            panic!(
-                "#[derive(Spanned)]: cannot determine span field to use for {}",
-                v.qual_path().dump()
-            )
-        });
+        .find(|b| has_empty_span_attr(&b.field().attrs))
+    {
+        //TODO: Verify that there's no more #[span]
+        return simple_field(f);
+    }
 
-    box Quote::new(Span::def_site())
-        .quote_with(smart_quote!(Vars { span_field }, { span_field }))
-        .parse()
+    // If all fields do not have `#[span(..)]`, check for field named `span`.
+    let has_any_span_attr = bindings
+        .iter()
+        .map(|b| {
+            b.field()
+                .attrs
+                .iter()
+                .any(|attr| is_attr_name(attr, "span"))
+        })
+        .any(|b| b);
+    if !has_any_span_attr {
+        let span_field = bindings
+            .iter()
+            .find(|b| Some("span") == b.field().ident.as_ref().map(|ident| ident.as_ref()))
+            .unwrap_or_else(|| {
+                panic!(
+                    "#[derive(Spanned)]: cannot determine span field to use for {}",
+                    v.qual_path().dump()
+                )
+            });
+
+        return simple_field(span_field);
+    }
+
+    let fields: Vec<_> = bindings
+        .iter()
+        .map(|b| (b, MyField::from_field(b.field()).unwrap()))
+        .collect();
+
+    // TODO: Only one field should be `#[span(lo)]`.
+    let lo = fields.iter().find(|&&(_, ref f)| f.lo);
+    let hi = fields.iter().find(|&&(_, ref f)| f.hi);
+
+    match (lo, hi) {
+        (Some(&(ref lo_field, _)), Some(&(ref hi_field, _))) => {
+            // Create a new span from lo_field.lo(), hi_field.hi()
+            box Quote::new(Span::def_site())
+                .quote_with(smart_quote!(Vars { lo_field, hi_field }, {
+                    swc_common::Spanned::span(lo_field)
+                        .with_hi(swc_common::Spanned::span(hi_field).hi())
+                }))
+                .parse()
+        }
+        _ => panic!("#[derive(Spanned)]: #[span(lo)] and #[span(hi)] is required"),
+    }
+}
+
+/// Search for `#[span]`
+fn has_empty_span_attr(attrs: &[Attribute]) -> bool {
+    attrs.iter().any(|attr| {
+        if !is_attr_name(attr, "span") {
+            return false;
+        }
+
+        attr.tts.is_empty()
+    })
 }

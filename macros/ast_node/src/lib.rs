@@ -1,6 +1,8 @@
 #![feature(box_syntax, proc_macro)]
 
 #[macro_use]
+extern crate darling;
+#[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
 extern crate proc_macro2;

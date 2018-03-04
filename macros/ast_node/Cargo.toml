@@ -11,6 +11,7 @@ swc_macros_common = { path = "../common" }
 pmutil = "0.1"
 proc-macro2 = { version = "0.2", features = ["nightly"] }
 quote = "0.4"
+darling = "0.3"
 
 [dependencies.syn]
 version = "0.12"

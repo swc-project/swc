@@ -2,15 +2,14 @@
 
 extern crate swc_common;
 extern crate swc_macros;
-use swc_common::{FoldWith, Folder};
-use swc_macros::ast_node;
+use swc_common::{Fold, FoldWith};
 
-pub trait AssertFolder<T>: Folder<T> {}
+pub trait AssertFolder<T>: Fold<T> {}
 
 // check for trait bound
 
 pub struct LitFolder;
-impl Folder<Lit> for LitFolder {
+impl Fold<Lit> for LitFolder {
     fn fold(&mut self, _: Lit) -> Lit {
         Lit::A
     }
@@ -18,7 +17,7 @@ impl Folder<Lit> for LitFolder {
 impl AssertFolder<Expr> for LitFolder {}
 impl AssertFolder<ExprKind> for LitFolder {}
 
-#[ast_node]
+#[derive(Debug, Fold, PartialEq, Eq)]
 pub struct Expr {
     pub node: ExprKind,
     /// This field should be skipped.
@@ -40,7 +39,7 @@ impl<F> FoldWith<F> for PanicOnFold {
     }
 }
 
-#[ast_node]
+#[derive(Debug, Fold, PartialEq, Eq)]
 pub enum ExprKind {
     RecursiveBoud(Box<Expr>),
     Rec2(Vec<Option<Box<Expr>>>),
@@ -48,7 +47,7 @@ pub enum ExprKind {
     Lit(Lit),
 }
 
-#[ast_node]
+#[derive(Debug, Fold, PartialEq, Eq)]
 pub enum Lit {
     A,
     B,

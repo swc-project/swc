@@ -78,6 +78,7 @@ pub struct ImportSpecific {
 
 #[ast_node]
 pub struct ExportSpecifier {
+    pub span: Span,
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,
     /// `Some(bar)` in `export { foo as bar }`
