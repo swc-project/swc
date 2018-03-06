@@ -8,7 +8,7 @@ pub enum Pat {
 
     Array(ArrayPat),
 
-    Rest(Box<Pat>),
+    Rest(RestPat),
 
     Object(ObjectPat),
 
@@ -35,6 +35,14 @@ pub struct AssignPat {
     pub span: Span,
     pub left: Box<Pat>,
     pub right: Box<Expr>,
+}
+
+#[ast_node]
+pub struct RestPat {
+    #[span(lo)]
+    pub dot3_token: Span,
+    #[span(hi)]
+    pub pat: Box<Pat>,
 }
 
 #[ast_node]

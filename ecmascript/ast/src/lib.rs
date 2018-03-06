@@ -22,7 +22,7 @@ pub use self::module_decl::{ExportAll, ExportDefaultDecl, ExportSpecifier, Impor
                             ModuleDecl, NamedExport};
 pub use self::operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp};
 pub use self::pat::{ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp,
-                    Pat};
+                    Pat, RestPat};
 pub use self::prop::{AssignProp, GetterProp, KeyValueProp, MethodProp, Prop, PropName, SetterProp};
 pub use self::stmt::{BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt,
                      EmptyStmt, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt,
