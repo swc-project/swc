@@ -635,7 +635,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 }
 
-#[ast_node]
+#[derive(Debug, PartialEq)]
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
