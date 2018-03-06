@@ -2,6 +2,7 @@
 use super::*;
 use super::util::ExprExt;
 use std::iter;
+use swc_common::Spanned;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -56,53 +57,56 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
-            return Ok(Pat {
+            return Ok(Pat::Assign(AssignPat {
                 span: span!(start),
-                node: PatKind::Assign {
-                    left: box left,
-                    right,
-                },
-            });
+                left: box left,
+                right,
+            }));
         }
 
         Ok(left)
     }
 
     fn parse_array_binding_pat(&mut self) -> PResult<'a, Pat> {
-        self.spanned(|p| {
-            assert_and_bump!('[');
+        let start = cur_pos!();
 
-            let mut elems = vec![];
-            let mut comma = 0;
+        assert_and_bump!('[');
 
-            while !eof!() && !is!(']') {
-                if eat!(',') {
-                    comma += 1;
-                    continue;
-                }
+        let mut elems = vec![];
+        let mut comma = 0;
 
-                elems.extend(iter::repeat(None).take(comma));
-                comma = 0;
-                let start = cur_pos!();
-
-                if eat!("...") {
-                    let pat = p.parse_binding_pat_or_ident()?;
-                    let pat = Pat {
-                        span: span!(start),
-                        node: PatKind::Rest(box pat),
-                    };
-                    elems.push(Some(pat));
-                    // Trailing comma isn't allowed
-                    break;
-                } else {
-                    elems.push(p.parse_binding_element().map(Some)?);
-                }
+        while !eof!() && !is!(']') {
+            if eat!(',') {
+                comma += 1;
+                continue;
             }
 
-            expect!(']');
+            elems.extend(iter::repeat(None).take(comma));
+            comma = 0;
+            let start = cur_pos!();
 
-            Ok(PatKind::Array(elems))
-        })
+            if eat!("...") {
+                let dot3_token = span!(start);
+
+                let pat = self.parse_binding_pat_or_ident()?;
+                let pat = Pat::Rest(RestPat {
+                    dot3_token,
+                    pat: box pat,
+                });
+                elems.push(Some(pat));
+                // Trailing comma isn't allowed
+                break;
+            } else {
+                elems.push(self.parse_binding_element().map(Some)?);
+            }
+        }
+
+        expect!(']');
+
+        Ok(Pat::Array(ArrayPat {
+            span: span!(start),
+            elems,
+        }))
     }
 
     /// spec: 'FormalParameter'
@@ -128,13 +132,15 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             let start = cur_pos!();
-            let rest = eat!("...");
-            if rest {
+
+            if eat!("...") {
+                let dot3_token = span!(start);
+
                 let pat = self.parse_binding_pat_or_ident()?;
-                let pat = Pat {
-                    span: span!(start),
-                    node: PatKind::Rest(box pat),
-                };
+                let pat = Pat::Rest(RestPat {
+                    dot3_token,
+                    pat: box pat,
+                });
                 params.push(pat);
                 break;
             } else {
@@ -175,13 +181,13 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn reparse_expr_as_pat(
         &mut self,
         pat_ty: PatType,
-        box expr: Box<Expr>,
+        expr: Box<Expr>,
     ) -> PResult<'a, Pat> {
-        let span = expr.span;
+        let span = expr.span();
 
         if pat_ty == PatType::AssignPat {
-            match expr.node {
-                ExprKind::Object(..) | ExprKind::Array(..) => {
+            match *expr {
+                Expr::Object(..) | Expr::Array(..) => {
                     // It is a Syntax Error if LeftHandSideExpression is either an
                     // ObjectLiteral or an ArrayLiteral and LeftHandSideExpression cannot
                     // be reparsed as an AssignmentPattern.
@@ -195,19 +201,18 @@ impl<'a, I: Input> Parser<'a, I> {
                     if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         syntax_error!(span, SyntaxError::NotSimpleAssign)
                     }
-                    match expr.node {
+                    match *expr {
                         // It is a Syntax Error if the LeftHandSideExpression is
                         // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
                         // Expression derives a phrase that would produce a Syntax Error according
                         // to these rules if that phrase were substituted for
                         // LeftHandSideExpression. This rule is recursively applied.
-                        ExprKind::Paren(expr) => return self.reparse_expr_as_pat(pat_ty, expr),
-                        ExprKind::Ident(i) => return Ok(i.into()),
+                        Expr::Paren(ParenExpr { expr, .. }) => {
+                            return self.reparse_expr_as_pat(pat_ty, expr)
+                        }
+                        Expr::Ident(i) => return Ok(i.into()),
                         _ => {
-                            return Ok(Pat {
-                                span,
-                                node: PatKind::Expr(box expr),
-                            });
+                            return Ok(Pat::Expr(expr));
                         }
                     }
                 }
@@ -220,90 +225,98 @@ impl<'a, I: Input> Parser<'a, I> {
         // DestructuringAssignmentTarget:
         //      LeftHandSideExpression
         if pat_ty == PatType::AssignElement {
-            match expr.node {
-                ExprKind::Array(..) | ExprKind::Object(..) => {}
+            match *expr {
+                Expr::Array(..) | Expr::Object(..) => {}
 
-                ExprKind::Member(..)
-                | ExprKind::Call(..)
-                | ExprKind::New(..)
-                | ExprKind::Lit(..)
-                | ExprKind::Ident(..)
-                | ExprKind::Fn(..)
-                | ExprKind::Class(..)
-                | ExprKind::Tpl(..) => {
-                    if !expr.node
-                        .is_valid_simple_assignment_target(self.ctx().strict)
-                    {
+                Expr::Member(..)
+                | Expr::Call(..)
+                | Expr::New(..)
+                | Expr::Lit(..)
+                | Expr::Ident(..)
+                | Expr::Fn(..)
+                | Expr::Class(..)
+                | Expr::Tpl(..) => {
+                    if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         syntax_error!(span, SyntaxError::NotSimpleAssign)
                     }
-                    match expr.node {
-                        ExprKind::Ident(i) => return Ok(i.into()),
+                    match *expr {
+                        Expr::Ident(i) => return Ok(i.into()),
                         _ => {
-                            return Ok(Pat {
-                                span,
-                                node: PatKind::Expr(box expr),
-                            });
+                            return Ok(Pat::Expr(expr));
                         }
                     }
                 }
 
                 // It's special because of optional intializer
-                ExprKind::Assign(..) => {}
+                Expr::Assign(..) => {}
 
                 _ => syntax_error!(span, SyntaxError::InvalidPat),
             }
         }
 
-        match expr.node {
-            ExprKind::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
-            ExprKind::Assign(AssignExpr {
+        match *expr {
+            Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
+            Expr::Assign(AssignExpr {
+                span,
                 left,
                 op: Assign,
                 right,
             }) => {
-                return Ok(Pat {
+                return Ok(Pat::Assign(AssignPat {
                     span,
-                    node: PatKind::Assign {
-                        left: match left {
-                            PatOrExpr::Expr(left) => box self.reparse_expr_as_pat(pat_ty, left)?,
-                            PatOrExpr::Pat(left) => box left,
-                        },
-                        right,
+                    left: match left {
+                        PatOrExpr::Expr(left) => box self.reparse_expr_as_pat(pat_ty, left)?,
+                        PatOrExpr::Pat(left) => box left,
                     },
-                })
+                    right,
+                }))
             }
-            ExprKind::Object(ObjectLit { props }) => {
+            Expr::Object(ObjectLit { span, props }) => {
                 // {}
-                return Ok(Pat {
+                return Ok(Pat::Object(ObjectPat {
                     span,
-                    node: PatKind::Object(props
+                    props: props
                         .into_iter()
-                        .map(|prop| match prop.node {
-                            PropKind::Shorthand(id) => Ok(ObjectPatProp::Assign {
-                                key: id.into(),
-                                value: None,
-                            }),
-                            PropKind::KeyValue { key, value } => Ok(ObjectPatProp::KeyValue {
-                                key,
-                                value: box self.reparse_expr_as_pat(pat_ty.element(), value)?,
-                            }),
-                            PropKind::Assign { key, value } => Ok(ObjectPatProp::Assign {
-                                key,
-                                value: Some(value),
-                            }),
+                        .map(|prop| {
+                            let span = prop.span();
+                            match prop {
+                                Prop::Shorthand(id) => Ok(ObjectPatProp::Assign(AssignPatProp {
+                                    span: id.span(),
+                                    key: id.into(),
+                                    value: None,
+                                })),
+                                Prop::KeyValue(KeyValueProp { key, value }) => {
+                                    Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                        key,
+                                        value: box self.reparse_expr_as_pat(
+                                            pat_ty.element(),
+                                            value,
+                                        )?,
+                                    }))
+                                }
+                                Prop::Assign(AssignProp { key, value }) => {
+                                    Ok(ObjectPatProp::Assign(AssignPatProp {
+                                        span,
+                                        key,
+                                        value: Some(value),
+                                    }))
+                                }
 
-                            _ => syntax_error!(prop.span, SyntaxError::InvalidPat),
+                                _ => syntax_error!(prop.span(), SyntaxError::InvalidPat),
+                            }
                         })
-                        .collect::<(PResult<'a, _>)>()?),
-                });
+                        .collect::<(PResult<'a, _>)>()?,
+                }));
             }
-            ExprKind::Ident(ident) => return Ok(ident.into()),
-            ExprKind::Array(ArrayLit { elems: mut exprs }) => {
+            Expr::Ident(ident) => return Ok(ident.into()),
+            Expr::Array(ArrayLit {
+                elems: mut exprs, ..
+            }) => {
                 if exprs.len() == 0 {
-                    return Ok(Pat {
+                    return Ok(Pat::Array(ArrayPat {
                         span,
-                        node: PatKind::Array(vec![]),
-                    });
+                        elems: vec![],
+                    }));
                 }
 
                 // Trailing comma may exist. We should remove those commas.
@@ -323,10 +336,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 for expr in exprs.drain(..idx_of_rest_not_allowed) {
                     match expr {
-                        Some(ExprOrSpread::Spread(expr)) => {
-                            syntax_error!(expr.span, SyntaxError::NonLastRestParam)
-                        }
-                        Some(ExprOrSpread::Expr(expr)) => {
+                        Some(
+                            expr @ ExprOrSpread {
+                                spread: Some(..), ..
+                            },
+                        ) => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),
+                        Some(ExprOrSpread { expr, .. }) => {
                             params.push(self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?)
                         }
                         None => params.push(None),
@@ -337,19 +352,21 @@ impl<'a, I: Input> Parser<'a, I> {
                     let expr = exprs.into_iter().next().unwrap();
                     let last = match expr {
                         // Rest
-                        Some(ExprOrSpread::Spread(expr)) => {
-                            // FIXME: Span should start from ...
-                            let span = expr.span;
-
+                        Some(ExprOrSpread {
+                            spread: Some(dot3_token),
+                            expr,
+                        }) => {
                             // TODO: is BindingPat correct?
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
-                                .map(|pat| Pat {
-                                    span,
-                                    node: PatKind::Rest(box pat),
+                                .map(|pat| {
+                                    Pat::Rest(RestPat {
+                                        dot3_token,
+                                        pat: box pat,
+                                    })
                                 })
                                 .map(Some)?
                         }
-                        Some(ExprOrSpread::Expr(expr)) => {
+                        Some(ExprOrSpread { expr, .. }) => {
                             // TODO: is BindingPat correct?
                             self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
                         }
@@ -358,19 +375,19 @@ impl<'a, I: Input> Parser<'a, I> {
                     };
                     params.push(last);
                 }
-                return Ok(Pat {
+                return Ok(Pat::Array(ArrayPat {
                     span,
-                    node: PatKind::Array(params),
-                });
+                    elems: params,
+                }));
             }
 
             // Invalid patterns.
             // Note that assignment expression with '=' is valid, and handled above.
-            ExprKind::Lit(..) | ExprKind::Member(..) | ExprKind::Assign(..) => {
+            Expr::Lit(..) | Expr::Member(..) | Expr::Assign(..) => {
                 syntax_error!(span, SyntaxError::InvalidPat);
             }
 
-            ExprKind::Yield(..) if self.ctx().in_generator => {
+            Expr::Yield(..) if self.ctx().in_generator => {
                 syntax_error!(span, SyntaxError::YieldParamInGen);
             }
 
@@ -401,10 +418,10 @@ impl<'a, I: Input> Parser<'a, I> {
 
         for expr in exprs.drain(..len - 1) {
             match expr {
-                ExprOrSpread::Spread(expr) => {
-                    syntax_error!(expr.span, SyntaxError::NonLastRestParam)
-                }
-                ExprOrSpread::Expr(expr) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                ExprOrSpread {
+                    spread: Some(..), ..
+                } => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),
+                ExprOrSpread { expr, .. } => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
             }
         }
 
@@ -412,15 +429,16 @@ impl<'a, I: Input> Parser<'a, I> {
         let expr = exprs.into_iter().next().unwrap();
         let last = match expr {
             // Rest
-            ExprOrSpread::Spread(expr) => {
-                let span = expr.span; //TODO
-
-                self.reparse_expr_as_pat(pat_ty, expr).map(|pat| Pat {
-                    span,
-                    node: PatKind::Rest(box pat),
-                })?
-            }
-            ExprOrSpread::Expr(expr) => self.reparse_expr_as_pat(pat_ty, expr)?,
+            ExprOrSpread {
+                spread: Some(dot3_token),
+                expr,
+            } => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
+                Pat::Rest(RestPat {
+                    dot3_token,
+                    pat: box pat,
+                })
+            })?,
+            ExprOrSpread { expr, .. } => self.reparse_expr_as_pat(pat_ty, expr)?,
         };
         params.push(last);
 

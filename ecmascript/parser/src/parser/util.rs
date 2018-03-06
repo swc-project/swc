@@ -157,12 +157,12 @@ impl<'w, 'a, I: Input> Drop for WithCtx<'w, 'a, I> {
 }
 
 pub(super) trait ExprExt {
-    fn as_expr_kind(&self) -> &ExprKind;
+    fn as_expr(&self) -> &Expr;
 
     /// "IsValidSimpleAssignmentTarget" from spec.
     fn is_valid_simple_assignment_target(&self, strict: bool) -> bool {
-        match *self.as_expr_kind() {
-            ExprKind::Ident(Ident { ref sym, .. }) => {
+        match *self.as_expr() {
+            Expr::Ident(Ident { ref sym, .. }) => {
                 if strict {
                     if &*sym == "arguments" || &*sym == "eval" {
                         return false;
@@ -171,48 +171,45 @@ pub(super) trait ExprExt {
                 true
             }
 
-            ExprKind::This
-            | ExprKind::Lit(..)
-            | ExprKind::Array(..)
-            | ExprKind::Object(..)
-            | ExprKind::Fn(..)
-            | ExprKind::Class(..)
-            | ExprKind::Tpl(..) => false,
-            ExprKind::Paren(ref expr) => expr.is_valid_simple_assignment_target(strict),
+            Expr::This(..)
+            | Expr::Lit(..)
+            | Expr::Array(..)
+            | Expr::Object(..)
+            | Expr::Fn(..)
+            | Expr::Class(..)
+            | Expr::Tpl(..) => false,
+            Expr::Paren(ParenExpr { ref expr, .. }) => {
+                expr.is_valid_simple_assignment_target(strict)
+            }
 
-            ExprKind::Member(..) => true,
+            Expr::Member(..) => true,
 
-            ExprKind::New(..) | ExprKind::Call(..) => false,
+            Expr::New(..) | Expr::Call(..) => false,
             // TODO: Spec only mentions `new.target`
-            ExprKind::MetaProp(..) => false,
+            Expr::MetaProp(..) => false,
 
-            ExprKind::Update(..) => false,
+            Expr::Update(..) => false,
 
-            ExprKind::Unary(..) | ExprKind::Await(..) => false,
+            Expr::Unary(..) | Expr::Await(..) => false,
 
-            ExprKind::Bin(..) => false,
+            Expr::Bin(..) => false,
 
-            ExprKind::Cond(..) => false,
+            Expr::Cond(..) => false,
 
-            ExprKind::Yield(..) | ExprKind::Arrow(..) | ExprKind::Assign(..) => false,
+            Expr::Yield(..) | Expr::Arrow(..) | Expr::Assign(..) => false,
 
-            ExprKind::Seq(..) => false,
+            Expr::Seq(..) => false,
         }
     }
 }
 
 impl ExprExt for Box<Expr> {
-    fn as_expr_kind(&self) -> &ExprKind {
-        &self.node
+    fn as_expr(&self) -> &Expr {
+        &*self
     }
 }
 impl ExprExt for Expr {
-    fn as_expr_kind(&self) -> &ExprKind {
-        &self.node
-    }
-}
-impl ExprExt for ExprKind {
-    fn as_expr_kind(&self) -> &ExprKind {
+    fn as_expr(&self) -> &Expr {
         self
     }
 }

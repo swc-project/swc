@@ -41,6 +41,7 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 }
 
+#[parser]
 impl<'a, I: Input> Parser<'a, I> {
     pub fn new(session: Session<'a>, input: I) -> Self {
         Parser {
@@ -50,7 +51,6 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    #[parser]
     pub fn parse_script(&mut self) -> PResult<'a, (Vec<Stmt>)> {
         let ctx = Context {
             module: false,
@@ -61,8 +61,8 @@ impl<'a, I: Input> Parser<'a, I> {
         self.parse_block_body(true, true, None)
     }
 
-    #[parser]
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
+        let start = cur_pos!();
         //TOOD: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
@@ -72,8 +72,10 @@ impl<'a, I: Input> Parser<'a, I> {
         // module code is always in strict mode
         self.set_ctx(ctx);
 
-        self.parse_block_body(true, true, None)
-            .map(|body| Module { body })
+        self.parse_block_body(true, true, None).map(|body| Module {
+            span: span!(start),
+            body,
+        })
     }
 
     const fn ctx(&self) -> Context {

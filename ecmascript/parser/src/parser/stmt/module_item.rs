@@ -8,16 +8,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Handle import 'mod.js'
         match *cur!()? {
-            Str { .. } => match bump!() {
-                Str { value, .. } => {
+            Token::Str { .. } => match bump!() {
+                Token::Str { value, .. } => {
                     expect!(';');
-                    return Ok(ModuleDecl {
+                    return Ok(ModuleDecl::Import(ImportDecl {
                         span: span!(start),
-                        node: ModuleDeclKind::Import {
-                            src: value,
-                            specifiers: vec![],
-                        },
-                    });
+                        src: value,
+                        specifiers: vec![],
+                    }));
                 }
                 _ => unreachable!(),
             },
@@ -35,7 +33,7 @@ impl<'a, I: Input> Parser<'a, I> {
             specifiers.push(ImportSpecifier {
                 span: local.span,
                 local,
-                node: ImportSpecifierKind::Default,
+                node: ImportSpecifier::Default,
             });
         }
 
@@ -70,10 +68,11 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let src = self.parse_from_clause_and_semi()?;
 
-        Ok(ModuleDecl {
+        Ok(ModuleDecl::Import(ImportDecl {
             span: span!(start),
-            node: ModuleDeclKind::Import { specifiers, src },
-        })
+            specifiers,
+            src,
+        }))
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
@@ -85,13 +84,11 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 if eat!("as") {
                     let local = self.parse_binding_ident()?;
-                    return Ok(ImportSpecifier {
+                    return Ok(ImportSpecifierKind::Specific(ImportSpecific {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
-                        node: ImportSpecifierKind::Specific {
-                            imported: Some(orig_name),
-                        },
-                    });
+                        imported: Some(orig_name),
+                    }));
                 }
 
                 // Handle difference between
@@ -103,11 +100,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
 
                 let local = orig_name;
-                return Ok(ImportSpecifier {
+                return Ok(ImportSpecifier::Specific(ImportSpecific {
                     span: span!(start),
                     local,
-                    node: ImportSpecifierKind::Specific { imported: None },
-                });
+                    imported: None,
+                }));
             }
             _ => unexpected!(),
         }
@@ -134,7 +131,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let src = self.parse_from_clause_and_semi()?;
             return Ok(ModuleDecl {
                 span: span!(start),
-                node: ModuleDeclKind::ExportAll { src },
+                node: ModuleDecl::ExportAll { src },
             });
         }
 
@@ -152,13 +149,13 @@ impl<'a, I: Input> Parser<'a, I> {
                 expect!(';');
                 return Ok(ModuleDecl {
                     span: span!(start),
-                    node: ModuleDeclKind::ExportDefaultExpr(expr),
+                    node: ModuleDecl::ExportDefaultExpr(expr),
                 });
             };
 
             return Ok(ModuleDecl {
                 span: span!(start),
-                node: ModuleDeclKind::ExportDefaultDecl(decl),
+                node: ModuleDecl::ExportDefaultDecl(decl),
             });
         }
 
@@ -207,19 +204,19 @@ impl<'a, I: Input> Parser<'a, I> {
             } else {
                 None
             };
-            return Ok(ModuleDecl {
+            return Ok(ModuleDecl::ExportNamed(NamedExport {
                 span: span!(start),
-                node: ModuleDeclKind::ExportNamed { specifiers, src },
-            });
+                specifiers,
+                src,
+            }));
         };
 
-        return Ok(ModuleDecl {
-            span: span!(start),
-            node: ModuleDeclKind::ExportDecl(decl),
-        });
+        return Ok(ModuleDecl::ExportDecl(decl));
     }
 
     fn parse_export_specifier(&mut self) -> PResult<'a, ExportSpecifier> {
+        let start = cur_pos!();
+
         let orig = self.parse_ident_name()?;
 
         let exported = if eat!("as") {
@@ -227,14 +224,19 @@ impl<'a, I: Input> Parser<'a, I> {
         } else {
             None
         };
-        Ok(ExportSpecifier { orig, exported })
+
+        Ok(ExportSpecifier {
+            span: span!(start),
+            orig,
+            exported,
+        })
     }
 
     fn parse_from_clause_and_semi(&mut self) -> PResult<'a, String> {
         expect!("from");
         match *cur!()? {
-            Str { .. } => match bump!() {
-                Str { value, .. } => {
+            Token::Str { .. } => match bump!() {
+                Token::Str { value, .. } => {
                     expect!(';');
                     Ok(value)
                 }
@@ -246,9 +248,9 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 impl IsDirective for ModuleItem {
-    fn as_ref(&self) -> Option<&StmtKind> {
+    fn as_ref(&self) -> Option<&Stmt> {
         match *self {
-            ModuleItem::Stmt(ref s) => Some(&s.node),
+            ModuleItem::Stmt(ref s) => Some(s),
             _ => None,
         }
     }

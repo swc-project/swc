@@ -111,7 +111,7 @@ pub(crate) enum Token {
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
-    Num(Number),
+    Num(f64),
 
     Error(::error::Error),
 }

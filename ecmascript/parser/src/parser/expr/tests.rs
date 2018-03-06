@@ -46,7 +46,7 @@ fn arrow_assign() {
         expr("a = b => false"),
         box Expr {
             span,
-            node: ExprKind::Assign(AssignExpr {
+            node: Expr::Assign(AssignExpr {
                 left: PatOrExpr::Pat(
                     Ident {
                         span,
@@ -66,7 +66,7 @@ fn new_expr_should_not_eat_too_much() {
         new_expr("new Date().toString()"),
         box Expr {
             span,
-            node: ExprKind::Member(MemberExpr {
+            node: Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(member_expr("new Date()")),
                 prop: Ident {
                     sym: "toString".into(),
@@ -83,7 +83,7 @@ fn lhs_expr_as_new_expr_prod() {
         lhs("new Date.toString()"),
         box Expr {
             span,
-            node: ExprKind::New(NewExpr {
+            node: Expr::New(NewExpr {
                 callee: lhs("Date.toString"),
                 args: Some(vec![]),
             }),
@@ -97,7 +97,7 @@ fn lhs_expr_as_call() {
         lhs("new Date.toString()()"),
         box Expr {
             span,
-            node: ExprKind::Call(CallExpr {
+            node: Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
                 args: vec![],
             }),
@@ -111,7 +111,7 @@ fn arrow_fn_no_args() {
         expr("() => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow(ArrowExpr {
+            node: Expr::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![],
@@ -126,13 +126,13 @@ fn arrow_fn() {
         expr("(a) => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow(ArrowExpr {
+            node: Expr::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![
                     Pat {
                         span,
-                        node: PatKind::Ident(Ident {
+                        node: Pat::Ident(Ident {
                             span,
                             sym: "a".into(),
                         }),
@@ -149,15 +149,15 @@ fn arrow_fn_rest() {
         expr("(...a) => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow(ArrowExpr {
+            node: Expr::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![
                     Pat {
                         span,
-                        node: PatKind::Rest(box Pat {
+                        node: Pat::Rest(box Pat {
                             span,
-                            node: PatKind::Ident(Ident {
+                            node: Pat::Ident(Ident {
                                 span,
                                 sym: "a".into(),
                             }),
@@ -175,13 +175,13 @@ fn arrow_fn_no_paren() {
         expr("a => 1"),
         box Expr {
             span,
-            node: ExprKind::Arrow(ArrowExpr {
+            node: Expr::Arrow(ArrowExpr {
                 is_async: false,
                 is_generator: false,
                 params: vec![
                     Pat {
                         span,
-                        node: PatKind::Ident(Ident {
+                        node: Pat::Ident(Ident {
                             span,
                             sym: "a".into(),
                         }),
@@ -199,7 +199,7 @@ fn new_no_paren() {
         expr("new a"),
         box Expr {
             span,
-            node: ExprKind::New(NewExpr {
+            node: Expr::New(NewExpr {
                 callee: expr("a"),
                 args: None,
             }),
@@ -213,7 +213,7 @@ fn new_new_no_paren() {
         expr("new new a"),
         box Expr {
             span,
-            node: ExprKind::New(NewExpr {
+            node: Expr::New(NewExpr {
                 callee: expr("new a"),
                 args: None,
             }),

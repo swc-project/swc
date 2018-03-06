@@ -214,8 +214,8 @@ macro_rules! return_if_arrow {
         //     None => false
         // };
         // if is_cur {
-            match $expr.node {
-                ExprKind::Arrow{..} => return Ok($expr),
+            match *$expr {
+                Expr::Arrow{..} => return Ok($expr),
                 _ => {},
             }
         // }

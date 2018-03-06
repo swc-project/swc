@@ -1,6 +1,6 @@
 use super::*;
 use super::pat::PatType;
-use swc_macros::ast_node;
+use swc_common::Spanned;
 
 mod module_item;
 
@@ -92,10 +92,11 @@ impl<'a, I: Input> Parser<'a, I> {
                     i
                 };
 
+                let span = span!(start);
                 Ok(if is_break {
-                    StmtKind::Break(BreakStmt { label })
+                    Stmt::Break(BreakStmt { span, label })
                 } else {
-                    StmtKind::Continue(ContinueStmt { label })
+                    Stmt::Continue(ContinueStmt { span, label })
                 })
             });
         }
@@ -104,7 +105,7 @@ impl<'a, I: Input> Parser<'a, I> {
             return self.spanned(|p| {
                 bump!();
                 expect!(';');
-                Ok(StmtKind::Debugger)
+                Ok(Stmt::Debugger)
             });
         }
 
@@ -161,10 +162,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if is!("var") || (include_decl && is!("const")) {
             let v = self.parse_var_stmt(false)?;
-            return Ok(Stmt {
-                span: v.span,
-                node: StmtKind::Decl(Decl::Var(v)),
-            });
+            return Ok(Stmt::Decl(Decl::Var(v)));
         }
 
         // 'let' can start an identifier reference.
@@ -177,20 +175,17 @@ impl<'a, I: Input> Parser<'a, I> {
 
             if is_keyword {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(Stmt {
-                    span: v.span,
-                    node: StmtKind::Decl(Decl::Var(v)),
-                });
+                return Ok(Stmt::Decl(Decl::Var(v)));
             }
         }
 
         match *cur!()? {
-            LBrace => return self.spanned(|p| p.parse_block(false).map(StmtKind::Block)),
+            LBrace => return self.spanned(|p| p.parse_block(false).map(Stmt::Block)),
 
             Semi => {
                 return self.spanned(|p| {
                     bump!();
-                    Ok(StmtKind::Empty)
+                    Ok(Stmt::Empty)
                 })
             }
 
@@ -211,17 +206,11 @@ impl<'a, I: Input> Parser<'a, I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
         let expr = match expr {
-            box Expr {
-                span,
-                node: ExprKind::Ident(ident),
-            } => {
+            box Expr::Ident(ident) => {
                 if eat!(':') {
                     return self.parse_labelled_stmt(ident);
                 }
-                box Expr {
-                    span,
-                    node: ExprKind::Ident(ident),
-                }
+                box Expr::Ident(ident)
             }
             expr => {
                 let expr = self.verify_expr(expr)?;
@@ -231,12 +220,9 @@ impl<'a, I: Input> Parser<'a, I> {
         };
 
         if eat!(';') {
-            Ok(Stmt {
-                span: span!(start),
-                node: StmtKind::Expr(expr),
-            }.into())
+            Ok(Stmt::Expr(expr))
         } else {
-            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span });
+            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() });
         }
     }
 
@@ -262,7 +248,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 None
             };
 
-            Ok(StmtKind::If(IfStmt { test, cons, alt }))
+            Ok(Stmt::If(IfStmt { test, cons, alt }))
         })
     }
 
@@ -278,7 +264,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 p.include_in_expr(true).parse_expr().map(Some)?
             };
             expect!(';');
-            Ok(StmtKind::Return(ReturnStmt { arg }))
+            Ok(Stmt::Return(ReturnStmt { arg }))
         });
 
         if !self.ctx().in_function {
@@ -338,7 +324,7 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!('}');
             cases.extend(cur);
 
-            Ok(StmtKind::Switch(SwitchStmt {
+            Ok(Stmt::Switch(SwitchStmt {
                 discriminant,
                 cases,
             }))
@@ -357,7 +343,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let arg = p.include_in_expr(true).parse_expr()?;
             expect!(';');
 
-            Ok(StmtKind::Throw(ThrowStmt { arg }))
+            Ok(Stmt::Throw(ThrowStmt { arg }))
         })
     }
 
@@ -385,7 +371,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 None
             };
 
-            Ok(StmtKind::Try(TryStmt {
+            Ok(Stmt::Try(TryStmt {
                 block,
                 handler,
                 finalizer,
@@ -437,8 +423,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 Some(self.parse_assignment_expr()?)
             } else {
                 // Destructuring bindings require initializers.
-                match name.node {
-                    PatKind::Ident(..) => None,
+                match name {
+                    Pat::Ident(..) => None,
                     _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
                 }
             }
@@ -465,7 +451,7 @@ impl<'a, I: Input> Parser<'a, I> {
             // We *may* eat semicolon.
             let _ = eat!(';');
 
-            Ok(StmtKind::DoWhile(DoWhileStmt { test, body }))
+            Ok(Stmt::DoWhile(DoWhileStmt { test, body }))
         })
     }
 
@@ -479,7 +465,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let body = box p.parse_stmt(false)?;
 
-            Ok(StmtKind::While(WhileStmt { test, body }))
+            Ok(Stmt::While(WhileStmt { test, body }))
         })
     }
 
@@ -496,7 +482,7 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!(')');
 
             let body = box p.parse_stmt(false)?;
-            Ok(StmtKind::With(WithStmt { obj, body }))
+            Ok(Stmt::With(WithStmt { obj, body }))
         })
     }
 
@@ -540,7 +526,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(Stmt {
             span: span!(start),
-            node: StmtKind::Labeled(LabeledStmt { label, body }),
+            node: Stmt::Labeled(LabeledStmt { label, body }),
         })
     }
 
@@ -553,14 +539,14 @@ impl<'a, I: Input> Parser<'a, I> {
             let body = box p.parse_stmt(false)?;
 
             Ok(match head {
-                ForHead::For { init, test, update } => StmtKind::For(ForStmt {
+                ForHead::For { init, test, update } => Stmt::For(ForStmt {
                     init,
                     test,
                     update,
                     body,
                 }),
-                ForHead::ForIn { left, right } => StmtKind::ForIn(ForInStmt { left, right, body }),
-                ForHead::ForOf { left, right } => StmtKind::ForOf(ForOfStmt { left, right, body }),
+                ForHead::ForIn { left, right } => Stmt::ForIn(ForInStmt { left, right, body }),
+                ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt { left, right, body }),
             })
         })
     }
@@ -653,24 +639,21 @@ enum ForHead {
 }
 
 pub(super) trait IsDirective {
-    fn as_ref(&self) -> Option<&StmtKind>;
+    fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
-            Some(&StmtKind::Expr(box Expr {
-                node:
-                    ExprKind::Lit(Lit::Str {
-                        ref value,
-                        has_escape: false,
-                    }),
+            Some(&Stmt::Expr(box Expr::Lit(Lit::Str {
+                ref value,
+                has_escape: false,
                 ..
-            })) => value == "use strict",
+            }))) => value == "use strict",
             _ => false,
         }
     }
 }
 
 impl IsDirective for Stmt {
-    fn as_ref(&self) -> Option<&StmtKind> {
+    fn as_ref(&self) -> Option<&Stmt> {
         Some(&self.node)
     }
 }
@@ -717,7 +700,7 @@ mod tests {
             stmt("a + b + c"),
             Stmt {
                 span: Default::default(),
-                node: StmtKind::Expr(expr("a + b + c")),
+                node: Stmt::Expr(expr("a + b + c")),
             }
         )
     }
@@ -727,7 +710,7 @@ mod tests {
             stmt("throw this"),
             Stmt {
                 span: Default::default(),
-                node: StmtKind::Throw(ThrowStmt { arg: expr("this") }),
+                node: Stmt::Throw(ThrowStmt { arg: expr("this") }),
             }
         )
     }
@@ -747,7 +730,7 @@ mod tests {
             stmt("{ 1; }"),
             Stmt {
                 span,
-                node: StmtKind::Block(BlockStmt {
+                node: Stmt::Block(BlockStmt {
                     span,
                     stmts: vec![stmt("1")],
                 }),
@@ -761,7 +744,7 @@ mod tests {
             stmt("if (a) b; else c"),
             Stmt {
                 span,
-                node: StmtKind::If(IfStmt {
+                node: Stmt::If(IfStmt {
                     test: expr("a"),
                     cons: box stmt("b;"),
                     alt: Some(box stmt("c")),
