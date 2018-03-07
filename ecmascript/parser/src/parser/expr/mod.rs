@@ -60,6 +60,7 @@ impl<'a, I: Input> Parser<'a, I> {
             Ok(&AssignOp(op)) => {
                 let left = if op == Assign {
                     self.reparse_expr_as_pat(PatType::AssignPat, cond)
+                        .map(Box::new)
                         .map(PatOrExpr::Pat)?
                 } else {
                     //It is an early Reference Error if IsValidSimpleAssignmentTarget of
@@ -88,20 +89,20 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Spec: 'ConditionalExpression'
     fn parse_cond_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
-        spanned!({
-            let test = self.parse_bin_expr()?;
-            return_if_arrow!(test);
+        let start = cur_pos!();
 
-            if eat!('?') {
-                let cons = self.include_in_expr(true).parse_assignment_expr()?;
-                expect!(':');
-                let alt = self.parse_assignment_expr()?;
+        let test = self.parse_bin_expr()?;
+        return_if_arrow!(test);
 
-                Ok(Expr::Cond(CondExpr { test, cons, alt }))
-            } else {
-                return Ok(test);
-            }
-        })
+        if eat!('?') {
+            let cons = self.include_in_expr(true).parse_assignment_expr()?;
+            expect!(':');
+            let alt = self.parse_assignment_expr()?;
+
+            Ok(box Expr::Cond(CondExpr { test, cons, alt }))
+        } else {
+            return Ok(test);
+        }
     }
 
     /// Parse a primary expression or arrow function
@@ -114,11 +115,8 @@ impl<'a, I: Input> Parser<'a, I> {
             .map(|s| s == cur_pos!())
             .unwrap_or(false);
 
-        if is!("this") {
-            return self.spanned(|p| {
-                assert_and_bump!("this");
-                Ok(Expr::This)
-            });
+        if eat!("this") {
+            return Ok(box Expr::This(ThisExpr { span: span!(start) }));
         }
 
         // Handle async function expression
@@ -151,7 +149,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => false,
             }
         } {
-            return self.spanned(|p| p.parse_lit().map(Expr::Lit));
+            return Ok(box Expr::Lit(self.parse_lit()?));
         }
 
         // Regexp
@@ -161,21 +159,21 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => false,
             }
         } {
-            return self.spanned(|p| match bump!() {
-                Regex(exp, flags) => Ok(Expr::Lit(Lit::Regex(Regex {
-                    span: span!(start),
-                    exp,
-                    flags,
-                }))),
+            match bump!() {
+                Regex(exp, flags) => {
+                    return Ok(box Expr::Lit(Lit::Regex(Regex {
+                        span: span!(start),
+                        exp,
+                        flags,
+                    })))
+                }
                 _ => unreachable!(),
-            });
+            }
         }
 
         if is!('`') {
-            return self.spanned(|p| {
-                // parse template literal
-                Ok(Expr::Tpl(p.parse_tpl_lit(None)?))
-            });
+            // parse template literal
+            return Ok(box Expr::Tpl(self.parse_tpl_lit(None)?));
         }
 
         if is!('(') {

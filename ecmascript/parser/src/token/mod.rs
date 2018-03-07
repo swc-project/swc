@@ -8,7 +8,7 @@ pub(crate) use self::Token::*;
 pub(crate) use self::Word::*;
 pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::BinaryOp;
-pub(crate) use ast::Number;
+use ast::Str;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::Span;
@@ -99,7 +99,7 @@ pub(crate) enum Token {
     /// String literal.
     #[kind(starts_expr)]
     Str {
-        value: String,
+        value: JsWord,
         /// This field exsits because 'use\x20strict' is **not** an use strict
         /// directive.
         has_escape: bool,
@@ -107,7 +107,7 @@ pub(crate) enum Token {
 
     /// Regexp literal.
     #[kind(starts_expr)]
-    Regex(String, JsWord),
+    Regex(Str, Option<Str>),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]

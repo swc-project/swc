@@ -1,5 +1,4 @@
 use super::*;
-use swc_common::Spanned;
 
 impl Context {
     pub fn is_reserved_word(self, word: &JsWord) -> bool {
@@ -95,9 +94,9 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse with given closure
-    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> Ret
+    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> PResult<'a, Ret>
     where
-        F: FnOnce(&mut Self) -> Ret,
+        F: FnOnce(&mut Self) -> PResult<'a, Ret>,
     {
         f(self)
     }
@@ -112,18 +111,6 @@ impl<'a, I: Input> Parser<'a, I> {
             )
         }
         Span::new(start, end, Default::default())
-    }
-
-    pub(super) fn spanned<F, Node, Ret>(&mut self, f: F) -> PResult<'a, Node>
-    where
-        F: FnOnce(&mut Self) -> PResult<'a, Ret>,
-        Node: Spanned<Ret>,
-    {
-        let start = self.input.cur_pos();
-        let val = f(self)?;
-
-        let span = self.span(start);
-        Ok(Spanned::from_unspanned(val, span))
     }
 }
 pub trait ParseObject<'a, Obj> {

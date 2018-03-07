@@ -4,12 +4,12 @@
 
 #![allow(unused_mut)]
 #![allow(unused_variables)]
-
 pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
 use {Context, Session};
+use ast::Str;
 use error::SyntaxError;
 use std::char;
 use swc_atoms::JsWord;
@@ -566,8 +566,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             match c {
                 c if c == quote => {
                     self.bump();
-                    return Ok(Str {
-                        value: out,
+                    return Ok(Token::Str {
+                        value: out.into(),
                         has_escape,
                     });
                 }
@@ -595,6 +595,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let (mut escaped, mut in_class) = (false, false);
         // TODO: Optimize (chunk, cow)
         let mut content = String::new();
+        let content_start = self.cur_pos();
 
         while let Some(c) = self.cur() {
             // This is ported from babel.
@@ -618,6 +619,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.bump();
             content.push(c);
         }
+        let content_span = Span::new(content_start, self.cur_pos(), Default::default());
 
         // input is terminated without following `/`
         if !self.is('/') {
@@ -631,11 +633,22 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
-        let flags = self.may_read_word_as_str()?
-            .map(|(f, _)| f)
-            .unwrap_or_else(|| "".into());
+        let flags_start = self.cur_pos();
+        let flags = self.may_read_word_as_str()?.map(|(value, has_escape)| Str {
+            span: Span::new(flags_start, self.cur_pos(), Default::default()),
+            value,
+            has_escape,
+        });
 
-        Ok(Regex(content, flags))
+        Ok(Regex(
+            Str {
+                span: content_span,
+                value: content.into(),
+                // TODO
+                has_escape: false,
+            },
+            flags,
+        ))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {

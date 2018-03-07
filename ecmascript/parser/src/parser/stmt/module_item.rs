@@ -7,13 +7,18 @@ impl<'a, I: Input> Parser<'a, I> {
         assert_and_bump!("import");
 
         // Handle import 'mod.js'
+        let str_start = cur_pos!();
         match *cur!()? {
             Token::Str { .. } => match bump!() {
-                Token::Str { value, .. } => {
+                Token::Str { value, has_escape } => {
                     expect!(';');
                     return Ok(ModuleDecl::Import(ImportDecl {
                         span: span!(start),
-                        src: value,
+                        src: Str {
+                            span: span!(str_start),
+                            value,
+                            has_escape,
+                        },
                         specifiers: vec![],
                     }));
                 }
@@ -30,11 +35,10 @@ impl<'a, I: Input> Parser<'a, I> {
             if !is!("from") {
                 expect!(',');
             }
-            specifiers.push(ImportSpecifier {
+            specifiers.push(ImportSpecifier::Default(ImportDefault {
                 span: local.span,
                 local,
-                node: ImportSpecifier::Default,
-            });
+            }));
         }
 
         {
@@ -42,11 +46,10 @@ impl<'a, I: Input> Parser<'a, I> {
             if eat!('*') {
                 expect!("as");
                 let local = self.parse_imported_binding()?;
-                specifiers.push(ImportSpecifier {
+                specifiers.push(ImportSpecifier::Namespace(ImportStarAs {
                     span: span!(import_spec_start),
                     local,
-                    node: ImportSpecifierKind::Namespace,
-                });
+                }));
             } else if eat!('{') {
                 let mut first = true;
                 while !eof!() && !is!('}') {
@@ -84,7 +87,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 if eat!("as") {
                     let local = self.parse_binding_ident()?;
-                    return Ok(ImportSpecifierKind::Specific(ImportSpecific {
+                    return Ok(ImportSpecifier::Specific(ImportSpecific {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
                         imported: Some(orig_name),
@@ -129,10 +132,10 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if eat!('*') {
             let src = self.parse_from_clause_and_semi()?;
-            return Ok(ModuleDecl {
+            return Ok(ModuleDecl::ExportAll(ExportAll {
                 span: span!(start),
-                node: ModuleDecl::ExportAll { src },
-            });
+                src,
+            }));
         }
 
         if eat!("default") {
@@ -147,16 +150,10 @@ impl<'a, I: Input> Parser<'a, I> {
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');
-                return Ok(ModuleDecl {
-                    span: span!(start),
-                    node: ModuleDecl::ExportDefaultExpr(expr),
-                });
+                return Ok(ModuleDecl::ExportDefaultExpr(expr));
             };
 
-            return Ok(ModuleDecl {
-                span: span!(start),
-                node: ModuleDecl::ExportDefaultDecl(decl),
-            });
+            return Ok(ModuleDecl::ExportDefaultDecl(decl));
         }
 
         let decl = if is!("class") {
@@ -232,13 +229,19 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_from_clause_and_semi(&mut self) -> PResult<'a, String> {
+    fn parse_from_clause_and_semi(&mut self) -> PResult<'a, Str> {
         expect!("from");
+
+        let start = cur_pos!();
         match *cur!()? {
             Token::Str { .. } => match bump!() {
-                Token::Str { value, .. } => {
+                Token::Str { value, has_escape } => {
                     expect!(';');
-                    Ok(value)
+                    Ok(Str {
+                        value,
+                        has_escape,
+                        span: span!(start),
+                    })
                 }
                 _ => unreachable!(),
             },

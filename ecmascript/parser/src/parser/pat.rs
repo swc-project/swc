@@ -256,20 +256,18 @@ impl<'a, I: Input> Parser<'a, I> {
 
         match *expr {
             Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
-            Expr::Assign(AssignExpr {
-                span,
-                left,
-                op: Assign,
-                right,
-            }) => {
+            Expr::Assign(assign_expr @ AssignExpr { op: Assign, .. }) => {
+                let AssignExpr {
+                    span, left, right, ..
+                } = assign_expr;
                 return Ok(Pat::Assign(AssignPat {
                     span,
                     left: match left {
                         PatOrExpr::Expr(left) => box self.reparse_expr_as_pat(pat_ty, left)?,
-                        PatOrExpr::Pat(left) => box left,
+                        PatOrExpr::Pat(left) => left,
                     },
                     right,
-                }))
+                }));
             }
             Expr::Object(ObjectLit { span, props }) => {
                 // {}

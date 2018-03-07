@@ -21,24 +21,26 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Use this when spec says "IdentiferName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<'a, Ident> {
-        self.spanned(|p| {
-            let w = match cur!() {
-                Ok(&Word(..)) => match bump!() {
-                    Word(w) => w,
-                    _ => unreachable!(),
-                },
-                _ => syntax_error!(SyntaxError::ExpectedIdent),
-            };
+        let start = cur_pos!();
 
-            Ok(w.into())
-        })
+        let w = match cur!() {
+            Ok(&Word(..)) => match bump!() {
+                Word(w) => w,
+                _ => unreachable!(),
+            },
+            _ => syntax_error!(SyntaxError::ExpectedIdent),
+        };
+
+        Ok(Ident::new(w.into(), span!(start)))
     }
 
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(super) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<'a, Ident> {
-        self.spanned(|p| {
+        let start = cur_pos!();
+
+        let word = self.parse_with(|p| {
             let strict = p.ctx().strict;
             let w = match cur!() {
                 Ok(&Word(..)) => match bump!() {
@@ -90,7 +92,9 @@ impl<'a, I: Input> Parser<'a, I> {
                     syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
             }
-        })
+        })?;
+
+        Ok(Ident::new(word, span!(start)))
     }
 }
 

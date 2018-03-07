@@ -183,22 +183,20 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_await_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
-        self.spanned(|p| {
-            let start = cur_pos!();
+        let start = cur_pos!();
 
-            assert_and_bump!("await");
-            assert!(p.ctx().in_async);
+        assert_and_bump!("await");
+        assert!(self.ctx().in_async);
 
-            if is!('*') {
-                syntax_error!(SyntaxError::AwaitStar);
-            }
+        if is!('*') {
+            syntax_error!(SyntaxError::AwaitStar);
+        }
 
-            let arg = p.parse_unary_expr()?;
-            Ok(box Expr::Await(AwaitExpr {
-                span: span!(start),
-                arg,
-            }))
-        })
+        let arg = self.parse_unary_expr()?;
+        Ok(box Expr::Await(AwaitExpr {
+            span: span!(start),
+            arg,
+        }))
     }
 }
 

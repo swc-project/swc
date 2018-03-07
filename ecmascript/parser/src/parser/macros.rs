@@ -235,27 +235,6 @@ macro_rules! span {
     }};
 }
 
-macro_rules! spanned {
-    (
-        $p:expr, { $($body:tt)* }
-    ) => {{
-        let start = { cur_pos!($p) };
-        let val: Result<_, _> = {
-            $($body)*
-        };
-        {
-            match val {
-                Ok(val) => {
-                    let span = span!($p, start);
-                    let val = ::swc_common::Spanned::from_unspanned(val, span);
-                    Ok(val)
-                },
-                Err(err) => Err(err),
-            }
-        }
-    }};
-}
-
 macro_rules! syntax_error {
     ($p:expr, $err:expr) => {
         syntax_error!($p, $p.input.cur_span(), $err)
