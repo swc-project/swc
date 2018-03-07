@@ -19,7 +19,7 @@ pub struct ImportDecl {
     pub span: Span,
     pub specifiers: Vec<ImportSpecifier>,
 
-    pub src: String,
+    pub src: Str,
 }
 
 /// `export * from 'mod'`
@@ -36,7 +36,7 @@ pub struct NamedExport {
     pub span: Span,
     pub specifiers: Vec<ExportSpecifier>,
 
-    pub src: Option<String>,
+    pub src: Option<Str>,
 }
 
 #[ast_node]

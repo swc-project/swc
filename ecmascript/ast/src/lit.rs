@@ -1,4 +1,5 @@
 use std::fmt::{self, Display, Formatter};
+use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_macros::ast_node;
 
@@ -14,7 +15,7 @@ pub enum Lit {
 #[ast_node]
 pub struct Str {
     pub span: Span,
-    pub value: String,
+    pub value: JsWord,
     /// This includes line escape.
     pub has_escape: bool,
 }
@@ -35,11 +36,11 @@ pub struct Null {
 #[ast_node]
 pub struct Regex {
     pub span: Span,
-    pub exp: String,
-    pub flags: RegexFlags,
+    pub exp: Str,
+    pub flags: Option<RegexFlags>,
 }
 
-pub type RegexFlags = ::swc_atoms::JsWord;
+pub type RegexFlags = Str;
 
 #[ast_node]
 #[derive(Copy)]
