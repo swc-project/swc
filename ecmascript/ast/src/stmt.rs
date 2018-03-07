@@ -5,7 +5,7 @@ use swc_macros::ast_node;
 /// Use when only block statements are allowed.
 #[ast_node]
 pub struct BlockStmt {
-    /// Span of brace.
+    /// Span including the braces.
     pub span: Span,
 
     pub stmts: Vec<Stmt>,
@@ -54,12 +54,14 @@ pub enum Stmt {
 }
 
 #[ast_node]
+#[derive(Copy)]
 pub struct EmptyStmt {
     /// Span of semicolon.
     pub span: Span,
 }
 
 #[ast_node]
+#[derive(Copy)]
 pub struct DebuggerStmt {
     pub span: Span,
 }
@@ -177,6 +179,7 @@ pub enum VarDeclOrPat {
 }
 
 #[ast_node]
+#[allow(variant_size_differences)]
 pub enum VarDeclOrExpr {
     VarDecl(VarDecl),
     Expr(Box<Expr>),

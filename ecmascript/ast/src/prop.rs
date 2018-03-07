@@ -28,29 +28,29 @@ pub struct KeyValueProp {
 #[ast_node]
 pub struct AssignProp {
     #[span(lo)]
-    key: Ident,
+    pub key: Ident,
     #[span(hi)]
-    value: Box<Expr>,
+    pub value: Box<Expr>,
 }
 #[ast_node]
 pub struct GetterProp {
-    span: Span,
-    key: PropName,
-    body: BlockStmt,
+    pub span: Span,
+    pub key: PropName,
+    pub body: BlockStmt,
 }
 #[ast_node]
 pub struct SetterProp {
-    span: Span,
-    key: PropName,
-    param: Pat,
-    body: BlockStmt,
+    pub span: Span,
+    pub key: PropName,
+    pub param: Pat,
+    pub body: BlockStmt,
 }
 #[ast_node]
 pub struct MethodProp {
     #[span(lo)]
-    key: PropName,
+    pub key: PropName,
     #[span(hi)]
-    function: Function,
+    pub function: Function,
 }
 
 #[ast_node]

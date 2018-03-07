@@ -20,12 +20,14 @@ pub struct Str {
 }
 
 #[ast_node]
+#[derive(Copy)]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
 }
 
 #[ast_node]
+#[derive(Copy)]
 pub struct Null {
     pub span: Span,
 }
@@ -38,7 +40,9 @@ pub struct Regex {
 }
 
 pub type RegexFlags = ::swc_atoms::JsWord;
+
 #[ast_node]
+#[derive(Copy)]
 pub struct Number {
     pub span: Span,
     pub value: f64,

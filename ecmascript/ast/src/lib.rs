@@ -2,6 +2,12 @@
 #![feature(never_type)]
 #![feature(proc_macro)]
 #![deny(unreachable_patterns)]
+#![deny(missing_copy_implementations)]
+#![deny(missing_debug_implementations)]
+#![deny(trivial_casts)]
+#![deny(trivial_numeric_casts)]
+#![deny(unreachable_pub)]
+#![deny(variant_size_differences)]
 
 extern crate swc_atoms;
 extern crate swc_common;

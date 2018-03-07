@@ -65,6 +65,7 @@ pub enum Expr {
 }
 
 #[ast_node]
+#[derive(Copy)]
 pub struct ThisExpr {
     pub span: Span,
 }
@@ -223,6 +224,7 @@ pub struct ParenExpr {
 }
 
 #[ast_node]
+#[allow(variant_size_differences)]
 pub enum ExprOrSuper {
     Super(Span),
     Expr(Box<Expr>),
@@ -244,6 +246,7 @@ impl Spanned for ExprOrSpread {
 }
 
 #[ast_node]
+#[allow(variant_size_differences)]
 pub enum BlockStmtOrExpr {
     BlockStmt(BlockStmt),
     Expr(Box<Expr>),
@@ -251,6 +254,6 @@ pub enum BlockStmtOrExpr {
 
 #[ast_node]
 pub enum PatOrExpr {
-    Pat(Pat),
+    Pat(Box<Pat>),
     Expr(Box<Expr>),
 }
