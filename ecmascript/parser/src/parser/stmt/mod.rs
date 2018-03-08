@@ -729,22 +729,16 @@ mod tests {
 
     #[test]
     fn expr_stmt() {
-        assert_eq_ignore_span!(
-            stmt("a + b + c"),
-            Stmt {
-                span: Default::default(),
-                node: Stmt::Expr(expr("a + b + c")),
-            }
-        )
+        assert_eq_ignore_span!(stmt("a + b + c"), Stmt::Expr(expr("a + b + c")))
     }
     #[test]
     fn throw_this() {
         assert_eq_ignore_span!(
             stmt("throw this"),
-            Stmt {
-                span: Default::default(),
-                node: Stmt::Throw(ThrowStmt { arg: expr("this") }),
-            }
+            Stmt::Throw(ThrowStmt {
+                span,
+                arg: expr("this"),
+            })
         )
     }
 
@@ -761,13 +755,10 @@ mod tests {
 
         assert_eq_ignore_span!(
             stmt("{ 1; }"),
-            Stmt {
+            Stmt::Block(BlockStmt {
                 span,
-                node: Stmt::Block(BlockStmt {
-                    span,
-                    stmts: vec![stmt("1")],
-                }),
-            }
+                stmts: vec![stmt("1")],
+            })
         );
     }
 
@@ -775,14 +766,12 @@ mod tests {
     fn if_else() {
         assert_eq_ignore_span!(
             stmt("if (a) b; else c"),
-            Stmt {
+            Stmt::If(IfStmt {
                 span,
-                node: Stmt::If(IfStmt {
-                    test: expr("a"),
-                    cons: box stmt("b;"),
-                    alt: Some(box stmt("c")),
-                }),
-            }
+                test: expr("a"),
+                cons: box stmt("b;"),
+                alt: Some(box stmt("c")),
+            })
         );
     }
 }

@@ -295,7 +295,7 @@ mod tests {
     }
 
     fn num(s: &'static str) -> f64 {
-        lex(s, |l| l.read_number(s.starts_with(".")).unwrap().0)
+        lex(s, |l| l.read_number(s.starts_with(".")).unwrap())
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
@@ -347,7 +347,7 @@ mod tests {
     #[test]
     fn read_radix_number() {
         assert_eq!(
-            Number(0o73 as f64),
+            0o73 as f64,
             lex("0o73", |l| l.read_radix_number(8).unwrap())
         );
     }
@@ -389,10 +389,10 @@ mod tests {
                 };
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(Number(expected)), token);
+                assert_eq!(Num(expected), token);
             } else {
                 match vec {
-                    Ok(vec) => assert_ne!(vec![Num(Number(expected))], vec),
+                    Ok(vec) => assert_ne!(vec![Num(expected)], vec),
                     _ => {}
                 }
             }

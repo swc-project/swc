@@ -203,6 +203,7 @@ impl<'a, I: Input> Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_common::DUMMY_SP;
 
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
@@ -214,18 +215,19 @@ mod tests {
         })
     }
 
+    #[allow(non_upper_case_globals)]
+    const span: Span = DUMMY_SP;
+
     #[test]
     fn simple() {
         assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
-            box Expr {
-                span: Default::default(),
-                node: Expr::Bin(BinExpr {
-                    op: op!(bin, "+"),
-                    left: bin("5"),
-                    right: bin("4 * 7"),
-                }),
-            }
+            box Expr::Bin(BinExpr {
+                span,
+                op: op!(bin, "+"),
+                left: bin("5"),
+                right: bin("4 * 7"),
+            })
         );
     }
 
@@ -233,14 +235,12 @@ mod tests {
     fn same_prec() {
         assert_eq_ignore_span!(
             bin("5 + 4 + 7"),
-            box Expr {
-                span: Default::default(),
-                node: Expr::Bin(BinExpr {
-                    op: op!(bin, "+"),
-                    left: bin("5 + 4"),
-                    right: bin("7"),
-                }),
-            }
+            box Expr::Bin(BinExpr {
+                span,
+                op: op!(bin, "+"),
+                left: bin("5 + 4"),
+                right: bin("7"),
+            })
         );
     }
 

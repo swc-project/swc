@@ -44,19 +44,15 @@ const span: Span = DUMMY_SP;
 fn arrow_assign() {
     assert_eq_ignore_span!(
         expr("a = b => false"),
-        box Expr {
+        box Expr::Assign(AssignExpr {
             span,
-            node: Expr::Assign(AssignExpr {
-                left: PatOrExpr::Pat(
-                    Ident {
-                        span,
-                        sym: "a".into(),
-                    }.into()
-                ),
-                op: op!("="),
-                right: expr("b => false"),
-            }),
-        }
+            left: PatOrExpr::Pat(box Ident {
+                span,
+                sym: "a".into(),
+            }.into()),
+            op: op!("="),
+            right: expr("b => false"),
+        })
     );
 }
 
@@ -64,30 +60,26 @@ fn arrow_assign() {
 fn new_expr_should_not_eat_too_much() {
     assert_eq_ignore_span!(
         new_expr("new Date().toString()"),
-        box Expr {
+        box Expr::Member(MemberExpr {
             span,
-            node: Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(member_expr("new Date()")),
-                prop: Ident {
-                    sym: "toString".into(),
-                    span,
-                }.into(),
-                computed: false,
-            }),
-        }
+            obj: ExprOrSuper::Expr(member_expr("new Date()")),
+            prop: box Ident {
+                sym: "toString".into(),
+                span,
+            }.into(),
+            computed: false,
+        })
     );
 }
 #[test]
 fn lhs_expr_as_new_expr_prod() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()"),
-        box Expr {
+        box Expr::New(NewExpr {
             span,
-            node: Expr::New(NewExpr {
-                callee: lhs("Date.toString"),
-                args: Some(vec![]),
-            }),
-        }
+            callee: lhs("Date.toString"),
+            args: Some(vec![]),
+        })
     );
 }
 
@@ -95,13 +87,11 @@ fn lhs_expr_as_new_expr_prod() {
 fn lhs_expr_as_call() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()()"),
-        box Expr {
+        box Expr::Call(CallExpr {
             span,
-            node: Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
-                args: vec![],
-            }),
-        }
+            callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
+            args: vec![],
+        })
     )
 }
 
@@ -109,87 +99,70 @@ fn lhs_expr_as_call() {
 fn arrow_fn_no_args() {
     assert_eq_ignore_span!(
         expr("() => 1"),
-        box Expr {
+        box Expr::Arrow(ArrowExpr {
             span,
-            node: Expr::Arrow(ArrowExpr {
-                is_async: false,
-                is_generator: false,
-                params: vec![],
-                body: BlockStmtOrExpr::Expr(expr("1")),
-            }),
-        }
+            is_async: false,
+            is_generator: false,
+            params: vec![],
+            body: BlockStmtOrExpr::Expr(expr("1")),
+        })
     );
 }
 #[test]
 fn arrow_fn() {
     assert_eq_ignore_span!(
         expr("(a) => 1"),
-        box Expr {
+        box Expr::Arrow(ArrowExpr {
             span,
-            node: Expr::Arrow(ArrowExpr {
-                is_async: false,
-                is_generator: false,
-                params: vec![
-                    Pat {
-                        span,
-                        node: Pat::Ident(Ident {
-                            span,
-                            sym: "a".into(),
-                        }),
-                    },
-                ],
-                body: BlockStmtOrExpr::Expr(expr("1")),
-            }),
-        }
+            is_async: false,
+            is_generator: false,
+            params: vec![
+                Pat::Ident(Ident {
+                    span,
+                    sym: "a".into(),
+                }),
+            ],
+            body: BlockStmtOrExpr::Expr(expr("1")),
+        })
     );
 }
 #[test]
 fn arrow_fn_rest() {
     assert_eq_ignore_span!(
         expr("(...a) => 1"),
-        box Expr {
+        box Expr::Arrow(ArrowExpr {
             span,
-            node: Expr::Arrow(ArrowExpr {
-                is_async: false,
-                is_generator: false,
-                params: vec![
-                    Pat {
+            is_async: false,
+            is_generator: false,
+            params: vec![
+                Pat::Rest(RestPat {
+                    dot3_token: span,
+                    pat: box Pat::Ident(Ident {
                         span,
-                        node: Pat::Rest(box Pat {
-                            span,
-                            node: Pat::Ident(Ident {
-                                span,
-                                sym: "a".into(),
-                            }),
-                        }),
-                    },
-                ],
-                body: BlockStmtOrExpr::Expr(expr("1")),
-            }),
-        }
+                        sym: "a".into(),
+                    }),
+                }),
+            ],
+            body: BlockStmtOrExpr::Expr(expr("1")),
+        })
     );
 }
 #[test]
 fn arrow_fn_no_paren() {
     assert_eq_ignore_span!(
         expr("a => 1"),
-        box Expr {
+        box Expr::Arrow(ArrowExpr {
             span,
-            node: Expr::Arrow(ArrowExpr {
-                is_async: false,
-                is_generator: false,
-                params: vec![
-                    Pat {
-                        span,
-                        node: Pat::Ident(Ident {
-                            span,
-                            sym: "a".into(),
-                        }),
-                    },
-                ],
-                body: BlockStmtOrExpr::Expr(expr("1")),
-            }),
-        }
+            is_async: false,
+            is_generator: false,
+            params: vec![
+                Pat::Ident(Ident {
+                    span,
+                    sym: "a".into(),
+                }),
+            ],
+            body: BlockStmtOrExpr::Expr(expr("1")),
+        })
     );
 }
 
@@ -197,13 +170,11 @@ fn arrow_fn_no_paren() {
 fn new_no_paren() {
     assert_eq_ignore_span!(
         expr("new a"),
-        box Expr {
+        box Expr::New(NewExpr {
             span,
-            node: Expr::New(NewExpr {
-                callee: expr("a"),
-                args: None,
-            }),
-        }
+            callee: expr("a"),
+            args: None,
+        })
     );
 }
 
@@ -211,12 +182,10 @@ fn new_no_paren() {
 fn new_new_no_paren() {
     assert_eq_ignore_span!(
         expr("new new a"),
-        box Expr {
+        box Expr::New(NewExpr {
             span,
-            node: Expr::New(NewExpr {
-                callee: expr("new a"),
-                args: None,
-            }),
-        }
+            callee: expr("new a"),
+            args: None,
+        })
     );
 }

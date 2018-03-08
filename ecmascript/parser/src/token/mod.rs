@@ -11,9 +11,9 @@ use ast::BinaryOp;
 use ast::Str;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
-use swc_common::Span;
+use swc_common::{Fold, Span};
 
-#[derive(Kind, Debug, Clone, PartialEq)]
+#[derive(Kind, Debug, Clone, PartialEq, Fold)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub(crate) enum Token {
     /// Identifier, "null", "true", "false".
@@ -113,10 +113,10 @@ pub(crate) enum Token {
     #[kind(starts_expr)]
     Num(f64),
 
-    Error(::error::Error),
+    Error(#[fold(ignore)] ::error::Error),
 }
 
-#[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
+#[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash, Fold)]
 #[kind(functions(starts_expr = "bool"))]
 pub enum BinOpToken {
     /// `==`
@@ -191,7 +191,7 @@ pub(crate) struct TokenAndSpan {
     pub span: Span,
 }
 
-#[derive(Kind, Clone, PartialEq, Eq, Hash)]
+#[derive(Kind, Clone, PartialEq, Eq, Hash, Fold)]
 #[kind(functions(starts_expr = "bool", before_expr = "bool"))]
 pub enum Word {
     #[kind(delegate)]
@@ -338,7 +338,7 @@ impl Debug for Word {
 }
 
 /// Keywords
-#[derive(Kind, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Kind, Clone, Copy, PartialEq, Eq, Hash, Fold)]
 #[kind(function(before_expr = "bool", starts_expr = "bool"))]
 pub enum Keyword {
     /// Spec says this might be identifier.

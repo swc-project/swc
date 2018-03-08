@@ -439,20 +439,17 @@ mod tests {
     fn class_expr() {
         assert_eq_ignore_span!(
             expr("(class extends a {})"),
-            box Expr {
+            box Expr::Paren(ParenExpr {
                 span,
-                node: Expr::Paren(box Expr {
-                    span,
-                    node: Expr::Class(ClassExpr {
-                        ident: None,
-                        class: Class {
-                            span,
-                            body: vec![],
-                            super_class: Some(expr("a")),
-                        },
-                    }),
+                expr: box Expr::Class(ClassExpr {
+                    ident: None,
+                    class: Class {
+                        span,
+                        body: vec![],
+                        super_class: Some(expr("a")),
+                    },
                 }),
-            }
+            })
         );
     }
 }
