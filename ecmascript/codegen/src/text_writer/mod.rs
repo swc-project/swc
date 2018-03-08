@@ -1,6 +1,8 @@
+pub use self::basic_impl::WriterWrapper;
 pub use self::semicolon::omit_trailing_semi;
 use super::*;
 
+mod basic_impl;
 mod semicolon;
 
 /// TODO
