@@ -214,8 +214,8 @@ macro_rules! return_if_arrow {
         //     None => false
         // };
         // if is_cur {
-            match $expr.node {
-                ExprKind::Arrow{..} => return Ok($expr),
+            match *$expr {
+                Expr::Arrow{..} => return Ok($expr),
                 _ => {},
             }
         // }
@@ -232,27 +232,6 @@ macro_rules! span {
  start = {}, end = {}", start.0, end.0)
         }
         ::swc_common::Span::new(start, end, Default::default())
-    }};
-}
-
-macro_rules! spanned {
-    (
-        $p:expr, { $($body:tt)* }
-    ) => {{
-        let start = { cur_pos!($p) };
-        let val: Result<_, _> = {
-            $($body)*
-        };
-        {
-            match val {
-                Ok(val) => {
-                    let span = span!($p, start);
-                    let val = ::swc_common::Spanned::from_unspanned(val, span);
-                    Ok(val)
-                },
-                Err(err) => Err(err),
-            }
-        }
     }};
 }
 

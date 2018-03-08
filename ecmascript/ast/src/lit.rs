@@ -1,40 +1,64 @@
 use std::fmt::{self, Display, Formatter};
+use swc_atoms::JsWord;
+use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
 pub enum Lit {
-    Str {
-        value: String,
-        /// This includes line escape.
-        has_escape: bool,
-    },
-    Bool(bool),
-    Null,
+    Str(Str),
+    Bool(Bool),
+    Null(Null),
     Num(Number),
     Regex(Regex),
 }
 
 #[ast_node]
-pub struct Regex {
-    pub exp: String,
-    #[fold = "regex_flags"]
-    pub flags: RegexFlags,
+pub struct Str {
+    pub span: Span,
+    pub value: JsWord,
+    /// This includes line escape.
+    pub has_escape: bool,
 }
 
-pub type RegexFlags = ::swc_atoms::JsWord;
 #[ast_node]
-pub struct Number(pub f64);
+#[derive(Copy)]
+pub struct Bool {
+    pub span: Span,
+    pub value: bool,
+}
+
+#[ast_node]
+#[derive(Copy)]
+pub struct Null {
+    pub span: Span,
+}
+
+#[ast_node]
+pub struct Regex {
+    pub span: Span,
+    pub exp: Str,
+    pub flags: Option<RegexFlags>,
+}
+
+pub type RegexFlags = Str;
+
+#[ast_node]
+#[derive(Copy)]
+pub struct Number {
+    pub span: Span,
+    pub value: f64,
+}
 
 impl Display for Number {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        if self.0.is_infinite() {
-            if self.0.is_sign_positive() {
+        if self.value.is_infinite() {
+            if self.value.is_sign_positive() {
                 Display::fmt("Infinity", f)
             } else {
                 Display::fmt("-Infinity", f)
             }
         } else {
-            Display::fmt(&self.0, f)
+            Display::fmt(&self.value, f)
         }
     }
 }

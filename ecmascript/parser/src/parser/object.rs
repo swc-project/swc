@@ -38,18 +38,25 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         let v = match *cur!()? {
-            Str { .. } => match bump!() {
-                Str { value, .. } => PropName::Str(value),
+            Token::Str { .. } => match bump!() {
+                Token::Str { value, has_escape } => PropName::Str(Str {
+                    span: span!(start),
+                    value,
+                    has_escape,
+                }),
                 _ => unreachable!(),
             },
             Num(_) => match bump!() {
-                Num(n) => PropName::Num(n),
+                Num(value) => PropName::Num(Number {
+                    span: span!(start),
+                    value,
+                }),
                 _ => unreachable!(),
             },
             Word(..) => match bump!() {
                 Word(w) => PropName::Ident(Ident {
-                    sym: w.into(),
                     span: span!(start),
+                    sym: w.into(),
                 }),
                 _ => unreachable!(),
             },
@@ -73,10 +80,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = Prop;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
-        box Expr {
-            span,
-            node: ExprKind::Object(ObjectLit { props }),
-        }
+        box Expr::Object(ObjectLit { span, props })
     }
 
     /// spec: 'PropertyDefinition'
@@ -93,12 +97,11 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                 Parser::parse_unique_formal_params,
                 None,
                 Some(span_of_gen),
-            ).map(|function| Prop {
-                span: span!(start),
-                node: PropKind::Method {
+            ).map(|function| {
+                Prop::Method(MethodProp {
                     key: name,
                     function,
-                },
+                })
             });
         }
 
@@ -110,19 +113,13 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
         // { a: expr, }
         if eat!(':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
-            return Ok(Prop {
-                span: Span::new(start, value.span.hi(), Default::default()),
-                node: PropKind::KeyValue { key, value },
-            });
+            return Ok(Prop::KeyValue(KeyValueProp { key, value }));
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
-                .map(|function| Prop {
-                    span: span!(start),
-                    node: PropKind::Method { key, function },
-                });
+                .map(|function| Prop::Method(MethodProp { key, function }));
         }
 
         let ident = match key {
@@ -140,12 +137,9 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
             if eat!('=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
-                return Ok(Prop {
-                    span: span!(start),
-                    node: PropKind::Assign { key: ident, value },
-                });
+                return Ok(Prop::Assign(AssignProp { key: ident, value }));
             }
-            return Ok(Prop::new_shorthand(ident));
+            return Ok(ident.into());
         }
 
         // get a(){}
@@ -158,9 +152,12 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
                 return match ident.sym {
                     js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), None, None)
-                        .map(|Function { body, .. }| Prop {
-                            span: span!(start),
-                            node: PropKind::Getter { key, body },
+                        .map(|Function { body, .. }| {
+                            Prop::Getter(GetterProp {
+                                span: span!(start),
+                                key,
+                                body,
+                            })
                         }),
                     js_word!("set") => self.parse_fn_args_body(
                         start,
@@ -169,24 +166,19 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                         None,
                     ).map(|Function { params, body, .. }| {
                         assert_eq!(params.len(), 1);
-                        Prop {
+                        Prop::Setter(SetterProp {
                             span: span!(start),
-                            node: PropKind::Setter {
-                                key,
-                                body,
-                                param: params.into_iter().next().unwrap(),
-                            },
-                        }
+                            key,
+                            body,
+                            param: params.into_iter().next().unwrap(),
+                        })
                     }),
                     js_word!("async") => self.parse_fn_args_body(
                         start,
                         Parser::parse_unique_formal_params,
                         Some(ident.span),
                         None,
-                    ).map(|function| Prop {
-                        span: span!(start),
-                        node: PropKind::Method { key, function },
-                    }),
+                    ).map(|function| Prop::Method(MethodProp { key, function })),
                     _ => unreachable!(),
                 };
             }
@@ -200,19 +192,18 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
     type Prop = ObjectPatProp;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
-        Pat {
-            span,
-            node: PatKind::Object(props),
-        }
+        Pat::Object(ObjectPat { span, props })
     }
 
     /// Production 'BindingProperty'
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
+        let start = cur_pos!();
+
         let key = self.parse_prop_name()?;
         if eat!(':') {
             let value = box self.parse_binding_element()?;
 
-            return Ok(ObjectPatProp::KeyValue { key, value });
+            return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
         }
         let key = match key {
             PropName::Ident(ident) => ident,
@@ -231,6 +222,10 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
             None
         };
 
-        Ok(ObjectPatProp::Assign { key, value })
+        Ok(ObjectPatProp::Assign(AssignPatProp {
+            span: span!(start),
+            key,
+            value,
+        }))
     }
 }

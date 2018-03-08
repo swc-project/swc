@@ -7,6 +7,9 @@
         "**/.DS_Store": true,
         "**/*.bk": true,
     },
+    "[rust]": {
+        "editor.formatOnSave": true
+    },
     "rust-client.channel": "nightly-2018-02-28",
     "rust.unstable_features": true,
     "rust.workspace_mode": true,

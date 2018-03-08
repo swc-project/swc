@@ -3,6 +3,14 @@ use super::input::FileMapInput;
 use std::ops::Range;
 use std::str;
 
+fn sp(r: Range<usize>) -> Span {
+    Span::new(
+        BytePos(r.start as u32),
+        BytePos(r.end as u32),
+        Default::default(),
+    )
+}
+
 fn with_lexer<F, Ret>(s: &'static str, f: F) -> Ret
 where
     F: FnOnce(&mut Lexer<FileMapInput>) -> Ret,
@@ -73,12 +81,12 @@ impl WithSpan for Token {
 }
 impl WithSpan for usize {
     fn into_token(self) -> Token {
-        Num(Number(self as f64))
+        Num(self as f64)
     }
 }
 impl WithSpan for f64 {
     fn into_token(self) -> Token {
-        Num(Number(self))
+        Num(self)
     }
 }
 impl<'a> WithSpan for &'a str {
@@ -126,7 +134,7 @@ fn test262_lexer_error_0001() {
 fn test262_lexer_error_0002() {
     assert_eq!(
         vec![
-            Str {
+            Token::Str {
                 value: "use strict".into(),
                 has_escape: true,
             }.span(0..15)
@@ -167,7 +175,7 @@ fn str_escape_hex() {
     assert_eq!(
         lex(r#"'\x61'"#),
         vec![
-            Str {
+            Token::Str {
                 value: "a".into(),
                 has_escape: true,
             }.span(0..6)
@@ -181,7 +189,7 @@ fn str_escape_octal() {
     assert_eq!(
         lex(r#"'Hello\012World'"#),
         vec![
-            Str {
+            Token::Str {
                 value: "Hello\nWorld".into(),
                 has_escape: true,
             }.span(0..16)
@@ -195,7 +203,7 @@ fn str_escape_unicode_long() {
     assert_eq!(
         lex(r#"'\u{00000000034}'"#),
         vec![
-            Str {
+            Token::Str {
                 value: "4".into(),
                 has_escape: true,
             }.span(0..17)
@@ -210,7 +218,14 @@ fn regexp_unary_void() {
         lex("void /test/"),
         vec![
             Void.span(0..4).lb(),
-            Regex("test".into(), "".into()).span(5..11),
+            Regex(
+                Str {
+                    value: "test".into(),
+                    span: sp(6..10),
+                    has_escape: false,
+                },
+                None,
+            ).span(5..11),
         ]
     );
     assert_eq!(
@@ -218,7 +233,14 @@ fn regexp_unary_void() {
         vec![
             Void.span(0..4).lb(),
             LParen.span(5..6),
-            Regex("test".into(), "".into()).span(6..12),
+            Regex(
+                Str {
+                    span: sp(7..11),
+                    value: "test".into(),
+                    has_escape: false,
+                },
+                None,
+            ).span(6..12),
             RParen.span(12..13),
         ]
     );
@@ -285,19 +307,40 @@ fn simple_regex() {
         vec![
             "x".span(0).lb(),
             Assign.span(2),
-            Regex("42".into(), "i".into()).span(4..9),
+            Regex(
+                Str {
+                    span: sp(5..7),
+                    value: "42".into(),
+                    has_escape: false,
+                },
+                Some(Str {
+                    span: sp(8..9),
+                    value: "i".into(),
+                    has_escape: false,
+                }),
+            ).span(4..9),
         ],
     );
 
     assert_eq!(
         lex("/42/"),
-        vec![Regex("42".into(), "".into()).span(0..4).lb()]
+        vec![
+            Regex(
+                Str {
+                    span: sp(1..3),
+                    value: "42".into(),
+                    has_escape: false,
+                },
+                None,
+            ).span(0..4)
+                .lb(),
+        ]
     );
 }
 
 #[test]
 fn complex_regex() {
-    assert_eq!(
+    assert_eq_ignore_span!(
         vec![
             Word(Ident("f".into())),
             LParen,
@@ -309,10 +352,20 @@ fn complex_regex() {
             RParen,
             LBrace,
             RBrace,
-            Regex("42".into(), "i".into()),
+            Regex(
+                Str {
+                    span: Default::default(),
+                    value: "42".into(),
+                    has_escape: false,
+                },
+                Some(Str {
+                    span: Default::default(),
+                    value: "i".into(),
+                    has_escape: false,
+                }),
+            ),
         ],
-        lex_tokens("f(); function foo() {} /42/i"),
-        "/ should be parsed as regexp"
+        lex_tokens("f(); function foo() {} /42/i")
     )
 }
 
@@ -394,7 +447,14 @@ fn after_if() {
             RParen.span(4),
             LBrace.span(5),
             RBrace.span(6),
-            Regex("y".into(), "".into()).span(8..11),
+            Regex(
+                Str {
+                    span: sp(9..10),
+                    value: "y".into(),
+                    has_escape: false,
+                },
+                None,
+            ).span(8..11),
             Dot.span(11),
             "test".span(12..16),
             LParen.span(16),
@@ -448,7 +508,14 @@ fn migrated_0002() {
         vec![
             "tokenize".span(0..8).lb(),
             LParen.span(8),
-            Regex("42".into(), "".into()).span(9..13),
+            Regex(
+                Str {
+                    span: sp(10..12),
+                    value: "42".into(),
+                    has_escape: false,
+                },
+                None,
+            ).span(9..13),
             RParen.span(13),
         ],
         lex("tokenize(/42/)")
@@ -480,7 +547,14 @@ fn migrated_0004() {
             RParen.span(11),
             LBrace.span(12),
             RBrace.span(13),
-            Regex("42".into(), "".into()).span(15..19),
+            Regex(
+                Str {
+                    span: sp(16..18),
+                    value: "42".into(),
+                    has_escape: false,
+                },
+                None,
+            ).span(15..19),
         ],
         lex("function f(){} /42/")
     );
@@ -516,7 +590,14 @@ fn migrated_0006() {
         vec![
             LBrace.span(0).lb(),
             RBrace.span(1),
-            Regex("42".into(), "".into()).span(3..7),
+            Regex(
+                Str {
+                    span: sp(4..6),
+                    value: "42".into(),
+                    has_escape: false,
+                },
+                None,
+            ).span(3..7),
         ],
         lex("{} /42/")
     )
@@ -526,16 +607,16 @@ fn migrated_0006() {
 fn str_lit() {
     assert_eq!(
         vec![
-            Str {
+            Token::Str {
                 value: "abcde".into(),
                 has_escape: false,
             },
         ],
         lex_tokens("'abcde'")
     );
-    assert_eq!(
+    assert_eq_ignore_span!(
         vec![
-            Str {
+            Token::Str {
                 value: "abc".into(),
                 has_escape: true,
             },

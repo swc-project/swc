@@ -11,7 +11,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     ///
     ///
-    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<Number> {
+    pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<f64> {
         assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
@@ -132,10 +132,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(Number(val))
+        Ok(val)
     }
 
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Number> {
+    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<f64> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -149,7 +149,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let val = self.read_number_no_dot(radix)?;
         self.ensure_not_ident()?;
 
-        Ok(Number(val))
+        Ok(val)
     }
 
     /// This can read long integers like
@@ -266,13 +266,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(total)
     }
 
-    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<Number> {
+    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
         self.ensure_not_ident()?;
         return if self.ctx.strict {
             self.error(start, SyntaxError::LegacyOctal)?
         } else {
             // FIXME
-            Ok(Number(val))
+            Ok(val)
         };
     }
 }
@@ -295,7 +295,7 @@ mod tests {
     }
 
     fn num(s: &'static str) -> f64 {
-        lex(s, |l| l.read_number(s.starts_with(".")).unwrap().0)
+        lex(s, |l| l.read_number(s.starts_with(".")).unwrap())
     }
 
     fn int(radix: u8, s: &'static str) -> u32 {
@@ -347,7 +347,7 @@ mod tests {
     #[test]
     fn read_radix_number() {
         assert_eq!(
-            Number(0o73 as f64),
+            0o73 as f64,
             lex("0o73", |l| l.read_radix_number(8).unwrap())
         );
     }
@@ -389,10 +389,10 @@ mod tests {
                 };
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(Number(expected)), token);
+                assert_eq!(Num(expected), token);
             } else {
                 match vec {
-                    Ok(vec) => assert_ne!(vec![Num(Number(expected))], vec),
+                    Ok(vec) => assert_ne!(vec![Num(expected)], vec),
                     _ => {}
                 }
             }

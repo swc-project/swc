@@ -9,32 +9,17 @@ pub enum Decl {
     Var(VarDecl),
 }
 
-impl Decl {
-    pub fn span(&self) -> Span {
-        match *self {
-            Decl::Class(ClassDecl {
-                class: Class { span, .. },
-                ..
-            })
-            | Decl::Fn(FnDecl {
-                function: Function { span, .. },
-                ..
-            })
-            | Decl::Var(VarDecl { span, .. }) => span,
-        }
-    }
-}
-
 #[ast_node]
 pub struct FnDecl {
     pub ident: Ident,
+    #[span]
     pub function: Function,
 }
 
 #[ast_node]
 pub struct ClassDecl {
     pub ident: Ident,
-
+    #[span]
     pub class: Class,
 }
 
@@ -46,10 +31,13 @@ pub struct VarDecl {
     pub decls: Vec<VarDeclarator>,
 }
 
-#[ast_node]
+#[derive(Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 pub enum VarDeclKind {
+    /// `var`
     Var,
+    /// `let`
     Let,
+    /// `const`
     Const,
 }
 

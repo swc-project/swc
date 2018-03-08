@@ -1,84 +1,86 @@
-use super::{Class, Decl, Expr, Function, Ident, VarDecl};
-use swc_common::{Span, Spanned};
+use super::{ClassExpr, Decl, Expr, FnExpr, Ident, Str, VarDecl};
+use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
-pub struct ModuleDecl {
-    pub span: Span,
-
-    pub node: ModuleDeclKind,
-}
-
-#[ast_node]
-pub enum ModuleDeclKind {
-    Import {
-        specifiers: Vec<ImportSpecifier>,
-
-        src: String,
-    },
+pub enum ModuleDecl {
+    Import(ImportDecl),
     ExportDecl(Decl),
-    /// `export { foo } from 'mod'`
-    /// `export { foo as bar } from 'mod'`
-    ExportNamed {
-        specifiers: Vec<ExportSpecifier>,
-
-        src: Option<String>,
-    },
+    ExportNamed(NamedExport),
 
     ExportDefaultDecl(ExportDefaultDecl),
 
     ExportDefaultExpr(Box<Expr>),
-    /// `export * from 'mod'`
-    ExportAll {
-        src: String,
-    },
+    ExportAll(ExportAll),
+}
+
+#[ast_node]
+pub struct ImportDecl {
+    pub span: Span,
+    pub specifiers: Vec<ImportSpecifier>,
+
+    pub src: Str,
+}
+
+/// `export * from 'mod'`
+#[ast_node]
+pub struct ExportAll {
+    pub span: Span,
+    pub src: Str,
+}
+
+/// `export { foo } from 'mod'`
+/// `export { foo as bar } from 'mod'`
+#[ast_node]
+pub struct NamedExport {
+    pub span: Span,
+    pub specifiers: Vec<ExportSpecifier>,
+
+    pub src: Option<Str>,
 }
 
 #[ast_node]
 pub enum ExportDefaultDecl {
-    Class {
-        ident: Option<Ident>,
+    Class(ClassExpr),
 
-        class: Class,
-    },
-
-    Fn {
-        ident: Option<Ident>,
-
-        function: Function,
-    },
+    Fn(FnExpr),
 
     Var(VarDecl),
 }
 
 #[ast_node]
-pub struct ImportSpecifier {
-    pub span: Span,
-    pub local: Ident,
-    pub node: ImportSpecifierKind,
+pub enum ImportSpecifier {
+    Specific(ImportSpecific),
+    Default(ImportDefault),
+    Namespace(ImportStarAs),
 }
 
+/// e.g. `import foo from 'mod.js'`
 #[ast_node]
-pub enum ImportSpecifierKind {
-    /// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
-    /// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from 'mod.js'`
-    Specific { imported: Option<Ident> },
-    /// e.g. `import foo from 'mod.js'`
-    Default,
-    /// e.g. `import * as foo from 'mod.js'`.
-    Namespace,
+pub struct ImportDefault {
+    pub span: Span,
+    pub local: Ident,
+}
+/// e.g. `import * as foo from 'mod.js'`.
+#[ast_node]
+pub struct ImportStarAs {
+    pub span: Span,
+    pub local: Ident,
+}
+/// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
+/// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from 'mod.js'`
+#[ast_node]
+pub struct ImportSpecific {
+    pub span: Span,
+    pub local: Ident,
+    pub imported: Option<Ident>,
 }
 
 #[ast_node]
 pub struct ExportSpecifier {
+    pub span: Span,
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,
     /// `Some(bar)` in `export { foo as bar }`
     pub exported: Option<Ident>,
-}
-
-impl Spanned<ModuleDeclKind> for ModuleDecl {
-    fn from_unspanned(node: ModuleDeclKind, span: Span) -> Self {
-        ModuleDecl { span, node }
-    }
 }

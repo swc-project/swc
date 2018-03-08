@@ -1,12 +1,12 @@
-#![feature(specialization, proc_macro)]
+#![feature(proc_macro)]
 
+extern crate ast_node;
 extern crate swc_common;
-extern crate swc_macros;
-use swc_macros::ast_node;
+use ast_node::*;
 
-#[ast_node]
+#[derive(Debug, Fold)]
 pub struct Struct {}
 
-#[ast_node]
+#[derive(Debug, FromVariant, Fold)]
 pub enum Enum {
 }

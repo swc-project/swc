@@ -1,4 +1,17 @@
-use common::prelude::*;
+use darling::FromField;
+use swc_macros_common::prelude::*;
+
+#[derive(Debug, FromField)]
+#[darling(attributes(fold))]
+struct FieldAttrs {
+    ///
+    #[darling(default)]
+    pub ignore: bool,
+
+    /// Should we add bound for the field's type?
+    #[darling(default)]
+    pub bound: bool,
+}
 
 pub fn derive(input: DeriveInput) -> ItemImpl {
     let mut derive_generics = Derive::new(&input);
@@ -157,6 +170,11 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 }
 
 fn should_skip_field(field: &Field) -> bool {
+    let attrs = FieldAttrs::from_field(field).expect("#[derive(Fold)]: failed to parse attribute");
+    if attrs.ignore {
+        return true;
+    }
+
     let ty_str = field.ty.dump().to_string();
     match &*ty_str {
         "bool" | "usize" | "u128" | "u64" | "u32" | "u16" | "u8" | "isize" | "i128" | "i64"

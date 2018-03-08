@@ -1,11 +1,10 @@
+use pos::Spanned;
 use std::fmt::Debug;
 
-/// Currently just a marker trait.
+/// A marker trait for ast nodes.
 ///
 ///
 ///
-///
-/// # Derive
-/// This trait can be derived with `#[derive(AstNode)]`.
-///
-pub trait AstNode: Debug + PartialEq + Clone {}
+pub trait AstNode: Debug + PartialEq + Clone + Spanned {}
+
+impl<N: Debug + PartialEq + Clone + Spanned> AstNode for N {}

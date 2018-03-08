@@ -1,73 +1,64 @@
-use super::{BlockStmt, Expr, Function, Ident, Number, Pat};
-use swc_common::{Span, Spanned};
+use super::{BlockStmt, Expr, Function, Ident, Number, Pat, Str};
+use swc_common::Span;
 use swc_macros::ast_node;
 
 #[ast_node]
-pub struct Prop {
-    pub span: Span,
-
-    pub node: PropKind,
-}
-
-impl Spanned<PropKind> for Prop {
-    fn from_unspanned(node: PropKind, span: Span) -> Self {
-        Prop { span, node }
-    }
-}
-
-#[ast_node]
-pub enum PropKind {
+pub enum Prop {
     /// `a` in `{ a, }`
     Shorthand(Ident),
 
     /// `key: value` in `{ key: value, }`
-    KeyValue {
-        key: PropName,
-
-        value: Box<Expr>,
-    },
+    KeyValue(KeyValueProp),
     /// This is **invalid** for object literal.
-    Assign {
-        key: Ident,
-        value: Box<Expr>,
-    },
-    Getter {
-        key: PropName,
-        body: BlockStmt,
-    },
-    Setter {
-        key: PropName,
-        param: Pat,
-        body: BlockStmt,
-    },
-    Method {
-        key: PropName,
-        function: Function,
-    },
+    Assign(AssignProp),
+    Getter(GetterProp),
+    Setter(SetterProp),
+    Method(MethodProp),
+}
+
+#[ast_node]
+pub struct KeyValueProp {
+    #[span(lo)]
+    pub key: PropName,
+
+    #[span(hi)]
+    pub value: Box<Expr>,
+}
+
+#[ast_node]
+pub struct AssignProp {
+    #[span(lo)]
+    pub key: Ident,
+    #[span(hi)]
+    pub value: Box<Expr>,
+}
+#[ast_node]
+pub struct GetterProp {
+    pub span: Span,
+    pub key: PropName,
+    pub body: BlockStmt,
+}
+#[ast_node]
+pub struct SetterProp {
+    pub span: Span,
+    pub key: PropName,
+    pub param: Pat,
+    pub body: BlockStmt,
+}
+#[ast_node]
+pub struct MethodProp {
+    #[span(lo)]
+    pub key: PropName,
+    #[span(hi)]
+    pub function: Function,
 }
 
 #[ast_node]
 pub enum PropName {
     Ident(Ident),
     /// String literal.
-    Str(String),
+    Str(Str),
     /// Numeric literal.
     Num(Number),
     Computed(Box<Expr>),
-}
-
-impl From<Ident> for PropName {
-    fn from(i: Ident) -> Self {
-        PropName::Ident(i)
-    }
-}
-
-impl Prop {
-    pub fn new_shorthand(ident: Ident) -> Self {
-        let span = ident.span;
-        Prop {
-            span,
-            node: PropKind::Shorthand(ident),
-        }
-    }
 }

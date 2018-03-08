@@ -1,6 +1,7 @@
 //! Parser for unary operations and binary operations.
 use super::*;
 use super::util::ExprExt;
+use swc_common::Spanned;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -58,9 +59,9 @@ impl<'a, I: Input> Parser<'a, I> {
             op.precedence()
         );
 
-        match left.node {
+        match *left {
             // This is invalid syntax.
-            ExprKind::Unary { .. } if op == op!("**") => {
+            Expr::Unary { .. } if op == op!("**") => {
                 // Correct implementation would be returning Ok(left) and
                 // returning "unexpected token '**'" on next.
                 // But it's not useful error message.
@@ -68,7 +69,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 syntax_error!(SyntaxError::UnaryInExp {
                     // FIXME: Use display
                     left: format!("{:?}", left),
-                    left_span: left.span,
+                    left_span: left.span(),
                 })
             }
             _ => {}
@@ -87,10 +88,12 @@ impl<'a, I: Input> Parser<'a, I> {
             )?
         };
 
-        let node = box Expr {
-            span: span!(left.span.lo()),
-            node: ExprKind::Bin(BinExpr { op, left, right }),
-        };
+        let node = box Expr::Bin(BinExpr {
+            span: span!(left.span().lo()),
+            op,
+            left,
+            right,
+        });
 
         let expr = self.parse_bin_op_recursively(node, min_prec)?;
         Ok(expr)
@@ -112,17 +115,15 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let arg = self.parse_unary_expr()?;
             if !arg.is_valid_simple_assignment_target(self.ctx().strict) {
-                // This is eary ReferenceError
-                syntax_error!(arg.span, SyntaxError::NotSimpleAssign)
+                // This is early ReferenceError
+                syntax_error!(arg.span(), SyntaxError::NotSimpleAssign)
             }
-            return Ok(box Expr {
+            return Ok(box Expr::Update(UpdateExpr {
                 span: span!(start),
-                node: ExprKind::Update(UpdateExpr {
-                    prefix: true,
-                    op,
-                    arg,
-                }),
-            });
+                prefix: true,
+                op,
+                arg,
+            }));
         }
 
         // Parse unary expression
@@ -138,10 +139,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => unreachable!(),
             };
             let arg = self.parse_unary_expr()?;
-            return Ok(box Expr {
+            return Ok(box Expr::Unary(UnaryExpr {
                 span: span!(start),
-                node: ExprKind::Unary(UnaryExpr { op, arg }),
-            });
+                op,
+                arg,
+            }));
         }
 
         if self.ctx().in_async && is!("await") {
@@ -160,7 +162,7 @@ impl<'a, I: Input> Parser<'a, I> {
         if is_one_of!("++", "--") {
             if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                 // This is eary ReferenceError
-                syntax_error!(expr.span, SyntaxError::NotSimpleAssign)
+                syntax_error!(expr.span(), SyntaxError::NotSimpleAssign)
             }
 
             let start = cur_pos!();
@@ -170,36 +172,38 @@ impl<'a, I: Input> Parser<'a, I> {
                 op!("--")
             };
 
-            return Ok(box Expr {
+            return Ok(box Expr::Update(UpdateExpr {
                 span: span!(start),
-                node: ExprKind::Update(UpdateExpr {
-                    prefix: false,
-                    op,
-                    arg: expr,
-                }),
-            });
+                prefix: false,
+                op,
+                arg: expr,
+            }));
         }
         Ok(expr)
     }
 
     fn parse_await_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
-        self.spanned(|p| {
-            assert_and_bump!("await");
-            assert!(p.ctx().in_async);
+        let start = cur_pos!();
 
-            if is!('*') {
-                syntax_error!(SyntaxError::AwaitStar);
-            }
+        assert_and_bump!("await");
+        assert!(self.ctx().in_async);
 
-            let arg = p.parse_unary_expr()?;
-            Ok(ExprKind::Await(AwaitExpr { arg }))
-        })
+        if is!('*') {
+            syntax_error!(SyntaxError::AwaitStar);
+        }
+
+        let arg = self.parse_unary_expr()?;
+        Ok(box Expr::Await(AwaitExpr {
+            span: span!(start),
+            arg,
+        }))
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_common::DUMMY_SP;
 
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
@@ -211,18 +215,19 @@ mod tests {
         })
     }
 
+    #[allow(non_upper_case_globals)]
+    const span: Span = DUMMY_SP;
+
     #[test]
     fn simple() {
         assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
-            box Expr {
-                span: Default::default(),
-                node: ExprKind::Bin(BinExpr {
-                    op: op!(bin, "+"),
-                    left: bin("5"),
-                    right: bin("4 * 7"),
-                }),
-            }
+            box Expr::Bin(BinExpr {
+                span,
+                op: op!(bin, "+"),
+                left: bin("5"),
+                right: bin("4 * 7"),
+            })
         );
     }
 
@@ -230,14 +235,12 @@ mod tests {
     fn same_prec() {
         assert_eq_ignore_span!(
             bin("5 + 4 + 7"),
-            box Expr {
-                span: Default::default(),
-                node: ExprKind::Bin(BinExpr {
-                    op: op!(bin, "+"),
-                    left: bin("5 + 4"),
-                    right: bin("7"),
-                }),
-            }
+            box Expr::Bin(BinExpr {
+                span,
+                op: op!(bin, "+"),
+                left: bin("5 + 4"),
+                right: bin("7"),
+            })
         );
     }
 

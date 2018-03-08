@@ -12,6 +12,7 @@ pub struct Class {
 
 #[ast_node]
 pub struct ClassMethod {
+    pub span: Span,
     pub key: PropName,
 
     pub function: Function,
@@ -19,7 +20,7 @@ pub struct ClassMethod {
     #[fold(ignore)]
     pub kind: ClassMethodKind,
 
-    pub is_static: bool,
+    pub static_token: Option<Span>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Fold)]

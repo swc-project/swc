@@ -1,5 +1,4 @@
 use super::*;
-use swc_common::Spanned;
 
 impl Context {
     pub fn is_reserved_word(self, word: &JsWord) -> bool {
@@ -95,9 +94,9 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse with given closure
-    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> Ret
+    pub(super) fn parse_with<F, Ret>(&mut self, f: F) -> PResult<'a, Ret>
     where
-        F: FnOnce(&mut Self) -> Ret,
+        F: FnOnce(&mut Self) -> PResult<'a, Ret>,
     {
         f(self)
     }
@@ -112,18 +111,6 @@ impl<'a, I: Input> Parser<'a, I> {
             )
         }
         Span::new(start, end, Default::default())
-    }
-
-    pub(super) fn spanned<F, Node, Ret>(&mut self, f: F) -> PResult<'a, Node>
-    where
-        F: FnOnce(&mut Self) -> PResult<'a, Ret>,
-        Node: Spanned<Ret>,
-    {
-        let start = self.input.cur_pos();
-        let val = f(self)?;
-
-        let span = self.span(start);
-        Ok(Spanned::from_unspanned(val, span))
     }
 }
 pub trait ParseObject<'a, Obj> {
@@ -157,12 +144,12 @@ impl<'w, 'a, I: Input> Drop for WithCtx<'w, 'a, I> {
 }
 
 pub(super) trait ExprExt {
-    fn as_expr_kind(&self) -> &ExprKind;
+    fn as_expr(&self) -> &Expr;
 
     /// "IsValidSimpleAssignmentTarget" from spec.
     fn is_valid_simple_assignment_target(&self, strict: bool) -> bool {
-        match *self.as_expr_kind() {
-            ExprKind::Ident(Ident { ref sym, .. }) => {
+        match *self.as_expr() {
+            Expr::Ident(Ident { ref sym, .. }) => {
                 if strict {
                     if &*sym == "arguments" || &*sym == "eval" {
                         return false;
@@ -171,48 +158,45 @@ pub(super) trait ExprExt {
                 true
             }
 
-            ExprKind::This
-            | ExprKind::Lit(..)
-            | ExprKind::Array(..)
-            | ExprKind::Object(..)
-            | ExprKind::Fn(..)
-            | ExprKind::Class(..)
-            | ExprKind::Tpl(..) => false,
-            ExprKind::Paren(ref expr) => expr.is_valid_simple_assignment_target(strict),
+            Expr::This(..)
+            | Expr::Lit(..)
+            | Expr::Array(..)
+            | Expr::Object(..)
+            | Expr::Fn(..)
+            | Expr::Class(..)
+            | Expr::Tpl(..) => false,
+            Expr::Paren(ParenExpr { ref expr, .. }) => {
+                expr.is_valid_simple_assignment_target(strict)
+            }
 
-            ExprKind::Member(..) => true,
+            Expr::Member(..) => true,
 
-            ExprKind::New(..) | ExprKind::Call(..) => false,
+            Expr::New(..) | Expr::Call(..) => false,
             // TODO: Spec only mentions `new.target`
-            ExprKind::MetaProp(..) => false,
+            Expr::MetaProp(..) => false,
 
-            ExprKind::Update(..) => false,
+            Expr::Update(..) => false,
 
-            ExprKind::Unary(..) | ExprKind::Await(..) => false,
+            Expr::Unary(..) | Expr::Await(..) => false,
 
-            ExprKind::Bin(..) => false,
+            Expr::Bin(..) => false,
 
-            ExprKind::Cond(..) => false,
+            Expr::Cond(..) => false,
 
-            ExprKind::Yield(..) | ExprKind::Arrow(..) | ExprKind::Assign(..) => false,
+            Expr::Yield(..) | Expr::Arrow(..) | Expr::Assign(..) => false,
 
-            ExprKind::Seq(..) => false,
+            Expr::Seq(..) => false,
         }
     }
 }
 
 impl ExprExt for Box<Expr> {
-    fn as_expr_kind(&self) -> &ExprKind {
-        &self.node
+    fn as_expr(&self) -> &Expr {
+        &*self
     }
 }
 impl ExprExt for Expr {
-    fn as_expr_kind(&self) -> &ExprKind {
-        &self.node
-    }
-}
-impl ExprExt for ExprKind {
-    fn as_expr_kind(&self) -> &ExprKind {
+    fn as_expr(&self) -> &Expr {
         self
     }
 }

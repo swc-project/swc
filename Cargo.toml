@@ -30,3 +30,7 @@ features = [ "suggestions", "color" ]
 
 [profile.bench]
 debug = true
+
+
+[patch.crates-io]
+darling = { git = "https://github.com/kdy1/darling", branch = "proc-macro2-nightly" }

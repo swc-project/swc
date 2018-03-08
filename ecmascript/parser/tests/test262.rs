@@ -13,7 +13,7 @@ use std::fs::File;
 use std::fs::read_dir;
 use std::io::{self, Read};
 use std::path::Path;
-use swc_common::{FoldWith, Folder};
+use swc_common::{Fold, FoldWith};
 use swc_common::FileName;
 use swc_common::Span;
 use swc_ecma_parser::{FileMapInput, PResult, Parser, Session};
@@ -293,7 +293,7 @@ where
 
 fn normalize<T>(mut t: T) -> T
 where
-    Normalizer: Folder<T>,
+    Normalizer: Fold<T>,
 {
     loop {
         let mut n = Normalizer {
@@ -309,67 +309,81 @@ where
 struct Normalizer {
     did_something: bool,
 }
-impl Folder<Span> for Normalizer {
+impl Fold<Span> for Normalizer {
     fn fold(&mut self, _: Span) -> Span {
         Span::default()
     }
 }
-impl Folder<Lit> for Normalizer {
-    fn fold(&mut self, lit: Lit) -> Lit {
-        match lit {
-            Lit::Str { value, .. } => Lit::Str {
-                value,
-                has_escape: false,
-            },
-            _ => lit,
+impl Fold<Str> for Normalizer {
+    fn fold(&mut self, s: Str) -> Str {
+        Str {
+            span: Default::default(),
+            has_escape: false,
+            ..s
         }
     }
 }
-impl Folder<ExprKind> for Normalizer {
-    fn fold(&mut self, e: ExprKind) -> ExprKind {
+impl Fold<Expr> for Normalizer {
+    fn fold(&mut self, e: Expr) -> Expr {
+        let e = e.fold_with(self);
+
         match e {
-            ExprKind::Paren(e) => self.fold(e.node),
-            ExprKind::New(NewExpr { callee, args: None }) => {
+            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+            Expr::New(NewExpr {
+                callee,
+                args: None,
+                span,
+            }) => {
                 self.did_something = true;
-                ExprKind::New(NewExpr {
+                Expr::New(NewExpr {
+                    span,
                     callee: self.fold(callee),
                     args: Some(vec![]),
                 })
             }
-            ExprKind::Seq(SeqExpr { exprs }) => {
+            // Flatten comma expressions.
+            Expr::Seq(SeqExpr { exprs, span }) => {
                 let mut exprs = self.fold(exprs);
-                let need_work = exprs.iter().map(|e| &e.node).any(|n| match *n {
-                    ExprKind::Seq { .. } => true,
+                let need_work = exprs.iter().any(|n| match **n {
+                    Expr::Seq(..) => true,
                     _ => false,
                 });
 
                 if need_work {
                     self.did_something = true;
                     exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-                        match e.node {
-                            ExprKind::Seq(SeqExpr { exprs }) => v.extend(exprs),
+                        match *e {
+                            Expr::Seq(SeqExpr { exprs, .. }) => v.extend(exprs),
                             _ => v.push(e),
                         }
                         v
                     });
                 }
-                ExprKind::Seq(SeqExpr { exprs })
+                Expr::Seq(SeqExpr { exprs, span })
             }
-            _ => e.fold_children(self),
+            _ => e,
         }
     }
 }
 
-impl Folder<PropName> for Normalizer {
+impl Fold<PropName> for Normalizer {
     fn fold(&mut self, n: PropName) -> PropName {
         match n {
             PropName::Ident(Ident { sym, .. }) => {
                 self.did_something = true;
-                PropName::Str(String::from(&*sym))
+                PropName::Str(Str {
+                    span: Default::default(),
+                    value: sym,
+                    has_escape: false,
+                })
             }
             PropName::Num(num) => {
                 self.did_something = true;
-                PropName::Str(num.to_string())
+                PropName::Str(Str {
+                    span: Default::default(),
+                    value: num.to_string().into(),
+                    has_escape: false,
+                })
             }
             _ => n.fold_children(self),
         }

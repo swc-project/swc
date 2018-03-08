@@ -1,6 +1,6 @@
 use super::*;
 use super::pat::PatType;
-use swc_macros::ast_node;
+use swc_common::Spanned;
 
 mod module_item;
 
@@ -80,32 +80,29 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         if is_one_of!("break", "continue") {
-            return self.spanned(|p| {
-                let is_break = is!("break");
-                bump!();
+            let is_break = is!("break");
+            bump!();
 
-                let label = if eat!(';') {
-                    None
-                } else {
-                    let i = p.parse_label_ident().map(Some)?;
-                    expect!(';');
-                    i
-                };
+            let label = if eat!(';') {
+                None
+            } else {
+                let i = self.parse_label_ident().map(Some)?;
+                expect!(';');
+                i
+            };
 
-                Ok(if is_break {
-                    StmtKind::Break(BreakStmt { label })
-                } else {
-                    StmtKind::Continue(ContinueStmt { label })
-                })
+            let span = span!(start);
+            return Ok(if is_break {
+                Stmt::Break(BreakStmt { span, label })
+            } else {
+                Stmt::Continue(ContinueStmt { span, label })
             });
         }
 
         if is!("debugger") {
-            return self.spanned(|p| {
-                bump!();
-                expect!(';');
-                Ok(StmtKind::Debugger)
-            });
+            bump!();
+            expect!(';');
+            return Ok(Stmt::Debugger(DebuggerStmt { span: span!(start) }));
         }
 
         if is!("do") {
@@ -161,10 +158,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if is!("var") || (include_decl && is!("const")) {
             let v = self.parse_var_stmt(false)?;
-            return Ok(Stmt {
-                span: v.span,
-                node: StmtKind::Decl(Decl::Var(v)),
-            });
+            return Ok(Stmt::Decl(Decl::Var(v)));
         }
 
         // 'let' can start an identifier reference.
@@ -177,24 +171,16 @@ impl<'a, I: Input> Parser<'a, I> {
 
             if is_keyword {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(Stmt {
-                    span: v.span,
-                    node: StmtKind::Decl(Decl::Var(v)),
-                });
+                return Ok(Stmt::Decl(Decl::Var(v)));
             }
         }
 
-        match *cur!()? {
-            LBrace => return self.spanned(|p| p.parse_block(false).map(StmtKind::Block)),
+        if is!('{') {
+            return self.parse_block(false).map(Stmt::Block);
+        }
 
-            Semi => {
-                return self.spanned(|p| {
-                    bump!();
-                    Ok(StmtKind::Empty)
-                })
-            }
-
-            _ => {}
+        if eat_exact!(';') {
+            return Ok(Stmt::Empty(EmptyStmt { span: span!(start) }));
         }
 
         // Handle async function foo() {}
@@ -211,17 +197,11 @@ impl<'a, I: Input> Parser<'a, I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
         let expr = match expr {
-            box Expr {
-                span,
-                node: ExprKind::Ident(ident),
-            } => {
+            box Expr::Ident(ident) => {
                 if eat!(':') {
                     return self.parse_labelled_stmt(ident);
                 }
-                box Expr {
-                    span,
-                    node: ExprKind::Ident(ident),
-                }
+                box Expr::Ident(ident)
             }
             expr => {
                 let expr = self.verify_expr(expr)?;
@@ -231,45 +211,48 @@ impl<'a, I: Input> Parser<'a, I> {
         };
 
         if eat!(';') {
-            Ok(Stmt {
-                span: span!(start),
-                node: StmtKind::Expr(expr),
-            }.into())
+            Ok(Stmt::Expr(expr))
         } else {
-            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span });
+            syntax_error!(SyntaxError::ExpectedSemiForExprStmt { expr: expr.span() });
         }
     }
 
     fn parse_if_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("if");
+        let start = cur_pos!();
 
-            expect!('(');
-            let test = p.include_in_expr(true).parse_expr()?;
-            expect!(')');
+        assert_and_bump!("if");
 
-            let cons = {
-                // Annex B
-                if !p.ctx().strict && is!("function") {
-                    // TODO: report error?
-                }
-                box p.parse_stmt(false)?
-            };
+        expect!('(');
+        let test = self.include_in_expr(true).parse_expr()?;
+        expect!(')');
 
-            let alt = if eat!("else") {
-                Some(box p.parse_stmt(false)?)
-            } else {
-                None
-            };
+        let cons = {
+            // Annex B
+            if !self.ctx().strict && is!("function") {
+                // TODO: report error?
+            }
+            box self.parse_stmt(false)?
+        };
 
-            Ok(StmtKind::If(IfStmt { test, cons, alt }))
-        })
+        let alt = if eat!("else") {
+            Some(box self.parse_stmt(false)?)
+        } else {
+            None
+        };
+
+        let span = span!(start);
+        Ok(Stmt::If(IfStmt {
+            span,
+            test,
+            cons,
+            alt,
+        }))
     }
 
     fn parse_return_stmt(&mut self) -> PResult<'a, Stmt> {
         let start = cur_pos!();
 
-        let stmt = self.spanned(|p| {
+        let stmt = self.parse_with(|p| {
             assert_and_bump!("return");
 
             let arg = if is!(';') {
@@ -278,7 +261,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 p.include_in_expr(true).parse_expr().map(Some)?
             };
             expect!(';');
-            Ok(StmtKind::Return(ReturnStmt { arg }))
+            Ok(Stmt::Return(ReturnStmt {
+                span: span!(start),
+                arg,
+            }))
         });
 
         if !self.ctx().in_function {
@@ -293,104 +279,118 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_switch_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("switch");
+        let switch_start = cur_pos!();
 
-            expect!('(');
-            let discriminant = p.include_in_expr(true).parse_expr()?;
-            expect!(')');
+        assert_and_bump!("switch");
 
-            let mut cur = None;
-            let mut cases = vec![];
-            let mut span_of_previous_default = None;
+        expect!('(');
+        let discriminant = self.include_in_expr(true).parse_expr()?;
+        expect!(')');
 
-            expect!('{');
-            while !eof!() && !is!('}') {
-                if is_one_of!("case", "default") {
-                    let is_case = is!("case");
-                    let start_of_case = cur_pos!();
-                    bump!();
-                    cases.extend(cur.take());
-                    let test = if is_case {
-                        p.include_in_expr(true).parse_expr().map(Some)?
-                    } else {
-                        if let Some(previous) = span_of_previous_default {
-                            syntax_error!(SyntaxError::MultipleDefault { previous });
-                        }
-                        span_of_previous_default = Some(span!(start_of_case));
+        let mut cur = None;
+        let mut cases = vec![];
+        let mut span_of_previous_default = None;
 
-                        None
-                    };
-                    expect!(':');
-
-                    cur = Some(SwitchCase { test, cons: vec![] });
+        expect!('{');
+        while !eof!() && !is!('}') {
+            let case_start = cur_pos!();
+            if is_one_of!("case", "default") {
+                let is_case = is!("case");
+                let start_of_case = cur_pos!();
+                bump!();
+                cases.extend(cur.take());
+                let test = if is_case {
+                    self.include_in_expr(true).parse_expr().map(Some)?
                 } else {
-                    match cur {
-                        Some(ref mut cur) => {
-                            cur.cons.push(p.parse_stmt_list_item(false)?);
-                        }
-                        None => unexpected!(),
+                    if let Some(previous) = span_of_previous_default {
+                        syntax_error!(SyntaxError::MultipleDefault { previous });
                     }
+                    span_of_previous_default = Some(span!(start_of_case));
+
+                    None
+                };
+                expect!(':');
+
+                cur = Some(SwitchCase {
+                    span: span!(case_start),
+                    test,
+                    cons: vec![],
+                });
+            } else {
+                match cur {
+                    Some(ref mut cur) => {
+                        cur.cons.push(self.parse_stmt_list_item(false)?);
+                    }
+                    None => unexpected!(),
                 }
             }
+        }
 
-            // eof or rbrace
-            expect!('}');
-            cases.extend(cur);
+        // eof or rbrace
+        expect!('}');
+        cases.extend(cur);
 
-            Ok(StmtKind::Switch(SwitchStmt {
-                discriminant,
-                cases,
-            }))
-        })
+        Ok(Stmt::Switch(SwitchStmt {
+            span: span!(switch_start),
+            discriminant,
+            cases,
+        }))
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("throw");
+        let start = cur_pos!();
 
-            if p.input.had_line_break_before_cur() {
-                // TODO: Suggest throw arg;
-                syntax_error!(SyntaxError::LineBreakInThrow);
-            }
+        assert_and_bump!("throw");
 
-            let arg = p.include_in_expr(true).parse_expr()?;
-            expect!(';');
+        if self.input.had_line_break_before_cur() {
+            // TODO: Suggest throw arg;
+            syntax_error!(SyntaxError::LineBreakInThrow);
+        }
 
-            Ok(StmtKind::Throw(ThrowStmt { arg }))
-        })
+        let arg = self.include_in_expr(true).parse_expr()?;
+        expect!(';');
+
+        let span = span!(start);
+        Ok(Stmt::Throw(ThrowStmt { span, arg }))
     }
 
     fn parse_try_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("try");
+        let start = cur_pos!();
 
-            let block = p.parse_block(false)?;
+        assert_and_bump!("try");
 
-            let handler = if eat!("catch") {
-                let param = p.parse_catch_param()?;
-                p.parse_block(false)
-                    .map(|body| CatchClause { param, body })
-                    .map(Some)?
-            } else {
-                None
-            };
+        let block = self.parse_block(false)?;
 
-            let finalizer = if eat!("finally") {
-                p.parse_block(false).map(Some)?
-            } else {
-                if handler.is_none() {
-                    unexpected!();
-                }
-                None
-            };
+        let catch_start = cur_pos!();
+        let handler = if eat!("catch") {
+            let param = self.parse_catch_param()?;
+            self.parse_block(false)
+                .map(|body| CatchClause {
+                    span: span!(catch_start),
+                    param,
+                    body,
+                })
+                .map(Some)?
+        } else {
+            None
+        };
 
-            Ok(StmtKind::Try(TryStmt {
-                block,
-                handler,
-                finalizer,
-            }))
-        })
+        let finalizer = if eat!("finally") {
+            self.parse_block(false).map(Some)?
+        } else {
+            if handler.is_none() {
+                unexpected!();
+            }
+            None
+        };
+
+        let span = span!(start);
+        Ok(Stmt::Try(TryStmt {
+            span,
+            block,
+            handler,
+            finalizer,
+        }))
     }
 
     fn parse_catch_param(&mut self) -> PResult<'a, Pat> {
@@ -437,8 +437,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 Some(self.parse_assignment_expr()?)
             } else {
                 // Destructuring bindings require initializers.
-                match name.node {
-                    PatKind::Ident(..) => None,
+                match name {
+                    Pat::Ident(..) => None,
                     _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
                 }
             }
@@ -455,32 +455,35 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_do_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("do");
+        let start = cur_pos!();
 
-            let body = box p.parse_stmt(false)?;
-            expect!("while");
-            let test = p.include_in_expr(true).parse_expr()?;
+        assert_and_bump!("do");
 
-            // We *may* eat semicolon.
-            let _ = eat!(';');
+        let body = box self.parse_stmt(false)?;
+        expect!("while");
+        let test = self.include_in_expr(true).parse_expr()?;
 
-            Ok(StmtKind::DoWhile(DoWhileStmt { test, body }))
-        })
+        // We *may* eat semicolon.
+        let _ = eat!(';');
+
+        let span = span!(start);
+
+        Ok(Stmt::DoWhile(DoWhileStmt { span, test, body }))
     }
 
     fn parse_while_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("while");
+        let start = cur_pos!();
 
-            expect!('(');
-            let test = p.include_in_expr(true).parse_expr()?;
-            expect!(')');
+        assert_and_bump!("while");
 
-            let body = box p.parse_stmt(false)?;
+        expect!('(');
+        let test = self.include_in_expr(true).parse_expr()?;
+        expect!(')');
 
-            Ok(StmtKind::While(WhileStmt { test, body }))
-        })
+        let body = box self.parse_stmt(false)?;
+
+        let span = span!(start);
+        Ok(Stmt::While(WhileStmt { span, test, body }))
     }
 
     fn parse_with_stmt(&mut self) -> PResult<'a, Stmt> {
@@ -488,26 +491,29 @@ impl<'a, I: Input> Parser<'a, I> {
             syntax_error!(SyntaxError::WithInStrict)
         }
 
-        self.spanned(|p| {
-            assert_and_bump!("with");
+        let start = cur_pos!();
 
-            expect!('(');
-            let obj = p.include_in_expr(true).parse_expr()?;
-            expect!(')');
+        assert_and_bump!("with");
 
-            let body = box p.parse_stmt(false)?;
-            Ok(StmtKind::With(WithStmt { obj, body }))
-        })
+        expect!('(');
+        let obj = self.include_in_expr(true).parse_expr()?;
+        expect!(')');
+
+        let body = box self.parse_stmt(false)?;
+
+        let span = span!(start);
+        Ok(Stmt::With(WithStmt { span, obj, body }))
     }
 
     pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<'a, BlockStmt> {
-        self.spanned(|p| {
-            expect!('{');
+        let start = cur_pos!();
 
-            let stmts = p.parse_block_body(allow_directives, false, Some(&RBrace))?;
+        expect!('{');
 
-            Ok(stmts)
-        })
+        let stmts = self.parse_block_body(allow_directives, false, Some(&RBrace))?;
+
+        let span = span!(start);
+        Ok(BlockStmt { span, stmts })
     }
 
     fn parse_labelled_stmt(&mut self, label: Ident) -> PResult<'a, Stmt> {
@@ -538,30 +544,43 @@ impl<'a, I: Input> Parser<'a, I> {
             self.parse_stmt(false)?
         };
 
-        Ok(Stmt {
+        Ok(Stmt::Labeled(LabeledStmt {
             span: span!(start),
-            node: StmtKind::Labeled(LabeledStmt { label, body }),
-        })
+            label,
+            body,
+        }))
     }
 
     fn parse_for_stmt(&mut self) -> PResult<'a, Stmt> {
-        self.spanned(|p| {
-            assert_and_bump!("for");
-            expect!('(');
-            let head = p.parse_for_head()?;
-            expect!(')');
-            let body = box p.parse_stmt(false)?;
+        let start = cur_pos!();
 
-            Ok(match head {
-                ForHead::For { init, test, update } => StmtKind::For(ForStmt {
-                    init,
-                    test,
-                    update,
-                    body,
-                }),
-                ForHead::ForIn { left, right } => StmtKind::ForIn(ForInStmt { left, right, body }),
-                ForHead::ForOf { left, right } => StmtKind::ForOf(ForOfStmt { left, right, body }),
-            })
+        assert_and_bump!("for");
+        expect!('(');
+        let head = self.parse_for_head()?;
+        expect!(')');
+        let body = box self.parse_stmt(false)?;
+
+        let span = span!(start);
+        Ok(match head {
+            ForHead::For { init, test, update } => Stmt::For(ForStmt {
+                span,
+                init,
+                test,
+                update,
+                body,
+            }),
+            ForHead::ForIn { left, right } => Stmt::ForIn(ForInStmt {
+                span,
+                left,
+                right,
+                body,
+            }),
+            ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+                span,
+                left,
+                right,
+                body,
+            }),
         })
     }
 
@@ -635,7 +654,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 }
 
-#[ast_node]
+#[derive(Debug, PartialEq)]
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
@@ -653,25 +672,22 @@ enum ForHead {
 }
 
 pub(super) trait IsDirective {
-    fn as_ref(&self) -> Option<&StmtKind>;
+    fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
-            Some(&StmtKind::Expr(box Expr {
-                node:
-                    ExprKind::Lit(Lit::Str {
-                        ref value,
-                        has_escape: false,
-                    }),
+            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(Str {
+                ref value,
+                has_escape: false,
                 ..
-            })) => value == "use strict",
+            })))) => value == "use strict",
             _ => false,
         }
     }
 }
 
 impl IsDirective for Stmt {
-    fn as_ref(&self) -> Option<&StmtKind> {
-        Some(&self.node)
+    fn as_ref(&self) -> Option<&Stmt> {
+        Some(self)
     }
 }
 
@@ -713,22 +729,16 @@ mod tests {
 
     #[test]
     fn expr_stmt() {
-        assert_eq_ignore_span!(
-            stmt("a + b + c"),
-            Stmt {
-                span: Default::default(),
-                node: StmtKind::Expr(expr("a + b + c")),
-            }
-        )
+        assert_eq_ignore_span!(stmt("a + b + c"), Stmt::Expr(expr("a + b + c")))
     }
     #[test]
     fn throw_this() {
         assert_eq_ignore_span!(
             stmt("throw this"),
-            Stmt {
-                span: Default::default(),
-                node: StmtKind::Throw(ThrowStmt { arg: expr("this") }),
-            }
+            Stmt::Throw(ThrowStmt {
+                span,
+                arg: expr("this"),
+            })
         )
     }
 
@@ -745,13 +755,10 @@ mod tests {
 
         assert_eq_ignore_span!(
             stmt("{ 1; }"),
-            Stmt {
+            Stmt::Block(BlockStmt {
                 span,
-                node: StmtKind::Block(BlockStmt {
-                    span,
-                    stmts: vec![stmt("1")],
-                }),
-            }
+                stmts: vec![stmt("1")],
+            })
         );
     }
 
@@ -759,14 +766,12 @@ mod tests {
     fn if_else() {
         assert_eq_ignore_span!(
             stmt("if (a) b; else c"),
-            Stmt {
+            Stmt::If(IfStmt {
                 span,
-                node: StmtKind::If(IfStmt {
-                    test: expr("a"),
-                    cons: box stmt("b;"),
-                    alt: Some(box stmt("c")),
-                }),
-            }
+                test: expr("a"),
+                cons: box stmt("b;"),
+                alt: Some(box stmt("c")),
+            })
         );
     }
 }

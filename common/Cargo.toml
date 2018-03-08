@@ -10,3 +10,4 @@ string_cache = "0.6"
 either = "1.4"
 rustc-ap-rustc_errors = "16"
 rustc-ap-syntax_pos = "16"
+swc_macros = { path = "../macros" }

@@ -95,16 +95,16 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_class_element(&mut self) -> PResult<'a, ClassMethod> {
         // ignore semi
 
-        let start_of_static = {
-            let pos = cur_pos!();
+        let static_token = {
+            let start = cur_pos!();
             if eat!("static") {
-                Some(pos)
+                Some(span!(start))
             } else {
                 None
             }
         };
 
-        self.parse_method_def(start_of_static)
+        self.parse_method_def(static_token)
     }
 
     fn parse_fn<T>(&mut self, start_of_async: Option<BytePos>) -> PResult<'a, T>
@@ -205,9 +205,9 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_method_def(&mut self, start_of_static: Option<BytePos>) -> PResult<'a, ClassMethod> {
-        let is_static = start_of_static.is_some();
-        let start = start_of_static.unwrap_or(cur_pos!());
+    fn parse_method_def(&mut self, static_token: Option<Span>) -> PResult<'a, ClassMethod> {
+        let is_static = static_token.is_some();
+        let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
 
         if eat!('*') {
             let span_of_gen = span!(start);
@@ -218,7 +218,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 None,
                 Some(span_of_gen),
             ).map(|function| ClassMethod {
-                is_static,
+                span: span!(start),
+                static_token,
                 key,
                 function,
                 kind: ClassMethodKind::Method,
@@ -226,18 +227,18 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         // Handle static(){}
-        if let Some(start_of_static) = start_of_static {
+        if let Some(static_token) = static_token {
             if is!('(') {
-                let span_of_static = span!(start_of_static);
                 return self.parse_fn_args_body(
                     start,
                     Parser::parse_unique_formal_params,
                     None,
                     None,
                 ).map(|function| ClassMethod {
-                    is_static: false,
+                    span: span!(start),
+                    static_token: None,
                     key: PropName::Ident(Ident {
-                        span: span_of_static,
+                        span: static_token,
                         sym: js_word!("static"),
                     }),
                     function,
@@ -250,9 +251,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
+            debug_assert_eq!(static_token, None);
+
             return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
                 .map(|function| ClassMethod {
-                    is_static,
+                    span: span!(start),
+                    static_token,
                     key,
                     function,
                     kind: ClassMethodKind::Method,
@@ -275,7 +279,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 return match ident.sym {
                     js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), None, None)
                         .map(|function| ClassMethod {
-                            is_static,
+                            span: span!(start),
+                            static_token,
                             key,
                             function,
                             kind: ClassMethodKind::Getter,
@@ -286,8 +291,9 @@ impl<'a, I: Input> Parser<'a, I> {
                         None,
                         None,
                     ).map(|function| ClassMethod {
+                        span: span!(start),
                         key,
-                        is_static,
+                        static_token,
                         function,
                         kind: ClassMethodKind::Setter,
                     }),
@@ -297,7 +303,8 @@ impl<'a, I: Input> Parser<'a, I> {
                         Some(ident.span),
                         None,
                     ).map(|function| ClassMethod {
-                        is_static,
+                        span: span!(start),
+                        static_token,
                         key,
                         function,
                         kind: ClassMethodKind::Method,
@@ -352,16 +359,10 @@ impl OutputType for Box<Expr> {
     }
 
     fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
-        box Expr {
-            span: function.span,
-            node: ExprKind::Fn(FnExpr { ident, function }),
-        }
+        box Expr::Fn(FnExpr { ident, function })
     }
     fn finish_class(ident: Option<Ident>, class: Class) -> Self {
-        box Expr {
-            span: class.span,
-            node: ExprKind::Class(ClassExpr { ident, class }),
-        }
+        box Expr::Class(ClassExpr { ident, class })
     }
 }
 
@@ -369,10 +370,10 @@ impl OutputType for ExportDefaultDecl {
     type Ident = Option<Ident>;
 
     fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
-        ExportDefaultDecl::Fn { ident, function }
+        ExportDefaultDecl::Fn(FnExpr { ident, function })
     }
     fn finish_class(ident: Option<Ident>, class: Class) -> Self {
-        ExportDefaultDecl::Class { ident, class }
+        ExportDefaultDecl::Class(ClassExpr { ident, class })
     }
 }
 
@@ -438,20 +439,17 @@ mod tests {
     fn class_expr() {
         assert_eq_ignore_span!(
             expr("(class extends a {})"),
-            box Expr {
+            box Expr::Paren(ParenExpr {
                 span,
-                node: ExprKind::Paren(box Expr {
-                    span,
-                    node: ExprKind::Class(ClassExpr {
-                        ident: None,
-                        class: Class {
-                            span,
-                            body: vec![],
-                            super_class: Some(expr("a")),
-                        },
-                    }),
+                expr: box Expr::Class(ClassExpr {
+                    ident: None,
+                    class: Class {
+                        span,
+                        body: vec![],
+                        super_class: Some(expr("a")),
+                    },
                 }),
-            }
+            })
         );
     }
 }
