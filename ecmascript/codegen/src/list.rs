@@ -295,3 +295,24 @@ make!(
             | SquareBrackets,
     },
 );
+
+impl ListFormat {
+    pub fn opening_bracket(self) -> &'static str {
+        match self & ListFormat::BracketsMask {
+            ListFormat::Braces => "{",
+            ListFormat::Parenthesis => "(",
+            ListFormat::AngleBrackets => "<",
+            ListFormat::SquareBrackets => "[",
+            _ => unreachable!(),
+        }
+    }
+    pub fn closing_bracket(self) -> &'static str {
+        match self & ListFormat::BracketsMask {
+            ListFormat::Braces => "}",
+            ListFormat::Parenthesis => ")",
+            ListFormat::AngleBrackets => ">",
+            ListFormat::SquareBrackets => "]",
+            _ => unreachable!(),
+        }
+    }
+}
