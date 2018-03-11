@@ -2,10 +2,9 @@ extern crate swc_ecma_parser;
 extern crate testing;
 use super::*;
 use config::Config;
-use std::fs::read_dir;
-use std::io::Write;
-use std::path::Path;
-use std::sync::{Arc, RwLock};
+use std::{
+    fs::read_dir, io::Write, path::Path, sync::{Arc, RwLock},
+};
 use swc_common::errors::{CodeMap, FilePathMapping};
 
 struct Noop;
