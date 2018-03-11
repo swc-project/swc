@@ -1,26 +1,884 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
+#![feature(proc_macro)]
 #![feature(trace_macros)]
 #![recursion_limit = "1024"]
+#![allow(unused_variables)]
 
 #[macro_use]
 extern crate bitflags;
+extern crate ecma_codegen_macros;
 pub extern crate sourcemap;
+extern crate swc_common;
 extern crate swc_ecma_ast;
 
+use self::list::ListFormat;
+use self::util::{CodeMapExt, SpanExt};
+use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
 use std::io::{self, Write};
+use std::rc::Rc;
+use swc_common::{BytePos, Span, Spanned};
+use swc_common::errors::CodeMap;
+use swc_ecma_ast::*;
 use text_writer::TextWriter;
 
+#[macro_use]
+pub mod macros;
+mod comments;
 pub mod list;
 pub mod config;
 pub mod text_writer;
+pub mod util;
+#[cfg(test)]
+mod tests;
 
 pub type Result = io::Result<()>;
 
-pub struct Emitter {
-    pub srcmap: SourceMapBuilder,
-    pub writer: Box<TextWriter>,
+pub trait Handlers {
+    // fn on_before_emit_token(&mut self, _node: &Any) {}
+    // fn on_after_emit_token(&mut self, _node: &Any) {}
 }
 
-impl Emitter {}
+pub trait Node: Spanned {
+    fn emit_with(&self, e: &mut Emitter) -> Result;
+}
+impl<N: Node> Node for Box<N> {
+    fn emit_with(&self, e: &mut Emitter) -> Result {
+        (**self).emit_with(e)
+    }
+}
+impl<'a, N: Node> Node for &'a N {
+    fn emit_with(&self, e: &mut Emitter) -> Result {
+        (**self).emit_with(e)
+    }
+}
+
+pub struct Emitter<'a> {
+    pub cfg: config::Config,
+    pub cm: Rc<CodeMap>,
+    pub enable_comments: bool,
+    pub srcmap: SourceMapBuilder,
+    pub wr: Box<('a + TextWriter)>,
+    pub handlers: Box<('a + Handlers)>,
+}
+
+impl<'a> Emitter<'a> {
+    #[emitter]
+    pub fn emit_lit(&mut self, node: &Lit) -> Result {
+        match *node {
+            Lit::Bool(Bool { value, .. }) => {
+                if value {
+                    keyword!("true")
+                } else {
+                    keyword!("false")
+                }
+            }
+            Lit::Null(Null { .. }) => keyword!("null"),
+            _ => unimplemented!(),
+        }
+    }
+
+    // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
+    //     self.wr.write_punct("{")?;
+    //     self.emit_list(
+    //         node.span(),
+    //         &node.props,
+    //         ListFormat::ObjectBindingPatternElements,
+    //     );
+    //     self.wr.write_punct("}")?;
+
+    //     Ok(())
+    // }
+
+    // pub fn emit_array_binding_pat(&mut self, node: &ArrayPat) -> Result {
+    //     self.wr.write_punct("[")?;
+    //     self.emit_list(
+    //         node.span(),
+    //         &node.elems,
+    //         ListFormat::ArrayBindingPatternElements,
+    //     );
+    //     self.wr.write_punct("]")?;
+
+    //     Ok(())
+    // }
+
+    #[emitter]
+    pub fn emit_expr_or_super(&mut self, node: &ExprOrSuper) -> Result {
+        match *node {
+            ExprOrSuper::Expr(ref e) => emit!(e),
+            ExprOrSuper::Super(_) => keyword!("super"),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_expr(&mut self, node: &Expr) -> Result {
+        match *node {
+            Expr::Array(ref n) => emit!(n),
+            Expr::Arrow(ref n) => emit!(n),
+            Expr::Assign(ref n) => emit!(n),
+            Expr::Await(ref n) => emit!(n),
+            Expr::Bin(ref n) => emit!(n),
+            Expr::Call(ref n) => emit!(n),
+            Expr::Class(ref n) => emit!(n),
+            Expr::Cond(ref n) => emit!(n),
+            Expr::Fn(ref n) => emit!(n),
+            Expr::Ident(ref n) => emit!(n),
+            Expr::Lit(ref n) => emit!(n),
+            Expr::Member(ref n) => emit!(n),
+            Expr::MetaProp(ref n) => emit!(n),
+            Expr::New(ref n) => emit!(n),
+            Expr::Object(ref n) => emit!(n),
+            Expr::Paren(ref n) => emit!(n),
+            Expr::Seq(ref n) => emit!(n),
+            Expr::This(ref n) => emit!(n),
+            Expr::Tpl(ref n) => emit!(n),
+            Expr::Unary(ref n) => emit!(n),
+            Expr::Update(ref n) => emit!(n),
+            Expr::Yield(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
+        emit!(node.callee);
+        self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
+    }
+
+    #[emitter]
+    pub fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
+        keyword!("new");
+        space!();
+        emit!(node.callee);
+
+        if let Some(ref args) = node.args {
+            self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
+        }
+    }
+
+    #[emitter]
+    pub fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
+        emit!(node.obj);
+
+        if node.computed {
+            punct!("[");
+            emit!(node.prop);
+            punct!("]");
+        } else {
+            if self.needs_2dots_for_property_access(&node.obj) {
+                punct!(".");
+            }
+            punct!(".");
+            emit!(node.prop);
+        }
+    }
+
+    /// `1..toString` is a valid property access, emit a dot after the literal
+    pub fn needs_2dots_for_property_access(&self, expr: &ExprOrSuper) -> bool {
+        match *expr {
+            ExprOrSuper::Expr(box Expr::Lit(Lit::Num(Number { span, .. }))) => {
+                // check if numeric literal is a decimal literal that was originally written
+                // with a dot
+                let text = self.cm.span_to_string(span);
+                return !text.contains(".");
+            }
+            _ => false,
+        }
+    }
+
+    #[emitter]
+    pub fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_tpl_lit(&mut self, node: &TplLit) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_unary_expr(&mut self, node: &UnaryExpr) -> Result {
+        //TODO: Operator vs Keyword
+        keyword!(node.op.as_str());
+        if should_emit_whitespace_before_operand(node) {
+            space!();
+        }
+
+        emit!(node.arg);
+    }
+
+    #[emitter]
+    pub fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
+        if node.prefix {
+            operator!(node.op.as_str());
+            //TODO: Check if we should use should_emit_whitespace_before_operand
+            emit!(node.arg);
+        } else {
+            emit!(node.arg);
+            operator!(node.op.as_str());
+        }
+    }
+
+    #[emitter]
+    pub fn emit_yield_expr(&mut self, node: &YieldExpr) -> Result {
+        keyword!("yield");
+        if node.delegate {
+            operator!("*");
+        }
+        opt_leading_space!(node.arg);
+    }
+
+    pub fn emit_expr_or_spreads(
+        &mut self,
+        _parent_node: Span,
+        _node: &[ExprOrSpread],
+        _format: ListFormat,
+    ) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_await_expr(&mut self, node: &AwaitExpr) -> Result {
+        // TODO: Comment
+        keyword!("await");
+
+        space!();
+
+        emit!(&node.arg);
+    }
+
+    #[emitter]
+    pub fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
+        // self.emit_list(
+        //     node.span(),
+        //     Some(&node.elems),
+        //     ListFormat::ArrayLiteralExpressionElements,
+        // )?;
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
+        // const indentedFlag = getEmitFlags(node) & EmitFlags.Indented;
+        // if (indentedFlag) {
+        //     increaseIndent();
+        // }
+
+        // const preferNewLine = node.multiLine ? ListFormat.PreferNewLine :
+        // ListFormat.None; const allowTrailingComma =
+        // currentSourceFile.languageVersion >= ScriptTarget.ES5 ?
+        // ListFormat.AllowTrailingComma : ListFormat.None; emitList(node,
+        // node.properties, ListFormat.ObjectLiteralExpressionProperties |
+        // allowTrailingComma | preferNewLine);
+
+        // if (indentedFlag) {
+        //     decreaseIndent();
+        // }
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_paren_expr(&mut self, node: &ParenExpr) -> Result {
+        punct!("(");
+        emit!(node.expr);
+        punct!(")");
+    }
+
+    #[emitter]
+    pub fn emit_ident(&mut self, ident: &Ident) -> Result {
+        // TODO: Use write_symbol when ident is a symbol.
+
+        let symbol = None;
+        if let Some(sym) = symbol {
+            self.wr.write_symbol(
+                &get_text_of_node(&self.cm, &ident, /* includeTrivia */ false),
+                sym,
+            )?;
+        } else {
+            self.wr
+                .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */ false).as_bytes())?;
+        }
+
+        //TODO
+
+        // Call emitList directly since it could be an array of
+        // TypeParameterDeclarations _or_ type arguments
+
+        // emitList(node, node.typeArguments, ListFormat::TypeParameters);
+    }
+
+    pub fn emit_list<N: Node>(
+        &mut self,
+        parent_node: Span,
+        children: Option<&[N]>,
+        format: ListFormat,
+    ) -> Result {
+        self.emit_list5(
+            parent_node,
+            children,
+            format,
+            0,
+            children.map(|c| c.len()).unwrap_or(0),
+        )
+    }
+
+    pub fn emit_list5<N: Node>(
+        &mut self,
+        parent_node: Span,
+        children: Option<&[N]>,
+        format: ListFormat,
+        start: usize,
+        count: usize,
+    ) -> Result {
+        if children.is_none() && format.contains(ListFormat::OptionalIfUndefined) {
+            return Ok(());
+        }
+
+        let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
+
+        if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
+            // self.handlers.onBeforeEmitNodeArray(children)
+
+            // self.handlers.onAfterEmitNodeArray(children);
+
+            return Ok(());
+        }
+
+        if format.contains(ListFormat::BracketsMask) {
+            self.wr.write_punct(format.opening_bracket())?;
+
+            if is_empty {
+                self.emit_trailing_comments_of_pos(
+                    {
+                        //TODO: children.lo()
+
+                        parent_node.lo()
+                    },
+                    true,
+                )?;
+            }
+        }
+
+        // self.handlers.onBeforeEmitNodeArray(children);
+
+        if is_empty {
+            // Write a line terminator if the parent node was multi-line
+
+            if format.contains(ListFormat::MultiLine) {
+                self.wr.write_line()?;
+            } else if format.contains(ListFormat::SpaceBetweenBraces)
+                && !(format.contains(ListFormat::NoSpaceIfEmpty))
+            {
+                self.wr.write_space()?;
+            }
+        } else {
+            let children = children.unwrap();
+
+            // Write the opening line terminator or leading whitespace.
+            let may_emit_intervening_comments =
+                !format.intersects(ListFormat::NoInterveningComments);
+            let mut should_emit_intervening_comments = may_emit_intervening_comments;
+            if self.cm
+                .should_write_leading_line_terminator(parent_node, children, format)
+            {
+                self.wr.write_line()?;
+                should_emit_intervening_comments = false;
+            } else if format.contains(ListFormat::SpaceBetweenBraces) {
+                self.wr.write_space()?;
+            }
+
+            // Increase the indent, if requested.
+            if format.contains(ListFormat::Indented) {
+                self.wr.increase_indent()?;
+            }
+
+            // Emit each child.
+            let mut previous_sibling: Option<Span> = None;
+            let mut should_decrease_indent_after_emit = false;
+            for i in 0..count {
+                let child = &children[start + i];
+
+                // Write the delimiter if this is not the first node.
+                if let Some(previous_sibling) = previous_sibling {
+                    // i.e
+                    //      function commentedParameters(
+                    //          /* Parameter a */
+                    //          a
+                    // /* End of parameter a */
+                    // -> this comment isn't considered to be trailing comment of parameter "a" due
+                    // to newline ,
+                    if format.contains(ListFormat::DelimitersMask)
+                        && previous_sibling.span().hi() != parent_node.hi()
+                    {
+                        self.emit_leading_comments_of_pos(previous_sibling.span().hi())?;
+                    }
+                    self.write_delim(format)?;
+
+                    // Write either a line terminator or whitespace to separate the elements.
+
+                    if self.cm.should_write_separating_line_terminator(
+                        Some(previous_sibling),
+                        Some(child),
+                        format,
+                    ) {
+                        // If a synthesized node in a single-line list starts on a new
+                        // line, we should increase the indent.
+                        if (format & (ListFormat::LinesMask | ListFormat::Indented))
+                            == ListFormat::SingleLine
+                        {
+                            self.wr.increase_indent()?;
+                            should_decrease_indent_after_emit = true;
+                        }
+
+                        self.wr.write_line()?;
+                        should_emit_intervening_comments = false;
+                    } else if format.contains(ListFormat::SpaceBetweenSiblings) {
+                        self.wr.write_space()?;
+                    }
+                }
+
+                // Emit this child.
+                if should_emit_intervening_comments {
+                    let comment_range = child.comment_range();
+                    self.emit_trailing_comments_of_pos(comment_range.lo(), false)?;
+                } else {
+                    should_emit_intervening_comments = may_emit_intervening_comments;
+                }
+
+                child.emit_with(self)?;
+
+                if should_decrease_indent_after_emit {
+                    self.wr.decrease_indent()?;
+                    should_decrease_indent_after_emit = false;
+                }
+
+                previous_sibling = Some(child.span());
+            }
+
+            // Write a trailing comma, if requested.
+            let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
+                // children.hasTrailingComma
+                false
+            };
+            if format.contains(ListFormat::CommaDelimited) && has_trailing_comma {
+                self.wr.write_punct(",")?;
+            }
+
+            {
+                // Emit any trailing comment of the last element in the list
+                // i.e
+                //       var array = [...
+                //          2
+                //          /* end of element 2 */
+                //       ];
+
+                let emit_trailing_comments = {
+                    // TODO:
+                    //
+                    // !(getEmitFlags(previousSibling).contains(EmitFlags::NoTrailingComments))
+
+                    true
+                };
+
+                if let Some(previous_sibling) = previous_sibling {
+                    if format.contains(ListFormat::DelimitersMask)
+                        && previous_sibling.span().hi() != parent_node.hi()
+                        && emit_trailing_comments
+                    {
+                        self.emit_leading_comments_of_pos(previous_sibling.span().hi())?;
+                    }
+                }
+            }
+
+            // Decrease the indent, if requested.
+            if format.contains(ListFormat::Indented) {
+                self.wr.decrease_indent()?;
+            }
+
+            // Write the closing line terminator or closing whitespace.
+            if self.cm
+                .should_write_closing_line_terminator(parent_node, children, format)
+            {
+                self.wr.write_line()?;
+            } else if format.contains(ListFormat::SpaceBetweenBraces) {
+                self.wr.write_space()?;
+            }
+        }
+
+        // self.handlers.onAfterEmitNodeArray(children);
+
+        if format.contains(ListFormat::BracketsMask) {
+            if is_empty {
+                self.emit_leading_comments_of_pos({
+                    //TODO: children.hi()
+
+                    parent_node.hi()
+                })?; // Emit leading comments within empty lists
+            }
+            self.wr.write_punct(format.closing_bracket())?;
+        }
+
+        Ok(())
+    }
+}
+
+/// Patterns
+impl<'a> Emitter<'a> {
+    #[emitter]
+    pub fn emit_pat(&mut self, node: &Pat) -> Result {
+        unimplemented!()
+    }
+}
+
+/// Statements
+impl<'a> Emitter<'a> {
+    pub fn emit_stmts(&mut self, stmts: &[Stmt]) -> Result {
+        for stmt in stmts {
+            self.emit_stmt(stmt)?;
+        }
+
+        Ok(())
+    }
+
+    #[emitter]
+    pub fn emit_stmt(&mut self, node: &Stmt) -> Result {
+        match *node {
+            Stmt::Expr(ref e) => {
+                emit!(e);
+                semi!()
+            }
+            Stmt::Block(ref e) => emit!(e),
+            Stmt::Empty(ref e) => emit!(e),
+            Stmt::Debugger(ref e) => emit!(e),
+            Stmt::With(ref e) => emit!(e),
+            Stmt::Return(ref e) => emit!(e),
+            Stmt::Labeled(ref e) => emit!(e),
+            Stmt::Break(ref e) => emit!(e),
+            Stmt::Continue(ref e) => emit!(e),
+            Stmt::If(ref e) => emit!(e),
+            Stmt::Switch(ref e) => emit!(e),
+            Stmt::Throw(ref e) => emit!(e),
+            Stmt::Try(ref e) => emit!(e),
+            Stmt::While(ref e) => emit!(e),
+            Stmt::DoWhile(ref e) => emit!(e),
+            Stmt::For(ref e) => emit!(e),
+            Stmt::ForIn(ref e) => emit!(e),
+            Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Decl(ref e) => emit!(e),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
+        punct!("{");
+        self.emit_list(
+            node.span(),
+            Some(&node.stmts),
+            ListFormat::MultiLineBlockStatements,
+        )?;
+        punct!("}");
+    }
+
+    #[emitter]
+    pub fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
+        punct!(";")
+    }
+
+    #[emitter]
+    pub fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
+        keyword!("debugger");
+        semi!();
+    }
+
+    #[emitter]
+    pub fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
+        punct!("(");
+        emit!(node.obj);
+        punct!(")");
+
+        emit!(node.body);
+    }
+
+    #[emitter]
+    pub fn emit_return_stmt(&mut self, node: &ReturnStmt) -> Result {
+        keyword!("return");
+        if let Some(ref arg) = node.arg {
+            space!();
+            emit!(arg)
+        }
+        semi!();
+    }
+
+    #[emitter]
+    pub fn emit_labeled_stmt(&mut self, _node: &LabeledStmt) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_break_stmt(&mut self, node: &BreakStmt) -> Result {
+        keyword!("break");
+        opt_leading_space!(node.label);
+        semi!();
+    }
+
+    #[emitter]
+    pub fn emit_continue_stmt(&mut self, node: &ContinueStmt) -> Result {
+        keyword!("continue");
+        opt_leading_space!(node.label);
+        semi!();
+    }
+
+    #[emitter]
+    pub fn emit_if_stmt(&mut self, node: &IfStmt) -> Result {
+        keyword!("if");
+
+        punct!("(");
+        emit!(node.test);
+        punct!(")");
+
+        emit!(node.cons);
+
+        if let Some(ref alt) = node.alt {
+            keyword!("else");
+            space!();
+            emit!(alt);
+        }
+    }
+
+    #[emitter]
+    pub fn emit_switch_stmt(&mut self, node: &SwitchStmt) -> Result {
+        keyword!("switch");
+
+        punct!("(");
+        emit!(node.discriminant);
+        punct!(")");
+
+        punct!("{");
+        self.emit_list(node.span(), Some(&node.cases), ListFormat::CaseBlockClauses)?;
+        punct!("}");
+    }
+
+    #[emitter]
+    pub fn emit_catch_clause(&mut self, node: &CatchClause) -> Result {
+        keyword!("catch");
+        // space!();
+
+        punct!("(");
+        emit!(node.param);
+        punct!(")");
+
+        // space!();
+
+        emit!(node.body);
+    }
+
+    #[emitter]
+    pub fn emit_switch_case(&mut self, node: &SwitchCase) -> Result {
+        if let Some(ref test) = node.test {
+            keyword!("case");
+            space!();
+            emit!(test);
+        } else {
+            keyword!("default");
+        }
+
+        let emit_as_single_stmt = node.cons.len() == 1 && {
+            // treat synthesized nodes as located on the same line for emit purposes
+            node.is_synthesized() || node.cons[0].is_synthesized()
+                || self.cm
+                    .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
+        };
+
+        let mut format = ListFormat::CaseOrDefaultClauseStatements;
+        if emit_as_single_stmt {
+            punct!(":");
+            space!();
+            format &= !(ListFormat::MultiLine | ListFormat::Indented);
+        } else {
+            punct!(":");
+        }
+        self.emit_list(node.span(), Some(&node.cons), format)?;
+
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_throw_stmt(&mut self, node: &ThrowStmt) -> Result {
+        keyword!("throw");
+        space!();
+        emit!(node.arg);
+        semi!();
+    }
+
+    #[emitter]
+    pub fn emit_try_stmt(&mut self, node: &TryStmt) -> Result {
+        keyword!("try");
+        // space!();
+        emit!(node.block);
+
+        if let Some(ref catch) = node.handler {
+            // self.write_line_or_space(node.span())?;
+            emit!(catch);
+        }
+
+        if let Some(ref finally) = node.finalizer {
+            // self.write_line_or_space(node.span())?;
+            keyword!("finally");
+            // space!();
+            emit!(finally);
+        }
+    }
+
+    #[emitter]
+    pub fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
+        keyword!("while");
+
+        punct!("(");
+        emit!(node.test);
+        punct!(")");
+
+        emit!(node.body);
+    }
+
+    #[emitter]
+    pub fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
+        keyword!("do");
+        emit!(node.body);
+
+        punct!("(");
+        emit!(node.test);
+        punct!(")");
+    }
+
+    #[emitter]
+    pub fn emit_for_stmt(&mut self, node: &ForStmt) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_for_in_stmt(&mut self, node: &ForInStmt) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_for_of_stmt(&mut self, node: &ForOfStmt) -> Result {
+        unimplemented!()
+    }
+}
+
+impl<'a> Emitter<'a> {
+    fn write_delim(&mut self, f: ListFormat) -> Result {
+        match f & ListFormat::DelimitersMask {
+            ListFormat::None => {}
+            ListFormat::CommaDelimited => self.wr.write_punct(",")?,
+            ListFormat::BarDelimited => {
+                self.wr.write_space()?;
+                self.wr.write_punct("|")?;
+            }
+            ListFormat::AmpersandDelimited => {
+                self.wr.write_space()?;
+                self.wr.write_punct("&")?;
+            }
+            _ => unreachable!(),
+        }
+
+        Ok(())
+    }
+}
+
+impl<'a> Emitter<'a> {
+    #[emitter]
+    pub fn emit_decl(&mut self, _node: &Decl) -> Result {
+        unimplemented!()
+    }
+}
+
+fn get_text_of_node<T: Spanned>(cm: &CodeMap, node: &T, _include_travia: bool) -> String {
+    let sp = node.span();
+    cm.span_to_string(sp)
+}
+
+/// In some cases, we need to emit a space between the operator and the operand.
+/// One obvious case is when the operator is an identifier, like delete or
+/// typeof. We also need to do this for plus and minus expressions in certain
+/// cases. Specifically, consider the following two cases (parens are just for
+/// clarity of exposition, and not part of the source code):
+///
+///  (+(+1))
+///  (+(++1))
+///
+/// We need to emit a space in both cases. In the first case, the absence of a
+/// space will make the resulting expression a prefix increment operation. And
+/// in the second, it will make the resulting expression a prefix increment
+/// whose operand is a plus expression - (++(+x)) The same is true of minus of
+/// course.
+fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
+    match *node.arg {
+        Expr::Update(UpdateExpr {
+            op: op!("++"),
+            prefix: true,
+            ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!(unary, "+"),
+            ..
+        }) if node.op == op!(unary, "+") =>
+        {
+            true
+        }
+        Expr::Update(UpdateExpr {
+            op: op!("--"),
+            prefix: true,
+            ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            ..
+        }) if node.op == op!(unary, "-") =>
+        {
+            true
+        }
+        _ => false,
+    }
+}
