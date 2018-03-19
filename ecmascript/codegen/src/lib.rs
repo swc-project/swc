@@ -16,7 +16,6 @@ extern crate swc_ecma_ast;
 use self::list::ListFormat;
 use self::text_writer::TextWriter;
 use self::util::{CodeMapExt, SpanExt};
-use self::util::OptNode;
 use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
 use std::io::{self, Write};
@@ -325,15 +324,9 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
-        // FIXME: This is too inefficient.
-        let elems: Vec<_> = node.elems
-            .iter()
-            .map(|e: &Option<ExprOrSpread>| OptNode(e.as_ref()))
-            .collect();
-
         self.emit_list(
             node.span(),
-            Some(&elems),
+            Some(&node.elems),
             ListFormat::ArrayLiteralExpressionElements,
         )?;
     }
@@ -1024,5 +1017,17 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
             true
         }
         _ => false,
+    }
+}
+
+impl<N> Node for Option<N>
+where
+    N: Node,
+{
+    fn emit_with(&self, e: &mut Emitter) -> Result {
+        match *self {
+            Some(ref n) => n.emit_with(e),
+            None => Ok(()),
+        }
     }
 }

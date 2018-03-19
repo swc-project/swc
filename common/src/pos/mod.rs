@@ -28,6 +28,18 @@ impl Spanned for BytePos {
     }
 }
 
+impl<S> Spanned for Option<S>
+where
+    S: Spanned,
+{
+    fn span(&self) -> Span {
+        match *self {
+            Some(ref s) => s.span(),
+            None => DUMMY_SP,
+        }
+    }
+}
+
 impl<S> Spanned for Box<S>
 where
     S: ?Sized + Spanned,
