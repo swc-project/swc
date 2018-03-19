@@ -626,8 +626,12 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
         punct!("[");
-
-        unimplemented!()
+        self.emit_list(
+            node.span(),
+            Some(&node.elems),
+            ListFormat::ArrayBindingPatternElements,
+        )?;
+        punct!("]");
     }
 
     #[emitter]
