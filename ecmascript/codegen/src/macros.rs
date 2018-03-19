@@ -7,6 +7,14 @@ macro_rules! opt_leading_space {
     };
 }
 
+macro_rules! opt {
+    ($e:expr) => {{
+        if let Some(ref expr) = $e {
+            emit!(expr);
+        }
+    }};
+}
+
 macro_rules! emit {
     ($e:expr) => {{
         ::Node::emit_with(&$e, __cur_emitter!())?;

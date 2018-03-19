@@ -1,5 +1,6 @@
+use Node;
 use list::ListFormat;
-use swc_common::{BytePos, Span, Spanned, SyntaxContext};
+use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_common::errors::CodeMap;
 
 pub trait SpanExt: Spanned {
@@ -122,5 +123,25 @@ pub trait CodeMapExt {
 impl CodeMapExt for CodeMap {
     fn get_code_map(&self) -> &CodeMap {
         self
+    }
+}
+
+#[derive(Debug)]
+pub(crate) struct OptNode<T: Node>(pub Option<T>);
+impl<T: Node> Spanned for OptNode<T> {
+    fn span(&self) -> Span {
+        match self.0 {
+            Some(ref node) => node.span(),
+            _ => DUMMY_SP,
+        }
+    }
+}
+
+impl<T: Node> Node for OptNode<T> {
+    fn emit_with(&self, e: &mut super::Emitter) -> super::Result {
+        match self.0 {
+            Some(ref node) => node.emit_with(e),
+            None => Ok(()),
+        }
     }
 }
