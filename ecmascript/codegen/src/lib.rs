@@ -14,7 +14,9 @@ extern crate swc_common;
 extern crate swc_ecma_ast;
 
 use self::list::ListFormat;
+use self::text_writer::TextWriter;
 use self::util::{CodeMapExt, SpanExt};
+use self::util::OptNode;
 use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
 use std::io::{self, Write};
@@ -22,7 +24,6 @@ use std::rc::Rc;
 use swc_common::{BytePos, Span, Spanned};
 use swc_common::errors::CodeMap;
 use swc_ecma_ast::*;
-use text_writer::TextWriter;
 
 #[macro_use]
 pub mod macros;
@@ -194,22 +195,41 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
-        unimplemented!()
+        emit!(node.meta);
+        punct!(".");
+        emit!(node.prop);
     }
 
     #[emitter]
     pub fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
-        unimplemented!()
+        let mut first = true;
+        //TODO: Indention
+        for e in &node.exprs {
+            if first {
+                first = false
+            } else {
+                punct!(",");
+            }
+
+            emit!(e);
+        }
     }
 
     #[emitter]
     pub fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
-        unimplemented!()
+        emit!(node.left);
+        operator!(node.op.as_str());
+        emit!(node.right);
     }
 
     #[emitter]
     pub fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
-        unimplemented!()
+        // let indent_before_op = needs_indention(node, &node.left, node.op);
+        // let indent_after_op = needs_indention(node, node.op, &node.right);
+
+        emit!(node.left);
+        operator!(node.op.as_str());
+        emit!(node.right);
     }
 
     #[emitter]
@@ -219,7 +239,13 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
-        unimplemented!()
+        // TODO:Indent / Space
+
+        emit!(node.test);
+        punct!("?");
+        emit!(node.cons);
+        punct!(":");
+        emit!(node.alt);
     }
 
     #[emitter]
@@ -229,7 +255,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
-        unimplemented!()
+        keyword!("this");
     }
 
     #[emitter]
@@ -271,11 +297,20 @@ impl<'a> Emitter<'a> {
 
     pub fn emit_expr_or_spreads(
         &mut self,
-        _parent_node: Span,
-        _node: &[ExprOrSpread],
-        _format: ListFormat,
+        parent_node: Span,
+        nodes: &[ExprOrSpread],
+        format: ListFormat,
     ) -> Result {
-        unimplemented!()
+        self.emit_list(parent_node, Some(nodes), format)
+    }
+
+    #[emitter]
+    pub fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
+        if node.spread.is_some() {
+            punct!("...");
+        }
+
+        emit!(node.expr);
     }
 
     #[emitter]
@@ -290,12 +325,17 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
-        // self.emit_list(
-        //     node.span(),
-        //     Some(&node.elems),
-        //     ListFormat::ArrayLiteralExpressionElements,
-        // )?;
-        unimplemented!()
+        // FIXME: This is too inefficient.
+        let elems: Vec<_> = node.elems
+            .iter()
+            .map(|e: &Option<ExprOrSpread>| OptNode(e.as_ref()))
+            .collect();
+
+        self.emit_list(
+            node.span(),
+            Some(&elems),
+            ListFormat::ArrayLiteralExpressionElements,
+        )?;
     }
 
     #[emitter]
@@ -567,7 +607,65 @@ impl<'a> Emitter<'a> {
 impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_pat(&mut self, node: &Pat) -> Result {
+        match *node {
+            Pat::Array(ref n) => emit!(n),
+            Pat::Assign(ref n) => emit!(n),
+            Pat::Expr(ref n) => emit!(n),
+            Pat::Ident(ref n) => emit!(n),
+            Pat::Object(ref n) => emit!(n),
+            Pat::Rest(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
+        punct!("...");
+        emit!(node.pat);
+    }
+    #[emitter]
+    pub fn emit_pat_or_expr(&mut self, node: &PatOrExpr) -> Result {
+        match *node {
+            PatOrExpr::Expr(ref n) => emit!(n),
+            PatOrExpr::Pat(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
+        punct!("[");
+
         unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
+        emit!(node.left);
+        punct!("=");
+        emit!(node.right);
+    }
+
+    #[emitter]
+    pub fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
+        punct!("{");
+        self.emit_list(
+            node.span(),
+            Some(&node.props),
+            ListFormat::ObjectBindingPatternElements,
+        )?;
+        punct!("}");
+    }
+
+    #[emitter]
+    pub fn emit_object_pat_prop(&mut self, node: &ObjectPatProp) -> Result {
+        unimplemented!()
+    }
+
+    #[emitter]
+    pub fn emit_var_decl_or_pat(&mut self, node: &VarDeclOrPat) -> Result {
+        match *node {
+            VarDeclOrPat::Pat(ref n) => emit!(n),
+            VarDeclOrPat::VarDecl(ref n) => emit!(n),
+        }
     }
 }
 
@@ -651,8 +749,14 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    pub fn emit_labeled_stmt(&mut self, _node: &LabeledStmt) -> Result {
-        unimplemented!()
+    pub fn emit_labeled_stmt(&mut self, node: &LabeledStmt) -> Result {
+        emit!(node.label);
+
+        // TODO: Comment
+        punct!(":");
+        space!();
+
+        emit!(node.body);
     }
 
     #[emitter]
@@ -793,17 +897,43 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_for_stmt(&mut self, node: &ForStmt) -> Result {
-        unimplemented!()
+        keyword!("for");
+        punct!("(");
+        opt!(node.init);
+        semi!();
+        opt_leading_space!(node.test);
+        semi!();
+        opt_leading_space!(node.update);
+        punct!(")");
+
+        emit!(node.body);
     }
 
     #[emitter]
     pub fn emit_for_in_stmt(&mut self, node: &ForInStmt) -> Result {
-        unimplemented!()
+        keyword!("for");
+        punct!("(");
+        emit!(node.left);
+        space!();
+        keyword!("in");
+        space!();
+        emit!(node.right);
+        punct!(")");
+
+        emit!(node.body);
     }
 
     #[emitter]
     pub fn emit_for_of_stmt(&mut self, node: &ForOfStmt) -> Result {
-        unimplemented!()
+        keyword!("for");
+        punct!("(");
+        emit!(node.left);
+        space!();
+        keyword!("of");
+        space!();
+        emit!(node.right);
+        punct!(")");
+        emit!(node.body);
     }
 }
 
@@ -824,6 +954,20 @@ impl<'a> Emitter<'a> {
         }
 
         Ok(())
+    }
+
+    #[emitter]
+    pub fn emit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) -> Result {
+        match *node {
+            VarDeclOrExpr::Expr(ref node) => emit!(node),
+            VarDeclOrExpr::VarDecl(ref node) => emit!(node),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
+        keyword!(node.kind.as_str());
+        unimplemented!()
     }
 }
 
