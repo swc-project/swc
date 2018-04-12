@@ -1,9 +1,13 @@
 #![allow(non_upper_case_globals)]
+#![recursion_limit = "512"]
 
-bitflags! {
-    pub struct ListFormat: u32 {
-        const None = 0;
-    }
+#[macro_use]
+extern crate swc_common;
+
+fn main() {}
+
+pub struct ListFormat {
+    bits: u32,
 }
 
 add_bitflags!(
@@ -130,24 +134,3 @@ add_bitflags!(
             | SquareBrackets,
     },
 );
-
-impl ListFormat {
-    pub fn opening_bracket(self) -> &'static str {
-        match self & ListFormat::BracketsMask {
-            ListFormat::Braces => "{",
-            ListFormat::Parenthesis => "(",
-            ListFormat::AngleBrackets => "<",
-            ListFormat::SquareBrackets => "[",
-            _ => unreachable!(),
-        }
-    }
-    pub fn closing_bracket(self) -> &'static str {
-        match self & ListFormat::BracketsMask {
-            ListFormat::Braces => "}",
-            ListFormat::Parenthesis => ")",
-            ListFormat::AngleBrackets => ">",
-            ListFormat::SquareBrackets => "]",
-            _ => unreachable!(),
-        }
-    }
-}

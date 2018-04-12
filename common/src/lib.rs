@@ -23,3 +23,4 @@ mod ast_node;
 pub mod errors;
 mod fold;
 pub mod pos;
+pub mod macros;
