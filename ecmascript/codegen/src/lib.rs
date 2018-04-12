@@ -10,6 +10,7 @@
 extern crate bitflags;
 extern crate ecma_codegen_macros;
 pub extern crate sourcemap;
+#[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
 
