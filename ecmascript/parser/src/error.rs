@@ -2,8 +2,8 @@ use self::SyntaxError::*;
 use std::borrow::Cow;
 use std::fmt::{self, Debug, Formatter};
 use swc_atoms::JsWord;
-use swc_common::Span;
 use swc_common::errors::{DiagnosticBuilder, Handler};
+use swc_common::Span;
 use token::Token;
 
 #[derive(Copy, Clone)]

@@ -27,7 +27,7 @@ pub fn derive(
                 }
                 let field = unnamed.into_iter().next().unwrap();
 
-                let from_impl = Quote::new(Span::def_site().located_at(Span::def_site()))
+                let from_impl = Quote::new(def_site::<Span>())
                     .quote_with(smart_quote!(
                         Vars {
                             VariantType: field.ty,

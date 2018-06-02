@@ -46,10 +46,12 @@ fn arrow_assign() {
         expr("a = b => false"),
         box Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(box Ident {
-                span,
-                sym: "a".into(),
-            }.into()),
+            left: PatOrExpr::Pat(
+                box Ident {
+                    span,
+                    sym: "a".into(),
+                }.into()
+            ),
             op: op!("="),
             right: expr("b => false"),
         })
@@ -116,12 +118,10 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![
-                Pat::Ident(Ident {
-                    span,
-                    sym: "a".into(),
-                }),
-            ],
+            params: vec![Pat::Ident(Ident {
+                span,
+                sym: "a".into(),
+            })],
             body: BlockStmtOrExpr::Expr(expr("1")),
         })
     );
@@ -134,15 +134,13 @@ fn arrow_fn_rest() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![
-                Pat::Rest(RestPat {
-                    dot3_token: span,
-                    pat: box Pat::Ident(Ident {
-                        span,
-                        sym: "a".into(),
-                    }),
+            params: vec![Pat::Rest(RestPat {
+                dot3_token: span,
+                pat: box Pat::Ident(Ident {
+                    span,
+                    sym: "a".into(),
                 }),
-            ],
+            })],
             body: BlockStmtOrExpr::Expr(expr("1")),
         })
     );
@@ -155,12 +153,10 @@ fn arrow_fn_no_paren() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![
-                Pat::Ident(Ident {
-                    span,
-                    sym: "a".into(),
-                }),
-            ],
+            params: vec![Pat::Ident(Ident {
+                span,
+                sym: "a".into(),
+            })],
             body: BlockStmtOrExpr::Expr(expr("1")),
         })
     );

@@ -1,7 +1,5 @@
-required_version = "0.3.6"
-reorder_imports = true
-reorder_imports_in_group = true
-reorder_imported_names = true
+required_version = "0.8.2"
+use_field_init_shorthand = true
+merge_imports = true
 wrap_comments = true
-write_mode = "replace"
 format_strings = true

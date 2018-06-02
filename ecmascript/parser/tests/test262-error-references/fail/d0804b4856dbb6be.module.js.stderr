@@ -1,6 +1,7 @@
-error: Unexpected token
+error: Legacy comments cannot be used in module code
  --> $DIR/tests/test262-parser/fail/d0804b4856dbb6be.module.js:2:1
   |
-2 | <!--
-  | ^
+2 | / <!--
+3 | | }
+  | |_
 

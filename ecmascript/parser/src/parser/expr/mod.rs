@@ -1,6 +1,6 @@
-use super::*;
 use super::pat::PatType;
 use super::util::ExprExt;
+use super::*;
 use swc_common::Spanned;
 
 mod ops;
@@ -110,7 +110,8 @@ impl<'a, I: Input> Parser<'a, I> {
         let _ = cur!();
         let start = cur_pos!();
 
-        let can_be_arrow = self.state
+        let can_be_arrow = self
+            .state
             .potential_arrow_start
             .map(|s| s == cur_pos!())
             .unwrap_or(false);
@@ -120,9 +121,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         // Handle async function expression
-        if { is!("async") } && { peeked_is!("function") } && {
-            !self.input.has_linebreak_between_cur_and_peeked()
-        } {
+        if { is!("async") }
+            && { peeked_is!("function") }
+            && { !self.input.has_linebreak_between_cur_and_peeked() }
+        {
             return self.parse_async_fn_expr();
         }
 

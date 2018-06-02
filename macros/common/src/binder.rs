@@ -32,13 +32,14 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
+use def_site;
 use is_attr_name;
 use pmutil::prelude::*;
 use proc_macro2::Span;
-use quote::{ToTokens, Tokens};
-use syn::*;
+use quote::ToTokens;
 use syn::punctuated::Pair;
 use syn::token::{Mut, Ref};
+use syn::*;
 use syn_ext::PairExt;
 
 /// Used to bind whole struct or enum.
@@ -116,7 +117,7 @@ impl<'a> VariantBinder<'a> {
     /// `EnumName::VariantName` for enum, and `StructName` for struct.
     pub fn qual_path(&self) -> Path {
         match self.enum_name {
-            Some(enum_name) => Quote::new(Span::def_site())
+            Some(enum_name) => Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(
                     Vars {
                         EnumName: enum_name,
@@ -161,7 +162,9 @@ impl<'a> VariantBinder<'a> {
                     .enumerate()
                     .map(|(idx, f)| {
                         f.map_item(|f| {
-                            let ident = f.ident
+                            let ident = f
+                                .ident
+                                .clone()
                                 .expect("field of struct-like variants should have name");
 
                             let binded_ident = ident.new_ident_with(|s| format!("{}{}", prefix, s));
@@ -171,7 +174,8 @@ impl<'a> VariantBinder<'a> {
                                 field: f,
                             });
                             FieldPat {
-                                attrs: f.attrs
+                                attrs: f
+                                    .attrs
                                     .iter()
                                     .filter(|attr| is_attr_name(attr, "cfg"))
                                     .cloned()
@@ -214,7 +218,7 @@ impl<'a> VariantBinder<'a> {
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
-                                Span::def_site().new_ident(format!("{}{}", prefix, idx));
+                                def_site::<Span>().new_ident(format!("{}{}", prefix, idx));
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),
@@ -287,7 +291,7 @@ impl<'a> BindedField<'a> {
 }
 
 impl<'a> ToTokens for BindedField<'a> {
-    fn to_tokens(&self, t: &mut Tokens) {
+    fn to_tokens(&self, t: &mut TokenStream) {
         self.binded_ident.to_tokens(t)
     }
 }

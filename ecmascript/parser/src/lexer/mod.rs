@@ -8,13 +8,13 @@ pub use self::input::Input;
 use self::input::LexerInput;
 use self::state::State;
 use self::util::*;
-use {Context, Session};
 use ast::Str;
 use error::SyntaxError;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use token::*;
+use {Context, Session};
 
 pub mod input;
 mod number;
@@ -354,9 +354,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 };
                                 self.bump();
                             }
-                            _ => {
-                                return Ok(Some(value as char))
-                            },
+                            _ => return Ok(Some(value as char)),
                         }
                     }};
                 }
@@ -392,15 +390,17 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
+        let start = self.cur_pos();
         let c = self.cur().unwrap();
         self.bump();
 
         // XML style comment. `<!--`
-        if !self.ctx.module && c == '<' && self.is('!') && self.peek() == Some('-')
-            && self.peek_ahead() == Some('-')
-        {
+        if c == '<' && self.is('!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
             self.skip_space()?;
+            if self.ctx.module {
+                self.error(start, SyntaxError::LegacyCommentInModule)?;
+            }
             return self.read_token();
         }
 

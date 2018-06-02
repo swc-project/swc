@@ -50,15 +50,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // strict mode hates non-zero decimals starting with zero.
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
-                    if self.ctx.strict {
-                        self.error(start, SyntaxError::LegacyDecimal)?
-                    }
-
                     let s = format!("{}", val); // TODO: Remove allocation.
 
                     // if it contains '8' or '9', it's decimal.
                     if s.contains('8') || s.contains('9') {
-
+                        if self.ctx.strict {
+                            self.error(start, SyntaxError::LegacyDecimal)?
+                        }
                     } else {
                         // It's Legacy octal, and we should reinterpret value.
                         let val = u64::from_str_radix(&format!("{}", val), 8)
@@ -279,8 +277,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::input::FileMapInput;
+    use super::*;
     use std::f64::INFINITY;
     use std::panic;
 

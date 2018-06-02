@@ -1,7 +1,7 @@
 use def_site;
 use pmutil::prelude::*;
-use syn::*;
 use syn::punctuated::Pair;
+use syn::*;
 
 /// Extension trait for `ItemImpl` (impl block).
 pub trait ItemImplExt {

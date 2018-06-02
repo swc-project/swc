@@ -17,11 +17,11 @@ fn get_joinned_span(t: &ToTokens) -> Span {
     let (mut first, mut last) = (None, None);
     for tt in tts {
         match first {
-            None => first = Some(tt.span),
+            None => first = Some(tt.span()),
             _ => {}
         }
 
-        last = Some(tt.span);
+        last = Some(tt.span());
     }
     let cs = Span::call_site();
     first.unwrap_or(cs).join(last.unwrap_or(cs)).unwrap_or(cs)
@@ -58,24 +58,22 @@ impl Fold for InjectSelf {
             }
         }
 
-        match i.method.as_ref() {
-            "parse_with" | "spanned" => {
-                //TODO
-                let parser = get_parser_arg(&i);
-                return fold::fold_expr_method_call(
-                    &mut InjectSelf {
-                        parser: Some(parser),
-                    },
-                    i,
-                );
-            }
-            _ => {}
-        };
+        if i.method == "parse_with" || i.method == "spanned" {
+            //TODO
+            let parser = get_parser_arg(&i);
+            return fold::fold_expr_method_call(
+                &mut InjectSelf {
+                    parser: Some(parser),
+                },
+                i,
+            );
+        }
 
         fold::fold_expr_method_call(self, i)
     }
     fn fold_method_sig(&mut self, i: MethodSig) -> MethodSig {
-        self.parser = i.decl
+        self.parser = i
+            .decl
             .inputs
             .first()
             .map(Pair::into_value)
@@ -96,8 +94,11 @@ impl Fold for InjectSelf {
 
     fn fold_macro(&mut self, i: Macro) -> Macro {
         let parser = match self.parser {
-            Some(s) => s,
-            _ => return i,
+            Some(ref s) => s.clone(),
+            _ => {
+                // If we are not in parser, don't do anything.
+                return i;
+            }
         };
 
         let name = i.path.dump().to_string();
@@ -108,7 +109,8 @@ impl Fold for InjectSelf {
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" => {
                 let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
-                args = args.into_pairs()
+                args = args
+                    .into_pairs()
                     .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                     .collect();
                 return Macro {
@@ -143,7 +145,8 @@ impl Fold for InjectSelf {
                     quote_spanned!(span => #parser).into()
                 } else {
                     let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
-                    let args = args.into_pairs()
+                    let args = args
+                        .into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                         .map(|arg| arg.dump())
                         .flat_map(|t| TokenStream::from(t));

@@ -141,7 +141,8 @@ impl<'a, I: Input> Parser<'a, I> {
         if eat!("default") {
             let decl = if is!("class") {
                 self.parse_default_class()?
-            } else if is!("async") && peeked_is!("function")
+            } else if is!("async")
+                && peeked_is!("function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
                 self.parse_default_async_fn()?
@@ -158,7 +159,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let decl = if is!("class") {
             self.parse_class_decl()?
-        } else if is!("async") && peeked_is!("function")
+        } else if is!("async")
+            && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             self.parse_async_fn_decl()?

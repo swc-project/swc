@@ -28,8 +28,8 @@ pub struct Diff {
 /// See https://github.com/rust-lang/rust/blob/b224fc84e3/src/test/COMPILER_TESTS.md#normalization
 ///
 /// - The `CARGO_MANIFEST_DIR` directory is replaced with `$DIR`.
-/// - All backslashes (\) within same line as `$DIR` are converted to forward slashes (/) (for
-/// Windows) - All CR LF newlines are converted to LF
+/// - All backslashes (\) within same line as `$DIR` are converted to forward
+/// slashes (/) (for Windows) - All CR LF newlines are converted to LF
 ///
 /// - `normalize-stdout` is not implemented (yet?).
 #[derive(Debug, Clone, Ord, PartialOrd, PartialEq, Eq, Default, Hash)]
@@ -43,8 +43,8 @@ impl fmt::Display for NormalizedOutput {
 
 impl NormalizedOutput {
     /// If output differs, prints actual stdout/stderr to
-    /// `CARGO_MANIFEST_DIR/target/swc-test-results/ui/$rel_path` where `$rel_path`:
-    /// `path.strip_prefix(CARGO_MANIFEST_DIR)`
+    /// `CARGO_MANIFEST_DIR/target/swc-test-results/ui/$rel_path` where
+    /// `$rel_path`: `path.strip_prefix(CARGO_MANIFEST_DIR)`
     pub fn compare_to_file<P>(self, path: P) -> Result<(), Diff>
     where
         P: AsRef<Path>,

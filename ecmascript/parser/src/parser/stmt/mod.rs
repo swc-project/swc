@@ -1,5 +1,5 @@
-use super::*;
 use super::pat::PatType;
+use super::*;
 use swc_common::Spanned;
 
 mod module_item;
@@ -184,7 +184,8 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         // Handle async function foo() {}
-        if is!("async") && peeked_is!("function")
+        if is!("async")
+            && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
             return self.parse_async_fn_decl().map(From::from);

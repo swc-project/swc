@@ -1,6 +1,6 @@
 //! 13.3.3 Destructuring Binding Patterns
-use super::*;
 use super::util::ExprExt;
+use super::*;
 use std::iter;
 use swc_common::Spanned;
 
@@ -286,10 +286,8 @@ impl<'a, I: Input> Parser<'a, I> {
                                 Prop::KeyValue(KeyValueProp { key, value }) => {
                                     Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
                                         key,
-                                        value: box self.reparse_expr_as_pat(
-                                            pat_ty.element(),
-                                            value,
-                                        )?,
+                                        value: box self
+                                            .reparse_expr_as_pat(pat_ty.element(), value)?,
                                     }))
                                 }
                                 Prop::Assign(AssignProp { key, value }) => {

@@ -4,10 +4,10 @@ version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
-pmutil = "0.1"
-proc-macro2 = "0.2"
-quote = "0.4"
+pmutil = "0.2"
+proc-macro2 = "0.4.4"
+quote = "0.6.3"
 
 [dependencies.syn]
-version = "0.12"
+version = "0.14.1"
 features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]

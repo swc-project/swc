@@ -1,15 +1,15 @@
 use super::StdErr;
+use rustc_data_structures::sync::Lrc;
 use std::io::{self, Write};
-use std::rc::Rc;
 use std::sync::Arc;
 use std::sync::RwLock;
 use swc_common::errors::{CodeMap, EmitterWriter, Handler, HandlerFlags};
 
 /// Creates a new handler for testing.
-pub(crate) fn new_handler(cm: Rc<CodeMap>) -> (Handler, BufferedError) {
+pub(crate) fn new_handler(cm: Lrc<CodeMap>) -> (Handler, BufferedError) {
     let buf: BufferedError = Default::default();
 
-    let e = EmitterWriter::new(box buf.clone(), Some(cm), false);
+    let e = EmitterWriter::new(box buf.clone(), Some(cm), false, true);
 
     let handler = Handler::with_emitter(
         box e,

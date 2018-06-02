@@ -39,18 +39,17 @@ use swc_macros_common::prelude::*;
 ///
 ///
 ///```
-/// 
 /// #[macro_use]
 /// extern crate string_enum;
 ///
 /// #[derive(StringEnum)]
 /// pub enum Tokens {
-///    /// `a`
-///    A,
-///    ///`struct-like`
-///    StructLike {},
-///    /// `tuple-like`
-///    TupleLike(u8),
+///     /// `a`
+///     A,
+///     ///`struct-like`
+///     StructLike {},
+///     /// `tuple-like`
+///     TupleLike(u8),
 /// }
 /// # fn main() {
 ///
@@ -71,7 +70,7 @@ pub fn derive_string_enum(input: proc_macro::TokenStream) -> proc_macro::TokenSt
     let input = syn::parse::<syn::DeriveInput>(input)
         .map(From::from)
         .expect("failed to parse derive input");
-    let mut tts = Tokens::new();
+    let mut tts = TokenStream::new();
 
     quote_spanned!(def_site() => extern crate std;).to_tokens(&mut tts);
 
@@ -85,7 +84,7 @@ pub fn derive_string_enum(input: proc_macro::TokenStream) -> proc_macro::TokenSt
     tts.into()
 }
 
-fn derive_fmt(i: &DeriveInput, trait_path: Tokens) -> ItemImpl {
+fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
     Quote::new(Span::def_site())
         .quote_with(smart_quote!(
             Vars {
@@ -149,22 +148,22 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
 
             Arm {
                 body,
-                attrs: v.attrs()
+                attrs: v
+                    .attrs()
                     .iter()
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
-                pats: vec![
-                    Element::End(Pat::Ref(PatRef {
-                        and_token: def_site(),
-                        mutability: None,
-                        pat,
-                    })),
-                ].into_iter()
+                pats: vec![Element::End(Pat::Ref(PatRef {
+                    and_token: def_site(),
+                    mutability: None,
+                    pat,
+                }))].into_iter()
                     .collect(),
                 guard: None,
-                rocket_token: def_site(),
+                fat_arrow_token: def_site(),
                 comma: Some(def_site()),
+                leading_vert: None,
             }
         })
         .collect();

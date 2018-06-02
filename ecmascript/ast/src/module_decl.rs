@@ -68,7 +68,8 @@ pub struct ImportStarAs {
     pub local: Ident,
 }
 /// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
-/// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from 'mod.js'`
+/// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from
+/// 'mod.js'`
 #[ast_node]
 pub struct ImportSpecific {
     pub span: Span,

@@ -1,7 +1,7 @@
-use Context;
 use lexer::{Input, Lexer};
 use swc_common::{BytePos, Span, DUMMY_SP};
 use token::*;
+use Context;
 
 /// This struct is responsible for managing current token and peeked token.
 pub(super) struct ParserInput<'a, I: Input> {

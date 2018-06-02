@@ -7,7 +7,6 @@
 #![feature(proc_macro)]
 #![feature(try_from)]
 #![feature(try_trait)]
-#![cfg_attr(test, feature(conservative_impl_trait))]
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]
 
@@ -34,8 +33,8 @@ use swc_common::errors::Handler;
 mod macros;
 mod error;
 mod lexer;
-mod token;
 mod parser;
+mod token;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub struct Config {
@@ -78,8 +77,8 @@ where
     F: FnOnce(Session, FileMapInput) -> Ret,
 {
     use std::rc::Rc;
-    use swc_common::FileName;
     use swc_common::errors::{CodeMap, FilePathMapping};
+    use swc_common::FileName;
 
     let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
     let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());

@@ -1,4 +1,5 @@
-use common::prelude::*;
+use swc_macros_common::prelude::*;
+
 use input::*;
 use std::fmt::Display;
 use std::ops::AddAssign;
@@ -81,7 +82,7 @@ impl Synom for FnDef {
         syn!(token::Eq) >>
         return_type: syn!(LitStr) >>
         ({
-            if name.as_ref() == "delegate" {
+            if name == "delegate" {
                 panic!("function name cannot be `delegate`")
             }
 
@@ -170,31 +171,23 @@ where
         I: IntoIterator<Item = TokenTree>,
     {
         let mut tts = tts.into_iter();
-        let mut tt = tts.next();
+        let tt = tts.next();
 
         match tt {
-            Some(TokenTree {
-                kind: TokenNode::Group(Delimiter::Parenthesis, tokens),
-                span,
-            }) => {
+            Some(TokenTree::Group(ref g)) if g.delimiter() == Delimiter::Parenthesis => {
                 if tts.next().is_none() {
-                    return tokens;
+                    return g.stream();
                 }
-                tt = Some(TokenTree {
-                    kind: TokenNode::Group(Delimiter::Parenthesis, tokens),
-                    span,
-                });
+                g.stream()
             }
-            _ => {}
+            tt => panic!(
+                "expected tokens to be wrapped in a paren like #[kind(tokens)]\ngot {}",
+                match tt {
+                    Some(ref tt) => tt as &Display,
+                    None => &"None" as &Display,
+                }
+            ),
         }
-
-        panic!(
-            "expected tokens to be wrpped in a paren like #[kind(tokens)]\ngot {}",
-            match tt {
-                Some(ref tt) => tt as &Display,
-                None => &"None" as &Display,
-            }
-        )
     }
 
     let mut res = Default::default();
@@ -222,16 +215,20 @@ fn parse_str_as_tokens<T>(lit: LitStr) -> T
 where
     T: Synom,
 {
-    let span = lit.span;
+    let span = lit.span();
     // WTF? Literal does not provide a way to get string...
     let tt = lit.value();
 
     // TODO:Remove '"' only for first and last.
-    let tts = tt.replace("\"", "")
+    let tts = tt
+        .replace("\"", "")
         .parse::<TokenStream>()
         .expect("failed to create TokenStream for return type")
         .into_iter()
-        .map(|tt| TokenTree { span, ..tt })
+        .map(|mut tt| {
+            tt.set_span(span);
+            tt
+        })
         .collect::<TokenStream>();
 
     parse(tts.into()).expect("failed to parse string literal")

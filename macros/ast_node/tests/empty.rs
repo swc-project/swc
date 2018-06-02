@@ -8,5 +8,4 @@ use ast_node::*;
 pub struct Struct {}
 
 #[derive(Debug, FromVariant, Fold)]
-pub enum Enum {
-}
+pub enum Enum {}

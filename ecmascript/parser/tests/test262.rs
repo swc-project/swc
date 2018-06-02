@@ -1,5 +1,4 @@
 #![feature(box_syntax)]
-#![feature(conservative_impl_trait)]
 #![feature(specialization)]
 #![feature(test)]
 
@@ -9,17 +8,17 @@ extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
 use std::env;
-use std::fs::File;
 use std::fs::read_dir;
+use std::fs::File;
 use std::io::{self, Read};
 use std::path::Path;
-use swc_common::{Fold, FoldWith};
 use swc_common::FileName;
 use swc_common::Span;
-use swc_ecma_parser::{FileMapInput, PResult, Parser, Session};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_parser::ast::*;
-use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
+use swc_ecma_parser::{FileMapInput, PResult, Parser, Session};
 use test::ShouldPanic::No;
+use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -79,7 +78,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
     tests.push(TestDescAndFn {
         desc: TestDesc {
             name: TestName::DynTestName(name),
-            ignore: ignore,
+            ignore,
             should_panic: No,
             allow_fail: false,
         },
@@ -111,8 +110,8 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     eprintln!("Loading tests from {}", root.display());
 
     const TYPES: &[&str] = &[
-        "fail" /* TODO
- * "early" */
+        "fail", /* TODO
+                 * "early" */
     ];
 
     for err_type in TYPES {
@@ -162,10 +161,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     parse_script(&path, &input).expect_err("should fail, but parsed as")
                 };
 
-                if err.compare_to_file(format!(
-                    "{}.stderr",
-                    error_reference_dir.join(file_name).display()
-                )).is_err()
+                if err
+                    .compare_to_file(format!(
+                        "{}.stderr",
+                        error_reference_dir.join(file_name).display()
+                    ))
+                    .is_err()
                 {
                     panic!()
                 }
@@ -291,24 +292,15 @@ where
     }
 }
 
-fn normalize<T>(mut t: T) -> T
+fn normalize<T>(t: T) -> T
 where
     Normalizer: Fold<T>,
 {
-    loop {
-        let mut n = Normalizer {
-            did_something: false,
-        };
-        t = n.fold(t);
-        if !n.did_something {
-            return t;
-        }
-    }
+    let mut n = Normalizer;
+    n.fold(t)
 }
 
-struct Normalizer {
-    did_something: bool,
-}
+struct Normalizer;
 impl Fold<Span> for Normalizer {
     fn fold(&mut self, _: Span) -> Span {
         Span::default()
@@ -325,7 +317,7 @@ impl Fold<Str> for Normalizer {
 }
 impl Fold<Expr> for Normalizer {
     fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_with(self);
+        let e = e.fold_children(self);
 
         match e {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
@@ -333,24 +325,19 @@ impl Fold<Expr> for Normalizer {
                 callee,
                 args: None,
                 span,
-            }) => {
-                self.did_something = true;
-                Expr::New(NewExpr {
-                    span,
-                    callee: self.fold(callee),
-                    args: Some(vec![]),
-                })
-            }
+            }) => Expr::New(NewExpr {
+                span,
+                callee,
+                args: Some(vec![]),
+            }),
             // Flatten comma expressions.
-            Expr::Seq(SeqExpr { exprs, span }) => {
-                let mut exprs = self.fold(exprs);
+            Expr::Seq(SeqExpr { mut exprs, span }) => {
                 let need_work = exprs.iter().any(|n| match **n {
                     Expr::Seq(..) => true,
                     _ => false,
                 });
 
                 if need_work {
-                    self.did_something = true;
                     exprs = exprs.into_iter().fold(vec![], |mut v, e| {
                         match *e {
                             Expr::Seq(SeqExpr { exprs, .. }) => v.extend(exprs),
@@ -368,24 +355,20 @@ impl Fold<Expr> for Normalizer {
 
 impl Fold<PropName> for Normalizer {
     fn fold(&mut self, n: PropName) -> PropName {
+        let n = n.fold_children(self);
+
         match n {
-            PropName::Ident(Ident { sym, .. }) => {
-                self.did_something = true;
-                PropName::Str(Str {
-                    span: Default::default(),
-                    value: sym,
-                    has_escape: false,
-                })
-            }
-            PropName::Num(num) => {
-                self.did_something = true;
-                PropName::Str(Str {
-                    span: Default::default(),
-                    value: num.to_string().into(),
-                    has_escape: false,
-                })
-            }
-            _ => n.fold_children(self),
+            PropName::Ident(Ident { sym, .. }) => PropName::Str(Str {
+                span: Default::default(),
+                value: sym,
+                has_escape: false,
+            }),
+            PropName::Num(num) => PropName::Str(Str {
+                span: Default::default(),
+                value: num.to_string().into(),
+                has_escape: false,
+            }),
+            _ => n,
         }
     }
 }

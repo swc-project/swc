@@ -2,7 +2,8 @@
 //! It lives here because it's not a generic purpose macro (at all).
 //!
 //! This can't be implemented with macro_rule! because
-//!  rust does not support token munching (destructing `$b:block` into `{ $($t:tt)* }`).
+//! rust does not support token munching (destructing `$b:block` into `{
+//! $($t:tt)* }`).
 //!
 //!
 

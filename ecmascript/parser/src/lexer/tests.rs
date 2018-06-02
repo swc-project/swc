@@ -1,5 +1,6 @@
-use super::*;
 use super::input::FileMapInput;
+use super::*;
+use error::{Error, SyntaxError};
 use std::ops::Range;
 use std::str;
 
@@ -22,8 +23,14 @@ where
 }
 
 fn lex(s: &'static str) -> Vec<TokenAndSpan> {
-    println!("Source:\n{}", s);
     with_lexer(s, |l| l.collect())
+}
+fn lex_module(s: &'static str) -> Vec<TokenAndSpan> {
+    with_lexer(s, |l| {
+        l.ctx.strict = true;
+        l.ctx.module = true;
+        l.collect()
+    })
 }
 fn lex_tokens(s: &'static str) -> Vec<Token> {
     with_lexer(s, |l| l.map(|ts| ts.token).collect())
@@ -113,6 +120,60 @@ impl WithSpan for AssignOpToken {
     fn into_token(self) -> Token {
         AssignOp(self)
     }
+}
+#[test]
+fn module_legacy_octal() {
+    assert_eq!(
+        lex_module("01"),
+        vec![
+            Token::Error(Error {
+                span: sp(0..2),
+                error: SyntaxError::LegacyOctal,
+            }).span(0..2)
+                .lb(),
+        ]
+    );
+}
+#[test]
+fn module_legacy_decimal() {
+    assert_eq!(
+        lex_module("08"),
+        vec![
+            Token::Error(Error {
+                span: sp(0..2),
+                error: SyntaxError::LegacyDecimal,
+            }).span(0..2)
+                .lb(),
+        ]
+    );
+}
+
+#[test]
+fn module_legacy_comment_1() {
+    assert_eq!(
+        lex_module("<!-- foo oo"),
+        vec![
+            Token::Error(Error {
+                span: sp(0..11),
+                error: SyntaxError::LegacyCommentInModule,
+            }).span(0..11)
+                .lb(),
+        ]
+    )
+}
+
+#[test]
+fn module_legacy_comment_2() {
+    assert_eq!(
+        lex_module("-->"),
+        vec![
+            Token::Error(Error {
+                span: sp(0..3),
+                error: SyntaxError::LegacyCommentInModule,
+            }).span(0..3)
+                .lb(),
+        ]
+    )
 }
 
 #[test]
@@ -606,21 +667,17 @@ fn migrated_0006() {
 #[test]
 fn str_lit() {
     assert_eq!(
-        vec![
-            Token::Str {
-                value: "abcde".into(),
-                has_escape: false,
-            },
-        ],
+        vec![Token::Str {
+            value: "abcde".into(),
+            has_escape: false,
+        }],
         lex_tokens("'abcde'")
     );
     assert_eq_ignore_span!(
-        vec![
-            Token::Str {
-                value: "abc".into(),
-                has_escape: true,
-            },
-        ],
+        vec![Token::Str {
+            value: "abc".into(),
+            has_escape: true,
+        }],
         lex_tokens("'\\\nabc'")
     );
 }

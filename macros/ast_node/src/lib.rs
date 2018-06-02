@@ -38,19 +38,21 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
-    let item = self::from_variant::derive(input)
-        .into_iter()
-        .fold(Tokens::new(), |mut t, item| {
+    let item = self::from_variant::derive(input).into_iter().fold(
+        TokenStream::new(),
+        |mut t, item| {
             item.to_tokens(&mut t);
             t
-        });
+        },
+    );
 
     print_item("derive(FromVariant)", item.dump())
 }
 
 /// Alias for
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an enum.
+/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
+/// enum.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
@@ -62,10 +64,8 @@ pub fn ast_node(
 
     let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
 
-    // If we use call_site with proc_macro feature enabled,
-    // only attributes for first derive works.
-    // See https://github.com/rust-lang/rust/issues/46489
-    let mut item = Quote::new(Span::def_site().located_at(Span::call_site()));
+    // we should use call_site
+    let mut item = Quote::new(Span::call_site());
     item = match input.data {
         Data::Enum(..) => item.quote_with(smart_quote!(Vars { input }, {
             #[derive(FromVariant, Spanned, Fold, Clone, Debug, PartialEq)]
@@ -82,11 +82,10 @@ pub fn ast_node(
 
 /// Workarounds https://github.com/rust-lang/rust/issues/44925
 fn print_item<T: Into<TokenStream>>(name: &'static str, item: T) -> proc_macro::TokenStream {
-    let item = Quote::new(Span::def_site().located_at(Span::call_site())).quote_with(
-        smart_quote!(Vars { item: item.into() }, {
+    let item =
+        Quote::new(def_site::<Span>()).quote_with(smart_quote!(Vars { item: item.into() }, {
             extern crate swc_common;
             item
-        }),
-    );
+        }));
     print(name, item)
 }

@@ -1,9 +1,10 @@
 use def_site;
 use pmutil::ToTokensExt;
-use quote::{ToTokens, Tokens};
+use proc_macro2::TokenStream;
+use quote::ToTokens;
 use std::iter;
-use syn::*;
 use syn::punctuated::Pair;
+use syn::*;
 
 mod generics;
 
@@ -47,7 +48,7 @@ impl<'a> Derive<'a> {
             // Handle generic delcared on type.
             let ty: Box<Type> = {
                 let (_, ty_generics, _) = input.generics.split_for_impl();
-                let mut t = Tokens::new();
+                let mut t = TokenStream::new();
                 input.ident.to_tokens(&mut t);
                 ty_generics.to_tokens(&mut t);
                 box parse(t.dump().into()).unwrap_or_else(|err| {

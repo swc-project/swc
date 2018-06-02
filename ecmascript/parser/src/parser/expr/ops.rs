@@ -1,6 +1,6 @@
 //! Parser for unary operations and binary operations.
-use super::*;
 use super::util::ExprExt;
+use super::*;
 use swc_common::Spanned;
 
 #[parser]

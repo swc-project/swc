@@ -27,7 +27,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .map(|f| f.ty.clone())
         .map(normalize_type_for_bound)
         .map(|ty| {
-            Quote::new(Span::def_site())
+            Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
                     (Type: swc_common::FoldWith<__Folder>)
@@ -50,26 +50,29 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 .map(|binding| {
                     // This closure will not be called for unit-like struct.
 
-                    let field_name: Tokens = binding
+                    let field_name: TokenStream = binding
                         .field()
                         .ident
                         .as_ref()
                         .map(|s| s.dump())
                         .unwrap_or_else(|| {
+                            // Use index
+
+                            // call_site is important for unexported tuple fields.
                             Index {
                                 index: binding.idx() as _,
-                                span: def_site(),
+                                span: call_site(),
                             }.dump()
                         });
 
                     let value = match should_skip_field(binding.field()) {
-                        true => Quote::new(Span::def_site()).quote_with(smart_quote!(
+                        true => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
                             Vars {
                                 binded_field: binding.name(),
                             },
                             { binded_field }
                         )),
-                        false => Quote::new(Span::def_site()).quote_with(smart_quote!(
+                        false => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
                             Vars {
                                 FieldType: &binding.field().ty,
                                 binded_field: binding.name(),
@@ -78,7 +81,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         )),
                     };
 
-                    let v = Quote::new(Span::def_site())
+                    let v = Quote::new(def_site::<Span>())
                         .quote_with(smart_quote!(
                             Vars { field_name, value },
                             (field_name: value)
@@ -99,7 +102,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 .collect();
 
             let body = match *v.data() {
-                // Handle unit like structs separately
+                // Handle unit-like structs separately
                 Fields::Unit => box Quote::new(Span::def_site())
                     .quote_with(smart_quote!(Vars { Name: qual_name }, {
                         {
@@ -124,15 +127,18 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
             Arm {
                 body,
-                attrs: v.attrs()
+
+                attrs: v
+                    .attrs()
                     .iter()
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
                 pats: vec![Element::End(pat)].into_iter().collect(),
                 guard: None,
-                rocket_token: def_site(),
+                fat_arrow_token: def_site(),
                 comma: Some(def_site()),
+                leading_vert: None,
             }
         })
         .collect();

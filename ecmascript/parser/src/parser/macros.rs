@@ -9,7 +9,7 @@ macro_rules! unexpected {
 ///
 /// Returns bool.
 macro_rules! is {
-    ($p:expr, BindingIdent) => {{
+    ($p:expr,BindingIdent) => {{
         let ctx = $p.ctx();
         match cur!($p) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
@@ -17,7 +17,7 @@ macro_rules! is {
         }
     }};
 
-    ($p:expr, IdentRef) => {{
+    ($p:expr,IdentRef) => {{
         let ctx = $p.ctx();
         match cur!($p) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
@@ -25,18 +25,19 @@ macro_rules! is {
         }
     }};
 
-    ($p:expr, IdentName) => {{
+    ($p:expr,IdentName) => {{
         match cur!($p) {
             Ok(&Word(..)) => true,
             _ => false,
         }
     }};
 
-    ($p:expr, ';') => {{
-        $p.input.is(&Token::Semi) || eof!($p) || is!($p, '}')
+    ($p:expr,';') => {{
+        $p.input.is(&Token::Semi)
+            || eof!($p)
+            || is!($p, '}')
             || $p.input.had_line_break_before_cur()
     }};
-
 
     ($p:expr, $t:tt) => {
         $p.input.is(&tok!($t))
@@ -45,7 +46,9 @@ macro_rules! is {
 
 /// Returns true on eof.
 macro_rules! eof {
-    ($p:expr) => { cur!($p).is_err() };
+    ($p:expr) => {
+        cur!($p).is_err()
+    };
 }
 
 macro_rules! peeked_is {
@@ -68,7 +71,11 @@ macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &tok!($t);
         if !$p.input.is(TOKEN) {
-            unreachable!("assertion failed: expected {:?}, got {:?}", TOKEN, $p.input.cur());
+            unreachable!(
+                "assertion failed: expected {:?}, got {:?}",
+                TOKEN,
+                $p.input.cur()
+            );
         }
         bump!($p);
     }};
@@ -79,9 +86,11 @@ macro_rules! assert_and_bump {
 /// Returns bool if token is static, and Option<Token>
 ///     if token has data like string.
 macro_rules! eat {
-    ($p:expr, ';') => {{
+    ($p:expr,';') => {{
         debug!($p.session.logger, "eat(';'): cur={:?}", cur!($p));
-        $p.input.eat(&Token::Semi) || eof!($p) || is!($p, '}')
+        $p.input.eat(&Token::Semi)
+            || eof!($p)
+            || is!($p, '}')
             || $p.input.had_line_break_before_cur()
     }};
 
@@ -133,7 +142,7 @@ macro_rules! cur {
         let pos = $p.input.last_pos();
         let last = Span::new(pos, pos, Default::default());
         let is_err_token = match $p.input.cur() {
-            Some(&$crate::token::Token::Error(..)) => { true },
+            Some(&$crate::token::Token::Error(..)) => true,
             _ => false,
         };
         if is_err_token {
@@ -196,11 +205,13 @@ macro_rules! cur_pos {
     ($p:expr) => {{
         let pos = $p.input.cur_pos();
         pos
-    }}
+    }};
 }
 
 macro_rules! last_pos {
-    ($p:expr) => { $p.input.prev_span().hi() };
+    ($p:expr) => {
+        $p.input.prev_span().hi()
+    };
 }
 
 macro_rules! return_if_arrow {
@@ -214,10 +225,10 @@ macro_rules! return_if_arrow {
         //     None => false
         // };
         // if is_cur {
-            match *$expr {
-                Expr::Arrow{..} => return Ok($expr),
-                _ => {},
-            }
+        match *$expr {
+            Expr::Arrow { .. } => return Ok($expr),
+            _ => {}
+        }
         // }
     }};
 }
@@ -228,8 +239,11 @@ macro_rules! span {
         let start: ::swc_common::BytePos = $start;
         let end: ::swc_common::BytePos = last_pos!($p);
         if cfg!(debug_assertions) && start > end {
-            unreachable!("assertion failed: (span.start <= span.end).
- start = {}, end = {}", start.0, end.0)
+            unreachable!(
+                "assertion failed: (span.start <= span.end).
+ start = {}, end = {}",
+                start.0, end.0
+            )
         }
         ::swc_common::Span::new(start, end, Default::default())
     }};

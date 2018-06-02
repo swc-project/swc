@@ -1,4 +1,4 @@
-error: Legacy decimal escape is not permitted in strict mode
+error: Legacy octal escape is not permitted in strict mode
  --> $DIR/tests/test262-parser/fail/11d61dbd7c1fbd1b.js:1:34
   |
 1 | function hello() { 'use strict'; 021; }

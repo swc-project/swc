@@ -28,15 +28,17 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
             Arm {
                 body,
-                attrs: v.attrs()
+                attrs: v
+                    .attrs()
                     .iter()
                     .filter(|attr| is_attr_name(attr, "cfg"))
                     .cloned()
                     .collect(),
                 pats: vec![Element::End(pat)].into_iter().collect(),
                 guard: None,
-                rocket_token: def_site(),
+                fat_arrow_token: def_site(),
                 comma: Some(def_site()),
+                leading_vert: None,
             }
         })
         .collect();
@@ -45,13 +47,13 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(Span::def_site())
+        expr: box Quote::new(def_site::<Span>())
             .quote_with(smart_quote!(Vars {}, { self }))
             .parse(),
         arms,
     });
 
-    Quote::new(Span::def_site())
+    Quote::new(def_site::<Span>())
         .quote_with(smart_quote!(
             Vars {
                 Type: &input.ident,
@@ -72,7 +74,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<Expr> {
     /// `swc_common::Spanned::span(#field)`
     fn simple_field(field: &ToTokens) -> Box<Expr> {
-        box Quote::new(Span::def_site())
+        box Quote::new(def_site::<Span>())
             .quote_with(smart_quote!(Vars { field }, {
                 swc_common::Spanned::span(field)
             }))
@@ -115,7 +117,13 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
     if !has_any_span_attr {
         let span_field = bindings
             .iter()
-            .find(|b| Some("span") == b.field().ident.as_ref().map(|ident| ident.as_ref()))
+            .find(|b| {
+                b.field()
+                    .ident
+                    .as_ref()
+                    .map(|ident| ident == "span")
+                    .unwrap_or(false)
+            })
             .unwrap_or_else(|| {
                 panic!(
                     "#[derive(Spanned)]: cannot determine span field to use for {}",
@@ -138,7 +146,7 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
     match (lo, hi) {
         (Some(&(ref lo_field, _)), Some(&(ref hi_field, _))) => {
             // Create a new span from lo_field.lo(), hi_field.hi()
-            box Quote::new(Span::def_site())
+            box Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars { lo_field, hi_field }, {
                     swc_common::Spanned::span(lo_field)
                         .with_hi(swc_common::Spanned::span(hi_field).hi())

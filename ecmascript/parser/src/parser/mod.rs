@@ -2,7 +2,6 @@
 #![deny(non_snake_case)]
 use self::input::ParserInput;
 use self::util::ParseObject;
-use {Context, Session};
 use ast::*;
 use error::SyntaxError;
 use lexer::Input;
@@ -10,19 +9,20 @@ use lexer::Lexer;
 use parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
 use swc_common::errors::DiagnosticBuilder;
+use swc_common::{BytePos, Span};
 use token::*;
+use {Context, Session};
 
 #[macro_use]
 mod macros;
 mod class_and_fn;
-mod object;
 mod expr;
 mod ident;
-mod stmt;
-mod pat;
 pub mod input;
+mod object;
+mod pat;
+mod stmt;
 mod util;
 
 pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
@@ -62,7 +62,6 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
-        let start = cur_pos!();
         //TOOD: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
@@ -72,6 +71,7 @@ impl<'a, I: Input> Parser<'a, I> {
         // module code is always in strict mode
         self.set_ctx(ctx);
 
+        let start = cur_pos!();
         self.parse_block_body(true, true, None).map(|body| Module {
             span: span!(start),
             body,
@@ -86,7 +86,17 @@ impl<'a, I: Input> Parser<'a, I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<::FileMapInput>) -> Ret,
+    F: for<'a> FnOnce(&'a mut Parser<'a, ::FileMapInput>) -> Ret,
 {
     ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, input)))
+}
+
+#[test]
+fn module_legacy() {
+    test_parser("<!--", |f| {
+        let res = f.parse_module();
+        assert!(f.ctx().module);
+        assert!(f.ctx().strict);
+        let _ = res.expect_err("!").cancel();
+    });
 }

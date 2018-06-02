@@ -1,5 +1,5 @@
-use common::prelude::*;
 use input::*;
+use swc_macros_common::prelude::*;
 use util::is_bool;
 
 pub fn expand(
@@ -32,8 +32,8 @@ pub fn expand(
                 let used = attrs
                     .fns
                     .iter()
-                    .map(|f| f.name)
-                    .any(|fn_name| value.fn_name == fn_name || value.fn_name == "delegate");
+                    .map(|f| &f.name)
+                    .any(|fn_name| value.fn_name == *fn_name || value.fn_name == "delegate");
                 if !used {
                     panic!("Unknown function `{}` on variant {}", value.fn_name, v.name)
                 }
@@ -46,7 +46,7 @@ pub fn expand(
         .into_iter()
         .map(|f| f.expand(&name, vis.clone(), &variants))
         .map(ImplItem::Method)
-        .fold(Tokens::new(), |mut t, i| {
+        .fold(TokenStream::new(), |mut t, i| {
             i.to_tokens(&mut t);
             t
         });
@@ -76,7 +76,7 @@ impl FnDef {
             default_value,
         } = self;
 
-        let name_span = name.span;
+        let name_span = name.span();
 
         let arms =
             variants
@@ -88,7 +88,8 @@ impl FnDef {
                             .bind("_", Some(call_site()), None);
 
                     let body = {
-                        let value = match v.attrs
+                        let value = match v
+                            .attrs
                             .fn_values
                             .iter()
                             .find(|fn_val| fn_val.fn_name == name)
@@ -105,7 +106,7 @@ impl FnDef {
                                         .quote_with(smart_quote!(
                                             Vars {
                                                 field,
-                                                method: name,
+                                                method: &name,
                                             },
                                             { field.method() }
                                         ))
@@ -139,15 +140,17 @@ impl FnDef {
                     Arm {
                         pats: vec![Element::End(pat)].into_iter().collect(),
                         body,
+                        leading_vert: None,
 
                         // Forward cfg attributes.
-                        attrs: v.attrs
+                        attrs: v
+                            .attrs
                             .extras
                             .iter()
                             .filter(|attr| is_attr_name(attr, "cfg"))
                             .cloned()
                             .collect(),
-                        rocket_token: call_site(),
+                        fat_arrow_token: call_site(),
                         comma: Some(call_site()),
                         guard: None,
                     }
@@ -173,11 +176,10 @@ impl FnDef {
                 constness: None,
                 unsafety: None,
                 abi: None,
-                ident: name,
                 // fn (&self) -> ReturnTpe
                 decl: FnDecl {
-                    fn_token: name.span.as_token(),
-                    paren_token: name.span.as_token(),
+                    fn_token: name.span().as_token(),
+                    paren_token: name.span().as_token(),
                     inputs: vec![
                         // TODO
                         Element::End(FnArg::SelfRef(ArgSelfRef {
@@ -192,6 +194,7 @@ impl FnDef {
                     generics: Default::default(),
                     variadic: None,
                 },
+                ident: name,
             },
 
             block: Block {

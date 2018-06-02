@@ -1,8 +1,8 @@
 use super::Handler;
-use {MultiSpan, Span};
 use rustc_errors::{Diagnostic as RustcDiagnostic, DiagnosticBuilder as Builder, Level};
 use rustc_errors::{DiagnosticId, DiagnosticStyledString};
 use std::fmt;
+use {MultiSpan, Span};
 
 #[must_use]
 pub struct DiagnosticBuilder<'a> {
@@ -111,8 +111,9 @@ impl<'a> DiagnosticBuilder<'a> {
         self
     }
 
-    /// Prints out a message with a suggested edit of the code. If the suggestion is presented
-    /// inline it will only show the text message and not the text.
+    /// Prints out a message with a suggested edit of the code. If the
+    /// suggestion is presented inline it will only show the text message
+    /// and not the text.
     ///
     /// See `CodeSuggestion` for more information.
     pub fn span_suggestion_short(mut self, sp: Span, msg: &str, suggestion: String) -> Self {
@@ -133,7 +134,8 @@ impl<'a> DiagnosticBuilder<'a> {
     /// * should not be a question
     /// * should not contain any parts like "the following", "as shown"
     /// * may look like "to do xyz, use" or "to do xyz, use abc"
-    /// * may contain a name of a function, variable or type, but not whole expressions
+    /// * may contain a name of a function, variable or type, but not whole
+    /// expressions
     ///
     /// See `CodeSuggestion` for more information.
     pub fn span_suggestion(mut self, sp: Span, msg: &str, suggestion: String) -> Self {

@@ -1,7 +1,7 @@
 //! Parser for function expression and function declaration.
 
-use super::*;
 use super::ident::MaybeOptionalIdentParser;
+use super::*;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -212,38 +212,37 @@ impl<'a, I: Input> Parser<'a, I> {
         if eat!('*') {
             let span_of_gen = span!(start);
             let key = self.parse_prop_name()?;
-            return self.parse_fn_args_body(
-                start,
-                Parser::parse_unique_formal_params,
-                None,
-                Some(span_of_gen),
-            ).map(|function| ClassMethod {
-                span: span!(start),
-                static_token,
-                key,
-                function,
-                kind: ClassMethodKind::Method,
-            });
+            return self
+                .parse_fn_args_body(
+                    start,
+                    Parser::parse_unique_formal_params,
+                    None,
+                    Some(span_of_gen),
+                )
+                .map(|function| ClassMethod {
+                    span: span!(start),
+                    static_token,
+                    key,
+                    function,
+                    kind: ClassMethodKind::Method,
+                });
         }
 
         // Handle static(){}
         if let Some(static_token) = static_token {
             if is!('(') {
-                return self.parse_fn_args_body(
-                    start,
-                    Parser::parse_unique_formal_params,
-                    None,
-                    None,
-                ).map(|function| ClassMethod {
-                    span: span!(start),
-                    static_token: None,
-                    key: PropName::Ident(Ident {
-                        span: static_token,
-                        sym: js_word!("static"),
-                    }),
-                    function,
-                    kind: ClassMethodKind::Method,
-                });
+                return self
+                    .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
+                    .map(|function| ClassMethod {
+                        span: span!(start),
+                        static_token: None,
+                        key: PropName::Ident(Ident {
+                            span: static_token,
+                            sym: js_word!("static"),
+                        }),
+                        function,
+                        kind: ClassMethodKind::Method,
+                    });
             }
         }
 
@@ -251,9 +250,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
-            debug_assert_eq!(static_token, None);
-
-            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
+            return self
+                .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
                 .map(|function| ClassMethod {
                     span: span!(start),
                     static_token,
@@ -277,7 +275,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 let key = self.parse_prop_name()?;
 
                 return match ident.sym {
-                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), None, None)
+                    js_word!("get") => self
+                        .parse_fn_args_body(start, |_| Ok(vec![]), None, None)
                         .map(|function| ClassMethod {
                             span: span!(start),
                             static_token,
@@ -285,30 +284,34 @@ impl<'a, I: Input> Parser<'a, I> {
                             function,
                             kind: ClassMethodKind::Getter,
                         }),
-                    js_word!("set") => self.parse_fn_args_body(
-                        start,
-                        |p| p.parse_formal_param().map(|pat| vec![pat]),
-                        None,
-                        None,
-                    ).map(|function| ClassMethod {
-                        span: span!(start),
-                        key,
-                        static_token,
-                        function,
-                        kind: ClassMethodKind::Setter,
-                    }),
-                    js_word!("async") => self.parse_fn_args_body(
-                        start,
-                        Parser::parse_unique_formal_params,
-                        Some(ident.span),
-                        None,
-                    ).map(|function| ClassMethod {
-                        span: span!(start),
-                        static_token,
-                        key,
-                        function,
-                        kind: ClassMethodKind::Method,
-                    }),
+                    js_word!("set") => {
+                        self.parse_fn_args_body(
+                            start,
+                            |p| p.parse_formal_param().map(|pat| vec![pat]),
+                            None,
+                            None,
+                        ).map(|function| ClassMethod {
+                            span: span!(start),
+                            key,
+                            static_token,
+                            function,
+                            kind: ClassMethodKind::Setter,
+                        })
+                    }
+                    js_word!("async") => {
+                        self.parse_fn_args_body(
+                            start,
+                            Parser::parse_unique_formal_params,
+                            Some(ident.span),
+                            None,
+                        ).map(|function| ClassMethod {
+                            span: span!(start),
+                            static_token,
+                            key,
+                            function,
+                            kind: ClassMethodKind::Method,
+                        })
+                    }
                     _ => unreachable!(),
                 };
             }

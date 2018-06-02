@@ -1,5 +1,4 @@
 //! Macros used by swc project.
-#![feature(macro_reexport)]
 #![feature(proc_macros)]
 #![allow(unused_imports)]
 

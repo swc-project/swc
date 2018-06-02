@@ -92,7 +92,8 @@ impl Default for State {
 
 impl State {
     pub fn can_skip_space(&self) -> bool {
-        !self.context
+        !self
+            .context
             .current()
             .map(|t| t.preserve_space())
             .unwrap_or(false)
@@ -184,7 +185,8 @@ impl State {
                 // for (a of b) {}
                 tok!("of") if Some(Type::ParenStmt { is_for_loop: true }) == context.current() => {
                     // e.g. for (a of _) => true
-                    !prev.expect("context.current() if ParenStmt, so prev token cannot be None")
+                    !prev
+                        .expect("context.current() if ParenStmt, so prev token cannot be None")
                         .before_expr()
                 }
 
@@ -261,8 +263,8 @@ impl State {
 #[derive(Debug, Default)]
 struct Context(Vec<Type>);
 impl Context {
-    /// Returns true if following `LBrace` token is `block statement` according to
-    ///  `ctx`, `prev`, `is_expr_allowed`.
+    /// Returns true if following `LBrace` token is `block statement` according
+    /// to  `ctx`, `prev`, `is_expr_allowed`.
     fn is_brace_block(
         &self,
         prev: Option<Token>,
@@ -332,17 +334,21 @@ impl Context {
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
 enum Type {
     BraceStmt,
-    #[kind(is_expr)] BraceExpr,
-    #[kind(is_expr)] TplQuasi,
+    #[kind(is_expr)]
+    BraceExpr,
+    #[kind(is_expr)]
+    TplQuasi,
     ParenStmt {
         /// Is this `for` loop?
         is_for_loop: bool,
     },
-    #[kind(is_expr)] ParenExpr,
+    #[kind(is_expr)]
+    ParenExpr,
     #[kind(is_expr, preserve_space)]
     Tpl {
         /// Start of a template literal.
         start: BytePos,
     },
-    #[kind(is_expr)] FnExpr,
+    #[kind(is_expr)]
+    FnExpr,
 }

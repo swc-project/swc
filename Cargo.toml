@@ -20,6 +20,7 @@ rayon = "0.9"
 slog = "2"
 slog-envlogger = "2.1"
 slog-term = "2.3"
+rustc-ap-rustc_data_structures = "150"
 
 
 [dependencies.clap]
@@ -30,7 +31,6 @@ features = [ "suggestions", "color" ]
 
 [profile.bench]
 debug = true
-
 
 [patch.crates-io]
 darling = { git = "https://github.com/kdy1/darling", branch = "proc-macro2-nightly" }

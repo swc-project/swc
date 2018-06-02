@@ -21,8 +21,8 @@ impl<'a> Derive<'a> {
 
                 if path.leading_colon.is_none() {
                     if let Some(seg) = path.segments.first() {
-                        let id = seg.value().ident;
-                        if self.params.contains(&id) {
+                        let id = &seg.value().ident;
+                        if self.params.contains(id) {
                             self.is_generic = true;
                         }
                     }
@@ -53,7 +53,8 @@ impl<'a> Derive<'a> {
         }
 
         let mut vis = FieldVisitor {
-            params: self.input
+            params: self
+                .input
                 .generics
                 .params
                 .iter()
@@ -101,12 +102,13 @@ impl<'a> Derive<'a> {
         let bound = WherePredicate::Type(PredicateType {
             lifetimes: None,
             bounded_ty: self_ty,
-            colon_token: Default::default(),
+            colon_token: def_site(),
             // `Trait` in `Self: Trait`
             bounds: iter::once(Pair::End(TypeParamBound::Trait(TraitBound {
                 modifier: TraitBoundModifier::None,
                 lifetimes: None,
                 path: trait_,
+                paren_token: None,
             }))).collect(),
         });
 

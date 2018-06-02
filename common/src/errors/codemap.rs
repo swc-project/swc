@@ -1,13 +1,13 @@
+use rustc_data_structures::sync::Lrc;
 use rustc_errors::CodeMapper;
-use std::{env, fs};
 use std::cell::{Ref, RefCell};
 use std::io::{self, Read};
 use std::path::{Path, PathBuf};
-use std::rc::Rc;
+use std::{env, fs};
 use syntax_pos::*;
 
 pub struct CodeMap {
-    files: RefCell<Vec<Rc<FileMap>>>,
+    files: RefCell<Vec<Lrc<FileMap>>>,
     file_loader: Box<FileLoader>,
     path_mapping: FilePathMapping,
 }
@@ -33,19 +33,19 @@ impl CodeMap {
         self.file_loader.file_exists(path)
     }
 
-    pub fn load_file(&self, path: &Path) -> io::Result<Rc<FileMap>> {
+    pub fn load_file(&self, path: &Path) -> io::Result<Lrc<FileMap>> {
         let src = self.file_loader.read_file(path)?;
         let filename = path.to_owned().into();
         Ok(self.new_filemap(filename, src))
     }
 
-    pub fn load_file_and_lines(&self, path: &Path) -> io::Result<Rc<FileMap>> {
+    pub fn load_file_and_lines(&self, path: &Path) -> io::Result<Lrc<FileMap>> {
         let src = self.file_loader.read_file(path)?;
         let filename = path.to_owned().into();
         Ok(self.new_filemap_and_lines(filename, src))
     }
 
-    pub fn files(&self) -> Ref<Vec<Rc<FileMap>>> {
+    pub fn files(&self) -> Ref<Vec<Lrc<FileMap>>> {
         self.files.borrow()
     }
 
@@ -60,8 +60,9 @@ impl CodeMap {
     }
 
     /// Creates a new filemap without setting its line information. If you don't
-    /// intend to set the line information yourself, you should use new_filemap_and_lines.
-    pub fn new_filemap(&self, filename: FileName, src: String) -> Rc<FileMap> {
+    /// intend to set the line information yourself, you should use
+    /// new_filemap_and_lines.
+    pub fn new_filemap(&self, filename: FileName, src: String) -> Lrc<FileMap> {
         let start_pos = self.next_start_pos();
         let mut files = self.files.borrow_mut();
 
@@ -79,7 +80,7 @@ impl CodeMap {
             }
             other => (other, false),
         };
-        let filemap = Rc::new(FileMap::new(
+        let filemap = Lrc::new(FileMap::new(
             filename,
             was_remapped,
             unmapped_path,
@@ -93,7 +94,7 @@ impl CodeMap {
     }
 
     /// Creates a new filemap and sets its line information.
-    pub fn new_filemap_and_lines(&self, filename: FileName, src: String) -> Rc<FileMap> {
+    pub fn new_filemap_and_lines(&self, filename: FileName, src: String) -> Lrc<FileMap> {
         // TODO
         let fm = self.new_filemap(filename, src.clone());
         let mut byte_pos: u32 = fm.start_pos.0;
@@ -172,14 +173,14 @@ impl CodeMap {
     }
 
     // If the relevant filemap is empty, we don't return a line number.
-    pub fn lookup_line(&self, pos: BytePos) -> Result<FileMapAndLine, Rc<FileMap>> {
+    pub fn lookup_line(&self, pos: BytePos) -> Result<FileMapAndLine, Lrc<FileMap>> {
         let idx = self.lookup_filemap_idx(pos);
 
         let files = self.files.borrow();
         let f = (*files)[idx].clone();
 
         match f.lookup_line(pos) {
-            Some(line) => Ok(FileMapAndLine { fm: f, line: line }),
+            Some(line) => Ok(FileMapAndLine { fm: f, line }),
             None => Err(f),
         }
     }
@@ -194,9 +195,10 @@ impl CodeMap {
         }
     }
 
-    /// Returns `Some(span)`, a union of the lhs and rhs span.  The lhs must precede the rhs. If
-    /// there are gaps between lhs and rhs, the resulting union will cross these gaps.
-    /// For this to work, the spans have to be:
+    /// Returns `Some(span)`, a union of the lhs and rhs span.  The lhs must
+    /// precede the rhs. If there are gaps between lhs and rhs, the
+    /// resulting union will cross these gaps. For this to work, the spans
+    /// have to be:
     ///
     ///    * the ctxt of both spans much match
     ///    * the lhs span needs to end on the same line the rhs span begins
@@ -295,7 +297,8 @@ impl CodeMap {
         // numbers in Loc are 1-based, so we subtract 1 to get 0-based
         // lines.
         for line_index in lo.line - 1..hi.line - 1 {
-            let line_len = lo.file
+            let line_len = lo
+                .file
                 .get_line(line_index)
                 .map(|s| s.chars().count())
                 .unwrap_or(0);
@@ -316,7 +319,7 @@ impl CodeMap {
 
         Ok(FileLines {
             file: lo.file,
-            lines: lines,
+            lines,
         })
     }
 
@@ -390,7 +393,7 @@ impl CodeMap {
         self.span_until_char(sp, '{')
     }
 
-    pub fn get_filemap(&self, filename: &FileName) -> Option<Rc<FileMap>> {
+    pub fn get_filemap(&self, filename: &FileName) -> Option<Lrc<FileMap>> {
         for fm in self.files.borrow().iter() {
             if *filename == fm.name {
                 return Some(fm.clone());
@@ -405,10 +408,7 @@ impl CodeMap {
         let idx = self.lookup_filemap_idx(bpos);
         let fm = (*self.files.borrow())[idx].clone();
         let offset = bpos - fm.start_pos;
-        FileMapAndBytePos {
-            fm: fm,
-            pos: offset,
-        }
+        FileMapAndBytePos { fm, pos: offset }
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the filemap.
@@ -465,7 +465,7 @@ impl CodeMap {
         return a;
     }
 
-    fn ensure_filemap_source_present(&self, file_map: Rc<FileMap>) -> bool {
+    fn ensure_filemap_source_present(&self, file_map: Lrc<FileMap>) -> bool {
         file_map.add_external_src(|| match file_map.name {
             FileName::Real(ref name) => self.file_loader.read_file(name).ok(),
             _ => None,
@@ -567,7 +567,7 @@ impl CodeMapper for CodeMap {
         }
         sp
     }
-    fn ensure_filemap_source_present(&self, file_map: Rc<FileMap>) -> bool {
+    fn ensure_filemap_source_present(&self, file_map: Lrc<FileMap>) -> bool {
         self.ensure_filemap_source_present(file_map)
     }
     /// No op.

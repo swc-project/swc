@@ -1,9 +1,11 @@
 use super::{Diagnostic, DiagnosticBuilder};
-use rustc_errors::{CodeMapper, ColorConfig, DiagnosticBuilder as RustcDiagnosticBuilder,
-                   Handler as RustcHandler, Level};
-pub use rustc_errors::HandlerFlags;
+use rustc_data_structures::sync::{Lrc, Send, Sync};
 pub use rustc_errors::emitter::{Emitter, EmitterWriter};
-use std::rc::Rc;
+pub use rustc_errors::HandlerFlags;
+use rustc_errors::{
+    CodeMapper, ColorConfig, DiagnosticBuilder as RustcDiagnosticBuilder, Handler as RustcHandler,
+    Level,
+};
 
 /// A handler deals with errors.
 pub struct Handler {
@@ -15,20 +17,20 @@ impl Handler {
         color_config: ColorConfig,
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        cm: Option<Rc<CodeMapper>>,
+        cm: Option<Lrc<CodeMapper + Send + Sync>>,
     ) -> Self {
         RustcHandler::with_tty_emitter(color_config, can_emit_warnings, treat_err_as_bug, cm).into()
     }
 
     pub fn with_tty_emitter_and_flags(
         color_config: ColorConfig,
-        cm: Option<Rc<CodeMapper>>,
+        cm: Option<Lrc<CodeMapper + Send + Sync>>,
         flags: HandlerFlags,
     ) -> Self {
         RustcHandler::with_tty_emitter_and_flags(color_config, cm, flags).into()
     }
 
-    pub fn with_emitter(e: Box<Emitter>, flags: HandlerFlags) -> Self {
+    pub fn with_emitter(e: Box<Emitter + Send>, flags: HandlerFlags) -> Self {
         RustcHandler::with_emitter_and_flags(e, flags).into()
     }
 
@@ -60,14 +62,13 @@ impl Handler {
         self.inner.abort_if_errors()
     }
 
-    pub fn track_diagnostics<F, R>(&self, f: F) -> (R, Vec<Diagnostic>)
-    where
-        F: FnOnce() -> R,
-    {
-        let (result, errors) = self.inner.track_diagnostics(f);
-
-        (result, errors.into_iter().map(From::from).collect())
-    }
+    // pub fn track_diagnostics<F, R>(&self, f: F) -> (R, Vec<Diagnostic>)
+    // where
+    //     F: FnOnce() -> R,
+    // {
+    //     let (result, errors) = self.inner.track_diagnostics(f);
+    //     (result, errors.into_iter().map(From::from).collect())
+    // }
 }
 
 impl From<RustcHandler> for Handler {

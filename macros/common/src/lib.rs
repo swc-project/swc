@@ -9,22 +9,23 @@ extern crate proc_macro2;
 #[macro_use]
 extern crate quote;
 extern crate syn;
-use pmutil::SpanExt;
 use pmutil::synom_ext::FromSpan;
+use pmutil::SpanExt;
 use proc_macro2::Span;
 use syn::*;
 
+pub mod binder;
 pub mod derive;
 pub mod prelude;
 mod syn_ext;
-pub mod binder;
 
 pub fn call_site<T: FromSpan>() -> T {
     Span::call_site().as_token()
 }
 
+/// `Span::def_site().located_at(Span::call_site()).as_token()`
 pub fn def_site<T: FromSpan>() -> T {
-    Span::def_site().as_token()
+    Span::def_site().located_at(Span::call_site()).as_token()
 }
 
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node

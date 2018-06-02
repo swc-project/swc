@@ -1,8 +1,8 @@
 use super::*;
-use {BytePos, Span};
 use std::io;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
+use {BytePos, Span};
 
 struct MyFileLoader;
 impl FileLoader for MyFileLoader {
@@ -32,7 +32,8 @@ function foo() {
 #[test]
 fn test() {
     let cm = CodeMap::with_file_loader(box MyFileLoader, FilePathMapping::empty());
-    let file_map = cm.load_file_and_lines("tmp.js".as_ref())
+    let file_map = cm
+        .load_file_and_lines("tmp.js".as_ref())
         .expect("failed to load tmp.js");
     println!(
         "File (start={},end={})",
@@ -44,23 +45,25 @@ fn test() {
 
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(Rc::new(cm)));
 
-    DiagnosticBuilder::new_with_code(
-        &handler,
-        Error,
-        Some(DiagnosticId::Error("ABCDE".into())),
-        "Test span_label",
-    ).span(full)
-        .emit();
+    ::syntax_pos::GLOBALS.set(&::syntax_pos::Globals::new(), || {
+        DiagnosticBuilder::new_with_code(
+            &handler,
+            Error,
+            Some(DiagnosticId::Error("ABCDE".into())),
+            "Test span_label",
+        ).span(full)
+            .emit();
 
-    DiagnosticBuilder::new_with_code(
-        &handler,
-        Warning,
-        Some(DiagnosticId::Lint("WITH_STMT".into())),
-        "Lint: With statement",
-    ).span(Span::new(
-        start_pos + BytePos(21),
-        start_pos + BytePos(25),
-        Default::default(),
-    ))
-        .emit();
+        DiagnosticBuilder::new_with_code(
+            &handler,
+            Warning,
+            Some(DiagnosticId::Lint("WITH_STMT".into())),
+            "Lint: With statement",
+        ).span(Span::new(
+            start_pos + BytePos(21),
+            start_pos + BytePos(25),
+            Default::default(),
+        ))
+            .emit();
+    })
 }

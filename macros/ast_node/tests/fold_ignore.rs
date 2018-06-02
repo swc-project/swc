@@ -15,24 +15,24 @@ impl<F> FoldWith<F> for PanicOnFold {
 
 #[test]
 fn ignore_struct_named_field() {
-    #[derive(Fold, Debug, Clone, Copy, Default, PartialEq, Eq)]
+    #[derive(Fold, Debug, Default, PartialEq)]
     struct Foo {
         #[fold(ignore)]
-        pub named: PanicOnFold,
+        named: PanicOnFold,
     }
     Foo::default().fold_with(&mut MyFolder);
 }
 
 #[test]
 fn ignore_struct_unnamed_field() {
-    #[derive(Fold, Debug, Clone, Copy, Default, PartialEq, Eq)]
+    #[derive(Fold, Debug, Default, PartialEq)]
     struct Bar(#[fold(ignore)] PanicOnFold);
     Bar::default().fold_with(&mut MyFolder);
 }
 
 #[test]
 fn ignore_enum_unnamed_field() {
-    #[derive(Fold, Debug, Clone, Copy, PartialEq, Eq)]
+    #[derive(Fold, Debug, PartialEq)]
     enum A {
         Field(#[fold(ignore)] PanicOnFold),
     }
@@ -42,7 +42,7 @@ fn ignore_enum_unnamed_field() {
 
 #[test]
 fn ignore_enum_named_field() {
-    #[derive(Fold, Debug, Clone, Copy, PartialEq, Eq)]
+    #[derive(Fold, Debug, PartialEq)]
     enum A {
         Field {
             #[fold(ignore)]

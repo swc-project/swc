@@ -62,7 +62,8 @@ impl<'a, I: Input> Parser<'a, I> {
             },
             LBracket => {
                 bump!();
-                let expr = self.include_in_expr(true)
+                let expr = self
+                    .include_in_expr(true)
                     .parse_assignment_expr()
                     .map(PropName::Computed)?;
                 expect!(']');
@@ -92,17 +93,19 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
             let span_of_gen = span!(start);
 
             let name = self.parse_prop_name()?;
-            return self.parse_fn_args_body(
-                start,
-                Parser::parse_unique_formal_params,
-                None,
-                Some(span_of_gen),
-            ).map(|function| {
-                Prop::Method(MethodProp {
-                    key: name,
-                    function,
-                })
-            });
+            return self
+                .parse_fn_args_body(
+                    start,
+                    Parser::parse_unique_formal_params,
+                    None,
+                    Some(span_of_gen),
+                )
+                .map(|function| {
+                    Prop::Method(MethodProp {
+                        key: name,
+                        function,
+                    })
+                });
         }
 
         let key = self.parse_prop_name()?;
@@ -118,7 +121,8 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
-            return self.parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
+            return self
+                .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
                 .map(|function| Prop::Method(MethodProp { key, function }));
         }
 
@@ -151,7 +155,8 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                 let key = self.parse_prop_name()?;
 
                 return match ident.sym {
-                    js_word!("get") => self.parse_fn_args_body(start, |_| Ok(vec![]), None, None)
+                    js_word!("get") => self
+                        .parse_fn_args_body(start, |_| Ok(vec![]), None, None)
                         .map(|Function { body, .. }| {
                             Prop::Getter(GetterProp {
                                 span: span!(start),
@@ -159,26 +164,30 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                                 body,
                             })
                         }),
-                    js_word!("set") => self.parse_fn_args_body(
-                        start,
-                        |p| p.parse_formal_param().map(|pat| vec![pat]),
-                        None,
-                        None,
-                    ).map(|Function { params, body, .. }| {
-                        assert_eq!(params.len(), 1);
-                        Prop::Setter(SetterProp {
-                            span: span!(start),
-                            key,
-                            body,
-                            param: params.into_iter().next().unwrap(),
+                    js_word!("set") => {
+                        self.parse_fn_args_body(
+                            start,
+                            |p| p.parse_formal_param().map(|pat| vec![pat]),
+                            None,
+                            None,
+                        ).map(|Function { params, body, .. }| {
+                            assert_eq!(params.len(), 1);
+                            Prop::Setter(SetterProp {
+                                span: span!(start),
+                                key,
+                                body,
+                                param: params.into_iter().next().unwrap(),
+                            })
                         })
-                    }),
-                    js_word!("async") => self.parse_fn_args_body(
-                        start,
-                        Parser::parse_unique_formal_params,
-                        Some(ident.span),
-                        None,
-                    ).map(|function| Prop::Method(MethodProp { key, function })),
+                    }
+                    js_word!("async") => {
+                        self.parse_fn_args_body(
+                            start,
+                            Parser::parse_unique_formal_params,
+                            Some(ident.span),
+                            None,
+                        ).map(|function| Prop::Method(MethodProp { key, function }))
+                    }
                     _ => unreachable!(),
                 };
             }

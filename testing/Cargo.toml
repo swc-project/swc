@@ -8,5 +8,7 @@ swc_common = { path = "../common" }
 slog = "2"
 slog-envlogger = "2.1"
 slog-term = "2.3"
+rustc-ap-syntax_pos = "150"
+rustc-ap-rustc_data_structures = "150"
 lazy_static = "1"
 regex = "0.2.5"

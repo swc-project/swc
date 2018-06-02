@@ -1,5 +1,6 @@
-use super::{AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp,
-            UpdateOp};
+use super::{
+    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp, UpdateOp,
+};
 use swc_common::{Span, Spanned};
 use swc_macros::ast_node;
 
@@ -30,9 +31,10 @@ pub enum Expr {
     //     left: Box<Expr>,
     //     right: Box<Expr>,
     // },
-    /// A member expression. If computed is true, the node corresponds to a computed
-    /// (a[b]) member expression and property is an Expression. If computed is false, the node
-    /// corresponds to a static (a.b) member expression and property is an Identifier.
+    /// A member expression. If computed is true, the node corresponds to a
+    /// computed (a[b]) member expression and property is an Expression. If
+    /// computed is false, the node corresponds to a static (a.b) member
+    /// expression and property is an Identifier.
     Member(MemberExpr),
 
     /// true ? 'a' : 'b'
