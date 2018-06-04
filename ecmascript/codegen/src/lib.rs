@@ -2,6 +2,7 @@
 #![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(proc_macro)]
+#![feature(proc_macro_gen)]
 #![feature(trace_macros)]
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
