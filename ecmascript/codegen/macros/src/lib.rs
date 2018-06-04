@@ -21,7 +21,7 @@ pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
 fn expand(i: ImplItemMethod) -> ImplItemMethod {
     let mtd_name = i.sig.ident.clone();
     assert!(
-        mtd_name.as_ref().starts_with("emit_"),
+        format!("{}", i.sig.ident).starts_with("emit_"),
         "#[emitter] methods should start with `emit_`"
     );
     let block = {
@@ -74,7 +74,11 @@ fn (&mut self, node: Node) -> \
                         };
 
                         #[allow(unused_macros)]
-                        macro_rules! __cur_emitter { () => { self }; }
+                        macro_rules! __cur_emitter {
+                            () => {
+                                self
+                            };
+                        }
                         {
                             block
                         };
