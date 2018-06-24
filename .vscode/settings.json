@@ -10,7 +10,6 @@
     "[rust]": {
         "editor.formatOnSave": true
     },
-    "rust-client.channel": "nightly-2018-05-30",
     "rust.unstable_features": true,
     "rust.rustflags": "--cfg procmacro2_semver_exempt",
     // Important
