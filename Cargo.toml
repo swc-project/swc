@@ -33,4 +33,4 @@ features = [ "suggestions", "color" ]
 debug = true
 
 [patch.crates-io]
-darling = { git = "https://github.com/kdy1/darling", branch = "proc-macro2-nightly" }
+darling = { git = "https://github.com/hcpl/darling.git", branch = "update-deps" }
