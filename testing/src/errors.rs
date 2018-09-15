@@ -1,8 +1,9 @@
 use super::StdErr;
 use rustc_data_structures::sync::Lrc;
-use std::io::{self, Write};
-use std::sync::Arc;
-use std::sync::RwLock;
+use std::{
+    io::{self, Write},
+    sync::{Arc, RwLock},
+};
 use swc_common::errors::{CodeMap, EmitterWriter, Handler, HandlerFlags};
 
 /// Creates a new handler for testing.

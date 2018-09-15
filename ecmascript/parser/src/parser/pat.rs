@@ -1,6 +1,5 @@
 //! 13.3.3 Destructuring Binding Patterns
-use super::util::ExprExt;
-use super::*;
+use super::{util::ExprExt, *};
 use std::iter;
 use swc_common::Spanned;
 
@@ -300,8 +299,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                                 _ => syntax_error!(prop.span(), SyntaxError::InvalidPat),
                             }
-                        })
-                        .collect::<(PResult<'a, _>)>()?,
+                        }).collect::<(PResult<'a, _>)>()?,
                 }));
             }
             Expr::Ident(ident) => return Ok(ident.into()),
@@ -359,8 +357,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                         dot3_token,
                                         pat: box pat,
                                     })
-                                })
-                                .map(Some)?
+                                }).map(Some)?
                         }
                         Some(ExprOrSpread { expr, .. }) => {
                             // TODO: is BindingPat correct?

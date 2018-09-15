@@ -1,5 +1,4 @@
-use super::pat::PatType;
-use super::*;
+use super::{pat::PatType, *};
 use swc_common::Spanned;
 
 mod module_item;
@@ -370,8 +369,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(catch_start),
                     param,
                     body,
-                })
-                .map(Some)?
+                }).map(Some)?
         } else {
             None
         };

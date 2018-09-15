@@ -1,8 +1,7 @@
 use swc_macros_common::prelude::*;
 
 use input::*;
-use std::fmt::Display;
-use std::ops::AddAssign;
+use std::{fmt::Display, ops::AddAssign};
 use syn::synom::Synom;
 use util::is_bool;
 
@@ -228,8 +227,7 @@ where
         .map(|mut tt| {
             tt.set_span(span);
             tt
-        })
-        .collect::<TokenStream>();
+        }).collect::<TokenStream>();
 
     parse(tts.into()).expect("failed to parse string literal")
 }

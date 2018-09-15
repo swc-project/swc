@@ -7,18 +7,15 @@ extern crate swc_common;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
-use std::env;
-use std::fs::read_dir;
-use std::fs::File;
-use std::io::{self, Read};
-use std::path::Path;
-use swc_common::FileName;
-use swc_common::Span;
-use swc_common::{Fold, FoldWith};
-use swc_ecma_parser::ast::*;
-use swc_ecma_parser::{FileMapInput, PResult, Parser, Session};
-use test::ShouldPanic::No;
-use test::{test_main, Options, TestDesc, TestDescAndFn, TestFn, TestName};
+use std::{
+    env,
+    fs::{read_dir, File},
+    io::{self, Read},
+    path::Path,
+};
+use swc_common::{FileName, Fold, FoldWith, Span};
+use swc_ecma_parser::{ast::*, FileMapInput, PResult, Parser, Session};
+use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -165,8 +162,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     .compare_to_file(format!(
                         "{}.stderr",
                         error_reference_dir.join(file_name).display()
-                    ))
-                    .is_err()
+                    )).is_err()
                 {
                     panic!()
                 }
@@ -230,7 +226,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         &root.join(if explicit { "pass-explicit" } else { "passs" }),
                         s,
                     ).map(normalize)
-                        .unwrap()
+                    .unwrap()
                 };
                 let src = p(false, &input);
                 let expected = p(true, &explicit);
@@ -241,7 +237,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         &root.join(if explicit { "pass-explicit" } else { "passs" }),
                         s,
                     ).map(normalize)
-                        .unwrap()
+                    .unwrap()
                 };
                 let src = p(false, &input);
                 let expected = p(true, &explicit);

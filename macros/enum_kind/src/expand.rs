@@ -22,7 +22,8 @@ pub fn expand(
                     | Fields::Unnamed(FieldsUnnamed {
                         unnamed: ref fields,
                         ..
-                    }) if fields.len() == 1 => {}
+                    })
+                        if fields.len() == 1 => {}
                     _ => panic!(
                         "currently #[kind(delegate)] can be applied to variant with only one field"
                     ),
@@ -62,8 +63,7 @@ pub fn expand(
                 items
             }
         }
-    ))
-        .parse::<ItemImpl>()
+    )).parse::<ItemImpl>()
         .with_generics(generics)
         .into()
 }
@@ -109,8 +109,7 @@ impl FnDef {
                                                 method: &name,
                                             },
                                             { field.method() }
-                                        ))
-                                        .parse(),
+                                        )).parse(),
                                 )
                             }
 
@@ -154,8 +153,7 @@ impl FnDef {
                         comma: Some(call_site()),
                         guard: None,
                     }
-                })
-                .collect();
+                }).collect();
 
         // match self {}
         let match_expr = Expr::Match(ExprMatch {
@@ -189,7 +187,7 @@ impl FnDef {
                             mutability: None,
                         })),
                     ].into_iter()
-                        .collect(),
+                    .collect(),
                     output: ReturnType::Type(name_span.as_token(), box return_type),
                     generics: Default::default(),
                     variadic: None,

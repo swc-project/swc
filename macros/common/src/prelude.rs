@@ -1,10 +1,14 @@
-pub use super::binder::{BindedField, Binder, VariantBinder};
-pub use super::derive::Derive;
-pub use super::syn_ext::{ItemImplExt, PairExt};
-pub use super::{call_site, def_site, doc_str, is_attr_name, print};
+pub use super::{
+    binder::{BindedField, Binder, VariantBinder},
+    call_site, def_site,
+    derive::Derive,
+    doc_str, is_attr_name, print,
+    syn_ext::{ItemImplExt, PairExt},
+};
 pub use pmutil::prelude::*;
 pub use proc_macro2::{Delimiter, Group, Literal, Punct, Span, TokenStream, TokenTree};
 pub use quote::ToTokens;
-pub use syn::punctuated::Pair as Element;
-pub use syn::punctuated::{Pair, Punctuated};
-pub use syn::*;
+pub use syn::{
+    punctuated::{Pair as Element, Pair, Punctuated},
+    *,
+};

@@ -1,8 +1,8 @@
 use fold::FoldWith;
 pub use swc_macros::Spanned;
 pub use syntax_pos::{
-    hygiene, BytePos, ExpnFormat, ExpnInfo, FileMap, FileName, MultiSpan, NameAndSpan, Span,
-    SpanData, SyntaxContext, DUMMY_SP, NO_EXPANSION,
+    hygiene, BytePos, ExpnFormat, ExpnInfo, FileName, MultiSpan, SourceFile, Span, SpanData,
+    SyntaxContext, DUMMY_SP, NO_EXPANSION,
 };
 
 ///

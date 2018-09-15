@@ -1,6 +1,5 @@
 #![feature(specialization)]
 #![feature(never_type)]
-#![feature(proc_macro)]
 #![deny(unreachable_patterns)]
 #![deny(missing_copy_implementations)]
 #![deny(missing_debug_implementations)]
@@ -14,32 +13,32 @@ extern crate swc_common;
 #[macro_use]
 extern crate swc_macros;
 
-pub use self::class::{Class, ClassMethod, ClassMethodKind};
-pub use self::decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator};
-pub use self::expr::{
-    ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
-    CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, MemberExpr, MetaPropExpr, NewExpr,
-    ObjectLit, ParenExpr, PatOrExpr, SeqExpr, ThisExpr, TplElement, TplLit, UnaryExpr, UpdateExpr,
-    YieldExpr,
-};
-pub use self::function::Function;
-pub use self::lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str};
-pub use self::module::{Module, ModuleItem};
-pub use self::module_decl::{
-    ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
-    ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport,
-};
-pub use self::operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp};
-pub use self::pat::{
-    ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
-};
-pub use self::prop::{
-    AssignProp, GetterProp, KeyValueProp, MethodProp, Prop, PropName, SetterProp,
-};
-pub use self::stmt::{
-    BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
-    ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase, SwitchStmt,
-    ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
+pub use self::{
+    class::{Class, ClassMethod, ClassMethodKind},
+    decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
+    expr::{
+        ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
+        CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, MemberExpr, MetaPropExpr, NewExpr,
+        ObjectLit, ParenExpr, PatOrExpr, SeqExpr, ThisExpr, TplElement, TplLit, UnaryExpr,
+        UpdateExpr, YieldExpr,
+    },
+    function::Function,
+    lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
+    module::{Module, ModuleItem},
+    module_decl::{
+        ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
+        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport,
+    },
+    operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
+    pat::{
+        ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
+    },
+    prop::{AssignProp, GetterProp, KeyValueProp, MethodProp, Prop, PropName, SetterProp},
+    stmt::{
+        BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
+        ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase,
+        SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
+    },
 };
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;

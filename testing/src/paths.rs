@@ -1,6 +1,4 @@
-use std::env;
-use std::path::PathBuf;
-use std::sync::Arc;
+use std::{env, path::PathBuf, sync::Arc};
 
 pub fn manifest_dir() -> PathBuf {
     env::var("CARGO_MANIFEST_DIR")

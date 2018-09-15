@@ -9,8 +9,7 @@ extern crate proc_macro2;
 #[macro_use]
 extern crate quote;
 extern crate syn;
-use pmutil::synom_ext::FromSpan;
-use pmutil::SpanExt;
+use pmutil::{synom_ext::FromSpan, SpanExt};
 use proc_macro2::Span;
 use syn::*;
 
@@ -55,7 +54,8 @@ pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
                     ref segments,
                 },
             ..
-        } if segments.len() == 1 =>
+        }
+            if segments.len() == 1 =>
         {
             segments.first().unwrap().into_value().ident == name
         }

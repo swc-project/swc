@@ -51,7 +51,8 @@ impl Context {
             | js_word!("protected")
             | js_word!("interface")
             | js_word!("private")
-            | js_word!("public") if self.strict =>
+            | js_word!("public")
+                if self.strict =>
             {
                 return true
             }

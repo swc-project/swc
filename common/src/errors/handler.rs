@@ -1,10 +1,12 @@
 use super::{Diagnostic, DiagnosticBuilder};
 use rustc_data_structures::sync::{Lrc, Send, Sync};
-pub use rustc_errors::emitter::{Emitter, EmitterWriter};
-pub use rustc_errors::HandlerFlags;
+pub use rustc_errors::{
+    emitter::{Emitter, EmitterWriter},
+    HandlerFlags,
+};
 use rustc_errors::{
-    CodeMapper, ColorConfig, DiagnosticBuilder as RustcDiagnosticBuilder, Handler as RustcHandler,
-    Level,
+    ColorConfig, DiagnosticBuilder as RustcDiagnosticBuilder, Handler as RustcHandler, Level,
+    SourceMapper,
 };
 
 /// A handler deals with errors.
@@ -17,14 +19,14 @@ impl Handler {
         color_config: ColorConfig,
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        cm: Option<Lrc<CodeMapper + Send + Sync>>,
+        cm: Option<Lrc<SourceMapper + Send + Sync>>,
     ) -> Self {
         RustcHandler::with_tty_emitter(color_config, can_emit_warnings, treat_err_as_bug, cm).into()
     }
 
     pub fn with_tty_emitter_and_flags(
         color_config: ColorConfig,
-        cm: Option<Lrc<CodeMapper + Send + Sync>>,
+        cm: Option<Lrc<SourceMapper + Send + Sync>>,
         flags: HandlerFlags,
     ) -> Self {
         RustcHandler::with_tty_emitter_and_flags(color_config, cm, flags).into()

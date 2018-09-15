@@ -66,7 +66,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 | Ident(js_word!("package"))
                 | Ident(js_word!("private"))
                 | Ident(js_word!("protected"))
-                | Ident(js_word!("public")) if strict =>
+                | Ident(js_word!("public"))
+                    if strict =>
                 {
                     syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
                 }

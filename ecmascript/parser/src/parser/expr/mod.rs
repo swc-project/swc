@@ -1,6 +1,4 @@
-use super::pat::PatType;
-use super::util::ExprExt;
-use super::*;
+use super::{pat::PatType, util::ExprExt, *};
 use swc_common::Spanned;
 
 mod ops;
@@ -234,7 +232,11 @@ impl<'a, I: Input> Parser<'a, I> {
             }
             allow_elem = false;
 
-            elems.push(self.include_in_expr(true).parse_expr_or_spread().map(Some)?);
+            elems.push(
+                self.include_in_expr(true)
+                    .parse_expr_or_spread()
+                    .map(Some)?,
+            );
         }
 
         expect!(']');

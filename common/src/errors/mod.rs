@@ -5,14 +5,12 @@
 //! This module use [`::rustc_errors`][] internally.
 //!
 
-pub use self::codemap::{CodeMap, FileLoader, FilePathMapping, RealFileLoader};
-pub use self::diagnostic::*;
-pub use self::diagnostic_builder::DiagnosticBuilder;
-pub use self::handler::*;
-pub use rustc_errors::Level::*;
-pub use rustc_errors::{ColorConfig, Level};
+pub use self::{diagnostic::*, diagnostic_builder::DiagnosticBuilder, handler::*};
+pub use rustc_errors::{
+    ColorConfig,
+    Level::{self, *},
+};
 
-mod codemap;
 mod diagnostic;
 mod diagnostic_builder;
 mod handler;

@@ -1,8 +1,6 @@
-use super::input::FileMapInput;
-use super::*;
+use super::{input::FileMapInput, *};
 use error::{Error, SyntaxError};
-use std::ops::Range;
-use std::str;
+use std::{ops::Range, str};
 
 fn sp(r: Range<usize>) -> Span {
     Span::new(
@@ -130,7 +128,7 @@ fn module_legacy_octal() {
                 span: sp(0..2),
                 error: SyntaxError::LegacyOctal,
             }).span(0..2)
-                .lb(),
+            .lb(),
         ]
     );
 }
@@ -143,7 +141,7 @@ fn module_legacy_decimal() {
                 span: sp(0..2),
                 error: SyntaxError::LegacyDecimal,
             }).span(0..2)
-                .lb(),
+            .lb(),
         ]
     );
 }
@@ -157,7 +155,7 @@ fn module_legacy_comment_1() {
                 span: sp(0..11),
                 error: SyntaxError::LegacyCommentInModule,
             }).span(0..11)
-                .lb(),
+            .lb(),
         ]
     )
 }
@@ -171,7 +169,7 @@ fn module_legacy_comment_2() {
                 span: sp(0..3),
                 error: SyntaxError::LegacyCommentInModule,
             }).span(0..3)
-                .lb(),
+            .lb(),
         ]
     )
 }
@@ -199,7 +197,7 @@ fn test262_lexer_error_0002() {
                 value: "use strict".into(),
                 has_escape: true,
             }.span(0..15)
-                .lb(),
+            .lb(),
             Semi.span(15..16),
         ],
         lex(r#"'use\x20strict';"#)
@@ -240,7 +238,7 @@ fn str_escape_hex() {
                 value: "a".into(),
                 has_escape: true,
             }.span(0..6)
-                .lb(),
+            .lb(),
         ]
     );
 }
@@ -254,7 +252,7 @@ fn str_escape_octal() {
                 value: "Hello\nWorld".into(),
                 has_escape: true,
             }.span(0..16)
-                .lb(),
+            .lb(),
         ]
     )
 }
@@ -268,7 +266,7 @@ fn str_escape_unicode_long() {
                 value: "4".into(),
                 has_escape: true,
             }.span(0..17)
-                .lb(),
+            .lb(),
         ]
     );
 }
@@ -394,7 +392,7 @@ fn simple_regex() {
                 },
                 None,
             ).span(0..4)
-                .lb(),
+            .lb(),
         ]
     );
 }

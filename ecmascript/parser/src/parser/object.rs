@@ -99,8 +99,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                     Parser::parse_unique_formal_params,
                     None,
                     Some(span_of_gen),
-                )
-                .map(|function| {
+                ).map(|function| {
                     Prop::Method(MethodProp {
                         key: name,
                         function,
@@ -164,8 +163,8 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                                 body,
                             })
                         }),
-                    js_word!("set") => {
-                        self.parse_fn_args_body(
+                    js_word!("set") => self
+                        .parse_fn_args_body(
                             start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
                             None,
@@ -178,16 +177,14 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                                 body,
                                 param: params.into_iter().next().unwrap(),
                             })
-                        })
-                    }
-                    js_word!("async") => {
-                        self.parse_fn_args_body(
+                        }),
+                    js_word!("async") => self
+                        .parse_fn_args_body(
                             start,
                             Parser::parse_unique_formal_params,
                             Some(ident.span),
                             None,
-                        ).map(|function| Prop::Method(MethodProp { key, function }))
-                    }
+                        ).map(|function| Prop::Method(MethodProp { key, function })),
                     _ => unreachable!(),
                 };
             }
