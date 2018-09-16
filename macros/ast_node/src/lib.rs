@@ -1,4 +1,4 @@
-#![feature(box_syntax, proc_macro)]
+#![feature(box_syntax)]
 
 #[macro_use]
 extern crate darling;
@@ -38,13 +38,13 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
-    let item = self::from_variant::derive(input).into_iter().fold(
-        TokenStream::new(),
-        |mut t, item| {
-            item.to_tokens(&mut t);
-            t
-        },
-    );
+    let item =
+        self::from_variant::derive(input)
+            .into_iter()
+            .fold(TokenStream::new(), |mut t, item| {
+                item.to_tokens(&mut t);
+                t
+            });
 
     print_item("derive(FromVariant)", item.dump())
 }

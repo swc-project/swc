@@ -9,9 +9,11 @@ pub extern crate swc_macros;
 use rustc_data_structures::sync::Lrc;
 use slog::Logger;
 use std::path::Path;
-use swc_common::errors::{CodeMap, Handler};
-use swc_ecmascript::ast::Module;
-use swc_ecmascript::parser::{FileMapInput, PResult, Parser, Session as ParseSess};
+use swc_common::errors::Handler;
+use swc_ecmascript::{
+    ast::Module,
+    parser::{PResult, Parser, Session as ParseSess, SourceFileInput},
+};
 
 pub struct Compiler {
     codemap: Lrc<CodeMap>,
@@ -48,7 +50,7 @@ impl Compiler {
                 logger: &self.logger,
                 cfg: Default::default(),
             },
-            FileMapInput::from(&*fm),
+            SourceFileInput::from(&*fm),
         ).parse_module()
     }
 }

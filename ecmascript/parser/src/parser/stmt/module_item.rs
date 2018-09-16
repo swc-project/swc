@@ -166,14 +166,13 @@ impl<'a, I: Input> Parser<'a, I> {
             self.parse_async_fn_decl()?
         } else if is!("function") {
             self.parse_fn_decl()?
-        } else if is!("var") || is!("const")
-            || (is!("let")
-                && peek!()
-                    .map(|t| {
-                        // module code is always in strict mode.
-                        t.follows_keyword_let(true)
-                    })
-                    .unwrap_or(false))
+        } else if is!("var")
+            || is!("const")
+            || (is!("let") && peek!()
+                .map(|t| {
+                    // module code is always in strict mode.
+                    t.follows_keyword_let(true)
+                }).unwrap_or(false))
         {
             self.parse_var_stmt(false).map(Decl::Var)?
         } else {

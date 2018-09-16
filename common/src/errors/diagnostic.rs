@@ -2,7 +2,8 @@ use super::Handler;
 use rustc_errors::{Diagnostic as RustcDiagnostic, Level};
 pub use rustc_errors::{DiagnosticId, DiagnosticStyledString};
 use std::fmt;
-use {MultiSpan, Span};
+use MultiSpan;
+use Span;
 
 #[must_use]
 pub struct Diagnostic {

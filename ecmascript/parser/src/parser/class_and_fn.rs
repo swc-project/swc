@@ -1,7 +1,6 @@
 //! Parser for function expression and function declaration.
 
-use super::ident::MaybeOptionalIdentParser;
-use super::*;
+use super::{ident::MaybeOptionalIdentParser, *};
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -218,8 +217,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     Parser::parse_unique_formal_params,
                     None,
                     Some(span_of_gen),
-                )
-                .map(|function| ClassMethod {
+                ).map(|function| ClassMethod {
                     span: span!(start),
                     static_token,
                     key,
@@ -284,8 +282,8 @@ impl<'a, I: Input> Parser<'a, I> {
                             function,
                             kind: ClassMethodKind::Getter,
                         }),
-                    js_word!("set") => {
-                        self.parse_fn_args_body(
+                    js_word!("set") => self
+                        .parse_fn_args_body(
                             start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
                             None,
@@ -296,10 +294,9 @@ impl<'a, I: Input> Parser<'a, I> {
                             static_token,
                             function,
                             kind: ClassMethodKind::Setter,
-                        })
-                    }
-                    js_word!("async") => {
-                        self.parse_fn_args_body(
+                        }),
+                    js_word!("async") => self
+                        .parse_fn_args_body(
                             start,
                             Parser::parse_unique_formal_params,
                             Some(ident.span),
@@ -310,8 +307,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             key,
                             function,
                             kind: ClassMethodKind::Method,
-                        })
-                    }
+                        }),
                     _ => unreachable!(),
                 };
             }

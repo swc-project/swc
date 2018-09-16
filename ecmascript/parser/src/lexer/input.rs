@@ -1,6 +1,6 @@
 use super::util::CharExt;
 use std::str;
-use swc_common::{BytePos, FileMap};
+use swc_common::{BytePos, SourceFile};
 
 /// Used inside lexer.
 pub(super) struct LexerInput<I: Input> {
@@ -69,20 +69,20 @@ impl<I: Input> LexerInput<I> {
 }
 
 #[derive(Debug, Clone)]
-pub struct FileMapInput<'a> {
-    fm: &'a FileMap,
+pub struct SourceFileInput<'a> {
+    fm: &'a SourceFile,
     start_pos: BytePos,
     iter: str::CharIndices<'a>,
 }
 
-impl<'a> From<&'a FileMap> for FileMapInput<'a> {
-    fn from(fm: &'a FileMap) -> Self {
+impl<'a> From<&'a SourceFile> for SourceFileInput<'a> {
+    fn from(fm: &'a SourceFile) -> Self {
         let src = match fm.src {
             Some(ref s) => s,
-            None => unreachable!("Cannot lex filemap without source: {}", fm.name),
+            None => unreachable!("Cannot lex SourceFile without source: {}", fm.name),
         };
 
-        FileMapInput {
+        SourceFileInput {
             start_pos: fm.start_pos,
             iter: src.char_indices(),
             fm,
@@ -90,7 +90,7 @@ impl<'a> From<&'a FileMap> for FileMapInput<'a> {
     }
 }
 
-impl<'a> Iterator for FileMapInput<'a> {
+impl<'a> Iterator for SourceFileInput<'a> {
     type Item = (BytePos, char);
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -99,7 +99,7 @@ impl<'a> Iterator for FileMapInput<'a> {
             .map(|(i, c)| (BytePos(i as u32 + self.start_pos.0), c))
     }
 }
-impl<'a> Input for FileMapInput<'a> {
+impl<'a> Input for SourceFileInput<'a> {
     fn peek(&mut self) -> Option<(BytePos, char)> {
         self.clone().nth(0)
     }
@@ -115,7 +115,8 @@ impl<'a> Input for FileMapInput<'a> {
         None
     }
     fn record_new_line(&self, pos: BytePos) {
-        self.fm.next_line(pos)
+        // FIXME: Handling of lb in js and rust is different.
+        // self.fm.next_line(pos)
     }
     fn start_pos(&self) -> BytePos {
         self.fm.start_pos

@@ -61,8 +61,7 @@ impl<'a> Derive<'a> {
                 .filter_map(|p| match *p {
                     GenericParam::Type(TypeParam { ref ident, .. }) => Some(ident.clone()),
                     _ => None,
-                })
-                .collect(),
+                }).collect(),
             fields: vec![],
         };
 

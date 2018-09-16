@@ -1,8 +1,11 @@
 use super::*;
-use std::io;
-use std::path::{Path, PathBuf};
-use std::rc::Rc;
-use {BytePos, Span};
+use std::{
+    io,
+    path::{Path, PathBuf},
+    rc::Rc,
+};
+use BytePos;
+use Span;
 
 struct MyFileLoader;
 impl FileLoader for MyFileLoader {
@@ -24,8 +27,7 @@ function foo() {
     with (window) {
 
     }
-}"
-            .into())
+}".into())
     }
 }
 
@@ -52,7 +54,7 @@ fn test() {
             Some(DiagnosticId::Error("ABCDE".into())),
             "Test span_label",
         ).span(full)
-            .emit();
+        .emit();
 
         DiagnosticBuilder::new_with_code(
             &handler,
@@ -63,7 +65,6 @@ fn test() {
             start_pos + BytePos(21),
             start_pos + BytePos(25),
             Default::default(),
-        ))
-            .emit();
+        )).emit();
     })
 }

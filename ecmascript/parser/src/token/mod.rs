@@ -1,14 +1,9 @@
 //! Ported from [babel/bablyon][]
 //!
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
-pub(crate) use self::AssignOpToken::*;
-pub(crate) use self::BinOpToken::*;
-pub(crate) use self::Keyword::*;
-pub(crate) use self::Token::*;
-pub(crate) use self::Word::*;
+pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*, Word::*};
 pub(crate) use ast::AssignOp as AssignOpToken;
-use ast::BinaryOp;
-use ast::Str;
+use ast::{BinaryOp, Str};
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Fold, Span};

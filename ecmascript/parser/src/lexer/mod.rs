@@ -5,16 +5,15 @@
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 pub use self::input::Input;
-use self::input::LexerInput;
-use self::state::State;
-use self::util::*;
+use self::{input::LexerInput, state::State, util::*};
 use ast::Str;
 use error::SyntaxError;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use token::*;
-use {Context, Session};
+use Context;
+use Session;
 
 pub mod input;
 mod number;

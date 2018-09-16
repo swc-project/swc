@@ -1,7 +1,6 @@
 extern crate string_cache_codegen;
 
-use std::env;
-use std::path::Path;
+use std::{env, path::Path};
 
 fn main() {
     gen(

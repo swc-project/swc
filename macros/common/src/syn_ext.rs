@@ -1,7 +1,6 @@
 use def_site;
 use pmutil::prelude::*;
-use syn::punctuated::Pair;
-use syn::*;
+use syn::{punctuated::Pair, *};
 
 /// Extension trait for `ItemImpl` (impl block).
 pub trait ItemImplExt {
@@ -22,8 +21,7 @@ pub trait ItemImplExt {
     /// impl impl_generics ::swc_common::AstNode for Type ty_generics
     /// where_clause {}
     /// }
-    /// ))
-    ///     .parse();
+    /// )).parse();
     /// ```
     ///
     /// You can use this like

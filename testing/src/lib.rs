@@ -18,16 +18,18 @@ extern crate test;
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use regex::Regex;
 use rustc_data_structures::sync::Lrc;
-use slog::Drain;
-use slog::Logger;
-use std::fmt::Debug;
-use std::fs::{create_dir_all, File};
-use std::io;
-use std::io::Write;
-use std::path::Path;
-use std::thread;
-use swc_common::errors::{CodeMap, FilePathMapping, Handler};
-use swc_common::{FoldWith, Folder, Span};
+use slog::{Drain, Logger};
+use std::{
+    fmt::Debug,
+    fs::{create_dir_all, File},
+    io::{self, Write},
+    path::Path,
+    thread,
+};
+use swc_common::{
+    errors::{CodeMap, FilePathMapping, Handler},
+    FoldWith, Folder, Span,
+};
 
 #[macro_use]
 mod macros;
@@ -73,8 +75,7 @@ fn write_to_file(path: &Path, content: &str) {
                 path.display(),
                 err
             )
-        })
-        .write_all(content.as_bytes())
+        }).write_all(content.as_bytes())
         .expect("failed to write data of the failed assertion")
 }
 
@@ -152,8 +153,9 @@ pub fn logger() -> Logger {
         Ok(())
     }
     fn root() -> Logger {
+        use slog_envlogger;
+        use slog_term;
         use std::sync::Mutex;
-        use {slog_envlogger, slog_term};
 
         let dec = slog_term::TermDecorator::new()
             .force_color()

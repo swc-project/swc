@@ -37,9 +37,11 @@ use is_attr_name;
 use pmutil::prelude::*;
 use proc_macro2::Span;
 use quote::ToTokens;
-use syn::punctuated::Pair;
-use syn::token::{Mut, Ref};
-use syn::*;
+use syn::{
+    punctuated::Pair,
+    token::{Mut, Ref},
+    *,
+};
 use syn_ext::PairExt;
 
 /// Used to bind whole struct or enum.
@@ -124,8 +126,7 @@ impl<'a> VariantBinder<'a> {
                         VariantName: self.name,
                     },
                     { EnumName::VariantName }
-                ))
-                .parse(),
+                )).parse(),
             None => self.name.clone().into(),
         }
     }
@@ -158,8 +159,7 @@ impl<'a> VariantBinder<'a> {
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Pair::new(t, p.cloned())
-                    })
-                    .enumerate()
+                    }).enumerate()
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let ident = f
@@ -190,8 +190,7 @@ impl<'a> VariantBinder<'a> {
                                 }),
                             }
                         })
-                    })
-                    .collect();
+                    }).collect();
                 // EnumName::VariantName { fields }
                 let pat = Pat::Struct(PatStruct {
                     path,
@@ -213,8 +212,7 @@ impl<'a> VariantBinder<'a> {
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Pair::new(t, p.cloned())
-                    })
-                    .enumerate()
+                    }).enumerate()
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
@@ -232,8 +230,7 @@ impl<'a> VariantBinder<'a> {
                                 subpat: None,
                             })
                         })
-                    })
-                    .collect();
+                    }).collect();
                 // EnumName::VariantName ( fields )
                 let pat = Pat::TupleStruct(PatTupleStruct {
                     path,

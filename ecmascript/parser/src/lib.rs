@@ -24,8 +24,10 @@ pub extern crate swc_macros;
 #[macro_use]
 extern crate testing;
 extern crate unicode_xid;
-pub use self::lexer::input::{FileMapInput, Input};
-pub use self::parser::*;
+pub use self::{
+    lexer::input::{Input, SourceFileInput},
+    parser::*,
+};
 use slog::Logger;
 use swc_common::errors::Handler;
 
@@ -77,8 +79,10 @@ where
     F: FnOnce(Session, FileMapInput) -> Ret,
 {
     use std::rc::Rc;
-    use swc_common::errors::{CodeMap, FilePathMapping};
-    use swc_common::FileName;
+    use swc_common::{
+        errors::{CodeMap, FilePathMapping},
+        FileName,
+    };
 
     let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
     let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());

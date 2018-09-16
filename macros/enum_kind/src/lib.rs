@@ -28,17 +28,17 @@ mod util;
 /// #[kind(functions(is_a = "bool", is_b = "bool"))]
 /// #[kind(functions(is_a_or_b = "bool", num = "u8"))]
 /// pub enum E {
-///     //####     #[kind(is_a, is_a_or_b, num = "1")]
+///     #[kind(is_a, is_a_or_b, num = "1")]
 ///     A,
 ///     /// You can split attributes if you want.
-///     //####     #[kind(is_b)]
-///     //####     #[kind(is_a_or_b)]
-///     //####     #[kind(num = "2")]
+///     #[kind(is_b)]
+///     #[kind(is_a_or_b)]
+///     #[kind(num = "2")]
 ///     B(u8),
 ///     /// Default value of bool is false if not specified and true if specified.
 ///     ///
 ///     /// Both struct like variant and tuple like variant are supported.
-///     //####     #[kind(num = "3")]
+///     #[kind(num = "3")]
 ///     C {},
 /// }
 /// # fn main() {
@@ -66,77 +66,77 @@ mod util;
 /// #[kind(function(precedence = "u8"))]
 /// pub enum BinOpToken {
 ///     /// `==`
-///     //####     #[kind(precedence = "6")]
+///     #[kind(precedence = "6")]
 ///     EqEq,
 ///     /// `!=`
-///     //####     #[kind(precedence = "6")]
+///     #[kind(precedence = "6")]
 ///     NotEq,
 ///     /// `===`
-///     //####     #[kind(precedence = "6")]
+///     #[kind(precedence = "6")]
 ///     EqEqEq,
 ///     /// `!==`
-///     //####     #[kind(precedence = "6")]
+///     #[kind(precedence = "6")]
 ///     NotEqEq,
 ///     /// `<`
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     Lt,
 ///     /// `<=`
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     LtEq,
 ///     /// `>`
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     Gt,
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     /// `>=`
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     GtEq,
 ///     /// `<<`
-///     //####     #[kind(precedence = "8")]
+///     #[kind(precedence = "8")]
 ///     LShift,
 ///     /// `>>`
-///     //####     #[kind(precedence = "8")]
+///     #[kind(precedence = "8")]
 ///     RShift,
 ///     /// `>>>`
-///     //####     #[kind(precedence = "8")]
+///     #[kind(precedence = "8")]
 ///     ZeroFillRShift,
 ///     /// `+`
-///     //####     #[kind(precedence = "9")]
+///     #[kind(precedence = "9")]
 ///     Plus,
 ///     /// `-`
-///     //####     #[kind(precedence = "9")]
+///     #[kind(precedence = "9")]
 ///     Minus,
 ///     /// `*`
-///     //####     #[kind(precedence = "10")]
+///     #[kind(precedence = "10")]
 ///     Mul,
 ///     /// `/`
-///     //####     #[kind(precedence = "10")]
+///     #[kind(precedence = "10")]
 ///     Div,
 ///     /// `%`
-///     //####     #[kind(precedence = "10")]
+///     #[kind(precedence = "10")]
 ///     Mod,
 ///     /// `|`
-///     //####     #[kind(precedence = "3")]
+///     #[kind(precedence = "3")]
 ///     BitOr,
 ///     /// `^`
-///     //####     #[kind(precedence = "4")]
+///     #[kind(precedence = "4")]
 ///     BitXor,
 ///     /// `&`
-///     //####     #[kind(precedence = "5")]
+///     #[kind(precedence = "5")]
 ///     BitAnd,
 ///     /// `in`
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     In,
 ///     /// `instanceof`
-///     //####     #[kind(precedence = "7")]
+///     #[kind(precedence = "7")]
 ///     InstanceOf,
 ///     /// `**`
-///     //####     #[kind(precedence = "10")]
+///     #[kind(precedence = "10")]
 ///     Exp,
 ///     /// `||`
-///     //####     #[kind(precedence = "1")]
+///     #[kind(precedence = "1")]
 ///     LogicalOr,
 ///     /// `&&`
-///     //####     #[kind(precedence = "2")]
+///     #[kind(precedence = "2")]
 ///     LogicalAnd,
 /// }
 ///

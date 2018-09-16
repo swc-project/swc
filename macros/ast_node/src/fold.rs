@@ -23,16 +23,14 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             f.attrs
                 .iter()
                 .any(|attr| is_attr_name(attr, "fold") && attr.tts.to_string() == "( bound )")
-        })
-        .map(|f| f.ty.clone())
+        }).map(|f| f.ty.clone())
         .map(normalize_type_for_bound)
         .map(|ty| {
             Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
                     (Type: swc_common::FoldWith<__Folder>)
-                ))
-                .parse()
+                )).parse()
         });
     derive_generics.add_where_predicates(preds);
 
@@ -85,8 +83,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         .quote_with(smart_quote!(
                             Vars { field_name, value },
                             (field_name: value)
-                        ))
-                        .parse::<FieldValue>();
+                        )).parse::<FieldValue>();
                     FieldValue {
                         attrs: binding
                             .field()
@@ -97,8 +94,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                             .collect(),
                         ..v
                     }
-                })
-                .map(|t| Element::Punctuated(t, def_site()))
+                }).map(|t| Element::Punctuated(t, def_site()))
                 .collect();
 
             let body = match *v.data() {
@@ -108,8 +104,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         {
                             return Name;
                         }
-                    }))
-                    .parse(),
+                    })).parse(),
                 _ => box Quote::new(Span::def_site())
                     .quote_with(smart_quote!(
                         Vars {
@@ -121,8 +116,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                                 return Name { fields };
                             }
                         }
-                    ))
-                    .parse(),
+                    )).parse(),
             };
 
             Arm {
@@ -140,8 +134,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 comma: Some(def_site()),
                 leading_vert: None,
             }
-        })
-        .collect();
+        }).collect();
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
@@ -166,8 +159,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                     }
                 }
             }
-        ))
-        .parse();
+        )).parse();
     let item = derive_generics.append_to(item);
 
     // println!("Expaned:\n {}\n\n", item.dump());

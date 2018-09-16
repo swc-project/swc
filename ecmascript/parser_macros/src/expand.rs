@@ -1,6 +1,8 @@
 use swc_macros_common::prelude::*;
-use syn::fold::{self, Fold};
-use syn::synom::Synom;
+use syn::{
+    fold::{self, Fold},
+    synom::Synom,
+};
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {
     let item = InjectSelf { parser: None }.fold_item(item);

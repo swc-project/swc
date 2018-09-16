@@ -7,8 +7,7 @@
 //!
 //! Note: Currently this use xid instead of id because unicode_xid crate
 //! exists.
-use super::input::Input;
-use super::{LexResult, Lexer};
+use super::{input::Input, LexResult, Lexer};
 use error::{ErrorToDiag, SyntaxError};
 use swc_common::{BytePos, Span};
 use unicode_xid::UnicodeXID;

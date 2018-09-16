@@ -1,9 +1,11 @@
 use paths;
-use std::fmt;
-use std::fs::{create_dir_all, remove_file, File};
-use std::io::Read;
-use std::ops::Deref;
-use std::path::Path;
+use std::{
+    fmt,
+    fs::{create_dir_all, remove_file, File},
+    io::Read,
+    ops::Deref,
+    path::Path,
+};
 
 #[must_use]
 pub struct TestOutput<R> {
@@ -56,8 +58,7 @@ impl NormalizedOutput {
                 let mut buf = String::new();
                 file.read_to_string(&mut buf).unwrap();
                 buf
-            })
-            .unwrap_or_else(|_| {
+            }).unwrap_or_else(|_| {
                 // If xxx.stderr file does not exist, stderr should be empty.
                 String::new()
             });

@@ -1,8 +1,11 @@
 use super::Handler;
-use rustc_errors::{Diagnostic as RustcDiagnostic, DiagnosticBuilder as Builder, Level};
-use rustc_errors::{DiagnosticId, DiagnosticStyledString};
+use rustc_errors::{
+    Diagnostic as RustcDiagnostic, DiagnosticBuilder as Builder, DiagnosticId,
+    DiagnosticStyledString, Level,
+};
 use std::fmt;
-use {MultiSpan, Span};
+use MultiSpan;
+use Span;
 
 #[must_use]
 pub struct DiagnosticBuilder<'a> {

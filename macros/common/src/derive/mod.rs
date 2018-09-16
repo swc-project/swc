@@ -3,8 +3,7 @@ use pmutil::ToTokensExt;
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 use std::iter;
-use syn::punctuated::Pair;
-use syn::*;
+use syn::{punctuated::Pair, *};
 
 mod generics;
 
@@ -35,8 +34,7 @@ impl<'a> Derive<'a> {
                     }
 
                     pair
-                })
-                .collect();
+                }).collect();
 
             let generics = Generics {
                 params,

@@ -100,8 +100,7 @@ fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
                     }
                 }
             }
-        ))
-        .parse::<ItemImpl>()
+        )).parse::<ItemImpl>()
         .with_generics(i.generics.clone())
         .into()
 }
@@ -159,14 +158,13 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     mutability: None,
                     pat,
                 }))].into_iter()
-                    .collect(),
+                .collect(),
                 guard: None,
                 fat_arrow_token: def_site(),
                 comma: Some(def_site()),
                 leading_vert: None,
             }
-        })
-        .collect();
+        }).collect();
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
@@ -192,8 +190,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     }
                 }
             }
-        ))
-        .parse::<ItemImpl>()
+        )).parse::<ItemImpl>()
         .with_generics(i.generics.clone())
         .into()
 }

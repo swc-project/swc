@@ -277,10 +277,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[cfg(test)]
 mod tests {
-    use super::input::FileMapInput;
-    use super::*;
-    use std::f64::INFINITY;
-    use std::panic;
+    use super::{input::FileMapInput, *};
+    use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where

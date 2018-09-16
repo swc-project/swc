@@ -20,7 +20,7 @@ rayon = "0.9"
 slog = "2"
 slog-envlogger = "2.1"
 slog-term = "2.3"
-rustc-ap-rustc_data_structures = "150"
+rustc-ap-rustc_data_structures = "250"
 
 
 [dependencies.clap]
@@ -33,4 +33,3 @@ features = [ "suggestions", "color" ]
 debug = true
 
 [patch.crates-io]
-darling = { git = "https://github.com/hcpl/darling.git", branch = "update-deps" }

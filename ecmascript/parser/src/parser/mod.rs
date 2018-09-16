@@ -1,18 +1,16 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
-use self::input::ParserInput;
-use self::util::ParseObject;
+use self::{input::ParserInput, util::ParseObject};
 use ast::*;
 use error::SyntaxError;
-use lexer::Input;
-use lexer::Lexer;
+use lexer::{Input, Lexer};
 use parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::errors::DiagnosticBuilder;
-use swc_common::{BytePos, Span};
+use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
 use token::*;
-use {Context, Session};
+use Context;
+use Session;
 
 #[macro_use]
 mod macros;
