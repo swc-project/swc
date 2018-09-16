@@ -1,5 +1,4 @@
-pub use self::basic_impl::WriterWrapper;
-pub use self::semicolon::omit_trailing_semi;
+pub use self::{basic_impl::WriterWrapper, semicolon::omit_trailing_semi};
 use super::*;
 
 mod basic_impl;

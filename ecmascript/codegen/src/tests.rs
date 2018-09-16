@@ -3,7 +3,10 @@ extern crate testing;
 use super::*;
 use config::Config;
 use std::{
-    fs::read_dir, io::Write, path::Path, sync::{Arc, RwLock},
+    fs::read_dir,
+    io::Write,
+    path::Path,
+    sync::{Arc, RwLock},
 };
 use swc_common::errors::{CodeMap, FilePathMapping};
 
@@ -81,7 +84,7 @@ fn simple_if_else_stmt() {
                 span: Default::default(),
             })),
         }.emit_with(e)
-            .unwrap()),
+        .unwrap()),
         "if(true);else;"
     );
 }

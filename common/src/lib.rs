@@ -23,5 +23,5 @@ pub use self::{
 mod ast_node;
 pub mod errors;
 mod fold;
-pub mod pos;
 pub mod macros;
+pub mod pos;

@@ -1,6 +1,6 @@
 use list::ListFormat;
-use swc_common::{BytePos, Span, Spanned, SyntaxContext};
-use swc_common::errors::CodeMap;
+use std::rc::Rc;
+use swc_common::{errors::SourceMapper, BytePos, Span, Spanned, SyntaxContext};
 
 pub trait SpanExt: Spanned {
     fn is_synthesized(&self) -> bool {
@@ -19,8 +19,8 @@ pub trait SpanExt: Spanned {
 }
 impl<T: Spanned> SpanExt for T {}
 
-pub trait CodeMapExt {
-    fn get_code_map(&self) -> &CodeMap;
+pub trait SourceMapperExt {
+    fn get_code_map(&self) -> &SourceMapper;
 
     fn is_on_same_line(&self, lo: BytePos, hi: BytePos) -> bool {
         let cm = self.get_code_map();
@@ -119,8 +119,13 @@ pub trait CodeMapExt {
         }
     }
 }
-impl CodeMapExt for CodeMap {
-    fn get_code_map(&self) -> &CodeMap {
+impl SourceMapperExt for SourceMapper {
+    fn get_code_map(&self) -> &SourceMapper {
         self
+    }
+}
+impl SourceMapperExt for Rc<(dyn SourceMapper + Send + Sync)> {
+    fn get_code_map(&self) -> &SourceMapper {
+        &**self
     }
 }

@@ -1,7 +1,6 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(specialization)]
-#![feature(proc_macro)]
 #![feature(proc_macro_gen)]
 #![feature(trace_macros)]
 #![recursion_limit = "1024"]
@@ -16,14 +15,17 @@ extern crate swc_common;
 extern crate swc_ecma_ast;
 
 use self::{
-    list::ListFormat, text_writer::TextWriter, util::{CodeMapExt, SpanExt},
+    list::ListFormat,
+    text_writer::TextWriter,
+    util::{SourceMapperExt, SpanExt},
 };
 use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
 use std::{
-    io::{self, Write}, rc::Rc,
+    io::{self, Write},
+    rc::Rc,
 };
-use swc_common::{errors::CodeMap, BytePos, Span, Spanned};
+use swc_common::{errors::SourceMapper, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[macro_use]
@@ -59,7 +61,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Rc<CodeMap>,
+    pub cm: Rc<dyn SourceMapper + Sync + Send>,
     pub enable_comments: bool,
     pub srcmap: SourceMapBuilder,
     pub wr: Box<('a + TextWriter)>,
@@ -830,10 +832,9 @@ impl<'a> Emitter<'a> {
 
         let emit_as_single_stmt = node.cons.len() == 1 && {
             // treat synthesized nodes as located on the same line for emit purposes
-            node.is_synthesized() || node.cons[0].is_synthesized()
-                || self
-                    .cm
-                    .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
+            node.is_synthesized() || node.cons[0].is_synthesized() || self
+                .cm
+                .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
         };
 
         let mut format = ListFormat::CaseOrDefaultClauseStatements;
@@ -980,7 +981,11 @@ impl<'a> Emitter<'a> {
     }
 }
 
-fn get_text_of_node<T: Spanned>(cm: &CodeMap, node: &T, _include_travia: bool) -> String {
+fn get_text_of_node<T: Spanned>(
+    cm: &Rc<dyn SourceMapper + Send + Sync>,
+    node: &T,
+    _include_travia: bool,
+) -> String {
     let sp = node.span();
     cm.span_to_string(sp)
 }
@@ -1009,7 +1014,8 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         | Expr::Unary(UnaryExpr {
             op: op!(unary, "+"),
             ..
-        }) if node.op == op!(unary, "+") =>
+        })
+            if node.op == op!(unary, "+") =>
         {
             true
         }
@@ -1021,7 +1027,8 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         | Expr::Unary(UnaryExpr {
             op: op!(unary, "-"),
             ..
-        }) if node.op == op!(unary, "-") =>
+        })
+            if node.op == op!(unary, "-") =>
         {
             true
         }
