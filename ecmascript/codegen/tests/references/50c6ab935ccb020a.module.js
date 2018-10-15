@@ -1,0 +1,2 @@
+exportdefault(class{
+});;

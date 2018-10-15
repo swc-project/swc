@@ -27,7 +27,8 @@ function foo() {
     with (window) {
 
     }
-}".into())
+}"
+        .into())
     }
 }
 
@@ -53,7 +54,8 @@ fn test() {
             Error,
             Some(DiagnosticId::Error("ABCDE".into())),
             "Test span_label",
-        ).span(full)
+        )
+        .span(full)
         .emit();
 
         DiagnosticBuilder::new_with_code(
@@ -61,10 +63,12 @@ fn test() {
             Warning,
             Some(DiagnosticId::Lint("WITH_STMT".into())),
             "Lint: With statement",
-        ).span(Span::new(
+        )
+        .span(Span::new(
             start_pos + BytePos(21),
             start_pos + BytePos(25),
             Default::default(),
-        )).emit();
+        ))
+        .emit();
     })
 }

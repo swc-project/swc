@@ -150,7 +150,6 @@ mod util;
 ///
 ///
 ///
-///
 #[proc_macro_derive(Kind, attributes(kind))]
 pub fn derive_kind(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse::<syn::DeriveInput>(input)

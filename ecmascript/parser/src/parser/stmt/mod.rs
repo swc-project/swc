@@ -369,7 +369,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(catch_start),
                     param,
                     body,
-                }).map(Some)?
+                })
+                .map(Some)?
         } else {
             None
         };

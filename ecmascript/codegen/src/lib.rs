@@ -1,7 +1,7 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(specialization)]
-#![feature(proc_macro_gen)]
+#![feature(proc_macro_hygiene)]
 #![feature(trace_macros)]
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
@@ -25,7 +25,7 @@ use std::{
     io::{self, Write},
     rc::Rc,
 };
-use swc_common::{errors::SourceMapper, BytePos, Span, Spanned};
+use swc_common::{errors::SourceMapper, BytePos, SourceMapperDyn, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[macro_use]
@@ -61,7 +61,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Rc<dyn SourceMapper + Sync + Send>,
+    pub cm: Rc<SourceMapperDyn>,
     pub enable_comments: bool,
     pub srcmap: SourceMapBuilder,
     pub wr: Box<('a + TextWriter)>,
@@ -69,6 +69,166 @@ pub struct Emitter<'a> {
 }
 
 impl<'a> Emitter<'a> {
+    pub fn emit_script(&mut self, stmts: &[Stmt]) -> Result {
+        let span = stmts[0].span().with_hi(
+            stmts
+                .last()
+                .map(|s| s.span().hi())
+                .unwrap_or(stmts[0].span().lo()),
+        );
+
+        self.emit_list(span, Some(stmts), ListFormat::SourceFileStatements)?;
+
+        Ok(())
+    }
+
+    #[emitter]
+    pub fn emit_module(&mut self, node: &Module) -> Result {
+        for stmt in &node.body {
+            emit!(stmt);
+            semi!();
+        }
+    }
+
+    #[emitter]
+    pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
+        match *node {
+            ModuleItem::Stmt(ref stmt) => emit!(stmt),
+            ModuleItem::ModuleDecl(ref decl) => emit!(decl),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
+        match *node {
+            ModuleDecl::Import(ref d) => emit!(d),
+            ModuleDecl::ExportDecl(ref d) => {
+                keyword!("export");
+                emit!(d);
+                semi!();
+            }
+            ModuleDecl::ExportNamed(ref d) => emit!(d),
+            ModuleDecl::ExportDefaultDecl(ref d) => {
+                keyword!("export");
+                space!();
+                keyword!("default");
+                emit!(d);
+                semi!();
+            }
+            ModuleDecl::ExportDefaultExpr(ref d) => {
+                keyword!("export");
+                space!();
+                keyword!("default");
+                emit!(d);
+                semi!();
+            }
+            ModuleDecl::ExportAll(ref d) => emit!(d),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_export_default_decl(&mut self, node: &ExportDefaultDecl) -> Result {
+        keyword!("export");
+        space!();
+        keyword!("default");
+        space!();
+        match *node {
+            ExportDefaultDecl::Class(ref class) => emit!(class),
+            ExportDefaultDecl::Fn(ref f) => emit!(f),
+            ExportDefaultDecl::Var(ref decl) => emit!(decl),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_import(&mut self, node: &ImportDecl) -> Result {
+        keyword!("import");
+        space!();
+
+        for specifier in &node.specifiers {
+            match specifier {
+                ImportSpecifier::Specific(ref s) => {
+                    if let Some(ref default_as) = s.imported {
+                        emit!(default_as);
+                    }
+
+                    punct!("{");
+                    if let Some(ref imported) = s.imported {
+                        emit!(imported);
+                        keyword!("as");
+                        emit!(s.local);
+                    }
+                    punct!("}");
+                }
+                ImportSpecifier::Default(ref s) => {
+                    emit!(s);
+                    space!();
+                }
+                ImportSpecifier::Namespace(ref ns) => {
+                    assert!(node.specifiers.len() == 1);
+                    keyword!("import");
+                    space!();
+                    punct!("*");
+                    space!();
+                    keyword!("as");
+                    emit!(ns.local);
+                    space!();
+                }
+            }
+        }
+
+        keyword!("from");
+        space!();
+        emit!(node.src);
+        semi!();
+    }
+
+    #[emitter]
+    pub fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
+        keyword!("export");
+        space!();
+        if let Some(ref exported) = node.exported {
+            emit!(node.orig);
+            keyword!("as");
+            emit!(node.exported);
+        } else {
+            emit!(node.orig);
+        }
+    }
+
+    #[emitter]
+    pub fn emit_import_default(&mut self, node: &ImportDefault) -> Result {
+        keyword!("import");
+        space!();
+        unimplemented!();
+    }
+
+    #[emitter]
+    pub fn emit_named_export(&mut self, node: &NamedExport) -> Result {
+        keyword!("export");
+        punct!("{");
+        self.emit_list(
+            node.span,
+            Some(&node.specifiers),
+            ListFormat::NamedImportsOrExportsElements,
+        )?;
+        // TODO:
+        punct!("}");
+
+        if let Some(ref src) = node.src {
+            keyword!("from");
+            emit!(src);
+            semi!();
+        }
+    }
+
+    #[emitter]
+    pub fn emit_export_all(&mut self, node: &ExportAll) -> Result {
+        keyword!("export");
+        punct!("*");
+        emit!(node.src);
+        semi!();
+    }
+
     #[emitter]
     pub fn emit_lit(&mut self, node: &Lit) -> Result {
         match *node {
@@ -80,8 +240,14 @@ impl<'a> Emitter<'a> {
                 }
             }
             Lit::Null(Null { .. }) => keyword!("null"),
+            Lit::Str(ref s) => emit!(s),
             _ => unimplemented!(),
         }
+    }
+
+    #[emitter]
+    pub fn emit_str_lit(&mut self, node: &Str) -> Result {
+        unimplemented!()
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
@@ -193,7 +359,18 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
-        unimplemented!()
+        if node.is_async {
+            keyword!("async");
+            if node.is_generator {
+                punct!("*")
+            }
+        }
+        punct!("(");
+        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        punct!(")");
+
+        punct!("=>");
+        emit!(node.body);
     }
 
     #[emitter]
@@ -237,12 +414,31 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
+        keyword!("class");
+        emit!(node.ident);
+
+        if node.class.super_class.is_some() {
+            keyword!("extends");
+            emit!(node.class.super_class);
+        }
+
+        punct!("{");
+        self.emit_list(
+            node.class.span,
+            Some(&node.class.body),
+            ListFormat::ClassMembers,
+        )?;
+        punct!("}");
+    }
+
+    #[emitter]
+    pub fn emit_class_method(&mut self, node: &ClassMethod) -> Result {
         unimplemented!()
     }
 
     #[emitter]
     pub fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
-        // TODO:Indent / Space
+        // TODO: Indent / Space
 
         emit!(node.test);
         punct!("?");
@@ -253,7 +449,35 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
-        unimplemented!()
+        if node.function.async.is_some() {
+            keyword!("async");
+        }
+        keyword!("function");
+
+        if node.function.generator.is_some() {
+            punct!("*");
+        }
+        emit!(node.ident);
+
+        emit!(node.function);
+    }
+
+    #[emitter]
+    /// prints `(b){}` from `function a(b){}`
+    pub fn emit_fn_trailing(&mut self, node: &Function) -> Result {
+        punct!("(");
+        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
+        punct!(")");
+
+        emit!(node.body);
+    }
+
+    #[emitter]
+    pub fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
+        match *node {
+            BlockStmtOrExpr::BlockStmt(ref block_stmt) => emit!(block_stmt),
+            BlockStmtOrExpr::Expr(ref expr) => emit!(expr),
+        }
     }
 
     #[emitter]
@@ -982,7 +1206,7 @@ impl<'a> Emitter<'a> {
 }
 
 fn get_text_of_node<T: Spanned>(
-    cm: &Rc<dyn SourceMapper + Send + Sync>,
+    cm: &Rc<SourceMapperDyn>,
     node: &T,
     _include_travia: bool,
 ) -> String {

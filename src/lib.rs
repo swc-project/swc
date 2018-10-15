@@ -9,7 +9,8 @@ pub extern crate swc_macros;
 use rustc_data_structures::sync::Lrc;
 use slog::Logger;
 use std::path::Path;
-use swc_common::errors::Handler;
+use swc_common::SourceMap;
+use swc_common::errors::{Handler,SourceMapperDyn};
 use swc_ecmascript::{
     ast::Module,
     parser::{PResult, Parser, Session as ParseSess, SourceFileInput},
@@ -25,7 +26,7 @@ pub struct Compiler {
 impl Compiler {
     pub fn new(
         logger: Logger,
-        codemap: Lrc<CodeMap>,
+        codemap: Lrc<SourceMapperDyn>,
         handler: Handler,
         threads: rayon::ThreadPool,
     ) -> Self {

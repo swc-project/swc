@@ -12,3 +12,5 @@ sourcemap = "2.2"
 
 [dev-dependencies]
 testing = { path = "../../testing" }
+slog = "2"
+swc_ecma_parser = { path = "../parser" }

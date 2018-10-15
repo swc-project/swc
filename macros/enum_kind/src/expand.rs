@@ -63,7 +63,8 @@ pub fn expand(
                 items
             }
         }
-    )).parse::<ItemImpl>()
+    ))
+        .parse::<ItemImpl>()
         .with_generics(generics)
         .into()
 }
@@ -109,7 +110,8 @@ impl FnDef {
                                                 method: &name,
                                             },
                                             { field.method() }
-                                        )).parse(),
+                                        ))
+                                        .parse(),
                                 )
                             }
 
@@ -153,7 +155,8 @@ impl FnDef {
                         comma: Some(call_site()),
                         guard: None,
                     }
-                }).collect();
+                })
+                .collect();
 
         // match self {}
         let match_expr = Expr::Match(ExprMatch {
@@ -186,7 +189,8 @@ impl FnDef {
                             lifetime: None,
                             mutability: None,
                         })),
-                    ].into_iter()
+                    ]
+                    .into_iter()
                     .collect(),
                     output: ReturnType::Type(name_span.as_token(), box return_type),
                     generics: Default::default(),

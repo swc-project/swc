@@ -1,27 +1,35 @@
+extern crate swc_common;
 extern crate swc_ecma_parser;
 extern crate testing;
+
 use super::*;
 use config::Config;
+use sourcemap::SourceMapBuilder;
 use std::{
     fs::read_dir,
     io::Write,
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::errors::{CodeMap, FilePathMapping};
+use swc_common::{
+    errors::{EmitterWriter, SourceMapperDyn},
+    FilePathMapping, SourceMap,
+};
 
 struct Noop;
 impl Handlers for Noop {}
 
 struct Builder {
     cfg: Config,
-    cm: Rc<CodeMap>,
+    cm: Rc<SourceMapperDyn>,
 }
 
 fn test() -> Builder {
+    let src = SourceMap::new(FilePathMapping::empty());
+
     Builder {
         cfg: Default::default(),
-        cm: Rc::new(CodeMap::new(FilePathMapping::empty())),
+        cm: Rc::new(src),
     }
 }
 
@@ -62,7 +70,8 @@ fn empty_stmt() {
         test().text(|e| {
             e.emit_empty_stmt(&EmptyStmt {
                 span: Default::default(),
-            }).unwrap();
+            })
+            .unwrap();
         }),
         ";"
     );
@@ -83,7 +92,8 @@ fn simple_if_else_stmt() {
             alt: Some(box Stmt::Empty(EmptyStmt {
                 span: Default::default(),
             })),
-        }.emit_with(e)
+        }
+        .emit_with(e)
         .unwrap()),
         "if(true);else;"
     );
@@ -100,12 +110,11 @@ fn identity() {
 
     let files = read_dir(path_to_tests).expect("failed to read test262 parser tests");
 
-    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
     let buf = Buf(Arc::new(RwLock::new(vec![])));
-    let e =
-        ::swc_common::errors::EmitterWriter::new(Box::new(buf.clone()), Some(cm.clone()), false);
-    let handler = ::swc_common::errors::Handler::with_emitter(
-        Box::new(e),
+    let e = EmitterWriter::new(box buf.clone(), Some(cm.clone()), false, true);
+    let error_handler = ::swc_common::errors::Handler::with_emitter(
+        box e,
         ::swc_common::errors::HandlerFlags {
             treat_err_as_bug: true,
             ..Default::default()
@@ -121,11 +130,11 @@ fn identity() {
 
         let mut p = swc_ecma_parser::Parser::new(
             swc_ecma_parser::Session {
-                handler: &handler,
+                handler: &error_handler,
                 cfg: Default::default(),
                 logger: &logger,
             },
-            swc_ecma_parser::FileMapInput::from(&*fm),
+            swc_ecma_parser::SourceFileInput::from(&*fm),
         );
 
         if f.file_name().to_str().unwrap().ends_with("module.js") {

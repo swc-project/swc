@@ -1,6 +1,6 @@
 use list::ListFormat;
 use std::rc::Rc;
-use swc_common::{errors::SourceMapper, BytePos, Span, Spanned, SyntaxContext};
+use swc_common::{errors::SourceMapper, BytePos, SourceMapperDyn, Span, Spanned, SyntaxContext};
 
 pub trait SpanExt: Spanned {
     fn is_synthesized(&self) -> bool {
@@ -124,7 +124,7 @@ impl SourceMapperExt for SourceMapper {
         self
     }
 }
-impl SourceMapperExt for Rc<(dyn SourceMapper + Send + Sync)> {
+impl SourceMapperExt for Rc<SourceMapperDyn> {
     fn get_code_map(&self) -> &SourceMapper {
         &**self
     }

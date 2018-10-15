@@ -118,7 +118,6 @@ macro_rules! eat_exact {
 }
 
 /// This handles automatic semicolon insertion.
-///
 macro_rules! expect {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &token_including_semi!($t);

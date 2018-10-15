@@ -33,7 +33,8 @@ fn run() -> Result<(), Box<Error>> {
                 .help("Number of threads to use for cpu-intensive tasks")
                 .takes_value(true)
                 .value_name("N"),
-        ).subcommand(
+        )
+        .subcommand(
             SubCommand::with_name("js")
                 .arg(
                     Arg::with_name("passes")
@@ -41,12 +42,14 @@ fn run() -> Result<(), Box<Error>> {
                         .long("passes")
                         .takes_value(true)
                         .multiple(true),
-                ).arg(
+                )
+                .arg(
                     Arg::with_name("input file")
                         .required(true)
                         .takes_value(true),
                 ),
-        ).get_matches();
+        )
+        .get_matches();
 
     let thread_pool = rayon::Configuration::new()
         .thread_name(|i| format!("swc-worker-{}", i))
@@ -55,7 +58,8 @@ fn run() -> Result<(), Box<Error>> {
                 .value_of("worker")
                 .map(|v| v.parse().expect("expected number for --worker"))
                 .unwrap_or(0),
-        ).build()
+        )
+        .build()
         .expect("failed to create rayon::ThreadPool?");
 
     let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));

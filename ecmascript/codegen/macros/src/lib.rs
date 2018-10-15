@@ -34,7 +34,8 @@ fn expand(i: ImplItemMethod) -> ImplItemMethod {
                 .and_then(|arg| match arg {
                     FnArg::Ignored(ty) | FnArg::Captured(ArgCaptured { ty, .. }) => Some(ty),
                     _ => None,
-                }).map(|ty| {
+                })
+                .map(|ty| {
                     // &Ident -> Ident
                     match ty {
                         Type::Reference(TypeReference { elem, .. }) => *elem,
@@ -43,7 +44,8 @@ fn expand(i: ImplItemMethod) -> ImplItemMethod {
                             ty.dump()
                         ),
                     }
-                }).expect(
+                })
+                .expect(
                     "#[emitter] methods should have signature of 
 fn (&mut self, node: Node) -> \
                      Result; 
@@ -85,7 +87,8 @@ fn (&mut self, node: Node) -> \
                         }
                     }
                 }
-            )).parse()
+            ))
+            .parse()
     };
 
     ImplItemMethod { block, ..i }

@@ -227,7 +227,8 @@ where
         .map(|mut tt| {
             tt.set_span(span);
             tt
-        }).collect::<TokenStream>();
+        })
+        .collect::<TokenStream>();
 
     parse(tts.into()).expect("failed to parse string literal")
 }

@@ -127,7 +127,8 @@ fn module_legacy_octal() {
             Token::Error(Error {
                 span: sp(0..2),
                 error: SyntaxError::LegacyOctal,
-            }).span(0..2)
+            })
+            .span(0..2)
             .lb(),
         ]
     );
@@ -140,7 +141,8 @@ fn module_legacy_decimal() {
             Token::Error(Error {
                 span: sp(0..2),
                 error: SyntaxError::LegacyDecimal,
-            }).span(0..2)
+            })
+            .span(0..2)
             .lb(),
         ]
     );
@@ -154,7 +156,8 @@ fn module_legacy_comment_1() {
             Token::Error(Error {
                 span: sp(0..11),
                 error: SyntaxError::LegacyCommentInModule,
-            }).span(0..11)
+            })
+            .span(0..11)
             .lb(),
         ]
     )
@@ -168,7 +171,8 @@ fn module_legacy_comment_2() {
             Token::Error(Error {
                 span: sp(0..3),
                 error: SyntaxError::LegacyCommentInModule,
-            }).span(0..3)
+            })
+            .span(0..3)
             .lb(),
         ]
     )
@@ -196,7 +200,8 @@ fn test262_lexer_error_0002() {
             Token::Str {
                 value: "use strict".into(),
                 has_escape: true,
-            }.span(0..15)
+            }
+            .span(0..15)
             .lb(),
             Semi.span(15..16),
         ],
@@ -237,7 +242,8 @@ fn str_escape_hex() {
             Token::Str {
                 value: "a".into(),
                 has_escape: true,
-            }.span(0..6)
+            }
+            .span(0..6)
             .lb(),
         ]
     );
@@ -251,7 +257,8 @@ fn str_escape_octal() {
             Token::Str {
                 value: "Hello\nWorld".into(),
                 has_escape: true,
-            }.span(0..16)
+            }
+            .span(0..16)
             .lb(),
         ]
     )
@@ -265,7 +272,8 @@ fn str_escape_unicode_long() {
             Token::Str {
                 value: "4".into(),
                 has_escape: true,
-            }.span(0..17)
+            }
+            .span(0..17)
             .lb(),
         ]
     );
@@ -284,7 +292,8 @@ fn regexp_unary_void() {
                     has_escape: false,
                 },
                 None,
-            ).span(5..11),
+            )
+            .span(5..11),
         ]
     );
     assert_eq!(
@@ -299,7 +308,8 @@ fn regexp_unary_void() {
                     has_escape: false,
                 },
                 None,
-            ).span(6..12),
+            )
+            .span(6..12),
             RParen.span(12..13),
         ]
     );
@@ -377,7 +387,8 @@ fn simple_regex() {
                     value: "i".into(),
                     has_escape: false,
                 }),
-            ).span(4..9),
+            )
+            .span(4..9),
         ],
     );
 
@@ -391,7 +402,8 @@ fn simple_regex() {
                     has_escape: false,
                 },
                 None,
-            ).span(0..4)
+            )
+            .span(0..4)
             .lb(),
         ]
     );
@@ -513,7 +525,8 @@ fn after_if() {
                     has_escape: false,
                 },
                 None,
-            ).span(8..11),
+            )
+            .span(8..11),
             Dot.span(11),
             "test".span(12..16),
             LParen.span(16),
@@ -574,7 +587,8 @@ fn migrated_0002() {
                     has_escape: false,
                 },
                 None,
-            ).span(9..13),
+            )
+            .span(9..13),
             RParen.span(13),
         ],
         lex("tokenize(/42/)")
@@ -613,7 +627,8 @@ fn migrated_0004() {
                     has_escape: false,
                 },
                 None,
-            ).span(15..19),
+            )
+            .span(15..19),
         ],
         lex("function f(){} /42/")
     );
@@ -656,7 +671,8 @@ fn migrated_0006() {
                     has_escape: false,
                 },
                 None,
-            ).span(3..7),
+            )
+            .span(3..7),
         ],
         lex("{} /42/")
     )

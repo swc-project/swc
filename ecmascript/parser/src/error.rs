@@ -149,7 +149,8 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                     16 => "a hexadecimal",
                     _ => unreachable!(),
                 }
-            ).into(),
+            )
+            .into(),
             UnterminatedBlockComment => "Unterminated block comment".into(),
             UnterminatedStrLit => "Unterminated string constant".into(),
             ExpectedUnicodeEscape => "Expected unicode escape".into(),
