@@ -32,6 +32,7 @@ use swc_ecma_ast::*;
 pub mod macros;
 mod comments;
 pub mod config;
+mod decl;
 pub mod list;
 #[cfg(test)]
 mod tests;
@@ -104,6 +105,7 @@ impl<'a> Emitter<'a> {
             ModuleDecl::Import(ref d) => emit!(d),
             ModuleDecl::ExportDecl(ref d) => {
                 keyword!("export");
+                space!();
                 emit!(d);
                 semi!();
             }
@@ -112,6 +114,7 @@ impl<'a> Emitter<'a> {
                 keyword!("export");
                 space!();
                 keyword!("default");
+                space!();
                 emit!(d);
                 semi!();
             }
@@ -119,6 +122,7 @@ impl<'a> Emitter<'a> {
                 keyword!("export");
                 space!();
                 keyword!("default");
+                space!();
                 emit!(d);
                 semi!();
             }
@@ -160,7 +164,7 @@ impl<'a> Emitter<'a> {
                     punct!("}");
                 }
                 ImportSpecifier::Default(ref s) => {
-                    emit!(s);
+                    emit!(s.local);
                     space!();
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -196,13 +200,6 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    pub fn emit_import_default(&mut self, node: &ImportDefault) -> Result {
-        keyword!("import");
-        space!();
-        unimplemented!();
-    }
-
-    #[emitter]
     pub fn emit_named_export(&mut self, node: &NamedExport) -> Result {
         keyword!("export");
         punct!("{");
@@ -224,6 +221,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_export_all(&mut self, node: &ExportAll) -> Result {
         keyword!("export");
+        space!();
         punct!("*");
         emit!(node.src);
         semi!();
@@ -241,13 +239,22 @@ impl<'a> Emitter<'a> {
             }
             Lit::Null(Null { .. }) => keyword!("null"),
             Lit::Str(ref s) => emit!(s),
-            _ => unimplemented!(),
+            Lit::Num(ref n) => emit!(n),
+            Lit::Regex(ref n) => unimplemented!("Regen: {:?}", n),
         }
     }
 
     #[emitter]
     pub fn emit_str_lit(&mut self, node: &Str) -> Result {
-        unimplemented!()
+        // TODO: quote
+        punct!("'");
+        self.wr.write_str_lit(&node.value)?;
+        punct!("'");
+    }
+
+    #[emitter]
+    pub fn emit_num_lit(&mut self, num: &Number) -> Result {
+        self.wr.write(format!("{:.5}", num.value).as_bytes())?;
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
@@ -416,24 +423,70 @@ impl<'a> Emitter<'a> {
     pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
         keyword!("class");
         emit!(node.ident);
+    }
 
-        if node.class.super_class.is_some() {
+    #[emitter]
+    pub fn emit_class_trailing(&mut self, node: &Class) -> Result {
+        if node.super_class.is_some() {
             keyword!("extends");
-            emit!(node.class.super_class);
+            emit!(node.super_class);
         }
 
         punct!("{");
-        self.emit_list(
-            node.class.span,
-            Some(&node.class.body),
-            ListFormat::ClassMembers,
-        )?;
+        self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
         punct!("}");
     }
 
     #[emitter]
     pub fn emit_class_method(&mut self, node: &ClassMethod) -> Result {
-        unimplemented!()
+        if let Some(_st) = node.static_token {
+            keyword!("static");
+            space!();
+        }
+        match node.kind {
+            ClassMethodKind::Constructor => {
+                keyword!("constructor");
+                space!();
+            }
+            ClassMethodKind::Method => {
+                if let Some(async) = node.function.async {
+                    keyword!("async");
+                    if let Some(generator) = node.function.generator {
+                        punct!("*");
+                    }
+                }
+                space!();
+
+                emit!(node.key);
+                space!();
+            }
+            ClassMethodKind::Getter => {
+                keyword!("get");
+                space!();
+
+                emit!(node.key);
+                space!();
+            }
+            ClassMethodKind::Setter => {
+                keyword!("set");
+                space!();
+
+                emit!(node.key);
+                space!();
+            }
+        }
+
+        self.emit_fn_trailing(&node.function)?;
+    }
+
+    #[emitter]
+    pub fn emit_prop_name(&mut self, node: &PropName) -> Result {
+        match *node {
+            PropName::Ident(ref n) => emit!(n),
+            PropName::Str(ref n) => emit!(n),
+            PropName::Num(ref n) => emit!(n),
+            PropName::Computed(ref n) => emit!(n),
+        }
     }
 
     #[emitter]
@@ -561,22 +614,79 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
-        // const indentedFlag = getEmitFlags(node) & EmitFlags.Indented;
-        // if (indentedFlag) {
-        //     increaseIndent();
-        // }
-
         // const preferNewLine = node.multiLine ? ListFormat.PreferNewLine :
-        // ListFormat.None; const allowTrailingComma =
+        // ListFormat.None;
+
+        // const allowTrailingComma =
         // currentSourceFile.languageVersion >= ScriptTarget.ES5 ?
         // ListFormat.AllowTrailingComma : ListFormat.None; emitList(node,
         // node.properties, ListFormat.ObjectLiteralExpressionProperties |
         // allowTrailingComma | preferNewLine);
 
-        // if (indentedFlag) {
-        //     decreaseIndent();
-        // }
-        unimplemented!()
+        punct!("{");
+        self.emit_list(
+            node.span(),
+            Some(&node.props),
+            ListFormat::ObjectLiteralExpressionProperties,
+        )?;
+        punct!("}");
+    }
+
+    #[emitter]
+    pub fn emit_prop(&mut self, node: &Prop) -> Result {
+        match *node {
+            Prop::Shorthand(ref n) => emit!(n),
+            Prop::KeyValue(ref n) => emit!(n),
+            Prop::Assign(ref n) => emit!(n),
+            Prop::Getter(ref n) => emit!(n),
+            Prop::Setter(ref n) => emit!(n),
+            Prop::Method(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
+        emit!(node.key);
+        punct!(":");
+        emit!(node.value);
+    }
+
+    #[emitter]
+    pub fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
+        emit!(node.key);
+        punct!("=");
+        emit!(node.value);
+    }
+
+    #[emitter]
+    pub fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
+        keyword!("get");
+        space!();
+        emit!(node.key);
+        space!();
+        emit!(node.body);
+    }
+
+    #[emitter]
+    pub fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
+        keyword!("set");
+        space!();
+        emit!(node.key);
+        space!();
+
+        punct!("(");
+        emit!(node.param);
+        punct!(")");
+
+        emit!(node.body);
+    }
+
+    #[emitter]
+    pub fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
+        emit!(node.key);
+        space!();
+        // TODO
+        self.emit_fn_trailing(&node.function)?;
     }
 
     #[emitter]
@@ -884,7 +994,29 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_object_pat_prop(&mut self, node: &ObjectPatProp) -> Result {
-        unimplemented!()
+        match *node {
+            ObjectPatProp::KeyValue(ref node) => emit!(node),
+            ObjectPatProp::Assign(ref node) => emit!(node),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
+        emit!(node.key);
+        space!();
+        emit!(node.value);
+        space!();
+    }
+
+    #[emitter]
+    pub fn emit_object_assign_pat(&mut self, node: &AssignPatProp) -> Result {
+        emit!(node.key);
+        space!();
+        if let Some(ref value) = node.value {
+            punct!("=");
+            emit!(node.value);
+            space!();
+        }
     }
 
     #[emitter]
@@ -1070,8 +1202,6 @@ impl<'a> Emitter<'a> {
             punct!(":");
         }
         self.emit_list(node.span(), Some(&node.cons), format)?;
-
-        unimplemented!()
     }
 
     #[emitter]
@@ -1115,8 +1245,11 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
         keyword!("do");
+        space!();
         emit!(node.body);
 
+        keyword!("while");
+        space!();
         punct!("(");
         emit!(node.test);
         punct!(")");
@@ -1189,19 +1322,6 @@ impl<'a> Emitter<'a> {
             VarDeclOrExpr::Expr(ref node) => emit!(node),
             VarDeclOrExpr::VarDecl(ref node) => emit!(node),
         }
-    }
-
-    #[emitter]
-    pub fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        keyword!(node.kind.as_str());
-        unimplemented!()
-    }
-}
-
-impl<'a> Emitter<'a> {
-    #[emitter]
-    pub fn emit_decl(&mut self, _node: &Decl) -> Result {
-        unimplemented!()
     }
 }
 

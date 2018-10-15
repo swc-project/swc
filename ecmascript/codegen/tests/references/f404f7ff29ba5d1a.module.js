@@ -1,2 +1,2 @@
-exportdefaultexportdefaultfunction(){
+export default export default function(){
 };;

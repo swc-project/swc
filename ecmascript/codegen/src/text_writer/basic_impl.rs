@@ -85,7 +85,7 @@ impl<'a, W: Write> TextWriter for WriterWrapper<'a, W> {
     }
 
     fn write_space(&mut self) -> Result {
-        self.write(b"")?;
+        self.write(b" ")?;
         Ok(())
     }
 

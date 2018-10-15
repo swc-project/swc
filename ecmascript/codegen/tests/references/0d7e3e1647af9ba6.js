@@ -1,3 +1,3 @@
 
-do{
-}((true))
+do {
+}while ((true))

@@ -1,2 +1,2 @@
 
-throwthis;
+throw this;

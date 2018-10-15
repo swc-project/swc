@@ -1,6 +1,6 @@
 
 {
-    do{
-    }((false))
+    do {
+    }while ((false))
     false;
 }

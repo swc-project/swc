@@ -1,2 +1,1 @@
-exportdefault(class{
-});;
+export default (class);;

@@ -1,1 +1,1 @@
-exportdefault;;
+export default ;;
