@@ -1,1 +1,5 @@
-switch (a) { case 1: b(); break; }
+switch(a){
+    case 1:
+        b();
+        break;
+}
