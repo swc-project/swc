@@ -1408,6 +1408,9 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         }
         Expr::Unary(UnaryExpr {
             op: op!("void"), ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!("typeof"), ..
         }) => match *node.arg {
             Expr::Lit(Lit::Num(..)) => true,
             Expr::Ident(_) => true,
