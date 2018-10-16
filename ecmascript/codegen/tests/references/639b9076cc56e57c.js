@@ -1,5 +1,3 @@
-while (true) {
-    if (a) break
-    ;
-    else b;
+while(true){
+    if (a) break; else b;
 }
