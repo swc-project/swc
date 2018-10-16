@@ -1410,7 +1410,9 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         } => match *node.arg {
             Expr::Lit(Lit::Num(..)) => return true,
             Expr::Lit(Lit::Bool(_)) => return true,
-            Expr::Class(_) | Expr::Fn(_) | Expr::Ident(_) => return true,
+            Expr::Class(_) | Expr::Fn(_) | Expr::Ident(_) | Expr::Call(_) | Expr::New(_) => {
+                return true
+            }
 
             _ => {}
         },
