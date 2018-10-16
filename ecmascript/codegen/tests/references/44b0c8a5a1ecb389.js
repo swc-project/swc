@@ -1,2 +1,2 @@
-a = b => false;
-a = () => false;
+a = (b)=>false;
+a = ()=>false;
