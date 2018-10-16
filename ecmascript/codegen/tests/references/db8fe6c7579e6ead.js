@@ -1,2 +1,4 @@
-{ throw a
-a; }
+{
+    throw a;
+    a;
+}
