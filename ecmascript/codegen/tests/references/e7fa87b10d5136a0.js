@@ -1,1 +1,6 @@
-class a {get b(){} set c(d){};}
+class a{
+    get b() {
+    }
+    set c(d) {
+    }
+}
