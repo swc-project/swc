@@ -1,1 +1,5 @@
-class a {*b(c) { yield c; }}
+class a{
+     *b(c) {
+        yield c;
+    }
+}

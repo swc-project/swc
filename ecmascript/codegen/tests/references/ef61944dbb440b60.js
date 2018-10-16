@@ -1,1 +1,3 @@
-class a extends class b extends c {} {}
+class a extends class b extends c{
+}{
+}

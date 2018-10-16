@@ -1,1 +1,4 @@
-try { } catch (a) { b(a) }
+try{
+}catch (a) {
+    b(a);
+}
