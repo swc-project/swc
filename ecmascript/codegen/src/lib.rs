@@ -1042,7 +1042,8 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
         emit!(node.key);
-        space!();
+        punct!(":");
+        formatting_space!();
         emit!(node.value);
         space!();
     }
