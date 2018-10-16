@@ -1,1 +1,2 @@
-'use strict';(a)=>1
+'use strict';
+(a)=>1;
