@@ -1,1 +1,5 @@
-class a extends b { constructor() { ({c: super()}); } }
+class a extends b{
+     constructor() {
+        ({ c:super() });
+    }
+}

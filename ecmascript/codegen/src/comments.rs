@@ -16,10 +16,12 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
-        // TODO: only comment
-        // if let Some(ref ln) = self.file.get_line(line) {
-        //     self.wr.write(ln.as_bytes())?;
-        // }
+        if let Some(ref ln) = self.file.get_line(line) {
+            // TODO: only comment
+            // if ln.contains("//") {
+            //     self.wr.write(ln.as_bytes())?;
+            // }
+        }
         Ok(())
     }
 
