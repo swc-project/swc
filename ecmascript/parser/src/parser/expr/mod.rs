@@ -582,7 +582,6 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
     /// Parse call, dot, and `[]`-subscript expressions.
-    ///
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 

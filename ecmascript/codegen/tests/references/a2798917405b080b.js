@@ -1,4 +1,4 @@
 
 try{
-}catch({}){
+}catch ({}) {
 }

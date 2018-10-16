@@ -17,12 +17,12 @@ extern crate syntax_pos;
 pub use self::fold::Fold as Folder;
 pub use self::{
     ast_node::AstNode,
+    errors::{SourceMapper, SourceMapperDyn},
     fold::{Fold, FoldWith},
     pos::*,
-    errors::SourceMapper,errors::SourceMapperDyn,
 };
 
-pub use syntax::source_map::{SourceMap,FilePathMapping};
+pub use syntax::source_map::{FilePathMapping, SourceMap};
 mod ast_node;
 pub mod errors;
 mod fold;

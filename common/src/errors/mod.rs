@@ -9,8 +9,7 @@ pub use self::{diagnostic::*, diagnostic_builder::DiagnosticBuilder, handler::*}
 pub use rustc_errors::{
     ColorConfig,
     Level::{self, *},
-    SourceMapper,
-    SourceMapperDyn,
+    SourceMapper, SourceMapperDyn,
 };
 
 mod diagnostic;

@@ -1,7 +1,9 @@
-extern crate swc_common;
 extern crate swc_ecma_parser;
 extern crate testing;
-
+use self::{
+    swc_ecma_parser::{PResult, Parser, Session, SourceFileInput},
+    testing::NormalizedOutput,
+};
 use super::*;
 use config::Config;
 use sourcemap::SourceMapBuilder;
@@ -13,7 +15,7 @@ use std::{
 };
 use swc_common::{
     errors::{EmitterWriter, SourceMapperDyn},
-    FilePathMapping, SourceMap,
+    FileName, FilePathMapping, SourceMap,
 };
 
 struct Noop;
@@ -64,6 +66,48 @@ impl Builder {
     }
 }
 
+fn test_from_to(from: &str, to: &str) {
+    fn with_parser<F, Ret>(
+        file_name: &Path,
+        src: &str,
+        f: F,
+    ) -> std::result::Result<Ret, NormalizedOutput>
+    where
+        F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
+    {
+        let output = self::testing::run_test(|logger, cm, handler| {
+            let src = cm.new_source_file(FileName::Real(file_name.into()), src.to_string());
+            println!("Source: {:?} ~ {:?}", src.start_pos, src.end_pos);
+
+            let res = f(&mut Parser::new(
+                Session {
+                    logger: &logger,
+                    handler: &handler,
+                    cfg: Default::default(),
+                },
+                (&*src).into(),
+            ));
+
+            match res {
+                Ok(res) => Some(res),
+                Err(err) => {
+                    err.emit();
+                    None
+                }
+            }
+        });
+
+        if output.errors.is_empty() {
+            Ok(output.result.unwrap())
+        } else {
+            Err(output.errors)
+        }
+    }
+    let res = with_parser(Path::new("test.js"), from, |p| p.parse_module()).unwrap();
+
+    assert_eq!(test().text(|e| e.emit_module(&res).unwrap()), to,);
+}
+
 #[test]
 fn empty_stmt() {
     assert_eq!(
@@ -100,55 +144,13 @@ fn simple_if_else_stmt() {
 }
 
 #[test]
-fn identity() {
-    let path_to_tests = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("..")
-        .join("parser")
-        .join("tests")
-        .join("test262-parser")
-        .join("pass");
+fn arrow() {
+    test_from_to("()=>void a", "()=>void a");
+}
 
-    let files = read_dir(path_to_tests).expect("failed to read test262 parser tests");
-
-    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
-    let buf = Buf(Arc::new(RwLock::new(vec![])));
-    let e = EmitterWriter::new(box buf.clone(), Some(cm.clone()), false, true);
-    let error_handler = ::swc_common::errors::Handler::with_emitter(
-        box e,
-        ::swc_common::errors::HandlerFlags {
-            treat_err_as_bug: true,
-            ..Default::default()
-        },
-    );
-    let logger = testing::logger();
-
-    for f in files {
-        let f = f.unwrap();
-        println!("{:?}", f.file_name());
-
-        let fm = cm.load_file(&f.path()).expect("failed to load the file");
-
-        let mut p = swc_ecma_parser::Parser::new(
-            swc_ecma_parser::Session {
-                handler: &error_handler,
-                cfg: Default::default(),
-                logger: &logger,
-            },
-            swc_ecma_parser::SourceFileInput::from(&*fm),
-        );
-
-        if f.file_name().to_str().unwrap().ends_with("module.js") {
-            p.parse_module().unwrap_or_else(|err| {
-                err.emit();
-                unreachable!()
-            });
-        } else {
-            p.parse_script().unwrap_or_else(|err| {
-                err.emit();
-                unreachable!()
-            });
-        }
-    }
+#[test]
+fn array() {
+    test_from_to("[a, 'b', \"c\"]", "[a,'b','c']");
 }
 
 #[derive(Debug, Clone)]

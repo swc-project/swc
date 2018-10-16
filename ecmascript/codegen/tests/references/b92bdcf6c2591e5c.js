@@ -1,2 +1,3 @@
 
-(class);
+(class extends(a,b){
+});

@@ -1,2 +1,5 @@
 
-(class);
+(class {
+    get a (){
+    }
+});

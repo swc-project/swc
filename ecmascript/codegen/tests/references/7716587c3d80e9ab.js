@@ -1,2 +1,6 @@
 
-(class);
+(class {
+     constructor (){
+        super.a;
+    }
+});

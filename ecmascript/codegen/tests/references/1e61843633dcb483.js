@@ -1,0 +1,6 @@
+
+(function(){
+    'use
+strict';
+    (a);
+});

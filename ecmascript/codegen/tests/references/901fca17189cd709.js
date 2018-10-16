@@ -1,0 +1,8 @@
+
+function a(){
+    (class {
+         yield (){
+        }
+    });
+}
+;

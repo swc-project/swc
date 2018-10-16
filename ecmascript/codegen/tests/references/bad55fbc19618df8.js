@@ -1,0 +1,2 @@
+
+a=typeofb.c != 'd';

@@ -1,2 +1,2 @@
 
-1.00000instanceof2.00000;
+1.00000 instanceof 2.00000;

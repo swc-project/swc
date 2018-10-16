@@ -1,0 +1,8 @@
+
+class aextendsb{
+     constructor (){
+        ()=>{
+            super;
+        };
+    }
+}

@@ -1,0 +1,7 @@
+
+class a{
+     'constructor' (){
+    }
+     'constructor' (){
+    }
+}

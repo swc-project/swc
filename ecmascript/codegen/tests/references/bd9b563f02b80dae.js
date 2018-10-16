@@ -1,2 +1,2 @@
 
-'use strict'+1.00000;
+'use strict' + 1.00000;

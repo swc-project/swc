@@ -1,0 +1,2 @@
+
+a: for(;;)continue a;

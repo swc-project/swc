@@ -169,11 +169,10 @@ impl<'a> Emitter<'a> {
                 }
                 ImportSpecifier::Namespace(ref ns) => {
                     assert!(node.specifiers.len() == 1);
-                    keyword!("import");
-                    space!();
                     punct!("*");
                     space!();
                     keyword!("as");
+                    space!();
                     emit!(ns.local);
                     space!();
                 }
@@ -415,14 +414,17 @@ impl<'a> Emitter<'a> {
         // let indent_after_op = needs_indention(node, node.op, &node.right);
 
         emit!(node.left);
+        space!();
         operator!(node.op.as_str());
+        space!();
         emit!(node.right);
     }
 
     #[emitter]
     pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
         keyword!("class");
-        emit!(node.ident);
+        space!();
+        self.emit_class_trailing(&node.class)?;
     }
 
     #[emitter]
@@ -510,9 +512,9 @@ impl<'a> Emitter<'a> {
         if node.function.generator.is_some() {
             punct!("*");
         }
-        emit!(node.ident);
+        opt_leading_space!(node.ident);
 
-        emit!(node.function);
+        self.emit_fn_trailing(&node.function)?;
     }
 
     #[emitter]
@@ -707,8 +709,12 @@ impl<'a> Emitter<'a> {
                 sym,
             )?;
         } else {
-            self.wr
-                .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */ false).as_bytes())?;
+            // TODO span
+            self.wr.write(ident.sym.as_bytes())?;
+
+            // self.wr
+            //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
+            // false).as_bytes())?;
         }
 
         //TODO
@@ -1165,13 +1171,13 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_catch_clause(&mut self, node: &CatchClause) -> Result {
         keyword!("catch");
-        // space!();
+        space!();
 
         punct!("(");
         emit!(node.param);
         punct!(")");
 
-        // space!();
+        space!();
 
         emit!(node.body);
     }
@@ -1376,6 +1382,13 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         {
             true
         }
+        Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => match *node.arg {
+            Expr::Lit(Lit::Num(..)) => true,
+            Expr::Ident(_) => true,
+            _ => false,
+        },
         _ => false,
     }
 }

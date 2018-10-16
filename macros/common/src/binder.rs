@@ -126,7 +126,8 @@ impl<'a> VariantBinder<'a> {
                         VariantName: self.name,
                     },
                     { EnumName::VariantName }
-                )).parse(),
+                ))
+                .parse(),
             None => self.name.clone().into(),
         }
     }
@@ -159,7 +160,8 @@ impl<'a> VariantBinder<'a> {
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Pair::new(t, p.cloned())
-                    }).enumerate()
+                    })
+                    .enumerate()
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let ident = f
@@ -190,7 +192,8 @@ impl<'a> VariantBinder<'a> {
                                 }),
                             }
                         })
-                    }).collect();
+                    })
+                    .collect();
                 // EnumName::VariantName { fields }
                 let pat = Pat::Struct(PatStruct {
                     path,
@@ -212,7 +215,8 @@ impl<'a> VariantBinder<'a> {
                     .map(|e| {
                         let (t, p) = e.into_tuple();
                         Pair::new(t, p.cloned())
-                    }).enumerate()
+                    })
+                    .enumerate()
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
@@ -230,7 +234,8 @@ impl<'a> VariantBinder<'a> {
                                 subpat: None,
                             })
                         })
-                    }).collect();
+                    })
+                    .collect();
                 // EnumName::VariantName ( fields )
                 let pat = Pat::TupleStruct(PatTupleStruct {
                     path,
@@ -263,7 +268,6 @@ impl<'a> VariantBinder<'a> {
 
 /// Binded field. Note that this struct acts like a binded variable for
 /// `quote!`.
-///
 ///
 #[derive(Debug, Clone)]
 pub struct BindedField<'a> {

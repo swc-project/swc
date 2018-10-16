@@ -148,97 +148,79 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
         let dir = dir.clone();
         add_test(tests, name, ignore, move || {
-            eprintln!(
+            println!(
                 "\n\n========== Running codegen test {}\nSource:\n{}\n",
                 file_name, input
             );
             let mut wr = Buf(Arc::new(RwLock::new(vec![])));
-            let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
-            let handlers = box MyHandlers;
 
-            {
-                let mut emitter = Emitter {
-                    cfg: swc_ecma_codegen::config::Config::default(),
-                    cm,
-                    enable_comments: true,
-                    srcmap: SourceMapBuilder::new(None),
-                    wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
-                    handlers,
+            ::testing::run_test(|logger, cm, handler| {
+                let src = cm.load_file(&entry.path()).expect("failed to load file");
+                println!("Source: {:?} ~ {:?}", src.start_pos, src.end_pos);
+
+                let handlers = box MyHandlers;
+                let mut parser: Parser<SourceFileInput> = Parser::new(
+                    Session {
+                        logger: &logger,
+                        handler: &handler,
+                        cfg: Default::default(),
+                    },
+                    (&*src).into(),
+                );
+
+                {
+                    let mut emitter = Emitter {
+                        cfg: swc_ecma_codegen::config::Config::default(),
+                        cm,
+                        enable_comments: true,
+                        srcmap: SourceMapBuilder::new(None),
+                        wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
+                        handlers,
+                    };
+
+                    let path = dir.join(&file_name);
+                    // Parse source
+                    if module {
+                        emitter
+                            .emit_module(
+                                &parser
+                                    .parse_module()
+                                    .map_err(|e| {
+                                        e.emit();
+                                        ()
+                                    })
+                                    .unwrap(),
+                            )
+                            .unwrap();
+                    } else {
+                        emitter
+                            .emit_script(
+                                &parser
+                                    .parse_script()
+                                    .map_err(|e| {
+                                        e.emit();
+                                        ()
+                                    })
+                                    .unwrap(),
+                            )
+                            .unwrap();
+                    }
+                }
+                let r = wr.0.read().unwrap();
+                let output = TestOutput {
+                    result: NormalizedOutput::from(String::from_utf8_lossy(&r).into_owned()),
+                    errors: NormalizedOutput::from(String::from("")),
                 };
 
-                let path = dir.join(&file_name);
-                // Parse source
-                if module {
-                    emitter
-                        .emit_module(&parse_module(&path, &input).unwrap())
-                        .unwrap();
-                } else {
-                    emitter
-                        .emit_script(&parse_script(&path, &input).unwrap())
-                        .unwrap();
-                }
-            }
-            let r = wr.0.read().unwrap();
-            let output = TestOutput {
-                result: NormalizedOutput::from(String::from_utf8_lossy(&r).into_owned()),
-                errors: NormalizedOutput::from(String::from("")),
-            };
-
-            output
-                .result
-                .compare_to_file(format!("{}", ref_dir.join(file_name).display()))
-                .unwrap();
+                output
+                    .result
+                    .compare_to_file(format!("{}", ref_dir.join(file_name).display()))
+                    .unwrap();
+            });
         });
     }
 
     Ok(())
-}
-
-fn parse_script(file_name: &Path, s: &str) -> Result<Vec<Stmt>, NormalizedOutput> {
-    with_parser(file_name, s, |p: &mut Parser<'_, _>| p.parse_script())
-}
-
-fn parse_module<'a>(file_name: &Path, s: &str) -> Result<Module, NormalizedOutput> {
-    with_parser(file_name, s, |p: &mut Parser<'_, _>| p.parse_module())
-}
-
-fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, NormalizedOutput>
-where
-    F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
-{
-    let output = ::testing::run_test(|logger, cm, handler| {
-        let src = Rc::new(SourceFile::new(
-            FileName::Real(file_name.into()),
-            false,
-            FileName::Real(file_name.into()),
-            src.into(),
-            BytePos(0u32),
-        ));
-        let fm = cm.ensure_source_file_source_present(src.clone());
-
-        let res = f(&mut Parser::new(
-            Session {
-                logger: &logger,
-                handler: &handler,
-                cfg: Default::default(),
-            },
-            (&*src).into(),
-        ));
-
-        match res {
-            Ok(res) => Some(res),
-            Err(err) => {
-                err.emit();
-                None
-            }
-        }
-    });
-
-    if output.errors.is_empty() {
-        Ok(output.result.unwrap())
-    } else {
-        Err(output.errors)
-    }
 }
 
 #[test]

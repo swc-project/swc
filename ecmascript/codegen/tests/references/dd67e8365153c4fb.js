@@ -1,2 +1,6 @@
 
-(class);
+(class extendsa{
+     constructor (){
+        super;
+    }
+});

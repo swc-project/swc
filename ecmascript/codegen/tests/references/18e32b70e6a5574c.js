@@ -1,0 +1,3 @@
+
+Infinity.a;
+NaN.a;

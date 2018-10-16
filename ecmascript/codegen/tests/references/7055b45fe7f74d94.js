@@ -1,0 +1,6 @@
+
+class aextendsb{
+     'constructor' (){
+        super;
+    }
+}

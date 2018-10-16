@@ -1,0 +1,4 @@
+
+(function arguments(){
+    'use strict';
+});
