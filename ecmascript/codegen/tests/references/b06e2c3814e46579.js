@@ -1,1 +1,4 @@
-function *a(){yield class{}}
+function* a() {
+    yield class{
+    };
+}
