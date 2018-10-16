@@ -1,1 +1,2 @@
-class a extends 1 {}
+class a extends 1{
+}

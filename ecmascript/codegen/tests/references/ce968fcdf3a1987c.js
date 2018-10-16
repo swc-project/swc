@@ -1,1 +1,3 @@
-function *a(){yield typeof 1}
+function* a() {
+    yield typeof 1;
+}

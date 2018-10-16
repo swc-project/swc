@@ -1,1 +1,1 @@
-for({a=1} of b);
+for({ a =1  } of b);
