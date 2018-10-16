@@ -1,1 +1,3 @@
-function *a(){yield null}
+function* a() {
+    yield null;
+}
