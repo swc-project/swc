@@ -1,6 +1,6 @@
-(function () {
-  function arguments() {
+(function() {
+    function arguments() {
+        a(arguments);
+    }
     a(arguments);
-  }
-  a(arguments);
 }());

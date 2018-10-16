@@ -1,1 +1,2 @@
-({[a]: function() {}})
+({ a:function() {
+        } });

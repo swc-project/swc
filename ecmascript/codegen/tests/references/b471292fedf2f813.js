@@ -1,4 +1,5 @@
 function a() {
     b();
-    function c() {}
+    function c() {
+    }
 }

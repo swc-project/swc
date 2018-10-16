@@ -1,2 +1,4 @@
-while (true) { break
-a; }
+while(true){
+    break;
+    a;
+}
