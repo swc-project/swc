@@ -1,4 +1,7 @@
 function a() {
-    (class b { });
-    class c {};
+    (class b{
+    });
+    class c{
+    }
+    ;
 }

@@ -1,1 +1,4 @@
-function* a(){(class extends (yield) {});}
+function* a() {
+    (class extends (yield){
+    });
+}
