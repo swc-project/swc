@@ -109,9 +109,7 @@ impl<'a> Emitter<'a> {
                 semi!();
             }
             ModuleDecl::ExportNamed(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultDecl(ref d) => {
-                emit!(d);
-            }
+            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
             ModuleDecl::ExportDefaultExpr(ref d) => {
                 keyword!("export");
                 space!();
@@ -184,11 +182,11 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
-        keyword!("export");
-        space!();
         if let Some(ref exported) = node.exported {
             emit!(node.orig);
+            space!();
             keyword!("as");
+            space!();
             emit!(node.exported);
         } else {
             emit!(node.orig);
@@ -219,6 +217,9 @@ impl<'a> Emitter<'a> {
         keyword!("export");
         space!();
         punct!("*");
+        formatting_space!();
+        keyword!("from");
+        space!();
         emit!(node.src);
         semi!();
     }
