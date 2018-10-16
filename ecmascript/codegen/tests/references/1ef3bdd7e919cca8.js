@@ -1,1 +1,3 @@
-function* a() { b.c(yield); }
+function* a() {
+    b.c(yield);
+}
