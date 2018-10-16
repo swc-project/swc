@@ -1,1 +1,1 @@
-new a
+new a;
