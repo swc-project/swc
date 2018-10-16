@@ -1409,7 +1409,9 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
             op: op!("delete"), ..
         } => match *node.arg {
             Expr::Lit(Lit::Num(..)) => return true,
-            Expr::Ident(_) => return true,
+            Expr::Lit(Lit::Bool(_)) => return true,
+            Expr::Class(_) | Expr::Fn(_) | Expr::Ident(_) => return true,
+
             _ => {}
         },
         _ => {}
