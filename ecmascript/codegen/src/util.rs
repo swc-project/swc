@@ -1,6 +1,7 @@
 use list::ListFormat;
 use std::rc::Rc;
 use swc_common::{errors::SourceMapper, BytePos, SourceMapperDyn, Span, Spanned, SyntaxContext};
+use swc_ecma_ast::*;
 
 pub trait SpanExt: Spanned {
     fn is_synthesized(&self) -> bool {
@@ -127,5 +128,96 @@ impl SourceMapperExt for SourceMapper {
 impl SourceMapperExt for Rc<SourceMapperDyn> {
     fn get_code_map(&self) -> &SourceMapper {
         &**self
+    }
+}
+
+/// Leftmost recursion
+pub trait StartsWithAlphaNum {
+    fn starts_with_alpha_num(&self) -> bool;
+}
+
+impl StartsWithAlphaNum for Expr {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            Expr::Ident(_)
+            | Expr::Lit(Lit::Bool(_))
+            | Expr::Lit(Lit::Num(_))
+            | Expr::Lit(Lit::Null(_))
+            | Expr::Await(_)
+            | Expr::Fn(_)
+            | Expr::Class(_)
+            | Expr::This(_)
+            | Expr::Yield(_)
+            | Expr::New(_)
+            | Expr::MetaProp(_) => true,
+
+            // Handle other literals.
+            Expr::Lit(_) => false,
+
+            Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
+                .first()
+                .map(|e| e.starts_with_alpha_num())
+                .unwrap_or(false),
+
+            //
+            Expr::Assign(AssignExpr { ref left, .. }) => left.starts_with_alpha_num(),
+
+            Expr::Bin(BinExpr { ref left, .. }) | Expr::Cond(CondExpr { test: ref left, .. }) => {
+                return left.starts_with_alpha_num();
+            }
+            Expr::Call(CallExpr {
+                callee: ref left, ..
+            })
+            | Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
+
+            Expr::Unary(UnaryExpr { op, .. }) => match op {
+                op!("void") | op!("delete") | op!("typeof") => true,
+                _ => false,
+            },
+
+            // TODO: Support `v => {}`
+            Expr::Arrow(ArrowExpr { .. }) => false,
+
+            Expr::Tpl(_) | Expr::Update(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => {
+                false
+            }
+        }
+    }
+}
+
+impl StartsWithAlphaNum for Pat {
+    fn starts_with_alpha_num(&self) -> bool {
+        unimplemented!()
+    }
+}
+
+impl StartsWithAlphaNum for PatOrExpr {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            PatOrExpr::Pat(ref p) => p.starts_with_alpha_num(),
+            PatOrExpr::Expr(ref e) => e.starts_with_alpha_num(),
+        }
+    }
+}
+
+impl StartsWithAlphaNum for ExprOrSpread {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            ExprOrSpread {
+                spread: Some(_), ..
+            } => false,
+            ExprOrSpread {
+                spread: None,
+                ref expr,
+            } => expr.starts_with_alpha_num(),
+        }
+    }
+}
+impl StartsWithAlphaNum for ExprOrSuper {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            ExprOrSuper::Super(_) => true,
+            ExprOrSuper::Expr(ref e) => return e.starts_with_alpha_num(),
+        }
     }
 }

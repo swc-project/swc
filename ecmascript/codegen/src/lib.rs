@@ -16,7 +16,7 @@ extern crate swc_ecma_ast;
 use self::{
     list::ListFormat,
     text_writer::TextWriter,
-    util::{SourceMapperExt, SpanExt},
+    util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
@@ -1407,15 +1407,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         }
         | UnaryExpr {
             op: op!("delete"), ..
-        } => match *node.arg {
-            Expr::Lit(Lit::Num(..)) => return true,
-            Expr::Lit(Lit::Bool(_)) => return true,
-            Expr::Class(_) | Expr::Fn(_) | Expr::Ident(_) | Expr::Call(_) | Expr::New(_) => {
-                return true
-            }
-
-            _ => {}
-        },
+        } => return node.arg.starts_with_alpha_num(),
         _ => {}
     }
 
