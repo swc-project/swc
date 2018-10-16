@@ -1,4 +1,4 @@
-switch (a) {
-  case 'b': c();
-  default:
+switch(a){
+    case 'b': c();
+    default:
 }

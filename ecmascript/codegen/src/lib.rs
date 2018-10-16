@@ -507,15 +507,16 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
-        // TODO: Indent / Space
+        // TODO: Indent
 
         emit!(node.test);
-        formatting_space!(); // TODO
+        formatting_space!();
         punct!("?");
+        formatting_space!();
         emit!(node.cons);
-        formatting_space!(); // TODO
+        formatting_space!();
         punct!(":");
-        formatting_space!(); // TODO
+        formatting_space!();
         emit!(node.alt);
     }
 
@@ -646,11 +647,13 @@ impl<'a> Emitter<'a> {
         // allowTrailingComma | preferNewLine);
 
         punct!("{");
+        self.wr.increase_indent()?;
         self.emit_list(
             node.span(),
             Some(&node.props),
             ListFormat::ObjectLiteralExpressionProperties,
         )?;
+        self.wr.decrease_indent()?;
         punct!("}");
     }
 
