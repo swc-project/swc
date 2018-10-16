@@ -157,7 +157,9 @@ impl<'a> Emitter<'a> {
                     punct!("{");
                     if let Some(ref imported) = s.imported {
                         emit!(imported);
+                        space!();
                         keyword!("as");
+                        space!();
                         emit!(s.local);
                     }
                     punct!("}");
@@ -337,7 +339,9 @@ impl<'a> Emitter<'a> {
         emit!(node.callee);
 
         if let Some(ref args) = node.args {
+            punct!("(");
             self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
+            punct!(")");
         }
     }
 
@@ -404,6 +408,7 @@ impl<'a> Emitter<'a> {
             } else {
                 punct!(",");
             }
+            formatting_space!();
 
             emit!(e);
         }
@@ -424,22 +429,25 @@ impl<'a> Emitter<'a> {
         // let indent_after_op = needs_indention(node, node.op, &node.right);
 
         emit!(node.left);
-        space!();
+        formatting_space!();
         operator!(node.op.as_str());
-        space!();
+        formatting_space!();
         emit!(node.right);
     }
 
     #[emitter]
     pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
         keyword!("class");
-        space!();
+
+        opt_leading_space!(node.ident);
+
         self.emit_class_trailing(&node.class)?;
     }
 
     #[emitter]
     pub fn emit_class_trailing(&mut self, node: &Class) -> Result {
         if node.super_class.is_some() {
+            space!();
             keyword!("extends");
             emit!(node.super_class);
         }
@@ -1274,9 +1282,7 @@ impl<'a> Emitter<'a> {
 
         keyword!("while");
         space!();
-        punct!("(");
         emit!(node.test);
-        punct!(")");
     }
 
     #[emitter]

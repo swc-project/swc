@@ -22,8 +22,8 @@ impl<'a, W: Write> WriterWrapper<'a, W> {
     pub fn new(new_line: &'a str, wr: W) -> Self {
         WriterWrapper {
             indent: Default::default(),
-            line_start: Default::default(),
-            line_count: Default::default(),
+            line_start: true,
+            line_count: 0,
             line_pos: Default::default(),
             new_line,
             wr,
