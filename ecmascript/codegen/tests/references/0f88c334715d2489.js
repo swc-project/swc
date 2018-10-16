@@ -1,1 +1,3 @@
-function *a(){yield void 1}
+function* a() {
+    yield void 1;
+}
