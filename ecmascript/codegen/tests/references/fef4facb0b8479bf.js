@@ -1,4 +1,3 @@
-
-function a(){
-    return 1.00000?2.00000:3.00000;
+function a() {
+  return 1 ? 2 : 3;
 }

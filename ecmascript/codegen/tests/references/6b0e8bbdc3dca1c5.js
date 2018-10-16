@@ -1,10 +1,9 @@
-
-if(a){
-    (b){
-        if(c){
-            d;
+if (a) {
+    with (b) {
+        if (c) {
+            d();
         }
     }
-}else {
-    d;
+} else {
+    d();
 }

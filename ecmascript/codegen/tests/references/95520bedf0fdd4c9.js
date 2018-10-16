@@ -1,7 +1,6 @@
-
-function a(){
+function a() {
     b,c,d;
-    if(e){
-        throw 'f';
+    if (e) {
+        throw 'f'
     }
 }

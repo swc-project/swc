@@ -1,4 +1,3 @@
-
 (function(){
-    return typeofa != 'b';
-});
+  return typeof a() != "b";
+}())

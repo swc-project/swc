@@ -1,3 +1,5 @@
-
-while(true){
+while (true) {
+  /**
+   * comments in empty block
+   */
 }

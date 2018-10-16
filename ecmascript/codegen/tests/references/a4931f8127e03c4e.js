@@ -1,2 +1,1 @@
-
-a.null;
+a.null

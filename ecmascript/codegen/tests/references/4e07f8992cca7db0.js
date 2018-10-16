@@ -1,3 +1,1 @@
-
-'use strict';
-0.00000;
+'use strict'; 0o0

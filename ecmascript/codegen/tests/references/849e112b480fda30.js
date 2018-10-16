@@ -1,2 +1,1 @@
-
-void(a);
+void (a)

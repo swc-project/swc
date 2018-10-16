@@ -1,4 +1,1 @@
-
-function a(){
-    yield inf;
-}
+function *a(){yield 2e308}

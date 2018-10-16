@@ -1,0 +1,1 @@
+try { } finally { a(b) }

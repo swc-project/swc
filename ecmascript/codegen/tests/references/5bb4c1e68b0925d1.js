@@ -1,2 +1,2 @@
-
-a.b=(c,1.00000);
+// global getter to o
+a.b = (c(), 1)

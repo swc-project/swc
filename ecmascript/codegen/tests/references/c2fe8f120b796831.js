@@ -1,2 +1,1 @@
-
-for(a of b);
+for(a in b);

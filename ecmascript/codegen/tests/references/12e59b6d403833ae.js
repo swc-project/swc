@@ -1,3 +1,2 @@
-
 'use strict';
-a;
+a();

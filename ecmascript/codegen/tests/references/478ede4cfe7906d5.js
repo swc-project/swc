@@ -1,4 +1,1 @@
-
-(function*(){
-    yield yield 1.00000;
-});
+(function* () { yield yield 1 })

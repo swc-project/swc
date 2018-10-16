@@ -1,2 +1,1 @@
-
-for(;;)continue;
+for (;;) continue;  // should be empty statement

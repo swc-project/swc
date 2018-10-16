@@ -1,1 +1,1 @@
-import b{basa}from 'foo';;
+import {b as a} from "foo";

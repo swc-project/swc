@@ -1,2 +1,1 @@
-
-for(let of 1.00000);
+for(let in 1);

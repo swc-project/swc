@@ -1,2 +1,1 @@
-
-delete(1.00000,a);
+delete (1, a)

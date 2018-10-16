@@ -1,4 +1,1 @@
-
-a: while(true){
-    break a;
-}
+a: while (true) { break a }

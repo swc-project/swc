@@ -1,7 +1,2 @@
-
-switch(a){
-    case 1.00000:
-        {
-        }
-        /foo/;
-}
+switch(a) { case 1: {}
+/foo/ }

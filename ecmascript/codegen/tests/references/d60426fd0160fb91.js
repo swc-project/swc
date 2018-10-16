@@ -1,6 +1,7 @@
-
-(function(){
-    1.00000 + (function(){
-        return 2.00000;
-    });
-});
+(function () {
+  // not void context
+  // do not optimize
+  1 + (function () {
+    return 2;
+  }());
+}());

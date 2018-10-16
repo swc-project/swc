@@ -1,4 +1,1 @@
-
-try{
-}catch ([]) {
-}
+try { } catch ([]) {}

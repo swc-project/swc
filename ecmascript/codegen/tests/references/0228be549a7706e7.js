@@ -1,5 +1,1 @@
-
-(class {
-     prototype (){
-    }
-});
+(class {prototype() {}})

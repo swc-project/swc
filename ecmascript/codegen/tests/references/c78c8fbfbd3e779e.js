@@ -1,2 +1,1 @@
-
-while(1.00000)/foo/;
+while (1) /foo/

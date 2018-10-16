@@ -1,5 +1,1 @@
-
-function a(){
-    function b(){
-    }
-}
+/**/ function a() {/**/function b() {}}

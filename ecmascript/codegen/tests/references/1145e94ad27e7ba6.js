@@ -1,7 +1,6 @@
-
-function a(){
-    b;
+function a() {
+    b();
 }
-if(a || true){
-    c;
+if (a() || true) {
+    c();
 }

@@ -1,5 +1,1 @@
-
-function a(){
-    (function yield(){
-    });
-}
+function* a(){ (function yield(){}); }

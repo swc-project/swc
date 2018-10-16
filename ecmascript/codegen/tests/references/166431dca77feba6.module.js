@@ -1,1 +1,1 @@
-import a {}d{dasc}from 'a';;
+import a, { b, d as c } from "a"

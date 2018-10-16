@@ -1,2 +1,2 @@
-
-a=a+=1.00000;
+// because `with` can observe i lookup
+a = a += 1

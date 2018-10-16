@@ -1,2 +1,1 @@
-export class a{
-};;;;1.00000;;
+export class a{};1

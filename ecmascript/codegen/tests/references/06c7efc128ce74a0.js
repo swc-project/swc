@@ -1,4 +1,1 @@
-
-(function(){
-    a;
-});
+(function(){ a() })();

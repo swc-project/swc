@@ -1,2 +1,1 @@
-
-for(a; b; c);
+for(a;b;c);

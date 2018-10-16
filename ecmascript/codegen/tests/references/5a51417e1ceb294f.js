@@ -1,6 +1,5 @@
-
-for(;;){
-    while(true){
+for (;;) {
+    while (true) {
         continue;
     }
 }

@@ -1,5 +1,5 @@
-
-function a(){
-    ((a,void1.00000)){
+function a() {
+    with ((a(), void 1)) {
+        // code
     }
 }

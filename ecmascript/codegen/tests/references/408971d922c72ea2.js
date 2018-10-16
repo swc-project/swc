@@ -1,7 +1,6 @@
-
-(function(){
-    for(; false;){
-        a;
-    }
-    b;
-});
+(function () {
+  for (;false;) {
+    a();
+  }
+  b();
+}());

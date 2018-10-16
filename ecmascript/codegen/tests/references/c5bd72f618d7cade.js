@@ -1,3 +1,1 @@
-
-function a(){
-}
+function* a(){}

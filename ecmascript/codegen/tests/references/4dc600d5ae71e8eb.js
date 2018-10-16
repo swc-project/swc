@@ -1,2 +1,2 @@
-
-!/test/;
+// false
+!/test/

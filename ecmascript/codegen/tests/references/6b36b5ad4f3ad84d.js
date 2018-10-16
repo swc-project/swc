@@ -1,2 +1,1 @@
-
-let.let=a;
+let.let = a

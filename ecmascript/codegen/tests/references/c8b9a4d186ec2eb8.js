@@ -1,2 +1,1 @@
-
-a: do continue a;while ((1.00000))
+a: do continue a; while(1);

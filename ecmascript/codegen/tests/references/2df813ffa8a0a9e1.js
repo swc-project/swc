@@ -1,4 +1,1 @@
-
-function a(){
-    return '<!--HTML-->comment in<!--string literal-->';
-}
+function a() { return "<!--HTML-->comment in<!--string literal-->"; }

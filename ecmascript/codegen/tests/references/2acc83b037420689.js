@@ -1,6 +1,5 @@
-
-class aextendsb{
-     constructor (){
-        ()=>super;
+class a extends b {
+    constructor() {
+        () => super()
     }
 }

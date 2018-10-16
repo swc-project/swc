@@ -1,9 +1,8 @@
-
-(function(){
-    function a(){
+(function () {
+    function a() {
     }
-    function b(){
+    function b() {
     }
-    function c(){
+    function c() {
     }
-});
+}());

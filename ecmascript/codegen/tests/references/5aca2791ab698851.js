@@ -1,6 +1,5 @@
-
-(function(){
-    (a){
-        b=(c,1.00000);
+(function () {
+    with (a) {
+        b = (c(), 1);  // getter is not observable after f()
     }
-});
+}());

@@ -1,6 +1,5 @@
-
-(function(){
-    return 1.00000;
-    function a(){
+(function() {
+    return 1;
+    function a() {
     }
-});
+}());

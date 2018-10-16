@@ -1,6 +1,5 @@
-
-(function(){
-    do {
-        a;
-    }while ((false))
-});
+(function () {
+  do {
+    a();
+  } while (false);
+}());

@@ -1,5 +1,1 @@
-
-b: while(1.00000){
-    continue;
-    a;
-}
+b: while (1) { continue /* */ a; }

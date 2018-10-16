@@ -1,2 +1,1 @@
-
-arguments=1.00000;
+arguments = 1

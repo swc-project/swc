@@ -1,3 +1,1 @@
-
-'use strict';
-arguments[1.00000]=2.00000;
+'use strict'; arguments[1] = 2

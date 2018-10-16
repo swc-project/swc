@@ -1,2 +1,2 @@
-
-for(; a;)if(b)break;
+for (;a();)
+    if (b()) break;

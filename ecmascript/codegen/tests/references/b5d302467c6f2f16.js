@@ -1,2 +1,1 @@
-
-(class);
+(class {a(b) {'use strict';}})

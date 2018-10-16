@@ -1,11 +1,14 @@
-
-a;
-b;
-for(; false;);
-a;
-b;
-for(c=1.00000; false;);
-c=(a in b);
-for(; false;);
-c=(a in b);
-for(d=2.00000; false;);
+// 1
+a();
+b();
+for (; false;);
+// 2
+a();
+b();
+for (c = 1; false;);
+// 3
+c = (a in b);
+for (; false;);
+// 4
+c = (a in b);
+for (d = 2; false;);

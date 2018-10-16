@@ -1,2 +1,4 @@
+// Hello, world!
 
-1.00000;
+//   Another hello
+1

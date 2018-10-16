@@ -1,4 +1,1 @@
-
-function a(){
-    return;
-}
+function a(){ /*Jupiter*/ return; /*Saturn*/}

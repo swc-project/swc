@@ -1,5 +1,3 @@
-
-(function(){
-    function a(){
-    }
-});
+(function () {
+    function a() { }
+}());

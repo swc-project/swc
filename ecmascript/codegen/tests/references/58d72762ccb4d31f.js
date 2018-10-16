@@ -1,2 +1,1 @@
-
-typeofa;
+typeof a

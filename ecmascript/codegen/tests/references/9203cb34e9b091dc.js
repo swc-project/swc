@@ -1,2 +1,1 @@
-
-a: if(true)break a;
+a: if (true) break a;

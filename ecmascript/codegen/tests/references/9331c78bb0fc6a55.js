@@ -1,2 +1,2 @@
-
--1.00000;
+// do not transform to 0
+-1

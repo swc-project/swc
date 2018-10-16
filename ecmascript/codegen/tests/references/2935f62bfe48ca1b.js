@@ -1,4 +1,3 @@
-
-function a(){
-    return (a,void1.00000);
+function a() {
+    return (a, void 1);
 }

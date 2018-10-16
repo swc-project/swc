@@ -1,2 +1,1 @@
-
-new a.b;
+new a().b()

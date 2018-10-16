@@ -9,6 +9,17 @@ impl<'a> Emitter<'a> {
         if !self.enable_comments {
             return Ok(());
         }
+        debug_assert!(self.file.contains(pos));
+
+        let line = match self.file.lookup_line(pos) {
+            Some(l) => l,
+            None => return Ok(()),
+        };
+
+        // TODO: only comment
+        if let Some(ref ln) = self.file.get_line(line) {
+            self.wr.write(ln.as_bytes())?;
+        }
         unimplemented!()
     }
     pub(super) fn emit_leading_comments_of_pos(&mut self, pos: BytePos) -> Result {

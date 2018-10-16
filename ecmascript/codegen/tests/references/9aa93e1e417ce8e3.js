@@ -1,3 +1,1 @@
-
-for(let of a){
-}
+for (let in a) {}

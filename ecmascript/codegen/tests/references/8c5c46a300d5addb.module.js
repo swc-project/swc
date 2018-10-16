@@ -1,2 +1,1 @@
-export function a(){
-};;;;1.00000;;
+export function a(){};1

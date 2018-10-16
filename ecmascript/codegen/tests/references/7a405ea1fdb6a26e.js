@@ -1,4 +1,1 @@
-
-a: b: while(true){
-    continue a;
-}
+a: b: while (true) { continue a; }

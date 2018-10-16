@@ -1,7 +1,6 @@
-
-function a(){
-    if(b){
-    }else {
-        c;
-    }
+function a() {
+  if (b) {
+  } else {
+      c();
+  }
 }

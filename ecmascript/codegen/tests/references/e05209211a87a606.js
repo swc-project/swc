@@ -1,2 +1,2 @@
-
-debugger;
+debugger
+;

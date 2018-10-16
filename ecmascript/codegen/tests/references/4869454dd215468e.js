@@ -1,5 +1,1 @@
-
-try{
-}catch (a) {
-}finally{
-}
+try{}catch(a){}finally{}

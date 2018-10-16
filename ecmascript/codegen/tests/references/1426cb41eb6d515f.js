@@ -1,5 +1,2 @@
-
-while(true){
-    break;
-    a;
-}
+while (true) { break /* Multiline
+Comment */a; }

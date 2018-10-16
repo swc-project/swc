@@ -1,5 +1,1 @@
-
-(class {
-     static (){
-    }
-});
+(class {static(){}})

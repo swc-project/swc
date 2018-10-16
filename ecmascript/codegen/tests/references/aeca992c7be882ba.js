@@ -1,4 +1,3 @@
-
-(function(){
-    a,1.00000,2.00000;
-});
+(function() {
+    a, 1, 2;  // 'i' should remain (global variable)
+}());

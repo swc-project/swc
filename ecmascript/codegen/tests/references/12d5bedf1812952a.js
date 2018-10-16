@@ -1,7 +1,1 @@
-
-class a{
-    static get b (){
-    }
-    static get c (){
-    }
-}
+class a { static get b() {} static get c() {} }

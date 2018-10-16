@@ -1,2 +1,1 @@
-
-new new a;
+new new a()

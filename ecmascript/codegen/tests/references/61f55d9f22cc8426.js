@@ -1,5 +1,1 @@
-
-class a{
-    static  static (){
-    }
-}
+class a {static static(){};}

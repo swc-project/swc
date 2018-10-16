@@ -1,9 +1,8 @@
-
-(function(){
-    if(true == a){
-        b;
+(function () {
+    if (true == a) {
+        b();
     }
-    if(false == a){
-        b;
+    if (false == a) {
+        b();
     }
-});
+}());

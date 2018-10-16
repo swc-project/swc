@@ -1,8 +1,4 @@
-
-function a(){
-    (class {
-    });
-    class c{
-    }
-    ;
+function a() {
+    (class b { });
+    class c {};
 }

@@ -1,6 +1,1 @@
-
-class aextendsb{
-     c (){
-        super.yield;
-    }
-}
+class a extends b { c() { super.yield } }

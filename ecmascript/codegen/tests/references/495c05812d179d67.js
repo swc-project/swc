@@ -1,2 +1,1 @@
-
-/[a-z]/gimuy;
+/[a-z]/gimuy

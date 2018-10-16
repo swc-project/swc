@@ -1,6 +1,1 @@
-
-(function(){
-    'use
-strict';
-    (a);
-});
+(function () { 'use\nstrict'; with (a); })

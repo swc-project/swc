@@ -1,2 +1,1 @@
-
-for(;;)if(a)b;else break;
+for (;;) if (a()) b(); else break;

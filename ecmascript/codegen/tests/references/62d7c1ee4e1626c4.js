@@ -1,5 +1,2 @@
-
-(function(){
-    return;
-    a;
-});
+(function(){ return
+a; })

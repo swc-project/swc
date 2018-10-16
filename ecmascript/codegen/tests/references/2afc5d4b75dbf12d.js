@@ -1,4 +1,3 @@
-
-(function(){
-    void1.00000;
-});
+(function () {
+    void 1;
+}());

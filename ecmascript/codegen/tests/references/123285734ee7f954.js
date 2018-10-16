@@ -1,2 +1,1 @@
-
-(a)b=c;
+with (a) b = c

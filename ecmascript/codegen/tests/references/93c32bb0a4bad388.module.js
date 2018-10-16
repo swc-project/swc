@@ -1,1 +1,1 @@
-import default{defaultasa}from 'foo';;
+import {default as a} from "foo";

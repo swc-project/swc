@@ -1,2 +1,1 @@
-
-new (a in b);
+new(a in b)

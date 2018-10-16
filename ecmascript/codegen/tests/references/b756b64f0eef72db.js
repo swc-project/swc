@@ -1,4 +1,3 @@
-
-function a(){
-    if(!b || c);
+function a() {
+  if (!b || c());
 }

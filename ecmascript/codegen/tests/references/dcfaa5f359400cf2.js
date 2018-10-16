@@ -1,4 +1,3 @@
-
-for(;;){
-    if(a)continue;
+for (;;) {
+    if (a) continue;
 }

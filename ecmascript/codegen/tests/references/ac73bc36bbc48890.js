@@ -1,3 +1,1 @@
-
-'use strict';
-(a)b=c;
+"use\x20strict"; with (a) b = c;

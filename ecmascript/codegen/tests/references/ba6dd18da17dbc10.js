@@ -1,7 +1,6 @@
-
-for(;;){
-    if(a){
-        if(b){
+for (;;) {
+    if (a) {
+        if (b) {
             continue;
         }
     }

@@ -1,3 +1,2 @@
-
-Infinity.a;
-NaN.a;
+Infinity.a();
+NaN.a();

@@ -1,4 +1,3 @@
-
-(function(){
-    null != (a?void1.00000:b);
-});
+(function () {
+    null!=(a?void 1:b)
+}());

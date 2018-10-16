@@ -1,4 +1,2 @@
-
-if(a){
-    b;
-}
+if (a) { // Some comment
+b(); }

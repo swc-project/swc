@@ -1,2 +1,1 @@
-
-(voida);
+(void a)

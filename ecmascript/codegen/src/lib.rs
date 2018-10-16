@@ -13,7 +13,6 @@ pub extern crate sourcemap;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
-
 use self::{
     list::ListFormat,
     text_writer::TextWriter,
@@ -25,7 +24,7 @@ use std::{
     io::{self, Write},
     rc::Rc,
 };
-use swc_common::{errors::SourceMapper, BytePos, SourceMapperDyn, Span, Spanned};
+use swc_common::{errors::SourceMapper, BytePos, SourceFile, SourceMapperDyn, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[macro_use]
@@ -63,6 +62,7 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Rc<SourceMapperDyn>,
+    pub file: Rc<SourceFile>,
     pub enable_comments: bool,
     pub srcmap: SourceMapBuilder,
     pub wr: Box<('a + TextWriter)>,

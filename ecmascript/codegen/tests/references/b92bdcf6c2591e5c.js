@@ -1,3 +1,1 @@
-
-(class extends(a,b){
-});
+(class extends (a,b) {})

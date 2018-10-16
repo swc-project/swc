@@ -1,4 +1,1 @@
-
-(function(){
-    return {};
-}).a=1.00000;
+(function(){ return {} })().a = 1; // should not transform this one

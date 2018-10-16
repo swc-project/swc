@@ -156,7 +156,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
             ::testing::run_test(|logger, cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
-                println!("{}\nPos: {:?} ~ {:?}", msg, src.start_pos, src.end_pos);
+                eprintln!("{}\nPos: {:?} ~ {:?}", msg, src.start_pos, src.end_pos);
 
                 let handlers = box MyHandlers;
                 let mut parser: Parser<SourceFileInput> = Parser::new(
@@ -172,6 +172,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::config::Config::default(),
                         cm,
+                        file: src.clone(),
                         enable_comments: true,
                         srcmap: SourceMapBuilder::new(None),
                         wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),

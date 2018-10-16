@@ -1,4 +1,1 @@
-
-switch(a){
-    case 1.00000:
-}
+switch(a){case 1:}

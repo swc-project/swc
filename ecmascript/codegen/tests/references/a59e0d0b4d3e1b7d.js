@@ -1,2 +1,5 @@
-
-1.00000;
+/* multiline
+comment
+should
+be
+ignored */ 1

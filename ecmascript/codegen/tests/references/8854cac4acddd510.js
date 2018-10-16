@@ -1,2 +1,1 @@
-
-null && (a+=null);
+null && (a += null)

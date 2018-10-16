@@ -1,2 +1,1 @@
-
-if(!a)debugger;
+if (!a) debugger;

@@ -1,9 +1,8 @@
-
-(function(){
-    a: for(;;){
-        for(;;){
+(function() {
+    a: for(;;) {
+        for (;;) {
             break a;
-            b;
+            b();  // This should be removed.
         }
     }
-});
+}());

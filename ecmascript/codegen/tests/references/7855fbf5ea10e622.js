@@ -1,3 +1,1 @@
-
-if(a)(function(){
-});
+if (a) (function(){})

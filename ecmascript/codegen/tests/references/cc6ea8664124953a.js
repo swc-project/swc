@@ -1,2 +1,1 @@
-
-a.true;
+a.true

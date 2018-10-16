@@ -1,8 +1,7 @@
-
-(function(){
+(function() {
     a: {
         break a;
-        b;
+        b();  // This should be removed.
     }
-    c;
-});
+    c();
+}());

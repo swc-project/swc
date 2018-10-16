@@ -1,1 +1,2 @@
-export *'a';;
+export * from "a"
+;

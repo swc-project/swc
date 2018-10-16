@@ -1,6 +1,5 @@
-
-class aextendsb{
-     c (){
-        return super[1.00000];
+class a extends b {
+    c() {
+        return super[1]
     }
 }

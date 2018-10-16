@@ -1,6 +1,6 @@
-
-for(; a;){
-    if(b)c;else break;
-    d;
-    e;
+for (;a();) {
+    if (b()) c();
+    else break;
+    d();
+    e();
 }

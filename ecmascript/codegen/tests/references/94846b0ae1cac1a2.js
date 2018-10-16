@@ -1,2 +1,1 @@
-
-voidvoidvoid/test/;
+void void void /test/

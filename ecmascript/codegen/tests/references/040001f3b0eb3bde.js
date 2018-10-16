@@ -1,6 +1,1 @@
-
-function eval(){
-    function a(){
-        'use strict';
-    }
-}
+function eval() { function a() { "use strict" } }

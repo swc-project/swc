@@ -1,7 +1,5 @@
-
-(function(){
-    if(!!a && b){
-        (b){
-        }
+(function () {
+    if (!!a && b()) {
+        with (b) { }
     }
-});
+}());

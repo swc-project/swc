@@ -1,1 +1,1 @@
-export default 1.00000;;
+export default 1;

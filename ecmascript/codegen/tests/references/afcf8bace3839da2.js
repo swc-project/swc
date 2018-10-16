@@ -1,7 +1,6 @@
-
-for(;;){
-    (a){
+for (;;) {
+    with (a) {
         continue;
     }
-    b;
+    b();  // This should be removed.
 }

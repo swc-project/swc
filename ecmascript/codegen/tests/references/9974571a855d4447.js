@@ -1,4 +1,1 @@
-
-function a(){
-    yield false;
-}
+function *a(){yield false}

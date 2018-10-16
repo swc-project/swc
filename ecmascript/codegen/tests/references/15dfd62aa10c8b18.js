@@ -1,5 +1,1 @@
-
-function a(){
-    'use strict';
-    0.00000;
-}
+function a() {'use strict'; 0O0; }

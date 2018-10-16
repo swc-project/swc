@@ -1,3 +1,1 @@
-
-'Hello
-world';
+"Hello\nworld"

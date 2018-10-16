@@ -1,4 +1,1 @@
-
-(function(){
-    yield * 1.00000;
-});
+(function () { yield* 1 })

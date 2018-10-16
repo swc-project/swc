@@ -1,4 +1,2 @@
-
-function a(){
-    return null;
-}
+function a() { return null
+; }

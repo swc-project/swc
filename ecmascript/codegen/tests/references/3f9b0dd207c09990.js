@@ -1,12 +1,5 @@
-
-switch(1.00000 + 2.00000){
-    case 3.00000:
-        a;
-        break;
-    case 4.00000 + 5.00000:
-        b;
-        break;
-    case 6.00000 + 7.00000 + 8.00000:
-        c;
-        break;
+switch (1+2) {
+  case 3: a(); break;
+  case 4+5: b(); break;
+  case 6+7+8: c(); break;
 }

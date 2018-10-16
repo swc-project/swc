@@ -1,5 +1,1 @@
-
-class aextendsb{
-    get c (){
-    }
-}
+class a extends b {get c() {}}

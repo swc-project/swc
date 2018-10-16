@@ -1,2 +1,1 @@
-
-for(a.in of a);
+for (a.in in a);

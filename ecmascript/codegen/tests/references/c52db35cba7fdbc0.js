@@ -1,9 +1,8 @@
-
-(function(){
-    try{
+(function() {
+    try {
         throw 'a';
-    }finally{
-        b;
+    } finally {
+        b();
     }
-    c;
-});
+    c();  // This should be removed.
+}());

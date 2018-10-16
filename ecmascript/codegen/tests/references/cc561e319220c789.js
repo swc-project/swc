@@ -1,2 +1,1 @@
-
-do /x/;while ((false))
+do /x/; while (false);

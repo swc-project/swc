@@ -1,4 +1,1 @@
-
-function a(){
-    yield typeof1.00000;
-}
+function *a(){yield typeof 1}

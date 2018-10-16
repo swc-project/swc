@@ -1,2 +1,1 @@
-
-a='b' != typeofc.d;
+a = "b" != typeof c.d 

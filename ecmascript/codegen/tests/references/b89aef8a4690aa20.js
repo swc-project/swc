@@ -1,5 +1,2 @@
-
-while(true){
-    continue;
-    a;
-}
+while (true) { continue
+a; }

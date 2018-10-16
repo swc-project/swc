@@ -1,4 +1,4 @@
-
-(function(){
-    if(a)return;else return 1.00000;
-});
+(function () {
+    if (a) return;
+    else return 1;
+}());

@@ -1,3 +1,1 @@
-
-function arguments(){
-}
+function arguments() { }

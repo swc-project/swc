@@ -1,7 +1,6 @@
-
-while(a){
+while (a) {
     {
-        b;
-        b;
+        b();
+        b();
     }
 }

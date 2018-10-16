@@ -1,6 +1,5 @@
-
-if(a){
-    b;
-}else {
-    b;
+if (a) {
+  b;
+} else {
+  b;
 }

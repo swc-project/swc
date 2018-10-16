@@ -1,3 +1,1 @@
-
-class aextends1.00000{
-}
+class a extends 1 {}

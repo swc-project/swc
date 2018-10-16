@@ -1,4 +1,3 @@
-
-(function(){
-    ((a)?1.00000:b) != null;
-});
+(function () {
+    ((a) ? 1 : b) != null;
+}());

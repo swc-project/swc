@@ -1,4 +1,3 @@
-
-(function(){
-    a['Infinity']=1.00000;
-});
+(function () {
+    a['Infinity'] = 1;
+}());

@@ -1,5 +1,1 @@
-
-class a{
-    static  get (){
-    }
-}
+class a { static get() {}}

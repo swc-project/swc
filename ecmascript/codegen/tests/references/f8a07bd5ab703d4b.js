@@ -1,7 +1,6 @@
-
-for(;;){
-    if(a){
+for (;;) {
+    if (a) {
         continue;
     }
-    b;
+    b();  // This should not be removed.
 }

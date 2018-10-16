@@ -1,5 +1,4 @@
-
-(function(){
+(function() {
     throw 'a';
-    (b);
-});
+    with (b);  // This should be removed.
+}());

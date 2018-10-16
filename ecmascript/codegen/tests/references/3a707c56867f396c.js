@@ -1,8 +1,7 @@
-
-d: while(a){
-    b;
-    c;
+d: while (a) {
+    b();
+    c();
     break d;
-    e;
-    f;
+    e();
+    f();
 }

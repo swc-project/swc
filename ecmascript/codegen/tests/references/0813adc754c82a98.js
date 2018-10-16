@@ -1,5 +1,1 @@
-
-class a{
-     'constructor' (){
-    }
-}
+class a {'constructor'() {}}

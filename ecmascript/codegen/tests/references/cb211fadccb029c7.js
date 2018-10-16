@@ -1,4 +1,1 @@
-
-function a(){
-    yield delete1.00000;
-}
+function *a(){yield delete 1}

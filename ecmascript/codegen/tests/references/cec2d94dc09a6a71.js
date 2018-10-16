@@ -1,7 +1,4 @@
-
-a={
-    catch (){
-    },
-    throw (){
-    }
-};
+a = {
+    catch() {},
+    throw() {}
+}

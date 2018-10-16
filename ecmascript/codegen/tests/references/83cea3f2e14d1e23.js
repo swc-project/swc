@@ -1,3 +1,1 @@
-
-(class extends1.00000{
-});
+(class a extends 1{})

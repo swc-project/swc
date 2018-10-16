@@ -1,2 +1,2 @@
-
 ;
+--> HTML comment

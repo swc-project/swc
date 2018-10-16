@@ -1,4 +1,4 @@
-
-function a(){
-    'use strict';
+function a() {
+'use strict';
+/* Comment */
 }

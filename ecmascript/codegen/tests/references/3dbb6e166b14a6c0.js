@@ -1,4 +1,1 @@
-
-function a(){
-    new.target;
-}
+function a() { new.\u0074arget; }

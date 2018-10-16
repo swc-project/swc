@@ -1,4 +1,1 @@
-
-function a(){
-    yield void1.00000;
-}
+function *a(){yield void 1}

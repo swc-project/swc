@@ -1,6 +1,5 @@
-
-while(a){
-    b;
-    c;
+while (a) {
+    b();
+    c();
     continue;
 }

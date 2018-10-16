@@ -1,10 +1,9 @@
-
-(function(){
-    try{
+(function() {
+    try {
         throw 'a';
-    }catch (b) {
-    }finally{
-        return 1.00000;
+    } catch (b) {
+    } finally {
+        return 1;
     }
-    c;
-});
+    c();  // This should be removed.
+}());

@@ -1,5 +1,4 @@
-
-function a(){
-    debugger;
-    return;
+function a() {
+  debugger;
+  return;
 }

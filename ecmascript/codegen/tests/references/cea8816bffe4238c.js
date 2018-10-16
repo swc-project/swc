@@ -1,6 +1,5 @@
-
-function a(){
-    if(voidb){
-        c;
+function a() {
+    if (void b()) {
+        c();
     }
 }
