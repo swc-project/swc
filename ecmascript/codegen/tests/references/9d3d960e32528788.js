@@ -1,1 +1,2 @@
-(function () {} / 1)
+(function() {
+} / 1);

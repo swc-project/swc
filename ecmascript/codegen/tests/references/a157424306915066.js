@@ -1,1 +1,5 @@
-function *a() { (b) => { yield + b }; }
+function* a() {
+    (b)=>{
+        yield + b;
+    };
+}
