@@ -1,4 +1,4 @@
 function a() {
-  debugger;
-  return;
+    debugger;
+    return;
 }
