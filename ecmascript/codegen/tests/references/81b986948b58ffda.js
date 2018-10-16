@@ -1,5 +1,5 @@
-(function () {
-    while (!a || b()) {
+(function() {
+    while(!a || b()){
         c();
     }
 }());

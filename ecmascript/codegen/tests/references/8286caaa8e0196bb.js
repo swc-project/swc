@@ -1,1 +1,4 @@
-{ function a(){} }
+{
+    function a() {
+    }
+}
