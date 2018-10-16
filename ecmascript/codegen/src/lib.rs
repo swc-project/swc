@@ -258,7 +258,12 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_num_lit(&mut self, num: &Number) -> Result {
-        self.wr.write(format!("{}", num.value).as_bytes())?;
+        match get_text_of_node(&self.file, num, false) {
+            Some(s) => self.wr.write(s.as_bytes())?,
+            None => self.wr.write(format!("{}", num.value).as_bytes())?,
+        };
+
+        return Ok(());
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
@@ -723,12 +728,13 @@ impl<'a> Emitter<'a> {
     pub fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
 
-        let symbol = None;
+        let symbol: Option<String> = None;
         if let Some(sym) = symbol {
-            self.wr.write_symbol(
-                &get_text_of_node(&self.cm, &ident, /* includeTrivia */ false),
-                sym,
-            )?;
+            //            self.wr.write_symbol(
+            //     &get_text_of_node(&self.file, &ident, /* includeTrivia */ false),
+            //     sym,
+            // )?;
+            unimplemented!()
         } else {
             // TODO span
             self.wr.write(ident.sym.as_bytes())?;
@@ -1357,14 +1363,23 @@ impl<'a> Emitter<'a> {
 }
 
 fn get_text_of_node<T: Spanned>(
-    cm: &Rc<SourceMapperDyn>,
+    file: &Rc<SourceFile>,
     node: &T,
     _include_travia: bool,
-) -> String {
-    let sp = node.span();
-    cm.span_to_string(sp)
-}
+) -> Option<String> {
+    let span = node.span();
+    let src = match file.src {
+        Some(ref src) => src.clone(),
+        None => return None,
+    };
 
+    let lo: u32 = span.lo().0 - file.start_pos.0;
+    let hi: u32 = span.hi().0 - file.start_pos.0;
+
+    let s: &str = &src;
+    let s = &s[lo as usize..hi as usize];
+    Some(s.to_string())
+}
 /// In some cases, we need to emit a space between the operator and the operand.
 /// One obvious case is when the operator is an identifier, like delete or
 /// typeof. We also need to do this for plus and minus expressions in certain
