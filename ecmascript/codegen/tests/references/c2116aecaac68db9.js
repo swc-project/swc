@@ -1,1 +1,3 @@
-function *a() { yield *yield }
+function* a() {
+    yield* yield;
+}

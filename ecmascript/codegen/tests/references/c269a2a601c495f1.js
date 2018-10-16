@@ -1,4 +1,4 @@
-(function () {
+(function() {
     a = 1;
-    for (;;);
+    for(;;);
 }());
