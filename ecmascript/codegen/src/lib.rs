@@ -466,7 +466,6 @@ impl<'a> Emitter<'a> {
         match node.kind {
             ClassMethodKind::Constructor => {
                 keyword!("constructor");
-                space!();
             }
             ClassMethodKind::Method => {
                 if let Some(async) = node.function.async {
@@ -478,21 +477,18 @@ impl<'a> Emitter<'a> {
                 space!();
 
                 emit!(node.key);
-                space!();
             }
             ClassMethodKind::Getter => {
                 keyword!("get");
                 space!();
 
                 emit!(node.key);
-                space!();
             }
             ClassMethodKind::Setter => {
                 keyword!("set");
                 space!();
 
                 emit!(node.key);
-                space!();
             }
         }
 
@@ -545,6 +541,7 @@ impl<'a> Emitter<'a> {
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
         punct!(")");
 
+        formatting_space!();
         emit!(node.body);
     }
 
