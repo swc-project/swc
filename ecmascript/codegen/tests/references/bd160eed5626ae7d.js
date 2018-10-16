@@ -1,4 +1,4 @@
-d: while (a) {
+d: while(a){
     b();
     c();
     continue d;
