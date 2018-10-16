@@ -695,6 +695,9 @@ impl<'a> Emitter<'a> {
         space!();
         emit!(node.key);
         space!();
+        punct!("(");
+        punct!(")");
+        formatting_space!();
         emit!(node.body);
     }
 
