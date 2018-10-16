@@ -1,1 +1,6 @@
-class a {static constructor(){} static constructor(){}}
+class a{
+    static  constructor() {
+    }
+    static  constructor() {
+    }
+}

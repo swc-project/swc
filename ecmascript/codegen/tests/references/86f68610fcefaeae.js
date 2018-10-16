@@ -1,1 +1,6 @@
-class a {b() {} static c() {}}
+class a{
+     b() {
+    }
+    static  c() {
+    }
+}
