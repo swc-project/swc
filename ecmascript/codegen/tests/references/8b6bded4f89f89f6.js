@@ -1,8 +1,10 @@
-if ((function(){ return true })()) {
+if ((function(){
+    return true;
+})()) {
     a(true);
 } else {
     b(false);
 }
 (function(){
-    c.d("e");
+    c.d('e');
 })();
