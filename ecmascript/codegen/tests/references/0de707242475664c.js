@@ -1,4 +1,4 @@
-for (;a();) {
+for(; a();){
     b();
     c();
     if (d()) break;
