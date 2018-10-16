@@ -148,7 +148,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
         let dir = dir.clone();
         add_test(tests, name, ignore, move || {
-            println!(
+            let msg = format!(
                 "\n\n========== Running codegen test {}\nSource:\n{}\n",
                 file_name, input
             );
@@ -156,7 +156,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
             ::testing::run_test(|logger, cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
-                println!("Source: {:?} ~ {:?}", src.start_pos, src.end_pos);
+                println!("{}\nPos: {:?} ~ {:?}", msg, src.start_pos, src.end_pos);
 
                 let handlers = box MyHandlers;
                 let mut parser: Parser<SourceFileInput> = Parser::new(

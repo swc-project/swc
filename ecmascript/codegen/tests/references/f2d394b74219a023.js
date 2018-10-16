@@ -1,0 +1,2 @@
+
+typeof/test/ + ' RegExp';

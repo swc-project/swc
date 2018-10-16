@@ -239,7 +239,14 @@ impl<'a> Emitter<'a> {
             Lit::Null(Null { .. }) => keyword!("null"),
             Lit::Str(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
-            Lit::Regex(ref n) => unimplemented!("Regen: {:?}", n),
+            Lit::Regex(ref n) => {
+                punct!("/");
+                self.wr.write_str_lit(&n.exp.value)?;
+                punct!("/");
+                if let Some(ref flags) = n.flags {
+                    self.wr.write_str_lit(&flags.value)?;
+                }
+            }
         }
     }
 

@@ -1,0 +1,7 @@
+
+function a(){
+    return;
+    {
+    }
+    /foo/;
+}
