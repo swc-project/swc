@@ -1,1 +1,6 @@
-class a { static get b() {} get b() {}}
+class a{
+    static get b() {
+    }
+    get b() {
+    }
+}
