@@ -1,1 +1,2 @@
-switch (a) {}
+switch(a){
+}
