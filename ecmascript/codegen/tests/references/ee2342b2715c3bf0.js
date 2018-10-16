@@ -1,1 +1,4 @@
-do { a++; b--; } while (a < 1)
+do {
+    a++;
+    b--;
+}while (a < 1)

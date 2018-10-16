@@ -1,1 +1,4 @@
-(class {get a() {}})
+(class{
+    get a() {
+    }
+});
