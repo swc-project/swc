@@ -1,4 +1,3 @@
-// global, do not optimize
-(function () {
-  a("b");
+(function() {
+    a('b');
 }());
