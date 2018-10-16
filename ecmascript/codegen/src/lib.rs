@@ -110,12 +110,7 @@ impl<'a> Emitter<'a> {
             }
             ModuleDecl::ExportNamed(ref d) => emit!(d),
             ModuleDecl::ExportDefaultDecl(ref d) => {
-                keyword!("export");
-                space!();
-                keyword!("default");
-                space!();
                 emit!(d);
-                semi!();
             }
             ModuleDecl::ExportDefaultExpr(ref d) => {
                 keyword!("export");
@@ -140,6 +135,7 @@ impl<'a> Emitter<'a> {
             ExportDefaultDecl::Fn(ref f) => emit!(f),
             ExportDefaultDecl::Var(ref decl) => emit!(decl),
         }
+        semi!();
     }
 
     #[emitter]
@@ -449,6 +445,7 @@ impl<'a> Emitter<'a> {
         if node.super_class.is_some() {
             space!();
             keyword!("extends");
+            space!();
             emit!(node.super_class);
         }
 
