@@ -1,1 +1,3 @@
-function a() { new new.target; }
+function a() {
+    new new.target;
+}
