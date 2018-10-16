@@ -1,5 +1,5 @@
-class a extends b {
-    c() {
-        return super[1]
+class a extends b{
+     c() {
+        return super[1];
     }
 }
