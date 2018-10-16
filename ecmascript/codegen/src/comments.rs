@@ -17,11 +17,12 @@ impl<'a> Emitter<'a> {
         };
 
         // TODO: only comment
-        if let Some(ref ln) = self.file.get_line(line) {
-            self.wr.write(ln.as_bytes())?;
-        }
-        unimplemented!()
+        // if let Some(ref ln) = self.file.get_line(line) {
+        //     self.wr.write(ln.as_bytes())?;
+        // }
+        Ok(())
     }
+
     pub(super) fn emit_leading_comments_of_pos(&mut self, pos: BytePos) -> Result {
         if !self.enable_comments {
             return Ok(());

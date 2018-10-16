@@ -24,7 +24,7 @@ use std::{
     io::{self, Write},
     rc::Rc,
 };
-use swc_common::{errors::SourceMapper, BytePos, SourceFile, SourceMapperDyn, Span, Spanned};
+use swc_common::{BytePos, SourceFile, SourceMapperDyn, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[macro_use]
@@ -87,7 +87,6 @@ impl<'a> Emitter<'a> {
     pub fn emit_module(&mut self, node: &Module) -> Result {
         for stmt in &node.body {
             emit!(stmt);
-            semi!();
         }
     }
 
@@ -260,7 +259,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_num_lit(&mut self, num: &Number) -> Result {
-        self.wr.write(format!("{:.5}", num.value).as_bytes())?;
+        self.wr.write(format!("{}", num.value).as_bytes())?;
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
@@ -326,7 +325,9 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
         emit!(node.callee);
+        punct!("(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
+        punct!(")");
     }
 
     #[emitter]
@@ -411,7 +412,9 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
         emit!(node.left);
+        formatting_space!();
         operator!(node.op.as_str());
+        formatting_space!();
         emit!(node.right);
     }
 
@@ -503,9 +506,12 @@ impl<'a> Emitter<'a> {
         // TODO: Indent / Space
 
         emit!(node.test);
+        formatting_space!(); // TODO
         punct!("?");
         emit!(node.cons);
+        formatting_space!(); // TODO
         punct!(":");
+        formatting_space!(); // TODO
         emit!(node.alt);
     }
 
@@ -614,11 +620,13 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
+        punct!("[");
         self.emit_list(
             node.span(),
             Some(&node.elems),
             ListFormat::ArrayLiteralExpressionElements,
         )?;
+        punct!("]");
     }
 
     #[emitter]
@@ -1149,13 +1157,16 @@ impl<'a> Emitter<'a> {
     pub fn emit_if_stmt(&mut self, node: &IfStmt) -> Result {
         keyword!("if");
 
+        space!();
         punct!("(");
         emit!(node.test);
         punct!(")");
+        space!();
 
         emit!(node.cons);
 
         if let Some(ref alt) = node.alt {
+            space!();
             keyword!("else");
             space!();
             emit!(alt);

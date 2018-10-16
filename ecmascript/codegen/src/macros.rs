@@ -48,6 +48,12 @@ macro_rules! space {
     };
 }
 
+macro_rules! formatting_space {
+    () => {
+        __cur_emitter!().wr.write_space()?;
+    };
+}
+
 macro_rules! semi {
     () => {
         punct!(";")

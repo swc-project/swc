@@ -156,7 +156,13 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
             ::testing::run_test(|logger, cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
-                eprintln!("{}\nPos: {:?} ~ {:?}", msg, src.start_pos, src.end_pos);
+                eprintln!(
+                    "{}\nPos: {:?} ~ {:?} (L{})",
+                    msg,
+                    src.start_pos,
+                    src.end_pos,
+                    src.count_lines()
+                );
 
                 let handlers = box MyHandlers;
                 let mut parser: Parser<SourceFileInput> = Parser::new(
