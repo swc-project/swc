@@ -1,1 +1,3 @@
-for(;;) { continue; }
+for(;;){
+    continue;
+}
