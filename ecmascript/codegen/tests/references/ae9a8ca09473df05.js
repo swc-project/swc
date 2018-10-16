@@ -1,3 +1,3 @@
-(function () {
-    void ((a) ? 1 : 2);
+(function() {
+    void((a) ? 1 : 2);
 }());
