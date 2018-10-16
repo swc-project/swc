@@ -1,1 +1,3 @@
-function *a(){yield/=3/}
+function* a() {
+    yield /=3/;
+}
