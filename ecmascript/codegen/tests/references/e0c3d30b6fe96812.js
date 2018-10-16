@@ -1,1 +1,3 @@
-function static() { "use strict"; }
+function static() {
+    'use strict';
+}

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     function a() {
         b.c('d');
     }

@@ -1,6 +1,6 @@
 function a() {
-  if (b) {
-  } else {
-      c();
-  }
+    if (b) {
+    } else {
+        c();
+    }
 }
