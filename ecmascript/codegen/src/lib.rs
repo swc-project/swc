@@ -473,11 +473,11 @@ impl<'a> Emitter<'a> {
             ClassMethodKind::Method => {
                 if let Some(async) = node.function.async {
                     keyword!("async");
-                    if let Some(generator) = node.function.generator {
-                        punct!("*");
-                    }
                 }
                 space!();
+                if let Some(generator) = node.function.generator {
+                    punct!("*");
+                }
 
                 emit!(node.key);
             }
@@ -573,6 +573,9 @@ impl<'a> Emitter<'a> {
         keyword!(node.op.as_str());
         if should_emit_whitespace_before_operand(node) {
             space!();
+        } else {
+            // TODO:
+            // formatting_space!();
         }
 
         emit!(node.arg);
@@ -1395,6 +1398,23 @@ fn get_text_of_node<T: Spanned>(
 /// whose operand is a plus expression - (++(+x)) The same is true of minus of
 /// course.
 fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
+    match *node {
+        UnaryExpr {
+            op: op!("void"), ..
+        }
+        | UnaryExpr {
+            op: op!("typeof"), ..
+        }
+        | UnaryExpr {
+            op: op!("delete"), ..
+        } => match *node.arg {
+            Expr::Lit(Lit::Num(..)) => return true,
+            Expr::Ident(_) => return true,
+            _ => {}
+        },
+        _ => {}
+    }
+
     match *node.arg {
         Expr::Update(UpdateExpr {
             op: op!("++"),
@@ -1422,19 +1442,6 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         {
             true
         }
-        Expr::Unary(UnaryExpr {
-            op: op!("void"), ..
-        })
-        | Expr::Unary(UnaryExpr {
-            op: op!("typeof"), ..
-        })
-        | Expr::Unary(UnaryExpr {
-            op: op!("delete"), ..
-        }) => match *node.arg {
-            Expr::Lit(Lit::Num(..)) => true,
-            Expr::Ident(_) => true,
-            _ => false,
-        },
         _ => false,
     }
 }
