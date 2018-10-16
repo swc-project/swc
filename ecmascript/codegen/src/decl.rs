@@ -9,7 +9,11 @@ impl<'a> Emitter<'a> {
         match *node {
             Decl::Class(ref n) => emit!(n),
             Decl::Fn(ref n) => emit!(n),
-            Decl::Var(ref n) => emit!(n),
+
+            Decl::Var(ref n) => {
+                emit!(n);
+                semi!(); // VarDecl is also used for for-loops
+            }
         }
     }
 
@@ -50,8 +54,6 @@ impl<'a> Emitter<'a> {
             Some(&node.decls),
             ListFormat::VariableDeclarationList,
         )?;
-
-        semi!();
     }
 
     #[emitter]
