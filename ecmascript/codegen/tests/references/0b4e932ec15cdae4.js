@@ -1,1 +1,3 @@
-for(var a = 1;;) { let a; }
+for(var a =1;;){
+    let a ;
+}

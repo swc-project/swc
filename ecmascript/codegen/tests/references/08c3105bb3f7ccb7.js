@@ -1,1 +1,4 @@
-function *a() { var b = function(yield) {} }
+function* a() {
+    var b =function(yield) {
+    };
+}

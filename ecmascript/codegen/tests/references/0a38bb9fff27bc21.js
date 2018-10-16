@@ -1,5 +1,5 @@
-(function () {
-    var a;
+(function() {
+    var a ;
     function b() {
         a = a += 1;
     }
