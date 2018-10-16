@@ -1,4 +1,3 @@
 (function() {
-if (a) return b;
-else return c;
+    if (a) return b; else return c;
 }());
