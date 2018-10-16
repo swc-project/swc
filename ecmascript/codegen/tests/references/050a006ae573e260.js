@@ -1,3 +1,3 @@
-function eval(){
+function eval() {
     'use strict';
 }

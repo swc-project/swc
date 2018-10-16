@@ -1,1 +1,3 @@
-(function(){ a() })();
+(function() {
+    a();
+})();
