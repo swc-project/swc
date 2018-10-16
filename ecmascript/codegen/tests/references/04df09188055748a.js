@@ -5,7 +5,6 @@ if (a) {
 } else if (e) {
     f();
 }
-
 if (a) {
     b();
 } else if (c) {
