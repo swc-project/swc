@@ -1,1 +1,4 @@
-class a {static ["prototype"](){}}
+class a{
+    static  'prototype'() {
+    }
+}
