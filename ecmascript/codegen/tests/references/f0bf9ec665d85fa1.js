@@ -1,1 +1,5 @@
-class a { b() { () => super.c; } }
+class a{
+     b() {
+        ()=>super.c;
+    }
+}
