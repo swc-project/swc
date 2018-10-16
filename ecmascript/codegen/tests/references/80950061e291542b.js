@@ -1,1 +1,3 @@
-(function(){ return a * b })
+(function() {
+    return a * b;
+});
