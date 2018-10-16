@@ -1,1 +1,1 @@
-for (a[b in c] in d);
+for(a[b in c] in d);

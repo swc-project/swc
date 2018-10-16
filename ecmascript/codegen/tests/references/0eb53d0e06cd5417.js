@@ -1,1 +1,3 @@
-function *a() { yield b=c, yield* d=e, f }
+function* a() {
+     yield b = c, yield* d = e, f;
+}

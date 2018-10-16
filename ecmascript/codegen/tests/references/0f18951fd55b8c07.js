@@ -1,5 +1,5 @@
-switch (a) {
-  case b: {
-    c;
-  }
+switch(a){
+    case b: {
+        c;
+    }
 }
