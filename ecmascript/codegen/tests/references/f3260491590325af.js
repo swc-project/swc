@@ -1,1 +1,3 @@
-(function(){ return true })() ? a.b(true) : a.b(false);
+(function() {
+    return true;
+})() ? a.b(true) : a.b(false);
