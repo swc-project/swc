@@ -1119,6 +1119,9 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
+        keyword!("with");
+        formatting_space!();
+
         punct!("(");
         emit!(node.obj);
         punct!(")");
@@ -1411,6 +1414,9 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         })
         | Expr::Unary(UnaryExpr {
             op: op!("typeof"), ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!("delete"), ..
         }) => match *node.arg {
             Expr::Lit(Lit::Num(..)) => true,
             Expr::Ident(_) => true,
