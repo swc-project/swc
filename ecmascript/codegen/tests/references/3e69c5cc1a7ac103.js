@@ -1,1 +1,3 @@
-try {} catch ([a, ...b]) {}
+try{
+}catch ([a, , ...b]) {
+}

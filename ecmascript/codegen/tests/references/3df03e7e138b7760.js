@@ -1,1 +1,3 @@
-function a() { new["b"]; }
+function a() {
+    new ['b'];
+}
