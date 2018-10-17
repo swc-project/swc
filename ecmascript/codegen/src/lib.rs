@@ -744,7 +744,11 @@ impl<'a> Emitter<'a> {
             unimplemented!()
         } else {
             // TODO span
-            self.wr.write(ident.sym.as_bytes())?;
+            if let Some(s) = get_text_of_node(&self.file, &ident, false) {
+                self.wr.write(s.as_bytes())?
+            } else {
+                self.wr.write(ident.sym.as_bytes())?
+            }
 
             // self.wr
             //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
