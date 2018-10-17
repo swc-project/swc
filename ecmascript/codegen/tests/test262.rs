@@ -97,19 +97,6 @@ struct MyHandlers;
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
-    const IGNORED_ERROR_TESTS: &[&str] = &[
-        // Wrong tests
-        "0d5e450f1da8a92a.js",
-        "748656edbfb2d0bb.js",
-        "79f882da06f88c9f.js",
-        "92b6af54adef3624.js",
-        "ef2d369cccc5386c.js",
-        // Temporarily ignore tests for using octal escape before use strict
-        "147fa078a7436e0e.js",
-        "15a6123f6b825c38.js",
-        "3bc2b27a7430f818.js",
-    ];
-
     let ref_dir = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
         .join("references");
@@ -139,7 +126,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             buf
         };
 
-        let ignore = IGNORED_ERROR_TESTS.contains(&&*file_name);
+        let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
 
         let module = file_name.contains("module");
 
@@ -198,7 +185,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                         e.emit();
                                         ()
                                     })
-                                    .unwrap(),
+                                    .expect("failed to parse module"),
                             )
                             .unwrap();
                     } else {
@@ -210,7 +197,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                         e.emit();
                                         ()
                                     })
-                                    .unwrap(),
+                                    .expect("failed to parse script"),
                             )
                             .unwrap();
                     }
