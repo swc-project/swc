@@ -1,6 +1,8 @@
 use super::{list::ListFormat, Emitter, Result};
 use std::rc::Rc;
-use swc_common::{errors::SourceMapper, BytePos, SourceMapperDyn, Span, Spanned, SyntaxContext};
+use swc_common::{
+    errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned, SyntaxContext,
+};
 use swc_ecma_ast::*;
 
 pub trait SpanExt: Spanned {
@@ -138,6 +140,11 @@ impl SourceMapperExt for SourceMapper {
     }
 }
 impl SourceMapperExt for Rc<SourceMapperDyn> {
+    fn get_code_map(&self) -> &SourceMapper {
+        &**self
+    }
+}
+impl SourceMapperExt for Rc<SourceMap> {
     fn get_code_map(&self) -> &SourceMapper {
         &**self
     }

@@ -24,7 +24,7 @@ use std::{
     io::{self, Write},
     rc::Rc,
 };
-use swc_common::{BytePos, SourceFile, SourceMapperDyn, Span, Spanned};
+use swc_common::{BytePos, SourceFile, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[macro_use]
@@ -61,7 +61,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Rc<SourceMapperDyn>,
+    pub cm: Rc<SourceMap>,
     pub file: Rc<SourceFile>,
     pub enable_comments: bool,
     pub srcmap: SourceMapBuilder,
@@ -71,12 +71,16 @@ pub struct Emitter<'a> {
 
 impl<'a> Emitter<'a> {
     pub fn emit_script(&mut self, stmts: &[Stmt]) -> Result {
-        let span = stmts[0].span().with_hi(
-            stmts
-                .last()
-                .map(|s| s.span().hi())
-                .unwrap_or(stmts[0].span().lo()),
-        );
+        let span = if stmts.is_empty() {
+            DUMMY_SP
+        } else {
+            stmts[0].span().with_hi(
+                stmts
+                    .last()
+                    .map(|s| s.span().hi())
+                    .unwrap_or(stmts[0].span().lo()),
+            )
+        };
 
         self.emit_list(span, Some(stmts), ListFormat::SourceFileStatements)?;
 
@@ -253,7 +257,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_str_lit(&mut self, node: &Str) -> Result {
         // TODO: quote
-        if let Some(s) = get_text_of_node(&self.file, node, false) {
+        if let Some(s) = get_text_of_node(&self.cm, &self.file, node, false) {
             self.wr.write_str_lit(&s)?;
         } else {
             self.wr.write_str_lit(&node.value)?;
@@ -262,7 +266,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_num_lit(&mut self, num: &Number) -> Result {
-        match get_text_of_node(&self.file, num, false) {
+        match get_text_of_node(&self.cm, &self.file, num, false) {
             Some(s) => self.wr.write(s.as_bytes())?,
             None => self.wr.write(format!("{}", num.value).as_bytes())?,
         };
@@ -576,14 +580,15 @@ impl<'a> Emitter<'a> {
         }
         punct!("`");
         let i = 0;
+        println!("{:?}", node.exprs.len() + node.quasis.len());
 
-        for i in 0..node.quasis.len() + node.exprs.len() {
+        for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 emit!(node.quasis[i / 2]);
             } else {
                 punct!("$");
                 punct!("{");
-                emit!(node.exprs[i / 2 + 1]);
+                emit!(node.exprs[i / 2]);
                 punct!("}");
             }
         }
@@ -711,6 +716,7 @@ impl<'a> Emitter<'a> {
     pub fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
         emit!(node.key);
         punct!(":");
+        formatting_space!();
         emit!(node.value);
     }
 
@@ -779,7 +785,7 @@ impl<'a> Emitter<'a> {
             unimplemented!()
         } else {
             // TODO span
-            if let Some(s) = get_text_of_node(&self.file, &ident, false) {
+            if let Some(s) = get_text_of_node(&self.cm, &self.file, &ident, false) {
                 self.wr.write(s.as_bytes())?
             } else {
                 self.wr.write(ident.sym.as_bytes())?
@@ -1410,23 +1416,29 @@ impl<'a> Emitter<'a> {
 }
 
 fn get_text_of_node<T: Spanned>(
+    cm: &Rc<SourceMap>,
     file: &Rc<SourceFile>,
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {
-    let span = node.span();
-    let src = match file.src {
-        Some(ref src) => src.clone(),
-        None => return None,
-    };
+    Some(cm.span_to_snippet(node.span()).unwrap())
 
-    let lo: u32 = span.lo().0 - file.start_pos.0;
-    let hi: u32 = span.hi().0 - file.start_pos.0;
+    // let span = node.span();
+    // let src = match file.src {
+    //     Some(ref src) => src.clone(),
+    //     None => return None,
+    // };
+    // assert!(file.contains(span.lo()));
+    // assert!(file.contains(span.hi()));
 
-    let s: &str = &src;
-    let s = &s[lo as usize..hi as usize];
-    Some(s.to_string())
+    // let lo: u32 = span.lo().0 - file.start_pos.0;
+    // let hi: u32 = span.hi().0 - file.start_pos.0;
+
+    // let s: &str = &src;
+    // let s = &s[lo as usize..hi as usize];
+    // Some(s.to_string())
 }
+
 /// In some cases, we need to emit a space between the operator and the operand.
 /// One obvious case is when the operator is an identifier, like delete or
 /// typeof. We also need to do this for plus and minus expressions in certain

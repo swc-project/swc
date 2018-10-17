@@ -175,12 +175,14 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 );
 
                 {
+                    let s: Rc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
+
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::config::Config::default(),
                         cm,
                         file: src.clone(),
                         enable_comments: true,
-                        srcmap: SourceMapBuilder::new(None),
+                        srcmap: SourceMapBuilder::new(Some(&s)),
                         wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
                         handlers,
                     };

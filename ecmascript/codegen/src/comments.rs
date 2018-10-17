@@ -16,12 +16,19 @@ impl<'a> Emitter<'a> {
             None => return Ok(()),
         };
 
+        let src = self.file.src.clone().unwrap();
+        let idx = pos.0 as usize - self.file.start_pos.0 as usize;
+
         if let Some(ref ln) = self.file.get_line(line) {
             // TODO: only comment
-            // if ln.contains("//") {
-            //     self.wr.write(ln.as_bytes())?;
-            // }
+            if let Some(idx) = ln.find("//") {
+                self.wr.write(ln[idx..].as_bytes())?;
+            }
         }
+
+        // let (lo, hi) = self.file.line_bounds(pos.0 as usize);
+        // let s = &src[idx..hi.0 as usize];
+
         Ok(())
     }
 
