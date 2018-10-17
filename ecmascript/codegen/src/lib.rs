@@ -337,6 +337,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
         keyword!("new");
+
         space!();
         emit!(node.callee);
 
@@ -381,9 +382,9 @@ impl<'a> Emitter<'a> {
     pub fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
         if node.is_async {
             keyword!("async");
-            if node.is_generator {
-                punct!("*")
-            }
+        }
+        if node.is_generator {
+            punct!("*")
         }
         punct!("(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;

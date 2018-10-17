@@ -64,6 +64,7 @@ impl<'a> Emitter<'a> {
 
         if let Some(ref init) = node.init {
             punct!("=");
+            formatting_space!();
             emit!(init);
         }
     }
