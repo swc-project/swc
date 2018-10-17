@@ -1,3 +1,3 @@
-new (function () {
+new (function() {
     var a = 1;
 });

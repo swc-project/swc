@@ -1,1 +1,5 @@
-function *a(){({get b(){yield}})}
+function* a() {
+    ({ get b () {
+                yield;
+            } });
+}
