@@ -126,7 +126,7 @@ fn arrow() {
 
 #[test]
 fn array() {
-    test_from_to("[a, 'b', \"c\"]", "[a,'b','c']");
+    test_from_to("[a, 'b', \"c\"]", "[a, 'b', \"c\"];");
 }
 
 #[derive(Debug, Clone)]
