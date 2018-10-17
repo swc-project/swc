@@ -569,7 +569,32 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_tpl_lit(&mut self, node: &TplLit) -> Result {
-        unimplemented!()
+        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
+
+        if let Some(ref tag) = node.tag {
+            emit!(tag);
+        }
+        punct!("`");
+        let i = 0;
+
+        for i in 0..node.quasis.len() + node.exprs.len() {
+            if i % 2 == 0 {
+                emit!(node.quasis[i / 2]);
+            } else {
+                punct!("$");
+                punct!("{");
+                emit!(node.exprs[i / 2 + 1]);
+                punct!("}");
+            }
+        }
+
+        punct!("`");
+    }
+
+    #[emitter]
+    pub fn emit_quasi(&mut self, node: &TplElement) -> Result {
+        self.wr.write(node.raw.as_bytes())?;
+        return Ok(());
     }
 
     #[emitter]
