@@ -154,8 +154,9 @@ impl<'a> Emitter<'a> {
                         space!();
                         keyword!("as");
                         space!();
-                        emit!(s.local);
                     }
+
+                    emit!(s.local);
                     punct!("}");
                 }
                 ImportSpecifier::Default(ref s) => {
@@ -196,6 +197,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_named_export(&mut self, node: &NamedExport) -> Result {
         keyword!("export");
+        formatting_space!();
         punct!("{");
         self.emit_list(
             node.span,
@@ -204,8 +206,8 @@ impl<'a> Emitter<'a> {
         )?;
         // TODO:
         punct!("}");
-
         if let Some(ref src) = node.src {
+            space!();
             keyword!("from");
             emit!(src);
             semi!();
