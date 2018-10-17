@@ -145,30 +145,18 @@ impl<'a> Emitter<'a> {
         keyword!("import");
         space!();
 
+        let mut specifiers = vec![];
         for specifier in &node.specifiers {
             match specifier {
                 ImportSpecifier::Specific(ref s) => {
-                    if let Some(ref default_as) = s.imported {
-                        emit!(default_as);
-                    }
-
-                    punct!("{");
-                    if let Some(ref imported) = s.imported {
-                        emit!(imported);
-                        space!();
-                        keyword!("as");
-                        space!();
-                    }
-
-                    emit!(s.local);
-                    punct!("}");
+                    specifiers.push(s);
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
                     space!();
                 }
                 ImportSpecifier::Namespace(ref ns) => {
-                    assert!(node.specifiers.len() == 1);
+                    assert!(node.specifiers.len() <= 2);
                     punct!("*");
                     space!();
                     keyword!("as");
@@ -179,10 +167,32 @@ impl<'a> Emitter<'a> {
             }
         }
 
+        if !specifiers.is_empty() {
+            punct!("{");
+            self.emit_list(
+                node.span(),
+                Some(&specifiers),
+                ListFormat::NamedImportsOrExportsElements,
+            )?;
+            punct!("}");
+        }
+
         keyword!("from");
         space!();
         emit!(node.src);
         semi!();
+    }
+
+    #[emitter]
+    pub fn emit_import_specific(&mut self, node: &ImportSpecific) -> Result {
+        if let Some(ref imported) = node.imported {
+            emit!(imported);
+            space!();
+            keyword!("as");
+            space!();
+        }
+
+        emit!(node.local);
     }
 
     #[emitter]
