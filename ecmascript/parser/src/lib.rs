@@ -76,15 +76,12 @@ pub struct Session<'a> {
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
 where
-    F: FnOnce(Session, FileMapInput) -> Ret,
+    F: FnOnce(Session, SourceFileInput) -> Ret,
 {
     use std::rc::Rc;
-    use swc_common::{
-        errors::{CodeMap, FilePathMapping},
-        FileName,
-    };
+    use swc_common::{FileName, FilePathMapping, SourceMap};
 
-    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
     let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());
 
     let handler = ::swc_common::errors::Handler::with_tty_emitter(

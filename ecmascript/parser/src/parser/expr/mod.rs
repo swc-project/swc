@@ -220,22 +220,21 @@ impl<'a, I: Input> Parser<'a, I> {
 
         assert_and_bump!('[');
         let mut elems = vec![];
-        let mut allow_elem = true;
 
         while !eof!() && !is!(']') {
-            if is!(',') || !allow_elem {
+            if is!(',') {
                 expect!(',');
                 elems.push(None);
-                allow_elem = true;
                 continue;
             }
-            allow_elem = false;
-
             elems.push(
                 self.include_in_expr(true)
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
+            if is!(',') {
+                expect!(',');
+            }
         }
 
         expect!(']');

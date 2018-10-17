@@ -275,12 +275,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[cfg(test)]
 mod tests {
-    use super::{input::FileMapInput, *};
+    use super::{input::SourceFileInput, *};
     use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<FileMapInput>) -> Ret,
+        F: FnOnce(&mut Lexer<SourceFileInput>) -> Ret,
     {
         ::with_test_sess(s, |sess, fm| {
             let mut l = Lexer::new(sess, fm.into());
