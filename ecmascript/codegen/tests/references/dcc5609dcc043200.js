@@ -1,1 +1,4 @@
-(class {static constructor(){}})
+(class{
+    static  constructor() {
+    }
+});

@@ -1,5 +1,5 @@
 function a() {
-    while (b) {
+    while(b){
         {
             c();
             c();

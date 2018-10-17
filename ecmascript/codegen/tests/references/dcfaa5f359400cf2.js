@@ -1,3 +1,3 @@
-for (;;) {
+for(;;){
     if (a) continue;
 }
