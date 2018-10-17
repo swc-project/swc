@@ -1,3 +1,3 @@
 function a() {
-    var b;
+    var b ;
 }
