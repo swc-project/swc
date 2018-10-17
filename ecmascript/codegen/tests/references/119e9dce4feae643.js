@@ -1,4 +1,4 @@
-var a ={
+var a = {
         b:null,
         set c (d){
         },
