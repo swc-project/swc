@@ -129,6 +129,15 @@ fn array() {
     test_from_to("[a, 'b', \"c\"]", "[a, 'b', \"c\"];");
 }
 
+#[test]
+fn comment() {
+    test_from_to(
+        "// foo
+a", "// foo
+a",
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
