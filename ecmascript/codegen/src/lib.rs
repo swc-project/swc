@@ -683,12 +683,14 @@ impl<'a> Emitter<'a> {
         // allowTrailingComma | preferNewLine);
 
         punct!("{");
+        self.wr.write_line()?;
         self.wr.increase_indent()?;
         self.emit_list(
             node.span(),
             Some(&node.props),
             ListFormat::ObjectLiteralExpressionProperties,
         )?;
+        self.wr.write_line()?;
         self.wr.decrease_indent()?;
         punct!("}");
     }
