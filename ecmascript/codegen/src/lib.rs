@@ -747,6 +747,10 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
+        if let Some(_gen) = node.function.generator {
+            punct!("*");
+        }
+
         emit!(node.key);
         space!();
         // TODO
