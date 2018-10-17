@@ -1,5 +1,5 @@
 function eval() {
     function a() {
-        'use strict';
+        "use strict";
     }
 }

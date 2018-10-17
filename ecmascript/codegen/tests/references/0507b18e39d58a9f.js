@@ -1,2 +1,2 @@
-var a =class b extends 1{
+var a = class b extends 1{
 };
