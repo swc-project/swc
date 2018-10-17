@@ -251,9 +251,11 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_str_lit(&mut self, node: &Str) -> Result {
         // TODO: quote
-        punct!("'");
-        self.wr.write_str_lit(&node.value)?;
-        punct!("'");
+        if let Some(s) = get_text_of_node(&self.file, node, false) {
+            self.wr.write_str_lit(&s)?;
+        } else {
+            self.wr.write_str_lit(&node.value)?;
+        }
     }
 
     #[emitter]

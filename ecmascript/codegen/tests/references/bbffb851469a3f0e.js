@@ -1,1 +1,4 @@
-try { } catch (a) { let b; }
+try{
+}catch (a) {
+    let b ;
+}

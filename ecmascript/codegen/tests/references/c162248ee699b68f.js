@@ -1,1 +1,3 @@
-var a; var b; var c;
+var a ;
+var b ;
+var c ;
