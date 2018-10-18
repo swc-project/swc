@@ -22,7 +22,7 @@ pub use self::{
     pos::*,
 };
 
-pub use syntax::source_map::{FilePathMapping, SourceMap};
+pub use syntax::source_map::{FilePathMapping, SourceMap, SpanSnippetError};
 mod ast_node;
 pub mod errors;
 mod fold;
