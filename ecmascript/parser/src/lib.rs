@@ -82,7 +82,7 @@ where
     use swc_common::{FileName, FilePathMapping, SourceMap};
 
     let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
-    let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());
+    let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
         ::swc_common::errors::ColorConfig::Auto,

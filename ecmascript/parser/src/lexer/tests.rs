@@ -719,3 +719,32 @@ fn tpl() {
         ]
     )
 }
+
+#[test]
+fn comment() {
+    assert_eq!(
+        lex("// foo
+a"),
+        vec![TokenAndSpan {
+            token: Word(Ident("a".into())),
+            span: sp(7..8),
+            // first line
+            had_line_break: true
+        }]
+    );
+}
+
+#[test]
+fn comment_2() {
+    assert_eq!(
+        lex("// foo
+// bar
+a"),
+        vec![TokenAndSpan {
+            token: Word(Ident("a".into())),
+            span: sp(14..15),
+            // first line
+            had_line_break: true
+        }]
+    );
+}
