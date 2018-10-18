@@ -857,9 +857,9 @@ impl<'a> Emitter<'a> {
             if is_empty {
                 self.emit_trailing_comments_of_pos(
                     {
-                        //TODO: children.lo()
+                        // TODO: children.lo()
 
-                        parent_node.lo()
+                        parent_node
                     },
                     true,
                 )?;
@@ -948,7 +948,7 @@ impl<'a> Emitter<'a> {
                 // Emit this child.
                 if should_emit_intervening_comments {
                     let comment_range = child.comment_range();
-                    self.emit_trailing_comments_of_pos(comment_range.lo(), false)?;
+                    self.emit_trailing_comments_of_pos(comment_range, false)?;
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }
@@ -1072,7 +1072,9 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
         emit!(node.left);
+        formatting_space!();
         punct!("=");
+        formatting_space!();
         emit!(node.right);
     }
 
