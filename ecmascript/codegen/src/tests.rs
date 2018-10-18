@@ -70,15 +70,18 @@ impl Builder {
 fn test_from_to(from: &str, to: &str) {
     fn with_parser<F, Ret>(
         file_name: &Path,
-        src: &str,
+        s: &str,
         f: F,
     ) -> std::result::Result<Ret, NormalizedOutput>
     where
         F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
     {
         let output = self::testing::run_test(|logger, cm, handler| {
-            let src = cm.new_source_file(FileName::Real(file_name.into()), src.to_string());
-            println!("Source: {:?} ~ {:?}", src.start_pos, src.end_pos);
+            let src = cm.new_source_file(FileName::Real(file_name.into()), s.to_string());
+            println!(
+                "Source: \n{}\nPos: {:?} ~ {:?}",
+                s, src.start_pos, src.end_pos
+            );
 
             let res = f(&mut Parser::new(
                 Session {
@@ -136,6 +139,34 @@ fn comment() {
 a", "// foo
 a",
     );
+}
+
+#[test]
+fn comment_2() {
+    test_from_to("a // foo", "a; // foo");
+}
+
+#[test]
+fn comment_3() {
+    test_from_to(
+        "// foo
+        // bar
+        a
+        // foo
+        b
+        // bar",
+        "// foo
+        // bar
+        a
+        // foo
+        b
+        // bar",
+    );
+}
+
+#[test]
+fn comment_4() {
+    test_from_to("/** foo */ a", "/** foo */  a;");
 }
 
 #[derive(Debug, Clone)]
