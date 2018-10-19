@@ -1,4 +1,5 @@
 use super::*;
+use swc_common::SyntaxContext;
 
 impl<'a> Emitter<'a> {
     pub(super) fn emit_trailing_comments_of_pos(
@@ -10,24 +11,19 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
         debug_assert!(self.file.contains(pos));
+        let span = Span::new(pos, pos, SyntaxContext::empty());
+        let ext_sp = self.cm.span_through_char(span, '/');
 
-        let line = match self.file.lookup_line(pos) {
-            Some(l) => l,
-            None => return Ok(()),
-        };
-
-        let src = self.file.src.clone().unwrap();
-        let idx = pos.0 as usize - self.file.start_pos.0 as usize;
-
-        if let Some(ref ln) = self.file.get_line(line) {
-            // TODO: only comment
-            if let Some(idx) = ln.find("//") {
-                self.wr.write(ln[idx..].as_bytes())?;
-            }
+        let src = self
+            .cm
+            .span_to_snippet(ext_sp)
+            .expect("failed to get snippet for span");
+        if src == "" {
+            return Ok(());
         }
 
-        // let (lo, hi) = self.file.line_bounds(pos.0 as usize);
-        // let s = &src[idx..hi.0 as usize];
+        println!("A.Snippet: {:?}", src);
+        println!("A.Extended: {:?}", ext_sp);
 
         Ok(())
     }
@@ -36,7 +32,56 @@ impl<'a> Emitter<'a> {
         if !self.enable_comments {
             return Ok(());
         }
-        unimplemented!()
+        debug_assert!(self.file.contains(pos));
+        if self.pos_of_leading_comments.contains(&pos) {
+            return Ok(());
+        }
+        println!("COMM: {:?}", pos);
+        self.pos_of_leading_comments.insert(pos);
+
+        let span = Span::new(pos, pos, SyntaxContext::empty());
+
+        // Extend span until we meet /* or first //
+        let mut ext_sp = span;
+        loop {
+            // println!("Extending {:?}", ext_sp);
+            ext_sp = self.cm.span_extend_to_prev_str(ext_sp, "//", true);
+            // println!("Extended to {:?}", ext_sp);
+
+            let (line, s) = self
+                .file
+                .lookup_line(ext_sp.lo())
+                .and_then(|line| {
+                    let ln = self.file.get_line(line);
+                    Some((line, ln.expect("failed to get text of the line")))
+                })
+                // safe
+                .unwrap();
+
+            if s.trim().starts_with("//") && line > 0 {
+                let (llo, lhi) = self.file.line_bounds(line - 1);
+                println!("L{}: {:?}~{:?}", line - 1, llo, lhi);
+                ext_sp = ext_sp.with_lo(lhi);
+                continue;
+            }
+
+            break;
+        }
+
+        // include `//`
+        ext_sp = ext_sp.with_lo(ext_sp.lo() - BytePos(3));
+
+        let src = self
+            .cm
+            .span_to_snippet(ext_sp)
+            .expect("failed to get snippet for span");
+        // if src == "" {
+        //    return Ok(());
+        // }
+
+        println!("B: {:?}", src);
+        self.wr.write(src.as_bytes())?;
+        Ok(())
     }
 
     // /// (commentPos: number, commentEnd: number, kind: SyntaxKind,

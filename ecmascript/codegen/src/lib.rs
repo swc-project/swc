@@ -21,6 +21,7 @@ use self::{
 use ecma_codegen_macros::emitter;
 use sourcemap::SourceMapBuilder;
 use std::{
+    collections::HashSet,
     io::{self, Write},
     rc::Rc,
 };
@@ -67,6 +68,7 @@ pub struct Emitter<'a> {
     pub srcmap: SourceMapBuilder,
     pub wr: Box<('a + TextWriter)>,
     pub handlers: Box<('a + Handlers)>,
+    pub pos_of_leading_comments: HashSet<BytePos>,
 }
 
 impl<'a> Emitter<'a> {
@@ -785,6 +787,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
+        self.emit_leading_comments_of_pos(ident.span.lo())?;
 
         let symbol: Option<String> = None;
         if let Some(sym) = symbol {
@@ -842,7 +845,6 @@ impl<'a> Emitter<'a> {
         }
 
         let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
-
         if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
             // self.handlers.onBeforeEmitNodeArray(children)
 
@@ -859,7 +861,7 @@ impl<'a> Emitter<'a> {
                     {
                         // TODO: children.lo()
 
-                        parent_node
+                        parent_node.lo()
                     },
                     true,
                 )?;
@@ -948,7 +950,7 @@ impl<'a> Emitter<'a> {
                 // Emit this child.
                 if should_emit_intervening_comments {
                     let comment_range = child.comment_range();
-                    self.emit_trailing_comments_of_pos(comment_range, false)?;
+                    self.emit_trailing_comments_of_pos(comment_range.hi(), false)?;
                 } else {
                     should_emit_intervening_comments = may_emit_intervening_comments;
                 }

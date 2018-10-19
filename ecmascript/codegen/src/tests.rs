@@ -48,6 +48,7 @@ impl Builder {
             wr: Box::new(text_writer::WriterWrapper::new("\n", s)),
             handlers: Box::new(Noop),
             enable_comments: true,
+            pos_of_leading_comments: Default::default(),
         };
 
         let ret = op(&mut e);
@@ -133,11 +134,12 @@ fn array() {
 }
 
 #[test]
-fn comment() {
+fn comment_1() {
     test_from_to(
         "// foo
-a", "// foo
 a",
+        "// foo
+a;",
     );
 }
 
@@ -167,6 +169,18 @@ fn comment_3() {
 #[test]
 fn comment_4() {
     test_from_to("/** foo */ a", "/** foo */  a;");
+}
+
+#[test]
+fn comment_5() {
+    test_from_to(
+        "// foo
+        // bar
+        a",
+        "// foo
+        // bar
+        a;",
+    );
 }
 
 #[derive(Debug, Clone)]
