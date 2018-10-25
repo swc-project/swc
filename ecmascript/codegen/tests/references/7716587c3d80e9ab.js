@@ -1,0 +1,5 @@
+(class{
+     constructor() {
+        super.a;
+    }
+});

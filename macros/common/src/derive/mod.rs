@@ -8,7 +8,6 @@ use syn::{punctuated::Pair, *};
 mod generics;
 
 /// Generics of derived impl item.
-///
 #[derive(Debug, Clone)]
 pub struct Derive<'a> {
     input: &'a DeriveInput,
@@ -34,7 +33,8 @@ impl<'a> Derive<'a> {
                     }
 
                     pair
-                }).collect();
+                })
+                .collect();
 
             let generics = Generics {
                 params,

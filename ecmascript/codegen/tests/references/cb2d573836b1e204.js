@@ -1,0 +1,3 @@
+function a() {
+    new.target();
+}

@@ -1,0 +1,4 @@
+try{
+}finally{
+    a(b);
+}

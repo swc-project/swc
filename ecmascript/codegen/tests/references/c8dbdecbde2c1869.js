@@ -1,0 +1,4 @@
+(function() {
+    throw 'a';
+    a();
+}());

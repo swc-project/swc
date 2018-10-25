@@ -61,7 +61,8 @@ impl<'a> Derive<'a> {
                 .filter_map(|p| match *p {
                     GenericParam::Type(TypeParam { ref ident, .. }) => Some(ident.clone()),
                     _ => None,
-                }).collect(),
+                })
+                .collect(),
             fields: vec![],
         };
 
@@ -108,7 +109,8 @@ impl<'a> Derive<'a> {
                 lifetimes: None,
                 path: trait_,
                 paren_token: None,
-            }))).collect(),
+            })))
+            .collect(),
         });
 
         self.add_where_predicates(iter::once(bound))

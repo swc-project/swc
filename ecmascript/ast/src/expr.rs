@@ -17,7 +17,6 @@ pub enum Expr {
     Unary(UnaryExpr),
 
     /// `++v`, `--v`, `v++`, `v--`
-    ///
     Update(UpdateExpr),
 
     Bin(BinExpr),
@@ -205,9 +204,7 @@ pub struct AwaitExpr {
 pub struct TplLit {
     pub span: Span,
     pub tag: Option<(Box<Expr>)>,
-
     pub exprs: Vec<(Box<Expr>)>,
-
     pub quasis: Vec<TplElement>,
 }
 

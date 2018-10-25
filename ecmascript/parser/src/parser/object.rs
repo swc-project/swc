@@ -99,7 +99,8 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                     Parser::parse_unique_formal_params,
                     None,
                     Some(span_of_gen),
-                ).map(|function| {
+                )
+                .map(|function| {
                     Prop::Method(MethodProp {
                         key: name,
                         function,
@@ -169,7 +170,8 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
                             None,
                             None,
-                        ).map(|Function { params, body, .. }| {
+                        )
+                        .map(|Function { params, body, .. }| {
                             assert_eq!(params.len(), 1);
                             Prop::Setter(SetterProp {
                                 span: span!(start),
@@ -184,7 +186,8 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             Parser::parse_unique_formal_params,
                             Some(ident.span),
                             None,
-                        ).map(|function| Prop::Method(MethodProp { key, function })),
+                        )
+                        .map(|function| Prop::Method(MethodProp { key, function })),
                     _ => unreachable!(),
                 };
             }

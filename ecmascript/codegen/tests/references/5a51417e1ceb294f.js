@@ -1,0 +1,5 @@
+for(;;){
+    while(true){
+        continue;
+    }
+}

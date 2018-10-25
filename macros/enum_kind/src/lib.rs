@@ -41,6 +41,7 @@ mod util;
 ///     #[kind(num = "3")]
 ///     C {},
 /// }
+///
 /// # fn main() {
 /// assert!(E::A.is_a() && E::A.is_a_or_b() && !E::A.is_b());
 /// assert_eq!(E::A.num(), 1);
@@ -140,10 +141,8 @@ mod util;
 ///     LogicalAnd,
 /// }
 ///
-/// # fn main() {
-/// # }
+/// # fn main() {}
 /// ```
-///
 ///
 ///
 ///

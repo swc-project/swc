@@ -1,0 +1,2 @@
+(class extends 1{
+});

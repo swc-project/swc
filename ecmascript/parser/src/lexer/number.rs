@@ -9,8 +9,6 @@ use std::fmt::Display;
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
-    ///
-    ///
     pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<f64> {
         assert!(self.cur().is_some());
         if starts_with_dot {
@@ -277,12 +275,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[cfg(test)]
 mod tests {
-    use super::{input::FileMapInput, *};
+    use super::{input::SourceFileInput, *};
     use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<FileMapInput>) -> Ret,
+        F: FnOnce(&mut Lexer<SourceFileInput>) -> Ret,
     {
         ::with_test_sess(s, |sess, fm| {
             let mut l = Lexer::new(sess, fm.into());

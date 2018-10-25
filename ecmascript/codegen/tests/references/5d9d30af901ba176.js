@@ -1,0 +1,5 @@
+for(;;){
+    with (a){
+        continue;
+    }
+}

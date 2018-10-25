@@ -172,7 +172,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 .map(|t| {
                     // module code is always in strict mode.
                     t.follows_keyword_let(true)
-                }).unwrap_or(false))
+                })
+                .unwrap_or(false))
         {
             self.parse_var_stmt(false).map(Decl::Var)?
         } else {

@@ -1,0 +1,4 @@
+function* a() {
+    yield;
+    a;
+}

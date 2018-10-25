@@ -13,6 +13,7 @@ extern crate slog;
 extern crate slog_envlogger;
 extern crate slog_term;
 extern crate swc_common;
+extern crate relative_path;
 extern crate test;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
@@ -27,9 +28,11 @@ use std::{
     thread,
 };
 use swc_common::{
-    errors::{CodeMap, FilePathMapping, Handler},
-    FoldWith, Folder, Span,
+    errors::{SourceMapper,SourceMapperDyn,Handler},
+    FoldWith, Folder, Span,SourceMap,FilePathMapping,
 };
+use std::rc::Rc;
+
 
 #[macro_use]
 mod macros;
@@ -39,9 +42,9 @@ mod paths;
 
 pub fn run_test<F, Ret>(op: F) -> TestOutput<Ret>
 where
-    F: FnOnce(Logger, Lrc<CodeMap>, &Handler) -> Ret,
+    F: FnOnce(Logger, Rc<SourceMap>, &Handler) -> Ret,
 {
-    let cm = Lrc::new(CodeMap::new(FilePathMapping::empty()));
+    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::errors::new_handler(cm.clone());
     let result =
         syntax_pos::GLOBALS.set(&syntax_pos::Globals::new(), || op(logger(), cm, &handler));
@@ -180,3 +183,4 @@ pub fn logger() -> Logger {
     root()
     // ROOT.new(o!())
 }
+

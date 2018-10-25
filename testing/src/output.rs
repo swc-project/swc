@@ -63,19 +63,22 @@ impl NormalizedOutput {
                 String::new()
             });
 
-        let path_for_actual = {
+        let path_for_actual = 
             paths::test_results_dir()
                 .join("ui")
                 .join(path.strip_prefix(&paths::manifest_dir()).unwrap())
-        };
+    ;
+    eprintln!("{}:{}", path.display(), path_for_actual.display
+    ());
         if self.0 == expected {
             let _ = remove_file(path_for_actual);
             return Ok(());
         }
         create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
         ::write_to_file(&path_for_actual, &self.0);
-
-        println!(
+        ::write_to_file(&path, &self.0);
+        
+        eprintln!(
             "Assertion failed: \nActual file printed to {}",
             path_for_actual.display()
         );

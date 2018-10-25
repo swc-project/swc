@@ -369,7 +369,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(catch_start),
                     param,
                     body,
-                }).map(Some)?
+                })
+                .map(Some)?
         } else {
             None
         };
@@ -630,7 +631,7 @@ impl<'a, I: Input> Parser<'a, I> {
             Ok(ForHead::ForOf { left, right })
         } else {
             let right = self.include_in_expr(true).parse_expr()?;
-            Ok(ForHead::ForOf { left, right })
+            Ok(ForHead::ForIn { left, right })
         }
     }
 

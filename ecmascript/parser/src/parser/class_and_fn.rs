@@ -217,7 +217,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     Parser::parse_unique_formal_params,
                     None,
                     Some(span_of_gen),
-                ).map(|function| ClassMethod {
+                )
+                .map(|function| ClassMethod {
                     span: span!(start),
                     static_token,
                     key,
@@ -288,7 +289,8 @@ impl<'a, I: Input> Parser<'a, I> {
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
                             None,
                             None,
-                        ).map(|function| ClassMethod {
+                        )
+                        .map(|function| ClassMethod {
                             span: span!(start),
                             key,
                             static_token,
@@ -301,7 +303,8 @@ impl<'a, I: Input> Parser<'a, I> {
                             Parser::parse_unique_formal_params,
                             Some(ident.span),
                             None,
-                        ).map(|function| ClassMethod {
+                        )
+                        .map(|function| ClassMethod {
                             span: span!(start),
                             static_token,
                             key,

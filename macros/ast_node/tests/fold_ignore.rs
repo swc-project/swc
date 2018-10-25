@@ -52,5 +52,6 @@ fn ignore_enum_named_field() {
 
     A::Field {
         named: Default::default(),
-    }.fold_with(&mut MyFolder);
+    }
+    .fold_with(&mut MyFolder);
 }

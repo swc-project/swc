@@ -50,7 +50,8 @@ fn arrow_assign() {
                 box Ident {
                     span,
                     sym: "a".into(),
-                }.into()
+                }
+                .into()
             ),
             op: op!("="),
             right: expr("b => false"),
@@ -68,7 +69,8 @@ fn new_expr_should_not_eat_too_much() {
             prop: box Ident {
                 sym: "toString".into(),
                 span,
-            }.into(),
+            }
+            .into(),
             computed: false,
         })
     );

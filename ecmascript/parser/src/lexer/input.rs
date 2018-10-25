@@ -63,6 +63,7 @@ impl<I: Input> LexerInput<I> {
         self.current();
         self.cur.map(|(p, _)| p).unwrap_or(self.last_pos)
     }
+
     pub fn last_pos(&self) -> BytePos {
         self.last_pos
     }

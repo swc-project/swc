@@ -4,10 +4,10 @@ use std::{
     io::{self, Write},
     sync::{Arc, RwLock},
 };
-use swc_common::errors::{CodeMap, EmitterWriter, Handler, HandlerFlags};
+use swc_common::errors::{SourceMapperDyn, EmitterWriter, Handler, HandlerFlags};
 
 /// Creates a new handler for testing.
-pub(crate) fn new_handler(cm: Lrc<CodeMap>) -> (Handler, BufferedError) {
+pub(crate) fn new_handler(cm: Lrc<SourceMapperDyn   >) -> (Handler, BufferedError) {
     let buf: BufferedError = Default::default();
 
     let e = EmitterWriter::new(box buf.clone(), Some(cm), false, true);

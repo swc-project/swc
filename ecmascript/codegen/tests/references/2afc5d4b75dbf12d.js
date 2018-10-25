@@ -1,0 +1,3 @@
+(function() {
+    void 1;
+}());

@@ -329,7 +329,6 @@ impl Context {
 /// The algorithm used to determine whether a regexp can appear at a
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
-///
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
 enum Type {

@@ -29,7 +29,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Parse an assignment expression. This includes applications of
     /// operators like `+=`.
-    ///
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         if self.ctx().in_generator && is!("yield") {
             return self.parse_yield_expr();
@@ -221,22 +220,21 @@ impl<'a, I: Input> Parser<'a, I> {
 
         assert_and_bump!('[');
         let mut elems = vec![];
-        let mut allow_elem = true;
 
         while !eof!() && !is!(']') {
-            if is!(',') || !allow_elem {
+            if is!(',') {
                 expect!(',');
                 elems.push(None);
-                allow_elem = true;
                 continue;
             }
-            allow_elem = false;
-
             elems.push(
                 self.include_in_expr(true)
                     .parse_expr_or_spread()
                     .map(Some)?,
             );
+            if is!(',') {
+                expect!(',');
+            }
         }
 
         expect!(']');
@@ -358,7 +356,6 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse paren expression or arrow function expression.
-    ///
     fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
@@ -584,8 +581,6 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
     /// Parse call, dot, and `[]`-subscript expressions.
-    ///
-    ///
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 

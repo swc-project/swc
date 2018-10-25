@@ -1,0 +1,3 @@
+do {
+}while (false)
+a();
