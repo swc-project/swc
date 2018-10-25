@@ -1,7 +1,7 @@
 use super::Simplify;
 use std::iter;
 use swc_common::{FoldWith, Folder, Span, Spanned, DUMMY_SP};
-use swc_ecma_ast::{Expr::*, Ident, Lit, *};
+use swc_ecma_ast::{Ident, Lit, *};
 use util::*;
 
 impl Folder<Expr> for Simplify {
@@ -93,18 +93,21 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
     };
 
     match o {
-        Lit(Lit::Str(Str {
+        Expr::Lit(Lit::Str(Str {
             ref value, span, ..
         }))
             if op == KnownOp::Len =>
         {
-            Lit(Lit::Num(Number {
+            Expr::Lit(Lit::Num(Number {
                 value: value.len() as _,
                 span,
             }))
         }
-        Array(ArrayLit { ref elems, span }) if op == KnownOp::Len && !o.may_have_side_effects() => {
-            Lit(Lit::Num(Number {
+
+        Expr::Array(ArrayLit { ref elems, span })
+            if op == KnownOp::Len && !o.may_have_side_effects() =>
+        {
+            Expr::Lit(Lit::Num(Number {
                 value: elems.len() as _,
                 span,
             }))
@@ -142,7 +145,7 @@ fn fold_bin(
                 Known(v) => {
                     return preserve_effects(
                         span,
-                        Lit(Lit::Num(Number {
+                        Expr::Lit(Lit::Num(Number {
                             value: v,
                             span: DUMMY_SP,
                         })),
@@ -179,7 +182,7 @@ fn fold_bin(
                                 Known(v) => {
                                     return preserve_effects(
                                         span,
-                                        Lit(Lit::Num(Number { value: v, span })),
+                                        Expr::Lit(Lit::Num(Number { value: v, span })),
                                         { iter::once(left).chain(iter::once(right)) },
                                     );
                                 }
@@ -237,10 +240,10 @@ fn fold_bin(
             fn is_non_obj(e: &Expr) -> bool {
                 match *e {
                     // Non-object types are never instances.
-                    Lit(Lit::Str { .. })
-                    | Lit(Lit::Num(..))
-                    | Lit(Lit::Null(..))
-                    | Lit(Lit::Bool(..))
+                    Expr::Lit(Lit::Str { .. })
+                    | Expr::Lit(Lit::Num(..))
+                    | Expr::Lit(Lit::Null(..))
+                    | Expr::Lit(Lit::Bool(..))
                     | Expr::Ident(Ident {
                         sym: js_word!("undefined"),
                         ..
@@ -366,7 +369,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             Known(v) => {
                 return preserve_effects(
                     span,
-                    Lit(Lit::Num(Number { value: v, span })),
+                    Expr::Lit(Lit::Num(Number { value: v, span })),
                     iter::once(arg),
                 )
             }
@@ -470,12 +473,12 @@ fn perform_abstract_rel_cmp(
         }
         // Special case: `typeof a < typeof a` is always false.
         (
-            &Unary(UnaryExpr {
+            &Expr::Unary(UnaryExpr {
                 op: op!("typeof"),
                 arg: box Expr::Ident(Ident { sym: ref li, .. }),
                 ..
             }),
-            &Unary(UnaryExpr {
+            &Expr::Unary(UnaryExpr {
                 op: op!("typeof"),
                 arg: box Expr::Ident(Ident { sym: ref ri, .. }),
                 ..
@@ -531,12 +534,20 @@ fn perform_abstract_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool>
         (NullType, UndefinedType) | (UndefinedType, NullType) => return Known(true),
         (NumberType, StringType) | (_, BoolType) => {
             let rv = right.as_number()?;
-            return perform_abstract_eq_cmp(span, left, &Lit(Lit::Num(Number { value: rv, span })));
+            return perform_abstract_eq_cmp(
+                span,
+                left,
+                &Expr::Lit(Lit::Num(Number { value: rv, span })),
+            );
         }
 
         (StringType, NumberType) | (BoolType, _) => {
             let lv = left.as_number()?;
-            return perform_abstract_eq_cmp(span, &Lit(Lit::Num(Number { value: lv, span })), right);
+            return perform_abstract_eq_cmp(
+                span,
+                &Expr::Lit(Lit::Num(Number { value: lv, span })),
+                right,
+            );
         }
 
         (StringType, ObjectType)
@@ -557,12 +568,12 @@ fn perform_strict_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool> {
     match (left, right) {
         // Special case, typeof a == typeof a is always true.
         (
-            &Unary(UnaryExpr {
+            &Expr::Unary(UnaryExpr {
                 op: op!("typeof"),
                 arg: box Expr::Ident(Ident { sym: ref li, .. }),
                 ..
             }),
-            &Unary(UnaryExpr {
+            &Expr::Unary(UnaryExpr {
                 op: op!("typeof"),
                 arg: box Expr::Ident(Ident { sym: ref ri, .. }),
                 ..
@@ -628,7 +639,7 @@ where
             }
 
             // In most case, we can do nothing for this.
-            Update(_) | Assign(_) | Yield(_) | Await(_) => v.push(box expr),
+            Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => v.push(box expr),
 
             // TODO
             Expr::MetaProp(_) => v.push(box expr),
@@ -697,6 +708,6 @@ where
     } else {
         exprs.push(box val);
 
-        Seq(SeqExpr { exprs, span })
+        Expr::Seq(SeqExpr { exprs, span })
     }
 }
