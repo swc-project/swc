@@ -18,7 +18,6 @@
  - [ ] babel-helper-remap-async-to-generator
  - [ ] babel-helper-replace-supers
  - [ ] babel-helper-simple-access
- - [ ] babel-helper-transform-fixture-test-runner
  - [ ] babel-helper-wrap-function
  - [ ] babel-helpers
  - [ ] babel-plugin-check-constants
@@ -57,7 +56,6 @@
  - [ ] babel-plugin-syntax-optional-chaining
  - [ ] babel-plugin-syntax-pipeline-operator
  - [ ] babel-plugin-syntax-throw-expressions
- - [ ] babel-plugin-syntax-typescript
  - [ ] babel-plugin-transform-arrow-functions
  - [ ] babel-plugin-transform-async-to-generator
  - [ ] babel-plugin-transform-block-scoped-functions
@@ -86,7 +84,6 @@
  - [ ] babel-plugin-transform-proto-to-assign
  - [ ] babel-plugin-transform-regenerator
  - [ ] babel-plugin-transform-reserved-words
- - [ ] babel-plugin-transform-spread
  - [ ] babel-plugin-transform-strict-mode
  - [ ] babel-plugin-transform-template-literals
  - [ ] babel-plugin-transform-typeof-symbol
