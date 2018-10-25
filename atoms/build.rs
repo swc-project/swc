@@ -66,6 +66,13 @@ fn main() {
             "private",
             "protected",
             "public",
+            //
+            "Object",
+            "length",
+            "Infinity",
+            "undefined",
+            "NaN",
+            "RegExp",
         ],
     );
 }
