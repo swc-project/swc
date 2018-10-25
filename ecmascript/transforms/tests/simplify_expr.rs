@@ -11,23 +11,18 @@ extern crate swc_ecma_transforms as transforms;
 #[macro_use]
 extern crate testing;
 
-use swc_common::{FoldWith, Folder};
-use swc_ecma_parser::{FileMapInput, Parser, Session};
+use std::rc::Rc;
+use swc_common::{FileName, FilePathMapping, FoldWith, Folder, SourceMap};
+use swc_ecma_ast::*;
+use swc_ecma_parser::{Parser, Session, SourceFileInput};
 use transforms::simplify::Simplify;
 
-#[cfg(test)]
 fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
 where
-    F: FnOnce(Session, FileMapInput) -> Ret,
+    F: FnOnce(Session, SourceFileInput) -> Ret,
 {
-    use std::rc::Rc;
-    use swc_common::{
-        errors::{CodeMap, FilePathMapping},
-        FileName,
-    };
-
-    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
-    let fm = cm.new_filemap(FileName::Real("testing".into()), src.into());
+    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
+    let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
         ::swc_common::errors::ColorConfig::Auto,
@@ -50,7 +45,7 @@ where
 
 fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<FileMapInput>) -> Ret,
+    F: FnOnce(&mut Parser<SourceFileInput>) -> Ret,
 {
     ::with_test_sess(s, |session, input| f(&mut Parser::new(session, input)))
 }
@@ -63,10 +58,7 @@ fn parse_expr(s: &'static str) -> Box<swc_ecma_ast::Expr> {
         })
     });
     match module.body.into_iter().next().unwrap() {
-        swc_ecma_ast::ModuleItem::Stmt(swc_ecma_ast::Stmt {
-            node: swc_ecma_ast::Stmt::Expr(expr),
-            ..
-        }) => expr,
+        ModuleItem::Stmt(Stmt::Expr(expr)) => expr,
         _ => unreachable!("expected an expression statement. \nCode:\n{}", s),
     }
 }
@@ -74,6 +66,7 @@ fn parse_expr(s: &'static str) -> Box<swc_ecma_ast::Expr> {
 fn sim(e: Box<swc_ecma_ast::Expr>) -> Box<swc_ecma_ast::Expr> {
     Folder::<Box<swc_ecma_ast::Expr>>::fold(&mut Simplify, e)
 }
+
 fn remove_paren(e: Box<swc_ecma_ast::Expr>) -> Box<swc_ecma_ast::Expr> {
     Folder::<Box<swc_ecma_ast::Expr>>::fold(&mut RemoveParen, e)
 }
@@ -99,7 +92,7 @@ impl Folder<swc_ecma_ast::Expr> for RemoveParen {
     fn fold(&mut self, e: swc_ecma_ast::Expr) -> swc_ecma_ast::Expr {
         let e = e.fold_children(self);
         match e {
-            swc_ecma_ast::Expr::Paren(e) => e.node,
+            swc_ecma_ast::Expr::Paren(e) => *e.expr,
             _ => e,
         }
     }

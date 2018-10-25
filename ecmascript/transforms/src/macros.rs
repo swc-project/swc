@@ -1,14 +1,11 @@
 #[cfg(test)]
 pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Module {
     use std::rc::Rc;
-    use swc_common::{
-        errors::{CodeMap, FilePathMapping},
-        FileName,
-    };
-    use swc_ecma_parser::{FileMapInput, Parser, Session};
+    use swc_common::{FileName, FilePathMapping, SourceFile, SourceMap};
+    use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
-    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
-    let fm = cm.new_filemap(FileName::Real(name.into()), src.into());
+    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
+    let fm = cm.new_source_file(FileName::Real(name.into()), src.into());
 
     let handler = ::swc_common::errors::Handler::with_tty_emitter(
         ::swc_common::errors::ColorConfig::Auto,
@@ -25,7 +22,7 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
     };
 
     let module = {
-        let mut p = Parser::new(sess, FileMapInput::from(&*fm));
+        let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
         p.parse_module().unwrap_or_else(|err| {
             err.emit();
             panic!("failed to parse")

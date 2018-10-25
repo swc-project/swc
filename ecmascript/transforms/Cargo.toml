@@ -10,6 +10,7 @@ swc_ecma_ast = { path = "../ast" }
 
 [dev-dependencies]
 testing = { path = "../../testing" }
+swc_ecma_codegen = { path = "../codegen" }
 swc_ecma_parser = { path = "../parser" }
 pretty_assertions = "0.4"
 slog = "2"
