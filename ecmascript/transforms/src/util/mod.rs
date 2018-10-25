@@ -471,8 +471,7 @@ pub trait ExprExt: Sized {
             Expr::Array(ArrayLit { ref elems, .. }) => elems
                 .iter()
                 .filter_map(|e| e.as_ref())
-                .map(|e| e.expr)
-                .any(|e| e.may_have_side_effects()),
+                .any(|e| e.expr.may_have_side_effects()),
             Expr::Unary(UnaryExpr { ref arg, .. }) => arg.may_have_side_effects(),
             Expr::Bin(BinExpr {
                 ref left,
@@ -501,6 +500,7 @@ pub trait ExprExt: Sized {
                 ref test,
                 ref cons,
                 ref alt,
+                ..
             }) => {
                 test.may_have_side_effects()
                     || cons.may_have_side_effects()

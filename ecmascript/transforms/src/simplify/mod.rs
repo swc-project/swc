@@ -19,12 +19,12 @@ where
             let stmt_like = self.fold(stmt_like);
             let stmt_like = match stmt_like.try_into_stmt() {
                 Ok(stmt) => {
-                    let span = stmt.span;
-                    let stmt = match stmt.node {
+                    let stmt = match stmt {
                         // Remove empty statements.
-                        Stmt::Empty => continue,
+                        Stmt::Empty(..) => continue,
 
-                        Stmt::Throw { .. }
+                        // Control flow
+                        Stmt::Throw(..)
                         | Stmt::Return { .. }
                         | Stmt::Continue { .. }
                         | Stmt::Break { .. } => {
@@ -43,9 +43,9 @@ where
                             let node = match test.as_bool() {
                                 (Pure, Known(val)) => {
                                     if val {
-                                        cons
+                                        *cons
                                     } else {
-                                        alt.unwrap_or_else(|| Stmt::Empty(DUMMY_SP))
+                                        alt.map(|e| *e).unwrap_or(Stmt::Empty(EmptyStmt { span }))
                                     }
                                 }
                                 // TODO: Impure
@@ -56,7 +56,7 @@ where
                                     span,
                                 }),
                             };
-                            Stmt { span, node }
+                            node
                         }
                         _ => stmt,
                     };
@@ -90,29 +90,35 @@ impl Folder<Stmt> for Simplify {
                 // As function expressions cannot start with 'function',
                 // this will be reached only if other things
                 // are removed while folding chilren.
-                Expr::Fn(..) => Stmt::Empty,
-                _ => Stmt::Expr(box Expr { node, span }),
+                Expr::Fn(FnExpr {
+                    function: Function { span, .. },
+                    ..
+                }) => Stmt::Empty(EmptyStmt { span }),
+                _ => Stmt::Expr(box node),
             },
 
             Stmt::Block(BlockStmt { span, stmts }) => {
                 if stmts.len() == 0 {
-                    return Stmt::Empty;
+                    return Stmt::Empty(EmptyStmt { span });
                 } else if stmts.len() == 1 {
                     // TODO: Check if lexical variable exists.
-                    return stmts.into_iter().next().unwrap().node;
+                    return stmts.into_iter().next().unwrap();
                 } else {
                     Stmt::Block(BlockStmt { span, stmts })
                 }
             }
 
             Stmt::Try(TryStmt {
+                span,
                 block,
                 handler,
                 finalizer,
             }) => {
                 // Only leave the finally block if try block is empty
                 if block.is_empty() {
-                    return finalizer.map(Stmt::Block).unwrap_or(Stmt::Empty);
+                    return finalizer
+                        .map(Stmt::Block)
+                        .unwrap_or(Stmt::Empty(EmptyStmt { span }));
                 }
 
                 // If catch block and finally block is empty, remove try-catch is useless.
@@ -121,6 +127,7 @@ impl Folder<Stmt> for Simplify {
                 }
 
                 Stmt::Try(TryStmt {
+                    span,
                     block,
                     handler,
                     finalizer,
@@ -131,15 +138,26 @@ impl Folder<Stmt> for Simplify {
             // As we fold children before parent, unused expression
             // statements without side effects are converted to
             // Stmt::Empty before here.
-            Stmt::If(IfStmt { test, cons, alt }) => {
+            Stmt::If(IfStmt {
+                span,
+                test,
+                cons,
+                alt,
+            }) => {
                 if alt.is_empty() {
                     return Stmt::If(IfStmt {
+                        span,
                         test,
                         cons,
                         alt: None,
                     });
                 }
-                Stmt::If(IfStmt { test, cons, alt })
+                Stmt::If(IfStmt {
+                    span,
+                    test,
+                    cons,
+                    alt,
+                })
             }
 
             _ => stmt,

@@ -1,6 +1,6 @@
 use super::Simplify;
 use std::iter;
-use swc_common::{FoldWith, Folder, Span};
+use swc_common::{FoldWith, Folder, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{Expr::*, Ident, Lit, *};
 use util::*;
 
@@ -16,33 +16,45 @@ impl Folder<Expr> for Simplify {
             // Remove parenthesis. This may break ast, but it will be fixed up later.
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
 
-            Unary(expr) => fold_unary(expr),
-            Bin(expr) => fold_bin(expr),
+            Expr::Unary(expr) => fold_unary(expr),
+            Expr::Bin(expr) => fold_bin(expr),
 
-            Member(e) => fold_member_expr(e),
+            Expr::Member(e) => fold_member_expr(e),
 
-            Cond(CondExpr { test, cons, alt }) => match test.as_bool() {
+            Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+            }) => match test.as_bool() {
                 (p, Known(val)) => {
                     let expr_value = if val { cons } else { alt };
                     if p.is_pure() {
-                        expr_value
+                        *expr_value
                     } else {
-                        Seq(SeqExpr {
+                        Expr::Seq(SeqExpr {
+                            span,
                             exprs: vec![test, expr_value],
                         })
                     }
                 }
-                _ => Cond(CondExpr { test, cons, alt }),
+                _ => Expr::Cond(CondExpr {
+                    span,
+                    test,
+                    cons,
+                    alt,
+                }),
             },
 
             // Simplify sequence expression.
-            Seq(SeqExpr { exprs }) => {
+            Expr::Seq(SeqExpr { span, exprs }) => {
                 if exprs.len() == 1 {
-                    exprs.into_iter().next().unwrap()
+                    //TODO: Respan
+                    *exprs.into_iter().next().unwrap()
                 } else {
                     assert!(!exprs.is_empty(), "sequence expression should not be empty");
                     //TODO: remove unused
-                    return Seq(SeqExpr { exprs });
+                    return Expr::Seq(SeqExpr { span, exprs });
                 }
             }
 
@@ -59,8 +71,8 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         Len,
         Index(u32),
     }
-    let op = match e.prop {
-        Ident(Ident {
+    let op = match *e.prop {
+        Expr::Ident(Ident {
             sym: js_word!("length"),
             ..
         }) => KnownOp::Len,
@@ -72,23 +84,33 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         //     }
         //     // TODO: Report error
         //     KnownOp::Index(f)},
-        _ => return Member(e),
+        _ => return Expr::Member(e),
     };
 
     let o = match e.obj {
-        ExprOrSuper::Super(_) => return Member(e),
+        ExprOrSuper::Super(_) => return Expr::Member(e),
         ExprOrSuper::Expr(box o) => o,
     };
 
     match o {
-        Lit(Lit::Str { ref value, .. }) if op == KnownOp::Len => {
-            Lit(Lit::Num(Number(value.len() as _)))
+        Lit(Lit::Str(Str {
+            ref value, span, ..
+        }))
+            if op == KnownOp::Len =>
+        {
+            Lit(Lit::Num(Number {
+                value: value.len() as _,
+                span,
+            }))
         }
-        Array(ArrayLit { ref elems }) if op == KnownOp::Len && !o.may_have_side_effects() => {
-            Lit(Lit::Num(Number(elems.len() as _)))
+        Array(ArrayLit { ref elems, span }) if op == KnownOp::Len && !o.may_have_side_effects() => {
+            Lit(Lit::Num(Number {
+                value: elems.len() as _,
+                span,
+            }))
         }
         _ => {
-            return Member(MemberExpr {
+            return Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(box o),
                 ..e
             })
@@ -118,9 +140,14 @@ fn fold_bin(
         (number, $v:expr) => {{
             match $v {
                 Known(v) => {
-                    return preserve_effects(span, Lit(Lit::Num(Number(v))), {
-                        iter::once(left).chain(iter::once(right))
-                    });
+                    return preserve_effects(
+                        span,
+                        Lit(Lit::Num(Number {
+                            value: v,
+                            span: DUMMY_SP,
+                        })),
+                        { iter::once(left).chain(iter::once(right)) },
+                    );
                 }
                 _ => (left, right),
             }
@@ -131,7 +158,8 @@ fn fold_bin(
         op!(bin, "+") => {
             // It's string concatenation if either left or right is string.
 
-            let mut bin = Bin(BinExpr {
+            let mut bin = Expr::Bin(BinExpr {
+                span,
                 left,
                 op: op!(bin, "+"),
                 right,
@@ -140,15 +168,23 @@ fn fold_bin(
             match bin.get_type() {
                 Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
                     bin = match bin {
-                        Bin(BinExpr { left, right, .. }) => {
+                        Expr::Bin(BinExpr {
+                            left,
+                            op,
+                            right,
+                            span,
+                        }) => {
                             println!("performing arithmetic op: {:?}, {:?}", left, right);
                             match perform_arithmetic_op(op!(bin, "+"), &left, &right) {
                                 Known(v) => {
-                                    return preserve_effects(span, Lit(Lit::Num(Number(v))), {
-                                        iter::once(left).chain(iter::once(right))
-                                    });
+                                    return preserve_effects(
+                                        span,
+                                        Lit(Lit::Num(Number { value: v, span })),
+                                        { iter::once(left).chain(iter::once(right)) },
+                                    );
                                 }
-                                _ => Bin(BinExpr {
+                                _ => Expr::Bin(BinExpr {
+                                    span,
                                     left,
                                     op: op!(bin, "+"),
                                     right,
@@ -174,12 +210,12 @@ fn fold_bin(
                         right
                     } else {
                         // 0 && $right
-                        return left;
+                        return *left;
                     }
                 } else {
                     if val {
                         // 1 || $right
-                        return left;
+                        return *left;
                     } else {
                         // 0 || $right
                         right
@@ -187,10 +223,11 @@ fn fold_bin(
                 };
 
                 return if !left.may_have_side_effects() {
-                    node
+                    *node
                 } else {
-                    Seq(SeqExpr {
-                        exprs: vec![left, box Expr { span, node }],
+                    Expr::Seq(SeqExpr {
+                        span,
+                        exprs: vec![left, node],
                     })
                 };
             }
@@ -202,32 +239,35 @@ fn fold_bin(
                     // Non-object types are never instances.
                     Lit(Lit::Str { .. })
                     | Lit(Lit::Num(..))
-                    | Lit(Lit::Null)
+                    | Lit(Lit::Null(..))
                     | Lit(Lit::Bool(..))
-                    | Ident(Ident {
+                    | Expr::Ident(Ident {
                         sym: js_word!("undefined"),
                         ..
                     })
-                    | Ident(Ident {
+                    | Expr::Ident(Ident {
                         sym: js_word!("Infinity"),
                         ..
                     })
-                    | Ident(Ident {
+                    | Expr::Ident(Ident {
                         sym: js_word!("NaN"),
                         ..
                     }) => true,
 
-                    Unary(UnaryExpr {
+                    Expr::Unary(UnaryExpr {
                         op: op!("!"),
                         ref arg,
+                        ..
                     })
-                    | Unary(UnaryExpr {
+                    | Expr::Unary(UnaryExpr {
                         op: op!(unary, "-"),
                         ref arg,
+                        ..
                     })
-                    | Unary(UnaryExpr {
+                    | Expr::Unary(UnaryExpr {
                         op: op!("void"),
                         ref arg,
+                        ..
                     }) => is_non_obj(&arg),
                     _ => false,
                 }
@@ -260,15 +300,15 @@ fn fold_bin(
         }
 
         // Comparisons
-        op!("<") => try_replace!(perform_abstract_rel_cmp(&left, &right, false)),
-        op!(">") => try_replace!(perform_abstract_rel_cmp(&right, &left, false)),
-        op!("<=") => try_replace!(!perform_abstract_rel_cmp(&right, &left, true)),
-        op!(">=") => try_replace!(!perform_abstract_rel_cmp(&left, &right, true)),
+        op!("<") => try_replace!(perform_abstract_rel_cmp(span, &left, &right, false)),
+        op!(">") => try_replace!(perform_abstract_rel_cmp(span, &right, &left, false)),
+        op!("<=") => try_replace!(!perform_abstract_rel_cmp(span, &right, &left, true)),
+        op!(">=") => try_replace!(!perform_abstract_rel_cmp(span, &left, &right, true)),
 
-        op!("==") => try_replace!(perform_abstract_eq_cmp(&left, &right)),
-        op!("!=") => try_replace!(!perform_abstract_eq_cmp(&left, &right)),
-        op!("===") => try_replace!(perform_strict_eq_cmp(&left, &right)),
-        op!("!==") => try_replace!(!perform_strict_eq_cmp(&left, &right)),
+        op!("==") => try_replace!(perform_abstract_eq_cmp(span, &left, &right)),
+        op!("!=") => try_replace!(!perform_abstract_eq_cmp(span, &left, &right)),
+        op!("===") => try_replace!(perform_strict_eq_cmp(span, &left, &right)),
+        op!("!==") => try_replace!(!perform_strict_eq_cmp(span, &left, &right)),
         _ => (left, right),
     };
 
@@ -285,16 +325,16 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
 
     match op {
         op!("typeof") if !may_have_side_effects => {
-            let val = match arg {
-                Fn(..) => "function",
-                Lit(Lit::Str { .. }) => "string",
-                Lit(Lit::Num(..)) => "number",
-                Lit(Lit::Bool(..)) => "boolean",
-                Lit(Lit::Null) | Object { .. } | Array { .. } => "object",
-                Unary(UnaryExpr {
+            let val = match *arg {
+                Expr::Fn(..) => "function",
+                Expr::Lit(Lit::Str { .. }) => "string",
+                Expr::Lit(Lit::Num(..)) => "number",
+                Expr::Lit(Lit::Bool(..)) => "boolean",
+                Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
+                Expr::Unary(UnaryExpr {
                     op: op!("void"), ..
                 })
-                | Ident(Ident {
+                | Expr::Ident(Ident {
                     sym: js_word!("undefined"),
                     ..
                 }) => {
@@ -304,55 +344,66 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 }
 
                 _ => {
-                    return Unary(UnaryExpr {
+                    return Expr::Unary(UnaryExpr {
                         op: op!("typeof"),
                         arg,
+                        span,
                     })
                 }
             };
 
-            return Lit(Lit::Str {
+            return Expr::Lit(Lit::Str(Str {
+                span,
                 value: val.into(),
                 has_escape: false,
-            });
+            }));
         }
         op!("!") => match arg.as_bool() {
             (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),
-            _ => return Unary(UnaryExpr { op, arg }),
+            _ => return Expr::Unary(UnaryExpr { op, arg, span }),
         },
         op!(unary, "+") => match arg.as_number() {
-            Known(v) => return preserve_effects(span, Lit(Lit::Num(Number(v))), iter::once(arg)),
-            _ => return Unary(UnaryExpr { op, arg }),
+            Known(v) => {
+                return preserve_effects(
+                    span,
+                    Lit(Lit::Num(Number { value: v, span })),
+                    iter::once(arg),
+                )
+            }
+            _ => return Expr::Unary(UnaryExpr { op, arg, span }),
         },
-        op!(unary, "-") => match arg {
-            Ident(Ident {
+        op!(unary, "-") => match *arg {
+            Expr::Ident(Ident {
                 sym: js_word!("Infinity"),
-                ..
-            }) => return Unary(UnaryExpr { op, arg }),
+                span,
+            }) => return Expr::Unary(UnaryExpr { op, arg, span }),
             // "-NaN" is "NaN"
-            Ident(Ident {
+            Expr::Ident(Ident {
                 sym: js_word!("NaN"),
                 ..
-            }) => return arg,
-            Lit(Lit::Num(Number(f))) => return Lit(Lit::Num(Number(-f))),
+            }) => return *arg,
+            Expr::Lit(Lit::Num(Number { value: f, .. })) => {
+                return Expr::Lit(Lit::Num(Number { value: -f, span }))
+            }
             _ => {
 
                 // TODO: Report that user is something bad (negating non-number value)
             }
         },
         op!("void") if !may_have_side_effects => {
-            return Unary(UnaryExpr {
+            return Expr::Unary(UnaryExpr {
                 op: op!("void"),
-                arg: box Expr {
-                    span: arg.span,
-                    node: Lit(Lit::Num(Number(0.0))),
-                },
+                arg: box Expr::Lit(Lit::Num(Number {
+                    value: 0.0,
+                    span: arg.span(),
+                })),
+                span,
             })
         }
         _ => {}
     }
 
-    Unary(UnaryExpr { op, arg })
+    Expr::Unary(UnaryExpr { op, arg, span })
 }
 
 /// Try to fold arithmetic binary operators
@@ -404,10 +455,15 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
 /// This actually performs `<`.
 ///
 /// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
-fn perform_abstract_rel_cmp(left: &Expr, right: &Expr, will_negate: bool) -> Value<bool> {
+fn perform_abstract_rel_cmp(
+    span: Span,
+    left: &Expr,
+    right: &Expr,
+    will_negate: bool,
+) -> Value<bool> {
     match (left, right) {
         // Special case: `x < x` is always false.
-        (&Ident(Ident { sym: ref li, .. }, ..), &Ident(Ident { sym: ref ri, .. }))
+        (&Expr::Ident(Ident { sym: ref li, .. }, ..), &Expr::Ident(Ident { sym: ref ri, .. }))
             if !will_negate && li == ri =>
         {
             return Known(false)
@@ -416,20 +472,12 @@ fn perform_abstract_rel_cmp(left: &Expr, right: &Expr, will_negate: bool) -> Val
         (
             &Unary(UnaryExpr {
                 op: op!("typeof"),
-                arg:
-                    box Expr {
-                        node: Ident(Ident { sym: ref li, .. }),
-                        ..
-                    },
+                arg: box Expr::Ident(Ident { sym: ref li, .. }),
                 ..
             }),
             &Unary(UnaryExpr {
                 op: op!("typeof"),
-                arg:
-                    box Expr {
-                        node: Ident(Ident { sym: ref ri, .. }),
-                        ..
-                    },
+                arg: box Expr::Ident(Ident { sym: ref ri, .. }),
                 ..
             }),
         )
@@ -472,23 +520,23 @@ fn perform_abstract_rel_cmp(left: &Expr, right: &Expr, will_negate: bool) -> Val
 }
 
 /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
-fn perform_abstract_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {
+fn perform_abstract_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool> {
     let (lt, rt) = (left.get_type()?, right.get_type()?);
 
     if lt == rt {
-        return perform_strict_eq_cmp(left, right);
+        return perform_strict_eq_cmp(span, left, right);
     }
 
     match (lt, rt) {
         (NullType, UndefinedType) | (UndefinedType, NullType) => return Known(true),
         (NumberType, StringType) | (_, BoolType) => {
             let rv = right.as_number()?;
-            return perform_abstract_eq_cmp(left, &Lit(Lit::Num(Number(rv))));
+            return perform_abstract_eq_cmp(span, left, &Lit(Lit::Num(Number { value: rv, span })));
         }
 
         (StringType, NumberType) | (BoolType, _) => {
             let lv = left.as_number()?;
-            return perform_abstract_eq_cmp(&Lit(Lit::Num(Number(lv))), right);
+            return perform_abstract_eq_cmp(span, &Lit(Lit::Num(Number { value: lv, span })), right);
         }
 
         (StringType, ObjectType)
@@ -501,7 +549,7 @@ fn perform_abstract_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {
 }
 
 /// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
-fn perform_strict_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {
+fn perform_strict_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool> {
     // Any strict equality comparison against NaN returns false.
     if left.is_nan() || right.is_nan() {
         return Known(false);
@@ -511,20 +559,12 @@ fn perform_strict_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {
         (
             &Unary(UnaryExpr {
                 op: op!("typeof"),
-                arg:
-                    box Expr {
-                        node: Ident(Ident { sym: ref li, .. }),
-                        ..
-                    },
+                arg: box Expr::Ident(Ident { sym: ref li, .. }),
                 ..
             }),
             &Unary(UnaryExpr {
                 op: op!("typeof"),
-                arg:
-                    box Expr {
-                        node: Expr::Ident(Ident { sym: ref ri, .. }),
-                        ..
-                    },
+                arg: box Expr::Ident(Ident { sym: ref ri, .. }),
                 ..
             }),
         )
@@ -567,11 +607,11 @@ fn perform_strict_eq_cmp(left: &Expr, right: &Expr) -> Value<bool> {
 }
 
 /// make a new boolean expression preserving side effects, if any.
-fn make_bool_expr<I>(span: Span, val: bool, orig: I) -> Expr
+fn make_bool_expr<I>(span: Span, value: bool, orig: I) -> Expr
 where
     I: IntoIterator<Item = Box<Expr>>,
 {
-    preserve_effects(span, Lit(Lit::Bool(val)), orig)
+    preserve_effects(span, Expr::Lit(Lit::Bool(Bool { value, span })), orig)
 }
 
 /// make a new expression which evaluates `val` preserving side effects, if any.
@@ -583,39 +623,37 @@ where
     /// preserving order and conditions. (think a() ? yield b() : c())
     fn add_effects(v: &mut Vec<Box<Expr>>, box expr: Box<Expr>) {
         match expr {
-            Expr::Lit(..)
-            | Expr::This()
-            | Expr::Fn(..)
-            | Expr::Arrow { .. }
-            | Expr::Ident(Ident { .. }) => return,
+            Expr::Lit(..) | Expr::This(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Ident(..) => {
+                return
+            }
 
             // In most case, we can do nothing for this.
             Update(_) | Assign(_) | Yield(_) | Await(_) => v.push(box expr),
 
             // TODO
-            MetaProp(_) => v.push(box expr),
+            Expr::MetaProp(_) => v.push(box expr),
 
-            Call(_) => v.push(box expr),
-            New(_) => v.push(box expr),
-            Member(_) => v.push(box expr),
+            Expr::Call(_) => v.push(box expr),
+            Expr::New(_) => v.push(box expr),
+            Expr::Member(_) => v.push(box expr),
 
             // We are at here because we could not determine value of test.
             //TODO: Drop values if it does not have side effects.
-            Cond(_) => v.push(box expr),
+            Expr::Cond(_) => v.push(box expr),
 
-            Unary(UnaryExpr { arg, .. }) => add_effects(v, arg),
-            Bin(BinExpr { left, right, .. }) => {
+            Expr::Unary(UnaryExpr { arg, .. }) => add_effects(v, arg),
+            Expr::Bin(BinExpr { left, right, .. }) => {
                 add_effects(v, left);
                 add_effects(v, right);
             }
-            Seq(SeqExpr { exprs }) => exprs.into_iter().for_each(|e| add_effects(v, e)),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.into_iter().for_each(|e| add_effects(v, e)),
 
-            Expr::Paren(e) => add_effects(v, e),
+            Expr::Paren(e) => add_effects(v, e.expr),
 
-            Expr::Object(ObjectLit { props }) => {
-                props.into_iter().for_each(|Prop { node, .. }| match node {
+            Expr::Object(ObjectLit { props, span }) => {
+                props.into_iter().for_each(|node| match node {
                     Prop::Shorthand(..) => return,
-                    Prop::KeyValue { key, value } => {
+                    Prop::KeyValue(KeyValueProp { key, value }) => {
                         match key {
                             PropName::Computed(e) => add_effects(v, e),
                             _ => {}
@@ -623,34 +661,28 @@ where
 
                         add_effects(v, value)
                     }
-                    Prop::Getter { key, .. }
-                    | Prop::Setter { key, .. }
-                    | Prop::Method { key, .. } => match key {
+                    Prop::Getter(GetterProp { key, .. })
+                    | Prop::Setter(SetterProp { key, .. })
+                    | Prop::Method(MethodProp { key, .. }) => match key {
                         PropName::Computed(e) => add_effects(v, e),
                         _ => {}
                     },
-                    Prop::Assign { .. } => {
+                    Prop::Assign(..) => {
                         unreachable!("assign property in object literal is not a valid syntax")
                     }
                 })
             }
 
-            Expr::Array(ArrayLit { elems }) => {
+            Expr::Array(ArrayLit { elems, .. }) => {
                 elems.into_iter().filter_map(|e| e).fold(v, |v, e| {
-                    add_effects(
-                        v,
-                        match e {
-                            ExprOrSpread::Expr(e) => e,
-                            ExprOrSpread::Spread(e) => e,
-                        },
-                    );
+                    add_effects(v, e.expr);
 
                     v
                 });
                 return;
             }
 
-            Tpl { .. } => unimplemented!("add_effects for template literal"),
+            Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
             Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
         }
     }
