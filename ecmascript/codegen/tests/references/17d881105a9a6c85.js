@@ -1,5 +1,3 @@
-for (var a in b)
-  // do not optimize it
-  (function () {
+for(var a  in b)(function() {
     c('d');
-  }());
+}());

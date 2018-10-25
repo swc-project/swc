@@ -1,2 +1,4 @@
-({ a (b=new.target) {
-        } });
+({
+     a (b=new.target) {
+        } 
+});

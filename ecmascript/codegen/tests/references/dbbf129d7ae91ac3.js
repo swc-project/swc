@@ -1,1 +1,3 @@
-var a = function() { new.target; }
+var a = function() {
+    new.target;
+};

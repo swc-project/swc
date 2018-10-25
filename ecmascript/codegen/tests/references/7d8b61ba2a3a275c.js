@@ -1,5 +1,3 @@
-with (a)
-  // do not optimize it
-  (function () {
+with (a)(function() {
     b('c');
-  }());
+}());

@@ -1,4 +1,1 @@
-var a = !b &&       // should not touch this one
-    (!c || d) &&
-    (!e || f) &&
-    g();
+var // should not touch this onea = !b && (!c || d) && (!e || f) && g();

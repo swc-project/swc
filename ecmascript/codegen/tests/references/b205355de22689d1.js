@@ -1,1 +1,7 @@
-function *a(){({set b(c){yield}})}
+function* a() {
+    ({
+         set b (c){
+                yield;
+            } 
+    });
+}

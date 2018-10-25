@@ -1,1 +1,1 @@
-for(let a in a);
+for(let a  in a);

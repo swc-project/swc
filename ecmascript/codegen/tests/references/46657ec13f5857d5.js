@@ -1,8 +1,7 @@
-switch (a) {
-case 1:
-  // optimize it
-  (function () {
-    b("c");
-  }());
-  b("d");
+switch(a){
+    case 1:
+        (function() {
+            b("c");
+        }());
+        b("d");
 }

@@ -1,4 +1,4 @@
-var a; // if undeclared it's assumed to have side-effects
+var // if undeclared it's assumed to have side-effectsa ;
 if (b()) {
     a(c);
 } else {

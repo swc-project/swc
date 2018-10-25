@@ -1,1 +1,4 @@
-function a() { 'use strict'; "\0"; }
+function a() {
+    'use strict';
+    "\0";
+}

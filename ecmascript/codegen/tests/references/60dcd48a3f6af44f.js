@@ -1,1 +1,4 @@
-try {} catch(a) { var a = 1; }
+try{
+}catch (a) {
+    var a = 1;
+}

@@ -1,1 +1,4 @@
-class a { static get [b]() {} }
+class a{
+    static get b() {
+    }
+}

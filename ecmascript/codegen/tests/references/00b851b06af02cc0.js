@@ -1,11 +1,5 @@
-a.b('c').
-    d('e',
-        /*@ngInject*/
-        function(f) {
-            return f;
-        }).
-    g('h',
-        /*@ngInject*/
-        function(i) {
-            return i;
-        })
+a.b('c').d('e', function(f) {
+    return f;
+}).g('h', function(i) {
+    return i;
+});

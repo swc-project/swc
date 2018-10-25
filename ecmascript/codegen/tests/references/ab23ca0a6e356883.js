@@ -1,3 +1,4 @@
 do {
     a();
-} while (false);b()
+}while (false)
+b();

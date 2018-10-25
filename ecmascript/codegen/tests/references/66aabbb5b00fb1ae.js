@@ -1,5 +1,5 @@
-(function () {
-  var a = 1;
-  a;
-  eval('');
+(function() {
+    var a = 1;
+    a;
+    eval('');
 }());

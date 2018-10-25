@@ -1,1 +1,3 @@
-function *a(){yield delete 1}
+function* a() {
+    yield delete 1;
+}

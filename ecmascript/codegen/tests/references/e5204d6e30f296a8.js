@@ -1,1 +1,4 @@
-switch(a){default:case 1:}
+switch(a){
+    default:
+    case 1:
+}

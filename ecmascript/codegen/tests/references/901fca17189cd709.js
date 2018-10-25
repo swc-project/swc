@@ -1,1 +1,7 @@
-function* a(){(class {[yield](){}})};
+function* a() {
+    (class{
+         yield() {
+        }
+    });
+}
+;

@@ -1,5 +1,5 @@
 if (a) {
-    with (b) {
+    with (b){
         if (c) {
             d();
         }

@@ -1,3 +1,3 @@
 function a() {
-    let b =new.target;
+    let b = new.target;
 }

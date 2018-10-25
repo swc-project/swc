@@ -1,5 +1,4 @@
 function a(b, c) {
-    // circular reference
     function d() {
         return e();
     }

@@ -1,1 +1,3 @@
-__proto__: while (true) { break __proto__; }
+__proto__: while(true){
+    break __proto__;
+}

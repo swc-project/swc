@@ -1,6 +1,7 @@
-while (a)
-  // optimize it
-  (function () {
+while(a)(function() {
     b('c');
-  }());
-try { } catch (d) { b('e'); }
+}());
+try{
+}catch (d) {
+    b('e');
+}

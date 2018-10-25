@@ -1,4 +1,4 @@
-(function () {
+(function() {
     if (true != a) {
         b();
     }

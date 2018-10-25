@@ -1,7 +1,9 @@
 if (a) {
-  try { b('try'); } catch (c) {}
-  // do not optimize it
-  (function () {
-    b('d');
-  }());
+    try{
+        b('try');
+    }catch (c) {
+    }
+    (function() {
+        b('d');
+    }());
 }

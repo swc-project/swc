@@ -1,3 +1,3 @@
-(function () {
-    a(typeof b === 'c');
+(function() {
+    a(typeof b ===" 'c');
 }());

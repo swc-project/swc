@@ -1,5 +1,5 @@
-(function () {
+(function() {
     var a = {
-        'Infinity': 1
+            'Infinity': 1
     };
 }());

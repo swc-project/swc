@@ -1,1 +1,3 @@
-function *a(){yield true}
+function* a() {
+    yield true;
+}

@@ -1,1 +1,2 @@
-'use strict'; arguments[1] = 2
+'use strict';
+arguments[1] = 2;

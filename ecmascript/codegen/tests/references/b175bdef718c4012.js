@@ -1,1 +1,3 @@
-if (a) { /* Some comment */ b() }
+if (a) {
+    b();
+}

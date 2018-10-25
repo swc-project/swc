@@ -1,2 +1,4 @@
-(function(){ return/* Multiline
-Comment */a; })
+(function() {
+    return;
+    a;
+});

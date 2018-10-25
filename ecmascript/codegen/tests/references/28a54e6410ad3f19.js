@@ -1,5 +1,4 @@
-// Surpress reducing because of alternate
-for (;;) {
+for(;;){
     if (a) {
         if (b) {
             continue;

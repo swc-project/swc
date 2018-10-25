@@ -1,1 +1,4 @@
-class a extends b {get c() {}}
+class a extends b{
+    get c() {
+    }
+}

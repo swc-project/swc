@@ -6,5 +6,5 @@ if ((function() {
     b(false);
 }
 (function() {
-    c.d('e');
+    c.d("e");
 })();

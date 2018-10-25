@@ -1,3 +1,3 @@
-(function () {
+(function() {
     a['NaN'] = 1;
 }());

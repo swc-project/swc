@@ -1,1 +1,3 @@
-(a)=>{'use strict';}
+(a)=>{
+    'use strict';
+};

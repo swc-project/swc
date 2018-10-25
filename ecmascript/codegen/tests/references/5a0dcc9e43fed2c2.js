@@ -1,4 +1,4 @@
-(/* comment */{
-    a: null,
-    b: null
-})
+({
+        a: null,
+        b: null
+});

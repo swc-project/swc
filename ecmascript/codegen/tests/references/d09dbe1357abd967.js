@@ -1,5 +1,5 @@
 (function() {
     (function() {
-        a('b');
+        a("b");
     }());
 }());

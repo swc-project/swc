@@ -1,1 +1,5 @@
-"use strict"; ({ yield() {} })
+"use strict";
+({
+     yield () {
+        } 
+});

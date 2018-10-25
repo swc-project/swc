@@ -22,8 +22,8 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
 
-        println!("A.Snippet: {:?}", src);
-        println!("A.Extended: {:?}", ext_sp);
+        // println!("A.Snippet: {:?}", src);
+        // println!("A.Extended: {:?}", ext_sp);
 
         Ok(())
     }
@@ -36,7 +36,7 @@ impl<'a> Emitter<'a> {
         if self.pos_of_leading_comments.contains(&pos) {
             return Ok(());
         }
-        println!("COMM: {:?}", pos);
+        // println!("COMM: {:?}", pos);
         self.pos_of_leading_comments.insert(pos);
 
         let span = Span::new(pos, pos, SyntaxContext::empty());
@@ -44,9 +44,7 @@ impl<'a> Emitter<'a> {
         // Extend span until we meet /* or first //
         let mut ext_sp = span;
         loop {
-            // println!("Extending {:?}", ext_sp);
             ext_sp = self.cm.span_extend_to_prev_str(ext_sp, "//", true);
-            // println!("Extended to {:?}", ext_sp);
 
             let (line, s) = self
                 .file
@@ -60,7 +58,7 @@ impl<'a> Emitter<'a> {
 
             if s.trim().starts_with("//") && line > 0 {
                 let (llo, lhi) = self.file.line_bounds(line - 1);
-                println!("L{}: {:?}~{:?}", line - 1, llo, lhi);
+                // println!("L{}: {:?}~{:?}", line - 1, llo, lhi);
                 ext_sp = ext_sp.with_lo(lhi);
                 continue;
             }
@@ -79,7 +77,7 @@ impl<'a> Emitter<'a> {
         //    return Ok(());
         // }
 
-        println!("B: {:?}", src);
+        // println!("B: {:?}", src);
         self.wr.write(src.as_bytes())?;
         Ok(())
     }

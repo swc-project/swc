@@ -1,1 +1,5 @@
-a = { set b(c) { d = c } }
+a = {
+     set b (c){
+            d = c;
+        } 
+};

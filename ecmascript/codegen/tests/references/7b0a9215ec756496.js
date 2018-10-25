@@ -1,2 +1,4 @@
-{ throw a/* Multiline
-Comment */a; }
+{
+    throw a;
+    a;
+}

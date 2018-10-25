@@ -1,1 +1,6 @@
-class a { b() {} get b() {} }
+class a{
+     b() {
+    }
+    get b() {
+    }
+}

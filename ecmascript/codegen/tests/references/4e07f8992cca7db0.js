@@ -1,1 +1,2 @@
-'use strict'; 0o0
+'use strict';
+0o0;

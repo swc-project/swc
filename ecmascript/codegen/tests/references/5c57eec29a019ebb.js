@@ -1,1 +1,6 @@
-class a {static[b](){}; static[c](){}}
+class a{
+    static  b() {
+    }
+    static  c() {
+    }
+}

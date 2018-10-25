@@ -1,1 +1,3 @@
-'use strict';var a = function(){}(b())
+'use strict';
+var a = function() {
+}(b());

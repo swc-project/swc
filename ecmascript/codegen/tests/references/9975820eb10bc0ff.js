@@ -1,1 +1,5 @@
-for (;;) { a(); continue; b(); }
+for(;;){
+    a();
+    continue;
+    b();
+}

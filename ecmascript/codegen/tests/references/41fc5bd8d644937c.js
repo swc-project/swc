@@ -1,1 +1,3 @@
-var a = function b() { c() };
+var a = function b() {
+    c();
+};

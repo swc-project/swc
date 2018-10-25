@@ -1,1 +1,5 @@
-({get __proto__() {}, set __proto__(a) {}})
+({
+     get __proto__ () {
+        }, set __proto__ (a){
+        } 
+});

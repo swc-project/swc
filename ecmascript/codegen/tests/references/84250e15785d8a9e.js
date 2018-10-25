@@ -1,3 +1,5 @@
-({ set true (a){
+({
+     set true (a){
             a;
-        } });
+        } 
+});

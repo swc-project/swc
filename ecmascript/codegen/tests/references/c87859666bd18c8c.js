@@ -1,1 +1,3 @@
-while (1) {} /foo/
+while(1){
+}
+/foo/;

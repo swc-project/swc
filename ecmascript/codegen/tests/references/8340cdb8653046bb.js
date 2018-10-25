@@ -1,1 +1,2 @@
-for (var [a, b] in c) {}
+for(var [a, , b]  in c){
+}

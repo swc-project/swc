@@ -1,4 +1,5 @@
-(function () {
-    var a = {};
-    a.b = (c(), 1);  // ok
+(function() {
+    var a = {
+    };
+    a.b = ( c(), 1);
 }());

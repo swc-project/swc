@@ -1,1 +1,2 @@
-export let a = { }
+export let a = {
+};;

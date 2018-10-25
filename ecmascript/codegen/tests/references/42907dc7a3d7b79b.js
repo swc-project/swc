@@ -1,2 +1,4 @@
-while (true) { break // Comment
-a; }
+while(true){
+    break;
+    a;
+}

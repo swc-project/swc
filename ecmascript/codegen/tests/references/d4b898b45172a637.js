@@ -1,1 +1,6 @@
-"use strict"; var a = { get b() {}, get b() {} }
+"use strict";
+var a = {
+     get b () {
+        }, get b () {
+        } 
+};

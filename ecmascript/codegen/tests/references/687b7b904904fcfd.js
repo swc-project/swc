@@ -1,1 +1,4 @@
-class a {prototype(){}}
+class a{
+     prototype() {
+    }
+}

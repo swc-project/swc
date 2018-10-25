@@ -1,1 +1,1 @@
-delete a
+delete a;

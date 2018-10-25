@@ -1,1 +1,3 @@
-function a() {} / 1 /
+function a() {
+}
+/ 1 /;

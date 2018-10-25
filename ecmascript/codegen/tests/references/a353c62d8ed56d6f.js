@@ -1,2 +1,4 @@
-{ throw a// Comment
-a; }
+{
+    throw a;
+    a;
+}

@@ -1,9 +1,7 @@
-(function () {
-    // 'a'
+(function() {
     b: {
         if (a) break b;
-        (function () {
-            // 'a'
+        (function() {
             b: {
                 if (a) break b;
                 c("d");

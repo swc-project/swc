@@ -1,2 +1,2 @@
 a.b`foo`;
-c `bar`;
+c`bar`;

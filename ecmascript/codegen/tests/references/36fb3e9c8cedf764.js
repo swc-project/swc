@@ -1,1 +1,4 @@
-class a {set(b) {};}
+class a{
+     set(b) {
+    }
+}

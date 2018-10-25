@@ -1,1 +1,6 @@
-class a {"constructor"(){} ["constructor"](){}}
+class a{
+     "constructor"() {
+    }
+     "constructor"() {
+    }
+}

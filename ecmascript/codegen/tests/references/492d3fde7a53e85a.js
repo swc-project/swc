@@ -1,1 +1,3 @@
-switch (a) { case 1: let b; }
+switch(a){
+    case 1: let b ;
+}

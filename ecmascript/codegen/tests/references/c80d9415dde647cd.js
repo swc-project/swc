@@ -1,1 +1,5 @@
-a = { set if(b) { c = b } }
+a = {
+     set if (b){
+            c = b;
+        } 
+};

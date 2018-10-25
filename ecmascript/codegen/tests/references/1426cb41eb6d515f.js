@@ -1,2 +1,4 @@
-while (true) { break /* Multiline
-Comment */a; }
+while(true){
+    break;
+    a;
+}

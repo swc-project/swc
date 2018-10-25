@@ -1,1 +1,4 @@
-a = { get false() {} }
+a = {
+     get false () {
+        } 
+};

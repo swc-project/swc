@@ -1,3 +1,6 @@
-function a(){return
-{}
-/foo/}
+function a() {
+    return;
+    {
+    }
+    /foo/;
+}

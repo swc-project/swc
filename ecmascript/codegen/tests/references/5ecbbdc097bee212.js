@@ -1,1 +1,2 @@
-for (a in let) {}
+for(a in let){
+}

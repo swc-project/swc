@@ -1,7 +1,7 @@
-while (a) {
+while(a){
     {
         b();
-        while (a);
+        while(a);
     }
     b();
 }

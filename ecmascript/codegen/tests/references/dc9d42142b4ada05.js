@@ -1,1 +1,4 @@
-if(a) { b = 1; for(var c;;); }
+if (a) {
+    b = 1;
+    for(var c ;;);
+}

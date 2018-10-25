@@ -1,7 +1,7 @@
 (function() {
-    for (;;) {
+    for(;;){
         continue;
-        a();  // This should be removed.
+        a();
     }
     b();
 }());

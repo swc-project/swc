@@ -1,14 +1,10 @@
-// 1
 a();
 b();
-for (; false;);
-// 2
+for(; false;);
 a();
 b();
-for (c = 1; false;);
-// 3
+for(c = 1; false;);
 c = (a in b);
-for (; false;);
-// 4
+for(; false;);
 c = (a in b);
-for (d = 2; false;);
+for(d = 2; false;);

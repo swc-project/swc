@@ -1,1 +1,3 @@
-try {} catch (yield) {}
+try{
+}catch (yield) {
+}

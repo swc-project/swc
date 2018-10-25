@@ -1,3 +1,3 @@
-(/* comment */{
-    a: null
-})
+({
+        a: null
+});

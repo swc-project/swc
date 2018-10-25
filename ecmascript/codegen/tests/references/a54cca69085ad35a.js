@@ -1,1 +1,4 @@
-class a { static set b(c) {}}
+class a{
+    static set b(c) {
+    }
+}

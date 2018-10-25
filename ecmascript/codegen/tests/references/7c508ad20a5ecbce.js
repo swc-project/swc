@@ -1,1 +1,5 @@
-class a extends b { c() { ({d: super[e]} = f) } }
+class a extends b{
+     c() {
+        ({ d: super[e]  } = f);
+    }
+}

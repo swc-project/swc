@@ -1,1 +1,4 @@
-(class {static(){}})
+(class{
+     static() {
+    }
+});

@@ -1,5 +1,5 @@
-for (;;) {
-    with (a) {
+for(;;){
+    with (a){
         continue;
     }
 }

@@ -1,1 +1,1 @@
-1 instanceof 2
+1 instanceof 2;

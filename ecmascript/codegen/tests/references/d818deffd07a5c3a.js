@@ -1,1 +1,1 @@
-for (var a in b) continue;  // should be empty statement
+for(var // should be empty statementa  in b)continue;

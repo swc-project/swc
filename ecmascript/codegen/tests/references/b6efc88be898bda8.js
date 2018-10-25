@@ -1,3 +1,3 @@
 (function a() {
-    var b = 1;  // should not hoist variable.
+    var // should not hoist variable.b = 1;
 }());

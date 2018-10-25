@@ -1,2 +1,1 @@
-// line comment
-1
+1;

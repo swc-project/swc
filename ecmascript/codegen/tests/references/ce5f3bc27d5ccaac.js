@@ -1,1 +1,3 @@
-function *a() { (b) => b * yield; }
+function* a() {
+    (b)=>b * yield;
+}

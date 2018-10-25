@@ -1,1 +1,5 @@
-a = { set true(b) { c = b } }
+a = {
+     set true (b){
+            c = b;
+        } 
+};

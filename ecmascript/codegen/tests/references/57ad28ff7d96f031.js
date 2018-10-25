@@ -1,3 +1,3 @@
-for (var a in b) {
-  c;
+for(var a  in b){
+    c;
 }

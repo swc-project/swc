@@ -1,1 +1,3 @@
-switch (a) { case 1: /* perfect */ b() }
+switch(a){
+    case 1: b();
+}

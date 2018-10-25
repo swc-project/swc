@@ -1,3 +1,3 @@
 function a() {
-  if (!b || c());
+    if (!b || c()) ;
 }

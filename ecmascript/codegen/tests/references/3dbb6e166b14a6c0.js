@@ -1,1 +1,3 @@
-function a() { new.\u0074arget; }
+function a() {
+    new.\u0074arget;
+}

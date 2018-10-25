@@ -1,2 +1,4 @@
-({ a:function() {
-        } });
+({
+     a: function() {
+        } 
+});

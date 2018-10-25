@@ -1,5 +1,5 @@
 var a = {
-        b:null,
+        b: null,
         set c (d){
         },
         get c () {

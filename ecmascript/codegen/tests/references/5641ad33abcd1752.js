@@ -1,1 +1,4 @@
-a = { get true() {} }
+a = {
+     get true () {
+        } 
+};

@@ -1,8 +1,8 @@
-while (a) {
+while(a){
     if (b) {
-        switch (true) {
-          case c():
-            d();
+        switch(true){
+            case c():
+                d();
         }
         continue;
     }

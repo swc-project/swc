@@ -1,5 +1,4 @@
 function a() {
-    with ((a(), void 1)) {
-        // code
+    with (( a(), void 1)){
     }
 }

@@ -1,2 +1,4 @@
-function a({ b  }={ b:1 }) {
+function a({ b  }={
+     b: 1 
+}) {
 }

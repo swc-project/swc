@@ -1,5 +1,3 @@
-for (var a = 1; a < 2; ++a)
-  // do not optimize it
-  (function () {
+for(var a = 1; a < 2; ++a)(function() {
     b('c');
-  }());
+}());

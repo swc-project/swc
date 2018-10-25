@@ -1,1 +1,4 @@
-b: while (1) { continue /**/ a; }
+b: while(1){
+    continue;
+    a;
+}

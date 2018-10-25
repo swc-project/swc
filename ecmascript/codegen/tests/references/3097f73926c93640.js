@@ -1,1 +1,3 @@
-(function(){ return })
+(function() {
+    return;
+});

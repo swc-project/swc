@@ -1,4 +1,3 @@
-// Do not mangle to the same name
 e: {
     d: {
         a("b");

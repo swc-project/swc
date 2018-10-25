@@ -1,1 +1,3 @@
-function* a(){({[yield]:a}=1)}
+function* a() {
+    ({ yield: a  } = 1);
+}

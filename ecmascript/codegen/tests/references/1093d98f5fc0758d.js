@@ -1,1 +1,2 @@
-(function a({ b: { c, a }, d: [e, f] }, ...[b, d, g]){})
+(function a({ b: { c , a  } , d: [e, , f]  }, ...[b, , d, , g]) {
+});

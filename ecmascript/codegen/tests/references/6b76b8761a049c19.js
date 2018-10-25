@@ -1,1 +1,6 @@
-function *a(){({set b(yield){}})}
+function* a() {
+    ({
+         set b (yield){
+            } 
+    });
+}

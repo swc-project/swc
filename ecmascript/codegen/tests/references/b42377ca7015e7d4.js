@@ -1,1 +1,2 @@
-const {a} = {}
+const { a  } = {
+};

@@ -1,1 +1,3 @@
-throw { a:"b" };
+throw {
+     a: "b" 
+};

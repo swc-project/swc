@@ -1,3 +1,3 @@
-(function(){
-  return typeof a() !== "b";
-}())
+(function() {
+    return typeof a() !== "b";
+}());
