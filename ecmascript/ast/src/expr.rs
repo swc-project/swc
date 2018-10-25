@@ -143,12 +143,12 @@ pub struct MemberExpr {
     pub prop: Box<Expr>,
     pub computed: bool,
 }
+
 #[ast_node]
 pub struct CondExpr {
-    #[span(lo)]
+    pub span: Span,
     pub test: Box<Expr>,
     pub cons: Box<Expr>,
-    #[span(hi)]
     pub alt: Box<Expr>,
 }
 
