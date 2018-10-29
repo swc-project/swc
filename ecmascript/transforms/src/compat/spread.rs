@@ -32,48 +32,7 @@ impl Fold<Expr> for SpreadElement {
                     elems: vec![],
                     span,
                 });
-                let args = Expr::Call(CallExpr {
-                    // TODO
-                    span,
-
-                    callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        // TODO: Mark
-                        span,
-                        prop: box Expr::Ident(Ident::new(js_word!("concat"), span)),
-                        obj: ExprOrSuper::Expr(box arr),
-                        computed: false,
-                    })),
-
-                    args: args
-                        .into_iter()
-                        .map(|ExprOrSpread { expr, spread }| {
-                            // ...b -> toConsumableArray(b)
-                            match spread {
-                                Some(span) => {
-                                    self.helpers
-                                        .to_consumable_array
-                                        .store(true, Ordering::SeqCst);
-                                    ExprOrSpread {
-                                        expr: box Expr::Call(CallExpr {
-                                            span,
-                                            callee: ExprOrSuper::Expr(
-                                                box Ident::new(
-                                                    js_word!("_toConsumableArray"),
-                                                    span,
-                                                )
-                                                .into(),
-                                            ),
-                                            args: vec![ExprOrSpread { expr, spread: None }],
-                                        }),
-                                        spread: None,
-                                    }
-                                }
-                                None => ExprOrSpread { expr, spread: None },
-                            }
-                        })
-                        .collect(),
-                });
-
+                let args = concat_args(self.helpers, args);
                 //
                 // f.apply(undefined, args)
                 //
@@ -105,6 +64,45 @@ impl Fold<Expr> for SpreadElement {
             _ => e,
         }
     }
+}
+
+fn concat_args(helpers: Helpers, args: Vec<ExprOrSpread>) -> Expr {
+    Expr::Call(CallExpr {
+        // TODO
+        span,
+
+        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+            // TODO: Mark
+            span,
+            prop: box Expr::Ident(Ident::new(js_word!("concat"), span)),
+            obj: ExprOrSuper::Expr(box arr),
+            computed: false,
+        })),
+
+        args: args
+            .into_iter()
+            .map(|ExprOrSpread { expr, spread }| {
+                // ...b -> toConsumableArray(b)
+                match spread {
+                    Some(span) => {
+                        helpers.to_consumable_array.store(true, Ordering::SeqCst);
+
+                        ExprOrSpread {
+                            expr: box Expr::Call(CallExpr {
+                                span,
+                                callee: ExprOrSuper::Expr(
+                                    box Ident::new(js_word!("_toConsumableArray"), span).into(),
+                                ),
+                                args: vec![ExprOrSpread { expr, spread: None }],
+                            }),
+                            spread: None,
+                        }
+                    }
+                    None => ExprOrSpread { expr, spread: None },
+                }
+            })
+            .collect(),
+    })
 }
 
 #[cfg(test)]
