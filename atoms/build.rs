@@ -73,6 +73,8 @@ fn main() {
             "undefined",
             "NaN",
             "RegExp",
+            // helpers
+            "_extends",
         ],
     );
 }
