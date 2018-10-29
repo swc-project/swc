@@ -1,6 +1,6 @@
 use super::helpers::Helpers;
 use std::sync::{atomic::Ordering, Arc};
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 
 /// es2015 - `SpreadElement`
@@ -25,14 +25,7 @@ impl Fold<Expr> for SpreadElement {
                     return Expr::Call(CallExpr { callee, args, span });
                 }
 
-                //
-                // []
-                //
-                let arr = Expr::Array(ArrayLit {
-                    elems: vec![],
-                    span,
-                });
-                let args = concat_args(self.helpers, args);
+                let args = concat_args(&self.helpers, span, args);
                 //
                 // f.apply(undefined, args)
                 //
@@ -66,7 +59,14 @@ impl Fold<Expr> for SpreadElement {
     }
 }
 
-fn concat_args(helpers: Helpers, args: Vec<ExprOrSpread>) -> Expr {
+fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    //
+    // []
+    //
+    let arr = Expr::Array(ArrayLit {
+        elems: vec![],
+        span,
+    });
     Expr::Call(CallExpr {
         // TODO
         span,
