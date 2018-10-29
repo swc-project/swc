@@ -74,7 +74,9 @@ fn main() {
             "NaN",
             "RegExp",
             // helpers
+            "concat",
             "_extends",
+            "_toConsumableArray"
         ],
     );
 }
