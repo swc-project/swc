@@ -187,3 +187,32 @@ fn new_new_no_paren() {
         })
     );
 }
+
+#[test]
+fn array_lit() {
+    assert_eq_ignore_span!(
+        expr("[a,,,,, ...d,, e]"),
+        box Expr::Array(ArrayLit {
+            span,
+            elems: vec![
+                Some(ExprOrSpread {
+                    spread: None,
+                    expr: box Expr::Ident(Ident::new("a".into(), span))
+                }),
+                None,
+                None,
+                None,
+                None,
+                Some(ExprOrSpread {
+                    spread: Some(span),
+                    expr: box Expr::Ident(Ident::new("d".into(), span))
+                }),
+                None,
+                Some(ExprOrSpread {
+                    spread: None,
+                    expr: box Expr::Ident(Ident::new("e".into(), span))
+                }),
+            ]
+        })
+    );
+}

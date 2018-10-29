@@ -4,7 +4,6 @@
 #![feature(specialization)]
 #![feature(never_type)]
 // #![feature(nll)]
-#![feature(proc_macro)]
 #![feature(try_from)]
 #![feature(try_trait)]
 #![deny(unreachable_patterns)]
