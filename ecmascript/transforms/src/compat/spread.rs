@@ -114,14 +114,14 @@ mod tests {
     test!(
         SpreadElement::default(),
         base,
-        "ca(a, b, c,, ...d,,, e)",
-        "ca.applyt(undefined, [].concat(a, b, c,, toCosumableArray(d),,, e)"
+        "var re = ca(a, b, c,, ...d,,, e)",
+        "var re = ca.applyt(undefined, [].concat(a, b, c,, toCosumableArray(d),,, e)"
     );
 
     test!(
         SpreadElement::default(),
         no_spread,
-        "ca(a, b, c,, d,,, e)",
-        "ca(a, b, c,, d,,, e);"
+        "var re = ca(a, b, c,, d,,, e)",
+        "var re = ca(a, b, c,, d,,, e);"
     );
 }

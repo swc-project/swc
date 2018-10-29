@@ -4,33 +4,39 @@ pub(crate) fn parse(name: &'static str, src: &'static str) -> ::swc_ecma_ast::Mo
     use swc_common::{FileName, FilePathMapping, SourceFile, SourceMap};
     use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
-    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
-    let fm = cm.new_source_file(FileName::Real(name.into()), src.into());
+    let output = ::testing::run_test(|logger, cm, handler| {
+        let fm = cm.new_source_file(FileName::Real(name.into()), src.into());
+        let handler = ::swc_common::errors::Handler::with_tty_emitter(
+            ::swc_common::errors::ColorConfig::Auto,
+            true,
+            false,
+            Some(cm),
+        );
+        let logger = ::testing::logger().new(o!("src" => src));
 
-    let handler = ::swc_common::errors::Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Auto,
-        true,
-        false,
-        Some(cm),
+        let sess = Session {
+            handler: &handler,
+            logger: &logger,
+            cfg: Default::default(),
+        };
+
+        let module = {
+            let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
+            p.parse_module().unwrap_or_else(|err| {
+                err.emit();
+                panic!("failed to parse")
+            })
+        };
+        println!("parsed {} as a module", src);
+
+        module
+    });
+
+    assert_eq!(
+        output.errors,
+        ::testing::NormalizedOutput::from("".to_string())
     );
-    let logger = ::testing::logger().new(o!("src" => src));
-
-    let sess = Session {
-        handler: &handler,
-        logger: &logger,
-        cfg: Default::default(),
-    };
-
-    let module = {
-        let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
-        p.parse_module().unwrap_or_else(|err| {
-            err.emit();
-            panic!("failed to parse")
-        })
-    };
-    println!("parsed {} as a module", src);
-
-    module
+    output.result
 }
 
 #[cfg(test)]
