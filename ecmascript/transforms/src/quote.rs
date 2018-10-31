@@ -1,7 +1,7 @@
 #[macro_export]
 macro_rules! quote_ident {
     ($span:expr, $s:expr) => {{
-        ::swc_ecma_ast::Ident::new($s.into(), span)
+        ::swc_ecma_ast::Ident::new($s.into(), $span)
     }};
 }
 
@@ -9,11 +9,11 @@ macro_rules! quote_ident {
 macro_rules! expr {
     ($span:expr, null) => {{
         use swc_ecma_ast::*;
-        Expr::Lit(Lit::Null(Null { span }))
+        Expr::Lit(Lit::Null(Null { span: $span }))
     }};
 
     ($span:expr, undefined) => {{
-        box Expr::Ident(Ident::new(js_word!("undefined"), span))
+        box Expr::Ident(Ident::new(js_word!("undefined"), $span))
     }};
 }
 
@@ -21,18 +21,17 @@ macro_rules! expr {
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
         use swc_ecma_ast::*;
-        box Expr::Ident(Ident::new($first.into(), span))
+        box Expr::Ident(Ident::new(stringify!($first).into(), $span))
     }};
 
     ($span:expr, $first:ident . $($rest:tt)+) => {{
-        let obj = member_expr!(span, $first);
+        let obj = member_expr!($span, $first);
 
         member_expr!(@EXT, $span, obj, $($rest)* );
     }};
 
     (@EXT, $span:expr, $obj:expr,  $first:ident . $($rest:tt)* ) => {{
-        use swc_ecma_ast::*;
-        let prop = member_expr!(span, $first);
+        let prop = member_expr!($span, $first);
 
         member_expr!(@EXT, $span, box Expr::Member(MemberExpr{
             span: $span,
@@ -44,7 +43,7 @@ macro_rules! member_expr {
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
         use swc_ecma_ast::*;
-        let prop = member_expr!(span, $first);
+        let prop = member_expr!($span, $first);
 
         box Expr::Member(MemberExpr{
             span: $span,
