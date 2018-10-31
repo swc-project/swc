@@ -17,6 +17,7 @@ macro_rules! expr {
     }};
 }
 
+/// Returns Box<Expr>
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
         use swc_ecma_ast::*;
@@ -34,9 +35,9 @@ macro_rules! member_expr {
         use swc_ecma_ast::*;
         let prop = member_expr!(span, $first);
 
-        member_expr!(@EXT, $span, Expr::Member(MemberExpr{
+        member_expr!(@EXT, $span, box Expr::Member(MemberExpr{
             span: $span,
-            obj: $obj,
+            obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,
         }), $($rest)*);
@@ -48,7 +49,7 @@ macro_rules! member_expr {
 
         box Expr::Member(MemberExpr{
             span: $span,
-            obj: $obj,
+            obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,
         })
@@ -64,11 +65,11 @@ mod tests {
         assert_eq_ignore_span!(
             member_expr!(span, Function.prototype.bind),
             MemberExpr {
-                obj: MemberExpr {
+                obj: ExprOrSuper::Expr(MemberExpr {
                     obj: member_expr!(span, Function),
                     computed: false,
                     prop: member_expr!(span, prototype),
-                },
+                }),
                 computed: false,
                 prop: member_expr!(span, bind),
             }

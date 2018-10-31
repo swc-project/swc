@@ -12,6 +12,7 @@ pub extern crate swc_atoms;
 pub extern crate swc_common;
 #[macro_use]
 pub extern crate swc_ecma_ast;
+#[cfg(test)]
 pub extern crate swc_ecma_parser;
 #[cfg(test)]
 #[macro_use]
