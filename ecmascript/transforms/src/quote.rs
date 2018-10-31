@@ -25,7 +25,6 @@ macro_rules! member_expr {
     }};
 
     ($span:expr, $first:ident . $($rest:tt)+) => {{
-        use swc_ecma_ast::*;
         let obj = member_expr!(span, $first);
 
         member_expr!(@EXT, $span, obj, $($rest)* );
