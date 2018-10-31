@@ -27,7 +27,7 @@ macro_rules! member_expr {
     ($span:expr, $first:ident . $($rest:tt)+) => {{
         let obj = member_expr!($span, $first);
 
-        member_expr!(@EXT, $span, obj, $($rest)* );
+        member_expr!(@EXT, $span, obj, $($rest)* )
     }};
 
     (@EXT, $span:expr, $obj:expr,  $first:ident . $($rest:tt)* ) => {{
@@ -38,7 +38,7 @@ macro_rules! member_expr {
             obj: ExprOrSuper::Expr($obj),
             computed: false,
             prop,
-        }), $($rest)*);
+        }), $($rest)*)
     }};
 
     (@EXT, $span:expr, $obj:expr,  $first:ident) => {{
