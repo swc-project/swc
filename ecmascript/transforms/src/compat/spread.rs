@@ -138,7 +138,7 @@ mod tests {
         SpreadElement::default(),
         call,
         "ca(a, b, c, ...d, e)",
-        "ca.apply(undefined, [].concat(a, b, c, toCosumableArray(d), e)"
+        "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
     );
 
     test!(
