@@ -13,6 +13,10 @@ pub extern crate swc_common;
 #[macro_use]
 pub extern crate swc_ecma_ast;
 #[cfg(test)]
+extern crate sourcemap;
+#[cfg(test)]
+pub extern crate swc_ecma_codegen;
+#[cfg(test)]
 pub extern crate swc_ecma_parser;
 #[cfg(test)]
 #[macro_use]

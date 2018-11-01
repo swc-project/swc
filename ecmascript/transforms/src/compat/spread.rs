@@ -136,15 +136,30 @@ mod tests {
 
     test!(
         SpreadElement::default(),
-        base,
-        "var re = ca(a, b, c,, ...d,,, e)",
-        "var re = ca.applyt(undefined, [].concat(a, b, c,, toCosumableArray(d),,, e)"
+        call,
+        "ca(a, b, c, ...d, e)",
+        "ca.apply(undefined, [].concat(a, b, c, toCosumableArray(d), e)"
     );
 
     test!(
         SpreadElement::default(),
-        no_spread,
-        "var re = ca(a, b, c,, d,,, e)",
-        "var re = ca(a, b, c,, d,,, e);"
+        call_noop,
+        "ca(a, b, c, d, e)",
+        "ca(a, b, c, d, e);"
+    );
+
+    test!(
+        SpreadElement::default(),
+        new,
+        "new C(a, b, c, ...d, e)",
+        "new (Function.prototype.bind.apply(C, [null].concat([a, b, c], _toConsumableArray(d), \
+         [e])))();"
+    );
+
+    test!(
+        SpreadElement::default(),
+        new_noop,
+        "new C(a, b, c, c, d, e)",
+        "new C(a, b, c, c, d, e);"
     );
 }
