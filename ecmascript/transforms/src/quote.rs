@@ -58,19 +58,22 @@ macro_rules! member_expr {
 mod tests {
     use super::*;
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_ast::*;
     #[test]
     fn quote_member_expr() {
         assert_eq_ignore_span!(
             member_expr!(span, Function.prototype.bind),
-            MemberExpr {
-                obj: ExprOrSuper::Expr(MemberExpr {
-                    obj: member_expr!(span, Function),
+            box Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                    span,
+                    obj: ExprOrSuper::Expr(member_expr!(span, Function)),
                     computed: false,
                     prop: member_expr!(span, prototype),
-                }),
+                })),
                 computed: false,
                 prop: member_expr!(span, bind),
-            }
+            })
         );
     }
 }

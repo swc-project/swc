@@ -1,7 +1,11 @@
 use super::helpers::Helpers;
-use std::sync::{atomic::Ordering, Arc};
+use std::{
+    iter,
+    sync::{atomic::Ordering, Arc},
+};
 use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
+use util::ExprFactory;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
@@ -15,50 +19,71 @@ impl Fold<Expr> for SpreadElement {
 
         match e {
             Expr::Array(ArrayLit { .. }) => unimplemented!(),
-            Expr::Call(CallExpr { callee, args, span }) => {
-                // TODO: [a].concat instead of [].concat(a)
-
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                span,
+            }) => {
                 let has_spread = args
                     .iter()
                     .any(|ExprOrSpread { spread, .. }| spread.is_some());
                 if !has_spread {
-                    return Expr::Call(CallExpr { callee, args, span });
+                    return Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(callee),
+                        args,
+                        span,
+                    });
                 }
 
-                let args = concat_args(&self.helpers, span, args);
+                let args_array = concat_args(&self.helpers, span, args);
                 //
                 // f.apply(undefined, args)
                 //
-                Expr::Call(CallExpr {
-                    // TODO
-                    span,
-
-                    callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        // TODO
+                callee.apply(span, expr!(span, undefined), vec![args_array.as_arg()])
+            }
+            Expr::New(NewExpr {
+                callee,
+                args: Some(args),
+                span,
+            }) => {
+                let has_spread = args
+                    .iter()
+                    .any(|ExprOrSpread { spread, .. }| spread.is_some());
+                if !has_spread {
+                    return Expr::New(NewExpr {
+                        callee,
+                        args: Some(args),
                         span,
+                    });
+                }
 
-                        obj: callee,
-                        prop: box Expr::Ident(Ident::new(js_word!("apply"), span)),
-                        computed: false,
-                    })),
-                    args: vec![
-                        ExprOrSpread {
-                            expr: box Expr::Ident(Ident::new(js_word!("undefined"), span)),
-                            spread: None,
-                        },
-                        ExprOrSpread {
-                            expr: box args,
-                            spread: None,
-                        },
-                    ],
+                let args = concat_args(&self.helpers, span, args);
+
+                //
+                // f.apply(undefined, args)
+                //
+
+                Expr::New(NewExpr {
+                    span,
+                    callee: box member_expr!(span, Function.prototype.bind)
+                        .apply(
+                            span,
+                            callee,
+                            vec![expr!(span, null).as_arg()]
+                                .into_iter()
+                                .chain(iter::once(args.as_arg()))
+                                .collect(),
+                        )
+                        .wrap_with_paren(),
+                    args: Some(vec![]),
                 })
             }
-            Expr::New(NewExpr { .. }) => unimplemented!(),
             _ => e,
         }
     }
 }
 
+/// TODO: [a].concat instead of [].concat(a)
 fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
     //
     // []

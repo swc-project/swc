@@ -1,4 +1,5 @@
-pub use self::{
+pub(crate) use self::{
+    factory::ExprFactory,
     value::{
         Type::{
             self, Bool as BoolType, Null as NullType, Num as NumberType, Obj as ObjectType,
@@ -17,6 +18,7 @@ use std::{
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 
+mod factory;
 mod value;
 
 pub type BoolValue = Value<bool>;
