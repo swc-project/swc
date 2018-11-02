@@ -39,13 +39,25 @@ fn compile_dummy_plugin() -> PathBuf {
         .unwrap();
     assert!(status.success());
 
-    let debug = plugins.parent()
+    let target_dir = plugins.parent()
         .unwrap()
-        .join("target")
-        .join("debug");
+        .join("target");
 
-    let lib = debug.join("libdummy_plugin.so");
+    let target_dir = if cfg!(debug_assertions) {
+        target_dir.join("debug")
+    } else {
+        target_dir.join("release")
+    };
+
+    let lib = target_dir.join(LIB_DUMMY);
     assert!(lib.exists());
 
     lib
 }
+
+#[cfg(unix)]
+const LIB_DUMMY: &str = "libdummy_plugin.so";
+#[cfg(windows)]
+const LIB_DUMMY: &str = "dummy_plugin.dll";
+#[cfg(not(any(unix, windows)))]
+compile_error!("What file name does this platform use for DLLs?");
