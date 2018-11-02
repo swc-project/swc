@@ -173,27 +173,24 @@ fn fold_bin(
                     bin = match bin {
                         Expr::Bin(BinExpr {
                             left,
-                            op,
+                            op: _,
                             right,
                             span,
-                        }) => {
-                            println!("performing arithmetic op: {:?}, {:?}", left, right);
-                            match perform_arithmetic_op(op!(bin, "+"), &left, &right) {
-                                Known(v) => {
-                                    return preserve_effects(
-                                        span,
-                                        Expr::Lit(Lit::Num(Number { value: v, span })),
-                                        { iter::once(left).chain(iter::once(right)) },
-                                    );
-                                }
-                                _ => Expr::Bin(BinExpr {
+                        }) => match perform_arithmetic_op(op!(bin, "+"), &left, &right) {
+                            Known(v) => {
+                                return preserve_effects(
                                     span,
-                                    left,
-                                    op: op!(bin, "+"),
-                                    right,
-                                }),
+                                    Expr::Lit(Lit::Num(Number { value: v, span })),
+                                    { iter::once(left).chain(iter::once(right)) },
+                                );
                             }
-                        }
+                            _ => Expr::Bin(BinExpr {
+                                span,
+                                left,
+                                op: op!(bin, "+"),
+                                right,
+                            }),
+                        },
                         _ => unreachable!(),
                     };
                 }
@@ -459,7 +456,7 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
 ///
 /// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
 fn perform_abstract_rel_cmp(
-    span: Span,
+    _span: Span,
     left: &Expr,
     right: &Expr,
     will_negate: bool,
@@ -560,7 +557,7 @@ fn perform_abstract_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool>
 }
 
 /// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
-fn perform_strict_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool> {
+fn perform_strict_eq_cmp(_span: Span, left: &Expr, right: &Expr) -> Value<bool> {
     // Any strict equality comparison against NaN returns false.
     if left.is_nan() || right.is_nan() {
         return Known(false);
@@ -661,7 +658,7 @@ where
 
             Expr::Paren(e) => add_effects(v, e.expr),
 
-            Expr::Object(ObjectLit { props, span }) => {
+            Expr::Object(ObjectLit { props, .. }) => {
                 props.into_iter().for_each(|node| match node {
                     Prop::Shorthand(..) => return,
                     Prop::KeyValue(KeyValueProp { key, value }) => {

@@ -1,4 +1,4 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 pub(crate) trait ExprFactory: Into<Expr> {

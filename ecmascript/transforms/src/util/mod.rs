@@ -90,13 +90,13 @@ pub trait ExprExt: Sized {
         let expr = self.as_expr_kind();
         let val = match *expr {
             Expr::Paren(ref e) => return e.expr.as_bool(),
-            Expr::Seq(SeqExpr { ref exprs, span }) => return exprs.last().unwrap().as_bool(),
+            Expr::Seq(SeqExpr { ref exprs, .. }) => return exprs.last().unwrap().as_bool(),
             Expr::Assign(AssignExpr { ref right, .. }) => return right.as_bool(),
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
-                span,
+                ..
             }) => {
                 let (p, v) = arg.as_bool();
                 return (p, !v);
@@ -106,13 +106,13 @@ pub trait ExprExt: Sized {
                 ref left,
                 op: op @ op!("&"),
                 ref right,
-                span,
+                ..
             })
             | Expr::Bin(BinExpr {
                 ref left,
                 op: op @ op!("|"),
                 ref right,
-                span,
+                ..
             }) => {
                 // TODO: Ignore purity if value cannot be reached.
 
@@ -136,7 +136,7 @@ pub trait ExprExt: Sized {
             Expr::Unary(UnaryExpr {
                 op: op!("void"),
                 arg: _,
-                span,
+                ..
             }) => Known(false),
 
             Expr::Lit(ref lit) => {

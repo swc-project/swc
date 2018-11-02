@@ -1,7 +1,6 @@
 use super::helpers::Helpers;
 use std::{
-    iter,
-    mem::swap,
+    mem,
     sync::{atomic::Ordering, Arc},
 };
 use swc_common::{Fold, FoldWith, Span};
@@ -95,7 +94,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
 
     macro_rules! make_arr {
         () => {
-            let elems = ::std::mem::replace(&mut tmp_arr, vec![]);
+            let elems = mem::replace(&mut tmp_arr, vec![]);
             match first_arr {
                 Some(_) => {
                     if !elems.is_empty() {
