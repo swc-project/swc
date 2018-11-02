@@ -58,7 +58,14 @@ impl Fold<Expr> for SpreadElement {
                     });
                 }
 
-                let args = concat_args(&self.helpers, span, args);
+                let args = concat_args(
+                    &self.helpers,
+                    span,
+                    vec![expr!(span, null).as_arg()]
+                        .into_iter()
+                        .chain(args)
+                        .collect(),
+                );
 
                 //
                 // f.apply(undefined, args)
@@ -67,14 +74,7 @@ impl Fold<Expr> for SpreadElement {
                 Expr::New(NewExpr {
                     span,
                     callee: box member_expr!(span, Function.prototype.bind)
-                        .apply(
-                            span,
-                            callee,
-                            vec![expr!(span, null).as_arg()]
-                                .into_iter()
-                                .chain(iter::once(args.as_arg()))
-                                .collect(),
-                        )
+                        .apply(span, callee, vec![args.as_arg()])
                         .wrap_with_paren(),
                     args: Some(vec![]),
                 })
@@ -84,7 +84,6 @@ impl Fold<Expr> for SpreadElement {
     }
 }
 
-/// TODO: [a].concat instead of [].concat(a)
 fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
     //
     // []
@@ -96,8 +95,6 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
 
     macro_rules! make_arr {
         () => {
-            println!("make_arr: {:?}", tmp_arr.len());
-
             let elems = ::std::mem::replace(&mut tmp_arr, vec![]);
             match first_arr {
                 Some(_) => {
@@ -193,7 +190,7 @@ mod tests {
         SpreadElement::default(),
         new,
         "new C(a, b, c, ...d, e)",
-        "new (Function.prototype.bind.apply(C, [null].concat([a, b, c], _toConsumableArray(d), \
+        "new (Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
          [e])))();"
     );
 
