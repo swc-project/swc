@@ -92,6 +92,54 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         elems: vec![],
         span,
     });
+
+    let mut tmp_arr = vec![];
+    let mut buf = vec![];
+
+    for arg in args {
+        let ExprOrSpread { expr, spread } = arg;
+
+        match spread {
+            // ...b -> toConsumableArray(b)
+            Some(span) => {
+                if !tmp_arr.is_empty() {
+                    buf.push(
+                        Expr::Array(ArrayLit {
+                            span,
+                            elems: tmp_arr,
+                        })
+                        .as_arg(),
+                    );
+                    tmp_arr = vec![];
+                }
+
+                helpers.to_consumable_array.store(true, Ordering::SeqCst);
+
+                buf.push(
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(
+                            box Ident::new(js_word!("_toConsumableArray"), span).into(),
+                        ),
+                        args: vec![ExprOrSpread { expr, spread: None }],
+                    })
+                    .as_arg(),
+                );
+            }
+            None => tmp_arr.push(Some(ExprOrSpread { expr, spread: None })),
+        }
+    }
+    if !tmp_arr.is_empty() {
+        buf.push(
+            Expr::Array(ArrayLit {
+                span,
+                elems: tmp_arr,
+            })
+            .as_arg(),
+        );
+        tmp_arr = vec![];
+    }
+
     Expr::Call(CallExpr {
         // TODO
         span,
@@ -104,29 +152,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
             computed: false,
         })),
 
-        args: args
-            .into_iter()
-            .map(|ExprOrSpread { expr, spread }| {
-                // ...b -> toConsumableArray(b)
-                match spread {
-                    Some(span) => {
-                        helpers.to_consumable_array.store(true, Ordering::SeqCst);
-
-                        ExprOrSpread {
-                            expr: box Expr::Call(CallExpr {
-                                span,
-                                callee: ExprOrSuper::Expr(
-                                    box Ident::new(js_word!("_toConsumableArray"), span).into(),
-                                ),
-                                args: vec![ExprOrSpread { expr, spread: None }],
-                            }),
-                            spread: None,
-                        }
-                    }
-                    None => ExprOrSpread { expr, spread: None },
-                }
-            })
-            .collect(),
+        args: buf,
     })
 }
 
