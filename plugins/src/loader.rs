@@ -1,6 +1,6 @@
 use swc_common::Fold;
 use super::{Registrar, PluginError};
-use libloading::Library;
+use libloading::{Library, Symbol};
 use std::ffi::OsStr;
 
 /// A plugin loader.
@@ -40,20 +40,23 @@ impl Loader {
         let path = path.as_ref();
         let lib = Library::new(path)?;
 
-        let symbol_name = "swg_plugin_library_version\0";
+        {
+            let compiled_version = unsafe { 
+                get_symbol(&lib, "swg_plugin_library_version\0")?
+            };
+            validate_library_version(*compiled_version)?;
 
-        let compiled_swc_plugin_version = unsafe { 
-            match lib.get(symbol_name.as_bytes()) {
-                // extract the raw function pointer. This is safe because we're
-                // only ever going to use it while "lib" is alive.
-                Ok(symbol) => *symbol,
-                Err(_) => return Err(PluginError::MissingSymbol(&symbol_name[..symbol_name.len()-2])),
-            }
-        };
+            // TODO: Verify rustc version
 
-        validate_library_version(compiled_swc_plugin_version)?;
+            let register: Symbol<extern "C" fn(&mut Registrar)> = unsafe {
+                get_symbol(&lib, "swc_register_plugin\0")?
+            };
 
-        unimplemented!()
+            register(&mut self.registrar);
+        }
+
+        self.libraries.push(lib);
+        Ok(())
     }
 
     pub fn registrar(&mut self) -> &mut Registrar {
@@ -72,6 +75,15 @@ fn validate_library_version(func: extern "C" fn() -> &'static str) -> Result<(),
         Ok(())
     } else {
         Err(PluginError::MismatchedLibraryVersion)
+    }
+}
+
+unsafe fn get_symbol<'lib, F>(lib: &'lib Library, name: &'static str) -> Result<Symbol<'lib, F>, PluginError> {
+    debug_assert!(name.ends_with("\0"), "The symbol name should be null terminated");
+
+    match lib.get::<F>(name.as_bytes()) {
+        Ok(symbol) => Ok(symbol),
+        Err(_) => Err(PluginError::MissingSymbol(&name[..name.len()-2])),
     }
 }
 
