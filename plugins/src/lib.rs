@@ -1,8 +1,6 @@
 extern crate anymap;
+extern crate libloading;
 extern crate swc_common;
-
-use anymap::AnyMap;
-use swc_common::{Fold};
 
 /// Declare a SWC plugin.
 /// 
@@ -15,82 +13,44 @@ macro_rules! register_plugin {
         #[doc(hidden)]
         pub mod __swc_plugins {
             #[no_mangle]
-            pub extern "C" fn swc_register_plugin(registrar: &mut $crate::PluginRegistrar) {
-                // enforce the desired function signature
-                let register: fn(&mut $crate::PluginRegistrar) = $register;
+            pub extern "C" fn swc_register_plugin(registrar: &mut $crate::Registrar) {
+                let register: fn(&mut $crate::Registrar) = $register;
+
 
                 register(registrar);
+            }
+
+            #[no_mangle]
+            pub extern "C" fn swg_plugin_library_version() -> &'static str {
+                $crate::SWC_PLUGIN_VERSION
             }
         }
     };
 }
 
+mod registrar;
+mod loader;
+
+pub use registrar::Registrar;
+pub use loader::Loader;
+
+use std::io;
+
+/// This crate's version, mainly for use in verifying plugin compatibility.
+pub const SWC_PLUGIN_VERSION: &str = env!("CARGO_PKG_VERSION");
+
+
 #[derive(Debug)]
-pub struct PluginRegistrar {
-    folders: AnyMap,
+pub enum PluginError {
+    /// The operating system was unable to load the library.
+    LibraryLoadingFailed(io::Error),
+    /// Unable to find a required symbol.
+    MissingSymbol(&'static str),
+    MismatchedLibraryVersion,
 }
 
-impl PluginRegistrar {
-    pub fn new() -> PluginRegistrar {
-        PluginRegistrar {
-            folders: AnyMap::new(),
-        }
-    }
-
-    pub fn register<A, F>(&mut self, folder: F) -> &mut Self
-    where F: Fold<A> + 'static,
-          A: 'static,
-    {
-
-        self.folders.entry::<Vec<Box<dyn Fold<A>>>>()
-            .or_insert_with(Vec::new)
-            .push(Box::new(folder));
-
-        self
-    }
-
-    pub fn get<A: 'static>(&self) -> &[Box<dyn Fold<A>>] {
-        self.folders.get::<Vec<Box<dyn Fold<A>>>>()
-            .map(|folders| folders.as_slice())
-            .unwrap_or(&[])
-    }
-
-    pub fn len(&self) -> usize {
-        self.folders.len()
-    }
-
-    pub fn is_empty(&self) -> bool {
-        self.folders.is_empty()
-    }
-}
-
-impl Default for PluginRegistrar {
-    fn default() -> PluginRegistrar {
-        PluginRegistrar::new()
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    struct Foo;
-    
-    impl Fold<usize> for Foo {
-        fn fold(&mut self, node: usize) -> usize {
-            node
-        }
-    }
-
-    #[test]
-    fn insert_a_folder_and_get_it_back() {
-        let mut registrar = PluginRegistrar::new();
-        assert!(registrar.is_empty());
-
-        registrar.register::<usize, _>(Foo);
-        assert_eq!(registrar.len(), 1);
-
-        let got = registrar.get::<usize>();
-        assert_eq!(got.len(), 1);
+impl From<io::Error> for PluginError {
+    fn from(other: io::Error) -> PluginError {
+        PluginError::LibraryLoadingFailed(other)
     }
 }
