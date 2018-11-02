@@ -1,6 +1,7 @@
 use anymap::AnyMap;
 use swc_common::{Fold};
 
+/// Something you can use to register 3rd party plugins.
 #[derive(Debug)]
 pub struct Registrar {
     folders: AnyMap,

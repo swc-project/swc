@@ -4,6 +4,13 @@ use libloading::Library;
 use std::ffi::OsStr;
 
 /// A plugin loader.
+/// 
+/// # Safety
+/// 
+/// Any dynamic libraries which are loaded will be kept in memory for as long as
+/// the `Loader` is alive. Using a plugin after the `Loader` has been destroyed
+/// (only possible with `unsafe` code) will almost certainly result in a crash
+/// because you are trying to call code that's been unloaded from memory.
 #[derive(Debug, Default)]
 pub struct Loader {
     libraries: Vec<Library>,
@@ -15,6 +22,20 @@ impl Loader {
         Loader::default()
     }
 
+    /// Load a dynamic library as a plugin.
+    /// 
+    /// # A Note on Compatibility
+    /// 
+    /// Different versions of `rustc` aren't guaranteed to lay out 
+    /// non-`#[repr(C)]` types the same way. This means a plugin can only be 
+    /// loaded by `swc` if both the plugin and `swc` were compiled with the same
+    /// compiler version.
+    /// 
+    /// The plugin also needs to be compiled against the same version of 
+    /// `swc_plugin`.
+    /// 
+    /// Plugin loading will fail if there is a mismatch with either the `rustc`
+    /// or `swc_plugin` versions.
     pub fn load_plugin<P: AsRef<OsStr>>(&mut self, path: P) -> Result<(), PluginError> {
         let path = path.as_ref();
         let lib = Library::new(path)?;
@@ -35,6 +56,12 @@ impl Loader {
         unimplemented!()
     }
 
+    pub fn registrar(&mut self) -> &mut Registrar {
+        &mut self.registrar
+    }
+
+    /// A convenience function for retrieving all registered implementations of 
+    /// `Fold<A>`.
     pub fn get_mut<A: 'static>(&mut self) -> &mut [Box<dyn Fold<A>>] {
         self.registrar.get_mut()
     }
