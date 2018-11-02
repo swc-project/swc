@@ -1,0 +1,8 @@
+[package]
+name = "swc_plugins"
+version = "0.1.0"
+authors = ["Michael Bryan <michaelfbryan@gmail.com>"]
+
+[dependencies]
+swc_common = { path = "../common" }
+anymap = "0.12.1"
