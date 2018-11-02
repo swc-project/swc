@@ -1,6 +1,7 @@
 use super::helpers::Helpers;
 use std::{
     iter,
+    mem::swap,
     sync::{atomic::Ordering, Arc},
 };
 use swc_common::{Fold, FoldWith, Span};
@@ -88,13 +89,28 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
     //
     // []
     //
-    let arr = Expr::Array(ArrayLit {
-        elems: vec![],
-        span,
-    });
+    let mut first_arr = None;
 
     let mut tmp_arr = vec![];
     let mut buf = vec![];
+
+    macro_rules! make_arr {
+        () => {
+            println!("make_arr: {:?}", tmp_arr.len());
+
+            let elems = ::std::mem::replace(&mut tmp_arr, vec![]);
+            match first_arr {
+                Some(_) => {
+                    if !elems.is_empty() {
+                        buf.push(Expr::Array(ArrayLit { span, elems }).as_arg());
+                    }
+                }
+                None => {
+                    first_arr = Some(Expr::Array(ArrayLit { span, elems }));
+                }
+            }
+        };
+    }
 
     for arg in args {
         let ExprOrSpread { expr, spread } = arg;
@@ -102,16 +118,8 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         match spread {
             // ...b -> toConsumableArray(b)
             Some(span) => {
-                if !tmp_arr.is_empty() {
-                    buf.push(
-                        Expr::Array(ArrayLit {
-                            span,
-                            elems: tmp_arr,
-                        })
-                        .as_arg(),
-                    );
-                    tmp_arr = vec![];
-                }
+                //
+                make_arr!();
 
                 helpers.to_consumable_array.store(true, Ordering::SeqCst);
 
@@ -129,16 +137,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
             None => tmp_arr.push(Some(ExprOrSpread { expr, spread: None })),
         }
     }
-    if !tmp_arr.is_empty() {
-        buf.push(
-            Expr::Array(ArrayLit {
-                span,
-                elems: tmp_arr,
-            })
-            .as_arg(),
-        );
-        tmp_arr = vec![];
-    }
+    make_arr!();
 
     Expr::Call(CallExpr {
         // TODO
@@ -148,7 +147,16 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
             // TODO: Mark
             span,
             prop: box Expr::Ident(Ident::new(js_word!("concat"), span)),
-            obj: ExprOrSuper::Expr(box arr),
+            obj: ExprOrSuper::Expr(box first_arr.take().unwrap_or_else(|| {
+                // No arg
+
+                // assert!(args.is_empty());
+
+                Expr::Array(ArrayLit {
+                    span,
+                    elems: vec![],
+                })
+            })),
             computed: false,
         })),
 
@@ -165,6 +173,13 @@ mod tests {
         call,
         "ca(a, b, c, ...d, e)",
         "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
+    );
+
+    test!(
+        SpreadElement::default(),
+        call_multi_spread,
+        "ca(a, b, ...d, e, f, ...h)",
+        "ca.apply(undefined, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
     );
 
     test!(
