@@ -38,6 +38,10 @@ impl Registrar {
     pub fn is_empty(&self) -> bool {
         self.folders.is_empty()
     }
+
+    pub(crate) fn clear(&mut self) {
+        self.folders.clear();
+    }
 }
 
 impl Default for Registrar {

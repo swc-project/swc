@@ -11,19 +11,17 @@ extern crate swc_common;
 macro_rules! register_plugin {
     ($register:expr) => {
         #[doc(hidden)]
-        pub mod __swc_plugins {
-            #[no_mangle]
-            pub extern "C" fn swc_register_plugin(registrar: &mut $crate::Registrar) {
-                let register: fn(&mut $crate::Registrar) = $register;
+        #[no_mangle]
+        pub extern "C" fn swc_register_plugin(registrar: &mut $crate::Registrar) {
+            let register: fn(&mut $crate::Registrar) = $register;
 
+            register(registrar);
+        }
 
-                register(registrar);
-            }
-
-            #[no_mangle]
-            pub extern "C" fn swg_plugin_library_version() -> &'static str {
-                $crate::SWC_PLUGIN_VERSION
-            }
+        #[doc(hidden)]
+        #[no_mangle]
+        pub extern "C" fn swg_plugin_library_version() -> String {
+            $crate::SWC_PLUGIN_VERSION.to_string()
         }
     };
 }

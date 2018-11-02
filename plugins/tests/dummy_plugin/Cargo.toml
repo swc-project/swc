@@ -1,0 +1,13 @@
+[package]
+name = "dummy_plugin"
+version = "0.1.0"
+authors = ["Michael Bryan <michaelfbryan@gmail.com>"]
+
+[dependencies]
+swc_plugins = { path = "../.." }
+swc_common = { path = "../../../common" }
+lazy_static = "1.0"
+
+[lib]
+path = "./lib.rs"
+crate-type = ["cdylib"]

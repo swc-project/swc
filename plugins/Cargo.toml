@@ -7,3 +7,6 @@ authors = ["Michael Bryan <michaelfbryan@gmail.com>"]
 swc_common = { path = "../common" }
 anymap = "0.12.1"
 libloading = "0.5.0"
+
+[dev-dependencies]
+dummy_plugin = { path = "tests/dummy_plugin" }

@@ -36,20 +36,29 @@ impl Loader {
     /// 
     /// Plugin loading will fail if there is a mismatch with either the `rustc`
     /// or `swc_plugin` versions.
+    /// 
+    /// # Safety
+    /// 
+    /// The safety of this function depends on the assumption that all plugins
+    /// will be registered using the [`register_plugin!()`] macro. This will
+    /// make sure all functions called by the plugin loader will have the 
+    /// correct function signature.
+    /// 
+    /// [`register_plugin!()`]: macro.register_plugin.html
     pub fn load_plugin<P: AsRef<OsStr>>(&mut self, path: P) -> Result<(), PluginError> {
         let path = path.as_ref();
         let lib = Library::new(path)?;
 
         {
             let compiled_version = unsafe { 
-                get_symbol(&lib, "swg_plugin_library_version\0")?
+                get_symbol(&lib, "swg_plugin_library_version")?
             };
             validate_library_version(*compiled_version)?;
 
             // TODO: Verify rustc version
 
             let register: Symbol<extern "C" fn(&mut Registrar)> = unsafe {
-                get_symbol(&lib, "swc_register_plugin\0")?
+                get_symbol(&lib, "swc_register_plugin")?
             };
 
             register(&mut self.registrar);
@@ -70,7 +79,16 @@ impl Loader {
     }
 }
 
-fn validate_library_version(func: extern "C" fn() -> &'static str) -> Result<(), PluginError> {
+impl Drop for Loader {
+    fn drop(&mut self) {
+        // Manually make sure all plugins get destroyed *before* the libraries
+        // are unloaded from memory. Ordering is important here!
+        self.registrar.clear();
+        self.libraries.clear();
+    }
+}
+
+fn validate_library_version(func: extern "C" fn() -> String) -> Result<(), PluginError> {
     if func() == super::SWC_PLUGIN_VERSION {
         Ok(())
     } else {
@@ -79,11 +97,9 @@ fn validate_library_version(func: extern "C" fn() -> &'static str) -> Result<(),
 }
 
 unsafe fn get_symbol<'lib, F>(lib: &'lib Library, name: &'static str) -> Result<Symbol<'lib, F>, PluginError> {
-    debug_assert!(name.ends_with("\0"), "The symbol name should be null terminated");
-
     match lib.get::<F>(name.as_bytes()) {
         Ok(symbol) => Ok(symbol),
-        Err(_) => Err(PluginError::MissingSymbol(&name[..name.len()-2])),
+        Err(_) => Err(PluginError::MissingSymbol(name)),
     }
 }
 
@@ -97,7 +113,7 @@ mod tests {
 
     #[test]
     fn generated_version_is_always_compatible() {
-        let generated = __swc_plugins::swg_plugin_library_version;
+        let generated = swg_plugin_library_version;
 
         // the generated function should always return the correct library 
         // version because we *are* the swc_plugins crate
