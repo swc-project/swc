@@ -51,3 +51,32 @@ impl Fold<PropName> for PropertyLiteral {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    test!(
+        PropertyLiteral,
+        babel_basic,
+        r#"var foo = {
+  // changed
+  "bar": function () {},
+  "1": function () {},
+
+  // not changed
+  "default": 1,
+  [a]: 2,
+  foo: 1
+};"#,
+        r#"var foo = {
+  bar: function () {},
+  1: function () {},
+
+  "default": 1,
+  [a]: 2,
+  foo: 1
+};"#
+    );
+
+}
