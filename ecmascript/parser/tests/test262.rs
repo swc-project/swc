@@ -87,8 +87,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
         // Wrong tests
         "0d5e450f1da8a92a.js",
+        "346316bef54d805a.js",
+        "976b6247ca78ab51.js",
+        "ae0a7ac275bc9f5c.js",
         "748656edbfb2d0bb.js",
         "79f882da06f88c9f.js",
+        "d28e80d99f819136.js",
         "92b6af54adef3624.js",
         "ef2d369cccc5386c.js",
         // Temporarily ignore tests for using octal escape before use strict
