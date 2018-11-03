@@ -14,7 +14,7 @@ use std::{
     path::Path,
 };
 use swc_common::{FileName, Fold, FoldWith, Span};
-use swc_ecma_parser::{ast::*, FileMapInput, PResult, Parser, Session};
+use swc_ecma_parser::{ast::*, PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::NormalizedOutput;
 
@@ -261,10 +261,10 @@ fn parse_module<'a>(file_name: &Path, s: &str) -> Result<Module, NormalizedOutpu
 
 fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, NormalizedOutput>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, FileMapInput>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
     let output = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_filemap(FileName::Real(file_name.into()), src.into());
+        let fm = cm.new_source_file(FileName::Real(file_name.into()), src.into());
 
         let res = f(&mut Parser::new(
             Session {
@@ -290,16 +290,6 @@ where
         Err(output.errors)
     }
 }
-
-fn normalize<T>(t: T) -> T
-where
-    Normalizer: Fold<T>,
-{
-    let mut n = Normalizer;
-    n.fold(t)
-}
-
-struct Normalizer;
 
 #[test]
 fn identity() {
