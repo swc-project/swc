@@ -1,4 +1,5 @@
 use super::*;
+use crate::{FileLoader, FilePathMapping, SourceMap};
 use std::{
     io,
     path::{Path, PathBuf},
@@ -34,9 +35,9 @@ function foo() {
 
 #[test]
 fn test() {
-    let cm = CodeMap::with_file_loader(box MyFileLoader, FilePathMapping::empty());
+    let cm = SourceMap::with_file_loader(box MyFileLoader, FilePathMapping::empty());
     let file_map = cm
-        .load_file_and_lines("tmp.js".as_ref())
+        .load_file("tmp.js".into())
         .expect("failed to load tmp.js");
     println!(
         "File (start={},end={})",
@@ -60,7 +61,7 @@ fn test() {
 
         DiagnosticBuilder::new_with_code(
             &handler,
-            Warning,
+            super::Warning,
             Some(DiagnosticId::Lint("WITH_STMT".into())),
             "Lint: With statement",
         )
