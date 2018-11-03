@@ -37,7 +37,7 @@ function foo() {
 fn test() {
     let cm = SourceMap::with_file_loader(box MyFileLoader, FilePathMapping::empty());
     let file_map = cm
-        .load_file("tmp.js".into())
+        .load_file(Path::new("tmp.js").into())
         .expect("failed to load tmp.js");
     println!(
         "File (start={},end={})",
