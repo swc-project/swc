@@ -16,7 +16,7 @@ use std::{
     rc::Rc,
 };
 use swc::Compiler;
-use swc_common::errors::{CodeMap, FilePathMapping, Handler};
+use swc_common::{errors::Handler, FilePathMapping, SourceMap};
 
 fn main() {
     run().unwrap()
@@ -62,7 +62,7 @@ fn run() -> Result<(), Box<Error>> {
         .build()
         .expect("failed to create rayon::ThreadPool?");
 
-    let cm = Rc::new(CodeMap::new(FilePathMapping::empty()));
+    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
 
     let handler = Handler::with_tty_emitter(
         ::swc_common::errors::ColorConfig::Always,

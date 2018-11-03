@@ -19,7 +19,7 @@ use swc_ecmascript::{
 };
 
 pub struct Compiler {
-    codemap: Lrc<CodeMap>,
+    codemap: Lrc<SourceMap>,
     threads: rayon::ThreadPool,
     logger: Logger,
     handler: Handler,
@@ -28,7 +28,7 @@ pub struct Compiler {
 impl Compiler {
     pub fn new(
         logger: Logger,
-        codemap: Lrc<SourceMapperDyn>,
+        codemap: Lrc<SourceMap>,
         handler: Handler,
         threads: rayon::ThreadPool,
     ) -> Self {
@@ -42,10 +42,7 @@ impl Compiler {
 
     /// TODO
     pub fn parse_js(&self, path: &Path) -> PResult<Module> {
-        let fm = self
-            .codemap
-            .load_file_and_lines(path)
-            .expect("failed to load file");
+        let fm = self.codemap.load_file(path).expect("failed to load file");
 
         Parser::new(
             ParseSess {
