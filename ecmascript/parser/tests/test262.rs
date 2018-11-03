@@ -14,7 +14,7 @@ use std::{
     path::Path,
 };
 use swc_common::{FileName, Fold, FoldWith, Span};
-use swc_ecma_parser::{ast::*, FileMapInput, PResult, Parser, Session};
+use swc_ecma_parser::{ast::*, PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::NormalizedOutput;
 
@@ -87,8 +87,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
         // Wrong tests
         "0d5e450f1da8a92a.js",
+        "346316bef54d805a.js",
+        "976b6247ca78ab51.js",
+        "ae0a7ac275bc9f5c.js",
         "748656edbfb2d0bb.js",
         "79f882da06f88c9f.js",
+        "d28e80d99f819136.js",
         "92b6af54adef3624.js",
         "ef2d369cccc5386c.js",
         // Temporarily ignore tests for using octal escape before use strict
@@ -261,10 +265,10 @@ fn parse_module<'a>(file_name: &Path, s: &str) -> Result<Module, NormalizedOutpu
 
 fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, NormalizedOutput>
 where
-    F: for<'a> FnOnce(&mut Parser<'a, FileMapInput>) -> PResult<'a, Ret>,
+    F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
     let output = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_filemap(FileName::Real(file_name.into()), src.into());
+        let fm = cm.new_source_file(FileName::Real(file_name.into()), src.into());
 
         let res = f(&mut Parser::new(
             Session {
@@ -288,87 +292,6 @@ where
         Ok(output.result.unwrap())
     } else {
         Err(output.errors)
-    }
-}
-
-fn normalize<T>(t: T) -> T
-where
-    Normalizer: Fold<T>,
-{
-    let mut n = Normalizer;
-    n.fold(t)
-}
-
-struct Normalizer;
-impl Fold<Span> for Normalizer {
-    fn fold(&mut self, _: Span) -> Span {
-        Span::default()
-    }
-}
-impl Fold<Str> for Normalizer {
-    fn fold(&mut self, s: Str) -> Str {
-        Str {
-            span: Default::default(),
-            has_escape: false,
-            ..s
-        }
-    }
-}
-impl Fold<Expr> for Normalizer {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-
-        match e {
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
-            Expr::New(NewExpr {
-                callee,
-                args: None,
-                span,
-            }) => Expr::New(NewExpr {
-                span,
-                callee,
-                args: Some(vec![]),
-            }),
-            // Flatten comma expressions.
-            Expr::Seq(SeqExpr { mut exprs, span }) => {
-                let need_work = exprs.iter().any(|n| match **n {
-                    Expr::Seq(..) => true,
-                    _ => false,
-                });
-
-                if need_work {
-                    exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-                        match *e {
-                            Expr::Seq(SeqExpr { exprs, .. }) => v.extend(exprs),
-                            _ => v.push(e),
-                        }
-                        v
-                    });
-                }
-                Expr::Seq(SeqExpr { exprs, span })
-            }
-            _ => e,
-        }
-    }
-}
-
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children(self);
-
-        match n {
-            PropName::Ident(Ident { sym, .. }) => PropName::Str(Str {
-                span: Default::default(),
-                value: sym,
-                has_escape: false,
-            }),
-            PropName::Num(num) => PropName::Str(Str {
-                span: Default::default(),
-                value: num.to_string().into(),
-                has_escape: false,
-            }),
-            _ => n,
-        }
     }
 }
 

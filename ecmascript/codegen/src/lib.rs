@@ -1435,7 +1435,11 @@ fn get_text_of_node<T: Spanned>(
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {
-    Some(cm.span_to_snippet(node.span()).unwrap())
+    let s = cm.span_to_snippet(node.span()).unwrap();
+    if s == "" {
+        return None;
+    }
+    Some(s)
 
     // let span = node.span();
     // let src = match file.src {

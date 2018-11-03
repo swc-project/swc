@@ -66,6 +66,19 @@ fn main() {
             "private",
             "protected",
             "public",
+            //
+            "Object",
+            "length",
+            "Infinity",
+            "undefined",
+            "NaN",
+            "RegExp",
+            // helpers
+            "apply",
+            "call",
+            "concat",
+            "_extends",
+            "_toConsumableArray"
         ],
     );
 }

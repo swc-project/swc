@@ -86,4 +86,34 @@ impl Ident {
     pub fn new(sym: JsWord, span: Span) -> Self {
         Ident { span, sym }
     }
+
+    pub fn is_reserved_only_for_es3(&self) -> bool {
+        [
+            "abstract",
+            "boolean",
+            "byte",
+            "char",
+            "double",
+            "enum",
+            "final",
+            "float",
+            "goto",
+            "implements",
+            "int",
+            "interface",
+            "long",
+            "native",
+            "package",
+            "private",
+            "protected",
+            "public",
+            "short",
+            "static",
+            "synchronized",
+            "throws",
+            "transient",
+            "volatile",
+        ]
+            .contains(&&*self.sym)
+    }
 }

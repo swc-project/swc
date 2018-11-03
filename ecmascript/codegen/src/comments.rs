@@ -65,6 +65,9 @@ impl<'a> Emitter<'a> {
 
             break;
         }
+        if ext_sp.lo() < BytePos(3) {
+            return Ok(());
+        }
 
         // include `//`
         ext_sp = ext_sp.with_lo(ext_sp.lo() - BytePos(3));

@@ -244,7 +244,7 @@ macro_rules! span {
                 start.0, end.0
             )
         }
-        ::swc_common::Span::new(start, end, Default::default())
+        ::swc_common::Span::new(start, end, ::swc_common::SyntaxContext::empty())
     }};
 }
 

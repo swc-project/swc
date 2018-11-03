@@ -96,7 +96,12 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!(':');
             let alt = self.parse_assignment_expr()?;
 
-            Ok(box Expr::Cond(CondExpr { test, cons, alt }))
+            Ok(box Expr::Cond(CondExpr {
+                test,
+                cons,
+                alt,
+                span: span!(start),
+            }))
         } else {
             return Ok(test);
         }
