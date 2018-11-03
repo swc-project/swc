@@ -31,10 +31,23 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone, Copy, Default)]
 pub struct PropertyLiteral;
 
-impl Fold<Expr> for PropertyLiteral {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
+impl Fold<PropName> for PropertyLiteral {
+    fn fold(&mut self, n: PropName) -> PropName {
+        let n = n.fold_children(self);
 
-        e
+        match n {
+            PropName::Ident(ident) => {
+                if ident.is_reserved_only_for_es3() {
+                    return PropName::Str(Str {
+                        value: ident.sym,
+                        span: ident.span,
+                        has_escape: false,
+                    });
+                } else {
+                    PropName::Ident(ident)
+                }
+            }
+            _ => n,
+        }
     }
 }
