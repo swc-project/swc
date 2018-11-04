@@ -1,10 +1,11 @@
+use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{BytePos, FileName, Fold};
+use swc_common::{errors::Handler, BytePos, FileName, Fold, SourceMap, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
@@ -24,25 +25,47 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Noop;
 
-pub fn apply_transform<T: Fold<Module>>(
-    mut tr: T,
-    name: &'static str,
-    src: &'static str,
-) -> String {
-    let out = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Real(name.into()), src.into());
+pub(crate) struct Tester<'a> {
+    cm: Rc<SourceMap>,
+    logger: Logger,
+    handler: &'a Handler,
+}
+
+impl<'a> Tester<'a> {
+    pub fn run<F>(op: F)
+    where
+        F: FnOnce(&mut Tester),
+    {
+        let out = ::testing::run_test(|logger, cm, handler| {
+            op(&mut Tester {
+                cm,
+                logger,
+                handler,
+            })
+        });
+    }
+
+    pub fn apply_transform<T: Fold<Module>>(
+        &mut self,
+        mut tr: T,
+        name: &'static str,
+        src: &'static str,
+    ) -> Module {
+        let fm = self
+            .cm
+            .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
             let handler = ::swc_common::errors::Handler::with_tty_emitter(
                 ::swc_common::errors::ColorConfig::Auto,
                 true,
                 false,
-                Some(cm.clone()),
+                Some(self.cm.clone()),
             );
             let logger = ::testing::logger().new(o!("src" => src));
 
             let sess = Session {
-                handler: &handler,
+                handler: &self.handler,
                 logger: &logger,
                 cfg: Default::default(),
             };
@@ -60,17 +83,26 @@ pub fn apply_transform<T: Fold<Module>>(
         };
 
         let module = fold(module, &mut tr);
+        module
+    }
 
+    pub fn print(&mut self, module: Module) -> String {
         let handlers = box MyHandlers;
+
+        let sfl = self
+            .cm
+            .lookup_line(module.span().lo())
+            .expect("failed to lookup line");
+        let fm = sfl.fm;
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::config::Config::default(),
-                cm,
+                cm: self.cm.clone(),
                 file: fm.clone(),
                 enable_comments: true,
-                srcmap: SourceMapBuilder::new(Some(&src)),
+                srcmap: SourceMapBuilder::new(None),
                 wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
                 handlers,
                 pos_of_leading_comments: Default::default(),
@@ -83,9 +115,7 @@ pub fn apply_transform<T: Fold<Module>>(
         let r = wr.0.read().unwrap();
         let s = String::from_utf8_lossy(&*r);
         s.to_string()
-    });
-
-    out.result
+    }
 }
 
 /// Test transformation.
@@ -94,14 +124,19 @@ macro_rules! test {
     ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            let actual = $crate::tests::apply_transform($tr, stringify!($test_name), $input);
-            let expected = $crate::tests::apply_transform(
-                $crate::tests::Noop,
-                stringify!($test_name),
-                $expected,
-            );
+            crate::tests::Tester::run(|tester| {
+                let expected =
+                    tester.apply_transform(::testing::DropSpan, stringify!($test_name), $expected);
 
-            assert_eq_ignore_span!(actual, expected);
+                let actual = tester.apply_transform($tr, stringify!($test_name), $input);
+                let actual = ::testing::drop_span(actual);
+
+                if actual == expected {
+                    return;
+                }
+
+                assert_eq!(tester.print(actual), tester.print(expected));
+            });
         }
     };
 }
@@ -113,7 +148,9 @@ macro_rules! test_exec {
         #[test]
         #[ignore]
         fn $test_name() {
-            let _transformed = $crate::tests::apply_transform($tr, stringify!($test_name), $input);
+            crate::tests::Tester::run(|tester| {
+                let _transformed = tester.apply_transform($tr, stringify!($test_name), $input);
+            });
         }
     };
 }
