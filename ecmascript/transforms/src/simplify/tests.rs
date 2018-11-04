@@ -4,55 +4,6 @@ use swc_common::{FoldWith, Folder, SourceMap};
 use swc_ecma_ast::Expr;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
-macro_rules! test_expr {
-    ($l:expr, $r:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $r);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-            let actual = ::testing::drop_span(actual);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
-    ($l:expr, $r:expr,) => {
-        test_expr!($l, $r);
-    };
-}
-
-/// Should not modify expression.
-macro_rules! same_expr {
-    ($l:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $l);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-            let actual = ::testing::drop_span(actual);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
-}
-
-struct RemoveParen;
-impl Folder<Expr> for RemoveParen {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-        match e {
-            Expr::Paren(e) => *e.expr,
-            _ => e,
-        }
-    }
-}
-
 #[test]
 fn cond_simple() {
     test_expr!("true ? 3 : 6", "3");
