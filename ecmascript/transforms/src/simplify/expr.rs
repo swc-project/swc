@@ -1,12 +1,13 @@
-use super::Simplify;
+use crate::util::*;
 use std::iter;
 use swc_common::{FoldWith, Folder, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{Ident, Lit, *};
-use util::*;
 
-impl Folder<Expr> for Simplify {
+pub(super) struct SimplifyExpr;
+
+impl Folder<Expr> for SimplifyExpr {
     fn fold(&mut self, expr: Expr) -> Expr {
-        // fold children nodes.
+        // fold children before doing something more.
         let expr = expr.fold_children(self);
 
         match expr {

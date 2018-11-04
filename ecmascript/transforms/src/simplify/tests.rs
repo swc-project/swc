@@ -1,4 +1,4 @@
-use super::Simplify;
+use super::SimplifyExpr;
 use std::rc::Rc;
 use swc_common::{FoldWith, Folder, SourceMap};
 use swc_ecma_ast::Expr;
@@ -6,9 +6,8 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
 macro_rules! test_expr {
     ($l:expr, $r:expr) => {{
-        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l).replace(";", "");
-        let r = ::tests::apply_transform(::simplify::tests::RemoveParen, "expected.js", $r)
-            .replace(";", "");
+        let l = ::tests::apply_transform(SimplifyExpr, "actual.js", $l);
+        let r = ::tests::apply_transform(RemoveParen, "expected.js", $r);
         assert_eq!(l, r);
     }};
     ($l:expr, $r:expr,) => {
@@ -19,8 +18,8 @@ macro_rules! test_expr {
 /// Should not modify expression.
 macro_rules! same_expr {
     ($l:expr) => {{
-        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l).replace(";", "");
-        assert_eq!(l, $l);
+        let l = ::tests::apply_transform(SimplifyExpr, "actual.js", $l);
+        assert_eq!(l, format!("{};", $l));
     }};
 }
 
