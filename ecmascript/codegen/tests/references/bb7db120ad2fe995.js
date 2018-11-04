@@ -1,5 +1,5 @@
 ({
-     a: function({ b  }={
+     a: function({ b  } = {
              b: 1 
         }) {
         } 

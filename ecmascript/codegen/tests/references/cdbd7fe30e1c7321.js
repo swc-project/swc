@@ -1,3 +1,3 @@
 (function() {
-    var // should hoist to parametera = 1;
+    var a = 1;
 }());

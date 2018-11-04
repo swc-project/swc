@@ -1,2 +1,2 @@
-function a([a=1]) {
+function a([a = 1]) {
 }

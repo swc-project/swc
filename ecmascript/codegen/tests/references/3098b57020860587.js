@@ -1,4 +1,5 @@
 (function() {
-    var // should not hoist to parametera = 1;
+    var a = 1;
+    // should not hoist to parameter
     eval('');
 }());

@@ -1,2 +1,2 @@
-a = function(b=1) {
+a = function(b = 1) {
 };

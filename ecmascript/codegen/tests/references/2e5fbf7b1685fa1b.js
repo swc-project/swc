@@ -1,7 +1,11 @@
 (function() {
-    var // should not hoist thisa = 1;
+    var a = 1;
+    // should not hoist this
     arguments[2] = 3;
     (function() {
+        // should not hoist this
+    arguments[2] = 3;
+    (function () {
         eval('');
     }());
 }());

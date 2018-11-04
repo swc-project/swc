@@ -6,13 +6,38 @@ c: {
             if (a) break c;
             for(var b = 3; b < 4; b++){
                 if (b > 5) break;
-                d.e(b);
+                // this break refers to the for, not to the switch; thus it
+                              // shouldn't ruin our optimization
+            d.// this break refers to the for, not to the switch; thus it
+                              // shouldn't ruin our optimization
+            d.e(// this break refers to the for, not to the switch; thus it
+                              // shouldn't ruin our optimization
+            d.e(b);
             }
-            f();
+            // this break refers to the for, not to the switch; thus it
+                              // shouldn't ruin our optimization
+            d.e(b);
+        }
+        f();
         case 6 + 7:
-            g();
+            // this break refers to the for, not to the switch; thus it
+                              // shouldn't ruin our optimization
+            d.e(b);
+        }
+        f();
+      case 6+7:
+        g();
             break;
         default:
-            h();
+            // this break refers to the for, not to the switch; thus it
+                              // shouldn't ruin our optimization
+            d.e(b);
+        }
+        f();
+      case 6+7:
+        g();
+        break;
+      default:
+        h();
     }
 }

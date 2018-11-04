@@ -1,4 +1,5 @@
 while(true){
     break;
-    a;
+    // Comment
+a;
 }

@@ -1,10 +1,27 @@
-(// 1 argsa)=>b;
-(// n argsa, // n argsb)=>c;
-()=>b;
-(// func returns func returns funca)=>(// func returns func returns funcb)=>c;
-(// So these parens are droppeda)=>((// So these parens are droppedb)=>c);
-()=>(// func returns func returns funcb, // func returns func returns funcc)=>d;
-(a)=>{
-    return b;
+(a)=>b;
+(// 1 args
+(a, // 1 args
+(a, b)=>// 1 args
+(a, b) => c;
+()=>// n args
+() => b;
+(// 0 args
+(a)=>(// 0 args
+(a) => (b)=>// 0 args
+(a) => (b) => c;
+(// func returns func returns func
+(a)=>((// func returns func returns func
+(a) => ((b)=>// func returns func returns func
+(a) => ((b) => c);
+()=>(// So these parens are dropped
+() => (b, // So these parens are dropped
+() => (b,c)=>// So these parens are dropped
+() => (b,c) => d;
+(// func returns func returns func
+a)=>{
+    return // func returns func returns func
+a=>{return b;
 };
-(// Dropping the parensa)=>'e';
+(// func returns func returns func
+a=>{return b;}
+a)=>'e';
