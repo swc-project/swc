@@ -1,7 +1,7 @@
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
-pub(crate) trait ExprFactory: Into<Expr> {
+pub trait ExprFactory: Into<Expr> {
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
             expr: box self.into(),

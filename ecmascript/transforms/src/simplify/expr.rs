@@ -170,6 +170,38 @@ fn fold_bin(
             });
 
             match bin.get_type() {
+                // String concatenation
+                Known(StringType) => match bin {
+                    Expr::Bin(BinExpr {
+                        left,
+                        op,
+                        right,
+                        span,
+                    }) => {
+                        if !left.may_have_side_effects() && !right.may_have_side_effects() {
+                            match (left.as_string(), right.as_string()) {
+                                (Known(l), Known(r)) => {
+                                    return Expr::Lit(Lit::Str(Str {
+                                        value: format!("{}{}", l, r).into(),
+                                        span,
+                                        // TODO
+                                        has_escape: false,
+                                    }));
+                                }
+                                _ => {}
+                            }
+                        }
+
+                        return Expr::Bin(BinExpr {
+                            left,
+                            op,
+                            right,
+                            span,
+                        });
+                    }
+                    _ => unreachable!(),
+                },
+                // Numerical calculation
                 Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
                     bin = match bin {
                         Expr::Bin(BinExpr {
@@ -195,7 +227,6 @@ fn fold_bin(
                         _ => unreachable!(),
                     };
                 }
-                Known(StringType) => {}
                 _ => {}
             }
 

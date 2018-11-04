@@ -1,4 +1,4 @@
-pub(crate) use self::{
+pub use self::{
     factory::ExprFactory,
     value::{
         Type::{

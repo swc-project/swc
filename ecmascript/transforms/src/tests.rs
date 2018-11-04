@@ -54,7 +54,7 @@ pub fn apply_transform<T: Fold<Module>>(
                     panic!("failed to parse")
                 })
             };
-            println!("parsed {} as a module\n{:?}", src, module);
+            // println!("parsed {} as a module\n{:?}", src, module);
 
             module
         };
@@ -76,7 +76,7 @@ pub fn apply_transform<T: Fold<Module>>(
                 pos_of_leading_comments: Default::default(),
             };
 
-            println!("Emitting: {:?}", module);
+            // println!("Emitting: {:?}", module);
             emitter.emit_module(&module).unwrap();
         }
 
