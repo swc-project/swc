@@ -1,13 +1,14 @@
 use super::Simplify;
 use std::rc::Rc;
-use swc_common::{FileName, FilePathMapping, FoldWith, Folder, SourceMap};
-use swc_ecma_ast::*;
+use swc_common::{FoldWith, Folder, SourceMap};
+use swc_ecma_ast::Expr;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
 macro_rules! test_expr {
     ($l:expr, $r:expr) => {{
-        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l);
-        let r = ::tests::apply_transform(::simplify::tests::RemoveParen, "expected.js", $r);
+        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l).replace(";", "");
+        let r = ::tests::apply_transform(::simplify::tests::RemoveParen, "expected.js", $r)
+            .replace(";", "");
         assert_eq!(l, r);
     }};
     ($l:expr, $r:expr,) => {
@@ -18,17 +19,17 @@ macro_rules! test_expr {
 /// Should not modify expression.
 macro_rules! same_expr {
     ($l:expr) => {{
-        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l);
+        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l).replace(";", "");
         assert_eq!(l, $l);
     }};
 }
 
 struct RemoveParen;
-impl Folder<swc_ecma_ast::Expr> for RemoveParen {
-    fn fold(&mut self, e: swc_ecma_ast::Expr) -> swc_ecma_ast::Expr {
+impl Folder<Expr> for RemoveParen {
+    fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
         match e {
-            swc_ecma_ast::Expr::Paren(e) => *e.expr,
+            Expr::Paren(e) => *e.expr,
             _ => e,
         }
     }
