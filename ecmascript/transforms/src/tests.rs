@@ -2,6 +2,7 @@ use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
+    rc::Rc,
     sync::{Arc, RwLock},
 };
 use swc_common::{errors::Handler, BytePos, FileName, Fold, FoldWith, SourceMap, Spanned};
@@ -20,8 +21,6 @@ where
 struct MyHandlers;
 
 impl swc_ecma_codegen::Handlers for MyHandlers {}
-
-pub(crate) struct Noop;
 
 pub(crate) struct Tester<'a> {
     cm: Rc<SourceMap>,
@@ -54,17 +53,9 @@ impl<'a> Tester<'a> {
             .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
-            let handler = ::swc_common::errors::Handler::with_tty_emitter(
-                ::swc_common::errors::ColorConfig::Auto,
-                true,
-                false,
-                Some(self.cm.clone()),
-            );
-            let logger = ::testing::logger().new(o!("src" => src));
-
             let sess = Session {
                 handler: &self.handler,
-                logger: &logger,
+                logger: &self.logger,
                 cfg: Default::default(),
             };
 

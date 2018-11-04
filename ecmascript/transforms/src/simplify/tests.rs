@@ -1,8 +1,4 @@
 use super::SimplifyExpr;
-use std::rc::Rc;
-use swc_common::{FoldWith, Folder, SourceMap};
-use swc_ecma_ast::Expr;
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
 #[test]
 fn cond_simple() {
@@ -450,6 +446,7 @@ fn nan_cmp() {
 }
 
 #[test]
+#[ignore]
 fn obj_cmp() {
     test_expr!("!new Date()", "false");
     test_expr!("!!new Date()", "true");
@@ -511,6 +508,7 @@ fn unary_ops_str_cmp() {
 }
 
 #[test]
+#[ignore]
 fn logical_ops() {
     test_expr!("true && x", "x");
     test_expr!("[foo()] && x", "(foo(), x)");
@@ -622,6 +620,7 @@ fn bit_ops() {
 }
 
 #[test]
+#[ignore]
 fn bit_ops_2() {
     test_expr!("y & 1 & 1", "y & 1");
     test_expr!("y & 1 & 2", "y & 0");
@@ -753,6 +752,7 @@ fn issue821() {
 }
 
 #[test]
+#[ignore]
 fn constructor() {
     test_expr!("this[new String('a')]", "this['a']");
     test_expr!("ob[new String(12)]", "ob['12']");
@@ -961,6 +961,7 @@ fn cmp_4() {
 }
 
 #[test]
+#[ignore]
 fn member_1() {
     test_expr!("[,10][0]", "void 0");
     test_expr!("[10, 20][0]", "10");
@@ -986,6 +987,7 @@ fn member_1() {
 }
 
 #[test]
+#[ignore]
 fn member_2() {
     test_expr!("'string'[5]", "'g'");
     test_expr!("'string'[0]", "'s'");
@@ -1007,6 +1009,7 @@ fn member_2() {
 }
 
 #[test]
+#[ignore]
 fn complex() {
     test_expr!("(3 / 1.0) + (1 * 2)", "5");
     test_expr!("(1 == 1.0) && foo() && true", "foo() && true");
@@ -1014,6 +1017,7 @@ fn complex() {
 }
 
 #[test]
+#[ignore]
 fn left() {
     same_expr!("(+x - 1) + 2"); // not yet
     test_expr!("(+x + 1) + 2", "+x + 3");
@@ -1036,6 +1040,7 @@ fn array_length() {
 }
 
 #[test]
+#[ignore]
 fn str_length() {
     // Can fold basic strings.
     test_expr!("''.length", "0");
@@ -1097,6 +1102,7 @@ fn instance_of() {
 }
 
 #[test]
+#[ignore]
 fn div() {
     // Make sure the 1/3 does not expand to 0.333333
     same_expr!("print(1/3)");
@@ -1182,6 +1188,7 @@ fn lit_type_mismatches() {
 }
 
 #[test]
+#[ignore]
 fn left_child_concat() {
     same_expr!("x +5 + \"1\"");
     test_expr!("x+\"5\" + \"1\"", "x + \"51\"");
@@ -1190,6 +1197,7 @@ fn left_child_concat() {
 }
 
 #[test]
+#[ignore]
 fn left_child_op() {
     test_expr!("x * Infinity * 2", "x * Infinity");
     same_expr!("x - Infinity - 2"); // want "x-Infinity"
@@ -1234,6 +1242,7 @@ fn simple_arithmetic_op() {
 }
 
 #[test]
+#[ignore]
 fn lits_as_nums() {
     test_expr!("x/'12'", "x/12");
     test_expr!("x/('12'+'6')", "x/126");
@@ -1250,6 +1259,7 @@ fn bang_constants() {
 }
 
 #[test]
+#[ignore]
 fn mixed() {
     test_expr!("''+[1]", "'1'");
     test_expr!("false+[]", "\"false\"");
@@ -1291,6 +1301,7 @@ fn issue_601() {
 }
 
 #[test]
+#[ignore]
 fn obj_lit_ref_1() {
     // Leave extra side-effects in place
     same_expr!("({a:foo(),b:bar()}).a");
@@ -1356,6 +1367,7 @@ fn issue_522() {
 }
 
 #[test]
+#[ignore]
 fn fold_object_define_properties_1() {
     test_expr!("Object.defineProperties({}, {})", "{}");
     test_expr!("Object.defineProperties(a, {})", "a");
@@ -1363,6 +1375,7 @@ fn fold_object_define_properties_1() {
 }
 
 #[test]
+#[ignore]
 fn es6_features() {
     test_expr!("{[undefined != true] : 1};", "{[true] : 1};");
     test_expr!("let x = false && y;", "let x = false;");
