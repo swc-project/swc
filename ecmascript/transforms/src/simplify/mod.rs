@@ -1,9 +1,11 @@
 //! Ported from closure compiler.
+use crate::util::*;
 use swc_common::{FoldWith, Folder, DUMMY_SP};
 use swc_ecma_ast::*;
-use util::*;
 
 mod expr;
+#[cfg(test)]
+mod tests;
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Simplify;

@@ -22,8 +22,9 @@ pub extern crate swc_ecma_parser;
 #[macro_use]
 extern crate testing;
 
+#[cfg(test)]
 #[macro_use]
-mod macros;
+mod tests;
 #[macro_use]
 mod quote;
 pub mod compat;

@@ -1,83 +1,21 @@
 #![feature(specialization)]
 
-#[macro_use]
-extern crate pretty_assertions;
-#[macro_use]
-extern crate slog;
-extern crate swc_common;
-extern crate swc_ecma_ast;
-extern crate swc_ecma_parser;
-extern crate swc_ecma_transforms as transforms;
-#[macro_use]
-extern crate testing;
 
+use super::Simplify;
 use std::rc::Rc;
 use swc_common::{FileName, FilePathMapping, FoldWith, Folder, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
-use transforms::simplify::Simplify;
-
-fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
-where
-    F: FnOnce(Session, SourceFileInput) -> Ret,
-{
-    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
-    let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
-
-    let handler = ::swc_common::errors::Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Auto,
-        true,
-        false,
-        Some(cm),
-    );
-
-    let logger = ::testing::logger().new(o!("src" => src));
-
-    f(
-        Session {
-            handler: &handler,
-            logger: &logger,
-            cfg: Default::default(),
-        },
-        (&*fm).into(),
-    )
-}
-
-fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
-where
-    F: FnOnce(&mut Parser<SourceFileInput>) -> Ret,
-{
-    ::with_test_sess(s, |session, input| f(&mut Parser::new(session, input)))
-}
-
-fn parse_expr(s: &'static str) -> Box<swc_ecma_ast::Expr> {
-    let module = test_parser(s, |p| {
-        p.parse_module().unwrap_or_else(|err| {
-            err.emit();
-            unreachable!("failed to parse module")
-        })
-    });
-    match module.body.into_iter().next().unwrap() {
-        ModuleItem::Stmt(Stmt::Expr(expr)) => expr,
-        _ => unreachable!("expected an expression statement. \nCode:\n{}", s),
-    }
-}
-
-fn sim(e: Box<swc_ecma_ast::Expr>) -> Box<swc_ecma_ast::Expr> {
-    Folder::<Box<swc_ecma_ast::Expr>>::fold(&mut Simplify, e)
-}
-
-fn remove_paren(e: Box<swc_ecma_ast::Expr>) -> Box<swc_ecma_ast::Expr> {
-    Folder::<Box<swc_ecma_ast::Expr>>::fold(&mut RemoveParen, e)
-}
 
 macro_rules! test_expr {
     ($l:expr, $r:expr) => {{
-        assert_eq_ignore_span!(sim(parse_expr($l)), remove_paren(parse_expr($r)));
+        let l = ::tests::apply_transform(::simplify::Simplify, "actual.js", $l);
+        let r = ::tests::apply_transform(::simplify::tests::RemoveParen, "expected.js", $l);
+        assert_eq!(l, r);
     }};
-    ($l:expr, $r:expr,) => {{
-        assert_eq_ignore_span!(sim(parse_expr($l)), remove_paren(parse_expr($r)));
-    }};
+    ($l:expr, $r:expr,) => {
+        test_expr!($l, $r);
+    };
 }
 
 /// Should not modify expression.

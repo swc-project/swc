@@ -1,4 +1,3 @@
-#![cfg(test)]
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
@@ -94,9 +93,9 @@ macro_rules! test {
     ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            let actual = $crate::macros::apply_transform($tr, stringify!($test_name), $input);
-            let expected = $crate::macros::apply_transform(
-                $crate::macros::Noop,
+            let actual = $crate::tests::apply_transform($tr, stringify!($test_name), $input);
+            let expected = $crate::tests::apply_transform(
+                $crate::tests::Noop,
                 stringify!($test_name),
                 $expected,
             );
@@ -113,7 +112,7 @@ macro_rules! test_exec {
         #[test]
         #[ignore]
         fn $test_name() {
-            let _transformed = $crate::macros::apply_transform($tr, stringify!($test_name), $input);
+            let _transformed = $crate::tests::apply_transform($tr, stringify!($test_name), $input);
         }
     };
 }
