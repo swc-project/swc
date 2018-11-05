@@ -23,7 +23,8 @@ before_install:
     - git submodule update --init --recursive
 
 install:
-    - cargo test --no-run --all --verbose
+    # cache built files regardless of compile error.
+    - cargo test --no-run --all || true
 
 script:
     - cargo test --all
