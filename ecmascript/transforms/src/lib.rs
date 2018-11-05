@@ -9,11 +9,10 @@
 extern crate slog;
 #[macro_use]
 pub extern crate swc_atoms;
-pub extern crate swc_common;
-#[macro_use]
-pub extern crate swc_ecma_ast;
 #[cfg(test)]
 extern crate sourcemap;
+pub extern crate swc_common;
+pub extern crate swc_ecma_ast;
 #[cfg(test)]
 pub extern crate swc_ecma_codegen;
 #[cfg(test)]

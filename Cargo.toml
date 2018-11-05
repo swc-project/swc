@@ -20,8 +20,6 @@ rayon = "0.9"
 slog = "2"
 slog-envlogger = "2.1"
 slog-term = "2.3"
-rustc-ap-rustc_data_structures = "250"
-
 
 [dependencies.clap]
 version = "2.29.1"

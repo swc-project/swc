@@ -6,9 +6,8 @@ pub extern crate swc_common;
 pub extern crate swc_ecmascript;
 pub extern crate swc_macros;
 
-use rustc_data_structures::sync::Lrc;
 use slog::Logger;
-use std::path::Path;
+use std::{path::Path, rc::Rc};
 use swc_common::{
     errors::{Handler, SourceMapperDyn},
     SourceMap,
@@ -19,7 +18,7 @@ use swc_ecmascript::{
 };
 
 pub struct Compiler {
-    codemap: Lrc<SourceMap>,
+    codemap: Rc<SourceMap>,
     threads: rayon::ThreadPool,
     logger: Logger,
     handler: Handler,
@@ -28,7 +27,7 @@ pub struct Compiler {
 impl Compiler {
     pub fn new(
         logger: Logger,
-        codemap: Lrc<SourceMap>,
+        codemap: Rc<SourceMap>,
         handler: Handler,
         threads: rayon::ThreadPool,
     ) -> Self {

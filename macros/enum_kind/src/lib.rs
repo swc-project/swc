@@ -5,7 +5,6 @@ extern crate pmutil;
 extern crate proc_macro;
 extern crate proc_macro2;
 extern crate swc_macros_common;
-#[macro_use]
 extern crate syn;
 
 use swc_macros_common::prelude::*;
@@ -143,7 +142,6 @@ mod util;
 ///
 /// # fn main() {}
 /// ```
-///
 ///
 ///
 ///

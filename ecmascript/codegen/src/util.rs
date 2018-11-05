@@ -1,4 +1,4 @@
-use super::{list::ListFormat, Emitter, Result};
+use super::list::ListFormat;
 use std::rc::Rc;
 use swc_common::{
     errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned, SyntaxContext,
@@ -21,18 +21,6 @@ pub trait SpanExt: Spanned {
     }
 }
 impl<T: Spanned> SpanExt for T {}
-
-impl<'a> Emitter<'a> {
-    pub(crate) fn punct(&mut self, span: Span, t: &'static str) -> Result {
-        if t == ";" {
-            self.wr.write_semi()?;
-        } else {
-            self.wr.write_punct(t)?;
-        };
-
-        Ok(())
-    }
-}
 
 pub trait SourceMapperExt {
     fn get_code_map(&self) -> &SourceMapper;
