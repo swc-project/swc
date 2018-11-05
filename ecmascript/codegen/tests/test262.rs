@@ -2,30 +2,24 @@
 #![feature(specialization)]
 #![feature(test)]
 extern crate slog;
-extern crate sourcemap;
 extern crate swc_common;
 extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
-use sourcemap::SourceMapBuilder;
 use std::{
     env,
     fs::{read_dir, File},
     io::{self, Read, Write},
-    iter::FromIterator,
-    path::{Path, PathBuf},
+    path::Path,
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{
-    errors::Handler, BytePos, FileName, FilePathMapping, Fold, FoldWith, SourceFile, SourceMap,
-    SourceMapper, Span,
-};
-use swc_ecma_codegen::{util::SourceMapperExt, Emitter};
-use swc_ecma_parser::{ast::*, PResult, Parser, Session, SourceFileInput};
+use swc_common::{sourcemap::SourceMapBuilder, Fold, FoldWith, Span};
+use swc_ecma_codegen::Emitter;
+use swc_ecma_parser::{ast::*, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
-use testing::{NormalizedOutput, TestOutput};
+use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
@@ -133,7 +127,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let ref_dir = ref_dir.clone();
         let name = format!("test262::golden::{}", file_name);
 
-        let dir = dir.clone();
         add_test(tests, name, ignore, move || {
             let msg = format!(
                 "\n\n========== Running codegen test {}\nSource:\n{}\n",
@@ -141,7 +134,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
             let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-            ::testing::run_test(|logger, cm, handler| {
+            let _out = ::testing::run_test(|logger, cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
                 eprintln!(
                     "{}\nPos: {:?} ~ {:?} (L{})",
@@ -161,21 +154,23 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     (&*src).into(),
                 );
 
+                let s: Rc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
+                let mut src_map_builder = SourceMapBuilder::new(Some(&s));
                 {
-                    let s: Rc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
-
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::config::Config::default(),
-                        cm,
-                        file: src.clone(),
+                        cm: cm.clone(),
                         enable_comments: true,
-                        srcmap: SourceMapBuilder::new(Some(&s)),
-                        wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
+                        wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                            cm.clone(),
+                            "\n",
+                            &mut wr,
+                            &mut src_map_builder,
+                        ),
                         handlers,
                         pos_of_leading_comments: Default::default(),
                     };
 
-                    let path = dir.join(&file_name);
                     // Parse source
                     if module {
                         emitter
@@ -203,16 +198,12 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             .unwrap();
                     }
                 }
-                let r = wr.0.read().unwrap();
-                let output = TestOutput {
-                    result: NormalizedOutput::from(String::from_utf8_lossy(&r).into_owned()),
-                    errors: NormalizedOutput::from(String::from("")),
-                };
+                let ref_file = format!("{}", ref_dir.join(&file_name).display());
 
-                output
-                    .result
-                    .compare_to_file(format!("{}", ref_dir.join(file_name).display()))
-                    .unwrap();
+                let code_output = wr.0.read().unwrap();
+                let with_srcmap =
+                    NormalizedOutput::from(String::from_utf8_lossy(&code_output).into_owned());
+                with_srcmap.compare_to_file(ref_file).unwrap();
             });
         });
     }

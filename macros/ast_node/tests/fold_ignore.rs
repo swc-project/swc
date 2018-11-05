@@ -1,9 +1,9 @@
-#![feature(specialization, proc_macro)]
+#![feature(specialization)]
 
 extern crate swc_common;
 extern crate swc_macros;
 use swc_common::{Fold, FoldWith};
-struct MyFolder;
+struct MyFold;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct PanicOnFold;
@@ -20,14 +20,14 @@ fn ignore_struct_named_field() {
         #[fold(ignore)]
         named: PanicOnFold,
     }
-    Foo::default().fold_with(&mut MyFolder);
+    Foo::default().fold_with(&mut MyFold);
 }
 
 #[test]
 fn ignore_struct_unnamed_field() {
     #[derive(Fold, Debug, Default, PartialEq)]
     struct Bar(#[fold(ignore)] PanicOnFold);
-    Bar::default().fold_with(&mut MyFolder);
+    Bar::default().fold_with(&mut MyFold);
 }
 
 #[test]
@@ -37,7 +37,7 @@ fn ignore_enum_unnamed_field() {
         Field(#[fold(ignore)] PanicOnFold),
     }
 
-    A::Field(Default::default()).fold_with(&mut MyFolder);
+    A::Field(Default::default()).fold_with(&mut MyFold);
 }
 
 #[test]
@@ -53,5 +53,5 @@ fn ignore_enum_named_field() {
     A::Field {
         named: Default::default(),
     }
-    .fold_with(&mut MyFolder);
+    .fold_with(&mut MyFold);
 }

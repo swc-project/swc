@@ -9,6 +9,65 @@ pub trait Fold<T> {
     /// By default, this folds fields of `node`
     ///  and reconstruct `node` with folded fields
     fn fold(&mut self, node: T) -> T;
+
+    /// Creates a folder which applies `folder` after `self`.
+    fn then<F>(self, folder: F) -> AndThen<Self, F>
+    where
+        Self: Sized,
+        F: Fold<T>,
+    {
+        AndThen {
+            first: self,
+            second: folder,
+        }
+    }
+}
+
+impl<T, F: ?Sized> Fold<T> for Box<F>
+where
+    T: FoldWith<Self>,
+    F: Fold<T>,
+{
+    fn fold(&mut self, node: T) -> T {
+        (**self).fold(node)
+    }
+}
+
+impl<'a, T, F: ?Sized> Fold<T> for &'a mut F
+where
+    T: FoldWith<Self>,
+    F: Fold<T>,
+{
+    fn fold(&mut self, node: T) -> T {
+        (**self).fold(node)
+    }
+}
+
+impl<T, F> Fold<T> for F
+where
+    T: FoldWith<F>,
+{
+    default fn fold(&mut self, t: T) -> T {
+        t.fold_children(self)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct AndThen<F1, F2> {
+    first: F1,
+    second: F2,
+}
+
+impl<T, F1, F2> Fold<T> for AndThen<F1, F2>
+where
+    T: FoldWith<Self>,
+    F1: Fold<T>,
+    F2: Fold<T>,
+{
+    fn fold(&mut self, node: T) -> T {
+        let node = self.first.fold(node);
+        self.second.fold(node)
+    }
 }
 
 /// Trait implemented for types which know how to fold itself.
@@ -31,15 +90,6 @@ pub trait FoldWith<F>: Sized {
     /// This bypasses a type inference bug which is caused by specialization.
     fn fold_with(self, f: &mut F) -> Self {
         f.fold(self)
-    }
-}
-
-impl<T, F> Fold<T> for F
-where
-    T: FoldWith<F>,
-{
-    default fn fold(&mut self, t: T) -> T {
-        t.fold_children(self)
     }
 }
 

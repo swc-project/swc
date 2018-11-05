@@ -1,10 +1,10 @@
-use swc_common::{FoldWith, Folder};
+use swc_common::{pos::Mark, Fold, FoldWith};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Exponentation;
 
-impl Folder<Expr> for Exponentation {
+impl Fold<Expr> for Exponentation {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
 
@@ -14,36 +14,41 @@ impl Folder<Expr> for Exponentation {
                 op: op!("**"),
                 right,
                 span,
-            }) => Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+            }) => {
+                let span = span.apply_mark(Mark::fresh(Mark::root()));
+
+                // Math.pow()
+                Expr::Call(CallExpr {
                     span,
-                    obj: ExprOrSuper::Expr(
-                        box Ident {
+                    callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(
+                            box Ident {
+                                span,
+                                sym: "Math".into(),
+                            }
+                            .into(),
+                        ),
+                        prop: box Ident {
                             span,
-                            sym: "Math".into(),
+                            sym: "pow".into(),
                         }
                         .into(),
-                    ),
-                    prop: box Ident {
-                        span,
-                        sym: "pow".into(),
-                    }
-                    .into(),
-                    computed: false,
-                })),
+                        computed: false,
+                    })),
 
-                args: vec![
-                    ExprOrSpread {
-                        expr: left,
-                        spread: None,
-                    },
-                    ExprOrSpread {
-                        expr: right,
-                        spread: None,
-                    },
-                ],
-            }),
+                    args: vec![
+                        ExprOrSpread {
+                            expr: left,
+                            spread: None,
+                        },
+                        ExprOrSpread {
+                            expr: right,
+                            spread: None,
+                        },
+                    ],
+                })
+            }
             _ => e,
         }
     }

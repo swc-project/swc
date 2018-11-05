@@ -1,7 +1,7 @@
-use swc_common::{FoldWith, Folder};
+use swc_common::{pos::Mark, Fold, FoldWith};
 use swc_ecma_ast::*;
 
-///Compile ES2015 shorthand properties to ES5
+/// Compile ES2015 shorthand properties to ES5
 ///
 ///# Example
 ///
@@ -36,17 +36,24 @@ use swc_ecma_ast::*;
 /// };
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub struct Shorthand;
+pub(super) struct Shorthand;
 
-impl Folder<Prop> for Shorthand {
+impl Fold<Prop> for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {
         let prop = prop.fold_children(self);
 
         match prop {
-            Prop::Shorthand(i) => Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(i.clone()),
-                value: box i.into(),
-            }),
+            Prop::Shorthand(Ident { sym, span }) => {
+                let span = span.apply_mark(Mark::fresh(Mark::root()));
+
+                Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(Ident {
+                        sym: sym.clone(),
+                        span,
+                    }),
+                    value: box Ident { sym, span }.into(),
+                })
+            }
             Prop::Method(MethodProp { key, function }) => Prop::KeyValue(KeyValueProp {
                 key,
                 value: box Expr::Fn(FnExpr {

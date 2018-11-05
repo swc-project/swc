@@ -40,7 +40,8 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 comma: Some(def_site()),
                 leading_vert: None,
             }
-        }).collect();
+        })
+        .collect();
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
@@ -65,7 +66,8 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                     }
                 }
             }
-        )).parse::<ItemImpl>()
+        ))
+        .parse::<ItemImpl>()
         .with_generics(input.generics)
 }
 
@@ -75,7 +77,8 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
         box Quote::new(def_site::<Span>())
             .quote_with(smart_quote!(Vars { field }, {
                 swc_common::Spanned::span(field)
-            })).parse()
+            }))
+            .parse()
     }
 
     if bindings.len() == 0 {
@@ -109,7 +112,8 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
                 .attrs
                 .iter()
                 .any(|attr| is_attr_name(attr, "span"))
-        }).any(|b| b);
+        })
+        .any(|b| b);
     if !has_any_span_attr {
         let span_field = bindings
             .iter()
@@ -119,7 +123,8 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
                     .as_ref()
                     .map(|ident| ident == "span")
                     .unwrap_or(false)
-            }).unwrap_or_else(|| {
+            })
+            .unwrap_or_else(|| {
                 panic!(
                     "#[derive(Spanned)]: cannot determine span field to use for {}",
                     v.qual_path().dump()
@@ -145,7 +150,8 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
                 .quote_with(smart_quote!(Vars { lo_field, hi_field }, {
                     swc_common::Spanned::span(lo_field)
                         .with_hi(swc_common::Spanned::span(hi_field).hi())
-                })).parse()
+                }))
+                .parse()
         }
         _ => panic!("#[derive(Spanned)]: #[span(lo)] and #[span(hi)] is required"),
     }

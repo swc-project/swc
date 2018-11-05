@@ -1,13 +1,6 @@
-pub use self::{
-    arrow::Arrow, es3::*, exponentation::Exponentation, shorthand::Shorthand,
-    spread::SpreadElement, sticky_regex::StickyRegex, template_literal::TemplateLiteral,
-};
+pub use self::{es2015::es2015, es2016::es2016, es3::es3};
 
-mod arrow;
+mod es2015;
+mod es2016;
 mod es3;
-mod exponentation;
 mod helpers;
-mod shorthand;
-mod spread;
-mod sticky_regex;
-mod template_literal;

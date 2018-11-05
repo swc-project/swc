@@ -10,7 +10,7 @@ impl<'a> Emitter<'a> {
         if !self.enable_comments {
             return Ok(());
         }
-        debug_assert!(self.file.contains(pos));
+        // debug_assert!(self.file.contains(pos));
         let span = Span::new(pos, pos, SyntaxContext::empty());
         let ext_sp = self.cm.span_through_char(span, '/');
 
@@ -32,12 +32,13 @@ impl<'a> Emitter<'a> {
         if !self.enable_comments {
             return Ok(());
         }
-        debug_assert!(self.file.contains(pos));
+        // debug_assert!(self.file.contains(pos));
         if self.pos_of_leading_comments.contains(&pos) {
             return Ok(());
         }
-        // println!("COMM: {:?}", pos);
         self.pos_of_leading_comments.insert(pos);
+
+        let file = self.cm.lookup_char_pos(pos).file;
 
         let span = Span::new(pos, pos, SyntaxContext::empty());
 
@@ -46,18 +47,17 @@ impl<'a> Emitter<'a> {
         loop {
             ext_sp = self.cm.span_extend_to_prev_str(ext_sp, "//", true);
 
-            let (line, s) = self
-                .file
+            let (line, s) = file
                 .lookup_line(ext_sp.lo())
                 .and_then(|line| {
-                    let ln = self.file.get_line(line);
+                    let ln = file.get_line(line);
                     Some((line, ln.expect("failed to get text of the line")))
                 })
                 // safe
                 .unwrap();
 
             if s.trim().starts_with("//") && line > 0 {
-                let (llo, lhi) = self.file.line_bounds(line - 1);
+                let (llo, lhi) = file.line_bounds(line - 1);
                 // println!("L{}: {:?}~{:?}", line - 1, llo, lhi);
                 ext_sp = ext_sp.with_lo(lhi);
                 continue;
@@ -81,7 +81,7 @@ impl<'a> Emitter<'a> {
         // }
 
         // println!("B: {:?}", src);
-        self.wr.write(src.as_bytes())?;
+        self.wr.write_comment(ext_sp, &src)?;
         Ok(())
     }
 

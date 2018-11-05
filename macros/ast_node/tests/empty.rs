@@ -1,5 +1,3 @@
-#![feature(proc_macro)]
-
 extern crate ast_node;
 extern crate swc_common;
 use ast_node::*;

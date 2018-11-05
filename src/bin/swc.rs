@@ -1,3 +1,5 @@
+#![feature(box_syntax)]
+
 #[macro_use]
 extern crate clap;
 extern crate rayon;
@@ -6,8 +8,7 @@ extern crate slog;
 extern crate slog_envlogger;
 extern crate slog_term;
 pub extern crate swc;
-pub extern crate swc_common;
-use clap::{AppSettings, Arg, SubCommand};
+use clap::{AppSettings, Arg, ArgMatches, SubCommand};
 use slog::{Drain, Logger};
 use std::{
     error::Error,
@@ -15,11 +16,15 @@ use std::{
     path::Path,
     rc::Rc,
 };
-use swc::Compiler;
-use swc_common::{errors::Handler, FilePathMapping, SourceMap};
+use swc::{
+    common::{errors::Handler, FilePathMapping, Fold, SourceMap},
+    ecmascript::ast::Module,
+    Compiler,
+};
 
 fn main() {
-    run().unwrap()
+    let res = swc::common::GLOBALS.set(&swc::common::Globals::new(), || run());
+    res.expect("failed to process module")
 }
 
 fn run() -> Result<(), Box<Error>> {
@@ -35,7 +40,7 @@ fn run() -> Result<(), Box<Error>> {
                 .value_name("N"),
         )
         .subcommand(
-            SubCommand::with_name("js")
+            SubCommand::with_name("jsc")
                 .arg(
                     Arg::with_name("passes")
                         .short("p")
@@ -43,6 +48,8 @@ fn run() -> Result<(), Box<Error>> {
                         .takes_value(true)
                         .multiple(true),
                 )
+                .arg(Arg::with_name("optimize").long("optimize"))
+                .arg(Arg::with_name("minify").short("m").long("minify"))
                 .arg(
                     Arg::with_name("input file")
                         .required(true)
@@ -51,7 +58,7 @@ fn run() -> Result<(), Box<Error>> {
         )
         .get_matches();
 
-    let thread_pool = rayon::Configuration::new()
+    rayon::ThreadPoolBuilder::new()
         .thread_name(|i| format!("swc-worker-{}", i))
         .num_threads(
             matches
@@ -59,33 +66,55 @@ fn run() -> Result<(), Box<Error>> {
                 .map(|v| v.parse().expect("expected number for --worker"))
                 .unwrap_or(0),
         )
-        .build()
-        .expect("failed to create rayon::ThreadPool?");
+        .build_global()
+        .expect("failed to configure rayon::ThreadPool");
 
     let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
 
     let handler = Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Always,
+        swc::common::errors::ColorConfig::Always,
         true,
         false,
         Some(cm.clone()),
     );
 
-    let comp = Compiler::new(logger(), cm.clone(), handler, thread_pool);
+    let comp = Compiler::new(logger(), cm.clone(), handler);
 
-    if let Some(ref matches) = matches.subcommand_matches("js") {
+    if let Some(ref matches) = matches.subcommand_matches("jsc") {
         let input = matches.value_of("input file").unwrap();
         let res = comp.parse_js(Path::new(input));
-        match res {
-            Ok(module) => println!("Module {:?}", module),
-            Err(err) => {
-                err.emit();
-                panic!("Failed to parse module");
+        let module = match res {
+            Ok(module) => module,
+            Err(()) => {
+                panic!("failed to parse module");
             }
-        }
+        };
+
+        let mut pass = js_pass(matches);
+
+        let module = pass.fold(module);
+
+        let stdout = std::io::stdout();
+        let mut output = stdout.lock();
+        comp.emit_module(&module, &mut output)
+            .expect("failed to emit module");
     }
 
     Ok(())
+}
+
+fn js_pass(matches: &ArgMatches) -> Box<Fold<Module>> {
+    use swc::ecmascript::transforms::{compat, simplifier};
+
+    let pass: Box<Fold<Module>> = box compat::es2016().then(compat::es2015()).then(compat::es3());
+
+    let pass: Box<Fold<Module>> = if !matches.is_present("optimize") {
+        pass
+    } else {
+        box pass.then(simplifier())
+    };
+
+    pass
 }
 
 fn logger() -> Logger {

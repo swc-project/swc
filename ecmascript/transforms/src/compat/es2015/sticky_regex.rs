@@ -1,4 +1,4 @@
-use swc_common::{FoldWith, Folder, DUMMY_SP};
+use swc_common::{pos::Mark, Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
@@ -16,9 +16,9 @@ use swc_ecma_ast::*;
 /// new RegExp("o+", "y")
 /// ```
 #[derive(Debug, Clone, Copy)]
-pub struct StickyRegex;
+pub(super) struct StickyRegex;
 
-impl Folder<Expr> for StickyRegex {
+impl Fold<Expr> for StickyRegex {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
 
@@ -30,10 +30,11 @@ impl Folder<Expr> for StickyRegex {
                     .unwrap_or(false)
                 {
                     let str_lit = |s: Str| box Expr::Lit(Lit::Str(s));
+                    let span = span.apply_mark(Mark::fresh(Mark::root()));
 
                     return Expr::New(NewExpr {
                         callee: box Ident {
-                            span: DUMMY_SP,
+                            span,
                             sym: js_word!("RegExp"),
                         }
                         .into(),

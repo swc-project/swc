@@ -1,7 +1,7 @@
-use swc_common::{FoldWith, Folder};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
-///Compile ES2015 arrow functions to ES5
+/// Compile ES2015 arrow functions to ES5
 ///
 ///# Example
 ///
@@ -50,9 +50,9 @@ use swc_ecma_ast::*;
 /// console.log(bob.printFriends());
 /// ```
 #[derive(Debug, Clone, Copy)]
-pub struct Arrow;
+pub(super) struct Arrow;
 
-impl Folder<Expr> for Arrow {
+impl Fold<Expr> for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
 
@@ -64,7 +64,4 @@ impl Folder<Expr> for Arrow {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-}
+mod tests {}
