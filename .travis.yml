@@ -22,12 +22,8 @@ before_install:
     - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
     - git submodule update --init --recursive
 
-install:
-    # cache built files regardless of compile error.
-    - cargo test --no-run --all || true
-
 script:
-    - cargo test --all
+    - cargo test --color --all
 
 after_success:
 # Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
