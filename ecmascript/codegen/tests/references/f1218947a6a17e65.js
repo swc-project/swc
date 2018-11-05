@@ -1,6 +1,8 @@
 (function() {
-    var // hoist this, but it is very difficult.a = 1;
+    var a = 1;
     (function() {
+        // hoist this, but it is very difficult.
+    (function () {
         eval('');
     }());
 }());

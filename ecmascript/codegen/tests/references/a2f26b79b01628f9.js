@@ -1,4 +1,7 @@
 (function() {
-    var // should not hoist to parametera = 1;
-    with (b)arguments = 2;
+    var a = 1;
+    with (// should not hoist to parameter
+    with (b)// should not hoist to parameter
+    with (b)
+        arguments = 2;
 }());

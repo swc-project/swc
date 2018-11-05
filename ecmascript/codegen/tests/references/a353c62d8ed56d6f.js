@@ -1,4 +1,5 @@
 {
     throw a;
-    a;
+    // Comment
+a;
 }

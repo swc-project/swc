@@ -10,7 +10,10 @@ language: rust
 rust:
 - nightly
 cache:
-- cargo
+  cargo: true
+  directories:
+    - $HOME/.cargo-target
+    
 
 
 git:
@@ -20,9 +23,8 @@ before_install:
     - git submodule update --init --recursive
 
 script:
-- |
-  cargo test --no-run --all --verbose &&
-  cargo test --all
+    - cargo test --color always --all
+
 after_success:
 # Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
 #
@@ -37,6 +39,8 @@ notifications:
   email: never
 env:
   global:
+    - CARGO_TARGET_DIR=$HOME/.cargo-target
+    - CASHER_TIME_OUT=600
     - RUST_MIN_STACK=4194304
     - RUST_BACKTRACE=full
     - CARGO_INCREMENTAL=0

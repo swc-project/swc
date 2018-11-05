@@ -1,12 +1,13 @@
-use super::Simplify;
+use crate::util::*;
 use std::iter;
 use swc_common::{FoldWith, Folder, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{Ident, Lit, *};
-use util::*;
 
-impl Folder<Expr> for Simplify {
+pub(super) struct SimplifyExpr;
+
+impl Folder<Expr> for SimplifyExpr {
     fn fold(&mut self, expr: Expr) -> Expr {
-        // fold children nodes.
+        // fold children before doing something more.
         let expr = expr.fold_children(self);
 
         match expr {
@@ -169,6 +170,38 @@ fn fold_bin(
             });
 
             match bin.get_type() {
+                // String concatenation
+                Known(StringType) => match bin {
+                    Expr::Bin(BinExpr {
+                        left,
+                        op,
+                        right,
+                        span,
+                    }) => {
+                        if !left.may_have_side_effects() && !right.may_have_side_effects() {
+                            match (left.as_string(), right.as_string()) {
+                                (Known(l), Known(r)) => {
+                                    return Expr::Lit(Lit::Str(Str {
+                                        value: format!("{}{}", l, r).into(),
+                                        span,
+                                        // TODO
+                                        has_escape: false,
+                                    }));
+                                }
+                                _ => {}
+                            }
+                        }
+
+                        return Expr::Bin(BinExpr {
+                            left,
+                            op,
+                            right,
+                            span,
+                        });
+                    }
+                    _ => unreachable!(),
+                },
+                // Numerical calculation
                 Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
                     bin = match bin {
                         Expr::Bin(BinExpr {
@@ -194,7 +227,6 @@ fn fold_bin(
                         _ => unreachable!(),
                     };
                 }
-                Known(StringType) => {}
                 _ => {}
             }
 

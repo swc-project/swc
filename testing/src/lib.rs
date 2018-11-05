@@ -10,29 +10,24 @@ extern crate rustc_data_structures;
 extern crate syntax_pos;
 #[macro_use]
 extern crate slog;
+extern crate relative_path;
 extern crate slog_envlogger;
 extern crate slog_term;
 extern crate swc_common;
-extern crate relative_path;
 extern crate test;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use regex::Regex;
-use rustc_data_structures::sync::Lrc;
 use slog::{Drain, Logger};
 use std::{
     fmt::Debug,
     fs::{create_dir_all, File},
     io::{self, Write},
     path::Path,
+    rc::Rc,
     thread,
 };
-use swc_common::{
-    errors::{SourceMapper,SourceMapperDyn,Handler},
-    FoldWith, Folder, Span,SourceMap,FilePathMapping,
-};
-use std::rc::Rc;
-
+use swc_common::{errors::Handler, FilePathMapping, FoldWith, Folder, SourceMap, Span};
 
 #[macro_use]
 mod macros;
@@ -78,7 +73,8 @@ fn write_to_file(path: &Path, content: &str) {
                 path.display(),
                 err
             )
-        }).write_all(content.as_bytes())
+        })
+        .write_all(content.as_bytes())
         .expect("failed to write data of the failed assertion")
 }
 
@@ -93,7 +89,8 @@ pub fn print_left_right(left: &Debug, right: &Debug) -> String {
             }
 
             &RE
-        }.replace_all(&s, "_");
+        }
+        .replace_all(&s, "_");
         // Remove 'span: _,'
         let s = {
             lazy_static! {
@@ -101,7 +98,8 @@ pub fn print_left_right(left: &Debug, right: &Debug) -> String {
             }
 
             &RE
-        }.replace_all(&s, "");
+        }
+        .replace_all(&s, "");
 
         s.into()
     }
@@ -183,4 +181,3 @@ pub fn logger() -> Logger {
     root()
     // ROOT.new(o!())
 }
-

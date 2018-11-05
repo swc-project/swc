@@ -1,6 +1,13 @@
 (function() {
-    a('b');
+    // optimize this
+(function () {
+  a('b');
 }());
 try{
-}catch (c) {
+}catch (// optimize this
+(function () {
+  a('b');
+}());
+try {
+} catch (c) {
 }

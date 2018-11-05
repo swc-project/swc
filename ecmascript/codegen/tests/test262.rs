@@ -172,6 +172,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         srcmap: SourceMapBuilder::new(Some(&s)),
                         wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
                         handlers,
+                        pos_of_leading_comments: Default::default(),
                     };
 
                     let path = dir.join(&file_name);

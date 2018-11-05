@@ -1,1 +1,3 @@
+// ContinueStatement should not be removed.
+a: do do continue // ContinueStatement should not be removed.
 a: do do continue a;while (true)while (true)

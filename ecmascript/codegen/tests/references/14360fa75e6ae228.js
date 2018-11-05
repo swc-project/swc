@@ -1,4 +1,4 @@
-function a({ b  }={
+function a({ b  } = {
      b: 1 
 }) {
 }

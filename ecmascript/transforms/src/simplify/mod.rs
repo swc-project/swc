@@ -1,16 +1,19 @@
 //! Ported from closure compiler.
-use swc_common::{FoldWith, Folder, DUMMY_SP};
+use self::expr::SimplifyExpr;
+use crate::util::*;
+use swc_common::{Fold, FoldWith, DUMMY_SP};
 use swc_ecma_ast::*;
-use util::*;
 
 mod expr;
+#[cfg(test)]
+mod tests;
 
 #[derive(Debug, Clone, Copy, Default)]
-pub struct Simplify;
+pub struct SimplifyStmt;
 
-impl<T: StmtLike> Folder<Vec<T>> for Simplify
+impl<T: StmtLike> Fold<Vec<T>> for SimplifyStmt
 where
-    Self: Folder<T>,
+    Self: Fold<T>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let mut buf = Vec::with_capacity(stmts.len());
@@ -73,8 +76,10 @@ where
     }
 }
 
-impl Folder<Stmt> for Simplify {
+impl Fold<Stmt> for SimplifyStmt {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
+        // Simplfy expressions.
+        let stmt = stmt.fold_children(&mut SimplifyExpr);
         let stmt = stmt.fold_children(self);
 
         match stmt {

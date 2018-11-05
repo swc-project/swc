@@ -32,7 +32,7 @@ pub struct Scope<'a> {
 }
 
 impl<'a> Scope<'a> {
-    pub fn from_fn(parent: Option<&'a Scope<'a>>, f: &'a Function) -> Self {
+    pub fn from_fn(parent: Option<&'a Scope<'a>>, _f: &'a Function) -> Self {
         Scope {
             parent,
             kind: ScopeKind::Fn,
