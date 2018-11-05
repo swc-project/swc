@@ -22,9 +22,12 @@ before_install:
     - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
     - git submodule update --init --recursive
 
-script:
+install:
     - cargo test --no-run --all --verbose
+
+script:
     - cargo test --all
+
 after_success:
 # Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
 #
