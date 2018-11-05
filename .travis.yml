@@ -23,7 +23,7 @@ before_install:
     - git submodule update --init --recursive
 
 script:
-    - cargo test --color --all
+    - cargo test --color always --all
 
 after_success:
 # Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
