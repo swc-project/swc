@@ -1,4 +1,4 @@
-use swc_common::{Fold, FoldWith};
+use swc_common::{pos::Mark, Fold, FoldWith};
 use swc_ecma_ast::*;
 
 /// babel: `transform-property-literals`
@@ -29,7 +29,7 @@ use swc_ecma_ast::*;
 /// };
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub struct PropertyLiteral;
+pub(super) struct PropertyLiteral;
 
 impl Fold<PropName> for PropertyLiteral {
     fn fold(&mut self, n: PropName) -> PropName {
@@ -40,7 +40,7 @@ impl Fold<PropName> for PropertyLiteral {
                 if ident.is_reserved_only_for_es3() {
                     return PropName::Str(Str {
                         value: ident.sym,
-                        span: ident.span,
+                        span: ident.span.apply_mark(Mark::fresh(Mark::root())),
                         has_escape: false,
                     });
                 } else {

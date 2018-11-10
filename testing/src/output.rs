@@ -58,26 +58,24 @@ impl NormalizedOutput {
                 let mut buf = String::new();
                 file.read_to_string(&mut buf).unwrap();
                 buf
-            }).unwrap_or_else(|_| {
+            })
+            .unwrap_or_else(|_| {
                 // If xxx.stderr file does not exist, stderr should be empty.
                 String::new()
             });
 
-        let path_for_actual = 
-            paths::test_results_dir()
-                .join("ui")
-                .join(path.strip_prefix(&paths::manifest_dir()).unwrap())
-    ;
-    eprintln!("{}:{}", path.display(), path_for_actual.display
-    ());
+        let path_for_actual = paths::test_results_dir()
+            .join("ui")
+            .join(path.strip_prefix(&paths::manifest_dir()).unwrap());
+        eprintln!("{}:{}", path.display(), path_for_actual.display());
         if self.0 == expected {
             let _ = remove_file(path_for_actual);
             return Ok(());
         }
         create_dir_all(path_for_actual.parent().unwrap()).expect("failed to run `mkdir -p`");
-        ::write_to_file(&path_for_actual, &self.0);
+        // ::write_to_file(&path_for_actual, &self.0);
         ::write_to_file(&path, &self.0);
-        
+
         eprintln!(
             "Assertion failed: \nActual file printed to {}",
             path_for_actual.display()

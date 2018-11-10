@@ -1,6 +1,4 @@
 //! Test that `#[span]` and `#[fold]` can be used at same time.
-#![feature(proc_macro)]
-
 extern crate swc_common;
 extern crate swc_macros;
 use swc_common::{Fold, Span, Spanned};

@@ -41,7 +41,8 @@ pub fn derive(
                                 }
                             }
                         }
-                    )).parse();
+                    ))
+                    .parse();
 
                 from_impls.push(from_impl);
             }

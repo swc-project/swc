@@ -1,6 +1,6 @@
 //! Ensures that #[derive(Fold)] works with generic types.
 
-#![feature(specialization, proc_macro)]
+#![feature(specialization)]
 
 extern crate swc_common;
 extern crate swc_macros;

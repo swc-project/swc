@@ -56,7 +56,6 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::*;
     #[test]

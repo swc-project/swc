@@ -1,7 +1,7 @@
-use super::{Result, Symbol, TextWriter};
-use std::io::{self, Write};
+use super::{Result, WriteJs};
+use swc_common::Span;
 
-pub fn omit_trailing_semi(w: Box<TextWriter>) -> Box<TextWriter> {
+pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
     box OmitTrailingSemi {
         inner: w,
         pending_semi: false,
@@ -9,7 +9,7 @@ pub fn omit_trailing_semi(w: Box<TextWriter>) -> Box<TextWriter> {
 }
 
 #[derive(Debug, Clone)]
-struct OmitTrailingSemi<W: TextWriter> {
+struct OmitTrailingSemi<W: WriteJs> {
     inner: W,
     pending_semi: bool,
 }
@@ -33,7 +33,7 @@ macro_rules! with_semi {
     };
 }
 
-impl<W: TextWriter> TextWriter for OmitTrailingSemi<W> {
+impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(increase_indent());
     with_semi!(decrease_indent());
 
@@ -43,35 +43,24 @@ impl<W: TextWriter> TextWriter for OmitTrailingSemi<W> {
     }
 
     with_semi!(write_space());
-    with_semi!(write_keyword(s: &'static str));
+    with_semi!(write_comment(span: Span, s: &str));
+    with_semi!(write_keyword(span: Option<Span>, s: &'static str));
     with_semi!(write_operator(s: &str));
     with_semi!(write_param(s: &str));
     with_semi!(write_property(s: &str));
     with_semi!(write_line());
-    with_semi!(write_lit(s: &str));
-    with_semi!(write_str_lit(s: &str));
-    with_semi!(write_symbol(s: &str, sym: &Symbol));
+    with_semi!(write_lit(span: Span, s: &str));
+    with_semi!(write_str_lit(span: Span, s: &str));
+    with_semi!(write_symbol(span: Span, s: &str));
     with_semi!(write_punct(s: &'static str));
 }
 
-impl<W: TextWriter> OmitTrailingSemi<W> {
+impl<W: WriteJs> OmitTrailingSemi<W> {
     fn commit_pending_semi(&mut self) -> Result {
         if self.pending_semi {
             self.inner.write_punct(";")?;
             self.pending_semi = false;
         }
         Ok(())
-    }
-}
-
-impl<W: TextWriter> Write for OmitTrailingSemi<W> {
-    fn write(&mut self, s: &[u8]) -> io::Result<usize> {
-        //TODO: +1 if semi is pending
-        self.commit_pending_semi()?;
-        self.inner.write(s)
-    }
-
-    fn flush(&mut self) -> Result {
-        self.inner.flush()
     }
 }

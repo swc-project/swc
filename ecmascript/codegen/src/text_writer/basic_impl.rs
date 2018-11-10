@@ -1,5 +1,11 @@
-use super::{Result, Symbol, TextWriter};
-use std::io::{self, Write};
+use super::{Result, WriteJs};
+use std::{
+    io::{self, Write},
+    rc::Rc,
+};
+use swc_common::sourcemap::SourceMapBuilder;
+
+use swc_common::{SourceMap, Span};
 
 ///
 /// -----
@@ -7,25 +13,33 @@ use std::io::{self, Write};
 /// Ported from `createTextWriter` of the typescript compiler.
 ///
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
-#[derive(Debug, Clone)]
-pub struct WriterWrapper<'a, W: Write> {
+pub struct JsWriter<'a, W: Write> {
+    cm: Rc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
     new_line: &'a str,
+    srcmap: &'a mut SourceMapBuilder,
     wr: W,
     written_bytes: usize,
 }
 
-impl<'a, W: Write> WriterWrapper<'a, W> {
-    pub fn new(new_line: &'a str, wr: W) -> Self {
-        WriterWrapper {
+impl<'a, W: Write> JsWriter<'a, W> {
+    pub fn new(
+        cm: Rc<SourceMap>,
+        new_line: &'a str,
+        wr: W,
+        srcmap: &'a mut SourceMapBuilder,
+    ) -> Self {
+        JsWriter {
+            cm,
             indent: Default::default(),
             line_start: true,
             line_count: 0,
             line_pos: Default::default(),
             new_line,
+            srcmap,
             wr,
             written_bytes: 0,
         }
@@ -47,29 +61,49 @@ impl<'a, W: Write> WriterWrapper<'a, W> {
         self.written_bytes += written;
         Ok(written)
     }
-}
 
-impl<'a, W: Write> Write for WriterWrapper<'a, W> {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
+    fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<usize> {
         let mut cnt = 0;
 
         if data.len() > 0 {
+            if let Some(span) = span {
+                let loc = self.cm.lookup_char_pos(span.lo());
+
+                self.srcmap.add(
+                    self.line_count as _,
+                    self.line_pos as _,
+                    loc.line as _,
+                    loc.col.0 as _,
+                    None,
+                    None,
+                );
+            }
+
             if self.line_start {
                 cnt += self.write_indent_string()?;
                 self.line_start = false;
             }
-            cnt += self.raw_write(data)?;
+            cnt += self.raw_write(data.as_bytes())?;
+
+            if let Some(span) = span {
+                let loc = self.cm.lookup_char_pos(span.hi());
+
+                self.srcmap.add(
+                    self.line_count as _,
+                    self.line_pos as _,
+                    loc.line as _,
+                    loc.col.0 as _,
+                    None,
+                    None,
+                );
+            }
         }
 
         Ok(cnt)
     }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.wr.flush()
-    }
 }
 
-impl<'a, W: Write> TextWriter for WriterWrapper<'a, W> {
+impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())
@@ -80,32 +114,31 @@ impl<'a, W: Write> TextWriter for WriterWrapper<'a, W> {
     }
 
     fn write_semi(&mut self) -> Result {
-        self.write(b";")?;
+        self.write(None, ";")?;
         Ok(())
     }
-
     fn write_space(&mut self) -> Result {
-        self.write(b" ")?;
+        self.write(None, " ")?;
         Ok(())
     }
 
-    fn write_keyword(&mut self, s: &'static str) -> Result {
-        self.write(s.as_bytes())?;
+    fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result {
+        self.write(span, s)?;
         Ok(())
     }
 
     fn write_operator(&mut self, s: &str) -> Result {
-        self.write(s.as_bytes())?;
+        self.write(None, s)?;
         Ok(())
     }
 
     fn write_param(&mut self, s: &str) -> Result {
-        self.write(s.as_bytes())?;
+        self.write(None, s)?;
         Ok(())
     }
 
     fn write_property(&mut self, s: &str) -> Result {
-        self.write(s.as_bytes())?;
+        self.write(None, s)?;
         Ok(())
     }
 
@@ -120,9 +153,9 @@ impl<'a, W: Write> TextWriter for WriterWrapper<'a, W> {
         Ok(())
     }
 
-    fn write_lit(&mut self, s: &str) -> Result {
+    fn write_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
-            self.write(s.as_bytes())?;
+            self.write(Some(span), s)?;
 
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
@@ -135,18 +168,23 @@ impl<'a, W: Write> TextWriter for WriterWrapper<'a, W> {
         Ok(())
     }
 
-    fn write_str_lit(&mut self, s: &str) -> Result {
-        self.write(s.as_bytes())?;
+    fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
+        self.write(Some(span), s)?;
         Ok(())
     }
 
-    fn write_symbol(&mut self, s: &str, _: &Symbol) -> Result {
-        self.write(s.as_bytes())?;
+    fn write_comment(&mut self, span: Span, s: &str) -> Result {
+        self.write(Some(span), s)?;
+        Ok(())
+    }
+
+    fn write_symbol(&mut self, span: Span, s: &str) -> Result {
+        self.write(Some(span), s)?;
         Ok(())
     }
 
     fn write_punct(&mut self, s: &'static str) -> Result {
-        self.write(s.as_bytes())?;
+        self.write(None, s)?;
         Ok(())
     }
 }
@@ -177,7 +215,7 @@ fn compute_line_starts(s: &str) -> Vec<usize> {
                 //     res.push(line_start);
                 //     line_start = pos;
                 // }
-                unimplemented!()
+                unimplemented!("compute_line_starts(char = {:?})", c)
             }
         }
     }

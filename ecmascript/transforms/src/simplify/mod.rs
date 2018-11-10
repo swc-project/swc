@@ -8,10 +8,14 @@ mod expr;
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug, Clone, Copy, Default)]
-pub struct SimplifyStmt;
+pub fn simplifier() -> impl Fold<Module> + 'static {
+    Simplifier
+}
 
-impl<T: StmtLike> Fold<Vec<T>> for SimplifyStmt
+#[derive(Debug, Clone, Copy, Default)]
+struct Simplifier;
+
+impl<T: StmtLike> Fold<Vec<T>> for Simplifier
 where
     Self: Fold<T>,
 {
@@ -76,7 +80,7 @@ where
     }
 }
 
-impl Fold<Stmt> for SimplifyStmt {
+impl Fold<Stmt> for Simplifier {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         // Simplfy expressions.
         let stmt = stmt.fold_children(&mut SimplifyExpr);
@@ -170,7 +174,7 @@ impl Fold<Stmt> for SimplifyStmt {
     }
 }
 
-pub trait StmtLike: Sized {
+trait StmtLike: Sized {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn from_stmt(stmt: Stmt) -> Self;
 }
@@ -196,7 +200,7 @@ impl StmtLike for ModuleItem {
     }
 }
 
-// impl Folder<Stmt> for Simplify {
+// impl Fold<Stmt> for Simplify {
 //     fn fold(&mut self, stmt: Stmt) -> Stmt {
 //         stmt.fold_children(&mut FoldConst)
 //     }

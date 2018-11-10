@@ -1,21 +1,21 @@
-#![feature(specialization, proc_macro)]
+#![feature(specialization)]
 
 extern crate swc_common;
 extern crate swc_macros;
 use swc_common::{Fold, FoldWith};
 
-pub trait AssertFolder<T>: Fold<T> {}
+pub trait AssertFold<T>: Fold<T> {}
 
 // check for trait bound
 
-pub struct LitFolder;
-impl Fold<Lit> for LitFolder {
+pub struct LitFold;
+impl Fold<Lit> for LitFold {
     fn fold(&mut self, _: Lit) -> Lit {
         Lit::A
     }
 }
-impl AssertFolder<Expr> for LitFolder {}
-impl AssertFolder<ExprKind> for LitFolder {}
+impl AssertFold<Expr> for LitFold {}
+impl AssertFold<ExprKind> for LitFold {}
 
 #[derive(Debug, Fold, PartialEq, Eq)]
 pub struct Expr {

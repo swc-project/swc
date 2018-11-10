@@ -1,5 +1,5 @@
 use super::*;
-use swc_common::{FoldWith, Folder, Span, Spanned};
+use swc_common::{Fold, FoldWith, Span, Spanned};
 
 impl<'a, I: Input> Parser<'a, I> {
     pub(in parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, (Box<Expr>)> {
@@ -21,7 +21,7 @@ pub(super) struct Verifier {
     pub errors: Vec<(Span, SyntaxError)>,
 }
 
-impl Folder<Expr> for Verifier {
+impl Fold<Expr> for Verifier {
     fn fold(&mut self, e: Expr) -> Expr {
         match e {
             Expr::Fn(..) | Expr::Arrow(..) => return e,
@@ -29,7 +29,7 @@ impl Folder<Expr> for Verifier {
         }
     }
 }
-impl Folder<ArrayLit> for Verifier {
+impl Fold<ArrayLit> for Verifier {
     fn fold(&mut self, mut arr: ArrayLit) -> ArrayLit {
         let len = {
             let arr_len = arr.elems.len();
@@ -44,7 +44,7 @@ impl Folder<ArrayLit> for Verifier {
     }
 }
 
-impl Folder<Prop> for Verifier {
+impl Fold<Prop> for Verifier {
     fn fold(&mut self, p: Prop) -> Prop {
         match p {
             Prop::Assign { .. } => {

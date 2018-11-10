@@ -27,7 +27,7 @@ use std::{
     rc::Rc,
     thread,
 };
-use swc_common::{errors::Handler, FilePathMapping, FoldWith, Folder, SourceMap, Span};
+use swc_common::{errors::Handler, FilePathMapping, Fold, FoldWith, SourceMap, Span};
 
 #[macro_use]
 mod macros;
@@ -55,11 +55,11 @@ pub fn drop_span<T>(t: T) -> T
 where
     T: FoldWith<DropSpan>,
 {
-    Folder::<T>::fold(&mut DropSpan, t)
+    Fold::<T>::fold(&mut DropSpan, t)
 }
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DropSpan;
-impl Folder<Span> for DropSpan {
+impl Fold<Span> for DropSpan {
     fn fold(&mut self, _: Span) -> Span {
         Span::default()
     }

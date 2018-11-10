@@ -268,7 +268,6 @@ impl<'a> VariantBinder<'a> {
 
 /// Binded field. Note that this struct acts like a binded variable for
 /// `quote!`.
-///
 #[derive(Debug, Clone)]
 pub struct BindedField<'a> {
     binded_ident: Ident,

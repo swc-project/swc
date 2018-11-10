@@ -1,15 +1,15 @@
-use super::helpers::Helpers;
+use crate::compat::helpers::Helpers;
 use std::{
     mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Span};
+use swc_common::{pos::Mark, Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use util::ExprFactory;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
-pub struct SpreadElement {
+pub(super) struct SpreadElement {
     helpers: Arc<Helpers>,
 }
 
@@ -18,7 +18,7 @@ impl Fold<Expr> for SpreadElement {
         let e = e.fold_children(self);
 
         match e {
-            Expr::Array(ArrayLit { .. }) => unimplemented!(),
+            Expr::Array(ArrayLit { .. }) => unimplemented!("Rest element"),
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 args,
@@ -34,6 +34,7 @@ impl Fold<Expr> for SpreadElement {
                         span,
                     });
                 }
+                let span = span.apply_mark(Mark::fresh(Mark::root()));
 
                 let args_array = concat_args(&self.helpers, span, args);
                 //
@@ -56,6 +57,7 @@ impl Fold<Expr> for SpreadElement {
                         span,
                     });
                 }
+                let span = span.apply_mark(Mark::fresh(Mark::root()));
 
                 let args = concat_args(
                     &self.helpers,

@@ -1,56 +1,88 @@
-extern crate rayon;
-extern crate rustc_data_structures;
-extern crate slog;
-pub extern crate swc_atoms;
-pub extern crate swc_common;
-pub extern crate swc_ecmascript;
-pub extern crate swc_macros;
+#![feature(box_syntax)]
 
-use slog::Logger;
-use std::{path::Path, rc::Rc};
-use swc_common::{
-    errors::{Handler, SourceMapperDyn},
-    SourceMap,
-};
-use swc_ecmascript::{
+extern crate rayon;
+#[macro_use]
+extern crate slog;
+pub extern crate swc_atoms as atoms;
+pub extern crate swc_common as common;
+pub extern crate swc_ecmascript as ecmascript;
+pub extern crate swc_macros as macros;
+
+use common::{errors::Handler, sourcemap::SourceMapBuilder, SourceMap, Spanned};
+use ecmascript::{
     ast::Module,
-    parser::{PResult, Parser, Session as ParseSess, SourceFileInput},
+    codegen::Emitter,
+    parser::{Parser, Session as ParseSess, SourceFileInput},
+};
+use rayon::ThreadPool;
+use slog::Logger;
+use std::{
+    io::{self, Write},
+    path::Path,
+    rc::Rc,
 };
 
 pub struct Compiler {
-    codemap: Rc<SourceMap>,
-    threads: rayon::ThreadPool,
+    cm: Rc<SourceMap>,
     logger: Logger,
     handler: Handler,
 }
 
 impl Compiler {
-    pub fn new(
-        logger: Logger,
-        codemap: Rc<SourceMap>,
-        handler: Handler,
-        threads: rayon::ThreadPool,
-    ) -> Self {
+    pub fn new(logger: Logger, cm: Rc<SourceMap>, handler: Handler) -> Self {
         Compiler {
-            codemap,
-            threads,
+            cm,
             logger,
             handler,
         }
     }
 
     /// TODO
-    pub fn parse_js(&self, path: &Path) -> PResult<Module> {
-        let fm = self.codemap.load_file(path).expect("failed to load file");
+    pub fn parse_js(&self, path: &Path) -> Result<Module, ()> {
+        let fm = self.cm.load_file(path).expect("failed to load file");
 
-        Parser::new(
-            ParseSess {
+        let logger = self
+            .logger
+            .new(o!("input" => format!("{}", path.display())));
+        {
+            let session = ParseSess {
                 handler: &self.handler,
-                logger: &self.logger,
+                logger: &logger,
                 cfg: Default::default(),
-            },
-            SourceFileInput::from(&*fm),
-        )
-        .parse_module()
+            };
+            let module = Parser::new(session, SourceFileInput::from(&*fm))
+                .parse_module()
+                .map_err(|e| {
+                    e.emit();
+                    ()
+                });
+            module
+        }
+    }
+
+    pub fn emit_module(&self, module: &Module, wr: &mut Write) -> io::Result<()> {
+        let mut src_map_builder = SourceMapBuilder::new(None);
+        {
+            let handlers = box MyHandlers;
+            let mut emitter = Emitter {
+                cfg: Default::default(),
+                cm: self.cm.clone(),
+                enable_comments: true,
+                wr: box swc_ecmascript::codegen::text_writer::JsWriter::new(
+                    self.cm.clone(),
+                    "\n",
+                    wr,
+                    &mut src_map_builder,
+                ),
+                handlers,
+                pos_of_leading_comments: Default::default(),
+            };
+
+            emitter.emit_module(&module)
+        }
     }
 }
+
+struct MyHandlers;
+
+impl swc_ecmascript::codegen::Handlers for MyHandlers {}

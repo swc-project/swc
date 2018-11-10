@@ -9,23 +9,17 @@
 #[macro_use]
 extern crate bitflags;
 extern crate ecma_codegen_macros;
-pub extern crate sourcemap;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
 use self::{
     list::ListFormat,
-    text_writer::TextWriter,
+    text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use ecma_codegen_macros::emitter;
-use sourcemap::SourceMapBuilder;
-use std::{
-    collections::HashSet,
-    io::{self, Write},
-    rc::Rc,
-};
-use swc_common::{BytePos, SourceFile, SourceMap, Span, Spanned, DUMMY_SP};
+use std::{collections::HashSet, io, rc::Rc};
+use swc_common::{pos::SyntaxContext, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[macro_use]
@@ -63,10 +57,8 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Rc<SourceMap>,
-    pub file: Rc<SourceFile>,
     pub enable_comments: bool,
-    pub srcmap: SourceMapBuilder,
-    pub wr: Box<('a + TextWriter)>,
+    pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
     pub pos_of_leading_comments: HashSet<BytePos>,
 }
@@ -245,11 +237,11 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_lit(&mut self, node: &Lit) -> Result {
         match *node {
-            Lit::Bool(Bool { value, .. }) => {
+            Lit::Bool(Bool { value, span }) => {
                 if value {
-                    keyword!("true")
+                    keyword!(span, "true")
                 } else {
-                    keyword!("false")
+                    keyword!(span, "false")
                 }
             }
             Lit::Null(Null { .. }) => keyword!("null"),
@@ -257,10 +249,10 @@ impl<'a> Emitter<'a> {
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!("/");
-                self.wr.write_str_lit(&n.exp.value)?;
+                emit!(n.exp);
                 punct!("/");
                 if let Some(ref flags) = n.flags {
-                    self.wr.write_str_lit(&flags.value)?;
+                    emit!(n.flags);
                 }
             }
         }
@@ -269,18 +261,20 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_str_lit(&mut self, node: &Str) -> Result {
         // TODO: quote
-        if let Some(s) = get_text_of_node(&self.cm, &self.file, node, false) {
-            self.wr.write_str_lit(&s)?;
+        if let Some(s) = get_text_of_node(&self.cm, node, false) {
+            self.wr.write_str_lit(node.span, &s)?;
         } else {
-            self.wr.write_str_lit(&node.value)?;
+            self.wr.write_str_lit(node.span, &node.value)?;
         }
     }
 
     #[emitter]
     pub fn emit_num_lit(&mut self, num: &Number) -> Result {
-        match get_text_of_node(&self.cm, &self.file, num, false) {
-            Some(s) => self.wr.write(s.as_bytes())?,
-            None => self.wr.write(format!("{}", num.value).as_bytes())?,
+        // FIXME: Emitter might de-optimize
+
+        match get_text_of_node(&self.cm, num, false) {
+            Some(s) => self.wr.write_str_lit(num.span, &s)?,
+            None => self.wr.write_str_lit(num.span, &format!("{}", num.value))?,
         };
 
         return Ok(());
@@ -610,7 +604,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        self.wr.write(node.raw.as_bytes())?;
+        self.wr.write_str_lit(node.span, &node.raw)?;
         return Ok(());
     }
 
@@ -792,16 +786,16 @@ impl<'a> Emitter<'a> {
         let symbol: Option<String> = None;
         if let Some(sym) = symbol {
             //            self.wr.write_symbol(
-            //     &get_text_of_node(&self.file, &ident, /* includeTrivia */ false),
+            //     &get_text_of_node(, &ident, /* includeTrivia */ false),
             //     sym,
             // )?;
             unimplemented!()
         } else {
-            // TODO span
-            if let Some(s) = get_text_of_node(&self.cm, &self.file, &ident, false) {
-                self.wr.write(s.as_bytes())?
+            // TODO: span
+            if let Some(s) = get_text_of_node(&self.cm, &ident, false) {
+                self.wr.write_symbol(ident.span, &s)?
             } else {
-                self.wr.write(ident.sym.as_bytes())?
+                self.wr.write_symbol(ident.span, &ident.sym)?
             }
 
             // self.wr
@@ -1431,11 +1425,16 @@ impl<'a> Emitter<'a> {
 
 fn get_text_of_node<T: Spanned>(
     cm: &Rc<SourceMap>,
-    file: &Rc<SourceFile>,
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {
-    let s = cm.span_to_snippet(node.span()).unwrap();
+    let span = node.span();
+    if span.ctxt() != SyntaxContext::empty() {
+        // This node is transformed so we shoukld not use original source code.
+        return None;
+    }
+
+    let s = cm.span_to_snippet(span).unwrap();
     if s == "" {
         return None;
     }

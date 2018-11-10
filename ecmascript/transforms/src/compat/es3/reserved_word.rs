@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 /// var x = _abstract + 1;
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub struct ReservedWord;
+pub(super) struct ReservedWord;
 
 impl Fold<Expr> for ReservedWord {
     fn fold(&mut self, e: Expr) -> Expr {

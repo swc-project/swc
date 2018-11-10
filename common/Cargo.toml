@@ -13,3 +13,4 @@ rustc-ap-rustc_data_structures = "250"
 rustc-ap-syntax = "250"
 rustc-ap-syntax_pos = "250"
 swc_macros = { path = "../macros" }
+sourcemap = "2.2"

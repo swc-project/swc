@@ -1,18 +1,19 @@
 use slog::Logger;
-use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, BytePos, FileName, Fold, FoldWith, SourceMap, Spanned};
+use swc_common::{
+    errors::Handler, sourcemap::SourceMapBuilder, FileName, Fold, FoldWith, SourceMap, Spanned,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
 pub fn fold<F>(module: Module, f: &mut F) -> Module
 where
-    F: ::swc_common::Folder<Module>,
+    F: ::swc_common::Fold<Module>,
 {
     let module = f.fold(module);
     ::testing::drop_span(module)
@@ -33,7 +34,7 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester),
     {
-        let out = ::testing::run_test(|logger, cm, handler| {
+        let _out = ::testing::run_test(|logger, cm, handler| {
             op(&mut Tester {
                 cm,
                 logger,
@@ -88,13 +89,17 @@ impl<'a> Tester<'a> {
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
+            let mut src_map_builder = SourceMapBuilder::new(None);
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::config::Config::default(),
                 cm: self.cm.clone(),
-                file: fm.clone(),
                 enable_comments: true,
-                srcmap: SourceMapBuilder::new(None),
-                wr: box swc_ecma_codegen::text_writer::WriterWrapper::new("\n", &mut wr),
+                wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                    self.cm.clone(),
+                    "\n",
+                    &mut wr,
+                    &mut src_map_builder,
+                ),
                 handlers,
                 pos_of_leading_comments: Default::default(),
             };

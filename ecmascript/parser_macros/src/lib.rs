@@ -4,7 +4,6 @@
 //! This can't be implemented with macro_rule! because
 //! rust does not support token munching (destructing `$b:block` into `{
 //! $($t:tt)* }`).
-//!
 
 extern crate proc_macro;
 extern crate proc_macro2;
@@ -19,7 +18,6 @@ mod expand;
 
 /// This attribute macro injects first argument of function (typically `self`)
 /// to all **known** macros invocation in a function.
-///
 #[proc_macro_attribute]
 pub fn parser(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item = syn::parse(item).expect("failed to parse input as an item");

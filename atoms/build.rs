@@ -78,7 +78,7 @@ fn main() {
             "call",
             "concat",
             "_extends",
-            "_toConsumableArray"
+            "_toConsumableArray",
         ],
     );
 }

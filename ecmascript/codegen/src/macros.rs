@@ -22,8 +22,11 @@ macro_rules! emit {
 }
 
 macro_rules! keyword {
+    ($span:expr, $s:expr) => {
+        __cur_emitter!().wr.write_keyword(Some($span), $s)?;
+    };
     ($s:expr) => {
-        __cur_emitter!().wr.write_keyword($s)?;
+        __cur_emitter!().wr.write_keyword(None, $s)?;
     };
 }
 

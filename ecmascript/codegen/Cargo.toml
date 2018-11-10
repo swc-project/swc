@@ -8,7 +8,6 @@ bitflags = "1"
 swc_common = { path = "../../common" }
 swc_ecma_ast = { path = "../ast" }
 ecma_codegen_macros = { path = "./macros" }
-sourcemap = "2.2"
 
 [dev-dependencies]
 testing = { path = "../../testing" }

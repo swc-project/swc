@@ -23,6 +23,7 @@ before_install:
     - git submodule update --init --recursive
 
 script:
+    - cargo build --color always --all --all-targets 
     - cargo test --color always --all
 
 after_success:
