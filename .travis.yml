@@ -38,8 +38,8 @@ after_success:
 #     ./.travis/docs.sh'
 deploy:
   local_dir: $CARGO_TARGET_DIR/doc
-  repo: swc-project/swc
-  target_branch: gh-pages
+  repo: swc-project/swc-project.github.io
+  target_branch: master
   provider: pages
   skip_cleanup: true
   github_token: $GH_TOKEN

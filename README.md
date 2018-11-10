@@ -7,6 +7,8 @@
 
 Make the web (development) faster.
 
+swc is rust port of [babel][] and [closure compiler][].
+
 
 # Installation
 
@@ -52,5 +54,6 @@ use(8 + 8, Math.pow(8, 8));
 
 
 
-
+[babel]:https://github.com/babel/babel
+[closure compiler]:https://github.com/google/closure-compiler
 [rust]:https://www.rust-lang.org
