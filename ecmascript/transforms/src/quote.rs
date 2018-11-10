@@ -17,7 +17,15 @@ macro_rules! expr {
     }};
 }
 
+/// Creates a member expression.
+///
+/// # Usage
+/// ```rust,ignore
+/// member_expr!(Function.bind.apply);
+/// ```
+///
 /// Returns Box<Expr>
+#[macro_export]
 macro_rules! member_expr {
     ($span:expr, $first:ident) => {{
         use swc_ecma_ast::*;
