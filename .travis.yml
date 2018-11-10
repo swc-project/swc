@@ -23,8 +23,8 @@ before_install:
     - git submodule update --init --recursive
 
 script:
-    - cargo build --color always --all --all-targets 
     - cargo test --color always --all
+    - cargo doc --color always 
 
 after_success:
 # Temporarily disabled because cargo tarpaulin does not set CARGO_MANIFEST_DIR.
@@ -33,9 +33,21 @@ after_success:
 # - |
 #   cargo tarpaulin --all --ignore-tests --out Xml &&
 #   bash <(curl -s https://codecov.io/bash)
-- '[ $TRAVIS_PULL_REQUEST = false ] &&
-     [ "$TRAVIS_BRANCH" == "master" ] &&
-    ./.travis/docs.sh'
+# - '[ $TRAVIS_PULL_REQUEST = false ] &&
+#      [ "$TRAVIS_BRANCH" == "master" ] &&
+#     ./.travis/docs.sh'
+deploy:
+  local_dir: $CARGO_TARGET_DIR/doc
+  repo: swc-project/swc
+  target_branch: gh-pages
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN
+  email: kdy1@outlook.kr
+  name: "강동윤"
+  on:
+    branch: master
+
 notifications:
   email: never
 env:
