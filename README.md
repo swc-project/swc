@@ -13,7 +13,7 @@ Make the web (development) faster.
 Requires nightly version of [rust][].
 
 ```sh
-cargo install --git git@github.com:swc-project/swc.git
+cargo install --git https://github.com/swc-project/swc.git
 ```
 
 # Usage
