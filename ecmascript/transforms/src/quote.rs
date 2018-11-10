@@ -21,7 +21,7 @@ macro_rules! expr {
 ///
 /// # Usage
 /// ```rust,ignore
-/// member_expr!(Function.bind.apply);
+/// member_expr!(span, Function.bind.apply);
 /// ```
 ///
 /// Returns Box<Expr>
