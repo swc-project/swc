@@ -1,9 +1,13 @@
 use crate::util::*;
 use std::iter;
-use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_atoms::JsWord;
+use swc_common::{Fold, FoldWith, Span, Spanned};
 use swc_ecma_ast::{Ident, Lit, *};
 
-pub struct SimplifyExpr;
+#[cfg(test)]
+mod tests;
+
+pub(super) struct SimplifyExpr;
 
 impl Fold<Expr> for SimplifyExpr {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -55,7 +59,10 @@ impl Fold<Expr> for SimplifyExpr {
                 } else {
                     assert!(!exprs.is_empty(), "sequence expression should not be empty");
                     //TODO: remove unused
-                    return Expr::Seq(SeqExpr { span, exprs });
+                    return Expr::Seq(SeqExpr {
+                        span: mark!(span),
+                        exprs,
+                    });
                 }
             }
 
@@ -66,17 +73,22 @@ impl Fold<Expr> for SimplifyExpr {
 }
 
 fn fold_member_expr(e: MemberExpr) -> Expr {
-    #[derive(Copy, Clone, PartialEq, Eq)]
+    #[derive(Clone, PartialEq, Eq)]
     enum KnownOp {
-        /// Length
+        /// [a, b].length
         Len,
+
         Index(u32),
+
+        /// ({}).foo
+        IndexStr(JsWord),
     }
     let op = match *e.prop {
         Expr::Ident(Ident {
             sym: js_word!("length"),
             ..
         }) => KnownOp::Len,
+        Expr::Ident(Ident { ref sym, .. }) => KnownOp::IndexStr(sym.clone()),
         // Lit(Lit::Num(Number(f)))=>{
         //     if f==0{
 
@@ -88,37 +100,78 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         _ => return Expr::Member(e),
     };
 
-    let o = match e.obj {
+    let obj = match e.obj {
         ExprOrSuper::Super(_) => return Expr::Member(e),
         ExprOrSuper::Expr(box o) => o,
     };
 
-    match o {
+    match obj {
         Expr::Lit(Lit::Str(Str {
             ref value, span, ..
-        }))
-            if op == KnownOp::Len =>
-        {
-            Expr::Lit(Lit::Num(Number {
+        })) => match op {
+            // 'foo'.length
+            KnownOp::Len => Expr::Lit(Lit::Num(Number {
                 value: value.len() as _,
-                span,
-            }))
+                span: mark!(span),
+            })),
+
+            // 'foo'[1]
+            KnownOp::Index(idx) if (idx as usize) < value.len() => Expr::Lit(Lit::Str(Str {
+                value: value
+                    .chars()
+                    .nth(idx as _)
+                    .unwrap_or_else(|| panic!("failed to index char?"))
+                    .to_string()
+                    .into(),
+                span: mark!(span),
+                has_escape: false,
+            })),
+
+            _ => Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(box obj),
+                ..e
+            }),
+        },
+
+        // [1, 2, 3].length
+        Expr::Array(ArrayLit { ref elems, span })
+            if op == KnownOp::Len && !obj.may_have_side_effects() =>
+        {
+            // do nothing if spread exists
+            let has_spread = elems.iter().any(|elem| {
+                elem.as_ref()
+                    .map(|elem| elem.spread.is_some())
+                    .unwrap_or(false)
+            });
+
+            if has_spread {
+                return Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(box obj),
+                    ..e
+                });
+            }
+
+            return Expr::Lit(Lit::Num(Number {
+                value: elems.len() as _,
+                span: mark!(span),
+            }));
         }
 
-        Expr::Array(ArrayLit { ref elems, span })
-            if op == KnownOp::Len && !o.may_have_side_effects() =>
-        {
-            Expr::Lit(Lit::Num(Number {
-                value: elems.len() as _,
-                span,
-            }))
-        }
-        _ => {
-            return Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box o),
+        // { foo: true }['foo']
+        Expr::Object(ObjectLit { props, span }) => match op {
+            // TODO
+            // KnownOp::IndexStr(key) => {
+            // }
+            _ => Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
                 ..e
-            })
-        }
+            }),
+        },
+
+        _ => Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(box obj),
+            ..e
+        }),
     }
 }
 
@@ -148,7 +201,7 @@ fn fold_bin(
                         span,
                         Expr::Lit(Lit::Num(Number {
                             value: v,
-                            span: DUMMY_SP,
+                            span: mark!(span),
                         })),
                         { iter::once(left).chain(iter::once(right)) },
                     );
@@ -737,6 +790,9 @@ where
     } else {
         exprs.push(box val);
 
-        Expr::Seq(SeqExpr { exprs, span })
+        Expr::Seq(SeqExpr {
+            exprs,
+            span: mark!(span),
+        })
     }
 }

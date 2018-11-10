@@ -1,4 +1,4 @@
-use swc_common::{pos::Mark, Fold, FoldWith};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
 /// babel: `transform-property-literals`
@@ -40,7 +40,7 @@ impl Fold<PropName> for PropertyLiteral {
                 if ident.is_reserved_only_for_es3() {
                     return PropName::Str(Str {
                         value: ident.sym,
-                        span: ident.span.apply_mark(Mark::fresh(Mark::root())),
+                        span: mark!(ident.span),
                         has_escape: false,
                     });
                 } else {

@@ -81,19 +81,13 @@ impl<'a> Tester<'a> {
     pub fn print(&mut self, module: Module) -> String {
         let handlers = box MyHandlers;
 
-        let sfl = self
-            .cm
-            .lookup_line(module.span().lo())
-            .expect("failed to lookup line");
-        let fm = sfl.fm;
-
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut src_map_builder = SourceMapBuilder::new(None);
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::config::Config::default(),
                 cm: self.cm.clone(),
-                enable_comments: true,
+                enable_comments: false,
                 wr: box swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
@@ -149,43 +143,6 @@ macro_rules! test_exec {
             });
         }
     };
-}
-
-macro_rules! test_expr {
-    ($l:expr, $r:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $r);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-            let actual = ::testing::drop_span(actual);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
-    ($l:expr, $r:expr,) => {
-        test_expr!($l, $r);
-    };
-}
-
-/// Should not modify expression.
-macro_rules! same_expr {
-    ($l:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $l);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
 }
 
 #[derive(Debug, Clone)]

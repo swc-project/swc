@@ -1,4 +1,4 @@
-use swc_common::{pos::Mark, Fold, FoldWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
@@ -30,7 +30,7 @@ impl Fold<Expr> for StickyRegex {
                     .unwrap_or(false)
                 {
                     let str_lit = |s: Str| box Expr::Lit(Lit::Str(s));
-                    let span = span.apply_mark(Mark::fresh(Mark::root()));
+                    let span = mark!(span);
 
                     return Expr::New(NewExpr {
                         callee: box Ident {
