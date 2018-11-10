@@ -2,7 +2,7 @@ use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy, Default)]
-pub(super) struct TemplateLiteral;
+pub struct TemplateLiteral;
 
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {

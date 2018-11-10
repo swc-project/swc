@@ -9,7 +9,7 @@ use util::ExprFactory;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
-pub(super) struct SpreadElement {
+pub struct SpreadElement {
     helpers: Arc<Helpers>,
 }
 

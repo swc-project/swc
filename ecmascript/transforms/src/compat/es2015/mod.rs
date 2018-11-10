@@ -1,3 +1,8 @@
+pub use self::{
+    arrow::Arrow, shorthand_property::Shorthand, spread::SpreadElement, sticky_regex::StickyRegex,
+    template_literal::TemplateLiteral,
+};
+
 use swc_common::Fold;
 use swc_ecma_ast::Module;
 
@@ -7,8 +12,7 @@ mod spread;
 mod sticky_regex;
 mod template_literal;
 
+/// Compiles es2015 to es5.
 pub fn es2015() -> impl Fold<Module> {
-        shorthand_property::Shorthand
-                .then(spread::SpreadElement::default())
-                .then(sticky_regex::StickyRegex)
+    Shorthand.then(SpreadElement::default()).then(StickyRegex)
 }

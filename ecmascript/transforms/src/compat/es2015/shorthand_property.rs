@@ -36,7 +36,7 @@ use swc_ecma_ast::*;
 /// };
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub(super) struct Shorthand;
+pub struct Shorthand;
 
 impl Fold<Prop> for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {

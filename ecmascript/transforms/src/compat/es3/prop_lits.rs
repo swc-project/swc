@@ -29,7 +29,7 @@ use swc_ecma_ast::*;
 /// };
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub(super) struct PropertyLiteral;
+pub struct PropertyLiteral;
 
 impl Fold<PropName> for PropertyLiteral {
     fn fold(&mut self, n: PropName) -> PropName {

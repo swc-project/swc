@@ -50,7 +50,7 @@ use swc_ecma_ast::*;
 /// console.log(bob.printFriends());
 /// ```
 #[derive(Debug, Clone, Copy)]
-pub(super) struct Arrow;
+pub struct Arrow;
 
 impl Fold<Expr> for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {

@@ -3,7 +3,7 @@ use std::iter;
 use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{Ident, Lit, *};
 
-pub(super) struct SimplifyExpr;
+pub struct SimplifyExpr;
 
 impl Fold<Expr> for SimplifyExpr {
     fn fold(&mut self, expr: Expr) -> Expr {

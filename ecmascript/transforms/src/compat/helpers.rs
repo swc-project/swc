@@ -3,6 +3,7 @@ use std::{
     sync::atomic::{AtomicBool, Ordering},
 };
 
+/// Tracks used helper methods. (e.g. __extends)
 #[derive(Debug, Default)]
 pub struct Helpers {
     /// `_extends({}, b)`

@@ -19,7 +19,7 @@ use swc_ecma_ast::*;
 /// obj["var"] = "isKeyword";
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub(super) struct MemberExprLit;
+pub struct MemberExprLit;
 
 impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {

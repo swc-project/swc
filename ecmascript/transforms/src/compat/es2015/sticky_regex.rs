@@ -16,7 +16,7 @@ use swc_ecma_ast::*;
 /// new RegExp("o+", "y")
 /// ```
 #[derive(Debug, Clone, Copy)]
-pub(super) struct StickyRegex;
+pub struct StickyRegex;
 
 impl Fold<Expr> for StickyRegex {
     fn fold(&mut self, e: Expr) -> Expr {
