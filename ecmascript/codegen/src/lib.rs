@@ -244,7 +244,7 @@ impl<'a> Emitter<'a> {
                     keyword!(span, "false")
                 }
             }
-            Lit::Null(Null { .. }) => keyword!("null"),
+            Lit::Null(Null { span }) => keyword!(span, "null"),
             Lit::Str(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
@@ -274,7 +274,17 @@ impl<'a> Emitter<'a> {
 
         match get_text_of_node(&self.cm, num, false) {
             Some(s) => self.wr.write_str_lit(num.span, &s)?,
-            None => self.wr.write_str_lit(num.span, &format!("{}", num.value))?,
+            None => {
+                // Handle infinity
+                if num.value.is_infinite() {
+                    if num.value.is_negative() {
+                        self.wr.write_str_lit(num.span, "-")?;
+                    }
+                    self.wr.write_str_lit(num.span, "Infinity")?;
+                } else {
+                    self.wr.write_str_lit(num.span, &format!("{}", num.value))?
+                }
+            }
         };
 
         return Ok(());
