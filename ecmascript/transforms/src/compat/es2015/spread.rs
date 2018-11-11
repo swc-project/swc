@@ -10,7 +10,7 @@ use util::ExprFactory;
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
 pub struct SpreadElement {
-    helpers: Arc<Helpers>,
+    pub helpers: Arc<Helpers>,
 }
 
 impl Fold<Expr> for SpreadElement {

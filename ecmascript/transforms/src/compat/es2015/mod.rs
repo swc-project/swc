@@ -3,6 +3,8 @@ pub use self::{
     template_literal::TemplateLiteral,
 };
 
+use super::helpers::Helpers;
+use std::sync::Arc;
 use swc_common::Fold;
 use swc_ecma_ast::Module;
 
@@ -13,6 +15,6 @@ mod sticky_regex;
 mod template_literal;
 
 /// Compiles es2015 to es5.
-pub fn es2015() -> impl Fold<Module> {
-    Shorthand.then(SpreadElement::default()).then(StickyRegex)
+pub fn es2015(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    Shorthand.then(SpreadElement { helpers }).then(StickyRegex)
 }
