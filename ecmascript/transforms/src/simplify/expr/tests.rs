@@ -22,19 +22,9 @@ macro_rules! test_expr {
 
 /// Should not modify expression.
 macro_rules! same_expr {
-    ($l:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $l);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
+    ($l:expr) => {
+        test_expr!($l, $l)
+    };
 }
 
 #[test]
@@ -546,6 +536,11 @@ fn unary_ops_str_cmp() {
 }
 
 #[test]
+fn seq_expr_array() {
+    test_expr!("([foo()], x)", "(foo(), x)");
+}
+
+#[test]
 fn logical_ops() {
     test_expr!("true && x", "x");
     test_expr!("[foo()] && x", "(foo(), x)");
@@ -613,7 +608,7 @@ fn logical_ops_2() {
     test_expr!("x = true && function(){}", "x = function(){}");
     test_expr!(
         "[(function(){alert(x)})()] && x",
-        "([(function(){alert(x)})()],x)",
+        "((function(){alert(x)})(),x)",
     );
 }
 

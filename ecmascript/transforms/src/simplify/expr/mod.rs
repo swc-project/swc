@@ -38,7 +38,7 @@ impl Fold<Expr> for SimplifyExpr {
                         *expr_value
                     } else {
                         Expr::Seq(SeqExpr {
-                            span,
+                            span: mark!(span),
                             exprs: vec![test, expr_value],
                         })
                     }
@@ -59,10 +59,7 @@ impl Fold<Expr> for SimplifyExpr {
                 } else {
                     assert!(!exprs.is_empty(), "sequence expression should not be empty");
                     //TODO: remove unused
-                    return Expr::Seq(SeqExpr {
-                        span: mark!(span),
-                        exprs,
-                    });
+                    return Expr::Seq(SeqExpr { span, exprs });
                 }
             }
 
@@ -310,10 +307,12 @@ fn fold_bin(
                 return if !left.may_have_side_effects() {
                     *node
                 } else {
-                    Expr::Seq(SeqExpr {
+                    let seq = SimplifyExpr.fold(SeqExpr {
                         span,
                         exprs: vec![left, node],
-                    })
+                    });
+
+                    Expr::Seq(seq)
                 };
             }
             _ => (left, right),
@@ -379,8 +378,39 @@ fn fold_bin(
         //
         // (a * 1) * 2 --> a * (1 * 2) --> a * 2
         op!("*") | op!("&") | op!("|") | op!("^") => {
-            let (left, right) = try_replace!(number, perform_arithmetic_op(op, &left, &right));
-            // TODO: Try left.rhs * right
+            let (mut left, right) = try_replace!(number, perform_arithmetic_op(op, &left, &right));
+
+            // Try left.rhs * right
+            match *left {
+                Expr::Bin(BinExpr {
+                    span: left_span,
+                    left: left_lhs,
+                    op: left_op,
+                    right: left_rhs,
+                }) => {
+                    let v = perform_arithmetic_op(op, &left_rhs, &right);
+                    match v {
+                        Known(value) => {
+                            return Expr::Bin(BinExpr {
+                                span,
+                                left: left_lhs,
+                                op: left_op,
+                                right: box Expr::Lit(Lit::Num(Number { value, span })),
+                            })
+                        }
+                        _ => {
+                            left = box Expr::Bin(BinExpr {
+                                left: left_lhs,
+                                op: left_op,
+                                span: left_span,
+                                right: left_rhs,
+                            })
+                        }
+                    }
+                }
+                _ => {}
+            }
+
             (left, right)
         }
 
@@ -403,6 +433,50 @@ fn fold_bin(
         right,
         span,
     })
+}
+
+/// Drops unused values
+impl Fold<SeqExpr> for SimplifyExpr {
+    fn fold(&mut self, e: SeqExpr) -> SeqExpr {
+        let mut e = e.fold_children(self);
+
+        let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
+
+        // Expressions except last one
+        let mut exprs = Vec::with_capacity(e.exprs.len() + 1);
+
+        for expr in e.exprs {
+            match *expr {
+                // Drop side-effect free nodes.
+                Expr::Lit(_) => {}
+
+                // Flatten array
+                Expr::Array(ArrayLit { span, elems }) => {
+                    let is_simple = elems.iter().all(|elem| match elem {
+                        None | Some(ExprOrSpread { spread: None, .. }) => true,
+                        _ => false,
+                    });
+
+                    if is_simple {
+                        exprs.extend(elems.into_iter().filter_map(|e| e).map(|e| e.expr));
+                    } else {
+                        exprs.push(box ArrayLit { span, elems }.into());
+                    }
+                }
+
+                // Default case: preserve it
+                _ => exprs.push(expr),
+            }
+        }
+
+        exprs.push(last_expr);
+        exprs.shrink_to_fit();
+
+        SeqExpr {
+            exprs,
+            span: e.span,
+        }
+    }
 }
 
 fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
