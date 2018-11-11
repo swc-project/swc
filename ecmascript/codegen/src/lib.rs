@@ -9,6 +9,7 @@
 #[macro_use]
 extern crate bitflags;
 extern crate ecma_codegen_macros;
+extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -19,6 +20,7 @@ use self::{
 };
 use ecma_codegen_macros::emitter;
 use std::{collections::HashSet, io, rc::Rc};
+use swc_atoms::JsWord;
 use swc_common::{pos::SyntaxContext, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -249,13 +251,19 @@ impl<'a> Emitter<'a> {
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!("/");
-                emit!(n.exp);
+                self.emit_js_word(n.exp.span, &n.exp.value)?;
                 punct!("/");
                 if let Some(ref flags) = n.flags {
-                    emit!(n.flags);
+                    self.emit_js_word(flags.span, &flags.value)?;
                 }
             }
         }
+    }
+
+    fn emit_js_word(&mut self, span: Span, value: &JsWord) -> Result {
+        self.wr.write_str_lit(span, &value)?;
+
+        Ok(())
     }
 
     #[emitter]
@@ -264,7 +272,9 @@ impl<'a> Emitter<'a> {
         if let Some(s) = get_text_of_node(&self.cm, node, false) {
             self.wr.write_str_lit(node.span, &s)?;
         } else {
+            punct!("'");
             self.wr.write_str_lit(node.span, &node.value)?;
+            punct!("'");
         }
     }
 
@@ -277,7 +287,7 @@ impl<'a> Emitter<'a> {
             None => {
                 // Handle infinity
                 if num.value.is_infinite() {
-                    if num.value.is_negative() {
+                    if num.value.is_sign_negative() {
                         self.wr.write_str_lit(num.span, "-")?;
                     }
                     self.wr.write_str_lit(num.span, "Infinity")?;
