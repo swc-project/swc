@@ -11,5 +11,5 @@ mod reserved_word;
 
 /// Make output es3-compatible.
 pub fn es3() -> impl Fold<Module> {
-    PropertyLiteral
+    PropertyLiteral.then(MemberExprLit)
 }

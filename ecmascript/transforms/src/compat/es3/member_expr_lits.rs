@@ -23,8 +23,53 @@ pub struct MemberExprLit;
 
 impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
-        let e = e.fold_children(self);
+        let mut e = e.fold_children(self);
+
+        e.prop = match *e.prop {
+            Expr::Lit(Lit::Str(Str {
+                value: sym, span, ..
+            }))
+            | Expr::Ident(Ident { sym, span }) => {
+                if sym.is_reserved_for_es3() {
+                    return MemberExpr {
+                        computed: true,
+                        prop: box Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: sym,
+                            has_escape: false,
+                        })),
+                        ..e
+                    };
+                } else {
+                    return MemberExpr {
+                        computed: false,
+                        prop: box Expr::Ident(Ident { span, sym }),
+                        ..e
+                    };
+                }
+            }
+            _ => e.prop,
+        };
 
         e
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    test!(
+        MemberExprLit,
+        basic,
+        r#"obj["foo"] = "isValid";
+
+obj.const = "isKeyword";
+obj["var"] = "isKeyword";"#,
+        r#"obj.foo = "isValid";
+
+obj["const"] = "isKeyword";
+obj["var"] = "isKeyword";"#
+    );
+
 }
