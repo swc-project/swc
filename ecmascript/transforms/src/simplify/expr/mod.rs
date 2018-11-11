@@ -493,10 +493,21 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
 
 /// Try to fold arithmetic binary operators
 fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+    /// Replace only if it becomes shorter
     macro_rules! try_replace {
         ($value:expr) => {{
-            // TODO: Replace only if it becomes shorter
-            Known($value)
+            let (ls, rs) = (left.span(), right.span());
+            if ls.is_dummy() || rs.is_dummy() {
+                Known($value)
+            } else {
+                let new_len = format!("{}", $value).len();
+                let orig_len = right.span().hi() - left.span().lo();
+                if new_len <= orig_len.0 as usize {
+                    Known($value)
+                } else {
+                    Unknown
+                }
+            }
         }};
         (i32, $value:expr) => {
             try_replace!($value as f64)
@@ -798,6 +809,12 @@ where
             Expr::MetaProp(_) => v.push(box expr),
 
             Expr::Call(_) => v.push(box expr),
+            Expr::New(NewExpr {
+                callee: box Expr::Ident(Ident { ref sym, .. }),
+                ref args,
+                ..
+            })
+                if &*sym == "Date" && args.is_empty() => {}
             Expr::New(_) => v.push(box expr),
             Expr::Member(_) => v.push(box expr),
 

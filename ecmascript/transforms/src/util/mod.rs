@@ -55,9 +55,16 @@ impl<T: IsEmpty> IsEmpty for Option<T> {
         }
     }
 }
+
 impl<T: IsEmpty> IsEmpty for Box<T> {
     fn is_empty(&self) -> bool {
         <T as IsEmpty>::is_empty(&*self)
+    }
+}
+
+impl<T> IsEmpty for Vec<T> {
+    fn is_empty(&self) -> bool {
+        self.is_empty()
     }
 }
 
