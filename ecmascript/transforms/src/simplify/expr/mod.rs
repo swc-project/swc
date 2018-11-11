@@ -493,6 +493,16 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
 
 /// Try to fold arithmetic binary operators
 fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+    macro_rules! try_replace {
+        ($value:expr) => {{
+            // TODO: Replace only if it becomes shorter
+            Known($value)
+        }};
+        (i32, $value:expr) => {
+            try_replace!($value as f64)
+        };
+    }
+
     let (lv, rv) = (left.as_number(), right.as_number());
 
     if (lv.is_unknown() && rv.is_unknown())
@@ -505,18 +515,20 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
     match op {
         op!(bin, "+") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return Known(lv + rv);
+                return try_replace!(lv + rv);
             }
+
             if lv == Known(0.0) {
                 return rv;
             } else if rv == Known(0.0) {
                 return lv;
             }
+
             return Unknown;
         }
         op!(bin, "-") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return Known(lv - rv);
+                return try_replace!(lv - rv);
             }
 
             // 0 - x => -x
@@ -531,10 +543,69 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
 
             return Unknown;
         }
+        op!("*") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv * rv);
+            }
+            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
+            // advantage of that without some kind of non-NaN proof.  So the special cases
+            // here only deal with 1*x
+            if Known(1.0) == lv {
+                // TODO: cloneTree()
+                return rv;
+            }
+            if Known(1.0) == rv {
+                // TODO: cloneTree()
+                return lv;
+            }
+
+            return Unknown;
+        }
+
+        op!("/") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                if rv == 0.0 {
+                    return Unknown;
+                }
+                return try_replace!(lv / rv);
+            }
+
+            // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
+
+            if rv == Known(1.0) {
+                // TODO: cloneTree
+                // x/1->x
+                return lv;
+            }
+            return Unknown;
+        }
+
+        op!("**") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv.powf(rv));
+            }
+
+            return Unknown;
+        }
         _ => {}
     }
+    let (lv, rv) = match (lv, rv) {
+        (Known(lv), Known(rv)) => (lv, rv),
+        _ => return Unknown,
+    };
 
-    return Unknown;
+    match op {
+        op!("&") => return try_replace!(i32, to_int32(lv) & to_int32(rv)),
+        op!("|") => return try_replace!(i32, to_int32(lv) | to_int32(rv)),
+        op!("^") => return try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
+        op!("%") => {
+            if rv == 0.0 {
+                return Unknown;
+            }
+            return try_replace!(lv % rv);
+        }
+        _ => unreachable!("unknown binary operator: {:?}", op),
+    }
 }
 
 /// This actually performs `<`.

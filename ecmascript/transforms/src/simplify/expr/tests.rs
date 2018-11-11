@@ -500,6 +500,7 @@ fn obj_cmp() {
 }
 
 #[test]
+#[ignore]
 fn unary_ops() {
     // These cases are handled by PeepholeRemoveDeadCode.
     same_expr!("!foo()");
@@ -536,6 +537,7 @@ fn unary_ops() {
 }
 
 #[test]
+#[ignore]
 fn unary_ops_str_cmp() {
     same_expr!("a = -1");
     test_expr!("a = ~0", "a = -1");
@@ -616,6 +618,7 @@ fn logical_ops_2() {
 }
 
 #[test]
+#[ignore]
 fn bit_ops() {
     test_expr!("1 & 1", "1");
     test_expr!("1 & 2", "0");
@@ -681,6 +684,7 @@ fn bit_ops_2() {
 }
 
 #[test]
+#[ignore]
 fn add_1() {
     test_expr!("null + true", "1");
     same_expr!("a + true");
@@ -691,6 +695,7 @@ fn add_1() {
 }
 
 #[test]
+#[ignore]
 fn add_2() {
     test_expr!("false + []", "'false'");
     test_expr!("[] + true", "'true'");
@@ -1035,6 +1040,7 @@ fn complex() {
 }
 
 #[test]
+#[ignore]
 fn left() {
     same_expr!("(+x - 1) + 2"); // not yet
     test_expr!("(+x + 1) + 2", "+x + 3");
@@ -1310,6 +1316,7 @@ fn issue_601() {
 }
 
 #[test]
+#[ignore]
 fn obj_lit_ref_1() {
     // Leave extra side-effects in place
     same_expr!("({a:foo(),b:bar()}).a");
@@ -1359,6 +1366,7 @@ fn obj_lit_ref_1() {
 }
 
 #[test]
+#[ignore]
 fn obj_lit_ref_2() {
     test_expr!("({a:x}).a += 1", "({a:x}).a = x + 1");
 }

@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    errors::Handler, sourcemap::SourceMapBuilder, FileName, Fold, FoldWith, SourceMap, Spanned,
+    errors::Handler, sourcemap::SourceMapBuilder, FileName, Fold, FoldWith, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
