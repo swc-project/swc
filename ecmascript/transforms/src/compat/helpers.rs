@@ -7,8 +7,14 @@ use std::{
 #[derive(Debug, Default)]
 pub struct Helpers {
     /// `_extends({}, b)`
-    pub(crate) extends: AtomicBool,
-    pub(crate) to_consumable_array: AtomicBool,
+    pub extends: AtomicBool,
+    pub to_consumable_array: AtomicBool,
+    /// `_classCallCheck`
+    pub class_call_check: AtomicBool,
+    /// `_inherits`
+    pub inherits: AtomicBool,
+    /// `_possibleConstructorReturn`
+    pub possible_constructor_return: AtomicBool,
 }
 
 impl<'a> BitOr<&'a Helpers> for Helpers {
@@ -17,6 +23,10 @@ impl<'a> BitOr<&'a Helpers> for Helpers {
     fn bitor(mut self, other: &Helpers) -> Self {
         *self.extends.get_mut() |= other.extends.load(Ordering::SeqCst);
         *self.to_consumable_array.get_mut() |= other.to_consumable_array.load(Ordering::SeqCst);
+        *self.class_call_check.get_mut() |= other.class_call_check.load(Ordering::SeqCst);
+        *self.inherits.get_mut() |= other.inherits.load(Ordering::SeqCst);
+        *self.possible_constructor_return.get_mut() |=
+            other.possible_constructor_return.load(Ordering::SeqCst);
 
         self
     }
