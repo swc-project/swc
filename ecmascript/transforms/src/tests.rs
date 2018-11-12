@@ -108,29 +108,36 @@ impl<'a> Tester<'a> {
     }
 }
 
+#[cfg(test)]
+macro_rules! test_transform {
+    ($tr:expr, $input:expr, $expected:expr) => {{
+        fn run(tester: &mut crate::tests::Tester) {
+            let expected = tester.apply_transform(::testing::DropSpan, "actual.js", $expected);
+
+            let actual = tester.apply_transform($tr, "expected.js", $input);
+            let actual = ::testing::drop_span(actual);
+
+            if actual == expected {
+                return;
+            }
+
+            panic!(
+                ">>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
+                tester.print(actual),
+                tester.print(expected)
+            );
+        }
+        crate::tests::Tester::run(run);
+    }};
+}
+
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test {
     ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            crate::tests::Tester::run(|tester| {
-                let expected =
-                    tester.apply_transform(::testing::DropSpan, stringify!($test_name), $expected);
-
-                let actual = tester.apply_transform($tr, stringify!($test_name), $input);
-                let actual = ::testing::drop_span(actual);
-
-                if actual == expected {
-                    return;
-                }
-
-                println!(
-                    "Actual:\n{}\nExpected:\n{}",
-                    tester.print(actual),
-                    tester.print(expected)
-                );
-            });
+            test_transform!($tr, $input, $expected)
         }
     };
 }

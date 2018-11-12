@@ -2,20 +2,7 @@ use super::SimplifyExpr;
 
 macro_rules! test_expr {
     ($l:expr, $r:expr) => {{
-        fn run(tester: &mut crate::tests::Tester) {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $r);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-            let actual = ::testing::drop_span(actual);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        }
-
-        crate::tests::Tester::run(run);
+        test_transform!(SimplifyExpr, $l, $r)
     }};
     ($l:expr, $r:expr,) => {
         test_expr!($l, $r);

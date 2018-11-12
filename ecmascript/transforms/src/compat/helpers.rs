@@ -15,6 +15,10 @@ pub struct Helpers {
     pub inherits: AtomicBool,
     /// `_possibleConstructorReturn`
     pub possible_constructor_return: AtomicBool,
+    ///`_createClass`
+    pub create_class: AtomicBool,
+    /// `_get`
+    pub get: AtomicBool,
 }
 
 impl<'a> BitOr<&'a Helpers> for Helpers {
@@ -27,6 +31,8 @@ impl<'a> BitOr<&'a Helpers> for Helpers {
         *self.inherits.get_mut() |= other.inherits.load(Ordering::SeqCst);
         *self.possible_constructor_return.get_mut() |=
             other.possible_constructor_return.load(Ordering::SeqCst);
+        *self.create_class.get_mut() |= other.create_class.load(Ordering::SeqCst);
+        *self.get.get_mut() |= other.get.load(Ordering::SeqCst);
 
         self
     }
