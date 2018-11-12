@@ -79,6 +79,7 @@ fn main() {
             "concat",
             "_extends",
             "_toConsumableArray",
+            "constructor",
         ],
     );
 }

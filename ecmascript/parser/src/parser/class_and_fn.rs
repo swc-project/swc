@@ -103,7 +103,19 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         };
 
-        self.parse_method_def(static_token)
+        let mut mtd = self.parse_method_def(static_token)?;
+
+        match mtd.key {
+            PropName::Ident(Ident {
+                sym: js_word!("constructor"),
+                ..
+            }) => {
+                mtd.kind = ClassMethodKind::Constructor;
+            }
+            _ => {}
+        }
+
+        Ok(mtd)
     }
 
     fn parse_fn<T>(&mut self, start_of_async: Option<BytePos>) -> PResult<'a, T>
