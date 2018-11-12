@@ -279,4 +279,76 @@ mod tests {
   return Test;
 }();"#
   );
+
+  test!(
+    Classes::default(),
+    method,
+    r#"class Foo {
+  foo(){
+  }
+  constructor(s){
+  }
+}"#,
+    r#"var Foo = function () {
+  _createClass(Foo, [{
+    key: "foo",
+    value: function foo() {}
+  }]);
+
+  function Foo(s) {
+    _classCallCheck(this, Foo);
+  }
+
+  return Foo;
+}();"#
+  );
+
+  test!(
+    Classes::default(),
+    static_method,
+    r#"class Foo {
+  static st(){}
+}"#,
+    r#"var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
+  }
+
+  _createClass(Foo, null, [{
+    key: "st",
+    value: function st() {}
+  }]);
+
+  return Foo;
+}();"#
+  );
+
+  test!(
+    Classes::default(),
+    complex_with_consturctor,
+    r#"class Foo {
+  foo(){
+  }
+  constructor(s){
+  }
+  static st(){}
+}"#,
+    r#"var Foo = function () {
+  _createClass(Foo, [{
+    key: "foo",
+    value: function foo() {}
+  }]);
+
+  function Foo(s) {
+    _classCallCheck(this, Foo);
+  }
+
+  _createClass(Foo, null, [{
+    key: "st",
+    value: function st() {}
+  }]);
+
+  return Foo;
+}();"#
+  );
 }
