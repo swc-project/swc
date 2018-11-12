@@ -125,7 +125,11 @@ macro_rules! test {
                     return;
                 }
 
-                assert_eq!(tester.print(actual), tester.print(expected));
+                println!(
+                    "Actual:\n{}\nExpected:\n{}",
+                    tester.print(actual),
+                    tester.print(expected)
+                );
             });
         }
     };
