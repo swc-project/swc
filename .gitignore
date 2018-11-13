@@ -14,3 +14,5 @@ Cargo.lock
 *.iml
 
 .DS_Store
+
+node_modules/
