@@ -1,7 +1,24 @@
 #[macro_export]
 macro_rules! quote_ident {
+    ($s:expr) => {
+        quote_ident!(::swc_common::DUMMY_SP, $s)
+    };
     ($span:expr, $s:expr) => {{
         ::swc_ecma_ast::Ident::new($s.into(), $span)
+    }};
+}
+
+#[macro_export]
+macro_rules! quote_str {
+    ($s:expr) => {
+        quote_str!(::swc_common::DUMMY_SP, $s)
+    };
+    ($span:expr, $s:expr) => {{
+        ::swc_ecma_ast::Str {
+            span: $span,
+            value: $s.into(),
+            has_escape: false,
+        }
     }};
 }
 

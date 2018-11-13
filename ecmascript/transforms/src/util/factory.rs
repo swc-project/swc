@@ -10,6 +10,10 @@ pub trait ExprFactory: Into<Expr> {
         }
     }
 
+    fn as_callee(self) -> ExprOrSuper {
+        ExprOrSuper::Expr(box self.into())
+    }
+
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = Expr::Member(MemberExpr {
             // TODO
