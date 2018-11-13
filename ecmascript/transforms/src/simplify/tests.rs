@@ -1,20 +1,10 @@
 //! Tests related to statements.
+use super::Simplifier;
 
 macro_rules! test_stmt {
-    ($l:expr, $r:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $r);
-
-            let actual = tester.apply_transform(crate::simplifier(), "actual.js", $l);
-            let actual = ::testing::drop_span(actual);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
+    ($l:expr, $r:expr) => {
+        test_transform!(Simplifier, $l, $r)
+    };
     ($l:expr, $r:expr,) => {
         test_expr!($l, $r);
     };
@@ -22,35 +12,15 @@ macro_rules! test_stmt {
 
 /// Should not modify expression.
 macro_rules! same_stmt {
-    ($l:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $l);
-
-            let actual = tester.apply_transform(crate::simplifier(), "actual.js", $l);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
+    ($l:expr) => {
+        test_stmt!($l, $l)
+    };
 }
 
 /// Ensures that it is removed.
 macro_rules! compiled_out {
     ($src:expr) => {
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "empty.js", "");
-
-            let actual = tester.apply_transform(crate::simplifier(), "actual.js", $src);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
+        test_stmt!($src, "")
     };
 }
 

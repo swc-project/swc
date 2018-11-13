@@ -78,7 +78,7 @@ impl<'a> Tester<'a> {
         module
     }
 
-    pub fn print(&mut self, module: Module) -> String {
+    pub fn print(&mut self, module: &Module) -> String {
         let handlers = box MyHandlers;
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
@@ -121,10 +121,16 @@ macro_rules! test_transform {
                 return;
             }
 
+            let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+            if actual_src == expected_src {
+                println!(">>>>> Code <<<<<\n{}", actual_src);
+                assert_eq!(actual, expected, "different ast was detected");
+            }
+
             panic!(
-                ">>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
-                tester.print(actual),
-                tester.print(expected)
+                "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
+                actual_src, expected_src
             );
         }
         crate::tests::Tester::run(run);

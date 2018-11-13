@@ -17,6 +17,9 @@ pub extern crate swc_ecma_codegen;
 pub extern crate swc_ecma_parser;
 #[cfg(test)]
 #[macro_use]
+extern crate pretty_assertions;
+#[macro_use]
+#[cfg(test)]
 extern crate testing;
 pub use self::simplify::simplifier;
 
