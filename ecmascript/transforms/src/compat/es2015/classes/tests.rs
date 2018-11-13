@@ -98,3 +98,169 @@ test!(
   return Foo;
 }();"#
 );
+
+test!(
+    Classes::default(),
+    method_override,
+    r#"class Parent {
+  foo(){}
+}
+class Child extends Parent {
+  foo(){
+    super.foo();
+  }
+  
+  bar(){
+  }
+}"#,
+    r#"var Parent = function () {
+  function Parent() {
+    _classCallCheck(this, Parent);
+  }
+
+  _createClass(Parent, [{
+    key: "foo",
+    value: function foo() {}
+  }]);
+
+  return Parent;
+}();
+
+var Child = function (_Parent) {
+  _inherits(Child, _Parent);
+
+  function Child() {
+    _classCallCheck(this, Child);
+
+    return _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).apply(this, arguments));
+  }
+
+  _createClass(Child, [{
+    key: "foo",
+    value: function foo() {
+      _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype), "foo", this).call(this);
+    }
+  }, {
+    key: "bar",
+    value: function bar() {}
+  }]);
+
+  return Child;
+}(Parent);"#
+);
+
+test!(Classes::default(), inherit_constructor, r#"class Parent {
+  constructor(){
+  }
+  foo(){}
+}
+class Child extends Parent {
+}"#, r#"var Parent = function () {
+  function Parent() {
+    _classCallCheck(this, Parent);
+  }
+
+  _createClass(Parent, [{
+    key: "foo",
+    value: function foo() {}
+  }]);
+
+  return Parent;
+}();
+
+var Child = function (_Parent) {
+  _inherits(Child, _Parent);
+
+  function Child() {
+    _classCallCheck(this, Child);
+
+    return _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).apply(this, arguments));
+  }
+
+  return Child;
+}(Parent);"#);
+
+test!(
+    Classes::default(),
+    custom_constructor,
+    r#"class Parent {
+  constructor(){
+  }
+  foo(){}
+}
+class Child extends Parent {
+  constructor(){
+  	super();
+  }
+}"#,
+    r#"var Parent = function () {
+  function Parent() {
+    _classCallCheck(this, Parent);
+  }
+
+  _createClass(Parent, [{
+    key: "foo",
+    value: function foo() {}
+  }]);
+
+  return Parent;
+}();
+
+var Child = function (_Parent) {
+  _inherits(Child, _Parent);
+
+  function Child() {
+    _classCallCheck(this, Child);
+
+    return _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).call(this));
+  }
+
+  return Child;
+}(Parent);"#
+);
+
+test!(
+    Classes::default(),
+    custom_constructor_super_order,
+    r#"class Parent {
+  constructor(){
+  }
+  foo(){}
+}
+class Child extends Parent {
+  constructor(){
+    console.log('foo');
+  	super();
+    console.log('bar');
+  }
+}"#,
+    r#"var Parent = function () {
+  function Parent() {
+    _classCallCheck(this, Parent);
+  }
+
+  _createClass(Parent, [{
+    key: 'foo',
+    value: function foo() {}
+  }]);
+
+  return Parent;
+}();
+
+var Child = function (_Parent) {
+  _inherits(Child, _Parent);
+
+  function Child() {
+    _classCallCheck(this, Child);
+
+    console.log('foo');
+
+    var _this = _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).call(this));
+
+    console.log('bar');
+    return _this;
+  }
+
+  return Child;
+}(Parent);"#
+);
