@@ -1,9 +1,9 @@
 use super::*;
 
 test!(
-    Classes::default(),
-    basic,
-    r#"class Test {
+  Classes::default(),
+  basic,
+  r#"class Test {
   constructor(name) {
     this.name = name;
   }
@@ -12,7 +12,7 @@ test!(
     console.log("Hello", this.name);
   }
 }"#,
-    r#"var Test = function () {
+  r#"var Test = function () {
   function Test(name) {
     _classCallCheck(this, Test);
 
@@ -31,15 +31,15 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    method_hoisted,
-    r#"class Foo {
+  Classes::default(),
+  method_hoisted,
+  r#"class Foo {
   foo(){
   }
   constructor(s){
   }
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -54,12 +54,12 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    static_method,
-    r#"class Foo {
+  Classes::default(),
+  static_method,
+  r#"class Foo {
   static st(){}
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
   }
@@ -74,16 +74,16 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    complex_with_consturctor,
-    r#"class Foo {
+  Classes::default(),
+  complex_with_consturctor,
+  r#"class Foo {
   foo(){
   }
   constructor(s){
   }
   static st(){}
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -103,11 +103,11 @@ test!(
     Classes::default(),
     method_override,
     r#"class Parent {
-  foo(){}
+  foo(a){}
 }
 class Child extends Parent {
-  foo(){
-    super.foo();
+  foo(a, b){
+    super.foo(a);
   }
   
   bar(){
@@ -120,7 +120,7 @@ class Child extends Parent {
 
   _createClass(Parent, [{
     key: "foo",
-    value: function foo() {}
+    value: function foo(a) {}
   }]);
 
   return Parent;
@@ -137,8 +137,8 @@ var Child = function (_Parent) {
 
   _createClass(Child, [{
     key: "foo",
-    value: function foo() {
-      _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype), "foo", this).call(this);
+    value: function foo(a, b) {
+      _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype), "foo", this).call(this, a);
     }
   }, {
     key: "bar",
