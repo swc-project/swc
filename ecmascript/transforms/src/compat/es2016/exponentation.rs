@@ -1,6 +1,25 @@
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
+/// `@babel/plugin-transform-exponentiation-operator`
+///
+/// # Example
+///
+/// ## In
+///
+/// ```js
+/// let x = 10 ** 2;
+///
+/// x **= 3;
+/// ```
+///
+/// ## Out
+///
+/// ```js
+/// let x = Math.pow(10, 2);
+///
+/// x = Math.pow(x, 3);
+/// ```
 #[derive(Debug, Clone, Copy)]
 pub struct Exponentation;
 
