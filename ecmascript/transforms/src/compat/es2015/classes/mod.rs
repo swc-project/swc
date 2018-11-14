@@ -223,34 +223,36 @@ impl Classes {
             if super_class_ident.is_some() {
                 // inject possibleReturnCheck
 
+                let possible_return_value = box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: quote_ident!("_possibleConstructorReturn").as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
+                        let apply = box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ExprOrSuper::Expr(
+                                    box get_prototype_of(&Expr::Ident(class_name.clone()))
+                                        .wrap_with_paren(),
+                                ),
+                                computed: false,
+                                prop: box Expr::Ident(quote_ident!("apply")),
+                            }
+                            .as_callee(),
+
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ],
+                        });
+
+                        apply.as_arg()
+                    }],
+                });
+
                 function.body.stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: Some(box Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: quote_ident!("_possibleConstructorReturn").as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
-                            let apply = box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(
-                                        box get_prototype_of(&Expr::Ident(class_name.clone()))
-                                            .wrap_with_paren(),
-                                    ),
-                                    computed: false,
-                                    prop: box Expr::Ident(quote_ident!("apply")),
-                                }
-                                .as_callee(),
-
-                                args: vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    quote_ident!("arguments").as_arg(),
-                                ],
-                            });
-
-                            apply.as_arg()
-                        }],
-                    })),
+                    arg: Some(possible_return_value),
                 }));
             }
 
