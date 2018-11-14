@@ -122,14 +122,17 @@ macro_rules! test_transform {
             let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
 
             if actual_src == expected_src {
+                // Diff it
                 println!(">>>>> Code <<<<<\n{}", actual_src);
                 assert_eq!(actual, expected, "different ast was detected");
+                return;
             }
 
             panic!(
                 "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
                 actual_src, expected_src
             );
+            // assert_eq!(actual_src, expected_src);
         }
         crate::tests::Tester::run(run);
     }};
@@ -173,15 +176,15 @@ impl Write for Buf {
 }
 
 struct Normalizer;
-impl Fold<Expr> for Normalizer {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-        match e {
-            Expr::Paren(e) => *e.expr,
-            _ => e,
-        }
-    }
-}
+// impl Fold<Expr> for Normalizer {
+//     fn fold(&mut self, e: Expr) -> Expr {
+//         let e = e.fold_children(self);
+//         match e {
+//             Expr::Paren(e) => *e.expr,
+//             _ => e,
+//         }
+//     }
+// }
 impl Fold<PatOrExpr> for Normalizer {
     fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
         match n {
