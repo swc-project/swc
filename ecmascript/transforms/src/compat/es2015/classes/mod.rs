@@ -4,7 +4,7 @@ use std::{
     iter,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 #[cfg(test)]
@@ -223,44 +223,20 @@ impl Classes {
             if super_class_ident.is_some() {
                 // inject possibleReturnCheck
 
-                // creates `Child.__proto__`
-                let proto = box Expr::Member(MemberExpr {
-                    span: DUMMY_SP,
-                    obj: ExprOrSuper::Expr(box Expr::Ident(class_name.clone())),
-                    computed: false,
-                    prop: box Expr::Ident(quote_ident!("__proto__")),
-                });
-
-                // creates `Object.getPrototypeOf(Child)`
-                let get_proto_of = box Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, Object.getPrototypeOf).as_callee(),
-                    args: vec![class_name.clone().as_arg()],
-                });
-
                 function.body.stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(box Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: quote_ident!("_possibleConstructorReturn").as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
-                            // `(Child.__proto__ || Object.getPrototypeOf(Child))`
-                            let proto_paren = Expr::Paren(ParenExpr {
-                                span: DUMMY_SP,
-                                expr: box Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    left: proto,
-                                    op: op!("||"),
-                                    //      Object.getPrototypeOf(Child)
-                                    right: get_proto_of,
-                                }),
-                            });
-
                             let apply = box Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(box proto_paren),
+                                    obj: ExprOrSuper::Expr(
+                                        box get_prototype_of(&Expr::Ident(class_name.clone()))
+                                            .wrap_with_paren(),
+                                    ),
                                     computed: false,
                                     prop: box Expr::Ident(quote_ident!("apply")),
                                 }
@@ -368,9 +344,14 @@ impl Classes {
                         &mut props
                     };
 
+                    let function = m.function.fold_with(&mut SuperCallFolder {
+                        class_name: &class_name,
+                        helpers: self.helpers.clone(),
+                    });
+
                     let value = box Expr::Fn(FnExpr {
                         ident: Some(prop_name.clone()),
-                        function: m.function,
+                        function,
                     });
 
                     append_to.push(Expr::Object(ObjectLit {
@@ -384,7 +365,8 @@ impl Classes {
                         ],
                     }));
                 }
-                _ => unimplemented!(),
+
+                _ => unimplemented!("Class getter / setter"),
             }
         }
 
@@ -401,5 +383,154 @@ impl Classes {
                 Some(mk_arg_obj_for_create_class(static_props))
             },
         )]
+    }
+}
+
+/// Creates
+///
+/// ```js
+/// Child.__proto__ || Object.getPrototypeOf(Child)
+/// ```
+fn get_prototype_of(obj: &Expr) -> Expr {
+    // `Child.__proto__`
+    let proto = box Expr::Member(MemberExpr {
+        span: DUMMY_SP,
+        obj: ExprOrSuper::Expr(box obj.clone()),
+        computed: false,
+        prop: box Expr::Ident(quote_ident!("__proto__")),
+    });
+
+    // `Object.getPrototypeOf(Child)`
+    let get_proto_of = box Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: member_expr!(DUMMY_SP, Object.getPrototypeOf).as_callee(),
+        args: vec![obj.clone().as_arg()],
+    });
+
+    // `Child.__proto__ || Object.getPrototypeOf(Child)`
+    Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: proto,
+        op: op!("||"),
+        // Object.getPrototypeOf(Child)
+        right: get_proto_of,
+    })
+}
+
+/// Process function body.
+///
+/// # In
+///
+/// ```js
+/// super.foo(a)
+/// ```
+///
+/// # Out
+///
+///
+/// _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype),
+/// 'foo', this).call(this, a);
+#[derive(Debug)]
+struct SuperCallFolder<'a> {
+    class_name: &'a Ident,
+    helpers: Arc<Helpers>,
+}
+
+struct SuperCalleeFolder<'a> {
+    class_name: &'a Ident,
+    did_work: bool,
+}
+
+impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
+    fn fold(&mut self, n: Expr) -> Expr {
+        let n = n.fold_children(self);
+
+        match n {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Super(super_token),
+                prop,
+                ..
+            }) => self.super_to_get_call(super_token, prop),
+
+            _ => n,
+        }
+    }
+}
+
+impl<'a> SuperCalleeFolder<'a> {
+    fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>) -> Expr {
+        self.did_work = true;
+        let super_token = mark!(super_token);
+
+        let proto_arg = get_prototype_of(&Expr::Member(MemberExpr {
+            span: super_token,
+            obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
+            prop: box Expr::Ident(quote_ident!("prototype")),
+            computed: false,
+        }))
+        .as_arg();
+
+        let prop_arg = match *prop {
+            Expr::Ident(Ident {
+                sym: ref value,
+                span,
+                ..
+            }) => Expr::Lit(Lit::Str(Str {
+                span,
+                value: value.clone(),
+                has_escape: false,
+            })),
+            ref e @ Expr::Lit(Lit::Str(Str { .. })) => e.clone(),
+            _ => unimplemented!("non-ident / non-string super field"),
+        }
+        .as_arg();
+
+        let this_arg = ThisExpr { span: super_token }.as_arg();
+
+        Expr::Call(CallExpr {
+            span: super_token,
+            callee: quote_ident!("_get").as_callee(),
+            args: vec![proto_arg, prop_arg, this_arg],
+        })
+    }
+}
+
+impl<'a> Fold<Expr> for SuperCallFolder<'a> {
+    fn fold(&mut self, n: Expr) -> Expr {
+        let mut callee_folder = SuperCalleeFolder {
+            class_name: self.class_name,
+            did_work: false,
+        };
+
+        let was_call = match n {
+            Expr::Call(..) => true,
+            _ => false,
+        };
+
+        let n = n.fold_with(&mut callee_folder);
+        if callee_folder.did_work {
+            self.helpers.get.store(true, Ordering::SeqCst);
+
+            if was_call {
+                match n {
+                    Expr::Call(CallExpr { span, callee, args }) => {
+                        return Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: callee,
+                                prop: box Expr::Ident(quote_ident!("call")),
+                                computed: false,
+                            }
+                            .as_callee(),
+                            args: iter::once(ThisExpr { span }.as_arg()).chain(args).collect(),
+                        });
+                    }
+                    _ => unreachable!(),
+                }
+            }
+        }
+
+        n
     }
 }
