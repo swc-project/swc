@@ -100,6 +100,60 @@ test!(
 );
 
 test!(
+  Classes::default(),
+  super_access,
+  r#"class Parent {
+  foo(a){}
+}
+class Child extends Parent {
+  foo(a, b){
+    super.foo(a);
+    super.f;
+    super.f.f.f.f;
+  }
+  
+  bar(){
+  }
+}"#,
+  r#"var Parent = function () {
+  function Parent() {
+    _classCallCheck(this, Parent);
+  }
+
+  _createClass(Parent, [{
+    key: "foo",
+    value: function foo(a) {}
+  }]);
+
+  return Parent;
+}();
+
+var Child = function (_Parent) {
+  _inherits(Child, _Parent);
+
+  function Child() {
+    _classCallCheck(this, Child);
+
+    return _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).apply(this, arguments));
+  }
+
+  _createClass(Child, [{
+    key: "foo",
+    value: function foo(a, b) {
+      _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype), "foo", this).call(this, a);
+      _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype), "f", this);
+      _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype), "f", this).f.f.f;
+    }
+  }, {
+    key: "bar",
+    value: function bar() {}
+  }]);
+
+  return Child;
+}(Parent);"#
+);
+
+test!(
     Classes::default(),
     method_override,
     r#"class Parent {
