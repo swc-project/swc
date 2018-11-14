@@ -134,9 +134,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                 buf.push(
                     Expr::Call(CallExpr {
                         span,
-                        callee: ExprOrSuper::Expr(
-                            box Ident::new(js_word!("_toConsumableArray"), span).into(),
-                        ),
+                        callee: quote_ident!("_toConsumableArray").as_callee(),
                         args: vec![expr.as_arg()],
                     })
                     .as_arg(),
@@ -151,7 +149,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         // TODO
         span,
 
-        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+        callee: MemberExpr {
             // TODO: Mark
             span,
             prop: box Expr::Ident(Ident::new(js_word!("concat"), span)),
@@ -166,7 +164,8 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                 })
             })),
             computed: false,
-        })),
+        }
+        .as_callee(),
 
         args: buf,
     })

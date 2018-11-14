@@ -72,7 +72,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     // Math.pow()
     Expr::Call(CallExpr {
         span,
-        callee: ExprOrSuper::Expr(member_expr!(span, Math.pow)),
+        callee: member_expr!(span, Math.pow).as_callee(),
 
         args: vec![left.as_arg(), right.as_arg()],
     })
