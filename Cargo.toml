@@ -28,6 +28,9 @@ features = [ "suggestions", "color" ]
 
 
 [profile.bench]
-debug = true
+lto = true
+
+[profile.release]
+lto = true
 
 [patch.crates-io]
