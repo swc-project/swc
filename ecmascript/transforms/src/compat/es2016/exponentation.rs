@@ -1,4 +1,4 @@
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -28,49 +28,77 @@ impl Fold<Expr> for Exponentation {
         let e = e.fold_children(self);
 
         match e {
+            Expr::Assign(AssignExpr {
+                span,
+                left,
+                op: op!("**="),
+                right,
+            }) => {
+                let i = match left {
+                    PatOrExpr::Pat(box Pat::Ident(ref i)) => i.clone(),
+
+                    // unimplemented
+                    _ => {
+                        return Expr::Assign(AssignExpr {
+                            span,
+                            left,
+                            op: op!("**="),
+                            right,
+                        })
+                    }
+                };
+                return Expr::Assign(AssignExpr {
+                    span: mark!(span),
+                    left,
+                    op: op!("="),
+                    right: box mk_call(span, box Expr::Ident(i), right),
+                });
+            }
             Expr::Bin(BinExpr {
+                span,
                 left,
                 op: op!("**"),
                 right,
-                span,
-            }) => {
-                let span = mark!(span);
-
-                // Math.pow()
-                Expr::Call(CallExpr {
-                    span,
-                    callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        span,
-                        obj: ExprOrSuper::Expr(
-                            box Ident {
-                                span,
-                                sym: "Math".into(),
-                            }
-                            .into(),
-                        ),
-                        prop: box Ident {
-                            span,
-                            sym: "pow".into(),
-                        }
-                        .into(),
-                        computed: false,
-                    })),
-
-                    args: vec![
-                        ExprOrSpread {
-                            expr: left,
-                            spread: None,
-                        },
-                        ExprOrSpread {
-                            expr: right,
-                            spread: None,
-                        },
-                    ],
-                })
-            }
+            }) => mk_call(span, left, right),
             _ => e,
         }
     }
+}
+
+fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
+    let span = mark!(span);
+
+    // Math.pow()
+    Expr::Call(CallExpr {
+        span,
+        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+            span,
+            obj: ExprOrSuper::Expr(
+                box Ident {
+                    span,
+                    sym: "Math".into(),
+                }
+                .into(),
+            ),
+            prop: box Ident {
+                span,
+                sym: "pow".into(),
+            }
+            .into(),
+            computed: false,
+        })),
+
+        args: vec![
+            ExprOrSpread {
+                expr: left,
+                spread: None,
+            },
+            ExprOrSpread {
+                expr: right,
+                spread: None,
+            },
+        ],
+    })
 }
 
 #[cfg(test)]
@@ -119,6 +147,8 @@ Object.defineProperty(global, "reader", {
 reader.x **= 2;
 assert.ok(counters === 1);"#
     );
+
+    test!(Exponentation, assign, r#"x **= 3"#, r#"x = Math.pow(x, 3)"#);
 
     //     test!(
     //         Exponentation,
