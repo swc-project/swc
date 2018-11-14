@@ -18,6 +18,30 @@ Requires nightly version of [rust][].
 RUSTFLAGS='--cfg procmacro2_semver_exempt' cargo install --git https://github.com/swc-project/swc.git
 ```
 
+# Features
+
+## Transforms
+New generation javascript to old-days javascript.
+
+ - es3
+    - [x] member expression literals
+    - [x] peroperty literals
+    - [ ] reserved words
+
+ - es2015
+    - [x] classes
+    - [x] shorthand property
+    - [x] spread element
+    - [x] sticky regex (`y` flag)
+
+ - es2016
+    - [x] operator `**`
+
+
+## Optimizer
+ - [ ] closure compiler
+
+
 # Usage
 
 `test.js`:
