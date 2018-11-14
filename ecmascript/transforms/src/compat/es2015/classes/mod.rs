@@ -222,7 +222,17 @@ impl Classes {
 
             if super_class_ident.is_some() {
                 // inject possibleReturnCheck
+                let super_call_pos = function.body.stmts.iter().position(|c| match *c {
+                    Stmt::Expr(box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Super(..),
+                        ..
+                    })) => true,
+                    _ => false,
+                });
+                // is super() call last?
+                let is_last = super_call_pos == Some(function.body.stmts.len() - 1);
 
+                // possible return value from super() call
                 let possible_return_value = box Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: quote_ident!("_possibleConstructorReturn").as_callee(),
@@ -236,24 +246,69 @@ impl Classes {
                                         .wrap_with_paren(),
                                 ),
                                 computed: false,
-                                prop: box Expr::Ident(quote_ident!("apply")),
+                                prop: box Expr::Ident(if super_call_pos.is_some() {
+                                    quote_ident!("call")
+                                } else {
+                                    quote_ident!("apply")
+                                }),
                             }
                             .as_callee(),
 
-                            args: vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                quote_ident!("arguments").as_arg(),
-                            ],
+                            args: if let Some(super_call_pos) = super_call_pos {
+                                // Code like `super(foo, bar)` should be result in
+                                // `.call(this, foo, bar)`
+                                match function.body.stmts[super_call_pos] {
+                                    Stmt::Expr(box Expr::Call(CallExpr {
+                                        callee: ExprOrSuper::Super(..),
+                                        ref args,
+                                        ..
+                                    })) => iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                        .chain(args.into_iter().cloned())
+                                        .collect(),
+                                    _ => unreachable!(),
+                                }
+                            } else {
+                                vec![
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    quote_ident!("arguments").as_arg(),
+                                ]
+                            },
                         });
 
                         apply.as_arg()
                     }],
                 });
 
-                function.body.stmts.push(Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(possible_return_value),
-                }));
+                match super_call_pos {
+                    Some(super_call_pos) => {
+                        if !is_last {
+                            function.body.stmts[super_call_pos] = Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: quote_ident!("_this").into(),
+                                    init: Some(possible_return_value),
+                                }],
+                            }));
+
+                            function.body.stmts.push(Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(box Expr::Ident(quote_ident!("_this"))),
+                            }));
+                        } else {
+                            function.body.stmts[super_call_pos] = Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(possible_return_value),
+                            });
+                        }
+                    }
+
+                    _ => function.body.stmts.push(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(possible_return_value),
+                    })),
+                }
             }
 
             // TODO: Handle
