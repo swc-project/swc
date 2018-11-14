@@ -1,11 +1,10 @@
-use crate::compat::helpers::Helpers;
+use crate::{compat::helpers::Helpers, util::ExprFactory};
 use std::{
     mem,
     sync::{atomic::Ordering, Arc},
 };
 use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
-use util::ExprFactory;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
