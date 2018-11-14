@@ -1,12 +1,17 @@
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
+/// Extension methods for [Expr].
 pub trait ExprFactory: Into<Expr> {
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
             expr: box self.into(),
             spread: None,
         }
+    }
+
+    fn as_callee(self) -> ExprOrSuper {
+        ExprOrSuper::Expr(box self.into())
     }
 
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {

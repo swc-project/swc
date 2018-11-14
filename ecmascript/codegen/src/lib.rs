@@ -9,6 +9,7 @@
 #[macro_use]
 extern crate bitflags;
 extern crate ecma_codegen_macros;
+extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -19,6 +20,7 @@ use self::{
 };
 use ecma_codegen_macros::emitter;
 use std::{collections::HashSet, io, rc::Rc};
+use swc_atoms::JsWord;
 use swc_common::{pos::SyntaxContext, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -244,18 +246,24 @@ impl<'a> Emitter<'a> {
                     keyword!(span, "false")
                 }
             }
-            Lit::Null(Null { .. }) => keyword!("null"),
+            Lit::Null(Null { span }) => keyword!(span, "null"),
             Lit::Str(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!("/");
-                emit!(n.exp);
+                self.emit_js_word(n.exp.span, &n.exp.value)?;
                 punct!("/");
                 if let Some(ref flags) = n.flags {
-                    emit!(n.flags);
+                    self.emit_js_word(flags.span, &flags.value)?;
                 }
             }
         }
+    }
+
+    fn emit_js_word(&mut self, span: Span, value: &JsWord) -> Result {
+        self.wr.write_str_lit(span, &value)?;
+
+        Ok(())
     }
 
     #[emitter]
@@ -264,7 +272,9 @@ impl<'a> Emitter<'a> {
         if let Some(s) = get_text_of_node(&self.cm, node, false) {
             self.wr.write_str_lit(node.span, &s)?;
         } else {
+            punct!("'");
             self.wr.write_str_lit(node.span, &node.value)?;
+            punct!("'");
         }
     }
 
@@ -274,7 +284,17 @@ impl<'a> Emitter<'a> {
 
         match get_text_of_node(&self.cm, num, false) {
             Some(s) => self.wr.write_str_lit(num.span, &s)?,
-            None => self.wr.write_str_lit(num.span, &format!("{}", num.value))?,
+            None => {
+                // Handle infinity
+                if num.value.is_infinite() {
+                    if num.value.is_sign_negative() {
+                        self.wr.write_str_lit(num.span, "-")?;
+                    }
+                    self.wr.write_str_lit(num.span, "Infinity")?;
+                } else {
+                    self.wr.write_str_lit(num.span, &format!("{}", num.value))?
+                }
+            }
         };
 
         return Ok(());
@@ -1429,7 +1449,7 @@ fn get_text_of_node<T: Spanned>(
     _include_travia: bool,
 ) -> Option<String> {
     let span = node.span();
-    if span.ctxt() != SyntaxContext::empty() {
+    if span.is_dummy() || span.ctxt() != SyntaxContext::empty() {
         // This node is transformed so we shoukld not use original source code.
         return None;
     }

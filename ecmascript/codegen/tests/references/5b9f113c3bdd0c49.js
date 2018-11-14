@@ -1,80 +1,16 @@
-function    function a() {
-       function a() {
-            b();
-       function a() {
-            b();
-            c = 1;
+function a() {
+    b();
+    c = 1;
     throw "d";
-    if (   function a() {
-            b();
-            c = 1;
-            throw "d";
-            // completely discarding the `if` would introduce some
-            // bugs.  UglifyJS v1 doesn't deal with this issue; in v2
-            // we copy any declarations to the upper scope.
-            if (c) {
-           function a() {
-            b();
-            c = 1;
-            throw "d";
-            // completely discarding the `if` would introduce some
-            // bugs.  UglifyJS v1 doesn't deal with this issue; in v2
-            // we copy any declarations to the upper scope.
-            if (c) {
-                e();
-        var    function a() {
-            b();
-            c = 1;
-            throw "d";
-            // completely discarding the `if` would introduce some
-            // bugs.  UglifyJS v1 doesn't deal with this issue; in v2
-            // we copy any declarations to the upper scope.
-            if (c) {
-                e();
-                var c ;
-        function    function a() {
-            b();
-            c = 1;
-            throw "d";
-            // completely discarding the `if` would introduce some
-            // bugs.  UglifyJS v1 doesn't deal with this issue; in v2
-            // we copy any declarations to the upper scope.
-            if (c) {
-                e();
-                var c;
-                function b() {
+    if (c) {
+        e();
+        var c ;
+        function b() {
         }
         ;
         (function() {
-            var    function a() {
-            b();
-            c = 1;
-            throw "d";
-            // completely discarding the `if` would introduce some
-            // bugs.  UglifyJS v1 doesn't deal with this issue; in v2
-            // we copy any declarations to the upper scope.
-            if (c) {
-                e();
-                var c;
-                function b(){};
-                // but nested declarations should not be kept.
-                (function(){
-                    var f ;
-            function    function a() {
-            b();
-            c = 1;
-            throw "d";
-            // completely discarding the `if` would introduce some
-            // bugs.  UglifyJS v1 doesn't deal with this issue; in v2
-            // we copy any declarations to the upper scope.
-            if (c) {
-                e();
-                var c;
-                function b(){};
-                // but nested declarations should not be kept.
-                (function(){
-                    var f;
-                    function e() {
+            var f ;
+            function e() {
             }
             ;
         })();

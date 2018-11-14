@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{
-    errors::Handler, sourcemap::SourceMapBuilder, FileName, Fold, FoldWith, SourceMap, Spanned,
+    errors::Handler, sourcemap::SourceMapBuilder, FileName, Fold, FoldWith, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -74,18 +74,12 @@ impl<'a> Tester<'a> {
 
         let module = fold(module, &mut tr);
         let module = ::testing::drop_span(module);
-        let module = fold(module, &mut RemoveParen);
+        let module = fold(module, &mut Normalizer);
         module
     }
 
-    pub fn print(&mut self, module: Module) -> String {
+    pub fn print(&mut self, module: &Module) -> String {
         let handlers = box MyHandlers;
-
-        let sfl = self
-            .cm
-            .lookup_line(module.span().lo())
-            .expect("failed to lookup line");
-        let fm = sfl.fm;
 
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
@@ -93,7 +87,7 @@ impl<'a> Tester<'a> {
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::config::Config::default(),
                 cm: self.cm.clone(),
-                enable_comments: true,
+                enable_comments: false,
                 wr: box swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
@@ -114,25 +108,43 @@ impl<'a> Tester<'a> {
     }
 }
 
+#[cfg(test)]
+macro_rules! test_transform {
+    ($tr:expr, $input:expr, $expected:expr) => {{
+        fn run(tester: &mut crate::tests::Tester) {
+            let expected = tester.apply_transform(::testing::DropSpan, "actual.js", $expected);
+            let actual = tester.apply_transform($tr, "expected.js", $input);
+
+            if actual == expected {
+                return;
+            }
+
+            let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+            if actual_src == expected_src {
+                // Diff it
+                println!(">>>>> Code <<<<<\n{}", actual_src);
+                assert_eq!(actual, expected, "different ast was detected");
+                return;
+            }
+
+            panic!(
+                "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
+                actual_src, expected_src
+            );
+            // assert_eq!(actual_src, expected_src);
+        }
+        crate::tests::Tester::run(run);
+    }};
+}
+
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test {
     ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            crate::tests::Tester::run(|tester| {
-                let expected =
-                    tester.apply_transform(::testing::DropSpan, stringify!($test_name), $expected);
-
-                let actual = tester.apply_transform($tr, stringify!($test_name), $input);
-                let actual = ::testing::drop_span(actual);
-
-                if actual == expected {
-                    return;
-                }
-
-                assert_eq!(tester.print(actual), tester.print(expected));
-            });
+            test_transform!($tr, $input, $expected)
         }
     };
 }
@@ -151,43 +163,6 @@ macro_rules! test_exec {
     };
 }
 
-macro_rules! test_expr {
-    ($l:expr, $r:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $r);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-            let actual = ::testing::drop_span(actual);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
-    ($l:expr, $r:expr,) => {
-        test_expr!($l, $r);
-    };
-}
-
-/// Should not modify expression.
-macro_rules! same_expr {
-    ($l:expr) => {{
-        crate::tests::Tester::run(|tester| {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $l);
-
-            let actual = tester.apply_transform(SimplifyExpr, "actual.js", $l);
-
-            if actual == expected {
-                return;
-            }
-
-            assert_eq!(tester.print(actual), tester.print(expected));
-        });
-    }};
-}
-
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
@@ -200,13 +175,21 @@ impl Write for Buf {
     }
 }
 
-struct RemoveParen;
-impl Fold<Expr> for RemoveParen {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-        match e {
-            Expr::Paren(e) => *e.expr,
-            _ => e,
+struct Normalizer;
+// impl Fold<Expr> for Normalizer {
+//     fn fold(&mut self, e: Expr) -> Expr {
+//         let e = e.fold_children(self);
+//         match e {
+//             Expr::Paren(e) => *e.expr,
+//             _ => e,
+//         }
+//     }
+// }
+impl Fold<PatOrExpr> for Normalizer {
+    fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
+        match n {
+            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            _ => n,
         }
     }
 }

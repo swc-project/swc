@@ -23,6 +23,7 @@ pub use self::{
         UpdateExpr, YieldExpr,
     },
     function::Function,
+    keywords::IdentExt,
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem},
     module_decl::{
@@ -49,6 +50,7 @@ mod class;
 mod decl;
 mod expr;
 mod function;
+mod keywords;
 mod lit;
 mod macros;
 mod module;
@@ -75,6 +77,12 @@ impl Debug for Ident {
     }
 }
 
+impl AsRef<str> for Ident {
+    fn as_ref(&self) -> &str {
+        &self.sym
+    }
+}
+
 struct DebugUsingDisplay<T: Display>(T);
 impl<T: Display> Debug for DebugUsingDisplay<T> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
@@ -85,35 +93,5 @@ impl<T: Display> Debug for DebugUsingDisplay<T> {
 impl Ident {
     pub fn new(sym: JsWord, span: Span) -> Self {
         Ident { span, sym }
-    }
-
-    pub fn is_reserved_only_for_es3(&self) -> bool {
-        [
-            "abstract",
-            "boolean",
-            "byte",
-            "char",
-            "double",
-            "enum",
-            "final",
-            "float",
-            "goto",
-            "implements",
-            "int",
-            "interface",
-            "long",
-            "native",
-            "package",
-            "private",
-            "protected",
-            "public",
-            "short",
-            "static",
-            "synchronized",
-            "throws",
-            "transient",
-            "volatile",
-        ]
-            .contains(&&*self.sym)
     }
 }

@@ -15,6 +15,7 @@ use std::{
     io::{self, Write},
     path::Path,
     rc::Rc,
+    sync::Arc,
 };
 use swc::{
     common::{errors::Handler, FilePathMapping, Fold, SourceMap},
@@ -105,8 +106,11 @@ fn run() -> Result<(), Box<Error>> {
 
 fn js_pass(matches: &ArgMatches) -> Box<Fold<Module>> {
     use swc::ecmascript::transforms::{compat, simplifier};
+    let helpers = Arc::new(compat::helpers::Helpers::default());
 
-    let pass: Box<Fold<Module>> = box compat::es2016().then(compat::es2015()).then(compat::es3());
+    let pass: Box<Fold<Module>> = box compat::es2016()
+        .then(compat::es2015(helpers.clone()))
+        .then(compat::es3());
 
     let pass: Box<Fold<Module>> = if !matches.is_present("optimize") {
         pass

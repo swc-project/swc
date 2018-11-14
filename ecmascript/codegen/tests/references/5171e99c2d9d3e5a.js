@@ -1,6 +1,3 @@
-if (// Do not remove first if consequent block
-if (a) {
-    if (// Do not remove first if consequent block
 if (a) {
     if (b) {
         true;

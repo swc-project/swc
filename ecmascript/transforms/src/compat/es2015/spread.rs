@@ -3,14 +3,14 @@ use std::{
     mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{pos::Mark, Fold, FoldWith, Span};
+use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use util::ExprFactory;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
-pub(super) struct SpreadElement {
-    helpers: Arc<Helpers>,
+pub struct SpreadElement {
+    pub helpers: Arc<Helpers>,
 }
 
 impl Fold<Expr> for SpreadElement {
@@ -34,7 +34,7 @@ impl Fold<Expr> for SpreadElement {
                         span,
                     });
                 }
-                let span = span.apply_mark(Mark::fresh(Mark::root()));
+                let span = mark!(span);
 
                 let args_array = concat_args(&self.helpers, span, args);
                 //
@@ -57,7 +57,7 @@ impl Fold<Expr> for SpreadElement {
                         span,
                     });
                 }
-                let span = span.apply_mark(Mark::fresh(Mark::root()));
+                let span = mark!(span);
 
                 let args = concat_args(
                     &self.helpers,

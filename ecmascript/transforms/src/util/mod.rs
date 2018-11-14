@@ -55,13 +55,21 @@ impl<T: IsEmpty> IsEmpty for Option<T> {
         }
     }
 }
+
 impl<T: IsEmpty> IsEmpty for Box<T> {
     fn is_empty(&self) -> bool {
         <T as IsEmpty>::is_empty(&*self)
     }
 }
 
-pub trait ExprExt: Sized {
+impl<T> IsEmpty for Vec<T> {
+    fn is_empty(&self) -> bool {
+        self.is_empty()
+    }
+}
+
+/// Extension methods for [Expr].
+pub trait ExprExt {
     fn as_expr_kind(&self) -> &Expr;
 
     /// Checks if `self` is `NaN`.
@@ -75,6 +83,8 @@ pub trait ExprExt: Sized {
             _ => false,
         }
     }
+
+    /// Get bool value of `self` if it does not have any side effects.
     fn as_pure_bool(&self) -> BoolValue {
         match self.as_bool() {
             (Pure, Known(b)) => Known(b),
@@ -575,10 +585,13 @@ impl ExprExt for Expr {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Purity {
+    /// May have some side effects.
     MayBeImpure,
+    /// Does not have any side effect.
     Pure,
 }
 impl Purity {
+    /// Returns true if it's pure.
     pub fn is_pure(self) -> bool {
         self == Pure
     }
@@ -592,4 +605,47 @@ impl Add for Purity {
             _ => MayBeImpure,
         }
     }
+}
+
+/// Cast to javascript's int32
+pub(crate) fn to_int32(d: f64) -> i32 {
+    let id = d as i32;
+    if id as f64 == d {
+        // This covers -0.0 as well
+        return id;
+    }
+
+    if d.is_nan() || d.is_infinite() {
+        return 0;
+    }
+
+    let d = if d >= 0.0 { d.floor() } else { d.ceil() };
+
+    const two32: f64 = 4294967296.0;
+    let d = d % two32;
+    // (double)(long)d == d should hold here
+
+    let l = d as i64;
+    // returning (int)d does not work as d can be outside int range
+    // but the result must always be 32 lower bits of l
+    return l as i32;
+}
+
+pub(crate) fn to_u32(d: f64) -> u32 {
+    //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
+    //   return 0;
+    // }
+
+    // d = Math.signum(d) * Math.floor(Math.abs(d));
+
+    // double two32 = 4294967296.0;
+    // // this ensures that d is positive
+    // d = ((d % two32) + two32) % two32;
+    // // (double)(long)d == d should hold here
+
+    // long l = (long) d;
+    // // returning (int)d does not work as d can be outside int range
+    // // but the result must always be 32 lower bits of l
+    // return (int) l;
+    unimplemented!()
 }

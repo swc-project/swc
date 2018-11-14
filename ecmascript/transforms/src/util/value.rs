@@ -5,9 +5,11 @@ use std::ops::{Not, Try};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Value<T> {
     Known(T),
+    /// Not determined at compile time.`
     Unknown,
 }
 
+/// Type of value.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Type {
     Undefined,
@@ -18,6 +20,7 @@ pub enum Type {
     Num,
     Obj,
 }
+
 impl Value<Type> {
     pub fn casted_to_number_on_add(self) -> bool {
         match self {
@@ -29,7 +32,9 @@ impl Value<Type> {
     }
 }
 
+/// Value could not be determined
 pub struct UnknownError;
+
 impl<T> Try for Value<T> {
     type Ok = T;
     type Error = UnknownError;
@@ -48,12 +53,15 @@ impl<T> Try for Value<T> {
 }
 
 impl<T> Value<T> {
+    /// Returns true if the value is not known.
     pub fn is_unknown(&self) -> bool {
         match *self {
             Unknown => true,
             _ => false,
         }
     }
+
+    /// Returns true if the value is known.
     pub fn is_known(&self) -> bool {
         match *self {
             Known(..) => true,

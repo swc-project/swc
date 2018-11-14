@@ -1,4 +1,4 @@
-use swc_common::{pos::Mark, Fold, FoldWith};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
 /// Compile ES2015 shorthand properties to ES5
@@ -36,7 +36,7 @@ use swc_ecma_ast::*;
 /// };
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
-pub(super) struct Shorthand;
+pub struct Shorthand;
 
 impl Fold<Prop> for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {
@@ -44,7 +44,7 @@ impl Fold<Prop> for Shorthand {
 
         match prop {
             Prop::Shorthand(Ident { sym, span }) => {
-                let span = span.apply_mark(Mark::fresh(Mark::root()));
+                let span = mark!(span);
 
                 Prop::KeyValue(KeyValueProp {
                     key: PropName::Ident(Ident {

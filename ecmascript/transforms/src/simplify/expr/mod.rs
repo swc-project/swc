@@ -1,7 +1,11 @@
 use crate::util::*;
 use std::iter;
-use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_atoms::JsWord;
+use swc_common::{Fold, FoldWith, Span, Spanned};
 use swc_ecma_ast::{Ident, Lit, *};
+
+#[cfg(test)]
+mod tests;
 
 pub(super) struct SimplifyExpr;
 
@@ -34,7 +38,7 @@ impl Fold<Expr> for SimplifyExpr {
                         *expr_value
                     } else {
                         Expr::Seq(SeqExpr {
-                            span,
+                            span: mark!(span),
                             exprs: vec![test, expr_value],
                         })
                     }
@@ -66,17 +70,22 @@ impl Fold<Expr> for SimplifyExpr {
 }
 
 fn fold_member_expr(e: MemberExpr) -> Expr {
-    #[derive(Copy, Clone, PartialEq, Eq)]
+    #[derive(Clone, PartialEq, Eq)]
     enum KnownOp {
-        /// Length
+        /// [a, b].length
         Len,
+
         Index(u32),
+
+        /// ({}).foo
+        IndexStr(JsWord),
     }
     let op = match *e.prop {
         Expr::Ident(Ident {
             sym: js_word!("length"),
             ..
         }) => KnownOp::Len,
+        Expr::Ident(Ident { ref sym, .. }) => KnownOp::IndexStr(sym.clone()),
         // Lit(Lit::Num(Number(f)))=>{
         //     if f==0{
 
@@ -88,37 +97,78 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         _ => return Expr::Member(e),
     };
 
-    let o = match e.obj {
+    let obj = match e.obj {
         ExprOrSuper::Super(_) => return Expr::Member(e),
         ExprOrSuper::Expr(box o) => o,
     };
 
-    match o {
+    match obj {
         Expr::Lit(Lit::Str(Str {
             ref value, span, ..
-        }))
-            if op == KnownOp::Len =>
-        {
-            Expr::Lit(Lit::Num(Number {
+        })) => match op {
+            // 'foo'.length
+            KnownOp::Len => Expr::Lit(Lit::Num(Number {
                 value: value.len() as _,
-                span,
-            }))
+                span: mark!(span),
+            })),
+
+            // 'foo'[1]
+            KnownOp::Index(idx) if (idx as usize) < value.len() => Expr::Lit(Lit::Str(Str {
+                value: value
+                    .chars()
+                    .nth(idx as _)
+                    .unwrap_or_else(|| panic!("failed to index char?"))
+                    .to_string()
+                    .into(),
+                span: mark!(span),
+                has_escape: false,
+            })),
+
+            _ => Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(box obj),
+                ..e
+            }),
+        },
+
+        // [1, 2, 3].length
+        Expr::Array(ArrayLit { ref elems, span })
+            if op == KnownOp::Len && !obj.may_have_side_effects() =>
+        {
+            // do nothing if spread exists
+            let has_spread = elems.iter().any(|elem| {
+                elem.as_ref()
+                    .map(|elem| elem.spread.is_some())
+                    .unwrap_or(false)
+            });
+
+            if has_spread {
+                return Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(box obj),
+                    ..e
+                });
+            }
+
+            return Expr::Lit(Lit::Num(Number {
+                value: elems.len() as _,
+                span: mark!(span),
+            }));
         }
 
-        Expr::Array(ArrayLit { ref elems, span })
-            if op == KnownOp::Len && !o.may_have_side_effects() =>
-        {
-            Expr::Lit(Lit::Num(Number {
-                value: elems.len() as _,
-                span,
-            }))
-        }
-        _ => {
-            return Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(box o),
+        // { foo: true }['foo']
+        Expr::Object(ObjectLit { props, span }) => match op {
+            // TODO
+            // KnownOp::IndexStr(key) => {
+            // }
+            _ => Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(box Expr::Object(ObjectLit { props, span })),
                 ..e
-            })
-        }
+            }),
+        },
+
+        _ => Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(box obj),
+            ..e
+        }),
     }
 }
 
@@ -148,7 +198,7 @@ fn fold_bin(
                         span,
                         Expr::Lit(Lit::Num(Number {
                             value: v,
-                            span: DUMMY_SP,
+                            span: mark!(span),
                         })),
                         { iter::once(left).chain(iter::once(right)) },
                     );
@@ -257,10 +307,12 @@ fn fold_bin(
                 return if !left.may_have_side_effects() {
                     *node
                 } else {
-                    Expr::Seq(SeqExpr {
+                    let seq = SimplifyExpr.fold(SeqExpr {
                         span,
                         exprs: vec![left, node],
-                    })
+                    });
+
+                    Expr::Seq(seq)
                 };
             }
             _ => (left, right),
@@ -326,8 +378,39 @@ fn fold_bin(
         //
         // (a * 1) * 2 --> a * (1 * 2) --> a * 2
         op!("*") | op!("&") | op!("|") | op!("^") => {
-            let (left, right) = try_replace!(number, perform_arithmetic_op(op, &left, &right));
-            // TODO: Try left.rhs * right
+            let (mut left, right) = try_replace!(number, perform_arithmetic_op(op, &left, &right));
+
+            // Try left.rhs * right
+            match *left {
+                Expr::Bin(BinExpr {
+                    span: left_span,
+                    left: left_lhs,
+                    op: left_op,
+                    right: left_rhs,
+                }) => {
+                    let v = perform_arithmetic_op(op, &left_rhs, &right);
+                    match v {
+                        Known(value) => {
+                            return Expr::Bin(BinExpr {
+                                span,
+                                left: left_lhs,
+                                op: left_op,
+                                right: box Expr::Lit(Lit::Num(Number { value, span })),
+                            })
+                        }
+                        _ => {
+                            left = box Expr::Bin(BinExpr {
+                                left: left_lhs,
+                                op: left_op,
+                                span: left_span,
+                                right: left_rhs,
+                            })
+                        }
+                    }
+                }
+                _ => {}
+            }
+
             (left, right)
         }
 
@@ -350,6 +433,50 @@ fn fold_bin(
         right,
         span,
     })
+}
+
+/// Drops unused values
+impl Fold<SeqExpr> for SimplifyExpr {
+    fn fold(&mut self, e: SeqExpr) -> SeqExpr {
+        let mut e = e.fold_children(self);
+
+        let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
+
+        // Expressions except last one
+        let mut exprs = Vec::with_capacity(e.exprs.len() + 1);
+
+        for expr in e.exprs {
+            match *expr {
+                // Drop side-effect free nodes.
+                Expr::Lit(_) => {}
+
+                // Flatten array
+                Expr::Array(ArrayLit { span, elems }) => {
+                    let is_simple = elems.iter().all(|elem| match elem {
+                        None | Some(ExprOrSpread { spread: None, .. }) => true,
+                        _ => false,
+                    });
+
+                    if is_simple {
+                        exprs.extend(elems.into_iter().filter_map(|e| e).map(|e| e.expr));
+                    } else {
+                        exprs.push(box ArrayLit { span, elems }.into());
+                    }
+                }
+
+                // Default case: preserve it
+                _ => exprs.push(expr),
+            }
+        }
+
+        exprs.push(last_expr);
+        exprs.shrink_to_fit();
+
+        SeqExpr {
+            exprs,
+            span: e.span,
+        }
+    }
 }
 
 fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
@@ -440,6 +567,27 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
 
 /// Try to fold arithmetic binary operators
 fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+    /// Replace only if it becomes shorter
+    macro_rules! try_replace {
+        ($value:expr) => {{
+            let (ls, rs) = (left.span(), right.span());
+            if ls.is_dummy() || rs.is_dummy() {
+                Known($value)
+            } else {
+                let new_len = format!("{}", $value).len();
+                let orig_len = right.span().hi() - left.span().lo();
+                if new_len <= orig_len.0 as usize {
+                    Known($value)
+                } else {
+                    Unknown
+                }
+            }
+        }};
+        (i32, $value:expr) => {
+            try_replace!($value as f64)
+        };
+    }
+
     let (lv, rv) = (left.as_number(), right.as_number());
 
     if (lv.is_unknown() && rv.is_unknown())
@@ -452,18 +600,20 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
     match op {
         op!(bin, "+") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return Known(lv + rv);
+                return try_replace!(lv + rv);
             }
+
             if lv == Known(0.0) {
                 return rv;
             } else if rv == Known(0.0) {
                 return lv;
             }
+
             return Unknown;
         }
         op!(bin, "-") => {
             if let (Known(lv), Known(rv)) = (lv, rv) {
-                return Known(lv - rv);
+                return try_replace!(lv - rv);
             }
 
             // 0 - x => -x
@@ -478,10 +628,69 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> 
 
             return Unknown;
         }
+        op!("*") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv * rv);
+            }
+            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
+            // advantage of that without some kind of non-NaN proof.  So the special cases
+            // here only deal with 1*x
+            if Known(1.0) == lv {
+                // TODO: cloneTree()
+                return rv;
+            }
+            if Known(1.0) == rv {
+                // TODO: cloneTree()
+                return lv;
+            }
+
+            return Unknown;
+        }
+
+        op!("/") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                if rv == 0.0 {
+                    return Unknown;
+                }
+                return try_replace!(lv / rv);
+            }
+
+            // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
+
+            if rv == Known(1.0) {
+                // TODO: cloneTree
+                // x/1->x
+                return lv;
+            }
+            return Unknown;
+        }
+
+        op!("**") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv.powf(rv));
+            }
+
+            return Unknown;
+        }
         _ => {}
     }
+    let (lv, rv) = match (lv, rv) {
+        (Known(lv), Known(rv)) => (lv, rv),
+        _ => return Unknown,
+    };
 
-    return Unknown;
+    match op {
+        op!("&") => return try_replace!(i32, to_int32(lv) & to_int32(rv)),
+        op!("|") => return try_replace!(i32, to_int32(lv) | to_int32(rv)),
+        op!("^") => return try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
+        op!("%") => {
+            if rv == 0.0 {
+                return Unknown;
+            }
+            return try_replace!(lv % rv);
+        }
+        _ => unreachable!("unknown binary operator: {:?}", op),
+    }
 }
 
 /// This actually performs `<`.
@@ -674,6 +883,12 @@ where
             Expr::MetaProp(_) => v.push(box expr),
 
             Expr::Call(_) => v.push(box expr),
+            Expr::New(NewExpr {
+                callee: box Expr::Ident(Ident { ref sym, .. }),
+                ref args,
+                ..
+            })
+                if &*sym == "Date" && args.is_empty() => {}
             Expr::New(_) => v.push(box expr),
             Expr::Member(_) => v.push(box expr),
 
@@ -737,6 +952,9 @@ where
     } else {
         exprs.push(box val);
 
-        Expr::Seq(SeqExpr { exprs, span })
+        Expr::Seq(SeqExpr {
+            exprs,
+            span: mark!(span),
+        })
     }
 }

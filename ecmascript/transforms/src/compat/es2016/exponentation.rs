@@ -1,4 +1,4 @@
-use swc_common::{pos::Mark, Fold, FoldWith};
+use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy)]
@@ -15,7 +15,7 @@ impl Fold<Expr> for Exponentation {
                 right,
                 span,
             }) => {
-                let span = span.apply_mark(Mark::fresh(Mark::root()));
+                let span = mark!(span);
 
                 // Math.pow()
                 Expr::Call(CallExpr {

@@ -160,7 +160,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::config::Config::default(),
                         cm: cm.clone(),
-                        enable_comments: true,
+                        enable_comments: false,
                         wr: box swc_ecma_codegen::text_writer::JsWriter::new(
                             cm.clone(),
                             "\n",

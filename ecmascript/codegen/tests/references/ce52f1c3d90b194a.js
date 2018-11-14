@@ -1,3 +1,1 @@
-// ContinueStatement should not be removed.
-a: for(;;)for(;;)continue // ContinueStatement should not be removed.
-a: for(;;) for (;;) continue a;
+a: for(;;)for(;;)continue a;
