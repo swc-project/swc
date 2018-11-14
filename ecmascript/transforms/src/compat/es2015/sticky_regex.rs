@@ -1,3 +1,5 @@
+use crate::util::ExprFactory;
+use std::iter;
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 
@@ -35,16 +37,10 @@ impl Fold<Expr> for StickyRegex {
                     return Expr::New(NewExpr {
                         callee: box quote_ident!(span, "RegExp").into(),
                         args: Some(
-                            vec![ExprOrSpread {
-                                expr: str_lit(exp),
-                                spread: None,
-                            }]
-                            .into_iter()
-                            .chain(flags.map(|flags| ExprOrSpread {
-                                expr: str_lit(flags),
-                                spread: None,
-                            }))
-                            .collect(),
+                            iter::once(str_lit(exp).as_arg())
+                                .into_iter()
+                                .chain(flags.map(|flags| str_lit(flags).as_arg()))
+                                .collect(),
                         ),
                         span,
                     });

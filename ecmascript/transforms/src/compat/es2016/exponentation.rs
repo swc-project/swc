@@ -1,3 +1,4 @@
+use crate::util::ExprFactory;
 use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 
@@ -73,16 +74,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
         span,
         callee: ExprOrSuper::Expr(member_expr!(span, Math.pow)),
 
-        args: vec![
-            ExprOrSpread {
-                expr: left,
-                spread: None,
-            },
-            ExprOrSpread {
-                expr: right,
-                spread: None,
-            },
-        ],
+        args: vec![left.as_arg(), right.as_arg()],
     })
 }
 

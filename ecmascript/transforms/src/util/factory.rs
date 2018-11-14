@@ -27,13 +27,7 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Call(CallExpr {
             span,
             callee: ExprOrSuper::Expr(box apply),
-            args: vec![ExprOrSpread {
-                expr: this,
-                spread: None,
-            }]
-            .into_iter()
-            .chain(args)
-            .collect(),
+            args: vec![this.as_arg()].into_iter().chain(args).collect(),
         })
     }
 

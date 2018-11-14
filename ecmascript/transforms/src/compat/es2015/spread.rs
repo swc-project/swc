@@ -137,12 +137,12 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                         callee: ExprOrSuper::Expr(
                             box Ident::new(js_word!("_toConsumableArray"), span).into(),
                         ),
-                        args: vec![ExprOrSpread { expr, spread: None }],
+                        args: vec![expr.as_arg()],
                     })
                     .as_arg(),
                 );
             }
-            None => tmp_arr.push(Some(ExprOrSpread { expr, spread: None })),
+            None => tmp_arr.push(Some(expr.as_arg())),
         }
     }
     make_arr!();
