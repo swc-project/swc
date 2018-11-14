@@ -114,16 +114,28 @@ impl Classes {
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
-        let (params, args) = if let Some(ref super_class) = class.super_class {
-            // TODO
-            (vec![], vec![])
+        fn determine_super_ident(sc: &Expr) -> Ident {
+            match *sc {
+                Expr::Ident(ref i) => quote_ident!(i.span, format!("_{}", i.sym)),
+                Expr::Member(ref member) => determine_super_ident(&member.prop),
+                _ => unimplemented!("determine_super_ident({:?})", sc),
+            }
+        }
+        // Ident of the super class *inside* function.
+        let super_ident = class.super_class.as_ref().map(|e| determine_super_ident(e));
+
+        let (params, args) = if let Some(ref super_ident) = super_ident {
+            (
+                vec![Pat::Ident(super_ident.clone())],
+                vec![class.super_class.clone().unwrap().as_arg()],
+            )
         } else {
             (vec![], vec![])
         };
 
         let body = BlockStmt {
             span: DUMMY_SP,
-            stmts: self.class_to_stmts(class_name, class),
+            stmts: self.class_to_stmts(class_name, super_ident, class),
         };
 
         Expr::Call(CallExpr {
@@ -143,18 +155,31 @@ impl Classes {
     }
 
     /// Returned `stmts` contains `return Foo`
-    fn class_to_stmts(&mut self, class_name: Option<Ident>, mut class: Class) -> Vec<Stmt> {
-        if let Some(_) = class.super_class {
+    fn class_to_stmts(
+        &mut self,
+        class_name: Option<Ident>,
+        super_class_ident: Option<Ident>,
+        mut class: Class,
+    ) -> Vec<Stmt> {
+        let class_name = class_name.unwrap_or_else(|| quote_ident!("_Class"));
+        let mut stmts = vec![];
+
+        if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
             self.helpers.inherits.store(true, Ordering::SeqCst);
             self.helpers
                 .possible_constructor_return
                 .store(true, Ordering::SeqCst);
+
+            stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: quote_ident!("_inherits").as_callee(),
+                args: vec![
+                    class_name.clone().as_arg(),
+                    super_class_ident.clone().as_arg(),
+                ],
+            })));
         }
-
-        let ident = class_name.unwrap_or_else(|| Ident::new("_Class".into(), DUMMY_SP));
-
-        let mut stmts = vec![];
 
         // Process constructor
         {
@@ -172,13 +197,14 @@ impl Classes {
             let mut function = constructor.map(|c| c.function).unwrap_or_else(|| Function {
                 async: None,
                 generator: None,
-                span: ident.span,
+                span: class_name.span,
                 params: vec![],
                 body: BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![],
                 },
             });
+
             // inject _classCallCheck(this, Bar);
             function.body.stmts = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
@@ -188,29 +214,91 @@ impl Classes {
                 ))),
                 args: vec![
                     Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-                    Expr::Ident(ident.clone()).as_arg(),
+                    Expr::Ident(class_name.clone()).as_arg(),
                 ],
             })))
             .chain(function.body.stmts)
             .collect();
 
-            // Process constructor
-            // TODO: inject classCallCheck
-            // TODO: inject possibleReturnCheck
+            if super_class_ident.is_some() {
+                // inject possibleReturnCheck
+
+                // creates `Child.__proto__`
+                let proto = box Expr::Member(MemberExpr {
+                    span: DUMMY_SP,
+                    obj: ExprOrSuper::Expr(box Expr::Ident(class_name.clone())),
+                    computed: false,
+                    prop: box Expr::Ident(quote_ident!("__proto__")),
+                });
+
+                // creates `Object.getPrototypeOf(Child)`
+                let get_proto_of = box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: member_expr!(DUMMY_SP, Object.getPrototypeOf).as_callee(),
+                    args: vec![class_name.clone().as_arg()],
+                });
+
+                function.body.stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: quote_ident!("_possibleConstructorReturn").as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
+                            // `(Child.__proto__ || Object.getPrototypeOf(Child))`
+                            let proto_paren = Expr::Paren(ParenExpr {
+                                span: DUMMY_SP,
+                                expr: box Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left: proto,
+                                    op: op!("||"),
+                                    //      Object.getPrototypeOf(Child)
+                                    right: get_proto_of,
+                                }),
+                            });
+
+                            let apply = box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: ExprOrSuper::Expr(box proto_paren),
+                                    computed: false,
+                                    prop: box Expr::Ident(quote_ident!("apply")),
+                                }
+                                .as_callee(),
+
+                                args: vec![
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    quote_ident!("arguments").as_arg(),
+                                ],
+                            });
+
+                            apply.as_arg()
+                        }],
+                    })),
+                }));
+            }
+
+            // TODO: Handle
+            //
+            //     console.log('foo');
+            //     super();
+            //     console.log('bar');
+            //
+            //
 
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
-                ident: ident.clone(),
+                ident: class_name.clone(),
                 function,
             })));
         }
 
         // convert class methods
-        stmts.extend(self.fold_class_methods(ident.clone(), class.body));
+        stmts.extend(self.fold_class_methods(class_name.clone(), class.body));
 
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(box Expr::Ident(ident)),
+            arg: Some(box Expr::Ident(class_name)),
         }));
 
         stmts
@@ -250,7 +338,7 @@ impl Classes {
         ) -> Stmt {
             Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Ident::new("_createClass".into(), DUMMY_SP).as_callee(),
+                callee: quote_ident!("_createClass").as_callee(),
                 args: iter::once(class_name.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
@@ -298,6 +386,10 @@ impl Classes {
                 }
                 _ => unimplemented!(),
             }
+        }
+
+        if props.is_empty() && static_props.is_empty() {
+            return vec![];
         }
 
         vec![mk_create_class_call(

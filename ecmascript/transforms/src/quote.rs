@@ -44,6 +44,18 @@ macro_rules! expr {
     }};
 }
 
+#[macro_export]
+macro_rules! quote_expr {
+    ($span:expr, null) => {{
+        use swc_ecma_ast::*;
+        Expr::Lit(Lit::Null(Null { span: $span }))
+    }};
+
+    ($span:expr, undefined) => {{
+        box Expr::Ident(Ident::new(js_word!("undefined"), $span))
+    }};
+}
+
 /// Creates a member expression.
 ///
 /// # Usage
