@@ -43,10 +43,7 @@ impl Fold<MemberExpr> for MemberExprLit {
                 } else {
                     return MemberExpr {
                         computed: false,
-                        prop: box Expr::Ident(Ident {
-                            span: mark!(span),
-                            sym,
-                        }),
+                        prop: box Expr::Ident(quote_ident!(mark!(span), sym)),
                         ..e
                     };
                 }

@@ -33,11 +33,7 @@ impl Fold<Expr> for StickyRegex {
                     let span = mark!(span);
 
                     return Expr::New(NewExpr {
-                        callee: box Ident {
-                            span,
-                            sym: js_word!("RegExp"),
-                        }
-                        .into(),
+                        callee: box quote_ident!(span, "RegExp").into(),
                         args: Some(
                             vec![ExprOrSpread {
                                 expr: str_lit(exp),

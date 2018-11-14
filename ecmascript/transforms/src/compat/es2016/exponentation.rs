@@ -71,22 +71,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     // Math.pow()
     Expr::Call(CallExpr {
         span,
-        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-            span,
-            obj: ExprOrSuper::Expr(
-                box Ident {
-                    span,
-                    sym: "Math".into(),
-                }
-                .into(),
-            ),
-            prop: box Ident {
-                span,
-                sym: "pow".into(),
-            }
-            .into(),
-            computed: false,
-        })),
+        callee: ExprOrSuper::Expr(member_expr!(span, Math.pow)),
 
         args: vec![
             ExprOrSpread {
