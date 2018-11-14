@@ -18,7 +18,17 @@ impl Fold<Expr> for SpreadElement {
         let e = e.fold_children(self);
 
         match e {
-            Expr::Array(ArrayLit { .. }) => unimplemented!("Rest element"),
+            Expr::Array(ArrayLit { ref elems, .. }) => {
+                if elems.iter().any(|e| match e {
+                    Some(ExprOrSpread {
+                        spread: Some(_), ..
+                    }) => true,
+                    _ => false,
+                }) {
+                    unimplemented!("Rest element in arrat literal")
+                }
+                return e;
+            }
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 args,

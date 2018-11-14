@@ -38,10 +38,6 @@ New generation javascript to old-days javascript.
     - [x] operator `**`
 
 
-## Optimizer
- - [ ] closure compiler
-
-
 # Usage
 
 `test.js`:

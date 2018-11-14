@@ -382,8 +382,6 @@ impl Classes {
         let (mut props, mut static_props) = (vec![], vec![]);
 
         for m in methods {
-            let span = mark!(m.span());
-
             let prop_name = match m.key {
                 PropName::Ident(ref i) => i,
                 _ => unimplemented!("non-ident prop name: {:?}", m.key),
