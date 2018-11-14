@@ -1,12 +1,12 @@
 class a{
-     constructor() {
+    constructor() {
     }
      b() {
     }
 }
 ;
 class c{
-     constructor(...d) {
+    constructor(...d) {
     }
      b() {
     }

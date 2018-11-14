@@ -1,4 +1,4 @@
 (class{
-    static  constructor() {
+    static constructor() {
     }
 });
