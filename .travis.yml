@@ -11,10 +11,6 @@ rust:
 - nightly
 cache:
   cargo: true
-  directories:
-    - $HOME/.cargo-target
-    
-
 
 git:
     submodules: false
@@ -37,7 +33,7 @@ after_success:
 #      [ "$TRAVIS_BRANCH" == "master" ] &&
 #     ./.travis/docs.sh'
 deploy:
-  local_dir: $CARGO_TARGET_DIR/doc
+  local_dir: ./target/doc
   repo: swc-project/swc-project.github.io
   target_branch: master
   provider: pages
@@ -52,7 +48,6 @@ notifications:
   email: never
 env:
   global:
-    - CARGO_TARGET_DIR=$HOME/.cargo-target
     - CASHER_TIME_OUT=600
     - RUST_MIN_STACK=4194304
     - RUST_BACKTRACE=full
