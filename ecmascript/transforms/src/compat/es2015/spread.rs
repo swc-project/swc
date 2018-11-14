@@ -3,7 +3,7 @@ use std::{
     mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Span};
+use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// es2015 - `SpreadElement`
@@ -49,7 +49,7 @@ impl Fold<Expr> for SpreadElement {
                 //
                 // f.apply(undefined, args)
                 //
-                callee.apply(span, expr!(span, undefined), vec![args_array.as_arg()])
+                callee.apply(span, expr!(DUMMY_SP, undefined), vec![args_array.as_arg()])
             }
             Expr::New(NewExpr {
                 callee,
