@@ -28,6 +28,7 @@ mod tests;
 #[macro_use]
 mod quote;
 pub mod compat;
+mod fixer;
 pub mod scope;
 mod simplify;
 pub mod util;
