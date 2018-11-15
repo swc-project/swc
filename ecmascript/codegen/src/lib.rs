@@ -13,6 +13,8 @@ extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
+
+pub use self::config::{Config, SourceMapConfig};
 use self::{
     list::ListFormat,
     text_writer::WriteJs,
@@ -27,7 +29,7 @@ use swc_ecma_ast::*;
 #[macro_use]
 pub mod macros;
 mod comments;
-pub mod config;
+mod config;
 mod decl;
 pub mod list;
 #[cfg(test)]
@@ -59,7 +61,6 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Rc<SourceMap>,
-    pub enable_comments: bool,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
     pub pos_of_leading_comments: HashSet<BytePos>,
@@ -588,7 +589,11 @@ impl<'a> Emitter<'a> {
     pub fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
         match *node {
             BlockStmtOrExpr::BlockStmt(ref block_stmt) => emit!(block_stmt),
-            BlockStmtOrExpr::Expr(ref expr) => emit!(expr),
+            BlockStmtOrExpr::Expr(ref expr) => {
+                self.wr.increase_indent()?;
+                emit!(expr);
+                self.wr.decrease_indent()?;
+            }
         }
     }
 
@@ -1159,7 +1164,10 @@ impl<'a> Emitter<'a> {
                 emit!(e);
                 semi!();
             }
-            Stmt::Block(ref e) => emit!(e),
+            Stmt::Block(ref e) => {
+                emit!(e);
+                return Ok(());
+            }
             Stmt::Empty(ref e) => emit!(e),
             Stmt::Debugger(ref e) => emit!(e),
             Stmt::With(ref e) => emit!(e),
@@ -1260,10 +1268,16 @@ impl<'a> Emitter<'a> {
         punct!(")");
         space!();
 
+        let is_block_stmt = match *node.cons {
+            Stmt::Block(_) => true,
+            _ => false,
+        };
         emit!(node.cons);
 
         if let Some(ref alt) = node.alt {
-            space!();
+            if is_block_stmt {
+                space!();
+            }
             keyword!("else");
             space!();
             emit!(alt);
@@ -1449,7 +1463,6 @@ fn get_text_of_node<T: Spanned>(
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {
-    return None;
     let span = node.span();
     if span.is_dummy() || span.ctxt() != SyntaxContext::empty() {
         // This node is transformed so we shoukld not use original source code.

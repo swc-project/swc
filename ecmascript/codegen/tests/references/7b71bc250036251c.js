@@ -1,1 +1,2 @@
-do continue;while (1)
+do continue;
+while (1)

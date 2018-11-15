@@ -1,4 +1,4 @@
-var a , b , c , d , e ;
+var a, b, c, d, e;
 if (b) {
     a = 1 + 2;
 } else {

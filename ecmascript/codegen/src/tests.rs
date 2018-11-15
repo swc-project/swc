@@ -41,7 +41,6 @@ impl Builder {
             cm: self.cm.clone(),
             wr: box text_writer::JsWriter::new(self.cm.clone(), "\n", s, &mut src_map_builder),
             handlers: box Noop,
-            enable_comments: true,
             pos_of_leading_comments: Default::default(),
         };
 
@@ -109,13 +108,13 @@ fn test_from_to(from: &str, to: &str) {
 
 #[test]
 fn empty_stmt() {
-    test_from_to(";", ";");
+    test_from_to(";", ";\n");
 }
 
 #[test]
 #[ignore]
 fn simple_if_else_stmt() {
-    test_from_to("if(true);else;", "if (true) ; else ;");
+    test_from_to("if(true);else;", "if (true) ; else ;\n");
 }
 
 #[test]

@@ -8,5 +8,6 @@ if (a) {
     with (a)if (b) throw c;
 } else d;
 if (a) {
-    do if (b) throw c;while (a)
+    do if (b) throw c;
+    while (a)
 } else d;

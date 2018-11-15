@@ -1,5 +1,5 @@
 function a() {
-    var b ;
+    var b;
     if (b = 'b') {
         return b;
     } else {

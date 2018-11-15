@@ -1,3 +1,4 @@
 while(true){
-    if (a) break; else b;
+    if (a) break;
+    else b;
 }

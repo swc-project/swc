@@ -1,4 +1,4 @@
-var a ;
+var a;
 if (b()) {
     a(c);
 } else {

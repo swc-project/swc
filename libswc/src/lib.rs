@@ -12,7 +12,7 @@ use self::{
     common::{errors::Handler, sourcemap::SourceMapBuilder, SourceMap, Spanned},
     ecmascript::{
         ast::Module,
-        codegen::Emitter,
+        codegen::{self, Emitter},
         parser::{Parser, Session as ParseSess, SourceFileInput},
     },
 };
@@ -62,14 +62,18 @@ impl Compiler {
         }
     }
 
-    pub fn emit_module(&self, module: &Module, wr: &mut Write) -> io::Result<()> {
+    pub fn emit_module(
+        &self,
+        module: &Module,
+        cfg: codegen::Config,
+        wr: &mut Write,
+    ) -> io::Result<()> {
         let mut src_map_builder = SourceMapBuilder::new(None);
         {
             let handlers = box MyHandlers;
             let mut emitter = Emitter {
-                cfg: Default::default(),
+                cfg,
                 cm: self.cm.clone(),
-                enable_comments: true,
                 wr: box swc_ecmascript::codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",

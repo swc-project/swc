@@ -1,5 +1,6 @@
 for(; a();){
-    if (b()) c(); else break;
+    if (b()) c();
+    else break;
     d();
     e();
 }

@@ -1,4 +1,5 @@
 (function() {
-    var a ;
-    if (a) return; else return;
+    var a;
+    if (a) return;
+    else return;
 }());

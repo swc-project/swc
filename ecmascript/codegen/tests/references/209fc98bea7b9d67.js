@@ -1,1 +1,2 @@
-if (true) a(); else ;
+if (true) a();
+else ;

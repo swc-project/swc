@@ -1,4 +1,4 @@
-var a ;
+var a;
 if (!b && !c && !d && !e) {
     a = 1;
 } else {

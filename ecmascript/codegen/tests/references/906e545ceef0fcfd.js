@@ -1,3 +1,4 @@
 (function() {
-    if (a) throw b; else throw c;
+    if (a) throw b;
+    else throw c;
 }());

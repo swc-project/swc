@@ -1,10 +1,10 @@
 function a() {
     b();
-    var c ;
-    var d ;
+    var c;
+    var d;
 }
 function e(f) {
     b();
-    var c ;
-    var f ;
+    var c;
+    var f;
 }

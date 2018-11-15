@@ -19,7 +19,7 @@ use std::{
 };
 use swc::{
     common::{errors::Handler, FilePathMapping, Fold, SourceMap},
-    ecmascript::ast::Module,
+    ecmascript::{ast::Module, codegen},
     Compiler,
 };
 
@@ -97,8 +97,14 @@ fn run() -> Result<(), Box<Error>> {
 
         let stdout = std::io::stdout();
         let mut output = stdout.lock();
-        comp.emit_module(&module, &mut output)
-            .expect("failed to emit module");
+        comp.emit_module(
+            &module,
+            codegen::Config {
+                ..Default::default()
+            },
+            &mut output,
+        )
+        .expect("failed to emit module");
     }
 
     Ok(())

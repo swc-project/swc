@@ -1,2 +1,3 @@
 export class a{
-};;1;
+};;
+1;

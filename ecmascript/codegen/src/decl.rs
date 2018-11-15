@@ -60,9 +60,8 @@ impl<'a> Emitter<'a> {
     pub fn emit_var_declator(&mut self, node: &VarDeclarator) -> Result {
         emit!(node.name);
 
-        formatting_space!();
-
         if let Some(ref init) = node.init {
+            formatting_space!();
             punct!("=");
             formatting_space!();
             emit!(init);
