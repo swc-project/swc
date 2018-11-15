@@ -1449,6 +1449,7 @@ fn get_text_of_node<T: Spanned>(
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {
+    return None;
     let span = node.span();
     if span.is_dummy() || span.ctxt() != SyntaxContext::empty() {
         // This node is transformed so we shoukld not use original source code.

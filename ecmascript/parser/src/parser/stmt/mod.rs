@@ -54,7 +54,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(stmts)
     }
 
-    fn parse_stmt(&mut self, top_level: bool) -> PResult<'a, Stmt> {
+    pub fn parse_stmt(&mut self, top_level: bool) -> PResult<'a, Stmt> {
         self.parse_stmt_internal(false, top_level)
     }
 

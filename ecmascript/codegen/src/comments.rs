@@ -72,10 +72,11 @@ impl<'a> Emitter<'a> {
         // include `//`
         ext_sp = ext_sp.with_lo(ext_sp.lo() - BytePos(3));
 
-        let src = self
-            .cm
-            .span_to_snippet(ext_sp)
-            .expect("failed to get snippet for span");
+        let src = match self.cm.span_to_snippet(ext_sp) {
+            Ok(src) => src,
+            // TODO: Handle error
+            Err(e) => return Ok(()),
+        };
         // if src == "" {
         //    return Ok(());
         // }
