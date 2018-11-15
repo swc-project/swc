@@ -7,7 +7,7 @@ impl<'a> Emitter<'a> {
         pos: BytePos,
         prefix_space: bool,
     ) -> Result {
-        if !self.enable_comments {
+        if !self.cfg.enable_comments {
             return Ok(());
         }
         // debug_assert!(self.file.contains(pos));
@@ -29,7 +29,7 @@ impl<'a> Emitter<'a> {
     }
 
     pub(super) fn emit_leading_comments_of_pos(&mut self, pos: BytePos) -> Result {
-        if !self.enable_comments {
+        if !self.cfg.enable_comments {
             return Ok(());
         }
         // debug_assert!(self.file.contains(pos));

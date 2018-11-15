@@ -13,6 +13,8 @@ extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
+
+pub use self::config::{Config, SourceMapConfig};
 use self::{
     list::ListFormat,
     text_writer::WriteJs,
@@ -27,7 +29,7 @@ use swc_ecma_ast::*;
 #[macro_use]
 pub mod macros;
 mod comments;
-pub mod config;
+mod config;
 mod decl;
 pub mod list;
 #[cfg(test)]
@@ -59,7 +61,6 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Rc<SourceMap>,
-    pub enable_comments: bool,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
     pub pos_of_leading_comments: HashSet<BytePos>,

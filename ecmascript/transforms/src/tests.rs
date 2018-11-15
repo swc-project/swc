@@ -85,9 +85,8 @@ impl<'a> Tester<'a> {
         {
             let mut src_map_builder = SourceMapBuilder::new(None);
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::config::Config::default(),
+                cfg: Default::default(),
                 cm: self.cm.clone(),
-                enable_comments: false,
                 wr: box swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",

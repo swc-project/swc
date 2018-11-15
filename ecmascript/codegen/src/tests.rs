@@ -41,7 +41,6 @@ impl Builder {
             cm: self.cm.clone(),
             wr: box text_writer::JsWriter::new(self.cm.clone(), "\n", s, &mut src_map_builder),
             handlers: box Noop,
-            enable_comments: true,
             pos_of_leading_comments: Default::default(),
         };
 
