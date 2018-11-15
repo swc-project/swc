@@ -1,5 +1,5 @@
 void function() {
-    var a ;
+    var a;
     a = function() {
         return 1;
     };

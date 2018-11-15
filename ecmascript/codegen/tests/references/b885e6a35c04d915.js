@@ -1,2 +1,2 @@
-for(let a ;;);
-let a ;
+for(let a;;);
+let a;

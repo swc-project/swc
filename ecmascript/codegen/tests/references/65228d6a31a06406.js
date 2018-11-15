@@ -1,4 +1,4 @@
-var a ;
+var a;
 a = true && b;
 a = 1 && c.d("a");
 a = 2 * 3 && 4 * b;

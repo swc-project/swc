@@ -1,4 +1,4 @@
 (function() {
-    var a , b , c , d , e , f ;
+    var a, b, c, d, e, f;
     ( a, b, c()) + ( d, e, f());
 }());

@@ -1,3 +1,3 @@
-for(var a  in b)(function() {
+for(var a in b)(function() {
     c('d');
 }());

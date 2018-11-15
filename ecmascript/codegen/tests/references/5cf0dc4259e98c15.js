@@ -1,4 +1,4 @@
-var a , b ;
+var a, b;
 a.c = ( a = {
 }, 1);
 b = ( b = {

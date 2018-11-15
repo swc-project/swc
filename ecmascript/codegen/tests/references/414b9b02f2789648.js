@@ -1,4 +1,4 @@
-var a ;
+var a;
 a = b ? true : false;
 a = !b ? true : false;
 a = b() ? true : false;

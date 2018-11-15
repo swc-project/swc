@@ -1,1 +1,1 @@
-for(let [a = b in c]  in null);
+for(let [a = b in c] in null);

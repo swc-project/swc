@@ -1,3 +1,4 @@
 (function() {
-    if (a) return; else return;
+    if (a) return;
+    else return;
 }());

@@ -1,3 +1,3 @@
 (function() {
-    for(var a  in []);
+    for(var a in []);
 }());

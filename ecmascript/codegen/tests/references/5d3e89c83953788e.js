@@ -1,3 +1,3 @@
 function a() {
-    for(var b  in c);
+    for(var b in c);
 }

@@ -1,4 +1,4 @@
 if (a) {
     b = 1;
-    for(var c ;;);
+    for(var c;;);
 }

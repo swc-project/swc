@@ -1,4 +1,7 @@
 if (a) b();
-if (!a) ; else b();
-if (a) ; else b();
-if (a) ; else ;
+if (!a) ;
+else b();
+if (a) ;
+else b();
+if (a) ;
+else ;

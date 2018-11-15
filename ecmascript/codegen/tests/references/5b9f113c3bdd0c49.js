@@ -4,12 +4,12 @@ function a() {
     throw "d";
     if (c) {
         e();
-        var c ;
+        var c;
         function b() {
         }
         ;
         (function() {
-            var f ;
+            var f;
             function e() {
             }
             ;
