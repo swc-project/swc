@@ -5,9 +5,9 @@ extern crate clap;
 extern crate rayon;
 #[macro_use]
 extern crate slog;
+pub extern crate libswc as swc;
 extern crate slog_envlogger;
 extern crate slog_term;
-pub extern crate swc;
 use clap::{AppSettings, Arg, ArgMatches, SubCommand};
 use slog::{Drain, Logger};
 use std::{
