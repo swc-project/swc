@@ -1,9 +1,9 @@
 use super::SimplifyExpr;
 
 macro_rules! test_expr {
-    ($l:expr, $r:expr) => {{
-        test_transform!(SimplifyExpr, $l, $r)
-    }};
+    ($l:expr, $r:expr) => {
+        test_transform!(SimplifyExpr, $l, $r, true)
+    };
     ($l:expr, $r:expr,) => {
         test_expr!($l, $r);
     };

@@ -109,7 +109,11 @@ impl<'a> Tester<'a> {
 
 #[cfg(test)]
 macro_rules! test_transform {
-    ($tr:expr, $input:expr, $expected:expr) => {{
+    ($tr:expr, $input:expr, $expected:expr) => {
+        test_transform!($tr, $input, $expected, false)
+    };
+
+    ($tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
         fn run(tester: &mut crate::tests::Tester) {
             let expected = tester.apply_transform(::testing::DropSpan, "actual.js", $expected);
             let actual = tester.apply_transform($tr, "expected.js", $input);
@@ -121,6 +125,9 @@ macro_rules! test_transform {
             let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
 
             if actual_src == expected_src {
+                if $ok_if_src_eq {
+                    return;
+                }
                 // Diff it
                 println!(">>>>> Code <<<<<\n{}", actual_src);
                 assert_eq!(actual, expected, "different ast was detected");
