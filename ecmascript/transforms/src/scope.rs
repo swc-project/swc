@@ -32,20 +32,6 @@ where
     }
 }
 
-macro_rules! impl_folder {
-    ($T:ty) => {
-        impl<'a, F: FoldScope<$T>> Fold<$T> for ScopeFolder<'a, F> {
-            fn fold(&mut self, n: $T) -> $T {
-                self.folder.fold_scope(self.cur_scope, n)
-            }
-        }
-    };
-
-    ($T:ty, $($rest:tt),+) => {
-        impl_folder!($T);
-        impl_folder!($($rest)*);
-    };
-}
 macro_rules! block_folder {
     ($T:ty) => {
         impl<'a, F: FoldScope<BlockStmt> + FoldScope<$T>> Fold<$T> for ScopeFolder<'a, F> {

@@ -1,11 +1,10 @@
-use crate::compat::helpers::Helpers;
+use crate::{compat::helpers::Helpers, util::ExprFactory};
 use std::{
     mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Span};
+use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use util::ExprFactory;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
@@ -18,7 +17,17 @@ impl Fold<Expr> for SpreadElement {
         let e = e.fold_children(self);
 
         match e {
-            Expr::Array(ArrayLit { .. }) => unimplemented!("Rest element"),
+            Expr::Array(ArrayLit { ref elems, .. }) => {
+                if elems.iter().any(|e| match e {
+                    Some(ExprOrSpread {
+                        spread: Some(_), ..
+                    }) => true,
+                    _ => false,
+                }) {
+                    unimplemented!("Rest element in arrat literal")
+                }
+                return e;
+            }
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 args,
@@ -40,7 +49,7 @@ impl Fold<Expr> for SpreadElement {
                 //
                 // f.apply(undefined, args)
                 //
-                callee.apply(span, expr!(span, undefined), vec![args_array.as_arg()])
+                callee.apply(span, expr!(DUMMY_SP, undefined), vec![args_array.as_arg()])
             }
             Expr::New(NewExpr {
                 callee,
@@ -124,15 +133,13 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                 buf.push(
                     Expr::Call(CallExpr {
                         span,
-                        callee: ExprOrSuper::Expr(
-                            box Ident::new(js_word!("_toConsumableArray"), span).into(),
-                        ),
-                        args: vec![ExprOrSpread { expr, spread: None }],
+                        callee: quote_ident!("_toConsumableArray").as_callee(),
+                        args: vec![expr.as_arg()],
                     })
                     .as_arg(),
                 );
             }
-            None => tmp_arr.push(Some(ExprOrSpread { expr, spread: None })),
+            None => tmp_arr.push(Some(expr.as_arg())),
         }
     }
     make_arr!();
@@ -141,7 +148,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         // TODO
         span,
 
-        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+        callee: MemberExpr {
             // TODO: Mark
             span,
             prop: box Expr::Ident(Ident::new(js_word!("concat"), span)),
@@ -156,7 +163,8 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                 })
             })),
             computed: false,
-        })),
+        }
+        .as_callee(),
 
         args: buf,
     })

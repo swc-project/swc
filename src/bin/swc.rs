@@ -5,9 +5,9 @@ extern crate clap;
 extern crate rayon;
 #[macro_use]
 extern crate slog;
+pub extern crate libswc as swc;
 extern crate slog_envlogger;
 extern crate slog_term;
-pub extern crate swc;
 use clap::{AppSettings, Arg, ArgMatches, SubCommand};
 use slog::{Drain, Logger};
 use std::{
@@ -91,7 +91,7 @@ fn run() -> Result<(), Box<Error>> {
             }
         };
 
-        let mut pass = js_pass(matches);
+        let mut pass = js_pass(cm, matches);
 
         let module = pass.fold(module);
 
@@ -104,16 +104,20 @@ fn run() -> Result<(), Box<Error>> {
     Ok(())
 }
 
-fn js_pass(matches: &ArgMatches) -> Box<Fold<Module>> {
+fn js_pass(cm: Rc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
     use swc::ecmascript::transforms::{compat, simplifier};
     let helpers = Arc::new(compat::helpers::Helpers::default());
 
     let pass: Box<Fold<Module>> = box compat::es2016()
         .then(compat::es2015(helpers.clone()))
-        .then(compat::es3());
+        .then(compat::es3())
+        .then(compat::helpers::InjectHelpers {
+            cm,
+            helpers: helpers.clone(),
+        });
 
     let pass: Box<Fold<Module>> = if !matches.is_present("optimize") {
-        pass
+        box pass
     } else {
         box pass.then(simplifier())
     };

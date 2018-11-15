@@ -1,5 +1,4 @@
-use super::Helpers;
-use crate::util::ExprFactory;
+use crate::{compat::helpers::Helpers, util::ExprFactory};
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
@@ -140,7 +139,7 @@ impl Classes {
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr {
+            callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
                     span: DUMMY_SP,
@@ -149,7 +148,8 @@ impl Classes {
                     params,
                     body,
                 },
-            })),
+            })
+            .as_callee(),
             args,
         })
     }
@@ -208,10 +208,7 @@ impl Classes {
             // inject _classCallCheck(this, Bar);
             function.body.stmts = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
-                    "_classCallCheck".into(),
-                    DUMMY_SP,
-                ))),
+                callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
                 args: vec![
                     Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
                     Expr::Ident(class_name.clone()).as_arg(),
@@ -382,8 +379,6 @@ impl Classes {
         let (mut props, mut static_props) = (vec![], vec![]);
 
         for m in methods {
-            let span = mark!(m.span());
-
             let prop_name = match m.key {
                 PropName::Ident(ref i) => i,
                 _ => unimplemented!("non-ident prop name: {:?}", m.key),

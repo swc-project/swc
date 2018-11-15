@@ -1,3 +1,4 @@
+use std::iter;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -26,14 +27,8 @@ pub trait ExprFactory: Into<Expr> {
 
         Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(box apply),
-            args: vec![ExprOrSpread {
-                expr: this,
-                spread: None,
-            }]
-            .into_iter()
-            .chain(args)
-            .collect(),
+            callee: apply.as_callee(),
+            args: iter::once(this.as_arg()).chain(args).collect(),
         })
     }
 

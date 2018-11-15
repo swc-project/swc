@@ -1157,7 +1157,7 @@ impl<'a> Emitter<'a> {
         match *node {
             Stmt::Expr(ref e) => {
                 emit!(e);
-                semi!()
+                semi!();
             }
             Stmt::Block(ref e) => emit!(e),
             Stmt::Empty(ref e) => emit!(e),
@@ -1178,6 +1178,7 @@ impl<'a> Emitter<'a> {
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
+        self.wr.write_line()?;
     }
 
     #[emitter]
@@ -1448,6 +1449,7 @@ fn get_text_of_node<T: Spanned>(
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {
+    return None;
     let span = node.span();
     if span.is_dummy() || span.ctxt() != SyntaxContext::empty() {
         // This node is transformed so we shoukld not use original source code.

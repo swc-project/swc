@@ -8,11 +8,13 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 pub extern crate swc_macros as macros;
 
-use common::{errors::Handler, sourcemap::SourceMapBuilder, SourceMap, Spanned};
-use ecmascript::{
-    ast::Module,
-    codegen::Emitter,
-    parser::{Parser, Session as ParseSess, SourceFileInput},
+use self::{
+    common::{errors::Handler, sourcemap::SourceMapBuilder, SourceMap, Spanned},
+    ecmascript::{
+        ast::Module,
+        codegen::Emitter,
+        parser::{Parser, Session as ParseSess, SourceFileInput},
+    },
 };
 use rayon::ThreadPool;
 use slog::Logger;

@@ -47,11 +47,8 @@ impl Fold<Prop> for Shorthand {
                 let span = mark!(span);
 
                 Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(Ident {
-                        sym: sym.clone(),
-                        span,
-                    }),
-                    value: box Ident { sym, span }.into(),
+                    key: PropName::Ident(quote_ident!(span, sym.clone())),
+                    value: box quote_ident!(span, sym).into(),
                 })
             }
             Prop::Method(MethodProp { key, function }) => Prop::KeyValue(KeyValueProp {

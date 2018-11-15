@@ -621,8 +621,8 @@ pub(crate) fn to_int32(d: f64) -> i32 {
 
     let d = if d >= 0.0 { d.floor() } else { d.ceil() };
 
-    const two32: f64 = 4294967296.0;
-    let d = d % two32;
+    const TWO32: f64 = 4294967296.0;
+    let d = d % TWO32;
     // (double)(long)d == d should hold here
 
     let l = d as i64;
@@ -631,7 +631,7 @@ pub(crate) fn to_int32(d: f64) -> i32 {
     return l as i32;
 }
 
-pub(crate) fn to_u32(d: f64) -> u32 {
+pub(crate) fn to_u32(_d: f64) -> u32 {
     //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
     //   return 0;
     // }

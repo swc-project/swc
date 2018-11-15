@@ -233,7 +233,7 @@ fn fold_bin(
                                 (Known(l), Known(r)) => {
                                     return Expr::Lit(Lit::Str(Str {
                                         value: format!("{}{}", l, r).into(),
-                                        span,
+                                        span: mark!(span),
                                         // TODO
                                         has_escape: false,
                                     }));
@@ -512,7 +512,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             };
 
             return Expr::Lit(Lit::Str(Str {
-                span,
+                span: mark!(span),
                 value: val.into(),
                 has_escape: false,
             }));
@@ -525,7 +525,10 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             Known(v) => {
                 return preserve_effects(
                     span,
-                    Expr::Lit(Lit::Num(Number { value: v, span })),
+                    Expr::Lit(Lit::Num(Number {
+                        value: v,
+                        span: mark!(span),
+                    })),
                     iter::once(arg),
                 )
             }
@@ -542,7 +545,10 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 ..
             }) => return *arg,
             Expr::Lit(Lit::Num(Number { value: f, .. })) => {
-                return Expr::Lit(Lit::Num(Number { value: -f, span }))
+                return Expr::Lit(Lit::Num(Number {
+                    value: -f,
+                    span: mark!(span),
+                }))
             }
             _ => {
 
@@ -554,7 +560,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 op: op!("void"),
                 arg: box Expr::Lit(Lit::Num(Number {
                     value: 0.0,
-                    span: arg.span(),
+                    span: mark!(arg.span()),
                 })),
                 span,
             })
@@ -952,9 +958,6 @@ where
     } else {
         exprs.push(box val);
 
-        Expr::Seq(SeqExpr {
-            exprs,
-            span: mark!(span),
-        })
+        Expr::Seq(SeqExpr { exprs, span })
     }
 }
