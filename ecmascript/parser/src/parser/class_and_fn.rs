@@ -109,6 +109,10 @@ impl<'a, I: Input> Parser<'a, I> {
             PropName::Ident(Ident {
                 sym: js_word!("constructor"),
                 ..
+            })
+            | PropName::Str(Str {
+                value: js_word!("constructor"),
+                ..
             }) => {
                 mtd.kind = ClassMethodKind::Constructor;
             }
