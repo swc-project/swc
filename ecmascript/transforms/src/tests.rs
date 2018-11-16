@@ -5,17 +5,10 @@ use std::{
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, FileName, Fold, SourceMap};
+use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
-
-pub fn fold<F>(module: Module, f: &mut F) -> Module
-where
-    F: ::swc_common::Fold<Module>,
-{
-    f.fold(module)
-}
 
 struct MyHandlers;
 
@@ -75,9 +68,10 @@ impl<'a> Tester<'a> {
             module
         };
 
-        let module = fold(module, &mut tr);
-        let module = ::testing::drop_span(module);
-        let module = fold(module, &mut Normalizer);
+        let module = module
+            .fold_with(&mut tr)
+            .fold_with(&mut ::testing::DropSpan)
+            .fold_with(&mut Normalizer);
 
         Ok(module)
     }
@@ -118,11 +112,14 @@ macro_rules! test_transform {
     };
 
     ($tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
+        use swc_common::FoldWith;
+
         fn run(tester: &mut crate::tests::Tester) -> Result<(), ()> {
-            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $expected)?;
+            let expected =
+                tester.apply_transform(crate::fixer::fixer(), "expected.js", $expected)?;
 
             let actual = tester.apply_transform($tr, "actual.js", $input)?;
-            let actual = ::tests::fold(actual, &mut crate::fixer::fixer());
+            let actual = actual.fold_with(&mut crate::fixer::fixer());
 
             if actual == expected {
                 return Ok(());
