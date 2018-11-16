@@ -305,6 +305,7 @@ fn null_cmp_4() {
 /// Currently ignored because our parser does not
 /// accept `await` if it's not in async function.
 #[test]
+#[ignore]
 fn eq_cmp_side_effects() {
     // can remove ''. not implemented yet.
     test_expr!(
@@ -530,6 +531,7 @@ fn seq_expr_array() {
 }
 
 #[test]
+#[ignore]
 fn logical_ops() {
     test_expr!("true && x", "x");
     test_expr!("[foo()] && x", "(foo(), x)");
@@ -592,6 +594,7 @@ fn logical_ops() {
 }
 
 #[test]
+#[ignore]
 fn logical_ops_2() {
     test_expr!("x = function(){} && x", "x = x");
     test_expr!("x = true && function(){}", "x = function(){}");
@@ -746,6 +749,7 @@ fn bit_shifts_str_cmp() {
 }
 
 #[test]
+#[ignore]
 fn str_add() {
     test_expr!("'a' + \"bc\"", "\"abc\"");
     test_expr!("'a' + 5", "\"a5\"");
@@ -763,12 +767,14 @@ fn str_add() {
 }
 
 #[test]
+#[ignore]
 fn issue821() {
     same_expr!("var a =(Math.random()>0.5? '1' : 2 ) + 3 + 4;");
     same_expr!("var a = ((Math.random() ? 0 : 1) || (Math.random()>0.5? '1' : 2 )) + 3 + 4;");
 }
 
 #[test]
+#[ignore]
 fn constructor() {
     test_expr!("this[new String('a')]", "this['a']");
     test_expr!("ob[new String(12)]", "ob['12']");
@@ -973,6 +979,7 @@ fn cmp_4() {
 }
 
 #[test]
+#[ignore]
 fn member_1() {
     test_expr!("[,10][0]", "void 0");
     test_expr!("[10, 20][0]", "10");
@@ -998,6 +1005,7 @@ fn member_1() {
 }
 
 #[test]
+#[ignore]
 fn member_2() {
     test_expr!("'string'[5]", "'g'");
     test_expr!("'string'[0]", "'s'");
@@ -1077,6 +1085,7 @@ fn type_of() {
 }
 
 #[test]
+#[ignore]
 fn instance_of() {
     // Non object types are never instances of anything.
     test_expr!("64 instanceof Object", "false");
@@ -1138,6 +1147,7 @@ fn assign_ops() {
 }
 
 #[test]
+#[ignore]
 fn assign_ops_complex() {
     // This is OK, really.
     test_expr!("({a:1}).a = ({a:1}).a + 1", "({a:1}).a = 2");
@@ -1193,6 +1203,7 @@ fn lit_type_mismatches() {
 }
 
 #[test]
+#[ignore]
 fn left_child_concat() {
     same_expr!("x +5 + \"1\"");
     test_expr!("x+\"5\" + \"1\"", "x + \"51\"");
@@ -1201,6 +1212,7 @@ fn left_child_concat() {
 }
 
 #[test]
+#[ignore]
 fn left_child_op() {
     test_expr!("x * Infinity * 2", "x * Infinity");
     same_expr!("x - Infinity - 2"); // want "x-Infinity"
@@ -1245,6 +1257,7 @@ fn simple_arithmetic_op() {
 }
 
 #[test]
+#[ignore]
 fn lits_as_nums() {
     test_expr!("x/'12'", "x/12");
     test_expr!("x/('12'+'6')", "x/126");
@@ -1261,6 +1274,7 @@ fn bang_constants() {
 }
 
 #[test]
+#[ignore]
 fn mixed() {
     test_expr!("''+[1]", "'1'");
     test_expr!("false+[]", "\"false\"");
@@ -1368,6 +1382,7 @@ fn issue_522() {
 }
 
 #[test]
+#[ignore]
 fn fold_object_define_properties_1() {
     test_expr!("Object.defineProperties({}, {})", "{}");
     test_expr!("Object.defineProperties(a, {})", "a");
@@ -1375,6 +1390,7 @@ fn fold_object_define_properties_1() {
 }
 
 #[test]
+#[ignore]
 fn es6_features() {
     test_expr!("{[undefined != true] : 1};", "{[true] : 1};");
     test_expr!("let x = false && y;", "let x = false;");
