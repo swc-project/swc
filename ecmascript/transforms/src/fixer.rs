@@ -47,6 +47,10 @@ impl Fold<BinExpr> for Fixer {
                     expr
                 }
             }
+            Expr::Cond(cond_expr) => BinExpr {
+                left: box cond_expr.wrap_with_paren(),
+                ..expr
+            },
             _ => expr,
         }
     }

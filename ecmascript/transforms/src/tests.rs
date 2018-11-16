@@ -77,8 +77,6 @@ impl<'a> Tester<'a> {
 
         let module = fold(module, &mut tr);
         let module = ::testing::drop_span(module);
-        let module = fold(module, &mut Normalizer);
-        let module = fold(module, &mut crate::fixer::fixer());
         Ok(module)
     }
 
@@ -119,8 +117,11 @@ macro_rules! test_transform {
 
     ($tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
         fn run(tester: &mut crate::tests::Tester) -> Result<(), ()> {
-            let expected = tester.apply_transform(::testing::DropSpan, "actual.js", $expected)?;
-            let actual = tester.apply_transform($tr, "expected.js", $input)?;
+            let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $expected)?;
+
+            let actual = tester.apply_transform($tr, "actual.js", $input)?;
+            let actual = ::tests::fold(actual, &mut ::tests::Normalizer);
+            let actual = ::tests::fold(actual, &mut crate::fixer::fixer());
 
             if actual == expected {
                 return Ok(());
@@ -194,7 +195,7 @@ impl Write for Buf {
     }
 }
 
-struct Normalizer;
+pub(crate) struct Normalizer;
 // impl Fold<Expr> for Normalizer {
 //     fn fold(&mut self, e: Expr) -> Expr {
 //         let e = e.fold_children(self);
