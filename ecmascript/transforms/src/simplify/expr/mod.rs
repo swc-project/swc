@@ -539,8 +539,9 @@ impl Fold<SeqExpr> for SimplifyExpr {
 
 /// Folds 'typeof(foo)' if foo is a literal, e.g.
 ///
-///     typeof("bar") --> "string"
-///     typeof(6) --> "number"
+/// typeof("bar") --> "string"
+///
+/// typeof(6) --> "number"
 fn try_fold_typeof(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
     assert_eq!(op, op!("typeof"));
 
