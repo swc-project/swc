@@ -40,8 +40,8 @@ after_success:
 #     ./.travis/docs.sh'
 deploy:
   local_dir: ./target/doc
-  repo: swc-project/swc-project.github.io
-  target_branch: master
+  repo: swc-project/rustdoc
+  target_branch: gh-pages
   provider: pages
   skip_cleanup: true
   github_token: $GH_TOKEN
