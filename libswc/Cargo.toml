@@ -11,3 +11,4 @@ swc_ecmascript = { path = "../ecmascript" }
 swc_macros = { path = "../macros" }
 rayon = "1.0.3"
 slog = "2"
+sourcemap = "2.2"

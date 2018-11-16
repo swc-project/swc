@@ -1,10 +1,9 @@
 use super::{Result, WriteJs};
+use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     rc::Rc,
 };
-use swc_common::sourcemap::SourceMapBuilder;
-
 use swc_common::{SourceMap, Span};
 
 ///
