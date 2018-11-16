@@ -9,7 +9,7 @@ mod expr;
 mod tests;
 
 pub fn simplifier() -> impl Fold<Module> + 'static {
-    Simplifier.then(crate::fixer::Fixer)
+    Simplifier.then(crate::fixer::fixer())
 }
 
 #[derive(Debug, Clone, Copy, Default)]

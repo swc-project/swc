@@ -1,8 +1,13 @@
+use crate::util::ExprFactory;
 use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
 
+pub fn fixer() -> impl Fold<Module> {
+    Fixer
+}
+
 #[derive(Debug)]
-pub(crate) struct Fixer;
+struct Fixer;
 
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -17,6 +22,28 @@ impl Fold<Expr> for Fixer {
                 expr: box expr,
             }
             .into(),
+            _ => expr,
+        }
+    }
+}
+
+impl Fold<BinExpr> for Fixer {
+    fn fold(&mut self, expr: BinExpr) -> BinExpr {
+        let mut expr = expr.fold_children(self);
+
+        match *expr.left {
+            // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
+            // But it should be `(1 + x) * Nan`
+            Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
+                if op_of_lhs.precedence() < expr.op.precedence() {
+                    return BinExpr {
+                        left: box expr.left.wrap_with_paren(),
+                        ..expr
+                    };
+                } else {
+                    expr
+                }
+            }
             _ => expr,
         }
     }

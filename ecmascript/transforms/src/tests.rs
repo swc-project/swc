@@ -74,7 +74,7 @@ impl<'a> Tester<'a> {
         let module = fold(module, &mut tr);
         let module = ::testing::drop_span(module);
         let module = fold(module, &mut Normalizer);
-        let module = fold(module, &mut crate::fixer::Fixer);
+        let module = fold(module, &mut crate::fixer::fixer());
         module
     }
 
