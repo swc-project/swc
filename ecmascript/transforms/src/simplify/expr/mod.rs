@@ -374,6 +374,63 @@ fn fold_bin(
             try_replace!(number, perform_arithmetic_op(op, &left, &right))
         }
 
+        // Bit shift operations
+        op!("<<") | op!(">>") | op!(">>>") => {
+            /// Uses a method for treating a double as 32bits that is equivalent
+            /// to how JavaScript would convert a number before applying a bit
+            /// operation.
+            fn js_convert_double_to_bits(d: f64) -> i32 {
+                return ((d.floor() as i64) & 0xffffffff) as i32;
+            }
+
+            fn try_fold_shift(op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+                if !left.is_number() || !right.is_number() {
+                    return Unknown;
+                }
+
+                let (lv, rv) = match (left.as_number(), right.as_number()) {
+                    (Known(lv), Known(rv)) => (lv, rv),
+                    _ => unreachable!(),
+                };
+
+                // only the lower 5 bits are used when shifting, so don't do anything
+                // if the shift amount is outside [0,32)
+                if !(rv >= 0.0 && rv < 32.0) {
+                    return Unknown;
+                }
+
+                let rv_int = rv as i32;
+                if rv_int as f64 != rv {
+                    unimplemented!("error reporting: FRACTIONAL_BITWISE_OPERAND")
+                    // report(FRACTIONAL_BITWISE_OPERAND, right.span());
+                    // return n;
+                }
+
+                if lv.floor() != lv {
+                    unimplemented!("error reporting: FRACTIONAL_BITWISE_OPERAND")
+                    // report(FRACTIONAL_BITWISE_OPERAND, left.span());
+                    // return n;
+                }
+
+                let bits = js_convert_double_to_bits(lv);
+
+                Known(match op {
+                    op!("<<") => (bits << rv_int) as f64,
+                    op!(">>") => (bits >> rv_int) as f64,
+                    op!(">>>") => {
+                        let res = bits as u32 >> rv_int as u32;
+                        // JavaScript always treats the result of >>> as unsigned.
+                        // We must force Java to do the same here.
+                        // unimplemented!(">>> (Zerofill rshift)")
+                        (0xffffffffu32 & res) as f64
+                    }
+
+                    _ => unreachable!("Unknown bit operator {:?}", op),
+                })
+            }
+            try_replace!(number, try_fold_shift(op, &left, &right))
+        }
+
         // These needs one more check.
         //
         // (a * 1) * 2 --> a * (1 * 2) --> a * 2

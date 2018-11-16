@@ -72,6 +72,13 @@ impl<T> IsEmpty for Vec<T> {
 pub trait ExprExt {
     fn as_expr_kind(&self) -> &Expr;
 
+    fn is_number(&self) -> bool {
+        match *self.as_expr_kind() {
+            Expr::Lit(Lit::Num(..)) => true,
+            _ => false,
+        }
+    }
+
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
         self.is_ident_ref_to(js_word!("NaN"))

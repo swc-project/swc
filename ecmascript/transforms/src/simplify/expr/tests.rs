@@ -641,6 +641,7 @@ fn bit_ops() {
 }
 
 #[test]
+#[ignore]
 fn bit_ops_2() {
     test_expr!("y & 1 & 1", "y & 1");
     test_expr!("y & 1 & 2", "y & 0");
@@ -959,6 +960,7 @@ fn cmp_not_expr() {
 }
 
 #[test]
+#[ignore]
 fn cmp_4() {
     same_expr!("[] == false"); // true
     same_expr!("[] == true"); // false
