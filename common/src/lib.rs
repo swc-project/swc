@@ -3,9 +3,7 @@
 #![feature(try_trait)]
 #![feature(never_type)]
 #![feature(specialization)]
-extern crate atty;
 extern crate either;
-extern crate fnv;
 extern crate rustc_data_structures;
 extern crate rustc_errors;
 extern crate string_cache;

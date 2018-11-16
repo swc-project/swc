@@ -4,7 +4,6 @@ version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
-atty = "0.2"
 fnv = "1"
 string_cache = "0.7"
 either = "1.4"
