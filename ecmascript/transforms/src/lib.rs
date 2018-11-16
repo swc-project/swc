@@ -20,6 +20,9 @@ extern crate pretty_assertions;
 #[macro_use]
 #[cfg(test)]
 extern crate testing;
+#[cfg(test)]
+extern crate sourcemap;
+
 pub use self::simplify::simplifier;
 
 #[cfg(test)]

@@ -14,3 +14,4 @@ slog = "2"
 testing = { path = "../../testing" }
 swc_ecma_codegen = { path = "../codegen" }
 pretty_assertions = "0.5"
+sourcemap = "2.2"

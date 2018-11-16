@@ -4,8 +4,9 @@ use std::{
     rc::Rc,
     sync::{Arc, RwLock},
 };
+use sourcemap::SourceMapBuilder;
 use swc_common::{
-    errors::Handler, sourcemap::SourceMapBuilder, FileName, Fold, FoldWith, SourceMap,
+    errors::Handler,  FileName, Fold, FoldWith, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
