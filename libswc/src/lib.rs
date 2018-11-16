@@ -2,14 +2,15 @@
 
 extern crate rayon;
 #[macro_use]
-extern crate slog;
+pub extern crate slog;
+pub extern crate sourcemap;
 pub extern crate swc_atoms as atoms;
 pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 pub extern crate swc_macros as macros;
 
 use self::{
-    common::{errors::Handler, sourcemap::SourceMapBuilder, SourceMap, Spanned},
+    common::{errors::Handler, SourceMap, Spanned},
     ecmascript::{
         ast::Module,
         codegen::{self, Emitter},
@@ -18,6 +19,7 @@ use self::{
 };
 use rayon::ThreadPool;
 use slog::Logger;
+use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     path::Path,
