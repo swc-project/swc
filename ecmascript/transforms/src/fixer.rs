@@ -11,7 +11,10 @@ struct Fixer;
 
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let mut expr = expr.fold_children(self);
+        let mut expr = match expr {
+            Expr::Paren(ParenExpr { expr, span }) => Expr::Paren(ParenExpr { span, expr }),
+            _ => expr.fold_children(self),
+        };
 
         let span = expr.span();
 
