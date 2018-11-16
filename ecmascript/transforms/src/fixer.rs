@@ -29,7 +29,7 @@ impl Fold<Expr> for Fixer {
 
 impl Fold<BinExpr> for Fixer {
     fn fold(&mut self, expr: BinExpr) -> BinExpr {
-        let mut expr = expr.fold_children(self);
+        let expr = expr.fold_children(self);
 
         match *expr.left {
             // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.

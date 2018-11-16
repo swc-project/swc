@@ -5,7 +5,7 @@ use std::{
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{errors::Handler, FileName, Fold, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
@@ -14,8 +14,7 @@ pub fn fold<F>(module: Module, f: &mut F) -> Module
 where
     F: ::swc_common::Fold<Module>,
 {
-    let module = f.fold(module);
-    ::testing::drop_span(module)
+    f.fold(module)
 }
 
 struct MyHandlers;
@@ -31,15 +30,20 @@ pub(crate) struct Tester<'a> {
 impl<'a> Tester<'a> {
     pub fn run<F>(op: F)
     where
-        F: FnOnce(&mut Tester),
+        F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
-        let _out = ::testing::run_test(|logger, cm, handler| {
+        let out = ::testing::run_test(|logger, cm, handler| {
             op(&mut Tester {
                 cm,
                 logger,
                 handler,
             })
         });
+
+        match out {
+            Ok(()) => {}
+            Err(stderr) => panic!("Stderr:\n{}", stderr),
+        }
     }
 
     pub fn apply_transform<T: Fold<Module>>(
@@ -47,7 +51,7 @@ impl<'a> Tester<'a> {
         mut tr: T,
         name: &'static str,
         src: &'static str,
-    ) -> Module {
+    ) -> Result<Module, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(name.into()), src.into());
@@ -61,10 +65,10 @@ impl<'a> Tester<'a> {
 
             let module = {
                 let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
-                p.parse_module().unwrap_or_else(|err| {
+                p.parse_module().map_err(|err| {
                     err.emit();
-                    panic!("failed to parse")
-                })
+                    ()
+                })?
             };
             // println!("parsed {} as a module\n{:?}", src, module);
 
@@ -75,7 +79,7 @@ impl<'a> Tester<'a> {
         let module = ::testing::drop_span(module);
         let module = fold(module, &mut Normalizer);
         let module = fold(module, &mut crate::fixer::fixer());
-        module
+        Ok(module)
     }
 
     pub fn print(&mut self, module: &Module) -> String {
@@ -114,24 +118,24 @@ macro_rules! test_transform {
     };
 
     ($tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
-        fn run(tester: &mut crate::tests::Tester) {
-            let expected = tester.apply_transform(::testing::DropSpan, "actual.js", $expected);
-            let actual = tester.apply_transform($tr, "expected.js", $input);
+        fn run(tester: &mut crate::tests::Tester) -> Result<(), ()> {
+            let expected = tester.apply_transform(::testing::DropSpan, "actual.js", $expected)?;
+            let actual = tester.apply_transform($tr, "expected.js", $input)?;
 
             if actual == expected {
-                return;
+                return Ok(());
             }
 
             let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
 
             if actual_src == expected_src {
                 if $ok_if_src_eq {
-                    return;
+                    return Ok(());
                 }
                 // Diff it
                 println!(">>>>> Code <<<<<\n{}", actual_src);
                 assert_eq!(actual, expected, "different ast was detected");
-                return;
+                unreachable!()
             }
 
             panic!(
@@ -171,6 +175,8 @@ macro_rules! test_exec {
         fn $test_name() {
             crate::tests::Tester::run(|tester| {
                 let _transformed = tester.apply_transform($tr, stringify!($test_name), $input);
+
+                Ok(())
             });
         }
     };

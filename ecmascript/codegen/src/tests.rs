@@ -6,12 +6,13 @@ use self::{
 };
 use super::*;
 use crate::config::Config;
+use sourcemap::SourceMapBuilder;
 use std::{
     io::Write,
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{sourcemap::SourceMapBuilder, FileName, FilePathMapping, SourceMap};
+use swc_common::{FileName, FilePathMapping, SourceMap};
 
 struct Noop;
 impl Handlers for Noop {}
@@ -70,7 +71,7 @@ fn test_from_to(from: &str, to: &str) {
     where
         F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
     {
-        let output = self::testing::run_test(|logger, cm, handler| {
+        self::testing::run_test(|logger, cm, handler| {
             let src = cm.new_source_file(FileName::Real(file_name.into()), s.to_string());
             println!(
                 "Source: \n{}\nPos: {:?} ~ {:?}",
@@ -87,19 +88,13 @@ fn test_from_to(from: &str, to: &str) {
             ));
 
             match res {
-                Ok(res) => Some(res),
+                Ok(res) => Ok(res),
                 Err(err) => {
                     err.emit();
-                    None
+                    Err(())
                 }
             }
-        });
-
-        if output.errors.is_empty() {
-            Ok(output.result.unwrap())
-        } else {
-            Err(output.errors)
-        }
+        })
     }
     let res = with_parser(Path::new("test.js"), from, |p| p.parse_module()).unwrap();
 

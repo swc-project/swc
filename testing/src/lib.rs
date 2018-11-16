@@ -6,8 +6,6 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate regex;
-extern crate rustc_data_structures;
-extern crate syntax_pos;
 #[macro_use]
 extern crate slog;
 extern crate relative_path;
@@ -35,18 +33,18 @@ mod errors;
 mod output;
 mod paths;
 
-pub fn run_test<F, Ret>(op: F) -> TestOutput<Ret>
+pub fn run_test<F, Ret>(op: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce(Logger, Rc<SourceMap>, &Handler) -> Ret,
+    F: FnOnce(Logger, Rc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
     let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::errors::new_handler(cm.clone());
     let result =
-        syntax_pos::GLOBALS.set(&syntax_pos::Globals::new(), || op(logger(), cm, &handler));
+        swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(logger(), cm, &handler));
 
-    TestOutput {
-        errors: errors.into(),
-        result,
+    match result {
+        Ok(res) => Ok(res),
+        Err(()) => Err(errors.into()),
     }
 }
 
