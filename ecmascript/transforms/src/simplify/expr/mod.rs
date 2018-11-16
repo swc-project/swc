@@ -727,11 +727,7 @@ fn perform_abstract_rel_cmp(
                 arg: box Expr::Ident(Ident { sym: ref ri, .. }),
                 ..
             }),
-        )
-            if li == ri =>
-        {
-            return Known(false)
-        }
+        ) if li == ri => return Known(false),
         _ => {}
     }
 
@@ -822,11 +818,7 @@ fn perform_strict_eq_cmp(_span: Span, left: &Expr, right: &Expr) -> Value<bool> 
                 arg: box Expr::Ident(Ident { sym: ref ri, .. }),
                 ..
             }),
-        )
-            if li == ri =>
-        {
-            return Known(true)
-        }
+        ) if li == ri => return Known(true),
         _ => {}
     }
 
@@ -893,8 +885,7 @@ where
                 callee: box Expr::Ident(Ident { ref sym, .. }),
                 ref args,
                 ..
-            })
-                if &*sym == "Date" && args.is_empty() => {}
+            }) if &*sym == "Date" && args.is_empty() => {}
             Expr::New(_) => v.push(box expr),
             Expr::Member(_) => v.push(box expr),
 

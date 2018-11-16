@@ -37,15 +37,17 @@ impl Fold<Expr> for Exponentation {
             }) => {
                 let i = match left {
                     PatOrExpr::Pat(box Pat::Ident(ref i)) => i.clone(),
+                    PatOrExpr::Expr(box Expr::Ident(ref i)) => i.clone(),
 
                     // unimplemented
                     _ => {
+                        println!("!!!{:?}", left);
                         return Expr::Assign(AssignExpr {
                             span,
                             left,
                             op: op!("**="),
                             right,
-                        })
+                        });
                     }
                 };
                 return Expr::Assign(AssignExpr {
@@ -125,7 +127,13 @@ reader.x **= 2;
 assert.ok(counters === 1);"#
     );
 
-    test!(Exponentation, assign, r#"x **= 3"#, r#"x = Math.pow(x, 3)"#);
+    test!(
+        Exponentation,
+        assign,
+        r#"x **= 3"#,
+        r#"x = Math.pow(x, 3)"#,
+        ok_if_code_eq
+    );
 
     //     test!(
     //         Exponentation,

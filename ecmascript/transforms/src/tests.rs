@@ -1,13 +1,11 @@
 use slog::Logger;
+use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use sourcemap::SourceMapBuilder;
-use swc_common::{
-    errors::Handler,  FileName, Fold, FoldWith, SourceMap,
-};
+use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
@@ -153,6 +151,13 @@ macro_rules! test {
         #[test]
         fn $test_name() {
             test_transform!($tr, $input, $expected)
+        }
+    };
+
+    ($tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
+        #[test]
+        fn $test_name() {
+            test_transform!($tr, $input, $expected, true)
         }
     };
 }
