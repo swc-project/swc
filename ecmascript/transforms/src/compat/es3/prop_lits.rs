@@ -36,15 +36,21 @@ impl Fold<PropName> for PropertyLiteral {
         let n = n.fold_children(self);
 
         match n {
-            PropName::Ident(ident) => {
-                if ident.is_reserved_only_for_es3() {
+            PropName::Str(Str {
+                value: sym, span, ..
+            })
+            | PropName::Ident(Ident { sym, span }) => {
+                if sym.is_reserved_for_es3() {
                     return PropName::Str(Str {
-                        value: ident.sym,
-                        span: mark!(ident.span),
+                        span: mark!(span),
+                        value: sym,
                         has_escape: false,
                     });
                 } else {
-                    PropName::Ident(ident)
+                    PropName::Ident(Ident {
+                        span: mark!(span),
+                        sym,
+                    })
                 }
             }
             _ => n,
@@ -76,7 +82,8 @@ mod tests {
   "default": 1,
   [a]: 2,
   foo: 1
-};"#
+};"#,
+        ok_if_code_eq
     );
 
 }

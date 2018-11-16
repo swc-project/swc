@@ -10,14 +10,13 @@ pub extern crate swc_ecmascript as ecmascript;
 pub extern crate swc_macros as macros;
 
 use self::{
-    common::{errors::Handler, SourceMap, Spanned},
+    common::{errors::Handler, SourceMap},
     ecmascript::{
         ast::Module,
         codegen::{self, Emitter},
         parser::{Parser, Session as ParseSess, SourceFileInput},
     },
 };
-use rayon::ThreadPool;
 use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{

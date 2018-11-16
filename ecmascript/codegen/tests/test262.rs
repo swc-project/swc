@@ -2,11 +2,13 @@
 #![feature(specialization)]
 #![feature(test)]
 extern crate slog;
+extern crate sourcemap;
 extern crate swc_common;
 extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
+use sourcemap::SourceMapBuilder;
 use std::{
     env,
     fs::{read_dir, File},
@@ -15,7 +17,7 @@ use std::{
     rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{sourcemap::SourceMapBuilder, Fold, FoldWith, Span};
+use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{ast::*, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
@@ -134,7 +136,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
             let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-            let _out = ::testing::run_test(|logger, cm, handler| {
+            ::testing::run_test(|logger, cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
                 eprintln!(
                     "{}\nPos: {:?} ~ {:?} (L{})",
@@ -173,27 +175,17 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     // Parse source
                     if module {
                         emitter
-                            .emit_module(
-                                &parser
-                                    .parse_module()
-                                    .map_err(|e| {
-                                        e.emit();
-                                        ()
-                                    })
-                                    .expect("failed to parse module"),
-                            )
+                            .emit_module(&parser.parse_module().map_err(|e| {
+                                e.emit();
+                                ()
+                            })?)
                             .unwrap();
                     } else {
                         emitter
-                            .emit_script(
-                                &parser
-                                    .parse_script()
-                                    .map_err(|e| {
-                                        e.emit();
-                                        ()
-                                    })
-                                    .expect("failed to parse script"),
-                            )
+                            .emit_script(&parser.parse_script().map_err(|e| {
+                                e.emit();
+                                ()
+                            })?)
                             .unwrap();
                     }
                 }
@@ -203,7 +195,9 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let with_srcmap =
                     NormalizedOutput::from(String::from_utf8_lossy(&code_output).into_owned());
                 with_srcmap.compare_to_file(ref_file).unwrap();
-            });
+                Ok(())
+            })
+            .expect("failed to run test");
         });
     }
 

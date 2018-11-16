@@ -16,7 +16,7 @@ use std::{
 use swc_common::{FileName, Fold, FoldWith, Span};
 use swc_ecma_parser::{ast::*, PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
-use testing::NormalizedOutput;
+use testing::{NormalizedOutput, StdErr};
 
 const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
@@ -263,7 +263,7 @@ fn parse_module<'a>(file_name: &Path, s: &str) -> Result<Module, NormalizedOutpu
     with_parser(file_name, s, |p| p.parse_module())
 }
 
-fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, NormalizedOutput>
+fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
@@ -280,19 +280,15 @@ where
         ));
 
         match res {
-            Ok(res) => Some(res),
+            Ok(res) => Ok(res),
             Err(err) => {
                 err.emit();
-                None
+                Err(())
             }
         }
     });
 
-    if output.errors.is_empty() {
-        Ok(output.result.unwrap())
-    } else {
-        Err(output.errors)
-    }
+    output
 }
 
 #[test]

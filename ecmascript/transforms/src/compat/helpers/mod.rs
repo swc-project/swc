@@ -8,7 +8,7 @@ use std::{
 };
 use swc_common::{
     errors::{ColorConfig, Handler},
-    BytePos, FileName, FilePathMapping, Fold, SourceFile, SourceMap,
+    FileName, Fold, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
