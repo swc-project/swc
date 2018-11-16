@@ -6,7 +6,7 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 [dependencies]
 atty = "0.2"
 fnv = "1"
-string_cache = "0.6"
+string_cache = "0.7"
 either = "1.4"
 rustc-ap-rustc_errors = "250"
 rustc-ap-rustc_data_structures = "250"
