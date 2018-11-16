@@ -305,6 +305,8 @@ pub trait ExprExt {
         }
     }
 
+    /// Apply the supplied predicate against all possible result Nodes of the
+    /// expression.
     fn get_type(&self) -> Value<Type> {
         let expr = self.as_expr_kind();
 
@@ -314,10 +316,12 @@ pub trait ExprExt {
                 op: op!("="),
                 ..
             }) => right.get_type(),
+
             Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
                 .last()
                 .expect("sequence expression should not be empty")
                 .get_type(),
+
             Expr::Bin(BinExpr {
                 ref left,
                 op: op!("&&"),
@@ -334,14 +338,7 @@ pub trait ExprExt {
                 cons: ref left,
                 alt: ref right,
                 ..
-            }) => {
-                let (lt, rt) = (left.get_type(), right.get_type());
-
-                if lt == rt {
-                    return lt;
-                }
-                return Unknown;
-            }
+            }) => return and(left.get_type(), right.get_type()),
 
             Expr::Bin(BinExpr {
                 ref left,
@@ -359,24 +356,22 @@ pub trait ExprExt {
                     return Known(StringType);
                 }
 
-                match (lt, rt) {
-                    // There are some pretty weird cases for object types:
-                    //   {} + [] === "0"
-                    //   [] + {} ==== "[object Object]"
-                    (Known(ObjectType), _) | (_, Known(ObjectType)) => return Unknown,
-                    _ => {}
+                // There are some pretty weird cases for object types:
+                //   {} + [] === "0"
+                //   [] + {} ==== "[object Object]"
+                if lt == Known(ObjectType) || rt == Known(ObjectType) {
+                    return Unknown;
                 }
 
-                // ADD used with compilations of null, undefined, boolean and number always
-                // result in numbers.
-                if lt.casted_to_number_on_add() && rt.casted_to_number_on_add() {
+                if !may_be_str(lt) && !may_be_str(rt) {
+                    // ADD used with compilations of null, undefined, boolean and number always
+                    // result in numbers.
                     return Known(NumberType);
                 }
 
                 // There are some pretty weird cases for object types:
                 //   {} + [] === "0"
                 //   [] + {} ==== "[object Object]"
-
                 return Unknown;
             }
 
@@ -461,7 +456,8 @@ pub trait ExprExt {
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"), ..
             })
-            | Expr::Lit(Lit::Str { .. }) => return Known(StringType),
+            | Expr::Lit(Lit::Str { .. })
+            | Expr::Tpl(..) => return Known(StringType),
 
             Expr::Lit(Lit::Null(..)) => return Known(NullType),
 
@@ -539,6 +535,22 @@ pub trait ExprExt {
                 _ => true,
             }),
         }
+    }
+}
+fn and(lt: Value<Type>, rt: Value<Type>) -> Value<Type> {
+    if lt == rt {
+        return lt;
+    }
+    return Unknown;
+}
+
+/// Return if the node is possibly a string.
+fn may_be_str(ty: Value<Type>) -> bool {
+    match ty {
+        Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => false,
+        Known(ObjectType) | Known(StringType) | Unknown => true,
+        // TODO: Check if this is correct
+        Known(SymbolType) => true,
     }
 }
 
