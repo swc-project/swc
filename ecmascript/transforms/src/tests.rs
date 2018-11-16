@@ -77,6 +77,8 @@ impl<'a> Tester<'a> {
 
         let module = fold(module, &mut tr);
         let module = ::testing::drop_span(module);
+        let module = fold(module, &mut Normalizer);
+
         Ok(module)
     }
 
@@ -120,7 +122,6 @@ macro_rules! test_transform {
             let expected = tester.apply_transform(::testing::DropSpan, "expected.js", $expected)?;
 
             let actual = tester.apply_transform($tr, "actual.js", $input)?;
-            let actual = ::tests::fold(actual, &mut ::tests::Normalizer);
             let actual = ::tests::fold(actual, &mut crate::fixer::fixer());
 
             if actual == expected {
@@ -195,16 +196,7 @@ impl Write for Buf {
     }
 }
 
-pub(crate) struct Normalizer;
-// impl Fold<Expr> for Normalizer {
-//     fn fold(&mut self, e: Expr) -> Expr {
-//         let e = e.fold_children(self);
-//         match e {
-//             Expr::Paren(e) => *e.expr,
-//             _ => e,
-//         }
-//     }
-// }
+struct Normalizer;
 impl Fold<PatOrExpr> for Normalizer {
     fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
         match n {
