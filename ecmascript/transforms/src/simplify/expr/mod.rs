@@ -10,6 +10,7 @@ mod tests;
 pub(super) struct SimplifyExpr;
 
 impl Fold<Expr> for SimplifyExpr {
+    /// Ported from [optimizeSubtree](https://github.com/google/closure-compiler/blob/9203e01b/src/com/google/javascript/jscomp/PeepholeFoldConstants.java#L74-L98)
     fn fold(&mut self, expr: Expr) -> Expr {
         // fold children before doing something more.
         let expr = expr.fold_children(self);
@@ -108,7 +109,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         })) => match op {
             // 'foo'.length
             KnownOp::Len => Expr::Lit(Lit::Num(Number {
-                value: value.len() as _,
+                value: value.chars().count() as f64,
                 span: mark!(span),
             })),
 
@@ -536,43 +537,53 @@ impl Fold<SeqExpr> for SimplifyExpr {
     }
 }
 
+/// Folds 'typeof(foo)' if foo is a literal, e.g.
+///
+///     typeof("bar") --> "string"
+///     typeof(6) --> "number"
+fn try_fold_typeof(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
+    assert_eq!(op, op!("typeof"));
+
+    let val = match *arg {
+        Expr::Fn(..) => "function",
+        Expr::Lit(Lit::Str { .. }) => "string",
+        Expr::Lit(Lit::Num(..)) => "number",
+        Expr::Lit(Lit::Bool(..)) => "boolean",
+        Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
+        Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        })
+        | Expr::Ident(Ident {
+            sym: js_word!("undefined"),
+            ..
+        }) => {
+            // We can assume `undefined` is `undefined`,
+            // because overriding `undefined` is always hard error in swc.
+            "undefined"
+        }
+
+        _ => {
+            return Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg,
+                span,
+            })
+        }
+    };
+
+    Expr::Lit(Lit::Str(Str {
+        span: mark!(span),
+        value: val.into(),
+        has_escape: false,
+    }))
+}
+
 fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
     let may_have_side_effects = arg.may_have_side_effects();
 
     match op {
         op!("typeof") if !may_have_side_effects => {
-            let val = match *arg {
-                Expr::Fn(..) => "function",
-                Expr::Lit(Lit::Str { .. }) => "string",
-                Expr::Lit(Lit::Num(..)) => "number",
-                Expr::Lit(Lit::Bool(..)) => "boolean",
-                Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
-                Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
-                })
-                | Expr::Ident(Ident {
-                    sym: js_word!("undefined"),
-                    ..
-                }) => {
-                    // We can assume `undefined` is `undefined`,
-                    // because overriding `undefined` is always hard error in swc.
-                    "undefined"
-                }
-
-                _ => {
-                    return Expr::Unary(UnaryExpr {
-                        op: op!("typeof"),
-                        arg,
-                        span,
-                    })
-                }
-            };
-
-            return Expr::Lit(Lit::Str(Str {
-                span: mark!(span),
-                value: val.into(),
-                has_escape: false,
-            }));
+            return try_fold_typeof(UnaryExpr { span, op, arg })
         }
         op!("!") => match arg.as_bool() {
             (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),
