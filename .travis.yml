@@ -25,7 +25,7 @@ script:
     - RUST_BACKTRACE=full cargo test --color always --all
 
 before_deploy:
-    - cargo doc --color always 
+    - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always 
 
 
 after_success:
@@ -39,7 +39,7 @@ after_success:
 #      [ "$TRAVIS_BRANCH" == "master" ] &&
 #     ./.travis/docs.sh'
 deploy:
-  local_dir: ./target/doc
+  local_dir: $HOME/cargo-target/doc
   repo: swc-project/rustdoc
   target_branch: gh-pages
   provider: pages
