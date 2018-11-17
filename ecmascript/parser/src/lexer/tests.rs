@@ -10,9 +10,9 @@ fn sp(r: Range<usize>) -> Span {
     )
 }
 
-fn with_lexer<F, Ret>(s: &'static str, f: F) -> Ret
+fn with_lexer<F, Ret>(s: &'static str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&mut Lexer<SourceFileInput>) -> Ret,
+    F: FnOnce(&mut Lexer<SourceFileInput>) -> Result<Ret, ()>,
 {
     ::with_test_sess(s, |sess, fm| {
         let mut l = Lexer::new(sess, fm);
@@ -21,17 +21,18 @@ where
 }
 
 fn lex(s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(s, |l| l.collect())
+    with_lexer(s, |l| Ok(l.collect())).unwrap()
 }
 fn lex_module(s: &'static str) -> Vec<TokenAndSpan> {
     with_lexer(s, |l| {
         l.ctx.strict = true;
         l.ctx.module = true;
-        l.collect()
+        Ok(l.collect())
     })
+    .unwrap()
 }
 fn lex_tokens(s: &'static str) -> Vec<Token> {
-    with_lexer(s, |l| l.map(|ts| ts.token).collect())
+    with_lexer(s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
 }
 
 trait LineBreak: Into<TokenAndSpan> {
@@ -123,28 +124,24 @@ impl WithSpan for AssignOpToken {
 fn module_legacy_octal() {
     assert_eq!(
         lex_module("01"),
-        vec![
-            Token::Error(Error {
-                span: sp(0..2),
-                error: SyntaxError::LegacyOctal,
-            })
-            .span(0..2)
-            .lb(),
-        ]
+        vec![Token::Error(Error {
+            span: sp(0..2),
+            error: SyntaxError::LegacyOctal,
+        })
+        .span(0..2)
+        .lb(),]
     );
 }
 #[test]
 fn module_legacy_decimal() {
     assert_eq!(
         lex_module("08"),
-        vec![
-            Token::Error(Error {
-                span: sp(0..2),
-                error: SyntaxError::LegacyDecimal,
-            })
-            .span(0..2)
-            .lb(),
-        ]
+        vec![Token::Error(Error {
+            span: sp(0..2),
+            error: SyntaxError::LegacyDecimal,
+        })
+        .span(0..2)
+        .lb(),]
     );
 }
 
@@ -152,14 +149,12 @@ fn module_legacy_decimal() {
 fn module_legacy_comment_1() {
     assert_eq!(
         lex_module("<!-- foo oo"),
-        vec![
-            Token::Error(Error {
-                span: sp(0..11),
-                error: SyntaxError::LegacyCommentInModule,
-            })
-            .span(0..11)
-            .lb(),
-        ]
+        vec![Token::Error(Error {
+            span: sp(0..11),
+            error: SyntaxError::LegacyCommentInModule,
+        })
+        .span(0..11)
+        .lb(),]
     )
 }
 
@@ -167,14 +162,12 @@ fn module_legacy_comment_1() {
 fn module_legacy_comment_2() {
     assert_eq!(
         lex_module("-->"),
-        vec![
-            Token::Error(Error {
-                span: sp(0..3),
-                error: SyntaxError::LegacyCommentInModule,
-            })
-            .span(0..3)
-            .lb(),
-        ]
+        vec![Token::Error(Error {
+            span: sp(0..3),
+            error: SyntaxError::LegacyCommentInModule,
+        })
+        .span(0..3)
+        .lb(),]
     )
 }
 
@@ -238,14 +231,12 @@ fn ident_escape_unicode_2() {
 fn str_escape_hex() {
     assert_eq!(
         lex(r#"'\x61'"#),
-        vec![
-            Token::Str {
-                value: "a".into(),
-                has_escape: true,
-            }
-            .span(0..6)
-            .lb(),
-        ]
+        vec![Token::Str {
+            value: "a".into(),
+            has_escape: true,
+        }
+        .span(0..6)
+        .lb(),]
     );
 }
 
@@ -253,14 +244,12 @@ fn str_escape_hex() {
 fn str_escape_octal() {
     assert_eq!(
         lex(r#"'Hello\012World'"#),
-        vec![
-            Token::Str {
-                value: "Hello\nWorld".into(),
-                has_escape: true,
-            }
-            .span(0..16)
-            .lb(),
-        ]
+        vec![Token::Str {
+            value: "Hello\nWorld".into(),
+            has_escape: true,
+        }
+        .span(0..16)
+        .lb(),]
     )
 }
 
@@ -268,14 +257,12 @@ fn str_escape_octal() {
 fn str_escape_unicode_long() {
     assert_eq!(
         lex(r#"'\u{00000000034}'"#),
-        vec![
-            Token::Str {
-                value: "4".into(),
-                has_escape: true,
-            }
-            .span(0..17)
-            .lb(),
-        ]
+        vec![Token::Str {
+            value: "4".into(),
+            has_escape: true,
+        }
+        .span(0..17)
+        .lb(),]
     );
 }
 
@@ -394,18 +381,16 @@ fn simple_regex() {
 
     assert_eq!(
         lex("/42/"),
-        vec![
-            Regex(
-                Str {
-                    span: sp(1..3),
-                    value: "42".into(),
-                    has_escape: false,
-                },
-                None,
-            )
-            .span(0..4)
-            .lb(),
-        ]
+        vec![Regex(
+            Str {
+                span: sp(1..3),
+                value: "42".into(),
+                has_escape: false,
+            },
+            None,
+        )
+        .span(0..4)
+        .lb(),]
     );
 }
 

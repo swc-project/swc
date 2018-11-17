@@ -4,6 +4,7 @@
 
 extern crate slog;
 extern crate swc_common;
+extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
@@ -14,7 +15,8 @@ use std::{
     path::Path,
 };
 use swc_common::{FileName, Fold, FoldWith, Span};
-use swc_ecma_parser::{ast::*, PResult, Parser, Session, SourceFileInput};
+use swc_ecma_ast::*;
+use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::{NormalizedOutput, StdErr};
 

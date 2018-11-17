@@ -123,10 +123,9 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         // Handle async function expression
-        if { is!("async") }
-            && { peeked_is!("function") }
-            && { !self.input.has_linebreak_between_cur_and_peeked() }
-        {
+        if { is!("async") } && { peeked_is!("function") } && {
+            !self.input.has_linebreak_between_cur_and_peeked()
+        } {
             return self.parse_async_fn_expr();
         }
 
@@ -498,7 +497,7 @@ impl<'a, I: Input> Parser<'a, I> {
             tail,
 
             // FIXME
-            cooked: false,
+            cooked: None,
         })
     }
 

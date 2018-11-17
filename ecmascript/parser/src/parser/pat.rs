@@ -90,7 +90,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let pat = self.parse_binding_pat_or_ident()?;
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
-                    pat: box pat,
+                    arg: box pat,
                 });
                 elems.push(Some(pat));
                 // Trailing comma isn't allowed
@@ -138,7 +138,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let pat = self.parse_binding_pat_or_ident()?;
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
-                    pat: box pat,
+                    arg: box pat,
                 });
                 params.push(pat);
                 break;
@@ -277,23 +277,33 @@ impl<'a, I: Input> Parser<'a, I> {
                         .map(|prop| {
                             let span = prop.span();
                             match prop {
-                                Prop::Shorthand(id) => Ok(ObjectPatProp::Assign(AssignPatProp {
-                                    span: id.span(),
-                                    key: id.into(),
-                                    value: None,
-                                })),
-                                Prop::KeyValue(KeyValueProp { key, value }) => {
-                                    Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
-                                        key,
-                                        value: box self
-                                            .reparse_expr_as_pat(pat_ty.element(), value)?,
+                                PropOrSpread::Prop(box Prop::Shorthand(id)) => {
+                                    Ok(ObjectPatProp::Assign(AssignPatProp {
+                                        span: id.span(),
+                                        key: id.into(),
+                                        value: None,
                                     }))
                                 }
-                                Prop::Assign(AssignProp { key, value }) => {
+                                PropOrSpread::Prop(box Prop::KeyValue(kv_prop)) => {
+                                    Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                        key: kv_prop.key,
+                                        value: box self
+                                            .reparse_expr_as_pat(pat_ty.element(), kv_prop.value)?,
+                                    }))
+                                }
+                                PropOrSpread::Prop(box Prop::Assign(assign_prop)) => {
                                     Ok(ObjectPatProp::Assign(AssignPatProp {
                                         span,
-                                        key,
-                                        value: Some(value),
+                                        key: assign_prop.key,
+                                        value: Some(assign_prop.value),
+                                    }))
+                                }
+                                PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
+                                    Ok(ObjectPatProp::Rest(RestPat {
+                                        dot3_token,
+                                        // FIXME: is BindingPat correct?
+                                        arg: box self
+                                            .reparse_expr_as_pat(PatType::BindingPat, expr)?,
                                     }))
                                 }
 
@@ -356,7 +366,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                 .map(|pat| {
                                     Pat::Rest(RestPat {
                                         dot3_token,
-                                        pat: box pat,
+                                        arg: box pat,
                                     })
                                 })
                                 .map(Some)?
@@ -430,7 +440,7 @@ impl<'a, I: Input> Parser<'a, I> {
             } => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                 Pat::Rest(RestPat {
                     dot3_token,
-                    pat: box pat,
+                    arg: box pat,
                 })
             })?,
             ExprOrSpread { expr, .. } => self.reparse_expr_as_pat(pat_ty, expr)?,

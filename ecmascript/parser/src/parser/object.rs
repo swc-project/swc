@@ -78,7 +78,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
 #[parser]
 impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
-    type Prop = Prop;
+    type Prop = PropOrSpread;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
         box Expr::Object(ObjectLit { span, props })
@@ -88,6 +88,15 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
         let start = cur_pos!();
         // Parse as 'MethodDefinition'
+
+        if eat!("...") {
+            // spread elemnent
+            let dot3_token = span!(start);
+
+            let expr = self.include_in_expr(true).parse_assignment_expr()?;
+
+            return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
+        }
 
         if eat!('*') {
             let span_of_gen = span!(start);
@@ -101,10 +110,10 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                     Some(span_of_gen),
                 )
                 .map(|function| {
-                    Prop::Method(MethodProp {
+                    PropOrSpread::Prop(box Prop::Method(MethodProp {
                         key: name,
                         function,
-                    })
+                    }))
                 });
         }
 
@@ -116,14 +125,18 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
         // { a: expr, }
         if eat!(':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
-            return Ok(Prop::KeyValue(KeyValueProp { key, value }));
+            return Ok(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                key,
+                value,
+            })));
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self
                 .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
-                .map(|function| Prop::Method(MethodProp { key, function }));
+                .map(|function| box Prop::Method(MethodProp { key, function }))
+                .map(PropOrSpread::Prop);
         }
 
         let ident = match key {
@@ -141,9 +154,12 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
             if eat!('=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
-                return Ok(Prop::Assign(AssignProp { key: ident, value }));
+                return Ok(PropOrSpread::Prop(box Prop::Assign(AssignProp {
+                    key: ident,
+                    value,
+                })));
             }
-            return Ok(ident.into());
+            return Ok(PropOrSpread::Prop(box Prop::from(ident)));
         }
 
         // get a(){}
@@ -158,11 +174,11 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                     js_word!("get") => self
                         .parse_fn_args_body(start, |_| Ok(vec![]), None, None)
                         .map(|Function { body, .. }| {
-                            Prop::Getter(GetterProp {
+                            PropOrSpread::Prop(box Prop::Getter(GetterProp {
                                 span: span!(start),
                                 key,
                                 body,
-                            })
+                            }))
                         }),
                     js_word!("set") => self
                         .parse_fn_args_body(
@@ -173,12 +189,12 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                         )
                         .map(|Function { params, body, .. }| {
                             assert_eq!(params.len(), 1);
-                            Prop::Setter(SetterProp {
+                            PropOrSpread::Prop(box Prop::Setter(SetterProp {
                                 span: span!(start),
                                 key,
                                 body,
                                 param: params.into_iter().next().unwrap(),
-                            })
+                            }))
                         }),
                     js_word!("async") => self
                         .parse_fn_args_body(
@@ -187,7 +203,9 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             Some(ident.span),
                             None,
                         )
-                        .map(|function| Prop::Method(MethodProp { key, function })),
+                        .map(|function| {
+                            PropOrSpread::Prop(box Prop::Method(MethodProp { key, function }))
+                        }),
                     _ => unreachable!(),
                 };
             }

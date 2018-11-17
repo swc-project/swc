@@ -86,7 +86,7 @@ pub fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
     F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Ret,
 {
-    ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, input)))
+    ::with_test_sess(s, |sess, input| Ok(f(&mut Parser::new(sess, input)))).unwrap()
 }
 
 #[test]

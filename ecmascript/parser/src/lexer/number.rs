@@ -284,8 +284,9 @@ mod tests {
     {
         ::with_test_sess(s, |sess, fm| {
             let mut l = Lexer::new(sess, fm.into());
-            f(&mut l)
+            Ok(f(&mut l))
         })
+        .unwrap()
     }
 
     fn num(s: &'static str) -> f64 {
@@ -372,8 +373,9 @@ mod tests {
                 ::with_test_sess(case, |mut sess, input| {
                     let mut l = Lexer::new(sess, input);
                     l.ctx.strict = strict;
-                    l.map(|ts| ts.token).collect::<Vec<_>>()
+                    Ok(l.map(|ts| ts.token).collect::<Vec<_>>())
                 })
+                .unwrap()
             });
 
             if success {
