@@ -150,6 +150,12 @@ pub struct ForInStmt {
 #[ast_node]
 pub struct ForOfStmt {
     pub span: Span,
+    /// Span of the await token.
+    ///
+    /// es2018
+    ///
+    /// for-await-of statements, e.g., `for await (const x of xs) {`
+    pub await_token: Option<Span>,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
@@ -167,7 +173,11 @@ pub struct SwitchCase {
 #[ast_node]
 pub struct CatchClause {
     pub span: Span,
-    pub param: Pat,
+    /// es2019
+    ///
+    /// The param is null if the catch binding is omitted. E.g., try { foo() }
+    /// catch { bar() }
+    pub param: Option<Pat>,
 
     pub body: BlockStmt,
 }

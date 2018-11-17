@@ -73,31 +73,22 @@ pub struct Session<'a> {
 }
 
 #[cfg(test)]
-fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Ret
+fn with_test_sess<F, Ret>(src: &'static str, f: F) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(Session, SourceFileInput) -> Ret,
+    F: FnOnce(Session, SourceFileInput) -> Result<Ret, ()>,
 {
-    use std::rc::Rc;
-    use swc_common::{FileName, FilePathMapping, SourceMap};
+    use swc_common::FileName;
 
-    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
-    let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
+    ::testing::run_test(|logger, cm, handler| {
+        let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
-    let handler = ::swc_common::errors::Handler::with_tty_emitter(
-        ::swc_common::errors::ColorConfig::Auto,
-        true,
-        false,
-        Some(cm),
-    );
-
-    let logger = ::testing::logger().new(o!("src" => src));
-
-    f(
-        Session {
-            handler: &handler,
-            logger: &logger,
-            cfg: Default::default(),
-        },
-        (&*fm).into(),
-    )
+        f(
+            Session {
+                handler: &handler,
+                logger: &logger,
+                cfg: Default::default(),
+            },
+            (&*fm).into(),
+        )
+    })
 }

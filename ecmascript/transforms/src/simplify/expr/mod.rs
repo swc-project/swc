@@ -973,24 +973,27 @@ where
 
             Expr::Object(ObjectLit { props, .. }) => {
                 props.into_iter().for_each(|node| match node {
-                    Prop::Shorthand(..) => return,
-                    Prop::KeyValue(KeyValueProp { key, value }) => {
-                        match key {
+                    PropOrSpread::Prop(box node) => match node {
+                        Prop::Shorthand(..) => return,
+                        Prop::KeyValue(KeyValueProp { key, value }) => {
+                            match key {
+                                PropName::Computed(e) => add_effects(v, e),
+                                _ => {}
+                            }
+
+                            add_effects(v, value)
+                        }
+                        Prop::Getter(GetterProp { key, .. })
+                        | Prop::Setter(SetterProp { key, .. })
+                        | Prop::Method(MethodProp { key, .. }) => match key {
                             PropName::Computed(e) => add_effects(v, e),
                             _ => {}
+                        },
+                        Prop::Assign(..) => {
+                            unreachable!("assign property in object literal is not a valid syntax")
                         }
-
-                        add_effects(v, value)
-                    }
-                    Prop::Getter(GetterProp { key, .. })
-                    | Prop::Setter(SetterProp { key, .. })
-                    | Prop::Method(MethodProp { key, .. }) => match key {
-                        PropName::Computed(e) => add_effects(v, e),
-                        _ => {}
                     },
-                    Prop::Assign(..) => {
-                        unreachable!("assign property in object literal is not a valid syntax")
-                    }
+                    PropOrSpread::Spread(SpreadElement { expr, .. }) => add_effects(v, expr),
                 })
             }
 

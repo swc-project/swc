@@ -409,11 +409,11 @@ impl Classes {
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
-                            mk_prop_key(&m.key),
-                            Prop::KeyValue(KeyValueProp {
+                            PropOrSpread::Prop(box mk_prop_key(&m.key)),
+                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("value")),
                                 value,
-                            }),
+                            })),
                         ],
                     }));
                 }

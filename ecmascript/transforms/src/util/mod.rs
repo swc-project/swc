@@ -522,17 +522,20 @@ pub trait ExprExt {
                     || alt.may_have_side_effects()
             }
 
-            Expr::Object(ObjectLit { ref props, .. }) => props.iter().any(|node| match *node {
-                Prop::Shorthand(..) => false,
-                Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
-                    let k = match *key {
-                        PropName::Computed(ref e) => e.may_have_side_effects(),
-                        _ => false,
-                    };
+            Expr::Object(ObjectLit { ref props, .. }) => props.iter().any(|node| match node {
+                PropOrSpread::Prop(box node) => match *node {
+                    Prop::Shorthand(..) => false,
+                    Prop::KeyValue(KeyValueProp { ref key, ref value }) => {
+                        let k = match *key {
+                            PropName::Computed(ref e) => e.may_have_side_effects(),
+                            _ => false,
+                        };
 
-                    k || value.may_have_side_effects()
-                }
-                _ => true,
+                        k || value.may_have_side_effects()
+                    }
+                    _ => true,
+                },
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(),
             }),
         }
     }

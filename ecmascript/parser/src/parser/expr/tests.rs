@@ -1,5 +1,5 @@
 use super::*;
-use swc_common::DUMMY_SP;
+use swc_common::DUMMY_SP as span;
 
 fn lhs(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
@@ -37,9 +37,6 @@ fn expr(s: &'static str) -> Box<Expr> {
     })
 }
 
-#[allow(non_upper_case_globals)]
-const span: Span = DUMMY_SP;
-
 #[test]
 fn arrow_assign() {
     assert_eq_ignore_span!(
@@ -55,6 +52,39 @@ fn arrow_assign() {
             ),
             op: op!("="),
             right: expr("b => false"),
+        })
+    );
+}
+
+#[test]
+fn object_rest() {
+    assert_eq_ignore_span!(
+        expr("{a, ...foo, b}"),
+        box Expr::Object(ObjectLit {
+            span,
+            props: vec![
+                PropOrSpread::Prop(
+                    box Ident {
+                        span,
+                        sym: "a".into()
+                    }
+                    .into()
+                ),
+                PropOrSpread::Spread(SpreadElement {
+                    dot3_token: span,
+                    expr: box Expr::Ident(Ident {
+                        span,
+                        sym: "foo".into(),
+                    })
+                }),
+                PropOrSpread::Prop(
+                    box Ident {
+                        span,
+                        sym: "b".into()
+                    }
+                    .into()
+                ),
+            ]
         })
     );
 }
@@ -138,7 +168,7 @@ fn arrow_fn_rest() {
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
                 dot3_token: span,
-                pat: box Pat::Ident(Ident {
+                arg: box Pat::Ident(Ident {
                     span,
                     sym: "a".into(),
                 }),

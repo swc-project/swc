@@ -393,11 +393,15 @@ impl<'a, I: Input> Parser<'a, I> {
         }))
     }
 
-    fn parse_catch_param(&mut self) -> PResult<'a, Pat> {
-        expect!('(');
-        let pat = self.parse_binding_pat_or_ident()?;
-        expect!(')');
-        Ok(pat)
+    /// It's optinal since es2019
+    fn parse_catch_param(&mut self) -> PResult<'a, Option<Pat>> {
+        if eat!('(') {
+            let pat = self.parse_binding_pat_or_ident()?;
+            expect!(')');
+            Ok(Some(pat))
+        } else {
+            Ok(None)
+        }
     }
 
     fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<'a, VarDecl> {
@@ -555,6 +559,11 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         assert_and_bump!("for");
+        let await_token = if eat!("await") {
+            Some(span!(start))
+        } else {
+            None
+        };
         expect!('(');
         let head = self.parse_for_head()?;
         expect!(')');
@@ -562,21 +571,34 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let span = span!(start);
         Ok(match head {
-            ForHead::For { init, test, update } => Stmt::For(ForStmt {
-                span,
-                init,
-                test,
-                update,
-                body,
-            }),
-            ForHead::ForIn { left, right } => Stmt::ForIn(ForInStmt {
-                span,
-                left,
-                right,
-                body,
-            }),
+            ForHead::For { init, test, update } => {
+                if let Some(await_token) = await_token {
+                    syntax_error!(await_token, SyntaxError::AwaitForStmt);
+                }
+
+                Stmt::For(ForStmt {
+                    span,
+                    init,
+                    test,
+                    update,
+                    body,
+                })
+            }
+            ForHead::ForIn { left, right } => {
+                if let Some(await_token) = await_token {
+                    syntax_error!(await_token, SyntaxError::AwaitForStmt);
+                }
+
+                Stmt::ForIn(ForInStmt {
+                    span,
+                    left,
+                    right,
+                    body,
+                })
+            }
             ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
                 span,
+                await_token,
                 left,
                 right,
                 body,
@@ -705,7 +727,7 @@ impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use swc_common::DUMMY_SP;
+    use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, |p| {
@@ -724,9 +746,6 @@ mod tests {
         })
     }
 
-    #[allow(non_upper_case_globals)]
-    const span: Span = DUMMY_SP;
-
     #[test]
     fn expr_stmt() {
         assert_eq_ignore_span!(stmt("a + b + c"), Stmt::Expr(expr("a + b + c")))
@@ -738,6 +757,35 @@ mod tests {
             Stmt::Throw(ThrowStmt {
                 span,
                 arg: expr("this"),
+            })
+        )
+    }
+
+    #[test]
+    fn await_for_of() {
+        assert_eq_ignore_span!(
+            stmt("for await (const a of b) ;"),
+            Stmt::ForOf(ForOfStmt {
+                span,
+                await_token: Some(span),
+                left: VarDeclOrPat::VarDecl(VarDecl {
+                    span,
+                    kind: VarDeclKind::Const,
+                    decls: vec![VarDeclarator {
+                        span,
+                        init: None,
+                        name: Pat::Ident(Ident {
+                            span,
+                            sym: "a".into()
+                        })
+                    }],
+                }),
+                right: box Expr::Ident(Ident {
+                    span,
+                    sym: "b".into()
+                }),
+
+                body: box Stmt::Empty(EmptyStmt { span })
             })
         )
     }

@@ -4,6 +4,7 @@
 
 extern crate slog;
 extern crate swc_common;
+extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
@@ -14,7 +15,8 @@ use std::{
     path::Path,
 };
 use swc_common::{FileName, Fold, FoldWith, Span};
-use swc_ecma_parser::{ast::*, PResult, Parser, Session, SourceFileInput};
+use swc_ecma_ast::*;
+use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::{NormalizedOutput, StdErr};
 
@@ -85,6 +87,8 @@ fn add_test<F: FnOnce() + Send + 'static>(
 
 fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
+        // Old (wrong) tests
+        "569a2c1bad3beeb2.js",
         // Wrong tests
         "0d5e450f1da8a92a.js",
         "346316bef54d805a.js",

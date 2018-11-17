@@ -34,12 +34,18 @@ pub struct Diff {
 /// slashes (/) (for Windows) - All CR LF newlines are converted to LF
 ///
 /// - `normalize-stdout` is not implemented (yet?).
-#[derive(Debug, Clone, Ord, PartialOrd, PartialEq, Eq, Default, Hash)]
+#[derive(Clone, Ord, PartialOrd, PartialEq, Eq, Default, Hash)]
 pub struct NormalizedOutput(String);
 
 impl fmt::Display for NormalizedOutput {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        self.0.fmt(f)
+        fmt::Display::fmt(&self.0, f)
+    }
+}
+
+impl fmt::Debug for NormalizedOutput {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Display::fmt(&self.0, f)
     }
 }
 

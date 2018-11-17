@@ -82,7 +82,22 @@ pub struct ArrayLit {
 #[ast_node]
 pub struct ObjectLit {
     pub span: Span,
-    pub props: Vec<Prop>,
+    pub props: Vec<PropOrSpread>,
+}
+
+#[ast_node]
+pub enum PropOrSpread {
+    Prop(Box<Prop>),
+    /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
+    Spread(SpreadElement),
+}
+
+#[ast_node]
+pub struct SpreadElement {
+    #[span(lo)]
+    pub dot3_token: Span,
+    #[span(hi)]
+    pub expr: Box<Expr>,
 }
 
 #[ast_node]
@@ -212,7 +227,7 @@ pub struct TplLit {
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
-    pub cooked: bool,
+    pub cooked: Option<String>,
     pub raw: String,
 }
 
