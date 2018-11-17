@@ -396,7 +396,6 @@ impl<'a, I: Input> Parser<'a, I> {
     /// It's optinal since es2019
     fn parse_catch_param(&mut self) -> PResult<'a, Option<Pat>> {
         if eat!('(') {
-            expect!('(');
             let pat = self.parse_binding_pat_or_ident()?;
             expect!(')');
             Ok(Some(pat))
