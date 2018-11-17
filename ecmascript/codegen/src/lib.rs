@@ -23,7 +23,7 @@ use self::{
 };
 use std::{collections::HashSet, io, rc::Rc};
 use swc_atoms::JsWord;
-use swc_common::{pos::SyntaxContext, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
+use swc_common::{BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 

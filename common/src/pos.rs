@@ -1,5 +1,4 @@
 use fold::FoldWith;
-pub use swc_macros::Spanned;
 pub use syntax_pos::{
     hygiene, BytePos, ExpnFormat, ExpnInfo, FileName, Globals, Mark, MultiSpan, SourceFile, Span,
     SpanData, SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,

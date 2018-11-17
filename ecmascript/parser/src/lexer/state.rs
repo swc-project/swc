@@ -1,4 +1,5 @@
 use super::{Input, Lexer};
+use enum_kind::Kind;
 use slog::Logger;
 use swc_common::BytePos;
 use token::*;

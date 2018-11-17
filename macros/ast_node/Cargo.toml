@@ -19,5 +19,4 @@ features = ["derive", "fold", "parsing", "printing"]
 
 
 [dev-dependencies]
-swc_macros = { path = "../" }
 swc_common = { path = "../../common" }

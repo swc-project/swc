@@ -15,10 +15,9 @@ extern crate swc_ecma_parser_macros as parser_macros;
 extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
+extern crate enum_kind;
 extern crate swc_common;
 extern crate swc_ecma_ast as ast;
-#[macro_use]
-extern crate swc_macros;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;

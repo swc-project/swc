@@ -4,10 +4,10 @@ version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
+ast_node = { path = "../macros/ast_node" }
 string_cache = "0.7"
 either = "1.5"
 rustc-ap-rustc_errors = "297"
 rustc-ap-rustc_data_structures = "297"
 rustc-ap-syntax = "297"
 rustc-ap-syntax_pos = "297"
-swc_macros = { path = "../macros" }

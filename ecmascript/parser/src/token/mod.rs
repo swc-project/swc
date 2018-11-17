@@ -4,6 +4,7 @@
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*, Word::*};
 pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::{BinaryOp, Str};
+use enum_kind::Kind;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Fold, Span};

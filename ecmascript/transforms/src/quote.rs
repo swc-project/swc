@@ -28,7 +28,7 @@ macro_rules! mark {
     ($span:expr) => {{
         let mut span = $span;
         let parent = span.remove_mark();
-        $span.apply_mark(::swc_common::pos::Mark::fresh(parent))
+        $span.apply_mark(::swc_common::hygiene::Mark::fresh(parent))
     }};
 }
 

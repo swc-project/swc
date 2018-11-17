@@ -1,6 +1,6 @@
 use super::{ClassExpr, Decl, Expr, FnExpr, Ident, Str, VarDecl};
 use swc_common::Span;
-use swc_macros::ast_node;
+use swc_common::ast_node;
 
 #[ast_node]
 pub enum ModuleDecl {

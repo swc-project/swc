@@ -68,11 +68,12 @@ pub fn ast_node(
     let mut item = Quote::new(Span::call_site());
     item = match input.data {
         Data::Enum(..) => item.quote_with(smart_quote!(Vars { input }, {
-            #[derive(FromVariant, Spanned, Fold, Clone, Debug, PartialEq)]
+            #[derive(::swc_common::FromVariant, ::swc_common::Spanned,
+            ::swc_common::Fold, Clone, Debug, PartialEq)]
             input
         })),
         _ => item.quote_with(smart_quote!(Vars { input }, {
-            #[derive(Spanned, Fold, Clone, Debug, PartialEq)]
+            #[derive(::swc_common::Spanned, ::swc_common::Fold, Clone, Debug, PartialEq)]
             input
         })),
     };

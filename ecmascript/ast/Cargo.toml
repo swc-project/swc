@@ -5,5 +5,6 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
 swc_atoms = { path = "../../atoms" }
-swc_macros = { path = "../../macros" }
 swc_common = { path = "../../common" }
+enum_kind = { path = "../../macros/enum_kind" }
+string_enum = { path = "../../macros/string_enum" }
