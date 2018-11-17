@@ -1070,8 +1070,23 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
         punct!("...");
-        emit!(node.pat);
+        emit!(node.arg);
     }
+
+    #[emitter]
+    pub fn emit_prop_or_spread(&mut self, node: &PropOrSpread) -> Result {
+        match *node {
+            PropOrSpread::Prop(ref n) => emit!(n),
+            PropOrSpread::Spread(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
+        punct!("...");
+        emit!(node.expr)
+    }
+
     #[emitter]
     pub fn emit_pat_or_expr(&mut self, node: &PatOrExpr) -> Result {
         match *node {
@@ -1116,6 +1131,7 @@ impl<'a> Emitter<'a> {
         match *node {
             ObjectPatProp::KeyValue(ref node) => emit!(node),
             ObjectPatProp::Assign(ref node) => emit!(node),
+            ObjectPatProp::Rest(ref node) => emit!(node),
         }
     }
 
@@ -1324,9 +1340,11 @@ impl<'a> Emitter<'a> {
 
         let emit_as_single_stmt = node.cons.len() == 1 && {
             // treat synthesized nodes as located on the same line for emit purposes
-            node.is_synthesized() || node.cons[0].is_synthesized() || self
-                .cm
-                .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
+            node.is_synthesized()
+                || node.cons[0].is_synthesized()
+                || self
+                    .cm
+                    .is_on_same_line(node.span().lo(), node.cons[0].span().lo())
         };
 
         let mut format = ListFormat::CaseOrDefaultClauseStatements;
@@ -1529,11 +1547,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         | Expr::Unary(UnaryExpr {
             op: op!(unary, "+"),
             ..
-        })
-            if node.op == op!(unary, "+") =>
-        {
-            true
-        }
+        }) if node.op == op!(unary, "+") => true,
         Expr::Update(UpdateExpr {
             op: op!("--"),
             prefix: true,
@@ -1542,11 +1556,7 @@ fn should_emit_whitespace_before_operand(node: &UnaryExpr) -> bool {
         | Expr::Unary(UnaryExpr {
             op: op!(unary, "-"),
             ..
-        })
-            if node.op == op!(unary, "-") =>
-        {
-            true
-        }
+        }) if node.op == op!(unary, "-") => true,
         _ => false,
     }
 }

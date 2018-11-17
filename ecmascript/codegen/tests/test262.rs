@@ -4,6 +4,7 @@
 extern crate slog;
 extern crate sourcemap;
 extern crate swc_common;
+extern crate swc_ecma_ast;
 extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
 extern crate test;
@@ -18,8 +19,9 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{Fold, FoldWith, Span};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{ast::*, Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::NormalizedOutput;
 
