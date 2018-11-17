@@ -1,7 +1,6 @@
 use ast::*;
 use std::{
     ops::BitOr,
-    rc::Rc,
     sync::{
         atomic::{AtomicBool, Ordering},
         Arc,
@@ -9,6 +8,7 @@ use std::{
 };
 use swc_common::{
     errors::{ColorConfig, Handler},
+    sync::Lrc,
     FileName, Fold, SourceMap,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
@@ -49,7 +49,7 @@ impl<'a> BitOr<&'a Helpers> for Helpers {
 }
 
 pub struct InjectHelpers {
-    pub cm: Rc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     pub helpers: Arc<Helpers>,
 }
 

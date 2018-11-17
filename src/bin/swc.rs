@@ -14,11 +14,10 @@ use std::{
     error::Error,
     io::{self, Write},
     path::Path,
-    rc::Rc,
     sync::Arc,
 };
 use swc::{
-    common::{errors::Handler, FilePathMapping, Fold, SourceMap},
+    common::{errors::Handler, sync::Lrc, FilePathMapping, Fold, SourceMap},
     ecmascript::{ast::Module, codegen},
     Compiler,
 };
@@ -70,7 +69,7 @@ fn run() -> Result<(), Box<Error>> {
         .build_global()
         .expect("failed to configure rayon::ThreadPool");
 
-    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
     let handler = Handler::with_tty_emitter(
         swc::common::errors::ColorConfig::Always,
@@ -110,7 +109,7 @@ fn run() -> Result<(), Box<Error>> {
     Ok(())
 }
 
-fn js_pass(cm: Rc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
+fn js_pass(cm: Lrc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
     use swc::ecmascript::transforms::{compat, simplifier};
     let helpers = Arc::new(compat::helpers::Helpers::default());
 

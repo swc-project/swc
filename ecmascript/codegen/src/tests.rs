@@ -19,7 +19,7 @@ impl Handlers for Noop {}
 
 struct Builder {
     cfg: Config,
-    cm: Rc<SourceMap>,
+    cm: Lrc<SourceMap>,
 }
 
 fn test() -> Builder {
@@ -27,7 +27,7 @@ fn test() -> Builder {
 
     Builder {
         cfg: Default::default(),
-        cm: Rc::new(src),
+        cm: Lrc::new(src),
     }
 }
 
