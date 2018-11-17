@@ -24,9 +24,12 @@ RUSTFLAGS='--cfg procmacro2_semver_exempt --cfg parallel_queries' cargo install 
 New generation javascript to old-days javascript.
 
  - es3
-    - [x] member expression literals
-    - [x] peroperty literals
-    - [ ] reserved words
+    - [x] member-expression-literals
+    - [x] property-literals
+    - [ ] reserved-words
+
+ - es5
+    - [ ] property-mutators
 
  - es2015
     - [ ] arrow-functions
@@ -51,13 +54,12 @@ New generation javascript to old-days javascript.
     - [ ] unicode-regex
 
  - es2016
-    - [x] operator `**`
+    - [x] exponentiation-operator
 
  - es2017
     - [ ] async-to-generator
 
  - es2018
-    - [ ] parser
     - [ ] async-generator-functions
     - [ ] dotall-regex
     - [ ] object-rest-spread
