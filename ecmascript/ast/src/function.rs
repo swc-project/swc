@@ -1,6 +1,5 @@
 use super::{BlockStmt, Pat};
-use swc_common::Span;
-use swc_macros::ast_node;
+use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
 #[ast_node]

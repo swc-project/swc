@@ -8,10 +8,12 @@
 #![deny(unreachable_pub)]
 #![deny(variant_size_differences)]
 
+#[macro_use]
+extern crate enum_kind;
+#[macro_use]
+extern crate string_enum;
 extern crate swc_atoms;
 extern crate swc_common;
-#[macro_use]
-extern crate swc_macros;
 
 pub use self::{
     class::{Class, ClassMethod, ClassMethodKind},
@@ -43,8 +45,7 @@ pub use self::{
 };
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
-use swc_common::Span;
-use swc_macros::Fold;
+use swc_common::{Fold, Span, Spanned};
 
 mod class;
 mod decl;

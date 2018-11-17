@@ -1,5 +1,5 @@
+use ast::*;
 use swc_common::{Fold, FoldWith};
-use swc_ecma_ast::*;
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct TemplateLiteral;

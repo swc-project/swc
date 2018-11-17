@@ -3,25 +3,31 @@
 #![feature(try_trait)]
 #![feature(never_type)]
 #![feature(specialization)]
+extern crate ast_node;
 extern crate either;
 extern crate rustc_data_structures;
 extern crate rustc_errors;
 extern crate string_cache;
-extern crate swc_macros;
 extern crate syntax;
 extern crate syntax_pos;
 
 pub use self::{
-    ast_node::AstNode,
     errors::{SourceMapper, SourceMapperDyn},
     fold::{Fold, FoldWith},
     pos::*,
 };
+pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
+use std::fmt::Debug;
 pub use syntax::source_map::{
     FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError,
 };
-mod ast_node;
+
+/// A marker trait for ast nodes.
+pub trait AstNode: Debug + PartialEq + Clone + Spanned {}
+
+impl<N: Debug + PartialEq + Clone + Spanned> AstNode for N {}
+
 pub mod errors;
 mod fold;
 pub mod macros;
-pub mod pos;
+mod pos;

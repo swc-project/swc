@@ -1,7 +1,7 @@
 use super::{list::ListFormat, Emitter, Result};
-use ecma_codegen_macros::emitter;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
+use swc_ecma_codegen_macros::emitter;
 
 impl<'a> Emitter<'a> {
     #[emitter]

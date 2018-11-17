@@ -6,7 +6,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
-use swc_ecma_ast::*;
+use ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 

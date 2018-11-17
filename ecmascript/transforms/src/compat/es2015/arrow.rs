@@ -1,5 +1,5 @@
+use ast::*;
 use swc_common::{Fold, FoldWith};
-use swc_ecma_ast::*;
 
 /// Compile ES2015 arrow functions to ES5
 ///

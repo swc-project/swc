@@ -1,8 +1,7 @@
 use super::{
     AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp, UpdateOp,
 };
-use swc_common::{Span, Spanned};
-use swc_macros::ast_node;
+use swc_common::{ast_node, Fold, Span, Spanned};
 
 #[ast_node]
 pub enum Expr {

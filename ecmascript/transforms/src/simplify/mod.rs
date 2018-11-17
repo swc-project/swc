@@ -1,8 +1,8 @@
 //! Ported from closure compiler.
 use self::expr::SimplifyExpr;
+use ast::*;
 use crate::util::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
-use swc_ecma_ast::*;
 
 mod expr;
 #[cfg(test)]

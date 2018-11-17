@@ -3,7 +3,6 @@
 #![feature(specialization)]
 
 extern crate swc_common;
-extern crate swc_macros;
 use std::fmt::Debug;
 use swc_common::{AstNode, Fold};
 

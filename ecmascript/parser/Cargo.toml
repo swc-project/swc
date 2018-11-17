@@ -5,10 +5,10 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 
 [dependencies]
 swc_atoms = { path = "../../atoms" }
-swc_macros = { path = "../../macros" }
 swc_common = { path = "../../common" }
 swc_ecma_ast = { path = "../ast" }
-parser_macros = { path = "../parser_macros" }
+swc_ecma_parser_macros = { path = "./macros" }
+enum_kind = { path = "../../macros/enum_kind" }
 unicode-xid = "0.1"
 slog = "2.1"
 either = { version = "1.4" }

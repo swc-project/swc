@@ -1,4 +1,6 @@
-use swc_macros::{Fold, Kind, StringEnum};
+use enum_kind::Kind;
+use string_enum::StringEnum;
+use swc_common::Fold;
 
 #[derive(Kind, Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
 #[kind(function(precedence = "u8"))]

@@ -1,6 +1,6 @@
+use ast::*;
 use crate::util::ExprFactory;
 use swc_common::{Fold, FoldWith, Spanned};
-use swc_ecma_ast::*;
 
 pub fn fixer() -> impl Fold<Module> {
     Fixer

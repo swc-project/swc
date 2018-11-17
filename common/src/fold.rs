@@ -1,6 +1,5 @@
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
-pub use swc_macros::Fold;
 
 /// Folder based on a type system.
 ///

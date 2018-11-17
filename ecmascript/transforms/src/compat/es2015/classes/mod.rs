@@ -4,7 +4,7 @@ use std::{
     sync::{atomic::Ordering, Arc},
 };
 use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
+use ast::*;
 
 #[cfg(test)]
 mod tests;
@@ -351,7 +351,7 @@ impl Classes {
 
         fn mk_arg_obj_for_create_class(props: Vec<Expr>) -> ExprOrSpread {
             if props.is_empty() {
-                return expr!(DUMMY_SP, null).as_arg();
+                return quote_expr!(DUMMY_SP, null).as_arg();
             }
             Expr::Array(ArrayLit {
                 span: DUMMY_SP,
