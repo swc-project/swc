@@ -29,14 +29,40 @@ New generation javascript to old-days javascript.
     - [ ] reserved words
 
  - es2015
+    - [ ] arrow-functions
+    - [ ] block-scoped-functions
+    - [ ] block-scoping
     - [x] classes
-    - [x] shorthand property
-    - [x] spread element
+    - [ ] computed-properties
+    - [ ] destructuring
+    - [ ] duplicate-keys
+    - [ ] for-of
+    - [ ] function-name
+    - [ ] instanceof
+    - [ ] literals
+    - [ ] new-target
+    - [ ] object-super
+    - [ ] parameters
+    - [x] shorthand-properties
+    - [x] spread
     - [x] sticky regex (`y` flag)
+    - [ ] template-literals
+    - [ ] typeof-symbol
+    - [ ] unicode-regex
 
  - es2016
     - [x] operator `**`
 
+ - es2017
+    - [ ] async-to-generator
+
+ - es2018
+    - [ ] parser
+    - [ ] async-generator-functions
+    - [ ] dotall-regex
+    - [ ] object-rest-spread
+    - [ ] optional-catch-binding
+    - [ ] unicode-property-regex
 
 # Usage
 
