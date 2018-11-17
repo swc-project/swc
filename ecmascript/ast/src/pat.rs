@@ -37,18 +37,20 @@ pub struct AssignPat {
     pub right: Box<Expr>,
 }
 
+/// EsTree `RestElement`
 #[ast_node]
 pub struct RestPat {
     #[span(lo)]
     pub dot3_token: Span,
     #[span(hi)]
-    pub pat: Box<Pat>,
+    pub arg: Box<Pat>,
 }
 
 #[ast_node]
 pub enum ObjectPatProp {
     KeyValue(KeyValuePatProp),
     Assign(AssignPatProp),
+    Rest(RestPat),
 }
 
 /// `{key: value}`
