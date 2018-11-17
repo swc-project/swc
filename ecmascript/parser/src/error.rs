@@ -120,6 +120,8 @@ pub(crate) enum SyntaxError {
     VarInitializerInForInHead,
     LabelledGenerator,
     YieldParamInGen,
+
+    AwaitForStmt,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -214,6 +216,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             VarInitializerInForInHead => "Unexpected initializer in for in/of loop".into(),
             LabelledGenerator => "Generator cannot be labelled".into(),
             YieldParamInGen => "'yield' cannot be used as a parameter within generator".into(),
+            AwaitForStmt => "for await syntax is valid only for for-of statement".into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);
