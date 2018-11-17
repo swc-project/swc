@@ -8,9 +8,9 @@
 
 #[macro_use]
 extern crate bitflags;
-extern crate ecma_codegen_macros;
 extern crate sourcemap;
 extern crate swc_atoms;
+extern crate swc_ecma_codegen_macros;
 #[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -21,11 +21,11 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use ecma_codegen_macros::emitter;
 use std::{collections::HashSet, io, rc::Rc};
 use swc_atoms::JsWord;
 use swc_common::{pos::SyntaxContext, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_codegen_macros::emitter;
 
 #[macro_use]
 pub mod macros;

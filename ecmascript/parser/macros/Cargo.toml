@@ -1,5 +1,5 @@
 [package]
-name = "parser_macros"
+name = "swc_ecma_parser_macros"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 
@@ -7,7 +7,7 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 proc-macro = true
 
 [dependencies]
-swc_macros_common = { path = "../../macros/common" }
+swc_macros_common = { path = "../../../macros/common" }
 proc-macro2 = "0.4.4"
 
 [dependencies.syn]

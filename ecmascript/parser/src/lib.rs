@@ -10,7 +10,7 @@
 #![deny(unsafe_code)]
 
 extern crate either;
-extern crate parser_macros;
+extern crate swc_ecma_parser_macros as parser_macros;
 #[macro_use]
 extern crate slog;
 #[macro_use(js_word)]
