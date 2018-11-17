@@ -1,5 +1,5 @@
+use ast::Module;
 use swc_common::Fold;
-use swc_ecma_ast::Module;
 
 pub use self::{
     member_expr_lits::MemberExprLit, prop_lits::PropertyLiteral, reserved_word::ReservedWord,

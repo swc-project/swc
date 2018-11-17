@@ -1,5 +1,5 @@
 use swc_common::{Fold, FoldWith};
-use swc_ecma_ast::*;
+use ast::*;
 
 /// babel: `transform-property-literals`
 ///

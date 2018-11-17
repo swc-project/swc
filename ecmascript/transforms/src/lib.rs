@@ -7,21 +7,20 @@
 
 #[macro_use]
 extern crate slog;
-#[macro_use]
+#[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate swc_common;
-extern crate swc_ecma_ast;
+extern crate swc_ecma_ast as ast;
 #[cfg(test)]
 extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
 #[cfg(test)]
 #[macro_use]
 extern crate pretty_assertions;
-#[macro_use]
-#[cfg(test)]
-extern crate testing;
 #[cfg(test)]
 extern crate sourcemap;
+#[cfg(test)]
+extern crate testing;
 
 pub use self::simplify::simplifier;
 

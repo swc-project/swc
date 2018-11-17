@@ -9,6 +9,7 @@ pub use self::{
     },
     Purity::{MayBeImpure, Pure},
 };
+use ast::*;
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
@@ -16,7 +17,6 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_ecma_ast::*;
 
 mod factory;
 mod value;

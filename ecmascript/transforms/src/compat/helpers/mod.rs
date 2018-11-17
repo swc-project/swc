@@ -1,3 +1,4 @@
+use ast::*;
 use std::{
     ops::BitOr,
     rc::Rc,
@@ -10,7 +11,6 @@ use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, Fold, SourceMap,
 };
-use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
 /// Tracks used helper methods. (e.g. __extends)

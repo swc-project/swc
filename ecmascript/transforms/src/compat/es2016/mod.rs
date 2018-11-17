@@ -1,6 +1,6 @@
 pub use self::exponentation::Exponentation;
+use ast::Module;
 use swc_common::Fold;
-use swc_ecma_ast::Module;
 
 mod exponentation;
 

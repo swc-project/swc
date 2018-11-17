@@ -4,9 +4,9 @@ pub use self::{
 };
 
 use super::helpers::Helpers;
+use ast::Module;
 use std::sync::Arc;
 use swc_common::Fold;
-use swc_ecma_ast::Module;
 
 mod arrow;
 mod classes;

@@ -2,7 +2,7 @@ use crate::util::*;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, Spanned};
-use swc_ecma_ast::{Ident, Lit, *};
+use ast::{Ident, Lit, *};
 
 #[cfg(test)]
 mod tests;

@@ -1,6 +1,6 @@
+use ast::*;
 use std::iter;
 use swc_common::{Span, Spanned};
-use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
 pub trait ExprFactory: Into<Expr> {

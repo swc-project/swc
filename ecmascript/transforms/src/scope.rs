@@ -1,5 +1,5 @@
 use swc_common::{Fold, FoldWith};
-use swc_ecma_ast::*;
+use ast::*;
 
 pub trait FoldScope<T> {
     /// `scope`: Scope which contains `node`.
