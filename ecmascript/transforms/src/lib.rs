@@ -23,7 +23,7 @@ extern crate sourcemap;
 #[macro_use]
 extern crate testing;
 
-pub use self::simplify::simplifier;
+pub use self::{inline_globals::InlineGlobals, simplify::simplifier};
 
 #[cfg(test)]
 #[macro_use]
@@ -32,6 +32,7 @@ mod tests;
 mod quote;
 pub mod compat;
 mod fixer;
+mod inline_globals;
 pub mod scope;
 mod simplify;
 pub mod util;
