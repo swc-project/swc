@@ -97,6 +97,17 @@ swc jsc --optimize test.js
 use(8 + 8, Math.pow(8, 8));
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). You may also find the architecture
+documentation useful ([ARCHITECTURE.md](ARCHITECTURE.md)).
+
+## License
+
+swc is primarily distributed under the terms of both the MIT license
+and the Apache License (Version 2.0).
+
+See LICENSE-APACHE and LICENSE-MIT for details.
 
 
 
