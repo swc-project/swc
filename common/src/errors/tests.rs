@@ -3,8 +3,8 @@ use crate::{FileLoader, FilePathMapping, SourceMap};
 use std::{
     io,
     path::{Path, PathBuf},
-    rc::Rc,
 };
+use sync::Lrc;
 use BytePos;
 use Span;
 
@@ -47,7 +47,7 @@ fn test() {
     let end_pos = file_map.end_pos - BytePos(1);
     let full = Span::new(start_pos, end_pos, Default::default());
 
-    let handler = Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(Rc::new(cm)));
+    let handler = Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(Lrc::new(cm)));
 
     ::syntax_pos::GLOBALS.set(&::syntax_pos::Globals::new(), || {
         DiagnosticBuilder::new_with_code(

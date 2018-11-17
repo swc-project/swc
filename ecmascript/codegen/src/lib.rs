@@ -21,9 +21,9 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{collections::HashSet, io, rc::Rc};
+use std::{collections::HashSet, io};
 use swc_atoms::JsWord;
-use swc_common::{BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -61,7 +61,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Rc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
     pub pos_of_leading_comments: HashSet<BytePos>,
@@ -1478,7 +1478,7 @@ impl<'a> Emitter<'a> {
 }
 
 fn get_text_of_node<T: Spanned>(
-    cm: &Rc<SourceMap>,
+    cm: &Lrc<SourceMap>,
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {

@@ -9,7 +9,7 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use self::{
-    common::{errors::Handler, SourceMap},
+    common::{errors::Handler, sync::Lrc, SourceMap},
     ecmascript::{
         ast::Module,
         codegen::{self, Emitter},
@@ -21,17 +21,16 @@ use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     path::Path,
-    rc::Rc,
 };
 
 pub struct Compiler {
-    cm: Rc<SourceMap>,
+    cm: Lrc<SourceMap>,
     logger: Logger,
     handler: Handler,
 }
 
 impl Compiler {
-    pub fn new(logger: Logger, cm: Rc<SourceMap>, handler: Handler) -> Self {
+    pub fn new(logger: Logger, cm: Lrc<SourceMap>, handler: Handler) -> Self {
         Compiler {
             cm,
             logger,

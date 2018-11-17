@@ -15,10 +15,9 @@ use std::{
     fs::{read_dir, File},
     io::{self, Read, Write},
     path::Path,
-    rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{Fold, FoldWith, Span};
+use swc_common::{sync::Lrc, Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
@@ -158,7 +157,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     (&*src).into(),
                 );
 
-                let s: Rc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
+                let s: Lrc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
                 let mut src_map_builder = SourceMapBuilder::new(Some(&s));
                 {
                     let mut emitter = Emitter {

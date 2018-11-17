@@ -1,10 +1,7 @@
 use super::{Result, WriteJs};
 use sourcemap::SourceMapBuilder;
-use std::{
-    io::{self, Write},
-    rc::Rc,
-};
-use swc_common::{SourceMap, Span};
+use std::io::{self, Write};
+use swc_common::{sync::Lrc, SourceMap, Span};
 
 ///
 /// -----
@@ -13,7 +10,7 @@ use swc_common::{SourceMap, Span};
 ///
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
-    cm: Rc<SourceMap>,
+    cm: Lrc<SourceMap>,
     indent: usize,
     line_start: bool,
     line_count: usize,
@@ -26,7 +23,7 @@ pub struct JsWriter<'a, W: Write> {
 
 impl<'a, W: Write> JsWriter<'a, W> {
     pub fn new(
-        cm: Rc<SourceMap>,
+        cm: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: &'a mut SourceMapBuilder,

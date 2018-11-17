@@ -1,7 +1,7 @@
 use super::list::ListFormat;
-use std::rc::Rc;
 use swc_common::{
-    errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned, SyntaxContext,
+    errors::SourceMapper, sync::Lrc, BytePos, SourceMap, SourceMapperDyn, Span, Spanned,
+    SyntaxContext,
 };
 use swc_ecma_ast::*;
 
@@ -127,12 +127,13 @@ impl SourceMapperExt for SourceMapper {
         self
     }
 }
-impl SourceMapperExt for Rc<SourceMapperDyn> {
+impl SourceMapperExt for Lrc<SourceMapperDyn> {
     fn get_code_map(&self) -> &SourceMapper {
         &**self
     }
 }
-impl SourceMapperExt for Rc<SourceMap> {
+
+impl SourceMapperExt for Lrc<SourceMap> {
     fn get_code_map(&self) -> &SourceMapper {
         &**self
     }

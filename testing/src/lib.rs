@@ -22,10 +22,9 @@ use std::{
     fs::{create_dir_all, File},
     io::{self, Write},
     path::Path,
-    rc::Rc,
     thread,
 };
-use swc_common::{errors::Handler, FilePathMapping, Fold, FoldWith, SourceMap, Span};
+use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, Fold, FoldWith, SourceMap, Span};
 
 #[macro_use]
 mod macros;
@@ -35,9 +34,9 @@ mod paths;
 
 pub fn run_test<F, Ret>(op: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce(Logger, Rc<SourceMap>, &Handler) -> Result<Ret, ()>,
+    F: FnOnce(Logger, Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
-    let cm = Rc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::errors::new_handler(cm.clone());
     let result =
         swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(logger(), cm, &handler));

@@ -1,6 +1,11 @@
 
 [build]
-rustflags = ["--cfg", "procmacro2_semver_exempt"] 
+rustflags = [
+    "--cfg", "procmacro2_semver_exempt",
+    "--cfg", "parallel_queries",
+]
+ 
 rustdocflags = [
     "--cfg", "procmacro2_semver_exempt",
+    "--cfg", "parallel_queries",
 ]
