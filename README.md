@@ -50,7 +50,7 @@ New generation javascript to old-days javascript.
     - [x] spread
     - [x] sticky regex (`y` flag)
     - [ ] template-literals
-    - [ ] typeof-symbol
+    - [x] typeof-symbol
     - [ ] unicode-regex
 
  - es2016

@@ -31,6 +31,8 @@ pub struct Helpers {
     pub get: AtomicBool,
     /// _instanceof
     pub instance_of: AtomicBool,
+    /// _typeof
+    pub type_of: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -86,6 +88,7 @@ impl InjectHelpers {
         add!("_createClass.js", &self.helpers.create_class);
         add!("_get.js", &self.helpers.get);
         add!("_instanceof.js", &self.helpers.instance_of);
+        add!("_typeof.js", &self.helpers.type_of);
 
         buf
     }
