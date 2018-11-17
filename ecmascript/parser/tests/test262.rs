@@ -87,6 +87,8 @@ fn add_test<F: FnOnce() + Send + 'static>(
 
 fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
+        // Old (wrong) tests
+        "569a2c1bad3beeb2.js",
         // Wrong tests
         "0d5e450f1da8a92a.js",
         "346316bef54d805a.js",
