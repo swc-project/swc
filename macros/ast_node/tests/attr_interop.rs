@@ -1,6 +1,5 @@
 //! Test that `#[span]` and `#[fold]` can be used at same time.
 extern crate swc_common;
-extern crate swc_macros;
 use swc_common::{ast_node, Fold, Span, Spanned};
 
 #[ast_node]

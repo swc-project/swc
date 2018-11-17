@@ -1,7 +1,6 @@
 #![feature(specialization)]
 
 extern crate swc_common;
-extern crate swc_macros;
 use swc_common::{Fold, FoldWith};
 struct MyFold;
 
