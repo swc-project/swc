@@ -1,5 +1,5 @@
 pub use self::{
-    arrow::Arrow, classes::Classes, shorthand_property::Shorthand, spread::SpreadElement,
+    arrow::Arrow, classes::Classes, shorthand_property::Shorthand, spread::Spread,
     sticky_regex::StickyRegex, template_literal::TemplateLiteral,
 };
 
@@ -20,7 +20,7 @@ pub fn es2015(helpers: Arc<Helpers>) -> impl Fold<Module> {
     Classes {
         helpers: helpers.clone(),
     }
-    .then(SpreadElement {
+    .then(Spread {
         helpers: helpers.clone(),
     })
     .then(StickyRegex)

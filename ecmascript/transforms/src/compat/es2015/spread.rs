@@ -8,11 +8,11 @@ use swc_ecma_ast::*;
 
 /// es2015 - `SpreadElement`
 #[derive(Debug, Clone, Default)]
-pub struct SpreadElement {
+pub struct Spread {
     pub helpers: Arc<Helpers>,
 }
 
-impl Fold<Expr> for SpreadElement {
+impl Fold<Expr> for Spread {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
 
@@ -175,28 +175,28 @@ mod tests {
     use super::*;
 
     test!(
-        SpreadElement::default(),
+        Spread::default(),
         call,
         "ca(a, b, c, ...d, e)",
         "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
     );
 
     test!(
-        SpreadElement::default(),
+        Spread::default(),
         call_multi_spread,
         "ca(a, b, ...d, e, f, ...h)",
         "ca.apply(undefined, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
     );
 
     test!(
-        SpreadElement::default(),
+        Spread::default(),
         call_noop,
         "ca(a, b, c, d, e)",
         "ca(a, b, c, d, e);"
     );
 
     test!(
-        SpreadElement::default(),
+        Spread::default(),
         new,
         "new C(a, b, c, ...d, e)",
         "new (Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
@@ -204,7 +204,7 @@ mod tests {
     );
 
     test!(
-        SpreadElement::default(),
+        Spread::default(),
         new_noop,
         "new C(a, b, c, c, d, e)",
         "new C(a, b, c, c, d, e);"
