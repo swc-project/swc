@@ -1,13 +1,15 @@
 use super::StdErr;
 use std::{
     io::{self, Write},
-    rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn};
+use swc_common::{
+    errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
+    sync::Lrc,
+};
 
 /// Creates a new handler for testing.
-pub(crate) fn new_handler(cm: Rc<SourceMapperDyn>) -> (Handler, BufferedError) {
+pub(crate) fn new_handler(cm: Lrc<SourceMapperDyn>) -> (Handler, BufferedError) {
     let buf: BufferedError = Default::default();
 
     let e = EmitterWriter::new(box buf.clone(), Some(cm.clone()), false, true);

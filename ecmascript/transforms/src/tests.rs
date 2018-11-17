@@ -1,12 +1,11 @@
+use ast::*;
 use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
-    rc::Rc,
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
-use ast::*;
+use swc_common::{errors::Handler, sync::Lrc, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 
@@ -15,7 +14,7 @@ struct MyHandlers;
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
-    cm: Rc<SourceMap>,
+    cm: Lrc<SourceMap>,
     logger: Logger,
     handler: &'a Handler,
 }

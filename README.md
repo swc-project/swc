@@ -15,7 +15,7 @@ swc is rust port of [babel][] and [closure compiler][].
 Requires nightly version of [rust][].
 
 ```sh
-RUSTFLAGS='--cfg procmacro2_semver_exempt' cargo install --git https://github.com/swc-project/swc.git
+RUSTFLAGS='--cfg procmacro2_semver_exempt --cfg parallel_queries' cargo install --git https://github.com/swc-project/swc.git
 ```
 
 # Features
