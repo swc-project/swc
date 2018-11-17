@@ -11,7 +11,7 @@ impl Fold<Expr> for TemplateLiteral {
         match e {
             Expr::Tpl(TplLit { .. }) => {
                 // TODO
-                unimplemented!()
+                unimplemented!("template literal")
             }
             _ => e,
         }

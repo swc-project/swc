@@ -38,7 +38,7 @@ New generation javascript to old-days javascript.
     - [ ] duplicate-keys
     - [ ] for-of
     - [ ] function-name
-    - [ ] instanceof
+    - [x] instanceof
     - [ ] literals
     - [ ] new-target
     - [ ] object-super

@@ -1,6 +1,6 @@
 pub use self::{
-    arrow::Arrow, classes::Classes, shorthand_property::Shorthand, spread::Spread,
-    sticky_regex::StickyRegex, template_literal::TemplateLiteral,
+    arrow::Arrow, classes::Classes, instanceof::InstanceOf, shorthand_property::Shorthand,
+    spread::Spread, sticky_regex::StickyRegex, template_literal::TemplateLiteral,
 };
 
 use super::helpers::Helpers;
@@ -10,6 +10,7 @@ use swc_common::Fold;
 
 mod arrow;
 mod classes;
+mod instanceof;
 mod shorthand_property;
 mod spread;
 mod sticky_regex;
@@ -25,4 +26,7 @@ pub fn es2015(helpers: Arc<Helpers>) -> impl Fold<Module> {
     })
     .then(StickyRegex)
     .then(Shorthand)
+    .then(InstanceOf {
+        helpers: helpers.clone(),
+    })
 }
