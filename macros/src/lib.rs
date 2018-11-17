@@ -2,11 +2,11 @@
 #![allow(unused_imports)]
 
 #[macro_use]
-pub extern crate ast_node;
+extern crate ast_node;
 #[macro_use]
-pub extern crate enum_kind;
+extern crate enum_kind;
 #[macro_use]
-pub extern crate string_enum;
+extern crate string_enum;
 
 pub use ast_node::*;
 pub use enum_kind::*;

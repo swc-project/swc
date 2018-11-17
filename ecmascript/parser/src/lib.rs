@@ -14,11 +14,11 @@ extern crate parser_macros;
 #[macro_use]
 extern crate slog;
 #[macro_use(js_word)]
-pub extern crate swc_atoms;
-pub extern crate swc_common;
-pub extern crate swc_ecma_ast as ast;
+extern crate swc_atoms;
+extern crate swc_common;
+extern crate swc_ecma_ast as ast;
 #[macro_use]
-pub extern crate swc_macros;
+extern crate swc_macros;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
