@@ -8,7 +8,7 @@ documentation = "https://swc-project.github.io/rustdoc/swc_common/"
 description = "Common utilities for the swc project."
 
 [dependencies]
-ast_node = { version = "0.1", path = "../macros/ast_node" }
+# ast_node = { version = "0.1", path = "../macros/ast_node" }
 string_cache = "0.7"
 either = "1.5"
 rustc-ap-rustc_errors = "297"
