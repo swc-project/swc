@@ -1,3 +1,9 @@
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/e922f1c6f6e5fdef.module.js:1:24
+  |
+1 | export default function
+  |                        ^
+
 error: Expected LParen
  --> $DIR/tests/test262-parser/fail/e922f1c6f6e5fdef.module.js:1:16
   |

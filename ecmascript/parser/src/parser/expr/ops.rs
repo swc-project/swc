@@ -206,11 +206,8 @@ mod tests {
 
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
-            p.parse_bin_expr().unwrap_or_else(|err| {
-                err.emit();
-
-                panic!("failed to parse '{}' as a binary expression", s)
-            })
+            p.parse_bin_expr()
+                .unwrap_or_else(|()| panic!("failed to parse '{}' as a binary expression", s))
         })
     }
 

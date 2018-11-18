@@ -51,13 +51,7 @@ impl Compiler {
                 logger: &logger,
                 cfg: Default::default(),
             };
-            let module = Parser::new(session, SourceFileInput::from(&*fm))
-                .parse_module()
-                .map_err(|e| {
-                    e.emit();
-                    ()
-                });
-            module
+            Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
         }
     }
 

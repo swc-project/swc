@@ -3,6 +3,10 @@ name = "swc_atoms"
 build = "build.rs"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/swc_atoms/"
+description = "Atoms for the swc project."
 
 [dependencies]
 string_cache = "0.7"

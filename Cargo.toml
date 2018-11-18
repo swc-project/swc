@@ -4,12 +4,16 @@
 name = "swc"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/swc/"
+description = "Speedy web compiler"
 
 [[bin]]
 name = "swc"
 
 [dependencies]
-libswc = { path = "./libswc" }
+libswc = { version = "0.1", path = "./libswc" }
 rayon = "1.0.3"
 slog = "2"
 slog-envlogger = "2.1"

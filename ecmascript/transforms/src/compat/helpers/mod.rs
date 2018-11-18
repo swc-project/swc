@@ -1,10 +1,7 @@
 use ast::*;
-use std::{
-    ops::BitOr,
-    sync::{
-        atomic::{AtomicBool, Ordering},
-        Arc,
-    },
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc,
 };
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -29,23 +26,10 @@ pub struct Helpers {
     pub create_class: AtomicBool,
     /// `_get`
     pub get: AtomicBool,
-}
-
-impl<'a> BitOr<&'a Helpers> for Helpers {
-    type Output = Self;
-
-    fn bitor(mut self, other: &Helpers) -> Self {
-        *self.extends.get_mut() |= other.extends.load(Ordering::SeqCst);
-        *self.to_consumable_array.get_mut() |= other.to_consumable_array.load(Ordering::SeqCst);
-        *self.class_call_check.get_mut() |= other.class_call_check.load(Ordering::SeqCst);
-        *self.inherits.get_mut() |= other.inherits.load(Ordering::SeqCst);
-        *self.possible_constructor_return.get_mut() |=
-            other.possible_constructor_return.load(Ordering::SeqCst);
-        *self.create_class.get_mut() |= other.create_class.load(Ordering::SeqCst);
-        *self.get.get_mut() |= other.get.load(Ordering::SeqCst);
-
-        self
-    }
+    /// _instanceof
+    pub instance_of: AtomicBool,
+    /// _typeof
+    pub type_of: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -76,46 +60,28 @@ impl InjectHelpers {
 
             let mut stmts = Parser::new(session, SourceFileInput::from(&*fm))
                 .parse_script()
-                .map_err(|e| {
-                    e.emit();
-                    ()
-                })
                 .unwrap();
 
             buf.append(&mut stmts);
         };
+        macro_rules! add {
+            ($name:tt,$b:expr) => {
+                add($name, &self.helpers.extends, include_str!($name));
+            };
+        }
 
-        add(
-            "_extends.js",
-            &self.helpers.extends,
-            include_str!("_extends.js"),
-        );
-        add(
-            "_toConsumableArray.js",
-            &self.helpers.to_consumable_array,
-            include_str!("_toConsumableArray.js"),
-        );
-        add(
-            "_classCallCheck.js",
-            &self.helpers.class_call_check,
-            include_str!("_classCallCheck.js"),
-        );
-        add(
-            "_inherits.js",
-            &self.helpers.inherits,
-            include_str!("_inherits.js"),
-        );
-        add(
+        add!("_extends.js", &self.helpers.extends);
+        add!("_toConsumableArray.js", &self.helpers.to_consumable_array);
+        add!("_classCallCheck.js", &self.helpers.class_call_check);
+        add!("_inherits.js", &self.helpers.inherits);
+        add!(
             "_possibleConstructorReturn.js",
-            &self.helpers.possible_constructor_return,
-            include_str!("_possibleConstructorReturn.js"),
+            &self.helpers.possible_constructor_return
         );
-        add(
-            "_createClass.js",
-            &self.helpers.create_class,
-            include_str!("_createClass.js"),
-        );
-        add("_get.js", &self.helpers.get, include_str!("_get.js"));
+        add!("_createClass.js", &self.helpers.create_class);
+        add!("_get.js", &self.helpers.get);
+        add!("_instanceof.js", &self.helpers.instance_of);
+        add!("_typeof.js", &self.helpers.type_of);
 
         buf
     }

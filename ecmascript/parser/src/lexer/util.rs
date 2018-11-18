@@ -1,12 +1,10 @@
 //! Ported from [babylon/util/identifier.js][]
 //!
-//!
-//! [babylon/util/identifier.js]:\
-//! https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-//!
-//!
 //! Note: Currently this use xid instead of id because unicode_xid crate
 //! exists.
+//!
+//!
+//! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, LexResult, Lexer};
 use error::{ErrorToDiag, SyntaxError};
 use swc_common::{BytePos, Span};

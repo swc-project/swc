@@ -1,5 +1,5 @@
-use swc_common::{Fold, FoldWith};
 use ast::*;
+use swc_common::{Fold, FoldWith};
 
 pub trait FoldScope<T> {
     /// `scope`: Scope which contains `node`.

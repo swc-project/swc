@@ -41,8 +41,8 @@ impl<'a> Tester<'a> {
     pub fn apply_transform<T: Fold<Module>>(
         &mut self,
         mut tr: T,
-        name: &'static str,
-        src: &'static str,
+        name: &str,
+        src: &str,
     ) -> Result<Module, ()> {
         let fm = self
             .cm
@@ -57,10 +57,7 @@ impl<'a> Tester<'a> {
 
             let module = {
                 let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
-                p.parse_module().map_err(|err| {
-                    err.emit();
-                    ()
-                })?
+                p.parse_module()?
             };
             // println!("parsed {} as a module\n{:?}", src, module);
 
