@@ -1,3 +1,65 @@
+//! es2019 parser
+//!
+//! # Features
+//!
+//! ## Heavily tested
+//!
+//! Passes almost all tests from [tc39/test262][].
+//!
+//! ## Error reporting
+//!
+//! ```sh
+//! error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+//!  --> invalid.js:3:10
+//!   |
+//! 3 | function yield() {
+//!   |          ^^^^^
+//! ```
+//!
+//! # Example
+//!
+//! ```
+//! #[macro_use]
+//! extern crate slog;
+//! extern crate swc_common;
+//! extern crate swc_ecma_parser;
+//! use swc_common::{
+//!     errors::{ColorConfig, Handler},
+//!     sync::Lrc,
+//!     FileName, FilePathMapping, SourceMap,
+//! };
+//! use swc_ecma_parser::{Parser, Session, SourceFileInput};
+//!
+//! fn main() {
+//!     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+//!     let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
+//!     let logger = slog::Logger::root(slog::Discard, o!());
+//!
+//!     let session = Session {
+//!         handler: &handler,
+//!         logger: &logger,
+//!         cfg: Default::default(),
+//!     };
+//!
+//!     // Real usage
+//!     // let fm = cm
+//!     //     .load_file(Path::new("test.js"))
+//!     //     .expect("failed to load test.js");
+//!
+//!     let fm = cm.new_source_file(
+//!         FileName::Custom("test.js".into()),
+//!         "function foo() {}".into(),
+//!     );
+//!
+//!     let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
+//!
+//!     let _module = parser.parse_module().expect("failed to parser module");
+//! }
+//! ```
+//!
+//!
+//! [tc39/test262]:https://github.com/tc39/test262
+
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![feature(const_fn)]
