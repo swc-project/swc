@@ -10,7 +10,7 @@ description = "Ecmascript"
 [dependencies]
 swc_ecma_ast = { version = "0.1", path ="./ast" }
 swc_ecma_codegen = { version = "0.1", path ="./codegen" }
-swc_ecma_parser = { version = "0.1", path ="./parser" }
+swc_ecma_parser = { version = "0.2", path ="./parser" }
 swc_ecma_transforms = { version = "0.1", path ="./transforms" }
 
 [dev-dependencies]

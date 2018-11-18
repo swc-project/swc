@@ -114,7 +114,7 @@ fn js_pass(cm: Lrc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
     let helpers = Arc::new(compat::helpers::Helpers::default());
 
     let pass: Box<Fold<Module>> = box compat::es2016()
-        .then(compat::es2015(helpers.clone()))
+        .then(compat::es2015(&helpers))
         .then(compat::es3())
         .then(compat::helpers::InjectHelpers {
             cm,

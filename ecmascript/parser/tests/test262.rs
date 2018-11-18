@@ -283,13 +283,7 @@ where
             (&*fm).into(),
         ));
 
-        match res {
-            Ok(res) => Ok(res),
-            Err(err) => {
-                err.emit();
-                Err(())
-            }
-        }
+        res
     });
 
     output

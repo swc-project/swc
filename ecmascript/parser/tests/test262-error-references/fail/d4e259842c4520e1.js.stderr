@@ -1,3 +1,9 @@
+error: Unexpected eof
+ --> $DIR/tests/test262-parser/fail/d4e259842c4520e1.js:1:6
+  |
+1 | 1 + (
+  |      ^
+
 error: Expected RParen
  --> $DIR/tests/test262-parser/fail/d4e259842c4520e1.js:1:5
   |

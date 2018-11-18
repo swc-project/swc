@@ -7,7 +7,7 @@ use lexer::{Input, Lexer};
 use parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
+use swc_common::{BytePos, Span};
 use token::*;
 use Context;
 use Session;
@@ -23,7 +23,8 @@ mod pat;
 mod stmt;
 mod util;
 
-pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
+/// When error ocurred, error is emiited and parser returnes Err(()).
+pub type PResult<'a, T> = Result<T, ()>;
 
 /// EcmaScript parser.
 pub struct Parser<'a, I: Input> {
@@ -95,6 +96,6 @@ fn module_legacy() {
         let res = f.parse_module();
         assert!(f.ctx().module);
         assert!(f.ctx().strict);
-        let _ = res.expect_err("!").cancel();
+        let _ = res.expect_err("!");
     });
 }

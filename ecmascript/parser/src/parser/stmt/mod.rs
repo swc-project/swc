@@ -268,10 +268,6 @@ impl<'a, I: Input> Parser<'a, I> {
         });
 
         if !self.ctx().in_function {
-            match stmt {
-                Ok(_) => {}
-                Err(e) => e.emit(),
-            }
             syntax_error!(span!(start), SyntaxError::ReturnNotAllowed)
         } else {
             stmt
@@ -731,18 +727,14 @@ mod tests {
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, |p| {
-            p.parse_stmt(true).unwrap_or_else(|err| {
-                err.emit();
-                unreachable!("failed to parse a statement")
-            })
+            p.parse_stmt(true)
+                .unwrap_or_else(|()| unreachable!("failed to parse a statement"))
         })
     }
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
-            p.parse_expr().unwrap_or_else(|err| {
-                err.emit();
-                unreachable!("failed to parse an expression")
-            })
+            p.parse_expr()
+                .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
         })
     }
 

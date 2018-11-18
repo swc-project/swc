@@ -11,7 +11,7 @@ description = "rust port of babel and closure compiler."
 swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.1", path ="../../common" }
 swc_ecma_ast = { version = "0.1", path ="../ast" }
-swc_ecma_parser = { version = "0.1", path ="../parser" }
+swc_ecma_parser = { version = "0.2", path ="../parser" }
 slog = "2"
 
 [dev-dependencies]

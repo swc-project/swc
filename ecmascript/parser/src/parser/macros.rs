@@ -147,11 +147,13 @@ macro_rules! cur {
         if is_err_token {
             match $p.input.bump() {
                 $crate::token::Token::Error(e) => {
-                    let err: Result<!, _> = Err($crate::error::ErrorToDiag {
+                    ::swc_common::errors::DiagnosticBuilder::from($crate::error::ErrorToDiag {
                         handler: &$p.session.handler,
                         span: e.span,
                         error: e.error,
-                    });
+                    })
+                    .emit();
+                    let err: Result<!, _> = Err(());
                     err?
                 }
                 _ => unreachable!(),
@@ -160,10 +162,14 @@ macro_rules! cur {
 
         match $p.input.cur() {
             Some(c) => Ok(c),
-            None => Err($crate::error::Eof {
-                last,
-                handler: &$p.session.handler,
-            }),
+            None => {
+                ::swc_common::errors::DiagnosticBuilder::from($crate::error::Eof {
+                    last,
+                    handler: &$p.session.handler,
+                })
+                .emit();
+                Err(())
+            }
         }
     }};
 }
@@ -181,11 +187,15 @@ Current token is {:?}",
         let last = Span::new(pos, pos, Default::default());
         match $p.input.peek() {
             Some(c) => Ok(c),
-            None => Err($crate::error::Eof {
-                //TODO: Use whole span
-                last,
-                handler: &$p.session.handler,
-            }),
+            None => {
+                ::swc_common::errors::DiagnosticBuilder::from($crate::error::Eof {
+                    //TODO: Use whole span
+                    last,
+                    handler: &$p.session.handler,
+                })
+                .emit();
+                Err(())
+            }
         }
     }};
 }
@@ -254,12 +264,13 @@ macro_rules! syntax_error {
     };
 
     ($p:expr, $span:expr, $err:expr) => {{
-        let err = $crate::error::ErrorToDiag {
+        ::swc_common::errors::DiagnosticBuilder::from($crate::error::ErrorToDiag {
             handler: $p.session.handler,
             span: $span,
             error: $err,
-        };
-        let res: Result<!, _> = Err(err);
+        })
+        .emit();
+        let res: Result<!, _> = Err(());
         res?
     }};
 }

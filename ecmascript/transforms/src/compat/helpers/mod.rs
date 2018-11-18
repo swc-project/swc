@@ -1,10 +1,7 @@
 use ast::*;
-use std::{
-    ops::BitOr,
-    sync::{
-        atomic::{AtomicBool, Ordering},
-        Arc,
-    },
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc,
 };
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -63,10 +60,6 @@ impl InjectHelpers {
 
             let mut stmts = Parser::new(session, SourceFileInput::from(&*fm))
                 .parse_script()
-                .map_err(|e| {
-                    e.emit();
-                    ()
-                })
                 .unwrap();
 
             buf.append(&mut stmts);

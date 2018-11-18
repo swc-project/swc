@@ -434,19 +434,15 @@ mod tests {
 
     fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
-            p.parse_lhs_expr().unwrap_or_else(|err| {
-                err.emit();
-                unreachable!("failed to parse a left-hand-side expression")
-            })
+            p.parse_lhs_expr()
+                .unwrap_or_else(|()| unreachable!("failed to parse a left-hand-side expression"))
         })
     }
 
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, |p| {
-            p.parse_expr().unwrap_or_else(|err| {
-                err.emit();
-                unreachable!("failed to parse an expression")
-            })
+            p.parse_expr()
+                .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
         })
     }
 

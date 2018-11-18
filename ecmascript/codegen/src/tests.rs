@@ -87,13 +87,7 @@ fn test_from_to(from: &str, to: &str) {
                 (&*src).into(),
             ));
 
-            match res {
-                Ok(res) => Ok(res),
-                Err(err) => {
-                    err.emit();
-                    Err(())
-                }
-            }
+            res
         })
     }
     let res = with_parser(Path::new("test.js"), from, |p| p.parse_module()).unwrap();

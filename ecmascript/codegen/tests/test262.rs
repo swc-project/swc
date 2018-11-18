@@ -175,19 +175,9 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     // Parse source
                     if module {
-                        emitter
-                            .emit_module(&parser.parse_module().map_err(|e| {
-                                e.emit();
-                                ()
-                            })?)
-                            .unwrap();
+                        emitter.emit_module(&parser.parse_module()?).unwrap();
                     } else {
-                        emitter
-                            .emit_script(&parser.parse_script().map_err(|e| {
-                                e.emit();
-                                ()
-                            })?)
-                            .unwrap();
+                        emitter.emit_script(&parser.parse_script()?).unwrap();
                     }
                 }
                 let ref_file = format!("{}", ref_dir.join(&file_name).display());
