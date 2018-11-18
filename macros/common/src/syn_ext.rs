@@ -9,7 +9,7 @@ pub trait ItemImplExt {
     /// ```rust,ignore
     /// let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
     ///
-    /// let item: Item = Quote::new(Span::def_site())
+    /// let item: Item = Quote::new(def_site::<Span>())
     ///     .quote_with(smart_quote!(
     /// Vars {
     /// Type: type_name,
@@ -27,7 +27,7 @@ pub trait ItemImplExt {
     /// You can use this like
     ///
     /// ```rust,ignore
-    // let item = Quote::new(Span::def_site())
+    // let item = Quote::new(def_site::<Span>())
     ///     .quote_with(smart_quote!(Vars { Type: type_name }, {
     ///         impl ::swc_common::AstNode for Type {}
     ///     }))

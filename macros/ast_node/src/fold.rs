@@ -104,14 +104,14 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
             let body = match *v.data() {
                 // Handle unit-like structs separately
-                Fields::Unit => box Quote::new(Span::def_site())
+                Fields::Unit => box Quote::new(def_site::<Span>())
                     .quote_with(smart_quote!(Vars { Name: qual_name }, {
                         {
                             return Name;
                         }
                     }))
                     .parse(),
-                _ => box Quote::new(Span::def_site())
+                _ => box Quote::new(def_site::<Span>())
                     .quote_with(smart_quote!(
                         Vars {
                             Name: qual_name,
@@ -148,13 +148,13 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(Span::def_site())
+        expr: box Quote::new(def_site::<Span>())
             .quote_with(smart_quote!(Vars {}, { self }))
             .parse(),
         arms,
     });
 
-    let item = Quote::new(Span::def_site())
+    let item = Quote::new(def_site::<Span>())
         .quote_with(smart_quote!(
             Vars {
                 Type: &input.ident,

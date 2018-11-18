@@ -110,7 +110,7 @@ macro_rules! test_transform {
     ($tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
         use swc_common::FoldWith;
 
-        fn run(tester: &mut crate::tests::Tester) -> Result<(), ()> {
+        crate::tests::Tester::run(|tester: &mut crate::tests::Tester| {
             let expected =
                 tester.apply_transform(crate::fixer::fixer(), "expected.js", $expected)?;
 
@@ -137,9 +137,7 @@ macro_rules! test_transform {
                 "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
                 actual_src, expected_src
             );
-            // assert_eq!(actual_src, expected_src);
-        }
-        crate::tests::Tester::run(run);
+        });
     }};
 }
 
