@@ -2,6 +2,10 @@
 name = "swc_macros_common"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/swc_macros_common/"
+description = "Common utilities for swc macros."
 
 [dependencies]
 pmutil = "0.2"

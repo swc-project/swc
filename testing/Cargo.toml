@@ -2,9 +2,13 @@
 name = "testing"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/testing/"
+description = "Testing utilities for the swc project."
 
 [dependencies]
-swc_common = { path = "../common" }
+swc_common = { version = "0.1", path ="../common" }
 slog = "2"
 slog-envlogger = "2.1"
 slog-term = "2.3"

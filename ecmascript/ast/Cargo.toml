@@ -2,9 +2,13 @@
 name = "swc_ecma_ast"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/swc_ecma_ast/"
+description = "Ecmascript ast."
 
 [dependencies]
-swc_atoms = { path = "../../atoms" }
-swc_common = { path = "../../common" }
-enum_kind = { path = "../../macros/enum_kind" }
-string_enum = { path = "../../macros/string_enum" }
+swc_atoms = { version = "0.1", path ="../../atoms" }
+swc_common = { version = "0.1", path ="../../common" }
+enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
+string_enum = { version = "0.1", path ="../../macros/string_enum" }

@@ -2,17 +2,21 @@
 name = "swc_ecma_parser"
 version = "0.1.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "Apache-2.0/MIT"
+repository = "https://github.com/swc-project/swc.git"
+documentation = "https://swc-project.github.io/rustdoc/swc_ecma_parser/"
+description = "Feature-complete es2019 parser."
 
 [dependencies]
-swc_atoms = { path = "../../atoms" }
-swc_common = { path = "../../common" }
-swc_ecma_ast = { path = "../ast" }
-swc_ecma_parser_macros = { path = "./macros" }
-enum_kind = { path = "../../macros/enum_kind" }
+swc_atoms = { version = "0.1", path ="../../atoms" }
+swc_common = { version = "0.1", path ="../../common" }
+swc_ecma_ast = { version = "0.1", path ="../ast" }
+swc_ecma_parser_macros = { version = "0.1", path ="./macros" }
+enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
 unicode-xid = "0.1"
 slog = "2.1"
 either = { version = "1.4" }
 
 
 [dev-dependencies]
-testing = { path = "../../testing" }
+testing = { version = "0.1", path ="../../testing" }
