@@ -46,7 +46,7 @@ pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenS
                 t
             });
 
-    print_item("derive(FromVariant)", item.dump())
+    print("derive(FromVariant)", item.dump())
 }
 
 /// Alias for
