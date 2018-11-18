@@ -24,7 +24,11 @@ pub fn call_site<T: FromSpan>() -> T {
 
 /// `Span::def_site().located_at(Span::call_site()).as_token()`
 pub fn def_site<T: FromSpan>() -> T {
-    Span::def_site().located_at(Span::call_site()).as_token()
+    if cfg!(procmacro2_semver_exempt) {
+        Span::def_site().located_at(Span::call_site()).as_token()
+    } else {
+        call_site()
+    }
 }
 
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node
@@ -54,11 +58,7 @@ pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
                     ref segments,
                 },
             ..
-        }
-            if segments.len() == 1 =>
-        {
-            segments.first().unwrap().into_value().ident == name
-        }
+        } if segments.len() == 1 => segments.first().unwrap().into_value().ident == name,
         _ => false,
     }
 }

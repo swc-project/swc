@@ -1,7 +1,6 @@
-use swc_macros_common::prelude::*;
-
 use input::*;
 use std::{fmt::Display, ops::AddAssign};
+use swc_macros_common::prelude::*;
 use syn::synom::Synom;
 use util::is_bool;
 
@@ -66,7 +65,7 @@ impl FnDef {
                 attrs: Default::default(),
                 lit: Lit::Bool(LitBool {
                     value: false,
-                    span: Span::def_site(),
+                    span: def_site::<Span>(),
                 }),
             }));
         }

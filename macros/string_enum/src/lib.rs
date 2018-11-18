@@ -85,7 +85,7 @@ pub fn derive_string_enum(input: proc_macro::TokenStream) -> proc_macro::TokenSt
 }
 
 fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
-    Quote::new(Span::def_site())
+    Quote::new(def_site::<Span>())
         .quote_with(smart_quote!(
             Vars {
                 Trait: trait_path,
@@ -132,7 +132,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(&v.attrs());
 
-            let body = box Quote::new(Span::def_site())
+            let body = box Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars { str_value }, { return str_value }))
                 .parse();
 
@@ -141,7 +141,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     qself: None,
                     path: qual_name,
                 }),
-                _ => box Quote::new(Span::def_site())
+                _ => box Quote::new(def_site::<Span>())
                     .quote_with(smart_quote!(Vars { qual_name }, { qual_name{..} }))
                     .parse(),
             };
@@ -173,13 +173,13 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(Span::def_site())
+        expr: box Quote::new(def_site::<Span>())
             .quote_with(smart_quote!(Vars {}, { self }))
             .parse(),
         arms,
     });
 
-    Quote::new(Span::def_site())
+    Quote::new(def_site::<Span>())
         .quote_with(smart_quote!(
             Vars {
                 Type: &i.ident,
