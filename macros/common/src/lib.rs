@@ -23,12 +23,15 @@ pub fn call_site<T: FromSpan>() -> T {
 }
 
 /// `Span::def_site().located_at(Span::call_site()).as_token()`
+#[cfg(not(procmacro2_semver_exempt))]
 pub fn def_site<T: FromSpan>() -> T {
-    if cfg!(procmacro2_semver_exempt) {
-        Span::def_site().located_at(Span::call_site()).as_token()
-    } else {
-        call_site()
-    }
+    call_site()
+}
+
+/// `Span::def_site().located_at(Span::call_site()).as_token()`
+#[cfg(procmacro2_semver_exempt)]
+pub fn def_site<T: FromSpan>() -> T {
+    Span::def_site().located_at(Span::call_site()).as_token()
 }
 
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node
