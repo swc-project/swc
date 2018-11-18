@@ -31,29 +31,32 @@
 //! use swc_ecma_parser::{Parser, Session, SourceFileInput};
 //!
 //! fn main() {
-//!     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-//!     let handler = Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
-//!     let logger = slog::Logger::root(slog::Discard, o!());
+//!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
+//!         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+//!         let handler =
+//!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
+//!         let logger = slog::Logger::root(slog::Discard, o!());
 //!
-//!     let session = Session {
-//!         handler: &handler,
-//!         logger: &logger,
-//!         cfg: Default::default(),
-//!     };
+//!         let session = Session {
+//!             handler: &handler,
+//!             logger: &logger,
+//!             cfg: Default::default(),
+//!         };
 //!
-//!     // Real usage
-//!     // let fm = cm
-//!     //     .load_file(Path::new("test.js"))
-//!     //     .expect("failed to load test.js");
+//!         // Real usage
+//!         // let fm = cm
+//!         //     .load_file(Path::new("test.js"))
+//!         //     .expect("failed to load test.js");
 //!
-//!     let fm = cm.new_source_file(
-//!         FileName::Custom("test.js".into()),
-//!         "function foo() {}".into(),
-//!     );
+//!         let fm = cm.new_source_file(
+//!             FileName::Custom("test.js".into()),
+//!             "function foo() {}".into(),
+//!         );
 //!
-//!     let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
+//!         let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
 //!
-//!     let _module = parser.parse_module().expect("failed to parser module");
+//!         let _module = parser.parse_module().expect("failed to parser module");
+//!     });
 //! }
 //! ```
 //!
