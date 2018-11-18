@@ -3,7 +3,7 @@
 #![feature(try_trait)]
 #![feature(never_type)]
 #![feature(specialization)]
-// extern crate ast_node;
+extern crate ast_node;
 extern crate either;
 extern crate rustc_data_structures;
 extern crate rustc_errors;
@@ -16,7 +16,7 @@ pub use self::{
     fold::{Fold, FoldWith},
     pos::*,
 };
-// pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
+pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
 pub use rustc_data_structures::sync;
 use std::fmt::Debug;
 pub use syntax::source_map::{
