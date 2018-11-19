@@ -44,23 +44,24 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
             let fields: Punctuated<Stmt, token::Semi> = bindings
                 .into_iter()
-                .map(|binding| {
+                .filter_map(|binding| {
                     // This closure will not be called for unit-like struct.
 
                     let value = match should_skip_field(binding.field()) {
-                        true => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
-                            Vars {
-                                binded_field: binding.name(),
-                            },
-                            { binded_field }
-                        )),
-                        false => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
-                            Vars {
-                                FieldType: &binding.field().ty,
-                                binded_field: binding.name(),
-                            },
-                            { swc_common::Visit::<FieldType>::visit(_v, binded_field,) }
-                        )),
+                        true => None,
+                        false => Some(
+                            Quote::new(def_site::<Span>())
+                                .quote_with(smart_quote!(
+                                    Vars {
+                                        FieldType: &binding.field().ty,
+                                        binded_field: binding.name(),
+                                    },
+                                    {
+                                        swc_common::Visit::<FieldType>::visit(_v, binded_field);
+                                    }
+                                ))
+                                .parse::<Stmt>(),
+                        ),
                     };
 
                     let _attrs = binding
@@ -71,12 +72,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                         .cloned()
                         .collect::<Vec<_>>();
 
-                    let v = Quote::new(def_site::<Span>())
-                        .quote_with(smart_quote!(Vars { value }, {
-                            value;
-                        }))
-                        .parse::<Stmt>();
-                    v
+                    value
                 })
                 .map(|t| Element::Punctuated(t, def_site()))
                 .collect();
@@ -122,7 +118,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         match_token: def_site(),
         brace_token: def_site(),
         expr: box Quote::new(def_site::<Span>())
-            .quote_with(smart_quote!(Vars {}, { self }))
+            .quote_with(smart_quote!(Vars {}, { *self }))
             .parse(),
         arms,
     });

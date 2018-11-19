@@ -53,6 +53,7 @@ pub struct Binder<'a> {
 }
 
 impl<'a> Binder<'a> {
+    ///
     /// - `attrs`: Attributes of the type.
     pub const fn new(ident: &'a Ident, body: &'a Data, attrs: &'a [Attribute]) -> Self {
         Binder { ident, body, attrs }
@@ -132,6 +133,7 @@ impl<'a> VariantBinder<'a> {
         }
     }
 
+    ///
     ///  - `prefix`: prefix of field binding.
     pub fn bind(
         &self,
@@ -253,14 +255,15 @@ impl<'a> VariantBinder<'a> {
 
         // if we don't need to move fields, we should match on reference to make tuple
         // work.
-        let pat = match by_ref {
-            Some(ref_token) => Pat::Ref(PatRef {
-                pat: box pat,
-                and_token: ref_token.0.as_token(),
-                mutability,
-            }),
-            None => pat,
-        };
+
+        // let pat = match by_ref {
+        //     Some(ref_token) => Pat::Ref(PatRef {
+        //         pat: box pat,
+        //         and_token: ref_token.0.as_token(),
+        //         mutability,
+        //     }),
+        //     None => pat,
+        // };
 
         (pat, bindings)
     }
