@@ -30,7 +30,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(
                     Vars { Type: &ty },
-                    (Type: swc_common::FoldWith<__Fold>)
+                    (Type: swc_common::VisitWith<__V>)
                 ))
                 .parse()
         });
@@ -40,31 +40,12 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .variants()
         .into_iter()
         .map(|v| {
-            // Qualified path of variant.
-            let qual_name = v.qual_path();
+            let (pat, bindings) = v.bind("_", Some(def_site()), None);
 
-            let (pat, bindings) = v.bind("_", None, None);
-
-            let fields: Punctuated<FieldValue, token::Comma> = bindings
+            let fields: Punctuated<Stmt, token::Semi> = bindings
                 .into_iter()
                 .map(|binding| {
                     // This closure will not be called for unit-like struct.
-
-                    let field_name: TokenStream = binding
-                        .field()
-                        .ident
-                        .as_ref()
-                        .map(|s| s.dump())
-                        .unwrap_or_else(|| {
-                            // Use index
-
-                            // call_site is important for unexported tuple fields.
-                            Index {
-                                index: binding.idx() as _,
-                                span: call_site(),
-                            }
-                            .dump()
-                        });
 
                     let value = match should_skip_field(binding.field()) {
                         true => Quote::new(def_site::<Span>()).quote_with(smart_quote!(
@@ -78,26 +59,24 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                                 FieldType: &binding.field().ty,
                                 binded_field: binding.name(),
                             },
-                            { swc_common::Fold::<FieldType>::fold(_f, binded_field,) }
+                            { swc_common::Visit::<FieldType>::visit(_v, binded_field,) }
                         )),
                     };
 
+                    let _attrs = binding
+                        .field()
+                        .attrs
+                        .iter()
+                        .filter(|attr| is_attr_name(attr, "cfg"))
+                        .cloned()
+                        .collect::<Vec<_>>();
+
                     let v = Quote::new(def_site::<Span>())
-                        .quote_with(smart_quote!(
-                            Vars { field_name, value },
-                            (field_name: value)
-                        ))
-                        .parse::<FieldValue>();
-                    FieldValue {
-                        attrs: binding
-                            .field()
-                            .attrs
-                            .iter()
-                            .filter(|attr| is_attr_name(attr, "cfg"))
-                            .cloned()
-                            .collect(),
-                        ..v
-                    }
+                        .quote_with(smart_quote!(Vars { value }, {
+                            value;
+                        }))
+                        .parse::<Stmt>();
+                    v
                 })
                 .map(|t| Element::Punctuated(t, def_site()))
                 .collect();
@@ -105,24 +84,18 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             let body = match *v.data() {
                 // Handle unit-like structs separately
                 Fields::Unit => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(Vars { Name: qual_name }, {
+                    .quote_with(smart_quote!(Vars {}, {
                         {
-                            return Name;
+                            // no-op
                         }
                     }))
                     .parse(),
                 _ => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(
-                        Vars {
-                            Name: qual_name,
-                            fields,
-                        },
+                    .quote_with(smart_quote!(Vars { fields }, {
                         {
-                            {
-                                return Name { fields };
-                            }
+                            fields
                         }
-                    ))
+                    }))
                     .parse(),
             };
 
@@ -161,8 +134,8 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 body,
             },
             {
-                impl<__Fold> swc_common::FoldWith<__Fold> for Type {
-                    fn fold_children(self, _f: &mut __Fold) -> Self {
+                impl<__V> swc_common::VisitWith<__V> for Type {
+                    fn visit_children(&self, _v: &mut __V) {
                         body
                     }
                 }

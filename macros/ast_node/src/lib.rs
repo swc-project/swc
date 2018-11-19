@@ -15,14 +15,27 @@ use swc_macros_common::prelude::*;
 mod fold;
 mod from_variant;
 mod spanned;
+mod visit;
 
 #[proc_macro_derive(Fold, attributes(fold))]
 pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
-    let item = self::fold::derive(input);
+    let fold_item = self::fold::derive(input.clone());
+    let visit_item = self::visit::derive(input);
+    let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
+        Vars {
+            fold_item: fold_item,
+            visit_item: visit_item,
+        },
+        {
+            extern crate swc_common;
+            fold_item
+            visit_item
+        }
+    ));
 
-    print_item("derive(Fold)", item.dump())
+    print("derive(Fold)", item.dump())
 }
 
 #[proc_macro_derive(Spanned, attributes(span))]
