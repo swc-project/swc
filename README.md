@@ -32,7 +32,8 @@ New generation javascript to old-days javascript.
     - [ ] property-mutators
 
  - es2015
-    - [ ] arrow-functions
+    - [x] arrow-functions
+      - [ ] this inside arrow function
     - [ ] block-scoped-functions
     - [ ] block-scoping
     - [x] classes
