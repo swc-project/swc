@@ -41,7 +41,7 @@ New generation javascript to old-days javascript.
     - [ ] destructuring
     - [ ] duplicate-keys
     - [ ] for-of
-    - [ ] function-name
+    - [x] function-name
     - [x] instanceof
     - [ ] literals
     - [ ] new-target
