@@ -1,4 +1,4 @@
-use fold::FoldWith;
+use fold::{FoldWith, VisitWith};
 pub use syntax_pos::{
     hygiene, BytePos, ExpnFormat, ExpnInfo, FileName, Globals, Mark, MultiSpan, SourceFile, Span,
     SpanData, SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
@@ -62,4 +62,9 @@ impl<F> FoldWith<F> for Span {
     fn fold_children(self, _: &mut F) -> Span {
         self
     }
+}
+
+impl<F> VisitWith<F> for Span {
+    /// No op as span does not have any child.
+    fn visit_children(&self, _: &mut F) {}
 }
