@@ -1,10 +1,10 @@
+use ast::*;
 use crate::{compat::helpers::Helpers, util::ExprFactory};
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
 };
 use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
-use ast::*;
 
 #[cfg(test)]
 mod tests;
@@ -143,8 +143,8 @@ impl Classes {
                 ident: None,
                 function: Function {
                     span: DUMMY_SP,
-                    async: None,
-                    generator: None,
+                    async_token: None,
+                    generator_token: None,
                     params,
                     body,
                 },
@@ -195,8 +195,8 @@ impl Classes {
                 }
             };
             let mut function = constructor.map(|c| c.function).unwrap_or_else(|| Function {
-                async: None,
-                generator: None,
+                async_token: None,
+                generator_token: None,
                 span: class_name.span,
                 params: vec![],
                 body: BlockStmt {

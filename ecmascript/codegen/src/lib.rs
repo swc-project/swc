@@ -416,10 +416,11 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
-        if node.is_async {
+        if node.async_token.is_some() {
             keyword!("async");
+            formatting_space!();
         }
-        if node.is_generator {
+        if node.generator_token.is_some() {
             punct!("*")
         }
         punct!("(");
@@ -508,11 +509,11 @@ impl<'a> Emitter<'a> {
                 keyword!("constructor");
             }
             ClassMethodKind::Method => {
-                if let Some(async) = node.function.async {
+                if let Some(async) = node.function.async_token {
                     keyword!("async");
                 }
                 space!();
-                if let Some(generator) = node.function.generator {
+                if let Some(generator) = node.function.generator_token {
                     punct!("*");
                 }
 
@@ -562,12 +563,12 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
-        if node.function.async.is_some() {
+        if node.function.async_token.is_some() {
             keyword!("async");
         }
         keyword!("function");
 
-        if node.function.generator.is_some() {
+        if node.function.generator_token.is_some() {
             punct!("*");
         }
         opt_leading_space!(node.ident);
@@ -787,7 +788,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
-        if let Some(_gen) = node.function.generator {
+        if let Some(_gen) = node.function.generator_token {
             punct!("*");
         }
 

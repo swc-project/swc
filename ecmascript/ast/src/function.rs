@@ -10,8 +10,8 @@ pub struct Function {
     pub body: BlockStmt,
 
     /// `Some` if it's a generator.
-    pub generator: Option<Span>,
+    pub generator_token: Option<Span>,
 
     /// `Some` if it's an async function.
-    pub async: Option<Span>,
+    pub async_token: Option<Span>,
 }

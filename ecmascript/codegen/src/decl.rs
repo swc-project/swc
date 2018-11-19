@@ -28,13 +28,13 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
-        if node.function.async.is_some() {
+        if node.function.async_token.is_some() {
             keyword!("async");
             space!();
         }
 
         keyword!("function");
-        if node.function.generator.is_some() {
+        if node.function.generator_token.is_some() {
             punct!("*");
         }
 

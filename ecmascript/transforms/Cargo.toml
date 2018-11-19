@@ -6,16 +6,17 @@ license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_transforms/"
 description = "rust port of babel and closure compiler."
+publish = false
 
 [dependencies]
-swc_atoms = { version = "0.1", path ="../../atoms" }
-swc_common = { version = "0.1", path ="../../common" }
-swc_ecma_ast = { version = "0.1", path ="../ast" }
-swc_ecma_parser = { version = "0.2", path ="../parser" }
+swc_atoms = { path ="../../atoms" }
+swc_common = { path ="../../common" }
+swc_ecma_ast = { path ="../ast" }
+swc_ecma_parser = { path ="../parser" }
 slog = "2"
 
 [dev-dependencies]
-testing = { version = "0.1", path ="../../testing" }
-swc_ecma_codegen = { version = "0.1", path ="../codegen" }
+testing = { path ="../../testing" }
+swc_ecma_codegen = { path ="../codegen" }
 pretty_assertions = "0.5"
 sourcemap = "2.2"

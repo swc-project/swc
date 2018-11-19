@@ -189,10 +189,9 @@ pub struct SeqExpr {
 pub struct ArrowExpr {
     pub span: Span,
     pub params: Vec<Pat>,
-
     pub body: BlockStmtOrExpr,
-    pub is_generator: bool,
-    pub is_async: bool,
+    pub generator_token: Option<Span>,
+    pub async_token: Option<Span>,
 }
 
 #[ast_node]
