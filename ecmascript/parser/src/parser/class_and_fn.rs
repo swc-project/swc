@@ -129,12 +129,12 @@ impl<'a, I: Input> Parser<'a, I> {
     {
         let start = start_of_async.unwrap_or(cur_pos!());
         assert_and_bump!("function");
-        let async = start_of_async.map(|start| span!(start));
+        let async_token = start_of_async.map(|start| span!(start));
 
-        let generator = {
+        let generator_token = {
             let start = cur_pos!();
             if eat!('*') {
-                if async.is_some() {
+                if async_token.is_some() {
                     syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
                 }
                 Some(span!(start))
@@ -144,8 +144,8 @@ impl<'a, I: Input> Parser<'a, I> {
         };
 
         let ctx = Context {
-            in_async: async.is_some(),
-            in_generator: generator.is_some(),
+            in_async: async_token.is_some(),
+            in_generator: generator_token.is_some(),
             ..self.ctx()
         };
 
@@ -166,14 +166,14 @@ impl<'a, I: Input> Parser<'a, I> {
             let params = p.with_ctx(params_ctx).parse_formal_params()?;
             expect!(')');
 
-            let body = p.parse_fn_body(async.is_some(), generator.is_some())?;
+            let body = p.parse_fn_body(async_token.is_some(), generator_token.is_some())?;
 
             Ok(T::finish_fn(
                 ident,
                 Function {
                     span: span!(start),
-                    async,
-                    generator,
+                    async_token,
+                    generator_token,
                     params,
                     body,
                 },
@@ -186,15 +186,15 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         start: BytePos,
         parse_args: F,
-        async: Option<Span>,
-        generator: Option<Span>,
+        async_token: Option<Span>,
+        generator_token: Option<Span>,
     ) -> PResult<'a, Function>
     where
         F: FnOnce(&mut Self) -> PResult<'a, (Vec<Pat>)>,
     {
         let ctx = Context {
-            in_async: async.is_some(),
-            in_generator: generator.is_some(),
+            in_async: async_token.is_some(),
+            in_generator: generator_token.is_some(),
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
@@ -208,14 +208,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
             expect!(')');
 
-            let body = p.parse_fn_body(async.is_some(), generator.is_some())?;
+            let body = p.parse_fn_body(async_token.is_some(), generator_token.is_some())?;
 
             Ok(Function {
                 span: span!(start),
                 params,
                 body,
-                async,
-                generator,
+                async_token,
+                generator_token,
             })
         })
     }

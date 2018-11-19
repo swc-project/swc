@@ -197,8 +197,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(start),
                     body,
                     params,
-                    is_async: true,
-                    is_generator: false,
+                    async_token: Some(id.span),
+                    generator_token: None,
                 }));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!("=>") {
                 let params = vec![id.into()];
@@ -208,8 +208,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(start),
                     body,
                     params,
-                    is_async: false,
-                    is_generator: false,
+                    async_token: None,
+                    generator_token: None,
                 }));
             } else {
                 return Ok(box Expr::Ident(id));
@@ -385,8 +385,8 @@ impl<'a, I: Input> Parser<'a, I> {
             let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
             return Ok(box Expr::Arrow(ArrowExpr {
                 span: span!(start),
-                is_async: false,
-                is_generator: false,
+                async_token: None,
+                generator_token: None,
                 params,
                 body,
             }));
