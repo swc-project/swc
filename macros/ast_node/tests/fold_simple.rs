@@ -16,7 +16,7 @@ impl Fold<Lit> for LitFold {
 impl AssertFold<Expr> for LitFold {}
 impl AssertFold<ExprKind> for LitFold {}
 
-#[derive(Debug, Fold, PartialEq, Eq)]
+#[derive(Fold)]
 pub struct Expr {
     pub node: ExprKind,
     /// This field should be skipped.
@@ -29,7 +29,6 @@ pub struct Expr {
      * pub never_exists: Lit, */
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct PanicOnFold;
 
 impl<F> FoldWith<F> for PanicOnFold {
@@ -38,7 +37,7 @@ impl<F> FoldWith<F> for PanicOnFold {
     }
 }
 
-#[derive(Debug, Fold, PartialEq, Eq)]
+#[derive(Fold)]
 pub enum ExprKind {
     RecursiveBoud(Box<Expr>),
     Rec2(Vec<Option<Box<Expr>>>),
@@ -46,7 +45,7 @@ pub enum ExprKind {
     Lit(Lit),
 }
 
-#[derive(Debug, Fold, PartialEq, Eq)]
+#[derive(Fold)]
 pub enum Lit {
     A,
     B,

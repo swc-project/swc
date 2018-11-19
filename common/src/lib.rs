@@ -13,7 +13,7 @@ extern crate syntax_pos;
 
 pub use self::{
     errors::{SourceMapper, SourceMapperDyn},
-    fold::{Fold, FoldWith},
+    fold::{Fold, FoldWith, Visit, VisitWith},
     pos::*,
 };
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
