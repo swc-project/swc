@@ -102,7 +102,7 @@ fn contains_this_expr(body: &BlockStmtOrExpr) -> bool {
     }
 
     impl Visit<ThisExpr> for Visitor {
-        fn visit(&mut self, node: &ThisExpr) {
+        fn visit(&mut self, _: &ThisExpr) {
             self.found = true;
         }
     }

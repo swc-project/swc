@@ -17,7 +17,7 @@ impl Fold<Expr> for InlineGlobals {
         };
 
         match expr {
-            Expr::Ident(Ident { ref sym, span }) => {
+            Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
                     return value.clone();
@@ -44,21 +44,19 @@ impl Fold<Expr> for InlineGlobals {
                     })),
                 prop,
                 computed: _,
-            }) => {
-                let prop = match *prop {
-                    Expr::Ident(Ident { ref sym, .. }) => {
-                        if let Some(env) = self.envs.get(sym) {
-                            return env.clone();
-                        }
-                        return Expr::Lit(Lit::Str(Str {
-                            value: js_word!(""),
-                            span: mark!(span),
-                            has_escape: false,
-                        }));
+            }) => match *prop {
+                Expr::Ident(Ident { ref sym, .. }) => {
+                    if let Some(env) = self.envs.get(sym) {
+                        return env.clone();
                     }
-                    _ => unimplemented!("node.env.NONE-IDENT"),
-                };
-            }
+                    return Expr::Lit(Lit::Str(Str {
+                        value: js_word!(""),
+                        span: mark!(span),
+                        has_escape: false,
+                    }));
+                }
+                _ => unimplemented!("node.env.NONE-IDENT"),
+            },
             _ => expr,
         }
     }

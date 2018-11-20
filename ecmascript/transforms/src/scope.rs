@@ -1,10 +1,7 @@
 use ast::*;
-use std::{
-    cell::{Cell, RefCell},
-    collections::HashSet,
-};
+use std::{cell::Cell, collections::HashSet};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Visit, VisitWith};
+use swc_common::{Fold, FoldWith};
 
 /// Contextual folder
 pub trait Traverse {
