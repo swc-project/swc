@@ -1,0 +1,16 @@
+[package]
+name = "swc_ecma_lints"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+edition = "2018"
+publish = false
+
+[dependencies]
+swc_common = { path ="../../common" }
+swc_ecma_ast = { path ="../ast" }
+slog = "2"
+
+[dev-dependencies]
+testing = { path ="../../testing" }
+swc_ecma_parser = { path ="../parser" }
+walkdir = "2"
