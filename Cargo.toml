@@ -32,3 +32,6 @@ lto = true
 lto = true
 
 [patch.crates-io]
+# This reduces compile time
+sourcemap = { git = "https://github.com/kdy1/rust-sourcemap.git" }
+slog-envlogger = { git = "https://github.com/slog-rs/envlogger.git" }
