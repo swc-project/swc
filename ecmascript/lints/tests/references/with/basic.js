@@ -1,0 +1,4 @@
+// Foo
+with (obj) {
+
+}
