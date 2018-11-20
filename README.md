@@ -44,7 +44,7 @@ New generation javascript to old-days javascript.
     - [x] function-name
     - [x] instanceof
     - [ ] literals
-    - [ ] new-target
+    - [x] new-target
     - [ ] object-super
     - [ ] parameters
     - [x] shorthand-properties
