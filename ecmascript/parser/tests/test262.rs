@@ -161,9 +161,9 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let path = dir.join(&file_name);
                 // Parse source
                 let err = if module {
-                    parse_module(&path, &input).expect_err("should fail, but parsed as")
+                    parse_module(&path).expect_err("should fail, but parsed as")
                 } else {
-                    parse_script(&path, &input).expect_err("should fail, but parsed as")
+                    parse_script(&path).expect_err("should fail, but parsed as")
                 };
 
                 if err
@@ -230,28 +230,30 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
 
             if module {
-                let p = |explicit, s| {
+                let p = |explicit| {
                     parse_module(
-                        &root.join(if explicit { "pass-explicit" } else { "passs" }),
-                        s,
+                        &root
+                            .join(if explicit { "pass-explicit" } else { "pass" })
+                            .join(&file_name),
                     )
                     .map(normalize)
                     .unwrap()
                 };
-                let src = p(false, &input);
-                let expected = p(true, &explicit);
+                let src = p(false);
+                let expected = p(true);
                 assert_eq!(src, expected);
             } else {
-                let p = |explicit, s| {
+                let p = |explicit| {
                     parse_script(
-                        &root.join(if explicit { "pass-explicit" } else { "passs" }),
-                        s,
+                        &root
+                            .join(if explicit { "pass-explicit" } else { "pass" })
+                            .join(&file_name),
                     )
                     .map(normalize)
                     .unwrap()
                 };
-                let src = p(false, &input);
-                let expected = p(true, &explicit);
+                let src = p(false);
+                let expected = p(true);
                 assert_eq!(src, expected);
             }
         });
@@ -260,19 +262,21 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     Ok(())
 }
 
-fn parse_script(file_name: &Path, s: &str) -> Result<Vec<Stmt>, NormalizedOutput> {
-    with_parser(file_name, s, |p| p.parse_script())
+fn parse_script(file_name: &Path) -> Result<Vec<Stmt>, NormalizedOutput> {
+    with_parser(file_name, |p| p.parse_script())
 }
-fn parse_module<'a>(file_name: &Path, s: &str) -> Result<Module, NormalizedOutput> {
-    with_parser(file_name, s, |p| p.parse_module())
+fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
+    with_parser(file_name, |p| p.parse_module())
 }
 
-fn with_parser<F, Ret>(file_name: &Path, src: &str, f: F) -> Result<Ret, StdErr>
+fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
     let output = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Real(file_name.into()), src.into());
+        let fm = cm
+            .load_file(file_name)
+            .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let res = f(&mut Parser::new(
             Session {
