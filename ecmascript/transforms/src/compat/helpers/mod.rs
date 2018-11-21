@@ -42,7 +42,7 @@ impl InjectHelpers {
         let mut buf = vec![];
 
         let handler =
-            Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(self.cm.clone()));
+            Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(self.cm.clone()));
 
         let session = Session {
             cfg: Default::default(),

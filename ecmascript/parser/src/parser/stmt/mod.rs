@@ -19,7 +19,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let mut stmts = vec![];
         while {
-            let b = cur!().ok() != end;
+            let b = cur!(false).ok() != end;
             b
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;

@@ -11,7 +11,7 @@ macro_rules! unexpected {
 macro_rules! is {
     ($p:expr,BindingIdent) => {{
         let ctx = $p.ctx();
-        match cur!($p) {
+        match cur!($p, false) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
             _ => false,
         }
@@ -19,14 +19,14 @@ macro_rules! is {
 
     ($p:expr,IdentRef) => {{
         let ctx = $p.ctx();
-        match cur!($p) {
+        match cur!($p, false) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
-        match cur!($p) {
+        match cur!($p, false) {
             Ok(&Word(..)) => true,
             _ => false,
         }
@@ -47,7 +47,7 @@ macro_rules! is {
 /// Returns true on eof.
 macro_rules! eof {
     ($p:expr) => {
-        cur!($p).is_err()
+        cur!($p, false).is_err()
     };
 }
 
@@ -87,7 +87,7 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr,';') => {{
-        debug!($p.session.logger, "eat(';'): cur={:?}", cur!($p));
+        debug!($p.session.logger, "eat(';'): cur={:?}", cur!($p, true));
         $p.input.eat(&Token::Semi)
             || eof!($p)
             || is!($p, '}')
@@ -136,8 +136,9 @@ macro_rules! expect_exact {
     }};
 }
 
+/// cur!($parser, required:bool)
 macro_rules! cur {
-    ($p:expr) => {{
+    ($p:expr, $required:expr) => {{
         let pos = $p.input.last_pos();
         let last = Span::new(pos, pos, Default::default());
         let is_err_token = match $p.input.cur() {
@@ -163,11 +164,13 @@ macro_rules! cur {
         match $p.input.cur() {
             Some(c) => Ok(c),
             None => {
-                ::swc_common::errors::DiagnosticBuilder::from($crate::error::Eof {
-                    last,
-                    handler: &$p.session.handler,
-                })
-                .emit();
+                if $required {
+                    ::swc_common::errors::DiagnosticBuilder::from($crate::error::Eof {
+                        last,
+                        handler: &$p.session.handler,
+                    })
+                    .emit();
+                }
                 Err(())
             }
         }
@@ -180,7 +183,7 @@ macro_rules! peek {
             $p.input.knows_cur(),
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
-            cur!($p),
+            cur!($p, false),
         );
 
         let pos = cur_pos!($p);

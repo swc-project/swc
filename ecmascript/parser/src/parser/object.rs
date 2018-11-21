@@ -37,7 +37,7 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_prop_name(&mut self) -> PResult<'a, PropName> {
         let start = cur_pos!();
 
-        let v = match *cur!()? {
+        let v = match *cur!(true)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => PropName::Str(Str {
                     span: span!(start),

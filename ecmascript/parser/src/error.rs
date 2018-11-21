@@ -18,7 +18,8 @@ pub(crate) struct Eof<'a> {
 
 impl<'a> From<Eof<'a>> for DiagnosticBuilder<'a> {
     fn from(Eof { handler, last }: Eof<'a>) -> Self {
-        handler.error("Unexpected eof").span(last)
+        unreachable!()
+        // handler.error("Unexpected eof").span(last)
     }
 }
 

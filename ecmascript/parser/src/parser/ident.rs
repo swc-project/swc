@@ -23,7 +23,7 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_ident_name(&mut self) -> PResult<'a, Ident> {
         let start = cur_pos!();
 
-        let w = match cur!() {
+        let w = match cur!(true) {
             Ok(&Word(..)) => match bump!() {
                 Word(w) => w,
                 _ => unreachable!(),
@@ -42,7 +42,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let word = self.parse_with(|p| {
             let strict = p.ctx().strict;
-            let w = match cur!() {
+            let w = match cur!(true) {
                 Ok(&Word(..)) => match bump!() {
                     Word(w) => w,
                     _ => unreachable!(),

@@ -23,9 +23,9 @@ impl Fold<Expr> for TemplateLiteral {
                 match tag {
                     Some(tag) => unimplemented!("tagged template literal"),
                     None => {
-                        let mut nodes = vec![];
+                        // let mut nodes = vec![];
 
-                        for i in (0..quasis.len() + exprs.len()) {
+                        for i in 0..quasis.len() + exprs.len() {
                             if i % 2 == 0 {
                                 // Quasis
 

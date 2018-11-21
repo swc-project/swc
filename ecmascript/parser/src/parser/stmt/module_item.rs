@@ -8,7 +8,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Handle import 'mod.js'
         let str_start = cur_pos!();
-        match *cur!()? {
+        match *cur!(false)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => {
                     expect!(';');
@@ -81,7 +81,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self) -> PResult<'a, ImportSpecifier> {
         let start = cur_pos!();
-        match *cur!()? {
+        match *cur!(false)? {
             Word(..) => {
                 let orig_name = self.parse_ident_name()?;
 
@@ -168,12 +168,13 @@ impl<'a, I: Input> Parser<'a, I> {
             self.parse_fn_decl()?
         } else if is!("var")
             || is!("const")
-            || (is!("let") && peek!()
-                .map(|t| {
-                    // module code is always in strict mode.
-                    t.follows_keyword_let(true)
-                })
-                .unwrap_or(false))
+            || (is!("let")
+                && peek!()
+                    .map(|t| {
+                        // module code is always in strict mode.
+                        t.follows_keyword_let(true)
+                    })
+                    .unwrap_or(false))
         {
             self.parse_var_stmt(false).map(Decl::Var)?
         } else {
@@ -235,7 +236,7 @@ impl<'a, I: Input> Parser<'a, I> {
         expect!("from");
 
         let start = cur_pos!();
-        match *cur!()? {
+        match *cur!(true)? {
             Token::Str { .. } => match bump!() {
                 Token::Str { value, has_escape } => {
                     expect!(';');
