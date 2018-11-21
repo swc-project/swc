@@ -38,6 +38,35 @@ impl<'a> Tester<'a> {
         }
     }
 
+    pub fn with_parser<F, T>(&mut self, file_name: &str, src: &str, op: F) -> Result<T, ()>
+    where
+        F: FnOnce(&mut Parser<SourceFileInput>) -> Result<T, ()>,
+    {
+        let fm = self
+            .cm
+            .new_source_file(FileName::Real(file_name.into()), src.into());
+
+        let sess = Session {
+            handler: &self.handler,
+            logger: &self.logger,
+            cfg: Default::default(),
+        };
+
+        let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
+        op(&mut p)
+    }
+
+    pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
+        let mut stmts = self.with_parser(file_name, src, |p| p.parse_script())?;
+        assert!(stmts.len() == 1);
+
+        Ok(stmts.pop().unwrap())
+    }
+
+    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
+        self.with_parser(file_name, src, |p| p.parse_script())
+    }
+
     pub fn apply_transform<T: Fold<Module>>(
         &mut self,
         mut tr: T,

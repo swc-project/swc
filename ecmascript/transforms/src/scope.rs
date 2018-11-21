@@ -1,5 +1,8 @@
 use ast::*;
-use std::{cell::Cell, collections::HashSet};
+use std::{
+    cell::{Cell, RefCell},
+    collections::HashSet,
+};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
 
@@ -25,28 +28,56 @@ pub struct Scope<'a> {
     pub used_this: Cell<bool>,
 
     /// All references used in this scope
-    pub used_refs: HashSet<JsWord>,
+    pub used_refs: HashSet<Ident>,
 
     /// All references declared in this scope
-    pub declared_refs: HashSet<JsWord>,
+    pub declared_refs: HashSet<Ident>,
 
-    /// All children of the this scope
-    pub children: Vec<Scope<'a>>,
+    pub declared_symbols: HashSet<JsWord>,
+    /* /// All children of the this scope
+     * pub children: Vec<Scope<'a>>, */
+    ops: RefCell<Vec<ScopeOp>>,
+}
+
+#[doc(hidden)]
+pub struct Hygiene;
+impl Traverse for Hygiene {}
+
+pub struct Operator<'a>(&'a [ScopeOp]);
+
+impl<'a> Fold<Ident> for Operator<'a> {
+    fn fold(&mut self, ident: Ident) -> Ident {
+        println!("Operating on {:?}\nOps: {:?}", ident, self.0);
+        for op in self.0 {
+            match *op {
+                ScopeOp::Rename { ref from, ref to }
+                    if *from.sym == ident.sym && from.span.ctxt() == ident.span.ctxt() =>
+                {
+                    return Ident {
+                        sym: to.clone(),
+                        ..ident
+                    };
+                }
+                _ => {}
+            }
+        }
+
+        ident
+    }
+}
+
+pub fn hygiene<T>(node: T) -> T
+where
+    for<'a, 'b> ScopeAnalyzer<'a, 'b, Hygiene>: Fold<T>,
+    T: for<'o> FoldWith<Operator<'o>>,
+{
+    let mut hygiene = Hygiene;
+    let mut analyzer = ScopeAnalyzer::new(&mut hygiene);
+    let node = analyzer.fold(node);
+    analyzer.apply_ops(node)
 }
 
 impl<'a> Scope<'a> {
-    pub fn analyze(module: Module) -> (Module, Scope<'a>) {
-        struct Noop;
-        impl Traverse for Noop {}
-
-        let mut noop = Noop;
-        let mut visitor = ScopeAnalyzer::new(&mut noop);
-
-        let module = module.fold_with(&mut visitor);
-
-        (module, visitor.current)
-    }
-
     pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
         Scope {
             parent,
@@ -55,12 +86,49 @@ impl<'a> Scope<'a> {
             used_this: Cell::new(false),
             used_refs: Default::default(),
             declared_refs: Default::default(),
-            children: Default::default(),
+            declared_symbols: Default::default(),
+            // children: Default::default(),
+            ops: Default::default(),
+        }
+    }
+
+    fn scope_of(&self, ident: &Ident) -> &'a Scope {
+        if self.declared_refs.contains(ident) {
+            self
+        } else {
+            match self.parent {
+                Some(ref parent) => parent.scope_of(ident),
+                _ => self,
+            }
+        }
+    }
+
+    fn add_declared_ref(&mut self, ident: Ident) {
+        if !self.declared_refs.insert(ident.clone()) {
+            return;
+        }
+
+        if self.declared_symbols.insert(ident.sym.clone()) {
+            // Symbol conflicts
+            println!("Symbol conflicts: {}", ident.sym);
+            self.scope_of(&ident)
+                .ops
+                .borrow_mut()
+                .push(ScopeOp::Rename {
+                    to: format!("__{}", ident.sym).into(),
+                    from: ident,
+                });
         }
     }
 }
 
-struct ScopeAnalyzer<'a, 'b, T: Traverse> {
+#[derive(Debug, PartialEq, Eq)]
+enum ScopeOp {
+    Rename { from: Ident, to: JsWord },
+}
+
+#[doc(hidden)]
+pub struct ScopeAnalyzer<'a, 'b, T: Traverse> {
     current: Scope<'a>,
     visitor: &'b mut T,
 }
@@ -71,40 +139,53 @@ impl<'a, 'b, T: Traverse> ScopeAnalyzer<'a, 'b, T> {
             visitor,
         }
     }
+
+    fn apply_ops<N>(&mut self, node: N) -> N
+    where
+        for<'o> N: FoldWith<Operator<'o>>,
+    {
+        let ops = self.current.ops.borrow();
+
+        if ops.is_empty() {
+            return node;
+        }
+        node.fold_with(&mut Operator(&ops))
+    }
 }
 
 impl<'a, 'b, T: Traverse> Fold<BlockStmt> for ScopeAnalyzer<'a, 'b, T> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
-        let mut analyzer = ScopeAnalyzer {
-            // TODO
-            current: Scope::new(ScopeKind::Block, None),
-            visitor: self.visitor,
+        let node = {
+            let mut analyzer = ScopeAnalyzer {
+                current: Scope::new(ScopeKind::Block, Some(&self.current)),
+                visitor: self.visitor,
+            };
+
+            node.fold_children(&mut analyzer)
         };
 
-        let node = node.fold_children(&mut analyzer);
-
-        self.current.children.push(analyzer.current);
-
-        node
+        self.apply_ops(node)
     }
 }
 
 impl<'a, 'b, T: Traverse> ScopeAnalyzer<'a, 'b, T> {
     fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
-        self.current.declared_refs.extend(ident.map(|i| i.sym));
+        match ident {
+            Some(ident) => self.current.add_declared_ref(ident),
+            _ => {}
+        }
 
         let mut analyzer = ScopeAnalyzer {
-            // TODO
-            current: Scope::new(ScopeKind::Fn, None),
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
             visitor: self.visitor,
         };
 
         node.params = node.params.fold_children(&mut analyzer);
         node.body = node.body.fold_children(&mut analyzer);
 
-        self.current.children.push(analyzer.current);
+        // self.current.children.push(analyzer.current);
 
-        node
+        self.apply_ops(node)
     }
 }
 
@@ -112,7 +193,7 @@ impl<'a, 'b, T: Traverse> Fold<Pat> for ScopeAnalyzer<'a, 'b, T> {
     fn fold(&mut self, pat: Pat) -> Pat {
         match pat {
             Pat::Ident(ref ident) => {
-                self.current.declared_refs.insert(ident.sym.clone());
+                self.current.add_declared_ref(ident.clone());
             }
             _ => unimplemented!("Pattern other than ident"),
         }
@@ -149,11 +230,9 @@ impl<'a, 'b, T: Traverse> Fold<VarDecl> for ScopeAnalyzer<'a, 'b, T> {
 
 impl<'a, 'b, T: Traverse> Fold<Expr> for ScopeAnalyzer<'a, 'b, T> {
     fn fold(&mut self, node: Expr) -> Expr {
-        println!("node: {:?}\n{:?}", self.current, node);
-
         match node {
             Expr::Ident(ref ident) => {
-                self.current.used_refs.insert(ident.sym.clone());
+                self.current.used_refs.insert(ident.clone());
             }
             Expr::This(..) => {
                 self.current.used_this.set(true);
@@ -186,39 +265,95 @@ pub enum ScopeKind {
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::collections::HashMap;
+    use swc_common::{hygiene::*, Fold, Span, DUMMY_SP};
+
+    struct Marker {
+        map: HashMap<JsWord, Mark>,
+    }
+
+    fn marker(markers: &[(&str, Mark)]) -> Marker {
+        Marker {
+            map: markers.iter().map(|(k, v)| ((*k).into(), *v)).collect(),
+        }
+    }
+
+    impl Fold<Ident> for Marker {
+        fn fold(&mut self, mut ident: Ident) -> Ident {
+            if let Some(mark) = self.map.get(&ident.sym) {
+                ident.span = ident.span.apply_mark(*mark);
+            }
+
+            ident
+        }
+    }
 
     #[test]
-    fn scope_analysis() {
+    fn hygiene_simple() {
         ::tests::Tester::run(|tester| {
-            let module = tester.apply_transform(
-                ::testing::DropSpan,
-                "src.js",
-                "function test_function(bar) { doge; { moon; } return 10; }".into(),
-            )?;
-            let (module, mut root) = Scope::analyze(module);
+            let mark = Mark::fresh(Mark::root());
 
-            assert_eq!(root.parent, None);
-            assert_eq!(root.kind, ScopeKind::Fn);
-            assert!(root.used_refs.is_empty());
-            assert!(root.declared_refs.contains(&"test_function".into()));
-            assert!(root.children.len() == 1);
+            let stmts = vec![
+                tester
+                    .parse_stmt("actual.js", "var foo = 1;")?
+                    .fold_with(&mut marker(&[("foo", mark)])),
+                tester.parse_stmt("actual.js", "var foo = 2;")?,
+                tester
+                    .parse_stmt("actual.js", "use(foo)")?
+                    .fold_with(&mut marker(&[("foo", mark)])),
+            ];
 
-            let mut test_function = root.children.pop().unwrap();
+            let module = Module {
+                span: DUMMY_SP,
+                body: stmts.into_iter().map(ModuleItem::Stmt).collect(),
+            };
 
-            // assert_eq!(test_function.parent, Some(root));
-            assert_eq!(test_function.kind, ScopeKind::Fn);
-            assert!(test_function.used_refs.contains(&"doge".into()));
-            assert!(test_function.declared_refs.contains(&"bar".into()));
+            let module = hygiene(module);
 
-            let moon = test_function.children.pop().unwrap();
+            let actual = tester.print(&module);
 
-            // assert_eq!(moon.parent, Some(test_function));
-            assert_eq!(moon.kind, ScopeKind::Block);
-            assert!(moon.used_refs.contains(&"moon".into()));
-            assert!(moon.declared_refs.is_empty());
-            assert!(moon.children.is_empty());
+            let expected = {
+                let expected = tester.with_parser(
+                    "expected.js",
+                    "var __foo = 1;\nvar foo = 2;\nuse(__foo);",
+                    |p| p.parse_module(),
+                )?;
+                tester.print(&expected)
+            };
+
+            assert_eq!(actual, expected);
 
             Ok(())
         });
     }
+
+    // #[test]
+    // fn scope_analysis() {
+    //     ::tests::Tester::run(|tester| {
+    //         let (module, mut root) = Scope::analyze(module);
+
+    //         assert_eq!(root.parent, None);
+    //         assert_eq!(root.kind, ScopeKind::Fn);
+    //         assert!(root.used_refs.is_empty());
+    //         assert!(root.declared_refs.contains(&"test_function".into()));
+    //         // assert!(root.children.len() == 1);
+
+    //         // let mut test_function = root.children.pop().unwrap();
+
+    //         // // assert_eq!(test_function.parent, Some(root));
+    //         // assert_eq!(test_function.kind, ScopeKind::Fn);
+    //         // assert!(test_function.used_refs.contains(&"doge".into()));
+    //         // assert!(test_function.declared_refs.contains(&"bar".into()));
+
+    //         // let moon = test_function.children.pop().unwrap();
+
+    //         // // assert_eq!(moon.parent, Some(test_function));
+    //         // assert_eq!(moon.kind, ScopeKind::Block);
+    //         // assert!(moon.used_refs.contains(&"moon".into()));
+    //         // assert!(moon.declared_refs.is_empty());
+    //         // assert!(moon.children.is_empty());
+
+    //         Ok(())
+    //     });
+    // }
 }
