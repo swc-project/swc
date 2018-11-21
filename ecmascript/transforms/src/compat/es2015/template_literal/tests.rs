@@ -1,16 +1,16 @@
 use super::*;
 
 test!(
-    TemplateLiteral,
-    escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#,
-    r#"var t = "'".concat(foo, "' \"").concat(bar, "\"");"#
+  TemplateLiteral,
+  escape_quotes,
+  r#"var t = `'${foo}' "${bar}"`;"#,
+  r#"var t = "'".concat(foo, "' \"").concat(bar, "\"");"#
 );
 
 test!(
-    TemplateLiteral,
-    expr_first,
-    r#"var foo = 5;
+  TemplateLiteral,
+  expr_first,
+  r#"var foo = 5;
 var bar = 10;
 var baz = 15;
 
@@ -19,7 +19,7 @@ var example2 = `${1}`;
 var example3 = 1 + `${foo}${bar}${baz}`;
 var example4 = 1 + `${foo}bar${baz}`;
 var example5 = `${""}`;"#,
-    r#"var foo = 5;
+  r#"var foo = 5;
 var bar = 10;
 var baz = 15;
 var example = "a";
@@ -30,53 +30,54 @@ var example5 = """#
 );
 
 test!(
-    TemplateLiteral,
-    functions,
-    r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
-    r#"var foo = "test ".concat(_.test(foo), " ").concat(bar);"#
+  TemplateLiteral,
+  functions,
+  r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
+  r#"var foo = "test ".concat(_.test(foo), " ").concat(bar);"#
 );
 
 test!(
-    TemplateLiteral,
-    literals,
-    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-    r#"var foo = "".concat(1, f, "oo", true).concat(b, "ar", 0).concat(baz);"#
+  TemplateLiteral,
+  literals,
+  r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
+  r#"var foo = "".concat(1, f, "oo", true).concat(b, "ar", 0).concat(baz);"#
 );
 
 test!(
-    TemplateLiteral,
-    multiline,
-    r#"var o = `wow
+  TemplateLiteral,
+  multiline,
+  r#"var o = `wow
 this is
 actually multiline!`;"#,
-    r#"var o = "wow\nthis is\nactually multiline!";"#
+  r#"var o = "wow\nthis is\nactually multiline!";"#,
+  ok_if_code_eq
 );
 
 test!(
-    TemplateLiteral,
-    multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#,
-    r#"var foo = "test ".concat(foo, " ").concat(bar);"#
+  TemplateLiteral,
+  multiple,
+  r#"var foo = `test ${foo} ${bar}`;"#,
+  r#"var foo = "test ".concat(foo, " ").concat(bar);"#
 );
 
 test!(
-    TemplateLiteral,
-    none,
-    r#"var foo = `test`;"#,
-    r#"var foo = "test";"#
+  TemplateLiteral,
+  none,
+  r#"var foo = `test`;"#,
+  r#"var foo = "test";"#
 );
 
 test!(
-    TemplateLiteral,
-    only,
-    r#"var foo = `${test}`;"#,
-    r#"var foo = "".concat(test);"#
+  TemplateLiteral,
+  only,
+  r#"var foo = `${test}`;"#,
+  r#"var foo = "".concat(test);"#
 );
 
 test_exec!(
-    TemplateLiteral,
-    order,
-    r#"
+  TemplateLiteral,
+  order,
+  r#"
 const calls = [];
 
 `
@@ -102,9 +103,9 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 );
 
 test_exec!(
-    TemplateLiteral,
-    order2,
-    r#"const calls = [];
+  TemplateLiteral,
+  order2,
+  r#"const calls = [];
 
 `
   ${{
@@ -157,23 +158,23 @@ var bar = tag(_templateObject2(), 1);"#
     );
 
 test!(
-    TemplateLiteral,
-    single,
-    r#"var foo = `test ${foo}`;"#,
-    r#"var foo = "test ".concat(foo);"#
+  TemplateLiteral,
+  single,
+  r#"var foo = `test ${foo}`;"#,
+  r#"var foo = "test ".concat(foo);"#
 );
 
 test!(
-    TemplateLiteral,
-    statement,
-    r#"var foo = `test ${foo + bar}`;"#,
-    r#"var foo = "test ".concat(foo + bar);"#
+  TemplateLiteral,
+  statement,
+  r#"var foo = `test ${foo + bar}`;"#,
+  r#"var foo = "test ".concat(foo + bar);"#
 );
 
 test_exec!(
-    TemplateLiteral,
-    symbol,
-    r#"const fn = () => `${Symbol()}`;
+  TemplateLiteral,
+  symbol,
+  r#"const fn = () => `${Symbol()}`;
 
 expect(fn).toThrow(TypeError);"#
 );

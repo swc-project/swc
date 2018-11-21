@@ -1,5 +1,6 @@
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use crate::util::ExprFactory;
+use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -13,32 +14,51 @@ impl Fold<Expr> for TemplateLiteral {
 
         match e {
             Expr::Tpl(TplLit {
-                span,
-                tag,
-                exprs,
-                quasis,
+                tag, exprs, quasis, ..
             }) => {
                 assert!(quasis.len() == exprs.len() + 1);
 
                 match tag {
                     Some(tag) => unimplemented!("tagged template literal"),
                     None => {
-                        // let mut nodes = vec![];
+                        // TODO: Optimize
+                        let mut obj: Box<Expr> =
+                            box Lit::Str(quote_str!(quasis[0].raw.clone())).into();
 
                         for i in 0..quasis.len() + exprs.len() {
-                            if i % 2 == 0 {
-                                // Quasis
+                            if i == 0 {
+                                continue;
+                            }
 
+                            let idx = i / 2;
+
+                            let expr = if i % 2 == 0 {
+                                // Quasis
+                                if quasis[idx].raw.is_empty() {
+                                    // Skip empty ones
+                                    continue;
+                                }
+                                box Lit::Str(quote_str!(quasis[idx].raw.clone())).into()
                             } else {
                                 // Expression
+                                exprs[idx].clone()
+                            };
 
-                            }
+                            obj = box Expr::Call(CallExpr {
+                                span: expr.span(),
+                                callee: Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: ExprOrSuper::Expr(obj),
+                                    computed: false,
+                                    prop: box quote_ident!("concat").into(),
+                                })
+                                .as_callee(),
+                                args: vec![expr.as_arg()],
+                            });
                         }
+                        return *obj;
                     }
                 }
-
-                // TODO
-                unimplemented!("template literal")
             }
 
             _ => e,
