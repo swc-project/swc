@@ -22,25 +22,26 @@ var example5 = `${""}`;"#,
   r#"var foo = 5;
 var bar = 10;
 var baz = 15;
-var example = "a";
-var example2 = "".concat(1);
-var example3 = 1 + "".concat(foo).concat(bar).concat(baz);
-var example4 = 1 + "".concat(foo, "bar").concat(baz);
-var example5 = """#
+var example = '' + 'a';
+var example2 = '' + 1;
+var example3 = 1 + '' + foo + bar + baz;
+var example4 = 1 + '' + foo + 'bar' + baz;
+var example5 = '' + '';"#,
+  ok_if_code_eq
 );
 
 test!(
   TemplateLiteral,
   functions,
   r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
-  r#"var foo = "test ".concat(_.test(foo), " ").concat(bar);"#
+  r#"var foo = 'test ' + _.test(foo) + ' ' + bar;"#
 );
 
 test!(
   TemplateLiteral,
   literals,
   r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-  r#"var foo = "".concat(1, f, "oo", true).concat(b, "ar", 0).concat(baz);"#
+  r#"var foo = '' + 1 + f + 'oo' + true + b + 'ar' + 0 + baz;"#
 );
 
 test!(
@@ -57,7 +58,7 @@ test!(
   TemplateLiteral,
   multiple,
   r#"var foo = `test ${foo} ${bar}`;"#,
-  r#"var foo = "test ".concat(foo, " ").concat(bar);"#
+  r#"var foo = 'test ' + foo + ' ' + bar;"#
 );
 
 test!(
@@ -71,7 +72,7 @@ test!(
   TemplateLiteral,
   only,
   r#"var foo = `${test}`;"#,
-  r#"var foo = "".concat(test);"#
+  r#"var foo = '' + test"#
 );
 
 test_exec!(

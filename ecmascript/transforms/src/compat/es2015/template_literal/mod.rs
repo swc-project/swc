@@ -1,6 +1,5 @@
 use ast::*;
-use crate::util::ExprFactory;
-use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned};
 
 #[cfg(test)]
 mod tests;
@@ -22,6 +21,8 @@ impl Fold<Expr> for TemplateLiteral {
                     Some(tag) => unimplemented!("tagged template literal"),
                     None => {
                         // TODO: Optimize
+
+                        // This makes result of addition string
                         let mut obj: Box<Expr> =
                             box Lit::Str(quote_str!(quasis[0].raw.clone())).into();
 
@@ -44,16 +45,11 @@ impl Fold<Expr> for TemplateLiteral {
                                 exprs[idx].clone()
                             };
 
-                            obj = box Expr::Call(CallExpr {
+                            obj = box Expr::Bin(BinExpr {
                                 span: expr.span(),
-                                callee: Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(obj),
-                                    computed: false,
-                                    prop: box quote_ident!("concat").into(),
-                                })
-                                .as_callee(),
-                                args: vec![expr.as_arg()],
+                                left: obj,
+                                op: op!(bin, "+"),
+                                right: expr.into(),
                             });
                         }
                         return *obj;
