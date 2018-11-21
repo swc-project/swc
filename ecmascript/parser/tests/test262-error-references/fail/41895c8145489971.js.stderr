@@ -1,9 +1,3 @@
-error: Unexpected eof
- --> $DIR/tests/test262-parser/fail/41895c8145489971.js:1:19
-  |
-1 | `hello ${10 `test`
-  |                   ^
-
 error: Expected RBrace
  --> $DIR/tests/test262-parser/fail/41895c8145489971.js:1:18
   |

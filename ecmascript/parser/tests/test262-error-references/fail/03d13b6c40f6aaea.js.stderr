@@ -1,9 +1,3 @@
-error: Unexpected eof
- --> $DIR/tests/test262-parser/fail/03d13b6c40f6aaea.js:1:13
-  |
-1 | [{a=0},...0]
-  |             ^
-
 error: Unexpected token
  --> $DIR/tests/test262-parser/fail/03d13b6c40f6aaea.js:1:3
   |
