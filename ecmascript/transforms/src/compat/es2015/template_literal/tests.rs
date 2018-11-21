@@ -1,14 +1,15 @@
 use super::*;
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   escape_quotes,
   r#"var t = `'${foo}' "${bar}"`;"#,
-  r#"var t = "'".concat(foo, "' \"").concat(bar, "\"");"#
+  r#"var t = "'" + foo + '\' "' + bar + '"';"#,
+  ok_if_code_eq
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   expr_first,
   r#"var foo = 5;
 var bar = 10;
@@ -31,21 +32,21 @@ var example5 = '' + '';"#,
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   functions,
   r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
   r#"var foo = 'test ' + _.test(foo) + ' ' + bar;"#
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   literals,
   r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
   r#"var foo = '' + 1 + f + 'oo' + true + b + 'ar' + 0 + baz;"#
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   multiline,
   r#"var o = `wow
 this is
@@ -55,28 +56,28 @@ actually multiline!`;"#,
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   multiple,
   r#"var foo = `test ${foo} ${bar}`;"#,
   r#"var foo = 'test ' + foo + ' ' + bar;"#
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   none,
   r#"var foo = `test`;"#,
   r#"var foo = "test";"#
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   only,
   r#"var foo = `${test}`;"#,
   r#"var foo = '' + test"#
 );
 
 test_exec!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   order,
   r#"
 const calls = [];
@@ -104,7 +105,7 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 );
 
 test_exec!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   order2,
   r#"const calls = [];
 
@@ -128,11 +129,12 @@ expect(calls).toEqual([1, 2]);"#
 );
 
 test!(
-        TemplateLiteral,
-        simple_tag,
-        r#"var foo = tag`wow`;
+  ignore,
+  TemplateLiteral::default(),
+  simple_tag,
+  r#"var foo = tag`wow`;
 var bar = tag`first${1}second`;"#,
-        r#"function _templateObject2() {
+  r#"function _templateObject2() {
   const data = _taggedTemplateLiteral(["first", "second"]);
 
   _templateObject2 = function () {
@@ -152,28 +154,28 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var foo = tag(_templateObject());
 var bar = tag(_templateObject2(), 1);"#
-    );
-
-test!(
-  TemplateLiteral,
-  single,
-  r#"var foo = `test ${foo}`;"#,
-  r#"var foo = "test ".concat(foo);"#
 );
 
 test!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
+  single,
+  r#"var foo = `test ${foo}`;"#,
+  r#"var foo = 'test ' + foo;"#
+);
+
+test!(
+  TemplateLiteral::default(),
   statement,
   r#"var foo = `test ${foo + bar}`;"#,
-  r#"var foo = "test ".concat(foo + bar);"#
+  r#"var foo = 'test ' + foo + bar;"#,
+  ok_if_code_eq
 );
 
 test_exec!(
-  TemplateLiteral,
+  TemplateLiteral::default(),
   symbol,
   r#"const fn = () => `${Symbol()}`;
 
@@ -181,14 +183,15 @@ expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-        TemplateLiteral,
-        tag,
-        r#"
+  ignore,
+  TemplateLiteral::default(),
+  tag,
+  r#"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
-        r#"Skip to content
+  r#"Skip to content
  
 Search or jump to…
 
@@ -236,17 +239,16 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 var foo = bar(_templateObject(), 42, _.foobar());
 var bar = bar(_templateObject2(), 42, _.foobar());
 var bar = bar(_templateObject3(), 42, _.baz());"#
-    );
+);
 
 test!(
-        TemplateLiteral,
-        template_revision,
-        r#"tag`\unicode and \u{55}`;
+  ignore,
+  TemplateLiteral::default(),
+  template_revision,
+  r#"tag`\unicode and \u{55}`;
 tag`\01`;
 tag`\xg${0}right`;
 tag`left${0}\xg`;
@@ -257,7 +259,7 @@ function a() {
   var undefined = 4;
   tag`\01`;
 }"#,
-        r#"
+  r#"
 function _templateObject8() {
   const data = _taggedTemplateLiteral([void 0], ["\\01"]);
 
@@ -338,8 +340,6 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 tag(_templateObject());
 tag(_templateObject2());
 tag(_templateObject3(), 0);
@@ -352,4 +352,4 @@ function a() {
   var undefined = 4;
   tag(_templateObject8());
 }"#
-    );
+);
