@@ -1,137 +1,224 @@
 use ast::*;
+use std::{cell::Cell, collections::HashSet};
+use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
 
-pub trait FoldScope<T> {
-    /// `scope`: Scope which contains `node`.
-    fn fold_scope(&mut self, scope: &mut Scope, node: T) -> T;
-}
-
-impl<'a, F, T> FoldScope<T> for &'a mut F
-where
-    F: FoldScope<T>,
-{
-    fn fold_scope(&mut self, scope: &mut Scope, node: T) -> T {
-        (**self).fold_scope(scope, node)
+/// Contextual folder
+pub trait Traverse {
+    fn fold_var_decl(&mut self, _scope: &mut Scope, decl: VarDecl) -> VarDecl {
+        decl
     }
 }
-
-/// Called once per scope.
-#[derive(Debug)]
-pub struct ScopeFolder<'a, F> {
-    pub folder: F,
-    pub cur_scope: &'a mut Scope<'a>,
-}
-
-/// Default implementation
-impl<'a, T, F: FoldScope<T>> Fold<T> for ScopeFolder<'a, F>
-where
-    T: FoldWith<ScopeFolder<'a, F>>,
-{
-    default fn fold(&mut self, n: T) -> T {
-        self.folder.fold_scope(self.cur_scope, n)
-    }
-}
-
-macro_rules! block_folder {
-    ($T:ty) => {
-        impl<'a, F: FoldScope<BlockStmt> + FoldScope<$T>> Fold<$T> for ScopeFolder<'a, F> {
-            fn fold(&mut self, n: $T) -> $T {
-                let mut new_scope = Scope::new(Some(self.cur_scope), ScopeKind::Block);
-                self.folder.fold_scope(&mut new_scope, n)
-            }
-        }
-    };
-}
-// impl_folder!(Stmt, Expr);
-
-impl<'a, F> Fold<Function> for ScopeFolder<'a, F>
-where
-    F: FoldScope<Function> + FoldScope<BlockStmt>,
-{
-    fn fold(&mut self, n: Function) -> Function {
-        let mut new_scope = Scope::new(Some(self.cur_scope), ScopeKind::Fn);
-        // TODO: Add
-        let body = FoldScope::<BlockStmt>::fold_scope(&mut self.folder, &mut new_scope, n.body);
-        Function { body, ..n }
-    }
-}
-
-block_folder!(BlockStmt);
-block_folder!(Module);
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Scope<'a> {
+    /// Parent scope of this scope
     pub parent: Option<&'a Scope<'a>>,
+
+    /// Kind of the scope.
     pub kind: ScopeKind,
+
+    /// Whether or not the `super` keyword was used
+    pub used_super: Cell<bool>,
+
+    /// Whether or not the `this` keyword was used
+    pub used_this: Cell<bool>,
+
+    /// All references used in this scope
+    pub used_refs: HashSet<JsWord>,
+
+    /// All references declared in this scope
+    pub declared_refs: HashSet<JsWord>,
+
+    /// All children of the this scope
     pub children: Vec<Scope<'a>>,
-    pub bindings: Vec<Ident>,
-    pub refs: Vec<Ident>,
 }
 
 impl<'a> Scope<'a> {
-    fn new(parent: Option<&'a Scope<'a>>, kind: ScopeKind) -> Self {
+    pub fn analyze(module: Module) -> (Module, Scope<'a>) {
+        struct Noop;
+        impl Traverse for Noop {}
+
+        let mut noop = Noop;
+        let mut visitor = ScopeAnalyzer::new(&mut noop);
+
+        let module = module.fold_with(&mut visitor);
+
+        (module, visitor.current)
+    }
+
+    pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
         Scope {
             parent,
             kind,
+            used_super: Cell::new(false),
+            used_this: Cell::new(false),
+            used_refs: Default::default(),
+            declared_refs: Default::default(),
             children: Default::default(),
-            bindings: Default::default(),
-            refs: Default::default(),
         }
     }
+}
 
-    pub fn root() -> Self {
-        Self::new(None, ScopeKind::Block)
+struct ScopeAnalyzer<'a, 'b, T: Traverse> {
+    current: Scope<'a>,
+    visitor: &'b mut T,
+}
+impl<'a, 'b, T: Traverse> ScopeAnalyzer<'a, 'b, T> {
+    pub fn new(visitor: &'b mut T) -> Self {
+        ScopeAnalyzer {
+            current: Scope::new(ScopeKind::Fn, None),
+            visitor,
+        }
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<BlockStmt> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, node: BlockStmt) -> BlockStmt {
+        let mut analyzer = ScopeAnalyzer {
+            // TODO
+            current: Scope::new(ScopeKind::Block, None),
+            visitor: self.visitor,
+        };
+
+        let node = node.fold_children(&mut analyzer);
+
+        self.current.children.push(analyzer.current);
+
+        node
+    }
+}
+
+impl<'a, 'b, T: Traverse> ScopeAnalyzer<'a, 'b, T> {
+    fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
+        self.current.declared_refs.extend(ident.map(|i| i.sym));
+
+        let mut analyzer = ScopeAnalyzer {
+            // TODO
+            current: Scope::new(ScopeKind::Fn, None),
+            visitor: self.visitor,
+        };
+
+        node.params = node.params.fold_children(&mut analyzer);
+        node.body = node.body.fold_children(&mut analyzer);
+
+        self.current.children.push(analyzer.current);
+
+        node
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<Pat> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, pat: Pat) -> Pat {
+        match pat {
+            Pat::Ident(ref ident) => {
+                self.current.declared_refs.insert(ident.sym.clone());
+            }
+            _ => unimplemented!("Pattern other than ident"),
+        }
+
+        pat
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<FnExpr> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, mut node: FnExpr) -> FnExpr {
+        node.function = self.fold_fn(node.ident.clone(), node.function);
+
+        node
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<FnDecl> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, mut node: FnDecl) -> FnDecl {
+        node.function = self.fold_fn(Some(node.ident.clone()), node.function);
+
+        node
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<VarDecl> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, node: VarDecl) -> VarDecl {
+        let node = node.fold_children(self);
+
+        let node = self.visitor.fold_var_decl(&mut self.current, node);
+
+        node
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<Expr> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, node: Expr) -> Expr {
+        println!("node: {:?}\n{:?}", self.current, node);
+
+        match node {
+            Expr::Ident(ref ident) => {
+                self.current.used_refs.insert(ident.sym.clone());
+            }
+            Expr::This(..) => {
+                self.current.used_this.set(true);
+            }
+            _ => {}
+        }
+
+        node
+    }
+}
+
+impl<'a, 'b, T: Traverse> Fold<ExprOrSuper> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, node: ExprOrSuper) -> ExprOrSuper {
+        match node {
+            ExprOrSuper::Super(..) => {
+                self.current.used_super.set(true);
+                node
+            }
+            _ => node.fold_children(self),
+        }
     }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ScopeKind {
-    Fn,
     Block,
+    Fn,
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::*;
-    use swc_common::DUMMY_SP as span;
-
-    struct Visitor;
-
-    impl<'a> FoldScope<VarDecl> for Visitor {
-        fn fold_scope(&mut self, scope: &mut Scope, node: VarDecl) -> VarDecl {
-            eprintln!("\tVisiting: {:?}\n\t>{:?}", scope, node);
-
-            node
-        }
-    }
 
     #[test]
-    fn test_block() {
-        let mut root = Scope::root();
-        {
-            let mut folder = ScopeFolder {
-                folder: Visitor,
-                cur_scope: &mut root,
-            };
+    fn scope_analysis() {
+        ::tests::Tester::run(|tester| {
+            let module = tester.apply_transform(
+                ::testing::DropSpan,
+                "src.js",
+                "function test_function(bar) { doge; { moon; } return 10; }".into(),
+            )?;
+            let (module, mut root) = Scope::analyze(module);
 
-            let block = BlockStmt {
-                span,
-                stmts: vec![
-                    Stmt::Decl(Decl::Var(VarDecl {
-                        span,
-                        kind: VarDeclKind::Let,
-                        decls: vec![VarDeclarator {
-                            span,
-                            name: Pat::Ident(Ident::new("abc".into(), span)),
-                            init: None,
-                        }],
-                    })),
-                    Stmt::Expr(member_expr!(span, abc)),
-                ],
-            };
+            assert_eq!(root.parent, None);
+            assert_eq!(root.kind, ScopeKind::Fn);
+            assert!(root.used_refs.is_empty());
+            assert!(root.declared_refs.contains(&"test_function".into()));
+            assert!(root.children.len() == 1);
 
-            let folded = block.clone().fold_with(&mut folder);
-        }
+            let mut test_function = root.children.pop().unwrap();
+
+            // assert_eq!(test_function.parent, Some(root));
+            assert_eq!(test_function.kind, ScopeKind::Fn);
+            assert!(test_function.used_refs.contains(&"doge".into()));
+            assert!(test_function.declared_refs.contains(&"bar".into()));
+
+            let moon = test_function.children.pop().unwrap();
+
+            // assert_eq!(moon.parent, Some(test_function));
+            assert_eq!(moon.kind, ScopeKind::Block);
+            assert!(moon.used_refs.contains(&"moon".into()));
+            assert!(moon.declared_refs.is_empty());
+            assert!(moon.children.is_empty());
+
+            Ok(())
+        });
     }
-
 }

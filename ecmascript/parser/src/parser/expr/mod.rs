@@ -34,7 +34,8 @@ impl<'a, I: Input> Parser<'a, I> {
             return self.parse_yield_expr();
         }
 
-        self.state.potential_arrow_start = match *cur!()? {
+        // TODO: Check if cur!(true) correct.
+        self.state.potential_arrow_start = match *cur!(true)? {
             Word(Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
             _ => None,
         };
@@ -53,7 +54,7 @@ impl<'a, I: Input> Parser<'a, I> {
             _ => {}
         }
 
-        match cur!() {
+        match cur!(false) {
             Ok(&AssignOp(op)) => {
                 let left = if op == Assign {
                     self.reparse_expr_as_pat(PatType::AssignPat, cond)
@@ -109,7 +110,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Parse a primary expression or arrow function
     fn parse_primary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
-        let _ = cur!();
+        let _ = cur!(false);
         let start = cur_pos!();
 
         let can_be_arrow = self
@@ -147,7 +148,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Literals
         if {
-            match *cur!()? {
+            match *cur!(false)? {
                 tok!("null") | tok!("true") | tok!("false") | Num(..) | Token::Str { .. } => true,
                 _ => false,
             }
@@ -157,7 +158,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Regexp
         if {
-            match *cur!()? {
+            match *cur!(false)? {
                 Regex(..) => true,
                 _ => false,
             }
@@ -483,7 +484,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<'a, TplElement> {
         let start = cur_pos!();
 
-        let raw = match *cur!()? {
+        let raw = match *cur!(true)? {
             Template(_) => match bump!() {
                 Template(s) => s,
                 _ => unreachable!(),
@@ -520,7 +521,7 @@ impl<'a, I: Input> Parser<'a, I> {
         obj: ExprOrSuper,
         no_call: bool,
     ) -> PResult<'a, (Box<Expr>, bool)> {
-        let _ = cur!();
+        let _ = cur!(false);
 
         let start = cur_pos!();
         // member expression
@@ -602,7 +603,7 @@ impl<'a, I: Input> Parser<'a, I> {
             // Because it's not left-recursive.
             Expr::New(NewExpr { args: None, .. }) => {
                 assert_ne!(
-                    cur!().ok(),
+                    cur!(false).ok(),
                     Some(&LParen),
                     "parse_new_expr() should eat paren if it exists"
                 );
@@ -657,7 +658,7 @@ impl<'a, I: Input> Parser<'a, I> {
             syntax_error!(self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 
-        if is!(';') || (!is!('*') && !cur!().map(Token::starts_expr).unwrap_or(true)) {
+        if is!(';') || (!is!('*') && !cur!(false).map(Token::starts_expr).unwrap_or(true)) {
             Ok(box Expr::Yield(YieldExpr {
                 span: span!(start),
                 arg: None,
@@ -679,7 +680,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_lit(&mut self) -> PResult<'a, Lit> {
         let start = cur_pos!();
 
-        let v = match *cur!()? {
+        let v = match *cur!(true)? {
             Word(Null) => {
                 bump!();
                 let span = span!(start);

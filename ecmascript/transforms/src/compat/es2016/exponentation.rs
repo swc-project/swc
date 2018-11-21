@@ -1,6 +1,6 @@
+use ast::*;
 use crate::util::ExprFactory;
 use swc_common::{Fold, FoldWith, Span};
-use ast::*;
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///

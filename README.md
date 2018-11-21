@@ -32,7 +32,8 @@ New generation javascript to old-days javascript.
     - [ ] property-mutators
 
  - es2015
-    - [ ] arrow-functions
+    - [x] arrow-functions
+      - [ ] this inside arrow function
     - [ ] block-scoped-functions
     - [ ] block-scoping
     - [x] classes
@@ -40,16 +41,17 @@ New generation javascript to old-days javascript.
     - [ ] destructuring
     - [ ] duplicate-keys
     - [ ] for-of
-    - [ ] function-name
+    - [x] function-name
     - [x] instanceof
     - [ ] literals
-    - [ ] new-target
+    - [x] new-target
     - [ ] object-super
     - [ ] parameters
     - [x] shorthand-properties
     - [x] spread
     - [x] sticky regex (`y` flag)
-    - [ ] template-literals
+    - [x] template-literals
+      - [ ] tagged template literals
     - [x] typeof-symbol
     - [ ] unicode-regex
 

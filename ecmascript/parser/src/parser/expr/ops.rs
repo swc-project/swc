@@ -24,7 +24,7 @@ impl<'a, I: Input> Parser<'a, I> {
     ) -> PResult<'a, (Box<Expr>)> {
         let op = match {
             // Return left on eof
-            match cur!() {
+            match cur!(false) {
                 Ok(cur) => cur,
                 Err(..) => return Ok(left),
             }

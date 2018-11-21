@@ -1,7 +1,7 @@
 pub use self::{
-    arrow::Arrow, classes::Classes, instanceof::InstanceOf, shorthand_property::Shorthand,
-    spread::Spread, sticky_regex::StickyRegex, template_literal::TemplateLiteral,
-    typeof_symbol::TypeOfSymbol,
+    arrow::Arrow, classes::Classes, function_name::function_name, instanceof::InstanceOf,
+    shorthand_property::Shorthand, spread::Spread, sticky_regex::StickyRegex,
+    template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 
 use super::helpers::Helpers;
@@ -11,6 +11,7 @@ use swc_common::Fold;
 
 mod arrow;
 mod classes;
+mod function_name;
 mod instanceof;
 mod shorthand_property;
 mod spread;
@@ -23,6 +24,8 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
     Classes {
         helpers: helpers.clone(),
     }
+    .then(Arrow)
+    .then(function_name())
     .then(Spread {
         helpers: helpers.clone(),
     })
@@ -32,6 +35,9 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
         helpers: helpers.clone(),
     })
     .then(TypeOfSymbol {
+        helpers: helpers.clone(),
+    })
+    .then(TemplateLiteral {
         helpers: helpers.clone(),
     })
 }
