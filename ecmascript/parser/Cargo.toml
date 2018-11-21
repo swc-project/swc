@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_parser"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
