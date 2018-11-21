@@ -144,6 +144,14 @@ macro_rules! test_transform {
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test {
+    (ignore, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+        #[test]
+        #[ignore]
+        fn $test_name() {
+            test_transform!($tr, $input, $expected)
+        }
+    };
+
     ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {

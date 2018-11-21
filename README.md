@@ -50,7 +50,8 @@ New generation javascript to old-days javascript.
     - [x] shorthand-properties
     - [x] spread
     - [x] sticky regex (`y` flag)
-    - [ ] template-literals
+    - [x] template-literals
+      - [ ] tagged template literals
     - [x] typeof-symbol
     - [ ] unicode-regex
 

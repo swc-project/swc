@@ -37,4 +37,7 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
     .then(TypeOfSymbol {
         helpers: helpers.clone(),
     })
+    .then(TemplateLiteral {
+        helpers: helpers.clone(),
+    })
 }

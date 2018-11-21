@@ -1,11 +1,15 @@
 use ast::*;
+use crate::compat::helpers::Helpers;
+use std::sync::{atomic::Ordering, Arc};
 use swc_common::{Fold, FoldWith, Spanned};
 
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug, Clone, Copy, Default)]
-pub struct TemplateLiteral;
+#[derive(Debug, Clone, Default)]
+pub struct TemplateLiteral {
+    pub helpers: Arc<Helpers>,
+}
 
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {
@@ -18,7 +22,13 @@ impl Fold<Expr> for TemplateLiteral {
                 assert!(quasis.len() == exprs.len() + 1);
 
                 match tag {
-                    Some(tag) => unimplemented!("tagged template literal"),
+                    Some(_tag) => {
+                        self.helpers
+                            .tagged_template_literal
+                            .store(true, Ordering::SeqCst);
+
+                        unimplemented!("tagged template literal")
+                    }
                     None => {
                         // TODO: Optimize
 

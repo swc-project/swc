@@ -274,9 +274,22 @@ impl<'a> Emitter<'a> {
         if let Some(s) = get_text_of_node(&self.cm, node, false) {
             self.wr.write_str_lit(node.span, &s)?;
         } else {
-            punct!("'");
-            self.wr.write_str_lit(node.span, &node.value)?;
-            punct!("'");
+            if !node.value.contains("'") {
+                punct!("'");
+                self.wr.write_str_lit(node.span, &node.value)?;
+                punct!("'");
+            } else {
+                if !node.value.contains("\"") {
+                    punct!("\"");
+                    self.wr.write_str_lit(node.span, &node.value)?;
+                    punct!("\"");
+                } else {
+                    punct!("'");
+                    self.wr
+                        .write_str_lit(node.span, &node.value.replace("'", "\\'"))?;
+                    punct!("'");
+                }
+            }
         }
     }
 
