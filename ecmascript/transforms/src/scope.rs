@@ -39,6 +39,17 @@ pub struct Scope<'a> {
     ops: RefCell<Vec<ScopeOp>>,
 }
 
+pub fn hygiene() -> impl Fold<Module> {
+    struct Folder;
+    impl Fold<Module> for Folder {
+        fn fold(&mut self, module: Module) -> Module {
+            apply_hygiene(module)
+        }
+    }
+
+    Folder
+}
+
 #[doc(hidden)]
 pub struct Hygiene;
 impl Traverse for Hygiene {}
@@ -66,7 +77,7 @@ impl<'a> Fold<Ident> for Operator<'a> {
     }
 }
 
-pub fn hygiene<T>(node: T) -> T
+pub fn apply_hygiene<T>(node: T) -> T
 where
     for<'a, 'b> ScopeAnalyzer<'a, 'b, Hygiene>: Fold<T>,
     T: for<'o> FoldWith<Operator<'o>>,
@@ -333,7 +344,7 @@ mod test {
                 body: stmts.into_iter().map(ModuleItem::Stmt).collect(),
             };
 
-            let module = hygiene(module);
+            let module = apply_hygiene(module);
 
             let actual = tester.print(&module);
 
