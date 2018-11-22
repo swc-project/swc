@@ -96,7 +96,8 @@ impl<'a> Tester<'a> {
         let module = module
             .fold_with(&mut tr)
             .fold_with(&mut ::testing::DropSpan)
-            .fold_with(&mut Normalizer);
+            .fold_with(&mut Normalizer)
+            .fold_with(&mut crate::scope::hygiene());
 
         Ok(module)
     }

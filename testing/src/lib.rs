@@ -24,7 +24,9 @@ use std::{
     path::Path,
     thread,
 };
-use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, Fold, FoldWith, SourceMap, Span};
+use swc_common::{
+    errors::Handler, sync::Lrc, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
+};
 
 #[macro_use]
 mod macros;
@@ -57,8 +59,8 @@ where
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DropSpan;
 impl Fold<Span> for DropSpan {
-    fn fold(&mut self, _: Span) -> Span {
-        Span::default()
+    fn fold(&mut self, span: Span) -> Span {
+        DUMMY_SP.with_ctxt(span.ctxt())
     }
 }
 
