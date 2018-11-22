@@ -1,4 +1,5 @@
 (function() {
-    'use\nstrict';
+    'use
+strict';
     with (a);
 }());

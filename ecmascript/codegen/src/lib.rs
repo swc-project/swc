@@ -270,25 +270,25 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_str_lit(&mut self, node: &Str) -> Result {
-        // TODO: quote
-        if let Some(s) = get_text_of_node(&self.cm, node, false) {
-            self.wr.write_str_lit(node.span, &s)?;
+        // if let Some(s) = get_text_of_node(&self.cm, node, false) {
+        //     self.wr.write_str_lit(node.span, &s)?;
+        //     return Ok(());
+        // }
+
+        if !node.value.contains("'") {
+            punct!("'");
+            self.wr.write_str_lit(node.span, &node.value)?;
+            punct!("'");
         } else {
-            if !node.value.contains("'") {
-                punct!("'");
+            if !node.value.contains("\"") {
+                punct!("\"");
                 self.wr.write_str_lit(node.span, &node.value)?;
-                punct!("'");
+                punct!("\"");
             } else {
-                if !node.value.contains("\"") {
-                    punct!("\"");
-                    self.wr.write_str_lit(node.span, &node.value)?;
-                    punct!("\"");
-                } else {
-                    punct!("'");
-                    self.wr
-                        .write_str_lit(node.span, &node.value.replace("'", "\\'"))?;
-                    punct!("'");
-                }
+                punct!("'");
+                self.wr
+                    .write_str_lit(node.span, &node.value.replace("'", "\\'"))?;
+                punct!("'");
             }
         }
     }
@@ -297,22 +297,20 @@ impl<'a> Emitter<'a> {
     pub fn emit_num_lit(&mut self, num: &Number) -> Result {
         // FIXME: Emitter might de-optimize
 
-        match get_text_of_node(&self.cm, num, false) {
-            Some(s) => self.wr.write_str_lit(num.span, &s)?,
-            None => {
-                // Handle infinity
-                if num.value.is_infinite() {
-                    if num.value.is_sign_negative() {
-                        self.wr.write_str_lit(num.span, "-")?;
-                    }
-                    self.wr.write_str_lit(num.span, "Infinity")?;
-                } else {
-                    self.wr.write_str_lit(num.span, &format!("{}", num.value))?
-                }
-            }
-        };
+        // if let Some(text) = get_text_of_node(&self.cm, num, false) {
+        //     self.wr.write_str_lit(num.span, &s)?;
+        //     return Ok(());
+        // }
 
-        return Ok(());
+        // Handle infinity
+        if num.value.is_infinite() {
+            if num.value.is_sign_negative() {
+                self.wr.write_str_lit(num.span, "-")?;
+            }
+            self.wr.write_str_lit(num.span, "Infinity")?;
+        } else {
+            self.wr.write_str_lit(num.span, &format!("{}", num.value))?;
+        }
     }
 
     // pub fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {
@@ -832,11 +830,7 @@ impl<'a> Emitter<'a> {
             unimplemented!()
         } else {
             // TODO: span
-            if let Some(s) = get_text_of_node(&self.cm, &ident, false) {
-                self.wr.write_symbol(ident.span, &s)?
-            } else {
-                self.wr.write_symbol(ident.span, &ident.sym)?
-            }
+            self.wr.write_symbol(ident.span, &ident.sym)?
 
             // self.wr
             //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
@@ -1491,6 +1485,7 @@ impl<'a> Emitter<'a> {
     }
 }
 
+#[allow(dead_code)]
 fn get_text_of_node<T: Spanned>(
     cm: &Lrc<SourceMap>,
     node: &T,
@@ -1507,21 +1502,6 @@ fn get_text_of_node<T: Spanned>(
         return None;
     }
     Some(s)
-
-    // let span = node.span();
-    // let src = match file.src {
-    //     Some(ref src) => src.clone(),
-    //     None => return None,
-    // };
-    // assert!(file.contains(span.lo()));
-    // assert!(file.contains(span.hi()));
-
-    // let lo: u32 = span.lo().0 - file.start_pos.0;
-    // let hi: u32 = span.hi().0 - file.start_pos.0;
-
-    // let s: &str = &src;
-    // let s = &s[lo as usize..hi as usize];
-    // Some(s.to_string())
 }
 
 /// In some cases, we need to emit a space between the operator and the operand.

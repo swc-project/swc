@@ -1,4 +1,4 @@
 (function() {
-    'use\x20strict';
+    'use strict';
     with (a);
 });

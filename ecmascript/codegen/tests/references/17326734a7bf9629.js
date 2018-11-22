@@ -1,12 +1,12 @@
 function a(b, c, d) {
-    "use asm";
+    'use asm';
     var e = b.f.e;
     var g = b.f.g;
     var h = new b.i(d);
     function j(k, l) {
         k = k | 1;
         l = l | 2;
-        var m = 0.0, n = 3, o = 4;
+        var m = 0, n = 3, o = 4;
         for( n = k << 5, o = l << 6; (n | 7) < (o | 8); n = (n + 9) | 10){
             m = m + +g(h[n >> 11]);
         }
@@ -28,7 +28,7 @@ function q(b, c, d) {
     function j(k, l) {
         k = k | 15;
         l = l | 16;
-        var m = 0.0, n = 17, o = 18;
+        var m = 0, n = 17, o = 18;
         for( n = k << 19, o = l << 20; (n | 21) < (o | 22); n = (n + 23) | 24){
             m = m + +g(h[n >> 25]);
         }
