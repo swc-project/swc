@@ -1,8 +1,5 @@
 use ast::*;
-use crate::{
-    compat::helpers::{self, Helpers},
-    util::ExprFactory,
-};
+use crate::{compat::helpers::Helpers, util::ExprFactory};
 use std::sync::{atomic::Ordering, Arc};
 use swc_common::{Fold, FoldWith};
 
@@ -40,7 +37,7 @@ impl Fold<Expr> for TypeOfSymbol {
                 self.helpers.type_of.store(true, Ordering::SeqCst);
                 return Expr::Call(CallExpr {
                     span,
-                    callee: quote_ident!(span.apply_mark(helpers::mark()), "_typeof").as_callee(),
+                    callee: quote_ident!(span, "_typeof").as_callee(),
                     args: vec![arg.as_arg()],
                 });
             }

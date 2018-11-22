@@ -4,7 +4,7 @@ use std::{
     collections::HashSet,
 };
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
 /// Contextual folder
 pub trait Traverse {
@@ -40,10 +40,18 @@ pub struct Scope<'a> {
 }
 
 pub fn hygiene() -> impl Fold<Module> {
+    struct MarkClearer;
+    impl Fold<Span> for Folder {
+        fn fold(&mut self, span: Span) -> Span {
+            span.with_ctxt(SyntaxContext::empty())
+        }
+    }
+
     struct Folder;
     impl Fold<Module> for Folder {
         fn fold(&mut self, module: Module) -> Module {
-            apply_hygiene(module)
+            let module = apply_hygiene(module);
+            module.fold_with(&mut MarkClearer)
         }
     }
 

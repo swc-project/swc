@@ -9,8 +9,6 @@
 extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
-#[macro_use]
-extern crate lazy_static;
 extern crate swc_common;
 extern crate swc_ecma_ast as ast;
 #[cfg(test)]

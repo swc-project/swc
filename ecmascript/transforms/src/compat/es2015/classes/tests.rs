@@ -1,9 +1,9 @@
 use super::*;
 
 test!(
-    Classes::default(),
-    basic,
-    r#"class Test {
+  Classes::default(),
+  basic,
+  r#"class Test {
   constructor(name) {
     this.name = name;
   }
@@ -12,7 +12,7 @@ test!(
     console.log("Hello", this.name);
   }
 }"#,
-    r#"var Test = function () {
+  r#"var Test = function () {
   function Test(name) {
     _classCallCheck(this, Test);
 
@@ -31,15 +31,15 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    method_hoisted,
-    r#"class Foo {
+  Classes::default(),
+  method_hoisted,
+  r#"class Foo {
   foo(){
   }
   constructor(s){
   }
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -54,12 +54,12 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    static_method,
-    r#"class Foo {
+  Classes::default(),
+  static_method,
+  r#"class Foo {
   static st(){}
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
   }
@@ -74,16 +74,16 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    complex_with_consturctor,
-    r#"class Foo {
+  Classes::default(),
+  complex_with_consturctor,
+  r#"class Foo {
   foo(){
   }
   constructor(s){
   }
   static st(){}
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
