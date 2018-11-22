@@ -9,8 +9,15 @@ addons:
 language: rust
 rust:
 - nightly
+
+# Need to cache the whole `.cargo` directory to keep .crates.toml for
+# cargo-update to work
 cache:
-  cargo: true
+  directories:
+    - /home/travis/.cargo
+# But don't cache the cargo registry
+before_cache:
+  - rm -rf /home/travis/.cargo/registry
 
 git:
     submodules: false
