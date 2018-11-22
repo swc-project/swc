@@ -37,8 +37,6 @@ impl Fold<Expr> for TypeOfSymbol {
                 op: op!("typeof"),
                 arg,
             }) => {
-                let span = mark!(span);
-
                 self.helpers.type_of.store(true, Ordering::SeqCst);
                 return Expr::Call(CallExpr {
                     span,

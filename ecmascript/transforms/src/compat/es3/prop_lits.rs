@@ -42,15 +42,12 @@ impl Fold<PropName> for PropertyLiteral {
             | PropName::Ident(Ident { sym, span }) => {
                 if sym.is_reserved_for_es3() {
                     return PropName::Str(Str {
-                        span: mark!(span),
+                        span,
                         value: sym,
                         has_escape: false,
                     });
                 } else {
-                    PropName::Ident(Ident {
-                        span: mark!(span),
-                        sym,
-                    })
+                    PropName::Ident(Ident { span, sym })
                 }
             }
             _ => n,

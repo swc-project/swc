@@ -41,7 +41,6 @@ impl Fold<Expr> for Exponentation {
 
                     // unimplemented
                     _ => {
-                        println!("!!!{:?}", left);
                         return Expr::Assign(AssignExpr {
                             span,
                             left,
@@ -51,7 +50,7 @@ impl Fold<Expr> for Exponentation {
                     }
                 };
                 return Expr::Assign(AssignExpr {
-                    span: mark!(span),
+                    span,
                     left,
                     op: op!("="),
                     right: box mk_call(span, box Expr::Ident(i), right),
@@ -69,8 +68,6 @@ impl Fold<Expr> for Exponentation {
 }
 
 fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
-    let span = mark!(span);
-
     // Math.pow()
     Expr::Call(CallExpr {
         span,

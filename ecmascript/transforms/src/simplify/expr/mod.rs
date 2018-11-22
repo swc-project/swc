@@ -39,7 +39,7 @@ impl Fold<Expr> for SimplifyExpr {
                         *expr_value
                     } else {
                         Expr::Seq(SeqExpr {
-                            span: mark!(span),
+                            span,
                             exprs: vec![test, expr_value],
                         })
                     }
@@ -110,7 +110,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
             // 'foo'.length
             KnownOp::Len => Expr::Lit(Lit::Num(Number {
                 value: value.chars().count() as f64,
-                span: mark!(span),
+                span,
             })),
 
             // 'foo'[1]
@@ -121,7 +121,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
                     .unwrap_or_else(|| panic!("failed to index char?"))
                     .to_string()
                     .into(),
-                span: mark!(span),
+                span,
                 has_escape: false,
             })),
 
@@ -151,7 +151,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
 
             return Expr::Lit(Lit::Num(Number {
                 value: elems.len() as _,
-                span: mark!(span),
+                span,
             }));
         }
 
@@ -197,10 +197,7 @@ fn fold_bin(
                 Known(v) => {
                     return preserve_effects(
                         span,
-                        Expr::Lit(Lit::Num(Number {
-                            value: v,
-                            span: mark!(span),
-                        })),
+                        Expr::Lit(Lit::Num(Number { value: v, span })),
                         { iter::once(left).chain(iter::once(right)) },
                     );
                 }
@@ -234,7 +231,7 @@ fn fold_bin(
                                 (Known(l), Known(r)) => {
                                     return Expr::Lit(Lit::Str(Str {
                                         value: format!("{}{}", l, r).into(),
-                                        span: mark!(span),
+                                        span,
                                         // TODO
                                         has_escape: false,
                                     }));
@@ -573,7 +570,7 @@ fn try_fold_typeof(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
     };
 
     Expr::Lit(Lit::Str(Str {
-        span: mark!(span),
+        span,
         value: val.into(),
         has_escape: false,
     }))
@@ -594,10 +591,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             Known(v) => {
                 return preserve_effects(
                     span,
-                    Expr::Lit(Lit::Num(Number {
-                        value: v,
-                        span: mark!(span),
-                    })),
+                    Expr::Lit(Lit::Num(Number { value: v, span })),
                     iter::once(arg),
                 )
             }
@@ -614,10 +608,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 ..
             }) => return *arg,
             Expr::Lit(Lit::Num(Number { value: f, .. })) => {
-                return Expr::Lit(Lit::Num(Number {
-                    value: -f,
-                    span: mark!(span),
-                }))
+                return Expr::Lit(Lit::Num(Number { value: -f, span }))
             }
             _ => {
 
@@ -629,7 +620,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 op: op!("void"),
                 arg: box Expr::Lit(Lit::Num(Number {
                     value: 0.0,
-                    span: mark!(arg.span()),
+                    span: arg.span(),
                 })),
                 span,
             })

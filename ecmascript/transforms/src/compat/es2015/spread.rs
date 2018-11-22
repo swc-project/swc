@@ -46,8 +46,6 @@ impl Fold<Expr> for Spread {
                         span,
                     });
                 }
-                let span = mark!(span);
-
                 let args_array = concat_args(&self.helpers, span, args);
                 //
                 // f.apply(undefined, args)
@@ -73,7 +71,6 @@ impl Fold<Expr> for Spread {
                         span,
                     });
                 }
-                let span = mark!(span);
 
                 let args = concat_args(
                     &self.helpers,

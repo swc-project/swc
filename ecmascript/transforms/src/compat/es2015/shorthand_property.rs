@@ -43,14 +43,10 @@ impl Fold<Prop> for Shorthand {
         let prop = prop.fold_children(self);
 
         match prop {
-            Prop::Shorthand(Ident { sym, span }) => {
-                let span = mark!(span);
-
-                Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(quote_ident!(span, sym.clone())),
-                    value: box quote_ident!(span, sym).into(),
-                })
-            }
+            Prop::Shorthand(Ident { sym, span }) => Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!(span, sym.clone())),
+                value: box quote_ident!(span, sym).into(),
+            }),
             Prop::Method(MethodProp { key, function }) => Prop::KeyValue(KeyValueProp {
                 key,
                 value: box Expr::Fn(FnExpr {

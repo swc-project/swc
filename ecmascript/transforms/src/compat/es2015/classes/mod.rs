@@ -72,7 +72,7 @@ impl Fold<Stmt> for Classes {
             //      return Foo;
             //    }();
             Stmt::Decl(Decl::Class(decl)) => {
-                let span = mark!(decl.span());
+                let span = decl.span();
                 let rhs = self.fold_class(Some(decl.ident.clone()), decl.class);
 
                 Stmt::Decl(Decl::Var(VarDecl {
@@ -515,7 +515,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>) -> Expr {
         self.did_work = true;
-        let super_token = mark!(super_token);
+        let super_token = (super_token);
 
         let proto_arg = get_prototype_of(&Expr::Member(MemberExpr {
             span: super_token,
