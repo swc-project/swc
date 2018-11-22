@@ -34,7 +34,7 @@ impl Fold<MemberExpr> for MemberExprLit {
                     return MemberExpr {
                         computed: true,
                         prop: box Expr::Lit(Lit::Str(Str {
-                            span: mark!(span),
+                            span,
                             value: sym,
                             has_escape: false,
                         })),
@@ -43,7 +43,7 @@ impl Fold<MemberExpr> for MemberExprLit {
                 } else {
                     return MemberExpr {
                         computed: false,
-                        prop: box Expr::Ident(quote_ident!(mark!(span), sym)),
+                        prop: box Expr::Ident(quote_ident!(span, sym)),
                         ..e
                     };
                 }

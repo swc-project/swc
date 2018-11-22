@@ -1,5 +1,8 @@
 use ast::*;
-use crate::{compat::helpers::Helpers, util::ExprFactory};
+use crate::{
+    compat::helpers::{self, Helpers},
+    util::ExprFactory,
+};
 use std::sync::{atomic::Ordering, Arc};
 use swc_common::{Fold, FoldWith};
 
@@ -49,7 +52,8 @@ impl Fold<Expr> for InstanceOf {
 
                 Expr::Call(CallExpr {
                     span,
-                    callee: quote_ident!(span, "_instanceof").as_callee(),
+                    callee: quote_ident!(span.apply_mark(helpers::mark()), "_instanceof")
+                        .as_callee(),
                     args: vec![left.as_arg(), right.as_arg()],
                 })
             }

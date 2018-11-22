@@ -1,5 +1,8 @@
 use ast::*;
-use crate::{compat::helpers::Helpers, util::ExprFactory};
+use crate::{
+    compat::helpers::{self, Helpers},
+    util::ExprFactory,
+};
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
@@ -173,7 +176,7 @@ impl Classes {
 
             stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_ident!("_inherits").as_callee(),
+                callee: quote_ident!(helpers::span(), "_inherits").as_callee(),
                 args: vec![
                     class_name.clone().as_arg(),
                     super_class_ident.clone().as_arg(),
@@ -208,7 +211,7 @@ impl Classes {
             // inject _classCallCheck(this, Bar);
             function.body.stmts = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
+                callee: Expr::Ident(quote_ident!(helpers::span(), "_classCallCheck")).as_callee(),
                 args: vec![
                     Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
                     Expr::Ident(class_name.clone()).as_arg(),
@@ -232,7 +235,7 @@ impl Classes {
                 // possible return value from super() call
                 let possible_return_value = box Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: quote_ident!("_possibleConstructorReturn").as_callee(),
+                    callee: quote_ident!(helpers::span(), "_possibleConstructorReturn").as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
                         let apply = box Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -368,7 +371,7 @@ impl Classes {
         ) -> Stmt {
             Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_ident!("_createClass").as_callee(),
+                callee: quote_ident!(helpers::span(), "_createClass").as_callee(),
                 args: iter::once(class_name.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
@@ -541,7 +544,7 @@ impl<'a> SuperCalleeFolder<'a> {
 
         Expr::Call(CallExpr {
             span: super_token,
-            callee: quote_ident!("_get").as_callee(),
+            callee: quote_ident!(helpers::span(), "_get").as_callee(),
             args: vec![proto_arg, prop_arg, this_arg],
         })
     }

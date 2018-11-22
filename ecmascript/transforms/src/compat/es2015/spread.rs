@@ -1,5 +1,8 @@
 use ast::*;
-use crate::{compat::helpers::Helpers, util::ExprFactory};
+use crate::{
+    compat::helpers::{self, Helpers},
+    util::ExprFactory,
+};
 use std::{
     mem,
     sync::{atomic::Ordering, Arc},
@@ -137,7 +140,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                 buf.push(
                     Expr::Call(CallExpr {
                         span,
-                        callee: quote_ident!("_toConsumableArray").as_callee(),
+                        callee: quote_ident!(helpers::span(), "_toConsumableArray").as_callee(),
                         args: vec![expr.as_arg()],
                     })
                     .as_arg(),

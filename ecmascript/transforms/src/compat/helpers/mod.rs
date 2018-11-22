@@ -5,10 +5,23 @@ use std::sync::{
 };
 use swc_common::{
     errors::{ColorConfig, Handler},
+    hygiene::SyntaxContext,
     sync::Lrc,
-    FileName, Fold, SourceMap,
+    FileName, Fold, FoldWith, Mark, SourceMap, Span, DUMMY_SP,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
+
+lazy_static! {
+    static ref MARK: Mark = { Mark::fresh(Mark::root()) };
+}
+
+pub fn mark() -> Mark {
+    *MARK
+}
+
+pub fn span() -> Span {
+    DUMMY_SP.apply_mark(*MARK)
+}
 
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Debug, Default)]
@@ -32,6 +45,14 @@ pub struct Helpers {
     pub type_of: AtomicBool,
     /// `_taggedTemplateLiteral`
     pub tagged_template_literal: AtomicBool,
+}
+
+struct AttathCtxt;
+
+impl Fold<Span> for AttathCtxt {
+    fn fold(&mut self, span: Span) -> Span {
+        span.apply_mark(*MARK)
+    }
 }
 
 pub struct InjectHelpers {
@@ -62,6 +83,7 @@ impl InjectHelpers {
 
             let mut stmts = Parser::new(session, SourceFileInput::from(&*fm))
                 .parse_script()
+                .map(|stmts| stmts.fold_with(&mut AttathCtxt))
                 .unwrap();
 
             buf.append(&mut stmts);
