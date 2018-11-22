@@ -47,15 +47,15 @@ pub struct Operator<'a>(&'a [ScopeOp]);
 
 impl<'a> Fold<Ident> for Operator<'a> {
     fn fold(&mut self, ident: Ident) -> Ident {
-        println!("Operating on {:?}\nOps: {:?}", ident, self.0);
         for op in self.0 {
             match *op {
                 ScopeOp::Rename { ref from, ref to }
                     if *from.sym == ident.sym && from.span.ctxt() == ident.span.ctxt() =>
                 {
                     return Ident {
+                        // TODO: Clear mark
+                        span: ident.span,
                         sym: to.clone(),
-                        ..ident
                     };
                 }
                 _ => {}
@@ -103,22 +103,44 @@ impl<'a> Scope<'a> {
         }
     }
 
+    fn is_declared(&self, sym: &JsWord) -> bool {
+        if self.declared_symbols.contains(sym) {
+            return true;
+        }
+        match self.parent {
+            Some(parent) => parent.is_declared(sym),
+            _ => false,
+        }
+    }
+
     fn add_declared_ref(&mut self, ident: Ident) {
-        if !self.declared_refs.insert(ident.clone()) {
+        if self.declared_symbols.insert(ident.sym.clone()) {
+            // First symbol
             return;
         }
 
-        if self.declared_symbols.insert(ident.sym.clone()) {
-            // Symbol conflicts
-            println!("Symbol conflicts: {}", ident.sym);
-            self.scope_of(&ident)
-                .ops
-                .borrow_mut()
-                .push(ScopeOp::Rename {
-                    to: format!("__{}", ident.sym).into(),
-                    from: ident,
-                });
-        }
+        // symbol conflicts
+        let renamed = {
+            debug_assert!(self.is_declared(&ident.sym));
+
+            let mut i = 0;
+            loop {
+                i += 1;
+                let sym: JsWord = format!("{}{}", ident.sym, i).into();
+
+                if !self.is_declared(&sym) {
+                    break sym;
+                }
+            }
+        };
+
+        self.scope_of(&ident)
+            .ops
+            .borrow_mut()
+            .push(ScopeOp::Rename {
+                from: ident,
+                to: renamed,
+            });
     }
 }
 
@@ -291,16 +313,19 @@ mod test {
     #[test]
     fn hygiene_simple() {
         ::tests::Tester::run(|tester| {
-            let mark = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
 
             let stmts = vec![
                 tester
                     .parse_stmt("actual.js", "var foo = 1;")?
-                    .fold_with(&mut marker(&[("foo", mark)])),
-                tester.parse_stmt("actual.js", "var foo = 2;")?,
+                    .fold_with(&mut marker(&[("foo", mark1)])),
+                tester
+                    .parse_stmt("actual.js", "var foo = 2;")?
+                    .fold_with(&mut marker(&[("foo", mark2)])),
                 tester
                     .parse_stmt("actual.js", "use(foo)")?
-                    .fold_with(&mut marker(&[("foo", mark)])),
+                    .fold_with(&mut marker(&[("foo", mark1)])),
             ];
 
             let module = Module {
@@ -315,13 +340,18 @@ mod test {
             let expected = {
                 let expected = tester.with_parser(
                     "expected.js",
-                    "var __foo = 1;\nvar foo = 2;\nuse(__foo);",
+                    "var foo = 1;\nvar foo1 = 2;\nuse(foo);",
                     |p| p.parse_module(),
                 )?;
                 tester.print(&expected)
             };
 
-            assert_eq!(actual, expected);
+            if actual != expected {
+                panic!(
+                    "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
+                    actual, expected
+                );
+            }
 
             Ok(())
         });
