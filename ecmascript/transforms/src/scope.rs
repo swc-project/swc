@@ -41,7 +41,7 @@ pub struct Scope<'a> {
 
 pub fn hygiene() -> impl Fold<Module> {
     struct MarkClearer;
-    impl Fold<Span> for Folder {
+    impl Fold<Span> for MarkClearer {
         fn fold(&mut self, span: Span) -> Span {
             span.with_ctxt(SyntaxContext::empty())
         }
@@ -331,6 +331,53 @@ mod test {
 
     #[test]
     fn hygiene_simple() {
+        ::tests::Tester::run(|tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            let stmts = vec![
+                tester
+                    .parse_stmt("actual.js", "var foo = 1;")?
+                    .fold_with(&mut marker(&[("foo", mark1)])),
+                tester
+                    .parse_stmt("actual.js", "var foo = 2;")?
+                    .fold_with(&mut marker(&[("foo", mark2)])),
+                tester
+                    .parse_stmt("actual.js", "use(foo)")?
+                    .fold_with(&mut marker(&[("foo", mark1)])),
+            ];
+
+            let module = Module {
+                span: DUMMY_SP,
+                body: stmts.into_iter().map(ModuleItem::Stmt).collect(),
+            };
+
+            let module = apply_hygiene(module);
+
+            let actual = tester.print(&module);
+
+            let expected = {
+                let expected = tester.with_parser(
+                    "expected.js",
+                    "var foo = 1;\nvar foo1 = 2;\nuse(foo);",
+                    |p| p.parse_module(),
+                )?;
+                tester.print(&expected)
+            };
+
+            if actual != expected {
+                panic!(
+                    "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
+                    actual, expected
+                );
+            }
+
+            Ok(())
+        });
+    }
+
+    #[test]
+    fn hygiene_complex() {
         ::tests::Tester::run(|tester| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
