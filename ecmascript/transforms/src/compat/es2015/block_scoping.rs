@@ -47,10 +47,6 @@ impl<'a> Fold<BlockStmt> for BlockFolder<'a> {
 
 impl<'a> Fold<VarDecl> for BlockFolder<'a> {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
-        if var.kind == VarDeclKind::Var {
-            return var;
-        }
-
         let var = var.fold_children(self);
         VarDecl {
             kind: VarDeclKind::Var,
@@ -61,8 +57,6 @@ impl<'a> Fold<VarDecl> for BlockFolder<'a> {
 
 impl<'a> Fold<Pat> for BlockFolder<'a> {
     fn fold(&mut self, pat: Pat) -> Pat {
-        let pat = pat.fold_children(self);
-
         match pat {
             Pat::Ident(ident) => {
                 self.current.declared_symbols.insert(ident.sym.clone());
@@ -72,7 +66,9 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
                 };
                 return Pat::Ident(ident);
             }
-            _ => unimplemented!("block folder for Pattern {:?}", pat),
+
+            // TODO(kdy1): Is this ok?
+            _ => pat.fold_children(self),
         }
     }
 }
