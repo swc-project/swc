@@ -1,27 +1,45 @@
 use ast::*;
 use crate::scope::{Scope, ScopeKind};
+use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
 pub fn block_scoping() -> impl Fold<Module> {
-    BlockFolder {
-        mark: Mark::fresh(Mark::root()),
-        current: Scope::new(ScopeKind::Fn, None),
-    }
+    BlockFolder::new(Mark::fresh(Mark::root()), Scope::new(ScopeKind::Fn, None))
 }
 
 struct BlockFolder<'a> {
     mark: Mark,
     current: Scope<'a>,
 }
+impl<'a> BlockFolder<'a> {
+    fn new(mark: Mark, current: Scope<'a>) -> Self {
+        BlockFolder { mark, current }
+    }
+
+    fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
+        let mut mark = self.mark;
+        let mut scope = Some(&self.current);
+
+        while let Some(cur) = scope {
+            if cur.declared_symbols.contains(sym) {
+                return Some(mark);
+            }
+            mark = mark.parent();
+            scope = cur.parent;
+        }
+
+        None
+    }
+}
 
 impl<'a> Fold<BlockStmt> for BlockFolder<'a> {
     fn fold(&mut self, block: BlockStmt) -> BlockStmt {
         let child_mark = Mark::fresh(self.mark);
 
-        let mut child_folder = BlockFolder {
-            mark: child_mark,
-            current: Scope::new(ScopeKind::Block, Some(&self.current)),
-        };
+        let mut child_folder = BlockFolder::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+        );
 
         block.fold_children(&mut child_folder)
     }
@@ -47,6 +65,7 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
 
         match pat {
             Pat::Ident(ident) => {
+                self.current.declared_symbols.insert(ident.sym.clone());
                 let ident = Ident {
                     sym: ident.sym,
                     span: ident.span.apply_mark(self.mark),
@@ -61,11 +80,23 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
 impl<'a> Fold<Expr> for BlockFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         match expr {
-            Expr::Ident(Ident { sym, span }) => Expr::Ident(Ident {
-                sym,
-                span: span.apply_mark(self.mark),
+            Expr::Ident(Ident { sym, span }) => {
+                if let Some(mark) = self.mark_for(&sym) {
+                    Expr::Ident(Ident {
+                        sym,
+                        span: span.apply_mark(mark),
+                    })
+                } else {
+                    // Cannot resolve reference. (TODO: Report error)
+                    Expr::Ident(Ident { sym, span })
+                }
+            }
+
+            // Leftmost one of a member expression shoukld be resolved.
+            Expr::Member(me) => Expr::Member(MemberExpr {
+                obj: me.obj.fold_with(self),
+                ..me
             }),
-            // TODO: Handle member expr
             _ => expr.fold_children(self),
         }
     }
@@ -74,6 +105,35 @@ impl<'a> Fold<Expr> for BlockFolder<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_mark_for() {
+        ::testing::run_test(|_, _, _| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(mark1);
+            let mark3 = Mark::fresh(mark2);
+            let mark4 = Mark::fresh(mark3);
+
+            let folder1 = BlockFolder::new(mark1, Scope::new(ScopeKind::Block, None));
+            let mut folder2 =
+                BlockFolder::new(mark2, Scope::new(ScopeKind::Block, Some(&folder1.current)));
+            folder2.current.declared_symbols.insert("foo".into());
+
+            let mut folder3 =
+                BlockFolder::new(mark3, Scope::new(ScopeKind::Block, Some(&folder2.current)));
+            folder3.current.declared_symbols.insert("bar".into());
+            assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
+
+            let mut folder4 =
+                BlockFolder::new(mark4, Scope::new(ScopeKind::Block, Some(&folder3.current)));
+            folder4.current.declared_symbols.insert("foo".into());
+
+            assert_eq!(folder4.mark_for(&"foo".into()), Some(mark4));
+            assert_eq!(folder4.mark_for(&"bar".into()), Some(mark3));
+            Ok(())
+        })
+        .unwrap();
+    }
 
     test!(
         block_scoping(),
@@ -288,17 +348,10 @@ for(let i = 0; i < 10; i++) {
 }
 "#,
         r#"var arr = [];
-
-for (var i = 0; i < 10; i++) {
-  var _loop = function (_i) {
-    arr.push(function () {
-      return _i;
-    });
-  };
-
-  for (var _i = 0; _i < 10; _i++) {
-    _loop(_i);
-  }
+for(var i = 0; i < 10; i++){
+    for(var i1 = 0; i1 < 10; i1++){
+        arr.push(()=>i1);
+    }
 }"#
     );
 
