@@ -4,7 +4,7 @@
         (function() {
             b: {
                 if (a) break b;
-                c("d");
+                c('d');
             }
         }());
     }

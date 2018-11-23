@@ -1,8 +1,8 @@
 c: {
-    a("b");
+    a('b');
     break c;
 }
 c: {
-    a("b");
+    a('b');
     break c;
 }

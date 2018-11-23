@@ -110,7 +110,7 @@ fn run() -> Result<(), Box<Error>> {
 }
 
 fn js_pass(cm: Lrc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
-    use swc::ecmascript::transforms::{compat, simplifier};
+    use swc::ecmascript::transforms::{compat, hygiene, simplifier};
     let helpers = Arc::new(compat::helpers::Helpers::default());
 
     let pass: Box<Fold<Module>> = box compat::es2016()
@@ -127,7 +127,7 @@ fn js_pass(cm: Lrc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
         box pass.then(simplifier())
     };
 
-    pass
+    box pass.then(hygiene())
 }
 
 fn logger() -> Logger {

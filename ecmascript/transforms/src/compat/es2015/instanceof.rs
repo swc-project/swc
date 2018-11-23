@@ -45,8 +45,6 @@ impl Fold<Expr> for InstanceOf {
             }) => {
                 self.helpers.instance_of.store(true, Ordering::SeqCst);
 
-                let span = mark!(span);
-
                 Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!(span, "_instanceof").as_callee(),

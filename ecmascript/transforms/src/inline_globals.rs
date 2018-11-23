@@ -51,7 +51,7 @@ impl Fold<Expr> for InlineGlobals {
                     }
                     return Expr::Lit(Lit::Str(Str {
                         value: js_word!(""),
-                        span: mark!(span),
+                        span,
                         has_escape: false,
                     }));
                 }

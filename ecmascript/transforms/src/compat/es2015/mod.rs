@@ -1,7 +1,7 @@
 pub use self::{
-    arrow::Arrow, classes::Classes, function_name::function_name, instanceof::InstanceOf,
-    shorthand_property::Shorthand, spread::Spread, sticky_regex::StickyRegex,
-    template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
+    arrow::Arrow, block_scoping::block_scoping, classes::Classes, function_name::function_name,
+    instanceof::InstanceOf, shorthand_property::Shorthand, spread::Spread,
+    sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 
 use super::helpers::Helpers;
@@ -10,6 +10,7 @@ use std::sync::Arc;
 use swc_common::Fold;
 
 mod arrow;
+mod block_scoping;
 mod classes;
 mod function_name;
 mod instanceof;
@@ -40,4 +41,5 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
     .then(TemplateLiteral {
         helpers: helpers.clone(),
     })
+    .then(block_scoping())
 }

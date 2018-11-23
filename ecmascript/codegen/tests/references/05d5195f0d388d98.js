@@ -1,1 +1,1 @@
-var A\u{42}C;
+var ABC;

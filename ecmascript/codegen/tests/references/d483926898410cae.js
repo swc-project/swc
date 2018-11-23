@@ -1,1 +1,2 @@
-"Hello\0122World";
+'Hello
+2World';

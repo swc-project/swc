@@ -32,7 +32,6 @@ impl Fold<Expr> for StickyRegex {
                     .unwrap_or(false)
                 {
                     let str_lit = |s: Str| box Expr::Lit(Lit::Str(s));
-                    let span = mark!(span);
 
                     return Expr::New(NewExpr {
                         callee: box quote_ident!(span, "RegExp").into(),
