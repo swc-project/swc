@@ -1,4 +1,5 @@
 use ast::*;
+use crate::util::ExprFactory;
 use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -67,11 +68,9 @@ impl Fold<Expr> for Arrow {
                 async_token,
                 generator_token,
             }) => {
-                if contains_this_expr(&body) {
-                    unimplemented!("`this` expression inside an arrow function")
-                }
+                let used_this = contains_this_expr(&body);
 
-                return Expr::Fn(FnExpr {
+                let fn_expr = Expr::Fn(FnExpr {
                     ident: None,
                     function: Function {
                         span,
@@ -90,6 +89,22 @@ impl Fold<Expr> for Arrow {
                         },
                     },
                 });
+
+                if !used_this {
+                    return fn_expr;
+                }
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(box fn_expr),
+                        prop: box quote_ident!("bind").into(),
+                        computed: false,
+                    })
+                    .as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                })
             }
             _ => e,
         }

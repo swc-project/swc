@@ -33,7 +33,6 @@ New generation javascript to old-days javascript.
 
  - es2015
     - [x] arrow-functions
-      - [ ] this inside arrow function
     - [ ] block-scoped-functions
     - [ ] block-scoping
     - [x] classes
