@@ -34,7 +34,8 @@ New generation javascript to old-days javascript.
  - es2015
     - [x] arrow-functions
     - [ ] block-scoped-functions
-    - [ ] block-scoping
+    - [x] block-scoping
+      - Note: this might be buggy (at this time)
     - [x] classes
     - [ ] computed-properties
     - [ ] destructuring
