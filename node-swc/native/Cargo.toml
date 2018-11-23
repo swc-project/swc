@@ -1,0 +1,36 @@
+[workspace]
+
+[package]
+name = "ffi"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+edition = "2018"
+publish = false
+build = "build.rs"
+
+[lib]
+name = "ffi"
+crate-type = ["dylib"]
+
+[dependencies]
+neon = { version = "0.2", default-features = false }
+libswc = { path = "../../libswc" }
+lazy_static = "1.2"
+serde = "1.0"
+serde_json = { version = "1.0", features = ["preserve_order"] }
+serde_derive = "1.0"
+slog = "2"
+
+[build-dependencies]
+neon-build = "0.2"
+
+[profile.bench]
+lto = true
+
+[profile.release]
+lto = true
+
+[patch.crates-io]
+# This reduces compile time
+sourcemap = { git = "https://github.com/kdy1/rust-sourcemap.git" }
+slog-envlogger = { git = "https://github.com/slog-rs/envlogger.git" }
