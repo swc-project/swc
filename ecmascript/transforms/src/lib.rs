@@ -23,7 +23,7 @@ extern crate sourcemap;
 #[macro_use]
 extern crate testing;
 
-pub use self::{inline_globals::InlineGlobals, simplify::simplifier};
+pub use self::{hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier};
 
 #[cfg(test)]
 #[macro_use]
