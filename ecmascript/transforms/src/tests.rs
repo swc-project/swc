@@ -97,7 +97,7 @@ impl<'a> Tester<'a> {
             .fold_with(&mut tr)
             .fold_with(&mut ::testing::DropSpan)
             .fold_with(&mut Normalizer)
-            .fold_with(&mut crate::scope::hygiene());
+            .fold_with(&mut crate::hygiene::hygiene());
 
         Ok(module)
     }

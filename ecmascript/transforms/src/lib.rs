@@ -32,6 +32,7 @@ mod tests;
 mod quote;
 pub mod compat;
 mod fixer;
+mod hygiene;
 mod inline_globals;
 pub mod scope;
 mod simplify;
