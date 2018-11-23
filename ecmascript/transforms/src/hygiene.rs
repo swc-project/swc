@@ -1,5 +1,5 @@
 use ast::*;
-use crate::scope::{Operator, Scope, ScopeAnalyzer, ScopeOp, Traverse};
+use crate::scope::{Scope, ScopeAnalyzer, ScopeOp, Traverse};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
@@ -72,7 +72,7 @@ pub fn hygiene() -> impl Fold<Module> {
 mod test {
     use super::*;
     use std::collections::HashMap;
-    use swc_common::{hygiene::*, Fold, Span, DUMMY_SP};
+    use swc_common::{hygiene::*, Fold, DUMMY_SP};
 
     struct Marker {
         map: HashMap<JsWord, Mark>,

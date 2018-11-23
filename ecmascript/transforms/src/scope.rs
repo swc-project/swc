@@ -4,7 +4,7 @@ use std::{
     collections::HashSet,
 };
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Span, SyntaxContext};
+use swc_common::{Fold, FoldWith, SyntaxContext};
 
 /// Contextual folder
 pub trait Traverse {
