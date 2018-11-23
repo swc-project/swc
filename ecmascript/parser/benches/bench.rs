@@ -96,7 +96,7 @@ fn bench_parse_module(b: &mut Bencher) {
             SourceFileInput::from(&*fm),
         );
 
-        b.iter(|| parser.parse_module().unwrap());
+        b.iter(|| test::black_box(parser.parse_module().unwrap()));
         Ok(())
     });
 }
