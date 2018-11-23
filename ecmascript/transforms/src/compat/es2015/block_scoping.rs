@@ -72,7 +72,7 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
                 };
                 return Pat::Ident(ident);
             }
-            _ => pat,
+            _ => unimplemented!("block folder for Pattern {:?}", pat),
         }
     }
 }
