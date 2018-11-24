@@ -51,7 +51,7 @@ New generation javascript to old-days javascript.
     - [x] spread
     - [x] sticky regex (`y` flag)
     - [x] template-literals
-      - [ ] tagged template literals
+      - [ ] invalid escape sequences inside tagged template literals. (aka es2018)
     - [x] typeof-symbol
     - [ ] unicode-regex
 
