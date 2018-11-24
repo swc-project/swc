@@ -197,7 +197,7 @@ impl<'a, 'b, T: Traverse> Fold<Pat> for ScopeAnalyzer<'a, 'b, T> {
                 Pat::Ident(self.visitor.fold_binding_ident(&mut self.current, ident))
             }
             // TODO
-            _ => unimplemented!("Pattern {:?}", pat),
+            _ => pat.fold_children(self),
         }
     }
 }
