@@ -195,7 +195,7 @@ var bar1 = bar1(function _templateObject1() {
     };
     return data;
 }(), 42, _.foobar());
-var bar1 = bar1(function _templateObject1() {
+var bar1 = bar1(function _templateObject2() {
     const data = _taggedTemplateLiteral(['wow\naB', ' ', ''], ['wow\\\\naB', ' ', '']);
     _templateObject1 = function() {
         return data;
