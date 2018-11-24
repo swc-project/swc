@@ -655,7 +655,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // TODO: Optimize
         let mut has_escape = false;
-        let mut out = String::new();
+        let mut cooked = String::new();
+        let mut raw = String::new();
 
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
@@ -672,7 +673,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // TODO: Handle error
                 return Ok(Template {
-                    value: out.into(),
+                    cooked: cooked.into(),
+                    raw: raw.into(),
                     has_escape,
                 });
             }
@@ -680,7 +682,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             if c == '\\' {
                 has_escape = true;
                 let ch = self.read_escaped_char(true)?;
-                out.extend(ch);
+                cooked.extend(ch);
+                raw.push('\\');
+                raw.extend(ch);
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
@@ -690,10 +694,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     c
                 };
                 self.bump();
-                out.push(c);
+                cooked.push(c);
+                raw.push('\\');
+                raw.push(c);
             } else {
                 self.bump();
-                out.push(c);
+                cooked.push(c);
+                raw.push(c);
             }
         }
 

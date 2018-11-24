@@ -52,20 +52,52 @@ impl Fold<Expr> for TemplateLiteral {
                                                     span: DUMMY_SP,
                                                     callee: quote_ident!("_taggedTemplateLiteral")
                                                         .as_callee(),
-                                                    args: vec![
-                                                        ArrayLit {
-                                                            span: DUMMY_SP,
-                                                            elems: quasis
-                                                                .into_iter()
-                                                                .map(|elem| {
-                                                                    Lit::Str(elem.raw).as_arg()
-                                                                })
-                                                                .map(Some)
-                                                                .collect(),
-                                                        }
-                                                        .as_arg(),
-                                                        // TODO: Raw when escape exists
-                                                    ],
+                                                    args: {
+                                                        let has_escape = quasis
+                                                            .iter()
+                                                            .any(|s| s.cooked.is_some());
+
+                                                        let raw = if has_escape {
+                                                            Some(
+                                                                ArrayLit {
+                                                                    span: DUMMY_SP,
+                                                                    elems: quasis
+                                                                        .iter()
+                                                                        .cloned()
+                                                                        .map(|elem| {
+                                                                            Lit::Str(elem.raw)
+                                                                                .as_arg()
+                                                                        })
+                                                                        .map(Some)
+                                                                        .collect(),
+                                                                }
+                                                                .as_arg(),
+                                                            )
+                                                        } else {
+                                                            None
+                                                        };
+
+                                                        iter::once(
+                                                            ArrayLit {
+                                                                span: DUMMY_SP,
+                                                                elems: quasis
+                                                                    .into_iter()
+                                                                    .map(|elem| {
+                                                                        Lit::Str(
+                                                                            elem.cooked.unwrap_or(
+                                                                                elem.raw,
+                                                                            ),
+                                                                        )
+                                                                        .as_arg()
+                                                                    })
+                                                                    .map(Some)
+                                                                    .collect(),
+                                                            }
+                                                            .as_arg(),
+                                                        )
+                                                        .chain(raw)
+                                                        .collect()
+                                                    },
                                                 })),
                                             }],
                                         };

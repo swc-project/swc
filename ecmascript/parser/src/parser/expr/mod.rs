@@ -484,13 +484,36 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_tpl_element(&mut self, is_tagged: bool) -> PResult<'a, TplElement> {
         let start = cur_pos!();
 
-        let raw = match *cur!(true)? {
+        let (raw, cooked) = match *cur!(true)? {
             Template { .. } => match bump!() {
-                Template { value, has_escape } => Str {
-                    span: span!(start),
-                    value,
-                    has_escape,
-                },
+                Template {
+                    raw,
+                    cooked,
+                    has_escape: true,
+                } => (
+                    Str {
+                        span: span!(start),
+                        value: raw,
+                        has_escape: true,
+                    },
+                    Some(Str {
+                        span: span!(start),
+                        value: cooked,
+                        has_escape: true,
+                    }),
+                ),
+                Template {
+                    raw,
+                    cooked,
+                    has_escape: false,
+                } => (
+                    Str {
+                        span: span!(start),
+                        value: raw,
+                        has_escape: false,
+                    },
+                    None,
+                ),
                 _ => unreachable!(),
             },
             _ => unexpected!(),
@@ -501,8 +524,7 @@ impl<'a, I: Input> Parser<'a, I> {
             raw,
             tail,
 
-            // FIXME
-            cooked: None,
+            cooked,
         })
     }
 

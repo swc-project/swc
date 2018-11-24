@@ -688,7 +688,8 @@ fn tpl_empty() {
         vec![
             tok!('`'),
             Template {
-                value: "".into(),
+                raw: "".into(),
+                cooked: "".into(),
                 has_escape: false
             },
             tok!('`')
@@ -703,14 +704,16 @@ fn tpl() {
         vec![
             tok!('`'),
             Template {
-                value: "".into(),
+                raw: "".into(),
+                cooked: "".into(),
                 has_escape: false
             },
             tok!("${"),
             Word(Ident("a".into())),
             tok!('}'),
             Template {
-                value: "".into(),
+                raw: "".into(),
+                cooked: "".into(),
                 has_escape: false
             },
             tok!('`'),
