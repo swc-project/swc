@@ -167,7 +167,13 @@ impl Fold<Expr> for TemplateLiteral {
                         // TODO: Optimize
 
                         // This makes result of addition string
-                        let mut obj: Box<Expr> = box Lit::Str(quasis[0].raw.clone()).into();
+                        let mut obj: Box<Expr> = box Lit::Str(
+                            quasis[0]
+                                .cooked
+                                .clone()
+                                .unwrap_or_else(|| quasis[0].raw.clone()),
+                        )
+                        .into();
 
                         for i in 0..quasis.len() + exprs.len() {
                             if i == 0 {
@@ -182,7 +188,13 @@ impl Fold<Expr> for TemplateLiteral {
                                     // Skip empty ones
                                     continue;
                                 }
-                                box Lit::Str(quasis[idx].raw.clone()).into()
+                                box Lit::Str(
+                                    quasis[idx]
+                                        .cooked
+                                        .clone()
+                                        .unwrap_or_else(|| quasis[idx].raw.clone()),
+                                )
+                                .into()
                             } else {
                                 // Expression
                                 exprs[idx].clone()
