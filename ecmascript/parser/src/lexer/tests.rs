@@ -685,7 +685,14 @@ fn str_lit() {
 fn tpl_empty() {
     assert_eq!(
         lex_tokens(r#"``"#),
-        vec![tok!('`'), Template("".into()), tok!('`')]
+        vec![
+            tok!('`'),
+            Template {
+                value: "".into(),
+                has_escape: false
+            },
+            tok!('`')
+        ]
     )
 }
 
@@ -695,11 +702,17 @@ fn tpl() {
         lex_tokens(r#"`${a}`"#),
         vec![
             tok!('`'),
-            Template("".into()),
+            Template {
+                value: "".into(),
+                has_escape: false
+            },
             tok!("${"),
             Word(Ident("a".into())),
             tok!('}'),
-            Template("".into()),
+            Template {
+                value: "".into(),
+                has_escape: false
+            },
             tok!('`'),
         ]
     )
