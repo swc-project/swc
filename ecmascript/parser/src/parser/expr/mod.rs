@@ -489,30 +489,18 @@ impl<'a, I: Input> Parser<'a, I> {
                 Template {
                     raw,
                     cooked,
-                    has_escape: true,
+                    has_escape,
                 } => (
                     Str {
                         span: span!(start),
                         value: raw,
-                        has_escape: true,
+                        has_escape,
                     },
                     Some(Str {
                         span: span!(start),
                         value: cooked,
-                        has_escape: true,
+                        has_escape,
                     }),
-                ),
-                Template {
-                    raw,
-                    cooked,
-                    has_escape: false,
-                } => (
-                    Str {
-                        span: span!(start),
-                        value: raw,
-                        has_escape: false,
-                    },
-                    None,
                 ),
                 _ => unreachable!(),
             },
