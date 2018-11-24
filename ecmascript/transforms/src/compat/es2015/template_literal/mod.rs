@@ -53,9 +53,12 @@ impl Fold<Expr> for TemplateLiteral {
                                                     callee: quote_ident!("_taggedTemplateLiteral")
                                                         .as_callee(),
                                                     args: {
-                                                        let has_escape = quasis
-                                                            .iter()
-                                                            .any(|s| s.cooked.is_some());
+                                                        let has_escape = quasis.iter().any(|s| {
+                                                            s.cooked
+                                                                .as_ref()
+                                                                .map(|s| s.has_escape)
+                                                                .unwrap_or(true)
+                                                        });
 
                                                         let raw = if has_escape {
                                                             Some(
