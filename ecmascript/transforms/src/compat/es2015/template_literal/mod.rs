@@ -58,12 +58,7 @@ impl Fold<Expr> for TemplateLiteral {
                                                             elems: quasis
                                                                 .into_iter()
                                                                 .map(|elem| {
-                                                                    Lit::Str(Str {
-                                                                        span: elem.span,
-                                                                        value: elem.raw.into(),
-                                                                        has_escape: false,
-                                                                    })
-                                                                    .as_arg()
+                                                                    Lit::Str(elem.raw).as_arg()
                                                                 })
                                                                 .map(Some)
                                                                 .collect(),
@@ -140,8 +135,7 @@ impl Fold<Expr> for TemplateLiteral {
                         // TODO: Optimize
 
                         // This makes result of addition string
-                        let mut obj: Box<Expr> =
-                            box Lit::Str(quote_str!(quasis[0].raw.clone())).into();
+                        let mut obj: Box<Expr> = box Lit::Str(quasis[0].raw.clone()).into();
 
                         for i in 0..quasis.len() + exprs.len() {
                             if i == 0 {
@@ -156,7 +150,7 @@ impl Fold<Expr> for TemplateLiteral {
                                     // Skip empty ones
                                     continue;
                                 }
-                                box Lit::Str(quote_str!(quasis[idx].raw.clone())).into()
+                                box Lit::Str(quasis[idx].raw.clone()).into()
                             } else {
                                 // Expression
                                 exprs[idx].clone()

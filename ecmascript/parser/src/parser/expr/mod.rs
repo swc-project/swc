@@ -485,8 +485,12 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         let raw = match *cur!(true)? {
-            Template(_) => match bump!() {
-                Template(s) => s,
+            Template { .. } => match bump!() {
+                Template { value, has_escape } => Str {
+                    span: span!(start),
+                    value,
+                    has_escape,
+                },
                 _ => unreachable!(),
             },
             _ => unexpected!(),

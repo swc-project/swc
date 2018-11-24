@@ -1,5 +1,5 @@
 use super::{
-    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, UnaryOp, UpdateOp,
+    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, Str, UnaryOp, UpdateOp,
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
 
@@ -225,8 +225,8 @@ pub struct TplLit {
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
-    pub cooked: Option<String>,
-    pub raw: String,
+    pub cooked: Option<Str>,
+    pub raw: Str,
 }
 
 #[ast_node]

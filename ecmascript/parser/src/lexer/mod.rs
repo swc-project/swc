@@ -654,6 +654,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
 
         // TODO: Optimize
+        let mut has_escape = false;
         let mut out = String::new();
 
         while let Some(c) = self.cur() {
@@ -670,10 +671,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
 
                 // TODO: Handle error
-                return Ok(Template(out));
+                return Ok(Template {
+                    value: out.into(),
+                    has_escape,
+                });
             }
 
             if c == '\\' {
+                has_escape = true;
                 let ch = self.read_escaped_char(true)?;
                 out.extend(ch);
             } else if c.is_line_break() {
