@@ -181,21 +181,21 @@ var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
-  r#"var foo = bar1(function _templateObject() {
+  r#"var foo = bar(function _templateObject() {
     const data = _taggedTemplateLiteral(['wow\na', 'b ', ''], ['wow\\na', 'b ', '']);
     _templateObject = function() {
         return data;
     };
     return data;
 }(), 42, _.foobar());
-var bar1 = bar1(function _templateObject1() {
+var bar = bar(function _templateObject1() {
     const data = _taggedTemplateLiteral(['wow\nab', ' ', ''], ['wow\\nab', ' ', '']);
     _templateObject1 = function() {
         return data;
     };
     return data;
 }(), 42, _.foobar());
-var bar1 = bar1(function _templateObject2() {
+var bar = bar(function _templateObject2() {
     const data = _taggedTemplateLiteral(['wow\naB', ' ', ''], ['wow\\naB', ' ', '']);
     _templateObject2 = function() {
         return data;
