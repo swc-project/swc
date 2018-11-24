@@ -274,20 +274,22 @@ impl<'a> Emitter<'a> {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
         // }
+        let value = node.value.replace("\n", "\\n");
+        // let value = node.value.replace("\n", "\\n");
 
         if !node.value.contains("'") {
             punct!("'");
-            self.wr.write_str_lit(node.span, &node.value)?;
+            self.wr.write_str_lit(node.span, &value)?;
             punct!("'");
         } else {
             if !node.value.contains("\"") {
                 punct!("\"");
-                self.wr.write_str_lit(node.span, &node.value)?;
+                self.wr.write_str_lit(node.span, &value)?;
                 punct!("\"");
             } else {
                 punct!("'");
                 self.wr
-                    .write_str_lit(node.span, &node.value.replace("'", "\\'"))?;
+                    .write_str_lit(node.span, &value.replace("'", "\\'"))?;
                 punct!("'");
             }
         }
