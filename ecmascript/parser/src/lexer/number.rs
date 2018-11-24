@@ -85,16 +85,16 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // Read numbers after dot
-            let minority_val = self.read_int(10, 0)?;
+            let dec_val = self.read_int(10, 0, &mut Raw(None))?;
 
-            let minority: &Display = match minority_val {
+            let dec: &Display = match dec_val {
                 Some(ref n) => n,
                 // "0.", "0.e1" is valid
                 None => &"",
             };
 
             // TODO
-            val = format!("{}.{}", val, minority)
+            val = format!("{}.{}", val, dec)
                 .parse()
                 .expect("failed to parse float using rust's impl");
         }
@@ -160,10 +160,14 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let mut read_any = false;
 
-        let res = self.read_digits(radix, |total, radix, v| {
-            read_any = true;
-            (f64::mul_add(total, radix as f64, v as f64), true)
-        });
+        let res = self.read_digits(
+            radix,
+            |total, radix, v| {
+                read_any = true;
+                (f64::mul_add(total, radix as f64, v as f64), true)
+            },
+            &mut Raw(None),
+        );
 
         if !read_any {
             self.error(start, SyntaxError::ExpectedDigit { radix })?;
@@ -186,13 +190,17 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(&mut self, radix: u8, len: u8) -> LexResult<Option<u32>> {
+    pub(super) fn read_int(&mut self, radix: u8, len: u8, raw: &mut Raw) -> LexResult<Option<u32>> {
         let mut count = 0;
-        let v = self.read_digits(radix, |opt: Option<u32>, radix, val| {
-            count += 1;
-            let total = opt.unwrap_or_default() * radix as u32 + val as u32;
-            (Some(total), count != len)
-        })?;
+        let v = self.read_digits(
+            radix,
+            |opt: Option<u32>, radix, val| {
+                count += 1;
+                let total = opt.unwrap_or_default() * radix as u32 + val as u32;
+                (Some(total), count != len)
+            },
+            raw,
+        )?;
         if len != 0 && count != len {
             Ok(None)
         } else {
@@ -201,7 +209,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
-    fn read_digits<F, Ret>(&mut self, radix: u8, mut op: F) -> LexResult<Ret>
+    fn read_digits<F, Ret>(&mut self, radix: u8, mut op: F, raw: &mut Raw) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> (Ret, bool),
         Ret: Copy + Default,
@@ -251,6 +259,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(total);
             };
 
+            raw.push(c);
+
             self.bump();
             let (t, cont) = op(total, radix, val);
             total = t;
@@ -295,7 +305,7 @@ mod tests {
 
     fn int(radix: u8, s: &'static str) -> u32 {
         lex(s, |l| {
-            l.read_int(radix, 0)
+            l.read_int(radix, 0, &mut Raw(None))
                 .unwrap()
                 .expect("read_int returned None")
         })

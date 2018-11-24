@@ -120,6 +120,7 @@ impl WithSpan for AssignOpToken {
         AssignOp(self)
     }
 }
+
 #[test]
 fn module_legacy_octal() {
     assert_eq!(
@@ -225,6 +226,64 @@ fn ident_escape_unicode_2() {
     assert_eq!(lex("℘℘"), vec!["℘℘".span(0..6).lb()]);
 
     assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9).lb()]);
+}
+
+#[test]
+fn tpl_multiline() {
+    assert_eq!(
+        lex_tokens(
+            "`this
+is
+multiline`"
+        ),
+        vec![
+            tok!('`'),
+            Token::Template {
+                cooked: "this\nis\nmultiline".into(),
+                raw: "this\\nis\\nmultiline".into(),
+                has_escape: false
+            },
+            tok!('`'),
+        ]
+    );
+}
+
+#[test]
+fn tpl_raw_unicode_escape() {
+    assert_eq!(
+        lex_tokens(r"`\u{0010}`"),
+        vec![
+            tok!('`'),
+            Token::Template {
+                cooked: format!("{}", '\u{0010}').into(),
+                raw: "\\u{0010}".into(),
+                has_escape: true
+            },
+            tok!('`'),
+        ]
+    );
+}
+
+#[test]
+fn str_escape() {
+    assert_eq!(
+        lex_tokens(r#"'\n'"#),
+        vec![Token::Str {
+            value: "\n".into(),
+            has_escape: true
+        }]
+    );
+}
+
+#[test]
+fn str_escape_2() {
+    assert_eq!(
+        lex_tokens(r#"'\\n'"#),
+        vec![Token::Str {
+            value: "\\n".into(),
+            has_escape: true
+        }]
+    );
 }
 
 #[test]

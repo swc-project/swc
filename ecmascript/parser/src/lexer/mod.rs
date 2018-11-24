@@ -274,44 +274,66 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Read an escaped charater for string literal.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<char>> {
+    ///
+    /// In template literal, we should preserve raw string.
+    fn read_escaped_char(&mut self, mut raw: &mut Raw) -> LexResult<Option<char>> {
         assert_eq!(self.cur(), Some('\\'));
         let start = self.cur_pos();
         self.bump(); // '\'
+
+        let in_template = raw.0.is_some();
 
         let c = match self.cur() {
             Some(c) => c,
             None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
         };
+
+        macro_rules! push_c_and_ret {
+            ($c:expr) => {{
+                raw.push(c);
+                $c
+            }};
+        }
+
         let c = match c {
-            'n' => '\n',
-            'r' => '\r',
-            't' => '\t',
-            'b' => '\u{0008}',
-            'v' => '\u{000b}',
-            'f' => '\u{000c}',
+            '\\' => push_c_and_ret!('\\'),
+            'n' => push_c_and_ret!('\n'),
+            'r' => push_c_and_ret!('\r'),
+            't' => push_c_and_ret!('\t'),
+            'b' => push_c_and_ret!('\u{0008}'),
+            'v' => push_c_and_ret!('\u{000b}'),
+            'f' => push_c_and_ret!('\u{000c}'),
             '\r' => {
+                raw.push_str("\\r");
                 self.bump(); // remove '\r'
 
                 if self.cur() == Some('\n') {
+                    raw.push_str("\\n");
                     self.bump();
                 }
                 return Ok(None);
             }
             '\n' | '\u{2028}' | '\u{2029}' => {
+                match c {
+                    '\n' => raw.push_str("\\n"),
+                    '\u{2028}' => raw.push_str("\\u{2028}"),
+                    '\u{2029}' => raw.push_str("\\u{2029}"),
+                    _ => unreachable!(),
+                }
                 self.bump();
                 return Ok(None);
             }
 
             // read hexadecimal escape sequences
             'x' => {
+                raw.push_str("0x");
                 self.bump(); // 'x'
-                return self.read_hex_char(start, 2).map(Some);
+                return self.read_hex_char(start, 2, raw).map(Some);
             }
 
             // read unicode escape sequences
             'u' => {
-                return self.read_unicode_escape(start).map(Some);
+                return self.read_unicode_escape(start, raw).map(Some);
             }
             // octal escape sequences
             '0'...'7' => {
@@ -483,7 +505,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     if !self.is('u') {
                         self.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
                     }
-                    let c = self.read_unicode_escape(start)?;
+                    let c = self.read_unicode_escape(start, &mut Raw(None))?;
                     let valid = if first {
                         c.is_ident_start()
                     } else {
@@ -505,29 +527,33 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok((word.into(), has_escape))
     }
 
-    fn read_unicode_escape(&mut self, start: BytePos) -> LexResult<char> {
+    fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<char> {
         assert_eq!(self.cur(), Some('u'));
         self.bump();
 
+        raw.push_str("u");
+
         if self.eat('{') {
+            raw.push('{');
             let cp_start = self.cur_pos();
-            let c = self.read_code_point()?;
+            let c = self.read_code_point(raw)?;
 
             if !self.eat('}') {
                 self.error(start, SyntaxError::InvalidUnicodeEscape)?
             }
+            raw.push('}');
 
             Ok(c)
         } else {
-            self.read_hex_char(start, 4)
+            self.read_hex_char(start, 4, raw)
         }
     }
 
-    fn read_hex_char(&mut self, start: BytePos, count: u8) -> LexResult<char> {
+    fn read_hex_char(&mut self, start: BytePos, count: u8, mut raw: &mut Raw) -> LexResult<char> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = self.cur_pos();
-        match self.read_int(16, count)? {
+        match self.read_int(16, count, raw)? {
             Some(val) => match char::from_u32(val) {
                 Some(c) => Ok(c),
                 None => self.error(start, SyntaxError::NonUtf8Char { val })?,
@@ -537,9 +563,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Read `CodePoint`.
-    fn read_code_point(&mut self) -> LexResult<char> {
+    fn read_code_point(&mut self, mut raw: &mut Raw) -> LexResult<char> {
         let start = self.cur_pos();
-        let val = self.read_int(16, 0)?;
+        let val = self.read_int(16, 0, raw)?;
         match val {
             Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
                 Some(c) => Ok(c),
@@ -571,7 +597,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     });
                 }
                 '\\' => {
-                    out.extend(self.read_escaped_char(false)?);
+                    out.extend(self.read_escaped_char(&mut Raw(None))?);
                     has_escape = true
                 }
                 c if c.is_line_break() => self.error(start, SyntaxError::UnterminatedStrLit)?,
@@ -681,22 +707,29 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             if c == '\\' {
                 has_escape = true;
-                let ch = self.read_escaped_char(true)?;
-                cooked.extend(ch);
                 raw.push('\\');
-                raw.extend(ch);
+                let mut wrapped = Raw(Some(raw));
+                let ch = self.read_escaped_char(&mut wrapped)?;
+                raw = wrapped.0.unwrap();
+                cooked.extend(ch);
             } else if c.is_line_break() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
+                    raw.push_str("\\r\\n");
                     self.bump(); // '\r'
                     '\n'
                 } else {
+                    match c {
+                        '\n' => raw.push_str("\\n"),
+                        '\r' => raw.push_str("\\r"),
+                        '\u{2028}' => raw.push_str("\\u{2028}"),
+                        '\u{2029}' => raw.push_str("\\u{2029}"),
+                        _ => unreachable!(),
+                    }
                     c
                 };
                 self.bump();
                 cooked.push(c);
-                raw.push('\\');
-                raw.push(c);
             } else {
                 self.bump();
                 cooked.push(c);
