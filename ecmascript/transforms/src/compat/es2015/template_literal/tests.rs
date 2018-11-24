@@ -181,39 +181,29 @@ var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
-  r#"function _templateObject3() {
-  const data = _taggedTemplateLiteral(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
-
-  _templateObject3 = function () {
+  r#"var foo = bar1(function _templateObject() {
+    const data = _taggedTemplateLiteral(['wow\na', 'b ', ''], ['wow\\\\na', 'b ', '']);
+    _templateObject = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
-
-  _templateObject2 = function () {
+}(), 42, _.foobar());
+var bar1 = bar1(function _templateObject1() {
+    const data = _taggedTemplateLiteral(['wow\nab', ' ', ''], ['wow\\\\nab', ' ', '']);
+    _templateObject1 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
-
-  _templateObject = function () {
+}(), 42, _.foobar());
+var bar1 = bar1(function _templateObject1() {
+    const data = _taggedTemplateLiteral(['wow\naB', ' ', ''], ['wow\\\\naB', ' ', '']);
+    _templateObject1 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-var foo = bar(_templateObject(), 42, _.foobar());
-var bar = bar(_templateObject2(), 42, _.foobar());
-var bar = bar(_templateObject3(), 42, _.baz());"#
+}(), 42, _.baz());
+"#,
+  ok_if_code_eq
 );
 
 test!(
