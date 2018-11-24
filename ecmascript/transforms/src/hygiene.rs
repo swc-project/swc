@@ -205,4 +205,29 @@ mod test {
         );
     }
 
+    #[test]
+    fn fn_binding_ident_in_call() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(Mark::root());
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "var foo = use(function baz(){})")?
+                        .fold_with(&mut marker(&[("baz", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "var bar = use(function baz(){})")?
+                        .fold_with(&mut marker(&[("baz", mark2)])),
+                    tester
+                        .parse_stmt("actual.js", "use(baz)")?
+                        .fold_with(&mut marker(&[("baz", mark1)])),
+                ])
+            },
+            "var foo = use(function baz(){});
+            var bar = use(function baz1(){});
+            use(baz);",
+        );
+    }
+
 }

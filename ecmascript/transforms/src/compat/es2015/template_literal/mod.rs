@@ -52,17 +52,25 @@ impl Fold<Expr> for TemplateLiteral {
                                                     span: DUMMY_SP,
                                                     callee: quote_ident!("_taggedTemplateLiteral")
                                                         .as_callee(),
-                                                    args: quasis
-                                                        .into_iter()
-                                                        .map(|elem| {
-                                                            Lit::Str(Str {
-                                                                span: elem.span,
-                                                                value: elem.raw.into(),
-                                                                has_escape: false,
-                                                            })
-                                                            .as_arg()
-                                                        })
-                                                        .collect(),
+                                                    args: vec![
+                                                        ArrayLit {
+                                                            span: DUMMY_SP,
+                                                            elems: quasis
+                                                                .into_iter()
+                                                                .map(|elem| {
+                                                                    Lit::Str(Str {
+                                                                        span: elem.span,
+                                                                        value: elem.raw.into(),
+                                                                        has_escape: false,
+                                                                    })
+                                                                    .as_arg()
+                                                                })
+                                                                .map(Some)
+                                                                .collect(),
+                                                        }
+                                                        .as_arg(),
+                                                        // TODO: Raw when escape exists
+                                                    ],
                                                 })),
                                             }],
                                         };

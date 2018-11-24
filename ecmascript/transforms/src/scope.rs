@@ -231,7 +231,8 @@ impl<'a, 'b, T: Traverse> Fold<Expr> for ScopeAnalyzer<'a, 'b, T> {
             Expr::This(..) => {
                 self.current.used_this.set(true);
             }
-            Expr::Fn(..) => return node.fold_children(self),
+
+            Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
             _ => {}
         }
 
