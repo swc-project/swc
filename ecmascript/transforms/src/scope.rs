@@ -98,6 +98,12 @@ impl<'a> Scope<'a> {
         if self.declared_symbols.contains(sym) {
             return true;
         }
+        for op in self.ops.borrow().iter() {
+            match *op {
+                ScopeOp::Rename { ref to, .. } if sym == to => return true,
+                _ => {}
+            }
+        }
         match self.parent {
             Some(parent) => parent.is_declared(sym),
             _ => false,

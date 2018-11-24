@@ -210,22 +210,27 @@ mod test {
         test(
             |tester| {
                 let mark1 = Mark::fresh(Mark::root());
-                let mark2 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+                let mark3 = Mark::fresh(mark1);
 
                 Ok(vec![
                     tester
                         .parse_stmt("actual.js", "var foo = use(function baz(){})")?
                         .fold_with(&mut marker(&[("baz", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "var bar = use(function baz(){})")?
+                        .parse_stmt("actual.js", "var bar1 = use(function baz(){})")?
                         .fold_with(&mut marker(&[("baz", mark2)])),
+                    tester
+                        .parse_stmt("actual.js", "var bar2 = use(function baz(){})")?
+                        .fold_with(&mut marker(&[("baz", mark3)])),
                     tester
                         .parse_stmt("actual.js", "use(baz)")?
                         .fold_with(&mut marker(&[("baz", mark1)])),
                 ])
             },
             "var foo = use(function baz(){});
-            var bar = use(function baz1(){});
+            var bar1 = use(function baz1(){});
+            var bar2 = use(function baz2(){});
             use(baz);",
         );
     }
