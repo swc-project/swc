@@ -129,7 +129,6 @@ expect(calls).toEqual([1, 2]);"#
 );
 
 test!(
-  ignore,
   TemplateLiteral::default(),
   simple_tag,
   r#"var foo = tag`wow`;
@@ -183,7 +182,6 @@ expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-  ignore,
   TemplateLiteral::default(),
   tag,
   r#"
@@ -245,7 +243,6 @@ var bar = bar(_templateObject3(), 42, _.baz());"#
 );
 
 test!(
-  ignore,
   TemplateLiteral::default(),
   template_revision,
   r#"tag`\unicode and \u{55}`;

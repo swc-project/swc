@@ -1,8 +1,10 @@
 use ast::*;
-use crate::compat::helpers::Helpers;
-use std::sync::{atomic::Ordering, Arc};
-use swc_common::{Fold, FoldWith, Spanned};
-
+use crate::{compat::helpers::Helpers, util::ExprFactory};
+use std::{
+    iter,
+    sync::{atomic::Ordering, Arc},
+};
+use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
@@ -22,12 +24,109 @@ impl Fold<Expr> for TemplateLiteral {
                 assert!(quasis.len() == exprs.len() + 1);
 
                 match tag {
-                    Some(_tag) => {
+                    Some(tag) => {
                         self.helpers
                             .tagged_template_literal
                             .store(true, Ordering::SeqCst);
 
-                        unimplemented!("tagged template literal")
+                        let mark = Mark::fresh(Mark::root());
+                        let fn_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_templateObject");
+
+                        let tpl_obj_fn = {
+                            Expr::Fn(FnExpr {
+                                ident: Some(fn_ident.clone()),
+                                function: Function {
+                                    span: DUMMY_SP,
+                                    async_token: None,
+                                    generator_token: None,
+                                    params: vec![],
+                                    body: {
+                                        // const data = _taggedTemplateLiteral(["first", "second"]);
+                                        let data_decl = VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Const,
+                                            decls: vec![VarDeclarator {
+                                                span: DUMMY_SP,
+                                                name: quote_ident!("data").into(),
+                                                init: Some(box Expr::Call(CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: quote_ident!("_taggedTemplateLiteral")
+                                                        .as_callee(),
+                                                    args: quasis
+                                                        .into_iter()
+                                                        .map(|elem| {
+                                                            Lit::Str(Str {
+                                                                span: elem.span,
+                                                                value: elem.raw.into(),
+                                                                has_escape: false,
+                                                            })
+                                                            .as_arg()
+                                                        })
+                                                        .collect(),
+                                                })),
+                                            }],
+                                        };
+
+                                        // _templateObject2 = function () {
+                                        //     return data;
+                                        // };
+                                        let assign_expr = {
+                                            Expr::Assign(AssignExpr {
+                                                span: DUMMY_SP,
+                                                left: PatOrExpr::Pat(box fn_ident.into()),
+                                                op: op!("="),
+                                                right: box Expr::Fn(FnExpr {
+                                                    ident: None,
+                                                    function: Function {
+                                                        span: DUMMY_SP,
+                                                        async_token: None,
+                                                        generator_token: None,
+                                                        params: vec![],
+                                                        body: BlockStmt {
+                                                            span: DUMMY_SP,
+                                                            stmts: vec![Stmt::Return(ReturnStmt {
+                                                                span: DUMMY_SP,
+                                                                arg: Some(
+                                                                    box quote_ident!("data").into(),
+                                                                ),
+                                                            })],
+                                                        },
+                                                    },
+                                                }),
+                                            })
+                                        };
+
+                                        BlockStmt {
+                                            span: DUMMY_SP,
+
+                                            stmts: vec![
+                                                Stmt::Decl(Decl::Var(data_decl)),
+                                                Stmt::Expr(box assign_expr),
+                                                Stmt::Return(ReturnStmt {
+                                                    span: DUMMY_SP,
+                                                    arg: Some(box quote_ident!("data").into()),
+                                                }),
+                                            ],
+                                        }
+                                    },
+                                },
+                            })
+                        };
+
+                        Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: tag.as_callee(),
+                            args: iter::once(
+                                Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: tpl_obj_fn.as_callee(),
+                                    args: vec![],
+                                })
+                                .as_arg(),
+                            )
+                            .chain(exprs.into_iter().map(|e| e.as_arg()))
+                            .collect(),
+                        })
                     }
                     None => {
                         // TODO: Optimize

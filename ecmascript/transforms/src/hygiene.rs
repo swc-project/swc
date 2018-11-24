@@ -94,23 +94,12 @@ mod test {
         }
     }
 
-    #[test]
-    fn hygiene_simple() {
+    fn test<F>(op: F, expected: &str)
+    where
+        F: FnOnce(&mut crate::tests::Tester) -> Result<Vec<Stmt>, ()>,
+    {
         ::tests::Tester::run(|tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
-
-            let stmts = vec![
-                tester
-                    .parse_stmt("actual.js", "var foo = 1;")?
-                    .fold_with(&mut marker(&[("foo", mark1)])),
-                tester
-                    .parse_stmt("actual.js", "var foo = 2;")?
-                    .fold_with(&mut marker(&[("foo", mark2)])),
-                tester
-                    .parse_stmt("actual.js", "use(foo)")?
-                    .fold_with(&mut marker(&[("foo", mark1)])),
-            ];
+            let stmts = op(tester)?;
 
             let module = Module {
                 span: DUMMY_SP,
@@ -122,11 +111,7 @@ mod test {
             let actual = tester.print(&module);
 
             let expected = {
-                let expected = tester.with_parser(
-                    "expected.js",
-                    "var foo = 1;\nvar foo1 = 2;\nuse(foo);",
-                    |p| p.parse_module(),
-                )?;
+                let expected = tester.with_parser("expected.js", expected, |p| p.parse_module())?;
                 tester.print(&expected)
             };
 
@@ -138,58 +123,86 @@ mod test {
             }
 
             Ok(())
-        });
+        })
+    }
+
+    #[test]
+    fn hygiene_simple() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(Mark::root());
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "var foo = 1;")?
+                        .fold_with(&mut marker(&[("foo", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "var foo = 2;")?
+                        .fold_with(&mut marker(&[("foo", mark2)])),
+                    tester
+                        .parse_stmt("actual.js", "use(foo)")?
+                        .fold_with(&mut marker(&[("foo", mark1)])),
+                ])
+            },
+            "var foo = 1;
+            var foo1 = 2;
+            use(foo);",
+        );
     }
 
     #[test]
     fn hygiene_block_scoping() {
-        ::tests::Tester::run(|tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(Mark::root());
 
-            let stmts = vec![
-                tester
-                    .parse_stmt("actual.js", "var foo = 1;")?
-                    .fold_with(&mut marker(&[("foo", mark1)])),
-                tester
-                    .parse_stmt("actual.js", "{ let foo = 2; use(foo); }")?
-                    .fold_with(&mut marker(&[("foo", mark2)])),
-                tester
-                    .parse_stmt("actual.js", "use(foo)")?
-                    .fold_with(&mut marker(&[("foo", mark1)])),
-            ];
-
-            let module = Module {
-                span: DUMMY_SP,
-                body: stmts.into_iter().map(ModuleItem::Stmt).collect(),
-            };
-
-            let module = hygiene().fold(module);
-
-            let actual = tester.print(&module);
-
-            let expected = {
-                let expected = tester.with_parser(
-                    "expected.js",
-                    "var foo = 1;
-                        {
-                            let foo1 = 2;
-                            use(foo1);
-                        }
-                    use(foo);",
-                    |p| p.parse_module(),
-                )?;
-                tester.print(&expected)
-            };
-
-            if actual != expected {
-                panic!(
-                    "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
-                    actual, expected
-                );
+                let stmts = vec![
+                    tester
+                        .parse_stmt("actual.js", "var foo = 1;")?
+                        .fold_with(&mut marker(&[("foo", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "{ let foo = 2; use(foo); }")?
+                        .fold_with(&mut marker(&[("foo", mark2)])),
+                    tester
+                        .parse_stmt("actual.js", "use(foo)")?
+                        .fold_with(&mut marker(&[("foo", mark1)])),
+                ];
+                Ok(stmts)
+            },
+            "var foo = 1;
+            {
+                let foo1 = 2;
+                use(foo1);
             }
-
-            Ok(())
-        });
+            use(foo);",
+        );
     }
+
+    #[test]
+    fn fn_binding_ident() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(Mark::root());
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "var foo = function baz(){}")?
+                        .fold_with(&mut marker(&[("baz", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "var bar = function baz(){};")?
+                        .fold_with(&mut marker(&[("baz", mark2)])),
+                    tester
+                        .parse_stmt("actual.js", "use(baz)")?
+                        .fold_with(&mut marker(&[("baz", mark1)])),
+                ])
+            },
+            "var foo = function baz(){};
+            var bar = function baz1(){};
+            use(baz);",
+        );
+    }
+
 }
