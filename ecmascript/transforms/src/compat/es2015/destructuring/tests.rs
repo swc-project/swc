@@ -25,10 +25,8 @@ test!(
 [x, y] = [1, 2];"#,
     r#"
 var x, y;
-var _ref = [1, 2];
-x = _ref[0];
-y = _ref[1];
-_ref;"#
+const ref = [1, 2];
+( x = ref[0], y = ref[1]);"#
 );
 
 test!(
