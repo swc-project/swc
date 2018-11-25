@@ -1,2 +1,1 @@
-'Hello
-2World';
+'Hello\n2World';

@@ -102,7 +102,7 @@ impl State {
 
     pub fn last_was_tpl_element(&self) -> bool {
         match self.token_type {
-            Some(Template(..)) => true,
+            Some(Template { .. }) => true,
             _ => false,
         }
     }

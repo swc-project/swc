@@ -14,7 +14,7 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::{FileName, Fold, FoldWith, Span};
+use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};

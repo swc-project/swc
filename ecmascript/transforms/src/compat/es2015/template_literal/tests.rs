@@ -129,34 +129,25 @@ expect(calls).toEqual([1, 2]);"#
 );
 
 test!(
-  ignore,
   TemplateLiteral::default(),
   simple_tag,
   r#"var foo = tag`wow`;
 var bar = tag`first${1}second`;"#,
-  r#"function _templateObject2() {
-  const data = _taggedTemplateLiteral(["first", "second"]);
-
-  _templateObject2 = function () {
+  r#"var foo = tag(function _templateObject() {
+    const data = _taggedTemplateLiteral(['wow']);
+    _templateObject = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["wow"]);
-
-  _templateObject = function () {
+}());
+var bar = tag(function _templateObject1() {
+    const data = _taggedTemplateLiteral(['first', 'second']);
+    _templateObject1 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-
-var foo = tag(_templateObject());
-var bar = tag(_templateObject2(), 1);"#
+}(), 1);
+"#
 );
 
 test!(
@@ -183,7 +174,6 @@ expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-  ignore,
   TemplateLiteral::default(),
   tag,
   r#"
@@ -191,59 +181,31 @@ var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
-  r#"Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- @kdy1 Sign out
-881
-30,563 3,141 babel/babel
- Code  Issues 616  Pull requests 103  Projects 1  Wiki  Insights
-babel/packages/babel-plugin-transform-template-literals/test/fixtures/default/tag/output.js
-040ba2b  on 12 May
-@dczombera dczombera Remove no longer needed #__PURE__ annotations for taggedTemplateLiter…
-@dczombera @debugpai @rajasekarm
-     
-36 lines (25 sloc)  905 Bytes
-function _templateObject3() {
-  const data = _taggedTemplateLiteral(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
-
-  _templateObject3 = function () {
+  r#"var foo = bar(function _templateObject() {
+    const data = _taggedTemplateLiteral(['wow\na', 'b ', ''], ['wow\\na', 'b ', '']);
+    _templateObject = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
-
-  _templateObject2 = function () {
+}(), 42, _.foobar());
+var bar = bar(function _templateObject1() {
+    const data = _taggedTemplateLiteral(['wow\nab', ' ', ''], ['wow\\nab', ' ', '']);
+    _templateObject1 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
-
-  _templateObject = function () {
+}(), 42, _.foobar());
+var bar = bar(function _templateObject2() {
+    const data = _taggedTemplateLiteral(['wow\naB', ' ', ''], ['wow\\naB', ' ', '']);
+    _templateObject2 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
-}
-
-var foo = bar(_templateObject(), 42, _.foobar());
-var bar = bar(_templateObject2(), 42, _.foobar());
-var bar = bar(_templateObject3(), 42, _.baz());"#
+}(), 42, _.baz());"#,
+  ok_if_code_eq
 );
 
+// TODO: Fix parser
 test!(
   ignore,
   TemplateLiteral::default(),

@@ -59,7 +59,11 @@ pub(crate) enum Token {
     /// '`'
     #[kind(starts_expr)]
     BackQuote,
-    Template(String),
+    Template {
+        raw: JsWord,
+        cooked: JsWord,
+        has_escape: bool,
+    },
     /// ':'
     #[kind(before_expr)]
     Colon,

@@ -33,7 +33,7 @@ New generation javascript to old-days javascript.
 
  - es2015
     - [x] arrow-functions
-    - [ ] block-scoped-functions
+    - [x] block-scoped-functions
     - [x] block-scoping
       - Note: this might be buggy (at this time)
     - [x] classes
@@ -51,7 +51,7 @@ New generation javascript to old-days javascript.
     - [x] spread
     - [x] sticky regex (`y` flag)
     - [x] template-literals
-      - [ ] tagged template literals
+      - [ ] invalid escape sequences inside tagged template literals. (aka es2018)
     - [x] typeof-symbol
     - [ ] unicode-regex
 

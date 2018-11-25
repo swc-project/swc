@@ -98,6 +98,12 @@ impl<'a> Scope<'a> {
         if self.declared_symbols.contains(sym) {
             return true;
         }
+        for op in self.ops.borrow().iter() {
+            match *op {
+                ScopeOp::Rename { ref to, .. } if sym == to => return true,
+                _ => {}
+            }
+        }
         match self.parent {
             Some(parent) => parent.is_declared(sym),
             _ => false,
@@ -191,7 +197,7 @@ impl<'a, 'b, T: Traverse> Fold<Pat> for ScopeAnalyzer<'a, 'b, T> {
                 Pat::Ident(self.visitor.fold_binding_ident(&mut self.current, ident))
             }
             // TODO
-            _ => unimplemented!("Pattern {:?}", pat),
+            _ => pat.fold_children(self),
         }
     }
 }
@@ -231,6 +237,8 @@ impl<'a, 'b, T: Traverse> Fold<Expr> for ScopeAnalyzer<'a, 'b, T> {
             Expr::This(..) => {
                 self.current.used_this.set(true);
             }
+
+            Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
             _ => {}
         }
 

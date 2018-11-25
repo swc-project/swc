@@ -1,7 +1,6 @@
 use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsWord;
-use swc_common::Span;
-use swc_common::ast_node;
+use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum Lit {
@@ -18,6 +17,12 @@ pub struct Str {
     pub value: JsWord,
     /// This includes line escape.
     pub has_escape: bool,
+}
+impl Str {
+    #[inline]
+    pub fn is_empty(&self) -> bool {
+        self.value.is_empty()
+    }
 }
 
 #[ast_node]

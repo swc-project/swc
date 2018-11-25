@@ -10,6 +10,25 @@ use error::{ErrorToDiag, SyntaxError};
 use swc_common::{BytePos, Span};
 use unicode_xid::UnicodeXID;
 
+pub(super) struct Raw(pub Option<String>);
+
+impl Raw {
+    #[inline]
+    pub fn push_str(&mut self, s: &str) {
+        match self.0 {
+            Some(ref mut st) => st.push_str(s),
+            _ => {}
+        }
+    }
+    #[inline]
+    pub fn push(&mut self, c: char) {
+        match self.0 {
+            Some(ref mut st) => st.push(c),
+            _ => {}
+        }
+    }
+}
+
 // pub const BACKSPACE: char = 8 as char;
 // pub const SHIFT_OUT: char = 14 as char;
 // pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
