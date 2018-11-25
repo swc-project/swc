@@ -1,8 +1,8 @@
 pub use self::{
     arrow::Arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
-    classes::Classes, function_name::function_name, instanceof::InstanceOf,
-    shorthand_property::Shorthand, spread::Spread, sticky_regex::StickyRegex,
-    template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
+    classes::Classes, destructuring::destructuring, function_name::function_name,
+    instanceof::InstanceOf, shorthand_property::Shorthand, spread::Spread,
+    sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 
 use super::helpers::Helpers;
@@ -14,6 +14,7 @@ mod arrow;
 mod block_scoped_fn;
 mod block_scoping;
 mod classes;
+mod destructuring;
 mod function_name;
 mod instanceof;
 mod shorthand_property;
@@ -44,5 +45,6 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
     .then(TemplateLiteral {
         helpers: helpers.clone(),
     })
+    .then(destructuring())
     .then(block_scoping())
 }

@@ -21,6 +21,32 @@ use swc_atoms::JsWord;
 mod factory;
 mod value;
 
+pub trait StmtLike: Sized {
+    fn try_into_stmt(self) -> Result<Stmt, Self>;
+    fn from_stmt(stmt: Stmt) -> Self;
+}
+
+impl StmtLike for Stmt {
+    fn try_into_stmt(self) -> Result<Stmt, Self> {
+        Ok(self)
+    }
+    fn from_stmt(stmt: Stmt) -> Self {
+        stmt
+    }
+}
+
+impl StmtLike for ModuleItem {
+    fn try_into_stmt(self) -> Result<Stmt, Self> {
+        match self {
+            ModuleItem::Stmt(stmt) => Ok(stmt),
+            _ => Err(self),
+        }
+    }
+    fn from_stmt(stmt: Stmt) -> Self {
+        ModuleItem::Stmt(stmt)
+    }
+}
+
 pub type BoolValue = Value<bool>;
 
 pub trait IsEmpty {
