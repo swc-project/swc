@@ -136,7 +136,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     );
 
                     // Make ref var if required
-                    let ref_ident = make_ref_ident(&mut decls, decl.init.unwrap());
+                    let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     for (i, elem) in elems.into_iter().enumerate() {
                         let elem: Pat = match elem {
@@ -183,7 +183,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         decl.init.is_some(),
                         "destructuring pattern binding requires initializer"
                     );
-                    let ref_ident = make_ref_ident(&mut decls, decl.init.unwrap());
+                    let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     for prop in props {
                         let prop_span = prop.span();
@@ -206,10 +206,10 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                     Some(value) => {
                                         let ref_ident = make_ref_ident(
                                             &mut decls,
-                                            box make_ref_prop_expr(
+                                            Some(box make_ref_prop_expr(
                                                 &ref_ident,
                                                 box key.clone().into(),
-                                            ),
+                                            )),
                                         );
 
                                         let var_decl = VarDeclarator {
@@ -269,6 +269,58 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
         }
 
         decls
+    }
+}
+
+impl Fold<Function> for Destructuring {
+    fn fold(&mut self, f: Function) -> Function {
+        let f = f.fold_children(self);
+
+        let mut params = Vec::with_capacity(f.params.len());
+        let mut decls = vec![];
+
+        for pat in f.params {
+            let span = pat.span();
+            match pat {
+                Pat::Ident(..) => params.push(pat),
+                Pat::Array(..) | Pat::Object(..) | Pat::Assign(..) => {
+                    let mark = Mark::fresh(Mark::root());
+                    let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
+
+                    params.push(Pat::Ident(ref_ident.clone()));
+                    decls.push(VarDeclarator {
+                        span,
+                        name: pat,
+                        init: Some(box Expr::Ident(ref_ident)),
+                    })
+                }
+                _ => {}
+            }
+        }
+
+        let stmts = if decls.is_empty() {
+            f.body.stmts
+        } else {
+            iter::once(
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls,
+                }))
+                .fold_with(self),
+            )
+            .chain(f.body.stmts)
+            .collect()
+        };
+
+        Function {
+            params,
+            body: BlockStmt {
+                span: f.body.span,
+                stmts,
+            },
+            ..f
+        }
     }
 }
 
@@ -421,16 +473,16 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
     })
 }
 
-fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Box<Expr>) -> Ident {
-    match *init {
-        Expr::Ident(i) => i,
+fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
+    match init {
+        Some(box Expr::Ident(i)) => i,
         init => {
             let s: JsWord = match init {
-                Expr::Member(MemberExpr {
+                Some(box Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Expr(box Expr::Ident(ref i1)),
                     prop: box Expr::Ident(ref i2),
                     ..
-                }) => format!("_{}${}", i1.sym, i2.sym).into(),
+                })) => format!("_{}${}", i1.sym, i2.sym).into(),
 
                 _ => "ref".into(),
             };
@@ -442,7 +494,7 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Box<Expr>) -> Ident {
             decls.push(VarDeclarator {
                 span,
                 name: Pat::Ident(ref_ident.clone()),
-                init: Some(box init),
+                init,
             });
 
             ref_ident
