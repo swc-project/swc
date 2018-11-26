@@ -19,10 +19,9 @@ test!(
     Destructuring::default(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"a = "hello";
-var _ref2 = [", ", "junk"];
-b = _ref2[0];
-c = "world";"#
+    r#"var ref, ref1, ref2;
+( ref2 = ['hello', [', ', 'junk'], ['world']], a = ref2[0], ( ref = ref2[1], b = ref[0], ref),
+ ( ref1 = ref2[2], c = ref1[0], ref1), ref2);"#
 );
 
 test!(

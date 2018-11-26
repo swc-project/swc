@@ -168,7 +168,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
 
 #[derive(Debug, Default)]
 struct AssignFolder {
-    vars: Vec<VarDecl>,
+    vars: Vec<VarDeclarator>,
 }
 
 impl Fold<Expr> for AssignFolder {
@@ -195,16 +195,6 @@ impl Fold<Expr> for AssignFolder {
                         let mark = Mark::fresh(Mark::root());
                         let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
 
-                        let var_decl = VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span,
-                                name: Pat::Ident(ref_ident.clone()),
-                                // initialized by first element of sequence expression
-                                init: None,
-                            }],
-                        };
                         let mut exprs = vec![];
                         exprs.push(box Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -219,14 +209,22 @@ impl Fold<Expr> for AssignFolder {
                                 None => continue,
                             };
 
-                            exprs.push(box Expr::Assign(AssignExpr {
-                                span: elem.span(),
-                                op: op!("="),
-                                left: PatOrExpr::Pat(box elem),
-                                right: box make_ref_idx_expr(&ref_ident, i),
-                            }));
+                            exprs.push(
+                                box Expr::Assign(AssignExpr {
+                                    span: elem.span(),
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(box elem),
+                                    right: box make_ref_idx_expr(&ref_ident, i),
+                                })
+                                .fold_with(self),
+                            );
                         }
-                        self.vars.push(var_decl);
+                        self.vars.push(VarDeclarator {
+                            span,
+                            name: Pat::Ident(ref_ident.clone()),
+                            // initialized by first element of sequence expression
+                            init: None,
+                        });
 
                         // last one should be `ref`
                         exprs.push(box Expr::Ident(ref_ident));
@@ -268,9 +266,17 @@ where
                     Stmt::Expr(box expr) => {
                         let mut folder = AssignFolder::default();
                         let expr = folder.fold(expr);
-                        for var in folder.vars {
-                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
+
+                        // Add variable declaration
+                        // e.g. var ref
+                        if !folder.vars.is_empty() {
+                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: folder.vars,
+                            }))));
                         }
+
                         buf.push(T::from_stmt(Stmt::Expr(box expr)));
                     }
                     _ => buf.push(T::from_stmt(stmt)),
