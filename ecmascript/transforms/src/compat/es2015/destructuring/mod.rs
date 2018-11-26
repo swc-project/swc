@@ -1,5 +1,5 @@
 use ast::*;
-use crate::util::StmtLike;
+use crate::util::{ExprFactory, StmtLike};
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
@@ -138,17 +138,41 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     let ref_ident = make_ref_ident(&mut decls, decl.init.unwrap());
 
                     for (i, elem) in elems.into_iter().enumerate() {
-                        let elem = match elem {
+                        let elem: Pat = match elem {
                             Some(elem) => elem,
                             None => continue,
                         };
 
-                        let var_decl = VarDeclarator {
-                            span: elem.span(),
-                            // This might be pattern.
-                            // So we fold it again.
-                            name: elem,
-                            init: Some(box make_ref_idx_expr(&ref_ident, i)),
+                        let var_decl = match elem {
+                            Pat::Rest(RestPat {
+                                dot3_token,
+                                box arg,
+                            }) => VarDeclarator {
+                                span: dot3_token,
+                                name: arg,
+                                init: Some(box Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: MemberExpr {
+                                        span: dot3_token,
+                                        obj: ExprOrSuper::Expr(box Expr::Ident(ref_ident.clone())),
+                                        computed: false,
+                                        prop: box Expr::Ident(quote_ident!("slice")),
+                                    }
+                                    .as_callee(),
+                                    args: vec![Lit::Num(Number {
+                                        value: i as f64,
+                                        span: dot3_token,
+                                    })
+                                    .as_arg()],
+                                })),
+                            },
+                            _ => VarDeclarator {
+                                span: elem.span(),
+                                // This might be pattern.
+                                // So we fold it again.
+                                name: elem,
+                                init: Some(box make_ref_idx_expr(&ref_ident, i)),
+                            },
                         };
                         decls.extend(vec![var_decl].fold_with(self));
                     }
@@ -238,6 +262,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     };
                     decls.extend(vec![var_decl].fold_with(self))
                 }
+
                 _ => unimplemented!("Pattern {:?}", decl),
             }
         }
