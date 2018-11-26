@@ -1,20 +1,17 @@
 use ast::*;
-use crate::compat::helpers::Helpers;
-use std::{collections::HashSet, sync::Arc};
+use std::collections::HashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 
 #[cfg(test)]
 mod tests;
 
-pub fn duplicate_keys(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    DupKeys { helpers }
+pub fn duplicate_keys() -> impl Fold<Module> {
+    DupKeys
 }
 
 #[derive(Default)]
-struct DupKeys {
-    helpers: Arc<Helpers>,
-}
+struct DupKeys;
 
 impl Fold<Expr> for DupKeys {
     fn fold(&mut self, expr: Expr) -> Expr {

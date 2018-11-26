@@ -28,7 +28,7 @@ mod typeof_symbol;
 
 /// Compiles es2015 to es5.
 pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
-    duplicate_keys(helpers.clone())
+    duplicate_keys()
         .then(Classes {
             helpers: helpers.clone(),
         })
