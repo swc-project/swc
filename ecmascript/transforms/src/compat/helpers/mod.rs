@@ -32,6 +32,10 @@ pub struct Helpers {
     pub type_of: AtomicBool,
     /// `_taggedTemplateLiteral`
     pub tagged_template_literal: AtomicBool,
+    /// `_defineProperty`
+    pub define_property: AtomicBool,
+    /// `_defineEnumerableProperties`
+    pub define_enumerable_property: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -87,6 +91,11 @@ impl InjectHelpers {
         add!(
             "_taggedTemplateLiteral.js",
             &self.helpers.tagged_template_literal
+        );
+        add!("_defineProperty.js", &self.helpers.define_property);
+        add!(
+            "_defineEnumerableProperties.js",
+            &self.helpers.define_enumerable_property
         );
 
         buf
