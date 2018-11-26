@@ -164,8 +164,8 @@ macro_rules! test_transform {
             }
 
             panic!(
-                "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
-                actual_src, expected_src
+                "\n\t>>>>> Code <<<<<\n{}\n\t>>>>> Actual <<<<<\n{}\n\t>>>>> Expected <<<<<\n{}",
+                $input, actual_src, expected_src
             );
         });
     }};
