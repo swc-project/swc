@@ -11,7 +11,7 @@ pub enum BinaryOp {
     /// `!=`
     #[kind(precedence = "6")]
     NotEq,
-    /// `==="`
+    /// `===`
     #[kind(precedence = "6")]
     EqEqEq,
     /// `!==`
