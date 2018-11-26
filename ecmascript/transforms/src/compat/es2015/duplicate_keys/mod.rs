@@ -22,7 +22,7 @@ impl Fold<Expr> for DupKeys {
 
         match expr {
             Expr::Object(ObjectLit { span, props }) => {
-                let mut folder = PropNameFolder::default();
+                let mut folder = PropFolder::default();
 
                 ObjectLit {
                     span,
@@ -36,16 +36,19 @@ impl Fold<Expr> for DupKeys {
 }
 
 #[derive(Default)]
-struct PropNameFolder {
-    props: HashSet<JsWord>,
+struct PropFolder {
+    getter_props: HashSet<JsWord>,
+    setter_props: HashSet<JsWord>,
 }
 
-impl Fold<Prop> for PropNameFolder {
+impl Fold<Prop> for PropFolder {
     fn fold(&mut self, prop: Prop) -> Prop {
         match prop {
             Prop::Shorthand(ident) => {
                 //
-                if !self.props.insert(ident.sym.clone()) {
+                if !self.getter_props.insert(ident.sym.clone())
+                    || !self.setter_props.insert(ident.sym.clone())
+                {
                     return Prop::KeyValue(KeyValueProp {
                         key: PropName::Computed(box Expr::Lit(Lit::Str(quote_str!(ident
                             .sym
@@ -56,12 +59,32 @@ impl Fold<Prop> for PropNameFolder {
                     Prop::Shorthand(ident)
                 }
             }
-            _ => prop.fold_children(self),
+
+            Prop::Assign(..) => unreachable!("assign property in object literal is invalid"),
+
+            Prop::Getter(..) => prop.fold_children(&mut PropNameFolder {
+                props: &mut self.getter_props,
+            }),
+            Prop::Setter(..) => prop.fold_children(&mut PropNameFolder {
+                props: &mut self.setter_props,
+            }),
+            _ => {
+                let prop = prop.fold_children(&mut PropNameFolder {
+                    props: &mut self.getter_props,
+                });
+                prop.fold_children(&mut PropNameFolder {
+                    props: &mut self.setter_props,
+                })
+            }
         }
     }
 }
 
-impl Fold<PropName> for PropNameFolder {
+struct PropNameFolder<'a> {
+    props: &'a mut HashSet<JsWord>,
+}
+
+impl<'a> Fold<PropName> for PropNameFolder<'a> {
     fn fold(&mut self, name: PropName) -> PropName {
         let span = name.span();
 
@@ -83,6 +106,16 @@ impl Fold<PropName> for PropNameFolder {
                 } else {
                     PropName::Str(s)
                 }
+            }
+            PropName::Computed(box expr) => {
+                // Computed property might collide
+                match expr {
+                    Expr::Lit(Lit::Str(Str { ref value, .. })) => {
+                        self.props.insert(value.clone());
+                    }
+                    _ => {}
+                }
+                PropName::Computed(box expr)
             }
             _ => name,
         }
