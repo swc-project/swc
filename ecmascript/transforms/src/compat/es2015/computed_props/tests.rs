@@ -86,15 +86,16 @@ var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_
 );
 
 test!(
-    ComputedProps::default(),
-    multiple,
-    r#"var obj = {
+  ComputedProps::default(),
+  multiple,
+  r#"var obj = {
   ["x" + foo]: "heh",
   ["y" + bar]: "noo"
 };"#,
-    r#"var _obj;
+  r#"var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_obj, "y" + bar, "noo")"#
+var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), 
+_defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 );
 
 test!(
@@ -158,9 +159,9 @@ test!(
   first: "first",
   ["second"]: "second",
 };"#,
-  r#"var obj = _defineProperty({
-  first: "first"
-}, "second", "second");"#
+  r#"var _obj;
+var obj = ( _obj = {
+}, _defineProperty(_obj, 'first', 'first'), _defineProperty(_obj, 'second', 'second'), _obj);"#
 );
 
 test!(
