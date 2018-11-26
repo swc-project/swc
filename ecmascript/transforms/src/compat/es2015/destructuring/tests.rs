@@ -4,7 +4,7 @@ test!(
     Destructuring::default(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
-    r#"let ref = foo.a, a = ref === void 0 ? 1 : ref"#
+    r#"let _foo$a = foo.a, a = _foo$a === void 0 ? 1 : _foo$a;"#
 );
 
 test!(
