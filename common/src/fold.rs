@@ -163,15 +163,27 @@ pub trait FoldWith<F>: Sized {
 /// because it would encourage mistakes. Use new type instead.
 ///
 /// `#[fold(ignore)]` can be used to ignore a field.
-pub trait VisitWith<F>: Sized {
+pub trait VisitWith<F> {
     /// This is used by default implementation of `Visit<Self>::visit`.
     fn visit_children(&self, f: &mut F);
 
     /// Call `f.visit(self)`.
     ///
     /// This bypasses a type inference bug which is caused by specialization.
-    fn visit_with(&self, f: &mut F) {
+    fn visit_with(&self, f: &mut F)
+    where
+        Self: Sized,
+    {
         f.visit(self)
+    }
+}
+
+impl<'a, T, F> VisitWith<F> for &'a T
+where
+    F: Visit<T>,
+{
+    fn visit_children(&self, f: &mut F) {
+        f.visit(*self)
     }
 }
 
@@ -213,6 +225,15 @@ where
 }
 
 impl<T, F> VisitWith<F> for Vec<T>
+where
+    F: Visit<T>,
+{
+    fn visit_children(&self, f: &mut F) {
+        self.iter().for_each(|node| f.visit(node))
+    }
+}
+
+impl<T, F> VisitWith<F> for [T]
 where
     F: Visit<T>,
 {
