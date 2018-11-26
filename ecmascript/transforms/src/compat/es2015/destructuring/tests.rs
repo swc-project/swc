@@ -23,10 +23,9 @@ test!(
     assign_expr_completion_record,
     r#"var x, y;
 [x, y] = [1, 2];"#,
-    r#"
-var x, y;
-const ref = [1, 2];
-( x = ref[0], y = ref[1]);"#
+    r#"var x, y;
+var ref;
+( ref = [1, 2], x = ref[0], y = ref[1], ref);"#
 );
 
 test!(
@@ -34,10 +33,10 @@ test!(
     assign_expr_pat,
     r#"var z = {};
 var { x: { y } = {} } = z;"#,
-    r#"var z = {};
-var _z$x = z.x;
-_z$x = _z$x === void 0 ? {} : _z$x;
-var y = _z$x.y;"#
+    r#"var z = {
+};
+var tmp = z.x, ref = tmp === void 0 ? {
+} : tmp, y = ref.y;"#
 );
 
 test!(

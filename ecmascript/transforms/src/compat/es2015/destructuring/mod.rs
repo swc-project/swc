@@ -53,15 +53,10 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         decl.init.is_some(),
                         "Desturing pattern binding requires initializer"
                     );
-                    let mark = Mark::fresh(Mark::root());
-                    let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
 
-                    let ref_var = VarDeclarator {
-                        span,
-                        name: Pat::Ident(ref_ident.clone()),
-                        init: decl.init,
-                    };
-                    decls.push(ref_var);
+                    // Make ref var if required
+                    let ref_ident = make_ref_ident(&mut decls, decl.init.unwrap());
+
                     for (i, elem) in elems.into_iter().enumerate() {
                         let elem = match elem {
                             Some(elem) => elem,
@@ -77,6 +72,82 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         };
                         decls.extend(vec![var_decl].fold_with(self));
                     }
+                }
+                Pat::Object(ObjectPat { span, props }) => {
+                    assert!(
+                        decl.init.is_some(),
+                        "Desturing pattern binding requires initializer"
+                    );
+                    let ref_ident = make_ref_ident(&mut decls, decl.init.unwrap());
+
+                    for prop in props {
+                        let prop_span = prop.span();
+
+                        match prop {
+                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                                let var_decl = VarDeclarator {
+                                    span: prop_span,
+                                    name: *value,
+                                    init: Some(box make_ref_prop_expr(
+                                        &ref_ident,
+                                        box prop_name_to_expr(key),
+                                    )),
+                                };
+                                decls.extend(vec![var_decl].fold_with(self));
+                                // decls.push(var_decl);
+                            }
+                            ObjectPatProp::Assign(AssignPatProp { span, key, value }) => {
+                                let var_decl = VarDeclarator {
+                                    span: prop_span,
+                                    name: Pat::Ident(key.clone().into()),
+                                    init: Some(box make_ref_prop_expr(&ref_ident, box key.into())),
+                                };
+                                decls.extend(vec![var_decl].fold_with(self));
+                            }
+                            ObjectPatProp::Rest(_) => unimplemented!(),
+                        }
+                    }
+                }
+                Pat::Assign(AssignPat {
+                    span,
+                    left,
+                    right: def_value,
+                }) => {
+                    assert!(
+                        decl.init.is_some(),
+                        "Desturing pattern binding requires initializer"
+                    );
+
+                    let tmp_mark = Mark::fresh(Mark::root());
+                    let tmp_ident = quote_ident!(span.apply_mark(tmp_mark), "tmp");
+
+                    decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(tmp_ident.clone()),
+                        init: decl.init,
+                    });
+
+                    let var_decl = VarDeclarator {
+                        span,
+                        name: *left,
+                        // tmp === void 0 ? def_value : tmp
+                        init: Some(box Expr::Cond(CondExpr {
+                            span: DUMMY_SP,
+                            test: box Expr::Bin(BinExpr {
+                                span,
+                                left: box Expr::Ident(tmp_ident.clone()),
+                                op: op!("==="),
+                                right: box Expr::Unary(UnaryExpr {
+                                    span,
+                                    op: op!("void"),
+                                    arg: box Expr::Lit(Lit::Num(Number { span, value: 0.0 })),
+                                }),
+                            }),
+                            cons: def_value,
+                            alt: box Expr::Ident(tmp_ident),
+                        })),
+                    };
+                    decls.extend(vec![var_decl].fold_with(self))
                 }
                 _ => unimplemented!("Pattern {:?}", decl),
             }
@@ -212,5 +283,40 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
             span: DUMMY_SP,
             value: i as f64,
         })),
+    })
+}
+
+fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Box<Expr>) -> Ident {
+    match *init {
+        Expr::Ident(i) => i,
+        init => {
+            let span = init.span();
+            let mark = Mark::fresh(Mark::root());
+            let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
+
+            decls.push(VarDeclarator {
+                span,
+                name: Pat::Ident(ref_ident.clone()),
+                init: Some(box init),
+            });
+
+            ref_ident
+        }
+    }
+}
+
+fn prop_name_to_expr(p: PropName) -> Expr {
+    match p {
+        PropName::Ident(i) => Expr::Ident(i),
+        _ => unimplemented!(),
+    }
+}
+
+fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>) -> Expr {
+    Expr::Member(MemberExpr {
+        span: DUMMY_SP,
+        obj: ExprOrSuper::Expr(box ref_ident.clone().into()),
+        computed: false,
+        prop,
     })
 }
