@@ -275,6 +275,7 @@ if (true) ( ref = [b, a], a = ref[0], b = ref[1], ref);"#
 );
 
 test!(
+    ignore,
     Destructuring::default(),
     babel_issue_6373,
     r#"import { NestedObjects } from "./some-module"
