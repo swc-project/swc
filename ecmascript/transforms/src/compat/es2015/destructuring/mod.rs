@@ -343,6 +343,19 @@ impl Fold<Expr> for AssignFolder {
                             exprs,
                         })
                     }
+                    Pat::Object(ObjectPat { span, props }) => {
+                        //
+                        unimplemented!()
+                    }
+                    Pat::Expr(box expr) => {
+                        //
+                        Expr::Assign(AssignExpr {
+                            span,
+                            left: PatOrExpr::Pat(box Pat::Expr(box expr)),
+                            op: op!("="),
+                            right,
+                        })
+                    }
                     _ => unimplemented!("assignment pattern {:?}", pat),
                 },
                 _ => {

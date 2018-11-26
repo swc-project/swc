@@ -293,9 +293,8 @@ test!(
     Destructuring::default(),
     member_expr,
     r#"[foo.foo, foo.bar] = [1, 2];"#,
-    r#"var _ref = [1, 2];
-foo.foo = _ref[0];
-foo.bar = _ref[1];"#
+    r#"var ref;
+( ref = [1, 2], foo.foo = ref[0], foo.bar = ref[1], ref);"#
 );
 
 test!(
