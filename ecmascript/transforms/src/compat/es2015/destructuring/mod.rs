@@ -1,6 +1,7 @@
 use ast::*;
 use crate::util::{ExprFactory, StmtLike};
 use std::iter;
+use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
 #[cfg(test)]
@@ -424,9 +425,19 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Box<Expr>) -> Ident {
     match *init {
         Expr::Ident(i) => i,
         init => {
+            let s: JsWord = match init {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(box Expr::Ident(ref i1)),
+                    prop: box Expr::Ident(ref i2),
+                    ..
+                }) => format!("_{}${}", i1.sym, i2.sym).into(),
+
+                _ => "ref".into(),
+            };
+
             let span = init.span();
             let mark = Mark::fresh(Mark::root());
-            let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
+            let ref_ident = quote_ident!(span.apply_mark(mark), s);
 
             decls.push(VarDeclarator {
                 span,

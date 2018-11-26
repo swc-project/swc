@@ -303,7 +303,8 @@ test!(
     r#"var rect = {};
 var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
     r#"var rect = {};
-var ref = rect.topLeft, x1 = ref[0], y1 = ref[1], ref1 = rect.bottomRight, x2 = ref1[0], y2 = ref1[1];"#
+var _rect$topLeft = rect.topLeft, x1 = _rect$topLeft[0], y1 = _rect$topLeft[1], 
+_rect$bottomRight = rect.bottomRight, x2 = _rect$bottomRight[0], y2 = _rect$bottomRight[1]"#
 );
 
 test!(
@@ -340,15 +341,9 @@ test!(
 var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
 var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];"#,
     r#"var rect = {};
-var _rect$topLeft = rect.topLeft,
-    x1 = _rect$topLeft.x,
-    y1 = _rect$topLeft.y,
-    _rect$bottomRight = rect.bottomRight,
-    x2 = _rect$bottomRight.x,
-    y2 = _rect$bottomRight.y;
-var _ref = [0, 1, 2, 3, 4, 5, 6],
-    foo = _ref[3],
-    bar = _ref[5];"#
+var _rect$topLeft = rect.topLeft, x1 = _rect$topLeft.x, y1 = _rect$topLeft.y,
+ _rect$bottomRight = rect.bottomRight, x2 = _rect$bottomRight.x, y2 = _rect$bottomRight.y;
+var ref = [0, 1, 2, 3, 4, 5, 6], foo = ref[3], bar = ref[5];"#
 );
 
 test!(
