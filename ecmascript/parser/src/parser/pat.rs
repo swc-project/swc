@@ -81,7 +81,8 @@ impl<'a, I: Input> Parser<'a, I> {
             }
             if comma > 0 {
                 // One comma is used for separating elements
-                elems.extend(iter::repeat(None).take(comma - 1));
+                let cnt = if elems.is_empty() { comma } else { comma - 1 };
+                elems.extend(iter::repeat(None).take(cnt));
                 comma = 0;
             }
             let start = cur_pos!();
@@ -479,6 +480,28 @@ mod tests {
             Pat::Array(ArrayPat {
                 span,
                 elems: vec![
+                    Some(Pat::Ident(ident("a"))),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("b")))]
+                    })),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("c")))]
+                    }))
+                ]
+            })
+        );
+    }
+
+    #[test]
+    fn array_pat_empty_start() {
+        assert_eq_ignore_span!(
+            array_pat("[, a, [b], [c]]"),
+            Pat::Array(ArrayPat {
+                span,
+                elems: vec![
+                    None,
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
