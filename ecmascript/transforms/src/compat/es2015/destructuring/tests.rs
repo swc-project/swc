@@ -270,12 +270,8 @@ test!(
     Destructuring::default(),
     babel_issue_5744,
     r#"if (true) [a, b] = [b, a];"#,
-    r#"if (true) {
-  var _ref = [b, a];
-  a = _ref[0];
-  b = _ref[1];
-  _ref;
-}"#
+    r#"var ref;
+if (true) ( ref = [b, a], a = ref[0], b = ref[1], ref);"#
 );
 
 test!(
