@@ -180,7 +180,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                 Pat::Object(ObjectPat { props, .. }) => {
                     assert!(
                         decl.init.is_some(),
-                        "Desturing pattern binding requires initializer"
+                        "destructuring pattern binding requires initializer"
                     );
                     let ref_ident = make_ref_ident(&mut decls, decl.init.unwrap());
 
@@ -242,7 +242,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                 }) => {
                     assert!(
                         decl.init.is_some(),
-                        "Desturing pattern binding requires initializer"
+                        "desturcturing pattern binding requires initializer"
                     );
 
                     let tmp_mark = Mark::fresh(Mark::root());
