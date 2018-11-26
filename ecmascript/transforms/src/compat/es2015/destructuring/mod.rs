@@ -86,8 +86,15 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
     }
 }
 
-impl Destructuring {
-    fn fold_assign(&mut self, expr: Expr) -> Result<(VarDecl, Expr), Expr> {
+#[derive(Debug, Default)]
+struct AssignFolder {
+    vars: Vec<VarDecl>,
+}
+
+impl Fold<Expr> for AssignFolder {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+
         match expr {
             Expr::Assign(AssignExpr {
                 span,
@@ -97,29 +104,34 @@ impl Destructuring {
             }) => match left {
                 PatOrExpr::Pat(pat) => match *pat {
                     Pat::Ident(..) => {
-                        return Err(Expr::Assign(AssignExpr {
+                        return Expr::Assign(AssignExpr {
                             span,
                             left: PatOrExpr::Pat(pat),
                             op: op!("="),
                             right,
-                        }))
+                        })
                     }
                     Pat::Array(ArrayPat { span, elems }) => {
                         let mark = Mark::fresh(Mark::root());
                         let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
 
-                        let ref_var = VarDeclarator {
-                            span,
-                            name: Pat::Ident(ref_ident.clone()),
-                            init: Some(right),
-                        };
                         let var_decl = VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Const,
-                            decls: vec![ref_var],
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span,
+                                name: Pat::Ident(ref_ident.clone()),
+                                // initialized by first element of sequence expression
+                                init: None,
+                            }],
                         };
-
                         let mut exprs = vec![];
+                        exprs.push(box Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
+                            right,
+                        }));
 
                         for (i, elem) in elems.into_iter().enumerate() {
                             let elem = match elem {
@@ -134,27 +146,28 @@ impl Destructuring {
                                 right: box make_ref_idx_expr(&ref_ident, i),
                             }));
                         }
+                        self.vars.push(var_decl);
 
-                        Ok((
-                            var_decl,
-                            Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            }),
-                        ))
+                        // last one should be `ref`
+                        exprs.push(box Expr::Ident(ref_ident));
+
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })
                     }
                     _ => unimplemented!("assignment pattern {:?}", pat),
                 },
                 _ => {
-                    return Err(Expr::Assign(AssignExpr {
+                    return Expr::Assign(AssignExpr {
                         span,
                         left,
                         op: op!("="),
                         right,
-                    }))
+                    })
                 }
             },
-            _ => Err(expr),
+            _ => expr,
         }
     }
 }
@@ -167,19 +180,18 @@ where
         let stmts = stmts.fold_children(self);
 
         let mut buf = vec![];
+
         for stmt in stmts {
             match stmt.try_into_stmt() {
                 Err(module_item) => buf.push(module_item),
                 Ok(stmt) => match stmt {
                     Stmt::Expr(box expr) => {
-                        let res = self.fold_assign(expr);
-                        match res {
-                            Err(expr) => buf.push(T::from_stmt(Stmt::Expr(box expr))),
-                            Ok((var_decl, expr)) => {
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var_decl))));
-                                buf.push(T::from_stmt(Stmt::Expr(box expr)));
-                            }
+                        let mut folder = AssignFolder::default();
+                        let expr = folder.fold(expr);
+                        for var in folder.vars {
+                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
                         }
+                        buf.push(T::from_stmt(Stmt::Expr(box expr)));
                     }
                     _ => buf.push(T::from_stmt(stmt)),
                 },

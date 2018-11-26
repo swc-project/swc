@@ -44,8 +44,8 @@ test!(
     Destructuring::default(),
     assign_expr,
     r#"console.log([x] = [123]);"#,
-    r#"var _ref;
-console.log((_ref = [123], x = _ref[0], _ref));"#
+    r#"var ref;
+console.log((ref = [123], x = ref[0], ref));"#
 );
 
 test_exec!(
