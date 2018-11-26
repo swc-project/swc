@@ -1,9 +1,9 @@
 use super::*;
 
 test!(
-    ComputedProps::default(),
-    accessors,
-    r#"var obj = {
+  ComputedProps::default(),
+  accessors,
+  r#"var obj = {
   get [foobar]() {
     return "foobar";
   },
@@ -18,17 +18,22 @@ test!(
   }
 };
 "#,
-    r#"var _foobar, _foobar2, _test, _test2, _obj, _mutatorMap;
-
-var obj = (_obj = {}, _foobar = foobar, _mutatorMap = {}, _mutatorMap[_foobar] = _mutatorMap[_foobar] || {}, _mutatorMap[_foobar].get = function () {
-  return "foobar";
-}, _foobar2 = foobar, _mutatorMap[_foobar2] = _mutatorMap[_foobar2] || {}, _mutatorMap[_foobar2].set = function (x) {
-  console.log(x);
-}, _test = "test", _mutatorMap[_test] = _mutatorMap[_test] || {}, _mutatorMap[_test].get = function () {
-  return "regular getter after computed property";
-}, _test2 = "test", _mutatorMap[_test2] = _mutatorMap[_test2] || {}, _mutatorMap[_test2].set = function (x) {
-  console.log(x);
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#
+  r#"var _obj, _mutatorMap = {
+};
+var obj = ( _obj = {
+}, _mutatorMap[foobar] = _mutatorMap[foobar] || {
+}, _mutatorMap[foobar].get = function() {
+    return 'foobar';
+}, _mutatorMap[foobar] = _mutatorMap[foobar] || {
+}, _mutatorMap[foobar].set = function(x) {
+    console.log(x);
+}, _mutatorMap['test'] = _mutatorMap['test'] || {
+}, _mutatorMap['test'].get = function() {
+    return 'regular getter after computed property';
+}, _mutatorMap['test'] = _mutatorMap['test'] || {
+}, _mutatorMap['test'].set = function(x) {
+    console.log(x);
+}, _defineEnumerableProperty(_obj, _mutatorMap), _obj);"#
 );
 
 test!(
@@ -118,13 +123,14 @@ var foo = {
   }
 };
 "#,
-  r#"var _foo, _mutatorMap;
-
-var k = Symbol();
-var foo = (_foo = {}, _defineProperty(_foo, Symbol.iterator, "foobar"),
- _mutatorMap = {}, _mutatorMap[k] = _mutatorMap[k] || {}, _mutatorMap[k].get = function () {
-  return k;
-}, _defineEnumerableProperties(_foo, _mutatorMap), _foo);"#
+  r#"var k = Symbol();
+var _obj, _mutatorMap = {
+};
+var foo = ( _obj = {
+}, _defineProperty(_obj, Symbol.iterator, 'foobar'), _mutatorMap[k] = _mutatorMap[k] || {
+}, _mutatorMap[k].get = function() {
+    return k;
+}, _defineEnumerableProperty(_obj, _mutatorMap), _obj);"#
 );
 
 test_exec!(

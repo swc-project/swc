@@ -37,6 +37,9 @@ mod tests;
 ///   _obj
 /// );
 /// ```
+///
+/// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
+///     instead of (mutatorMap[f].get = function(){}
 pub fn computed_properties(helpers: Arc<Helpers>) -> impl Fold<Module> {
     ComputedProps { helpers }
 }
@@ -49,6 +52,7 @@ struct ComputedProps {
 #[derive(Debug, Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,
+    used_define_enum_props: bool,
 }
 
 impl Fold<Expr> for ObjectLitFolder {
@@ -65,6 +69,7 @@ impl Fold<Expr> for ObjectLitFolder {
                 let obj_ident = quote_ident!(span.apply_mark(mark), "_obj");
 
                 let mut exprs = Vec::with_capacity(props.len() + 2);
+                let mutator_map = quote_ident!(span.apply_mark(mark), "_mutatorMap");
 
                 exprs.push(box Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -97,11 +102,87 @@ impl Fold<Expr> for ObjectLitFolder {
                             Prop::Assign(..) => {
                                 unreachable!("assign property in object literal is invalid")
                             }
-                            Prop::Getter(GetterProp { key, body, .. }) => {
-                                unimplemented!("getter property")
-                            }
-                            Prop::Setter(SetterProp { key, body, .. }) => {
-                                unimplemented!("setter property")
+                            prop @ Prop::Getter(GetterProp { .. })
+                            | prop @ Prop::Setter(SetterProp { .. }) => {
+                                self.used_define_enum_props = true;
+
+                                // getter/setter property name
+                                let gs_prop_name = match prop {
+                                    Prop::Getter(..) => Some("get"),
+                                    Prop::Setter(..) => Some("set"),
+                                    _ => None,
+                                };
+                                let (key, function) = match prop {
+                                    Prop::Getter(GetterProp { span, body, key }) => (
+                                        key,
+                                        Function {
+                                            span,
+                                            body,
+                                            async_token: None,
+                                            generator_token: None,
+                                            params: vec![],
+                                        },
+                                    ),
+                                    Prop::Setter(SetterProp {
+                                        span,
+                                        body,
+                                        param,
+                                        key,
+                                    }) => (
+                                        key,
+                                        Function {
+                                            span,
+                                            body,
+                                            async_token: None,
+                                            generator_token: None,
+                                            params: vec![param],
+                                        },
+                                    ),
+                                    _ => unreachable!(),
+                                };
+
+                                // mutator[f]
+                                let mutator_elem = Expr::Member(MemberExpr {
+                                    span,
+                                    obj: ExprOrSuper::Expr(box Expr::Ident(mutator_map.clone())),
+                                    computed: true,
+                                    prop: box prop_name_to_expr(key),
+                                });
+
+                                // mutator[f] = mutator[f] || {}
+                                exprs.push(box Expr::Assign(AssignExpr {
+                                    span,
+                                    left: PatOrExpr::Expr(box mutator_elem.clone()),
+                                    op: op!("="),
+                                    right: box Expr::Bin(BinExpr {
+                                        span,
+                                        left: box mutator_elem.clone(),
+                                        op: op!("||"),
+                                        right: box Expr::Object(ObjectLit {
+                                            span,
+                                            props: vec![],
+                                        }),
+                                    }),
+                                }));
+
+                                // mutator[f].get = function(){}
+                                exprs.push(box Expr::Assign(AssignExpr {
+                                    span,
+                                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                        span,
+                                        obj: ExprOrSuper::Expr(box mutator_elem),
+                                        computed: false,
+                                        prop: box Expr::Ident(quote_ident!(gs_prop_name.unwrap())),
+                                    })),
+                                    op: op!("="),
+                                    right: box Expr::Fn(FnExpr {
+                                        ident: None,
+                                        function,
+                                    }),
+                                }));
+
+                                continue;
+                                // unimplemented!("getter /setter property")
                             }
                             Prop::Method(MethodProp { key, function }) => (
                                 prop_name_to_expr(key),
@@ -127,7 +208,7 @@ impl Fold<Expr> for ObjectLitFolder {
                                 key.as_arg(),
                                 value.as_arg(),
                             ],
-                        });;
+                        });
                     }
                     exprs.push(box Expr::Call(CallExpr {
                         span,
@@ -136,14 +217,29 @@ impl Fold<Expr> for ObjectLitFolder {
                     }));
                 }
 
-                exprs.push(box Expr::Ident(obj_ident.clone()));
-
                 self.vars.push(VarDeclarator {
                     span,
-                    name: Pat::Ident(obj_ident),
+                    name: Pat::Ident(obj_ident.clone()),
                     init: None,
                 });
+                if self.used_define_enum_props {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(mutator_map.clone()),
+                        init: Some(box Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![],
+                        })),
+                    });
+                    exprs.push(box Expr::Call(CallExpr {
+                        span,
+                        callee: quote_ident!("_defineEnumerableProperty").as_callee(),
+                        args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
+                    }));
+                }
 
+                // Last value
+                exprs.push(box Expr::Ident(obj_ident.clone()));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,
@@ -199,6 +295,11 @@ where
                             kind: VarDeclKind::Var,
                             decls: folder.vars,
                         }))));
+                    }
+                    if folder.used_define_enum_props {
+                        self.helpers
+                            .define_enumerable_property
+                            .store(true, Ordering::SeqCst);
                     }
 
                     buf.push(T::from_stmt(stmt));
