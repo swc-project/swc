@@ -173,7 +173,11 @@ struct AssignFolder {
 
 impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = match expr {
+            // Handle iife
+            Expr::Fn(..) => Destructuring.fold(expr),
+            _ => expr.fold_children(self),
+        };
 
         match expr {
             Expr::Assign(AssignExpr {
@@ -250,7 +254,7 @@ impl Fold<Expr> for AssignFolder {
     }
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for Destructuring
+impl<T: StmtLike + ::std::fmt::Debug> Fold<Vec<T>> for Destructuring
 where
     Vec<T>: FoldWith<Self>,
 {
@@ -262,25 +266,22 @@ where
         for stmt in stmts {
             match stmt.try_into_stmt() {
                 Err(module_item) => buf.push(module_item),
-                Ok(stmt) => match stmt {
-                    Stmt::Expr(box expr) => {
-                        let mut folder = AssignFolder::default();
-                        let expr = folder.fold(expr);
+                Ok(stmt) => {
+                    let mut folder = AssignFolder::default();
+                    let stmt = stmt.fold_with(&mut folder);
 
-                        // Add variable declaration
-                        // e.g. var ref
-                        if !folder.vars.is_empty() {
-                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls: folder.vars,
-                            }))));
-                        }
-
-                        buf.push(T::from_stmt(Stmt::Expr(box expr)));
+                    // Add variable declaration
+                    // e.g. var ref
+                    if !folder.vars.is_empty() {
+                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: folder.vars,
+                        }))));
                     }
-                    _ => buf.push(T::from_stmt(stmt)),
-                },
+
+                    buf.push(T::from_stmt(stmt));
+                }
             }
         }
 

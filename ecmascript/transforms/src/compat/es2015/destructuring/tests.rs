@@ -227,10 +227,9 @@ test!(
 for (let i = 0, { length } = list; i < length; i++) {
   list[i];
 }"#,
-    r#"var list = [1, 2, 3, 4];
-
-for (var i = 0, length = list.length; i < length; i++) {
-  list[i];
+    r#"let list = [1, 2, 3, 4];
+for(let i = 0, length = list.length; i < length; i++){
+    list[i];
 }"#
 );
 
@@ -258,22 +257,12 @@ test!(
   let e;
   if (true) [q, w, e] = [1, 2, 3].map(()=>123);
 })();"#,
-    r#"(function () {
-  var q;
-  var w;
-  var e;
-
-  if (true) {
-    var _map = [1, 2, 3].map(function () {
-      return 123;
-    });
-
-    var _map2 = babelHelpers.slicedToArray(_map, 3);
-
-    q = _map2[0];
-    w = _map2[1];
-    e = _map2[2];
-  }
+    r#"(function() {
+    let q;
+    let w;
+    let e;
+    var ref;
+    if (true)  ref = [1, 2, 3].map(()=>123), q = ref[0], w = ref[1], e = ref[2], ref;
 })();"#
 );
 
