@@ -487,7 +487,7 @@ impl Fold<Expr> for AssignFolder {
     }
 }
 
-impl<T: StmtLike + ::std::fmt::Debug> Fold<Vec<T>> for Destructuring
+impl<T: StmtLike> Fold<Vec<T>> for Destructuring
 where
     Vec<T>: FoldWith<Self>,
 {
