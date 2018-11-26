@@ -328,13 +328,7 @@ test!(
     r#"var rect = {};
 var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
     r#"var rect = {};
-
-var _rect$topLeft = babelHelpers.slicedToArray(rect.topLeft, 2),
-    x1 = _rect$topLeft[0],
-    y1 = _rect$topLeft[1],
-    _rect$bottomRight = babelHelpers.slicedToArray(rect.bottomRight, 2),
-    x2 = _rect$bottomRight[0],
-    y2 = _rect$bottomRight[1];"#
+var ref = rect.topLeft, x1 = ref[0], y1 = ref[1], ref1 = rect.bottomRight, x2 = ref1[0], y2 = ref1[1];"#
 );
 
 test!(
