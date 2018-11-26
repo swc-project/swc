@@ -30,8 +30,9 @@ test!(
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref, ref1, ref2;
-( ref2 = ['hello', [', ', 'junk'], ['world']], a = ref2[0], ( ref = ref2[1], b = ref[0], ref),
- ( ref1 = ref2[2], c = ref1[0], ref1), ref2);"#
+( ref = ['hello', [', ', 'junk'], ['world']], a = ref[0],
+ ( ref1 = ref[1], b = ref1[0], ref1), ( ref2 = ref[2], c = ref2[0], ref2), ref);
+"#
 );
 
 test!(
