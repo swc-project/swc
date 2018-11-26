@@ -199,7 +199,6 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                     )),
                                 };
                                 decls.extend(vec![var_decl].fold_with(self));
-                                // decls.push(var_decl);
                             }
                             ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
                                 match value {
@@ -354,8 +353,8 @@ impl Fold<Expr> for AssignFolder {
                         })
                     }
                     Pat::Array(ArrayPat { span, elems }) => {
-                        let mark = Mark::fresh(Mark::root());
-                        let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
+                        // initialized by first element of sequence expression
+                        let ref_ident = make_ref_ident(&mut self.vars, None);
 
                         let mut exprs = vec![];
                         exprs.push(box Expr::Assign(AssignExpr {
@@ -381,12 +380,6 @@ impl Fold<Expr> for AssignFolder {
                                 .fold_with(self),
                             );
                         }
-                        self.vars.push(VarDeclarator {
-                            span,
-                            name: Pat::Ident(ref_ident.clone()),
-                            // initialized by first element of sequence expression
-                            init: None,
-                        });
 
                         // last one should be `ref`
                         exprs.push(box Expr::Ident(ref_ident));
@@ -397,18 +390,87 @@ impl Fold<Expr> for AssignFolder {
                         })
                     }
                     Pat::Object(ObjectPat { span, props }) => {
-                        //
-                        unimplemented!()
-                    }
-                    Pat::Expr(box expr) => {
-                        //
-                        Expr::Assign(AssignExpr {
+                        let ref_ident = make_ref_ident(&mut self.vars, None);
+
+                        let mut exprs = vec![];
+
+                        exprs.push(box Expr::Assign(AssignExpr {
                             span,
-                            left: PatOrExpr::Pat(box Pat::Expr(box expr)),
+                            left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
                             op: op!("="),
                             right,
+                        }));
+
+                        for prop in props {
+                            let span = prop.span();
+                            match prop {
+                                ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                                    exprs.push(box Expr::Assign(AssignExpr {
+                                        span,
+                                        left: PatOrExpr::Pat(value),
+                                        op: op!("="),
+                                        right: box make_ref_prop_expr(
+                                            &ref_ident,
+                                            box prop_name_to_expr(key),
+                                        ),
+                                    }));
+                                }
+                                ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
+                                    match value {
+                                        Some(value) => {
+                                            let prop_ident = make_ref_ident(&mut self.vars, None);
+
+                                            exprs.push(box Expr::Assign(AssignExpr {
+                                                span,
+                                                left: PatOrExpr::Pat(box Pat::Ident(
+                                                    prop_ident.clone(),
+                                                )),
+                                                op: op!("="),
+                                                right: box make_ref_prop_expr(
+                                                    &ref_ident,
+                                                    box key.clone().into(),
+                                                ),
+                                            }));
+
+                                            exprs.push(box Expr::Assign(AssignExpr {
+                                                span,
+                                                left: PatOrExpr::Pat(box Pat::Ident(
+                                                    key.clone().into(),
+                                                )),
+                                                op: op!("="),
+                                                right: box make_cond_expr(prop_ident, value),
+                                            }));
+                                        }
+                                        None => {
+                                            exprs.push(box Expr::Assign(AssignExpr {
+                                                span,
+                                                left: PatOrExpr::Pat(box Pat::Ident(
+                                                    key.clone().into(),
+                                                )),
+                                                op: op!("="),
+                                                right: box make_ref_prop_expr(
+                                                    &ref_ident,
+                                                    box key.clone().into(),
+                                                ),
+                                            }));
+                                        }
+                                    }
+                                }
+                                ObjectPatProp::Rest(_) => unimplemented!(),
+                            }
+                        }
+
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
                         })
                     }
+                    Pat::Expr(box expr) => Expr::Assign(AssignExpr {
+                        span,
+                        left: PatOrExpr::Pat(box Pat::Expr(box expr)),
+                        op: op!("="),
+                        right,
+                    }),
                     _ => unimplemented!("assignment pattern {:?}", pat),
                 },
                 _ => {

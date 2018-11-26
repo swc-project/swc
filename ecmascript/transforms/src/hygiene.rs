@@ -235,4 +235,26 @@ mod test {
         );
     }
 
+    #[test]
+    fn member_expr() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+                let mark3 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "let a;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "foo.a = init")?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                ])
+            },
+            "let a;
+            foo.a = init",
+        );
+    }
+
 }
