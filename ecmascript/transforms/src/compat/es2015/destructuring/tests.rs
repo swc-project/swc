@@ -2,6 +2,13 @@ use super::*;
 
 test!(
     Destructuring::default(),
+    obj_assign_pat,
+    r#"let { a = 1 } = foo"#,
+    r#"let ref = foo.a, a = ref === void 0 ? 1 : ref"#
+);
+
+test!(
+    Destructuring::default(),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], 
@@ -185,10 +192,9 @@ test!(
 
 test!(
     Destructuring::default(),
- for_let   ,
-    r#"for (let [ i, n ] = range; ; ) {
-}"#,
-    r#"for (var _range = range, _range2 = babelHelpers.slicedToArray(_range, 2), i = _range2[0], n = _range2[1];;) {}"#
+    for_let,
+    r#"for (let [ i, n ] = range; ; ) {}"#,
+    r#"for(let i = range[0], n = range[1];;){}"#
 );
 
 test!(
