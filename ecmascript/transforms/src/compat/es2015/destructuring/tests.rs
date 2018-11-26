@@ -166,6 +166,7 @@ _o;"#
 );
 
 test!(
+    ignore,
     Destructuring::default(),
     export_variable,
     r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#,
