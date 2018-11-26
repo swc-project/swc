@@ -84,13 +84,9 @@ test!(
     Destructuring::default(),
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
-    r#"var _ref = ["foo", "hello", [", ", "junk"], ["world"]],
-    a = _ref[1],
-    _ref$ = babelHelpers.slicedToArray(_ref[2], 1),
-    b = _ref$[0],
-    _ref$2 = babelHelpers.slicedToArray(_ref[3], 1),
-    c = _ref$2[0],
-    d = _ref[4];"#
+    r#"var ref = ['foo', 'hello', [', ', 'junk'], ['world']], a = ref[1], ref1 = ref[2],
+     b = ref1[0], ref2 = ref[3], c = ref2[0], d = ref[4];
+"#
 );
 
 test!(
