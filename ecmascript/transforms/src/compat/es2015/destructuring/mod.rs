@@ -317,7 +317,9 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Box<Expr>) -> Ident {
 fn prop_name_to_expr(p: PropName) -> Expr {
     match p {
         PropName::Ident(i) => Expr::Ident(i),
-        _ => unimplemented!(),
+        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
+        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::Computed(expr) => *expr,
     }
 }
 
@@ -325,7 +327,10 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>) -> Expr {
     Expr::Member(MemberExpr {
         span: DUMMY_SP,
         obj: ExprOrSuper::Expr(box ref_ident.clone().into()),
-        computed: false,
+        computed: match *prop {
+            Expr::Ident(..) => false,
+            _ => true,
+        },
         prop,
     })
 }
