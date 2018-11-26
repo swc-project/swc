@@ -352,7 +352,7 @@ impl Fold<Expr> for AssignFolder {
                             right,
                         })
                     }
-                    Pat::Array(ArrayPat { span, elems }) => {
+                    Pat::Array(ArrayPat { elems, .. }) => {
                         // initialized by first element of sequence expression
                         let ref_ident = make_ref_ident(&mut self.vars, None);
 
