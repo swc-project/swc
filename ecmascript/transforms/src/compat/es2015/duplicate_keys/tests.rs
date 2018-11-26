@@ -1,10 +1,11 @@
 use super::*;
 
 test!(
+    ignore,
     DupKeys::default(),
     combination_dupes,
     r#"var x = { a: 5, a: 6 };"#,
-    r#"var x = babelHelpers.defineProperty({
+    r#"var x = _defineProperty({
   a: 5
 }, "a", 6);"#
 );
