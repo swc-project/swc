@@ -176,13 +176,11 @@ test!(
     r#"for (var [name, value] in obj) {
   print("Name: " + name + ", Value: " + value);
 }"#,
-    r#"for (var _ref in obj) {
-  var _ref2 = babelHelpers.slicedToArray(_ref, 2);
-
-  var name = _ref2[0];
-  var value = _ref2[1];
-  print("Name: " + name + ", Value: " + value);
-}"#
+    r#"for(var ref in obj){
+    let name = ref[0], value = ref[1];
+    print('Name: ' + name + ', Value: ' + value);
+}
+"#
 );
 
 test!(
@@ -198,12 +196,8 @@ test!(
     r#"for (var [ name, before, after ] of test.expectation.registers) {
 
 }"#,
-    r#"for (var _ref of test.expectation.registers) {
-  var _ref2 = babelHelpers.slicedToArray(_ref, 3);
-
-  var name = _ref2[0];
-  var before = _ref2[1];
-  var after = _ref2[2];
+    r#"for(var ref of test.expectation.registers){
+    let name = ref[0], before = ref[1], after = ref[2];
 }"#
 );
 
