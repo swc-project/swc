@@ -2,20 +2,20 @@ use super::*;
 
 test!(
     Destructuring::default(),
-    array,
-    r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
-[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
-;"#,
-    r#"
-var a = "hello",
-    _ref = [", ", "junk"],
-    b = _ref[0],
-    c = "world";
-a = "hello";
+    array1,
+    r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
+    r#"var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], 
+    b = ref1[0], ref2 = ref[2], c = ref2[0];"#
+);
+
+test!(
+    Destructuring::default(),
+    array2,
+    r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
+    r#"a = "hello";
 var _ref2 = [", ", "junk"];
 b = _ref2[0];
-c = "world";
-;"#
+c = "world";"#
 );
 
 test!(
