@@ -255,7 +255,10 @@ macro_rules! test_exec {
                 .expect("failed to write to temp file");
                 tmp.flush().unwrap();
 
-                println!("\t>>>>> Code <<<<<\n{}", src);
+                println!(
+                    "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
+                    $input, src
+                );
 
                 let status = Command::new("npx")
                     .args(&["jest", "--testMatch", &format!("{}", path.display())])
