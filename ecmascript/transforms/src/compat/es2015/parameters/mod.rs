@@ -70,7 +70,7 @@ impl Fold<Function> for Params {
                             kind: VarDeclKind::Var,
                             span,
                             decls: vec![
-                                // _len = arguments.length
+                                // _len = arguments.length - i
                                 VarDeclarator {
                                     span,
                                     name: Pat::Ident(len_ident.clone()),
@@ -83,7 +83,16 @@ impl Fold<Function> for Params {
                                     init: Some(box Expr::New(NewExpr {
                                         span,
                                         callee: box quote_ident!("Array").into(),
-                                        args: Some(vec![len_ident.clone().as_arg()]),
+                                        args: Some(vec![BinExpr {
+                                            span,
+                                            left: box Expr::Ident(len_ident.clone()),
+                                            op: op!(bin, "-"),
+                                            right: box Expr::Lit(Lit::Num(Number {
+                                                span,
+                                                value: i as f64,
+                                            })),
+                                        }
+                                        .as_arg()]),
                                     })),
                                 },
                                 // _key = 0
@@ -115,7 +124,7 @@ impl Fold<Function> for Params {
                             span,
                             stmts: vec![{
                                 let prop = box Expr::Ident(idx_ident.clone());
-                                // a1[_key] = arguments[_key];
+                                // a1[_key - i] = arguments[_key];
                                 Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span,
                                     left: PatOrExpr::Expr(
@@ -123,7 +132,15 @@ impl Fold<Function> for Params {
                                             span,
                                             obj: ExprOrSuper::Expr(box Expr::Ident(arg)),
                                             computed: true,
-                                            prop: prop.clone(),
+                                            prop: box Expr::Bin(BinExpr {
+                                                span,
+                                                left: prop.clone(),
+                                                op: op!(bin, "-"),
+                                                right: box Expr::Lit(Lit::Num(Number {
+                                                    span,
+                                                    value: i as f64,
+                                                })),
+                                            }),
                                         }
                                         .into(),
                                     ),
