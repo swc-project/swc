@@ -233,7 +233,7 @@ impl Fold<Expr> for ObjectLitFolder {
                     });
                     exprs.push(box Expr::Call(CallExpr {
                         span,
-                        callee: quote_ident!("_defineEnumerableProperty").as_callee(),
+                        callee: quote_ident!("_defineEnumerableProperties").as_callee(),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                     }));
                 }

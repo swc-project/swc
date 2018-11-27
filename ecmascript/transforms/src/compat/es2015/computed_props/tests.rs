@@ -33,7 +33,7 @@ var obj = ( _obj = {
 }, _mutatorMap['test'] = _mutatorMap['test'] || {
 }, _mutatorMap['test'].set = function(x) {
     console.log(x);
-}, _defineEnumerableProperty(_obj, _mutatorMap), _obj);"#
+}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#
 );
 
 test!(
@@ -130,7 +130,7 @@ var foo = ( _obj = {
 }, _defineProperty(_obj, Symbol.iterator, 'foobar'), _mutatorMap[k] = _mutatorMap[k] || {
 }, _mutatorMap[k].get = function() {
     return k;
-}, _defineEnumerableProperty(_obj, _mutatorMap), _obj);"#
+}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#
 );
 
 test_exec!(
