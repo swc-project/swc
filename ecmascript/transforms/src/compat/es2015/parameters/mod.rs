@@ -11,15 +11,13 @@ pub fn parameters() -> impl Fold<Module> {
 
 struct Params;
 
-impl Fold<Function> for Params {
-    fn fold(&mut self, f: Function) -> Function {
-        let f = f.fold_children(self);
-
+impl Params {
+    fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
         let mut params = vec![];
         let mut decls = vec![];
         let mut unpack_rest = None;
 
-        for (i, param) in f.params.into_iter().enumerate() {
+        for (i, param) in ps.into_iter().enumerate() {
             let span = param.span();
 
             match param {
@@ -179,7 +177,6 @@ impl Fold<Function> for Params {
             }
         }
 
-        let body = f.body;
         let stmts = if decls.is_empty() {
             None
         } else {
@@ -194,10 +191,36 @@ impl Fold<Function> for Params {
         .chain(body.stmts)
         .collect();
 
-        Function {
+        (
             params,
-            body: BlockStmt { stmts, ..body },
-            ..f
-        }
+            BlockStmt {
+                span: DUMMY_SP,
+                stmts,
+            },
+        )
+    }
+}
+
+impl Fold<SetterProp> for Params {
+    fn fold(&mut self, f: SetterProp) -> SetterProp {
+        let f = f.fold_children(self);
+
+        let (mut params, body) = self.fold_fn_like(vec![f.param], f.body);
+        assert!(params.len() == 1);
+        // TODO(kdy1): Remove this. Ideally this should be handle by then()
+        let body = body.fold_with(&mut crate::compat::es2015::destructuring());
+
+        let param = params.pop().unwrap();
+        SetterProp { param, body, ..f }
+    }
+}
+
+impl Fold<Function> for Params {
+    fn fold(&mut self, f: Function) -> Function {
+        let f = f.fold_children(self);
+
+        let (params, body) = self.fold_fn_like(f.params, f.body);
+
+        Function { params, body, ..f }
     }
 }

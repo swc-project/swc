@@ -64,6 +64,7 @@ expect(3).toBe(f(3));"#
 );
 
 test!(
+  ignore,
   tr(),
   default_eval,
   r#"let x = "outside";
@@ -314,15 +315,13 @@ test!(
     this.num = num;
   }
 };"#,
-  r#"var obj = {
-  set field(num) {
-    if (num === void 0) {
-      num = 1;
-    }
-
-    this.num = num;
-  }
-};"#
+  r#"const obj = {
+     set field (param){
+        let tmp = param, num = tmp === void 0 ? 1 : tmp;
+        this.num = num;
+      } 
+    };
+"#
 );
 
 test_exec!(

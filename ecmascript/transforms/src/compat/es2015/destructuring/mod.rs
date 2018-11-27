@@ -28,7 +28,7 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring() -> impl Fold<Module> {
+pub fn destructuring() -> impl Fold<Module> + Fold<BlockStmt> {
     Destructuring
 }
 
