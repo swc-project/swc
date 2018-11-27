@@ -219,7 +219,7 @@ macro_rules! test_exec {
 
                 let module = tester.apply_transform(tr, stringify!($test_name), $input)?;
                 let module = module.fold_with(&mut crate::fixer::fixer());
-                println!("{:#?}", helpers);
+
                 // let src_without_helpers = tester.print(&module);
                 let module = module.fold_with(&mut InjectHelpers {
                     cm: tester.cm.clone(),
