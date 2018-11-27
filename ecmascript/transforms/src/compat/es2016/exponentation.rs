@@ -86,11 +86,11 @@ mod tests {
     test_exec!(
         |_| Exponentation,
         babel_comprehensive,
-        r#"assert.equal(8, 2 ** 3);
-assert.equal(24, 3 * 2 ** 3);
+        r#"expect(2 ** 3).toBe(8);
+expect(3 * 2 ** 3).toBe(24);
 var x = 2;
-assert.equal(8, 2 ** ++x);
-assert.equal(1, 2 ** -1 * 2);
+expect(2 ** ++x).toBe(8);
+expect(2 ** -1 * 2).toBe(1);
 
 var calls = 0;
 var q = {q: 3};
@@ -102,11 +102,11 @@ var o = {
 };
 
 o.p.q **= 2;
-assert.equal(1, calls);
-assert.equal(9, o.p.q);
+expect(calls).toBe(1);
+expect(o.p.q).toBe(9);
 
-assert.equal(512, 2 ** (3 ** 2));
-assert.equal(512, 2 ** 3 ** 2);"#
+expect(2 ** (3 ** 2)).toBe(512);
+expect(2 ** 3 ** 2).toBe(512);"#
     );
 
     test_exec!(
@@ -121,7 +121,7 @@ Object.defineProperty(global, "reader", {
   configurable: true
 });
 reader.x **= 2;
-assert.ok(counters === 1);"#
+expect(counters).toBe(1);"#
     );
 
     test!(
