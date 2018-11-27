@@ -1,9 +1,10 @@
 use ast::*;
+use crate::compat::helpers::{Helpers, InjectHelpers};
 use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
-    sync::{Arc, RwLock},
+    sync::{atomic::Ordering, Arc, RwLock},
 };
 use swc_common::{errors::Handler, sync::Lrc, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
@@ -14,9 +15,9 @@ struct MyHandlers;
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
-    cm: Lrc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     logger: Logger,
-    handler: &'a Handler,
+    pub handler: &'a Handler,
 }
 
 impl<'a> Tester<'a> {
@@ -203,17 +204,28 @@ macro_rules! test_exec {
     ($tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
+            use crate::compat::helpers::{Helpers, InjectHelpers};
             use std::{
                 fs::{create_dir_all, OpenOptions},
                 io::Write,
                 path::Path,
                 process::Command,
+                sync::Arc,
             };
             use tempfile::tempdir_in;
 
             crate::tests::Tester::run(|tester| {
-                let module = tester.apply_transform($tr, stringify!($test_name), $input)?;
+                let helpers = Arc::new(Helpers::default());
+                let tr = $tr(helpers.clone());
+
+                let module = tester.apply_transform(tr, stringify!($test_name), $input)?;
                 let module = module.fold_with(&mut crate::fixer::fixer());
+                let src_without_helpers = tester.print(&module);
+
+                let module = module.fold_with(&mut InjectHelpers {
+                    cm: tester.cm.clone(),
+                    helpers,
+                });
 
                 let src = tester.print(&module);
                 let root = Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -244,6 +256,7 @@ macro_rules! test_exec {
                 .expect("failed to write to temp file");
                 tmp.flush().unwrap();
 
+                println!("\t>>>>> Code <<<<<\n{}", src_without_helpers);
                 println!("\t>>>>> Code <<<<<\n{}", src);
 
                 let status = Command::new("npx")

@@ -32,7 +32,7 @@ test!(
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_destructuring,
   r#"function required(msg) {
   throw new Error(msg);
@@ -56,7 +56,7 @@ expect(sum({arr:[1,2]})).toBe(3);"#
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_earlier_params,
   r#"function f(a, b = a, c = b) { return c; }
 
@@ -88,7 +88,7 @@ outer();"#
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_iife_1128,
   r#"const bar = true;
 
@@ -126,7 +126,7 @@ Ref.nextID = 0;"#
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_iife_4253_exec,
   r#"class Ref {
   static nextId = 0
@@ -179,7 +179,7 @@ var X = function () {
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_iife_self_exec,
   r#"class Ref {
   constructor(ref = Ref) {
@@ -287,7 +287,7 @@ rest3(undefined, 2);"#
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_rest_exec,
   r#"const a = 1;
 function rest(b = a, ...a) {
@@ -326,7 +326,7 @@ test!(
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   default_setter_exec,
   r#"const defaultValue = 1;
 const obj = {
@@ -460,7 +460,7 @@ function f(a) {
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   regression_5787_exec,
   r#"function f1(a, ...rest) {
   let b = rest[rest.length - 3];
@@ -878,7 +878,7 @@ function t(f) {
 );
 
 test_exec!(
-  tr(),
+  |_| tr(),
   rest_length_exec,
   r#"var length = function (a, b, ...items) {
   return items.length;

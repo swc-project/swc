@@ -134,7 +134,7 @@ var foo = ( _obj = {
 );
 
 test_exec!(
-  ComputedProps::default(),
+  |helpers| ComputedProps { helpers },
   symbol_exec,
   r#"
 var k = Symbol();

@@ -77,7 +77,7 @@ test!(
 );
 
 test_exec!(
-  TemplateLiteral::default(),
+  |helpers| TemplateLiteral { helpers },
   order,
   r#"
 const calls = [];
@@ -105,7 +105,7 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 );
 
 test_exec!(
-  TemplateLiteral::default(),
+  |helpers| TemplateLiteral { helpers },
   order2,
   r#"const calls = [];
 
@@ -166,7 +166,7 @@ test!(
 );
 
 test_exec!(
-  TemplateLiteral::default(),
+  |helpers| TemplateLiteral { helpers },
   symbol,
   r#"const fn = () => `${Symbol()}`;
 

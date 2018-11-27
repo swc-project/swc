@@ -363,7 +363,7 @@ for(var i = 0; i < 10; i++){
     );
 
     test_exec!(
-        block_scoping(),
+        |_| block_scoping(),
         pass_assignment,
         r#"let a = 1;
 a = 2;
@@ -371,7 +371,7 @@ expect(a).toBe(2);"#
     );
 
     test_exec!(
-        block_scoping(),
+        |_| block_scoping(),
         pass_call,
         r#"let a = 1;
 
@@ -383,7 +383,7 @@ expect(b()).toBe(2);"#
     );
 
     test_exec!(
-        block_scoping(),
+        |_| block_scoping(),
         pass_update,
         r#"let a = 1;
 a++;

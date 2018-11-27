@@ -84,7 +84,7 @@ mod tests {
     test!(Exponentation, babel_binary, "2 ** 2", "Math.pow(2, 2)");
 
     test_exec!(
-        Exponentation,
+        |_| Exponentation,
         babel_comprehensive,
         r#"assert.equal(8, 2 ** 3);
 assert.equal(24, 3 * 2 ** 3);
@@ -110,7 +110,7 @@ assert.equal(512, 2 ** 3 ** 2);"#
     );
 
     test_exec!(
-        Exponentation,
+        |_| Exponentation,
         babel_memoize_object,
         r#"var counters = 0;
 Object.defineProperty(global, "reader", {

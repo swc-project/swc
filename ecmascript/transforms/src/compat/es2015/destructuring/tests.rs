@@ -65,7 +65,7 @@ console.log((ref = [123], x = ref[0], ref));"#
 );
 
 test_exec!(
-    Destructuring::default(),
+    |_| Destructuring::default(),
     chained,
     r#"var a, b, c, d;
 ({ a, b } = ({ c, d } = { a: 1, b: 2, c: 3, d: 4}));
@@ -76,7 +76,7 @@ expect(d).toBe(4);"#
 );
 
 test_exec!(
-    Destructuring::default(),
+    |_| Destructuring::default(),
     empty_obj_pat_1,
     r#"expect(function () {
   var {} = null;
@@ -214,7 +214,7 @@ test!(
 );
 
 test_exec!(
-    Destructuring::default(),
+    |_| Destructuring::default(),
     fn_key_with_obj_rest_spread,
     r#"const { [(() => 1)()]: a, ...rest } = { 1: "a" };
 
@@ -236,7 +236,7 @@ for(let i = 0, length = list.length; i < length; i++){
 );
 
 test_exec!(
-    Destructuring::default(),
+    |_| Destructuring::default(),
     babel_issue_5090,
     r#"const assign = function([...arr], index, value) {
   arr[index] = value;
@@ -332,7 +332,7 @@ var x = coords.x,
 );
 
 test_exec!(
-    Destructuring::default(),
+    |_| Destructuring::default(),
     number_key_with_object_spread,
     r#"const foo = {
   1: "a",
@@ -369,7 +369,7 @@ var x = coords.x,
 );
 
 test_exec!(
-    Destructuring::default(),
+    |_| Destructuring::default(),
     spread_generator,
     r#"function* f() {
   for (var i = 0; i < 3; i++) {

@@ -179,7 +179,7 @@ impl Fold<Function> for Params {
             }
         }
 
-        let mut body = f.body;
+        let body = f.body;
         let stmts = if decls.is_empty() {
             None
         } else {

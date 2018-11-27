@@ -59,7 +59,7 @@ impl InjectHelpers {
         };
 
         let mut add = |name: &str, flag: &AtomicBool, code: &'static str| {
-            if flag.load(Ordering::SeqCst) {
+            if !flag.load(Ordering::SeqCst) {
                 return;
             }
             let fm = self
