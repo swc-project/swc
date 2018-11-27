@@ -1130,12 +1130,12 @@ test!(
   rest_patterns,
   r#"function foo(...[a]) {}"#,
   r#"function foo() {
-  for (var _len = arguments.length, _ref = new Array(_len), _key = 0; _key < _len; _key++) {
-    _ref[_key] = arguments[_key];
-  }
-
-  var a = _ref[0];
-}"#
+    for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
+        _tmp[_key] = arguments[_key];
+    }
+    var a = _tmp[0];
+}
+"#
 );
 
 test_exec!(

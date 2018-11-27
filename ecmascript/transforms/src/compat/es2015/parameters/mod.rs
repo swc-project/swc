@@ -16,6 +16,7 @@ impl Params {
         let mut params = vec![];
         let mut decls = vec![];
         let mut unpack_rest = None;
+        let mut decls_after_unpack = vec![];
 
         for (i, param) in ps.into_iter().enumerate() {
             let span = param.span();
@@ -59,7 +60,15 @@ impl Params {
 
                     let arg = match *arg {
                         Pat::Ident(ident) => ident,
-                        _ => unreachable!("unknown rest pattern `...{:?}`", arg),
+                        arg => {
+                            let tmp_ident = quote_ident!(span.apply_mark(mark), "_tmp");
+                            decls_after_unpack.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: arg,
+                                init: Some(box tmp_ident.clone().into()),
+                            });
+                            tmp_ident
+                        }
                     };
 
                     let make_minus_i = |ident: &Ident, min_zero: bool| -> Expr {
@@ -196,6 +205,15 @@ impl Params {
         }
         .into_iter()
         .chain(unpack_rest)
+        .chain(if decls_after_unpack.is_empty() {
+            None
+        } else {
+            Some(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Let,
+                decls: decls_after_unpack,
+            })))
+        })
         .chain(body.stmts)
         .collect();
 
