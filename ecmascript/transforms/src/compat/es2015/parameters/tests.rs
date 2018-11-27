@@ -1,7 +1,7 @@
 use super::*;
 
-fn tr() -> Params {
-  Params
+fn tr() -> impl Fold<Module> {
+  Params.then(crate::compat::es2015::destructuring())
 }
 
 test!(
@@ -26,9 +26,8 @@ test!(
   tr(),
   default_before_last,
   r#"function foo(a = "foo", b) {}"#,
-  r#"function foo() {
-  var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "foo";
-  var b = arguments.length > 1 ? arguments[1] : undefined;
+  r#"function foo(param, b) {
+    let tmp = param, a = tmp === void 0 ? 'foo' : tmp;
 }"#
 );
 
