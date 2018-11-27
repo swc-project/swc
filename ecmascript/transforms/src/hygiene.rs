@@ -7,6 +7,10 @@ pub struct Hygiene;
 
 impl Hygiene {
     fn add_declared_ref(&self, scope: &mut Scope, ident: Ident) {
+        if ident.span.ctxt() == SyntaxContext::empty() {
+            return;
+        }
+
         if !scope.is_declared(&ident.sym) {
             // First symbol
 
