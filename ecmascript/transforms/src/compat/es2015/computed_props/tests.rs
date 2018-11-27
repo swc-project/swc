@@ -1,9 +1,9 @@
 use super::*;
 
 test!(
-  ComputedProps::default(),
-  accessors,
-  r#"var obj = {
+    ComputedProps::default(),
+    accessors,
+    r#"var obj = {
   get [foobar]() {
     return "foobar";
   },
@@ -18,7 +18,7 @@ test!(
   }
 };
 "#,
-  r#"var _obj, _mutatorMap = {
+    r#"var _obj, _mutatorMap = {
 };
 var obj = ( _obj = {
 }, _mutatorMap[foobar] = _mutatorMap[foobar] || {
@@ -37,28 +37,28 @@ var obj = ( _obj = {
 );
 
 test!(
-  ComputedProps::default(),
-  argument,
-  r#"foo({
+    ComputedProps::default(),
+    argument,
+    r#"foo({
   [bar]: "foobar"
 });"#,
-  r#"foo(_defineProperty({}, bar, "foobar"));
+    r#"foo(_defineProperty({}, bar, "foobar"));
 "#
 );
 
 test!(
-  ComputedProps::default(),
-  assignment,
-  r#"foo = {
+    ComputedProps::default(),
+    assignment,
+    r#"foo = {
   [bar]: "foobar"
 };"#,
-  r#"foo = _defineProperty({}, bar, "foobar");"#
+    r#"foo = _defineProperty({}, bar, "foobar");"#
 );
 
 test!(
-  ComputedProps::default(),
-  method,
-  r#"var obj = {
+    ComputedProps::default(),
+    method,
+    r#"var obj = {
   [foobar]() {
     return "foobar";
   },
@@ -66,7 +66,7 @@ test!(
     return "regular method after computed property";
   }
 };"#,
-  r#"var _obj;
+    r#"var _obj;
 
 var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
   return "foobar";
@@ -91,31 +91,31 @@ var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_
 );
 
 test!(
-  ComputedProps::default(),
-  multiple,
-  r#"var obj = {
+    ComputedProps::default(),
+    multiple,
+    r#"var obj = {
   ["x" + foo]: "heh",
   ["y" + bar]: "noo"
 };"#,
-  r#"var _obj;
+    r#"var _obj;
 
 var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), 
 _defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 );
 
 test!(
-  ComputedProps::default(),
-  single,
-  r#"var obj = {
+    ComputedProps::default(),
+    single,
+    r#"var obj = {
   ["x" + foo]: "heh"
 };"#,
-  r#"var obj = _defineProperty({}, "x" + foo, "heh");"#
+    r#"var obj = _defineProperty({}, "x" + foo, "heh");"#
 );
 
 test!(
-  ComputedProps::default(),
-  symbol,
-  r#"var k = Symbol();
+    ComputedProps::default(),
+    symbol,
+    r#"var k = Symbol();
 var foo = {
   [Symbol.iterator]: "foobar",
   get [k]() {
@@ -123,7 +123,7 @@ var foo = {
   }
 };
 "#,
-  r#"var k = Symbol();
+    r#"var k = Symbol();
 var _obj, _mutatorMap = {
 };
 var foo = ( _obj = {
@@ -134,9 +134,9 @@ var foo = ( _obj = {
 );
 
 test_exec!(
-  |helpers| ComputedProps { helpers },
-  symbol_exec,
-  r#"
+    |helpers| ComputedProps { helpers },
+    symbol_exec,
+    r#"
 var k = Symbol();
 var foo = {
   [Symbol.iterator]: "foobar",
@@ -150,31 +150,31 @@ expect(foo[k]).toBe(k)"#
 );
 
 test!(
-  ComputedProps::default(),
-  this,
-  r#"var obj = {
+    ComputedProps::default(),
+    this,
+    r#"var obj = {
   ["x" + foo.bar]: "heh"
 };"#,
-  r#"var obj = _defineProperty({}, "x" + foo.bar, "heh");"#
+    r#"var obj = _defineProperty({}, "x" + foo.bar, "heh");"#
 );
 
 test!(
-  ComputedProps::default(),
-  two,
-  r#"var obj = {
+    ComputedProps::default(),
+    two,
+    r#"var obj = {
   first: "first",
   ["second"]: "second",
 };"#,
-  r#"var _obj;
+    r#"var _obj;
 var obj = ( _obj = {
 }, _defineProperty(_obj, 'first', 'first'), _defineProperty(_obj, 'second', 'second'), _obj);"#
 );
 
 test!(
-  ComputedProps::default(),
-  variable,
-  r#"var foo = {
+    ComputedProps::default(),
+    variable,
+    r#"var foo = {
   [bar]: "foobar"
 };"#,
-  r#"var foo = _defineProperty({}, bar, "foobar");"#
+    r#"var foo = _defineProperty({}, bar, "foobar");"#
 );

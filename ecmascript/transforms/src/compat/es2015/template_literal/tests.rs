@@ -1,17 +1,17 @@
 use super::*;
 
 test!(
-  TemplateLiteral::default(),
-  escape_quotes,
-  r#"var t = `'${foo}' "${bar}"`;"#,
-  r#"var t = "'" + foo + '\' "' + bar + '"';"#,
-  ok_if_code_eq
+    TemplateLiteral::default(),
+    escape_quotes,
+    r#"var t = `'${foo}' "${bar}"`;"#,
+    r#"var t = "'" + foo + '\' "' + bar + '"';"#,
+    ok_if_code_eq
 );
 
 test!(
-  TemplateLiteral::default(),
-  expr_first,
-  r#"var foo = 5;
+    TemplateLiteral::default(),
+    expr_first,
+    r#"var foo = 5;
 var bar = 10;
 var baz = 15;
 
@@ -20,7 +20,7 @@ var example2 = `${1}`;
 var example3 = 1 + `${foo}${bar}${baz}`;
 var example4 = 1 + `${foo}bar${baz}`;
 var example5 = `${""}`;"#,
-  r#"var foo = 5;
+    r#"var foo = 5;
 var bar = 10;
 var baz = 15;
 var example = '' + 'a';
@@ -28,58 +28,58 @@ var example2 = '' + 1;
 var example3 = 1 + '' + foo + bar + baz;
 var example4 = 1 + '' + foo + 'bar' + baz;
 var example5 = '' + '';"#,
-  ok_if_code_eq
+    ok_if_code_eq
 );
 
 test!(
-  TemplateLiteral::default(),
-  functions,
-  r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
-  r#"var foo = 'test ' + _.test(foo) + ' ' + bar;"#
+    TemplateLiteral::default(),
+    functions,
+    r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
+    r#"var foo = 'test ' + _.test(foo) + ' ' + bar;"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  literals,
-  r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-  r#"var foo = '' + 1 + f + 'oo' + true + b + 'ar' + 0 + baz;"#
+    TemplateLiteral::default(),
+    literals,
+    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
+    r#"var foo = '' + 1 + f + 'oo' + true + b + 'ar' + 0 + baz;"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  multiline,
-  r#"var o = `wow
+    TemplateLiteral::default(),
+    multiline,
+    r#"var o = `wow
 this is
 actually multiline!`;"#,
-  r#"var o = "wow\nthis is\nactually multiline!";"#,
-  ok_if_code_eq
+    r#"var o = "wow\nthis is\nactually multiline!";"#,
+    ok_if_code_eq
 );
 
 test!(
-  TemplateLiteral::default(),
-  multiple,
-  r#"var foo = `test ${foo} ${bar}`;"#,
-  r#"var foo = 'test ' + foo + ' ' + bar;"#
+    TemplateLiteral::default(),
+    multiple,
+    r#"var foo = `test ${foo} ${bar}`;"#,
+    r#"var foo = 'test ' + foo + ' ' + bar;"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  none,
-  r#"var foo = `test`;"#,
-  r#"var foo = "test";"#
+    TemplateLiteral::default(),
+    none,
+    r#"var foo = `test`;"#,
+    r#"var foo = "test";"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  only,
-  r#"var foo = `${test}`;"#,
-  r#"var foo = '' + test"#
+    TemplateLiteral::default(),
+    only,
+    r#"var foo = `${test}`;"#,
+    r#"var foo = '' + test"#
 );
 
 test_exec!(
-  |helpers| TemplateLiteral { helpers },
-  order,
-  r#"
+    |helpers| TemplateLiteral { helpers },
+    order,
+    r#"
 const calls = [];
 
 `
@@ -105,9 +105,9 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 );
 
 test_exec!(
-  |helpers| TemplateLiteral { helpers },
-  order2,
-  r#"const calls = [];
+    |helpers| TemplateLiteral { helpers },
+    order2,
+    r#"const calls = [];
 
 `
   ${{
@@ -129,11 +129,11 @@ expect(calls).toEqual([1, 2]);"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  simple_tag,
-  r#"var foo = tag`wow`;
+    TemplateLiteral::default(),
+    simple_tag,
+    r#"var foo = tag`wow`;
 var bar = tag`first${1}second`;"#,
-  r#"var foo = tag(function _templateObject() {
+    r#"var foo = tag(function _templateObject() {
     const data = _taggedTemplateLiteral(['wow']);
     _templateObject = function() {
         return data;
@@ -151,37 +151,37 @@ var bar = tag(function _templateObject1() {
 );
 
 test!(
-  TemplateLiteral::default(),
-  single,
-  r#"var foo = `test ${foo}`;"#,
-  r#"var foo = 'test ' + foo;"#
+    TemplateLiteral::default(),
+    single,
+    r#"var foo = `test ${foo}`;"#,
+    r#"var foo = 'test ' + foo;"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  statement,
-  r#"var foo = `test ${foo + bar}`;"#,
-  r#"var foo = 'test ' + foo + bar;"#,
-  ok_if_code_eq
+    TemplateLiteral::default(),
+    statement,
+    r#"var foo = `test ${foo + bar}`;"#,
+    r#"var foo = 'test ' + foo + bar;"#,
+    ok_if_code_eq
 );
 
 test_exec!(
-  |helpers| TemplateLiteral { helpers },
-  symbol,
-  r#"const fn = () => `${Symbol()}`;
+    |helpers| TemplateLiteral { helpers },
+    symbol,
+    r#"const fn = () => `${Symbol()}`;
 
 expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-  TemplateLiteral::default(),
-  tag,
-  r#"
+    TemplateLiteral::default(),
+    tag,
+    r#"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
-  r#"var foo = bar(function _templateObject() {
+    r#"var foo = bar(function _templateObject() {
     const data = _taggedTemplateLiteral(['wow\na', 'b ', ''], ['wow\\na', 'b ', '']);
     _templateObject = function() {
         return data;
@@ -202,15 +202,15 @@ var bar = bar(function _templateObject2() {
     };
     return data;
 }(), 42, _.baz());"#,
-  ok_if_code_eq
+    ok_if_code_eq
 );
 
 // TODO: Fix parser
 test!(
-  ignore,
-  TemplateLiteral::default(),
-  template_revision,
-  r#"tag`\unicode and \u{55}`;
+    ignore,
+    TemplateLiteral::default(),
+    template_revision,
+    r#"tag`\unicode and \u{55}`;
 tag`\01`;
 tag`\xg${0}right`;
 tag`left${0}\xg`;
@@ -221,7 +221,7 @@ function a() {
   var undefined = 4;
   tag`\01`;
 }"#,
-  r#"
+    r#"
 function _templateObject8() {
   const data = _taggedTemplateLiteral([void 0], ["\\01"]);
 
