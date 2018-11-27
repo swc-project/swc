@@ -237,7 +237,7 @@ rest(undefined, 2)"#,
   r#"var a = 1;
 function rest(param) {
     var tmp = param, b = tmp === void 0 ? a : tmp;
-    for(var _len = arguments.length, a1 = new Array(_len - 1), _key = 1; _key < _len; _key++){
+    for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
     expect(b).toBe(1);
@@ -256,7 +256,7 @@ rest2(undefined, 2);"#,
   r#"var a = 1;
 function rest2(param) {
     var tmp = param, b = tmp === void 0 ? a : tmp;
-    for(var _len = arguments.length, a1 = new Array(_len - 1), _key = 1; _key < _len; _key++){
+    for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
     expect(a1[0]).toBe(2);
@@ -275,7 +275,7 @@ rest3(undefined, 2)"#,
   r#"var a = 1;
 function rest3(param) {
     var tmp = param, b = tmp === void 0 ? a : tmp;
-    for(var _len = arguments.length, a1 = new Array(_len - 1), _key = 1; _key < _len; _key++){
+    for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
     expect(a1).toHaveLength(1);
@@ -854,21 +854,20 @@ function t(f, ...items) {
   items[0];
   items[items.length - 1];
 }"#,
-  r#"var t = function (f) {
-  var _ref;
-
-  arguments.length <= 1 ? undefined : arguments[1];
-  _ref = (arguments.length <= 1 ? 0 : arguments.length - 1) - 1 + 1, _ref < 1 || arguments.length <= _ref ? undefined : arguments[_ref];
+  r#"var t = function(f) {
+    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+        items[_key - 1] = arguments[_key];
+    }
+    items[0];
+    items[items.length - 1];
 };
-
 function t(f) {
-  for (var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    items[_key - 1] = arguments[_key];
-  }
-
-  items;
-  items[0];
-  items[items.length - 1];
+    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+        items[_key - 1] = arguments[_key];
+    }
+    items;
+    items[0];
+    items[items.length - 1];
 }"#
 );
 
