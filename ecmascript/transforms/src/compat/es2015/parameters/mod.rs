@@ -65,7 +65,7 @@ impl Params {
                     unpack_rest = Some(Stmt::For(ForStmt {
                         span,
                         init: Some(VarDeclOrExpr::VarDecl(VarDecl {
-                            kind: VarDeclKind::Var,
+                            kind: VarDeclKind::Let,
                             span,
                             decls: vec![
                                 // _len = arguments.length - i

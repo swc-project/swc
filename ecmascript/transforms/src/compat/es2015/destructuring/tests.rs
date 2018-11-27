@@ -214,6 +214,7 @@ test!(
 );
 
 test_exec!(
+    ignore,
     |_| Destructuring::default(),
     fn_key_with_obj_rest_spread,
     r#"const { [(() => 1)()]: a, ...rest } = { 1: "a" };
@@ -332,6 +333,7 @@ var x = coords.x,
 );
 
 test_exec!(
+    ignore,
     |_| Destructuring::default(),
     number_key_with_object_spread,
     r#"const foo = {

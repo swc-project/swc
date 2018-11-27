@@ -1,7 +1,9 @@
 use super::*;
 
 fn tr() -> impl Fold<Module> {
-  Params.then(crate::compat::es2015::destructuring())
+  Params
+    .then(crate::compat::es2015::destructuring())
+    .then(crate::compat::es2015::block_scoping())
 }
 
 test!(
@@ -201,15 +203,13 @@ test!(
 var a = function (e, f = 5) {
   return e + " bar " + f;
 };"#,
-  r#"var t = function () {
-  var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "foo";
-  var f = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
-  return e + " bar " + f;
+  r#"var t = function(param, param1) {
+    let tmp = param, e = tmp === void 0 ? 'foo' : tmp, tmp1 = param1, f = tmp1 === void 0 ? 5 : tmp1;
+    return e + ' bar ' + f;
 };
-
-var a = function (e) {
-  var f = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
-  return e + " bar " + f;
+var a = function(e, param) {
+    let tmp = param, f = tmp === void 0 ? 5 : tmp;
+    return e + ' bar ' + f;
 };"#
 );
 
@@ -237,14 +237,14 @@ function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
 rest(undefined, 2)"#,
-  r#"
-var a = 1;
-
-function rest() {
-  var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : a;
-  expect(b).toBe(1);
+  r#"var a = 1;
+function rest(param) {
+    var tmp = param, b = tmp === void 0 ? a : tmp;
+    for(var _len = arguments.length, a1 = new Array(_len - 1), _key = 1; _key < _len; _key++){
+        a1[_key - 1] = arguments[_key];
+    }
+    expect(b).toBe(1);
 }
-
 rest(undefined, 2);"#
 );
 
@@ -256,34 +256,33 @@ test!(
   expect(a[0]).toBe(2);
 }
 rest2(undefined, 2);"#,
-  r#"const a = 1;
-  function rest2() {
-  var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : a;
-  expect(arguments.length <= 1 ? undefined : arguments[1]).toBe(2);
+  r#"var a = 1;
+function rest2(param) {
+    var tmp = param, b = tmp === void 0 ? a : tmp;
+    for(var _len = arguments.length, a1 = new Array(_len - 1), _key = 1; _key < _len; _key++){
+        a1[_key - 1] = arguments[_key];
+    }
+    expect(a1[0]).toBe(2);
 }
-
 rest2(undefined, 2);"#
 );
 
 test!(
-    tr(),
-    default_rest_3,
-    r#"const a = 1;
+  tr(),
+  default_rest_3,
+  r#"const a = 1;
     function rest3(b = a, ...a) {
   expect(a).toHaveLength(1);
 }
 rest3(undefined, 2)"#,
-    r#"const a = 1;
-    function rest3() {
-  var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : a;
-
-  for (var _len = arguments.length, a = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    a[_key - 1] = arguments[_key];
-  }
-
-  expect(a).toHaveLength(1);
+  r#"var a = 1;
+function rest3(param) {
+    var tmp = param, b = tmp === void 0 ? a : tmp;
+    for(var _len = arguments.length, a1 = new Array(_len - 1), _key = 1; _key < _len; _key++){
+        a1[_key - 1] = arguments[_key];
+    }
+    expect(a1).toHaveLength(1);
 }
-
 rest3(undefined, 2);"#
 );
 
@@ -358,19 +357,14 @@ function t(x = "default", { a, b }, ...args) {
   console.log(x, a, b, args);
 }"#,
   r#"// #3861
-function t() {
-  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "default";
-
-  var _ref = arguments.length > 1 ? arguments[1] : undefined,
-      a = _ref.a,
-      b = _ref.b;
-
-  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-    args[_key - 2] = arguments[_key];
-  }
-
-  console.log(x, a, b, args);
-}"#
+function t(param, param1) {
+    let tmp = param, x = tmp === void 0 ? 'default' : tmp, a = param1.a, b = param1.b;
+    for(var _len = arguments.length, args = new Array(_len - 2), _key = 2; _key < _len; _key++){
+        args[_key - 2] = arguments[_key];
+    }
+    console.log(x, a, b, args);
+}
+"#
 );
 
 test!(
