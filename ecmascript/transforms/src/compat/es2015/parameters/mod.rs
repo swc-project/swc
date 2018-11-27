@@ -40,7 +40,7 @@ impl Fold<Function> for Params {
                     let binding = quote_ident!(span.apply_mark(mark), "param");
 
                     params.push(Pat::Ident(binding.clone()));
-                    // This is handled by destructing pass
+                    // This expands to invalid code, but is fixed by destructing pass
                     decls.push(VarDeclarator {
                         span,
                         name: param,

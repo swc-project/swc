@@ -220,21 +220,11 @@ test!(
   a2 = 4,
   {a3, a4},
   a5,
-  {a6, a7} = {}) {
-
-}"#,
-  r#"function fn(a1) {
-  var a2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
-
-  var _ref = arguments.length > 2 ? arguments[2] : undefined,
-      a3 = _ref.a3,
-      a4 = _ref.a4;
-
-  var a5 = arguments.length > 3 ? arguments[3] : undefined;
-
-  var _ref2 = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {},
-      a6 = _ref2.a6,
-      a7 = _ref2.a7;
+  {a6, a7} = {}) {}"#,
+  r#"function fn(a1, param, param1, a5, param2) {
+    let tmp = param, a2 = tmp === void 0 ? 4 : tmp,
+     a3 = param1.a3, a4 = param1.a4, tmp1 = param2, ref = tmp1 === void 0 ? {
+    } : tmp1, a6 = ref.a6, a7 = ref.a7;
 }"#
 );
 
@@ -345,9 +335,9 @@ test!(
   r#"var t = function (f = "foo") {
   return f + " bar";
 };"#,
-  r#"var t = function () {
-  var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "foo";
-  return f + " bar";
+  r#"var t = function(param) {
+    let tmp = param, f = tmp === void 0 ? 'foo' : tmp;
+    return f + ' bar';
 };"#
 );
 
