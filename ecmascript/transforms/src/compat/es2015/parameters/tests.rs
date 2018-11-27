@@ -356,12 +356,11 @@ function t(x = "default", { a, b }, ...args) {
   r#"// #3861
 function t(param, param1) {
     var tmp = param, x = tmp === void 0 ? 'default' : tmp, a = param1.a, b = param1.b;
-    for(var _len = arguments.length, args = new Array(_len - 2), _key = 2; _key < _len; _key++){
+    for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         args[_key - 2] = arguments[_key];
     }
     console.log(x, a, b, args);
-}
-"#
+}"#
 );
 
 test!(
@@ -633,7 +632,7 @@ function () {
 );
 
 test!(
-  tr(),
+  crate::compat::es2015::Arrow.then(tr()),
   rest_binding_deoptimisation,
   r#"const deepAssign = (...args) => args = [];
 "#,
