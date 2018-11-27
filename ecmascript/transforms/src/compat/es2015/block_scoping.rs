@@ -402,4 +402,19 @@ expect(a).toBe(2);"#
         use(a1);
     }"#
     );
+
+    test!(
+        block_scoping(),
+        fn_body,
+        r#"let a = 'foo';
+    function foo() {
+        let a = 'bar';
+        use(a);
+    }"#,
+        r#"var a = 'foo';
+    function foo() {
+        var a1 = 'bar';
+        use(a1);
+    }"#
+    );
 }
