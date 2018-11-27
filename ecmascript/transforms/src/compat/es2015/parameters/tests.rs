@@ -486,6 +486,8 @@ function x() {
 );
 
 test!(
+  // Stage 0
+  ignore,
   tr(),
   rest_arrow_fn,
   r#"var concat = (...arrs) => {
