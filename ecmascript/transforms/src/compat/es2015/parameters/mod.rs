@@ -76,23 +76,31 @@ impl Fold<Function> for Params {
                                     name: Pat::Ident(len_ident.clone()),
                                     init: Some(member_expr!(span, arguments.length)),
                                 },
-                                // a1 = new Array(_len)
+                                // a1 = new Array(_len - $i)
                                 VarDeclarator {
                                     span,
                                     name: Pat::Ident(arg.clone()),
                                     init: Some(box Expr::New(NewExpr {
                                         span,
                                         callee: box quote_ident!("Array").into(),
-                                        args: Some(vec![BinExpr {
-                                            span,
-                                            left: box Expr::Ident(len_ident.clone()),
-                                            op: op!(bin, "-"),
-                                            right: box Expr::Lit(Lit::Num(Number {
-                                                span,
-                                                value: i as f64,
-                                            })),
-                                        }
-                                        .as_arg()]),
+                                        args: Some(vec![{
+                                            if i == 0 {
+                                                // `len`
+                                                len_ident.clone().as_arg()
+                                            } else {
+                                                // `len - $i`
+                                                BinExpr {
+                                                    span,
+                                                    left: box Expr::Ident(len_ident.clone()),
+                                                    op: op!(bin, "-"),
+                                                    right: box Expr::Lit(Lit::Num(Number {
+                                                        span,
+                                                        value: i as f64,
+                                                    })),
+                                                }
+                                                .as_arg()
+                                            }
+                                        }]),
                                     })),
                                 },
                                 // _key = 0
@@ -132,15 +140,23 @@ impl Fold<Function> for Params {
                                             span,
                                             obj: ExprOrSuper::Expr(box Expr::Ident(arg)),
                                             computed: true,
-                                            prop: box Expr::Bin(BinExpr {
-                                                span,
-                                                left: prop.clone(),
-                                                op: op!(bin, "-"),
-                                                right: box Expr::Lit(Lit::Num(Number {
-                                                    span,
-                                                    value: i as f64,
-                                                })),
-                                            }),
+                                            prop: {
+                                                if i == 0 {
+                                                    // `[_key]`
+                                                    prop.clone()
+                                                } else {
+                                                    // `[_key - $i]`
+                                                    box Expr::Bin(BinExpr {
+                                                        span,
+                                                        left: prop.clone(),
+                                                        op: op!(bin, "-"),
+                                                        right: box Expr::Lit(Lit::Num(Number {
+                                                            span,
+                                                            value: i as f64,
+                                                        })),
+                                                    })
+                                                }
+                                            },
                                         }
                                         .into(),
                                     ),
