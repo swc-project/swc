@@ -369,6 +369,7 @@ var x = coords.x,
 );
 
 test_exec!(
+    ignore,
     |_| Destructuring::default(),
     spread_generator,
     r#"function* f() {
