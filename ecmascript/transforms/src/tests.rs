@@ -202,12 +202,59 @@ macro_rules! test {
 macro_rules! test_exec {
     ($tr:expr, $test_name:ident, $input:expr) => {
         #[test]
-        #[ignore]
         fn $test_name() {
-            crate::tests::Tester::run(|tester| {
-                let _transformed = tester.apply_transform($tr, stringify!($test_name), $input);
+            use std::{
+                fs::{create_dir_all, OpenOptions},
+                io::Write,
+                path::Path,
+                process::Command,
+            };
+            use tempfile::tempdir_in;
 
-                Ok(())
+            crate::tests::Tester::run(|tester| {
+                let module = tester.apply_transform($tr, stringify!($test_name), $input)?;
+                let module = module.fold_with(&mut crate::fixer::fixer());
+
+                let src = tester.print(&module);
+                let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+                    .join("target")
+                    .join("testing")
+                    .join(stringify!($test_name));
+                create_dir_all(&root).unwrap();
+
+                let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
+                create_dir_all(&tmp_dir).unwrap();
+
+                let path = tmp_dir
+                    .path()
+                    .join(format!("{}.test.js", stringify!($test_name)));
+
+                let mut tmp = OpenOptions::new()
+                    .create(true)
+                    .write(true)
+                    .open(&path)
+                    .expect("failed to create a temp file");
+                write!(
+                    tmp,
+                    r#"it('should work', function () {{
+                    {}
+                }})"#,
+                    src
+                )
+                .expect("failed to write to temp file");
+                tmp.flush().unwrap();
+
+                println!("\t>>>>> Code <<<<<\n{}", src);
+
+                let status = Command::new("npx")
+                    .args(&["jest", "--testMatch", &format!("{}", path.display())])
+                    .current_dir(root)
+                    .status()
+                    .expect("failed to run jest");
+                if status.success() {
+                    return Ok(());
+                }
+                panic!("Execution failed")
             });
         }
     };

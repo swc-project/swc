@@ -20,6 +20,8 @@ extern crate pretty_assertions;
 #[cfg(test)]
 extern crate sourcemap;
 #[cfg(test)]
+extern crate tempfile;
+#[cfg(test)]
 #[macro_use]
 extern crate testing;
 
