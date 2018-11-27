@@ -1,4 +1,5 @@
 use super::*;
+use crate::compat::es2015::Classes;
 
 fn tr() -> impl Fold<Module> {
   Params
@@ -13,14 +14,12 @@ test!(
 function foo(...a) {
   return a;
 }"#,
-  r#"const a = 'bar';
-
+  r#"var a = 'bar';
 function foo() {
-  for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
-    a[_key] = arguments[_key];
-  }
-
-  return a;
+    for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
+        a1[_key] = arguments[_key];
+    }
+    return a1;
 }"#
 );
 
@@ -29,7 +28,7 @@ test!(
   default_before_last,
   r#"function foo(a = "foo", b) {}"#,
   r#"function foo(param, b) {
-    let tmp = param, a = tmp === void 0 ? 'foo' : tmp;
+    var tmp = param, a = tmp === void 0 ? 'foo' : tmp;
 }"#
 );
 
@@ -105,7 +104,7 @@ foo(1, 2, 3);"#
 );
 
 test!(
-  tr(),
+  Classes::default().then(tr()),
   default_iife_4253,
   r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -113,22 +112,20 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-  r#"var Ref = function () {
-  "use strict";
-
-  function Ref() {
-    var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ++Ref.nextID;
-    babelHelpers.classCallCheck(this, Ref);
-    this.id = id;
-  }
-
-  return Ref;
+  r#"var Ref = function() {
+    function Ref(param) {
+        var tmp = param, id = tmp === void 0 ? ++Ref.nextID : tmp;
+        _classCallCheck(this, Ref);
+        this.id = id;
+    }
+    return Ref;
 }();
-
 Ref.nextID = 0;"#
 );
 
 test_exec!(
+  // Stage0
+  ignore,
   |_| tr(),
   default_iife_4253_exec,
   r#"class Ref {
@@ -143,7 +140,7 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-  tr(),
+  Classes::default().then(tr()),
   default_iife_self,
   r#"class Ref {
   constructor(ref = Ref) {
@@ -204,11 +201,11 @@ var a = function (e, f = 5) {
   return e + " bar " + f;
 };"#,
   r#"var t = function(param, param1) {
-    let tmp = param, e = tmp === void 0 ? 'foo' : tmp, tmp1 = param1, f = tmp1 === void 0 ? 5 : tmp1;
+    var tmp = param, e = tmp === void 0 ? 'foo' : tmp, tmp1 = param1, f = tmp1 === void 0 ? 5 : tmp1;
     return e + ' bar ' + f;
 };
 var a = function(e, param) {
-    let tmp = param, f = tmp === void 0 ? 5 : tmp;
+    var tmp = param, f = tmp === void 0 ? 5 : tmp;
     return e + ' bar ' + f;
 };"#
 );
@@ -223,7 +220,7 @@ test!(
   a5,
   {a6, a7} = {}) {}"#,
   r#"function fn(a1, param, param1, a5, param2) {
-    let tmp = param, a2 = tmp === void 0 ? 4 : tmp,
+    var tmp = param, a2 = tmp === void 0 ? 4 : tmp,
      a3 = param1.a3, a4 = param1.a4, tmp1 = param2, ref = tmp1 === void 0 ? {
     } : tmp1, a6 = ref.a6, a7 = ref.a7;
 }"#
@@ -314,9 +311,9 @@ test!(
     this.num = num;
   }
 };"#,
-  r#"const obj = {
+  r#"var obj = {
      set field (param){
-        let tmp = param, num = tmp === void 0 ? 1 : tmp;
+        var tmp = param, num = tmp === void 0 ? 1 : tmp;
         this.num = num;
       } 
     };
@@ -344,7 +341,7 @@ test!(
   return f + " bar";
 };"#,
   r#"var t = function(param) {
-    let tmp = param, f = tmp === void 0 ? 'foo' : tmp;
+    var tmp = param, f = tmp === void 0 ? 'foo' : tmp;
     return f + ' bar';
 };"#
 );
@@ -375,14 +372,13 @@ function foo(...args) {
   return args;
 }"#,
   r#"var args = 'bar';
-
 function foo() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return args;
-}"#
+    for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
+        args1[_key] = arguments[_key];
+    }
+    return args1;
+}
+"#
 );
 
 test!(
@@ -392,16 +388,18 @@ test!(
   var index = 0;
   return values[index++];
 }"#,
-  r#"
-function first() {
-  var _ref;
-
-  var index = 0;
-  return _ref = index++, _ref < 0 || arguments.length <= _ref ? undefined : arguments[_ref];
+  r#"function first() {
+    for(var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++){
+        values[_key] = arguments[_key];
+    }
+    var index = 0;
+    return values[index++];
 }"#
 );
 
 test!(
+  // type
+  ignore,
   tr(),
   regression_4634,
   r#"let oneOf = (...nodes) => {
@@ -437,18 +435,20 @@ test!(
 function f(a, ...rest) {
   return rest[-1];
 }"#,
-  r#"
-function f(a) {
-  var _ref, _ref2, _ref3;
-
-  var b = (_ref = (arguments.length <= 1 ? 0 : arguments.length - 1) - 3 + 1, _ref < 1 || arguments.length <= _ref ? undefined : arguments[_ref]);
-  var c = (_ref2 = (arguments.length <= 1 ? 0 : arguments.length - 1) - 2 + 1, _ref2 < 1 || arguments.length <= _ref2 ? undefined : arguments[_ref2]);
-  var d = (_ref3 = (arguments.length <= 1 ? 0 : arguments.length - 1) - 1 + 1, _ref3 < 1 || arguments.length <= _ref3 ? undefined : arguments[_ref3]);
-  return [a, b, c, d];
+  r#"function f(a) {
+    for(var _len = arguments.length, rest = new Array(_len - 1), _key = 1; _key < _len; _key++){
+        rest[_key - 1] = arguments[_key];
+    }
+    var b = rest[rest.length - 3];
+    var c = rest[rest.length - 2];
+    var d = rest[rest.length - 1];
+    return [a, b, c, d];
 }
-
 function f(a) {
-  return void 0;
+    for(var _len = arguments.length, rest = new Array(_len - 1), _key = 1; _key < _len; _key++){
+        rest[_key - 1] = arguments[_key];
+    }
+    return rest[-1];
 }"#
 );
 
