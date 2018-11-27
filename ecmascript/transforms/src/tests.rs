@@ -1,10 +1,9 @@
 use ast::*;
-use crate::compat::helpers::{Helpers, InjectHelpers};
 use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
-    sync::{atomic::Ordering, Arc, RwLock},
+    sync::{Arc, RwLock},
 };
 use swc_common::{errors::Handler, sync::Lrc, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
@@ -220,11 +219,11 @@ macro_rules! test_exec {
 
                 let module = tester.apply_transform(tr, stringify!($test_name), $input)?;
                 let module = module.fold_with(&mut crate::fixer::fixer());
-                let src_without_helpers = tester.print(&module);
-
+                println!("{:#?}", helpers);
+                // let src_without_helpers = tester.print(&module);
                 let module = module.fold_with(&mut InjectHelpers {
                     cm: tester.cm.clone(),
-                    helpers,
+                    helpers: helpers.clone(),
                 });
 
                 let src = tester.print(&module);
@@ -256,7 +255,6 @@ macro_rules! test_exec {
                 .expect("failed to write to temp file");
                 tmp.flush().unwrap();
 
-                println!("\t>>>>> Code <<<<<\n{}", src_without_helpers);
                 println!("\t>>>>> Code <<<<<\n{}", src);
 
                 let status = Command::new("npx")

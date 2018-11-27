@@ -38,6 +38,7 @@ pub struct Helpers {
     pub define_enumerable_property: AtomicBool,
     /// `_set`
     pub set: AtomicBool,
+    pub get_prototype_of: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -59,7 +60,8 @@ impl InjectHelpers {
         };
 
         let mut add = |name: &str, flag: &AtomicBool, code: &'static str| {
-            if !flag.load(Ordering::SeqCst) {
+            let enable = flag.load(Ordering::SeqCst);
+            if !enable {
                 return;
             }
             let fm = self
@@ -74,7 +76,7 @@ impl InjectHelpers {
         };
         macro_rules! add {
             ($name:tt,$b:expr) => {
-                add($name, &self.helpers.extends, include_str!($name));
+                add($name, $b, include_str!($name));
             };
         }
 
