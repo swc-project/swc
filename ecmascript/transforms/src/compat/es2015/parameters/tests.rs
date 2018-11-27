@@ -883,16 +883,325 @@ expect(length(1, 2)).toBe(0);
 expect(length(1, 2, 3)).toBe(1);"#
 );
 
-test!(tr(), rest_member_expression_deoptimisation, r#""#, r#""#);
+test!(
+  tr(),
+  rest_member_expression_deoptimisation,
+  r#"var t = function (...items) {
+  var x = items[0];
+  var y = items[1];
+}
 
-test!(tr(), rest_member_expression_optimisation, r#""#, r#""#);
+function t(...items) {
+  var x = items[0];
+  var y = items[1];
+}
 
-test!(tr(), rest_multiple, r#""#, r#""#);
+function t(...items) {
+  var a = [];
+  for (var i = 0; i < items.length; i++) {
+    a.push(i);
+  }
+  return a;
+}
 
-test!(tr(), rest_nested_5656, r#""#, r#""#);
+// https://github.com/babel/babel/pull/2833#issuecomment-166039291
+function t(...items) {
+  for (let i = 0; i < items.length; i++) {
+    return items[i];
+  }
+}"#,
+  r#"var t = function () {
+  var x = arguments.length <= 0 ? undefined : arguments[0];
+  var y = arguments.length <= 1 ? undefined : arguments[1];
+};
 
-test!(tr(), rest_nested_iife, r#""#, r#""#);
+function t() {
+  var x = arguments.length <= 0 ? undefined : arguments[0];
+  var y = arguments.length <= 1 ? undefined : arguments[1];
+}
 
-test!(tr(), rest_patterns, r#""#, r#""#);
+function t() {
+  var a = [];
 
-test!(tr(), rest_spread_optimisation, r#""#, r#""#);
+  for (var i = 0; i < arguments.length; i++) {
+    a.push(i);
+  }
+
+  return a;
+} // https://github.com/babel/babel/pull/2833#issuecomment-166039291
+
+
+function t() {
+  for (var i = 0; i < arguments.length; i++) {
+    return i < 0 || arguments.length <= i ? undefined : arguments[i];
+  }
+}"#
+);
+
+test!(
+  tr(),
+  rest_member_expression_optimisation,
+  r#"var t = function (...items) {
+  var x = items[0];
+  var y = items[1];
+}
+
+function t(...items) {
+  var x = items[0];
+  var y = items[1];
+}
+
+function t(...items) {
+  var a = [];
+  for (var i = 0; i < items.length; i++) {
+    a.push(i);
+  }
+  return a;
+}
+
+// https://github.com/babel/babel/pull/2833#issuecomment-166039291
+function t(...items) {
+  for (let i = 0; i < items.length; i++) {
+    return items[i];
+  }
+}"#,
+  r#"var t = function () {
+  var x = arguments.length <= 0 ? undefined : arguments[0];
+  var y = arguments.length <= 1 ? undefined : arguments[1];
+};
+
+function t() {
+  var x = arguments.length <= 0 ? undefined : arguments[0];
+  var y = arguments.length <= 1 ? undefined : arguments[1];
+}
+
+function t() {
+  var a = [];
+
+  for (var i = 0; i < arguments.length; i++) {
+    a.push(i);
+  }
+
+  return a;
+} // https://github.com/babel/babel/pull/2833#issuecomment-166039291
+
+
+function t() {
+  for (var i = 0; i < arguments.length; i++) {
+    return i < 0 || arguments.length <= i ? undefined : arguments[i];
+  }
+}"#
+);
+
+test!(
+  tr(),
+  rest_multiple,
+  r#"var t = function (f, ...items) {
+    var x = f;
+    x = items[0];
+    x = items[1];
+};
+
+function t(f, ...items) {
+    var x = f;
+    x = items[0];
+    x = items[1];
+}
+
+function u(f, g, ...items) {
+    var x = f;
+    var y = g;
+    x[12] = items[0];
+    y.prop = items[1];
+    var z = items[2] | 0 || 12;
+}"#,
+  r#"var t = function (f) {
+  var x = f;
+  x = arguments.length <= 1 ? undefined : arguments[1];
+  x = arguments.length <= 2 ? undefined : arguments[2];
+};
+
+function t(f) {
+  var x = f;
+  x = arguments.length <= 1 ? undefined : arguments[1];
+  x = arguments.length <= 2 ? undefined : arguments[2];
+}
+
+function u(f, g) {
+  var x = f;
+  var y = g;
+  x[12] = arguments.length <= 2 ? undefined : arguments[2];
+  y.prop = arguments.length <= 3 ? undefined : arguments[3];
+  var z = (arguments.length <= 4 ? undefined : arguments[4]) | 0 || 12;
+}"#
+);
+
+test!(
+  tr(),
+  rest_nested_5656,
+  r#"function a(...args) {
+  const foo = (...list) => bar(...list);
+  foo(...args);
+}
+
+function b(...args) {
+  const foo = (...args) => bar(...args);
+  foo(...args);
+}
+
+function c(...args) {
+  const foo = (...args) => bar(...args);
+  foo([]);
+}
+
+function d(thing, ...args) {
+  const foo = (...args) => bar(...args);
+  {
+    let args = thing;
+    foo(thing);
+  }
+}"#,
+  r#"function a() {
+  var foo = function () {
+    return bar.apply(void 0, arguments);
+  };
+
+  foo.apply(void 0, arguments);
+}
+
+function b() {
+  var foo = function () {
+    return bar.apply(void 0, arguments);
+  };
+
+  foo.apply(void 0, arguments);
+}
+
+function c() {
+  var foo = function () {
+    return bar.apply(void 0, arguments);
+  };
+
+  foo([]);
+}
+
+function d(thing) {
+  var foo = function () {
+    return bar.apply(void 0, arguments);
+  };
+
+  {
+    var args = thing;
+    foo(thing);
+  }
+}"#
+);
+
+test!(
+  tr(),
+  rest_nested_iife,
+  r#"function broken(x, ...foo) {
+  if (true) {
+    class Foo extends Bar { }
+    return hello(...foo)
+  }
+}"#,
+  r#"function broken(x) {
+  if (true) {
+    var Foo =
+    /*#__PURE__*/
+    function (_Bar) {
+      "use strict";
+
+      babelHelpers.inherits(Foo, _Bar);
+
+      function Foo() {
+        babelHelpers.classCallCheck(this, Foo);
+        return babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(Foo).apply(this, arguments));
+      }
+
+      return Foo;
+    }(Bar);
+
+    for (var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      foo[_key - 1] = arguments[_key];
+    }
+
+    return hello.apply(void 0, foo);
+  }
+}"#
+);
+
+test!(
+  tr(),
+  rest_patterns,
+  r#"function foo(...[a]) {}"#,
+  r#"function foo() {
+  for (var _len = arguments.length, _ref = new Array(_len), _key = 0; _key < _len; _key++) {
+    _ref[_key] = arguments[_key];
+  }
+
+  var a = _ref[0];
+}"#
+);
+
+test_exec!(
+  |_| tr(),
+  rest_patterns_exec,
+  r#"
+function foo(...{ length }) {
+  return length;
+}
+
+expect(foo(1, 2, 3)).toEqual(3);"#
+);
+
+test!(tr(), rest_spread_optimisation, r#"// optimisation
+
+function foo(...bar) {
+  foo(...bar);
+}
+
+// deoptimisation
+
+function foo(a, ...b) {
+  foo(...b);
+}
+
+function foo(...b) {
+  foo(1, ...b);
+}
+
+function foo(...args){
+  args.pop()
+  foo(...args);
+}"#, r#"// optimisation
+function foo() {
+  foo.apply(void 0, arguments);
+} // deoptimisation
+
+
+function foo(a) {
+  for (var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    b[_key - 1] = arguments[_key];
+  }
+
+  foo.apply(void 0, b);
+}
+
+function foo() {
+  for (var _len2 = arguments.length, b = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    b[_key2] = arguments[_key2];
+  }
+
+  foo.apply(void 0, [1].concat(b));
+}
+
+function foo() {
+  for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+    args[_key3] = arguments[_key3];
+  }
+
+  args.pop();
+  foo.apply(void 0, args);
+}"#);
