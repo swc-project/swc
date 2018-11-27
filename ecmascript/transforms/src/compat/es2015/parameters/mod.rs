@@ -62,6 +62,44 @@ impl Params {
                         _ => unreachable!("unknown rest pattern `...{:?}`", arg),
                     };
 
+                    let make_minus_i = |ident: &Ident, min_zero: bool| -> Expr {
+                        if i == 0 {
+                            // `len`
+                            ident.clone().into()
+                        } else {
+                            // `len - $i`
+                            let bin: Expr = BinExpr {
+                                span,
+                                left: box Expr::Ident(ident.clone()),
+                                op: op!(bin, "-"),
+                                right: box Expr::Lit(Lit::Num(Number {
+                                    span,
+                                    value: i as f64,
+                                })),
+                            }
+                            .into();
+                            if !min_zero {
+                                return bin;
+                            }
+
+                            Expr::Cond(CondExpr {
+                                span,
+                                test: box BinExpr {
+                                    span,
+                                    left: box len_ident.clone().into(),
+                                    op: op!(">"),
+                                    right: box Expr::Lit(Lit::Num(Number {
+                                        span,
+                                        value: i as _,
+                                    })),
+                                }
+                                .into(),
+                                cons: box bin,
+                                alt: box Expr::Lit(Lit::Num(Number { span, value: 0.0 })),
+                            })
+                        }
+                    };
+
                     unpack_rest = Some(Stmt::For(ForStmt {
                         span,
                         init: Some(VarDeclOrExpr::VarDecl(VarDecl {
@@ -82,22 +120,8 @@ impl Params {
                                         span,
                                         callee: box quote_ident!("Array").into(),
                                         args: Some(vec![{
-                                            if i == 0 {
-                                                // `len`
-                                                len_ident.clone().as_arg()
-                                            } else {
-                                                // `len - $i`
-                                                BinExpr {
-                                                    span,
-                                                    left: box Expr::Ident(len_ident.clone()),
-                                                    op: op!(bin, "-"),
-                                                    right: box Expr::Lit(Lit::Num(Number {
-                                                        span,
-                                                        value: i as f64,
-                                                    })),
-                                                }
-                                                .as_arg()
-                                            }
+                                            // `len` or  `len - $i`
+                                            make_minus_i(&len_ident, true).as_arg()
                                         }]),
                                     })),
                                 },
@@ -117,7 +141,7 @@ impl Params {
                             span,
                             left: box idx_ident.clone().into(),
                             op: op!("<"),
-                            right: box len_ident.into(),
+                            right: box len_ident.clone().into(),
                         })),
                         // _key++
                         update: Some(box Expr::Update(UpdateExpr {
@@ -138,23 +162,7 @@ impl Params {
                                             span,
                                             obj: ExprOrSuper::Expr(box Expr::Ident(arg)),
                                             computed: true,
-                                            prop: {
-                                                if i == 0 {
-                                                    // `[_key]`
-                                                    prop.clone()
-                                                } else {
-                                                    // `[_key - $i]`
-                                                    box Expr::Bin(BinExpr {
-                                                        span,
-                                                        left: prop.clone(),
-                                                        op: op!(bin, "-"),
-                                                        right: box Expr::Lit(Lit::Num(Number {
-                                                            span,
-                                                            value: i as f64,
-                                                        })),
-                                                    })
-                                                }
-                                            },
+                                            prop: box make_minus_i(&idx_ident, false),
                                         }
                                         .into(),
                                     ),
