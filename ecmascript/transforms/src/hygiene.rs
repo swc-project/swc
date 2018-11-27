@@ -241,7 +241,6 @@ mod test {
             |tester| {
                 let mark1 = Mark::fresh(Mark::root());
                 let mark2 = Mark::fresh(mark1);
-                let mark3 = Mark::fresh(mark1);
 
                 Ok(vec![
                     tester
