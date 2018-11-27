@@ -153,29 +153,23 @@ class X {
     this.x = x
   }
 }"#,
-  r#"var Ref = function () {
-  "use strict";
-
-  function Ref() {
-    var ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Ref;
-    babelHelpers.classCallCheck(this, Ref);
-    this.ref = ref;
-  }
-
-  return Ref;
+  r#"var Ref = function() {
+    function Ref(param) {
+        var tmp = param, ref = tmp === void 0 ? Ref : tmp;
+        _classCallCheck(this, Ref);
+        this.ref = ref;
+    }
+    return Ref;
 }();
-
-var X = function () {
-  "use strict";
-
-  function X() {
-    var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : foo;
-    babelHelpers.classCallCheck(this, X);
-    this.x = x;
-  }
-
-  return X;
-}();"#
+var X = function() {
+    function X(param) {
+        var tmp = param, x = tmp === void 0 ? foo : tmp;
+        _classCallCheck(this, X);
+        this.x = x;
+    }
+    return X;
+}();
+"#
 );
 
 test_exec!(
@@ -1015,24 +1009,31 @@ function u(f, g, ...items) {
     y.prop = items[1];
     var z = items[2] | 0 || 12;
 }"#,
-  r#"var t = function (f) {
-  var x = f;
-  x = arguments.length <= 1 ? undefined : arguments[1];
-  x = arguments.length <= 2 ? undefined : arguments[2];
+  r#"var t = function(f) {
+    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+        items[_key - 1] = arguments[_key];
+    }
+    var x = f;
+    x = items[0];
+    x = items[1];
 };
-
 function t(f) {
-  var x = f;
-  x = arguments.length <= 1 ? undefined : arguments[1];
-  x = arguments.length <= 2 ? undefined : arguments[2];
+    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+        items[_key - 1] = arguments[_key];
+    }
+    var x = f;
+    x = items[0];
+    x = items[1];
 }
-
 function u(f, g) {
-  var x = f;
-  var y = g;
-  x[12] = arguments.length <= 2 ? undefined : arguments[2];
-  y.prop = arguments.length <= 3 ? undefined : arguments[3];
-  var z = (arguments.length <= 4 ? undefined : arguments[4]) | 0 || 12;
+    for(var _len = arguments.length, items = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+        items[_key - 2] = arguments[_key];
+    }
+    var x = f;
+    var y = g;
+    x[12] = items[0];
+    y.prop = items[1];
+    var z = items[2] | 0 || 12;
 }"#
 );
 
@@ -1098,7 +1099,7 @@ function d(thing) {
 );
 
 test!(
-  tr(),
+  Classes::default().then(tr()).then(crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
   if (true) {
@@ -1107,28 +1108,20 @@ test!(
   }
 }"#,
   r#"function broken(x) {
-  if (true) {
-    var Foo =
-    /*#__PURE__*/
-    function (_Bar) {
-      "use strict";
-
-      babelHelpers.inherits(Foo, _Bar);
-
-      function Foo() {
-        babelHelpers.classCallCheck(this, Foo);
-        return babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(Foo).apply(this, arguments));
-      }
-
-      return Foo;
-    }(Bar);
-
-    for (var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      foo[_key - 1] = arguments[_key];
+    for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+        foo[_key - 1] = arguments[_key];
     }
-
-    return hello.apply(void 0, foo);
-  }
+    if (true) {
+        var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+                _classCallCheck(this, Foo);
+                return _possibleConstructorReturn(this, (Foo.__proto__ || Object.getPrototypeOf(Foo)).apply(this, arguments));
+            }
+            return Foo;
+        }(Bar);
+        return hello.apply(undefined, [].concat(_toConsumableArray(foo)));
+    }
 }"#
 );
 
