@@ -256,4 +256,25 @@ mod test {
         );
     }
 
+    #[test]
+    fn const_then_fn_param() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "const a = 1;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "function foo(a) {use(a);}")?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                ])
+            },
+            "const a = 1;
+            function foo(a1) {use(a1);}",
+        );
+    }
+
 }
