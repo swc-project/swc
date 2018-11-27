@@ -460,6 +460,9 @@ impl Fold<Expr> for AssignFolder {
                             }
                         }
 
+                        // Last one should be object itself.
+                        exprs.push(box Expr::Ident(ref_ident));
+
                         Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
                             exprs,
