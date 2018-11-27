@@ -54,6 +54,9 @@ impl Params {
                     //      a1[_key] = arguments[_key];
                     // }
                     assert!(unpack_rest.is_none());
+
+                    // TODO: Optimize (use `arguments` instead of rest argument)
+
                     let mark = Mark::fresh(Mark::root());
                     let idx_ident = quote_ident!(span.apply_mark(mark), "_key");
                     let len_ident = quote_ident!(span.apply_mark(mark), "_len");

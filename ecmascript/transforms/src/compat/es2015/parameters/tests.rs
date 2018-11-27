@@ -640,6 +640,8 @@ test!(
 );
 
 test!(
+  // optimiation is not implemented
+  ignore,
   tr(),
   rest_deepest_common_ancestor_earliest_child,
   r#"// single reference
@@ -878,6 +880,8 @@ expect(length(1, 2, 3)).toBe(1);"#
 );
 
 test!(
+  // optimisation is not implemented
+  ignore,
   tr(),
   rest_member_expression_deoptimisation,
   r#"var t = function (...items) {
@@ -933,6 +937,8 @@ function t() {
 );
 
 test!(
+  // optimisation is not implemented
+  ignore,
   tr(),
   rest_member_expression_optimisation,
   r#"var t = function (...items) {
@@ -1038,6 +1044,8 @@ function u(f, g) {
 );
 
 test!(
+  // optimisation is not implemented
+  ignore,
   tr(),
   rest_nested_5656,
   r#"function a(...args) {
@@ -1134,8 +1142,7 @@ test!(
         _tmp[_key] = arguments[_key];
     }
     var a = _tmp[0];
-}
-"#
+}"#
 );
 
 test_exec!(
@@ -1149,7 +1156,12 @@ function foo(...{ length }) {
 expect(foo(1, 2, 3)).toEqual(3);"#
 );
 
-test!(tr(), rest_spread_optimisation, r#"// optimisation
+test!(
+  // optimisation is not implemented
+  ignore,
+  tr(),
+  rest_spread_optimisation,
+  r#"// optimisation
 
 function foo(...bar) {
   foo(...bar);
@@ -1168,14 +1180,16 @@ function foo(...b) {
 function foo(...args){
   args.pop()
   foo(...args);
-}"#, r#"// optimisation
+}"#,
+  r#"// optimisation
 function foo() {
   foo.apply(void 0, arguments);
 } // deoptimisation
 
 
 function foo(a) {
-  for (var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+  for (var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0),
+   _key = 1; _key < _len; _key++) {
     b[_key - 1] = arguments[_key];
   }
 
@@ -1197,4 +1211,5 @@ function foo() {
 
   args.pop();
   foo.apply(void 0, args);
-}"#);
+}"#
+);
