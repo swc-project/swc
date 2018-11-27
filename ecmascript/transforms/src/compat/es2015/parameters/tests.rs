@@ -435,7 +435,7 @@ function f(a, ...rest) {
   return rest[-1];
 }"#,
   r#"function f(a) {
-    for(var _len = arguments.length, rest = new Array(_len - 1), _key = 1; _key < _len; _key++){
+    for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
     var b = rest[rest.length - 3];
@@ -444,7 +444,7 @@ function f(a, ...rest) {
     return [a, b, c, d];
 }
 function f(a) {
-    for(var _len = arguments.length, rest = new Array(_len - 1), _key = 1; _key < _len; _key++){
+    for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
     return rest[-1];
