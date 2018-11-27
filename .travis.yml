@@ -26,6 +26,7 @@ before_install:
     - git submodule update --init --recursive
 
 install:
+    - npm i -g jest
     - cargo test --no-run --color always --all
 
 script:
