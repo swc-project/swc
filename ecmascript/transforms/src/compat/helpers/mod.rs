@@ -36,6 +36,8 @@ pub struct Helpers {
     pub define_property: AtomicBool,
     /// `_defineEnumerableProperties`
     pub define_enumerable_property: AtomicBool,
+    /// `_set`
+    pub set: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -97,6 +99,8 @@ impl InjectHelpers {
             "_defineEnumerableProperties.js",
             &self.helpers.define_enumerable_property
         );
+        add!("_set.js", &self.helpers.set);
+        add!("_getPrototypeOf.js", &self.helpers.get_prototype_of);
 
         buf
     }
