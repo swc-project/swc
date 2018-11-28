@@ -256,8 +256,8 @@ macro_rules! exec_tr {
                 $input, src
             );
 
-            let status = Command::new("npx")
-                .args(&["jest", "--testMatch", &format!("{}", path.display())])
+            let status = Command::new("jest")
+                .args(&["--testMatch", &format!("{}", path.display())])
                 .current_dir(root)
                 .status()
                 .expect("failed to run jest");
