@@ -4,7 +4,8 @@ test!(
     Destructuring::default(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
-    r#"let _foo$a = foo.a, a = _foo$a === void 0 ? 1 : _foo$a;"#
+    r#"let ref = foo ? foo : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+        _ref$a = ref.a, a = _ref$a === void 0 ? 1 : _ref$a;"#
 );
 
 test!(
@@ -52,8 +53,9 @@ test!(
 var { x: { y } = {} } = z;"#,
     r#"var z = {
 };
-var tmp = z.x, ref = tmp === void 0 ? {
-} : tmp, y = ref.y;"#
+var ref = z ? z : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), tmp = ref.x,
+ ref1 = tmp === void 0 ? {
+} : tmp, ref2 = ref1 ? ref1 : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), y = ref2.y;"#
 );
 
 test!(
@@ -65,7 +67,7 @@ console.log((ref = [123], x = ref[0], ref));"#
 );
 
 test_exec!(
-    |_| Destructuring::default(),
+    |helpers| Destructuring { helpers },
     chained,
     r#"var a, b, c, d;
 ({ a, b } = ({ c, d } = { a: 1, b: 2, c: 3, d: 4}));
@@ -76,11 +78,11 @@ expect(d).toBe(4);"#
 );
 
 test_exec!(
-    |_| Destructuring::default(),
+    |helpers| Destructuring { helpers },
     empty_obj_pat_1,
     r#"expect(function () {
   var {} = null;
-}).toThrow("Cannot destructure undefined");"#
+}).toThrow("Cannot destructure 'undefined' or 'null'");"#
 );
 
 // test!(
@@ -215,7 +217,7 @@ test!(
 
 test_exec!(
     ignore,
-    |_| Destructuring::default(),
+    |helpers| Destructuring { helpers },
     fn_key_with_obj_rest_spread,
     r#"const { [(() => 1)()]: a, ...rest } = { 1: "a" };
 
@@ -231,13 +233,15 @@ for (let i = 0, { length } = list; i < length; i++) {
   list[i];
 }"#,
     r#"let list = [1, 2, 3, 4];
-for(let i = 0, length = list.length; i < length; i++){
+for(let i = 0, ref = list ? list : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+  length = ref.length; i < length; i++){
     list[i];
-}"#
+}
+"#
 );
 
 test_exec!(
-    |_| Destructuring::default(),
+    |helpers| Destructuring { helpers },
     babel_issue_5090,
     r#"const assign = function([...arr], index, value) {
   arr[index] = value;
@@ -316,8 +320,9 @@ test!(
     r#"var rect = {};
 var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
     r#"var rect = {};
-var _rect$topLeft = rect.topLeft, x1 = _rect$topLeft[0], y1 = _rect$topLeft[1], 
-_rect$bottomRight = rect.bottomRight, x2 = _rect$bottomRight[0], y2 = _rect$bottomRight[1]"#
+var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+    _ref$topLeft = ref.topLeft, x1 = _ref$topLeft[0], y1 = _ref$topLeft[1],
+    _ref$bottomRight = ref.bottomRight, x2 = _ref$bottomRight[0], y2 = _ref$bottomRight[1];"#
 );
 
 test!(
@@ -327,14 +332,13 @@ test!(
 var { x, y } = coords,
     foo = "bar";"#,
     r#"var coords = [1, 2];
-var x = coords.x,
-    y = coords.y,
-    foo = "bar";"#
+var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+     x = ref.x, y = ref.y, foo = 'bar';"#
 );
 
 test_exec!(
     ignore,
-    |_| Destructuring::default(),
+    |helpers| Destructuring { helpers },
     number_key_with_object_spread,
     r#"const foo = {
   1: "a",
@@ -354,10 +358,14 @@ test!(
     r#"var rect = {};
 var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
 var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];"#,
-    r#"var rect = {};
-var _rect$topLeft = rect.topLeft, x1 = _rect$topLeft.x, y1 = _rect$topLeft.y,
- _rect$bottomRight = rect.bottomRight, x2 = _rect$bottomRight.x, y2 = _rect$bottomRight.y;
-var ref = [0, 1, 2, 3, 4, 5, 6], foo = ref[3], bar = ref[5];"#
+    r#"var rect = {
+};
+var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+    _ref$topLeft = ref.topLeft, ref1 = _ref$topLeft ? _ref$topLeft : 
+    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x1 = ref1.x, y1 = ref1.y,
+    _ref$bottomRight = ref.bottomRight, ref2 = _ref$bottomRight ? _ref$bottomRight :
+    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x2 = ref2.x, y2 = ref2.y;
+var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
 );
 
 test!(
@@ -366,13 +374,12 @@ test!(
     r#"var coords = [1, 2];
 var { x, y } = coords;"#,
     r#"var coords = [1, 2];
-var x = coords.x,
-    y = coords.y;"#
+var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), x = ref.x, y = ref.y;"#
 );
 
 test_exec!(
     ignore,
-    |_| Destructuring::default(),
+    |helpers| Destructuring { helpers },
     spread_generator,
     r#"function* f() {
   for (var i = 0; i < 3; i++) {

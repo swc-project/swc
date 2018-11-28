@@ -1,14 +1,15 @@
 use super::*;
-use crate::compat::es2015::Classes;
+use crate::compat::{es2015::Classes, helpers::Helpers};
+use std::sync::Arc;
 
-fn tr() -> impl Fold<Module> {
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
   Params
-    .then(crate::compat::es2015::destructuring())
+    .then(crate::compat::es2015::destructuring(helpers.clone()))
     .then(crate::compat::es2015::block_scoping())
 }
 
 test!(
-  tr(),
+  tr(Default::default()),
   babel_6057_simple,
   r#"const a = 'bar';
 function foo(...a) {
@@ -24,7 +25,7 @@ function foo() {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_before_last,
   r#"function foo(a = "foo", b) {}"#,
   r#"function foo(param, b) {
@@ -33,7 +34,7 @@ test!(
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   default_destructuring,
   r#"function required(msg) {
   throw new Error(msg);
@@ -57,7 +58,7 @@ expect(sum({arr:[1,2]})).toBe(3);"#
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   default_earlier_params,
   r#"function f(a, b = a, c = b) { return c; }
 
@@ -66,7 +67,7 @@ expect(3).toBe(f(3));"#
 
 test!(
   ignore,
-  tr(),
+  tr(Default::default()),
   default_eval,
   r#"let x = "outside";
 function outer(a = () => eval("x")) {
@@ -90,7 +91,7 @@ outer();"#
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   default_iife_1128,
   r#"const bar = true;
 
@@ -104,7 +105,7 @@ foo(1, 2, 3);"#
 );
 
 test!(
-  Classes::default().then(tr()),
+  Classes::default().then(tr(Default::default())),
   default_iife_4253,
   r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -126,7 +127,7 @@ Ref.nextID = 0;"#
 test_exec!(
   // Stage0
   ignore,
-  |_| tr(),
+  tr,
   default_iife_4253_exec,
   r#"class Ref {
   static nextId = 0
@@ -140,7 +141,7 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-  Classes::default().then(tr()),
+  Classes::default().then(tr(Default::default())),
   default_iife_self,
   r#"class Ref {
   constructor(ref = Ref) {
@@ -173,7 +174,7 @@ var X = function() {
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   default_iife_self_exec,
   r#"class Ref {
   constructor(ref = Ref) {
@@ -185,7 +186,7 @@ expect(new Ref().ref).toBe(Ref);"#
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_multiple,
   r#"var t = function (e = "foo", f = 5) {
   return e + " bar " + f;
@@ -205,7 +206,7 @@ var a = function(e, param) {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_rest_mix,
   r#"function fn(
   a1,
@@ -214,14 +215,16 @@ test!(
   a5,
   {a6, a7} = {}) {}"#,
   r#"function fn(a1, param, param1, a5, param2) {
-    var tmp = param, a2 = tmp === void 0 ? 4 : tmp,
-     a3 = param1.a3, a4 = param1.a4, tmp1 = param2, ref = tmp1 === void 0 ? {
-    } : tmp1, a6 = ref.a6, a7 = ref.a7;
+    var tmp = param, a2 = tmp === void 0 ? 4 : tmp, ref = param1 ? param1 :
+      _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
+      a3 = ref.a3, a4 = ref.a4, tmp1 = param2, ref1 = tmp1 === void 0 ? {
+    } : tmp1, ref2 = ref1 ? ref1 :
+    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a6 = ref2.a6, a7 = ref2.a7;
 }"#
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_rest_1,
   r#"const a = 1;
 function rest(b = a, ...a) {
@@ -240,7 +243,7 @@ rest(undefined, 2);"#
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_rest_2,
   r#"const a = 1;
   function rest2(b = a, ...a) {
@@ -259,7 +262,7 @@ rest2(undefined, 2);"#
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_rest_3,
   r#"const a = 1;
     function rest3(b = a, ...a) {
@@ -278,7 +281,7 @@ rest3(undefined, 2);"#
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   default_rest_exec,
   r#"const a = 1;
 function rest(b = a, ...a) {
@@ -298,8 +301,8 @@ rest3(undefined, 2)"#
 );
 
 test!(
-  tr(),
-  default_setter,
+  tr(Default::default()),
+  default_setter_noexec,
   r#"const obj = {
   set field(num = 1) {
     this.num = num;
@@ -315,7 +318,7 @@ test!(
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   default_setter_exec,
   r#"const defaultValue = 1;
 const obj = {
@@ -329,7 +332,7 @@ expect(obj.num).toBe(defaultValue);"#
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   default_single,
   r#"var t = function (f = "foo") {
   return f + " bar";
@@ -341,7 +344,7 @@ test!(
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   destructuring_rest,
   r#"// #3861
 function t(x = "default", { a, b }, ...args) {
@@ -349,7 +352,8 @@ function t(x = "default", { a, b }, ...args) {
 }"#,
   r#"// #3861
 function t(param, param1) {
-    var tmp = param, x = tmp === void 0 ? 'default' : tmp, a = param1.a, b = param1.b;
+    var tmp = param, x = tmp === void 0 ? 'default' : tmp, ref = param1 ? param1 :
+      _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a = ref.a, b = ref.b;
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         args[_key - 2] = arguments[_key];
     }
@@ -358,7 +362,7 @@ function t(param, param1) {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   regression_4333,
   r#"const args = 'bar';
 function foo(...args) {
@@ -375,7 +379,7 @@ function foo() {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   regression_4348,
   r#"function first(...values) {
   var index = 0;
@@ -393,7 +397,7 @@ test!(
 test!(
   // type
   ignore,
-  tr(),
+  tr(Default::default()),
   regression_4634,
   r#"let oneOf = (...nodes) => {
   if (nodes.length === 1) {
@@ -416,7 +420,7 @@ let oneOf = function () {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   regression_5787,
   r#"function f(a, ...rest) {
   let b = rest[rest.length - 3];
@@ -446,7 +450,7 @@ function f(a) {
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   regression_5787_exec,
   r#"function f1(a, ...rest) {
   let b = rest[rest.length - 3];
@@ -463,7 +467,7 @@ expect(f2(1, 2)).toBeUndefined();"#
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   rest_args_deoptimiazation,
   r#"function x (...rest) {
   arguments;
@@ -481,7 +485,7 @@ function x() {
 test!(
   // Stage 0
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_arrow_fn,
   r#"var concat = (...arrs) => {
   var x = arrs[0];
@@ -582,7 +586,7 @@ var innerclassproperties = function () {
 
 test!(
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_async_arrow_fn,
   r#"var concat = async (...arrs) => {
   var x = arrs[0];
@@ -626,7 +630,7 @@ function () {
 );
 
 test!(
-  crate::compat::es2015::Arrow.then(tr()),
+  crate::compat::es2015::Arrow.then(tr(Default::default())),
   rest_binding_deoptimisation,
   r#"const deepAssign = (...args) => args = [];
 "#,
@@ -642,7 +646,7 @@ test!(
 test!(
   // optimiation is not implemented
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_deepest_common_ancestor_earliest_child,
   r#"// single reference
 function r(...rest){
@@ -837,7 +841,7 @@ function r() {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   rest_length,
   r#"var t = function (f, ...items) {
   items[0];
@@ -867,7 +871,7 @@ function t(f) {
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   rest_length_exec,
   r#"var length = function (a, b, ...items) {
   return items.length;
@@ -882,7 +886,7 @@ expect(length(1, 2, 3)).toBe(1);"#
 test!(
   // optimisation is not implemented
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_member_expression_deoptimisation,
   r#"var t = function (...items) {
   var x = items[0];
@@ -939,7 +943,7 @@ function t() {
 test!(
   // optimisation is not implemented
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_member_expression_optimisation,
   r#"var t = function (...items) {
   var x = items[0];
@@ -994,7 +998,7 @@ function t() {
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   rest_multiple,
   r#"var t = function (f, ...items) {
     var x = f;
@@ -1046,7 +1050,7 @@ function u(f, g) {
 test!(
   // optimisation is not implemented
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_nested_5656,
   r#"function a(...args) {
   const foo = (...list) => bar(...list);
@@ -1107,7 +1111,7 @@ function d(thing) {
 );
 
 test!(
-  Classes::default().then(tr()).then(crate::compat::es2015::Spread::default()),
+  Classes::default().then(tr(Default::default())).then(crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
   if (true) {
@@ -1134,7 +1138,7 @@ test!(
 );
 
 test!(
-  tr(),
+  tr(Default::default()),
   rest_patterns,
   r#"function foo(...[a]) {}"#,
   r#"function foo() {
@@ -1146,7 +1150,7 @@ test!(
 );
 
 test_exec!(
-  |_| tr(),
+  tr,
   rest_patterns_exec,
   r#"
 function foo(...{ length }) {
@@ -1159,7 +1163,7 @@ expect(foo(1, 2, 3)).toEqual(3);"#
 test!(
   // optimisation is not implemented
   ignore,
-  tr(),
+  tr(Default::default()),
   rest_spread_optimisation,
   r#"// optimisation
 

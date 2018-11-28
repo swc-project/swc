@@ -52,6 +52,6 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
             helpers: helpers.clone(),
         })
         .then(computed_properties(helpers.clone()))
-        .then(destructuring())
+        .then(destructuring(helpers.clone()))
         .then(block_scoping())
 }

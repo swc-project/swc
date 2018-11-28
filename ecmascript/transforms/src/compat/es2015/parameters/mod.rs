@@ -236,8 +236,6 @@ impl Fold<SetterProp> for Params {
 
         let (mut params, body) = self.fold_fn_like(vec![f.param], f.body);
         assert!(params.len() == 1);
-        // TODO(kdy1): Remove this. Ideally this should be handle by then()
-        let body = body.fold_with(&mut crate::compat::es2015::destructuring());
 
         let param = params.pop().unwrap();
         SetterProp { param, body, ..f }

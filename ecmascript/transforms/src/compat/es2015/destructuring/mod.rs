@@ -1,6 +1,12 @@
 use ast::*;
-use crate::util::{ExprFactory, StmtLike};
-use std::iter;
+use crate::{
+    compat::helpers::Helpers,
+    util::{ExprFactory, StmtLike},
+};
+use std::{
+    iter,
+    sync::{atomic::Ordering, Arc},
+};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
@@ -28,12 +34,14 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring() -> impl Fold<Module> + Fold<BlockStmt> {
-    Destructuring
+pub fn destructuring(helpers: Arc<Helpers>) -> impl Fold<Module> + Fold<BlockStmt> {
+    Destructuring { helpers }
 }
 
-#[derive(Debug, Clone, Copy, Default)]
-struct Destructuring;
+#[derive(Debug, Clone, Default)]
+struct Destructuring {
+    helpers: Arc<Helpers>,
+}
 
 macro_rules! impl_for_for_stmt {
     ($T:tt) => {
@@ -183,7 +191,37 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         decl.init.is_some(),
                         "destructuring pattern binding requires initializer"
                     );
+                    let can_be_null = can_be_null(decl.init.as_ref().unwrap());
                     let ref_ident = make_ref_ident(&mut decls, decl.init);
+
+                    let ref_ident = if can_be_null {
+                        self.helpers.throw.store(true, Ordering::SeqCst);
+                        make_ref_ident(
+                            &mut decls,
+                            Some(box Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: box Expr::Ident(ref_ident.clone()),
+                                cons: box Expr::Ident(ref_ident.clone()),
+                                // _throw(new TypeError())
+                                alt: box Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: quote_ident!("_throw").as_callee(),
+                                    // new TypeError()
+                                    args: vec![NewExpr {
+                                        span: DUMMY_SP,
+                                        callee: box Expr::Ident(quote_ident!("TypeError")),
+                                        args: Some(vec![Lit::Str(quote_str!(
+                                            "Cannot destructure 'undefined' or 'null'"
+                                        ))
+                                        .as_arg()]),
+                                    }
+                                    .as_arg()],
+                                }),
+                            })),
+                        )
+                    } else {
+                        ref_ident
+                    };
 
                     for prop in props {
                         let prop_span = prop.span();
@@ -325,6 +363,7 @@ impl Fold<Function> for Destructuring {
 
 #[derive(Debug, Default)]
 struct AssignFolder {
+    helpers: Arc<Helpers>,
     vars: Vec<VarDeclarator>,
 }
 
@@ -332,7 +371,10 @@ impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             // Handle iife
-            Expr::Fn(..) => Destructuring.fold(expr),
+            Expr::Fn(..) | Expr::Object(..) => Destructuring {
+                helpers: self.helpers.clone(),
+            }
+            .fold(expr),
             _ => expr.fold_children(self),
         };
 
@@ -608,4 +650,40 @@ fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
         cons: def_value,
         alt: box Expr::Ident(tmp),
     })
+}
+
+fn can_be_null(e: &Expr) -> bool {
+    match *e {
+        Expr::Lit(Lit::Null(..))
+        | Expr::This(..)
+        | Expr::Ident(..)
+        | Expr::Member(..)
+        | Expr::Call(..)
+        | Expr::New(..)
+        | Expr::Yield(..)
+        | Expr::Await(..)
+        | Expr::MetaProp(..) => true,
+
+        // This does not include null
+        Expr::Lit(..) => false,
+
+        Expr::Array(..)
+        | Expr::Arrow(..)
+        | Expr::Object(..)
+        | Expr::Fn(..)
+        | Expr::Class(..)
+        | Expr::Tpl(..) => false,
+
+        Expr::Paren(ParenExpr { ref expr, .. }) => can_be_null(expr),
+        Expr::Seq(SeqExpr { ref exprs, .. }) => {
+            exprs.last().map(|e| can_be_null(e)).unwrap_or(true)
+        }
+        Expr::Assign(AssignExpr { ref right, .. }) => can_be_null(right),
+        Expr::Cond(CondExpr {
+            ref cons, ref alt, ..
+        }) => can_be_null(cons) || can_be_null(alt),
+
+        // TODO(kdy1): I'm not sure about this.
+        Expr::Unary(..) | Expr::Update(..) | Expr::Bin(..) => true,
+    }
 }
