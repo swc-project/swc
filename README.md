@@ -38,16 +38,16 @@ New generation javascript to old-days javascript.
       - Note: this might be buggy (at this time)
     - [x] classes
       - [ ] getter / setter
-    - [ ] computed-properties
-    - [ ] destructuring
-    - [ ] duplicate-keys
+    - [x] computed-properties
+    - [x] destructuring
+    - [x] duplicate-keys
     - [ ] for-of
     - [x] function-name
     - [x] instanceof
-    - [ ] literals
+    - [x] literals
     - [x] new-target
     - [ ] object-super
-    - [ ] parameters
+    - [x] parameters
     - [x] shorthand-properties
     - [x] spread
     - [x] sticky regex (`y` flag)
