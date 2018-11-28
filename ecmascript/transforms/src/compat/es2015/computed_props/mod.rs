@@ -289,7 +289,7 @@ where
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        self.helpers.define_property.store(true, Ordering::SeqCst);
+                        self.helpers.define_property.store(true, Ordering::Relaxed);
                         buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
@@ -299,7 +299,7 @@ where
                     if folder.used_define_enum_props {
                         self.helpers
                             .define_enumerable_property
-                            .store(true, Ordering::SeqCst);
+                            .store(true, Ordering::Relaxed);
                     }
 
                     buf.push(T::from_stmt(stmt));

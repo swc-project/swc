@@ -162,6 +162,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             },
             {
                 impl<__Fold> swc_common::FoldWith<__Fold> for Type {
+                    #[inline]
                     fn fold_children(self, _f: &mut __Fold) -> Self {
                         body
                     }

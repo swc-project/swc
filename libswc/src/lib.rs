@@ -9,7 +9,7 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use self::{
-    common::{errors::Handler, sync::Lrc, SourceMap},
+    common::{errors::Handler, sync::Lrc, FileName, SourceMap},
     ecmascript::{
         ast::Module,
         codegen::{self, Emitter},
@@ -24,7 +24,7 @@ use std::{
 };
 
 pub struct Compiler {
-    cm: Lrc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     logger: Logger,
     handler: Handler,
 }
@@ -38,21 +38,27 @@ impl Compiler {
         }
     }
 
+    pub fn parse_js(&self, name: FileName, src: &str) -> Result<Module, ()> {
+        let fm = self.cm.new_source_file(name, src.into());
+
+        let session = ParseSess {
+            handler: &self.handler,
+            logger: &self.logger,
+            cfg: Default::default(),
+        };
+        Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
+    }
+
     /// TODO
-    pub fn parse_js(&self, path: &Path) -> Result<Module, ()> {
+    pub fn parse_js_file(&self, path: &Path) -> Result<Module, ()> {
         let fm = self.cm.load_file(path).expect("failed to load file");
 
-        let logger = self
-            .logger
-            .new(o!("input" => format!("{}", path.display())));
-        {
-            let session = ParseSess {
-                handler: &self.handler,
-                logger: &logger,
-                cfg: Default::default(),
-            };
-            Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
-        }
+        let session = ParseSess {
+            handler: &self.handler,
+            logger: &self.logger,
+            cfg: Default::default(),
+        };
+        Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
     }
 
     pub fn emit_module(

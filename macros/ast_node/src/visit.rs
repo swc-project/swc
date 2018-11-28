@@ -131,6 +131,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
             },
             {
                 impl<__V> swc_common::VisitWith<__V> for Type {
+                    #[inline]
                     fn visit_children(&self, _v: &mut __V) {
                         body
                     }

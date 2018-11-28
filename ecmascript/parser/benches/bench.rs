@@ -83,20 +83,23 @@ module.exports = {
 "#;
 
 #[bench]
-fn bench_parse_module(b: &mut Bencher) {
+fn parse_module(b: &mut Bencher) {
     let _ = ::testing::run_test(|logger, cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-        let mut parser = Parser::new(
-            Session {
-                logger: &logger,
-                handler: &handler,
-                cfg: Default::default(),
-            },
-            SourceFileInput::from(&*fm),
-        );
-
-        b.iter(|| test::black_box(parser.parse_module().unwrap()));
+        b.iter(|| {
+            test::black_box({
+                let mut parser = Parser::new(
+                    Session {
+                        logger: &logger,
+                        handler: &handler,
+                        cfg: Default::default(),
+                    },
+                    SourceFileInput::from(&*fm),
+                );
+                let _ = parser.parse_module();
+            })
+        });
         Ok(())
     });
 }

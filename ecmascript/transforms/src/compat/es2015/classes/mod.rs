@@ -166,10 +166,10 @@ impl Classes {
 
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
-            self.helpers.inherits.store(true, Ordering::SeqCst);
+            self.helpers.inherits.store(true, Ordering::Relaxed);
             self.helpers
                 .possible_constructor_return
-                .store(true, Ordering::SeqCst);
+                .store(true, Ordering::Relaxed);
 
             stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
@@ -560,7 +560,7 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
 
         let n = n.fold_with(&mut callee_folder);
         if callee_folder.did_work {
-            self.helpers.get.store(true, Ordering::SeqCst);
+            self.helpers.get.store(true, Ordering::Relaxed);
 
             if was_call {
                 match n {

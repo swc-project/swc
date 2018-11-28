@@ -10,6 +10,7 @@ pub fn parameters() -> impl Fold<Module> {
 }
 
 struct Params;
+prevent_recurse!(Params, Pat);
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {

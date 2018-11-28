@@ -34,7 +34,7 @@ impl Fold<Expr> for TypeOfSymbol {
                 op: op!("typeof"),
                 arg,
             }) => {
-                self.helpers.type_of.store(true, Ordering::SeqCst);
+                self.helpers.type_of.store(true, Ordering::Relaxed);
                 return Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!(span, "_typeof").as_callee(),

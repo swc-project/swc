@@ -61,7 +61,7 @@ impl InjectHelpers {
         };
 
         let mut add = |name: &str, flag: &AtomicBool, code: &'static str| {
-            let enable = flag.load(Ordering::SeqCst);
+            let enable = flag.load(Ordering::Relaxed);
             if !enable {
                 return;
             }

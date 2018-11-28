@@ -1,5 +1,6 @@
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
+use syntax::util::move_map::MoveMap;
 
 /// Folder based on a type system.
 ///
@@ -238,7 +239,8 @@ where
 {
     #[inline]
     fn fold_children(self, f: &mut F) -> Self {
-        self.into_iter().map(|it| f.fold(it)).collect()
+        self.move_map(|it| f.fold(it))
+        // self.into_iter().map(|it| f.fold(it)).collect()
     }
 }
 

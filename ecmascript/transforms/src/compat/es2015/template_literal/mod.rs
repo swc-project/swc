@@ -27,7 +27,7 @@ impl Fold<Expr> for TemplateLiteral {
                     Some(tag) => {
                         self.helpers
                             .tagged_template_literal
-                            .store(true, Ordering::SeqCst);
+                            .store(true, Ordering::Relaxed);
 
                         let mark = Mark::fresh(Mark::root());
                         let fn_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_templateObject");
