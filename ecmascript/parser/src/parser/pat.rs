@@ -79,9 +79,12 @@ impl<'a, I: Input> Parser<'a, I> {
                 comma += 1;
                 continue;
             }
-
-            elems.extend(iter::repeat(None).take(comma));
-            comma = 0;
+            if comma > 0 {
+                // One comma is used for separating elements
+                let cnt = if elems.is_empty() { comma } else { comma - 1 };
+                elems.extend(iter::repeat(None).take(cnt));
+                comma = 0;
+            }
             let start = cur_pos!();
 
             if eat!("...") {
@@ -448,5 +451,90 @@ impl<'a, I: Input> Parser<'a, I> {
         params.push(last);
 
         Ok(params)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use swc_common::DUMMY_SP as span;
+
+    fn array_pat(s: &'static str) -> Pat {
+        test_parser(s, |p| {
+            p.parse_array_binding_pat()
+                .unwrap_or_else(|()| unreachable!("failed to parse an pattern"))
+        })
+    }
+
+    fn ident(s: &str) -> Ident {
+        Ident {
+            sym: s.into(),
+            span,
+        }
+    }
+
+    #[test]
+    fn array_pat_simple() {
+        assert_eq_ignore_span!(
+            array_pat("[a, [b], [c]]"),
+            Pat::Array(ArrayPat {
+                span,
+                elems: vec![
+                    Some(Pat::Ident(ident("a"))),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("b")))]
+                    })),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("c")))]
+                    }))
+                ]
+            })
+        );
+    }
+
+    #[test]
+    fn array_pat_empty_start() {
+        assert_eq_ignore_span!(
+            array_pat("[, a, [b], [c]]"),
+            Pat::Array(ArrayPat {
+                span,
+                elems: vec![
+                    None,
+                    Some(Pat::Ident(ident("a"))),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("b")))]
+                    })),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("c")))]
+                    }))
+                ]
+            })
+        );
+    }
+
+    #[test]
+    fn array_pat_empty() {
+        assert_eq_ignore_span!(
+            array_pat("[a, , [b], [c]]"),
+            Pat::Array(ArrayPat {
+                span,
+                elems: vec![
+                    Some(Pat::Ident(ident("a"))),
+                    None,
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("b")))]
+                    })),
+                    Some(Pat::Array(ArrayPat {
+                        span,
+                        elems: vec![Some(Pat::Ident(ident("c")))]
+                    }))
+                ]
+            })
+        );
     }
 }

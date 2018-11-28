@@ -14,9 +14,9 @@ struct MyHandlers;
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
-    cm: Lrc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     logger: Logger,
-    handler: &'a Handler,
+    pub handler: &'a Handler,
 }
 
 impl<'a> Tester<'a> {
@@ -164,8 +164,8 @@ macro_rules! test_transform {
             }
 
             panic!(
-                "\n>>>>> Actual <<<<<\n{}\n>>>>> Expected <<<<<\n{}",
-                actual_src, expected_src
+                "\n\t>>>>> Code <<<<<\n{}\n\t>>>>> Actual <<<<<\n{}\n\t>>>>> Expected <<<<<\n{}",
+                $input, actual_src, expected_src
             );
         });
     }};
@@ -197,18 +197,93 @@ macro_rules! test {
     };
 }
 
+macro_rules! exec_tr {
+    ($tr:expr, $test_name:ident, $input:expr) => {{
+        use crate::compat::helpers::{Helpers, InjectHelpers};
+        use std::{
+            fs::{create_dir_all, OpenOptions},
+            io::Write,
+            path::Path,
+            process::Command,
+            sync::Arc,
+        };
+        use tempfile::tempdir_in;
+
+        crate::tests::Tester::run(|tester| {
+            let helpers = Arc::new(Helpers::default());
+            let tr = $tr(helpers.clone());
+
+            let module = tester.apply_transform(tr, "input.js", $input)?;
+            let module = module.fold_with(&mut crate::fixer::fixer());
+
+            // let src_without_helpers = tester.print(&module);
+            let module = module.fold_with(&mut InjectHelpers {
+                cm: tester.cm.clone(),
+                helpers: helpers.clone(),
+            });
+
+            let src = tester.print(&module);
+            let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("target")
+                .join("testing")
+                .join(stringify!($test_name));
+            create_dir_all(&root).unwrap();
+
+            let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
+            create_dir_all(&tmp_dir).unwrap();
+
+            let path = tmp_dir
+                .path()
+                .join(format!("{}.test.js", stringify!($test_name)));
+
+            let mut tmp = OpenOptions::new()
+                .create(true)
+                .write(true)
+                .open(&path)
+                .expect("failed to create a temp file");
+            write!(
+                tmp,
+                r#"it('should work', function () {{
+                    {}
+                }})"#,
+                src
+            )
+            .expect("failed to write to temp file");
+            tmp.flush().unwrap();
+
+            println!(
+                "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
+                $input, src
+            );
+
+            let status = Command::new("jest")
+                .args(&["--testMatch", &format!("{}", path.display())])
+                .current_dir(root)
+                .status()
+                .expect("failed to run jest");
+            if status.success() {
+                return Ok(());
+            }
+            panic!("Execution failed")
+        });
+    }};
+}
+
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test_exec {
-    ($tr:expr, $test_name:ident, $input:expr) => {
+    (ignore, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            crate::tests::Tester::run(|tester| {
-                let _transformed = tester.apply_transform($tr, stringify!($test_name), $input);
+            exec_tr!($tr, $test_name, $input)
+        }
+    };
 
-                Ok(())
-            });
+    ($tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            exec_tr!($tr, $test_name, $input)
         }
     };
 }

@@ -2,15 +2,15 @@
 });
 (function([a]) {
 });
-(function([a, , b]) {
+(function([a, b]) {
 });
 (function([[a]]) {
 });
-(function([[a, , b]]) {
+(function([[a, b]]) {
 });
-(function([a, , [b]]) {
+(function([a, [b]]) {
 });
-(function([[b], , a]) {
+(function([[b], a]) {
 });
 (function({ a  }) {
 });
@@ -20,9 +20,9 @@
 });
 (function([{ a , b  }]) {
 });
-(function([a, , { b  }]) {
+(function([a, { b  }]) {
 });
-(function([{ b  }, , a]) {
+(function([{ b  }, a]) {
 });
 ([a])=>{
 };

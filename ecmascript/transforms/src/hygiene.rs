@@ -7,6 +7,10 @@ pub struct Hygiene;
 
 impl Hygiene {
     fn add_declared_ref(&self, scope: &mut Scope, ident: Ident) {
+        if ident.span.ctxt() == SyntaxContext::empty() {
+            return;
+        }
+
         if !scope.is_declared(&ident.sym) {
             // First symbol
 
@@ -232,6 +236,48 @@ mod test {
             var bar1 = use(function baz1(){});
             var bar2 = use(function baz2(){});
             use(baz);",
+        );
+    }
+
+    #[test]
+    fn member_expr() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "let a;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "foo.a = init")?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                ])
+            },
+            "let a;
+            foo.a = init",
+        );
+    }
+
+    #[test]
+    fn const_then_fn_param() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual.js", "const a = 1;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual.js", "function foo(a) {use(a);}")?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                ])
+            },
+            "const a = 1;
+            function foo(a1) {use(a1);}",
         );
     }
 

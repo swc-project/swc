@@ -555,7 +555,11 @@ impl<'a> Emitter<'a> {
             PropName::Ident(ref n) => emit!(n),
             PropName::Str(ref n) => emit!(n),
             PropName::Num(ref n) => emit!(n),
-            PropName::Computed(ref n) => emit!(n),
+            PropName::Computed(ref n) => {
+                punct!("[");
+                emit!(n);
+                punct!("]");
+            }
         }
     }
 

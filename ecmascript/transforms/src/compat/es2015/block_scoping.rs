@@ -32,6 +32,17 @@ impl<'a> BlockFolder<'a> {
     }
 }
 
+impl<'a> Fold<Function> for BlockFolder<'a> {
+    fn fold(&mut self, f: Function) -> Function {
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder =
+            BlockFolder::new(child_mark, Scope::new(ScopeKind::Fn, Some(&self.current)));
+
+        f.fold_children(&mut child_folder)
+    }
+}
+
 impl<'a> Fold<BlockStmt> for BlockFolder<'a> {
     fn fold(&mut self, block: BlockStmt) -> BlockStmt {
         let child_mark = Mark::fresh(self.mark);
@@ -352,7 +363,7 @@ for(var i = 0; i < 10; i++){
     );
 
     test_exec!(
-        block_scoping(),
+        |_| block_scoping(),
         pass_assignment,
         r#"let a = 1;
 a = 2;
@@ -360,7 +371,7 @@ expect(a).toBe(2);"#
     );
 
     test_exec!(
-        block_scoping(),
+        |_| block_scoping(),
         pass_call,
         r#"let a = 1;
 
@@ -372,10 +383,38 @@ expect(b()).toBe(2);"#
     );
 
     test_exec!(
-        block_scoping(),
+        |_| block_scoping(),
         pass_update,
         r#"let a = 1;
 a++;
 expect(a).toBe(2);"#
+    );
+
+    test!(
+        block_scoping(),
+        fn_param,
+        r#"let a = 'foo';
+    function foo(a) {
+        use(a);
+    }"#,
+        r#"var a = 'foo';
+    function foo(a1) {
+        use(a1);
+    }"#
+    );
+
+    test!(
+        block_scoping(),
+        fn_body,
+        r#"let a = 'foo';
+    function foo() {
+        let a = 'bar';
+        use(a);
+    }"#,
+        r#"var a = 'foo';
+    function foo() {
+        var a1 = 'bar';
+        use(a1);
+    }"#
     );
 }

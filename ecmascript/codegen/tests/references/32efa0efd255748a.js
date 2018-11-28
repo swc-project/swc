@@ -1,4 +1,4 @@
 class a{
-    static  *b() {
+    static  *[b]() {
     }
 }

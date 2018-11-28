@@ -18,5 +18,6 @@ slog = "2"
 [dev-dependencies]
 testing = { path ="../../testing" }
 swc_ecma_codegen = { path ="../codegen" }
+tempfile = "3"
 pretty_assertions = "0.5"
 sourcemap = "2.2"

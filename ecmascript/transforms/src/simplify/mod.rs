@@ -174,32 +174,6 @@ impl Fold<Stmt> for Simplifier {
     }
 }
 
-trait StmtLike: Sized {
-    fn try_into_stmt(self) -> Result<Stmt, Self>;
-    fn from_stmt(stmt: Stmt) -> Self;
-}
-
-impl StmtLike for Stmt {
-    fn try_into_stmt(self) -> Result<Stmt, Self> {
-        Ok(self)
-    }
-    fn from_stmt(stmt: Stmt) -> Self {
-        stmt
-    }
-}
-
-impl StmtLike for ModuleItem {
-    fn try_into_stmt(self) -> Result<Stmt, Self> {
-        match self {
-            ModuleItem::Stmt(stmt) => Ok(stmt),
-            _ => Err(self),
-        }
-    }
-    fn from_stmt(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
-    }
-}
-
 // impl Fold<Stmt> for Simplify {
 //     fn fold(&mut self, stmt: Stmt) -> Stmt {
 //         stmt.fold_children(&mut FoldConst)
