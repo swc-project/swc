@@ -1,5 +1,6 @@
 #![feature(test)]
 #![feature(specialization)]
+#![feature(box_syntax)]
 
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -8,9 +9,10 @@ extern crate swc_ecma_transforms;
 extern crate test;
 extern crate testing;
 
-use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith};
+use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_transforms::util::ExprFactory;
 use test::Bencher;
 
 static SOURCE: &'static str = r#"
@@ -184,6 +186,60 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
         let mut folder = Noop;
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
+        Ok(())
+    });
+}
+
+fn mk_expr() -> Expr {
+    Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: Ident::new("foo".into(), DUMMY_SP).as_callee(),
+        args: vec![],
+    })
+}
+
+#[bench]
+fn boxing_boxed_clone(b: &mut Bencher) {
+    let _ = ::testing::run_test(|_, _, _| {
+        let expr = box mk_expr();
+
+        b.iter(|| test::black_box(expr.clone()));
+        Ok(())
+    });
+}
+
+#[bench]
+fn boxing_unboxed_clone(b: &mut Bencher) {
+    let _ = ::testing::run_test(|_, _, _| {
+        let expr = mk_expr();
+
+        b.iter(|| test::black_box(expr.clone()));
+        Ok(())
+    });
+}
+
+#[bench]
+fn boxing_boxed(b: &mut Bencher) {
+    struct Noop;
+
+    let _ = ::testing::run_test(|_, _, _| {
+        let mut folder = Noop;
+        let expr = box mk_expr();
+
+        b.iter(|| test::black_box(expr.clone().fold_with(&mut folder)));
+        Ok(())
+    });
+}
+
+#[bench]
+fn boxing_unboxed(b: &mut Bencher) {
+    struct Noop;
+
+    let _ = ::testing::run_test(|_, _, _| {
+        let mut folder = Noop;
+        let expr = mk_expr();
+
+        b.iter(|| test::black_box(expr.clone().fold_with(&mut folder)));
         Ok(())
     });
 }
