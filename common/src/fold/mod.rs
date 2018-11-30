@@ -1,6 +1,9 @@
+use self::and_then::AndThen;
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
 use syntax::util::move_map::MoveMap;
+
+pub mod and_then;
 
 /// Folder based on a type system.
 ///
@@ -11,7 +14,7 @@ pub trait Fold<T> {
     fn fold(&mut self, node: T) -> T;
 
     /// Creates a folder which applies `folder` after `self`.
-    #[inline(always)]
+    #[inline]
     fn then<F>(self, folder: F) -> AndThen<Self, F>
     where
         Self: Sized,
@@ -31,7 +34,7 @@ pub trait Visit<T> {
     fn visit(&mut self, node: &T);
 
     /// Creates a folder which applies `folder` after `self`.
-    #[inline(always)]
+    #[inline]
     fn then<F>(self, visitor: F) -> AndThen<Self, F>
     where
         Self: Sized,
@@ -49,7 +52,7 @@ where
     T: FoldWith<Self>,
     F: Fold<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn fold(&mut self, node: T) -> T {
         (**self).fold(node)
     }
@@ -60,7 +63,7 @@ where
     T: VisitWith<Self>,
     F: Visit<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn visit(&mut self, node: &T) {
         (**self).visit(node)
     }
@@ -71,7 +74,7 @@ where
     T: FoldWith<Self>,
     F: Fold<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn fold(&mut self, node: T) -> T {
         (**self).fold(node)
     }
@@ -82,7 +85,7 @@ where
     T: VisitWith<Self>,
     F: Visit<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn visit(&mut self, node: &T) {
         (**self).visit(node)
     }
@@ -92,7 +95,7 @@ impl<T, F> Fold<T> for F
 where
     T: FoldWith<F>,
 {
-    #[inline(always)]
+    #[inline]
     default fn fold(&mut self, t: T) -> T {
         t.fold_children(self)
     }
@@ -102,41 +105,9 @@ impl<T, F> Visit<T> for F
 where
     T: VisitWith<F>,
 {
-    #[inline(always)]
+    #[inline]
     default fn visit(&mut self, t: &T) {
         t.visit_children(self)
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct AndThen<F1, F2> {
-    first: F1,
-    second: F2,
-}
-
-impl<T, F1, F2> Fold<T> for AndThen<F1, F2>
-where
-    T: FoldWith<Self>,
-    F1: Fold<T>,
-    F2: Fold<T>,
-{
-    #[inline]
-    fn fold(&mut self, node: T) -> T {
-        let node = self.first.fold(node);
-        self.second.fold(node)
-    }
-}
-
-impl<T, F1, F2> Visit<T> for AndThen<F1, F2>
-where
-    T: VisitWith<Self>,
-    F1: Visit<T>,
-    F2: Visit<T>,
-{
-    #[inline]
-    fn visit(&mut self, node: &T) {
-        self.first.visit(node);
-        self.second.visit(node);
     }
 }
 
@@ -158,7 +129,7 @@ pub trait FoldWith<F>: Sized {
     /// Call `f.fold(self)`.
     ///
     /// This bypasses a type inference bug which is caused by specialization.
-    #[inline(always)]
+    #[inline]
     fn fold_with(self, f: &mut F) -> Self {
         f.fold(self)
     }
@@ -182,7 +153,7 @@ pub trait VisitWith<F> {
     /// Call `f.visit(self)`.
     ///
     /// This bypasses a type inference bug which is caused by specialization.
-    #[inline(always)]
+    #[inline]
     fn visit_with(&self, f: &mut F)
     where
         Self: Sized,
@@ -195,21 +166,21 @@ impl<'a, T, F> VisitWith<F> for &'a T
 where
     F: Visit<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, f: &mut F) {
         f.visit(*self)
     }
 }
 
 impl<F> FoldWith<F> for ! {
-    #[inline(always)]
+    #[inline]
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
 }
 
 impl<F> VisitWith<F> for ! {
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, _: &mut F) {}
 }
 
@@ -217,7 +188,7 @@ impl<T, F> FoldWith<F> for Box<T>
 where
     F: Fold<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn fold_children(self, f: &mut F) -> Self {
         box f.fold(*self)
     }
@@ -227,7 +198,7 @@ impl<T, F> VisitWith<F> for Box<T>
 where
     F: Visit<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, f: &mut F) {
         f.visit(&**self)
     }
@@ -268,7 +239,7 @@ impl<T, F> FoldWith<F> for Option<T>
 where
     F: Fold<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn fold_children(self, f: &mut F) -> Self {
         self.map(|t| f.fold(t))
     }
@@ -278,7 +249,7 @@ impl<T, F> VisitWith<F> for Option<T>
 where
     F: Visit<T>,
 {
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, f: &mut F) {
         if let Some(ref node) = *self {
             f.visit(node)
@@ -288,7 +259,7 @@ where
 
 impl<F> FoldWith<F> for String {
     /// No op.
-    #[inline(always)]
+    #[inline]
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
@@ -296,13 +267,13 @@ impl<F> FoldWith<F> for String {
 
 impl<F> VisitWith<F> for String {
     /// No op.
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, _: &mut F) {}
 }
 
 impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
     /// No op.
-    #[inline(always)]
+    #[inline]
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
@@ -310,7 +281,7 @@ impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
 
 impl<F, S: StaticAtomSet> VisitWith<F> for Atom<S> {
     /// No op.
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, _: &mut F) {}
 }
 
@@ -318,7 +289,7 @@ impl<A, B, F> FoldWith<F> for Either<A, B>
 where
     F: Fold<A> + Fold<B>,
 {
-    #[inline(always)]
+    #[inline]
     fn fold_children(self, f: &mut F) -> Self {
         match self {
             Either::Left(a) => Either::Left(Fold::<A>::fold(f, a)),
@@ -331,7 +302,7 @@ impl<A, B, F> VisitWith<F> for Either<A, B>
 where
     F: Visit<A> + Visit<B>,
 {
-    #[inline(always)]
+    #[inline]
     fn visit_children(&self, f: &mut F) {
         match *self {
             Either::Left(ref a) => f.visit(a),

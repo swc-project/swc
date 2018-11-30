@@ -6,14 +6,10 @@ use swc_common::{Fold, FoldWith, Spanned};
 #[cfg(test)]
 mod tests;
 
-pub fn duplicate_keys() -> impl Fold<Module> {
-    DupKeys
-}
-
 #[derive(Default)]
-struct DupKeys;
+pub struct DuplicateKeys;
 
-impl Fold<Expr> for DupKeys {
+impl Fold<Expr> for DuplicateKeys {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children(self);
 

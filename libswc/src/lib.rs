@@ -1,7 +1,6 @@
 #![feature(box_syntax)]
 
 extern crate rayon;
-#[macro_use]
 pub extern crate slog;
 pub extern crate sourcemap;
 pub extern crate swc_atoms as atoms;

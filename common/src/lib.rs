@@ -29,6 +29,6 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned {}
 impl<N: Debug + PartialEq + Clone + Spanned> AstNode for N {}
 
 pub mod errors;
-mod fold;
+pub mod fold;
 pub mod macros;
 mod pos;

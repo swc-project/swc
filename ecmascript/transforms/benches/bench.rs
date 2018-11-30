@@ -9,7 +9,7 @@ extern crate test;
 extern crate testing;
 
 use std::sync::Arc;
-use swc_common::{FileName, Fold, FoldWith, VisitWith};
+use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 use swc_ecma_transforms::compat;
 use test::Bencher;
@@ -139,7 +139,7 @@ fn es2015_destructuring(b: &mut Bencher) {
 
 #[bench]
 fn es2015_duplicate_keys(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::duplicate_keys());
+    tr!(b, |_| compat::es2015::DuplicateKeys);
 }
 
 #[bench]
@@ -149,7 +149,7 @@ fn es2015_parameters(b: &mut Bencher) {
 
 #[bench]
 fn es2015_block_scoped_fn(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::block_scoped_functions());
+    tr!(b, |_| compat::es2015::BlockScopedFns);
 }
 
 #[bench]

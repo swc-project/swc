@@ -8,7 +8,7 @@ extern crate swc_ecma_transforms;
 extern crate test;
 extern crate testing;
 
-use swc_common::{Fold, FoldWith};
+use swc_common::FoldWith;
 use test::{black_box, Bencher};
 
 fn mk_vec() -> Vec<String> {

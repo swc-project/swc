@@ -3,11 +3,11 @@ use crate::scope::{Scope, ScopeKind};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
-pub fn block_scoping() -> impl Fold<Module> {
+pub fn block_scoping() -> BlockFolder<'static> {
     BlockFolder::new(Mark::fresh(Mark::root()), Scope::new(ScopeKind::Fn, None))
 }
 
-struct BlockFolder<'a> {
+pub struct BlockFolder<'a> {
     mark: Mark,
     current: Scope<'a>,
 }

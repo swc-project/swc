@@ -26,10 +26,10 @@ features = [ "suggestions", "color" ]
 
 
 [profile.bench]
-lto = true
+# lto = true
 
 [profile.release]
-lto = true
+# lto = true
 
 [patch.crates-io]
 # This reduces compile time

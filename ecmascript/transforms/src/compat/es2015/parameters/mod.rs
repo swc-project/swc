@@ -5,12 +5,12 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
-pub fn parameters() -> impl Fold<Module> {
+pub fn parameters() -> Params {
     Params
 }
 
-struct Params;
-prevent_recurse!(Params, Pat);
+pub struct Params;
+// prevent_recurse!(Params, Pat);
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {

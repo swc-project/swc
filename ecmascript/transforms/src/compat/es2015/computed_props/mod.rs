@@ -40,12 +40,12 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(helpers: Arc<Helpers>) -> impl Fold<Module> {
+pub fn computed_properties(helpers: Arc<Helpers>) -> ComputedProps {
     ComputedProps { helpers }
 }
 
 #[derive(Default)]
-struct ComputedProps {
+pub struct ComputedProps {
     helpers: Arc<Helpers>,
 }
 
