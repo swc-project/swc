@@ -2,6 +2,7 @@
 #![feature(range_contains)]
 #![feature(try_trait)]
 #![feature(never_type)]
+#![feature(core_intrinsics)]
 #![feature(specialization)]
 extern crate ast_node;
 extern crate either;

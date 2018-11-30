@@ -5,7 +5,7 @@ use crate::{
 };
 use std::sync::Arc;
 
-fn tr(helpers: Arc<Helpers>) -> Box<Pass> {
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
   box chain!(
     Params,
     crate::compat::es2015::destructuring(helpers.clone()),
@@ -635,7 +635,7 @@ function () {
 );
 
 test!(
-  crate::compat::es2015::Arrow.then(tr(Default::default())),
+  chain!(crate::compat::es2015::arrow(), tr(Default::default())),
   rest_binding_deoptimisation,
   r#"const deepAssign = (...args) => args = [];
 "#,
