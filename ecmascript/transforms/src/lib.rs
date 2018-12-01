@@ -25,10 +25,10 @@ extern crate sourcemap;
 #[cfg(test)]
 extern crate tempfile;
 #[cfg(test)]
+extern crate test;
+#[cfg(test)]
 #[macro_use]
 extern crate testing;
-#[cfg(test)]
-extern crate test;
 
 pub use self::{hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier};
 

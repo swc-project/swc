@@ -8,7 +8,6 @@ static GLOBAL: System = System;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
-#[macro_use]
 extern crate swc_ecma_transforms;
 extern crate test;
 extern crate testing;
@@ -16,7 +15,7 @@ extern crate testing;
 use std::sync::Arc;
 use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
-use swc_ecma_transforms::compat::{self, helpers::Helpers};
+use swc_ecma_transforms::compat;
 use test::Bencher;
 
 static SOURCE: &'static str = r#"

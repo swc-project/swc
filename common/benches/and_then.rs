@@ -10,7 +10,7 @@
 extern crate swc_common;
 extern crate test;
 
-use swc_common::{Fold, FoldWith};
+use swc_common::FoldWith;
 use test::{black_box, Bencher};
 
 fn mk_vec() -> Vec<Box<String>> {

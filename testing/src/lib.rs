@@ -24,7 +24,9 @@ use std::{
     path::Path,
     thread,
 };
-use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, Fold, SourceMap, Span, DUMMY_SP};
+use swc_common::{
+    errors::Handler, sync::Lrc, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
+};
 
 #[macro_use]
 mod macros;
@@ -50,7 +52,7 @@ where
 /// Remove all span from `t`.
 pub fn drop_span<T>(t: T) -> T
 where
-    DropSpan: Fold<T>,
+    T: FoldWith<DropSpan>,
 {
     Fold::<T>::fold(&mut DropSpan, t)
 }

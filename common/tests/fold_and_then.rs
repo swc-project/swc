@@ -9,11 +9,8 @@ extern crate test;
 
 use std::{cell::RefCell, rc::Rc};
 use swc_common::{Fold, FoldWith};
-use test::{black_box, Bencher};
 
-type Logger = Rc<RefCell<Vec<(&'static str, String)>>>;
-
-struct Named(&'static str, Logger);
+struct Named(&'static str, Rc<RefCell<Vec<(&'static str, String)>>>);
 impl Fold<String> for Named {
     fn fold(&mut self, v: String) -> String {
         let name = self.0;
