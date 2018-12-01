@@ -1,5 +1,9 @@
 #![feature(test)]
 #![feature(specialization)]
+use std::alloc::System;
+
+#[global_allocator]
+static GLOBAL: System = System;
 
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -116,16 +120,6 @@ macro_rules! tr {
 #[bench]
 fn es2015(b: &mut Bencher) {
     tr!(b, |helpers| compat::es2015(&helpers));
-}
-
-#[bench]
-fn es2015_exprs(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015::exprs(&helpers));
-}
-
-#[bench]
-fn es2015_stmts(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015::stmts(&helpers));
 }
 
 #[bench]

@@ -26,43 +26,43 @@ mod sticky_regex;
 mod template_literal;
 mod typeof_symbol;
 
-pub fn exprs(helpers: &Arc<Helpers>) -> impl Fold<Expr> {
-    chain_at!(
-        Expr,
-        arrow(),
-        duplicate_keys(),
-        Spread {
-            helpers: helpers.clone(),
-        },
-        StickyRegex,
-        InstanceOf {
-            helpers: helpers.clone(),
-        },
-        TypeOfSymbol {
-            helpers: helpers.clone(),
-        },
-        TemplateLiteral {
-            helpers: helpers.clone(),
-        },
-        Shorthand,
-    )
-}
-
-pub fn stmts(helpers: &Arc<Helpers>) -> impl Fold<Stmt> {
-    chain_at!(
-        Stmt,
-        exprs(helpers),
-        Classes {
-            helpers: helpers.clone(),
-        },
-        BlockScopedFns,
-        function_name(),
-        parameters(),
-    )
-}
-
 /// Compiles es2015 to es5.
 pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
+    fn exprs(helpers: &Arc<Helpers>) -> impl Fold<Expr> {
+        chain_at!(
+            Expr,
+            arrow(),
+            duplicate_keys(),
+            Spread {
+                helpers: helpers.clone(),
+            },
+            StickyRegex,
+            InstanceOf {
+                helpers: helpers.clone(),
+            },
+            TypeOfSymbol {
+                helpers: helpers.clone(),
+            },
+            TemplateLiteral {
+                helpers: helpers.clone(),
+            },
+            Shorthand,
+        )
+    }
+
+    fn stmts(helpers: &Arc<Helpers>) -> impl Fold<Stmt> {
+        chain_at!(
+            Stmt,
+            exprs(helpers),
+            Classes {
+                helpers: helpers.clone(),
+            },
+            BlockScopedFns,
+            function_name(),
+            parameters(),
+        )
+    }
+
     chain_at!(
         Module,
         stmts(helpers),
