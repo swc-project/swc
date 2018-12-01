@@ -14,7 +14,7 @@ pub trait Fold<T> {
     fn fold(&mut self, node: T) -> T;
 
     /// Creates a folder which applies `folder` after `self`.
-    #[inline]
+    #[inline(always)]
     fn then<F>(self, folder: F) -> AndThen<Self, F>
     where
         Self: Sized,
@@ -34,7 +34,7 @@ pub trait Visit<T> {
     fn visit(&mut self, node: &T);
 
     /// Creates a folder which applies `folder` after `self`.
-    #[inline]
+    #[inline(always)]
     fn then<F>(self, visitor: F) -> AndThen<Self, F>
     where
         Self: Sized,
@@ -52,7 +52,7 @@ where
     T: FoldWith<Self>,
     F: Fold<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn fold(&mut self, node: T) -> T {
         (**self).fold(node)
     }
@@ -63,7 +63,7 @@ where
     T: VisitWith<Self>,
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit(&mut self, node: &T) {
         (**self).visit(node)
     }
@@ -74,7 +74,7 @@ where
     T: FoldWith<Self>,
     F: Fold<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn fold(&mut self, node: T) -> T {
         (**self).fold(node)
     }
@@ -85,7 +85,7 @@ where
     T: VisitWith<Self>,
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit(&mut self, node: &T) {
         (**self).visit(node)
     }
@@ -95,7 +95,7 @@ impl<T, F> Fold<T> for F
 where
     T: FoldWith<F>,
 {
-    #[inline]
+    #[inline(always)]
     default fn fold(&mut self, t: T) -> T {
         t.fold_children(self)
     }
@@ -105,7 +105,7 @@ impl<T, F> Visit<T> for F
 where
     T: VisitWith<F>,
 {
-    #[inline]
+    #[inline(always)]
     default fn visit(&mut self, t: &T) {
         t.visit_children(self)
     }
@@ -129,7 +129,7 @@ pub trait FoldWith<F>: Sized {
     /// Call `f.fold(self)`.
     ///
     /// This bypasses a type inference bug which is caused by specialization.
-    #[inline]
+    #[inline(always)]
     fn fold_with(self, f: &mut F) -> Self
     where
         F: Fold<Self>,
@@ -156,7 +156,7 @@ pub trait VisitWith<F> {
     /// Call `f.visit(self)`.
     ///
     /// This bypasses a type inference bug which is caused by specialization.
-    #[inline]
+    #[inline(always)]
     fn visit_with(&self, f: &mut F)
     where
         Self: Sized,
@@ -169,21 +169,21 @@ impl<'a, T, F> VisitWith<F> for &'a T
 where
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, f: &mut F) {
         f.visit(*self)
     }
 }
 
 impl<F> FoldWith<F> for ! {
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
 }
 
 impl<F> VisitWith<F> for ! {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, _: &mut F) {}
 }
 
@@ -191,7 +191,7 @@ impl<T, F> FoldWith<F> for Box<T>
 where
     F: Fold<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, f: &mut F) -> Self {
         box f.fold(*self)
     }
@@ -201,7 +201,7 @@ impl<T, F> VisitWith<F> for Box<T>
 where
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, f: &mut F) {
         f.visit(&**self)
     }
@@ -211,7 +211,7 @@ impl<T, F> FoldWith<F> for Vec<T>
 where
     F: Fold<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, f: &mut F) -> Self {
         self.move_map(|it| f.fold(it))
         // self.into_iter().map(|it| f.fold(it)).collect()
@@ -222,7 +222,7 @@ impl<T, F> VisitWith<F> for Vec<T>
 where
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, f: &mut F) {
         self.iter().for_each(|node| f.visit(node))
     }
@@ -232,7 +232,7 @@ impl<T, F> VisitWith<F> for [T]
 where
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, f: &mut F) {
         self.iter().for_each(|node| f.visit(node))
     }
@@ -242,7 +242,7 @@ impl<T, F> FoldWith<F> for Option<T>
 where
     F: Fold<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, f: &mut F) -> Self {
         self.map(|t| f.fold(t))
     }
@@ -252,7 +252,7 @@ impl<T, F> VisitWith<F> for Option<T>
 where
     F: Visit<T>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, f: &mut F) {
         if let Some(ref node) = *self {
             f.visit(node)
@@ -262,7 +262,7 @@ where
 
 impl<F> FoldWith<F> for String {
     /// No op.
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
@@ -270,13 +270,13 @@ impl<F> FoldWith<F> for String {
 
 impl<F> VisitWith<F> for String {
     /// No op.
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, _: &mut F) {}
 }
 
 impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
     /// No op.
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, _: &mut F) -> Self {
         self
     }
@@ -284,7 +284,7 @@ impl<F, S: StaticAtomSet> FoldWith<F> for Atom<S> {
 
 impl<F, S: StaticAtomSet> VisitWith<F> for Atom<S> {
     /// No op.
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, _: &mut F) {}
 }
 
@@ -292,7 +292,7 @@ impl<A, B, F> FoldWith<F> for Either<A, B>
 where
     F: Fold<A> + Fold<B>,
 {
-    #[inline]
+    #[inline(always)]
     fn fold_children(self, f: &mut F) -> Self {
         match self {
             Either::Left(a) => Either::Left(Fold::<A>::fold(f, a)),
@@ -305,7 +305,7 @@ impl<A, B, F> VisitWith<F> for Either<A, B>
 where
     F: Visit<A> + Visit<B>,
 {
-    #[inline]
+    #[inline(always)]
     fn visit_children(&self, f: &mut F) {
         match *self {
             Either::Left(ref a) => f.visit(a),
