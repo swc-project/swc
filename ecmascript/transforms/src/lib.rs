@@ -11,6 +11,7 @@ extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate fnv;
+#[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast as ast;
 #[cfg(test)]
