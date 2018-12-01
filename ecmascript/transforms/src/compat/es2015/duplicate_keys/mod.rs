@@ -1,19 +1,19 @@
 use ast::*;
-use std::collections::HashSet;
+use fnv::FnvHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 
 #[cfg(test)]
 mod tests;
 
-pub fn duplicate_keys() -> impl Fold<Module> {
-    DupKeys
+pub fn duplicate_keys() -> impl Fold<Expr> {
+    DuplicateKeys
 }
 
 #[derive(Default)]
-struct DupKeys;
+struct DuplicateKeys;
 
-impl Fold<Expr> for DupKeys {
+impl Fold<Expr> for DuplicateKeys {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children(self);
 
@@ -34,8 +34,8 @@ impl Fold<Expr> for DupKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: HashSet<JsWord>,
-    setter_props: HashSet<JsWord>,
+    getter_props: FnvHashSet<JsWord>,
+    setter_props: FnvHashSet<JsWord>,
 }
 
 impl Fold<Prop> for PropFolder {
@@ -78,7 +78,7 @@ impl Fold<Prop> for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut HashSet<JsWord>,
+    props: &'a mut FnvHashSet<JsWord>,
 }
 
 impl<'a> Fold<PropName> for PropNameFolder<'a> {

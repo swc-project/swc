@@ -129,7 +129,7 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
                 //
                 make_arr!();
 
-                helpers.to_consumable_array.store(true, Ordering::SeqCst);
+                helpers.to_consumable_array.store(true, Ordering::Relaxed);
 
                 buf.push(
                     Expr::Call(CallExpr {

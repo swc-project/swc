@@ -1,13 +1,12 @@
 pub use self::{
-    arrow::Arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
-    classes::Classes, computed_props::computed_properties, destructuring::destructuring,
+    arrow::arrow, block_scoped_fn::BlockScopedFns, block_scoping::block_scoping, classes::Classes,
+    computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, function_name::function_name, instanceof::InstanceOf,
     parameters::parameters, shorthand_property::Shorthand, spread::Spread,
     sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
-
 use super::helpers::Helpers;
-use ast::Module;
+use ast::{Expr, Module, Stmt};
 use std::sync::Arc;
 use swc_common::Fold;
 
@@ -29,29 +28,46 @@ mod typeof_symbol;
 
 /// Compiles es2015 to es5.
 pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
-    duplicate_keys()
-        .then(Classes {
-            helpers: helpers.clone(),
-        })
-        .then(Arrow)
-        .then(block_scoped_functions())
-        .then(parameters())
-        .then(function_name())
-        .then(Spread {
-            helpers: helpers.clone(),
-        })
-        .then(StickyRegex)
-        .then(Shorthand)
-        .then(InstanceOf {
-            helpers: helpers.clone(),
-        })
-        .then(TypeOfSymbol {
-            helpers: helpers.clone(),
-        })
-        .then(TemplateLiteral {
-            helpers: helpers.clone(),
-        })
-        .then(computed_properties(helpers.clone()))
-        .then(destructuring(helpers.clone()))
-        .then(block_scoping())
+    fn exprs(helpers: &Arc<Helpers>) -> impl Fold<Expr> {
+        chain_at!(
+            Expr,
+            arrow(),
+            duplicate_keys(),
+            Spread {
+                helpers: helpers.clone(),
+            },
+            StickyRegex,
+            InstanceOf {
+                helpers: helpers.clone(),
+            },
+            TypeOfSymbol {
+                helpers: helpers.clone(),
+            },
+            TemplateLiteral {
+                helpers: helpers.clone(),
+            },
+            Shorthand,
+        )
+    }
+
+    fn stmts(helpers: &Arc<Helpers>) -> impl Fold<Stmt> {
+        chain_at!(
+            Stmt,
+            exprs(helpers),
+            Classes {
+                helpers: helpers.clone(),
+            },
+            BlockScopedFns,
+            function_name(),
+            parameters(),
+        )
+    }
+
+    chain_at!(
+        Module,
+        stmts(helpers),
+        computed_properties(helpers.clone()),
+        destructuring(helpers.clone()),
+        block_scoping(),
+    )
 }

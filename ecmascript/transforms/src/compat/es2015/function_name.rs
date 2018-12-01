@@ -16,11 +16,11 @@ use swc_common::{Fold, FoldWith};
 ///   return x;
 /// }
 /// ```
-pub fn function_name() -> impl Fold<Module> {
+pub fn function_name() -> FnName {
     FnName
 }
 
-struct FnName;
+pub struct FnName;
 
 struct Renamer {
     name: Option<Ident>,

@@ -40,12 +40,12 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(helpers: Arc<Helpers>) -> impl Fold<Module> {
+pub fn computed_properties(helpers: Arc<Helpers>) -> ComputedProps {
     ComputedProps { helpers }
 }
 
 #[derive(Default)]
-struct ComputedProps {
+pub struct ComputedProps {
     helpers: Arc<Helpers>,
 }
 
@@ -277,7 +277,7 @@ where
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let stmts = stmts.fold_children(self);
 
-        let mut buf = vec![];
+        let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
             match stmt.try_into_stmt() {
@@ -289,7 +289,7 @@ where
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        self.helpers.define_property.store(true, Ordering::SeqCst);
+                        self.helpers.define_property.store(true, Ordering::Relaxed);
                         buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
@@ -299,7 +299,7 @@ where
                     if folder.used_define_enum_props {
                         self.helpers
                             .define_enumerable_property
-                            .store(true, Ordering::SeqCst);
+                            .store(true, Ordering::Relaxed);
                     }
 
                     buf.push(T::from_stmt(stmt));

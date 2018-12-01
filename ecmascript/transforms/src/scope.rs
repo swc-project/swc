@@ -1,8 +1,6 @@
 use ast::*;
-use std::{
-    cell::{Cell, RefCell},
-    collections::HashSet,
-};
+use fnv::FnvHashSet;
+use std::cell::{Cell, RefCell};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, SyntaxContext};
 
@@ -34,12 +32,12 @@ pub struct Scope<'a> {
     pub used_this: Cell<bool>,
 
     /// All references used in this scope
-    pub used_refs: HashSet<Ident>,
+    pub used_refs: FnvHashSet<Ident>,
 
     /// All references declared in this scope
-    pub declared_refs: HashSet<Ident>,
+    pub declared_refs: FnvHashSet<Ident>,
 
-    pub declared_symbols: HashSet<JsWord>,
+    pub declared_symbols: FnvHashSet<JsWord>,
     /* /// All children of the this scope
      * pub children: Vec<Scope<'a>>, */
     pub(crate) ops: RefCell<Vec<ScopeOp>>,

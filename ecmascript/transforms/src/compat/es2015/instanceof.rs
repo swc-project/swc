@@ -43,7 +43,7 @@ impl Fold<Expr> for InstanceOf {
                 op: op!("instanceof"),
                 right,
             }) => {
-                self.helpers.instance_of.store(true, Ordering::SeqCst);
+                self.helpers.instance_of.store(true, Ordering::Relaxed);
 
                 Expr::Call(CallExpr {
                     span,

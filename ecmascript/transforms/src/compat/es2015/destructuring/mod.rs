@@ -195,7 +195,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     let ref_ident = if can_be_null {
-                        self.helpers.throw.store(true, Ordering::SeqCst);
+                        self.helpers.throw.store(true, Ordering::Relaxed);
                         make_ref_ident(
                             &mut decls,
                             Some(box Expr::Cond(CondExpr {
@@ -539,7 +539,7 @@ where
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         let stmts = stmts.fold_children(self);
 
-        let mut buf = vec![];
+        let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
             match stmt.try_into_stmt() {

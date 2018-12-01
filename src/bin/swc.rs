@@ -82,7 +82,7 @@ fn run() -> Result<(), Box<Error>> {
 
     if let Some(ref matches) = matches.subcommand_matches("jsc") {
         let input = matches.value_of("input file").unwrap();
-        let res = comp.parse_js(Path::new(input));
+        let res = comp.parse_js_file(Path::new(input));
         let module = match res {
             Ok(module) => module,
             Err(()) => {

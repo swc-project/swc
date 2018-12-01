@@ -3,9 +3,12 @@ use crate::compat::{es2015::Classes, helpers::Helpers};
 use std::sync::Arc;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-  Params
-    .then(crate::compat::es2015::destructuring(helpers.clone()))
-    .then(crate::compat::es2015::block_scoping())
+  chain_at!(
+    Module,
+    Params,
+    crate::compat::es2015::destructuring(helpers.clone()),
+    crate::compat::es2015::block_scoping()
+  )
 }
 
 test!(
@@ -105,7 +108,7 @@ foo(1, 2, 3);"#
 );
 
 test!(
-  Classes::default().then(tr(Default::default())),
+  chain_at!(Module, Classes::default(), tr(Default::default())),
   default_iife_4253,
   r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -141,7 +144,7 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-  Classes::default().then(tr(Default::default())),
+  chain_at!(Module, Classes::default(), tr(Default::default())),
   default_iife_self,
   r#"class Ref {
   constructor(ref = Ref) {
@@ -354,7 +357,8 @@ function t(x = "default", { a, b }, ...args) {
 function t(param, param1) {
     var tmp = param, x = tmp === void 0 ? 'default' : tmp, ref = param1 ? param1 :
       _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a = ref.a, b = ref.b;
-    for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+    for(var _len = arguments.length, args = new Array(
+      _len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         args[_key - 2] = arguments[_key];
     }
     console.log(x, a, b, args);
@@ -630,7 +634,11 @@ function () {
 );
 
 test!(
-  crate::compat::es2015::Arrow.then(tr(Default::default())),
+  chain_at!(
+    Module,
+    crate::compat::es2015::arrow(),
+    tr(Default::default())
+  ),
   rest_binding_deoptimisation,
   r#"const deepAssign = (...args) => args = [];
 "#,
@@ -1111,7 +1119,7 @@ function d(thing) {
 );
 
 test!(
-  Classes::default().then(tr(Default::default())).then(crate::compat::es2015::Spread::default()),
+    chain_at!(Module, Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
   if (true) {

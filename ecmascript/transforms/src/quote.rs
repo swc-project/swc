@@ -65,7 +65,7 @@ macro_rules! member_expr {
         member_expr!(@EXT, $span, obj, $($rest)* )
     }};
 
-    (@EXT, $span:expr, $obj:expr,  $first:ident . $($rest:tt)* ) => {{
+    (@EXT, $span:expr, $obj:expr, $first:ident . $($rest:tt)* ) => {{
         let prop = member_expr!($span, $first);
 
         member_expr!(@EXT, $span, box Expr::Member(MemberExpr{
@@ -95,8 +95,10 @@ mod tests {
     use swc_common::DUMMY_SP as span;
     #[test]
     fn quote_member_expr() {
+        let expr: Box<Expr> = member_expr!(span, Function.prototype.bind);
+
         assert_eq_ignore_span!(
-            member_expr!(span, Function.prototype.bind),
+            expr,
             box Expr::Member(MemberExpr {
                 span,
                 obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {

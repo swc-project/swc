@@ -1,16 +1,10 @@
 use ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
-pub fn block_scoped_functions() -> impl Fold<Module> {
-    BlockScopedFns
-}
-
-struct BlockScopedFns;
+pub struct BlockScopedFns;
 
 impl Fold<Stmt> for BlockScopedFns {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
-
         match stmt {
             Stmt::Decl(Decl::Fn(decl)) => {
                 return Stmt::Decl(Decl::Var(VarDecl {
@@ -26,7 +20,7 @@ impl Fold<Stmt> for BlockScopedFns {
                     }],
                 }))
             }
-            _ => stmt,
+            _ => stmt.fold_children(self),
         }
     }
 }
@@ -36,7 +30,7 @@ mod tests {
     use super::*;
 
     test!(
-        block_scoped_functions(),
+        BlockScopedFns,
         basic,
         r#"{
   function name (n) {

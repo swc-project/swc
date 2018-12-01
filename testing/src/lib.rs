@@ -56,6 +56,7 @@ where
 {
     Fold::<T>::fold(&mut DropSpan, t)
 }
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DropSpan;
 impl Fold<Span> for DropSpan {
