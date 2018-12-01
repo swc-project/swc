@@ -52,10 +52,11 @@ where
 /// Remove all span from `t`.
 pub fn drop_span<T>(t: T) -> T
 where
-    T: FoldWith<DropSpan>,
+    DropSpan: Fold<T>,
 {
     Fold::<T>::fold(&mut DropSpan, t)
 }
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DropSpan;
 impl Fold<Span> for DropSpan {

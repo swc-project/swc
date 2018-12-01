@@ -7,7 +7,6 @@
 extern crate swc_common;
 extern crate test;
 
-use std::{cell::RefCell, rc::Rc};
 use swc_common::{Fold, FoldWith};
 use test::{black_box, Bencher};
 

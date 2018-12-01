@@ -130,7 +130,10 @@ pub trait FoldWith<F>: Sized {
     ///
     /// This bypasses a type inference bug which is caused by specialization.
     #[inline]
-    fn fold_with(self, f: &mut F) -> Self {
+    fn fold_with(self, f: &mut F) -> Self
+    where
+        F: Fold<Self>,
+    {
         f.fold(self)
     }
 }

@@ -1,23 +1,26 @@
-// macro_rules! chain {
-//     ($a:expr, $b:expr) => {{
-//         use crate::pass::JoinedPass;
+#[macro_export]
+macro_rules! chain_at {
+    ($T:ty, $a:expr, $b:expr) => {{
+        use $crate::pass::JoinedPass;
 
-//         JoinedPass {
-//             first: $a,
-//             second: $b,
-//         }
-//     }};
+        JoinedPass {
+            first: $a,
+            second: $b,
+            ty: ::std::marker::PhantomData::<$T>,
+        }
+    }};
 
-//     ($a:expr, $b:expr,) => {
-//         chain!($a, $b)
-//     };
+    ($T:ty, $a:expr, $b:expr,) => {
+        chain_at!($T, $a, $b)
+    };
 
-//     ($a:expr, $b:expr,  $($rest:tt)+) => {{
-//         use crate::pass::JoinedPass;
+    ($T: ty, $a:expr, $b:expr,  $($rest:tt)+) => {{
+        use $crate::pass::JoinedPass;
 
-//         JoinedPass {
-//             first: $a,
-//             second: chain!($b, $($rest)*),
-//         }
-//     }};
-// }
+        JoinedPass {
+            first: $a,
+            second: chain_at!($T, $b, $($rest)*),
+            ty: ::std::marker::PhantomData::<$T>,
+        }
+    }};
+}

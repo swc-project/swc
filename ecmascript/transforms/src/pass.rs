@@ -1,26 +1,18 @@
-use ast::*;
+use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
 
-macro_rules! mk_impl {
-    ($T:ty) => {
-        // impl<A: Pass, B: Pass> Fold<$T> for JoinedPass<A, B> {
-        //     fn fold(&mut self, node: $T) -> $T {
-        //         println!("Folding {}", stringify!($T));
-        //         node.fold_children(self)
-        //     }
-        // }
-        // impl<A: Pass, B: Pass> Fold<Box<$T>> for JoinedPass<A, B> {
-        //     fn fold(&mut self, node: Box<$T>) -> Box<$T> {
-        //         println!("Folding boxed<{}>", stringify!($T));
-        //         let node = self.first.fold(*node);
-        //         box self.second.fold(node)
-        //     }
-        // }
-    };
-}
+// macro_rules! mk_impl {
+//     ($T:ty) => {
+//         // impl<A: Pass, B: Pass> Fold<$T> for JoinedPass<A, B> {
+//         //     fn fold(&mut self, node: $T) -> $T {
+//         //         self.second.fold(self.first.fold(node))
+//         //     }
+//         // }
+//     };
+// }
 
 macro_rules! mk_trait {
-    ($($T:ty),*) => {
+    ($($T:ty,)*) => {
         /// Crazy trait to make traversal fast again.
         pub trait Pass: $( ::swc_common::Fold<$T> + )* {}
         impl<P> Pass for P
@@ -137,69 +129,40 @@ mk_trait!(
 );
 
 #[derive(Debug, Clone, Copy)]
-pub struct JoinedPass<A, B> {
+pub struct JoinedPass<A, B, N> {
     pub first: A,
     pub second: B,
+    pub ty: PhantomData<N>,
 }
 
-fn type_name<T>() -> String {
-    format!("{}", unsafe { std::intrinsics::type_name::<T>() })
-}
+// fn type_name<T>() -> String {
+//     format!("{}", unsafe { std::intrinsics::type_name::<T>() })
+// }
 
-impl<A, B, T> Fold<Box<T>> for JoinedPass<A, B>
+impl<A, B, T> Fold<T> for JoinedPass<A, B, T>
 where
-    Box<T>: FoldWith<Self>,
+    T: FoldWith<Self>,
     A: Fold<T>,
     B: Fold<T>,
 {
-    fn fold(&mut self, node: Box<T>) -> Box<T> {
-        println!("Optimized box for {}", type_name::<T>());
-        let node = self.first.fold(*node);
-        box self.second.fold(node)
+    #[inline(always)]
+    fn fold(&mut self, node: T) -> T {
+        // println!(
+        //     "Folding<{}><{}>({})",
+        //     type_name::<A>(),
+        //     type_name::<B>(),
+        //     type_name::<T>()
+        // );
+        self.second.fold(self.first.fold(node))
     }
 }
 
-impl<A, B, T> Fold<T> for JoinedPass<A, B>
+impl<A, B, T, N> Fold<T> for JoinedPass<A, B, N>
 where
     T: FoldWith<Self>,
-    T: FoldWith<A>,
-    T: FoldWith<B>,
 {
+    #[inline(always)]
     default fn fold(&mut self, node: T) -> T {
-        println!("Fold<{}>", type_name::<T>());
-
-        node.fold_with(&mut self.first).fold_with(&mut self.second)
+        node.fold_children(self)
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn expr_folder() -> impl Fold<Expr> {
-        struct Logger;
-        impl Fold<Expr> for Logger {
-            fn fold(&mut self, node: Expr) -> Expr {
-                // let node = node.fold_children(self);
-
-                println!("Folding expr");
-                node
-            }
-        }
-        Logger
-    }
-
-    #[test]
-    fn test_it() {
-        crate::tests::Tester::run(|tester| {
-            let module = tester
-                .with_parser("actual.js", "use(foo + bar + 1)", |p| p.parse_module())
-                .unwrap();
-
-            module.fold_with(&mut chain!(expr_folder(), expr_folder(), expr_folder()));
-
-            Ok(())
-        });
-    }
-
 }

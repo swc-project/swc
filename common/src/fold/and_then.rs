@@ -39,8 +39,6 @@ pub struct AndThen<A, B> {
 impl<T, A, B> Fold<T> for AndThen<A, B>
 where
     T: FoldWith<Self>,
-    A: Fold<T>,
-    B: Fold<T>,
 {
     #[inline(always)]
     default fn fold(&mut self, node: T) -> T {
@@ -50,8 +48,25 @@ where
         //     type_name::<B>(),
         //     type_name::<T>()
         // );
-        let node = self.first.fold(node);
-        self.second.fold(node)
+        node.fold_children(self)
+    }
+}
+
+impl<T, A, B> Fold<T> for AndThen<A, B>
+where
+    T: FoldWith<Self>,
+    A: Fold<T>,
+    B: Fold<T>,
+{
+    #[inline(always)]
+    default fn fold(&mut self, node: T) -> T {
+        // println!(
+        //     "Folding<{}, {}>({})",
+        //     type_name::<A>(),
+        //     type_name::<B>(),
+        //     type_name::<T>()
+        // );
+        self.second.fold(self.first.fold(node))
     }
 }
 
@@ -64,8 +79,13 @@ where
 {
     #[inline(always)]
     fn fold(&mut self, node: Box<T>) -> Box<T> {
-        // println!("Box.({})", type_name::<T>());
-        box self.second.fold(self.first.fold(*node))
+        // println!(
+        //     "Box<{}, {}>({})",
+        //     type_name::<A>(),
+        //     type_name::<B>(),
+        //     type_name::<T>()
+        // );
+        box self.fold(*node)
     }
 }
 
@@ -78,7 +98,12 @@ where
 {
     #[inline(always)]
     fn fold(&mut self, node: Vec<T>) -> Vec<T> {
-        // println!("Vec.({})", type_name::<T>());
+        // println!(
+        //     "Vec<{}, {}>({})",
+        //     type_name::<A>(),
+        //     type_name::<B>(),
+        //     type_name::<T>()
+        // );
         node.move_map(|node| self.fold(node))
     }
 }

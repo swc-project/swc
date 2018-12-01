@@ -53,8 +53,12 @@ mod tests;
 /// };
 /// console.log(bob.printFriends());
 /// ```
+pub fn arrow() -> impl Fold<Expr> {
+    Arrow
+}
+
 #[derive(Debug, Clone, Copy)]
-pub struct Arrow;
+struct Arrow;
 
 impl Fold<Expr> for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {

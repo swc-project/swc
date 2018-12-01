@@ -4,6 +4,7 @@
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
+#[macro_use]
 extern crate swc_ecma_transforms;
 extern crate test;
 extern crate testing;
@@ -11,7 +12,7 @@ extern crate testing;
 use std::sync::Arc;
 use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
-use swc_ecma_transforms::compat;
+use swc_ecma_transforms::compat::{self, helpers::Helpers};
 use test::Bencher;
 
 static SOURCE: &'static str = r#"
@@ -118,8 +119,18 @@ fn es2015(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2015_exprs(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2015::exprs(&helpers));
+}
+
+#[bench]
+fn es2015_stmts(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2015::stmts(&helpers));
+}
+
+#[bench]
 fn es2015_arrow(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::Arrow);
+    tr!(b, |_| compat::es2015::arrow());
 }
 
 #[bench]
@@ -139,7 +150,7 @@ fn es2015_destructuring(b: &mut Bencher) {
 
 #[bench]
 fn es2015_duplicate_keys(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::DuplicateKeys);
+    tr!(b, |_| compat::es2015::duplicate_keys());
 }
 
 #[bench]
