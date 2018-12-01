@@ -24,9 +24,7 @@ use std::{
     path::Path,
     thread,
 };
-use swc_common::{
-    errors::Handler, sync::Lrc, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
-};
+use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, Fold, SourceMap, Span, DUMMY_SP};
 
 #[macro_use]
 mod macros;

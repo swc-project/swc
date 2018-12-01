@@ -40,7 +40,6 @@ impl<T, A, B> Fold<T> for AndThen<A, B>
 where
     T: FoldWith<Self>,
 {
-    #[inline(always)]
     default fn fold(&mut self, node: T) -> T {
         // println!(
         //     "Default<{}, {}>({})",
@@ -58,7 +57,6 @@ where
     A: Fold<T>,
     B: Fold<T>,
 {
-    #[inline(always)]
     default fn fold(&mut self, node: T) -> T {
         // println!(
         //     "Folding<{}, {}>({})",
@@ -77,7 +75,6 @@ where
     A: Fold<T>,
     B: Fold<T>,
 {
-    #[inline(always)]
     fn fold(&mut self, node: Box<T>) -> Box<T> {
         // println!(
         //     "Box<{}, {}>({})",
@@ -96,7 +93,6 @@ where
     A: Fold<T>,
     B: Fold<T>,
 {
-    #[inline(always)]
     fn fold(&mut self, node: Vec<T>) -> Vec<T> {
         // println!(
         //     "Vec<{}, {}>({})",
@@ -114,7 +110,6 @@ where
     A: Visit<T>,
     B: Visit<T>,
 {
-    #[inline]
     fn visit(&mut self, node: &T) {
         self.first.visit(node);
         self.second.visit(node);

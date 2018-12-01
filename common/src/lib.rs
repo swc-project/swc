@@ -20,8 +20,9 @@ pub use self::{
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
 pub use rustc_data_structures::sync;
 use std::fmt::Debug;
-pub use syntax::source_map::{
-    FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError,
+pub use syntax::{
+    source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
+    util::move_map::MoveMap,
 };
 
 /// A marker trait for ast nodes.

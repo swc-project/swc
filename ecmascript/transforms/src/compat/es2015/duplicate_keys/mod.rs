@@ -1,5 +1,5 @@
 use ast::*;
-use std::collections::HashSet;
+use fnv::FnvHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 
@@ -34,8 +34,8 @@ impl Fold<Expr> for DuplicateKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: HashSet<JsWord>,
-    setter_props: HashSet<JsWord>,
+    getter_props: FnvHashSet<JsWord>,
+    setter_props: FnvHashSet<JsWord>,
 }
 
 impl Fold<Prop> for PropFolder {
@@ -78,7 +78,7 @@ impl Fold<Prop> for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut HashSet<JsWord>,
+    props: &'a mut FnvHashSet<JsWord>,
 }
 
 impl<'a> Fold<PropName> for PropNameFolder<'a> {
