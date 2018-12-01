@@ -1,4 +1,5 @@
 use self::and_then::AndThen;
+use crate::util::Map;
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
 use syntax::util::move_map::MoveMap;
@@ -183,7 +184,7 @@ where
     F: Fold<T>,
 {
     fn fold_children(self, f: &mut F) -> Self {
-        box f.fold(*self)
+        self.map(|node| f.fold(node))
     }
 }
 
