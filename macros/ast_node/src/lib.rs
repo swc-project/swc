@@ -17,6 +17,15 @@ mod from_variant;
 mod spanned;
 mod visit;
 
+/// Implements `FoldWith<F>` and `VisitWith<F>`.
+///
+/// ## Attributes
+/// `#[fold(ignore)]`
+/// Skip a field.
+///
+/// `#[fold(bound)]`
+/// Add bound to the generated impl block.
+/// Generic fields typically requires this attribute.
 #[proc_macro_derive(Fold, attributes(fold))]
 pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
