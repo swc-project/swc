@@ -3,8 +3,7 @@ use crate::compat::{es2015::Classes, helpers::Helpers};
 use std::sync::Arc;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-  chain_at!(
-    Module,
+  chain!(
     Params,
     crate::compat::es2015::destructuring(helpers.clone()),
     crate::compat::es2015::block_scoping()
@@ -108,7 +107,7 @@ foo(1, 2, 3);"#
 );
 
 test!(
-  chain_at!(Module, Classes::default(), tr(Default::default())),
+  chain!(Classes::default(), tr(Default::default())),
   default_iife_4253,
   r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -144,7 +143,7 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-  chain_at!(Module, Classes::default(), tr(Default::default())),
+  chain!(Classes::default(), tr(Default::default())),
   default_iife_self,
   r#"class Ref {
   constructor(ref = Ref) {
@@ -634,11 +633,7 @@ function () {
 );
 
 test!(
-  chain_at!(
-    Module,
-    crate::compat::es2015::arrow(),
-    tr(Default::default())
-  ),
+  chain!(crate::compat::es2015::arrow(), tr(Default::default())),
   rest_binding_deoptimisation,
   r#"const deepAssign = (...args) => args = [];
 "#,
@@ -1119,7 +1114,7 @@ function d(thing) {
 );
 
 test!(
-    chain_at!(Module, Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
+    chain!(Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
   if (true) {
