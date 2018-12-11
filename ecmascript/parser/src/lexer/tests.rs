@@ -1,6 +1,7 @@
 use super::{input::SourceFileInput, *};
 use error::{Error, SyntaxError};
 use std::{ops::Range, str};
+use test::Bencher;
 
 fn sp(r: Range<usize>) -> Span {
     Span::new(
@@ -223,9 +224,9 @@ fn ident_escape_unicode() {
 
 #[test]
 fn ident_escape_unicode_2() {
-    assert_eq!(lex("℘℘"), vec!["℘℘".span(0..6).lb()]);
+    assert_eq!(vec!["℘℘".span(0..6).lb()], lex("℘℘"));
 
-    assert_eq!(lex(r#"℘\u2118"#), vec!["℘℘".span(0..9).lb()]);
+    assert_eq!(vec!["℘℘".span(0..9).lb()], lex(r#"℘\u2118"#));
 }
 
 #[test]
@@ -807,4 +808,16 @@ a"),
             had_line_break: true
         }]
     );
+}
+
+#[bench]
+fn lex_colors_js(b: &mut Bencher) {
+    b.bytes = include_str!("../../colors.js").len() as _;
+
+    b.iter(|| {
+        let _ = with_lexer(include_str!("../../colors.js"), |lexer| {
+            for _ in lexer {}
+            Ok(())
+        });
+    });
 }

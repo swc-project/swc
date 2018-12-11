@@ -491,9 +491,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut word = String::new();
         let mut first = true;
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = {
+            // Optimization
+            {
+                let s = self.input.uncons_while(|c| c.is_ident_part());
+                if s.len() != 0 {
+                    first = false;
+                }
+                word.push_str(s)
+            };
+
+            self.cur()
+        } {
             let start = self.cur_pos();
-            // TODO: optimize (cow / chunk)
+
             match c {
                 c if c.is_ident_part() => {
                     self.bump();
@@ -585,9 +596,16 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut out = String::new();
         let mut has_escape = false;
 
-        //TODO: Optimize (Cow, Chunk)
-
-        while let Some(c) = self.cur() {
+        while let Some(c) = {
+            // Optimization
+            {
+                let s = self
+                    .input
+                    .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
+                out.push_str(s);
+            }
+            self.cur()
+        } {
             match c {
                 c if c == quote => {
                     self.bump();

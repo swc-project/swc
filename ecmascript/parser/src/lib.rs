@@ -71,6 +71,7 @@
 // #![feature(nll)]
 #![feature(try_from)]
 #![feature(try_trait)]
+#![cfg_attr(test, feature(test))]
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]
 
@@ -86,6 +87,8 @@ extern crate swc_ecma_ast as ast;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
+#[cfg(test)]
+extern crate test;
 extern crate unicode_xid;
 pub use self::{
     lexer::input::{Input, SourceFileInput},
