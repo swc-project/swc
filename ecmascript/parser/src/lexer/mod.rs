@@ -5,7 +5,7 @@
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 pub use self::input::Input;
-use self::{input::LexerInput, state::State, util::*};
+use self::{state::State, util::*};
 use ast::Str;
 use error::SyntaxError;
 use std::char;
@@ -27,7 +27,7 @@ pub(crate) type LexResult<T> = Result<T, ::error::Error>;
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
     pub ctx: Context,
-    input: LexerInput<I>,
+    input: I,
     state: State,
 }
 
@@ -35,7 +35,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(session: Session<'a>, input: I) -> Self {
         Lexer {
             session,
-            input: LexerInput::new(input),
+            input,
             state: Default::default(),
             ctx: Default::default(),
         }
