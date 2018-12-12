@@ -108,6 +108,8 @@ fn module_clone(b: &mut Bencher) {
 
 #[bench]
 fn fold_empty(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
     struct Noop;
     let _ = ::testing::run_test(|logger, cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
@@ -140,6 +142,9 @@ fn fold_noop_impl_all(b: &mut Bencher) {
             node
         }
     }
+
+    b.bytes = SOURCE.len() as _;
+
     let _ = ::testing::run_test(|logger, cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
@@ -171,6 +176,9 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
             node
         }
     }
+
+    b.bytes = SOURCE.len() as _;
+
     let _ = ::testing::run_test(|logger, cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
@@ -246,6 +254,8 @@ fn boxing_unboxed(b: &mut Bencher) {
 
 #[bench]
 fn visit_empty(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
     struct Noop;
     let _ = ::testing::run_test(|logger, cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
@@ -293,6 +303,9 @@ fn visit_contains_this(b: &mut Bencher) {
         body.visit_with(&mut visitor);
         visitor.found
     }
+
+    b.bytes = SOURCE.len() as _;
+
     let _ = ::testing::run_test(|logger, cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
