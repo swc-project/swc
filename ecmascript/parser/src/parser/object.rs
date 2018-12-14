@@ -188,7 +188,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             None,
                         )
                         .map(|Function { params, body, .. }| {
-                            assert_eq!(params.len(), 1);
+                            debug_assert_eq!(params.len(), 1);
                             PropOrSpread::Prop(box Prop::Setter(SetterProp {
                                 span: span!(start),
                                 key,

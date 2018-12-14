@@ -433,7 +433,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
 
-        assert_eq!(exprs.len(), 1);
+        debug_assert_eq!(exprs.len(), 1);
         let expr = exprs.into_iter().next().unwrap();
         let last = match expr {
             // Rest

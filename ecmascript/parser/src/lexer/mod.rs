@@ -277,7 +277,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, mut raw: &mut Raw) -> LexResult<Option<char>> {
-        assert_eq!(self.cur(), Some('\\'));
+        debug_assert_eq!(self.cur(), Some('\\'));
         let start = self.cur_pos();
         self.bump(); // '\'
 
@@ -539,7 +539,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<char> {
-        assert_eq!(self.cur(), Some('u'));
+        debug_assert_eq!(self.cur(), Some('u'));
         self.bump();
 
         raw.push_str("u");
@@ -631,7 +631,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self) -> LexResult<Token> {
-        assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.cur(), Some('/'));
         let start = self.cur_pos();
         self.bump();
 
