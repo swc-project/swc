@@ -129,23 +129,23 @@ impl<'a, I: Input> Parser<'a, I> {
     {
         let start = start_of_async.unwrap_or(cur_pos!());
         assert_and_bump!("function");
-        let async_token = start_of_async.map(|start| span!(start));
+        let is_async = start_of_async.is_some();
 
-        let generator_token = {
+        let is_generator = {
             let start = cur_pos!();
             if eat!('*') {
-                if async_token.is_some() {
+                if is_async {
                     syntax_error!(span!(start), SyntaxError::AsyncGenerator {});
                 }
-                Some(span!(start))
+                true
             } else {
-                None
+                false
             }
         };
 
         let ctx = Context {
-            in_async: async_token.is_some(),
-            in_generator: generator_token.is_some(),
+            in_async: is_async,
+            in_generator: is_generator,
             ..self.ctx()
         };
 
@@ -166,14 +166,14 @@ impl<'a, I: Input> Parser<'a, I> {
             let params = p.with_ctx(params_ctx).parse_formal_params()?;
             expect!(')');
 
-            let body = p.parse_fn_body(async_token.is_some(), generator_token.is_some())?;
+            let body = p.parse_fn_body(is_async, is_generator)?;
 
             Ok(T::finish_fn(
                 ident,
                 Function {
                     span: span!(start),
-                    async_token,
-                    generator_token,
+                    is_async,
+                    is_generator,
                     params,
                     body,
                 },
@@ -186,15 +186,15 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         start: BytePos,
         parse_args: F,
-        async_token: Option<Span>,
-        generator_token: Option<Span>,
+        is_async: bool,
+        is_generator: bool,
     ) -> PResult<'a, Function>
     where
         F: FnOnce(&mut Self) -> PResult<'a, (Vec<Pat>)>,
     {
         let ctx = Context {
-            in_async: async_token.is_some(),
-            in_generator: generator_token.is_some(),
+            in_async: is_async,
+            in_generator: is_generator,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
@@ -208,14 +208,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
             expect!(')');
 
-            let body = p.parse_fn_body(async_token.is_some(), generator_token.is_some())?;
+            let body = p.parse_fn_body(is_async, is_generator)?;
 
             Ok(Function {
                 span: span!(start),
                 params,
                 body,
-                async_token,
-                generator_token,
+                is_async,
+                is_generator,
             })
         })
     }
@@ -228,15 +228,10 @@ impl<'a, I: Input> Parser<'a, I> {
             let span_of_gen = span!(start);
             let key = self.parse_prop_name()?;
             return self
-                .parse_fn_args_body(
-                    start,
-                    Parser::parse_unique_formal_params,
-                    None,
-                    Some(span_of_gen),
-                )
+                .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
                 .map(|function| ClassMethod {
                     span: span!(start),
-                    static_token,
+                    is_static,
                     key,
                     function,
                     kind: ClassMethodKind::Method,
@@ -247,10 +242,10 @@ impl<'a, I: Input> Parser<'a, I> {
         if let Some(static_token) = static_token {
             if is!('(') {
                 return self
-                    .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
+                    .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
                     .map(|function| ClassMethod {
                         span: span!(start),
-                        static_token: None,
+                        is_static: false,
                         key: PropName::Ident(Ident {
                             span: static_token,
                             sym: js_word!("static"),
@@ -266,10 +261,10 @@ impl<'a, I: Input> Parser<'a, I> {
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self
-                .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
+                .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
                 .map(|function| ClassMethod {
                     span: span!(start),
-                    static_token,
+                    is_static,
                     key,
                     function,
                     kind: ClassMethodKind::Method,
@@ -291,10 +286,10 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 return match ident.sym {
                     js_word!("get") => self
-                        .parse_fn_args_body(start, |_| Ok(vec![]), None, None)
+                        .parse_fn_args_body(start, |_| Ok(vec![]), false, false)
                         .map(|function| ClassMethod {
                             span: span!(start),
-                            static_token,
+                            is_static: static_token.is_some(),
                             key,
                             function,
                             kind: ClassMethodKind::Getter,
@@ -303,26 +298,21 @@ impl<'a, I: Input> Parser<'a, I> {
                         .parse_fn_args_body(
                             start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
-                            None,
-                            None,
+                            false,
+                            false,
                         )
                         .map(|function| ClassMethod {
                             span: span!(start),
                             key,
-                            static_token,
+                            is_static: static_token.is_some(),
                             function,
                             kind: ClassMethodKind::Setter,
                         }),
                     js_word!("async") => self
-                        .parse_fn_args_body(
-                            start,
-                            Parser::parse_unique_formal_params,
-                            Some(ident.span),
-                            None,
-                        )
+                        .parse_fn_args_body(start, Parser::parse_unique_formal_params, true, false)
                         .map(|function| ClassMethod {
                             span: span!(start),
-                            static_token,
+                            is_static: static_token.is_some(),
                             key,
                             function,
                             kind: ClassMethodKind::Method,
