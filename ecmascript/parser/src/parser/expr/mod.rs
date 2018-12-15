@@ -169,7 +169,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         span: span!(start),
                         exp,
                         flags,
-                    })))
+                    })));
                 }
                 _ => unreachable!(),
             }

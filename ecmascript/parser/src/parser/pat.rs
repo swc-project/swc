@@ -210,7 +210,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         // to these rules if that phrase were substituted for
                         // LeftHandSideExpression. This rule is recursively applied.
                         Expr::Paren(ParenExpr { expr, .. }) => {
-                            return self.reparse_expr_as_pat(pat_ty, expr)
+                            return self.reparse_expr_as_pat(pat_ty, expr);
                         }
                         Expr::Ident(i) => return Ok(i.into()),
                         _ => {

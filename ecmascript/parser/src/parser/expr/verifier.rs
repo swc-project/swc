@@ -1,11 +1,11 @@
 use super::*;
-use swc_common::{Fold, FoldWith, Span, Spanned};
+use swc_common::{Span, Spanned, Visit, VisitWith};
 
 impl<'a, I: Input> Parser<'a, I> {
-    pub(in parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, (Box<Expr>)> {
+    pub(in parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
         let mut v = Verifier { errors: vec![] };
 
-        let expr = v.fold(expr);
+        v.visit(&expr);
 
         if v.errors.is_empty() {
             return Ok(expr);
@@ -21,37 +21,22 @@ pub(super) struct Verifier {
     pub errors: Vec<(Span, SyntaxError)>,
 }
 
-impl Fold<Expr> for Verifier {
-    fn fold(&mut self, e: Expr) -> Expr {
-        match e {
-            Expr::Fn(..) | Expr::Arrow(..) => return e,
-            _ => e.fold_children(self),
+impl Visit<Expr> for Verifier {
+    fn visit(&mut self, e: &Expr) {
+        match *e {
+            Expr::Fn(..) | Expr::Arrow(..) => {}
+            _ => e.visit_children(self),
         }
     }
 }
-impl Fold<ArrayLit> for Verifier {
-    fn fold(&mut self, mut arr: ArrayLit) -> ArrayLit {
-        let len = {
-            let arr_len = arr.elems.len();
-            let count_of_none = arr.elems.iter().rev().take_while(|e| e.is_none()).count();
 
-            arr_len - count_of_none
-        };
-
-        arr.elems.truncate(len);
-        arr.elems.shrink_to_fit();
-        arr.fold_children(self)
-    }
-}
-
-impl Fold<Prop> for Verifier {
-    fn fold(&mut self, p: Prop) -> Prop {
-        match p {
+impl Visit<Prop> for Verifier {
+    fn visit(&mut self, p: &Prop) {
+        match *p {
             Prop::Assign { .. } => {
                 self.errors.push((p.span(), SyntaxError::Unexpected));
-                return p;
             }
-            _ => p.fold_children(self),
+            _ => p.visit_children(self),
         }
     }
 }
