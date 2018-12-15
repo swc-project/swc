@@ -9,26 +9,67 @@ use swc_common::FileName;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 use test::Bencher;
 
-/// Copied from ratel-rust
-static SOURCE: &'static str = include_str!("../colors.js");
+#[bench]
+fn colors(b: &mut Bencher) {
+    // Copied from ratel-rust
+    bench_module(b, include_str!("../colors.js"))
+}
 
 #[bench]
-fn parse_module(b: &mut Bencher) {
-    b.bytes = SOURCE.len() as _;
+fn angular(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/angular-1.2.5.js"))
+}
+
+#[bench]
+fn backbone(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/backbone-1.1.0.js"))
+}
+
+#[bench]
+fn jquery(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/jquery-1.9.1.js"))
+}
+
+#[bench]
+fn jquery_mobile(b: &mut Bencher) {
+    bench_module(
+        b,
+        include_str!("./esprima/test/3rdparty/jquery.mobile-1.4.2.js"),
+    )
+}
+
+#[bench]
+fn mootools(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/mootools-1.4.5.js"))
+}
+
+#[bench]
+fn underscore(b: &mut Bencher) {
+    bench_module(
+        b,
+        include_str!("./esprima/test/3rdparty/underscore-1.5.2.js"),
+    )
+}
+
+#[bench]
+fn yui(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/yui-3.12.0.js"))
+}
+
+fn bench_module(b: &mut Bencher, src: &'static str) {
+    b.bytes = src.len() as _;
 
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let session = Session {
+            logger: &logger,
+            handler: &handler,
+            cfg: Default::default(),
+        };
+        let fm = cm.new_source_file(FileName::Anon(0), src.into());
 
         b.iter(|| {
             test::black_box({
-                let mut parser = Parser::new(
-                    Session {
-                        logger: &logger,
-                        handler: &handler,
-                        cfg: Default::default(),
-                    },
-                    SourceFileInput::from(&*fm),
-                );
+                let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
                 let _ = parser.parse_module();
             })
         });
