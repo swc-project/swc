@@ -64,7 +64,7 @@ pub trait IdentExt: AsRef<str> {
             "while",
             "with",
         ]
-            .contains(&self.as_ref())
+        .contains(&self.as_ref())
     }
 
     fn is_reserved_only_for_es3(&self) -> bool {
@@ -94,7 +94,7 @@ pub trait IdentExt: AsRef<str> {
             "transient",
             "volatile",
         ]
-            .contains(&self.as_ref())
+        .contains(&self.as_ref())
     }
 }
 
