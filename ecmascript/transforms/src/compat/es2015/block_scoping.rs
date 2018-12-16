@@ -1,5 +1,5 @@
-use ast::*;
 use crate::scope::{Scope, ScopeKind};
+use ast::*;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 

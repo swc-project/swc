@@ -1,5 +1,5 @@
-use ast::*;
 use crate::{compat::helpers::Helpers, util::ExprFactory};
+use ast::*;
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
@@ -143,8 +143,8 @@ impl Classes {
                 ident: None,
                 function: Function {
                     span: DUMMY_SP,
-                    async_token: None,
-                    generator_token: None,
+                    is_async: false,
+                    is_generator: false,
                     params,
                     body,
                 },
@@ -195,8 +195,8 @@ impl Classes {
                 }
             };
             let mut function = constructor.map(|c| c.function).unwrap_or_else(|| Function {
-                async_token: None,
-                generator_token: None,
+                is_async: false,
+                is_generator: false,
                 span: class_name.span,
                 params: vec![],
                 body: BlockStmt {
@@ -390,7 +390,7 @@ impl Classes {
                 //  Foo.staticMethod
                 //  Foo.prototype.method
                 ClassMethodKind::Method => {
-                    let append_to: &mut Vec<_> = if let Some(_static_token) = m.static_token {
+                    let append_to: &mut Vec<_> = if m.is_static {
                         &mut static_props
                     } else {
                         &mut props

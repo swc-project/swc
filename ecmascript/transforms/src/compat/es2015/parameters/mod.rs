@@ -1,5 +1,5 @@
-use ast::*;
 use crate::util::ExprFactory;
+use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
 #[cfg(test)]

@@ -18,7 +18,7 @@ impl Fold<Stmt> for BlockScopedFns {
                             function: decl.function,
                         })),
                     }],
-                }))
+                }));
             }
             _ => stmt.fold_children(self),
         }

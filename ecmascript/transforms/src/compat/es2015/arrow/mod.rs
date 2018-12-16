@@ -1,5 +1,5 @@
-use ast::*;
 use crate::util::ExprFactory;
+use ast::*;
 use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -69,8 +69,8 @@ impl Fold<Expr> for Arrow {
                 span,
                 params,
                 body,
-                async_token,
-                generator_token,
+                is_async,
+                is_generator,
             }) => {
                 let used_this = contains_this_expr(&body);
 
@@ -79,8 +79,8 @@ impl Fold<Expr> for Arrow {
                     function: Function {
                         span,
                         params,
-                        async_token,
-                        generator_token,
+                        is_async,
+                        is_generator,
                         body: match body {
                             BlockStmtOrExpr::BlockStmt(block) => block,
                             BlockStmtOrExpr::Expr(expr) => BlockStmt {
