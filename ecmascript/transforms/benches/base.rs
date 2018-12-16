@@ -89,7 +89,7 @@ module.exports = {
 #[bench]
 fn module_clone(b: &mut Bencher) {
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
@@ -112,7 +112,7 @@ fn fold_empty(b: &mut Bencher) {
 
     struct Noop;
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
@@ -146,7 +146,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
@@ -180,7 +180,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
@@ -258,7 +258,7 @@ fn visit_empty(b: &mut Bencher) {
 
     struct Noop;
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
@@ -307,7 +307,7 @@ fn visit_contains_this(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
     let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {

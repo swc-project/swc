@@ -95,7 +95,7 @@ macro_rules! tr {
         $b.bytes = SOURCE.len() as _;
 
         let _ = ::testing::run_test(|logger, cm, handler| {
-            let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+            let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
             let mut parser = Parser::new(
                 Session {
