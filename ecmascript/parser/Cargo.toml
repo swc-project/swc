@@ -14,7 +14,7 @@ swc_ecma_ast = { version = "0.3", path ="../ast" }
 swc_ecma_parser_macros = { version = "0.1", path ="./macros" }
 enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
 unicode-xid = "0.1"
-slog = "2.1"
+slog = { version = "2.1", features = ["release_max_level_debug"] }
 either = { version = "1.4" }
 
 
