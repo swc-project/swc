@@ -219,7 +219,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             radix
         );
-        debug!(
+        trace!(
             self.session.logger,
             "read_digits(radix = {}), cur = {:?}",
             radix,
