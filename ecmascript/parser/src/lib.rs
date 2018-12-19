@@ -76,6 +76,8 @@
 #![deny(unsafe_code)]
 
 extern crate either;
+#[macro_use]
+extern crate smallvec;
 extern crate swc_ecma_parser_macros as parser_macros;
 #[macro_use]
 extern crate slog;

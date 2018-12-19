@@ -1,6 +1,7 @@
 use super::{Input, Lexer};
 use enum_kind::Kind;
 use slog::Logger;
+use smallvec::SmallVec;
 use swc_common::BytePos;
 use token::*;
 
@@ -85,7 +86,7 @@ impl Default for State {
             octal_pos: None,
             is_first: true,
             had_line_break: false,
-            context: Context(vec![Type::BraceStmt]),
+            context: Context(smallvec![Type::BraceStmt]),
             token_type: None,
         }
     }
@@ -262,7 +263,7 @@ impl State {
 }
 
 #[derive(Debug, Default)]
-struct Context(Vec<Type>);
+struct Context(SmallVec<[Type; 32]>);
 impl Context {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
@@ -323,7 +324,7 @@ impl Context {
     }
     fn push(&mut self, logger: &Logger, t: Type) {
         trace!(logger, "context.push({:?})", t);
-        self.0.push(t)
+        self.0.push(t);
     }
 }
 
