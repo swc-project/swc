@@ -18,8 +18,49 @@ pub(super) struct State {
 
     context: Context,
 
-    // TODO: Create a new enum `TokenType` instead of cloning token.
-    token_type: Option<Token>,
+    token_type: Option<TokenType>,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+enum TokenType {
+    Template,
+    Dot,
+    Colon,
+    LBrace,
+    RParen,
+    Semi,
+    BinOp(BinOpToken),
+    Keyword(Keyword),
+    Other { before_expr: bool },
+}
+impl TokenType {
+    fn before_expr(self) -> bool {
+        match self {
+            TokenType::Template | TokenType::Dot | TokenType::RParen => false,
+            TokenType::Colon | TokenType::LBrace | TokenType::Semi => true,
+            TokenType::BinOp(b) => b.before_expr(),
+            TokenType::Keyword(k) => k.before_expr(),
+            TokenType::Other { before_expr } => before_expr,
+        }
+    }
+}
+
+impl<'a> From<&'a Token> for TokenType {
+    fn from(t: &Token) -> Self {
+        match *t {
+            Token::Template { .. } => TokenType::Template,
+            Token::Dot => TokenType::Dot,
+            Token::Colon => TokenType::Colon,
+            Token::LBrace => TokenType::LBrace,
+            Token::RParen => TokenType::RParen,
+            Token::Semi => TokenType::Semi,
+            Token::BinOp(op) => TokenType::BinOp(op),
+            Token::Word(Keyword(k)) => TokenType::Keyword(k),
+            _ => TokenType::Other {
+                before_expr: t.before_expr(),
+            },
+        }
+    }
 }
 
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
@@ -102,7 +143,7 @@ impl State {
 
     pub fn last_was_tpl_element(&self) -> bool {
         match self.token_type {
-            Some(Template { .. }) => true,
+            Some(TokenType::Template) => true,
             _ => false,
         }
     }
@@ -114,7 +155,7 @@ impl State {
             self.had_line_break
         );
         let prev = self.token_type.take();
-        self.token_type = Some(next.clone());
+        self.token_type = Some(TokenType::from(next));
 
         self.is_expr_allowed = Self::is_expr_allowed_on_next(
             &mut self.context,
@@ -130,7 +171,7 @@ impl State {
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
         context: &mut Context,
-        prev: Option<Token>,
+        prev: Option<TokenType>,
         start: BytePos,
         next: &Token,
         had_line_break: bool,
@@ -141,7 +182,7 @@ impl State {
             _ => false,
         };
 
-        if is_next_keyword && prev == Some(Token::Dot) {
+        if is_next_keyword && prev == Some(TokenType::Dot) {
             return false;
         } else {
             // ported updateContext
@@ -193,7 +234,9 @@ impl State {
                     return match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
-                            Word(Keyword(Let)) | Word(Keyword(Const)) | Word(Keyword(Var))
+                            TokenType::Keyword(Let)
+                            | TokenType::Keyword(Const)
+                            | TokenType::Keyword(Var)
                                 if had_line_break =>
                             {
                                 true
@@ -224,7 +267,7 @@ impl State {
                     // if, for, with, while is statement
 
                     context.push(match prev {
-                        Some(Word(Keyword(k))) => match k {
+                        Some(TokenType::Keyword(k)) => match k {
                             If | With | While => Type::ParenStmt { is_for_loop: false },
                             For => Type::ParenStmt { is_for_loop: true },
                             _ => Type::ParenExpr,
@@ -262,12 +305,12 @@ impl Context {
     /// to  `ctx`, `prev`, `is_expr_allowed`.
     fn is_brace_block(
         &self,
-        prev: Option<Token>,
+        prev: Option<TokenType>,
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
         match prev {
-            Some(tok!(':')) => match self.current() {
+            Some(TokenType::Colon) => match self.current() {
                 Some(Type::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
@@ -287,17 +330,22 @@ impl Context {
             //          function b(){}
             //      };
             //  }
-            Some(tok!("return")) | Some(tok!("yield")) => {
+            Some(TokenType::Keyword(Return)) | Some(TokenType::Keyword(Yield)) => {
                 return had_line_break;
             }
 
-            Some(tok!("else")) | Some(Semi) | None | Some(tok!(')')) => return true,
+            Some(TokenType::Keyword(Else))
+            | Some(TokenType::Semi)
+            | None
+            | Some(TokenType::RParen) => {
+                return true;
+            }
 
             // If previous token was `{`
-            Some(tok!('{')) => return self.current() == Some(Type::BraceStmt),
+            Some(TokenType::LBrace) => return self.current() == Some(Type::BraceStmt),
 
             // `class C<T> { ... }`
-            Some(tok!('<')) | Some(tok!('>')) => return true,
+            Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
             _ => {}
         }
 

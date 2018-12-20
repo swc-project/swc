@@ -178,7 +178,7 @@ pub enum BinOpToken {
 }
 
 impl BinOpToken {
-    fn before_expr(&self) -> bool {
+    pub const fn before_expr(&self) -> bool {
         true
     }
 }
