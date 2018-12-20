@@ -59,9 +59,8 @@ fn yui(b: &mut Bencher) {
 fn bench_module(b: &mut Bencher, src: &'static str) {
     b.bytes = src.len() as _;
 
-    let _ = ::testing::run_test(|logger, cm, handler| {
+    let _ = ::testing::run_test(|cm, handler| {
         let session = Session {
-            logger: &logger,
             handler: &handler,
             cfg: Default::default(),
         };

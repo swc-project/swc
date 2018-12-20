@@ -1,6 +1,5 @@
 use super::{Input, Lexer};
 use enum_kind::Kind;
-use slog::Logger;
 use smallvec::SmallVec;
 use swc_common::BytePos;
 use token::*;
@@ -65,7 +64,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         };
 
         if let Some(ref token) = token {
-            self.state.update(&self.session.logger, start, &token)
+            self.state.update(start, &token)
         }
 
         token.map(|token| {
@@ -108,9 +107,8 @@ impl State {
         }
     }
 
-    fn update(&mut self, logger: &Logger, start: BytePos, next: &Token) {
+    fn update(&mut self, start: BytePos, next: &Token) {
         trace!(
-            logger,
             "updating state: next={:?}, had_line_break={} ",
             next,
             self.had_line_break
@@ -119,7 +117,6 @@ impl State {
         self.token_type = Some(next.clone());
 
         self.is_expr_allowed = Self::is_expr_allowed_on_next(
-            logger,
             &mut self.context,
             prev,
             start,
@@ -132,7 +129,6 @@ impl State {
     /// `is_expr_allowed`: previous value.
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
-        logger: &Logger,
         context: &mut Context,
         prev: Option<Token>,
         start: BytePos,
@@ -156,11 +152,11 @@ impl State {
                         return true;
                     }
 
-                    let out = context.pop(logger).unwrap();
+                    let out = context.pop().unwrap();
 
                     // let a = function(){}
                     if out == Type::BraceStmt && context.current() == Some(Type::FnExpr) {
-                        context.pop(logger);
+                        context.pop();
                         return false;
                     }
 
@@ -179,7 +175,7 @@ impl State {
                     if is_expr_allowed
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
-                        context.push(logger, Type::FnExpr);
+                        context.push(Type::FnExpr);
                     }
                     return false;
                 }
@@ -215,29 +211,26 @@ impl State {
                     } else {
                         Type::BraceExpr
                     };
-                    context.push(logger, next_ctxt);
+                    context.push(next_ctxt);
                     true
                 }
 
                 tok!("${") => {
-                    context.push(logger, Type::TplQuasi);
+                    context.push(Type::TplQuasi);
                     return true;
                 }
 
                 tok!('(') => {
                     // if, for, with, while is statement
 
-                    context.push(
-                        logger,
-                        match prev {
-                            Some(Word(Keyword(k))) => match k {
-                                If | With | While => Type::ParenStmt { is_for_loop: false },
-                                For => Type::ParenStmt { is_for_loop: true },
-                                _ => Type::ParenExpr,
-                            },
+                    context.push(match prev {
+                        Some(Word(Keyword(k))) => match k {
+                            If | With | While => Type::ParenStmt { is_for_loop: false },
+                            For => Type::ParenStmt { is_for_loop: true },
                             _ => Type::ParenExpr,
                         },
-                    );
+                        _ => Type::ParenExpr,
+                    });
                     return true;
                 }
 
@@ -247,9 +240,9 @@ impl State {
                 tok!('`') => {
                     // If we are in template, ` terminates template.
                     if let Some(Type::Tpl { .. }) = context.current() {
-                        context.pop(logger);
+                        context.pop();
                     } else {
-                        context.push(logger, Type::Tpl { start });
+                        context.push(Type::Tpl { start });
                     }
                     return false;
                 }
@@ -314,16 +307,16 @@ impl Context {
     fn len(&self) -> usize {
         self.0.len()
     }
-    fn pop(&mut self, logger: &Logger) -> Option<Type> {
+    fn pop(&mut self) -> Option<Type> {
         let opt = self.0.pop();
-        trace!(logger, "context.pop({:?})", opt);
+        trace!("context.pop({:?})", opt);
         opt
     }
     fn current(&self) -> Option<Type> {
         self.0.last().cloned()
     }
-    fn push(&mut self, logger: &Logger, t: Type) {
-        trace!(logger, "context.push({:?})", t);
+    fn push(&mut self, t: Type) {
+        trace!("context.push({:?})", t);
         self.0.push(t);
     }
 }

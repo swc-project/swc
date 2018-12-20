@@ -20,7 +20,6 @@
 //!
 //! ```
 //! #[macro_use]
-//! extern crate slog;
 //! extern crate swc_common;
 //! extern crate swc_ecma_parser;
 //! use swc_common::{
@@ -35,11 +34,9 @@
 //!         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
-//!         let logger = slog::Logger::root(slog::Discard, o!());
 //!
 //!         let session = Session {
 //!             handler: &handler,
-//!             logger: &logger,
 //!             cfg: Default::default(),
 //!         };
 //!
@@ -80,7 +77,7 @@ extern crate either;
 extern crate smallvec;
 extern crate swc_ecma_parser_macros as parser_macros;
 #[macro_use]
-extern crate slog;
+extern crate log;
 #[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate enum_kind;
@@ -96,7 +93,6 @@ pub use self::{
     lexer::input::{Input, SourceFileInput},
     parser::*,
 };
-use slog::Logger;
 use swc_common::errors::Handler;
 
 #[macro_use]
@@ -137,7 +133,6 @@ struct Context {
 #[derive(Clone, Copy)]
 pub struct Session<'a> {
     pub cfg: Config,
-    pub logger: &'a Logger,
     pub handler: &'a Handler,
 }
 
@@ -148,13 +143,12 @@ where
 {
     use swc_common::FileName;
 
-    ::testing::run_test(|logger, cm, handler| {
+    ::testing::run_test(|cm, handler| {
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
         f(
             Session {
                 handler: &handler,
-                logger: &logger,
                 cfg: Default::default(),
             },
             (&*fm).into(),

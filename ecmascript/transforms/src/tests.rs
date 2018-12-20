@@ -15,7 +15,6 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
-    logger: Logger,
     pub handler: &'a Handler,
 }
 
@@ -24,13 +23,7 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
-        let out = ::testing::run_test(|logger, cm, handler| {
-            op(&mut Tester {
-                cm,
-                logger,
-                handler,
-            })
-        });
+        let out = ::testing::run_test(|cm, handler| op(&mut Tester { cm, handler }));
 
         match out {
             Ok(()) => {}
@@ -48,7 +41,6 @@ impl<'a> Tester<'a> {
 
         let sess = Session {
             handler: &self.handler,
-            logger: &self.logger,
             cfg: Default::default(),
         };
 
@@ -80,7 +72,6 @@ impl<'a> Tester<'a> {
         let module = {
             let sess = Session {
                 handler: &self.handler,
-                logger: &self.logger,
                 cfg: Default::default(),
             };
 

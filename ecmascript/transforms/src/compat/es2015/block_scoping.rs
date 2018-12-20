@@ -115,7 +115,7 @@ mod tests {
 
     #[test]
     fn test_mark_for() {
-        ::testing::run_test(|_, _, _| {
+        ::testing::run_test(|_, _| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(mark1);
             let mark3 = Mark::fresh(mark2);

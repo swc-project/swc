@@ -15,7 +15,6 @@ use self::{
         parser::{Parser, Session as ParseSess, SourceFileInput},
     },
 };
-use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
@@ -24,17 +23,12 @@ use std::{
 
 pub struct Compiler {
     pub cm: Lrc<SourceMap>,
-    logger: Logger,
     handler: Handler,
 }
 
 impl Compiler {
-    pub fn new(logger: Logger, cm: Lrc<SourceMap>, handler: Handler) -> Self {
-        Compiler {
-            cm,
-            logger,
-            handler,
-        }
+    pub fn new(cm: Lrc<SourceMap>, handler: Handler) -> Self {
+        Compiler { cm, handler }
     }
 
     pub fn parse_js(&self, name: FileName, src: &str) -> Result<Module, ()> {
@@ -42,7 +36,6 @@ impl Compiler {
 
         let session = ParseSess {
             handler: &self.handler,
-            logger: &self.logger,
             cfg: Default::default(),
         };
         Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
@@ -54,7 +47,6 @@ impl Compiler {
 
         let session = ParseSess {
             handler: &self.handler,
-            logger: &self.logger,
             cfg: Default::default(),
         };
         Parser::new(session, SourceFileInput::from(&*fm)).parse_module()

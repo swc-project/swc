@@ -6,17 +6,12 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate regex;
-#[macro_use]
-extern crate slog;
 extern crate relative_path;
-extern crate slog_envlogger;
-extern crate slog_term;
 extern crate swc_common;
 extern crate test;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 use regex::Regex;
-use slog::{Drain, Logger};
 use std::{
     fmt::Debug,
     fs::{create_dir_all, File},
@@ -36,12 +31,12 @@ mod paths;
 
 pub fn run_test<F, Ret>(op: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce(Logger, Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
+    F: FnOnce( Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::errors::new_handler(cm.clone());
     let result =
-        swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(logger(), cm, &handler));
+        swc_common::GLOBALS.set(&swc_common::Globals::new(), || op( cm, &handler));
 
     match result {
         Ok(res) => Ok(res),
@@ -149,35 +144,3 @@ macro_rules! assert_eq_ignore_span {
     }};
 }
 
-pub fn logger() -> Logger {
-    fn no_timestamp(_: &mut Write) -> io::Result<()> {
-        Ok(())
-    }
-    fn root() -> Logger {
-        use slog_envlogger;
-        use slog_term;
-        use std::sync::Mutex;
-
-        let dec = slog_term::TermDecorator::new()
-            .force_color()
-            .stderr()
-            .build();
-        let drain = slog_term::FullFormat::new(dec)
-            .use_custom_timestamp(no_timestamp)
-            .build();
-        let drain = slog_envlogger::new(drain);
-        let drain = Mutex::new(drain).fuse();
-        let logger = Logger::root(drain, o!());
-
-        logger
-    }
-
-    // lazy_static! {
-    //     static ref ROOT: Logger = { root() };
-    // };
-
-    // hack for cargo test
-    println!("");
-    root()
-    // ROOT.new(o!())
-}

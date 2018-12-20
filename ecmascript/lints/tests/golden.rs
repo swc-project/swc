@@ -19,7 +19,6 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc_common::FileName;
-use testing::{NormalizedOutput, StdErr};
 use walkdir::{DirEntry, WalkDir};
 
 fn add_test<F: FnOnce() + Send + 'static>(
@@ -88,13 +87,12 @@ fn add_golden_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 file_name, input
             );
 
-            let stderr = ::testing::run_test(|logger, cm, handler| {
+            let stderr = ::testing::run_test(|cm, handler| {
                 let fm = cm.new_source_file(FileName::Real(path.clone()), input);
 
                 let module = {
                     let session = parser::Session {
                         cfg: Default::default(),
-                        logger: &logger,
                         handler: &handler,
                     };
                     parser::Parser::new(session, SourceFileInput::from(&*fm)).parse_module()?

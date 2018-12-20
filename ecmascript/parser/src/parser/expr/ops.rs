@@ -39,7 +39,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if op.precedence() <= min_prec {
             trace!(
-                self.session.logger,
                 "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                 left,
                 op,
@@ -51,7 +50,6 @@ impl<'a, I: Input> Parser<'a, I> {
         }
         bump!();
         trace!(
-            self.session.logger,
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
             min_prec,

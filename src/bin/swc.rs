@@ -3,16 +3,10 @@
 #[macro_use]
 extern crate clap;
 extern crate rayon;
-#[macro_use]
-extern crate slog;
 pub extern crate libswc as swc;
-extern crate slog_envlogger;
-extern crate slog_term;
 use clap::{AppSettings, Arg, ArgMatches, SubCommand};
-use slog::{Drain, Logger};
 use std::{
     error::Error,
-    io::{self, Write},
     path::Path,
     sync::Arc,
 };
@@ -78,7 +72,7 @@ fn run() -> Result<(), Box<Error>> {
         Some(cm.clone()),
     );
 
-    let comp = Compiler::new(logger(), cm.clone(), handler);
+    let comp = Compiler::new( cm.clone(), handler);
 
     if let Some(ref matches) = matches.subcommand_matches("jsc") {
         let input = matches.value_of("input file").unwrap();
@@ -128,26 +122,4 @@ fn js_pass(cm: Lrc<SourceMap>, matches: &ArgMatches) -> Box<Fold<Module>> {
     };
 
     box pass.then(hygiene())
-}
-
-fn logger() -> Logger {
-    fn no_timestamp(_: &mut Write) -> io::Result<()> {
-        Ok(())
-    }
-    fn root() -> Logger {
-        let dec = slog_term::TermDecorator::new()
-            .force_color()
-            .stderr()
-            .build();
-        let drain = slog_term::FullFormat::new(dec)
-            .use_custom_timestamp(no_timestamp)
-            .build();
-        let drain = slog_envlogger::new(drain);
-        let drain = std::sync::Mutex::new(drain).fuse();
-        let logger = Logger::root(drain, o!());
-
-        logger
-    }
-
-    root()
 }
