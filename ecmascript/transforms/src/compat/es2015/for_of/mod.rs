@@ -5,6 +5,40 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
+/// `@babel/plugin-transform-for-of`
+///
+/// ## In
+///
+/// ```
+/// for (var i of foo) {}
+/// ```
+///
+/// ## Out
+///
+/// ```js
+/// var _iteratorNormalCompletion = true;
+/// var _didIteratorError = false;
+/// var _iteratorError = undefined;
+///
+/// try {
+///   for (var _iterator = foo[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+///     var i = _step.value;
+///   }
+/// } catch (err) {
+///   _didIteratorError = true;
+///   _iteratorError = err;
+/// } finally {
+///   try {
+///     if (!_iteratorNormalCompletion && _iterator.return != null) {
+///       _iterator.return();
+///     }
+///   } finally {
+///     if (_didIteratorError) {
+///       throw _iteratorError;
+///     }
+///   }
+/// }
+/// ```
 pub fn for_of() -> impl Fold<Module> {
     ForOf
 }
