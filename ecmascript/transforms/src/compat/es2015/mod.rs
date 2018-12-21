@@ -1,8 +1,8 @@
 pub use self::{
     arrow::arrow, block_scoped_fn::BlockScopedFns, block_scoping::block_scoping, classes::Classes,
     computed_props::computed_properties, destructuring::destructuring,
-    duplicate_keys::duplicate_keys, function_name::function_name, instanceof::InstanceOf,
-    parameters::parameters, shorthand_property::Shorthand, spread::Spread,
+    duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
+    instanceof::InstanceOf, parameters::parameters, shorthand_property::Shorthand, spread::Spread,
     sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use super::helpers::Helpers;
@@ -17,6 +17,7 @@ mod classes;
 mod computed_props;
 mod destructuring;
 mod duplicate_keys;
+mod for_of;
 mod function_name;
 mod instanceof;
 mod parameters;
@@ -66,6 +67,7 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
     chain_at!(
         Module,
         stmts(helpers),
+        for_of(),
         computed_properties(helpers.clone()),
         destructuring(helpers.clone()),
         block_scoping(),

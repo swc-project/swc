@@ -45,7 +45,7 @@ New generation javascript to old-days javascript.
     - [x] computed-properties
     - [x] destructuring
     - [x] duplicate-keys
-    - [ ] for-of
+    - [x] for-of
     - [x] function-name
     - [x] instanceof
     - [x] literals
@@ -77,11 +77,13 @@ New generation javascript to old-days javascript.
 
 The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
 
-|                       |                performance             |
-| --------------------- |:--------------------------------------:|
-| swc (ffi)             | 1,086 ops/sec ±0.77% (84 runs sampled) |
-| swc-optimize (ffi)    | 1,060 ops/sec ±0.63% (87 runs sampled) |
-| babel                 | 65.72 ops/sec ±6.45% (62 runs sampled) |
+|                          |                performance             |
+| ------------------------ |:--------------------------------------:|
+| swc (ffi)                | 1,086 ops/sec ±0.77% (84 runs sampled) |
+| swc-optimize (ffi)       | 1,060 ops/sec ±0.63% (87 runs sampled) |
+| swc (ffi, simd)          | 1,295 ops/sec ±0.87% (89 runs sampled) |
+| swc-optimize (ffi, simd) | 1,270 ops/sec ±0.24% (89 runs sampled) |
+| babel                    | 65.72 ops/sec ±6.45% (62 runs sampled) |
 
 
 ## Contributing
