@@ -206,6 +206,7 @@ impl Classes {
             });
 
             // inject _classCallCheck(this, Bar);
+            self.helpers.class_call_check.store(true, Ordering::SeqCst);
             function.body.stmts = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
@@ -384,28 +385,26 @@ impl Classes {
                 _ => unimplemented!("non-ident prop name: {:?}", m.key),
             };
 
+            let append_to: &mut Vec<_> = if m.is_static {
+                &mut static_props
+            } else {
+                &mut props
+            };
+
+            let function = m.function.fold_with(&mut SuperCallFolder {
+                class_name: &class_name,
+                helpers: self.helpers.clone(),
+            });
+
+            let value = box Expr::Fn(FnExpr {
+                ident: Some(prop_name.clone()),
+                function,
+            });
+
             match m.kind {
                 ClassMethodKind::Constructor => unreachable!(),
-                //
-                //  Foo.staticMethod
-                //  Foo.prototype.method
+
                 ClassMethodKind::Method => {
-                    let append_to: &mut Vec<_> = if m.is_static {
-                        &mut static_props
-                    } else {
-                        &mut props
-                    };
-
-                    let function = m.function.fold_with(&mut SuperCallFolder {
-                        class_name: &class_name,
-                        helpers: self.helpers.clone(),
-                    });
-
-                    let value = box Expr::Fn(FnExpr {
-                        ident: Some(prop_name.clone()),
-                        function,
-                    });
-
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
@@ -418,14 +417,32 @@ impl Classes {
                     }));
                 }
 
-                _ => unimplemented!("Class getter / setter"),
+                ClassMethodKind::Getter | ClassMethodKind::Setter => {
+                    // Getter / Setter
+                    append_to.push(Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![
+                            PropOrSpread::Prop(box mk_prop_key(&m.key)),
+                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!(if m.kind
+                                    == ClassMethodKind::Getter
+                                {
+                                    "get"
+                                } else {
+                                    "set"
+                                })),
+                                value,
+                            })),
+                        ],
+                    }))
+                }
             }
         }
 
         if props.is_empty() && static_props.is_empty() {
             return vec![];
         }
-
+        self.helpers.create_class.store(true, Ordering::SeqCst);
         vec![mk_create_class_call(
             class_name,
             mk_arg_obj_for_create_class(props),
