@@ -1,7 +1,7 @@
 //! Ported from closure compiler.
 use self::expr::SimplifyExpr;
-use ast::*;
 use crate::util::*;
+use ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 mod expr;

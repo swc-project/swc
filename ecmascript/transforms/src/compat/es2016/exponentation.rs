@@ -1,5 +1,5 @@
-use ast::*;
 use crate::util::{ExprFactory, StmtLike};
+use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -62,7 +62,7 @@ impl Fold<Expr> for AssignFolder {
                             left,
                             op: op!("="),
                             right,
-                        })
+                        });
                     }
                 };
                 return Expr::Assign(AssignExpr {

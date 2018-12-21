@@ -1,5 +1,5 @@
-use ast::*;
 use crate::util::ExprFactory;
+use ast::*;
 use swc_common::{Fold, FoldWith, Spanned};
 
 pub fn fixer() -> impl Fold<Module> {

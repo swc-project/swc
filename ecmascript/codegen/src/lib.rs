@@ -15,7 +15,7 @@ extern crate swc_ecma_codegen_macros;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 
-pub use self::config::{Config, SourceMapConfig};
+pub use self::config::Config;
 use self::{
     list::ListFormat,
     text_writer::WriteJs,
@@ -429,11 +429,11 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
-        if node.async_token.is_some() {
+        if node.is_async {
             keyword!("async");
             formatting_space!();
         }
-        if node.generator_token.is_some() {
+        if node.is_generator {
             punct!("*")
         }
         punct!("(");
@@ -513,7 +513,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_class_method(&mut self, node: &ClassMethod) -> Result {
-        if let Some(_st) = node.static_token {
+        if node.is_static {
             keyword!("static");
             space!();
         }
@@ -522,11 +522,11 @@ impl<'a> Emitter<'a> {
                 keyword!("constructor");
             }
             ClassMethodKind::Method => {
-                if let Some(async) = node.function.async_token {
+                if node.function.is_async {
                     keyword!("async");
                 }
                 space!();
-                if let Some(generator) = node.function.generator_token {
+                if node.function.is_generator {
                     punct!("*");
                 }
 
@@ -580,12 +580,12 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
-        if node.function.async_token.is_some() {
+        if node.function.is_async {
             keyword!("async");
         }
         keyword!("function");
 
-        if node.function.generator_token.is_some() {
+        if node.function.is_generator {
             punct!("*");
         }
         opt_leading_space!(node.ident);
@@ -805,7 +805,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
-        if let Some(_gen) = node.function.generator_token {
+        if node.function.is_generator {
             punct!("*");
         }
 

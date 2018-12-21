@@ -56,7 +56,6 @@ impl InjectHelpers {
 
         let session = Session {
             cfg: Default::default(),
-            logger: &slog::Logger::root(slog::Discard, o!()),
             handler: &handler,
         };
 

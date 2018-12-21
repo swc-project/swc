@@ -1,8 +1,8 @@
-use ast::*;
 use crate::{
     compat::helpers::Helpers,
     util::{ExprFactory, StmtLike},
 };
+use ast::*;
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
@@ -91,7 +91,7 @@ macro_rules! impl_for_for_stmt {
                             return $T {
                                 left: VarDeclOrPat::Pat(pat),
                                 ..for_stmt
-                            }
+                            };
                         }
                         _ => unimplemented!("for in/of loop without let / const / var"),
                     },
@@ -392,7 +392,7 @@ impl Fold<Expr> for AssignFolder {
                             left: PatOrExpr::Pat(pat),
                             op: op!("="),
                             right,
-                        })
+                        });
                     }
                     Pat::Array(ArrayPat { elems, .. }) => {
                         // initialized by first element of sequence expression
@@ -524,7 +524,7 @@ impl Fold<Expr> for AssignFolder {
                         left,
                         op: op!("="),
                         right,
-                    })
+                    });
                 }
             },
             _ => expr,

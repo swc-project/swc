@@ -1,7 +1,6 @@
 #![feature(box_syntax)]
 #![feature(specialization)]
 #![feature(test)]
-extern crate slog;
 extern crate sourcemap;
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -137,7 +136,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
             let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-            ::testing::run_test(|logger, cm, handler| {
+            ::testing::run_test(|cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
                 eprintln!(
                     "{}\nPos: {:?} ~ {:?} (L{})",
@@ -150,7 +149,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let handlers = box MyHandlers;
                 let mut parser: Parser<SourceFileInput> = Parser::new(
                     Session {
-                        logger: &logger,
                         handler: &handler,
                         cfg: Default::default(),
                     },

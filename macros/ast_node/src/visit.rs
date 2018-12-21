@@ -181,7 +181,7 @@ fn normalize_type_for_bound(ty: Type) -> Type {
                         {
                             match *ty {
                                 Type::Path(TypePath { ref path, .. }) => {
-                                    return self.fold_path(path.clone())
+                                    return self.fold_path(path.clone());
                                 }
                                 _ => {}
                             }

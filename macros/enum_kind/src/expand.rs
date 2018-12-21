@@ -22,8 +22,7 @@ pub fn expand(
                     | Fields::Unnamed(FieldsUnnamed {
                         unnamed: ref fields,
                         ..
-                    })
-                        if fields.len() == 1 => {}
+                    }) if fields.len() == 1 => {}
                     _ => panic!(
                         "currently #[kind(delegate)] can be applied to variant with only one field"
                     ),
@@ -54,16 +53,16 @@ pub fn expand(
 
     Quote::new_call_site()
         .quote_with(smart_quote!(
-        Vars {
-            Type: name,
-            items,
-        },
-        {
-            impl Type {
-                items
+            Vars {
+                Type: name,
+                items,
+            },
+            {
+                impl Type {
+                    items
+                }
             }
-        }
-    ))
+        ))
         .parse::<ItemImpl>()
         .with_generics(generics)
         .into()

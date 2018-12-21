@@ -1,5 +1,5 @@
-use ast::*;
 use crate::util::ExprFactory;
+use ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith};
 

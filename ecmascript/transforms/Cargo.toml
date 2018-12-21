@@ -13,7 +13,6 @@ swc_atoms = { path ="../../atoms" }
 swc_common = { path ="../../common" }
 swc_ecma_ast = { path ="../ast" }
 swc_ecma_parser = { path ="../parser" }
-slog = "2"
 fnv = "1"
 
 [dev-dependencies]

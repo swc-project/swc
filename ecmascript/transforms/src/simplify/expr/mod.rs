@@ -1,5 +1,5 @@
-use ast::{Ident, Lit, *};
 use crate::util::*;
+use ast::{Ident, Lit, *};
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, Spanned};
@@ -451,7 +451,7 @@ fn fold_bin(
                                 left: left_lhs,
                                 op: left_op,
                                 right: box Expr::Lit(Lit::Num(Number { value, span })),
-                            })
+                            });
                         }
                         _ => {
                             left = box Expr::Bin(BinExpr {
@@ -565,7 +565,7 @@ fn try_fold_typeof(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 op: op!("typeof"),
                 arg,
                 span,
-            })
+            });
         }
     };
 
@@ -581,7 +581,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
 
     match op {
         op!("typeof") if !may_have_side_effects => {
-            return try_fold_typeof(UnaryExpr { span, op, arg })
+            return try_fold_typeof(UnaryExpr { span, op, arg });
         }
         op!("!") => match arg.as_bool() {
             (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),
@@ -593,7 +593,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                     span,
                     Expr::Lit(Lit::Num(Number { value: v, span })),
                     iter::once(arg),
-                )
+                );
             }
             _ => return Expr::Unary(UnaryExpr { op, arg, span }),
         },
@@ -608,7 +608,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 ..
             }) => return *arg,
             Expr::Lit(Lit::Num(Number { value: f, .. })) => {
-                return Expr::Lit(Lit::Num(Number { value: -f, span }))
+                return Expr::Lit(Lit::Num(Number { value: -f, span }));
             }
             _ => {
 
@@ -623,7 +623,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                     span: arg.span(),
                 })),
                 span,
-            })
+            });
         }
         _ => {}
     }
@@ -773,7 +773,7 @@ fn perform_abstract_rel_cmp(
         (&Expr::Ident(Ident { sym: ref li, .. }, ..), &Expr::Ident(Ident { sym: ref ri, .. }))
             if !will_negate && li == ri =>
         {
-            return Known(false)
+            return Known(false);
         }
         // Special case: `typeof a < typeof a` is always false.
         (
@@ -931,7 +931,7 @@ where
     fn add_effects(v: &mut Vec<Box<Expr>>, box expr: Box<Expr>) {
         match expr {
             Expr::Lit(..) | Expr::This(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Ident(..) => {
-                return
+                return;
             }
 
             // In most case, we can do nothing for this.

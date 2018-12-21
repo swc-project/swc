@@ -9,9 +9,6 @@ description = "Testing utilities for the swc project."
 
 [dependencies]
 swc_common = { version = "0.1", path ="../common" }
-slog = "2"
-slog-envlogger = "2.1"
-slog-term = "2.3"
 lazy_static = "1"
 regex = "0.2.5"
 relative-path = "0.4.0"

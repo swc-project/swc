@@ -2,7 +2,6 @@
 #![feature(specialization)]
 #![feature(test)]
 
-extern crate slog;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
@@ -273,14 +272,13 @@ fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
-    let output = ::testing::run_test(|logger, cm, handler| {
+    let output = ::testing::run_test(|cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let res = f(&mut Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },

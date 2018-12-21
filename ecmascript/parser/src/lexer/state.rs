@@ -1,6 +1,6 @@
 use super::{Input, Lexer};
 use enum_kind::Kind;
-use slog::Logger;
+use smallvec::SmallVec;
 use swc_common::BytePos;
 use token::*;
 
@@ -18,8 +18,49 @@ pub(super) struct State {
 
     context: Context,
 
-    // TODO: Create a new enum `TokenType` instead of cloning token.
-    token_type: Option<Token>,
+    token_type: Option<TokenType>,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+enum TokenType {
+    Template,
+    Dot,
+    Colon,
+    LBrace,
+    RParen,
+    Semi,
+    BinOp(BinOpToken),
+    Keyword(Keyword),
+    Other { before_expr: bool },
+}
+impl TokenType {
+    fn before_expr(self) -> bool {
+        match self {
+            TokenType::Template | TokenType::Dot | TokenType::RParen => false,
+            TokenType::Colon | TokenType::LBrace | TokenType::Semi => true,
+            TokenType::BinOp(b) => b.before_expr(),
+            TokenType::Keyword(k) => k.before_expr(),
+            TokenType::Other { before_expr } => before_expr,
+        }
+    }
+}
+
+impl<'a> From<&'a Token> for TokenType {
+    fn from(t: &Token) -> Self {
+        match *t {
+            Token::Template { .. } => TokenType::Template,
+            Token::Dot => TokenType::Dot,
+            Token::Colon => TokenType::Colon,
+            Token::LBrace => TokenType::LBrace,
+            Token::RParen => TokenType::RParen,
+            Token::Semi => TokenType::Semi,
+            Token::BinOp(op) => TokenType::BinOp(op),
+            Token::Word(Keyword(k)) => TokenType::Keyword(k),
+            _ => TokenType::Other {
+                before_expr: t.before_expr(),
+            },
+        }
+    }
 }
 
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
@@ -64,7 +105,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         };
 
         if let Some(ref token) = token {
-            self.state.update(&self.session.logger, start, &token)
+            self.state.update(start, &token)
         }
 
         token.map(|token| {
@@ -85,7 +126,7 @@ impl Default for State {
             octal_pos: None,
             is_first: true,
             had_line_break: false,
-            context: Context(vec![Type::BraceStmt]),
+            context: Context(smallvec![Type::BraceStmt]),
             token_type: None,
         }
     }
@@ -102,23 +143,21 @@ impl State {
 
     pub fn last_was_tpl_element(&self) -> bool {
         match self.token_type {
-            Some(Template { .. }) => true,
+            Some(TokenType::Template) => true,
             _ => false,
         }
     }
 
-    fn update(&mut self, logger: &Logger, start: BytePos, next: &Token) {
+    fn update(&mut self, start: BytePos, next: &Token) {
         trace!(
-            logger,
             "updating state: next={:?}, had_line_break={} ",
             next,
             self.had_line_break
         );
         let prev = self.token_type.take();
-        self.token_type = Some(next.clone());
+        self.token_type = Some(TokenType::from(next));
 
         self.is_expr_allowed = Self::is_expr_allowed_on_next(
-            logger,
             &mut self.context,
             prev,
             start,
@@ -131,9 +170,8 @@ impl State {
     /// `is_expr_allowed`: previous value.
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
-        logger: &Logger,
         context: &mut Context,
-        prev: Option<Token>,
+        prev: Option<TokenType>,
         start: BytePos,
         next: &Token,
         had_line_break: bool,
@@ -144,7 +182,7 @@ impl State {
             _ => false,
         };
 
-        if is_next_keyword && prev == Some(Token::Dot) {
+        if is_next_keyword && prev == Some(TokenType::Dot) {
             return false;
         } else {
             // ported updateContext
@@ -155,11 +193,11 @@ impl State {
                         return true;
                     }
 
-                    let out = context.pop(logger).unwrap();
+                    let out = context.pop().unwrap();
 
                     // let a = function(){}
                     if out == Type::BraceStmt && context.current() == Some(Type::FnExpr) {
-                        context.pop(logger);
+                        context.pop();
                         return false;
                     }
 
@@ -178,7 +216,7 @@ impl State {
                     if is_expr_allowed
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
-                        context.push(logger, Type::FnExpr);
+                        context.push(Type::FnExpr);
                     }
                     return false;
                 }
@@ -196,7 +234,9 @@ impl State {
                     return match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
-                            Word(Keyword(Let)) | Word(Keyword(Const)) | Word(Keyword(Var))
+                            TokenType::Keyword(Let)
+                            | TokenType::Keyword(Const)
+                            | TokenType::Keyword(Var)
                                 if had_line_break =>
                             {
                                 true
@@ -214,29 +254,26 @@ impl State {
                     } else {
                         Type::BraceExpr
                     };
-                    context.push(logger, next_ctxt);
+                    context.push(next_ctxt);
                     true
                 }
 
                 tok!("${") => {
-                    context.push(logger, Type::TplQuasi);
+                    context.push(Type::TplQuasi);
                     return true;
                 }
 
                 tok!('(') => {
                     // if, for, with, while is statement
 
-                    context.push(
-                        logger,
-                        match prev {
-                            Some(Word(Keyword(k))) => match k {
-                                If | With | While => Type::ParenStmt { is_for_loop: false },
-                                For => Type::ParenStmt { is_for_loop: true },
-                                _ => Type::ParenExpr,
-                            },
+                    context.push(match prev {
+                        Some(TokenType::Keyword(k)) => match k {
+                            If | With | While => Type::ParenStmt { is_for_loop: false },
+                            For => Type::ParenStmt { is_for_loop: true },
                             _ => Type::ParenExpr,
                         },
-                    );
+                        _ => Type::ParenExpr,
+                    });
                     return true;
                 }
 
@@ -246,9 +283,9 @@ impl State {
                 tok!('`') => {
                     // If we are in template, ` terminates template.
                     if let Some(Type::Tpl { .. }) = context.current() {
-                        context.pop(logger);
+                        context.pop();
                     } else {
-                        context.push(logger, Type::Tpl { start });
+                        context.push(Type::Tpl { start });
                     }
                     return false;
                 }
@@ -262,18 +299,18 @@ impl State {
 }
 
 #[derive(Debug, Default)]
-struct Context(Vec<Type>);
+struct Context(SmallVec<[Type; 32]>);
 impl Context {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
     fn is_brace_block(
         &self,
-        prev: Option<Token>,
+        prev: Option<TokenType>,
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
         match prev {
-            Some(tok!(':')) => match self.current() {
+            Some(TokenType::Colon) => match self.current() {
                 Some(Type::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
@@ -293,17 +330,22 @@ impl Context {
             //          function b(){}
             //      };
             //  }
-            Some(tok!("return")) | Some(tok!("yield")) => {
+            Some(TokenType::Keyword(Return)) | Some(TokenType::Keyword(Yield)) => {
                 return had_line_break;
             }
 
-            Some(tok!("else")) | Some(Semi) | None | Some(tok!(')')) => return true,
+            Some(TokenType::Keyword(Else))
+            | Some(TokenType::Semi)
+            | None
+            | Some(TokenType::RParen) => {
+                return true;
+            }
 
             // If previous token was `{`
-            Some(tok!('{')) => return self.current() == Some(Type::BraceStmt),
+            Some(TokenType::LBrace) => return self.current() == Some(Type::BraceStmt),
 
             // `class C<T> { ... }`
-            Some(tok!('<')) | Some(tok!('>')) => return true,
+            Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
             _ => {}
         }
 
@@ -313,17 +355,17 @@ impl Context {
     fn len(&self) -> usize {
         self.0.len()
     }
-    fn pop(&mut self, logger: &Logger) -> Option<Type> {
+    fn pop(&mut self) -> Option<Type> {
         let opt = self.0.pop();
-        trace!(logger, "context.pop({:?})", opt);
+        trace!("context.pop({:?})", opt);
         opt
     }
     fn current(&self) -> Option<Type> {
         self.0.last().cloned()
     }
-    fn push(&mut self, logger: &Logger, t: Type) {
-        trace!(logger, "context.push({:?})", t);
-        self.0.push(t)
+    fn push(&mut self, t: Type) {
+        trace!("context.push({:?})", t);
+        self.0.push(t);
     }
 }
 

@@ -3,22 +3,21 @@ use crate::compat::{es2015::Classes, helpers::Helpers};
 use std::sync::Arc;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-  chain_at!(
-    Module,
-    Params,
-    crate::compat::es2015::destructuring(helpers.clone()),
-    crate::compat::es2015::block_scoping()
-  )
+    chain!(
+        Params,
+        crate::compat::es2015::destructuring(helpers.clone()),
+        crate::compat::es2015::block_scoping()
+    )
 }
 
 test!(
-  tr(Default::default()),
-  babel_6057_simple,
-  r#"const a = 'bar';
+    tr(Default::default()),
+    babel_6057_simple,
+    r#"const a = 'bar';
 function foo(...a) {
   return a;
 }"#,
-  r#"var a = 'bar';
+    r#"var a = 'bar';
 function foo() {
     for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
         a1[_key] = arguments[_key];
@@ -28,18 +27,18 @@ function foo() {
 );
 
 test!(
-  tr(Default::default()),
-  default_before_last,
-  r#"function foo(a = "foo", b) {}"#,
-  r#"function foo(param, b) {
+    tr(Default::default()),
+    default_before_last,
+    r#"function foo(a = "foo", b) {}"#,
+    r#"function foo(param, b) {
     var tmp = param, a = tmp === void 0 ? 'foo' : tmp;
 }"#
 );
 
 test_exec!(
-  tr,
-  default_destructuring,
-  r#"function required(msg) {
+    tr,
+    default_destructuring,
+    r#"function required(msg) {
   throw new Error(msg);
 }
 
@@ -61,24 +60,24 @@ expect(sum({arr:[1,2]})).toBe(3);"#
 );
 
 test_exec!(
-  tr,
-  default_earlier_params,
-  r#"function f(a, b = a, c = b) { return c; }
+    tr,
+    default_earlier_params,
+    r#"function f(a, b = a, c = b) { return c; }
 
 expect(3).toBe(f(3));"#
 );
 
 test!(
-  ignore,
-  tr(Default::default()),
-  default_eval,
-  r#"let x = "outside";
+    ignore,
+    tr(Default::default()),
+    default_eval,
+    r#"let x = "outside";
 function outer(a = () => eval("x")) {
   let x = "inside";
   return a();
 }
 outer();"#,
-  r#"var x = "outside";
+    r#"var x = "outside";
 
 function outer() {
   var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {
@@ -94,9 +93,9 @@ outer();"#
 );
 
 test_exec!(
-  tr,
-  default_iife_1128,
-  r#"const bar = true;
+    tr,
+    default_iife_1128,
+    r#"const bar = true;
 
 function foo(a = bar, ...b) {
   const bar = false;
@@ -108,15 +107,15 @@ foo(1, 2, 3);"#
 );
 
 test!(
-  chain_at!(Module, Classes::default(), tr(Default::default())),
-  default_iife_4253,
-  r#"class Ref {
+    chain!(Classes::default(), tr(Default::default())),
+    default_iife_4253,
+    r#"class Ref {
   constructor(id = ++Ref.nextID) {
     this.id = id
   }
 }
 Ref.nextID = 0"#,
-  r#"var Ref = function() {
+    r#"var Ref = function() {
     function Ref(param) {
         var tmp = param, id = tmp === void 0 ? ++Ref.nextID : tmp;
         _classCallCheck(this, Ref);
@@ -128,11 +127,11 @@ Ref.nextID = 0;"#
 );
 
 test_exec!(
-  // Stage0
-  ignore,
-  tr,
-  default_iife_4253_exec,
-  r#"class Ref {
+    // Stage0
+    ignore,
+    tr,
+    default_iife_4253_exec,
+    r#"class Ref {
   static nextId = 0
   constructor(id = ++Ref.nextId, n = id) {
     this.id = n
@@ -144,9 +143,9 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-  chain_at!(Module, Classes::default(), tr(Default::default())),
-  default_iife_self,
-  r#"class Ref {
+    chain!(Classes::default(), tr(Default::default())),
+    default_iife_self,
+    r#"class Ref {
   constructor(ref = Ref) {
     this.ref = ref
   }
@@ -157,7 +156,7 @@ class X {
     this.x = x
   }
 }"#,
-  r#"var Ref = function() {
+    r#"var Ref = function() {
     function Ref(param) {
         var tmp = param, ref = tmp === void 0 ? Ref : tmp;
         _classCallCheck(this, Ref);
@@ -177,9 +176,9 @@ var X = function() {
 );
 
 test_exec!(
-  tr,
-  default_iife_self_exec,
-  r#"class Ref {
+    tr,
+    default_iife_self_exec,
+    r#"class Ref {
   constructor(ref = Ref) {
     this.ref = ref
   }
@@ -209,15 +208,15 @@ var a = function(e, param) {
 );
 
 test!(
-  tr(Default::default()),
-  default_rest_mix,
-  r#"function fn(
+    tr(Default::default()),
+    default_rest_mix,
+    r#"function fn(
   a1,
   a2 = 4,
   {a3, a4},
   a5,
   {a6, a7} = {}) {}"#,
-  r#"function fn(a1, param, param1, a5, param2) {
+    r#"function fn(a1, param, param1, a5, param2) {
     var tmp = param, a2 = tmp === void 0 ? 4 : tmp, ref = param1 ? param1 :
       _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
       a3 = ref.a3, a4 = ref.a4, tmp1 = param2, ref1 = tmp1 === void 0 ? {
@@ -284,9 +283,9 @@ rest3(undefined, 2);"#
 );
 
 test_exec!(
-  tr,
-  default_rest_exec,
-  r#"const a = 1;
+    tr,
+    default_rest_exec,
+    r#"const a = 1;
 function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
@@ -304,14 +303,14 @@ rest3(undefined, 2)"#
 );
 
 test!(
-  tr(Default::default()),
-  default_setter_noexec,
-  r#"const obj = {
+    tr(Default::default()),
+    default_setter_noexec,
+    r#"const obj = {
   set field(num = 1) {
     this.num = num;
   }
 };"#,
-  r#"var obj = {
+    r#"var obj = {
      set field (param){
         var tmp = param, num = tmp === void 0 ? 1 : tmp;
         this.num = num;
@@ -321,9 +320,9 @@ test!(
 );
 
 test_exec!(
-  tr,
-  default_setter_exec,
-  r#"const defaultValue = 1;
+    tr,
+    default_setter_exec,
+    r#"const defaultValue = 1;
 const obj = {
   set field(num = defaultValue) {
     this.num = num;
@@ -335,25 +334,25 @@ expect(obj.num).toBe(defaultValue);"#
 );
 
 test!(
-  tr(Default::default()),
-  default_single,
-  r#"var t = function (f = "foo") {
+    tr(Default::default()),
+    default_single,
+    r#"var t = function (f = "foo") {
   return f + " bar";
 };"#,
-  r#"var t = function(param) {
+    r#"var t = function(param) {
     var tmp = param, f = tmp === void 0 ? 'foo' : tmp;
     return f + ' bar';
 };"#
 );
 
 test!(
-  tr(Default::default()),
-  destructuring_rest,
-  r#"// #3861
+    tr(Default::default()),
+    destructuring_rest,
+    r#"// #3861
 function t(x = "default", { a, b }, ...args) {
   console.log(x, a, b, args);
 }"#,
-  r#"// #3861
+    r#"// #3861
 function t(param, param1) {
     var tmp = param, x = tmp === void 0 ? 'default' : tmp, ref = param1 ? param1 :
       _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a = ref.a, b = ref.b;
@@ -366,13 +365,13 @@ function t(param, param1) {
 );
 
 test!(
-  tr(Default::default()),
-  regression_4333,
-  r#"const args = 'bar';
+    tr(Default::default()),
+    regression_4333,
+    r#"const args = 'bar';
 function foo(...args) {
   return args;
 }"#,
-  r#"var args = 'bar';
+    r#"var args = 'bar';
 function foo() {
     for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
         args1[_key] = arguments[_key];
@@ -383,13 +382,13 @@ function foo() {
 );
 
 test!(
-  tr(Default::default()),
-  regression_4348,
-  r#"function first(...values) {
+    tr(Default::default()),
+    regression_4348,
+    r#"function first(...values) {
   var index = 0;
   return values[index++];
 }"#,
-  r#"function first() {
+    r#"function first() {
     for(var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++){
         values[_key] = arguments[_key];
     }
@@ -399,17 +398,17 @@ test!(
 );
 
 test!(
-  // type
-  ignore,
-  tr(Default::default()),
-  regression_4634,
-  r#"let oneOf = (...nodes) => {
+    // type
+    ignore,
+    tr(Default::default()),
+    regression_4634,
+    r#"let oneOf = (...nodes) => {
   if (nodes.length === 1) {
     return nodes[0];
   }
   return ((new OneOfNode(nodes)): any)
 }"#,
-  r#"
+    r#"
 let oneOf = function () {
   for (var _len = arguments.length, nodes = new Array(_len), _key = 0; _key < _len; _key++) {
     nodes[_key] = arguments[_key];
@@ -454,9 +453,9 @@ function f(a) {
 );
 
 test_exec!(
-  tr,
-  regression_5787_exec,
-  r#"function f1(a, ...rest) {
+    tr,
+    regression_5787_exec,
+    r#"function f1(a, ...rest) {
   let b = rest[rest.length - 3];
   let c = rest[rest.length - 2];
   let d = rest[rest.length - 1];
@@ -471,12 +470,12 @@ expect(f2(1, 2)).toBeUndefined();"#
 );
 
 test!(
-  tr(Default::default()),
-  rest_args_deoptimiazation,
-  r#"function x (...rest) {
+    tr(Default::default()),
+    rest_args_deoptimiazation,
+    r#"function x (...rest) {
   arguments;
 }"#,
-  r#"
+    r#"
 function x() {
   for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
     rest[_key] = arguments[_key];
@@ -487,11 +486,11 @@ function x() {
 );
 
 test!(
-  // Stage 0
-  ignore,
-  tr(Default::default()),
-  rest_arrow_fn,
-  r#"var concat = (...arrs) => {
+    // Stage 0
+    ignore,
+    tr(Default::default()),
+    rest_arrow_fn,
+    r#"var concat = (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
@@ -527,7 +526,7 @@ var innerclassproperties = (...args) => (
     args = args;
   }
 );"#,
-  r#"var concat = function () {
+    r#"var concat = function () {
   var x = arguments.length <= 0 ? undefined : arguments[0];
   var y = arguments.length <= 1 ? undefined : arguments[1];
 };
@@ -589,10 +588,10 @@ var innerclassproperties = function () {
 );
 
 test!(
-  ignore,
-  tr(Default::default()),
-  rest_async_arrow_fn,
-  r#"var concat = async (...arrs) => {
+    ignore,
+    tr(Default::default()),
+    rest_async_arrow_fn,
+    r#"var concat = async (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
@@ -601,7 +600,7 @@ var x = async (...rest) => {
   if (noNeedToWork) return 0;
   return rest;
 };"#,
-  r#"var concat =
+    r#"var concat =
 /*#__PURE__*/
 function () {
   var _ref = babelHelpers.asyncToGenerator(function* () {
@@ -634,15 +633,11 @@ function () {
 );
 
 test!(
-  chain_at!(
-    Module,
-    crate::compat::es2015::arrow(),
-    tr(Default::default())
-  ),
-  rest_binding_deoptimisation,
-  r#"const deepAssign = (...args) => args = [];
+    chain!(crate::compat::es2015::arrow(), tr(Default::default())),
+    rest_binding_deoptimisation,
+    r#"const deepAssign = (...args) => args = [];
 "#,
-  r#"var deepAssign = function () {
+    r#"var deepAssign = function () {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
@@ -879,9 +874,9 @@ function t(f) {
 );
 
 test_exec!(
-  tr,
-  rest_length_exec,
-  r#"var length = function (a, b, ...items) {
+    tr,
+    rest_length_exec,
+    r#"var length = function (a, b, ...items) {
   return items.length;
 };
 
@@ -892,11 +887,11 @@ expect(length(1, 2, 3)).toBe(1);"#
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  tr(Default::default()),
-  rest_member_expression_deoptimisation,
-  r#"var t = function (...items) {
+    // optimisation is not implemented
+    ignore,
+    tr(Default::default()),
+    rest_member_expression_deoptimisation,
+    r#"var t = function (...items) {
   var x = items[0];
   var y = items[1];
 }
@@ -920,7 +915,7 @@ function t(...items) {
     return items[i];
   }
 }"#,
-  r#"var t = function () {
+    r#"var t = function () {
   var x = arguments.length <= 0 ? undefined : arguments[0];
   var y = arguments.length <= 1 ? undefined : arguments[1];
 };
@@ -949,11 +944,11 @@ function t() {
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  tr(Default::default()),
-  rest_member_expression_optimisation,
-  r#"var t = function (...items) {
+    // optimisation is not implemented
+    ignore,
+    tr(Default::default()),
+    rest_member_expression_optimisation,
+    r#"var t = function (...items) {
   var x = items[0];
   var y = items[1];
 }
@@ -977,7 +972,7 @@ function t(...items) {
     return items[i];
   }
 }"#,
-  r#"var t = function () {
+    r#"var t = function () {
   var x = arguments.length <= 0 ? undefined : arguments[0];
   var y = arguments.length <= 1 ? undefined : arguments[1];
 };
@@ -1056,11 +1051,11 @@ function u(f, g) {
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  tr(Default::default()),
-  rest_nested_5656,
-  r#"function a(...args) {
+    // optimisation is not implemented
+    ignore,
+    tr(Default::default()),
+    rest_nested_5656,
+    r#"function a(...args) {
   const foo = (...list) => bar(...list);
   foo(...args);
 }
@@ -1082,7 +1077,7 @@ function d(thing, ...args) {
     foo(thing);
   }
 }"#,
-  r#"function a() {
+    r#"function a() {
   var foo = function () {
     return bar.apply(void 0, arguments);
   };
@@ -1119,7 +1114,7 @@ function d(thing) {
 );
 
 test!(
-    chain_at!(Module, Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
+    chain!(Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
   if (true) {
@@ -1146,10 +1141,10 @@ test!(
 );
 
 test!(
-  tr(Default::default()),
-  rest_patterns,
-  r#"function foo(...[a]) {}"#,
-  r#"function foo() {
+    tr(Default::default()),
+    rest_patterns,
+    r#"function foo(...[a]) {}"#,
+    r#"function foo() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
@@ -1158,9 +1153,9 @@ test!(
 );
 
 test_exec!(
-  tr,
-  rest_patterns_exec,
-  r#"
+    tr,
+    rest_patterns_exec,
+    r#"
 function foo(...{ length }) {
   return length;
 }
@@ -1169,11 +1164,11 @@ expect(foo(1, 2, 3)).toEqual(3);"#
 );
 
 test!(
-  // optimisation is not implemented
-  ignore,
-  tr(Default::default()),
-  rest_spread_optimisation,
-  r#"// optimisation
+    // optimisation is not implemented
+    ignore,
+    tr(Default::default()),
+    rest_spread_optimisation,
+    r#"// optimisation
 
 function foo(...bar) {
   foo(...bar);
@@ -1193,7 +1188,7 @@ function foo(...args){
   args.pop()
   foo(...args);
 }"#,
-  r#"// optimisation
+    r#"// optimisation
 function foo() {
   foo.apply(void 0, arguments);
 } // deoptimisation

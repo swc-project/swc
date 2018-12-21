@@ -70,7 +70,7 @@ macro_rules! is_one_of {
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
         const TOKEN: &Token = &tok!($t);
-        if !$p.input.is(TOKEN) {
+        if cfg!(debug_assertions) && !$p.input.is(TOKEN) {
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
                 TOKEN,
@@ -87,7 +87,7 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr,';') => {{
-        debug!($p.session.logger, "eat(';'): cur={:?}", cur!($p, true));
+        trace!("eat(';'): cur={:?}", cur!($p, true));
         $p.input.eat(&Token::Semi)
             || eof!($p)
             || is!($p, '}')

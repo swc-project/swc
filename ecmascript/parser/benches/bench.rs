@@ -9,94 +9,66 @@ use swc_common::FileName;
 use swc_ecma_parser::{Parser, Session, SourceFileInput};
 use test::Bencher;
 
-/// Copied from ratel-rust
-static SOURCE: &'static str = r#"
-'use strict';
-/**
- * Extract red color out of a color integer:
- *
- * 0x00DEAD -> 0x00
- *
- * @param  {Number} color
- * @return {Number}
- */
-function red( color )
-{
-    let foo = 3.14;
-    return color >> 16;
+#[bench]
+fn colors(b: &mut Bencher) {
+    // Copied from ratel-rust
+    bench_module(b, include_str!("../colors.js"))
 }
-/**
- * Extract green out of a color integer:
- *
- * 0x00DEAD -> 0xDE
- *
- * @param  {Number} color
- * @return {Number}
- */
-function green( color )
-{
-    return ( color >> 8 ) & 0xFF;
-}
-/**
- * Extract blue color out of a color integer:
- *
- * 0x00DEAD -> 0xAD
- *
- * @param  {Number} color
- * @return {Number}
- */
-function blue( color )
-{
-    return color & 0xFF;
-}
-/**
- * Converts an integer containing a color such as 0x00DEAD to a hex
- * string, such as '#00DEAD';
- *
- * @param  {Number} int
- * @return {String}
- */
-function intToHex( int )
-{
-    const mask = '#000000';
-    const hex = int.toString( 16 );
-    return mask.substring( 0, 7 - hex.length ) + hex;
-}
-/**
- * Converts a hex string containing a color such as '#00DEAD' to
- * an integer, such as 0x00DEAD;
- *
- * @param  {Number} num
- * @return {String}
- */
-function hexToInt( hex )
-{
-    return parseInt( hex.substring( 1 ), 16 );
-}
-module.exports = {
-    red,
-    green,
-    blue,
-    intToHex,
-    hexToInt,
-};
-"#;
 
 #[bench]
-fn parse_module(b: &mut Bencher) {
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+fn angular(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/angular-1.2.5.js"))
+}
+
+#[bench]
+fn backbone(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/backbone-1.1.0.js"))
+}
+
+#[bench]
+fn jquery(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/jquery-1.9.1.js"))
+}
+
+#[bench]
+fn jquery_mobile(b: &mut Bencher) {
+    bench_module(
+        b,
+        include_str!("./esprima/test/3rdparty/jquery.mobile-1.4.2.js"),
+    )
+}
+
+#[bench]
+fn mootools(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/mootools-1.4.5.js"))
+}
+
+#[bench]
+fn underscore(b: &mut Bencher) {
+    bench_module(
+        b,
+        include_str!("./esprima/test/3rdparty/underscore-1.5.2.js"),
+    )
+}
+
+#[bench]
+fn yui(b: &mut Bencher) {
+    bench_module(b, include_str!("./esprima/test/3rdparty/yui-3.12.0.js"))
+}
+
+fn bench_module(b: &mut Bencher, src: &'static str) {
+    b.bytes = src.len() as _;
+
+    let _ = ::testing::run_test(|cm, handler| {
+        let session = Session {
+            handler: &handler,
+            cfg: Default::default(),
+        };
+        let fm = cm.new_source_file(FileName::Anon(0), src.into());
 
         b.iter(|| {
             test::black_box({
-                let mut parser = Parser::new(
-                    Session {
-                        logger: &logger,
-                        handler: &handler,
-                        cfg: Default::default(),
-                    },
-                    SourceFileInput::from(&*fm),
-                );
+                let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
                 let _ = parser.parse_module();
             })
         });

@@ -1,5 +1,5 @@
-use ast::*;
 use crate::scope::{Scope, ScopeAnalyzer, ScopeOp, Traverse};
+use ast::*;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
@@ -73,7 +73,7 @@ pub fn hygiene() -> impl Fold<Module> {
     Folder
 }
 #[cfg(test)]
-mod test {
+mod tests {
     use super::*;
     use std::collections::HashMap;
     use swc_common::{hygiene::*, Fold, DUMMY_SP};
@@ -139,13 +139,13 @@ mod test {
 
                 Ok(vec![
                     tester
-                        .parse_stmt("actual.js", "var foo = 1;")?
+                        .parse_stmt("actual1.js", "var foo = 1;")?
                         .fold_with(&mut marker(&[("foo", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "var foo = 2;")?
+                        .parse_stmt("actual2.js", "var foo = 2;")?
                         .fold_with(&mut marker(&[("foo", mark2)])),
                     tester
-                        .parse_stmt("actual.js", "use(foo)")?
+                        .parse_stmt("actual3.js", "use(foo)")?
                         .fold_with(&mut marker(&[("foo", mark1)])),
                 ])
             },
@@ -164,13 +164,13 @@ mod test {
 
                 let stmts = vec![
                     tester
-                        .parse_stmt("actual.js", "var foo = 1;")?
+                        .parse_stmt("actual1.js", "var foo = 1;")?
                         .fold_with(&mut marker(&[("foo", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "{ let foo = 2; use(foo); }")?
+                        .parse_stmt("actual2.js", "{ let foo = 2; use(foo); }")?
                         .fold_with(&mut marker(&[("foo", mark2)])),
                     tester
-                        .parse_stmt("actual.js", "use(foo)")?
+                        .parse_stmt("actual3.js", "use(foo)")?
                         .fold_with(&mut marker(&[("foo", mark1)])),
                 ];
                 Ok(stmts)
@@ -193,13 +193,13 @@ mod test {
 
                 Ok(vec![
                     tester
-                        .parse_stmt("actual.js", "var foo = function baz(){}")?
+                        .parse_stmt("actual1.js", "var foo = function baz(){}")?
                         .fold_with(&mut marker(&[("baz", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "var bar = function baz(){};")?
+                        .parse_stmt("actual2.js", "var bar = function baz(){};")?
                         .fold_with(&mut marker(&[("baz", mark2)])),
                     tester
-                        .parse_stmt("actual.js", "use(baz)")?
+                        .parse_stmt("actual3.js", "use(baz)")?
                         .fold_with(&mut marker(&[("baz", mark1)])),
                 ])
             },
@@ -219,16 +219,16 @@ mod test {
 
                 Ok(vec![
                     tester
-                        .parse_stmt("actual.js", "var foo = use(function baz(){})")?
+                        .parse_stmt("actual1.js", "var foo = use(function baz(){})")?
                         .fold_with(&mut marker(&[("baz", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "var bar1 = use(function baz(){})")?
+                        .parse_stmt("actual2.js", "var bar1 = use(function baz(){})")?
                         .fold_with(&mut marker(&[("baz", mark2)])),
                     tester
-                        .parse_stmt("actual.js", "var bar2 = use(function baz(){})")?
+                        .parse_stmt("actual3.js", "var bar2 = use(function baz(){})")?
                         .fold_with(&mut marker(&[("baz", mark3)])),
                     tester
-                        .parse_stmt("actual.js", "use(baz)")?
+                        .parse_stmt("actual4.js", "use(baz)")?
                         .fold_with(&mut marker(&[("baz", mark1)])),
                 ])
             },
@@ -248,10 +248,10 @@ mod test {
 
                 Ok(vec![
                     tester
-                        .parse_stmt("actual.js", "let a;")?
+                        .parse_stmt("actual1.js", "let a;")?
                         .fold_with(&mut marker(&[("a", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "foo.a = init")?
+                        .parse_stmt("actual2.js", "foo.a = init")?
                         .fold_with(&mut marker(&[("a", mark2)])),
                 ])
             },
@@ -269,15 +269,17 @@ mod test {
 
                 Ok(vec![
                     tester
-                        .parse_stmt("actual.js", "const a = 1;")?
+                        .parse_stmt("actual1.js", "const a = 1;")?
                         .fold_with(&mut marker(&[("a", mark1)])),
                     tester
-                        .parse_stmt("actual.js", "function foo(a) {use(a);}")?
+                        .parse_stmt("actual2.js", "function foo(a) {use(a);}")?
                         .fold_with(&mut marker(&[("a", mark2)])),
                 ])
             },
             "const a = 1;
-            function foo(a1) {use(a1);}",
+            function foo(a1) {
+                use(a1);
+            }",
         );
     }
 

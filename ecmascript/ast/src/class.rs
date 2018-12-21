@@ -6,7 +6,7 @@ pub struct Class {
     pub span: Span,
 
     pub body: Vec<ClassMethod>,
-    pub super_class: Option<(Box<Expr>)>,
+    pub super_class: Option<Box<Expr>>,
 }
 
 #[ast_node]
@@ -19,7 +19,7 @@ pub struct ClassMethod {
     #[fold(ignore)]
     pub kind: ClassMethodKind,
 
-    pub static_token: Option<Span>,
+    pub is_static: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Fold)]

@@ -62,11 +62,11 @@ impl ItemImplExt for ItemImpl {
         let mut item: ItemImpl = {
             let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
             let item = if let Some((ref polarity, ref path, ref for_token)) = self.trait_ {
-                quote!{
+                quote! {
                     impl #impl_generics #polarity #path #for_token #ty #ty_generics #where_clause {}
                 }
             } else {
-                quote!{
+                quote! {
                     impl #impl_generics #ty #ty_generics #where_clause {}
 
                 }

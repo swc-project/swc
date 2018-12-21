@@ -9,9 +9,9 @@ pub struct Function {
 
     pub body: BlockStmt,
 
-    /// `Some` if it's a generator.
-    pub generator_token: Option<Span>,
+    /// if it's a generator.
+    pub is_generator: bool,
 
-    /// `Some` if it's an async function.
-    pub async_token: Option<Span>,
+    /// if it's an async function.
+    pub is_async: bool,
 }

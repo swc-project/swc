@@ -1,8 +1,8 @@
-use ast::*;
 use crate::{
     compat::helpers::Helpers,
     util::{ExprFactory, StmtLike},
 };
+use ast::*;
 use std::sync::{atomic::Ordering, Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -118,8 +118,8 @@ impl Fold<Expr> for ObjectLitFolder {
                                         Function {
                                             span,
                                             body,
-                                            async_token: None,
-                                            generator_token: None,
+                                            is_async: false,
+                                            is_generator: false,
                                             params: vec![],
                                         },
                                     ),
@@ -133,8 +133,8 @@ impl Fold<Expr> for ObjectLitFolder {
                                         Function {
                                             span,
                                             body,
-                                            async_token: None,
-                                            generator_token: None,
+                                            is_async: false,
+                                            is_generator: false,
                                             params: vec![param],
                                         },
                                     ),

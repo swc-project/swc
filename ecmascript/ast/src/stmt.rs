@@ -1,6 +1,5 @@
 use super::{Decl, Expr, Ident, Pat, VarDecl};
-use swc_common::Span;
-use swc_common::ast_node;
+use swc_common::{ast_node, Span};
 
 /// Use when only block statements are allowed.
 #[ast_node]

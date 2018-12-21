@@ -9,29 +9,23 @@ repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc/"
 description = "Speedy web compiler"
 
-[[bin]]
+[lib]
 name = "swc"
 
 [dependencies]
-libswc = { version = "0.1", path = "./libswc" }
 rayon = "1.0.3"
-slog = "2"
-slog-envlogger = "2.1"
-slog-term = "2.3"
-
-[dependencies.clap]
-version = "2.29.1"
-default-features = false
-features = [ "suggestions", "color" ]
+swc_atoms = { version = "0.1", path ="./atoms" }
+swc_common = { version = "0.1", path ="./common" }
+swc_ecmascript = { version = "0.1", path ="./ecmascript" }
+sourcemap = "2.2"
 
 
 [profile.bench]
-# lto = true
+lto = true
 
 [profile.release]
-# lto = true
+lto = true
 
 [patch.crates-io]
 # This reduces compile time
 sourcemap = { git = "https://github.com/kdy1/rust-sourcemap.git" }
-slog-envlogger = { git = "https://github.com/slog-rs/envlogger.git" }

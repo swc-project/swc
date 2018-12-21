@@ -54,7 +54,7 @@ impl Context {
             | js_word!("public")
                 if self.strict =>
             {
-                return true
+                return true;
             }
 
             _ => false,

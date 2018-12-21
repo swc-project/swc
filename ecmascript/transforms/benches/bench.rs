@@ -92,12 +92,13 @@ module.exports = {
 /// Benchmark a folder
 macro_rules! tr {
     ($b:expr, $tr:expr) => {
-        let _ = ::testing::run_test(|logger, cm, handler| {
-            let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+        $b.bytes = SOURCE.len() as _;
+
+        let _ = ::testing::run_test(|cm, handler| {
+            let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
             let mut parser = Parser::new(
                 Session {
-                    logger: &logger,
                     handler: &handler,
                     cfg: Default::default(),
                 },

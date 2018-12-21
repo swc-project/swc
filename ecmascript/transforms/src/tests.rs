@@ -1,5 +1,4 @@
 use ast::*;
-use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
@@ -15,7 +14,6 @@ impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
-    logger: Logger,
     pub handler: &'a Handler,
 }
 
@@ -24,13 +22,7 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
-        let out = ::testing::run_test(|logger, cm, handler| {
-            op(&mut Tester {
-                cm,
-                logger,
-                handler,
-            })
-        });
+        let out = ::testing::run_test(|cm, handler| op(&mut Tester { cm, handler }));
 
         match out {
             Ok(()) => {}
@@ -48,7 +40,6 @@ impl<'a> Tester<'a> {
 
         let sess = Session {
             handler: &self.handler,
-            logger: &self.logger,
             cfg: Default::default(),
         };
 
@@ -61,10 +52,6 @@ impl<'a> Tester<'a> {
         assert!(stmts.len() == 1);
 
         Ok(stmts.pop().unwrap())
-    }
-
-    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
-        self.with_parser(file_name, src, |p| p.parse_script())
     }
 
     pub fn apply_transform<T: Fold<Module>>(
@@ -80,7 +67,6 @@ impl<'a> Tester<'a> {
         let module = {
             let sess = Session {
                 handler: &self.handler,
-                logger: &self.logger,
                 cfg: Default::default(),
             };
 

@@ -1,5 +1,5 @@
-use ast::*;
 use crate::{compat::helpers::Helpers, util::ExprFactory};
+use ast::*;
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
@@ -37,8 +37,8 @@ impl Fold<Expr> for TemplateLiteral {
                                 ident: Some(fn_ident.clone()),
                                 function: Function {
                                     span: DUMMY_SP,
-                                    async_token: None,
-                                    generator_token: None,
+                                    is_async: false,
+                                    is_generator: false,
                                     params: vec![],
                                     body: {
                                         // const data = _taggedTemplateLiteral(["first", "second"]);
@@ -117,8 +117,8 @@ impl Fold<Expr> for TemplateLiteral {
                                                     ident: None,
                                                     function: Function {
                                                         span: DUMMY_SP,
-                                                        async_token: None,
-                                                        generator_token: None,
+                                                        is_async: false,
+                                                        is_generator: false,
                                                         params: vec![],
                                                         body: BlockStmt {
                                                             span: DUMMY_SP,

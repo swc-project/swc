@@ -531,7 +531,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     function:
                         Function {
                             span,
-                            generator_token: Some(..),
+                            is_generator: true,
                             ..
                         },
                     ..

@@ -88,12 +88,11 @@ module.exports = {
 
 #[bench]
 fn module_clone(b: &mut Bencher) {
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+    let _ = ::testing::run_test(|cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },
@@ -108,13 +107,14 @@ fn module_clone(b: &mut Bencher) {
 
 #[bench]
 fn fold_empty(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
     struct Noop;
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+    let _ = ::testing::run_test(|cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },
@@ -140,12 +140,14 @@ fn fold_noop_impl_all(b: &mut Bencher) {
             node
         }
     }
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+
+    b.bytes = SOURCE.len() as _;
+
+    let _ = ::testing::run_test(|cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },
@@ -171,12 +173,14 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
             node
         }
     }
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+
+    b.bytes = SOURCE.len() as _;
+
+    let _ = ::testing::run_test(|cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },
@@ -200,7 +204,7 @@ fn mk_expr() -> Expr {
 
 #[bench]
 fn boxing_boxed_clone(b: &mut Bencher) {
-    let _ = ::testing::run_test(|_, _, _| {
+    let _ = ::testing::run_test(|_, _| {
         let expr = box mk_expr();
 
         b.iter(|| test::black_box(expr.clone()));
@@ -210,7 +214,7 @@ fn boxing_boxed_clone(b: &mut Bencher) {
 
 #[bench]
 fn boxing_unboxed_clone(b: &mut Bencher) {
-    let _ = ::testing::run_test(|_, _, _| {
+    let _ = ::testing::run_test(|_, _| {
         let expr = mk_expr();
 
         b.iter(|| test::black_box(expr.clone()));
@@ -222,7 +226,7 @@ fn boxing_unboxed_clone(b: &mut Bencher) {
 fn boxing_boxed(b: &mut Bencher) {
     struct Noop;
 
-    let _ = ::testing::run_test(|_, _, _| {
+    let _ = ::testing::run_test(|_, _| {
         let mut folder = Noop;
         let expr = box mk_expr();
 
@@ -235,7 +239,7 @@ fn boxing_boxed(b: &mut Bencher) {
 fn boxing_unboxed(b: &mut Bencher) {
     struct Noop;
 
-    let _ = ::testing::run_test(|_, _, _| {
+    let _ = ::testing::run_test(|_, _| {
         let mut folder = Noop;
         let expr = mk_expr();
 
@@ -246,13 +250,14 @@ fn boxing_unboxed(b: &mut Bencher) {
 
 #[bench]
 fn visit_empty(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
     struct Noop;
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+    let _ = ::testing::run_test(|cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },
@@ -293,12 +298,14 @@ fn visit_contains_this(b: &mut Bencher) {
         body.visit_with(&mut visitor);
         visitor.found
     }
-    let _ = ::testing::run_test(|logger, cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
+
+    b.bytes = SOURCE.len() as _;
+
+    let _ = ::testing::run_test(|cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
         let mut parser = Parser::new(
             Session {
-                logger: &logger,
                 handler: &handler,
                 cfg: Default::default(),
             },

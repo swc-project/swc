@@ -1,5 +1,5 @@
-use ast::*;
 use crate::{compat::helpers::Helpers, util::ExprFactory};
+use ast::*;
 use std::{
     iter,
     sync::{atomic::Ordering, Arc},
@@ -45,8 +45,8 @@ pub struct Classes {
     pub helpers: Arc<Helpers>,
 }
 
-impl Fold<Stmt> for Classes {
-    fn fold(&mut self, n: Stmt) -> Stmt {
+impl Fold<Decl> for Classes {
+    fn fold(&mut self, n: Decl) -> Decl {
         let n = n.fold_children(self);
 
         match n {
@@ -68,11 +68,11 @@ impl Fold<Stmt> for Classes {
             //
             //      return Foo;
             //    }();
-            Stmt::Decl(Decl::Class(decl)) => {
+            Decl::Class(decl) => {
                 let span = decl.span();
                 let rhs = self.fold_class(Some(decl.ident.clone()), decl.class);
 
-                Stmt::Decl(Decl::Var(VarDecl {
+                Decl::Var(VarDecl {
                     span,
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
@@ -81,7 +81,7 @@ impl Fold<Stmt> for Classes {
                         // Foo in var Foo =
                         name: decl.ident.into(),
                     }],
-                }))
+                })
             }
             _ => n,
         }
@@ -143,8 +143,8 @@ impl Classes {
                 ident: None,
                 function: Function {
                     span: DUMMY_SP,
-                    async_token: None,
-                    generator_token: None,
+                    is_async: false,
+                    is_generator: false,
                     params,
                     body,
                 },
@@ -195,8 +195,8 @@ impl Classes {
                 }
             };
             let mut function = constructor.map(|c| c.function).unwrap_or_else(|| Function {
-                async_token: None,
-                generator_token: None,
+                is_async: false,
+                is_generator: false,
                 span: class_name.span,
                 params: vec![],
                 body: BlockStmt {
@@ -390,7 +390,7 @@ impl Classes {
                 //  Foo.staticMethod
                 //  Foo.prototype.method
                 ClassMethodKind::Method => {
-                    let append_to: &mut Vec<_> = if let Some(_static_token) = m.static_token {
+                    let append_to: &mut Vec<_> = if m.is_static {
                         &mut static_props
                     } else {
                         &mut props

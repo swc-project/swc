@@ -5,7 +5,7 @@
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 pub use self::input::Input;
-use self::{input::LexerInput, state::State, util::*};
+use self::{state::State, util::*};
 use ast::Str;
 use error::SyntaxError;
 use std::char;
@@ -27,7 +27,7 @@ pub(crate) type LexResult<T> = Result<T, ::error::Error>;
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
     pub ctx: Context,
-    input: LexerInput<I>,
+    input: I,
     state: State,
 }
 
@@ -35,7 +35,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(session: Session<'a>, input: I) -> Self {
         Lexer {
             session,
-            input: LexerInput::new(input),
+            input,
             state: Default::default(),
             ctx: Default::default(),
         }
@@ -277,7 +277,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, mut raw: &mut Raw) -> LexResult<Option<char>> {
-        assert_eq!(self.cur(), Some('\\'));
+        debug_assert_eq!(self.cur(), Some('\\'));
         let start = self.cur_pos();
         self.bump(); // '\'
 
@@ -491,9 +491,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut word = String::new();
         let mut first = true;
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = {
+            // Optimization
+            {
+                let s = self.input.uncons_while(|c| c.is_ident_part());
+                if s.len() != 0 {
+                    first = false;
+                }
+                word.push_str(s)
+            };
+
+            self.cur()
+        } {
             let start = self.cur_pos();
-            // TODO: optimize (cow / chunk)
+
             match c {
                 c if c.is_ident_part() => {
                     self.bump();
@@ -528,7 +539,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     fn read_unicode_escape(&mut self, start: BytePos, raw: &mut Raw) -> LexResult<char> {
-        assert_eq!(self.cur(), Some('u'));
+        debug_assert_eq!(self.cur(), Some('u'));
         self.bump();
 
         raw.push_str("u");
@@ -585,9 +596,16 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut out = String::new();
         let mut has_escape = false;
 
-        //TODO: Optimize (Cow, Chunk)
-
-        while let Some(c) = self.cur() {
+        while let Some(c) = {
+            // Optimization
+            {
+                let s = self
+                    .input
+                    .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
+                out.push_str(s);
+            }
+            self.cur()
+        } {
             match c {
                 c if c == quote => {
                     self.bump();
@@ -613,7 +631,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self) -> LexResult<Token> {
-        assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.cur(), Some('/'));
         let start = self.cur_pos();
         self.bump();
 

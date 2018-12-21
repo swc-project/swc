@@ -1,3 +1,6 @@
 [submodule "ecmascript/test262-parser-tests"]
 	path = ecmascript/parser/tests/test262-parser
 	url = https://github.com/tc39/test262-parser-tests.git
+[submodule "ecmascript/parser/benches/esprima"]
+	path = ecmascript/parser/benches/esprima
+	url = https://github.com/jquery/esprima.git

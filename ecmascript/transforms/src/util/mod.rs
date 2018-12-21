@@ -195,7 +195,7 @@ pub trait ExprExt {
                         Lit::Null(..) => false,
                         Lit::Regex(..) => true,
                     }),
-                )
+                );
             }
 
             //TODO?
@@ -257,7 +257,7 @@ pub trait ExprExt {
             }
 
             Expr::Tpl(..) | Expr::Object(ObjectLit { .. }) | Expr::Array(ArrayLit { .. }) => {
-                return num_from_str(&*self.as_string()?)
+                return num_from_str(&*self.as_string()?);
             }
 
             _ => return Unknown,
@@ -417,7 +417,7 @@ pub trait ExprExt {
                     js_word!("undefined") => UndefinedType,
                     js_word!("NaN") | js_word!("Infinity") => NumberType,
                     _ => return Unknown,
-                })
+                });
             }
 
             Expr::Lit(Lit::Num(..))

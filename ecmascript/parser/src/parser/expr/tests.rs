@@ -127,8 +127,8 @@ fn arrow_fn_no_args() {
         expr("() => 1"),
         box Expr::Arrow(ArrowExpr {
             span,
-            async_token: None,
-            generator_token: None,
+            is_async: false,
+            is_generator: false,
             params: vec![],
             body: BlockStmtOrExpr::Expr(expr("1")),
         })
@@ -140,8 +140,8 @@ fn arrow_fn() {
         expr("(a) => 1"),
         box Expr::Arrow(ArrowExpr {
             span,
-            async_token: None,
-            generator_token: None,
+            is_async: false,
+            is_generator: false,
             params: vec![Pat::Ident(Ident {
                 span,
                 sym: "a".into(),
@@ -156,8 +156,8 @@ fn arrow_fn_rest() {
         expr("(...a) => 1"),
         box Expr::Arrow(ArrowExpr {
             span,
-            async_token: None,
-            generator_token: None,
+            is_async: false,
+            is_generator: false,
             params: vec![Pat::Rest(RestPat {
                 dot3_token: span,
                 arg: box Pat::Ident(Ident {
@@ -175,8 +175,8 @@ fn arrow_fn_no_paren() {
         expr("a => 1"),
         box Expr::Arrow(ArrowExpr {
             span,
-            async_token: None,
-            generator_token: None,
+            is_async: false,
+            is_generator: false,
             params: vec![Pat::Ident(Ident {
                 span,
                 sym: "a".into(),

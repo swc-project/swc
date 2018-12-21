@@ -103,12 +103,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
             let name = self.parse_prop_name()?;
             return self
-                .parse_fn_args_body(
-                    start,
-                    Parser::parse_unique_formal_params,
-                    None,
-                    Some(span_of_gen),
-                )
+                .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
                 .map(|function| {
                     PropOrSpread::Prop(box Prop::Method(MethodProp {
                         key: name,
@@ -134,7 +129,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self
-                .parse_fn_args_body(start, Parser::parse_unique_formal_params, None, None)
+                .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
                 .map(|function| box Prop::Method(MethodProp { key, function }))
                 .map(PropOrSpread::Prop);
         }
@@ -172,7 +167,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
                 return match ident.sym {
                     js_word!("get") => self
-                        .parse_fn_args_body(start, |_| Ok(vec![]), None, None)
+                        .parse_fn_args_body(start, |_| Ok(vec![]), false, false)
                         .map(|Function { body, .. }| {
                             PropOrSpread::Prop(box Prop::Getter(GetterProp {
                                 span: span!(start),
@@ -184,11 +179,11 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                         .parse_fn_args_body(
                             start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
-                            None,
-                            None,
+                            false,
+                            false,
                         )
                         .map(|Function { params, body, .. }| {
-                            assert_eq!(params.len(), 1);
+                            debug_assert_eq!(params.len(), 1);
                             PropOrSpread::Prop(box Prop::Setter(SetterProp {
                                 span: span!(start),
                                 key,
@@ -197,12 +192,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             }))
                         }),
                     js_word!("async") => self
-                        .parse_fn_args_body(
-                            start,
-                            Parser::parse_unique_formal_params,
-                            Some(ident.span),
-                            None,
-                        )
+                        .parse_fn_args_body(start, Parser::parse_unique_formal_params, true, false)
                         .map(|function| {
                             PropOrSpread::Prop(box Prop::Method(MethodProp { key, function }))
                         }),

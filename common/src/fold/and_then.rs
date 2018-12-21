@@ -68,39 +68,14 @@ where
     }
 }
 
-impl<T, A, B> Fold<Box<T>> for AndThen<A, B>
-where
-    Box<T>: FoldWith<Self>,
-    Self: Fold<T>,
-    A: Fold<T>,
-    B: Fold<T>,
-{
-    fn fold(&mut self, node: Box<T>) -> Box<T> {
-        // println!(
-        //     "Box<{}, {}>({})",
-        //     type_name::<A>(),
-        //     type_name::<B>(),
-        //     type_name::<T>()
-        // );
-        box self.fold(*node)
-    }
-}
-
 impl<T, A, B> Fold<Vec<T>> for AndThen<A, B>
 where
     Vec<T>: FoldWith<Self>,
-    Self: Fold<T>,
     A: Fold<T>,
     B: Fold<T>,
 {
-    fn fold(&mut self, node: Vec<T>) -> Vec<T> {
-        // println!(
-        //     "Vec<{}, {}>({})",
-        //     type_name::<A>(),
-        //     type_name::<B>(),
-        //     type_name::<T>()
-        // );
-        node.move_map(|node| self.fold(node))
+    fn fold(&mut self, nodes: Vec<T>) -> Vec<T> {
+        nodes.move_map(|node| self.second.fold(self.first.fold(node)))
     }
 }
 

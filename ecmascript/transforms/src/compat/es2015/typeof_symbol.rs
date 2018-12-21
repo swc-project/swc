@@ -1,5 +1,5 @@
-use ast::*;
 use crate::{compat::helpers::Helpers, util::ExprFactory};
+use ast::*;
 use std::sync::{atomic::Ordering, Arc};
 use swc_common::{Fold, FoldWith};
 
