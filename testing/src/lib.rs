@@ -15,7 +15,7 @@ use regex::Regex;
 use std::{
     fmt::Debug,
     fs::{create_dir_all, File},
-    io::{self, Write},
+    io::Write,
     path::Path,
     thread,
 };

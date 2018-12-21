@@ -35,8 +35,11 @@ impl Compiler {
         }
     }
 
-    pub fn run<F,T>(&self,op:F)->T where F:FnOnce()->T{
-        GLOBALS.set(&self.globals, op)        
+    pub fn run<F, T>(&self, op: F) -> T
+    where
+        F: FnOnce() -> T,
+    {
+        GLOBALS.set(&self.globals, op)
     }
 
     pub fn parse_js(&self, name: FileName, src: &str) -> Result<Module, ()> {

@@ -1,5 +1,4 @@
 use ast::*;
-use slog::Logger;
 use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},

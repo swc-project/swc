@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate neon;
 extern crate swc;
+use neon::prelude::*;
+use std::sync::Arc;
 use swc::{
     common::{
         self, errors::Handler, sync::Lrc, FileName, FilePathMapping, Fold, FoldWith, SourceMap,
@@ -12,8 +14,6 @@ use swc::{
     },
     Compiler,
 };
-use neon::prelude::*;
-use std::sync::Arc;
 
 fn parse(mut cx: FunctionContext) -> JsResult<JsObject> {
     let source = cx.argument::<JsString>(0)?;
@@ -33,7 +33,7 @@ fn parse(mut cx: FunctionContext) -> JsResult<JsObject> {
     Ok(cx.empty_object())
 }
 
-fn transform(mut cx: FunctionContext) -> JsResult<JsString> {
+fn transform(mut cx: FunctionContext) -> JsResult<JsObject> {
     let source = cx.argument::<JsString>(0)?;
 
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
@@ -60,9 +60,12 @@ fn transform(mut cx: FunctionContext) -> JsResult<JsString> {
     )
     .unwrap();
 
-    let s = String::from_utf8(buf).unwrap();
+    let code = cx.string(&String::from_utf8(buf).unwrap());
 
-    Ok(cx.string(&s))
+    let obj = cx.empty_object();
+    obj.set(&mut cx, "code", code)?;
+
+    Ok(obj)
 }
 
 fn transform_module(cm: Lrc<SourceMap>, module: Module) -> Module {

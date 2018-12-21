@@ -7,8 +7,6 @@
 #![feature(trace_macros)]
 #![cfg_attr(test, feature(test))]
 
-#[macro_use]
-extern crate slog;
 #[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate fnv;

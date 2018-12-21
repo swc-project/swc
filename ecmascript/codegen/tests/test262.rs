@@ -1,7 +1,6 @@
 #![feature(box_syntax)]
 #![feature(specialization)]
 #![feature(test)]
-extern crate slog;
 extern crate sourcemap;
 extern crate swc_common;
 extern crate swc_ecma_ast;

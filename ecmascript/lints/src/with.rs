@@ -1,4 +1,4 @@
-use swc_common::{errors::Handler, Visit, VisitWith};
+use swc_common::{errors::Handler, Visit};
 use swc_ecma_ast::*;
 
 pub struct With<'a> {
