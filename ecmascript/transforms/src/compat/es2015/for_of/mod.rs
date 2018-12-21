@@ -9,7 +9,7 @@ mod tests;
 ///
 /// ## In
 ///
-/// ```
+/// ```js
 /// for (var i of foo) {}
 /// ```
 ///
