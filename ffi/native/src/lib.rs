@@ -1,8 +1,11 @@
 #[macro_use]
 extern crate neon;
+extern crate sourcemap;
 extern crate swc;
+
 use neon::prelude::*;
 use std::sync::Arc;
+
 use swc::{
     common::{
         self, errors::Handler, sync::Lrc, FileName, FilePathMapping, Fold, FoldWith, SourceMap,
@@ -46,30 +49,42 @@ fn transform(mut cx: FunctionContext) -> JsResult<JsObject> {
     );
 
     let c = Compiler::new(cm.clone(), handler);
-    let module = c.parse_js(FileName::Anon(0), &source.value()).unwrap();
+    let module = c
+        .parse_js(FileName::Anon(0), &source.value())
+        .expect("failed to parse module");
     let module = c.run(|| transform_module(cm.clone(), module));
-    let mut buf = vec![];
-    c.emit_module(
-        &module,
-        codegen::Config {
-            enable_comments: false,
-            omit_trailing_semi: true,
-            sourcemap: None,
-        },
-        &mut buf,
-    )
-    .unwrap();
 
-    let code = cx.string(&String::from_utf8(buf).unwrap());
+    let (code, map) = c
+        .emit_module(
+            &module,
+            codegen::Config {
+                enable_comments: false,
+            },
+        )
+        .expect("failed to emit module");
+
+    let code = cx.string(&code);
 
     let obj = cx.empty_object();
     obj.set(&mut cx, "code", code)?;
+    {
+        let mut buf = vec![];
+        map.to_writer(&mut buf).expect("failed to write sourcemap");
+        let map =
+            cx.string(&String::from_utf8(buf).expect("failed to write sourcemap: invalid utf8"));
+        obj.set(&mut cx, "map", map)?;
+    }
 
     Ok(obj)
 }
 
-fn transform_module(cm: Lrc<SourceMap>, module: Module) -> Module {
+fn transform_module(cm: Lrc<SourceMap>, module: Module,optimize:bool) -> Module {
     let helpers = Arc::new(compat::helpers::Helpers::default());
+
+    let module = if optimize{
+        module.fold_with
+        (&mut simplifier()),
+    }else{module};
 
     let module = module
         .fold_with(
@@ -81,7 +96,6 @@ fn transform_module(cm: Lrc<SourceMap>, module: Module) -> Module {
                     helpers: helpers.clone(),
                 }),
         )
-        .fold_with(&mut simplifier())
         .fold_with(&mut hygiene());
     module
 }

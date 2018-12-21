@@ -15,10 +15,7 @@ use self::{
     },
 };
 use sourcemap::SourceMapBuilder;
-use std::{
-    io::{self, Write},
-    path::Path,
-};
+use std::{io, path::Path};
 
 pub struct Compiler {
     pub globals: Globals,
@@ -67,31 +64,36 @@ impl Compiler {
         })
     }
 
+    /// Returns code, sourcemap (if config is file)
     pub fn emit_module(
         &self,
         module: &Module,
         cfg: codegen::Config,
-        wr: &mut Write,
-    ) -> io::Result<()> {
+    ) -> io::Result<(String, sourcemap::SourceMap)> {
         self.run(|| {
             let mut src_map_builder = SourceMapBuilder::new(None);
-            {
-                let handlers = box MyHandlers;
-                let mut emitter = Emitter {
-                    cfg,
-                    cm: self.cm.clone(),
-                    wr: box swc_ecmascript::codegen::text_writer::JsWriter::new(
-                        self.cm.clone(),
-                        "\n",
-                        wr,
-                        &mut src_map_builder,
-                    ),
-                    handlers,
-                    pos_of_leading_comments: Default::default(),
-                };
+            let src = {
+                let mut buf = vec![];
+                {
+                    let handlers = box MyHandlers;
+                    let mut emitter = Emitter {
+                        cfg,
+                        cm: self.cm.clone(),
+                        wr: box swc_ecmascript::codegen::text_writer::JsWriter::new(
+                            self.cm.clone(),
+                            "\n",
+                            &mut buf,
+                            &mut src_map_builder,
+                        ),
+                        handlers,
+                        pos_of_leading_comments: Default::default(),
+                    };
 
-                emitter.emit_module(&module)
-            }
+                    emitter.emit_module(&module)?;
+                }
+                String::from_utf8(buf).unwrap()
+            };
+            Ok((src, src_map_builder.into_sourcemap()))
         })
     }
 }

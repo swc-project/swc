@@ -15,7 +15,7 @@ extern crate swc_ecma_codegen_macros;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 
-pub use self::config::{Config, SourceMapConfig};
+pub use self::config::Config;
 use self::{
     list::ListFormat,
     text_writer::WriteJs,
