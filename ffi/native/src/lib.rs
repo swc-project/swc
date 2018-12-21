@@ -1,5 +1,9 @@
 #[macro_use]
 extern crate neon;
+extern crate neon_serde;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 extern crate sourcemap;
 extern crate swc;
 
@@ -36,8 +40,17 @@ fn parse(mut cx: FunctionContext) -> JsResult<JsObject> {
     Ok(cx.empty_object())
 }
 
+#[derive(Default, Deserialize)]
+struct TransformOption {
+    optimize: bool,
+}
+
 fn transform(mut cx: FunctionContext) -> JsResult<JsObject> {
     let source = cx.argument::<JsString>(0)?;
+    let options = match cx.argument_opt(1) {
+        Some(v) => neon_serde::from_value(&mut cx, v)?,
+        None => Default::default(),
+    };
 
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -52,7 +65,7 @@ fn transform(mut cx: FunctionContext) -> JsResult<JsObject> {
     let module = c
         .parse_js(FileName::Anon(0), &source.value())
         .expect("failed to parse module");
-    let module = c.run(|| transform_module(cm.clone(), module));
+    let module = c.run(|| transform_module(cm.clone(), module, options));
 
     let (code, map) = c
         .emit_module(
@@ -78,13 +91,14 @@ fn transform(mut cx: FunctionContext) -> JsResult<JsObject> {
     Ok(obj)
 }
 
-fn transform_module(cm: Lrc<SourceMap>, module: Module,optimize:bool) -> Module {
+fn transform_module(cm: Lrc<SourceMap>, module: Module, options: TransformOption) -> Module {
     let helpers = Arc::new(compat::helpers::Helpers::default());
 
-    let module = if optimize{
-        module.fold_with
-        (&mut simplifier()),
-    }else{module};
+    let module = if options.optimize {
+        module.fold_with(&mut simplifier())
+    } else {
+        module
+    };
 
     let module = module
         .fold_with(

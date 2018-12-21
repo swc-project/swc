@@ -79,7 +79,9 @@ module.exports = {
 `;
 
 const PARSERS = [
-  ['swc', '../', (module) => module.transform(SOURCE)],
+  ['swc', '../', (module) => module.transform(SOURCE, {
+    optimize: false,
+  })],
   ['babel', '@babel/core', (module) => module.transformSync(SOURCE, {
     presets: ["@babel/preset-env"]
   })],
