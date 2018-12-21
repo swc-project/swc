@@ -75,9 +75,11 @@ New generation javascript to old-days javascript.
 
 # Performance
 
-  | swc (ffi)           | 1,086 ops/sec ±0.77% (84 runs sampled) |
-  | swc-optimize (ffi)  | 1,060 ops/sec ±0.63% (87 runs sampled) |
-  | babel               | 65.72 ops/sec ±6.45% (62 runs sampled) |
+|                       |                performance             |
+| --------------------- |:--------------------------------------:|
+| swc (ffi)             | 1,086 ops/sec ±0.77% (84 runs sampled) |
+| swc-optimize (ffi)    | 1,060 ops/sec ±0.63% (87 runs sampled) |
+| babel                 | 65.72 ops/sec ±6.45% (62 runs sampled) |
 
 
 ## Contributing
