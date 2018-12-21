@@ -1,0 +1,30 @@
+[workspace]
+
+[package]
+name = "ffi"
+version = "0.1.0"
+authors = ["강동윤 <kdy1@outlook.kr>"]
+license = "MIT"
+build = "build.rs"
+exclude = ["artifacts.json", "index.node"]
+
+[lib]
+name = "ffi"
+crate-type = ["dylib"]
+
+[build-dependencies]
+neon-build = "0.2.0"
+
+[dependencies]
+neon = "0.2.0"
+libswc = { path = "../../libswc" }
+
+[profile.bench]
+lto = true
+
+[profile.release]
+lto = true
+
+[patch.crates-io]
+# This reduces compile time
+sourcemap = { git = "https://github.com/kdy1/rust-sourcemap.git" }

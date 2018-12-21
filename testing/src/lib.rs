@@ -31,12 +31,11 @@ mod paths;
 
 pub fn run_test<F, Ret>(op: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce( Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
+    F: FnOnce(Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::errors::new_handler(cm.clone());
-    let result =
-        swc_common::GLOBALS.set(&swc_common::Globals::new(), || op( cm, &handler));
+    let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
 
     match result {
         Ok(res) => Ok(res),
@@ -143,4 +142,3 @@ macro_rules! assert_eq_ignore_span {
         }
     }};
 }
-
