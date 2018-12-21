@@ -54,10 +54,6 @@ impl<'a> Tester<'a> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
-        self.with_parser(file_name, src, |p| p.parse_script())
-    }
-
     pub fn apply_transform<T: Fold<Module>>(
         &mut self,
         mut tr: T,
