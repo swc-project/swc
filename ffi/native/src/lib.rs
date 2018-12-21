@@ -8,8 +8,7 @@ extern crate sourcemap;
 extern crate swc;
 
 use neon::prelude::*;
-use std::sync::Arc;
-
+use std::{path::Path, sync::Arc};
 use swc::{
     common::{
         self, errors::Handler, sync::Lrc, FileName, FilePathMapping, Fold, FoldWith, SourceMap,
@@ -91,6 +90,52 @@ fn transform(mut cx: FunctionContext) -> JsResult<JsObject> {
     Ok(obj)
 }
 
+fn transform_file(mut cx: FunctionContext) -> JsResult<JsObject> {
+    let path = cx.argument::<JsString>(0)?;
+    let options = match cx.argument_opt(1) {
+        Some(v) => neon_serde::from_value(&mut cx, v)?,
+        None => Default::default(),
+    };
+
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+
+    let handler = Handler::with_tty_emitter(
+        common::errors::ColorConfig::Always,
+        true,
+        false,
+        Some(cm.clone()),
+    );
+
+    let c = Compiler::new(cm.clone(), handler);
+    let module = c
+        .parse_js_file(Path::new(&path.value()))
+        .expect("failed to parse module");
+    let module = c.run(|| transform_module(cm.clone(), module, options));
+
+    let (code, map) = c
+        .emit_module(
+            &module,
+            codegen::Config {
+                enable_comments: false,
+            },
+        )
+        .expect("failed to emit module");
+
+    let code = cx.string(&code);
+
+    let obj = cx.empty_object();
+    obj.set(&mut cx, "code", code)?;
+    {
+        let mut buf = vec![];
+        map.to_writer(&mut buf).expect("failed to write sourcemap");
+        let map =
+            cx.string(&String::from_utf8(buf).expect("failed to write sourcemap: invalid utf8"));
+        obj.set(&mut cx, "map", map)?;
+    }
+
+    Ok(obj)
+}
+
 fn transform_module(cm: Lrc<SourceMap>, module: Module, options: TransformOption) -> Module {
     let helpers = Arc::new(compat::helpers::Helpers::default());
 
@@ -117,5 +162,6 @@ fn transform_module(cm: Lrc<SourceMap>, module: Module, options: TransformOption
 register_module!(mut cx, {
     cx.export_function("parse", parse)?;
     cx.export_function("transform", transform)?;
+    cx.export_function("transformFile", transform_file)?;
     Ok(())
 });
