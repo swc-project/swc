@@ -9,17 +9,15 @@ repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc/"
 description = "Speedy web compiler"
 
-[[bin]]
+[lib]
 name = "swc"
 
 [dependencies]
-libswc = { version = "0.1", path = "./libswc" }
 rayon = "1.0.3"
-
-[dependencies.clap]
-version = "2.29.1"
-default-features = false
-features = [ "suggestions", "color" ]
+swc_atoms = { version = "0.1", path ="./atoms" }
+swc_common = { version = "0.1", path ="./common" }
+swc_ecmascript = { version = "0.1", path ="./ecmascript" }
+sourcemap = "2.2"
 
 
 [profile.bench]

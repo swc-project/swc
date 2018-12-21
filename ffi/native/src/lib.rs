@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate neon;
-extern crate libswc;
-use libswc::{
+extern crate swc;
+use swc::{
     common::{
         self, errors::Handler, sync::Lrc, FileName, FilePathMapping, Fold, FoldWith, SourceMap,
     },
