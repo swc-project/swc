@@ -1,4 +1,4 @@
-use crate::util::ExprFactory;
+use crate::util::{ExprFactory, StmtLike};
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
@@ -35,12 +35,8 @@ impl Fold<Stmt> for Actual {
                 body,
             }) => {
                 let var_span = left.span().apply_mark(Mark::fresh(Mark::root()));
-                // convert to normal for loop if rhs is array
-                // TODO: Type annotation
-                match *right {
-                    Expr::Array(_arr) => unimplemented!("Array optimization"),
-                    _ => {}
-                }
+                // TODO(kdy): convert to normal for loop if rhs is array
+                // TODO(kdy): Type annotation to determine if rhs is array
 
                 let mut body = match *body {
                     Stmt::Block(block) => block,
@@ -60,8 +56,17 @@ impl Fold<Stmt> for Actual {
                 body.stmts.insert(
                     0,
                     match left {
-                        //TODO
-                        VarDeclOrPat::VarDecl(decl) => Stmt::Decl(Decl::Var(decl)),
+                        VarDeclOrPat::VarDecl(mut var) => {
+                            assert!(var.decls.len() == 1);
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                span: var.span,
+                                kind: var.kind,
+                                decls: vec![VarDeclarator {
+                                    init: Some(step_value),
+                                    ..var.decls.pop().unwrap()
+                                }],
+                            }))
+                        }
                         VarDeclOrPat::Pat(pat) => Stmt::Expr(box Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(box pat),
@@ -308,5 +313,39 @@ impl Fold<Stmt> for Actual {
             }
             _ => stmt,
         }
+    }
+}
+impl<T: StmtLike> Fold<Vec<T>> for ForOf
+where
+    Vec<T>: FoldWith<Self>,
+{
+    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        let stmts = stmts.fold_children(self);
+
+        let mut buf = Vec::with_capacity(stmts.len());
+
+        for stmt in stmts {
+            match stmt.try_into_stmt() {
+                Err(module_item) => buf.push(module_item),
+                Ok(stmt) => {
+                    let mut folder = Actual::default();
+                    let stmt = stmt.fold_with(&mut folder);
+
+                    // Add variable declaration
+                    // e.g. var ref
+                    if !folder.top_level_vars.is_empty() {
+                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: folder.top_level_vars,
+                        }))));
+                    }
+
+                    buf.push(T::from_stmt(stmt));
+                }
+            }
+        }
+
+        buf
     }
 }
