@@ -12,10 +12,14 @@ swc is rust port of [babel][] and [closure compiler][].
 
 # Installation
 
-Requires nightly version of [rust][].
+Currently this requires nightly version of [rust][].
 
 ```sh
-RUSTFLAGS='--cfg procmacro2_semver_exempt --cfg parallel_queries' cargo install --git https://github.com/swc-project/swc.git
+npm i -SD @swc-project/swc
+```
+or 
+```sh
+yarn add --dev @swc-project/swc
 ```
 
 # Features
@@ -69,38 +73,12 @@ New generation javascript to old-days javascript.
     - [ ] optional-catch-binding
     - [ ] unicode-property-regex
 
-# Usage
+# Performance
 
-`test.js`:
-```js
-8 + 8;
-use(8 + 8, 8 ** 8);
-```
+  | swc (ffi)           | 1,086 ops/sec ±0.77% (84 runs sampled) |
+  | swc-optimize (ffi)  | 1,060 ops/sec ±0.63% (87 runs sampled) |
+  | babel               | 65.72 ops/sec ±6.45% (62 runs sampled) |
 
-## Example
-
-```sh
-swc jsc test.js
-```
-
-### Output
-
-```
-8 + 8;
-use(8 + 8, Math.pow(8, 8));
-```
-
-## Example
-
-```sh
-swc jsc --optimize test.js
-```
-
-### Output
-
-```
-use(8 + 8, Math.pow(8, 8));
-```
 
 ## Contributing
 

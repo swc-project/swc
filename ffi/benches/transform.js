@@ -103,6 +103,9 @@ const PARSERS = [
   ['swc', '../', (module) => module.transform(SOURCE, {
     optimize: false,
   })],
+  ['swc-optimize', '../', (module) => module.transform(SOURCE, {
+    optimize: true,
+  })],
   ['babel', '@babel/core', (module) => module.transformSync(SOURCE, {
     presets: ["@babel/preset-env"]
   })],
