@@ -75,7 +75,8 @@ New generation javascript to old-days javascript.
 
 # Performance
 
-The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB
+The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
+
 |                       |                performance             |
 | --------------------- |:--------------------------------------:|
 | swc (ffi)             | 1,086 ops/sec ±0.77% (84 runs sampled) |
