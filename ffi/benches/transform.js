@@ -1,6 +1,27 @@
 const SOURCE = `
 'use strict';
 
+class Foo {
+  foo() {}
+}
+
+class Bar extends Foo {
+  foo() {
+    super.foo();
+  }
+  bar() {}
+}
+
+class Baz extends Foo {
+  foo() {
+    super.foo();
+    this.baz()
+  }
+  baz() {
+
+  }
+}
+
 /**
  * Extract red color out of a color integer:
  *
