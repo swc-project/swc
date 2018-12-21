@@ -2,12 +2,10 @@ use super::*;
 
 test!(
     ForOf,
-    spec_identifer,
+    spec_identifier,
     r#"for (i of arr) {
 }"#,
-    r#"var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
+    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
   for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
@@ -25,7 +23,8 @@ try {
     if (_didIteratorError) {
       throw _iteratorError;
     }
-  }"#
+  }
+}"#,ok_if_code_eq
 );
 
 test!(ForOf, spec_ignore_cases, r#"for (var i of foo) {
@@ -33,9 +32,7 @@ test!(ForOf, spec_ignore_cases, r#"for (var i of foo) {
     case 1:
       break;
   }
-}"#, r#"var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
+}"#, r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
   for (var _iterator = foo[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
@@ -163,33 +160,29 @@ test!(ForOf, spec_nested_label_for_of, r#"b: for (let c of d()) {
   for (let e of f()) {
     continue b;
   }
-}"#, r#"var _iteratorNormalCompletion = true;
-var _didIteratorError = false;
-var _iteratorError = undefined;
+}"#, r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
   b: for (var _iterator = d()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
     let c = _step.value;
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+    var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
 
     try {
-      for (var _iterator2 = f()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        let e = _step2.value;
+      for (var _iterator1 = f()[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true) {
+        let e = _step1.value;
         continue b;
       }
     } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
+      _didIteratorError1 = true;
+      _iteratorError1 = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-          _iterator2.return();
+        if (!_iteratorNormalCompletion1 && _iterator1.return != null) {
+          _iterator1.return();
         }
       } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
+        if (_didIteratorError1) {
+          throw _iteratorError1;
         }
       }
     }
