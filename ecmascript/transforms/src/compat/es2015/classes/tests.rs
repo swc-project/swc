@@ -1,9 +1,9 @@
 use super::*;
 
 test!(
-    Classes::default(),
-    basic,
-    r#"class Test {
+  Classes::default(),
+  basic,
+  r#"class Test {
   constructor(name) {
     this.name = name;
   }
@@ -12,7 +12,7 @@ test!(
     console.log("Hello", this.name);
   }
 }"#,
-    r#"var Test = function () {
+  r#"var Test = function () {
   function Test(name) {
     _classCallCheck(this, Test);
 
@@ -31,15 +31,15 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    method_hoisted,
-    r#"class Foo {
+  Classes::default(),
+  method_hoisted,
+  r#"class Foo {
   foo(){
   }
   constructor(s){
   }
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -54,12 +54,12 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    static_method,
-    r#"class Foo {
+  Classes::default(),
+  static_method,
+  r#"class Foo {
   static st(){}
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
   }
@@ -74,16 +74,16 @@ test!(
 );
 
 test!(
-    Classes::default(),
-    complex_with_consturctor,
-    r#"class Foo {
+  Classes::default(),
+  complex_with_consturctor,
+  r#"class Foo {
   foo(){
   }
   constructor(s){
   }
   static st(){}
 }"#,
-    r#"var Foo = function () {
+  r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -317,4 +317,431 @@ var Child = function (_Parent) {
 
   return Child;
 }(Parent);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  get_semantics_getter_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+  get test() {
+    expect(this).toBe(obj);
+    return 1;
+  }
+}
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBe(1);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  get_semantics_not_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBeUndefined();
+"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  get_semantics_setter_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+  set test(v) {
+    throw new Error("called");
+  }
+}
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBeUndefined();
+"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  call_semantics_data_defined_on_parent,
+  r#""use strict";
+class Base {
+  test(...args) {
+    expect(this).toBe(obj);
+    expect(args).toEqual([1, 2, 3]);
+    return 1;
+  }
+}
+
+class Obj extends Base {
+  call() {
+    super.test(1, 2, 3);
+    super.test(1, ...[2, 3]);
+    super.test(...[1, 2, 3]);
+    return super.test(...arguments);
+  }
+
+  test() {
+    throw new Error("called");
+  }
+}
+
+const obj = new Obj();
+expect(obj.call(1, 2, 3)).toBe(1);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  call_semantics_getter_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+  get test() {
+    expect(this).toBe(obj);
+    return function(...args) {
+      expect(this).toBe(obj);
+      expect(args).toEqual([1, 2, 3]);
+      return 1;
+    };
+  }
+}
+
+class Obj extends Base {
+  call() {
+    super.test(1, 2, 3);
+    super.test(1, ...[2, 3]);
+    super.test(...[1, 2, 3]);
+    return super.test(...arguments);
+  }
+
+  test() {
+    throw new Error("called");
+  }
+}
+
+const obj = new Obj();
+expect(obj.call(1, 2, 3)).toBe(1);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  call_semantics_not_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  call() {
+    return super.test();
+  }
+
+  test() {
+    throw new Error("gobbledygook");
+  }
+}
+
+const obj = new Obj();
+expect(() => {
+  obj.call();
+
+  // Asser that this throws, but that it's not
+  // Obj.p.test's error that is thrown
+}).toThrowError(TypeError)"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  call_semantics_setter_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+  set test(v) {
+    throw new Error("gobbledygook");
+  }
+}
+
+class Obj extends Base {
+  call() {
+    return super.test();
+  }
+
+  test() {
+    throw new Error("gobbledygook");
+  }
+}
+
+const obj = new Obj();
+expect(() => {
+  obj.call();
+
+  // Asser that this throws, but that it's not
+  // a gobbledygook error that is thrown
+}).toThrowError(TypeError)"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  get_semantics_data_defined_on_parent,
+  r#"
+"use strict";
+class Base {
+}
+Object.defineProperty(Base.prototype, 'test', {
+  value: 1,
+  writable: true,
+  configurable: true,
+});
+
+class Obj extends Base {
+  get() {
+    return super.test;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.test).toBe(2);
+expect(obj.get()).toBe(1);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_data_defined_on_parent,
+  r#"
+"use strict";
+class Base  {
+}
+Object.defineProperty(Base.prototype, 'test', {
+  value: 1,
+  writable: true,
+  configurable: true,
+});
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBe(1);
+expect(Obj.prototype.test).toBe(2);
+expect(obj.test).toBe(3);
+"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_getter_defined_on_parent,
+  r#"
+"use strict";
+let called = false;
+class Base {
+  get test() {
+    called = true;
+    return 1;
+  }
+};
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(() => {
+  obj.set();
+}).toThrow();
+expect(called).toBe(false);
+expect(Base.prototype.test).toBe(1);
+expect(Obj.prototype.test).toBe(2);
+expect(obj.test).toBe(2);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_not_defined_on_parent_data_on_obj,
+  r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBe(2);
+expect(obj.test).toBe(3);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_not_defined_on_parent_getter_on_obj,
+  r#"
+"use strict";
+class Base {
+}
+
+let called = false;
+class Obj extends Base {
+  get test() {
+    called = true;
+  }
+
+  set() {
+    return super.test = 3;
+  }
+}
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(called).toBe(false);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBeUndefined();
+expect(obj.test).toBe(3);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_not_defined_on_parent_not_on_obj,
+  r#"
+"use strict";
+class Base {
+}
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBeUndefined();
+expect(obj.test).toBe(3);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_not_defined_on_parent_setter_on_obj,
+  r#"
+"use strict";
+class Base {
+}
+
+let value = 2;
+class Obj extends Base {
+  set test(v) {
+    value = v;
+  }
+
+  set() {
+    return super.test = 3;
+  }
+}
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBeUndefined();
+expect(value).toBe(2);
+expect(obj.test).toBe(3);"#
+);
+
+test_exec!(
+  |helpers| Classes { helpers },
+  set_semantics_setter_defined_on_parent,
+  r#"
+"use strict";
+let value = 1;
+class Base {
+  set test(v) {
+    value = v;
+  }
+}
+
+class Obj extends Base {
+  set() {
+    return super.test = 3;
+  }
+}
+Object.defineProperty(Obj.prototype, 'test', {
+  value: 2,
+  writable: true,
+  configurable: true,
+});
+
+const obj = new Obj();
+expect(obj.set()).toBe(3);
+expect(value).toBe(3);
+expect(Base.prototype.test).toBeUndefined();
+expect(Obj.prototype.test).toBe(2);
+expect(obj.test).toBe(2);"#
 );
