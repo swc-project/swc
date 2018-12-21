@@ -57,7 +57,7 @@ where
     A: Fold<T>,
     B: Fold<T>,
 {
-    fn fold(&mut self, node: T) -> T {
+    default fn fold(&mut self, node: T) -> T {
         // println!(
         //     "Folding<{}, {}>({})",
         //     type_name::<A>(),
@@ -65,6 +65,17 @@ where
         //     type_name::<T>()
         // );
         self.second.fold(self.first.fold(node))
+    }
+}
+
+impl<T, A, B> Fold<Vec<T>> for AndThen<A, B>
+where
+    Vec<T>: FoldWith<Self>,
+    A: Fold<T>,
+    B: Fold<T>,
+{
+    fn fold(&mut self, nodes: Vec<T>) -> Vec<T> {
+        nodes.move_map(|node| self.second.fold(self.first.fold(node)))
     }
 }
 
