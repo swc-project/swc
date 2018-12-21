@@ -45,7 +45,7 @@ New generation javascript to old-days javascript.
     - [x] computed-properties
     - [x] destructuring
     - [x] duplicate-keys
-    - [ ] for-of
+    - [x] for-of
     - [x] function-name
     - [x] instanceof
     - [x] literals
