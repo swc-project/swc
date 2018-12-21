@@ -104,14 +104,14 @@ fn transform_module(cm: Lrc<SourceMap>, module: Module, options: TransformOption
         .fold_with(
             &mut compat::es2016()
                 .then(compat::es2015(&helpers))
-                .then(compat::es3())
-                .then(compat::helpers::InjectHelpers {
-                    cm,
-                    helpers: helpers.clone(),
-                }),
+                .then(compat::es3()),
         )
         .fold_with(&mut hygiene());
-    module
+
+    module.fold_with(&mut compat::helpers::InjectHelpers {
+        cm,
+        helpers: helpers.clone(),
+    })
 }
 
 register_module!(mut cx, {
