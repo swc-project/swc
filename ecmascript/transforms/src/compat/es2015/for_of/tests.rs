@@ -63,7 +63,8 @@ try {
 
 test!(ForOf, spec_let, r#"for (let i of arr) {
 
-}"#, r#"var _iteratorNormalCompletion = true;
+}"#, r#"
+var _iteratorNormalCompletion = true;
 var _didIteratorError = false;
 var _iteratorError = undefined;
 
@@ -83,7 +84,8 @@ try {
     if (_didIteratorError) {
       throw _iteratorError;
     }
-  }"#);
+  }
+}"#);
 
 test!(ForOf, spec_member_expr, r#"for (obj.prop of arr) {
 
