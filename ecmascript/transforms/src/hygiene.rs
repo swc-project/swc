@@ -283,4 +283,62 @@ mod tests {
         );
     }
 
+    #[test]
+    fn for_loop() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+                let mark3 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual1.js", "for(var a=1;;) {}")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual2.js", "for(var a of foo) {}")?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                    tester
+                        .parse_stmt("actual3.js", "for(var a=3;;) {}")?
+                        .fold_with(&mut marker(&[("a", mark3)])),
+                ])
+            },
+            "
+            for(var a=1;;) {}
+            for(var a1 of foo) {}
+            for(var a2 = 3;;) {}
+            ",
+        );
+    }
+
+    #[test]
+    fn try_for_loop() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+                let mark3 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual1.js", "try { for(var a=1;;) {} } finally {}")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual2.js", "for(var a of foo) {}")?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                    tester
+                        .parse_stmt("actual3.js", "for(var a=3;;) {}")?
+                        .fold_with(&mut marker(&[("a", mark3)])),
+                ])
+            },
+            "
+            try {
+                for(var a=1;;) {}
+            } finally {
+            }
+            for(var a1 of foo) {}
+            for(var a2 = 3;;) {}
+            ",
+        );
+    }
 }

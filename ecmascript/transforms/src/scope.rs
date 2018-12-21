@@ -148,6 +148,17 @@ impl<'a, 'b, T: Traverse> Fold<Module> for ScopeAnalyzer<'a, 'b, T> {
     }
 }
 
+impl<'a, 'b, T: Traverse> Fold<TryStmt> for ScopeAnalyzer<'a, 'b, T> {
+    fn fold(&mut self, node: TryStmt) -> TryStmt {
+        TryStmt {
+            span: node.span,
+            block: node.block.fold_children(self),
+            handler: node.handler.fold_with(self),
+            finalizer: node.finalizer.fold_children(self),
+        }
+    }
+}
+
 impl<'a, 'b, T: Traverse> Fold<BlockStmt> for ScopeAnalyzer<'a, 'b, T> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let node = {
