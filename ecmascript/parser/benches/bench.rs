@@ -17,43 +17,43 @@ fn colors(b: &mut Bencher) {
 
 #[bench]
 fn angular(b: &mut Bencher) {
-    bench_module(b, include_str!("./esprima/test/3rdparty/angular-1.2.5.js"))
+    bench_module(b, include_str!("./files/angular-1.2.5.js"))
 }
 
 #[bench]
 fn backbone(b: &mut Bencher) {
-    bench_module(b, include_str!("./esprima/test/3rdparty/backbone-1.1.0.js"))
+    bench_module(b, include_str!("./files/backbone-1.1.0.js"))
 }
 
 #[bench]
 fn jquery(b: &mut Bencher) {
-    bench_module(b, include_str!("./esprima/test/3rdparty/jquery-1.9.1.js"))
+    bench_module(b, include_str!("./files/jquery-1.9.1.js"))
 }
 
 #[bench]
 fn jquery_mobile(b: &mut Bencher) {
     bench_module(
         b,
-        include_str!("./esprima/test/3rdparty/jquery.mobile-1.4.2.js"),
+        include_str!("./files/jquery.mobile-1.4.2.js"),
     )
 }
 
 #[bench]
 fn mootools(b: &mut Bencher) {
-    bench_module(b, include_str!("./esprima/test/3rdparty/mootools-1.4.5.js"))
+    bench_module(b, include_str!("./files/mootools-1.4.5.js"))
 }
 
 #[bench]
 fn underscore(b: &mut Bencher) {
     bench_module(
         b,
-        include_str!("./esprima/test/3rdparty/underscore-1.5.2.js"),
+        include_str!("./files/underscore-1.5.2.js"),
     )
 }
 
 #[bench]
 fn yui(b: &mut Bencher) {
-    bench_module(b, include_str!("./esprima/test/3rdparty/yui-3.12.0.js"))
+    bench_module(b, include_str!("./files/yui-3.12.0.js"))
 }
 
 fn bench_module(b: &mut Bencher, src: &'static str) {
