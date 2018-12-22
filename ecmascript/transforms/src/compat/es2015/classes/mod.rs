@@ -206,7 +206,7 @@ impl Classes {
             });
 
             // inject _classCallCheck(this, Bar);
-            self.helpers.class_call_check.store(true, Ordering::SeqCst);
+            self.helpers.class_call_check.store(true, Ordering::Relaxed);
             function.body.stmts = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
@@ -404,33 +404,31 @@ impl Classes {
             match m.kind {
                 ClassMethodKind::Constructor => unreachable!(),
 
-                ClassMethodKind::Method => {
+                ClassMethodKind::Method | ClassMethodKind::Getter => {
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
                             PropOrSpread::Prop(box mk_prop_key(&m.key)),
                             PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("value")),
+                                key: PropName::Ident(if m.kind == ClassMethodKind::Getter {
+                                    quote_ident!("get")
+                                } else {
+                                    quote_ident!("value")
+                                }),
                                 value,
                             })),
                         ],
                     }));
                 }
 
-                ClassMethodKind::Getter | ClassMethodKind::Setter => {
-                    // Getter / Setter
+                ClassMethodKind::Setter => {
+                    // Setter
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
                             PropOrSpread::Prop(box mk_prop_key(&m.key)),
                             PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!(if m.kind
-                                    == ClassMethodKind::Getter
-                                {
-                                    "get"
-                                } else {
-                                    "set"
-                                })),
+                                key: PropName::Ident(quote_ident!("set")),
                                 value,
                             })),
                         ],
@@ -442,7 +440,7 @@ impl Classes {
         if props.is_empty() && static_props.is_empty() {
             return vec![];
         }
-        self.helpers.create_class.store(true, Ordering::SeqCst);
+        self.helpers.create_class.store(true, Ordering::Relaxed);
         vec![mk_create_class_call(
             class_name,
             mk_arg_obj_for_create_class(props),
@@ -507,12 +505,38 @@ struct SuperCallFolder<'a> {
 
 struct SuperCalleeFolder<'a> {
     class_name: &'a Ident,
-    did_work: bool,
+    inject_get: bool,
+    inject_set: bool,
 }
 
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
-        let n = n.fold_children(self);
+        let n = match n {
+            Expr::Assign(AssignExpr {
+                span,
+                left,
+                op: op!("="),
+                right,
+            }) => match left {
+                PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(super_token),
+                    prop,
+                    ..
+                }))
+                | PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(super_token),
+                    prop,
+                    ..
+                }))) => self.super_to_set_call(super_token, prop, right),
+                _ => Expr::Assign(AssignExpr {
+                    span,
+                    left: left.fold_children(self),
+                    op: op!("="),
+                    right: right.fold_children(self),
+                }),
+            },
+            _ => n.fold_children(self),
+        };
 
         match n {
             Expr::Member(MemberExpr {
@@ -528,7 +552,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 
 impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>) -> Expr {
-        self.did_work = true;
+        self.inject_get = true;
 
         let proto_arg = get_prototype_of(&Expr::Member(MemberExpr {
             span: super_token,
@@ -561,13 +585,51 @@ impl<'a> SuperCalleeFolder<'a> {
             args: vec![proto_arg, prop_arg, this_arg],
         })
     }
+
+    fn super_to_set_call(&mut self, super_token: Span, prop: Box<Expr>, rhs: Box<Expr>) -> Expr {
+        self.inject_set = true;
+
+        let proto_arg = get_prototype_of(&Expr::Member(MemberExpr {
+            span: super_token,
+            obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
+            prop: box Expr::Ident(quote_ident!("prototype")),
+            computed: false,
+        }))
+        .as_arg();
+
+        let prop_arg = match *prop {
+            Expr::Ident(Ident {
+                sym: ref value,
+                span,
+                ..
+            }) => Expr::Lit(Lit::Str(Str {
+                span,
+                value: value.clone(),
+                has_escape: false,
+            })),
+            ref e @ Expr::Lit(Lit::Str(Str { .. })) => e.clone(),
+            _ => unimplemented!("non-ident / non-string super field"),
+        }
+        .as_arg();
+
+        let rhs_arg = rhs.as_arg();
+
+        let this_arg = ThisExpr { span: super_token }.as_arg();
+
+        Expr::Call(CallExpr {
+            span: super_token,
+            callee: quote_ident!("_set").as_callee(),
+            args: vec![proto_arg, prop_arg, rhs_arg, this_arg],
+        })
+    }
 }
 
 impl<'a> Fold<Expr> for SuperCallFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         let mut callee_folder = SuperCalleeFolder {
             class_name: self.class_name,
-            did_work: false,
+            inject_get: false,
+            inject_set: false,
         };
 
         let was_call = match n {
@@ -576,7 +638,8 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
         };
 
         let n = n.fold_with(&mut callee_folder);
-        if callee_folder.did_work {
+
+        if callee_folder.inject_get {
             self.helpers.get.store(true, Ordering::Relaxed);
 
             if was_call {
@@ -597,6 +660,10 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
                     _ => unreachable!(),
                 }
             }
+        }
+
+        if callee_folder.inject_set {
+            self.helpers.set.store(true, Ordering::Relaxed);
         }
 
         n
