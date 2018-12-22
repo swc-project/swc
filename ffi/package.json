@@ -1,6 +1,6 @@
 {
   "name": "swc",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "Super-fast alternative for babel",
   "main": "lib/index.js",
   "author": "강동윤 <kdy1@outlook.kr>",
@@ -8,6 +8,7 @@
   "dependencies": {
     "neon-cli": "^0.2.0"
   },
+  "types": "./lib/index.d.ts",
   "scripts": {
     "install": "neon build --release"
   },
