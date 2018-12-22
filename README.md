@@ -41,7 +41,6 @@ New generation javascript to old-days javascript.
     - [x] block-scoping
       - Note: this might be buggy (at this time)
     - [x] classes
-      - [ ] getter / setter
     - [x] computed-properties
     - [x] destructuring
     - [x] duplicate-keys
