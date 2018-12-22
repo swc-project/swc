@@ -1,12 +1,25 @@
 
 declare module "swc" {
+    /**
+     * Options for trasnform.
+     */
     export interface TransformOption {
+        /**
+         * 
+         * Defaults to false.
+         */
         readonly optimize?: boolean;
+
         readonly globals?: GlobalPassOption;
     }
+    /**
+     * Options for inline-global pass.
+     */
     export interface GlobalPassOption {
         /**
-         * Global variables
+         * Global variables.
+         * 
+         * e.g. { __DEBUG__: true }
          */
         readonly vars?: { [key: string]: string };
     }
