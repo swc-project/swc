@@ -1,6 +1,6 @@
 {
-  "name": "ffi",
-  "version": "0.1.0",
+  "name": "node-swc",
+  "version": "0.2.0",
   "description": "",
   "main": "lib/index.js",
   "author": "강동윤 <kdy1@outlook.kr>",

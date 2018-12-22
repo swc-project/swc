@@ -15,11 +15,11 @@ swc is rust port of [babel][] and [closure compiler][].
 Currently this requires nightly version of [rust][].
 
 ```sh
-npm i -SD @swc-project/swc
+npm i -SD node-swc
 ```
 or 
 ```sh
-yarn add --dev @swc-project/swc
+yarn add --dev node-swc
 ```
 
 # Features
