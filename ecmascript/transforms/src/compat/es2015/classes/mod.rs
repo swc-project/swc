@@ -619,7 +619,18 @@ impl<'a> SuperCalleeFolder<'a> {
         Expr::Call(CallExpr {
             span: super_token,
             callee: quote_ident!("_set").as_callee(),
-            args: vec![proto_arg, prop_arg, rhs_arg, this_arg],
+            args: vec![
+                proto_arg,
+                prop_arg,
+                rhs_arg,
+                this_arg,
+                // strict
+                Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                })
+                .as_arg(),
+            ],
         })
     }
 }
