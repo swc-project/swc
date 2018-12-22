@@ -8,6 +8,7 @@
   "dependencies": {
     "neon-cli": "^0.2.0"
   },
+  "types": "./lib/index.d.ts",
   "scripts": {
     "install": "neon build --release"
   },

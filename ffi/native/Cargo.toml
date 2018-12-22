@@ -21,6 +21,7 @@ serde_derive = "1"
 neon = "0.2.0"
 neon-serde = "0.1.1"
 sourcemap = "2"
+fnv = "1"
 swc = { git = "https://github.com/swc-project/swc.git" }
 
 [profile.bench]
