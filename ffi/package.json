@@ -1,7 +1,7 @@
 {
-  "name": "node-swc",
-  "version": "0.2.0",
-  "description": "",
+  "name": "swc",
+  "version": "1.0.0-alpha.1",
+  "description": "Super-fast alternative for babel",
   "main": "lib/index.js",
   "author": "강동윤 <kdy1@outlook.kr>",
   "license": "MIT",
