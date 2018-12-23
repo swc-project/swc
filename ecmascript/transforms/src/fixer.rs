@@ -12,7 +12,7 @@ struct Fixer;
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
         let mut expr = match expr {
-            Expr::Paren(ParenExpr { expr, span }) => Expr::Paren(ParenExpr { span, expr }),
+            Expr::Paren(..) => expr,
             _ => expr.fold_children(self),
         };
 
@@ -25,6 +25,15 @@ impl Fold<Expr> for Fixer {
                 expr: box expr,
             }
             .into(),
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
+                args,
+            }) => Expr::Call(CallExpr {
+                span,
+                callee: callee.wrap_with_paren().as_callee(),
+                args,
+            }),
             _ => expr,
         }
     }
