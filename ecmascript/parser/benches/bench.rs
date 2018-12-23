@@ -32,10 +32,7 @@ fn jquery(b: &mut Bencher) {
 
 #[bench]
 fn jquery_mobile(b: &mut Bencher) {
-    bench_module(
-        b,
-        include_str!("./files/jquery.mobile-1.4.2.js"),
-    )
+    bench_module(b, include_str!("./files/jquery.mobile-1.4.2.js"))
 }
 
 #[bench]
@@ -45,10 +42,7 @@ fn mootools(b: &mut Bencher) {
 
 #[bench]
 fn underscore(b: &mut Bencher) {
-    bench_module(
-        b,
-        include_str!("./files/underscore-1.5.2.js"),
-    )
+    bench_module(b, include_str!("./files/underscore-1.5.2.js"))
 }
 
 #[bench]
