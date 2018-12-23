@@ -1,6 +1,9 @@
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
+#[cfg(test)]
+mod tests;
+
 /// `@babel/plugin-transform-function-name`
 ///
 /// # Example
@@ -73,31 +76,4 @@ impl Fold<FnExpr> for Renamer {
             },
         }
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    test!(
-        FnName,
-        basic,
-        r#"var number = function (x) {
-  return x;
-};"#,
-        r#"var number = function number(x) {
-  return x;
-};"#
-    );
-
-    test!(
-        FnName,
-        assign,
-        r#"number = function (x) {
-  return x;
-};"#,
-        r#"number = function number(x) {
-  return x;
-};"#
-    );
 }
