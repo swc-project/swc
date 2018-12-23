@@ -1,9 +1,9 @@
 use super::*;
 
 test!(
-  Classes::default(),
-  basic,
-  r#"class Test {
+    Classes::default(),
+    basic,
+    r#"class Test {
   constructor(name) {
     this.name = name;
   }
@@ -12,7 +12,7 @@ test!(
     console.log("Hello", this.name);
   }
 }"#,
-  r#"var Test = function () {
+    r#"var Test = function () {
   function Test(name) {
     _classCallCheck(this, Test);
 
@@ -31,15 +31,15 @@ test!(
 );
 
 test!(
-  Classes::default(),
-  method_hoisted,
-  r#"class Foo {
+    Classes::default(),
+    method_hoisted,
+    r#"class Foo {
   foo(){
   }
   constructor(s){
   }
 }"#,
-  r#"var Foo = function () {
+    r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -54,12 +54,12 @@ test!(
 );
 
 test!(
-  Classes::default(),
-  static_method,
-  r#"class Foo {
+    Classes::default(),
+    static_method,
+    r#"class Foo {
   static st(){}
 }"#,
-  r#"var Foo = function () {
+    r#"var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
   }
@@ -74,16 +74,16 @@ test!(
 );
 
 test!(
-  Classes::default(),
-  complex_with_consturctor,
-  r#"class Foo {
+    Classes::default(),
+    complex_with_consturctor,
+    r#"class Foo {
   foo(){
   }
   constructor(s){
   }
   static st(){}
 }"#,
-  r#"var Foo = function () {
+    r#"var Foo = function () {
   function Foo(s) {
     _classCallCheck(this, Foo);
   }
@@ -320,9 +320,9 @@ var Child = function (_Parent) {
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  get_semantics_getter_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    get_semantics_getter_defined_on_parent,
+    r#"
 "use strict";
 class Base {
   get test() {
@@ -348,9 +348,9 @@ expect(obj.get()).toBe(1);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  get_semantics_not_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    get_semantics_not_defined_on_parent,
+    r#"
 "use strict";
 class Base {
 }
@@ -373,9 +373,9 @@ expect(obj.get()).toBeUndefined();
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  get_semantics_setter_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    get_semantics_setter_defined_on_parent,
+    r#"
 "use strict";
 class Base {
   set test(v) {
@@ -401,9 +401,9 @@ expect(obj.get()).toBeUndefined();
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  call_semantics_data_defined_on_parent,
-  r#""use strict";
+    |helpers| Classes { helpers },
+    call_semantics_data_defined_on_parent,
+    r#""use strict";
 class Base {
   test(...args) {
     expect(this).toBe(obj);
@@ -430,9 +430,9 @@ expect(obj.call(1, 2, 3)).toBe(1);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  call_semantics_getter_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    call_semantics_getter_defined_on_parent,
+    r#"
 "use strict";
 class Base {
   get test() {
@@ -463,9 +463,9 @@ expect(obj.call(1, 2, 3)).toBe(1);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  call_semantics_not_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    call_semantics_not_defined_on_parent,
+    r#"
 "use strict";
 class Base {
 }
@@ -490,9 +490,9 @@ expect(() => {
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  call_semantics_setter_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    call_semantics_setter_defined_on_parent,
+    r#"
 "use strict";
 class Base {
   set test(v) {
@@ -520,9 +520,9 @@ expect(() => {
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  get_semantics_data_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    get_semantics_data_defined_on_parent,
+    r#"
 "use strict";
 class Base {
 }
@@ -549,9 +549,9 @@ expect(obj.get()).toBe(1);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_data_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_data_defined_on_parent,
+    r#"
 "use strict";
 class Base  {
 }
@@ -581,9 +581,9 @@ expect(obj.test).toBe(3);
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_getter_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_getter_defined_on_parent,
+    r#"
 "use strict";
 let called = false;
 class Base {
@@ -615,9 +615,9 @@ expect(obj.test).toBe(2);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_not_defined_on_parent_data_on_obj,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_not_defined_on_parent_data_on_obj,
+    r#"
 "use strict";
 class Base {
 }
@@ -641,9 +641,9 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_not_defined_on_parent_getter_on_obj,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_not_defined_on_parent_getter_on_obj,
+    r#"
 "use strict";
 class Base {
 }
@@ -668,9 +668,9 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_not_defined_on_parent_not_on_obj,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_not_defined_on_parent_not_on_obj,
+    r#"
 "use strict";
 class Base {
 }
@@ -689,9 +689,9 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_not_defined_on_parent_setter_on_obj,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_not_defined_on_parent_setter_on_obj,
+    r#"
 "use strict";
 class Base {
 }
@@ -716,9 +716,9 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
-  |helpers| Classes { helpers },
-  set_semantics_setter_defined_on_parent,
-  r#"
+    |helpers| Classes { helpers },
+    set_semantics_setter_defined_on_parent,
+    r#"
 "use strict";
 let value = 1;
 class Base {
