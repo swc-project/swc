@@ -45,7 +45,7 @@ let TestClass = {
 let TestClass = {
   name: 'John Doe',
   testMethodFailure () {
-      return new Promise((function() {
+      return new Promise((function(resolve) {
       var _ref = asyncToGenerator(function*(resolve) {
         console.log(this);
         setTimeout(resolve, 1000);
@@ -82,7 +82,7 @@ function _foo() {
     });
     return _foo.apply(this, arguments);
 }
-function foo() {
+function foo(param) {
     return _foo.apply(this, arguments);
 }
 "#
