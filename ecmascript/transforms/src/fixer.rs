@@ -39,6 +39,18 @@ impl Fold<Expr> for Fixer {
                 expr: box expr,
             }
             .into(),
+            Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Fn(_)),
+                prop,
+            }) => MemberExpr {
+                span,
+                computed,
+                obj: obj.wrap_with_paren().as_obj(),
+                prop,
+            }
+            .into(),
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
