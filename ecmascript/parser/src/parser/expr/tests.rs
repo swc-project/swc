@@ -81,32 +81,43 @@ fn async_arrow() {
 #[test]
 fn object_rest() {
     assert_eq_ignore_span!(
-        expr("{a, ...foo, b}"),
-        box Expr::Object(ObjectLit {
+        expr("foo = {a, ...bar, b}"),
+        box Expr::Assign(AssignExpr {
             span,
-            props: vec![
-                PropOrSpread::Prop(
-                    box Ident {
-                        span,
-                        sym: "a".into()
-                    }
-                    .into()
-                ),
-                PropOrSpread::Spread(SpreadElement {
-                    dot3_token: span,
-                    expr: box Expr::Ident(Ident {
-                        span,
-                        sym: "foo".into(),
-                    })
-                }),
-                PropOrSpread::Prop(
-                    box Ident {
-                        span,
-                        sym: "b".into()
-                    }
-                    .into()
-                ),
-            ]
+            left: PatOrExpr::Pat(box Pat::Ident(
+                Ident {
+                    span,
+                    sym: "foo".into()
+                }
+                .into()
+            )),
+            op: op!("="),
+            right: box Expr::Object(ObjectLit {
+                span,
+                props: vec![
+                    PropOrSpread::Prop(
+                        box Ident {
+                            span,
+                            sym: "a".into()
+                        }
+                        .into()
+                    ),
+                    PropOrSpread::Spread(SpreadElement {
+                        dot3_token: span,
+                        expr: box Expr::Ident(Ident {
+                            span,
+                            sym: "bar".into(),
+                        })
+                    }),
+                    PropOrSpread::Prop(
+                        box Ident {
+                            span,
+                            sym: "b".into()
+                        }
+                        .into()
+                    ),
+                ]
+            })
         })
     );
 }
