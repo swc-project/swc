@@ -21,3 +21,32 @@ test!(
   return x;
 };"#
 );
+
+test!(
+    FnName,
+    let_complex,
+    r#"
+let TestClass = {
+  name: "John Doe",
+
+  testMethodFailure() {
+    return new Promise(async function(resolve) {
+      console.log(this);
+      setTimeout(resolve, 1000);
+    });
+  }
+};
+"#,
+    r#"
+let TestClass = {
+  name: "John Doe",
+
+  testMethodFailure() {
+    return new Promise(async function(resolve) {
+      console.log(this);
+      setTimeout(resolve, 1000);
+    });
+  }
+}
+"#
+);

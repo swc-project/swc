@@ -77,3 +77,16 @@ impl Fold<FnExpr> for Renamer {
         }
     }
 }
+
+impl Fold<ObjectLit> for Renamer {
+    /// Don't recurse.
+    fn fold(&mut self, node: ObjectLit) -> ObjectLit {
+        node
+    }
+}
+impl Fold<ArrayLit> for Renamer {
+    /// Don't recurse.
+    fn fold(&mut self, node: ArrayLit) -> ArrayLit {
+        node
+    }
+}
