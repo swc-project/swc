@@ -86,9 +86,23 @@ impl Fold<Expr> for Actual {
                 },
             ) => {
                 let function = self.fold_fn(expr.ident.clone(), expr.function, false);
-                Expr::Fn(FnExpr {
-                    ident: expr.ident,
-                    function,
+                let body = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: self
+                        .extra_stmts
+                        .drain(..)
+                        .chain(function.body.stmts)
+                        .collect(),
+                };
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: Expr::Fn(FnExpr {
+                        ident: None,
+                        function: Function { body, ..function },
+                    })
+                    .as_callee(),
+                    args: vec![],
                 })
             }
             _ => expr,
@@ -126,6 +140,7 @@ impl Fold<Function> for Actual {
     }
 }
 impl Actual {
+    #[inline]
     fn fold_fn(&mut self, ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         let span = f.span();
         let ident = ident.unwrap_or_else(|| quote_ident!("ref"));
@@ -182,18 +197,38 @@ impl Actual {
             })));
         }
 
+        let apply = Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(box real_fn_ident.apply(
+                DUMMY_SP,
+                box Expr::This(ThisExpr { span: DUMMY_SP }),
+                vec![quote_ident!("arguments").as_arg()],
+            )),
+        });
         Function {
             span,
             body: BlockStmt {
                 span: DUMMY_SP,
-                stmts: vec![Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(box real_fn_ident.apply(
-                        DUMMY_SP,
-                        box Expr::This(ThisExpr { span: DUMMY_SP }),
-                        vec![quote_ident!("arguments").as_arg()],
-                    )),
-                })],
+                stmts: if is_decl {
+                    vec![apply]
+                } else {
+                    vec![Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(box Expr::Fn(FnExpr {
+                            ident: Some(ident),
+                            function: Function {
+                                span: DUMMY_SP,
+                                is_async: false,
+                                is_generator: false,
+                                params: vec![],
+                                body: BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![apply],
+                                },
+                            },
+                        })),
+                    })]
+                },
             },
             params: vec![],
             is_generator: false,

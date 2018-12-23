@@ -1,8 +1,8 @@
 use super::*;
-use crate::compat::es2015::arrow;
+use crate::compat::es2015::{arrow, function_name};
 
 fn tr() -> impl Fold<Module> {
-  chain!(arrow(), AsyncToGenerator::default())
+  chain!(arrow(), function_name(), AsyncToGenerator::default())
 }
 
 test!(
@@ -228,53 +228,34 @@ bar = async function () {
 };
 "#,
   r#"
-  var foo = function () {
-  var _ref = asyncToGenerator(function* () {
+var foo = function () {
+  var _foo = asyncToGenerator(function* () {
     var wat = yield bar();
   });
 
   return function foo() {
-    return _ref.apply(this, arguments);
+    return _foo.apply(this, arguments);
   };
 }();
 
 var foo2 = function () {
-  var _ref2 = asyncToGenerator(function* () {
+  var _foo2 = asyncToGenerator(function* () {
     var wat = yield bar();
   });
 
   return function foo2() {
-    return _ref2.apply(this, arguments);
+    return _foo2.apply(this, arguments);
   };
 }(),
     bar = function () {
-  var _ref3 = asyncToGenerator(function* () {
+  var _bar = asyncToGenerator(function* () {
     var wat = yield foo();
   });
 
   return function bar() {
-    return _ref3.apply(this, arguments);
+    return _bar.apply(this, arguments);
   };
 }();"#
-);
-
-test!(
-  tr(),
-  expression_1,
-  r#"
-var foo = async function () {
-  var wat = await bar();
-};
-"#,
-  r#"
-var foo = function () {
-  var _ref = asyncToGenerator(function* () {
-    var wat = yield bar();
-  });
-
-  return _ref.apply(this, arguments);
-};
-"#
 );
 
 test!(
