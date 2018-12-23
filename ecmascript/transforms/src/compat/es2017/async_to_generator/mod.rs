@@ -307,7 +307,7 @@ impl Fold<Expr> for AwaitToYield {
 
 /// Creates
 ///
-/// `asyncToGenerator(function*() {})` from `async function() {}`;
+/// `_asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
     expr.function.body = expr.function.body.fold_with(&mut AwaitToYield);
 
@@ -320,7 +320,7 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
 
     Expr::Call(CallExpr {
         span,
-        callee: quote_ident!("asyncToGenerator").as_callee(),
+        callee: quote_ident!("_asyncToGenerator").as_callee(),
         args: vec![expr.as_arg()],
     })
 }

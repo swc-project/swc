@@ -12,7 +12,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
         Promise.resolve(value).then(_next, _throw);
     }
 }
-export default function _asyncToGenerator(fn) {
+function _asyncToGenerator(fn) {
     return function () {
         var self = this, args = arguments;
         return new Promise(function (resolve, reject) {
