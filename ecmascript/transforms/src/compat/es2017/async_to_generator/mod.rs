@@ -64,7 +64,7 @@ where
                     };
                     let stmt = stmt.fold_with(&mut actual);
 
-                    buf.extend(actual.extra_stmts.drain(..).map(T::from_stmt));
+                    buf.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
                     buf.push(T::from_stmt(stmt));
                 }
             }
