@@ -394,7 +394,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let params = self.parse_exprs_as_params(expr_or_spreads)?;
 
-            let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
+            let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
             return Ok(box Expr::Arrow(ArrowExpr {
                 span: span!(start),
                 is_async: async_span.is_some(),
