@@ -1,6 +1,6 @@
 use super::*;
 use crate::{
-  compat::es2015::{arrow, function_name, parameters},
+  compat::es2015::{arrow, destructuring, function_name, parameters},
   fixer::fixer,
 };
 
@@ -18,8 +18,9 @@ impl Fold<Expr> for ParenRemover {
 fn tr() -> impl Fold<Module> {
   chain!(
     ParenRemover,
-    parameters(),
     arrow(),
+    parameters(),
+    destructuring(Default::default()),
     function_name(),
     AsyncToGenerator::default(),
     fixer()
@@ -282,61 +283,64 @@ async function five(a, {b}){}
 async function six(a, {b} = {}){}
 "#,
   r#"
-function one(_x) {
-  return _one.apply(this, arguments);
-}
-
 function _one() {
-  _one = asyncToGenerator(function* (a, b = 1) {});
+  _one = asyncToGenerator(function*(a, param) {
+    let tmp = param, b = tmp === void 0 ? 1 : tmp;
+  });
   return _one.apply(this, arguments);
 }
-
-function two(_x2, _x3) {
-  return _two.apply(this, arguments);
+function one(a, param) {
+  return _one.apply(this, arguments);
 }
-
 function _two() {
-  _two = asyncToGenerator(function* (a, b, ...c) {});
+  _two = asyncToGenerator(function*(a, b) {
+      for(let _len = arguments.length, c = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+        c[_key - 2] = arguments[_key];
+      }
+  });
   return _two.apply(this, arguments);
 }
-
-function three(_x4) {
-  return _three.apply(this, arguments);
+function two(a, b) {
+  return _two.apply(this, arguments);
 }
-
 function _three() {
-  _three = asyncToGenerator(function* (a, b = 1, c, d = 3) {});
+  _three = asyncToGenerator(function*(a, param, c, param1) {
+    let tmp = param, b = tmp === void 0 ? 1 : tmp, tmp = param1, d = tmp === void 0 ? 3 : tmp;
+  });
   return _three.apply(this, arguments);
 }
-
-function four(_x5) {
-  return _four.apply(this, arguments);
+function three(a, param, c, param1) {
+  return _three.apply(this, arguments);
 }
-
 function _four() {
-  _four = asyncToGenerator(function* (a, b = 1, c, ...d) {});
+  _four = asyncToGenerator(function*(a, param, c) {
+    let tmp = param, b = tmp === void 0 ? 1 : tmp;
+    for(let _len = arguments.length, d = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++){
+      d[_key - 3] = arguments[_key];
+    }
+  });
   return _four.apply(this, arguments);
 }
-
-function five(_x6, _x7) {
-  return _five.apply(this, arguments);
+function four(a, param, c) {
+  return _four.apply(this, arguments);
 }
-
 function _five() {
-  _five = asyncToGenerator(function* (a, {
-    b
-  }) {});
+  _five = asyncToGenerator(function*(a, param) {
+    let ref = param ? param : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), b = ref.b;
+  });
   return _five.apply(this, arguments);
 }
-
-function six(_x8) {
+function five(a, param) {
+  return _five.apply(this, arguments);
+}
+function _six() {
+  _six = asyncToGenerator(function*(a, param) {
+    let tmp = param, ref = tmp === void 0 ? {
+    } : tmp, ref = ref ? ref : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), b = ref.b;
+  });
   return _six.apply(this, arguments);
 }
-
-function _six() {
-  _six = asyncToGenerator(function* (a, {
-    b
-  } = {}) {});
+function six(a, param) {
   return _six.apply(this, arguments);
 }
 "#
