@@ -373,7 +373,13 @@ test!(
 foo(async function () {
 });"#,
   r#"
-foo(asyncToGenerator(function* () {}));
+foo((function() {
+  var _ref = asyncToGenerator(function*() {
+  });
+  return function() {
+    return _ref.apply(this, arguments);
+  };
+})());
 "#
 );
 
