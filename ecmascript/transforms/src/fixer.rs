@@ -25,6 +25,8 @@ impl Fold<Expr> for Fixer {
                 expr: box expr,
             }
             .into(),
+            // It's important for arrow pass to work properly.
+            Expr::Fn(FnExpr { ident: None, .. }) => expr.wrap_with_paren(),
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
