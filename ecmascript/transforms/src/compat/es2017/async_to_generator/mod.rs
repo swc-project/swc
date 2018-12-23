@@ -74,13 +74,50 @@ where
     }
 }
 
+impl Fold<ClassMethod> for Actual {
+    fn fold(&mut self, m: ClassMethod) -> ClassMethod {
+        if m.kind != ClassMethodKind::Method || !m.function.is_async {
+            return m;
+        }
+        let params = m.function.params.clone();
+
+        let expr = make_fn_ref(
+            &self.helpers,
+            FnExpr {
+                ident: None,
+                function: m.function,
+            },
+        );
+        ClassMethod {
+            function: Function {
+                span: m.span,
+                is_async: false,
+                is_generator: false,
+                params,
+                body: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: expr.as_callee(),
+                            args: vec![],
+                        })),
+                    })],
+                },
+            },
+            ..m
+        }
+    }
+}
+
 impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
         match expr {
             // Optimization for iife.
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(box Expr::Fn(mut fn_expr)),
+                callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
                 args,
             }) => {
                 if !args.is_empty() || !fn_expr.function.is_async {
@@ -91,7 +128,6 @@ impl Fold<Expr> for Actual {
                     });
                 }
 
-                fn_expr.function.body = fn_expr.function.body.fold_with(&mut AwaitToYield);
                 return make_fn_ref(&self.helpers, fn_expr);
             }
             _ => {}
@@ -146,20 +182,6 @@ impl Fold<FnDecl> for Actual {
     }
 }
 
-impl Fold<Function> for Actual {
-    fn fold(&mut self, f: Function) -> Function {
-        let f = f.fold_children(self);
-
-        if !f.is_async {
-            return f;
-        }
-
-        let body = f.body.fold_with(&mut AwaitToYield);
-
-        // We don't chanage is_async, is_generator at here
-        Function { body, ..f }
-    }
-}
 impl Actual {
     #[inline(always)]
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
@@ -286,6 +308,8 @@ impl Fold<Expr> for AwaitToYield {
 ///
 /// `asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
+    expr.function.body = expr.function.body.fold_with(&mut AwaitToYield);
+
     assert!(expr.function.is_async);
     expr.function.is_async = false;
     expr.function.is_generator = true;
