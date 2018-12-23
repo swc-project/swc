@@ -42,25 +42,18 @@ let TestClass = {
 "#,
   r#"
 let TestClass = {
-  name: "John Doe",
-
-  testMethodFailure() {
-    var _this = this;
-
-    return new Promise(
-        function () {
-            var _ref = asyncToGenerator(function* (resolve) {
-                console.log(_this);
-                setTimeout(resolve, 1000);
-            });
-
-            return function (_x) {
-                return _ref.apply(this, arguments);
-            };
-        }()
-    );
-  }
-
+  name: 'John Doe',
+  testMethodFailure () {
+      return new Promise((function() {
+      var _ref = asyncToGenerator(function*(resolve) {
+        console.log(this);
+        setTimeout(resolve, 1000);
+      });
+      return function() {
+        return _ref.apply(this, arguments);
+      };
+    })().bind(this));
+  } 
 };
 "#
 );

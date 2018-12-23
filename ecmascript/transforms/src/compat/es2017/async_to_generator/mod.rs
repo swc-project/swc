@@ -83,7 +83,7 @@ impl Fold<Expr> for Actual {
                 callee: ExprOrSuper::Expr(box Expr::Fn(mut fn_expr)),
                 args,
             }) => {
-                if !args.is_empty() {
+                if !args.is_empty() || !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
                         span,
                         callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
