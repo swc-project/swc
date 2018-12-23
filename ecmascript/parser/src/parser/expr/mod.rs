@@ -124,10 +124,17 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         // Handle async function expression
-        if { is!("async") } && { peeked_is!("function") } && {
-            !self.input.has_linebreak_between_cur_and_peeked()
-        } {
-            return self.parse_async_fn_expr();
+        if is!("async") {
+            if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked() {
+                return self.parse_async_fn_expr();
+            }
+
+            if can_be_arrow && peeked_is!('(') {
+                let start = cur_pos!();
+                expect!("async");
+                let async_span = span!(start);
+                return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
+            }
         }
 
         if is!('[') {
@@ -181,7 +188,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if is!('(') {
-            return self.parse_paren_expr_or_arrow_fn(can_be_arrow);
+            return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
         }
 
         if is!("let") || is!(IdentRef) {
@@ -361,7 +368,11 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse paren expression or arrow function expression.
-    fn parse_paren_expr_or_arrow_fn(&mut self, can_be_arrow: bool) -> PResult<'a, (Box<Expr>)> {
+    fn parse_paren_expr_or_arrow_fn(
+        &mut self,
+        can_be_arrow: bool,
+        async_span: Option<Span>,
+    ) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
         // At this point, we can't know if it's parenthesized
@@ -386,10 +397,18 @@ impl<'a, I: Input> Parser<'a, I> {
             let body: BlockStmtOrExpr = self.parse_fn_body(false, false)?;
             return Ok(box Expr::Arrow(ArrowExpr {
                 span: span!(start),
-                is_async: false,
+                is_async: async_span.is_some(),
                 is_generator: false,
                 params,
                 body,
+            }));
+        }
+        if let Some(async_span) = async_span {
+            // It's a call expression
+            return Ok(box Expr::Call(CallExpr {
+                span: span!(start).with_lo(async_span.lo()),
+                callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new("async".into(), async_span))),
+                args: expr_or_spreads,
             }));
         }
 

@@ -24,8 +24,12 @@ fn member_expr(s: &'static str) -> Box<Expr> {
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_expr()
-            .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
+        p.parse_stmt(true)
+            .map(|stmt| match stmt {
+                Stmt::Expr(expr) => expr,
+                _ => unreachable!(),
+            })
+            .unwrap_or_else(|()| unreachable!("failed to parse expression as expression statement"))
     })
 }
 
@@ -44,6 +48,32 @@ fn arrow_assign() {
             ),
             op: op!("="),
             right: expr("b => false"),
+        })
+    );
+}
+
+#[test]
+fn async_call() {
+    assert_eq_ignore_span!(
+        expr("async()"),
+        box Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(expr("async")),
+            args: vec![],
+        })
+    );
+}
+
+#[test]
+fn async_arrow() {
+    assert_eq_ignore_span!(
+        expr("async () => foo"),
+        box Expr::Arrow(ArrowExpr {
+            span,
+            is_async: true,
+            is_generator: false,
+            params: vec![],
+            body: BlockStmtOrExpr::Expr(expr("foo")),
         })
     );
 }
