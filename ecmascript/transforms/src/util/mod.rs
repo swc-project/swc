@@ -17,9 +17,39 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
+use swc_common::{Visit, VisitWith};
 
 mod factory;
 mod value;
+
+pub(crate) struct ThisVisitor {
+    found: bool,
+}
+
+impl Visit<ThisExpr> for ThisVisitor {
+    fn visit(&mut self, _: &ThisExpr) {
+        self.found = true;
+    }
+}
+
+impl Visit<FnExpr> for ThisVisitor {
+    /// Don't recurse into fn
+    fn visit(&mut self, _: &FnExpr) {}
+}
+
+impl Visit<FnDecl> for ThisVisitor {
+    /// Don't recurse into fn
+    fn visit(&mut self, _: &FnDecl) {}
+}
+
+pub(crate) fn contains_this_expr<N>(body: &N) -> bool
+where
+    ThisVisitor: Visit<N>,
+{
+    let mut visitor = ThisVisitor { found: false };
+    body.visit_with(&mut visitor);
+    visitor.found
+}
 
 pub trait StmtLike: Sized {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
