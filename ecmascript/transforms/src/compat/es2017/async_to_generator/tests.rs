@@ -512,12 +512,11 @@ async function foo(bar) {
 }
 "#,
   r#"
-function foo(_x) {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
   _foo = asyncToGenerator(function* (bar) {});
+  return _foo.apply(this, arguments);
+}
+function foo(bar) {
   return _foo.apply(this, arguments);
 }
 "#

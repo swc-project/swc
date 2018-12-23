@@ -186,6 +186,7 @@ impl Actual {
     #[inline(always)]
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         let span = f.span();
+        let params = f.params.clone();
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
         let mark = Mark::fresh(Mark::root());
@@ -273,7 +274,7 @@ impl Actual {
                     })]
                 },
             },
-            params: vec![],
+            params: params.clone(),
             is_generator: false,
             is_async: false,
         }
