@@ -1,6 +1,6 @@
 use crate::{
     compat::helpers::Helpers,
-    util::{ExprFactory, StmtLike},
+    util::{contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::sync::{atomic::Ordering, Arc};
@@ -71,6 +71,49 @@ where
         }
 
         buf
+    }
+}
+
+impl Fold<MethodProp> for Actual {
+    fn fold(&mut self, prop: MethodProp) -> MethodProp {
+        let prop = prop.fold_children(self);
+        if !prop.function.is_async {
+            return prop;
+        }
+        let params = prop.function.params;
+
+        let fn_ref = make_fn_ref(
+            &self.helpers,
+            FnExpr {
+                ident: None,
+                function: Function {
+                    params: vec![],
+                    ..prop.function
+                },
+            },
+        );
+        let fn_ref = Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: fn_ref.as_callee(),
+            args: vec![],
+        });
+
+        MethodProp {
+            function: Function {
+                params,
+                span: DUMMY_SP,
+                is_async: false,
+                is_generator: false,
+                body: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(box fn_ref),
+                    })],
+                },
+            },
+            ..prop
+        }
     }
 }
 
@@ -281,34 +324,34 @@ impl Actual {
     }
 }
 
-struct AwaitToYield;
-
-impl Fold<Function> for AwaitToYield {
-    /// Don't recurse into function.
-    fn fold(&mut self, f: Function) -> Function {
-        f
-    }
-}
-
-impl Fold<Expr> for AwaitToYield {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
-
-        match expr {
-            Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
-                span,
-                delegate: false,
-                arg: Some(arg),
-            }),
-            _ => expr,
-        }
-    }
-}
-
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
+    struct AwaitToYield;
+
+    impl Fold<Function> for AwaitToYield {
+        /// Don't recurse into function.
+        fn fold(&mut self, f: Function) -> Function {
+            f
+        }
+    }
+
+    impl Fold<Expr> for AwaitToYield {
+        fn fold(&mut self, expr: Expr) -> Expr {
+            let expr = expr.fold_children(self);
+
+            match expr {
+                Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
+                    span,
+                    delegate: false,
+                    arg: Some(arg),
+                }),
+                _ => expr,
+            }
+        }
+    }
+
     expr.function.body = expr.function.body.fold_with(&mut AwaitToYield);
 
     assert!(expr.function.is_async);
@@ -317,6 +360,23 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
 
     let span = expr.span();
     helpers.async_to_generator.store(true, Ordering::Relaxed);
+
+    let contains_this = contains_this_expr(&expr.function.body);
+    let expr = if contains_this {
+        Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: MemberExpr {
+                span: DUMMY_SP,
+                computed: false,
+                obj: expr.as_obj(),
+                prop: box Expr::Ident(quote_ident!("bind")),
+            }
+            .as_callee(),
+            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+        })
+    } else {
+        Expr::Fn(expr)
+    };
 
     Expr::Call(CallExpr {
         span,

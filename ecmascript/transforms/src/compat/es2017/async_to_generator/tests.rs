@@ -46,18 +46,18 @@ let TestClass = {
 "#,
   r#"
 let TestClass = {
-  name: 'John Doe',
-  testMethodFailure () {
-      return new Promise((function(resolve) {
-      var _ref = _asyncToGenerator(function*(resolve) {
-        console.log(this);
-        setTimeout(resolve, 1000);
-      });
-      return function() {
-        return _ref.apply(this, arguments);
-      };
-    })().bind(this));
-  } 
+     name: 'John Doe',
+     testMethodFailure () {
+        return new Promise((function(resolve) {
+          var _ref = _asyncToGenerator((function*(resolve) {
+            console.log(this);
+            setTimeout(resolve, 1000);
+          }).bind(this));
+          return function() {
+            return _ref.apply(this, arguments);
+          };
+        })().bind(this));
+      } 
 };
 "#
 );
@@ -411,55 +411,52 @@ class Class {
 }
 "#,
   r#"
-
-class Class {
-  method() {
-    var _this = this;
-
-    return _asyncToGenerator(function* () {
-      _this;
-
-      () => _this;
-
-      () => {
-        _this;
-
-        () => _this;
-
-        function x() {
-          var _this2 = this;
-
-          this;
-
-          () => {
+class Class{
+     method() {
+        return _asyncToGenerator((function*() {
             this;
-          };
-
-          
-          _asyncToGenerator(function* () {
-            _this2;
-          });
-        }
-      };
-
-      function x() {
-        var _this3 = this;
-
-        this;
-
-        () => {
-          this;
-        };
-
-        
-        _asyncToGenerator(function* () {
-          _this3;
-        });
-      }
-    })();
-  }
-
+            (function() {
+                return this;
+            }).bind(this);
+            (function() {
+                this;
+                (function() {
+                    return this;
+                }).bind(this);
+                function x() {
+                    this;
+                    (function() {
+                        this;
+                    }).bind(this);
+                    (function() {
+                        var _ref = _asyncToGenerator((function*() {
+                            this;
+                        }).bind(this));
+                        return function() {
+                            return _ref.apply(this, arguments);
+                        };
+                    })().bind(this);
+                }
+            }).bind(this);
+            function x() {
+                this;
+                (function() {
+                    this;
+                }).bind(this);
+                (function() {
+                    var _ref = _asyncToGenerator((function*() {
+                        this;
+                    }).bind(this));
+                    return function() {
+                        return _ref.apply(this, arguments);
+                    };
+                })().bind(this);
+            }
+        }).bind(this))();
+    }
 }
+
+
 "#
 );
 
@@ -502,6 +499,29 @@ class Foo {
 
 let foo = new Foo();
 return foo.foo().then(cur => {
+  expect(cur().x).toBe(1);
+});
+"#
+);
+
+test_exec!(
+  |helpers| tr(helpers),
+  class_method_super,
+  r#"
+class Foo {
+  async foo() {
+    this.x = 1;
+    return () => this;
+  }
+}
+class Bar extends Foo {
+  async bar() {
+    return await super.foo();
+  }
+}
+
+let bar = new Bar();
+return bar.bar().then(cur => {
   expect(cur().x).toBe(1);
 });
 "#

@@ -11,7 +11,13 @@ pub trait ExprFactory: Into<Expr> {
         }
     }
 
+    #[inline]
     fn as_callee(self) -> ExprOrSuper {
+        ExprOrSuper::Expr(box self.into())
+    }
+
+    #[inline]
+    fn as_obj(self) -> ExprOrSuper {
         ExprOrSuper::Expr(box self.into())
     }
 
