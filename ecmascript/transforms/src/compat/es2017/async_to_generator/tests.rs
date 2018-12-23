@@ -355,17 +355,14 @@ var foo = async function bar() {
 };
 "#,
   r#"
-var foo = function () {
-  var _bar = asyncToGenerator(function* () {
+var foo = (function() {
+  var _bar = asyncToGenerator(function*() {
     console.log(bar);
   });
-
-  function bar() {
+  return function bar() {
     return _bar.apply(this, arguments);
-  }
-
-  return bar;
-}();
+  };
+})();
 "#
 );
 
