@@ -9,6 +9,20 @@ pub fn fixer() -> impl Fold<Module> {
 #[derive(Debug)]
 struct Fixer;
 
+impl Fold<Stmt> for Fixer {
+    fn fold(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children(self);
+
+        match stmt {
+            // It's important for arrow pass to work properly.
+            Stmt::Expr(expr @ box Expr::Fn(FnExpr { ident: None, .. })) => {
+                Stmt::Expr(box expr.wrap_with_paren())
+            }
+            _ => stmt,
+        }
+    }
+}
+
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
         let mut expr = match expr {
@@ -25,8 +39,6 @@ impl Fold<Expr> for Fixer {
                 expr: box expr,
             }
             .into(),
-            // It's important for arrow pass to work properly.
-            Expr::Fn(FnExpr { ident: None, .. }) => expr.wrap_with_paren(),
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
