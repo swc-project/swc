@@ -1,8 +1,28 @@
 use super::*;
-use crate::compat::es2015::{arrow, function_name};
+use crate::{
+  compat::es2015::{arrow, function_name},
+  fixer::fixer,
+};
+
+struct ParenRemover;
+impl Fold<Expr> for ParenRemover {
+  fn fold(&mut self, expr: Expr) -> Expr {
+    let expr = expr.fold_children(self);
+    match expr {
+      Expr::Paren(ParenExpr { expr, .. }) => *expr,
+      _ => expr,
+    }
+  }
+}
 
 fn tr() -> impl Fold<Module> {
-  chain!(arrow(), function_name(), AsyncToGenerator::default())
+  chain!(
+    ParenRemover,
+    arrow(),
+    function_name(),
+    AsyncToGenerator::default(),
+    fixer()
+  )
 }
 
 test!(
@@ -89,28 +109,31 @@ test!(
 (async () => { await 'not iife' });
 "#,
   r#"
-asyncToGenerator(function* () {
-  yield 'ok';
-})();
-asyncToGenerator(function* () {
-  yield 'ok';
-})();
-
-(function () {
-  var _notIIFE = asyncToGenerator(function* () {
+asyncToGenerator(function*() {
     yield 'ok';
-  });
+});
 
-  function notIIFE() {
-    return _notIIFE.apply(this, arguments);
-  }
+asyncToGenerator(function*() {
+    yield 'ok';
+});
 
-  return notIIFE;
+(function() {
+    var _notIIFE = asyncToGenerator(function*() {
+        yield 'ok';
+    });
+    return function notIIFE() {
+        return _notIIFE.apply(this, arguments);
+    };
 })();
 
-asyncToGenerator(function* () {
-  yield 'not iife';
-});
+(function() {
+    var _ref = asyncToGenerator(function*() {
+        yield 'not iife';
+    });
+    return function() {
+        return _ref.apply(this, arguments);
+    };
+})();
 "#
 );
 

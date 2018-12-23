@@ -76,6 +76,27 @@ where
 
 impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
+        match expr {
+            // Optimization for iife.
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(box Expr::Fn(mut fn_expr)),
+                args,
+            }) => {
+                if !args.is_empty() {
+                    return Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
+                        args,
+                    });
+                }
+
+                fn_expr.function.body = fn_expr.function.body.fold_with(&mut AwaitToYield);
+                return make_fn_ref(&self.helpers, fn_expr);
+            }
+            _ => {}
+        }
+
         let expr = expr.fold_children(self);
 
         match expr {
@@ -140,10 +161,10 @@ impl Fold<Function> for Actual {
     }
 }
 impl Actual {
-    #[inline]
-    fn fold_fn(&mut self, ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
+    #[inline(always)]
+    fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         let span = f.span();
-        let ident = ident.unwrap_or_else(|| quote_ident!("ref"));
+        let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
         let mark = Mark::fresh(Mark::root());
         let real_fn_ident = quote_ident!(ident.span.apply_mark(mark), format!("_{}", ident.sym));
@@ -215,7 +236,7 @@ impl Actual {
                     vec![Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(box Expr::Fn(FnExpr {
-                            ident: Some(ident),
+                            ident: raw_ident,
                             function: Function {
                                 span: DUMMY_SP,
                                 is_async: false,
