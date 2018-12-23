@@ -39,6 +39,9 @@ pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Fold<Module> {
 #[derive(Default)]
 struct AsyncToGenerator {
     helpers: Arc<Helpers>,
+}
+struct Actual {
+    helpers: Arc<Helpers>,
     extra_stmts: Vec<Stmt>,
 }
 
@@ -55,9 +58,13 @@ where
             match stmt.try_into_stmt() {
                 Err(module_item) => buf.push(module_item),
                 Ok(stmt) => {
-                    let stmt = stmt.fold_with(self);
+                    let mut actual = Actual {
+                        helpers: self.helpers.clone(),
+                        extra_stmts: vec![],
+                    };
+                    let stmt = stmt.fold_with(&mut actual);
 
-                    buf.extend(self.extra_stmts.drain(..).map(T::from_stmt));
+                    buf.extend(actual.extra_stmts.drain(..).map(T::from_stmt));
                     buf.push(T::from_stmt(stmt));
                 }
             }
@@ -67,7 +74,7 @@ where
     }
 }
 
-impl Fold<Expr> for AsyncToGenerator {
+impl Fold<Expr> for Actual {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children(self);
 
@@ -89,7 +96,7 @@ impl Fold<Expr> for AsyncToGenerator {
     }
 }
 
-impl Fold<FnDecl> for AsyncToGenerator {
+impl Fold<FnDecl> for Actual {
     fn fold(&mut self, f: FnDecl) -> FnDecl {
         let f = f.fold_children(self);
         if !f.function.is_async {
@@ -104,7 +111,7 @@ impl Fold<FnDecl> for AsyncToGenerator {
     }
 }
 
-impl Fold<Function> for AsyncToGenerator {
+impl Fold<Function> for Actual {
     fn fold(&mut self, f: Function) -> Function {
         let f = f.fold_children(self);
 
@@ -118,7 +125,7 @@ impl Fold<Function> for AsyncToGenerator {
         Function { body, ..f }
     }
 }
-impl AsyncToGenerator {
+impl Actual {
     fn fold_fn(&mut self, ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         let span = f.span();
         let ident = ident.unwrap_or_else(|| quote_ident!("ref"));
@@ -133,36 +140,47 @@ impl AsyncToGenerator {
             },
         );
 
-        let real_fn = FnDecl {
-            ident: real_fn_ident.clone(),
-            function: Function {
-                span: DUMMY_SP,
-                body: BlockStmt {
+        if is_decl {
+            let real_fn = FnDecl {
+                ident: real_fn_ident.clone(),
+                function: Function {
                     span: DUMMY_SP,
-                    stmts: vec![
-                        Stmt::Expr(box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(real_fn_ident.clone())),
-                            op: op!("="),
-                            right: box right,
-                        })),
-                        Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(box real_fn_ident.clone().apply(
-                                DUMMY_SP,
-                                box ThisExpr { span: DUMMY_SP }.into(),
-                                vec![quote_ident!("arguments").as_arg()],
-                            )),
-                        }),
-                    ],
+                    body: BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            Stmt::Expr(box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(box Pat::Ident(real_fn_ident.clone())),
+                                op: op!("="),
+                                right: box right,
+                            })),
+                            Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(box real_fn_ident.clone().apply(
+                                    DUMMY_SP,
+                                    box ThisExpr { span: DUMMY_SP }.into(),
+                                    vec![quote_ident!("arguments").as_arg()],
+                                )),
+                            }),
+                        ],
+                    },
+                    params: vec![],
+                    is_async: false,
+                    is_generator: false,
                 },
-                params: vec![],
-                is_async: false,
-                is_generator: false,
-            },
-        };
-        println!("EXTRA!",);
-        self.extra_stmts.push(Stmt::Decl(Decl::Fn(real_fn)));
+            };
+            self.extra_stmts.push(Stmt::Decl(Decl::Fn(real_fn)));
+        } else {
+            self.extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(real_fn_ident.clone()),
+                    init: Some(box right),
+                }],
+            })));
+        }
 
         Function {
             span,
@@ -208,6 +226,9 @@ impl Fold<Expr> for AwaitToYield {
     }
 }
 
+/// Creates
+///
+/// `asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
     assert!(expr.function.is_async);
     expr.function.is_async = false;

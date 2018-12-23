@@ -260,6 +260,25 @@ var foo2 = function () {
 
 test!(
   tr(),
+  expression_1,
+  r#"
+var foo = async function () {
+  var wat = await bar();
+};
+"#,
+  r#"
+var foo = function () {
+  var _ref = asyncToGenerator(function* () {
+    var wat = yield bar();
+  });
+
+  return _ref.apply(this, arguments);
+};
+"#
+);
+
+test!(
+  tr(),
   function_arity,
   r#"
 async function one(a, b = 1) {}
@@ -520,13 +539,14 @@ async function foo() {
 }
 "#,
   r#"
+function _foo() {
+  _foo = asyncToGenerator(function* () {
+    var wat = yield bar();
+  });
+  return _foo.apply(this, arguments);
+}
+
 function foo() {
-  function _foo() {
-    _foo = asyncToGenerator(function* () {
-      var wat = yield bar();
-    });
-    return _foo.apply(this, arguments);
-  }
   return _foo.apply(this, arguments);
 }
 "#
