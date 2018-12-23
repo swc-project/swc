@@ -40,6 +40,7 @@ pub struct Helpers {
     pub set: AtomicBool,
     pub get_prototype_of: AtomicBool,
     pub throw: AtomicBool,
+    pub async_to_generator: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -104,6 +105,7 @@ impl InjectHelpers {
         add!("_set.js", &self.helpers.set);
         add!("_getPrototypeOf.js", &self.helpers.get_prototype_of);
         add!("_throw.js", &self.helpers.throw);
+        add!("_asyncToGenerator.js", &self.helpers.async_to_generator);
 
         buf
     }
