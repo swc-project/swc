@@ -199,7 +199,16 @@ macro_rules! exec_tr {
             let helpers = Arc::new(Helpers::default());
             let tr = $tr(helpers.clone());
 
-            let module = tester.apply_transform(tr, "input.js", $input)?;
+            let module = tester.apply_transform(
+                tr,
+                "input.js",
+                &format!(
+                    "it('should work', function () {{
+                    {}
+                }})",
+                    $input
+                ),
+            )?;
             let module = module.fold_with(&mut crate::fixer::fixer());
 
             // let src_without_helpers = tester.print(&module);
@@ -227,14 +236,7 @@ macro_rules! exec_tr {
                 .write(true)
                 .open(&path)
                 .expect("failed to create a temp file");
-            write!(
-                tmp,
-                r#"it('should work', function () {{
-                    {}
-                }})"#,
-                src
-            )
-            .expect("failed to write to temp file");
+            write!(tmp, "{}", src).expect("failed to write to temp file");
             tmp.flush().unwrap();
 
             println!(
