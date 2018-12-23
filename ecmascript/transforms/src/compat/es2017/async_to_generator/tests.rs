@@ -1,6 +1,6 @@
 use super::*;
 use crate::{
-  compat::es2015::{arrow, function_name},
+  compat::es2015::{arrow, function_name, parameters},
   fixer::fixer,
 };
 
@@ -18,6 +18,7 @@ impl Fold<Expr> for ParenRemover {
 fn tr() -> impl Fold<Module> {
   chain!(
     ParenRemover,
+    parameters(),
     arrow(),
     function_name(),
     AsyncToGenerator::default(),
@@ -72,22 +73,17 @@ async function foo({ a, b = mandatory("b") }) {
 "#,
   r#"
 function mandatory(paramName) {
-  throw new Error(`Missing parameter: ${paramName}`);
+    throw new Error(`Missing parameter: ${paramName}`);
 }
-
-function foo(_x) {
-  return _foo.apply(this, arguments);
-}
-
 function _foo() {
-  _foo = asyncToGenerator(function* (_ref) {
-    let {
-      a,
-      b = mandatory("b")
-    } = _ref;
-    return Promise.resolve(b);
-  });
-  return _foo.apply(this, arguments);
+    _foo = asyncToGenerator(function*(param) {
+        let { a , b =mandatory('b')  } = param;
+        return Promise.resolve(b);
+    });
+    return _foo.apply(this, arguments);
+}
+function foo() {
+    return _foo.apply(this, arguments);
 }
 "#
 );
@@ -509,7 +505,7 @@ let obj = {
 
 test!(
   tr(),
-  parameters,
+  babel_parameters,
   r#"
 async function foo(bar) {
 
