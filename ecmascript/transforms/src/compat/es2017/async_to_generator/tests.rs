@@ -521,13 +521,13 @@ async function foo() {
 "#,
   r#"
 function foo() {
+  function _foo() {
+    _foo = asyncToGenerator(function* () {
+      var wat = yield bar();
+    });
+    return _foo.apply(this, arguments);
+  }
   return _foo.apply(this, arguments);
 }
-
-function _foo() {
-  _foo = asyncToGenerator(function* () {
-    var wat = yield bar();
-  });
-  return _foo.apply(this, arguments);
-}"#
+"#
 );
