@@ -8,7 +8,7 @@ use std::{
     sync::{atomic::Ordering, Arc},
 };
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -532,11 +532,16 @@ impl Fold<Expr> for AssignFolder {
     }
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for Destructuring
+impl<T: StmtLike + VisitWith<DestructuringVisitor>> Fold<Vec<T>> for Destructuring
 where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        // fast path
+        if !has_destruturing(&stmts) {
+            return stmts;
+        }
+
         let stmts = stmts.fold_children(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -685,5 +690,28 @@ fn can_be_null(e: &Expr) -> bool {
 
         // TODO(kdy1): I'm not sure about this.
         Expr::Unary(..) | Expr::Update(..) | Expr::Bin(..) => true,
+    }
+}
+
+fn has_destruturing<N>(node: &N) -> bool
+where
+    N: VisitWith<DestructuringVisitor>,
+{
+    let mut v = DestructuringVisitor { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct DestructuringVisitor {
+    found: bool,
+}
+
+impl Visit<Pat> for DestructuringVisitor {
+    fn visit(&mut self, node: &Pat) {
+        node.visit_children(self);
+        match *node {
+            Pat::Ident(..) => {}
+            _ => self.found = true,
+        }
     }
 }
