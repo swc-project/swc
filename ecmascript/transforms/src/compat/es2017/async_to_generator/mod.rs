@@ -172,13 +172,63 @@ impl Fold<Expr> for ClassMethodFolder {
         match expr {
             // super.setter = 1
             Expr::Assign(AssignExpr {
+                span,
                 left:
                     PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
+                        span: _,
+                        obj: ExprOrSuper::Super(super_token),
+                        computed,
+                        prop,
                     })),
-                ..
-            }) => unimplemented!(),
+                op,
+                right,
+            })
+            | Expr::Assign(AssignExpr {
+                span,
+                left:
+                    PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
+                        span: _,
+                        obj: ExprOrSuper::Super(super_token),
+                        computed,
+                        prop,
+                    }))),
+                op,
+                right,
+            }) => {
+                let (mark, ident) = self.ident_for_super(&prop);
+                let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
+
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone()),
+                    init: Some(box Expr::Arrow(ArrowExpr {
+                        span: DUMMY_SP,
+                        is_async: false,
+                        is_generator: false,
+                        params: vec![Pat::Ident(args_ident.clone())],
+                        body: BlockStmtOrExpr::Expr(box Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Expr(
+                                box MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: ExprOrSuper::Super(super_token),
+                                    computed,
+                                    prop,
+                                }
+                                .into(),
+                            ),
+                            op,
+                            right: box args_ident.into(),
+                        })),
+                    })),
+                });
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ident.as_callee(),
+                    args: vec![right.as_arg()],
+                })
+            }
 
             // super.method()
             Expr::Call(CallExpr {

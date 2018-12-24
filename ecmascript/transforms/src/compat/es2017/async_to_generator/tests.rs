@@ -558,7 +558,7 @@ class Bar extends Foo {
 let bar = new Bar();
 return bar.bar().then(bar => {
   expect(called).toBe(true);
-  expect(bar).toBe(1);
+  expect(bar.v).toBe(1);
 });
 "#
 );
