@@ -456,17 +456,17 @@ test!(
   }
 }"#,
   r#"
-class Foo extends class {} {
-  method() {
-    var _superprop_callMethod = (..._args) => super.method(..._args);
-
-    return _asyncToGenerator(function* () {
-      _superprop_callMethod();
-
-      var arrow = () => _superprop_callMethod();
-    })();
-  }
-
+class Foo extends class{
+}{
+     method() {
+        var _super_method = (..._args)=>super.method(..._args), _super_method1 = (..._args)=>super.method(..._args);
+        return _asyncToGenerator(function*() {
+            _super_method();
+            var arrow = function arrow() {
+                return _super_method1();
+            };
+        })();
+    }
 }
 "#
 );
@@ -508,6 +508,31 @@ class Bar extends Foo {
 let bar = new Bar();
 return bar.bar().then(cur => {
   expect(cur().x).toBe(1);
+});
+"#
+);
+
+test_exec!(
+  |helpers| tr(helpers),
+  class_getter_super,
+  r#"
+let called = false;
+class Foo {
+  get foo() {
+    called = true;
+    return 1
+  }
+}
+class Bar extends Foo {
+  async bar() {
+    return super.foo;
+  }
+}
+
+let bar = new Bar();
+return bar.bar().then(foo => {
+  expect(called).toBe(true);
+  expect(foo).toBe(1);
 });
 "#
 );

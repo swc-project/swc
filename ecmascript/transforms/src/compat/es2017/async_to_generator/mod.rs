@@ -152,6 +152,122 @@ struct ClassMethodFolder {
     vars: Vec<VarDeclarator>,
 }
 
+impl ClassMethodFolder {
+    fn ident_for_super(&mut self, prop: &Expr) -> (Mark, Ident) {
+        let mark = Mark::fresh(Mark::root());
+        let prop_span = prop.span();
+        let mut ident = match *prop {
+            Expr::Ident(ref ident) => quote_ident!(prop_span, format!("_super_{}", ident.sym)),
+            _ => quote_ident!(prop_span, "_super_method"),
+        };
+        ident.span = ident.span.apply_mark(mark);
+        (mark, ident)
+    }
+}
+
+impl Fold<Expr> for ClassMethodFolder {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        // TODO(kdy): Cache (Reuse declaration for same property)
+
+        match expr {
+            // super.setter = 1
+            Expr::Assign(AssignExpr {
+                left:
+                    PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Super(..),
+                        ..
+                    })),
+                ..
+            }) => unimplemented!(),
+
+            // super.method()
+            Expr::Call(CallExpr {
+                span,
+                callee:
+                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                        span: _,
+                        obj: ExprOrSuper::Super(super_token),
+                        prop,
+                        computed,
+                    })),
+                args,
+            }) => {
+                let (mark, ident) = self.ident_for_super(&prop);
+                let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
+
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone()),
+                    init: Some(box Expr::Arrow(ArrowExpr {
+                        span: DUMMY_SP,
+                        is_async: false,
+                        is_generator: false,
+                        params: vec![Pat::Rest(RestPat {
+                            dot3_token: DUMMY_SP,
+                            arg: box Pat::Ident(args_ident.clone()),
+                        })],
+                        body: BlockStmtOrExpr::Expr(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ExprOrSuper::Super(super_token),
+                                computed,
+                                prop,
+                            }
+                            .as_callee(),
+                            args: vec![ExprOrSpread {
+                                spread: Some(DUMMY_SP),
+                                expr: box args_ident.clone().into(),
+                            }],
+                        })),
+                    })),
+                });
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ident.as_callee(),
+                    args,
+                })
+            }
+            // super.getter
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Super(super_token),
+                prop,
+                computed,
+            }) => {
+                let (_, ident) = self.ident_for_super(&prop);
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone()),
+                    init: Some(box Expr::Arrow(ArrowExpr {
+                        span: DUMMY_SP,
+                        is_async: false,
+                        is_generator: false,
+                        params: vec![],
+                        body: BlockStmtOrExpr::Expr(
+                            box MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ExprOrSuper::Super(super_token),
+                                computed,
+                                prop,
+                            }
+                            .into(),
+                        ),
+                    })),
+                });
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ident.as_callee(),
+                    args: vec![],
+                })
+            }
+            _ => expr.fold_children(self),
+        }
+    }
+}
+
 impl Fold<ClassMethod> for Actual {
     fn fold(&mut self, m: ClassMethod) -> ClassMethod {
         if m.kind != ClassMethodKind::Method || !m.function.is_async {
@@ -160,11 +276,7 @@ impl Fold<ClassMethod> for Actual {
         let params = m.function.params.clone();
 
         let mut folder = ClassMethodFolder { vars: vec![] };
-        let function = if contains_super_access(&m.function.body) {
-            m.function.fold_with(&mut folder)
-        } else {
-            m.function
-        };
+        let function = m.function.fold_children(&mut folder);
         let expr = make_fn_ref(
             &self.helpers,
             FnExpr {
