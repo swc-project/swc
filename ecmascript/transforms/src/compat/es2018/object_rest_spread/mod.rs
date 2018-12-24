@@ -22,6 +22,25 @@ struct ObjectRest {
     helpers: Arc<Helpers>,
 }
 
+struct RestVisitor {
+    found: bool,
+}
+
+impl Visit<RestPat> for RestVisitor {
+    fn visit(&mut self, _: &RestPat) {
+        self.found = true;
+    }
+}
+
+fn contains_rest<N>(node: &N) -> bool
+where
+    N: VisitWith<RestVisitor>,
+{
+    let mut v = RestVisitor { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
 struct ObjectSpread {
     helpers: Arc<Helpers>,
 }
