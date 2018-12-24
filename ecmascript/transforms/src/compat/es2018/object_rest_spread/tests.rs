@@ -8,6 +8,21 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
   object_rest_spread(helpers.clone())
 }
 
+test_exec!(
+  tr,
+  rest_assignment_exec,
+  r#"
+let foo = {
+  a: 1,
+  b: 2,
+};
+
+({ a, ...c } = foo);
+expect(a).toBe(1);
+expect(c).toEqual({b: 2});
+"#
+);
+
 test!(
   tr(Default::default()),
   rest_assignment_expression,
