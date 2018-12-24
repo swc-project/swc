@@ -128,6 +128,16 @@ fn all(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2018(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2018(&helpers));
+}
+
+#[bench]
+fn es2018_object_rest_spread(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2018::object_rest_spread(helpers));
+}
+
+#[bench]
 fn es2017(b: &mut Bencher) {
     tr!(b, |helpers| compat::es2017(&helpers));
 }
