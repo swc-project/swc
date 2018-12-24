@@ -1,9 +1,12 @@
 use crate::{
     compat::helpers::Helpers,
-    util::{contains_this_expr, ExprFactory, StmtLike},
+    util::{contains_super_access, contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::sync::{atomic::Ordering, Arc};
+use std::{
+    iter,
+    sync::{atomic::Ordering, Arc},
+};
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
 #[cfg(test)]
@@ -117,6 +120,38 @@ impl Fold<MethodProp> for Actual {
     }
 }
 
+/// Hoists super access
+///
+/// ## In
+///
+/// ```js
+/// class Foo {
+///     async foo () {
+///         super.getter
+///         super.setter = 1
+///         super.method()
+///     }
+/// }
+/// ```
+///
+/// ## OUt
+///
+/// ```js
+/// class Foo {
+///     var _super_getter = () => super.getter;
+///     var _super_setter = (v) => super.setter = v;
+///     var _super_method = (...args) => super.method(args);
+///     foo () {
+///         super.getter
+///         super.setter = 1
+///         super.method()
+///     }
+/// }
+/// ```
+struct ClassMethodFolder {
+    vars: Vec<VarDeclarator>,
+}
+
 impl Fold<ClassMethod> for Actual {
     fn fold(&mut self, m: ClassMethod) -> ClassMethod {
         if m.kind != ClassMethodKind::Method || !m.function.is_async {
@@ -124,13 +159,30 @@ impl Fold<ClassMethod> for Actual {
         }
         let params = m.function.params.clone();
 
+        let mut folder = ClassMethodFolder { vars: vec![] };
+        let function = if contains_super_access(&m.function.body) {
+            m.function.fold_with(&mut folder)
+        } else {
+            m.function
+        };
         let expr = make_fn_ref(
             &self.helpers,
             FnExpr {
                 ident: None,
-                function: m.function,
+                function,
             },
         );
+
+        let hoisted_super = if folder.vars.is_empty() {
+            None
+        } else {
+            Some(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: folder.vars,
+            })))
+        };
+
         ClassMethod {
             function: Function {
                 span: m.span,
@@ -139,14 +191,17 @@ impl Fold<ClassMethod> for Actual {
                 params,
                 body: BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(box Expr::Call(CallExpr {
+                    stmts: hoisted_super
+                        .into_iter()
+                        .chain(iter::once(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            callee: expr.as_callee(),
-                            args: vec![],
-                        })),
-                    })],
+                            arg: Some(box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: expr.as_callee(),
+                                args: vec![],
+                            })),
+                        })))
+                        .collect(),
                 },
             },
             ..m
