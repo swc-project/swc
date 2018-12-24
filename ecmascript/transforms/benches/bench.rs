@@ -133,8 +133,18 @@ fn es2017(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2017_async_to_generator(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2017::async_to_generator(helpers));
+}
+
+#[bench]
 fn es2016(b: &mut Bencher) {
     tr!(b, |_| compat::es2016());
+}
+
+#[bench]
+fn es2016_exponentation(b: &mut Bencher) {
+    tr!(b, |_| compat::es2016::exponentation());
 }
 
 #[bench]
@@ -210,4 +220,9 @@ fn es2015_sticky_regex(b: &mut Bencher) {
 #[bench]
 fn es2015_typeof_symbol(b: &mut Bencher) {
     tr!(b, |helpers| compat::es2015::TypeOfSymbol { helpers });
+}
+
+#[bench]
+fn es3(b: &mut Bencher) {
+    tr!(b, |_| compat::es3());
 }
