@@ -193,6 +193,7 @@ macro_rules! exec_tr {
             process::Command,
             sync::Arc,
         };
+        use swc_common::FoldWith;
         use tempfile::tempdir_in;
 
         crate::tests::Tester::run(|tester| {
