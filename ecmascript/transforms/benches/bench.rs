@@ -168,6 +168,16 @@ fn es2015_arrow(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2015_block_scoped_fn(b: &mut Bencher) {
+    tr!(b, |_| compat::es2015::BlockScopedFns);
+}
+
+#[bench]
+fn es2015_block_scoping(b: &mut Bencher) {
+    tr!(b, |_| compat::es2015::block_scoping());
+}
+
+#[bench]
 fn es2015_classes(b: &mut Bencher) {
     tr!(b, |helpers| compat::es2015::Classes { helpers });
 }
@@ -193,18 +203,13 @@ fn es2015_parameters(b: &mut Bencher) {
 }
 
 #[bench]
-fn es2015_block_scoped_fn(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::BlockScopedFns);
-}
-
-#[bench]
-fn es2015_block_scoping(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::block_scoping());
-}
-
-#[bench]
 fn es2015_fn_name(b: &mut Bencher) {
     tr!(b, |_| compat::es2015::function_name());
+}
+
+#[bench]
+fn es2015_for_of(b: &mut Bencher) {
+    tr!(b, |_| compat::es2015::for_of());
 }
 
 #[bench]
