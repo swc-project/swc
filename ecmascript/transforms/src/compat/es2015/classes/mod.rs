@@ -4,7 +4,7 @@ use std::{
     iter,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -47,6 +47,19 @@ pub struct Classes {
 
 impl Fold<Decl> for Classes {
     fn fold(&mut self, n: Decl) -> Decl {
+        fn should_work(node: &Decl) -> bool {
+            struct Visitor {
+                found: bool,
+            };
+            let mut v = Visitor { found: false };
+            node.visit_with(&mut v);
+            v.found
+        }
+        // fast path
+        if !should_work(&n) {
+            return n;
+        }
+
         let n = n.fold_children(self);
 
         match n {
