@@ -1,6 +1,6 @@
 use crate::util::{ExprFactory, StmtLike};
 use ast::*;
-use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -396,11 +396,15 @@ fn make_finally_block(
     })
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for ForOf
+impl<T: StmtLike + VisitWith<ForOfFinder>> Fold<Vec<T>> for ForOf
 where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        if !contains_for_of(&stmts) {
+            return stmts;
+        }
+
         let stmts = stmts.fold_children(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -428,5 +432,24 @@ where
         }
 
         buf
+    }
+}
+
+fn contains_for_of<N>(node: &N) -> bool
+where
+    N: VisitWith<ForOfFinder>,
+{
+    let mut v = ForOfFinder { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct ForOfFinder {
+    found: bool,
+}
+
+impl Visit<ForOfStmt> for ForOfFinder {
+    fn visit(&mut self, _: &ForOfStmt) {
+        self.found = true;
     }
 }

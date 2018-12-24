@@ -4,7 +4,7 @@ use std::alloc::System;
 
 #[global_allocator]
 static GLOBAL: System = System;
-
+#[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
@@ -115,6 +115,26 @@ macro_rules! tr {
             Ok(())
         });
     };
+}
+
+#[bench]
+fn all(b: &mut Bencher) {
+    tr!(b, |helpers| chain!(
+        compat::es2017(&helpers),
+        compat::es2016(),
+        compat::es2015(&helpers),
+        compat::es3(),
+    ));
+}
+
+#[bench]
+fn es2017(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2017(&helpers));
+}
+
+#[bench]
+fn es2016(b: &mut Bencher) {
+    tr!(b, |_| compat::es2016());
 }
 
 #[bench]

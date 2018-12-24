@@ -1,6 +1,6 @@
 use crate::util::{ExprFactory, StmtLike};
 use ast::*;
-use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -21,8 +21,12 @@ use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 ///
 /// x = Math.pow(x, 3);
 /// ```
+pub fn exponentation() -> impl Fold<Module> + Clone + Copy {
+    Exponentation
+}
+
 #[derive(Debug, Clone, Copy)]
-pub struct Exponentation;
+struct Exponentation;
 
 #[derive(Default)]
 struct AssignFolder {
@@ -83,11 +87,14 @@ impl Fold<Expr> for AssignFolder {
     }
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for Exponentation
+impl<T: StmtLike + VisitWith<ShouldFold>> Fold<Vec<T>> for Exponentation
 where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        if !should_fold(&stmts) {
+            return stmts;
+        }
         let stmts = stmts.fold_children(self);
 
         let mut buf = vec![];
@@ -126,6 +133,32 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
 
         args: vec![left.as_arg(), right.as_arg()],
     })
+}
+
+fn should_fold<N>(node: &N) -> bool
+where
+    N: VisitWith<ShouldFold>,
+{
+    let mut v = ShouldFold { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+struct ShouldFold {
+    found: bool,
+}
+impl Visit<BinExpr> for ShouldFold {
+    fn visit(&mut self, e: &BinExpr) {
+        if e.op == op!("**") {
+            self.found = true;
+        }
+    }
+}
+impl Visit<AssignExpr> for ShouldFold {
+    fn visit(&mut self, e: &AssignExpr) {
+        if e.op == op!("**=") {
+            self.found = true;
+        }
+    }
 }
 
 #[cfg(test)]

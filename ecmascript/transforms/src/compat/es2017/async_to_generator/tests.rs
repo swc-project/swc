@@ -1,38 +1,38 @@
 use super::*;
 use crate::{
-  compat::es2015::{arrow, destructuring, function_name, parameters},
-  fixer::fixer,
+    compat::es2015::{arrow, destructuring, function_name, parameters},
+    fixer::fixer,
 };
 
 struct ParenRemover;
 impl Fold<Expr> for ParenRemover {
-  fn fold(&mut self, expr: Expr) -> Expr {
-    let expr = expr.fold_children(self);
-    match expr {
-      Expr::Paren(ParenExpr { expr, .. }) => *expr,
-      _ => expr,
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+        match expr {
+            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+            _ => expr,
+        }
     }
-  }
 }
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-  chain!(
-    ParenRemover,
-    arrow(),
-    parameters(),
-    destructuring(helpers.clone()),
-    function_name(),
-    AsyncToGenerator {
-      helpers: helpers.clone()
-    },
-    fixer()
-  )
+    chain!(
+        ParenRemover,
+        arrow(),
+        parameters(),
+        destructuring(helpers.clone()),
+        function_name(),
+        AsyncToGenerator {
+            helpers: helpers.clone()
+        },
+        fixer()
+    )
 }
 
 test!(
-  tr(Default::default()),
-  async_arrow_in_method,
-  r#"
+    tr(Default::default()),
+    async_arrow_in_method,
+    r#"
 let TestClass = {
   name: "John Doe",
 
@@ -44,7 +44,7 @@ let TestClass = {
   }
 };
 "#,
-  r#"
+    r#"
 let TestClass = {
      name: 'John Doe',
      testMethodFailure () {
@@ -92,15 +92,15 @@ function foo(param) {
 );
 
 test!(
-  tr(Default::default()),
-  async_iife,
-  r#"
+    tr(Default::default()),
+    async_iife,
+    r#"
 (async function() { await 'ok' })();
 (async () => { await 'ok' })();
 (async function notIIFE() { await 'ok' });
 (async () => { await 'not iife' });
 "#,
-  r#"
+    r#"
 _asyncToGenerator(function*() {
     yield 'ok';
 });
@@ -130,16 +130,16 @@ _asyncToGenerator(function*() {
 );
 
 test!(
-  tr(Default::default()),
-  async,
-  r#"
+    tr(Default::default()),
+    async,
+    r#"
 class Foo {
   async foo() {
     var wat = await bar();
   }
 }
 "#,
-  r#"
+    r#"
 class Foo {
   foo() {
     return _asyncToGenerator(function* () {
@@ -213,9 +213,9 @@ function s(x) {
 );
 
 test!(
-  tr(Default::default()),
-  expression,
-  r#"
+    tr(Default::default()),
+    expression,
+    r#"
 var foo = async function () {
   var wat = await bar();
 };
@@ -227,7 +227,7 @@ bar = async function () {
   var wat = await foo();
 };
 "#,
-  r#"
+    r#"
 var foo = function () {
   var _foo = _asyncToGenerator(function* () {
     var wat = yield bar();
@@ -334,14 +334,14 @@ function six(a, param) {
 );
 
 test!(
-  tr(Default::default()),
-  named_expression,
-  r#"
+    tr(Default::default()),
+    named_expression,
+    r#"
 var foo = async function bar() {
   console.log(bar);
 };
 "#,
-  r#"
+    r#"
 var foo = (function() {
   var _bar = _asyncToGenerator(function*() {
     console.log(bar);
@@ -354,12 +354,12 @@ var foo = (function() {
 );
 
 test!(
-  tr(Default::default()),
-  no_parameters_and_no_id,
-  r#"
+    tr(Default::default()),
+    no_parameters_and_no_id,
+    r#"
 foo(async function () {
 });"#,
-  r#"
+    r#"
 foo((function() {
   var _ref = _asyncToGenerator(function*() {
   });
@@ -371,9 +371,9 @@ foo((function() {
 );
 
 test!(
-  tr(Default::default()),
-  object_method_with_arrows,
-  r#"
+    tr(Default::default()),
+    object_method_with_arrows,
+    r#"
 class Class {
   async method() {
     this;
@@ -395,7 +395,7 @@ class Class {
   }
 }
 "#,
-  r#"
+    r#"
 class Class{
      method() {
         return _asyncToGenerator((function*() {
@@ -472,9 +472,9 @@ class Foo extends class{
 );
 
 test_exec!(
-  |helpers| tr(helpers),
-  class_method_this,
-  r#"
+    |helpers| tr(helpers),
+    class_method_this,
+    r#"
 class Foo {
   async foo() {
     this.x = 1;
@@ -490,9 +490,9 @@ return foo.foo().then(cur => {
 );
 
 test_exec!(
-  |helpers| tr(helpers),
-  class_method_super,
-  r#"
+    |helpers| tr(helpers),
+    class_method_super,
+    r#"
 class Foo {
   async foo() {
     this.x = 1;
@@ -513,9 +513,9 @@ return bar.bar().then(cur => {
 );
 
 test_exec!(
-  |helpers| tr(helpers),
-  class_getter_super,
-  r#"
+    |helpers| tr(helpers),
+    class_getter_super,
+    r#"
 let called = false;
 class Foo {
   get foo() {
@@ -538,9 +538,9 @@ return bar.bar().then(foo => {
 );
 
 test_exec!(
-  |helpers| tr(helpers),
-  class_setter_super,
-  r#"
+    |helpers| tr(helpers),
+    class_setter_super,
+    r#"
 let called = false;
 class Foo {
   set foo(v) {
@@ -564,9 +564,9 @@ return bar.bar().then(bar => {
 );
 
 test_exec!(
-  |helpers| tr(helpers),
-  class_method_this_complex,
-  r#"
+    |helpers| tr(helpers),
+    class_method_this_complex,
+    r#"
 class Class {
   async method() {
     console.log(this);
@@ -596,16 +596,16 @@ return c.method();
 );
 
 test!(
-  tr(Default::default()),
-  object_method,
-  r#"
+    tr(Default::default()),
+    object_method,
+    r#"
 let obj = {
   a: 123,
   async foo(bar) {
     return await baz(bar);
   }
 }"#,
-  r#"
+    r#"
 let obj = {
   a: 123,
 
@@ -619,14 +619,14 @@ let obj = {
 );
 
 test!(
-  tr(Default::default()),
-  babel_parameters,
-  r#"
+    tr(Default::default()),
+    babel_parameters,
+    r#"
 async function foo(bar) {
 
 }
 "#,
-  r#"
+    r#"
 function _foo() {
   _foo = _asyncToGenerator(function* (bar) {});
   return _foo.apply(this, arguments);
@@ -638,14 +638,14 @@ function foo(bar) {
 );
 
 test!(
-  tr(Default::default()),
-  statement,
-  r#"
+    tr(Default::default()),
+    statement,
+    r#"
 async function foo() {
   var wat = await bar();
 }
 "#,
-  r#"
+    r#"
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     var wat = yield bar();
