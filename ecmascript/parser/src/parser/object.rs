@@ -12,8 +12,6 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!('{');
 
-        println!("parse_object()!",);
-
         let mut props = vec![];
 
         let mut first = true;
