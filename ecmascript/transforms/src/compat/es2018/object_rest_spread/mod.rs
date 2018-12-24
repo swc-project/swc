@@ -1,6 +1,9 @@
 use crate::{compat::helpers::Helpers, util::ExprFactory};
 use ast::*;
-use std::{mem, sync::Arc};
+use std::{
+    mem,
+    sync::{atomic::Ordering, Arc},
+};
 use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -74,6 +77,8 @@ impl Fold<Expr> for ObjectRestSpread {
                     buf
                 };
 
+                self.helpers.define_property.store(true, Ordering::Relaxed);
+                self.helpers.object_spread.store(true, Ordering::Relaxed);
                 Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!("_objectSpread").as_callee(),

@@ -42,6 +42,7 @@ pub struct Helpers {
     pub throw: AtomicBool,
     pub async_to_generator: AtomicBool,
     pub object_without_properties: AtomicBool,
+    pub object_spread: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -111,6 +112,7 @@ impl InjectHelpers {
             "_objectWithoutProperties.js",
             &self.helpers.object_without_properties
         );
+        add!("_objectSpread.js", &self.helpers.object_spread);
 
         buf
     }
