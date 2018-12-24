@@ -22,37 +22,6 @@ use swc_common::{Visit, VisitWith};
 mod factory;
 mod value;
 
-pub(crate) struct SuperVisitor {
-    found: bool,
-}
-impl Visit<ExprOrSuper> for SuperVisitor {
-    fn visit(&mut self, e: &ExprOrSuper) {
-        match *e {
-            ExprOrSuper::Super(..) => self.found = true,
-            _ => {}
-        }
-    }
-}
-
-impl Visit<FnExpr> for SuperVisitor {
-    /// Don't recurse into fn
-    fn visit(&mut self, _: &FnExpr) {}
-}
-
-impl Visit<FnDecl> for SuperVisitor {
-    /// Don't recurse into fn
-    fn visit(&mut self, _: &FnDecl) {}
-}
-
-pub(crate) fn contains_super_access<N>(body: &N) -> bool
-where
-    SuperVisitor: Visit<N>,
-{
-    let mut visitor = SuperVisitor { found: false };
-    body.visit_with(&mut visitor);
-    visitor.found
-}
-
 pub(crate) struct ThisVisitor {
     found: bool,
 }

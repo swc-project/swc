@@ -1,6 +1,6 @@
 use crate::{
     compat::helpers::Helpers,
-    util::{contains_super_access, contains_this_expr, ExprFactory, StmtLike},
+    util::{contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{
