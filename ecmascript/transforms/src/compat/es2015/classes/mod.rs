@@ -4,7 +4,7 @@ use std::{
     iter,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Span, Spanned, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -51,6 +51,11 @@ impl Fold<Decl> for Classes {
             struct Visitor {
                 found: bool,
             };
+            impl Visit<Class> for Visitor {
+                fn visit(&mut self, _: &Class) {
+                    self.found = true
+                }
+            }
             let mut v = Visitor { found: false };
             node.visit_with(&mut v);
             v.found
