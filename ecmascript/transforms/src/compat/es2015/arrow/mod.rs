@@ -1,6 +1,6 @@
-use crate::util::ExprFactory;
+use crate::util::{contains_this_expr, ExprFactory};
 use ast::*;
-use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -113,30 +113,4 @@ impl Fold<Expr> for Arrow {
             _ => e,
         }
     }
-}
-
-fn contains_this_expr(body: &BlockStmtOrExpr) -> bool {
-    struct Visitor {
-        found: bool,
-    }
-
-    impl Visit<ThisExpr> for Visitor {
-        fn visit(&mut self, _: &ThisExpr) {
-            self.found = true;
-        }
-    }
-
-    impl Visit<FnExpr> for Visitor {
-        /// Don't recurse into fn
-        fn visit(&mut self, _: &FnExpr) {}
-    }
-
-    impl Visit<FnDecl> for Visitor {
-        /// Don't recurse into fn
-        fn visit(&mut self, _: &FnDecl) {}
-    }
-
-    let mut visitor = Visitor { found: false };
-    body.visit_with(&mut visitor);
-    visitor.found
 }

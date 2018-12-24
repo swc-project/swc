@@ -63,7 +63,7 @@ New generation javascript to old-days javascript.
     - [x] exponentiation-operator
 
  - es2017
-    - [ ] async-to-generator
+    - [x] async-to-generator
 
  - es2018
     - [ ] async-generator-functions

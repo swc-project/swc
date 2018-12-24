@@ -24,8 +24,12 @@ fn member_expr(s: &'static str) -> Box<Expr> {
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_expr()
-            .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
+        p.parse_stmt(true)
+            .map(|stmt| match stmt {
+                Stmt::Expr(expr) => expr,
+                _ => unreachable!(),
+            })
+            .unwrap_or_else(|()| unreachable!("failed to parse expression as expression statement"))
     })
 }
 
@@ -49,34 +53,71 @@ fn arrow_assign() {
 }
 
 #[test]
+fn async_call() {
+    assert_eq_ignore_span!(
+        expr("async()"),
+        box Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(expr("async")),
+            args: vec![],
+        })
+    );
+}
+
+#[test]
+fn async_arrow() {
+    assert_eq_ignore_span!(
+        expr("async () => foo"),
+        box Expr::Arrow(ArrowExpr {
+            span,
+            is_async: true,
+            is_generator: false,
+            params: vec![],
+            body: BlockStmtOrExpr::Expr(expr("foo")),
+        })
+    );
+}
+
+#[test]
 fn object_rest() {
     assert_eq_ignore_span!(
-        expr("{a, ...foo, b}"),
-        box Expr::Object(ObjectLit {
+        expr("foo = {a, ...bar, b}"),
+        box Expr::Assign(AssignExpr {
             span,
-            props: vec![
-                PropOrSpread::Prop(
-                    box Ident {
-                        span,
-                        sym: "a".into()
-                    }
-                    .into()
-                ),
-                PropOrSpread::Spread(SpreadElement {
-                    dot3_token: span,
-                    expr: box Expr::Ident(Ident {
-                        span,
-                        sym: "foo".into(),
-                    })
-                }),
-                PropOrSpread::Prop(
-                    box Ident {
-                        span,
-                        sym: "b".into()
-                    }
-                    .into()
-                ),
-            ]
+            left: PatOrExpr::Pat(box Pat::Ident(
+                Ident {
+                    span,
+                    sym: "foo".into()
+                }
+                .into()
+            )),
+            op: op!("="),
+            right: box Expr::Object(ObjectLit {
+                span,
+                props: vec![
+                    PropOrSpread::Prop(
+                        box Ident {
+                            span,
+                            sym: "a".into()
+                        }
+                        .into()
+                    ),
+                    PropOrSpread::Spread(SpreadElement {
+                        dot3_token: span,
+                        expr: box Expr::Ident(Ident {
+                            span,
+                            sym: "bar".into(),
+                        })
+                    }),
+                    PropOrSpread::Prop(
+                        box Ident {
+                            span,
+                            sym: "b".into()
+                        }
+                        .into()
+                    ),
+                ]
+            })
         })
     );
 }

@@ -9,10 +9,24 @@ pub fn fixer() -> impl Fold<Module> {
 #[derive(Debug)]
 struct Fixer;
 
+impl Fold<Stmt> for Fixer {
+    fn fold(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children(self);
+
+        match stmt {
+            // It's important for arrow pass to work properly.
+            Stmt::Expr(expr @ box Expr::Fn(FnExpr { ident: None, .. })) => {
+                Stmt::Expr(box expr.wrap_with_paren())
+            }
+            _ => stmt,
+        }
+    }
+}
+
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
         let mut expr = match expr {
-            Expr::Paren(ParenExpr { expr, span }) => Expr::Paren(ParenExpr { span, expr }),
+            Expr::Paren(..) => expr,
             _ => expr.fold_children(self),
         };
 
@@ -25,6 +39,27 @@ impl Fold<Expr> for Fixer {
                 expr: box expr,
             }
             .into(),
+            Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Fn(_)),
+                prop,
+            }) => MemberExpr {
+                span,
+                computed,
+                obj: obj.wrap_with_paren().as_obj(),
+                prop,
+            }
+            .into(),
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
+                args,
+            }) => Expr::Call(CallExpr {
+                span,
+                callee: callee.wrap_with_paren().as_callee(),
+                args,
+            }),
             _ => expr,
         }
     }

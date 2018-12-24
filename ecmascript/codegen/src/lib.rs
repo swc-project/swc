@@ -582,6 +582,7 @@ impl<'a> Emitter<'a> {
     pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
         if node.function.is_async {
             keyword!("async");
+            space!()
         }
         keyword!("function");
 
