@@ -460,10 +460,7 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn array_pat(s: &'static str) -> Pat {
-        test_parser(s, |p| {
-            p.parse_array_binding_pat()
-                .unwrap_or_else(|()| unreachable!("failed to parse an pattern"))
-        })
+        test_parser(s, |p| p.parse_array_binding_pat())
     }
 
     fn ident(s: &str) -> Ident {

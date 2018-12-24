@@ -726,22 +726,47 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, |p| {
-            p.parse_stmt(true)
-                .unwrap_or_else(|()| unreachable!("failed to parse a statement"))
-        })
+        test_parser(s, |p| p.parse_stmt(true))
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, |p| {
-            p.parse_expr()
-                .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
-        })
+        test_parser(s, |p| p.parse_expr())
     }
 
     #[test]
     fn expr_stmt() {
         assert_eq_ignore_span!(stmt("a + b + c"), Stmt::Expr(expr("a + b + c")))
     }
+
+    #[test]
+    fn catch_rest_pat() {
+        assert_eq_ignore_span!(
+            stmt("try {} catch({ ...a34 }) {}"),
+            Stmt::Try(TryStmt {
+                span,
+                block: BlockStmt {
+                    span,
+                    stmts: vec![]
+                },
+                handler: Some(CatchClause {
+                    span,
+                    param: Pat::Object(ObjectPat {
+                        span,
+                        props: vec![ObjectPatProp::Rest(RestPat {
+                            dot3_token: span,
+                            arg: box Pat::Ident(Ident::new("a34".into(), span))
+                        })]
+                    })
+                    .into(),
+                    body: BlockStmt {
+                        span,
+                        stmts: vec![]
+                    }
+                }),
+                finalizer: None
+            })
+        );
+    }
+
     #[test]
     fn throw_this() {
         assert_eq_ignore_span!(
