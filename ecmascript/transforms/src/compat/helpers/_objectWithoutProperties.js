@@ -13,7 +13,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 function _objectWithoutProperties(source, excluded) {
     if (source == null) return {};
-    var target = objectWithoutPropertiesLoose(source, excluded);
+    var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
