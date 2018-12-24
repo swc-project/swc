@@ -1,7 +1,7 @@
 use crate::{compat::helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::sync::{atomic::Ordering, Arc};
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-typeof-symbol`
 ///
@@ -26,6 +26,26 @@ pub struct TypeOfSymbol {
 
 impl Fold<Expr> for TypeOfSymbol {
     fn fold(&mut self, expr: Expr) -> Expr {
+        fn should_work(node: &Expr) -> bool {
+            struct Visitor {
+                found: bool,
+            }
+            impl Visit<UnaryExpr> for Visitor {
+                fn visit(&mut self, e: &UnaryExpr) {
+                    if e.op == op!("typeof") {
+                        self.found = true
+                    }
+                }
+            }
+            let mut v = Visitor { found: false };
+            node.visit_with(&mut v);
+            v.found
+        }
+        // fast path
+        if !should_work(&expr) {
+            return expr;
+        }
+
         let expr = expr.fold_children(self);
 
         match expr {
