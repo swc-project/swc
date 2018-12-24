@@ -41,6 +41,7 @@ pub struct Helpers {
     pub get_prototype_of: AtomicBool,
     pub throw: AtomicBool,
     pub async_to_generator: AtomicBool,
+    pub object_without_properties: AtomicBool,
 }
 
 pub struct InjectHelpers {
@@ -106,6 +107,10 @@ impl InjectHelpers {
         add!("_getPrototypeOf.js", &self.helpers.get_prototype_of);
         add!("_throw.js", &self.helpers.throw);
         add!("_asyncToGenerator.js", &self.helpers.async_to_generator);
+        add!(
+            "_objectWithoutProperties.js",
+            &self.helpers.object_without_properties
+        );
 
         buf
     }
