@@ -1,7 +1,7 @@
 use crate::{compat::helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::sync::{atomic::Ordering, Arc};
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-instanceof`
 ///
@@ -34,6 +34,26 @@ pub struct InstanceOf {
 
 impl Fold<Expr> for InstanceOf {
     fn fold(&mut self, expr: Expr) -> Expr {
+        fn should_work(node: &Expr) -> bool {
+            struct Visitor {
+                found: bool,
+            }
+            impl Visit<BinExpr> for Visitor {
+                fn visit(&mut self, e: &BinExpr) {
+                    if e.op == op!("instanceof") {
+                        self.found = true
+                    }
+                }
+            }
+            let mut v = Visitor { found: false };
+            node.visit_with(&mut v);
+            v.found
+        }
+        // fast path
+        if !should_work(&expr) {
+            return expr;
+        }
+
         let expr = expr.fold_children(self);
 
         match expr {
