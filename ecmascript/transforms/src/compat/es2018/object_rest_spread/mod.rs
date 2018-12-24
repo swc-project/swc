@@ -10,14 +10,23 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 mod tests;
 
 pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    ObjectRestSpread { helpers }
+    chain!(
+        ObjectRest {
+            helpers: helpers.clone(),
+        },
+        ObjectSpread { helpers }
+    )
 }
 
-struct ObjectRestSpread {
+struct ObjectRest {
     helpers: Arc<Helpers>,
 }
 
-impl Fold<Expr> for ObjectRestSpread {
+struct ObjectSpread {
+    helpers: Arc<Helpers>,
+}
+
+impl Fold<Expr> for ObjectSpread {
     fn fold(&mut self, expr: Expr) -> Expr {
         // fast-path
         if !contains_spread(&expr) {
