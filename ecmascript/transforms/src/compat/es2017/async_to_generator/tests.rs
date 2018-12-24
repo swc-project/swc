@@ -539,6 +539,32 @@ return bar.bar().then(foo => {
 
 test_exec!(
   |helpers| tr(helpers),
+  class_setter_super,
+  r#"
+let called = false;
+class Foo {
+  set foo(v) {
+    this.v = v;
+    called = true;
+  }
+}
+class Bar extends Foo {
+  async bar() {
+    super.foo = 1;
+    return this;
+  }
+}
+
+let bar = new Bar();
+return bar.bar().then(bar => {
+  expect(called).toBe(true);
+  expect(bar).toBe(1);
+});
+"#
+);
+
+test_exec!(
+  |helpers| tr(helpers),
   class_method_this_complex,
   r#"
 class Class {
