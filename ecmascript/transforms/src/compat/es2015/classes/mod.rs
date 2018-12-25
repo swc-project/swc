@@ -135,7 +135,7 @@ impl Classes {
             match *sc {
                 Expr::Ident(ref i) => quote_ident!(i.span, format!("_{}", i.sym)),
                 Expr::Member(ref member) => determine_super_ident(&member.prop),
-                _ => unimplemented!("determine_super_ident({:?})", sc),
+                _ => quote_ident!("_Super"),
             }
         }
         // Ident of the super class *inside* function.
