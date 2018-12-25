@@ -7,7 +7,7 @@ use std::{
     iter, mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -182,11 +182,14 @@ impl Fold<CatchClause> for RestFolder {
         };
 
         let mark = Mark::fresh(Mark::root());
-        let param = self.fold_rest(
-            pat,
-            box Expr::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_err")),
-            false,
-        );
+        let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_err");
+        let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
+        // initialize (or destructure)
+        self.vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: param,
+            init: Some(box Expr::Ident(var_ident.clone())),
+        });
         c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Let,
@@ -196,7 +199,8 @@ impl Fold<CatchClause> for RestFolder {
         .collect();
 
         CatchClause {
-            param: Some(param),
+            // catch (_err) {}
+            param: Some(Pat::Ident(var_ident)),
             ..c
         }
     }
