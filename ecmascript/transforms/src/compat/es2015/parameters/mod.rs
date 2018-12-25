@@ -231,6 +231,27 @@ impl Params {
     }
 }
 
+impl Fold<CatchClause> for Params {
+    fn fold(&mut self, f: CatchClause) -> CatchClause {
+        let f = f.fold_children(self);
+
+        let param = match f.param {
+            Some(param) => param,
+            None => return f,
+        };
+
+        let (mut params, body) = self.fold_fn_like(vec![param], f.body);
+        assert!(params.len() == 1);
+
+        let param = params.pop().unwrap();
+        CatchClause {
+            param: Some(param),
+            body,
+            ..f
+        }
+    }
+}
+
 impl Fold<SetterProp> for Params {
     fn fold(&mut self, f: SetterProp) -> SetterProp {
         let f = f.fold_children(self);
