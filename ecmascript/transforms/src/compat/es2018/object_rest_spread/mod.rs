@@ -7,7 +7,7 @@ use std::{
     iter, mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -32,6 +32,98 @@ struct RestFolder {
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
 }
+
+macro_rules! impl_for_for_stmt {
+    ($T:tt) => {
+        impl Fold<$T> for RestFolder {
+            fn fold(&mut self, mut for_stmt: $T) -> $T {
+                if !contains_rest(&for_stmt) {
+                    return for_stmt;
+                }
+
+                let left = match for_stmt.left {
+                    VarDeclOrPat::VarDecl(var_decl) => {
+                        let ref_ident = {
+                            let mark = Mark::fresh(Mark::root());
+                            quote_ident!(DUMMY_SP.apply_mark(mark), "_ref")
+                        };
+                        let left = VarDeclOrPat::VarDecl(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ref_ident.clone()),
+                                init: None,
+                            }],
+                            ..var_decl
+                        });
+                        // Unpack variables
+                        let mut decls = var_decl
+                            .decls
+                            .into_iter()
+                            .map(|decl| VarDeclarator {
+                                init: Some(box Expr::Ident(ref_ident.clone())),
+                                ..decl
+                            })
+                            .collect::<Vec<_>>()
+                            .fold_with(self);
+
+                        // **prepend** decls to self.vars
+                        decls.append(&mut self.vars);
+                        mem::swap(&mut self.vars, &mut decls);
+                        left
+                    }
+                    VarDeclOrPat::Pat(pat) => {
+                        let var_ident =
+                            quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(Mark::root())), "_ref");
+                        let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
+
+                        // initialize (or destructure)
+                        self.vars.insert(
+                            0,
+                            VarDeclarator {
+                                span: DUMMY_SP,
+                                name: pat,
+                                init: Some(box Expr::Ident(var_ident.clone())),
+                            },
+                        );
+
+                        // `var _ref` in `for (var _ref in foo)`
+                        VarDeclOrPat::VarDecl(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(var_ident.clone()),
+                                init: None,
+                            }],
+                        })
+                    }
+                };
+                for_stmt.left = left;
+
+                let stmt = Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: mem::replace(&mut self.vars, vec![]),
+                }));
+
+                for_stmt.body = box Stmt::Block(match *for_stmt.body {
+                    Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
+                        span,
+                        stmts: iter::once(stmt).chain(stmts).collect(),
+                    },
+                    body => BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![stmt, body],
+                    },
+                });
+
+                for_stmt
+            }
+        }
+    };
+}
+impl_for_for_stmt!(ForInStmt);
+impl_for_for_stmt!(ForOfStmt);
 
 impl Fold<Vec<VarDeclarator>> for RestFolder {
     fn fold(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
@@ -288,17 +380,6 @@ impl RestFolder {
                     excluded_props,
                 )),
             });
-        }
-
-        if !use_expr_for_assign {
-            // self.vars.insert(
-            //     0,
-            //     VarDeclarator {
-            //         span: DUMMY_SP,
-            //         name: Pat::Object(ObjectPat { span, props }),
-            //         init: Some(obj),
-            //     },
-            // );
         }
 
         Pat::Object(ObjectPat { props, span })
