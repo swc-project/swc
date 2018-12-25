@@ -1,11 +1,11 @@
 use super::object_rest_spread;
-use crate::compat::helpers::Helpers;
+use crate::compat::{es2015::parameters, helpers::Helpers};
 use ast::Module;
 use std::sync::Arc;
 use swc_common::Fold;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    object_rest_spread(helpers.clone())
+    chain!(object_rest_spread(helpers.clone()), parameters())
 }
 
 test_exec!(
@@ -21,6 +21,27 @@ let foo = {
 expect(a).toBe(1);
 expect(c).toEqual({b: 2});
 "#
+);
+
+test_exec!(
+    tr,
+    rest_catch_exec,
+    r#"
+try {
+  throw {
+    a2: 1,
+    b2: 2,
+    c2: {
+      c3: 'c3',
+      extras: 3,
+    }
+  };
+} catch({a2, b2, c2: { c3, ...c4 }}) {
+  expect(a2).toBe(1);
+  expect(b2).toBe(2);
+  expect(c3).toBe('c3');
+  expect(c4).toEqual({extras: 3});
+}"#
 );
 
 test!(
@@ -60,42 +81,31 @@ try {} catch(a) {}
 try {} catch({ b }) {}
 "#,
     r#"
-try {} catch (_ref) {
-  let a34 = _extends({}, _ref);
+try{
+}catch (_ref) {
+    let {} = _ref, a34 = _extends({
+    }, _ref);
 }
-
-try {} catch (_ref2) {
-  let {
-    a1
-  } = _ref2,
-      b1 = _objectWithoutProperties(_ref2, ["a1"]);
+try{
+}catch (_ref1) {
+    let { a1  } = _ref1, b1 = _objectWithoutProperties(_ref1, ['a1']);
 }
-
-try {} catch (_ref3) {
-  let {
-    a2,
-    b2
-  } = _ref3,
-      c2 = _objectWithoutProperties(_ref3, ["a2", "b2"]);
+try{
+}catch (_ref2) {
+    let { a2 , b2  } = _ref2, c2 = _objectWithoutProperties(_ref2, ['a2', 'b2']);
 }
-
-try {} catch (_ref4) {
-  let {
-    a2,
-    b2,
-    c2: {
-      c3
-    }
-  } = _ref4,
-      c4 = _objectWithoutProperties(_ref4.c2, ["c3"]);
-} // Unchanged
-
-
-try {} catch (a) {}
-
-try {} catch ({
-  b
-}) {}
+try{
+}catch (param) {
+    let { a2 , b2 , c2: _ref3  } = param;
+    let { c3  } = _ref3, c4 = _objectWithoutProperties(_ref3, ['c3']);
+}
+try{
+}catch (a) {
+}
+try{
+}catch (param1) {
+    let { b  } = param1;
+}
 "#
 );
 

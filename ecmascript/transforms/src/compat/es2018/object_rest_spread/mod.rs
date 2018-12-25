@@ -4,10 +4,10 @@ use crate::{
 };
 use ast::*;
 use std::{
-    mem,
+    iter, mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -26,11 +26,11 @@ struct ObjectRest {
 }
 
 struct RestFolder {
-    /// Injected before the original statement.
     helpers: Arc<Helpers>,
+    /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
     /// Injected after the original statement.
-    stmts: Vec<Stmt>,
+    stmts: Vec<Box<Expr>>,
 }
 
 /// Handles assign expression
@@ -86,55 +86,19 @@ impl Fold<Expr> for RestFolder {
                     init: Some(right),
                 });
 
-                let excluded_props = props
-                    .iter()
-                    .map(|prop| match prop {
-                        ObjectPatProp::KeyValue(KeyValuePatProp { key, .. }) => match key {
-                            PropName::Ident(ident) => Lit::Str(Str {
-                                span: ident.span,
-                                value: ident.sym.clone(),
-                                has_escape: false,
-                            })
-                            .as_arg(),
-                            PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
-                            _ => {
-                                unimplemented!("numeric / computed property name with object rest")
-                            }
-                        },
-                        ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
-                            span: key.span,
-                            value: key.sym.clone(),
-                            has_escape: false,
-                        })
-                        .as_arg(),
-                        ObjectPatProp::Rest(..) => {
-                            unreachable!("invalid syntax (multiple rest element)")
-                        }
-                    })
-                    .map(Some)
-                    .collect();
+                let excluded_props = excluded_props(&props);
 
-                self.helpers
-                    .object_without_properties
-                    .store(true, Ordering::Relaxed);
-                self.stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                self.stmts.push(box Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(last.arg),
                     op: op!("="),
                     // we exclude properties using helper
-                    right: box Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: quote_ident!("_objectWithoutProperties").as_callee(),
-                        args: vec![
-                            var_ident.clone().as_arg(),
-                            ArrayLit {
-                                span: DUMMY_SP,
-                                elems: excluded_props,
-                            }
-                            .as_arg(),
-                        ],
-                    }),
-                })));
+                    right: box object_without_properties(
+                        &self.helpers,
+                        var_ident.clone(),
+                        excluded_props,
+                    ),
+                }));
 
                 Expr::Assign(AssignExpr {
                     span,
@@ -204,13 +168,167 @@ where
                     }
 
                     buf.push(T::from_stmt(stmt));
-                    buf.extend(folder.stmts.into_iter().map(T::from_stmt))
+                    buf.extend(folder.stmts.into_iter().map(Stmt::Expr).map(T::from_stmt))
                 }
             }
         }
 
         buf
     }
+}
+
+impl Fold<CatchClause> for ObjectRest {
+    fn fold(&mut self, mut c: CatchClause) -> CatchClause {
+        if !contains_rest(&c.param) {
+            // fast path
+            return c;
+        }
+
+        let pat = match c.param {
+            Some(pat) => pat,
+            _ => return c,
+        };
+
+        let param = fold_rest(&self.helpers, pat, &mut c.body.stmts);
+
+        CatchClause {
+            param: Some(param),
+            ..c
+        }
+    }
+}
+
+fn fold_rest(helpers: &Helpers, pat: Pat, stmts: &mut Vec<Stmt>) -> Pat {
+    let ObjectPat { span, props } = match pat {
+        Pat::Object(pat) => pat,
+        _ => return pat,
+    };
+
+    let mut props: Vec<ObjectPatProp> = props
+        .into_iter()
+        .map(|prop| match prop {
+            ObjectPatProp::Rest(RestPat { arg, dot3_token }) => {
+                let pat = fold_rest(helpers, *arg, stmts);
+                ObjectPatProp::Rest(RestPat {
+                    dot3_token,
+                    arg: box pat,
+                })
+            }
+            ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                let value = box fold_rest(helpers, *value, stmts);
+                ObjectPatProp::KeyValue(KeyValuePatProp { key, value })
+            }
+            _ => prop,
+        })
+        .collect();
+
+    match props.last() {
+        Some(ObjectPatProp::Rest(..)) => {}
+        _ => {
+            return Pat::Object(ObjectPat { span, props });
+        }
+    }
+    let last = match props.pop() {
+        Some(ObjectPatProp::Rest(rest)) => rest,
+        _ => unreachable!(),
+    };
+
+    let mark = Mark::fresh(Mark::root());
+    let var_ident = quote_ident!(last.span().apply_mark(mark), "_ref");
+
+    let excluded_props = excluded_props(&props);
+
+    stmts.insert(
+        0,
+        Stmt::Decl(Decl::Var(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Let,
+            decls: vec![
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Object(ObjectPat { span, props }),
+                    init: Some(box var_ident.clone().into()),
+                },
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: *last.arg,
+                    init: Some(box object_without_properties(
+                        helpers,
+                        var_ident.clone(),
+                        excluded_props,
+                    )),
+                },
+            ],
+        })),
+    );
+
+    Pat::Ident(var_ident)
+}
+
+fn object_without_properties(
+    helpers: &Helpers,
+    var_ident: Ident,
+    excluded_props: Vec<Option<ExprOrSpread>>,
+) -> Expr {
+    if excluded_props.is_empty() {
+        helpers.extends.store(true, Ordering::Relaxed);
+
+        return Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: quote_ident!("_extends").as_callee(),
+            args: vec![
+                ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                }
+                .as_arg(),
+                var_ident.as_arg(),
+            ],
+        });
+    }
+
+    helpers
+        .object_without_properties
+        .store(true, Ordering::Relaxed);
+
+    Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: quote_ident!("_objectWithoutProperties").as_callee(),
+        args: vec![
+            var_ident.as_arg(),
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: excluded_props,
+            }
+            .as_arg(),
+        ],
+    })
+}
+
+fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
+    props
+        .iter()
+        .map(|prop| match prop {
+            ObjectPatProp::KeyValue(KeyValuePatProp { key, .. }) => match key {
+                PropName::Ident(ident) => Lit::Str(Str {
+                    span: ident.span,
+                    value: ident.sym.clone(),
+                    has_escape: false,
+                })
+                .as_arg(),
+                PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
+                _ => unimplemented!("numeric / computed property name with object rest"),
+            },
+            ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
+                span: key.span,
+                value: key.sym.clone(),
+                has_escape: false,
+            })
+            .as_arg(),
+            ObjectPatProp::Rest(..) => unreachable!("invalid syntax (multiple rest element)"),
+        })
+        .map(Some)
+        .collect()
 }
 
 struct ObjectSpread {
