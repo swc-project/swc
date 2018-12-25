@@ -182,9 +182,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             })
             .collect();
 
-        // Prepend self.vars to buf
-        self.vars.append(&mut buf);
-        mem::swap(&mut self.vars, &mut buf);
+        buf.append(&mut self.vars);
         buf
     }
 }
