@@ -1453,6 +1453,11 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_for_of_stmt(&mut self, node: &ForOfStmt) -> Result {
         keyword!("for");
+        if node.await_token.is_some() {
+            space!();
+            keyword!("await");
+        }
+        formatting_space!();
         punct!("(");
         emit!(node.left);
         space!();
