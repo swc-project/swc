@@ -81,8 +81,15 @@ macro_rules! impl_for_for_stmt {
                         match pat {
                             Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                             _ => {
+                                // insert at len()-1 to create
+                                // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
+                                // instead of
+                                // var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;
+
+                                // println!("Var(0): folded pat = var_ident",);
+                                let len = self.vars.len();
                                 self.vars.insert(
-                                    0,
+                                    len - 1,
                                     VarDeclarator {
                                         span: DUMMY_SP,
                                         name: pat,
@@ -158,11 +165,14 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                 match *init {
                     // skip `z = z`
                     Expr::Ident(..) => {}
-                    _ => self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(var_ident.clone()),
-                        init: Some(init),
-                    }),
+                    _ => {
+                        // println!("Var: var_ident = init",);
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(var_ident.clone()),
+                            init: Some(init),
+                        });
+                    }
                 }
             }
 
@@ -170,16 +180,26 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                _ => self.vars.push(VarDeclarator {
-                    name: pat,
-                    // preserve
-                    init: if has_init {
-                        Some(box Expr::Ident(var_ident.clone()))
-                    } else {
-                        None
-                    },
-                    ..decl
-                }),
+                _ => {
+                    // insert at len()-1 to create
+                    // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
+                    // instead of
+                    // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
+                    let len = self.vars.len();
+                    self.vars.insert(
+                        len - 1,
+                        VarDeclarator {
+                            name: pat,
+                            // preserve
+                            init: if has_init {
+                                Some(box Expr::Ident(var_ident.clone()))
+                            } else {
+                                None
+                            },
+                            ..decl
+                        },
+                    )
+                }
             }
         }
 
@@ -560,7 +580,8 @@ impl RestFolder {
                 right: box object_without_properties(&self.helpers, obj.clone(), excluded_props),
             }));
         } else {
-            self.push_var_if_not_empty(VarDeclarator {
+            // println!("Var: rest = objectWithoutProperties()",);
+            self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
                 init: Some(box object_without_properties(

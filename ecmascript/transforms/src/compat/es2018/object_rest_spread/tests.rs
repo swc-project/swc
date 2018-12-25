@@ -8,6 +8,17 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     object_rest_spread(helpers.clone())
 }
 
+test!(
+    tr(Default::default()),
+    rest_var_basic,
+    r#"
+var { a , ...b } = _ref;
+"#,
+    r#"
+var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+"#
+);
+
 test_exec!(
     tr,
     rest_assignment_exec,
