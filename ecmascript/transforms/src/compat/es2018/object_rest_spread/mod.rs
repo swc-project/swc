@@ -297,6 +297,78 @@ where
     }
 }
 
+impl Fold<Function> for RestFolder {
+    fn fold(&mut self, f: Function) -> Function {
+        if !contains_rest(&f) {
+            // fast-path
+            return f;
+        }
+
+        let params = f
+            .params
+            .into_iter()
+            .map(|param| {
+                let mark = Mark::fresh(Mark::root());
+                let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_param");
+                let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false);
+                match param {
+                    Pat::Rest(..) | Pat::Assign(..) | Pat::Ident(..) => param,
+                    Pat::Array(ArrayPat { span, elems }) => {
+                        let elems = elems
+                            .into_iter()
+                            .map(|elem| match elem {
+                                Some(param @ Pat::Object(..)) => {
+                                    self.vars.insert(
+                                        0,
+                                        VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: param,
+                                            init: Some(box Expr::Ident(var_ident.clone())),
+                                        },
+                                    );
+                                    Some(Pat::Ident(var_ident.clone()))
+                                }
+                                _ => elem,
+                            })
+                            .collect();
+
+                        Pat::Array(ArrayPat { span, elems })
+                    }
+                    _ => {
+                        // initialize snd destructure
+                        self.push_var_if_not_empty(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: param,
+                            init: Some(box Expr::Ident(var_ident.clone())),
+                        });
+                        Pat::Ident(var_ident.clone())
+                    }
+                }
+            })
+            .collect();
+
+        Function {
+            params,
+            body: BlockStmt {
+                span: f.body.span,
+                stmts: if self.vars.is_empty() {
+                    None
+                } else {
+                    Some(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: mem::replace(&mut self.vars, vec![]),
+                    })))
+                }
+                .into_iter()
+                .chain(f.body.stmts)
+                .collect(),
+            },
+            ..f
+        }
+    }
+}
+
 impl Fold<CatchClause> for RestFolder {
     fn fold(&mut self, mut c: CatchClause) -> CatchClause {
         if !contains_rest(&c.param) {
@@ -350,6 +422,34 @@ impl RestFolder {
     fn fold_rest(&mut self, pat: Pat, obj: Box<Expr>, use_expr_for_assign: bool) -> Pat {
         let ObjectPat { span, props } = match pat {
             Pat::Object(pat) => pat,
+            Pat::Assign(AssignPat { span, left, right }) => {
+                let left = box self.fold_rest(*left, obj, use_expr_for_assign);
+                return Pat::Assign(AssignPat { span, left, right });
+            }
+            Pat::Array(ArrayPat { span, elems }) => {
+                let elems = elems
+                    .into_iter()
+                    .enumerate()
+                    .map(|(i, elem)| match elem {
+                        Some(elem) => Some(self.fold_rest(
+                            elem,
+                            box Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: obj.clone().as_obj(),
+                                computed: true,
+                                prop: box Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: i as _,
+                                })),
+                            }),
+                            use_expr_for_assign,
+                        )),
+                        None => None,
+                    })
+                    .collect();
+
+                return Pat::Array(ArrayPat { span, elems });
+            }
             _ => return pat,
         };
 
