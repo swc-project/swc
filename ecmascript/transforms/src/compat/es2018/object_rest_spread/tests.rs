@@ -207,6 +207,7 @@ async function a() {
 );
 
 test_exec!(
+    ignore,
     tr,
     rest_impure_computed_exec,
     r#"
@@ -235,6 +236,7 @@ expect(z).toBe("zee");
 );
 
 test!(
+    ignore,
     tr(Default::default()),
     rest_impure_computed,
     r#"
