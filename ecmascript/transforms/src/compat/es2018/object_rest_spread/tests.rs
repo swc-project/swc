@@ -898,6 +898,17 @@ let {} = z,
 "#
 );
 
+test_exec!(
+    tr,
+    rest_with_array_rest_exec,
+    r#"
+let [{ a, ...foo}, ...bar] = [{ a: 1, b:2 }, 2, 3, 4];
+expect(a).toBe(1)
+expect(foo).toEqual({b: 2});
+expect(bar).toEqual([2, 3, 4]);
+"#
+);
+
 test!(
     tr(Default::default()),
     rest_with_array_rest,

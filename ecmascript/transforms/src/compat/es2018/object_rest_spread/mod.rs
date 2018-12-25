@@ -138,49 +138,49 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             return decls;
         }
 
-        let mut buf: Vec<_> = decls
-            .into_iter()
-            .filter_map(|decl| {
-                // fast path
-                if !contains_rest(&decl) {
-                    return Some(decl);
-                }
-                let mut var_ident = match decl.init {
-                    Some(box Expr::Ident(ref ident)) => ident.clone(),
-                    _ => quote_ident!("_ref"),
-                };
-                var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
+        let mut buf = vec![];
+        for decl in decls {
+            // fast path
+            if !contains_rest(&decl) {
+                buf.push(decl);
+                continue;
+            }
 
-                let has_init = decl.init.is_some();
-                if let Some(init) = decl.init {
-                    match *init {
-                        // skip `z = z`
-                        Expr::Ident(..) => {}
-                        _ => self.push_var_if_not_empty(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(var_ident.clone()),
-                            init: Some(init),
-                        }),
-                    }
-                }
+            let mut var_ident = match decl.init {
+                Some(box Expr::Ident(ref ident)) => ident.clone(),
+                _ => quote_ident!("_ref"),
+            };
+            var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
-                let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false);
-                match pat {
-                    // skip `{} = z`
-                    Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => return None,
-                    _ => Some(VarDeclarator {
-                        name: pat,
-                        // preserve
-                        init: if has_init {
-                            Some(box Expr::Ident(var_ident.clone()))
-                        } else {
-                            None
-                        },
-                        ..decl
+            let has_init = decl.init.is_some();
+            if let Some(init) = decl.init {
+                match *init {
+                    // skip `z = z`
+                    Expr::Ident(..) => {}
+                    _ => buf.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(var_ident.clone()),
+                        init: Some(init),
                     }),
                 }
-            })
-            .collect();
+            }
+
+            let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false);
+            match pat {
+                // skip `{} = z`
+                Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                _ => buf.push(VarDeclarator {
+                    name: pat,
+                    // preserve
+                    init: if has_init {
+                        Some(box Expr::Ident(var_ident.clone()))
+                    } else {
+                        None
+                    },
+                    ..decl
+                }),
+            }
+        }
 
         buf.append(&mut self.vars);
         buf
