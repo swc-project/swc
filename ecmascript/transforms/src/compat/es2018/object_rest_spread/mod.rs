@@ -94,11 +94,17 @@ impl Fold<Expr> for RestFolder {
 
                 let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), true);
 
-                Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(box pat),
-                    op: op!("="),
-                    right: box var_ident.clone().into(),
+                Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: iter::once(box Expr::Assign(AssignExpr {
+                        span,
+                        left: PatOrExpr::Pat(box pat),
+                        op: op!("="),
+                        right: box var_ident.clone().into(),
+                    }))
+                    .chain(self.exprs.drain(..))
+                    .chain(iter::once(box var_ident.clone().into()))
+                    .collect(),
                 })
             }
             _ => expr,

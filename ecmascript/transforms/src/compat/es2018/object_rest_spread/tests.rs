@@ -5,13 +5,13 @@ use std::sync::Arc;
 use swc_common::Fold;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    object_rest_spread(helpers.clone())
+	object_rest_spread(helpers.clone())
 }
 
 test_exec!(
-    tr,
-    rest_assignment_exec,
-    r#"
+	tr,
+	rest_assignment_exec,
+	r#"
 let foo = {
   a: 1,
   b: 2,
@@ -24,9 +24,9 @@ expect(c).toEqual({b: 2});
 );
 
 test_exec!(
-    tr,
-    rest_catch_exec,
-    r#"
+	tr,
+	rest_catch_exec,
+	r#"
 try {
   throw {
     a2: 1,
@@ -45,32 +45,25 @@ try {
 );
 
 test!(
-    tr(Default::default()),
-    rest_assignment_expression,
-    r#"({ a1 } = c1);
+	tr(Default::default()),
+	rest_assignment_expression,
+	r#"({ a1 } = c1);
 ({ a2, ...b2 } = c2);
 
 console.log({ a3, ...b3 } = c3);"#,
-    r#"var _c2;
-
-({
-  a1
-} = c1);
-var _c = c2;
-({
-  a2
-} = _c);
-b2 = _objectWithoutProperties(_c, ["a2"]);
-_c;
-console.log((_c2 = c3, ({
-  a3
-} = _c2), b3 = _objectWithoutProperties(_c2, ["a3"]), _c2));"#
+	r#"
+({ a1  } = c1);
+var _c2 = c2;
+( { a2  } = _c2, b2 = _objectWithoutProperties(_c2, ['a2']), _c2);
+var _c3 = c3;
+console.log(( { a3  } = _c3, b3 = _objectWithoutProperties(_c3, ['a3']), _c3));
+"#
 );
 
 test!(
-    tr(Default::default()),
-    rest_catch_clause,
-    r#"
+	tr(Default::default()),
+	rest_catch_clause,
+	r#"
 try {} catch({ ...a34 }) {}
 try {} catch({a1, ...b1}) {}
 try {} catch({a2, b2, ...c2}) {}
@@ -80,7 +73,7 @@ try {} catch({a2, b2, c2: { c3, ...c4 }}) {}
 try {} catch(a) {}
 try {} catch({ b }) {}
 "#,
-    r#"
+	r#"
 try{
 }catch (_err) {
     let a34 = _extends({
@@ -109,16 +102,16 @@ try{
 );
 
 test!(
-    tr(Default::default()),
-    rest_export,
-    r#"
+	tr(Default::default()),
+	rest_export,
+	r#"
 // ExportNamedDeclaration
 export var { b, ...c } = asdf2;
 // Skip
 export var { bb, cc } = ads;
 export var [ dd, ee ] = ads;
 "#,
-    r#"
+	r#"
 // ExportNamedDeclaration
 var {
   b
@@ -135,9 +128,9 @@ export var [dd, ee] = ads;
 );
 
 test!(
-    tr(Default::default()),
-    rest_for_x,
-    r#"
+	tr(Default::default()),
+	rest_for_x,
+	r#"
 // ForXStatement
 for (var {a, ...b} of []) {}
 for ({a, ...b} of []) {}
@@ -158,7 +151,7 @@ async function a() {
   for await (a of []) {}
 }
 "#,
-    r#"
+	r#"
 // ForXStatement
 for (var _ref of []) {
   var {
@@ -209,9 +202,9 @@ async function a() {
 );
 
 test_exec!(
-    tr,
-    rest_impure_computed_exec,
-    r#"
+	tr,
+	rest_impure_computed_exec,
+	r#"
 var key, x, y, z;
 // impure
 key = 1;
@@ -237,9 +230,9 @@ expect(z).toBe("zee");
 );
 
 test!(
-    tr(Default::default()),
-    rest_impure_computed,
-    r#"
+	tr(Default::default()),
+	rest_impure_computed,
+	r#"
 var key, x, y, z;
 // impure
 key = 1;
@@ -262,7 +255,7 @@ expect(y).toBe("two");
 expect(x).toEqual({});
 expect(z).toBe("zee");
 "#,
-    r#"
+	r#"
 var key, x, y, z; // impure
 
 key = 1;
@@ -317,9 +310,9 @@ expect(z).toBe("zee");"#
 );
 
 test!(
-    tr(Default::default()),
-    rest_nested_2,
-    r#"
+	tr(Default::default()),
+	rest_nested_2,
+	r#"
 const test = {
   foo: {
     bar: {
@@ -336,7 +329,7 @@ const test = {
 
 const { foo: { bar: { baz: { a: { x, ...other } } } } } = test;
 "#,
-    r#"
+	r#"
 const test = {
   foo: {
     bar: {
@@ -365,9 +358,9 @@ const {
 );
 
 test!(
-    tr(Default::default()),
-    rest_nested_computed_key,
-    r#"
+	tr(Default::default()),
+	rest_nested_computed_key,
+	r#"
 const {
   [({ ...rest }) => {
     let { ...b } = {};
@@ -375,7 +368,7 @@ const {
   [({ ...d } = {})]: c,
 } = {};
 "#,
-    r#"
+	r#"
 var _ref2;
 
 const {
@@ -389,9 +382,9 @@ const {
 );
 
 test!(
-    tr(Default::default()),
-    rest_nested_default_value,
-    r#"
+	tr(Default::default()),
+	rest_nested_default_value,
+	r#"
 const {
   a = ({ ...rest }) => {
     let { ...b } = {};
@@ -399,7 +392,7 @@ const {
   c = ({ ...d } = {}),
 } = {};
 "#,
-    r#"
+	r#"
 var _ref2;
 
 const {
@@ -413,9 +406,9 @@ const {
 );
 
 test_exec!(
-    tr,
-    rest_nested_order_exec,
-    r#"
+	tr,
+	rest_nested_order_exec,
+	r#"
 var result = "";
 
 var obj = {
@@ -441,21 +434,21 @@ expect(result).toBe("barbazfoo");
 );
 
 test!(
-    tr(Default::default()),
-    rest_nested_order,
-    r#"
+	tr(Default::default()),
+	rest_nested_order,
+	r#"
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 "#,
-    r#"
+	r#"
 const bar = _extends({}, obj.a),
       baz = _extends({}, obj.b),
       foo = _extends({}, obj);"#
 );
 
 test!(
-    tr(Default::default()),
-    rest_nested,
-    r#"
+	tr(Default::default()),
+	rest_nested,
+	r#"
 const defunct = {
   outer: {
     inner: {
@@ -467,7 +460,7 @@ const defunct = {
 
 const { outer: { inner: { three, ...other } } } = defunct
 "#,
-    r#"
+	r#"
 const defunct = {
   outer: {
     inner: {
@@ -488,9 +481,9 @@ const {
 );
 
 test_exec!(
-    tr,
-    rest_non_string_computed_exec,
-    r#"
+	tr,
+	rest_non_string_computed_exec,
+	r#"
 const a = {
   "3": "three",
   "foo": "bar"
@@ -549,9 +542,9 @@ expect(dy).toBe("sy");
 );
 
 test!(
-    tr(Default::default()),
-    rest_non_string_computed,
-    r#"
+	tr(Default::default()),
+	rest_non_string_computed,
+	r#"
 const a = {
   "3": "three",
   "foo": "bar"
@@ -606,7 +599,7 @@ const {
 
 expect(dx).toBe("sx");
 expect(dy).toBe("sy");"#,
-    r#"
+	r#"
 const a = {
   "3": "three",
   "foo": "bar"
@@ -662,9 +655,9 @@ expect(dy).toBe("sy");"#
 );
 
 test!(
-    tr(Default::default()),
-    rest_parameters,
-    r#"
+	tr(Default::default()),
+	rest_parameters,
+	r#"
 function a({ ...a34 }) {}
 function a2({a1, ...b1}) {}
 function a3({a2, b2, ...c2}) {}
@@ -680,7 +673,7 @@ function b(a) {}
 function b2(a, ...b) {}
 function b3({ b }) {}
 "#,
-    r#"
+	r#"
 function a(_ref) {
   let a34 = _extends({}, _ref);
 }
@@ -765,9 +758,9 @@ function b3({
 );
 
 test_exec!(
-    tr,
-    rest_symbol_exec,
-    r#"
+	tr,
+	rest_symbol_exec,
+	r#"
 const sym = Symbol("test");
 const sym2 = Symbol("not enumerable");
 
@@ -791,9 +784,9 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);"#
 );
 
 test!(
-    tr(Default::default()),
-    rest_symbol,
-    r#"
+	tr(Default::default()),
+	rest_symbol,
+	r#"
 let {
   [Symbol.for("foo")]: foo,
   ...rest
@@ -803,7 +796,7 @@ let {
 
 if ({ [Symbol.for("foo")]: foo, ...rest } = {}) {}
 "#,
-    r#"
+	r#"
 var _ref3, _Symbol$for3;
 
 let _ref = {},
@@ -831,9 +824,9 @@ if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
 );
 
 test!(
-    tr(Default::default()),
-    rest_variable_destructuring,
-    r#"
+	tr(Default::default()),
+	rest_variable_destructuring,
+	r#"
 var z = {};
 var { ...x } = z;
 var { ...a } = { a: 1 };
@@ -854,7 +847,7 @@ let {
 
 let { x4: { ...y4 } } = z;
 "#,
-    r#"
+	r#"
 var z = {};
 var x = _extends({}, z);
 var a = _extends({}, {
@@ -901,9 +894,9 @@ let {} = z,
 );
 
 test!(
-    tr(Default::default()),
-    rest_with_array_rest,
-    r#"
+	tr(Default::default()),
+	rest_with_array_rest,
+	r#"
 let {
   a: [b, ...arrayRest],
   c = function(...functionRest){},
@@ -913,7 +906,7 @@ let {
   d: "oyez"
 };
 "#,
-    r#"
+	r#"
 let _a$d = {
   a: [1, 2, 3, 4],
   d: "oyez"
@@ -926,14 +919,14 @@ let _a$d = {
 );
 
 test!(
-    tr(Default::default()),
-    spread_assignment,
-    r#"
+	tr(Default::default()),
+	spread_assignment,
+	r#"
 z = { x, ...y };
 
 z = { x, w: { ...y } };
 "#,
-    r#"
+	r#"
 z = _objectSpread({
   x
 }, y);
@@ -945,9 +938,9 @@ z = {
 );
 
 test!(
-    tr(Default::default()),
-    spread_expression,
-    r#"
+	tr(Default::default()),
+	spread_expression,
+	r#"
 ({ x, ...y, a, ...b, c });
 
 ({ ...Object.prototype });
@@ -956,7 +949,7 @@ test!(
 
 ({ ...{ get foo () { return 'foo' } } });
 "#,
-    r#"
+	r#"
 (_objectSpread({
   x
 }, y, {
@@ -1028,8 +1021,8 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 );
 
 test!(
-    tr(Default::default()),
-    spread_variable_declaration,
-    r#"var z = { ...x };"#,
-    r#"var z = _objectSpread({}, x);"#
+	tr(Default::default()),
+	spread_variable_declaration,
+	r#"var z = { ...x };"#,
+	r#"var z = _objectSpread({}, x);"#
 );
