@@ -77,14 +77,19 @@ macro_rules! impl_for_for_stmt {
                         let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
 
                         // initialize (or destructure)
-                        self.vars.insert(
-                            0,
-                            VarDeclarator {
-                                span: DUMMY_SP,
-                                name: pat,
-                                init: Some(box Expr::Ident(var_ident.clone())),
-                            },
-                        );
+                        match pat {
+                            Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                            _ => {
+                                self.vars.insert(
+                                    0,
+                                    VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: pat,
+                                        init: Some(box Expr::Ident(var_ident.clone())),
+                                    },
+                                );
+                            }
+                        }
 
                         // `var _ref` in `for (var _ref in foo)`
                         VarDeclOrPat::VarDecl(VarDecl {
@@ -134,10 +139,10 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
         let mut buf: Vec<_> = decls
             .into_iter()
-            .map(|decl| {
+            .filter_map(|decl| {
                 // fast path
                 if !contains_rest(&decl) {
-                    return decl;
+                    return Some(decl);
                 }
                 let mut var_ident = match decl.init {
                     Some(box Expr::Ident(ref ident)) => ident.clone(),
@@ -145,9 +150,34 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                 };
                 var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
-                let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident), false);
+                let has_init = decl.init.is_some();
+                if let Some(init) = decl.init {
+                    match *init {
+                        // skip `z = z`
+                        Expr::Ident(..) => {}
+                        _ => self.push_var_if_not_empty(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(var_ident.clone()),
+                            init: Some(init),
+                        }),
+                    }
+                }
 
-                VarDeclarator { name: pat, ..decl }
+                let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false);
+                match pat {
+                    // skip `{} = z`
+                    Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => return None,
+                    _ => Some(VarDeclarator {
+                        name: pat,
+                        // preserve
+                        init: if has_init {
+                            Some(box Expr::Ident(var_ident.clone()))
+                        } else {
+                            None
+                        },
+                        ..decl
+                    }),
+                }
             })
             .collect();
         buf.append(&mut self.vars);
@@ -283,7 +313,7 @@ impl Fold<CatchClause> for RestFolder {
         let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_err");
         let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
         // initialize (or destructure)
-        self.vars.push(VarDeclarator {
+        self.push_var_if_not_empty(VarDeclarator {
             span: DUMMY_SP,
             name: param,
             init: Some(box Expr::Ident(var_ident.clone())),
@@ -305,6 +335,18 @@ impl Fold<CatchClause> for RestFolder {
 }
 
 impl RestFolder {
+    fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
+        match decl.name {
+            Pat::Object(ObjectPat { ref props, .. }) => {
+                if props.len() == 0 {
+                    return;
+                }
+            }
+            _ => {}
+        }
+        self.vars.push(decl)
+    }
+
     fn fold_rest(&mut self, pat: Pat, obj: Box<Expr>, use_expr_for_assign: bool) -> Pat {
         let ObjectPat { span, props } = match pat {
             Pat::Object(pat) => pat,
@@ -334,11 +376,22 @@ impl RestFolder {
                             obj: obj.clone().as_obj(),
                             computed: match key {
                                 PropName::Computed(..) => true,
+                                PropName::Num(..) => true,
                                 _ => false,
                             },
                             prop: match key {
                                 PropName::Ident(ref ident) => box Expr::Ident(ident.clone()),
-                                _ => unimplemented!(),
+                                PropName::Str(Str {
+                                    ref value, span, ..
+                                }) => box Expr::Ident(quote_ident!(span, value.clone())),
+                                PropName::Num(Number { span, value }) => {
+                                    box Expr::Lit(Lit::Str(Str {
+                                        span,
+                                        value: format!("{}", value).into(),
+                                        has_escape: false,
+                                    }))
+                                }
+                                PropName::Computed(ref expr) => expr.clone(),
                             },
                         }
                         .into(),
@@ -371,7 +424,7 @@ impl RestFolder {
                 right: box object_without_properties(&self.helpers, obj.clone(), excluded_props),
             }));
         } else {
-            self.vars.push(VarDeclarator {
+            self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
                 init: Some(box object_without_properties(
@@ -438,7 +491,13 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 })
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
-                _ => unimplemented!("numeric / computed property name with object rest"),
+                PropName::Num(Number { span, value }) => Lit::Str(Str {
+                    span: *span,
+                    value: format!("{}", value).into(),
+                    has_escape: false,
+                })
+                .as_arg(),
+                PropName::Computed(expr) => expr.clone().as_arg(),
             },
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
                 span: key.span,
