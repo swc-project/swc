@@ -399,6 +399,23 @@ const {
 "#
 );
 
+test_exec!(
+    tr,
+    rest_nested_default_value_exec,
+    r#"
+const {
+  a = ({ ...rest }) => {
+    expect(rest).toEqual({})
+    let { ...b } = {};
+  },
+  c = ({ ...d } = {}),
+} = {};
+a()
+expect(c).toEqual({})
+expect(d).toEqual({})
+"#
+);
+
 test!(
     tr(Default::default()),
     rest_nested_default_value,
@@ -411,16 +428,16 @@ const {
 } = {};
 "#,
     r#"
-var _ref2;
-
-const {
-  a = (_ref) => {
-    let rest = _extends({}, _ref);
-    let b = _extends({}, {});
-  },
-  c = (_ref2 = {}, ({} = _ref2), d = _extends({}, _ref2), _ref2)
-} = {};
-"#
+const _tmp = {
+}, _ref = {
+}, { a =(_param)=>{
+    var rest = _extends({
+    }, _param);
+    let _ref = {
+    }, b = _extends({
+    }, _ref);
+} , c =( {} = _tmp, d = _extends({
+}, _tmp), _tmp)  } = _ref;"#
 );
 
 test_exec!(
