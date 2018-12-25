@@ -77,7 +77,7 @@ try {} catch({ b }) {}
 try{
 }catch (_err) {
     let a34 = _extends({
-    }, _err), {} = _err;
+    }, _err);
 }
 try{
 }catch (_err1) {
