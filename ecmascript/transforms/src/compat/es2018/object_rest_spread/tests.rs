@@ -909,6 +909,25 @@ expect(bar).toEqual([2, 3, 4]);
 "#
 );
 
+test_exec!(
+    tr,
+    rest_with_array_rest_exec_2,
+    r#"
+let {
+  a: [b, ...arrayRest],
+  c = function(...functionRest){},
+  ...objectRest
+} = {
+  a: [1, 2, 3, 4],
+  d: "oyez"
+};
+
+expect(b).toBe(1);
+expect(arrayRest).toEqual([2, 3, 4]);
+expect(objectRest).toEqual({d: 'oyez'})
+"#
+);
+
 test!(
     tr(Default::default()),
     rest_with_array_rest,
@@ -923,15 +942,11 @@ let {
 };
 "#,
     r#"
-let _a$d = {
-  a: [1, 2, 3, 4],
-  d: "oyez"
-},
-    {
-  a: [b, ...arrayRest],
-  c = function (...functionRest) {}
-} = _a$d,
-    objectRest = _objectWithoutProperties(_a$d, ["a", "c"]);"#
+let _ref = {
+     a: [1, 2, 3, 4], d: 'oyez' 
+}, { a: [b, ...arrayRest] , c =function(...functionRest) {
+}  } = _ref, objectRest = _objectWithoutProperties(_ref, ['a', 'c']);
+"#
 );
 
 test!(
