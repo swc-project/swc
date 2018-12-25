@@ -212,7 +212,7 @@ macro_rules! exec_tr {
             )?;
             let module = module.fold_with(&mut crate::fixer::fixer());
 
-            // let src_without_helpers = tester.print(&module);
+            let src_without_helpers = tester.print(&module);
             let module = module.fold_with(&mut InjectHelpers {
                 cm: tester.cm.clone(),
                 helpers: helpers.clone(),
@@ -242,7 +242,7 @@ macro_rules! exec_tr {
 
             println!(
                 "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
-                $input, src
+                $input, src_without_helpers
             );
 
             let status = Command::new("jest")
