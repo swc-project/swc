@@ -10,6 +10,21 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 test!(
     tr(Default::default()),
+    rest_function_arrau,
+    r#"
+function foo([{...bar}]) {
+}
+"#,
+    r#"
+function foo([_param]) {
+  var bar = _objectWithoutProperties(_param, []);
+}
+
+"#
+);
+
+test!(
+    tr(Default::default()),
     rest_var_basic,
     r#"
 var { a , ...b } = _ref;

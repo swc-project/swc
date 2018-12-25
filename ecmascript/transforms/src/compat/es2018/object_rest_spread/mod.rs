@@ -87,7 +87,7 @@ macro_rules! impl_for_for_stmt {
                                 // instead of
                                 // var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;
 
-                                // println!("Var(0): folded pat = var_ident",);
+                                println!("Var(0): folded pat = var_ident",);
                                 self.vars.insert(
                                     index,
                                     VarDeclarator {
@@ -166,7 +166,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                     // skip `z = z`
                     Expr::Ident(..) => {}
                     _ => {
-                        // println!("Var: var_ident = init",);
+                        println!("Var: var_ident = init",);
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(var_ident.clone()),
@@ -580,7 +580,7 @@ impl RestFolder {
                 right: box object_without_properties(&self.helpers, obj.clone(), excluded_props),
             }));
         } else {
-            // println!("Var: rest = objectWithoutProperties()",);
+            println!("Var: rest = objectWithoutProperties()",);
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
