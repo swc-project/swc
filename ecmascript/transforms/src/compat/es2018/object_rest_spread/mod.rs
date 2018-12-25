@@ -12,6 +12,7 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
+/// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
         ObjectRest {
@@ -420,6 +421,15 @@ impl RestFolder {
     }
 
     fn fold_rest(&mut self, pat: Pat, obj: Box<Expr>, use_expr_for_assign: bool) -> Pat {
+        // TODO(kdy1): Optimize when all fields are statically known.
+        //
+        // const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
+        //
+        // can be
+        //
+        // const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo =
+        // _extends({}, obj);
+
         let ObjectPat { span, props } = match pat {
             Pat::Object(pat) => pat,
             Pat::Assign(AssignPat { span, left, right }) => {

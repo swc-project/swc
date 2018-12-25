@@ -445,9 +445,9 @@ test!(
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 "#,
     r#"
-const bar = _extends({}, obj.a),
-      baz = _extends({}, obj.b),
-      foo = _extends({}, obj);"#
+const { a: {} , b: {}  } = obj, bar = _extends({
+}, obj.a), baz = _extends({
+}, obj.b), foo = _objectWithoutProperties(obj, ['a', 'b'])"#
 );
 
 test!(
