@@ -33,6 +33,36 @@ struct RestFolder {
     exprs: Vec<Box<Expr>>,
 }
 
+impl Fold<Vec<VarDeclarator>> for RestFolder {
+    fn fold(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+        // fast path
+        if !contains_rest(&decls) {
+            return decls;
+        }
+
+        let mut buf: Vec<_> = decls
+            .into_iter()
+            .map(|decl| {
+                // fast path
+                if !contains_rest(&decl) {
+                    return decl;
+                }
+                let mut var_ident = match decl.init {
+                    Some(box Expr::Ident(ref ident)) => ident.clone(),
+                    _ => quote_ident!("_ref"),
+                };
+                var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
+
+                let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident), false);
+
+                VarDeclarator { name: pat, ..decl }
+            })
+            .collect();
+        buf.append(&mut self.vars);
+        buf
+    }
+}
+
 /// Handles assign expression
 impl Fold<Expr> for RestFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -62,7 +92,7 @@ impl Fold<Expr> for RestFolder {
                     init: Some(right),
                 });
 
-                let pat = self.fold_rest(pat, var_ident.clone(), true);
+                let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), true);
 
                 Expr::Assign(AssignExpr {
                     span,
@@ -152,7 +182,11 @@ impl Fold<CatchClause> for RestFolder {
         };
 
         let mark = Mark::fresh(Mark::root());
-        let param = self.fold_rest(pat, quote_ident!(DUMMY_SP.apply_mark(mark), "_err"), false);
+        let param = self.fold_rest(
+            pat,
+            box Expr::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_err")),
+            false,
+        );
         c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Let,
@@ -169,7 +203,7 @@ impl Fold<CatchClause> for RestFolder {
 }
 
 impl RestFolder {
-    fn fold_rest(&mut self, pat: Pat, var_ident: Ident, use_expr_for_assign: bool) -> Pat {
+    fn fold_rest(&mut self, pat: Pat, obj: Box<Expr>, use_expr_for_assign: bool) -> Pat {
         let ObjectPat { span, props } = match pat {
             Pat::Object(pat) => pat,
             _ => return pat,
@@ -179,14 +213,35 @@ impl RestFolder {
             .into_iter()
             .map(|prop| match prop {
                 ObjectPatProp::Rest(RestPat { arg, dot3_token }) => {
-                    let pat = self.fold_rest(*arg, var_ident.clone(), use_expr_for_assign);
+                    let pat = self.fold_rest(
+                        *arg,
+                        // TODO: fix this. this is wrong
+                        obj.clone(),
+                        use_expr_for_assign,
+                    );
                     ObjectPatProp::Rest(RestPat {
                         dot3_token,
                         arg: box pat,
                     })
                 }
                 ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
-                    let value = box self.fold_rest(*value, var_ident.clone(), use_expr_for_assign);
+                    let value = box self.fold_rest(
+                        *value,
+                        box MemberExpr {
+                            span: DUMMY_SP,
+                            obj: obj.clone().as_obj(),
+                            computed: match key {
+                                PropName::Computed(..) => true,
+                                _ => false,
+                            },
+                            prop: match key {
+                                PropName::Ident(ref ident) => box Expr::Ident(ident.clone()),
+                                _ => unimplemented!(),
+                            },
+                        }
+                        .into(),
+                        use_expr_for_assign,
+                    );
                     ObjectPatProp::KeyValue(KeyValuePatProp { key, value })
                 }
                 _ => prop,
@@ -211,11 +266,7 @@ impl RestFolder {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
-                right: box object_without_properties(
-                    &self.helpers,
-                    var_ident.clone(),
-                    excluded_props,
-                ),
+                right: box object_without_properties(&self.helpers, obj.clone(), excluded_props),
             }));
         } else {
             self.vars.push(VarDeclarator {
@@ -223,32 +274,30 @@ impl RestFolder {
                 name: *last.arg,
                 init: Some(box object_without_properties(
                     &self.helpers,
-                    var_ident.clone(),
+                    obj.clone(),
                     excluded_props,
                 )),
             });
         }
 
         if !use_expr_for_assign {
-            self.vars.insert(
-                0,
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Object(ObjectPat { span, props }),
-                    init: Some(box var_ident.clone().into()),
-                },
-            );
-
-            Pat::Ident(var_ident)
-        } else {
-            Pat::Object(ObjectPat { props, span })
+            // self.vars.insert(
+            //     0,
+            //     VarDeclarator {
+            //         span: DUMMY_SP,
+            //         name: Pat::Object(ObjectPat { span, props }),
+            //         init: Some(obj),
+            //     },
+            // );
         }
+
+        Pat::Object(ObjectPat { props, span })
     }
 }
 
 fn object_without_properties(
     helpers: &Helpers,
-    var_ident: Ident,
+    obj: Box<Expr>,
     excluded_props: Vec<Option<ExprOrSpread>>,
 ) -> Expr {
     if excluded_props.is_empty() {
@@ -263,7 +312,7 @@ fn object_without_properties(
                     props: vec![],
                 }
                 .as_arg(),
-                var_ident.as_arg(),
+                obj.as_arg(),
             ],
         });
     }
@@ -276,7 +325,7 @@ fn object_without_properties(
         span: DUMMY_SP,
         callee: quote_ident!("_objectWithoutProperties").as_callee(),
         args: vec![
-            var_ident.as_arg(),
+            obj.as_arg(),
             ArrayLit {
                 span: DUMMY_SP,
                 elems: excluded_props,
