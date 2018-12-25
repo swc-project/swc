@@ -29,7 +29,9 @@ extern crate test;
 #[macro_use]
 extern crate testing;
 
-pub use self::{hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier};
+pub use self::{
+    fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier,
+};
 
 #[cfg(test)]
 #[macro_use]
