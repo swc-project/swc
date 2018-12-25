@@ -138,13 +138,14 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             return decls;
         }
 
-        let mut buf = vec![];
         for decl in decls {
             // fast path
             if !contains_rest(&decl) {
-                buf.push(decl);
+                self.vars.push(decl);
                 continue;
             }
+
+            let decl = decl.fold_children(self);
 
             let mut var_ident = match decl.init {
                 Some(box Expr::Ident(ref ident)) => ident.clone(),
@@ -157,7 +158,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                 match *init {
                     // skip `z = z`
                     Expr::Ident(..) => {}
-                    _ => buf.push(VarDeclarator {
+                    _ => self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(var_ident.clone()),
                         init: Some(init),
@@ -169,7 +170,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                _ => buf.push(VarDeclarator {
+                _ => self.vars.push(VarDeclarator {
                     name: pat,
                     // preserve
                     init: if has_init {
@@ -182,8 +183,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             }
         }
 
-        buf.append(&mut self.vars);
-        buf
+        mem::replace(&mut self.vars, vec![])
     }
 }
 
@@ -299,73 +299,33 @@ where
     }
 }
 
+impl Fold<ArrowExpr> for RestFolder {
+    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+        let body_span = f.body.span();
+        let (params, stmts) = self.fold_fn_like(
+            f.params,
+            match f.body {
+                BlockStmtOrExpr::BlockStmt(block) => block.stmts,
+                BlockStmtOrExpr::Expr(expr) => vec![Stmt::Expr(expr)],
+            },
+        );
+        ArrowExpr {
+            params,
+            body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+                span: body_span,
+                stmts,
+            }),
+            ..f
+        }
+    }
+}
+
 impl Fold<Function> for RestFolder {
     fn fold(&mut self, f: Function) -> Function {
-        if !contains_rest(&f) {
-            // fast-path
-            return f;
-        }
-
-        let params = f
-            .params
-            .into_iter()
-            .map(|param| {
-                let mark = Mark::fresh(Mark::root());
-                let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_param");
-                let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false);
-                match param {
-                    Pat::Rest(..) | Pat::Assign(..) | Pat::Ident(..) => param,
-                    Pat::Array(ArrayPat { span, elems }) => {
-                        let elems = elems
-                            .into_iter()
-                            .map(|elem| match elem {
-                                Some(param @ Pat::Object(..)) => {
-                                    self.vars.insert(
-                                        0,
-                                        VarDeclarator {
-                                            span: DUMMY_SP,
-                                            name: param,
-                                            init: Some(box Expr::Ident(var_ident.clone())),
-                                        },
-                                    );
-                                    Some(Pat::Ident(var_ident.clone()))
-                                }
-                                _ => elem,
-                            })
-                            .collect();
-
-                        Pat::Array(ArrayPat { span, elems })
-                    }
-                    _ => {
-                        // initialize snd destructure
-                        self.push_var_if_not_empty(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: param,
-                            init: Some(box Expr::Ident(var_ident.clone())),
-                        });
-                        Pat::Ident(var_ident.clone())
-                    }
-                }
-            })
-            .collect();
-
+        let (params, stmts) = self.fold_fn_like(f.params, f.body.stmts);
         Function {
             params,
-            body: BlockStmt {
-                span: f.body.span,
-                stmts: if self.vars.is_empty() {
-                    None
-                } else {
-                    Some(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: mem::replace(&mut self.vars, vec![]),
-                    })))
-                }
-                .into_iter()
-                .chain(f.body.stmts)
-                .collect(),
-            },
+            body: BlockStmt { stmts, ..f.body },
             ..f
         }
     }
@@ -419,6 +379,71 @@ impl RestFolder {
             _ => {}
         }
         self.vars.push(decl)
+    }
+
+    fn fold_fn_like(&mut self, params: Vec<Pat>, body: Vec<Stmt>) -> (Vec<Pat>, Vec<Stmt>) {
+        if !contains_rest(&params) {
+            // fast-path
+            return (params, body);
+        }
+
+        let params = params
+            .into_iter()
+            .map(|param| {
+                let mark = Mark::fresh(Mark::root());
+                let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_param");
+                let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false);
+                match param {
+                    Pat::Rest(..) | Pat::Assign(..) | Pat::Ident(..) => param,
+                    Pat::Array(ArrayPat { span, elems }) => {
+                        let elems = elems
+                            .into_iter()
+                            .map(|elem| match elem {
+                                Some(param @ Pat::Object(..)) => {
+                                    self.vars.insert(
+                                        0,
+                                        VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: param,
+                                            init: Some(box Expr::Ident(var_ident.clone())),
+                                        },
+                                    );
+                                    Some(Pat::Ident(var_ident.clone()))
+                                }
+                                _ => elem,
+                            })
+                            .collect();
+
+                        Pat::Array(ArrayPat { span, elems })
+                    }
+                    _ => {
+                        // initialize snd destructure
+                        self.push_var_if_not_empty(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: param,
+                            init: Some(box Expr::Ident(var_ident.clone())),
+                        });
+                        Pat::Ident(var_ident.clone())
+                    }
+                }
+            })
+            .collect();
+
+        (
+            params,
+            if self.vars.is_empty() {
+                None
+            } else {
+                Some(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: mem::replace(&mut self.vars, vec![]),
+                })))
+            }
+            .into_iter()
+            .chain(body)
+            .collect(),
+        )
     }
 
     fn fold_rest(&mut self, pat: Pat, obj: Box<Expr>, use_expr_for_assign: bool) -> Pat {
