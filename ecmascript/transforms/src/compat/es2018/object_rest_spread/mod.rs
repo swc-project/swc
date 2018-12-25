@@ -75,21 +75,21 @@ macro_rules! impl_for_for_stmt {
                     VarDeclOrPat::Pat(pat) => {
                         let var_ident =
                             quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(Mark::root())), "_ref");
+                        let index = self.vars.len();
                         let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
 
                         // initialize (or destructure)
                         match pat {
                             Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                             _ => {
-                                // insert at len()-1 to create
+                                // insert at index to create
                                 // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
                                 // instead of
                                 // var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;
 
                                 // println!("Var(0): folded pat = var_ident",);
-                                let len = self.vars.len();
                                 self.vars.insert(
-                                    len - 1,
+                                    index,
                                     VarDeclarator {
                                         span: DUMMY_SP,
                                         name: pat,
@@ -176,18 +176,18 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                 }
             }
 
+            let index = self.vars.len();
             let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false);
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                 _ => {
-                    // insert at len()-1 to create
+                    // insert at index to create
                     // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
-                    let len = self.vars.len();
                     self.vars.insert(
-                        len - 1,
+                        index,
                         VarDeclarator {
                             name: pat,
                             // preserve
