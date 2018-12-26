@@ -1,16 +1,17 @@
 #![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
 use self::{input::ParserInput, util::ParseObject};
+use crate::{
+    error::SyntaxError,
+    lexer::{Input, Lexer},
+    parser_macros::parser,
+    token::*,
+    Context, Session, Syntax,
+};
 use ast::*;
-use error::SyntaxError;
-use lexer::{Input, Lexer};
-use parser_macros::parser;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
-use token::*;
-use Context;
-use Session;
 
 #[macro_use]
 mod macros;
@@ -42,7 +43,7 @@ struct State {
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub fn new(session: Session<'a>, input: I) -> Self {
+    pub fn new(session: Session<'a>, syntax: Syntax, input: I) -> Self {
         Parser {
             session,
             input: ParserInput::new(Lexer::new(session, input)),
@@ -83,16 +84,16 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 
 #[cfg(test)]
-pub fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
+pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
     F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Result<Ret, ()>,
 {
-    ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, input))).unwrap()
+    ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, syntax, input))).unwrap()
 }
 
 #[test]
 fn module_legacy() {
-    test_parser("<!--", |f| {
+    test_parser("<!--", Syntax::Es2019, |f| {
         let res = f.parse_module();
         assert!(f.ctx().module);
         assert!(f.ctx().strict);

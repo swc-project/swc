@@ -27,7 +27,7 @@
 //!     sync::Lrc,
 //!     FileName, FilePathMapping, SourceMap,
 //! };
-//! use swc_ecma_parser::{Parser, Session, SourceFileInput};
+//! use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 //!
 //! fn main() {
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
@@ -50,7 +50,7 @@
 //!             "function foo() {}".into(),
 //!         );
 //!
-//!         let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
+//!         let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
 //!
 //!         let _module = parser.parse_module().expect("failed to parser module");
 //!     });
@@ -65,7 +65,6 @@
 #![feature(const_fn)]
 #![feature(specialization)]
 #![feature(never_type)]
-// #![feature(nll)]
 #![feature(try_from)]
 #![feature(try_trait)]
 #![cfg_attr(test, feature(test))]
@@ -101,6 +100,14 @@ mod error;
 mod lexer;
 mod parser;
 mod token;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Syntax {
+    Es2019,
+    Jsx,
+    Typescript,
+    Tsx,
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub struct Config {

@@ -11,7 +11,7 @@ extern crate testing;
 
 use swc_common::{FileName, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::util::ExprFactory;
 use test::Bencher;
 
@@ -96,6 +96,7 @@ fn module_clone(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
+            Syntax::Es2019,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -118,6 +119,7 @@ fn fold_empty(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
+            Syntax::Es2019,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -151,6 +153,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
+            Syntax::Es2019,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -184,6 +187,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
+            Syntax::Es2019,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -261,6 +265,7 @@ fn visit_empty(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
+            Syntax::Es2019,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -309,6 +314,7 @@ fn visit_contains_this(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
+            Syntax::Es2019,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();

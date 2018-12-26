@@ -11,7 +11,7 @@ extern crate testing;
 use sourcemap::SourceMapBuilder;
 use swc_common::FileName;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::Bencher;
 
 const SOURCE: &str = r#"
@@ -96,7 +96,7 @@ fn emit_colors(b: &mut Bencher) {
             cfg: Default::default(),
         };
         let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
-        let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
+        let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
         let module = parser.parse_module().unwrap();
 
         b.iter(|| {

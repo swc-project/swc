@@ -11,7 +11,7 @@ use self::{
     ecmascript::{
         ast::Module,
         codegen::{self, Emitter},
-        parser::{Parser, Session as ParseSess, SourceFileInput},
+        parser::{Parser, Session as ParseSess, SourceFileInput, Syntax},
     },
 };
 use sourcemap::SourceMapBuilder;
@@ -39,7 +39,7 @@ impl Compiler {
         GLOBALS.set(&self.globals, op)
     }
 
-    pub fn parse_js(&self, name: FileName, src: &str) -> Result<Module, ()> {
+    pub fn parse_js(&self, name: FileName, syntax: Syntax, src: &str) -> Result<Module, ()> {
         self.run(|| {
             let fm = self.cm.new_source_file(name, src.into());
 
@@ -47,12 +47,12 @@ impl Compiler {
                 handler: &self.handler,
                 cfg: Default::default(),
             };
-            Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
+            Parser::new(session, syntax, SourceFileInput::from(&*fm)).parse_module()
         })
     }
 
     /// TODO
-    pub fn parse_js_file(&self, path: &Path) -> Result<Module, ()> {
+    pub fn parse_js_file(&self, syntax: Syntax, path: &Path) -> Result<Module, ()> {
         self.run(|| {
             let fm = self.cm.load_file(path).expect("failed to load file");
 
@@ -60,7 +60,7 @@ impl Compiler {
                 handler: &self.handler,
                 cfg: Default::default(),
             };
-            Parser::new(session, SourceFileInput::from(&*fm)).parse_module()
+            Parser::new(session, syntax, SourceFileInput::from(&*fm)).parse_module()
         })
     }
 

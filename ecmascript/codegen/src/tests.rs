@@ -1,7 +1,7 @@
 extern crate swc_ecma_parser;
 extern crate testing;
 use self::{
-    swc_ecma_parser::{PResult, Parser, Session, SourceFileInput},
+    swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax},
     testing::NormalizedOutput,
 };
 use super::*;
@@ -83,6 +83,7 @@ fn test_from_to(from: &str, to: &str) {
                     handler: &handler,
                     cfg: Default::default(),
                 },
+                Syntax::Es2019,
                 (&*src).into(),
             ));
 

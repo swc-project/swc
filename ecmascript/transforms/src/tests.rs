@@ -6,7 +6,7 @@ use std::{
 };
 use swc_common::{errors::Handler, sync::Lrc, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
 struct MyHandlers;
 
@@ -43,7 +43,7 @@ impl<'a> Tester<'a> {
             cfg: Default::default(),
         };
 
-        let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
+        let mut p = Parser::new(sess, Syntax::Es2019, SourceFileInput::from(&*fm));
         op(&mut p)
     }
 
@@ -71,7 +71,7 @@ impl<'a> Tester<'a> {
             };
 
             let module = {
-                let mut p = Parser::new(sess, SourceFileInput::from(&*fm));
+                let mut p = Parser::new(sess, Syntax::Es2019, SourceFileInput::from(&*fm));
                 p.parse_module()?
             };
             // println!("parsed {} as a module\n{:?}", src, module);
