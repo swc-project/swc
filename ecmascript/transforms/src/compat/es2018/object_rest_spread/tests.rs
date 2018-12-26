@@ -776,9 +776,9 @@ function a6(_param) {
       ba2 = _objectWithoutProperties(_param.b2, ["ba1"]);
 }
 
-function a7(_ref8 = {
+function a7(_param = {
 }) {
-    let { a1 =1  } = _ref8, b1 = _objectWithoutProperties(_ref8, ['a1']);
+    let { a1 =1  } = _param, b1 = _objectWithoutProperties(_param, ['a1']);
 }
 
 function a8([_param]) {

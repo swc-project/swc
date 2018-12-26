@@ -169,7 +169,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                     Expr::Ident(..) => {}
                     _ => {
                         println!("Var: var_ident = init",);
-                        self.vars.push(VarDeclarator {
+                        self.push_var_if_not_empty(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(var_ident.clone()),
                             init: Some(init),
@@ -188,7 +188,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                     // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
-                    self.vars.insert(
+                    self.insert_var_if_not_empty(
                         index,
                         VarDeclarator {
                             name: pat,
@@ -409,6 +409,18 @@ impl Fold<CatchClause> for RestFolder {
 }
 
 impl RestFolder {
+    fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
+        match decl.name {
+            Pat::Object(ObjectPat { ref props, .. }) => {
+                if props.len() == 0 {
+                    return;
+                }
+            }
+            _ => {}
+        }
+        self.vars.insert(idx, decl)
+    }
+
     fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
@@ -454,7 +466,7 @@ impl RestFolder {
                             .map(|elem| match elem {
                                 Some(param @ Pat::Object(..)) => {
                                     println!("Var(i): param = var_ident");
-                                    self.vars.insert(
+                                    self.insert_var_if_not_empty(
                                         index,
                                         VarDeclarator {
                                             span: DUMMY_SP,
@@ -471,9 +483,24 @@ impl RestFolder {
 
                         Pat::Array(ArrayPat { span, elems })
                     }
+                    Pat::Assign(AssignPat { span, left, right }) => {
+                        self.insert_var_if_not_empty(
+                            index,
+                            VarDeclarator {
+                                span,
+                                name: *left,
+                                init: Some(box Expr::Ident(var_ident.clone())),
+                            },
+                        );
+                        Pat::Assign(AssignPat {
+                            span,
+                            left: box Pat::Ident(var_ident.clone()),
+                            right,
+                        })
+                    }
                     _ => {
                         // initialize snd destructure
-                        self.vars.insert(
+                        self.insert_var_if_not_empty(
                             index,
                             VarDeclarator {
                                 span: DUMMY_SP,
