@@ -435,7 +435,19 @@ impl RestFolder {
                 let mut index = self.vars.len();
                 let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false);
                 match param {
-                    Pat::Rest(..) | Pat::Assign(..) | Pat::Ident(..) => param,
+                    Pat::Rest(..) | Pat::Ident(..) => param,
+                    Pat::Assign(AssignPat {
+                        left: box Pat::Ident(..),
+                        ..
+                    })
+                    | Pat::Assign(AssignPat {
+                        left: box Pat::Rest(..),
+                        ..
+                    })
+                    | Pat::Assign(AssignPat {
+                        left: box Pat::Array(..),
+                        ..
+                    }) => param,
                     Pat::Array(ArrayPat { span, elems }) => {
                         let elems = elems
                             .into_iter()
