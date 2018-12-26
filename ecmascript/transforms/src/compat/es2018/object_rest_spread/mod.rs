@@ -30,6 +30,8 @@ struct RestFolder {
     helpers: Arc<Helpers>,
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
+    /// Variables which should ceclaraed using `var`
+    mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
 }
@@ -231,7 +233,7 @@ impl Fold<Expr> for RestFolder {
                 var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
                 println!("Var: var_ident = None");
-                self.vars.push(VarDeclarator {
+                self.mutable_vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(var_ident.clone()),
                     init: None,
@@ -303,12 +305,21 @@ where
                     let mut folder = RestFolder {
                         helpers: self.helpers.clone(),
                         vars: vec![],
+                        mutable_vars: vec![],
                         exprs: vec![],
                     };
                     let stmt = stmt.fold_with(&mut folder);
 
                     // Add variable declaration
                     // e.g. var ref
+                    if !folder.mutable_vars.is_empty() {
+                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: folder.mutable_vars,
+                        }))));
+                    }
+
                     if !folder.vars.is_empty() {
                         buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,

@@ -402,13 +402,17 @@ const {
 } = {};
 "#,
     r#"
-const _tmp, _ref = {}, {
-  [(_param)=>{
-    var rest = _extends({}, _param);
-    let _ref = {}, b = _extends({}, _ref);
-  }]: a ,
-  [( _tmp = {}, d = _extends({}, _tmp), _tmp)]: c 
-} = _ref;
+var _tmp;
+const _ref = {
+}, { [(_param)=>{
+    var rest = _extends({
+    }, _param);
+    let _ref = {
+    }, b = _extends({
+    }, _ref);
+}]: a , [( _tmp = {
+}, d = _extends({
+}, _tmp), _tmp)]: c  } = _ref;
 "#
 );
 
@@ -441,16 +445,18 @@ const {
 } = {};
 "#,
     r#"
-const _tmp = {
-}, _ref = {
+var _tmp;
+const _ref = {
 }, { a =(_param)=>{
     var rest = _extends({
     }, _param);
     let _ref = {
     }, b = _extends({
     }, _ref);
-} , c =( {} = _tmp, d = _extends({
-}, _tmp), _tmp)  } = _ref;"#
+} , c =( _tmp = {
+}, d = _extends({
+}, _tmp), _tmp)  } = _ref;
+"#
 );
 
 test_exec!(
