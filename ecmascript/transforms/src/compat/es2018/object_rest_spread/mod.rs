@@ -268,6 +268,71 @@ impl Fold<Expr> for RestFolder {
     }
 }
 
+/// Removes rest pattern from object pattern.
+///
+/// Used **only** for handling `export var {b, ...c};`
+struct ExporedtNameFinder {
+    names: Vec<Ident>,
+}
+impl Visit<Pat> for ExporedtNameFinder {
+    fn visit(&mut self, node: &Pat) {
+        match *node {
+            Pat::Ident(ref i) => self.names.push(i.clone()),
+            _ => node.visit_children(self),
+        }
+    }
+}
+impl Visit<ObjectPatProp> for ExporedtNameFinder {
+    fn visit(&mut self, node: &ObjectPatProp) {
+        match *node {
+            ObjectPatProp::Assign(AssignPatProp { ref key, .. }) => self.names.push(key.clone()),
+            _ => node.visit_children(self),
+        }
+    }
+}
+
+/// export var { b, ...c } = asdf2;
+impl Fold<ModuleDecl> for RestFolder {
+    fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        if !contains_rest(&decl) {
+            // fast path
+            return decl;
+        }
+
+        let span = decl.span();
+
+        match decl {
+            ModuleDecl::ExportDecl(Decl::Var(var_decl)) => {
+                let specifiers = {
+                    let mut finder = ExporedtNameFinder { names: vec![] };
+                    var_decl.visit_with(&mut finder);
+                    finder
+                        .names
+                        .into_iter()
+                        .map(|orig| ExportSpecifier {
+                            span: orig.span,
+                            orig,
+                            exported: None,
+                        })
+                        .collect()
+                };
+
+                let export = NamedExport {
+                    span,
+                    specifiers,
+                    src: None,
+                };
+
+                let mut var_decl = var_decl.fold_with(self);
+                self.vars.append(&mut var_decl.decls);
+
+                ModuleDecl::ExportNamed(export)
+            }
+            _ => decl.fold_children(self),
+        }
+    }
+}
+
 struct RestVisitor {
     found: bool,
 }
@@ -287,7 +352,7 @@ where
     v.found
 }
 
-impl<T: StmtLike + VisitWith<RestVisitor>> Fold<Vec<T>> for ObjectRest
+impl<T: StmtLike + VisitWith<RestVisitor> + FoldWith<RestFolder>> Fold<Vec<T>> for ObjectRest
 where
     Vec<T>: FoldWith<Self>,
 {
@@ -300,40 +365,35 @@ where
         let mut buf = vec![];
 
         for stmt in stmts {
-            match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
-                Ok(stmt) => {
-                    let mut folder = RestFolder {
-                        helpers: self.helpers.clone(),
-                        vars: vec![],
-                        mutable_vars: vec![],
-                        exprs: vec![],
-                    };
-                    let stmt = stmt.fold_with(&mut folder);
+            let mut folder = RestFolder {
+                helpers: self.helpers.clone(),
+                vars: vec![],
+                mutable_vars: vec![],
+                exprs: vec![],
+            };
+            let stmt = stmt.fold_with(&mut folder);
 
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.mutable_vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.mutable_vars,
-                        }))));
-                    }
-
-                    if !folder.vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                        }))));
-                    }
-
-                    buf.push(T::from_stmt(stmt));
-
-                    buf.extend(folder.exprs.into_iter().map(Stmt::Expr).map(T::from_stmt));
-                }
+            // Add variable declaration
+            // e.g. var ref
+            if !folder.mutable_vars.is_empty() {
+                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: folder.mutable_vars,
+                }))));
             }
+
+            if !folder.vars.is_empty() {
+                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: folder.vars,
+                }))));
+            }
+
+            buf.push(stmt);
+
+            buf.extend(folder.exprs.into_iter().map(Stmt::Expr).map(T::from_stmt));
         }
 
         buf
