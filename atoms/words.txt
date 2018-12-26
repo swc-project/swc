@@ -5,10 +5,10 @@ Object
 RegExp
 _extends
 _toConsumableArray
+abstract
 apply
 as
 async
-await
 await
 break
 call
@@ -48,9 +48,13 @@ null
 of
 package
 private
+private
 process
 protected
+protected
 public
+public
+readonly
 return
 set
 static
