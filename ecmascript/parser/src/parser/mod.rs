@@ -46,7 +46,7 @@ impl<'a, I: Input> Parser<'a, I> {
     pub fn new(session: Session<'a>, syntax: Syntax, input: I) -> Self {
         Parser {
             session,
-            input: ParserInput::new(Lexer::new(session, input)),
+            input: ParserInput::new(Lexer::new(session, syntax, input)),
             state: Default::default(),
         }
     }

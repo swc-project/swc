@@ -6,14 +6,11 @@
 #![allow(unused_variables)]
 pub use self::input::Input;
 use self::{state::State, util::*};
+use crate::{error::SyntaxError, token::*, Context, Session, Syntax};
 use ast::Str;
-use error::SyntaxError;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
-use token::*;
-use Context;
-use Session;
 
 pub mod input;
 mod number;
@@ -29,15 +26,17 @@ pub(crate) struct Lexer<'a, I: Input> {
     pub ctx: Context,
     input: I,
     state: State,
+    pub syntax: Syntax,
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub fn new(session: Session<'a>, input: I) -> Self {
+    pub fn new(session: Session<'a>, syntax: Syntax, input: I) -> Self {
         Lexer {
             session,
             input,
             state: Default::default(),
             ctx: Default::default(),
+            syntax,
         }
     }
 
