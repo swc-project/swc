@@ -113,6 +113,13 @@ pub(crate) enum Token {
     #[kind(starts_expr)]
     Num(f64),
 
+    JSXName,
+    #[kind(before_expr)]
+    JSXText,
+    #[kind(starts_expr)]
+    JSXTagStart,
+    JSXTagEnd,
+
     Error(#[fold(ignore)] ::error::Error),
 }
 

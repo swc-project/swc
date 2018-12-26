@@ -13,6 +13,7 @@ use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 
 pub mod input;
+mod jsx;
 mod number;
 mod state;
 #[cfg(test)]
@@ -34,7 +35,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Lexer {
             session,
             input,
-            state: Default::default(),
+            state: State::new(syntax),
             ctx: Default::default(),
             syntax,
         }

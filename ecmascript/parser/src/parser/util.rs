@@ -114,6 +114,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }
         Span::new(start, end, Default::default())
     }
+
+    pub(super) const fn syntax(&self) -> Syntax {
+        self.input.syntax()
+    }
 }
 pub trait ParseObject<'a, Obj> {
     type Prop;
@@ -188,6 +192,13 @@ pub(super) trait ExprExt {
             Expr::Yield(..) | Expr::Arrow(..) | Expr::Assign(..) => false,
 
             Expr::Seq(..) => false,
+
+            // jsx
+            Expr::JSXMebmer(..)
+            | Expr::JSXNamespacedName(..)
+            | Expr::JSXEmpty(..)
+            | Expr::JSXElement(..)
+            | Expr::JSXFragment(..) => false,
         }
     }
 }

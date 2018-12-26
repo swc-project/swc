@@ -108,6 +108,15 @@ pub enum Syntax {
     Typescript,
     Tsx,
 }
+impl Syntax {
+    /// Should we pare jsx?
+    pub fn jsx(self) -> bool {
+        match self {
+            Syntax::Jsx | Syntax::Tsx => true,
+            _ => false,
+        }
+    }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub struct Config {
