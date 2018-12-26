@@ -7,7 +7,7 @@ use std::{
     iter, mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, MoveMap, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -151,6 +151,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
         for decl in decls {
             // fast path
             if !contains_rest(&decl) {
+                println!("Var: no rest",);
                 self.vars.push(decl);
                 continue;
             }
@@ -189,10 +190,11 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                     // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
+                    println!("var: simplified pat = var_ident({:?})", var_ident);
                     self.insert_var_if_not_empty(
                         index,
                         VarDeclarator {
-                            name: pat,
+                            name: simplify_pat(pat),
                             // preserve
                             init: if has_init {
                                 Some(box Expr::Ident(var_ident.clone()))
@@ -470,6 +472,7 @@ impl Fold<CatchClause> for RestFolder {
 }
 
 impl RestFolder {
+    #[inline(always)]
     fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
@@ -482,6 +485,7 @@ impl RestFolder {
         self.vars.insert(idx, decl)
     }
 
+    #[inline(always)]
     fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
@@ -807,6 +811,35 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
         })
         .map(Some)
         .collect()
+}
+
+/// e.g.
+///
+///  - `{ x4: {}  }` -> `{}`
+fn simplify_pat(pat: Pat) -> Pat {
+    struct PatSimplifier;
+    impl Fold<Pat> for PatSimplifier {
+        fn fold(&mut self, pat: Pat) -> Pat {
+            let pat = pat.fold_children(self);
+
+            match pat {
+                Pat::Object(ObjectPat { span, props }) => {
+                    let props = props.move_flat_map(|prop| match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp {
+                            value: box Pat::Object(ObjectPat { ref props, .. }),
+                            ..
+                        }) if props.is_empty() => None,
+                        _ => Some(prop),
+                    });
+
+                    Pat::Object(ObjectPat { span, props })
+                }
+                _ => pat,
+            }
+        }
+    }
+
+    pat.fold_with(&mut PatSimplifier)
 }
 
 struct ObjectSpread {

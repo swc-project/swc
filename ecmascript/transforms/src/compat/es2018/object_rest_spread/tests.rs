@@ -872,7 +872,7 @@ if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
 
 test!(
     tr(Default::default()),
-    rest_variable_destructuring,
+    rest_variable_destructuring_1,
     r#"
 var z = {};
 var { ...x } = z;
@@ -885,23 +885,18 @@ var { [a]: b, ...c } = z;
 var {x1, ...y1} = z;
 let {x2, y2, ...z2} = z;
 const {w3, x3, y3, ...z4} = z;
-
-let {
-  x: { a: xa, [d]: f, ...asdf },
-  y: { ...d },
-  ...g
-} = complex;
-
-let { x4: { ...y4 } } = z;
 "#,
     r#"
 var z = {};
 var x = _extends({}, z);
-var a = _extends({}, {
-  a: 1
-});
-var x = _extends({}, a.b);
-var x = _extends({}, a());
+var _ref = {
+  a: 1 
+}, a = _extends({
+}, _ref);
+var _ref1 = a.b, x = _extends({
+}, _ref1);
+var _ref2 = a(), x = _extends({
+}, _ref2);
 var {
   x1
 } = z,
@@ -910,7 +905,7 @@ x1++;
 var {
   [a]: b
 } = z,
-    c = _objectWithoutProperties(z, [a].map(_toPropertyKey));
+    c = _objectWithoutProperties(z, [a]);
 var {
   x1
 } = z,
@@ -926,17 +921,40 @@ const {
   y3
 } = z,
       z4 = _objectWithoutProperties(z, ["w3", "x3", "y3"]);
+"#
+);
+
+test!(
+    tr(Default::default()),
+    rest_variable_destructuring_2,
+    r#"
+let {
+  x: { a: xa, [d]: f, ...asdf },
+  y: { ...d },
+  ...g
+} = complex;
+"#,
+    r#"
 let {
   x: {
     a: xa,
     [d]: f
   }
 } = complex,
-    asdf = _objectWithoutProperties(complex.x, ["a", d].map(_toPropertyKey)),
+    asdf = _objectWithoutProperties(complex.x, ["a", d]),
     d = _extends({}, complex.y),
-    g = _objectWithoutProperties(complex, ["x"]);
-let {} = z,
-    y4 = _extends({}, z.x4);
+    g = _objectWithoutProperties(complex, ["x", "y"]);
+"#
+);
+
+test!(
+    tr(Default::default()),
+    rest_variable_destructuring_3,
+    r#"
+let { x4: { ...y4 } } = z;
+"#,
+    r#"
+let y4 = _extends({}, z.x4);
 "#
 );
 
