@@ -78,7 +78,8 @@ macro_rules! impl_for_for_stmt {
                         let var_ident =
                             quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(Mark::root())), "_ref");
                         let index = self.vars.len();
-                        let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
+                        let pat =
+                            self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false, true);
 
                         // initialize (or destructure)
                         match pat {
@@ -179,7 +180,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
             }
 
             let index = self.vars.len();
-            let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false);
+            let pat = self.fold_rest(decl.name, box Expr::Ident(var_ident.clone()), false, true);
             match pat {
                 // skip `{} = z`
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
@@ -245,7 +246,7 @@ impl Fold<Expr> for RestFolder {
                     op: op!("="),
                     right,
                 }));
-                let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), true);
+                let pat = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), true, true);
 
                 match pat {
                     Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
@@ -385,7 +386,7 @@ impl Fold<CatchClause> for RestFolder {
 
         let mark = Mark::fresh(Mark::root());
         let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_err");
-        let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false);
+        let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false, true);
         // initialize (or destructure)
         self.push_var_if_not_empty(VarDeclarator {
             span: DUMMY_SP,
@@ -445,7 +446,7 @@ impl RestFolder {
                 let mark = Mark::fresh(Mark::root());
                 let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_param");
                 let mut index = self.vars.len();
-                let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false);
+                let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false, false);
                 match param {
                     Pat::Rest(..) | Pat::Ident(..) => param,
                     Pat::Assign(AssignPat {
@@ -531,7 +532,13 @@ impl RestFolder {
         )
     }
 
-    fn fold_rest(&mut self, pat: Pat, obj: Box<Expr>, use_expr_for_assign: bool) -> Pat {
+    fn fold_rest(
+        &mut self,
+        pat: Pat,
+        obj: Box<Expr>,
+        use_expr_for_assign: bool,
+        use_member_for_array: bool,
+    ) -> Pat {
         // TODO(kdy1): Optimize when all fields are statically known.
         //
         // const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
@@ -544,7 +551,8 @@ impl RestFolder {
         let ObjectPat { span, props } = match pat {
             Pat::Object(pat) => pat,
             Pat::Assign(AssignPat { span, left, right }) => {
-                let left = box self.fold_rest(*left, obj, use_expr_for_assign);
+                let left =
+                    box self.fold_rest(*left, obj, use_expr_for_assign, use_member_for_array);
                 return Pat::Assign(AssignPat { span, left, right });
             }
             Pat::Array(ArrayPat { span, elems }) => {
@@ -554,16 +562,21 @@ impl RestFolder {
                     .map(|(i, elem)| match elem {
                         Some(elem) => Some(self.fold_rest(
                             elem,
-                            box Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj: obj.clone().as_obj(),
-                                computed: true,
-                                prop: box Expr::Lit(Lit::Num(Number {
+                            if use_member_for_array {
+                                box Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    value: i as _,
-                                })),
-                            }),
+                                    obj: obj.clone().as_obj(),
+                                    computed: true,
+                                    prop: box Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: i as _,
+                                    })),
+                                })
+                            } else {
+                                obj.clone()
+                            },
                             use_expr_for_assign,
+                            use_member_for_array,
                         )),
                         None => None,
                     })
@@ -583,6 +596,7 @@ impl RestFolder {
                         // TODO: fix this. this is wrong
                         obj.clone(),
                         use_expr_for_assign,
+                        use_member_for_array,
                     );
                     ObjectPatProp::Rest(RestPat {
                         dot3_token,
@@ -617,6 +631,7 @@ impl RestFolder {
                         }
                         .into(),
                         use_expr_for_assign,
+                        use_member_for_array,
                     );
                     ObjectPatProp::KeyValue(KeyValuePatProp { key, value })
                 }
