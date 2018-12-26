@@ -550,20 +550,19 @@ impl RestFolder {
             Pat::Array(ArrayPat { span, elems }) => {
                 let elems = elems
                     .into_iter()
-                    .map(|elem| match elem {
+                    .enumerate()
+                    .map(|(i, elem)| match elem {
                         Some(elem) => Some(self.fold_rest(
                             elem,
-                            // TODO(kdy1): Change this to member expression.
-                            obj.clone(),
-                            // box Expr::Member(MemberExpr {
-                            //     span: DUMMY_SP,
-                            //     obj: obj.clone().as_obj(),
-                            //     computed: true,
-                            //     prop: box Expr::Lit(Lit::Num(Number {
-                            //         span: DUMMY_SP,
-                            //         value: i as _,
-                            //     })),
-                            // }),
+                            box Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: obj.clone().as_obj(),
+                                computed: true,
+                                prop: box Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: i as _,
+                                })),
+                            }),
                             use_expr_for_assign,
                         )),
                         None => None,
