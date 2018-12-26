@@ -204,6 +204,7 @@ impl<'a, I: Input> Parser<'a, I> {
             } else {
                 None
             };
+            eat!(';');
             return Ok(ModuleDecl::ExportNamed(NamedExport {
                 span: span!(start),
                 specifiers,
