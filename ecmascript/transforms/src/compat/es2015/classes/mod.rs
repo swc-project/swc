@@ -4,7 +4,7 @@ use std::{
     iter,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -47,6 +47,24 @@ pub struct Classes {
 
 impl Fold<Decl> for Classes {
     fn fold(&mut self, n: Decl) -> Decl {
+        fn should_work(node: &Decl) -> bool {
+            struct Visitor {
+                found: bool,
+            };
+            impl Visit<Class> for Visitor {
+                fn visit(&mut self, _: &Class) {
+                    self.found = true
+                }
+            }
+            let mut v = Visitor { found: false };
+            node.visit_with(&mut v);
+            v.found
+        }
+        // fast path
+        if !should_work(&n) {
+            return n;
+        }
+
         let n = n.fold_children(self);
 
         match n {
@@ -117,7 +135,7 @@ impl Classes {
             match *sc {
                 Expr::Ident(ref i) => quote_ident!(i.span, format!("_{}", i.sym)),
                 Expr::Member(ref member) => determine_super_ident(&member.prop),
-                _ => unimplemented!("determine_super_ident({:?})", sc),
+                _ => quote_ident!("_Super"),
             }
         }
         // Ident of the super class *inside* function.

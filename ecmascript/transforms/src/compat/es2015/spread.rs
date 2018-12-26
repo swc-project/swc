@@ -1,7 +1,7 @@
 use crate::{compat::helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::{
-    mem,
+    iter, mem,
     sync::{atomic::Ordering, Arc},
 };
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
@@ -17,16 +17,19 @@ impl Fold<Expr> for Spread {
         let e = e.fold_children(self);
 
         match e {
-            Expr::Array(ArrayLit { ref elems, .. }) => {
-                if elems.iter().any(|e| match e {
+            Expr::Array(ArrayLit { span, elems }) => {
+                if !elems.iter().any(|e| match e {
                     Some(ExprOrSpread {
                         spread: Some(_), ..
                     }) => true,
                     _ => false,
                 }) {
-                    unimplemented!("Rest element in arrat literal")
+                    return Expr::Array(ArrayLit { span, elems });
                 }
-                return e;
+
+                let args_array = concat_args(&self.helpers, span, elems.into_iter());
+
+                return args_array;
             }
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
@@ -43,7 +46,7 @@ impl Fold<Expr> for Spread {
                         span,
                     });
                 }
-                let args_array = concat_args(&self.helpers, span, args);
+                let args_array = concat_args(&self.helpers, span, args.into_iter().map(Some));
                 //
                 // f.apply(undefined, args)
                 //
@@ -72,10 +75,9 @@ impl Fold<Expr> for Spread {
                 let args = concat_args(
                     &self.helpers,
                     span,
-                    vec![quote_expr!(span, null).as_arg()]
-                        .into_iter()
+                    iter::once(quote_expr!(span, null).as_arg())
                         .chain(args)
-                        .collect(),
+                        .map(Some),
                 );
 
                 //
@@ -95,7 +97,11 @@ impl Fold<Expr> for Spread {
     }
 }
 
-fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+fn concat_args(
+    helpers: &Helpers,
+    span: Span,
+    args: impl Iterator<Item = Option<ExprOrSpread>>,
+) -> Expr {
     //
     // []
     //
@@ -121,26 +127,30 @@ fn concat_args(helpers: &Helpers, span: Span, args: Vec<ExprOrSpread>) -> Expr {
     }
 
     for arg in args {
-        let ExprOrSpread { expr, spread } = arg;
+        if let Some(arg) = arg {
+            let ExprOrSpread { expr, spread } = arg;
 
-        match spread {
-            // ...b -> toConsumableArray(b)
-            Some(span) => {
-                //
-                make_arr!();
+            match spread {
+                // ...b -> toConsumableArray(b)
+                Some(span) => {
+                    //
+                    make_arr!();
 
-                helpers.to_consumable_array.store(true, Ordering::Relaxed);
+                    helpers.to_consumable_array.store(true, Ordering::Relaxed);
 
-                buf.push(
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: quote_ident!("_toConsumableArray").as_callee(),
-                        args: vec![expr.as_arg()],
-                    })
-                    .as_arg(),
-                );
+                    buf.push(
+                        Expr::Call(CallExpr {
+                            span,
+                            callee: quote_ident!("_toConsumableArray").as_callee(),
+                            args: vec![expr.as_arg()],
+                        })
+                        .as_arg(),
+                    );
+                }
+                None => tmp_arr.push(Some(expr.as_arg())),
             }
-            None => tmp_arr.push(Some(expr.as_arg())),
+        } else {
+            tmp_arr.push(None);
         }
     }
     make_arr!();
@@ -194,6 +204,20 @@ mod tests {
         call_noop,
         "ca(a, b, c, d, e)",
         "ca(a, b, c, d, e);"
+    );
+
+    test!(
+        Spread::default(),
+        array,
+        "[a, b, c, ...d, e]",
+        "[a, b, c].concat(_toConsumableArray(d), [e])"
+    );
+
+    test!(
+        Spread::default(),
+        array_empty,
+        "[a,, b, c, ...d,,, e]",
+        "[a,, b, c].concat(_toConsumableArray(d), [,, e])"
     );
 
     test!(

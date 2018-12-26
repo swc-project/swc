@@ -128,13 +128,33 @@ fn all(b: &mut Bencher) {
 }
 
 #[bench]
+fn es2018(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2018(&helpers));
+}
+
+#[bench]
+fn es2018_object_rest_spread(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2018::object_rest_spread(helpers));
+}
+
+#[bench]
 fn es2017(b: &mut Bencher) {
     tr!(b, |helpers| compat::es2017(&helpers));
 }
 
 #[bench]
+fn es2017_async_to_generator(b: &mut Bencher) {
+    tr!(b, |helpers| compat::es2017::async_to_generator(helpers));
+}
+
+#[bench]
 fn es2016(b: &mut Bencher) {
     tr!(b, |_| compat::es2016());
+}
+
+#[bench]
+fn es2016_exponentation(b: &mut Bencher) {
+    tr!(b, |_| compat::es2016::exponentation());
 }
 
 #[bench]
@@ -145,6 +165,16 @@ fn es2015(b: &mut Bencher) {
 #[bench]
 fn es2015_arrow(b: &mut Bencher) {
     tr!(b, |_| compat::es2015::arrow());
+}
+
+#[bench]
+fn es2015_block_scoped_fn(b: &mut Bencher) {
+    tr!(b, |_| compat::es2015::BlockScopedFns);
+}
+
+#[bench]
+fn es2015_block_scoping(b: &mut Bencher) {
+    tr!(b, |_| compat::es2015::block_scoping());
 }
 
 #[bench]
@@ -173,18 +203,13 @@ fn es2015_parameters(b: &mut Bencher) {
 }
 
 #[bench]
-fn es2015_block_scoped_fn(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::BlockScopedFns);
-}
-
-#[bench]
-fn es2015_block_scoping(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::block_scoping());
-}
-
-#[bench]
 fn es2015_fn_name(b: &mut Bencher) {
     tr!(b, |_| compat::es2015::function_name());
+}
+
+#[bench]
+fn es2015_for_of(b: &mut Bencher) {
+    tr!(b, |_| compat::es2015::for_of());
 }
 
 #[bench]
@@ -210,4 +235,9 @@ fn es2015_sticky_regex(b: &mut Bencher) {
 #[bench]
 fn es2015_typeof_symbol(b: &mut Bencher) {
     tr!(b, |helpers| compat::es2015::TypeOfSymbol { helpers });
+}
+
+#[bench]
+fn es3(b: &mut Bencher) {
+    tr!(b, |_| compat::es3());
 }

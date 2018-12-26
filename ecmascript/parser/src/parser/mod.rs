@@ -85,9 +85,9 @@ impl<'a, I: Input> Parser<'a, I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, f: F) -> Ret
 where
-    F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Ret,
+    F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Result<Ret, ()>,
 {
-    ::with_test_sess(s, |sess, input| Ok(f(&mut Parser::new(sess, input)))).unwrap()
+    ::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, input))).unwrap()
 }
 
 #[test]
@@ -97,5 +97,6 @@ fn module_legacy() {
         assert!(f.ctx().module);
         assert!(f.ctx().strict);
         let _ = res.expect_err("!");
+        Ok(())
     });
 }

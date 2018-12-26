@@ -40,12 +40,12 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(helpers: Arc<Helpers>) -> ComputedProps {
+pub fn computed_properties(helpers: Arc<Helpers>) -> impl Fold<Module> {
     ComputedProps { helpers }
 }
 
 #[derive(Default)]
-pub struct ComputedProps {
+struct ComputedProps {
     helpers: Arc<Helpers>,
 }
 
@@ -270,11 +270,16 @@ fn is_complex(props: &[PropOrSpread]) -> bool {
     visitor.found
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for ComputedProps
+impl<T: StmtLike + VisitWith<ShouldWork>> Fold<Vec<T>> for ComputedProps
 where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        // Fast path when there's no computed properties.
+        if !contains_computed_expr(&stmts) {
+            return stmts;
+        }
+
         let stmts = stmts.fold_children(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -321,5 +326,27 @@ fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
         PropName::Computed(expr) => *expr,
+    }
+}
+
+fn contains_computed_expr<N>(node: &N) -> bool
+where
+    N: VisitWith<ShouldWork>,
+{
+    let mut v = ShouldWork { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct ShouldWork {
+    found: bool,
+}
+
+impl Visit<PropName> for ShouldWork {
+    fn visit(&mut self, node: &PropName) {
+        match *node {
+            PropName::Computed(_) => self.found = true,
+            _ => {}
+        }
     }
 }

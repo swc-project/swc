@@ -108,7 +108,6 @@ impl<'a> Emitter<'a> {
                 keyword!("export");
                 space!();
                 emit!(d);
-                semi!();
             }
             ModuleDecl::ExportNamed(ref d) => emit!(d),
             ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
@@ -122,6 +121,7 @@ impl<'a> Emitter<'a> {
             }
             ModuleDecl::ExportAll(ref d) => emit!(d),
         }
+        self.wr.write_line()?;
     }
 
     #[emitter]
@@ -1453,6 +1453,11 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_for_of_stmt(&mut self, node: &ForOfStmt) -> Result {
         keyword!("for");
+        if node.await_token.is_some() {
+            space!();
+            keyword!("await");
+        }
+        formatting_space!();
         punct!("(");
         emit!(node.left);
         space!();

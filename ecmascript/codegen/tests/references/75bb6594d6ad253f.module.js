@@ -1,2 +1,2 @@
 export let a = {
-};;
+};

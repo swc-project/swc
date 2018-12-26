@@ -1,6 +1,6 @@
 use crate::util::{contains_this_expr, ExprFactory};
 use ast::*;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -62,6 +62,11 @@ struct Arrow;
 
 impl Fold<Expr> for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {
+        // fast path
+        if !contains_arrow_expr(&e) {
+            return e;
+        }
+
         let e = e.fold_children(self);
 
         match e {
@@ -112,5 +117,23 @@ impl Fold<Expr> for Arrow {
             }
             _ => e,
         }
+    }
+}
+
+fn contains_arrow_expr<N>(node: &N) -> bool
+where
+    N: VisitWith<ArrowVisitor>,
+{
+    let mut v = ArrowVisitor { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct ArrowVisitor {
+    found: bool,
+}
+impl Visit<ArrowExpr> for ArrowVisitor {
+    fn visit(&mut self, _: &ArrowExpr) {
+        self.found = true;
     }
 }

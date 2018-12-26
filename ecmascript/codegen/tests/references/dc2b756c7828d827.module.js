@@ -1,2 +1,2 @@
 export function a() {
-};
+}

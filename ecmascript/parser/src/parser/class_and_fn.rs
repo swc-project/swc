@@ -423,17 +423,11 @@ mod tests {
     use swc_common::DUMMY_SP;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, |p| {
-            p.parse_lhs_expr()
-                .unwrap_or_else(|()| unreachable!("failed to parse a left-hand-side expression"))
-        })
+        test_parser(s, |p| p.parse_lhs_expr())
     }
 
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, |p| {
-            p.parse_expr()
-                .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
-        })
+        test_parser(s, |p| p.parse_expr())
     }
 
     #[allow(non_upper_case_globals)]

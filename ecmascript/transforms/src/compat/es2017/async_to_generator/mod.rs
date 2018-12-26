@@ -7,7 +7,7 @@ use std::{
     iter,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -33,10 +33,7 @@ mod tests;
 /// });
 /// ```
 pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    AsyncToGenerator {
-        helpers,
-        ..Default::default()
-    }
+    AsyncToGenerator { helpers }
 }
 
 #[derive(Default)]
@@ -48,11 +45,15 @@ struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
-impl<T: StmtLike> Fold<Vec<T>> for AsyncToGenerator
+impl<T: StmtLike + VisitWith<AsyncVisitor>> Fold<Vec<T>> for AsyncToGenerator
 where
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        if !contains_async(&stmts) {
+            return stmts;
+        }
+
         let stmts = stmts.fold_children(self);
 
         let mut buf = Vec::with_capacity(stmts.len());
@@ -600,4 +601,34 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
         callee: quote_ident!("_asyncToGenerator").as_callee(),
         args: vec![expr.as_arg()],
     })
+}
+
+fn contains_async<N>(node: &N) -> bool
+where
+    N: VisitWith<AsyncVisitor>,
+{
+    let mut v = AsyncVisitor { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct AsyncVisitor {
+    found: bool,
+}
+
+impl Visit<Function> for AsyncVisitor {
+    fn visit(&mut self, f: &Function) {
+        if f.is_async {
+            self.found = true;
+        }
+        f.visit_children(self);
+    }
+}
+impl Visit<ArrowExpr> for AsyncVisitor {
+    fn visit(&mut self, f: &ArrowExpr) {
+        if f.is_async {
+            self.found = true;
+        }
+        f.visit_children(self);
+    }
 }

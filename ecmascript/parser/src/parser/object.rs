@@ -216,6 +216,15 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop> {
         let start = cur_pos!();
 
+        if eat!("...") {
+            // spread elemnent
+            let dot3_token = span!(start);
+
+            let arg = box self.parse_binding_pat_or_ident()?;
+
+            return Ok(ObjectPatProp::Rest(RestPat { dot3_token, arg }));
+        }
+
         let key = self.parse_prop_name()?;
         if eat!(':') {
             let value = box self.parse_binding_element()?;

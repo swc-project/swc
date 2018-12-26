@@ -68,7 +68,8 @@ New generation javascript to old-days javascript.
  - es2018
     - [ ] async-generator-functions
     - [ ] dotall-regex
-    - [ ] object-rest-spread
+    - [x] object-rest-spread
+      - [ ] Using symbol as a key
     - [ ] optional-catch-binding
     - [ ] unicode-property-regex
 

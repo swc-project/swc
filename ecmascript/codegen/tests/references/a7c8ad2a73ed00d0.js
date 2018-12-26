@@ -1,1 +1,1 @@
-for(let [a, b] of c);
+for (let [a, b] of c);

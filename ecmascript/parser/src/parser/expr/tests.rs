@@ -2,34 +2,23 @@ use super::*;
 use swc_common::DUMMY_SP as span;
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, |p| {
-        p.parse_lhs_expr()
-            .unwrap_or_else(|()| unreachable!("failed to parse lhs expression"))
-    })
+    test_parser(s, |p| p.parse_lhs_expr())
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, |p| {
-        p.parse_new_expr()
-            .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
-    })
+    test_parser(s, |p| p.parse_new_expr())
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, |p| {
-        p.parse_member_expr()
-            .unwrap_or_else(|()| unreachable!("failed to parse an expression"))
-    })
+    test_parser(s, |p| p.parse_member_expr())
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, |p| {
-        p.parse_stmt(true)
-            .map(|stmt| match stmt {
-                Stmt::Expr(expr) => expr,
-                _ => unreachable!(),
-            })
-            .unwrap_or_else(|()| unreachable!("failed to parse expression as expression statement"))
+        p.parse_stmt(true).map(|stmt| match stmt {
+            Stmt::Expr(expr) => expr,
+            _ => unreachable!(),
+        })
     })
 }
 
@@ -79,7 +68,31 @@ fn async_arrow() {
 }
 
 #[test]
-fn object_rest() {
+fn object_rest_pat() {
+    assert_eq_ignore_span!(
+        expr("({ ...a34 }) => {}"),
+        box Expr::Arrow(ArrowExpr {
+            span,
+            is_async: false,
+            is_generator: false,
+            params: vec![Pat::Object(ObjectPat {
+                span,
+                props: vec![ObjectPatProp::Rest(RestPat {
+                    dot3_token: span,
+                    arg: box Pat::Ident(Ident::new("a34".into(), span))
+                })]
+            })
+            .into()],
+            body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+                span,
+                stmts: vec![]
+            })
+        })
+    );
+}
+
+#[test]
+fn object_spread() {
     assert_eq_ignore_span!(
         expr("foo = {a, ...bar, b}"),
         box Expr::Assign(AssignExpr {

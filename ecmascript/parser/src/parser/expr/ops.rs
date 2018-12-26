@@ -203,10 +203,7 @@ mod tests {
     use swc_common::DUMMY_SP;
 
     fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, |p| {
-            p.parse_bin_expr()
-                .unwrap_or_else(|()| panic!("failed to parse '{}' as a binary expression", s))
-        })
+        test_parser(s, |p| p.parse_bin_expr())
     }
 
     #[allow(non_upper_case_globals)]
