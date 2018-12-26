@@ -1,2 +1,3 @@
 export function a() {
-};false;
+}
+false;

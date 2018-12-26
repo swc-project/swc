@@ -1,1 +1,1 @@
-for(var [a, b] of c);
+for (var [a, b] of c);
