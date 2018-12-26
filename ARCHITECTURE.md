@@ -25,7 +25,7 @@ swc uses [official ecmascript conformance test suite called test262][test262] fo
 
 Parser tests ensures that parsed result of test262/pass is identical with test262/pass-explicit.
 
-Codegen tests ensures that generated code is equivalent to goldened reference files located at [tests/references](./emmascript/codegen/tests/references).
+Codegen tests ensures that generated code is equivalent to goldened reference files located at [tests/references](ecmascript/codegen/tests/references).
 
 
 
