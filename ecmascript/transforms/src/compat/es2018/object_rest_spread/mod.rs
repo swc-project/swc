@@ -441,6 +441,7 @@ impl RestFolder {
                             .into_iter()
                             .map(|elem| match elem {
                                 Some(param @ Pat::Object(..)) => {
+                                    println!("Var(i): param = var_ident");
                                     self.vars.insert(
                                         index,
                                         VarDeclarator {
@@ -460,11 +461,14 @@ impl RestFolder {
                     }
                     _ => {
                         // initialize snd destructure
-                        self.push_var_if_not_empty(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: param,
-                            init: Some(box Expr::Ident(var_ident.clone())),
-                        });
+                        self.vars.insert(
+                            index,
+                            VarDeclarator {
+                                span: DUMMY_SP,
+                                name: param,
+                                init: Some(box Expr::Ident(var_ident.clone())),
+                            },
+                        );
                         Pat::Ident(var_ident.clone())
                     }
                 }
