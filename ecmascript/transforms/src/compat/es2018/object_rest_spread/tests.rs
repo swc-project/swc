@@ -17,7 +17,7 @@ function foo([{...bar}]) {
 "#,
     r#"
 function foo([_param]) {
-  var {} = _param, bar = _extends({}, _param);
+  var bar = _extends({}, _param);
 }
 
 "#
