@@ -10,7 +10,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 test!(
     tr(Default::default()),
-    rest_function_arrau,
+    rest_function_array,
     r#"
 function foo([{...bar}]) {
 }
