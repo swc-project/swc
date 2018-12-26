@@ -488,15 +488,14 @@ expect(result).toBe("barbazfoo");
 );
 
 test!(
-    tr(Default::default()),
-    rest_nested_order,
-    r#"
+  tr(Default::default()),
+  rest_nested_order,
+  r#"
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 "#,
-    r#"
-const { a: {} , b: {}  } = obj, bar = _extends({
-}, obj.a), baz = _extends({
-}, obj.b), foo = _objectWithoutProperties(obj, ['a', 'b'])"#
+  r#"
+const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo = _objectWithoutProperties(obj, ['a', 'b']);
+"#
 );
 
 test!(
