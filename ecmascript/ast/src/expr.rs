@@ -1,5 +1,6 @@
 use super::{
-    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, Lit, Pat, Prop, Str, UnaryOp, UpdateOp,
+    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, JSXElement, JSXEmptyExpr, JSXFragment,
+    JSXMemberExpr, JSXNamespacedName, Lit, Pat, Prop, Str, UnaryOp, UpdateOp,
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
 
@@ -62,6 +63,12 @@ pub enum Expr {
     Await(AwaitExpr),
 
     Paren(ParenExpr),
+
+    JSXMebmer(JSXMemberExpr),
+    JSXNamespacedName(JSXNamespacedName),
+    JSXEmpty(JSXEmptyExpr),
+    JSXElement(JSXElement),
+    JSXFragment(JSXFragment),
 }
 
 #[ast_node]
@@ -172,12 +179,14 @@ pub struct CallExpr {
     pub callee: ExprOrSuper,
     pub args: Vec<ExprOrSpread>,
 }
+
 #[ast_node]
 pub struct NewExpr {
     pub span: Span,
     pub callee: Box<Expr>,
     pub args: Option<(Vec<ExprOrSpread>)>,
 }
+
 #[ast_node]
 pub struct SeqExpr {
     /// TODO: Calculate

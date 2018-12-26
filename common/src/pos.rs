@@ -57,6 +57,19 @@ where
     }
 }
 
+impl<A, B> Spanned for ::either::Either<A, B>
+where
+    A: Spanned,
+    B: Spanned,
+{
+    fn span(&self) -> Span {
+        match *self {
+            ::either::Either::Left(ref n) => n.span(),
+            ::either::Either::Right(ref n) => n.span(),
+        }
+    }
+}
+
 impl<F> FoldWith<F> for Span {
     /// No op as span does not have any child.
     fn fold_children(self, _: &mut F) -> Span {

@@ -12,3 +12,4 @@ swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.1", path ="../../common" }
 enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
 string_enum = { version = "0.1", path ="../../macros/string_enum" }
+either = "1.5"

@@ -8,10 +8,10 @@
 #![deny(unreachable_pub)]
 #![deny(variant_size_differences)]
 
-#[macro_use]
 extern crate enum_kind;
 #[macro_use]
 extern crate string_enum;
+extern crate either;
 extern crate swc_atoms;
 extern crate swc_common;
 
@@ -25,6 +25,10 @@ pub use self::{
         TplElement, TplLit, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::Function,
+    jsx::{
+        JSXAttr, JSXClosingElement, JSXElement, JSXElementName, JSXEmptyExpr, JSXExprContainer,
+        JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXOpeningElement, JSXSpreadChild, JSXText,
+    },
     keywords::IdentExt,
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem},
@@ -43,6 +47,7 @@ pub use self::{
         SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
     },
 };
+pub use either::Either;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Fold, Span, Spanned};
@@ -51,6 +56,7 @@ mod class;
 mod decl;
 mod expr;
 mod function;
+mod jsx;
 mod keywords;
 mod lit;
 mod macros;

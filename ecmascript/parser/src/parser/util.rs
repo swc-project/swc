@@ -102,6 +102,7 @@ impl<'a, I: Input> Parser<'a, I> {
         f(self)
     }
 
+    /// Creates a span from `start` to current pos.
     pub(super) fn span(&mut self, start: BytePos) -> Span {
         let end = last_pos!(self);
         if cfg!(debug_assertions) && start > end {
