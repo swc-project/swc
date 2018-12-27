@@ -218,6 +218,10 @@ macro_rules! tok {
     ("yield") => {
         Token::Word(Keyword(Yield))
     };
+
+    (JSXTagEnd) => {
+        Token::JSXTagEnd
+    };
 }
 
 macro_rules! token_including_semi {

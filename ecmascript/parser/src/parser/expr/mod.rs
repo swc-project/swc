@@ -1,5 +1,4 @@
 use super::{pat::PatType, util::ExprExt, *};
-use ast::JSXText;
 use swc_common::Spanned;
 
 mod ops;
@@ -625,12 +624,18 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // parse jsx
         if self.input.syntax().jsx() {
+            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                match e {
+                    Either::Left(l) => box l.into(),
+                    Either::Right(r) => box r.into(),
+                }
+            }
             match *cur!(true)? {
                 Token::JSXText { .. } => {
                     return self.parse_jsx_text();
                 }
                 Token::JSXTagStart => {
-                    return self.parse_jsx_element();
+                    return self.parse_jsx_element().map(into_expr);
                 }
                 _ => {}
             }
@@ -641,7 +646,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 // this.finishToken(tt.jsxTagStart);
 
-                return self.parse_jsx_element();
+                return self.parse_jsx_element().map(into_expr);
             }
         }
 

@@ -6,7 +6,11 @@
 #![allow(unused_variables)]
 pub use self::input::Input;
 use self::{state::State, util::*};
-use crate::{error::SyntaxError, token::*, Context, Session, Syntax};
+use crate::{
+    error::{Error, SyntaxError},
+    token::*,
+    Context, Session, Syntax,
+};
 use ast::Str;
 use std::char;
 use swc_atoms::JsWord;
@@ -20,7 +24,7 @@ mod state;
 mod tests;
 pub mod util;
 
-pub(crate) type LexResult<T> = Result<T, ::error::Error>;
+pub(crate) type LexResult<T> = Result<T, Error>;
 
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,

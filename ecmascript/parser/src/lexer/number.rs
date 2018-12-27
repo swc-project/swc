@@ -4,7 +4,7 @@
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
 
 use super::*;
-use error::SyntaxError;
+use crate::error::SyntaxError;
 use std::fmt::Display;
 
 impl<'a, I: Input> Lexer<'a, I> {

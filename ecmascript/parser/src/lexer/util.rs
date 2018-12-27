@@ -6,7 +6,7 @@
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, LexResult, Lexer};
-use error::{ErrorToDiag, SyntaxError};
+use crate::error::{ErrorToDiag, SyntaxError};
 use swc_common::{BytePos, Span};
 use unicode_xid::UnicodeXID;
 

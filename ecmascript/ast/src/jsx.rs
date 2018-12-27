@@ -3,10 +3,18 @@ use either::Either;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
+/// Used for `obj` property of `JSXMemberExpr`.
+#[ast_node]
+pub enum JSXObject {
+    JSXMemberExpr(Box<JSXMemberExpr>),
+    Ident(Ident),
+}
+
 #[ast_node]
 pub struct JSXMemberExpr {
-    pub span: Span,
-    pub obj: Either<Box<JSXMemberExpr>, Ident>,
+    #[span(lo)]
+    pub obj: JSXObject,
+    #[span(hi)]
     pub prop: Ident,
 }
 
@@ -28,7 +36,14 @@ pub struct JSXEmptyExpr {
 #[ast_node]
 pub struct JSXExprContainer {
     #[span]
-    pub expr: Either<Box<Expr>, JSXEmptyExpr>,
+    pub expr: JSXExpr,
+}
+
+#[ast_node]
+#[allow(variant_size_differences)]
+pub enum JSXExpr {
+    Expr(Box<Expr>),
+    JSXEmptyExpr(JSXEmptyExpr),
 }
 
 #[ast_node]
@@ -62,8 +77,15 @@ pub struct JSXClosingElement {
 #[ast_node]
 pub struct JSXAttr {
     pub span: Span,
-    pub name: Either<Ident, JSXNamespacedName>,
-    pub value: Option<JSXAttrValue>,
+    pub name: JSXAttrName,
+    /// Babel uses Expr instead of JSXAttrValue
+    pub value: Option<Box<Expr>>,
+}
+
+#[ast_node]
+pub enum JSXAttrName {
+    Ident(Ident),
+    JSXNamespacedName(JSXNamespacedName),
 }
 
 #[ast_node]
@@ -101,5 +123,19 @@ pub enum JSXElementChild {
 #[ast_node]
 pub struct JSXFragment {
     pub span: Span,
+    pub opening: JSXOpeningFragment,
     pub children: Vec<JSXElementChild>,
+    pub closing: JSXClosingFragment,
+}
+
+#[ast_node]
+#[derive(Copy)]
+pub struct JSXOpeningFragment {
+    pub span: Span,
+}
+
+#[ast_node]
+#[derive(Copy)]
+pub struct JSXClosingFragment {
+    pub span: Span,
 }

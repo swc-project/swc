@@ -70,7 +70,9 @@ impl<'a> From<&'a Token> for TokenType {
             Token::Semi => TokenType::Semi,
             Token::JSXTagEnd => TokenType::JSXTagEnd,
             Token::JSXText { .. } => TokenType::JSXText,
+            Token::JSXName { .. } => TokenType::JSXName,
             Token::BinOp(op) => TokenType::BinOp(op),
+
             Token::Word(Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),

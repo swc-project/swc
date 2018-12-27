@@ -26,8 +26,10 @@ pub use self::{
     },
     function::Function,
     jsx::{
-        JSXAttr, JSXClosingElement, JSXElement, JSXElementName, JSXEmptyExpr, JSXExprContainer,
-        JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXOpeningElement, JSXSpreadChild, JSXText,
+        JSXAttr, JSXAttrName, JSXAttrValue, JSXClosingElement, JSXClosingFragment, JSXElement,
+        JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer, JSXFragment,
+        JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement, JSXOpeningFragment,
+        JSXSpreadChild, JSXText,
     },
     keywords::IdentExt,
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
