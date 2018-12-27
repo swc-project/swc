@@ -125,7 +125,7 @@ mod tests {
 
     #[test]
     fn src_input_slice_1() {
-        let _ = ::with_test_sess("foo/d", |_, mut i| {
+        let _ = crate::with_test_sess("foo/d", |_, mut i| {
             assert_eq!(i.slice(BytePos(0), BytePos(1)), "f");
             assert_eq!(i.last_pos, BytePos(1));
             assert_eq!(i.start_pos, BytePos(1));
@@ -143,7 +143,7 @@ mod tests {
 
     #[test]
     fn src_input_smoke_01() {
-        let _ = ::with_test_sess("foo/d", |_, mut i| {
+        let _ = crate::with_test_sess("foo/d", |_, mut i| {
             assert_eq!(i.cur_pos(), BytePos(0));
             assert_eq!(i.last_pos, BytePos(0));
             assert_eq!(i.start_pos, BytePos(0));
@@ -167,7 +167,7 @@ mod tests {
 
     #[test]
     fn src_input_smoke_02() {
-        let _ = ::with_test_sess("℘℘/℘℘", |_, mut i| {
+        let _ = crate::with_test_sess("℘℘/℘℘", |_, mut i| {
             assert_eq!(i.iter.as_str(), "℘℘/℘℘");
             assert_eq!(i.cur_pos(), BytePos(0));
             assert_eq!(i.last_pos, BytePos(0));

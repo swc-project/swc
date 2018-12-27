@@ -19,7 +19,7 @@ fn with_lexer<F, Ret>(
 where
     F: FnOnce(&mut Lexer<SourceFileInput>) -> Result<Ret, ()>,
 {
-    ::with_test_sess(s, |sess, fm| {
+    crate::with_test_sess(s, |sess, fm| {
         let mut l = Lexer::new(sess, syntax, fm);
         f(&mut l)
     })

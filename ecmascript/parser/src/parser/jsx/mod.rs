@@ -1,6 +1,9 @@
 use super::*;
 use swc_common::Spanned;
 
+#[cfg(test)]
+mod tests;
+
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     /// Parse next token as JSX identifier
