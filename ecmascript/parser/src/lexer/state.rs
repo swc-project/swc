@@ -105,13 +105,13 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         let start = self.cur_pos();
         self.state.start = start;
 
-        let res: Result<Option<_>, _> = (|| {
+        let res = (|| -> Result<Option<_>, _> {
             if self.syntax.jsx() {
                 //jsx
                 if self.state.context.current() == Some(Type::JSXExpr) {
                     let start = self.cur_pos();
 
-                    return self.read_jsx_token().map(Some);
+                    return self.read_jsx_token();
                 }
 
                 let c = self.cur();
@@ -130,7 +130,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         if (c == '\'' || c == '`')
                             && self.state.context.current() == Some(Type::JSXOpeningTag)
                         {
-                            return self.read_jsx_str().map(Some);
+                            return self.read_jsx_str(c).map(Some);
                         }
                     }
 

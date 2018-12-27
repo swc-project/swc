@@ -626,7 +626,7 @@ impl<'a, I: Input> Parser<'a, I> {
         // parse jsx
         if self.input.syntax().jsx() {
             match *cur!(true)? {
-                Token::JSXText => {
+                Token::JSXText { .. } => {
                     return self.parse_jsx_text();
                 }
                 Token::JSXTagStart => {
