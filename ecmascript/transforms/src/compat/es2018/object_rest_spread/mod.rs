@@ -90,7 +90,7 @@ macro_rules! impl_for_for_stmt {
                                 // instead of
                                 // var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;
 
-                                println!("Var(0): folded pat = var_ident",);
+                                // println!("Var(0): folded pat = var_ident",);
                                 self.vars.insert(
                                     index,
                                     VarDeclarator {
@@ -151,7 +151,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
         for decl in decls {
             // fast path
             if !contains_rest(&decl) {
-                println!("Var: no rest",);
+                // println!("Var: no rest",);
                 self.vars.push(decl);
                 continue;
             }
@@ -170,7 +170,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                     // skip `z = z`
                     Expr::Ident(..) => {}
                     _ => {
-                        println!("Var: var_ident = init",);
+                        // println!("Var: var_ident = init",);
                         self.push_var_if_not_empty(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(var_ident.clone()),
@@ -190,7 +190,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                     // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
                     // instead of
                     // `var b = _objectWithoutProperties(_ref, ['a']), { a } = _ref;`
-                    println!("var: simplified pat = var_ident({:?})", var_ident);
+                    // println!("var: simplified pat = var_ident({:?})", var_ident);
                     self.insert_var_if_not_empty(
                         index,
                         VarDeclarator {
@@ -235,13 +235,13 @@ impl Fold<Expr> for RestFolder {
                 };
                 var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
-                println!("Var: var_ident = None");
+                // println!("Var: var_ident = None");
                 self.mutable_vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(var_ident.clone()),
                     init: None,
                 });
-                println!("Expr: var_ident = right");
+                // println!("Expr: var_ident = right");
                 self.exprs.push(box Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(box Pat::Ident(var_ident.clone())),
@@ -530,7 +530,7 @@ impl RestFolder {
                             .into_iter()
                             .map(|elem| match elem {
                                 Some(param @ Pat::Object(..)) => {
-                                    println!("Var(i): param = var_ident");
+                                    // println!("Var(i): param = var_ident");
                                     self.insert_var_if_not_empty(
                                         index,
                                         VarDeclarator {
@@ -717,7 +717,7 @@ impl RestFolder {
         let excluded_props = excluded_props(&props);
 
         if use_expr_for_assign {
-            println!("Expr: last.arg = objectWithoutProperties()",);
+            // println!("Expr: last.arg = objectWithoutProperties()",);
             self.exprs.push(box Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
@@ -725,7 +725,7 @@ impl RestFolder {
                 right: box object_without_properties(&self.helpers, obj.clone(), excluded_props),
             }));
         } else {
-            println!("Var: rest = objectWithoutProperties()",);
+            // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
