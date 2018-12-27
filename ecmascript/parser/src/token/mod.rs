@@ -113,7 +113,9 @@ pub(crate) enum Token {
     #[kind(starts_expr)]
     Num(f64),
 
-    JSXName,
+    JSXName {
+        name: JsWord,
+    },
     #[kind(before_expr)]
     JSXText {
         raw: JsWord,

@@ -35,7 +35,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
 
                 '&' => {
-                    // TODO: Chunk
                     out.push_str(self.input.slice(chunk_start, cur_pos));
                     out.push_str(&self.read_jsx_entity()?);
                     chunk_start = cur_pos;
@@ -128,9 +127,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         });
     }
 
+    /// Read a JSX identifier (valid tag or attribute name).
+    ///
+    /// Optimized version since JSX identifiers can"t contain
+    /// escape characters and so can be read as single slice.
+    /// Also assumes that first character was already checked
+    /// by isIdentifierStart in readToken.
     pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
+        debug_assert!(self.input.cur().is_some());
+        debug_assert!(self.input.cur().unwrap().is_ident_start());
 
-        unimplemented!("read_jsx_word")
+        let cur_pos = self.input.cur_pos();
+        let slice = self.input.uncons_while(|c| c.is_ident_part() || c == '-');
+
+        Ok(Token::JSXName { name: slice.into() })
     }
 }
