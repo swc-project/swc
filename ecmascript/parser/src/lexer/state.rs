@@ -68,6 +68,8 @@ impl<'a> From<&'a Token> for TokenType {
             Token::LBrace => TokenType::LBrace,
             Token::RParen => TokenType::RParen,
             Token::Semi => TokenType::Semi,
+            Token::JSXTagEnd => TokenType::JSXTagEnd,
+            Token::JSXText { .. } => TokenType::JSXText,
             Token::BinOp(op) => TokenType::BinOp(op),
             Token::Word(Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
