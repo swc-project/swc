@@ -41,6 +41,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
         let c = match self.input.current() {
             Some(c) => c,

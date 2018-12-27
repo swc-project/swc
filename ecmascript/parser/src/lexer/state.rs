@@ -15,6 +15,9 @@ pub(super) struct State {
     pub had_line_break: bool,
     /// TODO: Remove this field.
     is_first: bool,
+    pub start: BytePos,
+    pub cur_line: usize,
+    pub line_start: BytePos,
 
     context: Context,
     syntax: Syntax,
@@ -100,6 +103,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         };
 
         let start = self.cur_pos();
+        self.state.start = start;
 
         let res: Result<Option<_>, _> = (|| {
             if self.syntax.jsx() {
@@ -176,6 +180,9 @@ impl State {
             had_line_break: false,
             context: Context(smallvec![Type::BraceStmt]),
             token_type: None,
+            start: BytePos(0),
+            line_start: BytePos(0),
+            cur_line: 1,
             syntax,
         }
     }
