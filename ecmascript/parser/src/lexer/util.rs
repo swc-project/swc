@@ -67,7 +67,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     pub(super) fn cur(&mut self) -> Option<char> {
-        self.input.current()
+        self.input.cur()
     }
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()

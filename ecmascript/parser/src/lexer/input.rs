@@ -46,7 +46,7 @@ impl<'a> Input for SourceFileInput<'a> {
         }
     }
 
-    fn current(&mut self) -> Option<char> {
+    fn cur(&mut self) -> Option<char> {
         self.iter.clone().nth(0).map(|i| i.1)
     }
 
@@ -83,7 +83,7 @@ impl<'a> Input for SourceFileInput<'a> {
 }
 
 pub trait Input {
-    fn current(&mut self) -> Option<char>;
+    fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
@@ -115,15 +115,15 @@ mod tests {
             // assert_eq!(i.cur_pos(), BytePos(4));
             assert_eq!(i.last_pos, BytePos(3));
             assert_eq!(i.start_pos, BytePos(3));
-            assert_eq!(i.current(), Some('/'));
+            assert_eq!(i.cur(), Some('/'));
 
             i.bump();
             assert_eq!(i.last_pos, BytePos(4));
-            assert_eq!(i.current(), Some('d'));
+            assert_eq!(i.cur(), Some('d'));
 
             i.bump();
             assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.current(), None);
+            assert_eq!(i.cur(), None);
             Ok(())
         });
     }
@@ -140,7 +140,7 @@ mod tests {
             assert_eq!(i.iter.as_str(), "/℘℘");
             assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.start_pos, BytePos(6));
-            assert_eq!(i.current(), Some('/'));
+            assert_eq!(i.cur(), Some('/'));
             i.bump();
             assert_eq!(i.last_pos, BytePos(7));
             assert_eq!(i.start_pos, BytePos(6));
