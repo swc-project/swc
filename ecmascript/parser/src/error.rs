@@ -122,6 +122,7 @@ pub(crate) enum SyntaxError {
     YieldParamInGen,
 
     AwaitForStmt,
+    UnterminatedJSXContents,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -217,6 +218,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             LabelledGenerator => "Generator cannot be labelled".into(),
             YieldParamInGen => "'yield' cannot be used as a parameter within generator".into(),
             AwaitForStmt => "for await syntax is valid only for for-of statement".into(),
+            UnterminatedJSXContents => "Unterminated JSX contents".into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);
