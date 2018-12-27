@@ -9,8 +9,16 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<'a, Ident> {
         debug_assert!(self.input.syntax().jsx());
-
-        self.parse_ident_ref()
+        match *cur!(true)? {
+            Token::JSXName { .. } => match bump!() {
+                Token::JSXName { name } => {
+                    let span = self.input.prev_span();
+                    Ok(Ident::new(name, span))
+                }
+                _ => unreachable!(),
+            },
+            _ => self.parse_ident_ref(),
+        }
     }
 
     /// Parse namespaced identifier.
@@ -217,12 +225,14 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         start_pos: BytePos,
     ) -> PResult<'a, Either<JSXFragment, JSXElement>> {
+        debug_assert_eq!(self.input.cur(), Some(&Token::JSXTagStart));
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
+        bump!();
 
-        let mut children = vec![];
         let opening_element = self.parse_jsx_opening_element_at(start_pos)?;
+        let mut children = vec![];
         let mut closing_element = None;
 
         let self_closing = match opening_element {
@@ -313,6 +323,8 @@ impl<'a, I: Input> Parser<'a, I> {
     /// babel: `jsxParseElement`
     pub(super) fn parse_jsx_element(&mut self) -> PResult<'a, Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
+        debug_assert_eq!(cur!(true), Ok(&Token::JSXTagStart));
+
         let start_pos = cur_pos!();
 
         self.parse_jsx_element_at(start_pos)
