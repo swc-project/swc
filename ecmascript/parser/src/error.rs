@@ -88,7 +88,7 @@ pub(crate) enum SyntaxError {
 
     /// Unexpected token
     Unexpected,
-    Expected(&'static Token),
+    Expected(&'static Token, String),
     ExpectedSemiForExprStmt {
         expr: Span,
     },
@@ -189,7 +189,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
             Unexpected => "Unexpected token".into(),
-            Expected(token) => format!("Expected {:?}", token).into(),
+            Expected(token, ref got) => format!("Expected {:?}, got {}", token, got).into(),
             ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 
             AwaitStar => "await* has been removed from the async functions proposal. Use \
