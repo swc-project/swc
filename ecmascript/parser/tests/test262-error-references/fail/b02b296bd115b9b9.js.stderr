@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(Semi)
  --> $DIR/tests/test262-parser/fail/b02b296bd115b9b9.js:1:42
   |
 1 | for (const x = 1, y = 2, z = 3, let = 0;;;) {}

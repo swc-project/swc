@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(RParen)
  --> $DIR/tests/test262-parser/fail/45cb305cf7a07edd.js:1:13
   |
 1 | ({ set prop() {} })

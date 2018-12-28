@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(DotDotDot)
  --> $DIR/tests/test262-parser/fail/c0e9a7c671122ea5.js:1:7
   |
 1 | f(... ... g);

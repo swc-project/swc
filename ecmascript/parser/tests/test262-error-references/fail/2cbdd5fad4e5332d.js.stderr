@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(Semi)
  --> $DIR/tests/test262-parser/fail/2cbdd5fad4e5332d.js:2:5
   |
 2 |   y,;

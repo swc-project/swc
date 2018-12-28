@@ -248,16 +248,23 @@ impl<'a, I: Input> Parser<'a, I> {
                 match *cur!(true)? {
                     Token::JSXTagStart => {
                         let start = cur_pos!();
-                        bump!();
 
-                        if eat!('/') {
+                        if peeked_is!('/') {
+                            bump!(); // JSXTagStart
+                            assert_and_bump!('/');
+
                             closing_element =
                                 self.parse_jsx_closing_element_at(start_pos).map(Some)?;
                             break 'contents;
                         }
+
+                        children.push(self.parse_jsx_element_at(start).map(|e| match e {
+                            Either::Left(e) => JSXElementChild::from(e),
+                            Either::Right(e) => JSXElementChild::from(box e),
+                        })?);
                     }
                     Token::JSXText { .. } => {
-                        children.push(self.parse_jsx_text().map(JSXElementChild::JSXText)?)
+                        children.push(self.parse_jsx_text().map(JSXElementChild::from)?)
                     }
                     tok!('{') => {
                         if peeked_is!("...") {

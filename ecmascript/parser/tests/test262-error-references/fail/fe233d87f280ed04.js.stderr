@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(BinOp(Div))
  --> $DIR/tests/test262-parser/fail/fe233d87f280ed04.js:1:8
   |
 1 | p = { q/ }

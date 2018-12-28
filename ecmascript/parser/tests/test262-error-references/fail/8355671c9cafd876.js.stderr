@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(BinOp(Mod))
  --> $DIR/tests/test262-parser/fail/8355671c9cafd876.js:1:5
   |
 1 | 1 / %
