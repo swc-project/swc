@@ -1,5 +1,4 @@
 use super::{Expr, Ident, Lit, SpreadElement};
-use either::Either;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
@@ -64,8 +63,15 @@ pub struct JSXOpeningElement {
     pub name: JSXElementName,
 
     pub span: Span,
-    pub attrs: Vec<Either<JSXAttr, SpreadElement>>,
+    pub attrs: Vec<JSXAttrOrSpread>,
     pub self_closing: bool,
+}
+
+#[ast_node]
+#[allow(variant_size_differences)]
+pub enum JSXAttrOrSpread {
+    JSXAttr(JSXAttr),
+    SpreadElement(SpreadElement),
 }
 
 #[ast_node]

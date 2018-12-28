@@ -1,4 +1,4 @@
-use ast::Module;
+use ast::*;
 use swc_common::Fold;
 
 #[cfg(test)]
@@ -13,4 +13,15 @@ pub fn jsx_self(dev: bool) -> impl Fold<Module> {
 
 struct JsxSelf {
     dev: bool,
+}
+
+impl Fold<JSXOpeningElement> for JsxSelf {
+    fn fold(&mut self, mut n: JSXOpeningElement) -> JSXOpeningElement {
+        if !self.dev {
+            return n;
+        }
+
+        n.attrs.push(Either::Left(JSXAttr {}));
+        n
+    }
 }

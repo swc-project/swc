@@ -1,4 +1,5 @@
 use super::*;
+use either::Either;
 use swc_common::{Span, Spanned, SyntaxContext};
 
 #[cfg(test)]
@@ -128,7 +129,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parses following JSX attribute name-value pair.
-    pub(super) fn parse_jsx_attr(&mut self) -> PResult<'a, Either<JSXAttr, SpreadElement>> {
+    pub(super) fn parse_jsx_attr(&mut self) -> PResult<'a, JSXAttrOrSpread> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!();
 
@@ -138,7 +139,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let dot3_token = span!(dot3_start);
             let expr = self.parse_assignment_expr()?;
             expect!('}');
-            return Ok(Either::Right(SpreadElement { dot3_token, expr }));
+            return Ok(SpreadElement { dot3_token, expr }.into());
         }
 
         let name = self.parse_jsx_namespaced_name()?;
@@ -148,11 +149,12 @@ impl<'a, I: Input> Parser<'a, I> {
             None
         };
 
-        Ok(Either::Left(JSXAttr {
+        Ok(JSXAttr {
             span: span!(start),
             name,
             value,
-        }))
+        }
+        .into())
     }
 
     /// Parses JSX opening tag starting after "<".

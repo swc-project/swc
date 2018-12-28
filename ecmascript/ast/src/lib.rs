@@ -11,7 +11,6 @@
 extern crate enum_kind;
 #[macro_use]
 extern crate string_enum;
-extern crate either;
 extern crate swc_atoms;
 extern crate swc_common;
 
@@ -26,10 +25,10 @@ pub use self::{
     },
     function::Function,
     jsx::{
-        JSXAttr, JSXAttrName, JSXAttrValue, JSXClosingElement, JSXClosingFragment, JSXElement,
-        JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer, JSXFragment,
-        JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement, JSXOpeningFragment,
-        JSXSpreadChild, JSXText,
+        JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
+        JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
+        JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
+        JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
     keywords::IdentExt,
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
@@ -49,7 +48,6 @@ pub use self::{
         SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
     },
 };
-pub use either::Either;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Fold, Span, Spanned};
