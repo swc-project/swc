@@ -836,6 +836,36 @@ a"
     );
 }
 
+#[test]
+fn jsx_01() {
+    assert_eq!(
+        lex_tokens(Syntax::Jsx, "<a />"),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName { name: "a".into() },
+            tok!('/'),
+            Token::JSXTagEnd,
+        ]
+    );
+}
+
+#[test]
+fn jsx_02() {
+    assert_eq!(
+        lex_tokens(Syntax::Jsx, "<a>foo</a>"),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName { name: "a".into() },
+            Token::JSXTagEnd,
+            Token::JSXText { raw: "foo".into() },
+            Token::JSXTagStart,
+            tok!('/'),
+            Token::JSXName { name: "a".into() },
+            Token::JSXTagEnd,
+        ]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;

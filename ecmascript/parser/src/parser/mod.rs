@@ -89,7 +89,8 @@ pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
     F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Result<Ret, ()>,
 {
-    crate::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, syntax, input))).unwrap()
+    crate::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, syntax, input)))
+        .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }
 
 #[test]

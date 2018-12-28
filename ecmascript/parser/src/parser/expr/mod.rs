@@ -632,7 +632,11 @@ impl<'a, I: Input> Parser<'a, I> {
             }
             match *cur!(true)? {
                 Token::JSXText { .. } => {
-                    return self.parse_jsx_text();
+                    return self
+                        .parse_jsx_text()
+                        .map(Lit::JSXText)
+                        .map(Expr::Lit)
+                        .map(Box::new);
                 }
                 Token::JSXTagStart => {
                     return self.parse_jsx_element().map(into_expr);
@@ -644,6 +648,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 // In case we encounter an lt token here it will always be the start of
                 // jsx as the lt sign is not allowed in places that expect an expression
 
+                // FIXME:
                 // this.finishToken(tt.jsxTagStart);
 
                 return self.parse_jsx_element().map(into_expr);

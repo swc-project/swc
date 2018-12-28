@@ -23,3 +23,28 @@ fn self_closing_01() {
         })
     );
 }
+
+#[test]
+fn normal_01() {
+    assert_eq_ignore_span!(
+        jsx("<a>foo</a>"),
+        box Expr::JSXElement(JSXElement {
+            span,
+            opening: JSXOpeningElement {
+                span,
+                name: JSXElementName::Ident(Ident::new("a".into(), span)),
+                self_closing: false,
+                attrs: vec![]
+            },
+            children: vec![JSXElementChild::JSXText(JSXText {
+                span,
+                raw: "foo".into(),
+                value: "foo".into(),
+            })],
+            closing: Some(JSXClosingElement {
+                span,
+                name: JSXElementName::Ident(Ident::new("a".into(), span)),
+            })
+        })
+    );
+}

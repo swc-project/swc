@@ -82,9 +82,11 @@ extern crate swc_atoms;
 extern crate enum_kind;
 extern crate swc_common;
 extern crate swc_ecma_ast as ast;
-#[cfg(test)]
 #[macro_use]
+#[cfg(test)]
 extern crate testing;
+#[cfg(test)]
+extern crate env_logger;
 #[cfg(test)]
 extern crate test;
 extern crate unicode_xid;

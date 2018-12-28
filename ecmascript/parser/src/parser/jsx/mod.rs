@@ -178,7 +178,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = name.span().lo();
 
         let mut attrs = vec![];
-        while let Ok(..) = cur!(true) {
+        while let Ok(..) = cur!(false) {
             if is!('/') || is!(JSXTagEnd) {
                 break;
             }
@@ -229,7 +229,7 @@ impl<'a, I: Input> Parser<'a, I> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!();
-        bump!();
+        bump!(); // JSXTagStart
 
         let opening_element = self.parse_jsx_opening_element_at(start_pos)?;
         let mut children = vec![];
@@ -253,12 +253,9 @@ impl<'a, I: Input> Parser<'a, I> {
                             break 'contents;
                         }
                     }
-                    Token::JSXText { .. } => children.push(
-                        self.parse_lhs_expr()
-                            .map(JSXExpr::Expr)
-                            .map(|expr| JSXExprContainer { expr })
-                            .map(JSXElementChild::JSXExprContainer)?,
-                    ),
+                    Token::JSXText { .. } => {
+                        children.push(self.parse_jsx_text().map(JSXElementChild::JSXText)?)
+                    }
                     tok!('{') => {
                         if peeked_is!("...") {
                             children
@@ -311,7 +308,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     span,
                     opening,
                     children,
-                    closing: None,
+                    closing: Some(closing),
                 })
             }
             _ => unreachable!(),
@@ -327,13 +324,29 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let start_pos = cur_pos!();
 
-        self.parse_jsx_element_at(start_pos)
+        let element = self.parse_jsx_element_at(start_pos);
+        element
     }
 
-    pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, Box<Expr>> {
+    pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {
         debug_assert!(self.input.syntax().jsx());
-
-        unimplemented!("parse_jsx_text")
+        assert!({
+            match *cur!(false)? {
+                Token::JSXText { .. } => true,
+                _ => false,
+            }
+        });
+        let token = bump!();
+        let span = self.input.prev_span();
+        match token {
+            Token::JSXText { raw } => Ok(JSXText {
+                span,
+                // TODO
+                value: raw.clone(),
+                raw,
+            }),
+            _ => unreachable!(),
+        }
     }
 }
 

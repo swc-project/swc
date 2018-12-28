@@ -106,6 +106,11 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             }
         };
 
+        match self.input.cur() {
+            Some(..) => {}
+            None => return None,
+        }
+
         let start = self.cur_pos();
         self.state.start = start;
 
@@ -128,6 +133,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         }
 
                         if c == '>' {
+                            self.input.bump();
                             return Ok(Some(Token::JSXTagEnd));
                         }
 
