@@ -316,22 +316,20 @@ impl State {
                 }
 
                 tok!('{') => {
-                    if syntax.jsx() {
-                        let cur = context.current();
-                        if cur == Some(Type::JSXOpeningTag) {
-                            context.push(Type::BraceExpr)
-                        } else if cur == Some(Type::JSXExpr) {
-                            context.push(Type::TplQuasi);
-                        }
-                    }
-
-                    let next_ctxt = if context.is_brace_block(prev, had_line_break, is_expr_allowed)
-                    {
-                        Type::BraceStmt
+                    let cur = context.current();
+                    if syntax.jsx() && cur == Some(Type::JSXOpeningTag) {
+                        context.push(Type::BraceExpr)
+                    } else if syntax.jsx() && cur == Some(Type::JSXExpr) {
+                        context.push(Type::TplQuasi);
                     } else {
-                        Type::BraceExpr
-                    };
-                    context.push(next_ctxt);
+                        let next_ctxt =
+                            if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
+                                Type::BraceStmt
+                            } else {
+                                Type::BraceExpr
+                            };
+                        context.push(next_ctxt);
+                    }
                     true
                 }
 
