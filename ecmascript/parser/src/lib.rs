@@ -80,7 +80,10 @@ extern crate log;
 #[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate enum_kind;
+extern crate regex;
 extern crate swc_common;
+#[macro_use]
+extern crate lazy_static;
 extern crate swc_ecma_ast as ast;
 #[macro_use]
 #[cfg(test)]

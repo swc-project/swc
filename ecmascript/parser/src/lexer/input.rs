@@ -97,6 +97,16 @@ impl<'a> Input for SourceFileInput<'a> {
 
         ret
     }
+
+    fn reset_to(&mut self, to: BytePos) {
+        let orig = self.orig;
+        let idx = (to - self.fm.start_pos).0 as usize;
+
+        let s = &orig[idx..];
+        self.iter = s.char_indices();
+        self.start_pos = to;
+        self.last_pos = to;
+    }
 }
 
 pub trait Input {
@@ -116,6 +126,8 @@ pub trait Input {
     fn uncons_while<F>(&mut self, f: F) -> &str
     where
         F: FnMut(char) -> bool;
+
+    fn reset_to(&mut self, to: BytePos);
 }
 
 #[cfg(test)]
@@ -136,6 +148,23 @@ mod tests {
             assert_eq!(i.last_pos, BytePos(3));
             assert_eq!(i.start_pos, BytePos(3));
             assert_eq!(i.cur(), Some('/'));
+
+            Ok(())
+        });
+    }
+
+    #[test]
+    fn src_input_reset_to_1() {
+        let _ = crate::with_test_sess("foad", |_, mut i| {
+            assert_eq!(i.slice(BytePos(0), BytePos(2)), "fo");
+            assert_eq!(i.last_pos, BytePos(2));
+            assert_eq!(i.start_pos, BytePos(2));
+            assert_eq!(i.cur(), Some('a'));
+            i.reset_to(BytePos(0));
+
+            assert_eq!(i.cur(), Some('f'));
+            assert_eq!(i.last_pos, BytePos(0));
+            assert_eq!(i.start_pos, BytePos(0));
 
             Ok(())
         });
