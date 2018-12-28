@@ -28,8 +28,8 @@ extern crate test;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
-extern crate serde;
 extern crate either;
+extern crate serde;
 
 pub use self::{
     fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier,

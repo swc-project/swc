@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::Fold;
+use swc_common::{Fold, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -21,7 +21,11 @@ impl Fold<JSXOpeningElement> for JsxSelf {
             return n;
         }
 
-        n.attrs.push(Either::Left(JSXAttr {}));
+        n.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
+            span: DUMMY_SP,
+            name: JSXAttrName::Ident(quote_ident!("__self")),
+            value: Some(box ThisExpr { span: DUMMY_SP }.into()),
+        }));
         n
     }
 }
