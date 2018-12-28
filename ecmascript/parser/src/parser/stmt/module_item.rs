@@ -99,7 +99,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 // 'ImportedBinding'
                 // 'IdentifierName' as 'ImportedBinding'
                 if self.ctx().is_reserved_word(&orig_name.sym) {
-                    syntax_error!(orig_name.span, SyntaxError::Unexpected)
+                    syntax_error!(orig_name.span, SyntaxError::ReservedWordInImport)
                 }
 
                 let local = orig_name;

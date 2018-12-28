@@ -34,7 +34,7 @@ impl Visit<Prop> for Verifier {
     fn visit(&mut self, p: &Prop) {
         match *p {
             Prop::Assign { .. } => {
-                self.errors.push((p.span(), SyntaxError::Unexpected));
+                self.errors.push((p.span(), SyntaxError::AssignProperty));
             }
             _ => p.visit_children(self),
         }

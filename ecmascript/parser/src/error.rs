@@ -87,7 +87,11 @@ pub(crate) enum SyntaxError {
     LineBreakBeforeArrow,
 
     /// Unexpected token
-    Unexpected,
+    Unexpected {
+        got: String,
+    },
+    ReservedWordInImport,
+    AssignProperty,
     Expected(&'static Token, String),
     ExpectedSemiForExprStmt {
         expr: Span,
@@ -188,7 +192,10 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
-            Unexpected => "Unexpected token".into(),
+            Unexpected { ref got } => format!("Unexpected token {}", got).into(),
+
+            ReservedWordInImport => "cannot import as reserved word".into(),
+            AssignProperty => "assignment property is invalid syntax".into(),
             Expected(token, ref got) => format!("Expected {:?}, got {}", token, got).into(),
             ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 

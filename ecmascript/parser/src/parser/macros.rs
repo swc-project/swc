@@ -1,7 +1,7 @@
 macro_rules! unexpected {
     ($p:expr) => {{
-        // unimplemented!("Unexpected token")
-        syntax_error!($p, $p.input.cur_span(), SyntaxError::Unexpected)
+        let got = format!("{:?}", cur!($p, false).ok());
+        syntax_error!($p, $p.input.cur_span(), SyntaxError::Unexpected { got })
     }};
 }
 
