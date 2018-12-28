@@ -1,4 +1,4 @@
-error: Expected Semi
+error: Expected Semi, got Some(JSXTagStart)
  --> $DIR/tests/jsx/errors/adjacent-tags/input.js:1:23
   |
 1 | var x = <div>one</div><div>two</div>;

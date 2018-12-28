@@ -1,0 +1,87 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            18
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                JSXElement(
+                    JSXElement {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                18
+                            ),
+                            ctxt: #0
+                        },
+                        opening: JSXOpeningElement {
+                            name: Ident(
+                                Ident(
+                                    div,
+                                    Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            4
+                                        ),
+                                        ctxt: #0
+                                    }
+                                )
+                            ),
+                            span: Span {
+                                lo: BytePos(
+                                    1
+                                ),
+                                hi: BytePos(
+                                    18
+                                ),
+                                ctxt: #0
+                            },
+                            attrs: [
+                                Right(
+                                    SpreadElement {
+                                        dot3_token: Span {
+                                            lo: BytePos(
+                                                6
+                                            ),
+                                            hi: BytePos(
+                                                9
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        expr: Ident(
+                                            Ident(
+                                                props,
+                                                Span {
+                                                    lo: BytePos(
+                                                        9
+                                                    ),
+                                                    hi: BytePos(
+                                                        14
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        )
+                                    }
+                                )
+                            ],
+                            self_closing: true
+                        },
+                        children: [],
+                        closing: None
+                    }
+                )
+            )
+        )
+    ]
+}

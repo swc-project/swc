@@ -1,4 +1,4 @@
-error: Expected RParen
+error: Expected RParen, got Some(Word(x))
  --> $DIR/tests/test262-parser/fail/44dda972051e652d.js:1:20
   |
 1 | class A { get prop(x) {} }
