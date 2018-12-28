@@ -1,0 +1,69 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            22
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                JSXFragment(
+                    JSXFragment {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                22
+                            ),
+                            ctxt: #0
+                        },
+                        opening: JSXOpeningFragment {
+                            span: Span {
+                                lo: BytePos(
+                                    1
+                                ),
+                                hi: BytePos(
+                                    2
+                                ),
+                                ctxt: #0
+                            }
+                        },
+                        children: [
+                            JSXText(
+                                JSXText {
+                                    span: Span {
+                                        lo: BytePos(
+                                            2
+                                        ),
+                                        hi: BytePos(
+                                            19
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    value: Atom('Hi, I'm a string!' type=dynamic),
+                                    raw: Atom('Hi, I'm a string!' type=dynamic)
+                                }
+                            )
+                        ],
+                        closing: JSXClosingFragment {
+                            span: Span {
+                                lo: BytePos(
+                                    21
+                                ),
+                                hi: BytePos(
+                                    22
+                                ),
+                                ctxt: #0
+                            }
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}
