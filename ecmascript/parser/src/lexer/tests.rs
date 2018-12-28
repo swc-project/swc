@@ -1,4 +1,7 @@
-use super::{input::SourceFileInput, *};
+use super::{
+    state::{lex, lex_module, lex_tokens, with_lexer},
+    *,
+};
 use error::{Error, SyntaxError};
 use std::{ops::Range, str};
 use test::Bencher;
@@ -9,37 +12,6 @@ fn sp(r: Range<usize>) -> Span {
         BytePos(r.end as u32),
         Default::default(),
     )
-}
-
-fn with_lexer<F, Ret>(
-    syntax: crate::Syntax,
-    s: &'static str,
-    f: F,
-) -> Result<Ret, ::testing::StdErr>
-where
-    F: FnOnce(&mut Lexer<SourceFileInput>) -> Result<Ret, ()>,
-{
-    crate::with_test_sess(s, |sess, fm| {
-        let mut l = Lexer::new(sess, syntax, fm);
-        f(&mut l)
-    })
-}
-
-fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, s, |l| Ok(l.collect())).unwrap()
-}
-
-/// lex `s` within module context.
-fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, s, |l| {
-        l.ctx.strict = true;
-        l.ctx.module = true;
-        Ok(l.collect())
-    })
-    .unwrap()
-}
-fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
-    with_lexer(syntax, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
 }
 
 trait LineBreak: Into<TokenAndSpan> {
@@ -393,14 +365,6 @@ fn non_regexp_unary_plus() {
 }
 
 // ----------
-
-#[test]
-fn invalid_but_lexable() {
-    assert_eq!(
-        vec![LParen.span(0).lb(), LBrace.span(1), Semi.span(2)],
-        lex(Syntax::Es2019, "({;")
-    );
-}
 
 #[test]
 fn paren_semi() {

@@ -69,6 +69,7 @@ impl<'a> From<&'a Token> for TokenType {
             Token::RParen => TokenType::RParen,
             Token::Semi => TokenType::Semi,
             Token::JSXTagEnd => TokenType::JSXTagEnd,
+            Token::JSXTagStart => TokenType::JSXTagStart,
             Token::JSXText { .. } => TokenType::JSXText,
             Token::JSXName { .. } => TokenType::JSXName,
             Token::BinOp(op) => TokenType::BinOp(op),
@@ -109,7 +110,13 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         match self.input.cur() {
             Some(..) => {}
             None => return None,
-        }
+        };
+
+        // println!(
+        //     "\tContext: ({:?}) {:?}",
+        //     self.input.cur().unwrap(),
+        //     self.state.context.0
+        // );
 
         let start = self.cur_pos();
         self.state.start = start;
@@ -500,4 +507,46 @@ enum Type {
     JSXClosingTag,
     #[kind(is_expr, preserve_space)]
     JSXExpr,
+}
+
+#[cfg(test)]
+pub(crate) fn with_lexer<F, Ret>(
+    syntax: crate::Syntax,
+    s: &'static str,
+    f: F,
+) -> Result<Ret, ::testing::StdErr>
+where
+    F: FnOnce(&mut Lexer<crate::lexer::input::SourceFileInput>) -> Result<Ret, ()>,
+{
+    crate::with_test_sess(s, |sess, fm| {
+        let mut l = Lexer::new(sess, syntax, fm);
+        let res = f(&mut l);
+
+        let c: SmallVec<[Type; 32]> = smallvec![Type::BraceStmt];
+        assert_eq!(l.state.context.0, c);
+
+        res
+    })
+}
+
+#[cfg(test)]
+pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
+    with_lexer(syntax, s, |l| Ok(l.collect())).unwrap()
+}
+
+/// lex `s` within module context.
+#[cfg(test)]
+pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
+    with_lexer(syntax, s, |l| {
+        l.ctx.strict = true;
+        l.ctx.module = true;
+
+        Ok(l.collect())
+    })
+    .unwrap()
+}
+
+#[cfg(test)]
+pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
+    with_lexer(syntax, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
 }
