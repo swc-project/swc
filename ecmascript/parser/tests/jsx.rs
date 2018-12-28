@@ -97,6 +97,64 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     Ok(())
 }
 
+fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+    let root = {
+        let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
+        root.push("tests");
+        root.push("jsx");
+        root.push("basic");
+        root
+    };
+
+    eprintln!("Loading tests from {}", root.display());
+
+    let dir = root;
+
+    for entry in WalkDir::new(&dir).into_iter() {
+        let entry = entry?;
+        if entry.file_type().is_dir() || !entry.file_name().to_string_lossy().ends_with(".js") {
+            continue;
+        }
+        let file_name = entry
+            .path()
+            .strip_prefix(&dir)
+            .expect("failed to strip prefix")
+            .to_str()
+            .unwrap()
+            .to_string();
+
+        let input = {
+            let mut buf = String::new();
+            File::open(entry.path())?.read_to_string(&mut buf)?;
+            buf
+        };
+
+        let ignore = false;
+
+        let dir = dir.clone();
+        let name = format!("jsx::reference::{}", file_name);
+        add_test(tests, name, ignore, move || {
+            eprintln!(
+                "\n\n========== Running reference test {}\nSource:\n{}\n",
+                file_name, input
+            );
+
+            let path = dir.join(&file_name);
+            // Parse source
+            let module = parse_module(&path).expect("should be parsed");
+
+            if StdErr::from(format!("{:#?}", module))
+                .compare_to_file(format!("{}.stdout", path.display()))
+                .is_err()
+            {
+                panic!()
+            }
+        });
+    }
+
+    Ok(())
+}
+
 fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
     with_parser(file_name, |p| p.parse_module())
 }
@@ -123,6 +181,14 @@ where
     });
 
     output
+}
+
+#[test]
+fn references() {
+    let args: Vec<_> = env::args().collect();
+    let mut tests = Vec::new();
+    reference_tests(&mut tests).unwrap();
+    test_main(&args, tests, Options::new());
 }
 
 #[test]
