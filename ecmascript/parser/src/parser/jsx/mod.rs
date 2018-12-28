@@ -1,5 +1,5 @@
 use super::*;
-use swc_common::Spanned;
+use swc_common::{Span, Spanned, SyntaxContext};
 
 #[cfg(test)]
 mod tests;
@@ -94,7 +94,9 @@ impl<'a, I: Input> Parser<'a, I> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!();
 
-        Ok(JSXEmptyExpr { span: span!(start) })
+        Ok(JSXEmptyExpr {
+            span: Span::new(start, start, SyntaxContext::empty()),
+        })
     }
 
     /// Parse JSX spread child
