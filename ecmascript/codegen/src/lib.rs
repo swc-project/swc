@@ -32,6 +32,7 @@ pub mod macros;
 mod comments;
 mod config;
 mod decl;
+mod jsx;
 pub mod list;
 #[cfg(test)]
 mod tests;
@@ -259,6 +260,7 @@ impl<'a> Emitter<'a> {
                     self.emit_js_word(flags.span, &flags.value)?;
                 }
             }
+            Lit::JSXText(ref n) => emit!(n),
         }
     }
 
@@ -372,6 +374,12 @@ impl<'a> Emitter<'a> {
             Expr::Unary(ref n) => emit!(n),
             Expr::Update(ref n) => emit!(n),
             Expr::Yield(ref n) => emit!(n),
+
+            Expr::JSXMebmer(ref n) => emit!(n),
+            Expr::JSXNamespacedName(ref n) => emit!(n),
+            Expr::JSXEmpty(ref n) => emit!(n),
+            Expr::JSXElement(ref n) => emit!(n),
+            Expr::JSXFragment(ref n) => emit!(n),
         }
     }
 
