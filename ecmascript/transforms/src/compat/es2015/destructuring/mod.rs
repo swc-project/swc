@@ -690,6 +690,12 @@ fn can_be_null(e: &Expr) -> bool {
 
         // TODO(kdy1): I'm not sure about this.
         Expr::Unary(..) | Expr::Update(..) | Expr::Bin(..) => true,
+
+        Expr::JSXMebmer(..)
+        | Expr::JSXNamespacedName(..)
+        | Expr::JSXEmpty(..)
+        | Expr::JSXElement(..)
+        | Expr::JSXFragment(..) => unreachable!("destructuring jsx"),
     }
 }
 
