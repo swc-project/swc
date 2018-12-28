@@ -47,7 +47,7 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [
-                                Left(
+                                JSXAttr(
                                     JSXAttr {
                                         span: Span {
                                             lo: BytePos(
@@ -93,7 +93,7 @@ Module {
                                         )
                                     }
                                 ),
-                                Left(
+                                JSXAttr(
                                     JSXAttr {
                                         span: Span {
                                             lo: BytePos(
@@ -139,7 +139,7 @@ Module {
                                         )
                                     }
                                 ),
-                                Right(
+                                SpreadElement(
                                     SpreadElement {
                                         dot3_token: Span {
                                             lo: BytePos(

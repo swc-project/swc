@@ -47,7 +47,7 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [
-                                Right(
+                                SpreadElement(
                                     SpreadElement {
                                         dot3_token: Span {
                                             lo: BytePos(

@@ -61,7 +61,7 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [
-                                Left(
+                                JSXAttr(
                                     JSXAttr {
                                         span: Span {
                                             lo: BytePos(
