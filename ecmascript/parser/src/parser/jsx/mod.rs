@@ -191,7 +191,7 @@ impl<'a, I: Input> Parser<'a, I> {
             attrs.push(attr);
         }
         let self_closing = eat!('/');
-        if !eat!(JSXTagEnd) & !&eat!('>') {
+        if !eat!(JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!('>')) {
             unexpected!()
         }
         Ok(JSXOpeningElement {
