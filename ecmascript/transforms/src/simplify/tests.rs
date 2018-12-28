@@ -3,7 +3,7 @@ use super::Simplifier;
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
-        test_transform!(Simplifier, $l, $r)
+        test_transform!(::swc_ecma_parser::Syntax::Es2019, Simplifier, $l, $r)
     };
     ($l:expr, $r:expr,) => {
         test_expr!($l, $r);

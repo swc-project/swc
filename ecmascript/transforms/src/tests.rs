@@ -30,7 +30,13 @@ impl<'a> Tester<'a> {
         }
     }
 
-    pub fn with_parser<F, T>(&mut self, file_name: &str, src: &str, op: F) -> Result<T, ()>
+    pub fn with_parser<F, T>(
+        &mut self,
+        file_name: &str,
+        syntax: Syntax,
+        src: &str,
+        op: F,
+    ) -> Result<T, ()>
     where
         F: FnOnce(&mut Parser<SourceFileInput>) -> Result<T, ()>,
     {
@@ -43,12 +49,12 @@ impl<'a> Tester<'a> {
             cfg: Default::default(),
         };
 
-        let mut p = Parser::new(sess, Syntax::Es2019, SourceFileInput::from(&*fm));
+        let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
         op(&mut p)
     }
 
     pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
-        let mut stmts = self.with_parser(file_name, src, |p| p.parse_script())?;
+        let mut stmts = self.with_parser(file_name, Syntax::Es2019, src, |p| p.parse_script())?;
         assert!(stmts.len() == 1);
 
         Ok(stmts.pop().unwrap())
@@ -58,6 +64,7 @@ impl<'a> Tester<'a> {
         &mut self,
         mut tr: T,
         name: &str,
+        syntax: Syntax,
         src: &str,
     ) -> Result<Module, ()> {
         let fm = self
@@ -71,7 +78,7 @@ impl<'a> Tester<'a> {
             };
 
             let module = {
-                let mut p = Parser::new(sess, Syntax::Es2019, SourceFileInput::from(&*fm));
+                let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
                 p.parse_module()?
             };
             // println!("parsed {} as a module\n{:?}", src, module);
@@ -119,18 +126,18 @@ impl<'a> Tester<'a> {
 
 #[cfg(test)]
 macro_rules! test_transform {
-    ($tr:expr, $input:expr, $expected:expr) => {
-        test_transform!($tr, $input, $expected, false)
+    ($syntax:expr, $tr:expr, $input:expr, $expected:expr) => {
+        test_transform!($syntax, $tr, $input, $expected, false)
     };
 
-    ($tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
+    ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
         use swc_common::FoldWith;
 
         crate::tests::Tester::run(|tester: &mut crate::tests::Tester| {
             let expected =
-                tester.apply_transform(crate::fixer::fixer(), "expected.js", $expected)?;
+                tester.apply_transform(crate::fixer::fixer(), "expected.js", $syntax, $expected)?;
 
-            let actual = tester.apply_transform($tr, "actual.js", $input)?;
+            let actual = tester.apply_transform($tr, "actual.js", $syntax, $input)?;
             let actual = actual.fold_with(&mut crate::fixer::fixer());
 
             if actual == expected {
@@ -160,31 +167,31 @@ macro_rules! test_transform {
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test {
-    (ignore, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            test_transform!($tr, $input, $expected)
+            test_transform!($syntax, $tr, $input, $expected)
         }
     };
 
-    ($tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $test_name() {
-            test_transform!($tr, $input, $expected)
+            test_transform!($syntax, $tr, $input, $expected)
         }
     };
 
-    ($tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            test_transform!($tr, $input, $expected, true)
+            test_transform!($syntax, $tr, $input, $expected, true)
         }
     };
 }
 
 macro_rules! exec_tr {
-    ($tr:expr, $test_name:ident, $input:expr) => {{
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
         use crate::compat::helpers::{Helpers, InjectHelpers};
         use std::{
             fs::{create_dir_all, OpenOptions},
@@ -203,6 +210,7 @@ macro_rules! exec_tr {
             let module = tester.apply_transform(
                 tr,
                 "input.js",
+                $syntax,
                 &format!(
                     "it('should work', function () {{
                     {}
@@ -261,18 +269,18 @@ macro_rules! exec_tr {
 /// Test transformation.
 #[cfg(test)]
 macro_rules! test_exec {
-    (ignore, $tr:expr, $test_name:ident, $input:expr) => {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            exec_tr!($tr, $test_name, $input)
+            exec_tr!($syntax, $tr, $test_name, $input)
         }
     };
 
-    ($tr:expr, $test_name:ident, $input:expr) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            exec_tr!($tr, $test_name, $input)
+            exec_tr!($syntax, $tr, $test_name, $input)
         }
     };
 }

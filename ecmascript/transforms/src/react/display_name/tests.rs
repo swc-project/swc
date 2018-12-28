@@ -5,6 +5,7 @@ fn tr() -> impl Fold<Module> {
 }
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(),
     assignment_expression,
     r#"
@@ -22,6 +23,7 @@ bar = React.createClass({
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(),
     nested,
     r#"
@@ -39,6 +41,7 @@ var bar = qux(React.createClass({
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(),
     object_property,
     r#"
@@ -63,6 +66,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(),
     variable_declarator,
     r#"

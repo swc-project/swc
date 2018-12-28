@@ -1,6 +1,7 @@
 use super::*;
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     accessors,
     r#"var obj = {
@@ -37,6 +38,7 @@ var obj = ( _obj = {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     argument,
     r#"foo({
@@ -47,6 +49,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     assignment,
     r#"foo = {
@@ -56,6 +59,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     method,
     r#"var obj = {
@@ -75,7 +79,7 @@ var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
 }), _obj);"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     mixed,
     r#"var obj = {
@@ -91,6 +95,7 @@ var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     multiple,
     r#"var obj = {
@@ -104,6 +109,7 @@ _defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     single,
     r#"var obj = {
@@ -113,6 +119,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     symbol,
     r#"var k = Symbol();
@@ -134,6 +141,7 @@ var foo = ( _obj = {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| ComputedProps { helpers },
     symbol_exec,
     r#"
@@ -150,6 +158,7 @@ expect(foo[k]).toBe(k)"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     this,
     r#"var obj = {
@@ -159,6 +168,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     two,
     r#"var obj = {
@@ -171,6 +181,7 @@ var obj = ( _obj = {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     ComputedProps::default(),
     variable,
     r#"var foo = {

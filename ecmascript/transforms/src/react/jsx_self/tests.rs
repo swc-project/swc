@@ -5,6 +5,7 @@ fn tr() -> impl Fold<Module> {
 }
 
 test!(
+    ::swc_ecma_parser::Syntax::Jsx,
     tr(),
     basic_sample,
     r#"var x = <sometag />"#,

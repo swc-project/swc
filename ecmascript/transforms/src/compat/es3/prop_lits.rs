@@ -60,6 +60,7 @@ mod tests {
     use super::*;
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         PropertyLiteral,
         babel_basic,
         r#"var foo = {
