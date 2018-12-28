@@ -9,6 +9,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<'a, Ident> {
         debug_assert!(self.input.syntax().jsx());
+
         match *cur!(true)? {
             Token::JSXName { .. } => match bump!() {
                 Token::JSXName { name } => {
@@ -17,7 +18,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
                 _ => unreachable!(),
             },
-            _ => self.parse_ident_ref(),
+            _ => unexpected!(),
         }
     }
 

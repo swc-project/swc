@@ -1,0 +1,6 @@
+error: Unexpected token
+ --> $DIR/tests/jsx/errors/attributes-in-fragment/input.js:1:6
+  |
+1 | < key="nope"></>
+  |      ^
+

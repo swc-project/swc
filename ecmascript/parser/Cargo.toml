@@ -21,3 +21,4 @@ smallvec = "0.6.7"
 [dev-dependencies]
 testing = { version = "0.1", path ="../../testing" }
 env_logger = "0.6.0"
+walkdir = "2"
