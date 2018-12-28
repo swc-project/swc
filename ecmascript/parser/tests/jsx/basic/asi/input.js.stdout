@@ -1,0 +1,148 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            34
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Fn(
+                    FnDecl {
+                        ident: Ident(
+                            x,
+                            Span {
+                                lo: BytePos(
+                                    9
+                                ),
+                                hi: BytePos(
+                                    10
+                                ),
+                                ctxt: #0
+                            }
+                        ),
+                        function: Function {
+                            params: [],
+                            span: Span {
+                                lo: BytePos(
+                                    0
+                                ),
+                                hi: BytePos(
+                                    34
+                                ),
+                                ctxt: #0
+                            },
+                            body: BlockStmt {
+                                span: Span {
+                                    lo: BytePos(
+                                        13
+                                    ),
+                                    hi: BytePos(
+                                        34
+                                    ),
+                                    ctxt: #0
+                                },
+                                stmts: [
+                                    Decl(
+                                        Var(
+                                            VarDecl {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        17
+                                                    ),
+                                                    hi: BytePos(
+                                                        22
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                kind: "let",
+                                                decls: [
+                                                    VarDeclarator {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                21
+                                                            ),
+                                                            hi: BytePos(
+                                                                22
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        name: Ident(
+                                                            Ident(
+                                                                x,
+                                                                Span {
+                                                                    lo: BytePos(
+                                                                        21
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        22
+                                                                    ),
+                                                                    ctxt: #0
+                                                                }
+                                                            )
+                                                        ),
+                                                        init: None
+                                                    }
+                                                ]
+                                            }
+                                        )
+                                    ),
+                                    Expr(
+                                        JSXElement(
+                                            JSXElement {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        25
+                                                    ),
+                                                    hi: BytePos(
+                                                        32
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                opening: JSXOpeningElement {
+                                                    name: Ident(
+                                                        Ident(
+                                                            div,
+                                                            Span {
+                                                                lo: BytePos(
+                                                                    26
+                                                                ),
+                                                                hi: BytePos(
+                                                                    29
+                                                                ),
+                                                                ctxt: #0
+                                                            }
+                                                        )
+                                                    ),
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            26
+                                                        ),
+                                                        hi: BytePos(
+                                                            32
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    attrs: [],
+                                                    self_closing: true
+                                                },
+                                                children: [],
+                                                closing: None
+                                            }
+                                        )
+                                    )
+                                ]
+                            },
+                            is_generator: false,
+                            is_async: false
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}

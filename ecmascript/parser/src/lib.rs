@@ -146,6 +146,8 @@ struct Context {
     in_function: bool,
 
     in_parameters: bool,
+
+    in_forced_jsx_context: bool,
 }
 
 #[derive(Clone, Copy)]

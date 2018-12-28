@@ -48,3 +48,12 @@ fn normal_01() {
         })
     );
 }
+
+#[test]
+fn lab() {
+    jsx("<a></a>");
+    jsx("yield <a></a>");
+    jsx("(function* it(){
+    yield <a></a>;
+})");
+}
