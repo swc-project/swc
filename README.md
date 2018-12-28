@@ -75,7 +75,7 @@ New generation javascript to old-days javascript.
 
 # Performance
 
-The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
+The lower bound of the speedup compared to babel is **16**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
 
 |                          |                performance             |
 | ------------------------ |:--------------------------------------:|
