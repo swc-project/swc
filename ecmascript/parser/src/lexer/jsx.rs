@@ -42,7 +42,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 _ => {
                     if cur.is_line_break() {
-                        out.push(cur);
+                        out.push_str(self.input.slice(chunk_start, cur_pos));
                         match self.read_jsx_new_line(true)? {
                             Either::Left(s) => out.push_str(s),
                             Either::Right(c) => out.push(c),
