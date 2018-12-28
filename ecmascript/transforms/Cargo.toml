@@ -14,6 +14,7 @@ swc_common = { path ="../../common" }
 swc_ecma_ast = { path ="../ast" }
 swc_ecma_parser = { path ="../parser" }
 fnv = "1"
+serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
 testing = { path ="../../testing" }

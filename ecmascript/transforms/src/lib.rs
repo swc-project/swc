@@ -28,6 +28,7 @@ extern crate test;
 #[cfg(test)]
 #[macro_use]
 extern crate testing;
+extern crate serde;
 
 pub use self::{
     fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier,
@@ -45,6 +46,7 @@ mod fixer;
 mod hygiene;
 mod inline_globals;
 pub mod pass;
+pub mod react;
 pub mod scope;
 mod simplify;
 pub mod util;
