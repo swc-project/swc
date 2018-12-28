@@ -888,6 +888,24 @@ fn jsx_03() {
     );
 }
 
+#[test]
+fn jsx_04() {
+    assert_eq!(
+        lex_tokens(Syntax::Jsx, "yield <a></a>"),
+        vec![
+            Token::Word(Word::Keyword(Yield)),
+            Token::JSXTagStart,
+            Token::JSXName { name: "a".into() },
+            Token::JSXTagEnd,
+            //
+            Token::JSXTagStart,
+            tok!('/'),
+            Token::JSXName { name: "a".into() },
+            Token::JSXTagEnd,
+        ]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
