@@ -5,6 +5,7 @@ use std::{
     iter, mem,
     sync::{atomic::Ordering, Arc},
 };
+use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
@@ -145,15 +146,8 @@ impl Jsx {
                 // TODO(kdy1): Optimize
                 let s = Str {
                     span: text.span,
-                    value: text
-                        .value
-                        .replace("\n", " ")
-                        .trim()
-                        .split_ascii_whitespace()
-                        .collect::<Vec<_>>()
-                        .join(" ")
-                        .into(),
                     has_escape: text.raw != text.value,
+                    value: jsx_text_to_str(text.value),
                 };
                 if s.value.is_empty() {
                     return None;
@@ -342,4 +336,18 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             has_escape: false,
         }),
     }
+}
+
+fn jsx_text_to_str(t: JsWord) -> JsWord {
+    if !t.contains(' ') && !t.contains('\n') {
+        return t;
+    }
+
+    let mut buf = String::new();
+    for s in t.replace("\n", " ").split_ascii_whitespace() {
+        buf.push_str(s);
+        buf.push(' ');
+    }
+
+    buf.into()
 }

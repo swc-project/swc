@@ -91,8 +91,8 @@ var x =
   </div>
   "#,
     r#"
-var x = React.createElement("div", null, "foo", "bar", "baz",
-    React.createElement("div", null, "buz bang"), "qux", null, "quack");
+var x = React.createElement("div", null, "foo ", "bar", "baz ",
+    React.createElement("div", null, "buz bang "), "qux ", null, "quack ");
 "#
 );
 
@@ -247,7 +247,7 @@ test!(
   Press Cmd+R to reload
 </Text>
 "#,
-    r#"React.createElement(Text, null, "To get started, edit index.ios.js!!!", "\n", "Press Cmd+R to reload");"#
+    r#"React.createElement(Text, null, "To get started, edit index.ios.js!!! ", "\n", "Press Cmd+R to reload ");"#
 );
 
 test!(
@@ -640,13 +640,13 @@ React.render(<HelloMessage name={
 "#,
     r#"
 var HelloMessage = React.createClass({
-  displayName: "HelloMessage",
   render: function () {
     return React.createElement("div", null, "Hello ", this.props.name);
-  }
+  },
+  displayName: "HelloMessage",
 });
 React.render(React.createElement(HelloMessage, {
-  name: React.createElement("span", null, "Sebastian")
+  name: React.createElement("span", null, "Sebastian ")
 }), mountNode);
 "#
 );
