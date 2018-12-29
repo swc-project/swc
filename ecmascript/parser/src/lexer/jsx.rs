@@ -143,8 +143,10 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
+        self.input.bump(); // `quote`
+
         let mut out = String::new();
-        let mut chunk_start = self.input.cur_pos() + BytePos(1);
+        let mut chunk_start = self.input.cur_pos();
         loop {
             let ch = match self.input.cur() {
                 Some(c) => c,

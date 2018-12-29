@@ -252,6 +252,10 @@ fn jsx_name(name: JSXElementName) -> Box<Expr> {
             // If it starts with lowercase digit
             let c = i.sym.chars().next().unwrap();
 
+            if &*i.sym == "this" {
+                return box Expr::This(ThisExpr { span });
+            }
+
             if c.is_ascii_lowercase() {
                 box Expr::Lit(Lit::Str(Str {
                     span,
