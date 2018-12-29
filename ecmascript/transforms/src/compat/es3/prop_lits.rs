@@ -40,7 +40,7 @@ impl Fold<PropName> for PropertyLiteral {
                 value: sym, span, ..
             })
             | PropName::Ident(Ident { sym, span }) => {
-                if sym.is_reserved_for_es3() {
+                if sym.is_reserved_for_es3() || sym.contains('-') {
                     return PropName::Str(Str {
                         span,
                         value: sym,
