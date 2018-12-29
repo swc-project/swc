@@ -866,7 +866,13 @@ React.createElement(Component, _extends({
 
 test!(
     ::swc_ecma_parser::Syntax::Jsx,
-    tr(Default::default(), Default::default()),
+    tr(
+        Options {
+            use_builtins: true,
+            ..Default::default()
+        },
+        Default::default()
+    ),
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#,
     r#"
