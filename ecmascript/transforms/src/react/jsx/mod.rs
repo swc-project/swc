@@ -1,9 +1,12 @@
+use crate::util::ExprFactory;
 use ast::*;
 use serde::{Deserialize, Serialize};
+use std::iter;
+use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Fold, SourceMap,
+    FileName, Fold, FoldWith, SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
@@ -66,6 +69,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold<Module> {
 
         Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
             .parse_expr()
+            .map(ExprOrSuper::Expr)
             .unwrap()
     };
 
@@ -79,9 +83,87 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold<Module> {
 }
 
 struct Jsx {
-    pragma: Box<Expr>,
-    pragma_frag: Box<Expr>,
+    pragma: ExprOrSuper,
+    pragma_frag: ExprOrSuper,
     throw_if_namespace: bool,
     development: bool,
     use_builtins: bool,
+}
+
+impl Fold<Expr> for Jsx {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+
+        match expr {
+            Expr::JSXElement(el) => {
+                // <div></div> => React.createElement('div', null);
+                let span = el.span();
+
+                let name = jsx_name(el.opening.name);
+
+                Expr::Call(CallExpr {
+                    span,
+                    callee: self.pragma.clone(),
+                    args: iter::once({
+                        // Tag
+                        name.as_arg()
+                    })
+                    .chain(iter::once({
+                        // Attributes
+                        Lit::Null(Null { span: DUMMY_SP }).as_arg()
+                    }))
+                    .collect(),
+                })
+            }
+            _ => expr,
+        }
+    }
+}
+
+fn jsx_name(name: JSXElementName) -> Box<Expr> {
+    let span = name.span();
+    match name {
+        JSXElementName::Ident(i) => {
+            // If it starts with lowercase digit
+            let c = i.sym.chars().next().unwrap();
+
+            if c.is_ascii_lowercase() {
+                box Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: i.sym,
+                    has_escape: false,
+                }))
+            } else {
+                box Expr::Ident(i)
+            }
+        }
+        JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
+            box Expr::Lit(Lit::Str(Str {
+                span,
+                value: format!("{}:{}", ns.sym, name.sym).into(),
+                has_escape: false,
+            }))
+        }
+        JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
+            fn convert_obj(obj: JSXObject) -> ExprOrSuper {
+                let span = obj.span();
+                match obj {
+                    JSXObject::Ident(i) => i.as_obj(),
+                    JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
+                        span,
+                        obj: convert_obj(obj),
+                        prop: box Expr::Ident(prop),
+                        computed: false,
+                    }
+                    .as_obj(),
+                }
+            }
+            box Expr::Member(MemberExpr {
+                span,
+                obj: convert_obj(obj),
+                prop: box Expr::Ident(prop),
+                computed: false,
+            })
+        }
+    }
 }
