@@ -2,6 +2,7 @@ Infinity
 NODE_ENV
 NaN
 Object
+React
 RegExp
 _extends
 _toConsumableArray
@@ -19,6 +20,8 @@ concat
 const
 constructor
 continue
+createClass
+createReactClass
 debugger
 default
 delete
@@ -48,16 +51,12 @@ null
 of
 package
 private
-private
 process
 protected
-protected
-public
 public
 readonly
 return
 set
-static
 static
 super
 switch
