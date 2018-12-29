@@ -14,6 +14,7 @@ fn tr(options: Options, helpers: Arc<Helpers>) -> impl Fold<Module> {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
     chain!(
+        arrow(),
         Classes {
             helpers: helpers.clone()
         },
@@ -746,7 +747,8 @@ test!(
     tr(Default::default(), Default::default()),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
     r#"<div>&nbsp; </div>;"#,
-    r#"React.createElement("div", null, "\xA0 ");"#
+    r#"React.createElement("div", null, "\xA0 ");"#,
+    ok_if_code_eq
 );
 
 test!(
@@ -754,7 +756,8 @@ test!(
     tr(Default::default(), Default::default()),
     react_should_not_strip_tags_with_a_single_child_of_nbsp,
     r#"<div>&nbsp;</div>;"#,
-    r#"React.createElement("div", null, "\xA0");"#
+    r#"React.createElement("div", null, "\xA0");"#,
+    ok_if_code_eq
 );
 
 test!(

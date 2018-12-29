@@ -141,12 +141,17 @@ impl Jsx {
 
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
         Some(match c {
-            JSXElementChild::JSXText(text) => Lit::Str(Str {
-                span: text.span,
-                value: text.value,
-                has_escape: false,
-            })
-            .as_arg(),
+            JSXElementChild::JSXText(text) => {
+                let s = Str {
+                    span: text.span,
+                    value: text.value.replace("\n", " ").trim().into(),
+                    has_escape: text.raw != text.value,
+                };
+                if s.value.is_empty() {
+                    return None;
+                }
+                Lit::Str(s).as_arg()
+            }
             JSXElementChild::JSXExprContainer(JSXExprContainer {
                 expr: JSXExpr::Expr(e),
             }) => e.as_arg(),
