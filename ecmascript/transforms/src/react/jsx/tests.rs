@@ -14,12 +14,11 @@ fn tr(options: Options, helpers: Arc<Helpers>) -> impl Fold<Module> {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
     chain!(
-        arrow(),
+        jsx(cm, options, helpers.clone()),
+        display_name(),
         Classes {
             helpers: helpers.clone()
         },
-        jsx(cm, options, helpers.clone()),
-        display_name(),
         arrow(),
     )
 }
