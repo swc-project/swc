@@ -312,7 +312,17 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
     let span = n.span();
 
     match n {
-        JSXAttrName::Ident(i) => PropName::Ident(i),
+        JSXAttrName::Ident(i) => {
+            if i.sym.contains("-") {
+                PropName::Str(Str {
+                    span,
+                    value: i.sym,
+                    has_escape: false,
+                })
+            } else {
+                PropName::Ident(i)
+            }
+        }
         JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => PropName::Str(Str {
             span,
             value: format!("{}:{}", ns.sym, name.sym).into(),
