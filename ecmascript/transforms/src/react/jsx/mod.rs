@@ -142,9 +142,17 @@ impl Jsx {
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
         Some(match c {
             JSXElementChild::JSXText(text) => {
+                // TODO(kdy1): Optimize
                 let s = Str {
                     span: text.span,
-                    value: text.value.replace("\n", " ").trim().into(),
+                    value: text
+                        .value
+                        .replace("\n", " ")
+                        .trim()
+                        .split_ascii_whitespace()
+                        .collect::<Vec<_>>()
+                        .join(" ")
+                        .into(),
                     has_escape: text.raw != text.value,
                 };
                 if s.value.is_empty() {

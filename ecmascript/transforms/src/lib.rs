@@ -5,6 +5,7 @@
 #![feature(core_intrinsics)]
 #![feature(nll)]
 #![feature(trace_macros)]
+#![feature(split_ascii_whitespace)]
 #![cfg_attr(test, feature(test))]
 
 #[macro_use(js_word)]
