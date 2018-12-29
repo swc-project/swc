@@ -27,6 +27,18 @@ pub struct Options {
     pub use_builtins: bool,
 }
 
+impl Default for Options {
+    fn default() -> Self {
+        Options {
+            pragma: default_pragma(),
+            pragma_frag: default_pragma_frag(),
+            throw_if_namespace: default_throw_if_namespace(),
+            development: false,
+            use_builtins: false,
+        }
+    }
+}
+
 fn default_pragma() -> String {
     "React.createElement".into()
 }
