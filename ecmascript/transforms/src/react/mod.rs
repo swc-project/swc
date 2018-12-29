@@ -19,9 +19,9 @@ pub fn react(cm: Lrc<SourceMap>, options: Options) -> impl Fold<Module> {
     let Options { development, .. } = options;
 
     chain!(
-        jsx(cm, options),
+        jsx(cm.clone(), options),
         display_name(),
-        jsx_src(development),
+        jsx_src(development, cm),
         jsx_self(development)
     )
 }

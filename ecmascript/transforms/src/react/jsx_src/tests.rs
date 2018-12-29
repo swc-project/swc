@@ -1,10 +1,13 @@
 use super::*;
+use swc_common::FilePathMapping;
 
 fn tr() -> impl Fold<Module> {
-    jsx_src(true)
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+    jsx_src(true, cm)
 }
 
 test_exec!(
+    ignore,
     ::swc_ecma_parser::Syntax::Jsx,
     |_| tr(),
     basic_sample,
@@ -35,6 +38,7 @@ test!(
 );
 
 test_exec!(
+    ignore,
     ::swc_ecma_parser::Syntax::Jsx,
     |_| tr(),
     with_source,
