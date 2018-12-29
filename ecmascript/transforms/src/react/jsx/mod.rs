@@ -71,13 +71,15 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
 
         Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
             .parse_expr()
-            .map(ExprOrSuper::Expr)
             .unwrap()
     };
 
     Jsx {
-        pragma: parse("pragma", options.pragma),
-        pragma_frag: parse("pragma_frag", options.pragma_frag),
+        pragma: ExprOrSuper::Expr(parse("pragma", options.pragma)),
+        pragma_frag: ExprOrSpread {
+            spread: None,
+            expr: parse("pragma_frag", options.pragma_frag),
+        },
         throw_if_namespace: options.throw_if_namespace,
         development: options.development,
         use_builtins: options.use_builtins,
@@ -87,7 +89,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
 
 struct Jsx {
     pragma: ExprOrSuper,
-    pragma_frag: ExprOrSuper,
+    pragma_frag: ExprOrSpread,
     throw_if_namespace: bool,
     development: bool,
     use_builtins: bool,
@@ -95,6 +97,70 @@ struct Jsx {
 }
 
 impl Jsx {
+    fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
+        let span = el.span();
+
+        Expr::Call(CallExpr {
+            span,
+            callee: self.pragma.clone(),
+            args: iter::once(self.pragma_frag.clone())
+                // attribute: null
+                .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
+                .chain({
+                    // Children
+                    el.children
+                        .into_iter()
+                        .filter_map(|c| self.jsx_elem_child_to_expr(c))
+                })
+                .collect(),
+        })
+    }
+
+    fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
+        let span = el.span();
+
+        let name = jsx_name(el.opening.name);
+
+        Expr::Call(CallExpr {
+            span,
+            callee: self.pragma.clone(),
+            args: iter::once(name.as_arg())
+                .chain(iter::once({
+                    // Attributes
+                    self.fold_attrs(el.opening.attrs).as_arg()
+                }))
+                .chain({
+                    // Children
+                    el.children
+                        .into_iter()
+                        .filter_map(|c| self.jsx_elem_child_to_expr(c))
+                })
+                .collect(),
+        })
+    }
+
+    fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
+        Some(match c {
+            JSXElementChild::JSXText(text) => Lit::Str(Str {
+                span: text.span,
+                value: text.value,
+                has_escape: false,
+            })
+            .as_arg(),
+            JSXElementChild::JSXExprContainer(JSXExprContainer {
+                expr: JSXExpr::Expr(e),
+            }) => e.as_arg(),
+            JSXElementChild::JSXExprContainer(JSXExprContainer {
+                expr: JSXExpr::JSXEmptyExpr(..),
+            }) => return None,
+            JSXElementChild::JSXElement(el) => self.jsx_elem_to_expr(*el).as_arg(),
+            JSXElementChild::JSXFragment(el) => self.jsx_frag_to_expr(el).as_arg(),
+            JSXElementChild::JSXSpreadChild(JSXSpreadChild { .. }) => {
+                unimplemented!("jsx sperad child")
+            }
+        })
+    }
+
     fn fold_attrs(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return box Expr::Lit(Lit::Null(Null { span: DUMMY_SP }));
@@ -172,23 +238,7 @@ impl Fold<Expr> for Jsx {
         match expr {
             Expr::JSXElement(el) => {
                 // <div></div> => React.createElement('div', null);
-                let span = el.span();
-
-                let name = jsx_name(el.opening.name);
-
-                Expr::Call(CallExpr {
-                    span,
-                    callee: self.pragma.clone(),
-                    args: iter::once({
-                        // Tag
-                        name.as_arg()
-                    })
-                    .chain(iter::once({
-                        // Attributes
-                        self.fold_attrs(el.opening.attrs).as_arg()
-                    }))
-                    .collect(),
-                })
+                self.jsx_elem_to_expr(el)
             }
             _ => expr,
         }
