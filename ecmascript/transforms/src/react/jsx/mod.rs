@@ -1,8 +1,10 @@
-use crate::util::ExprFactory;
+use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
 use serde::{Deserialize, Serialize};
-use std::iter;
-use swc_atoms::JsWord;
+use std::{
+    iter, mem,
+    sync::{atomic::Ordering, Arc},
+};
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
@@ -57,7 +59,7 @@ fn default_throw_if_namespace() -> bool {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold<Module> {
+pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl Fold<Module> {
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
     let session = Session {
@@ -79,6 +81,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Fold<Module> {
         throw_if_namespace: options.throw_if_namespace,
         development: options.development,
         use_builtins: options.use_builtins,
+        helpers,
     }
 }
 
@@ -88,6 +91,78 @@ struct Jsx {
     throw_if_namespace: bool,
     development: bool,
     use_builtins: bool,
+    helpers: Arc<Helpers>,
+}
+
+impl Jsx {
+    fn fold_attrs(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
+        if attrs.is_empty() {
+            return box Expr::Lit(Lit::Null(Null { span: DUMMY_SP }));
+        }
+
+        let is_complex = attrs.iter().any(|a| match *a {
+            JSXAttrOrSpread::SpreadElement(..) => true,
+            _ => false,
+        });
+
+        if is_complex {
+            let mut args = vec![];
+            let mut cur_obj_props = vec![];
+            macro_rules! check {
+                () => {{
+                    if args.is_empty() || !cur_obj_props.is_empty() {
+                        args.push(
+                            ObjectLit {
+                                span: DUMMY_SP,
+                                props: mem::replace(&mut cur_obj_props, vec![]),
+                            }
+                            .as_arg(),
+                        )
+                    }
+                }};
+            }
+            for attr in attrs {
+                match attr {
+                    JSXAttrOrSpread::JSXAttr(a) => {
+                        cur_obj_props.push(PropOrSpread::Prop(box attr_to_prop(a)))
+                    }
+                    JSXAttrOrSpread::SpreadElement(e) => {
+                        check!();
+                        args.push(e.expr.as_arg());
+                    }
+                }
+            }
+            check!();
+
+            // calls `_extends` or `Object.assign`
+            box Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: {
+                    if self.use_builtins {
+                        member_expr!(DUMMY_SP, Object.assign).as_callee()
+                    } else {
+                        self.helpers.extends.store(true, Ordering::Relaxed);
+                        quote_ident!("_extends").as_callee()
+                    }
+                },
+                args,
+            })
+        } else {
+            box Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props: attrs
+                    .into_iter()
+                    .map(|a| match a {
+                        JSXAttrOrSpread::JSXAttr(a) => a,
+                        _ => unreachable!(),
+                    })
+                    .map(attr_to_prop)
+                    .map(Box::new)
+                    .map(PropOrSpread::Prop)
+                    .collect(),
+            })
+        }
+    }
 }
 
 impl Fold<Expr> for Jsx {
@@ -110,7 +185,7 @@ impl Fold<Expr> for Jsx {
                     })
                     .chain(iter::once({
                         // Attributes
-                        Lit::Null(Null { span: DUMMY_SP }).as_arg()
+                        self.fold_attrs(el.opening.attrs).as_arg()
                     }))
                     .collect(),
                 })
@@ -165,5 +240,29 @@ fn jsx_name(name: JSXElementName) -> Box<Expr> {
                 computed: false,
             })
         }
+    }
+}
+
+fn attr_to_prop(a: JSXAttr) -> Prop {
+    let key = to_prop_name(a.name);
+    let value = a.value.unwrap_or_else(|| {
+        box Expr::Lit(Lit::Bool(Bool {
+            span: key.span(),
+            value: true,
+        }))
+    });
+    Prop::KeyValue(KeyValueProp { key, value })
+}
+
+fn to_prop_name(n: JSXAttrName) -> PropName {
+    let span = n.span();
+
+    match n {
+        JSXAttrName::Ident(i) => PropName::Ident(i),
+        JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => PropName::Str(Str {
+            span,
+            value: format!("{}:{}", ns.sym, name.sym).into(),
+            has_escape: false,
+        }),
     }
 }

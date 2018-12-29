@@ -17,7 +17,7 @@ fn tr(options: Options, helpers: Arc<Helpers>) -> impl Fold<Module> {
         Classes {
             helpers: helpers.clone()
         },
-        jsx(cm, options),
+        jsx(cm, options, helpers.clone()),
         display_name(),
         arrow(),
     )
