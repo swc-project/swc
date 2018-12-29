@@ -109,10 +109,10 @@ Component = React.createClass({
     r#"
 var Component;
 Component = React.createClass({
-  displayName: "Component",
   render: function render() {
     return null;
-  }
+  },
+  displayName: "Component",
 });"#
 );
 
@@ -129,10 +129,10 @@ export default React.createClass({
 "#,
     r#"
 export default React.createClass({
-  displayName: "input",
   render: function render() {
     return null;
-  }
+  },
+  displayName: "input",
 });
 "#
 );
@@ -187,10 +187,10 @@ exports = {
     r#"
 exports = {
   Component: React.createClass({
-    displayName: "Component",
     render: function render() {
       return null;
-    }
+    },
+    displayName: "Component",
   })
 };"#
 );
@@ -208,10 +208,10 @@ exports.Component = React.createClass({
 "#,
     r#"
 exports.Component = React.createClass({
-  displayName: "Component",
   render: function render() {
     return null;
-  }
+  },
+  displayName: "Component",
 });
 "#
 );
@@ -229,10 +229,10 @@ var Component = React.createClass({
 "#,
     r#"
 var Component = React.createClass({
-  displayName: "Component",
   render: function render() {
     return null;
-  }
+  },
+  displayName: "Component",
 });
 "#
 );

@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -32,6 +32,25 @@ impl Fold<VarDeclarator> for DisplayName {
     }
 }
 
+impl Fold<ModuleDecl> for DisplayName {
+    fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
+        let decl = decl.fold_children(self);
+
+        match decl {
+            ModuleDecl::ExportDefaultExpr(e) => {
+                ModuleDecl::ExportDefaultExpr(e.fold_with(&mut Folder {
+                    name: Some(box Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: "input".into(),
+                        has_escape: false,
+                    }))),
+                }))
+            }
+            _ => decl,
+        }
+    }
+}
+
 impl Fold<AssignExpr> for DisplayName {
     fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
         let expr = expr.fold_children(self);
@@ -41,6 +60,26 @@ impl Fold<AssignExpr> for DisplayName {
         }
 
         match expr.left {
+            PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
+                prop: box Expr::Ident(ref prop),
+                computed: false,
+                ..
+            })))
+            | PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                prop: box Expr::Ident(ref prop),
+                computed: false,
+                ..
+            })) => {
+                let right = expr.right.fold_with(&mut Folder {
+                    name: Some(box Expr::Lit(Lit::Str(Str {
+                        span: prop.span,
+                        value: prop.sym.clone(),
+                        has_escape: false,
+                    }))),
+                });
+                AssignExpr { right, ..expr }
+            }
+
             PatOrExpr::Pat(box Pat::Ident(ref ident))
             | PatOrExpr::Expr(box Expr::Ident(ref ident)) => {
                 let right = expr.right.fold_with(&mut Folder {
@@ -101,23 +140,18 @@ impl Fold<ArrayLit> for Folder {
     }
 }
 
-impl Fold<Expr> for Folder {
-    fn fold(&mut self, expr: Expr) -> Expr {
+impl Fold<CallExpr> for Folder {
+    fn fold(&mut self, expr: CallExpr) -> CallExpr {
         let expr = expr.fold_children(self);
 
-        match expr {
-            Expr::Call(call) => {
-                if is_create_class_call(&call) {
-                    let name = match self.name.take() {
-                        Some(name) => name,
-                        None => return Expr::Call(call),
-                    };
-                    Expr::Call(add_display_name(call, name))
-                } else {
-                    Expr::Call(call)
-                }
-            }
-            _ => expr,
+        if is_create_class_call(&expr) {
+            let name = match self.name.take() {
+                Some(name) => name,
+                None => return expr,
+            };
+            add_display_name(expr, name)
+        } else {
+            expr
         }
     }
 }
