@@ -1,5 +1,5 @@
 use super::*;
-use crate::compat::{es2015::Classes, helpers::Helpers};
+use crate::{compat::es2015::Classes, helpers::Helpers};
 use std::sync::Arc;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {

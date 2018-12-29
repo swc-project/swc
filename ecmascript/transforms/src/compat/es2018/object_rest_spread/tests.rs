@@ -1,5 +1,5 @@
 use super::object_rest_spread;
-use crate::compat::{es2015::Spread, helpers::Helpers};
+use crate::{compat::es2015::Spread, helpers::Helpers};
 use ast::Module;
 use std::sync::Arc;
 use swc_common::Fold;

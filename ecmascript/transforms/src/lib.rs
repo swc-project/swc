@@ -44,6 +44,7 @@ mod quote;
 mod macros;
 pub mod compat;
 mod fixer;
+pub mod helpers;
 mod hygiene;
 mod inline_globals;
 pub mod pass;

@@ -106,7 +106,7 @@ macro_rules! tr {
                 SourceFileInput::from(&*fm),
             );
             let module = parser.parse_module().unwrap();
-            let helpers = Arc::new(compat::helpers::Helpers::default());
+            let helpers = Arc::new(helpers::Helpers::default());
             let mut tr = $tr(helpers);
 
             $b.iter(|| {

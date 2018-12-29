@@ -5,7 +5,7 @@ pub use self::{
     instanceof::InstanceOf, parameters::parameters, shorthand_property::Shorthand, spread::Spread,
     sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
-use super::helpers::Helpers;
+use crate::helpers::Helpers;
 use ast::{Expr, Module, Stmt};
 use std::sync::Arc;
 use swc_common::Fold;

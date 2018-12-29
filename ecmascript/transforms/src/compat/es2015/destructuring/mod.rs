@@ -1,5 +1,5 @@
 use crate::{
-    compat::helpers::Helpers,
+    helpers::Helpers,
     util::{ExprFactory, StmtLike},
 };
 use ast::*;

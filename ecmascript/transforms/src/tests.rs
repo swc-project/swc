@@ -192,7 +192,7 @@ macro_rules! test {
 
 macro_rules! exec_tr {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
-        use crate::compat::helpers::{Helpers, InjectHelpers};
+        use crate::helpers::{Helpers, InjectHelpers};
         use std::{
             fs::{create_dir_all, OpenOptions},
             io::Write,
