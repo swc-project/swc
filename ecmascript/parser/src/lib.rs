@@ -143,7 +143,7 @@ pub struct Config {
 
 /// Syntatic context.
 #[derive(Debug, Clone, Copy, Default)]
-struct Context {
+pub(crate)struct Context {
     /// Is in module code?
     module: bool,
     strict: bool,
