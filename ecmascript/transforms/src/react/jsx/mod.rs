@@ -81,8 +81,6 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
             spread: None,
             expr: parse("pragma_frag", options.pragma_frag),
         },
-        throw_if_namespace: options.throw_if_namespace,
-        development: options.development,
         use_builtins: options.use_builtins,
         helpers,
     }
@@ -91,8 +89,6 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
 struct Jsx {
     pragma: ExprOrSuper,
     pragma_frag: ExprOrSpread,
-    throw_if_namespace: bool,
-    development: bool,
     use_builtins: bool,
     helpers: Arc<Helpers>,
 }
