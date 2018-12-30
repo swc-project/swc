@@ -591,7 +591,7 @@ React.createElement("div", {
 test!(
     ::swc_ecma_parser::Syntax::Jsx,
     tr(Default::default(), Default::default()),
-    react_should_escape_xhtml_jsxtext,
+    react_should_escape_xhtml_jsxtext_1,
     r#"
 <div>wow</div>;
 <div>wôw</div>;
@@ -600,8 +600,6 @@ test!(
 <div>w &amp; w</div>;
 
 <div>w &nbsp; w</div>;
-<div>this should not parse as unicode: \u00a0</div>;
-<div>this should parse as nbsp:   </div>;
 <div>this should parse as unicode: {'\u00a0 '}</div>;
 
 <div>w &lt; w</div>;
@@ -609,13 +607,26 @@ test!(
     r#"
 React.createElement("div", null, "wow");
 React.createElement("div", null, "w\xF4w");
-React.createElement("div", null, "w & w");
-React.createElement("div", null, "w & w");
-React.createElement("div", null, "w \xA0 w");
+React.createElement("div", null, "w & w ");
+React.createElement("div", null, "w & w ");
+React.createElement("div", null, "w \xA0 w ");
+React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
+React.createElement("div", null, "w < w ");
+"#,
+    ok_if_code_eq
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Jsx,
+    tr(Default::default(), Default::default()),
+    react_should_escape_xhtml_jsxtext_2,
+    r#"
+<div>this should not parse as unicode: \u00a0</div>;
+<div>this should parse as nbsp:   </div>;
+"#,
+    r#"
 React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 React.createElement("div", null, "this should parse as nbsp: \xA0 ");
-React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
-React.createElement("div", null, "w < w");
 "#,
     ok_if_code_eq
 );
