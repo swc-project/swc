@@ -48,3 +48,29 @@ fn normal_01() {
         })
     );
 }
+
+#[test]
+fn escape_in_attr() {
+    assert_eq_ignore_span!(
+        jsx(r#"<div id="w &lt; w" />;"#),
+        box Expr::JSXElement(JSXElement {
+            span,
+            opening: JSXOpeningElement {
+                span,
+                attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                    span,
+                    name: JSXAttrName::Ident(Ident::new("id".into(), span)),
+                    value: Some(box Expr::Lit(Lit::Str(Str {
+                        span,
+                        value: "w < w".into(),
+                        has_escape: false,
+                    }))),
+                })],
+                name: JSXElementName::Ident(Ident::new("div".into(), span)),
+                self_closing: true,
+            },
+            children: vec![],
+            closing: None
+        })
+    );
+}

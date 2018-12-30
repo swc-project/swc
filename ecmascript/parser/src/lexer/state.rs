@@ -144,7 +144,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             return Ok(Some(Token::JSXTagEnd));
                         }
 
-                        if (c == '\'' || c == '`')
+                        if (c == '\'' || c == '"')
                             && self.state.context.current() == Some(Type::JSXOpeningTag)
                         {
                             return self.read_jsx_str(c).map(Some);

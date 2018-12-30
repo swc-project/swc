@@ -164,7 +164,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             if ch == '&' {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 out.push(self.read_jsx_entity()?);
-                chunk_start = cur_pos;
+                chunk_start = self.input.cur_pos();
             } else if ch.is_line_break() {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 match self.read_jsx_new_line(false)? {
