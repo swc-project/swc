@@ -77,6 +77,9 @@ New generation javascript to old-days javascript.
       - [ ] Using symbol as a key
     - [ ] optional-catch-binding
     - [ ] unicode-property-regex
+ 
+  - react
+    - [x] jsx
 
 # Performance
 

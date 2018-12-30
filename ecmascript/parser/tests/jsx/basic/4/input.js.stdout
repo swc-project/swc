@@ -177,7 +177,7 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        value: Atom('&amp;' type=inline),
+                                                        value: Atom('&' type=inline),
                                                         has_escape: false
                                                     }
                                                 )

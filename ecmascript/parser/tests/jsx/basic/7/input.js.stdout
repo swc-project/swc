@@ -85,7 +85,7 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        value: Atom('&#x0026;&#38;' type=dynamic),
+                                                        value: Atom('&&' type=inline),
                                                         has_escape: false
                                                     }
                                                 )
