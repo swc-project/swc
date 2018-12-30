@@ -122,7 +122,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         self.state.start = start;
 
         let res = (|| -> Result<Option<_>, _> {
-            if self.syntax.jsx() {
+            if self.syntax.jsx() && !self.ctx.in_property_name {
                 //jsx
                 if self.state.context.current() == Some(TokenContext::JSXExpr) {
                     let start = self.cur_pos();
@@ -271,7 +271,9 @@ impl State {
                     let out = context.pop().unwrap();
 
                     // let a = function(){}
-                    if out == TokenContext::BraceStmt && context.current() == Some(TokenContext::FnExpr) {
+                    if out == TokenContext::BraceStmt
+                        && context.current() == Some(TokenContext::FnExpr)
+                    {
                         context.pop();
                         return false;
                     }
@@ -297,7 +299,9 @@ impl State {
                 }
 
                 // for (a of b) {}
-                tok!("of") if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() => {
+                tok!("of")
+                    if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
+                {
                     // e.g. for (a of _) => true
                     !prev
                         .expect("context.current() if ParenStmt, so prev token cannot be None")

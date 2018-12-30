@@ -35,44 +35,51 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// spec: 'PropertyName'
     pub(super) fn parse_prop_name(&mut self) -> PResult<'a, PropName> {
-        let start = cur_pos!();
+        let ctx = self.ctx();
+        self.with_ctx(Context {
+            in_property_name: true,
+            ..ctx
+        })
+        .parse_with(|p| {
+            let start = cur_pos!();
 
-        let v = match *cur!(true)? {
-            Token::Str { .. } => match bump!() {
-                Token::Str { value, has_escape } => PropName::Str(Str {
-                    span: span!(start),
-                    value,
-                    has_escape,
-                }),
-                _ => unreachable!(),
-            },
-            Num(_) => match bump!() {
-                Num(value) => PropName::Num(Number {
-                    span: span!(start),
-                    value,
-                }),
-                _ => unreachable!(),
-            },
-            Word(..) => match bump!() {
-                Word(w) => PropName::Ident(Ident {
-                    span: span!(start),
-                    sym: w.into(),
-                }),
-                _ => unreachable!(),
-            },
-            LBracket => {
-                bump!();
-                let expr = self
-                    .include_in_expr(true)
-                    .parse_assignment_expr()
-                    .map(PropName::Computed)?;
-                expect!(']');
-                expr
-            }
-            _ => unexpected!(),
-        };
+            let v = match *cur!(true)? {
+                Token::Str { .. } => match bump!() {
+                    Token::Str { value, has_escape } => PropName::Str(Str {
+                        span: span!(start),
+                        value,
+                        has_escape,
+                    }),
+                    _ => unreachable!(),
+                },
+                Num(_) => match bump!() {
+                    Num(value) => PropName::Num(Number {
+                        span: span!(start),
+                        value,
+                    }),
+                    _ => unreachable!(),
+                },
+                Word(..) => match bump!() {
+                    Word(w) => PropName::Ident(Ident {
+                        span: span!(start),
+                        sym: w.into(),
+                    }),
+                    _ => unreachable!(),
+                },
+                LBracket => {
+                    bump!();
+                    let expr = p
+                        .include_in_expr(true)
+                        .parse_assignment_expr()
+                        .map(PropName::Computed)?;
+                    expect!(']');
+                    expr
+                }
+                _ => unexpected!(),
+            };
 
-        Ok(v)
+            Ok(v)
+        })
     }
 }
 

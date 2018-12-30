@@ -116,8 +116,8 @@ pub enum Syntax {
     Tsx,
 }
 
-impl Default for Syntax{
-    fn default()->Self{
+impl Default for Syntax {
+    fn default() -> Self {
         Syntax::Es2019
     }
 }
@@ -143,7 +143,7 @@ pub struct Config {
 
 /// Syntatic context.
 #[derive(Debug, Clone, Copy, Default)]
-pub(crate)struct Context {
+pub(crate) struct Context {
     /// Is in module code?
     module: bool,
     strict: bool,
@@ -158,6 +158,8 @@ pub(crate)struct Context {
     in_function: bool,
 
     in_parameters: bool,
+
+    in_property_name: bool,
 
     in_forced_jsx_context: bool,
 }
