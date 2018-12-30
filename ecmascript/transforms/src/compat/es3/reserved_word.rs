@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use swc_common::Fold;
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -21,10 +21,48 @@ use swc_common::{Fold, FoldWith};
 #[derive(Debug, Clone, Copy, Default)]
 pub struct ReservedWord;
 
-impl Fold<Expr> for ReservedWord {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-
-        e
+impl Fold<Ident> for ReservedWord {
+    fn fold(&mut self, i: Ident) -> Ident {
+        fold_ident(i)
     }
+}
+
+fn fold_ident(i: Ident) -> Ident {
+    if i.is_reserved_for_es3() {
+        return Ident {
+            sym: format!("_{}", i.sym).into(),
+            ..i
+        };
+    }
+
+    i
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    test!(
+        ::swc_ecma_parser::Syntax::Es2019,
+        ReservedWord,
+        babel_issue_6477,
+        r#"
+function utf8CheckByte(byte) {
+  if (byte <= 0x7F) return 0;
+  else if (byte >> 5 === 0x06) return 2;
+  else if (byte >> 4 === 0x0E) return 3;
+  else if (byte >> 3 === 0x1E) return 4;
+  return -1;
+}
+"#,
+        r#"
+function utf8CheckByte(_byte) {
+  if (_byte <= 0x7F) return 0;
+  else if (_byte >> 5 === 0x06) return 2;
+  else if (_byte >> 4 === 0x0E) return 3;
+  else if (_byte >> 3 === 0x1E) return 4;
+  return -1;
+}
+"#
+    );
 }
