@@ -283,8 +283,14 @@ fn jsx_name(name: JSXElementName) -> Box<Expr> {
         JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
             fn convert_obj(obj: JSXObject) -> ExprOrSuper {
                 let span = obj.span();
+
                 match obj {
-                    JSXObject::Ident(i) => i.as_obj(),
+                    JSXObject::Ident(i) => {
+                        if &*i.sym == "this" {
+                            return ExprOrSuper::Expr(box Expr::This(ThisExpr { span }));
+                        }
+                        i.as_obj()
+                    }
                     JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
                         span,
                         obj: convert_obj(obj),

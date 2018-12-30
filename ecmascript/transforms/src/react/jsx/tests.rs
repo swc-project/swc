@@ -53,20 +53,15 @@ var bar = function () {
 };
 "#,
     r#"
-var foo = function () {
-  var _this = this;
-
-  return function () {
-    return React.createElement(_this, null);
-  };
+var foo = function() {
+    return (function() {
+        return React.createElement(this, null);
+    }).bind(this);
 };
-
-var bar = function () {
-  var _this2 = this;
-
-  return function () {
-    return React.createElement(_this2.foo, null);
-  };
+var bar = function() {
+    return (function() {
+        return React.createElement(this.foo, null);
+    }).bind(this);
 };
 "#
 );
