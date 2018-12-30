@@ -35,7 +35,7 @@ New generation javascript to old-days javascript.
  - es3
     - [x] member-expression-literals
     - [x] property-literals
-    - [ ] reserved-words
+    - [x] reserved-words
 
  - es5
     - [ ] property-mutators
