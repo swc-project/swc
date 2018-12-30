@@ -243,7 +243,11 @@ impl Fold<Expr> for Jsx {
         let expr = expr.fold_children(self);
 
         match expr {
-            Expr::JSXElement(el) => {
+            Expr::Paren(ParenExpr {
+                expr: box Expr::JSXElement(el),
+                ..
+            })
+            | Expr::JSXElement(el) => {
                 // <div></div> => React.createElement('div', null);
                 self.jsx_elem_to_expr(el)
             }
