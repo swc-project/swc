@@ -1,6 +1,7 @@
 use super::*;
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#,
@@ -9,6 +10,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     expr_first,
     r#"var foo = 5;
@@ -32,6 +34,7 @@ var example5 = '' + '';"#,
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     functions,
     r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
@@ -39,6 +42,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     literals,
     r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
@@ -46,6 +50,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     multiline,
     r#"var o = `wow
@@ -56,6 +61,7 @@ actually multiline!`;"#,
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
@@ -63,6 +69,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     none,
     r#"var foo = `test`;"#,
@@ -70,6 +77,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     only,
     r#"var foo = `${test}`;"#,
@@ -77,6 +85,7 @@ test!(
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| TemplateLiteral { helpers },
     order,
     r#"
@@ -105,6 +114,7 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| TemplateLiteral { helpers },
     order2,
     r#"const calls = [];
@@ -129,6 +139,7 @@ expect(calls).toEqual([1, 2]);"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     simple_tag,
     r#"var foo = tag`wow`;
@@ -151,6 +162,7 @@ var bar = tag(function _templateObject1() {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     single,
     r#"var foo = `test ${foo}`;"#,
@@ -158,6 +170,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     statement,
     r#"var foo = `test ${foo + bar}`;"#,
@@ -166,6 +179,7 @@ test!(
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| TemplateLiteral { helpers },
     symbol,
     r#"const fn = () => `${Symbol()}`;
@@ -174,6 +188,7 @@ expect(fn).toThrow(TypeError);"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     tag,
     r#"
@@ -208,6 +223,7 @@ var bar = bar(function _templateObject2() {
 // TODO: Fix parser
 test!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     TemplateLiteral::default(),
     template_revision,
     r#"tag`\unicode and \u{55}`;

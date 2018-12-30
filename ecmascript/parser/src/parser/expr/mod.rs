@@ -1,4 +1,5 @@
 use super::{pat::PatType, util::ExprExt, *};
+use either::Either;
 use swc_common::Spanned;
 
 mod ops;
@@ -621,6 +622,39 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse call, dot, and `[]`-subscript expressions.
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
+
+        // parse jsx
+        if self.input.syntax().jsx() {
+            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                match e {
+                    Either::Left(l) => box l.into(),
+                    Either::Right(r) => box r.into(),
+                }
+            }
+            match *cur!(true)? {
+                Token::JSXText { .. } => {
+                    return self
+                        .parse_jsx_text()
+                        .map(Lit::JSXText)
+                        .map(Expr::Lit)
+                        .map(Box::new);
+                }
+                Token::JSXTagStart => {
+                    return self.parse_jsx_element().map(into_expr);
+                }
+                _ => {}
+            }
+
+            if is!('<') && !peeked_is!('!') {
+                // In case we encounter an lt token here it will always be the start of
+                // jsx as the lt sign is not allowed in places that expect an expression
+
+                // FIXME:
+                // this.finishToken(tt.jsxTagStart);
+
+                return self.parse_jsx_element().map(into_expr);
+            }
+        }
 
         // `super()` can't be handled from parse_new_expr()
         if eat!("super") {

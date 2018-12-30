@@ -9,7 +9,7 @@ extern crate testing;
 extern crate walkdir;
 
 use self::{
-    parser::SourceFileInput,
+    parser::{SourceFileInput, Syntax},
     test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName},
 };
 use std::{
@@ -95,7 +95,8 @@ fn add_golden_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         cfg: Default::default(),
                         handler: &handler,
                     };
-                    parser::Parser::new(session, SourceFileInput::from(&*fm)).parse_module()?
+                    parser::Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
+                        .parse_module()?
                 };
 
                 lints::lint_all(&handler, &module);

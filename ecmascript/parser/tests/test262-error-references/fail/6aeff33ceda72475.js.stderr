@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(Word(yield))
  --> $DIR/tests/test262-parser/fail/6aeff33ceda72475.js:1:17
   |
 1 | class A extends yield B { }

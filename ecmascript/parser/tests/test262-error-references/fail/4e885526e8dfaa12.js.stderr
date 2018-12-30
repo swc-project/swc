@@ -1,4 +1,4 @@
-error: Unexpected token
+error: assignment property is invalid syntax
  --> $DIR/tests/test262-parser/fail/4e885526e8dfaa12.js:1:4
   |
 1 | f({x = 0})

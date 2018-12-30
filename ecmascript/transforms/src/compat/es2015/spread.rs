@@ -1,4 +1,4 @@
-use crate::{compat::helpers::Helpers, util::ExprFactory};
+use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::{
     iter, mem,
@@ -186,6 +186,7 @@ mod tests {
     use super::*;
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         call,
         "ca(a, b, c, ...d, e)",
@@ -193,6 +194,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         call_multi_spread,
         "ca(a, b, ...d, e, f, ...h)",
@@ -200,6 +202,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         call_noop,
         "ca(a, b, c, d, e)",
@@ -207,6 +210,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         array,
         "[a, b, c, ...d, e]",
@@ -214,6 +218,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         array_empty,
         "[a,, b, c, ...d,,, e]",
@@ -221,6 +226,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         new,
         "new C(a, b, c, ...d, e)",
@@ -229,6 +235,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         Spread::default(),
         new_noop,
         "new C(a, b, c, c, d, e)",

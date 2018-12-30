@@ -14,7 +14,7 @@ extern crate testing;
 
 use std::sync::Arc;
 use swc_common::{FileName, FoldWith};
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::compat;
 use test::Bencher;
 
@@ -102,10 +102,11 @@ macro_rules! tr {
                     handler: &handler,
                     cfg: Default::default(),
                 },
+                Syntax::Es2019,
                 SourceFileInput::from(&*fm),
             );
             let module = parser.parse_module().unwrap();
-            let helpers = Arc::new(compat::helpers::Helpers::default());
+            let helpers = Arc::new(helpers::Helpers::default());
             let mut tr = $tr(helpers);
 
             $b.iter(|| {

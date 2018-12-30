@@ -1,7 +1,13 @@
 use super::SimplifyExpr;
 
 fn test_expr(src: &str, expected: &str) {
-    test_transform!(SimplifyExpr, src, expected, true)
+    test_transform!(
+        ::swc_ecma_parser::Syntax::Es2019,
+        SimplifyExpr,
+        src,
+        expected,
+        true
+    )
 }
 
 /// Should not modify expression.

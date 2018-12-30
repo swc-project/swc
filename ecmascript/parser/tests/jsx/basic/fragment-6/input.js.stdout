@@ -1,0 +1,176 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            59
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                JSXFragment(
+                    JSXFragment {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                59
+                            ),
+                            ctxt: #0
+                        },
+                        opening: JSXOpeningFragment {
+                            span: Span {
+                                lo: BytePos(
+                                    1
+                                ),
+                                hi: BytePos(
+                                    2
+                                ),
+                                ctxt: #0
+                            }
+                        },
+                        children: [
+                            JSXElement(
+                                JSXElement {
+                                    span: Span {
+                                        lo: BytePos(
+                                            2
+                                        ),
+                                        hi: BytePos(
+                                            23
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    opening: JSXOpeningElement {
+                                        name: Ident(
+                                            Ident(
+                                                div,
+                                                Span {
+                                                    lo: BytePos(
+                                                        3
+                                                    ),
+                                                    hi: BytePos(
+                                                        6
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        ),
+                                        span: Span {
+                                            lo: BytePos(
+                                                3
+                                            ),
+                                            hi: BytePos(
+                                                7
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        attrs: [],
+                                        self_closing: false
+                                    },
+                                    children: [
+                                        JSXText(
+                                            JSXText {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        7
+                                                    ),
+                                                    hi: BytePos(
+                                                        17
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                value: Atom('JSXElement' type=dynamic),
+                                                raw: Atom('JSXElement' type=dynamic)
+                                            }
+                                        )
+                                    ],
+                                    closing: Some(
+                                        JSXClosingElement {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    19
+                                                ),
+                                                hi: BytePos(
+                                                    23
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            name: Ident(
+                                                Ident(
+                                                    div,
+                                                    Span {
+                                                        lo: BytePos(
+                                                            19
+                                                        ),
+                                                        hi: BytePos(
+                                                            22
+                                                        ),
+                                                        ctxt: #0
+                                                    }
+                                                )
+                                            )
+                                        }
+                                    )
+                                }
+                            ),
+                            JSXText(
+                                JSXText {
+                                    span: Span {
+                                        lo: BytePos(
+                                            23
+                                        ),
+                                        hi: BytePos(
+                                            30
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    value: Atom('JSXText' type=inline),
+                                    raw: Atom('JSXText' type=inline)
+                                }
+                            ),
+                            JSXExprContainer(
+                                JSXExprContainer {
+                                    expr: Expr(
+                                        Lit(
+                                            Str(
+                                                Str {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            31
+                                                        ),
+                                                        hi: BytePos(
+                                                            55
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    value: Atom('JSXExpressionContainer' type=dynamic),
+                                                    has_escape: false
+                                                }
+                                            )
+                                        )
+                                    )
+                                }
+                            )
+                        ],
+                        closing: JSXClosingFragment {
+                            span: Span {
+                                lo: BytePos(
+                                    58
+                                ),
+                                hi: BytePos(
+                                    59
+                                ),
+                                ctxt: #0
+                            }
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}

@@ -1,4 +1,4 @@
-error: Unexpected token
+error: cannot import as reserved word
  --> $DIR/tests/test262-parser/fail/f44552157bc0db6e.module.js:1:9
   |
 1 | import {function} from 'a';

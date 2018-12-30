@@ -1,0 +1,85 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            23
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                JSXElement(
+                    JSXElement {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                23
+                            ),
+                            ctxt: #0
+                        },
+                        opening: JSXOpeningElement {
+                            name: Ident(
+                                Ident(
+                                    日本語,
+                                    Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            10
+                                        ),
+                                        ctxt: #0
+                                    }
+                                )
+                            ),
+                            span: Span {
+                                lo: BytePos(
+                                    1
+                                ),
+                                hi: BytePos(
+                                    11
+                                ),
+                                ctxt: #0
+                            },
+                            attrs: [],
+                            self_closing: false
+                        },
+                        children: [],
+                        closing: Some(
+                            JSXClosingElement {
+                                span: Span {
+                                    lo: BytePos(
+                                        13
+                                    ),
+                                    hi: BytePos(
+                                        23
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident(
+                                        日本語,
+                                        Span {
+                                            lo: BytePos(
+                                                13
+                                            ),
+                                            hi: BytePos(
+                                                22
+                                            ),
+                                            ctxt: #0
+                                        }
+                                    )
+                                )
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

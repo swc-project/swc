@@ -77,7 +77,12 @@ mod tests {
                     (*v).into()
                 };
 
-                let mut v = tester.apply_transform(::testing::DropSpan, "global.js", &v)?;
+                let mut v = tester.apply_transform(
+                    ::testing::DropSpan,
+                    "global.js",
+                    ::swc_ecma_parser::Syntax::Es2019,
+                    &v,
+                )?;
                 assert_eq!(v.body.len(), 1);
                 let v = match v.body.pop().unwrap() {
                     ModuleItem::Stmt(Stmt::Expr(box expr)) => expr,
@@ -102,6 +107,7 @@ mod tests {
     }
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         InlineGlobals {
             envs: envs(&[("NODE_ENV", "development")]),
             globals: globals(&[]),
@@ -112,6 +118,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         InlineGlobals {
             envs: envs(&[]),
             globals: globals(&[("__DEBUG__", "true")]),
@@ -122,6 +129,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         InlineGlobals {
             envs: envs(&[]),
             globals: globals(&[("debug", "true")]),

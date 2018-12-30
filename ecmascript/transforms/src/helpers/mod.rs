@@ -8,7 +8,7 @@ use swc_common::{
     sync::Lrc,
     FileName, Fold, SourceMap,
 };
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Debug, Default)]
@@ -71,7 +71,7 @@ impl InjectHelpers {
                 .cm
                 .new_source_file(FileName::Custom(name.into()), code.into());
 
-            let mut stmts = Parser::new(session, SourceFileInput::from(&*fm))
+            let mut stmts = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
                 .parse_script()
                 .unwrap();
 

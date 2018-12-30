@@ -1,5 +1,5 @@
 pub use self::async_to_generator::async_to_generator;
-use crate::compat::helpers::Helpers;
+use crate::helpers::Helpers;
 use ast::Module;
 use std::sync::Arc;
 use swc_common::Fold;

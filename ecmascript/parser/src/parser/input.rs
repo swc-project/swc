@@ -1,7 +1,9 @@
-use lexer::{Input, Lexer};
+use crate::{
+    lexer::{Input, Lexer},
+    token::*,
+    Context, Syntax,
+};
 use swc_common::{BytePos, Span, DUMMY_SP};
-use token::*;
-use Context;
 
 /// This struct is responsible for managing current token and peeked token.
 pub(super) struct ParserInput<'a, I: Input> {
@@ -163,5 +165,9 @@ impl<'a, I: Input> ParserInput<'a, I> {
 
     pub fn set_ctx(&mut self, ctx: Context) {
         self.iter.ctx = ctx;
+    }
+
+    pub const fn syntax(&self) -> Syntax {
+        self.iter.syntax
     }
 }

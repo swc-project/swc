@@ -1,6 +1,7 @@
 use super::*;
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
@@ -9,6 +10,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     obj_assign_expr,
     r#"let a;
@@ -19,6 +21,7 @@ var ref, ref1, ref2;
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
@@ -27,6 +30,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
@@ -37,6 +41,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     assign_expr_completion_record,
     r#"var x, y;
@@ -46,7 +51,7 @@ var ref;
 ( ref = [1, 2], x = ref[0], y = ref[1], ref);"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     assign_expr_pat,
     r#"var z = {};
@@ -59,6 +64,7 @@ var ref = z ? z : _throw(new TypeError("Cannot destructure 'undefined' or 'null'
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     assign_expr,
     r#"console.log([x] = [123]);"#,
@@ -67,6 +73,7 @@ console.log((ref = [123], x = ref[0], ref));"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Destructuring { helpers },
     chained,
     r#"var a, b, c, d;
@@ -78,6 +85,7 @@ expect(d).toBe(4);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Destructuring { helpers },
     empty_obj_pat_1,
     r#"expect(function () {
@@ -85,7 +93,7 @@ test_exec!(
 }).toThrow("Cannot destructure 'undefined' or 'null'");"#
 );
 
-// test!(
+// test!(::swc_ecma_parser::Syntax::Es2019,
 //     Destructuring::default(),
 //     empty_obj_pat_2,
 //     r#"var {} = null;"#,
@@ -94,6 +102,7 @@ test_exec!(
 // );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
@@ -104,6 +113,7 @@ test!(
 
 test!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     es7_object_rest_builtins,
     r#"var z = {};
@@ -137,6 +147,7 @@ _o;"#
 
 test!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     es7_object_rest,
     r#"var z = {};
@@ -170,6 +181,7 @@ _o;"#
 
 test!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     export_variable,
     r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#,
@@ -185,6 +197,7 @@ export { a, b, d, f };"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     for_in,
     r#"for (var [name, value] in obj) {
@@ -198,6 +211,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     for_let,
     r#"for (let [ i, n ] = range; ; ) {}"#,
@@ -205,6 +219,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     for_of,
     r#"for (var [ name, before, after ] of test.expectation.registers) {
@@ -217,6 +232,7 @@ test!(
 
 test_exec!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Destructuring { helpers },
     fn_key_with_obj_rest_spread,
     r#"const { [(() => 1)()]: a, ...rest } = { 1: "a" };
@@ -225,7 +241,7 @@ expect(a).toBe("a");
 expect(rest).toEqual({});"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     babel_issue_3081,
     r#"let list = [1, 2, 3, 4];
@@ -241,6 +257,7 @@ for(let i = 0, ref = list ? list : _throw(new TypeError("Cannot destructure 'und
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Destructuring { helpers },
     babel_issue_5090,
     r#"const assign = function([...arr], index, value) {
@@ -255,6 +272,7 @@ expect(arr).toEqual([1, 2, 3]);"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     babel_issue_5628,
     r#"
@@ -274,6 +292,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     babel_issue_5744,
     r#"if (true) [a, b] = [b, a];"#,
@@ -283,6 +302,7 @@ if (true) ( ref = [b, a], a = ref[0], b = ref[1], ref);"#
 
 test!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     babel_issue_6373,
     r#"import { NestedObjects } from "./some-module"
@@ -297,6 +317,7 @@ const Foo = _someModule.NestedObjects.Foo,
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     known_array,
     r#"var z = [];
@@ -307,6 +328,7 @@ var x = z[0],
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     member_expr,
     r#"[foo.foo, foo.bar] = [1, 2];"#,
@@ -315,6 +337,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     mixed,
     r#"var rect = {};
@@ -326,6 +349,7 @@ var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     multiple,
     r#"var coords = [1, 2];
@@ -338,6 +362,7 @@ var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined'
 
 test_exec!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Destructuring { helpers },
     number_key_with_object_spread,
     r#"const foo = {
@@ -353,6 +378,7 @@ expect(rest).toEqual({ 2: "b", 3: "c" });"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     object_advanced,
     r#"var rect = {};
@@ -368,7 +394,7 @@ var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 
 var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     object_basic,
     r#"var coords = [1, 2];
@@ -379,6 +405,7 @@ var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined'
 
 test_exec!(
     ignore,
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Destructuring { helpers },
     spread_generator,
     r#"function* f() {
@@ -391,6 +418,7 @@ expect(xs).toEqual([0, 1, 2]);"#
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Destructuring::default(),
     spread,
     r#"function isSorted([x, y, ...wow]) {

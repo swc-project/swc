@@ -57,6 +57,7 @@ mod tests {
     use super::*;
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         StickyRegex,
         babel_basic,
         "var re = /o+/y;",
@@ -64,6 +65,7 @@ mod tests {
     );
 
     test!(
+        ::swc_ecma_parser::Syntax::Es2019,
         StickyRegex,
         babel_ignore_non_sticky,
         "var re = /o+/;",

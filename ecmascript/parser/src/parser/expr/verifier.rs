@@ -2,7 +2,7 @@ use super::*;
 use swc_common::{Span, Spanned, Visit, VisitWith};
 
 impl<'a, I: Input> Parser<'a, I> {
-    pub(in parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
+    pub(in crate::parser) fn verify_expr(&self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
         let mut v = Verifier { errors: vec![] };
 
         v.visit(&expr);
@@ -34,7 +34,7 @@ impl Visit<Prop> for Verifier {
     fn visit(&mut self, p: &Prop) {
         match *p {
             Prop::Assign { .. } => {
-                self.errors.push((p.span(), SyntaxError::Unexpected));
+                self.errors.push((p.span(), SyntaxError::AssignProperty));
             }
             _ => p.visit_children(self),
         }

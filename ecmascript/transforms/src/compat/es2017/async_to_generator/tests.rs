@@ -30,6 +30,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 }
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     async_arrow_in_method,
     r#"
@@ -62,7 +63,7 @@ let TestClass = {
 "#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
   tr(Default::default()),
   async_default_arguments,
   r#"
@@ -92,6 +93,7 @@ function foo(param) {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     async_iife,
     r#"
@@ -130,6 +132,7 @@ _asyncToGenerator(function*() {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     async,
     r#"
@@ -151,7 +154,7 @@ class Foo {
 "#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
   tr(Default::default()),
   deeply_nested_asyncs,
   r#"
@@ -213,6 +216,7 @@ function s(x) {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     expression,
     r#"
@@ -258,7 +262,7 @@ var foo2 = function () {
 }();"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
   tr(Default::default()),
   function_arity,
   r#"
@@ -334,6 +338,7 @@ function six(a, param) {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     named_expression,
     r#"
@@ -354,6 +359,7 @@ var foo = (function() {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     no_parameters_and_no_id,
     r#"
@@ -371,6 +377,7 @@ foo((function() {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     object_method_with_arrows,
     r#"
@@ -445,7 +452,7 @@ class Class{
 "#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
   tr(Default::default()),
   object_method_with_super,
   r#"class Foo extends class {} {
@@ -472,6 +479,7 @@ class Foo extends class{
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| tr(helpers),
     class_method_this,
     r#"
@@ -490,6 +498,7 @@ return foo.foo().then(cur => {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| tr(helpers),
     class_method_super,
     r#"
@@ -513,6 +522,7 @@ return bar.bar().then(cur => {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| tr(helpers),
     class_getter_super,
     r#"
@@ -538,6 +548,7 @@ return bar.bar().then(foo => {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| tr(helpers),
     class_setter_super,
     r#"
@@ -564,6 +575,7 @@ return bar.bar().then(bar => {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| tr(helpers),
     class_method_this_complex,
     r#"
@@ -596,6 +608,7 @@ return c.method();
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     object_method,
     r#"
@@ -619,6 +632,7 @@ let obj = {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     babel_parameters,
     r#"
@@ -638,6 +652,7 @@ function foo(bar) {
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     tr(Default::default()),
     statement,
     r#"

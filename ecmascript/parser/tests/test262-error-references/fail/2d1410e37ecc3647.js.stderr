@@ -1,4 +1,4 @@
-error: Expected RParen
+error: Expected RParen, got Some(AssignOp("="))
  --> $DIR/tests/test262-parser/fail/2d1410e37ecc3647.js:1:20
   |
 1 | function f(a, ...b = 0)

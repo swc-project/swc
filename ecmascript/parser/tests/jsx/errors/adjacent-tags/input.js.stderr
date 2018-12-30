@@ -1,0 +1,6 @@
+error: Unterminated regexp literal
+ --> $DIR/tests/jsx/errors/adjacent-tags/input.js:1:32
+  |
+1 | var x = <div>one</div><div>two</div>;
+  |                                ^^^^^^
+

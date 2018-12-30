@@ -6,7 +6,7 @@
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, LexResult, Lexer};
-use error::{ErrorToDiag, SyntaxError};
+use crate::error::{ErrorToDiag, SyntaxError};
 use swc_common::{BytePos, Span};
 use unicode_xid::UnicodeXID;
 
@@ -67,7 +67,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     pub(super) fn cur(&mut self) -> Option<char> {
-        self.input.current()
+        self.input.cur()
     }
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
@@ -84,11 +84,13 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
+    #[cold]
     pub(super) fn error(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<!> {
         let span = self.span(start);
         self.error_span(span, kind)
     }
 
+    #[cold]
     pub(super) fn error_span(&mut self, span: Span, kind: SyntaxError) -> LexResult<!> {
         let err = ErrorToDiag {
             handler: self.session.handler,

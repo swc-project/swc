@@ -8,7 +8,6 @@
 #![deny(unreachable_pub)]
 #![deny(variant_size_differences)]
 
-#[macro_use]
 extern crate enum_kind;
 #[macro_use]
 extern crate string_enum;
@@ -25,6 +24,12 @@ pub use self::{
         TplElement, TplLit, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::Function,
+    jsx::{
+        JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
+        JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
+        JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
+        JSXOpeningFragment, JSXSpreadChild, JSXText,
+    },
     keywords::IdentExt,
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem},
@@ -51,6 +56,7 @@ mod class;
 mod decl;
 mod expr;
 mod function;
+mod jsx;
 mod keywords;
 mod lit;
 mod macros;

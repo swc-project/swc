@@ -1,4 +1,4 @@
-error: Unexpected token
+error: Unexpected token Some(RBracket)
  --> $DIR/tests/test262-parser/fail/679ab0881c66b0cf.js:2:1
   |
 2 | ]

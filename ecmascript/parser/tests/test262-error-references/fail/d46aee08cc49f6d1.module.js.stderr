@@ -1,4 +1,4 @@
-error: Expected LBrace
+error: Expected LBrace, got None
  --> $DIR/tests/test262-parser/fail/d46aee08cc49f6d1.module.js:1:1
   |
 1 | export

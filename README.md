@@ -24,6 +24,11 @@ yarn add --dev swc
 
 # Features
 
+## Parsers
+ - [x] es2019
+ - [x] jsx
+ - [ ] typescript
+
 ## Transforms
 New generation javascript to old-days javascript.
 
@@ -72,6 +77,9 @@ New generation javascript to old-days javascript.
       - [ ] Using symbol as a key
     - [ ] optional-catch-binding
     - [ ] unicode-property-regex
+ 
+  - react
+    - [x] jsx
 
 # Performance
 

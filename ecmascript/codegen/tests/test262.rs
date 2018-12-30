@@ -19,7 +19,7 @@ use std::{
 use swc_common::{sync::Lrc, Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::NormalizedOutput;
 
@@ -152,6 +152,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         handler: &handler,
                         cfg: Default::default(),
                     },
+                    Syntax::Es2019,
                     (&*src).into(),
                 );
 

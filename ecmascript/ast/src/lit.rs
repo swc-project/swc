@@ -1,3 +1,4 @@
+use super::JSXText;
 use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
@@ -9,6 +10,7 @@ pub enum Lit {
     Null(Null),
     Num(Number),
     Regex(Regex),
+    JSXText(JSXText),
 }
 
 #[ast_node]

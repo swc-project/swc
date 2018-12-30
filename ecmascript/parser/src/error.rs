@@ -1,4 +1,5 @@
 use self::SyntaxError::*;
+use crate::token::Token;
 use std::{
     borrow::Cow,
     fmt::{self, Debug, Formatter},
@@ -8,7 +9,6 @@ use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
 };
-use token::Token;
 
 #[derive(Copy, Clone)]
 pub(crate) struct Eof<'a> {
@@ -87,8 +87,12 @@ pub(crate) enum SyntaxError {
     LineBreakBeforeArrow,
 
     /// Unexpected token
-    Unexpected,
-    Expected(&'static Token),
+    Unexpected {
+        got: String,
+    },
+    ReservedWordInImport,
+    AssignProperty,
+    Expected(&'static Token, String),
     ExpectedSemiForExprStmt {
         expr: Span,
     },
@@ -122,6 +126,14 @@ pub(crate) enum SyntaxError {
     YieldParamInGen,
 
     AwaitForStmt,
+
+    UnterminatedJSXContents,
+    EmptyJSXAttr,
+    InvalidJSXValue,
+    JSXExpectedClosingTagForLtGt,
+    JSXExpectedClosingTag {
+        tag: JsWord,
+    },
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -180,8 +192,11 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
-            Unexpected => "Unexpected token".into(),
-            Expected(token) => format!("Expected {:?}", token).into(),
+            Unexpected { ref got } => format!("Unexpected token {}", got).into(),
+
+            ReservedWordInImport => "cannot import as reserved word".into(),
+            AssignProperty => "assignment property is invalid syntax".into(),
+            Expected(token, ref got) => format!("Expected {:?}, got {}", token, got).into(),
             ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 
             AwaitStar => "await* has been removed from the async functions proposal. Use \
@@ -217,6 +232,16 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             LabelledGenerator => "Generator cannot be labelled".into(),
             YieldParamInGen => "'yield' cannot be used as a parameter within generator".into(),
             AwaitForStmt => "for await syntax is valid only for for-of statement".into(),
+
+            UnterminatedJSXContents => "Unterminated JSX contents".into(),
+            EmptyJSXAttr => "JSX attributes must only be assigned a non-empty expression".into(),
+            InvalidJSXValue => {
+                "JSX value should be either an expression or a quoted JSX text".into()
+            }
+            JSXExpectedClosingTagForLtGt => "Expected corresponding JSX closing tag for <>".into(),
+            JSXExpectedClosingTag { ref tag } => {
+                format!("Expected corresponding JSX closing tag for <{}>", tag).into()
+            }
         };
 
         let d = e.handler.error(&msg).span(e.span);

@@ -183,12 +183,19 @@ impl StartsWithAlphaNum for Expr {
                 _ => false,
             },
 
-            // TODO: Support `v => {}`
+            // TODO(kdy1): Support `v => {}`
             Expr::Arrow(ArrowExpr { .. }) => false,
 
             Expr::Tpl(_) | Expr::Update(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => {
                 false
             }
+
+            // it's empty
+            Expr::JSXEmpty(..) => false,
+            // start with `<`
+            Expr::JSXFragment(..) | Expr::JSXElement(..) => false,
+            Expr::JSXNamespacedName(..) => true,
+            Expr::JSXMebmer(..) => true,
         }
     }
 }

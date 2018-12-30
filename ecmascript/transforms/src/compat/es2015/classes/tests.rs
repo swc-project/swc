@@ -1,6 +1,7 @@
 use super::*;
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     basic,
     r#"class Test {
@@ -31,6 +32,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     method_hoisted,
     r#"class Foo {
@@ -54,6 +56,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     static_method,
     r#"class Foo {
@@ -74,6 +77,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     complex_with_consturctor,
     r#"class Foo {
@@ -99,7 +103,7 @@ test!(
 }();"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
   Classes::default(),
   super_access,
   r#"class Parent {
@@ -153,7 +157,7 @@ var Child = function (_Parent) {
 }(Parent);"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     method_override,
     r#"class Parent {
@@ -203,7 +207,7 @@ var Child = function (_Parent) {
 }(Parent);"#
 );
 
-test!(Classes::default(), inherit_constructor, r#"class Parent {
+test!(::swc_ecma_parser::Syntax::Es2019,Classes::default(), inherit_constructor, r#"class Parent {
   constructor(){
   }
   foo(){}
@@ -234,7 +238,7 @@ var Child = function (_Parent) {
   return Child;
 }(Parent);"#);
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     custom_constructor,
     r#"class Parent {
@@ -273,7 +277,7 @@ var Child = function (_Parent) {
 }(Parent);"#
 );
 
-test!(
+test!(::swc_ecma_parser::Syntax::Es2019,
     Classes::default(),
     custom_constructor_super_order,
     r#"class Parent {
@@ -320,6 +324,7 @@ var Child = function (_Parent) {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     get_semantics_getter_defined_on_parent,
     r#"
@@ -348,6 +353,7 @@ expect(obj.get()).toBe(1);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     get_semantics_not_defined_on_parent,
     r#"
@@ -373,6 +379,7 @@ expect(obj.get()).toBeUndefined();
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     get_semantics_setter_defined_on_parent,
     r#"
@@ -401,6 +408,7 @@ expect(obj.get()).toBeUndefined();
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     call_semantics_data_defined_on_parent,
     r#""use strict";
@@ -430,6 +438,7 @@ expect(obj.call(1, 2, 3)).toBe(1);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     call_semantics_getter_defined_on_parent,
     r#"
@@ -463,6 +472,7 @@ expect(obj.call(1, 2, 3)).toBe(1);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     call_semantics_not_defined_on_parent,
     r#"
@@ -490,6 +500,7 @@ expect(() => {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     call_semantics_setter_defined_on_parent,
     r#"
@@ -520,6 +531,7 @@ expect(() => {
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     get_semantics_data_defined_on_parent,
     r#"
@@ -549,6 +561,7 @@ expect(obj.get()).toBe(1);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_data_defined_on_parent,
     r#"
@@ -581,6 +594,7 @@ expect(obj.test).toBe(3);
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_getter_defined_on_parent,
     r#"
@@ -615,6 +629,7 @@ expect(obj.test).toBe(2);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_not_defined_on_parent_data_on_obj,
     r#"
@@ -641,6 +656,7 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_not_defined_on_parent_getter_on_obj,
     r#"
@@ -668,6 +684,7 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_not_defined_on_parent_not_on_obj,
     r#"
@@ -689,6 +706,7 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_not_defined_on_parent_setter_on_obj,
     r#"
@@ -716,6 +734,7 @@ expect(obj.test).toBe(3);"#
 );
 
 test_exec!(
+    ::swc_ecma_parser::Syntax::Es2019,
     |helpers| Classes { helpers },
     set_semantics_setter_defined_on_parent,
     r#"

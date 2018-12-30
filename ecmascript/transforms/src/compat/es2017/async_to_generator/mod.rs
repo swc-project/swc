@@ -1,5 +1,5 @@
 use crate::{
-    compat::helpers::Helpers,
+    helpers::Helpers,
     util::{contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;

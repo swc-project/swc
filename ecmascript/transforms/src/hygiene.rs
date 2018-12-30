@@ -77,6 +77,7 @@ mod tests {
     use super::*;
     use std::collections::HashMap;
     use swc_common::{hygiene::*, Fold, DUMMY_SP};
+    use swc_ecma_parser::Syntax;
 
     struct Marker {
         map: HashMap<JsWord, Mark>,
@@ -115,7 +116,10 @@ mod tests {
             let actual = tester.print(&module);
 
             let expected = {
-                let expected = tester.with_parser("expected.js", expected, |p| p.parse_module())?;
+                let expected =
+                    tester.with_parser("expected.js", Syntax::Es2019, expected, |p| {
+                        p.parse_module()
+                    })?;
                 tester.print(&expected)
             };
 

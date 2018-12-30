@@ -6,7 +6,7 @@ extern crate test;
 extern crate testing;
 
 use swc_common::FileName;
-use swc_ecma_parser::{Parser, Session, SourceFileInput};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::Bencher;
 
 #[bench]
@@ -62,7 +62,7 @@ fn bench_module(b: &mut Bencher, src: &'static str) {
 
         b.iter(|| {
             test::black_box({
-                let mut parser = Parser::new(session, SourceFileInput::from(&*fm));
+                let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
                 let _ = parser.parse_module();
             })
         });

@@ -224,6 +224,7 @@ pub trait ExprExt {
                         Lit::Str(Str { ref value, .. }) => !value.is_empty(),
                         Lit::Null(..) => false,
                         Lit::Regex(..) => true,
+                        Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
                     }),
                 );
             }
@@ -593,6 +594,12 @@ pub trait ExprExt {
                 },
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.may_have_side_effects(),
             }),
+
+            Expr::JSXMebmer(..)
+            | Expr::JSXNamespacedName(..)
+            | Expr::JSXEmpty(..)
+            | Expr::JSXElement(..)
+            | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
         }
     }
 }

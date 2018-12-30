@@ -1,0 +1,6 @@
+error: Unterminated JSX contents
+ --> $DIR/tests/jsx/errors/unclosed-tag/input.js:1:6
+  |
+1 | <foo>yes
+  |      ^^^^
+

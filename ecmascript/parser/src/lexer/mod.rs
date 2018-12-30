@@ -6,43 +6,48 @@
 #![allow(unused_variables)]
 pub use self::input::Input;
 use self::{state::State, util::*};
+use crate::{
+    error::{Error, SyntaxError},
+    token::*,
+    Context, Session, Syntax,
+};
 use ast::Str;
-use error::SyntaxError;
 use std::char;
 use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
-use token::*;
-use Context;
-use Session;
 
 pub mod input;
+mod jsx;
 mod number;
 mod state;
 #[cfg(test)]
 mod tests;
 pub mod util;
 
-pub(crate) type LexResult<T> = Result<T, ::error::Error>;
+pub(crate) type LexResult<T> = Result<T, Error>;
 
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
     pub ctx: Context,
     input: I,
     state: State,
+    pub syntax: Syntax,
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub fn new(session: Session<'a>, input: I) -> Self {
+    pub fn new(session: Session<'a>, syntax: Syntax, input: I) -> Self {
         Lexer {
             session,
             input,
-            state: Default::default(),
+            state: State::new(syntax),
             ctx: Default::default(),
+            syntax,
         }
     }
 
+    /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
-        let c = match self.input.current() {
+        let c = match self.input.cur() {
             Some(c) => c,
             None => return Ok(None),
         };
@@ -105,7 +110,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             ':' => {
                 self.input.bump();
 
-                if self.session.cfg.fn_bind && self.input.current() == Some(':') {
+                if self.session.cfg.fn_bind && self.input.cur() == Some(':') {
                     self.input.bump();
                     return Ok(Some(tok!("::")));
                 }
@@ -138,13 +143,13 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // check for **
                 if is_mul {
-                    if self.input.current() == Some('*') {
+                    if self.input.cur() == Some('*') {
                         self.input.bump();
                         token = BinOp(Exp)
                     }
                 }
 
-                if self.input.current() == Some('=') {
+                if self.input.cur() == Some('=') {
                     self.input.bump();
                     token = match token {
                         BinOp(Mul) => AssignOp(MulAssign),
@@ -163,7 +168,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let token = if c == '&' { BitAnd } else { BitOr };
 
                 // '|=', '&='
-                if self.input.current() == Some('=') {
+                if self.input.cur() == Some('=') {
                     self.input.bump();
                     return Ok(Some(AssignOp(match token {
                         BitAnd => BitAndAssign,
@@ -173,7 +178,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
 
                 // '||', '&&'
-                if self.input.current() == Some(c) {
+                if self.input.cur() == Some(c) {
                     self.input.bump();
                     return Ok(Some(BinOp(match token {
                         BitAnd => LogicalAnd,
@@ -187,7 +192,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             '^' => {
                 // Bitwise xor
                 self.input.bump();
-                if self.input.current() == Some('=') {
+                if self.input.cur() == Some('=') {
                     self.input.bump();
                     AssignOp(BitXorAssign)
                 } else {
@@ -199,7 +204,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.input.bump();
 
                 // '++', '--'
-                if self.input.current() == Some(c) {
+                if self.input.cur() == Some(c) {
                     self.input.bump();
 
                     // Handle -->
@@ -217,7 +222,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     } else {
                         MinusMinus
                     }
-                } else if self.input.current() == Some('=') {
+                } else if self.input.cur() == Some('=') {
                     self.input.bump();
                     AssignOp(if c == '+' { AddAssign } else { SubAssign })
                 } else {
@@ -230,11 +235,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             '!' | '=' => {
                 self.input.bump();
 
-                if self.input.current() == Some('=') {
+                if self.input.cur() == Some('=') {
                     // "=="
                     self.input.bump();
 
-                    if self.input.current() == Some('=') {
+                    if self.input.cur() == Some('=') {
                         self.input.bump();
                         if c == '!' {
                             BinOp(NotEqEq)
@@ -248,7 +253,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                             BinOp(EqEq)
                         }
                     }
-                } else if c == '=' && self.input.current() == Some('>') {
+                } else if c == '=' && self.input.cur() == Some('>') {
                     // "=>"
                     self.input.bump();
 

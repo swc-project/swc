@@ -999,6 +999,12 @@ where
 
             Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
             Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
+
+            Expr::JSXMebmer(..)
+            | Expr::JSXNamespacedName(..)
+            | Expr::JSXEmpty(..)
+            | Expr::JSXElement(..)
+            | Expr::JSXFragment(..) => unreachable!("simplyfing jsx"),
         }
     }
 

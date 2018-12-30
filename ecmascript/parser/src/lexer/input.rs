@@ -6,6 +6,7 @@ pub struct SourceFileInput<'a> {
     fm: &'a SourceFile,
     start_pos: BytePos,
     last_pos: BytePos,
+    orig: &'a str,
     iter: str::CharIndices<'a>,
 }
 
@@ -19,6 +20,7 @@ impl<'a> From<&'a SourceFile> for SourceFileInput<'a> {
         SourceFileInput {
             start_pos: fm.start_pos,
             last_pos: fm.start_pos,
+            orig: src,
             iter: src.char_indices(),
             fm,
         }
@@ -46,7 +48,7 @@ impl<'a> Input for SourceFileInput<'a> {
         }
     }
 
-    fn current(&mut self) -> Option<char> {
+    fn cur(&mut self) -> Option<char> {
         self.iter.clone().nth(0).map(|i| i.1)
     }
 
@@ -56,6 +58,22 @@ impl<'a> Input for SourceFileInput<'a> {
 
     fn peek_ahead(&mut self) -> Option<char> {
         self.iter.clone().nth(2).map(|i| i.1)
+    }
+
+    fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
+        assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        let s = self.orig;
+
+        let start_idx = (start - self.fm.start_pos).0 as usize;
+        let end_idx = (end - self.fm.start_pos).0 as usize;
+
+        let ret = &s[start_idx..end_idx];
+
+        self.iter = s[end_idx..].char_indices();
+        self.last_pos = end;
+        self.start_pos = end;
+
+        ret
     }
 
     fn uncons_while<F>(&mut self, mut pred: F) -> &str
@@ -80,10 +98,20 @@ impl<'a> Input for SourceFileInput<'a> {
 
         ret
     }
+
+    fn reset_to(&mut self, to: BytePos) {
+        let orig = self.orig;
+        let idx = (to - self.fm.start_pos).0 as usize;
+
+        let s = &orig[idx..];
+        self.iter = s.char_indices();
+        self.start_pos = to;
+        self.last_pos = to;
+    }
 }
 
 pub trait Input {
-    fn current(&mut self) -> Option<char>;
+    fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
@@ -92,11 +120,15 @@ pub trait Input {
 
     fn last_pos(&self) -> BytePos;
 
+    fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
     fn uncons_while<F>(&mut self, f: F) -> &str
     where
         F: FnMut(char) -> bool;
+
+    fn reset_to(&mut self, to: BytePos);
 }
 
 #[cfg(test)]
@@ -105,8 +137,43 @@ mod tests {
     use crate::lexer::util::CharExt;
 
     #[test]
+    fn src_input_slice_1() {
+        let _ = crate::with_test_sess("foo/d", |_, mut i| {
+            assert_eq!(i.slice(BytePos(0), BytePos(1)), "f");
+            assert_eq!(i.last_pos, BytePos(1));
+            assert_eq!(i.start_pos, BytePos(1));
+            assert_eq!(i.cur(), Some('o'));
+
+            assert_eq!(i.slice(BytePos(1), BytePos(3)), "oo");
+            assert_eq!(i.slice(BytePos(0), BytePos(3)), "foo");
+            assert_eq!(i.last_pos, BytePos(3));
+            assert_eq!(i.start_pos, BytePos(3));
+            assert_eq!(i.cur(), Some('/'));
+
+            Ok(())
+        });
+    }
+
+    #[test]
+    fn src_input_reset_to_1() {
+        let _ = crate::with_test_sess("foad", |_, mut i| {
+            assert_eq!(i.slice(BytePos(0), BytePos(2)), "fo");
+            assert_eq!(i.last_pos, BytePos(2));
+            assert_eq!(i.start_pos, BytePos(2));
+            assert_eq!(i.cur(), Some('a'));
+            i.reset_to(BytePos(0));
+
+            assert_eq!(i.cur(), Some('f'));
+            assert_eq!(i.last_pos, BytePos(0));
+            assert_eq!(i.start_pos, BytePos(0));
+
+            Ok(())
+        });
+    }
+
+    #[test]
     fn src_input_smoke_01() {
-        let _ = ::with_test_sess("foo/d", |_, mut i| {
+        let _ = crate::with_test_sess("foo/d", |_, mut i| {
             assert_eq!(i.cur_pos(), BytePos(0));
             assert_eq!(i.last_pos, BytePos(0));
             assert_eq!(i.start_pos, BytePos(0));
@@ -115,22 +182,22 @@ mod tests {
             // assert_eq!(i.cur_pos(), BytePos(4));
             assert_eq!(i.last_pos, BytePos(3));
             assert_eq!(i.start_pos, BytePos(3));
-            assert_eq!(i.current(), Some('/'));
+            assert_eq!(i.cur(), Some('/'));
 
             i.bump();
             assert_eq!(i.last_pos, BytePos(4));
-            assert_eq!(i.current(), Some('d'));
+            assert_eq!(i.cur(), Some('d'));
 
             i.bump();
             assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.current(), None);
+            assert_eq!(i.cur(), None);
             Ok(())
         });
     }
 
     #[test]
     fn src_input_smoke_02() {
-        let _ = ::with_test_sess("℘℘/℘℘", |_, mut i| {
+        let _ = crate::with_test_sess("℘℘/℘℘", |_, mut i| {
             assert_eq!(i.iter.as_str(), "℘℘/℘℘");
             assert_eq!(i.cur_pos(), BytePos(0));
             assert_eq!(i.last_pos, BytePos(0));
@@ -140,7 +207,7 @@ mod tests {
             assert_eq!(i.iter.as_str(), "/℘℘");
             assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.start_pos, BytePos(6));
-            assert_eq!(i.current(), Some('/'));
+            assert_eq!(i.cur(), Some('/'));
             i.bump();
             assert_eq!(i.last_pos, BytePos(7));
             assert_eq!(i.start_pos, BytePos(6));

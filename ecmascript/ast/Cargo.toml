@@ -6,6 +6,7 @@ license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_ast/"
 description = "Ecmascript ast."
+edition = "2018"
 
 [dependencies]
 swc_atoms = { version = "0.1", path ="../../atoms" }

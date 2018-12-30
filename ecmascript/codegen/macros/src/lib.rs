@@ -80,6 +80,8 @@ fn (&mut self, node: Node) -> Result;
                             block
                         };
 
+                        // Emitter methods return Result<_, _>
+                        // We inject this to avoid writing Ok(()) every time.
                         #[allow(unreachable_code)]
                         {
                             return Ok(());

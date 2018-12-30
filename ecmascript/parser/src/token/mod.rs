@@ -2,6 +2,7 @@
 //!
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*, Word::*};
+use crate::error::Error;
 pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::{BinaryOp, Str};
 use enum_kind::Kind;
@@ -113,7 +114,18 @@ pub(crate) enum Token {
     #[kind(starts_expr)]
     Num(f64),
 
-    Error(#[fold(ignore)] ::error::Error),
+    JSXName {
+        name: JsWord,
+    },
+    #[kind(before_expr)]
+    JSXText {
+        raw: JsWord,
+    },
+    #[kind(starts_expr)]
+    JSXTagStart,
+    JSXTagEnd,
+
+    Error(#[fold(ignore)] Error),
 }
 
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash, Fold)]

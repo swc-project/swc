@@ -1,0 +1,101 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            15
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                JSXElement(
+                    JSXElement {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                15
+                            ),
+                            ctxt: #0
+                        },
+                        opening: JSXOpeningElement {
+                            name: Ident(
+                                Ident(
+                                    A,
+                                    Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            2
+                                        ),
+                                        ctxt: #0
+                                    }
+                                )
+                            ),
+                            span: Span {
+                                lo: BytePos(
+                                    1
+                                ),
+                                hi: BytePos(
+                                    3
+                                ),
+                                ctxt: #0
+                            },
+                            attrs: [],
+                            self_closing: false
+                        },
+                        children: [
+                            JSXText(
+                                JSXText {
+                                    span: Span {
+                                        lo: BytePos(
+                                            3
+                                        ),
+                                        hi: BytePos(
+                                            11
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    value: Atom('&#1f4a9;' type=dynamic),
+                                    raw: Atom('&#1f4a9;' type=dynamic)
+                                }
+                            )
+                        ],
+                        closing: Some(
+                            JSXClosingElement {
+                                span: Span {
+                                    lo: BytePos(
+                                        13
+                                    ),
+                                    hi: BytePos(
+                                        15
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident(
+                                        A,
+                                        Span {
+                                            lo: BytePos(
+                                                13
+                                            ),
+                                            hi: BytePos(
+                                                14
+                                            ),
+                                            ctxt: #0
+                                        }
+                                    )
+                                )
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

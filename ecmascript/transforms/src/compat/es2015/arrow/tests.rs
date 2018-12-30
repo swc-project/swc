@@ -1,6 +1,7 @@
 use super::*;
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     destructuring,
     r#"let foo = ({bar}) => undefined;"#,
@@ -10,6 +11,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     basic,
     r#"let echo = (bar) => bar"#,
@@ -19,6 +21,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     empty_arguments,
     r#"var t = () => 5 + 5;"#,
@@ -28,6 +31,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     expression,
     r#"arr.map(x => x * x);"#,
@@ -37,6 +41,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     inside_call,
     r#"arr.map(i => i + 1);"#,
@@ -46,6 +51,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     multiple_arguments,
     r#"var t = (i, x) => i * x;"#,
@@ -54,7 +60,7 @@ test!(
 };"#
 );
 
-// test!(
+// test!(::swc_ecma_parser::Syntax::Es2019,
 //     Arrow,
 //     nested,
 //     r#"module.exports = {
@@ -89,6 +95,7 @@ test!(
 // );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     paren_insertion,
     r#"var t = i => i * 5;"#,
@@ -98,6 +105,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     single_argument,
     r#"var t = (i) => i * 5;"#,
@@ -107,6 +115,7 @@ test!(
 );
 
 test!(
+    ::swc_ecma_parser::Syntax::Es2019,
     Arrow,
     statement,
     r#"nums.forEach(v => {

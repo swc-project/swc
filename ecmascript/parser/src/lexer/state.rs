@@ -1,8 +1,8 @@
 use super::{Input, Lexer};
+use crate::{lexer::util::CharExt, token::*, Syntax};
 use enum_kind::Kind;
 use smallvec::SmallVec;
 use swc_common::BytePos;
-use token::*;
 
 /// State of lexer.
 ///
@@ -15,8 +15,12 @@ pub(super) struct State {
     pub had_line_break: bool,
     /// TODO: Remove this field.
     is_first: bool,
+    pub start: BytePos,
+    pub cur_line: usize,
+    pub line_start: BytePos,
 
     context: Context,
+    syntax: Syntax,
 
     token_type: Option<TokenType>,
 }
@@ -31,13 +35,23 @@ enum TokenType {
     Semi,
     BinOp(BinOpToken),
     Keyword(Keyword),
+    JSXName,
+    JSXText,
+    JSXTagStart,
+    JSXTagEnd,
     Other { before_expr: bool },
 }
 impl TokenType {
     fn before_expr(self) -> bool {
         match self {
-            TokenType::Template | TokenType::Dot | TokenType::RParen => false,
-            TokenType::Colon | TokenType::LBrace | TokenType::Semi => true,
+            TokenType::JSXName
+            | TokenType::JSXTagStart
+            | TokenType::JSXTagEnd
+            | TokenType::Template
+            | TokenType::Dot
+            | TokenType::RParen => false,
+
+            TokenType::JSXText | TokenType::Colon | TokenType::LBrace | TokenType::Semi => true,
             TokenType::BinOp(b) => b.before_expr(),
             TokenType::Keyword(k) => k.before_expr(),
             TokenType::Other { before_expr } => before_expr,
@@ -54,7 +68,12 @@ impl<'a> From<&'a Token> for TokenType {
             Token::LBrace => TokenType::LBrace,
             Token::RParen => TokenType::RParen,
             Token::Semi => TokenType::Semi,
+            Token::JSXTagEnd => TokenType::JSXTagEnd,
+            Token::JSXTagStart => TokenType::JSXTagStart,
+            Token::JSXText { .. } => TokenType::JSXText,
+            Token::JSXName { .. } => TokenType::JSXName,
             Token::BinOp(op) => TokenType::BinOp(op),
+
             Token::Word(Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
@@ -88,16 +107,66 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             }
         };
 
-        let start = self.cur_pos();
-
-        let res = if let Some(Type::Tpl {
-            start: start_pos_of_tpl,
-        }) = self.state.context.current()
-        {
-            self.read_tmpl_token(start_pos_of_tpl).map(Some)
-        } else {
-            self.read_token()
+        match self.input.cur() {
+            Some(..) => {}
+            None => return None,
         };
+
+        // println!(
+        //     "\tContext: ({:?}) {:?}",
+        //     self.input.cur().unwrap(),
+        //     self.state.context.0
+        // );
+
+        let start = self.cur_pos();
+        self.state.start = start;
+
+        let res = (|| -> Result<Option<_>, _> {
+            if self.syntax.jsx() {
+                //jsx
+                if self.state.context.current() == Some(Type::JSXExpr) {
+                    let start = self.cur_pos();
+
+                    return self.read_jsx_token();
+                }
+
+                let c = self.cur();
+                if let Some(c) = c {
+                    if self.state.context.current() == Some(Type::JSXOpeningTag)
+                        || self.state.context.current() == Some(Type::JSXClosingTag)
+                    {
+                        if c.is_ident_start() {
+                            return self.read_jsx_word().map(Some);
+                        }
+
+                        if c == '>' {
+                            self.input.bump();
+                            return Ok(Some(Token::JSXTagEnd));
+                        }
+
+                        if (c == '\'' || c == '"')
+                            && self.state.context.current() == Some(Type::JSXOpeningTag)
+                        {
+                            return self.read_jsx_str(c).map(Some);
+                        }
+                    }
+
+                    if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
+                        self.input.bump();
+                        return Ok(Some(Token::JSXTagStart));
+                    }
+                }
+            }
+
+            if let Some(Type::Tpl {
+                start: start_pos_of_tpl,
+            }) = self.state.context.current()
+            {
+                self.read_tmpl_token(start_pos_of_tpl).map(Some)
+            } else {
+                self.read_token()
+            }
+        })();
 
         let token = match res.map_err(Token::Error).map_err(Some) {
             Ok(t) => t,
@@ -119,8 +188,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
     }
 }
 
-impl Default for State {
-    fn default() -> Self {
+impl State {
+    pub fn new(syntax: Syntax) -> Self {
         State {
             is_expr_allowed: true,
             octal_pos: None,
@@ -128,6 +197,10 @@ impl Default for State {
             had_line_break: false,
             context: Context(smallvec![Type::BraceStmt]),
             token_type: None,
+            start: BytePos(0),
+            line_start: BytePos(0),
+            cur_line: 1,
+            syntax,
         }
     }
 }
@@ -159,6 +232,7 @@ impl State {
 
         self.is_expr_allowed = Self::is_expr_allowed_on_next(
             &mut self.context,
+            self.syntax,
             prev,
             start,
             next,
@@ -171,6 +245,7 @@ impl State {
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
         context: &mut Context,
+        syntax: Syntax,
         prev: Option<TokenType>,
         start: BytePos,
         next: &Token,
@@ -248,14 +323,28 @@ impl State {
                 }
 
                 tok!('{') => {
-                    let next_ctxt = if context.is_brace_block(prev, had_line_break, is_expr_allowed)
-                    {
-                        Type::BraceStmt
+                    let cur = context.current();
+                    if syntax.jsx() && cur == Some(Type::JSXOpeningTag) {
+                        context.push(Type::BraceExpr)
+                    } else if syntax.jsx() && cur == Some(Type::JSXExpr) {
+                        context.push(Type::TplQuasi);
                     } else {
-                        Type::BraceExpr
-                    };
-                    context.push(next_ctxt);
+                        let next_ctxt =
+                            if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
+                                Type::BraceStmt
+                            } else {
+                                Type::BraceExpr
+                            };
+                        context.push(next_ctxt);
+                    }
                     true
+                }
+
+                tok!('/') if syntax.jsx() && prev == Some(TokenType::JSXTagStart) => {
+                    context.pop();
+                    context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
+                    context.push(Type::JSXClosingTag); // reconsider as closing tag context
+                    false
                 }
 
                 tok!("${") => {
@@ -288,6 +377,27 @@ impl State {
                         context.push(Type::Tpl { start });
                     }
                     return false;
+                }
+
+                // tt.jsxTagStart.updateContext
+                Token::JSXTagStart => {
+                    context.push(Type::JSXExpr); // treat as beginning of JSX expression
+                    context.push(Type::JSXOpeningTag); // start opening tag context
+                    return false;
+                }
+
+                // tt.jsxTagEnd.updateContext
+                Token::JSXTagEnd => {
+                    let out = context.pop();
+                    if (out == Some(Type::JSXOpeningTag)
+                        && prev == Some(TokenType::BinOp(BinOpToken::Div)))
+                        || out == Some(Type::JSXClosingTag)
+                    {
+                        context.pop();
+                        return context.current() == Some(Type::JSXExpr);
+                    } else {
+                        return true;
+                    }
                 }
 
                 _ => {
@@ -393,4 +503,50 @@ enum Type {
     },
     #[kind(is_expr)]
     FnExpr,
+    JSXOpeningTag,
+    JSXClosingTag,
+    #[kind(is_expr, preserve_space)]
+    JSXExpr,
+}
+
+#[cfg(test)]
+pub(crate) fn with_lexer<F, Ret>(
+    syntax: crate::Syntax,
+    s: &'static str,
+    f: F,
+) -> Result<Ret, ::testing::StdErr>
+where
+    F: FnOnce(&mut Lexer<crate::lexer::input::SourceFileInput>) -> Result<Ret, ()>,
+{
+    crate::with_test_sess(s, |sess, fm| {
+        let mut l = Lexer::new(sess, syntax, fm);
+        let res = f(&mut l);
+
+        let c: SmallVec<[Type; 32]> = smallvec![Type::BraceStmt];
+        assert_eq!(l.state.context.0, c);
+
+        res
+    })
+}
+
+#[cfg(test)]
+pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
+    with_lexer(syntax, s, |l| Ok(l.collect())).unwrap()
+}
+
+/// lex `s` within module context.
+#[cfg(test)]
+pub(crate) fn lex_module(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
+    with_lexer(syntax, s, |l| {
+        l.ctx.strict = true;
+        l.ctx.module = true;
+
+        Ok(l.collect())
+    })
+    .unwrap()
+}
+
+#[cfg(test)]
+pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
+    with_lexer(syntax, s, |l| Ok(l.map(|ts| ts.token).collect())).unwrap()
 }

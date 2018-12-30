@@ -1,0 +1,205 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            53
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                JSXElement(
+                    JSXElement {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                53
+                            ),
+                            ctxt: #0
+                        },
+                        opening: JSXOpeningElement {
+                            name: Ident(
+                                Ident(
+                                    div,
+                                    Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            4
+                                        ),
+                                        ctxt: #0
+                                    }
+                                )
+                            ),
+                            span: Span {
+                                lo: BytePos(
+                                    1
+                                ),
+                                hi: BytePos(
+                                    47
+                                ),
+                                ctxt: #0
+                            },
+                            attrs: [
+                                JSXAttr(
+                                    JSXAttr {
+                                        span: Span {
+                                            lo: BytePos(
+                                                5
+                                            ),
+                                            hi: BytePos(
+                                                18
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        name: Ident(
+                                            Ident(
+                                                pre,
+                                                Span {
+                                                    lo: BytePos(
+                                                        5
+                                                    ),
+                                                    hi: BytePos(
+                                                        8
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        ),
+                                        value: Some(
+                                            Lit(
+                                                Str(
+                                                    Str {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                9
+                                                            ),
+                                                            hi: BytePos(
+                                                                18
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        value: Atom('leading' type=inline),
+                                                        has_escape: false
+                                                    }
+                                                )
+                                            )
+                                        )
+                                    }
+                                ),
+                                JSXAttr(
+                                    JSXAttr {
+                                        span: Span {
+                                            lo: BytePos(
+                                                19
+                                            ),
+                                            hi: BytePos(
+                                                35
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        name: Ident(
+                                            Ident(
+                                                pre2,
+                                                Span {
+                                                    lo: BytePos(
+                                                        19
+                                                    ),
+                                                    hi: BytePos(
+                                                        23
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        ),
+                                        value: Some(
+                                            Lit(
+                                                Str(
+                                                    Str {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                24
+                                                            ),
+                                                            hi: BytePos(
+                                                                35
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        value: Atom('attribute' type=dynamic),
+                                                        has_escape: false
+                                                    }
+                                                )
+                                            )
+                                        )
+                                    }
+                                ),
+                                SpreadElement(
+                                    SpreadElement {
+                                        dot3_token: Span {
+                                            lo: BytePos(
+                                                37
+                                            ),
+                                            hi: BytePos(
+                                                40
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        expr: Ident(
+                                            Ident(
+                                                props,
+                                                Span {
+                                                    lo: BytePos(
+                                                        40
+                                                    ),
+                                                    hi: BytePos(
+                                                        45
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        )
+                                    }
+                                )
+                            ],
+                            self_closing: false
+                        },
+                        children: [],
+                        closing: Some(
+                            JSXClosingElement {
+                                span: Span {
+                                    lo: BytePos(
+                                        49
+                                    ),
+                                    hi: BytePos(
+                                        53
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident(
+                                        div,
+                                        Span {
+                                            lo: BytePos(
+                                                49
+                                            ),
+                                            hi: BytePos(
+                                                52
+                                            ),
+                                            ctxt: #0
+                                        }
+                                    )
+                                )
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

@@ -17,6 +17,10 @@ unicode-xid = "0.1"
 log = { version = "0.4", features = ["release_max_level_debug"] }
 either = { version = "1.4" }
 smallvec = "0.6.7"
+lazy_static = "1"
+regex = "1"
 
 [dev-dependencies]
 testing = { version = "0.1", path ="../../testing" }
+env_logger = "0.6.0"
+walkdir = "2"

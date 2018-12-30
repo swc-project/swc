@@ -1,0 +1,6 @@
+error: JSX attributes must only be assigned a non-empty expression
+ --> $DIR/tests/jsx/errors/attribute-empty-expression/input.js:1:10
+  |
+1 | <foo bar={} />
+  |          ^^
+
