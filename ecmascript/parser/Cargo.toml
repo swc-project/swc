@@ -16,6 +16,7 @@ enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
 unicode-xid = "0.1"
 log = { version = "0.4", features = ["release_max_level_debug"] }
 either = { version = "1.4" }
+serde = { version = "1", features = ["derive"] }
 smallvec = "0.6.7"
 lazy_static = "1"
 regex = "1"

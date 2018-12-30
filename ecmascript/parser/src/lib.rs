@@ -81,6 +81,7 @@ extern crate log;
 extern crate swc_atoms;
 extern crate enum_kind;
 extern crate regex;
+extern crate serde;
 extern crate swc_common;
 #[macro_use]
 extern crate lazy_static;
@@ -97,6 +98,7 @@ pub use self::{
     lexer::input::{Input, SourceFileInput},
     parser::*,
 };
+use serde::{Deserialize, Serialize};
 use swc_common::errors::Handler;
 
 #[macro_use]
@@ -106,13 +108,20 @@ mod lexer;
 mod parser;
 mod token;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 pub enum Syntax {
     Es2019,
     Jsx,
     Typescript,
     Tsx,
 }
+
+impl Default for Syntax{
+    fn default()->Self{
+        Syntax::Es2019
+    }
+}
+
 impl Syntax {
     /// Should we pare jsx?
     pub fn jsx(self) -> bool {
