@@ -335,6 +335,8 @@ test!(
 );
 
 test!(
+    // Optimization is not implemented yet
+    ignore,
     ::swc_ecma_parser::Syntax::Jsx,
     tr(Default::default(), Default::default()),
     react_optimisation_react_constant_elements,
@@ -614,7 +616,8 @@ React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 React.createElement("div", null, "this should parse as nbsp: \xA0 ");
 React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
 React.createElement("div", null, "w < w");
-"#
+"#,
+    ok_if_code_eq
 );
 
 test!(
