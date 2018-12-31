@@ -1,4 +1,4 @@
-use super::{BlockStmt, Expr, Function, Ident, Number, Pat, Str};
+use super::{BlockStmt, Expr, Function, Ident, Number, Str};
 use crate::function::PatOrTsParamProp;
 use swc_common::{ast_node, Span};
 

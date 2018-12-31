@@ -134,6 +134,8 @@ pub(crate) enum SyntaxError {
     JSXExpectedClosingTag {
         tag: JsWord,
     },
+    InvalidLeadingDecorator,
+    DecoratorOnExport,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -242,6 +244,12 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             JSXExpectedClosingTag { ref tag } => {
                 format!("Expected corresponding JSX closing tag for <{}>", tag).into()
             }
+            InvalidLeadingDecorator => {
+                "Leading decorators must be attached to a class declaration".into()
+            }
+            DecoratorOnExport => "Using the export keyword between a decorator and a class is not \
+                                  allowed. Please use `export @dec class` instead."
+                .into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);

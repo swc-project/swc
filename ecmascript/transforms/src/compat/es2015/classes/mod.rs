@@ -353,7 +353,7 @@ impl Classes {
         stmts
     }
 
-    fn fold_class_methods(&mut self, class_name: Ident, methods: Vec<ClassMethod>) -> Vec<Stmt> {
+    fn fold_class_methods(&mut self, class_name: Ident, methods: Vec<Method>) -> Vec<Stmt> {
         /// { key: "prop" }
         fn mk_prop_key(key: &PropName) -> Prop {
             Prop::KeyValue(KeyValueProp {

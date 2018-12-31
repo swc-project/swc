@@ -44,7 +44,7 @@ mk_trait!(
     // Class,
     // ClassDecl,
     // ClassExpr,
-    // ClassMethod,
+    // Method,
     // CondExpr,
     // ContinueStmt,
     // DebuggerStmt,

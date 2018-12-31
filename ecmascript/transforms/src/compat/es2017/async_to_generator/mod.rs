@@ -149,11 +149,11 @@ impl Fold<MethodProp> for Actual {
 ///     }
 /// }
 /// ```
-struct ClassMethodFolder {
+struct MethodFolder {
     vars: Vec<VarDeclarator>,
 }
 
-impl ClassMethodFolder {
+impl MethodFolder {
     fn ident_for_super(&mut self, prop: &Expr) -> (Mark, Ident) {
         let mark = Mark::fresh(Mark::root());
         let prop_span = prop.span();
@@ -166,7 +166,7 @@ impl ClassMethodFolder {
     }
 }
 
-impl Fold<Expr> for ClassMethodFolder {
+impl Fold<Expr> for MethodFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
         // TODO(kdy): Cache (Reuse declaration for same property)
 
@@ -319,14 +319,14 @@ impl Fold<Expr> for ClassMethodFolder {
     }
 }
 
-impl Fold<ClassMethod> for Actual {
-    fn fold(&mut self, m: ClassMethod) -> ClassMethod {
+impl Fold<Method> for Actual {
+    fn fold(&mut self, m: Method) -> Method {
         if m.kind != MethodKind::Method || !m.function.is_async {
             return m;
         }
         let params = m.function.params.clone();
 
-        let mut folder = ClassMethodFolder { vars: vec![] };
+        let mut folder = MethodFolder { vars: vec![] };
         let function = m.function.fold_children(&mut folder);
         let expr = make_fn_ref(
             &self.helpers,
@@ -346,7 +346,7 @@ impl Fold<ClassMethod> for Actual {
             })))
         };
 
-        ClassMethod {
+        Method {
             function: Function {
                 span: m.span,
                 is_async: false,

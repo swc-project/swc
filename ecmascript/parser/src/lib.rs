@@ -146,6 +146,14 @@ pub struct Config {
 
     /// Support function bind expression.
     pub fn_bind: bool,
+
+    /// Enable decorators.
+    pub decorators: bool,
+
+    /// babel: `decorators.decoratorsBeforeExport`
+    ///
+    /// Effective only if `decorator` is true.
+    pub decorators_before_export: bool,
 }
 
 /// Syntatic context.
