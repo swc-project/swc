@@ -87,24 +87,26 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
 impl<'a> Fold<Expr> for BlockFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         match expr {
-            Expr::Ident(Ident { sym, span }) => {
-                if let Some(mark) = self.mark_for(&sym) {
-                    Expr::Ident(Ident {
-                        sym,
-                        span: span.apply_mark(mark),
-                    })
-                } else {
-                    // Cannot resolve reference. (TODO: Report error)
-                    Expr::Ident(Ident { sym, span })
-                }
-            }
-
             // Leftmost one of a member expression shoukld be resolved.
             Expr::Member(me) => Expr::Member(MemberExpr {
                 obj: me.obj.fold_with(self),
                 ..me
             }),
             _ => expr.fold_children(self),
+        }
+    }
+}
+
+impl<'a> Fold<Ident> for BlockFolder<'a> {
+    fn fold(&mut self, Ident { span, sym }: Ident) -> Ident {
+        if let Some(mark) = self.mark_for(&sym) {
+            Ident {
+                sym,
+                span: span.apply_mark(mark),
+            }
+        } else {
+            // Cannot resolve reference. (TODO: Report error)
+            Ident { sym, span }
         }
     }
 }
