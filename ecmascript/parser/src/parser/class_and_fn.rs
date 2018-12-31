@@ -79,7 +79,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_class_body(&mut self) -> PResult<'a, (Vec<ClassMethod>)> {
+    fn parse_class_body(&mut self) -> PResult<'a, (Vec<Method>)> {
         let mut elems = vec![];
         while !eof!() && !is!('}') {
             if eat_exact!(';') {
@@ -91,7 +91,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(elems)
     }
 
-    fn parse_class_element(&mut self) -> PResult<'a, ClassMethod> {
+    fn parse_class_element(&mut self) -> PResult<'a, Method> {
         // ignore semi
 
         let static_token = {
@@ -220,7 +220,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_method_def(&mut self, static_token: Option<Span>) -> PResult<'a, ClassMethod> {
+    fn parse_method_def(&mut self, static_token: Option<Span>) -> PResult<'a, Method> {
         let is_static = static_token.is_some();
         let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
 
@@ -229,7 +229,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let key = self.parse_prop_name()?;
             return self
                 .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
-                .map(|function| ClassMethod {
+                .map(|function| Method {
                     span: span!(start),
                     is_static,
                     key,
@@ -243,7 +243,7 @@ impl<'a, I: Input> Parser<'a, I> {
             if is!('(') {
                 return self
                     .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
-                    .map(|function| ClassMethod {
+                    .map(|function| Method {
                         span: span!(start),
                         is_static: false,
                         key: PropName::Ident(Ident {
@@ -262,7 +262,7 @@ impl<'a, I: Input> Parser<'a, I> {
         if is!('(') {
             return self
                 .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
-                .map(|function| ClassMethod {
+                .map(|function| Method {
                     span: span!(start),
                     is_static,
                     key,
@@ -287,7 +287,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 return match ident.sym {
                     js_word!("get") => self
                         .parse_fn_args_body(start, |_| Ok(vec![]), false, false)
-                        .map(|function| ClassMethod {
+                        .map(|function| Method {
                             span: span!(start),
                             is_static: static_token.is_some(),
                             key,
@@ -301,7 +301,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             false,
                             false,
                         )
-                        .map(|function| ClassMethod {
+                        .map(|function| Method {
                             span: span!(start),
                             key,
                             is_static: static_token.is_some(),
@@ -310,7 +310,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         }),
                     js_word!("async") => self
                         .parse_fn_args_body(start, Parser::parse_unique_formal_params, true, false)
-                        .map(|function| ClassMethod {
+                        .map(|function| Method {
                             span: span!(start),
                             is_static: static_token.is_some(),
                             key,
