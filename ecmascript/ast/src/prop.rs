@@ -1,4 +1,5 @@
 use super::{BlockStmt, Expr, Function, Ident, Number, Pat, Str};
+use crate::function::PatOrTsParamProp;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -41,7 +42,7 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
-    pub param: Pat,
+    pub param: PatOrTsParamProp,
     pub body: BlockStmt,
 }
 #[ast_node]

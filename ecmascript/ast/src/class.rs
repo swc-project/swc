@@ -7,6 +7,8 @@ use swc_common::{ast_node, Fold, Span};
 pub struct Class {
     pub span: Span,
 
+    pub decorators: Vec<Decorator>,
+
     pub body: Vec<ClassMember>,
     pub super_class: Option<Box<Expr>>,
 
@@ -55,7 +57,6 @@ pub struct Method {
     pub kind: MethodKind,
 
     pub is_static: bool,
-    pub decorators: Vec<Decorator>,
 
     /// Typescript extension.
     pub accessibility: Option<Accessibility>,

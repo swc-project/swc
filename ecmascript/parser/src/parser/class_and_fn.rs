@@ -53,6 +53,8 @@ impl<'a, I: Input> Parser<'a, I> {
         Self: MaybeOptionalIdentParser<'a, T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
+            let decorators = p.parse_decorators()?;
+
             let start = cur_pos!();
             expect!("class");
 
@@ -64,6 +66,12 @@ impl<'a, I: Input> Parser<'a, I> {
                 None
             };
 
+            let implements = if p.input.syntax().typescript() && eat!("implements") {
+                unimplemented!("implements")
+            } else {
+                vec![]
+            };
+
             expect!('{');
             let body = p.parse_class_body()?;
             expect!('}');
@@ -72,14 +80,20 @@ impl<'a, I: Input> Parser<'a, I> {
                 ident,
                 Class {
                     span: Span::new(start, end, Default::default()),
+                    decorators,
                     super_class,
                     body,
+                    implements,
                 },
             ))
         })
     }
 
-    fn parse_class_body(&mut self) -> PResult<'a, (Vec<ClassMember>)> {
+    fn parse_decorators(&mut self) -> PResult<'a, Vec<Decorator>> {
+        unimplemented!()
+    }
+
+    fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMember>> {
         let mut elems = vec![];
         while !eof!() && !is!('}') {
             if eat_exact!(';') {
@@ -127,6 +141,8 @@ impl<'a, I: Input> Parser<'a, I> {
         T: OutputType,
         Self: MaybeOptionalIdentParser<'a, T::Ident>,
     {
+        let decorators = self.parse_decorators()?;
+
         let start = start_of_async.unwrap_or(cur_pos!());
         assert_and_bump!("function");
         let is_async = start_of_async.is_some();
@@ -171,6 +187,7 @@ impl<'a, I: Input> Parser<'a, I> {
             Ok(T::finish_fn(
                 ident,
                 Function {
+                    decorators,
                     span: span!(start),
                     is_async,
                     is_generator,
@@ -184,13 +201,14 @@ impl<'a, I: Input> Parser<'a, I> {
     /// `parse_args` closure should not eat '(' or ')'.
     pub(super) fn parse_fn_args_body<F>(
         &mut self,
+        decorators: Vec<Decorator>,
         start: BytePos,
         parse_args: F,
         is_async: bool,
         is_generator: bool,
     ) -> PResult<'a, Function>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, (Vec<Pat>)>,
+        F: FnOnce(&mut Self) -> PResult<'a, Vec<PatOrTsParamProp>>,
     {
         let ctx = Context {
             in_async: is_async,
@@ -212,6 +230,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             Ok(Function {
                 span: span!(start),
+                decorators,
                 params,
                 body,
                 is_async,
@@ -221,6 +240,8 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_method_def(&mut self, static_token: Option<Span>) -> PResult<'a, Method> {
+        let decorators = self.parse_decorators()?;
+
         let is_static = static_token.is_some();
         let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
 
@@ -228,9 +249,20 @@ impl<'a, I: Input> Parser<'a, I> {
             let span_of_gen = span!(start);
             let key = self.parse_prop_name()?;
             return self
-                .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, true)
+                .parse_fn_args_body(
+                    decorators,
+                    start,
+                    Parser::parse_unique_formal_params,
+                    false,
+                    true,
+                )
                 .map(|function| Method {
                     span: span!(start),
+
+                    accessibility: None,
+                    is_abstract: false,
+                    is_optional: false,
+
                     is_static,
                     key,
                     function,
@@ -242,7 +274,13 @@ impl<'a, I: Input> Parser<'a, I> {
         if let Some(static_token) = static_token {
             if is!('(') {
                 return self
-                    .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
+                    .parse_fn_args_body(
+                        decorators,
+                        start,
+                        Parser::parse_unique_formal_params,
+                        false,
+                        false,
+                    )
                     .map(|function| Method {
                         span: span!(start),
                         is_static: false,
@@ -252,6 +290,10 @@ impl<'a, I: Input> Parser<'a, I> {
                         }),
                         function,
                         kind: MethodKind::Method,
+
+                        accessibility: None,
+                        is_abstract: false,
+                        is_optional: false,
                     });
             }
         }
@@ -261,13 +303,23 @@ impl<'a, I: Input> Parser<'a, I> {
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self
-                .parse_fn_args_body(start, Parser::parse_unique_formal_params, false, false)
+                .parse_fn_args_body(
+                    decorators,
+                    start,
+                    Parser::parse_unique_formal_params,
+                    false,
+                    false,
+                )
                 .map(|function| Method {
                     span: span!(start),
                     is_static,
                     key,
                     function,
                     kind: MethodKind::Method,
+
+                    accessibility: None,
+                    is_abstract: false,
+                    is_optional: false,
                 });
         }
 
@@ -286,16 +338,21 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 return match ident.sym {
                     js_word!("get") => self
-                        .parse_fn_args_body(start, |_| Ok(vec![]), false, false)
+                        .parse_fn_args_body(decorators, start, |_| Ok(vec![]), false, false)
                         .map(|function| Method {
                             span: span!(start),
                             is_static: static_token.is_some(),
                             key,
                             function,
                             kind: MethodKind::Getter,
+
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
                         }),
                     js_word!("set") => self
                         .parse_fn_args_body(
+                            decorators,
                             start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
                             false,
@@ -307,15 +364,29 @@ impl<'a, I: Input> Parser<'a, I> {
                             is_static: static_token.is_some(),
                             function,
                             kind: MethodKind::Setter,
+
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
                         }),
                     js_word!("async") => self
-                        .parse_fn_args_body(start, Parser::parse_unique_formal_params, true, false)
+                        .parse_fn_args_body(
+                            decorators,
+                            start,
+                            Parser::parse_unique_formal_params,
+                            true,
+                            false,
+                        )
                         .map(|function| Method {
                             span: span!(start),
                             is_static: static_token.is_some(),
                             key,
                             function,
                             kind: MethodKind::Method,
+
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
                         }),
                     _ => unreachable!(),
                 };

@@ -261,6 +261,7 @@ impl From<JsWord> for Word {
             js_word!("typeof") => TypeOf.into(),
             js_word!("void") => Void.into(),
             js_word!("delete") => Delete.into(),
+            js_word!("implements") => Implements.into(),
             _ => Ident(i),
         }
     }
@@ -326,6 +327,7 @@ impl From<Word> for JsWord {
                 Void => js_word!("void"),
 
                 Delete => js_word!("delete"),
+                Implements => js_word!("implements"),
             },
 
             Null => js_word!("null"),
@@ -427,6 +429,8 @@ pub enum Keyword {
 
     #[kind(before_expr, starts_expr)]
     Delete,
+
+    Implements,
 }
 
 impl Keyword {
@@ -483,6 +487,7 @@ impl Keyword {
             Void => js_word!("void"),
 
             Delete => js_word!("delete"),
+            Implements => js_word!("implements"),
         }
     }
 }

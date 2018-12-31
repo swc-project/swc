@@ -130,6 +130,13 @@ impl Syntax {
             _ => false,
         }
     }
+    /// Should we pare typescript?
+    pub fn typescript(self) -> bool {
+        match self {
+            Syntax::Typescript | Syntax::Tsx => true,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]

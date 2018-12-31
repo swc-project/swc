@@ -3,6 +3,10 @@ macro_rules! tok {
         Token::BackQuote
     };
     // (';') => { Token::Semi };
+    ('@') => {
+        Token::At
+    };
+
     (',') => {
         Token::Comma
     };
@@ -221,6 +225,13 @@ macro_rules! tok {
 
     (JSXTagEnd) => {
         Token::JSXTagEnd
+    };
+
+    // ----------
+    // Typescript
+    // ----------
+    ("implements") => {
+        Token::Word(Keyword(Implements))
     };
 }
 

@@ -520,6 +520,19 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_class_memeber(&mut self, node: &ClassMember) -> Result {
+        match *node {
+            ClassMember::ClassProp(ref n) => emit!(n),
+            ClassMember::Method(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_class_prop(&mut self, node: &ClassProp) -> Result {
+        unimplemented!("emit_class_prop")
+    }
+
+    #[emitter]
     pub fn emit_class_method(&mut self, node: &Method) -> Result {
         if node.is_static {
             keyword!("static");
@@ -602,8 +615,8 @@ impl<'a> Emitter<'a> {
         self.emit_fn_trailing(&node.function)?;
     }
 
-    #[emitter]
     /// prints `(b){}` from `function a(b){}`
+    #[emitter]
     pub fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         punct!("(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;

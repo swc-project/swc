@@ -112,13 +112,13 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// spec: 'FormalParameter'
-    pub(super) fn parse_formal_param(&mut self) -> PResult<'a, Pat> {
-        self.parse_binding_element()
+    pub(super) fn parse_formal_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
+        self.parse_binding_element().map(PatOrTsParamProp::from)
     }
 
     ///
     /// spec: 'FormalParameterList'
-    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, (Vec<Pat>)> {
+    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
         let mut first = true;
         let mut params = vec![];
 
@@ -143,17 +143,17 @@ impl<'a, I: Input> Parser<'a, I> {
                     dot3_token,
                     arg: box pat,
                 });
-                params.push(pat);
+                params.push(PatOrTsParamProp::Pat(pat));
                 break;
             } else {
-                params.push(self.parse_binding_element()?);
+                params.push(PatOrTsParamProp::Pat(self.parse_binding_element()?));
             }
         }
 
         Ok(params)
     }
 
-    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, (Vec<Pat>)> {
+    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
         // FIXME: This is wrong.
         self.parse_formal_params()
     }
