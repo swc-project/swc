@@ -1,5 +1,42 @@
-use crate::Ident;
+use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
+use swc_common::{Fold, Span, Spanned};
+
+/// Ident with span.
+#[derive(Spanned, Fold, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct Ident {
+    pub span: Span,
+    #[fold(ignore)]
+    pub sym: JsWord,
+}
+
+impl Debug for Ident {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        f.debug_tuple("Ident")
+            .field(&DebugUsingDisplay(&self.sym))
+            .field(&self.span)
+            .finish()
+    }
+}
+
+impl AsRef<str> for Ident {
+    fn as_ref(&self) -> &str {
+        &self.sym
+    }
+}
+
+struct DebugUsingDisplay<T: Display>(T);
+impl<T: Display> Debug for DebugUsingDisplay<T> {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Display::fmt(&self.0, f)
+    }
+}
+
+impl Ident {
+    pub fn new(sym: JsWord, span: Span) -> Self {
+        Ident { span, sym }
+    }
+}
 
 pub trait IdentExt: AsRef<str> {
     fn is_reserved_for_es3(&self) -> bool {

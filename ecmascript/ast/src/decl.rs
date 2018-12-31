@@ -1,4 +1,6 @@
-use super::{Class, Expr, Function, Ident, Pat};
+use super::{
+    Class, Expr, Function, Ident, Pat, TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl,
+};
 use swc_common::{ast_node, Fold, Span};
 
 #[ast_node]
@@ -6,6 +8,10 @@ pub enum Decl {
     Class(ClassDecl),
     Fn(FnDecl),
     Var(VarDecl),
+    TsInterfaceDecl(TsInterfaceDecl),
+    TsTypeAliasDecl(TsTypeAliasDecl),
+    TsEnumDecl(TsEnumDecl),
+    TsModuleDecl(TsModuleDecl),
 }
 
 #[ast_node]
@@ -47,4 +53,7 @@ pub struct VarDeclarator {
     pub name: Pat,
     /// Initialization expresion.
     pub init: Option<(Box<Expr>)>,
+
+    /// Typescript onpy
+    pub definite: bool,
 }

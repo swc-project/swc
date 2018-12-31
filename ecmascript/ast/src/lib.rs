@@ -15,7 +15,7 @@ extern crate swc_atoms;
 extern crate swc_common;
 
 pub use self::{
-    class::{Class, ClassMethod, ClassMethodKind},
+    class::{Class, ClassMember, Decorator, Method, MethodKind, PrivateName},
     decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
@@ -24,13 +24,13 @@ pub use self::{
         TplElement, TplLit, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::Function,
+    ident::{Ident, IdentExt},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
         JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
         JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
-    keywords::IdentExt,
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem},
     module_decl::{
@@ -47,17 +47,29 @@ pub use self::{
         ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase,
         SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
     },
+    typescript::{
+        Accessibility, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
+        TsConditionalType, TsConstructSignatureDecl, TsConstructorOrFnType, TsConstructorType,
+        TsDeclareFn, TsDeclareMethod, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId,
+        TsExportAssignment, TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType,
+        TsFnType, TsImportEqualsDecl, TsIndexSignature, TsIndexedAccessType, TsInferType,
+        TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind,
+        TsLit, TsLitType, TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl,
+        TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl,
+        TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType,
+        TsPropertySignature, TsQualifiedName, TsRestType, TsSignatureDecl, TsThisType,
+        TsThisTypeOrIdent, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+        TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeParam, TsTypeParamDecl,
+        TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeRef, TsUnionType,
+    },
 };
-use std::fmt::{self, Debug, Display, Formatter};
-use swc_atoms::JsWord;
-use swc_common::{Fold, Span, Spanned};
 
 mod class;
 mod decl;
 mod expr;
 mod function;
+mod ident;
 mod jsx;
-mod keywords;
 mod lit;
 mod macros;
 mod module;
@@ -66,39 +78,4 @@ mod operators;
 mod pat;
 mod prop;
 mod stmt;
-
-/// Ident with span.
-#[derive(Spanned, Fold, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Ident {
-    pub span: Span,
-    #[fold(ignore)]
-    pub sym: JsWord,
-}
-
-impl Debug for Ident {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        f.debug_tuple("Ident")
-            .field(&DebugUsingDisplay(&self.sym))
-            .field(&self.span)
-            .finish()
-    }
-}
-
-impl AsRef<str> for Ident {
-    fn as_ref(&self) -> &str {
-        &self.sym
-    }
-}
-
-struct DebugUsingDisplay<T: Display>(T);
-impl<T: Display> Debug for DebugUsingDisplay<T> {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        Display::fmt(&self.0, f)
-    }
-}
-
-impl Ident {
-    pub fn new(sym: JsWord, span: Span) -> Self {
-        Ident { span, sym }
-    }
-}
+mod typescript;

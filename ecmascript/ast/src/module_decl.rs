@@ -1,4 +1,4 @@
-use super::{ClassExpr, Decl, Expr, FnExpr, Ident, Str, VarDecl};
+use super::{ClassExpr, Decl, Expr, FnExpr, Ident, Str, TsImportEqualsDecl, VarDecl};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -11,6 +11,7 @@ pub enum ModuleDecl {
 
     ExportDefaultExpr(Box<Expr>),
     ExportAll(ExportAll),
+    TsImportEqualsDecl(TsImportEqualsDecl),
 }
 
 #[ast_node]
