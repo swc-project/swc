@@ -1,4 +1,4 @@
-use super::JSXText;
+use crate::jsx::JSXText;
 use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};

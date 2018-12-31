@@ -1,5 +1,10 @@
-use super::{
-    Class, Expr, Function, Ident, Pat, TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl,
+use crate::{
+    class::Class,
+    expr::Expr,
+    function::Function,
+    ident::Ident,
+    pat::Pat,
+    typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
 use swc_common::{ast_node, Fold, Span};
 

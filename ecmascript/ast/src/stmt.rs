@@ -1,4 +1,9 @@
-use super::{Decl, Expr, Ident, Pat, VarDecl};
+use crate::{
+    decl::{Decl, VarDecl},
+    expr::Expr,
+    ident::Ident,
+    pat::Pat,
+};
 use swc_common::{ast_node, Span};
 
 /// Use when only block statements are allowed.

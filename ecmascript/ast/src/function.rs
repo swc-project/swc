@@ -1,4 +1,4 @@
-use super::{BlockStmt, Decorator, Pat, TsParamProp};
+use crate::{class::Decorator, pat::Pat, stmt::BlockStmt, typescript::TsParamProp};
 use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.

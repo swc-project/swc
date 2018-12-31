@@ -89,8 +89,76 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_decorators(&mut self) -> PResult<'a, Vec<Decorator>> {
-        unimplemented!()
+    fn parse_decorators(&mut self, allow_export: bool) -> PResult<'a, Vec<Decorator>> {
+        if !self.session.cfg.decorators {
+            return Ok(vec![]);
+        }
+
+        let mut decorators = vec![];
+        let start = cur_pos!();
+
+        while is!('@') {
+            decorators.push(self.parse_decorator()?);
+        }
+
+        if is!("export") {
+            if !allow_export {
+                unexpected!();
+            }
+
+            if !self.session.cfg.decorators_before_export {
+                syntax_error!(span!(start), SyntaxError::DecoratorOnExport);
+            }
+        } else if !is!("class") {
+            syntax_error!(span!(start), SyntaxError::InvalidLeadingDecorator)
+        }
+
+        Ok(decorators)
+    }
+
+    fn parse_decorator(&mut self) -> PResult<'a, Decorator> {
+        let start = cur_pos!();
+
+        assert_and_bump!('@');
+
+        let expr = if eat!('(') {
+            let expr = self.parse_expr()?;
+            expect!(')');
+            expr
+        } else {
+            let mut expr = self
+                .parse_ident(false, false)
+                .map(Expr::from)
+                .map(Box::new)?;
+
+            while eat!('.') {
+                let ident = self.parse_ident(true, true);
+
+                expr = box Expr::Member(MemberExpr {
+                    span: span!(start),
+                    obj: ExprOrSuper::Expr(expr),
+                    computed: false,
+                    prop: box Expr::Ident(ident),
+                })
+            }
+
+            expr
+        };
+
+        let args = self.parse_maybe_decorator_args(expr)?;
+
+        Ok(Decorator {
+            span: span!(span),
+            expr,
+        })
+    }
+
+    fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
+        if !eat!('(') {
+            return Ok(expr);
+        }
+
+        expect(')');
     }
 
     fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMember>> {
@@ -100,13 +168,13 @@ impl<'a, I: Input> Parser<'a, I> {
                 continue;
             }
 
-            elems.push(self.parse_class_element()?);
+            elems.push(self.parse_class_member()?);
         }
         Ok(elems)
     }
 
-    fn parse_class_element(&mut self) -> PResult<'a, ClassMember> {
-        // ignore semi
+    fn parse_class_member(&mut self) -> PResult<'a, ClassMember> {
+        let decorators = self.parse_decorators()?;
 
         let static_token = {
             let start = cur_pos!();
@@ -117,7 +185,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         };
 
-        let mut mtd = self.parse_method_def(static_token)?;
+        let mut mtd = self.parse_method_def(static_token, decorators)?;
 
         match mtd.key {
             PropName::Ident(Ident {
@@ -239,9 +307,11 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_method_def(&mut self, static_token: Option<Span>) -> PResult<'a, Method> {
-        let decorators = self.parse_decorators()?;
-
+    fn parse_method_def(
+        &mut self,
+        static_token: Option<Span>,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Method> {
         let is_static = static_token.is_some();
         let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
 

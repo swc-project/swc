@@ -1,4 +1,10 @@
-use super::{ClassExpr, Decl, Expr, FnExpr, Ident, Str, TsImportEqualsDecl, VarDecl};
+use crate::{
+    decl::{Decl, VarDecl},
+    expr::{ClassExpr, Expr, FnExpr},
+    ident::Ident,
+    lit::Str,
+    typescript::TsImportEqualsDecl,
+};
 use swc_common::{ast_node, Span};
 
 #[ast_node]

@@ -1,5 +1,9 @@
-use super::{
-    Accessibility, Expr, ExprOrSpread, Function, Ident, PropName, TsExprWithTypeArgs, TsTypeAnn,
+use crate::{
+    expr::{Expr, ExprOrSpread},
+    function::Function,
+    ident::Ident,
+    prop::PropName,
+    typescript::{Accessibility, TsExprWithTypeArgs, TsTypeAnn},
 };
 use swc_common::{ast_node, Fold, Span};
 
@@ -76,7 +80,6 @@ pub struct Decorator {
     pub span: Span,
 
     pub expr: Box<Expr>,
-    pub args: Option<Vec<ExprOrSpread>>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Fold)]

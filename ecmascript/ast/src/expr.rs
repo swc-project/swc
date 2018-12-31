@@ -1,6 +1,13 @@
-use super::{
-    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, JSXElement, JSXEmptyExpr, JSXFragment,
-    JSXMemberExpr, JSXNamespacedName, Lit, Pat, Prop, Str, UnaryOp, UpdateOp,
+use crate::{
+    class::Class,
+    function::Function,
+    ident::Ident,
+    jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
+    lit::{Lit, Str},
+    operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
+    pat::Pat,
+    prop::Prop,
+    stmt::BlockStmt,
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
 

@@ -1,4 +1,4 @@
-use super::{ModuleDecl, Stmt};
+use crate::{module_decl::ModuleDecl, stmt::Stmt};
 use swc_common::{ast_node, Span};
 
 #[ast_node]

@@ -1,4 +1,4 @@
-use super::{Expr, Ident, PropName};
+use crate::{expr::Expr, ident::Ident, prop::PropName};
 use swc_common::{ast_node, Span};
 
 #[ast_node]

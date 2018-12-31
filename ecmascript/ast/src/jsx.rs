@@ -1,4 +1,8 @@
-use super::{Expr, Ident, Lit, SpreadElement};
+use crate::{
+    expr::{Expr, SpreadElement},
+    ident::Ident,
+    lit::Lit,
+};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
