@@ -1,5 +1,5 @@
 use ast::*;
-use fnv::FnvHashSet;
+use fnv::{FnvHashMap, FnvHashSet};
 use std::cell::{Cell, RefCell};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, SyntaxContext};
@@ -37,7 +37,7 @@ pub struct Scope<'a> {
     /// All references declared in this scope
     pub declared_refs: FnvHashSet<Ident>,
 
-    pub declared_symbols: FnvHashSet<JsWord>,
+    pub declared_symbols: FnvHashMap<JsWord, SyntaxContext>,
     /* /// All children of the this scope
      * pub children: Vec<Scope<'a>>, */
     pub(crate) ops: RefCell<Vec<ScopeOp>>,
@@ -123,7 +123,7 @@ impl<'a> Scope<'a> {
     }
 
     pub(crate) fn is_declared(&self, sym: &JsWord) -> bool {
-        if self.declared_symbols.contains(sym) {
+        if self.declared_symbols.contains_key(sym) {
             return true;
         }
         for op in self.ops.borrow().iter() {
