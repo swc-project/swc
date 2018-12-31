@@ -345,4 +345,36 @@ mod tests {
             ",
         );
     }
+
+    #[test]
+    fn shorthand() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual1.js", "let a = 1;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt(
+                            "actual2.js",
+                            "function foo() {
+                                let a = 2;
+                                use({ a })
+                            }",
+                        )?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                ])
+            },
+            "
+            let a = 1;
+            function foo() {
+                let a1 = 2;
+                use({ a: a1 })
+            }
+            ",
+        );
+    }
 }

@@ -429,4 +429,20 @@ expect(a).toBe(2);"#
         use(a1);
     }"#
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::Es2019,
+        block_scoping(),
+        shorthand,
+        r#"let a = 'foo';
+    function foo() {
+        let a = 'bar';
+        use({a});
+    }"#,
+        r#"var a = 'foo';
+    function foo() {
+        var a1 = 'bar';
+        use({a: a1});
+    }"#
+    );
 }
