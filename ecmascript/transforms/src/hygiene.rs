@@ -12,9 +12,15 @@ impl Hygiene {
         }
 
         if !scope.is_declared(&ident.sym) {
-            // First symbol
+            // first symbol
 
-            scope.declared_symbols.insert(ident.sym.clone());
+            scope
+                .declared_symbols
+                .insert(ident.sym.clone(), ident.span.ctxt());
+            return;
+        }
+        if scope.declared_symbols.get(&ident.sym) == Some(&ident.span.ctxt()) {
+            // skip if previous symbol is declared on the same level.
             return;
         }
 
@@ -342,6 +348,60 @@ mod tests {
             }
             for(var a1 of foo) {}
             for(var a2 = 3;;) {}
+            ",
+        );
+    }
+
+    #[test]
+    fn shorthand() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+                let mark2 = Mark::fresh(mark1);
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual1.js", "let a = 1;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt(
+                            "actual2.js",
+                            "function foo() {
+                                let a = 2;
+                                use({ a })
+                            }",
+                        )?
+                        .fold_with(&mut marker(&[("a", mark2)])),
+                ])
+            },
+            "
+            let a = 1;
+            function foo() {
+                let a1 = 2;
+                use({ a: a1 })
+            }
+            ",
+        );
+    }
+
+    #[test]
+    fn same_level() {
+        test(
+            |tester| {
+                let mark1 = Mark::fresh(Mark::root());
+
+                Ok(vec![
+                    tester
+                        .parse_stmt("actual1.js", "var a = 1;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                    tester
+                        .parse_stmt("actual2.js", "var a = 1;")?
+                        .fold_with(&mut marker(&[("a", mark1)])),
+                ])
+            },
+            "
+            var a = 1;
+            var a = 1;
             ",
         );
     }

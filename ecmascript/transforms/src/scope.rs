@@ -1,5 +1,5 @@
 use ast::*;
-use fnv::FnvHashSet;
+use fnv::{FnvHashMap, FnvHashSet};
 use std::cell::{Cell, RefCell};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, SyntaxContext};
@@ -37,7 +37,7 @@ pub struct Scope<'a> {
     /// All references declared in this scope
     pub declared_refs: FnvHashSet<Ident>,
 
-    pub declared_symbols: FnvHashSet<JsWord>,
+    pub declared_symbols: FnvHashMap<JsWord, SyntaxContext>,
     /* /// All children of the this scope
      * pub children: Vec<Scope<'a>>, */
     pub(crate) ops: RefCell<Vec<ScopeOp>>,
@@ -45,24 +45,54 @@ pub struct Scope<'a> {
 
 pub struct Operator<'a>(&'a [ScopeOp]);
 
-impl<'a> Fold<Ident> for Operator<'a> {
-    fn fold(&mut self, ident: Ident) -> Ident {
+impl<'a> Fold<Prop> for Operator<'a> {
+    fn fold(&mut self, prop: Prop) -> Prop {
+        match prop {
+            Prop::Shorthand(i) => {
+                // preserve key
+                match self.rename_ident(i.clone()) {
+                    Ok(renamed) => Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident {
+                            // clear mark
+                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            ..i
+                        }),
+                        value: box Expr::Ident(renamed),
+                    }),
+                    Err(i) => Prop::Shorthand(i),
+                }
+            }
+            _ => prop.fold_children(self),
+        }
+    }
+}
+
+impl<'a> Operator<'a> {
+    /// Returns `Ok(renamed_ident)` if ident should be renamed.
+    fn rename_ident(&mut self, ident: Ident) -> Result<Ident, Ident> {
         for op in self.0 {
             match *op {
                 ScopeOp::Rename { ref from, ref to }
                     if *from.sym == ident.sym && from.span.ctxt() == ident.span.ctxt() =>
                 {
-                    return Ident {
+                    return Ok(Ident {
                         // Clear mark
                         span: ident.span.with_ctxt(SyntaxContext::empty()),
                         sym: to.clone(),
-                    };
+                    });
                 }
                 _ => {}
             }
         }
+        Err(ident)
+    }
+}
 
-        ident
+impl<'a> Fold<Ident> for Operator<'a> {
+    fn fold(&mut self, ident: Ident) -> Ident {
+        match self.rename_ident(ident) {
+            Ok(i) | Err(i) => i,
+        }
     }
 }
 
@@ -93,7 +123,7 @@ impl<'a> Scope<'a> {
     }
 
     pub(crate) fn is_declared(&self, sym: &JsWord) -> bool {
-        if self.declared_symbols.contains(sym) {
+        if self.declared_symbols.contains_key(sym) {
             return true;
         }
         for op in self.ops.borrow().iter() {

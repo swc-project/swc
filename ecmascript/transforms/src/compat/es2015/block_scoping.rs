@@ -21,7 +21,7 @@ impl<'a> BlockFolder<'a> {
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
-            if cur.declared_symbols.contains(sym) {
+            if cur.declared_symbols.contains_key(sym) {
                 return Some(mark);
             }
             mark = mark.parent();
@@ -70,10 +70,13 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
     fn fold(&mut self, pat: Pat) -> Pat {
         match pat {
             Pat::Ident(ident) => {
-                self.current.declared_symbols.insert(ident.sym.clone());
+                self.current
+                    .declared_symbols
+                    .insert(ident.sym.clone(), ident.span.ctxt());
+
                 let ident = Ident {
-                    sym: ident.sym,
                     span: ident.span.apply_mark(self.mark),
+                    sym: ident.sym,
                 };
                 return Pat::Ident(ident);
             }
@@ -87,18 +90,6 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
 impl<'a> Fold<Expr> for BlockFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         match expr {
-            Expr::Ident(Ident { sym, span }) => {
-                if let Some(mark) = self.mark_for(&sym) {
-                    Expr::Ident(Ident {
-                        sym,
-                        span: span.apply_mark(mark),
-                    })
-                } else {
-                    // Cannot resolve reference. (TODO: Report error)
-                    Expr::Ident(Ident { sym, span })
-                }
-            }
-
             // Leftmost one of a member expression shoukld be resolved.
             Expr::Member(me) => Expr::Member(MemberExpr {
                 obj: me.obj.fold_with(self),
@@ -109,9 +100,35 @@ impl<'a> Fold<Expr> for BlockFolder<'a> {
     }
 }
 
+impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
+    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        VarDeclarator {
+            // order is important
+            init: decl.init.fold_children(self),
+            name: decl.name.fold_with(self),
+            ..decl
+        }
+    }
+}
+
+impl<'a> Fold<Ident> for BlockFolder<'a> {
+    fn fold(&mut self, Ident { span, sym }: Ident) -> Ident {
+        if let Some(mark) = self.mark_for(&sym) {
+            Ident {
+                sym,
+                span: span.apply_mark(mark),
+            }
+        } else {
+            // Cannot resolve reference. (TODO: Report error)
+            Ident { sym, span }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_common::SyntaxContext;
 
     #[test]
     fn test_mark_for() {
@@ -124,16 +141,25 @@ mod tests {
             let folder1 = BlockFolder::new(mark1, Scope::new(ScopeKind::Block, None));
             let mut folder2 =
                 BlockFolder::new(mark2, Scope::new(ScopeKind::Block, Some(&folder1.current)));
-            folder2.current.declared_symbols.insert("foo".into());
+            folder2
+                .current
+                .declared_symbols
+                .insert("foo".into(), SyntaxContext::empty());
 
             let mut folder3 =
                 BlockFolder::new(mark3, Scope::new(ScopeKind::Block, Some(&folder2.current)));
-            folder3.current.declared_symbols.insert("bar".into());
+            folder3
+                .current
+                .declared_symbols
+                .insert("bar".into(), SyntaxContext::empty());
             assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
 
             let mut folder4 =
                 BlockFolder::new(mark4, Scope::new(ScopeKind::Block, Some(&folder3.current)));
-            folder4.current.declared_symbols.insert("foo".into());
+            folder4
+                .current
+                .declared_symbols
+                .insert("foo".into(), SyntaxContext::empty());
 
             assert_eq!(folder4.mark_for(&"foo".into()), Some(mark4));
             assert_eq!(folder4.mark_for(&"bar".into()), Some(mark3));
@@ -428,5 +454,57 @@ expect(a).toBe(2);"#
         var a1 = 'bar';
         use(a1);
     }"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::Es2019,
+        block_scoping(),
+        shorthand,
+        r#"let a = 'foo';
+    function foo() {
+        let a = 'bar';
+        use({a});
+    }"#,
+        r#"var a = 'foo';
+    function foo() {
+        var a1 = 'bar';
+        use({a: a1});
+    }"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::Es2019,
+        block_scoping(),
+        same_level,
+        r#"
+        var a = 'foo';
+        var a = 'bar';
+        "#,
+        r#"
+        var a = 'foo';
+        var a = 'bar';
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::Es2019,
+        block_scoping(),
+        class_block,
+        r#"
+    var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        }(Bar);
+    "#,
+        r#"
+    var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        }(Bar);
+        "#
     );
 }
