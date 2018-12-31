@@ -321,7 +321,7 @@ impl Fold<Expr> for ClassMethodFolder {
 
 impl Fold<ClassMethod> for Actual {
     fn fold(&mut self, m: ClassMethod) -> ClassMethod {
-        if m.kind != ClassMethodKind::Method || !m.function.is_async {
+        if m.kind != MethodKind::Method || !m.function.is_async {
             return m;
         }
         let params = m.function.params.clone();

@@ -520,16 +520,16 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    pub fn emit_class_method(&mut self, node: &ClassMethod) -> Result {
+    pub fn emit_class_method(&mut self, node: &Method) -> Result {
         if node.is_static {
             keyword!("static");
             space!();
         }
         match node.kind {
-            ClassMethodKind::Constructor => {
+            MethodKind::Constructor => {
                 keyword!("constructor");
             }
-            ClassMethodKind::Method => {
+            MethodKind::Method => {
                 if node.function.is_async {
                     keyword!("async");
                 }
@@ -540,13 +540,13 @@ impl<'a> Emitter<'a> {
 
                 emit!(node.key);
             }
-            ClassMethodKind::Getter => {
+            MethodKind::Getter => {
                 keyword!("get");
                 space!();
 
                 emit!(node.key);
             }
-            ClassMethodKind::Setter => {
+            MethodKind::Setter => {
                 keyword!("set");
                 space!();
 

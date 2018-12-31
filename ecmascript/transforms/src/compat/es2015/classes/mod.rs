@@ -204,7 +204,7 @@ impl Classes {
             let constructor = {
                 // Find constuctor
                 let pos = class.body.iter().position(|m| match m.kind {
-                    ClassMethodKind::Constructor => true,
+                    MethodKind::Constructor => true,
                     _ => false,
                 });
                 match pos {
@@ -420,15 +420,15 @@ impl Classes {
             });
 
             match m.kind {
-                ClassMethodKind::Constructor => unreachable!(),
+                MethodKind::Constructor => unreachable!(),
 
-                ClassMethodKind::Method | ClassMethodKind::Getter => {
+                MethodKind::Method | MethodKind::Getter => {
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
                             PropOrSpread::Prop(box mk_prop_key(&m.key)),
                             PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(if m.kind == ClassMethodKind::Getter {
+                                key: PropName::Ident(if m.kind == MethodKind::Getter {
                                     quote_ident!("get")
                                 } else {
                                     quote_ident!("value")
@@ -439,7 +439,7 @@ impl Classes {
                     }));
                 }
 
-                ClassMethodKind::Setter => {
+                MethodKind::Setter => {
                     // Setter
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,

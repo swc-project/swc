@@ -105,7 +105,7 @@ mk_trait!(
     // AssignOp,
     // BinaryOp,
     // BlockStmtOrExpr,
-    // ClassMethodKind,
+    // MethodKind,
     // Decl,
     // ExportDefaultDecl,
     // Expr,

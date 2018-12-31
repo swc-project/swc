@@ -79,7 +79,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_class_body(&mut self) -> PResult<'a, (Vec<Method>)> {
+    fn parse_class_body(&mut self) -> PResult<'a, (Vec<ClassMember>)> {
         let mut elems = vec![];
         while !eof!() && !is!('}') {
             if eat_exact!(';') {
@@ -91,7 +91,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(elems)
     }
 
-    fn parse_class_element(&mut self) -> PResult<'a, Method> {
+    fn parse_class_element(&mut self) -> PResult<'a, ClassMember> {
         // ignore semi
 
         let static_token = {
@@ -114,12 +114,12 @@ impl<'a, I: Input> Parser<'a, I> {
                 value: js_word!("constructor"),
                 ..
             }) => {
-                mtd.kind = ClassMethodKind::Constructor;
+                mtd.kind = MethodKind::Constructor;
             }
             _ => {}
         }
 
-        Ok(mtd)
+        Ok(ClassMember::Method(mtd))
     }
 
     fn parse_fn<T>(&mut self, start_of_async: Option<BytePos>) -> PResult<'a, T>
@@ -234,7 +234,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_static,
                     key,
                     function,
-                    kind: ClassMethodKind::Method,
+                    kind: MethodKind::Method,
                 });
         }
 
@@ -251,7 +251,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             sym: js_word!("static"),
                         }),
                         function,
-                        kind: ClassMethodKind::Method,
+                        kind: MethodKind::Method,
                     });
             }
         }
@@ -267,7 +267,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_static,
                     key,
                     function,
-                    kind: ClassMethodKind::Method,
+                    kind: MethodKind::Method,
                 });
         }
 
@@ -292,7 +292,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             is_static: static_token.is_some(),
                             key,
                             function,
-                            kind: ClassMethodKind::Getter,
+                            kind: MethodKind::Getter,
                         }),
                     js_word!("set") => self
                         .parse_fn_args_body(
@@ -306,7 +306,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             key,
                             is_static: static_token.is_some(),
                             function,
-                            kind: ClassMethodKind::Setter,
+                            kind: MethodKind::Setter,
                         }),
                     js_word!("async") => self
                         .parse_fn_args_body(start, Parser::parse_unique_formal_params, true, false)
@@ -315,7 +315,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             is_static: static_token.is_some(),
                             key,
                             function,
-                            kind: ClassMethodKind::Method,
+                            kind: MethodKind::Method,
                         }),
                     _ => unreachable!(),
                 };
