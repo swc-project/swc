@@ -61,7 +61,7 @@ pub use self::{
         TsThisType, TsThisTypeOrIdent, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn,
         TsTypeAssertion, TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeParam,
         TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeRef,
-        TsUnionType,
+        TsUnionOrIntersectionType, TsUnionType,
     },
 };
 
