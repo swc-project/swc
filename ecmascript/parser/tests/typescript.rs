@@ -129,7 +129,6 @@ fn references() {
     test_main(&args, tests, Options::new());
 }
 
-
 pub fn normalize<T>(t: T) -> T
 where
     Normalizer: Fold<T>,

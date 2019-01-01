@@ -231,7 +231,7 @@ macro_rules! tok {
     // Typescript
     // ----------
     ("implements") => {
-        Token::Word(Keyword(Implements))
+        Token::Word(Word::Ident(js_word!("implements")))
     };
 }
 
