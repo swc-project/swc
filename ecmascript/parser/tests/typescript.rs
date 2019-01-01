@@ -111,7 +111,7 @@ where
 
         let res = f(&mut Parser::new(
             Session { handler: &handler },
-            Syntax::Jsx,
+            Syntax::Typescript,
             (&*fm).into(),
         ));
 
