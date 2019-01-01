@@ -1,6 +1,13 @@
 #![allow(missing_copy_implementations)]
 
-use super::{AssignPat, Bool, Decorator, Expr, Ident, Number, Stmt, Str};
+use crate::{
+    class::Decorator,
+    expr::Expr,
+    ident::Ident,
+    lit::{Bool, Number, Str},
+    pat::{AssignPat, ObjectPat, RestPat},
+    stmt::Stmt,
+};
 use swc_common::{ast_node, Fold, Span};
 
 #[ast_node]
@@ -216,14 +223,26 @@ pub struct TsThisType {
 }
 
 #[ast_node]
+pub enum TsFnParam {
+    Ident(Ident),
+    RestPat(RestPat),
+    ObjectPat(ObjectPat),
+}
+
+#[ast_node]
 pub struct TsFnType {
     pub span: Span,
+    pub params: Vec<TsFnParam>,
+
+    pub type_params: Option<TsTypeParamDecl>,
     pub type_ann: TsTypeAnn,
 }
 
 #[ast_node]
 pub struct TsConstructorType {
     pub span: Span,
+    pub params: Vec<TsFnParam>,
+    pub type_params: Option<TsTypeParamDecl>,
     pub type_ann: TsTypeAnn,
 }
 
