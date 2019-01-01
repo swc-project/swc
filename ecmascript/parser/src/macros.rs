@@ -281,7 +281,9 @@ macro_rules! tok {
     ("abstract") => {
         Token::Word(Word::Ident(js_word!("abstract")))
     };
-
+    ("infer") => {
+        Token::Word(Word::Ident(js_word!("infer")))
+    };
 }
 
 macro_rules! token_including_semi {
