@@ -1,0 +1,73 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            10
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Bin(
+                    BinExpr {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                9
+                            ),
+                            ctxt: #0
+                        },
+                        op: "<",
+                        left: New(
+                            NewExpr {
+                                span: Span {
+                                    lo: BytePos(
+                                        0
+                                    ),
+                                    hi: BytePos(
+                                        5
+                                    ),
+                                    ctxt: #0
+                                },
+                                callee: Ident(
+                                    Ident(
+                                        A,
+                                        Span {
+                                            lo: BytePos(
+                                                4
+                                            ),
+                                            hi: BytePos(
+                                                5
+                                            ),
+                                            ctxt: #0
+                                        }
+                                    )
+                                ),
+                                args: None
+                            }
+                        ),
+                        right: Ident(
+                            Ident(
+                                T,
+                                Span {
+                                    lo: BytePos(
+                                        8
+                                    ),
+                                    hi: BytePos(
+                                        9
+                                    ),
+                                    ctxt: #0
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

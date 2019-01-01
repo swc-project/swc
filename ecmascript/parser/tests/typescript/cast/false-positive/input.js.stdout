@@ -1,0 +1,127 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            14
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Call(
+                    CallExpr {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                13
+                            ),
+                            ctxt: #0
+                        },
+                        callee: Expr(
+                            Ident(
+                                Ident(
+                                    f,
+                                    Span {
+                                        lo: BytePos(
+                                            0
+                                        ),
+                                        hi: BytePos(
+                                            1
+                                        ),
+                                        ctxt: #0
+                                    }
+                                )
+                            )
+                        ),
+                        args: [
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Bin(
+                                    BinExpr {
+                                        span: Span {
+                                            lo: BytePos(
+                                                2
+                                            ),
+                                            hi: BytePos(
+                                                7
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        op: "<",
+                                        left: Ident(
+                                            Ident(
+                                                x,
+                                                Span {
+                                                    lo: BytePos(
+                                                        2
+                                                    ),
+                                                    hi: BytePos(
+                                                        3
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        ),
+                                        right: Lit(
+                                            Num(
+                                                Number {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            6
+                                                        ),
+                                                        hi: BytePos(
+                                                            7
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    value: 0.0
+                                                }
+                                            )
+                                        )
+                                    }
+                                )
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Lit(
+                                    Regex(
+                                        Regex {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    9
+                                                ),
+                                                hi: BytePos(
+                                                    12
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            exp: Str {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        10
+                                                    ),
+                                                    hi: BytePos(
+                                                        11
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                value: Atom('a' type=inline),
+                                                has_escape: false
+                                            },
+                                            flags: None
+                                        }
+                                    )
+                                )
+                            }
+                        ]
+                    }
+                )
+            )
+        )
+    ]
+}

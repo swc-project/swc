@@ -1,0 +1,110 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            17
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Arrow(
+                    ArrowExpr {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                16
+                            ),
+                            ctxt: #0
+                        },
+                        params: [
+                            Object(
+                                ObjectPat {
+                                    span: Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            10
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    props: [
+                                        Assign(
+                                            AssignPatProp {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        3
+                                                    ),
+                                                    hi: BytePos(
+                                                        8
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                key: Ident(
+                                                    a,
+                                                    Span {
+                                                        lo: BytePos(
+                                                            3
+                                                        ),
+                                                        hi: BytePos(
+                                                            4
+                                                        ),
+                                                        ctxt: #0
+                                                    }
+                                                ),
+                                                value: Some(
+                                                    Lit(
+                                                        Num(
+                                                            Number {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        7
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        8
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                value: 0.0
+                                                            }
+                                                        )
+                                                    )
+                                                )
+                                            }
+                                        )
+                                    ]
+                                }
+                            )
+                        ],
+                        body: Expr(
+                            Lit(
+                                Num(
+                                    Number {
+                                        span: Span {
+                                            lo: BytePos(
+                                                15
+                                            ),
+                                            hi: BytePos(
+                                                16
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        value: 0.0
+                                    }
+                                )
+                            )
+                        ),
+                        is_async: false,
+                        is_generator: false
+                    }
+                )
+            )
+        )
+    ]
+}

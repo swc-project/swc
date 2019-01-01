@@ -1,0 +1,31 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            63
+        ),
+        hi: BytePos(
+            87
+        ),
+        ctxt: #0
+    },
+    body: [
+        ModuleDecl(
+            ExportDefaultExpr(
+                Ident(
+                    Ident(
+                        abstract,
+                        Span {
+                            lo: BytePos(
+                                78
+                            ),
+                            hi: BytePos(
+                                86
+                            ),
+                            ctxt: #0
+                        }
+                    )
+                )
+            )
+        )
+    ]
+}

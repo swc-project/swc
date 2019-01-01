@@ -1,0 +1,108 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            31
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Class(
+                    ClassDecl {
+                        ident: Ident(
+                            C,
+                            Span {
+                                lo: BytePos(
+                                    6
+                                ),
+                                hi: BytePos(
+                                    7
+                                ),
+                                ctxt: #0
+                            }
+                        ),
+                        class: Class {
+                            span: Span {
+                                lo: BytePos(
+                                    0
+                                ),
+                                hi: BytePos(
+                                    31
+                                ),
+                                ctxt: #0
+                            },
+                            decorators: [],
+                            body: [
+                                Method(
+                                    Method {
+                                        span: Span {
+                                            lo: BytePos(
+                                                14
+                                            ),
+                                            hi: BytePos(
+                                                29
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident(
+                                                m,
+                                                Span {
+                                                    lo: BytePos(
+                                                        14
+                                                    ),
+                                                    hi: BytePos(
+                                                        15
+                                                    ),
+                                                    ctxt: #0
+                                                }
+                                            )
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    14
+                                                ),
+                                                hi: BytePos(
+                                                    29
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: BlockStmt {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        22
+                                                    ),
+                                                    hi: BytePos(
+                                                        29
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                stmts: []
+                                            },
+                                            is_generator: false,
+                                            is_async: false
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: None,
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                )
+                            ],
+                            super_class: None,
+                            implements: []
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}
