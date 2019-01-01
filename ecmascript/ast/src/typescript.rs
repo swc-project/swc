@@ -155,6 +155,7 @@ pub enum TsType {
     TsIndexedAccessType(TsIndexedAccessType),
     TsMappedType(TsMappedType),
     TsLitType(TsLitType),
+    TsTypePredicate(TsTypePredicate),
 }
 
 #[ast_node]

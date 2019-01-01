@@ -7,35 +7,75 @@ impl<'a, I: Input> Parser<'a, I> {
         return_token: &'static Token,
     ) -> PResult<'a, TsTypeAnn> {
         self.in_type().parse_with(|p| {
+            let start = cur_pos!();
+
             if !p.input.eat(return_token) {
                 unexpected!()
             }
 
-            // const typePredicateVariable =
-            //           this.tsIsIdentifier() &&
-            //           this.tsTryParse(this.tsParseTypePredicatePrefix.bind(this));
+            let type_pred_var = if is!(IdentRef) {
+                p.try_ts_parse(|p| p.parse_ts_type_predicate_prefix())?
+            } else {
+                None
+            };
 
-            //         if (!typePredicateVariable) {
-            //           return this.tsParseTypeAnnotation(/* eatColon */ false, t);
-            //         }
+            let type_pred_var = match type_pred_var {
+                Some(v) => v.into(),
+                None => {
+                    return p.parse_ts_type_ann(
+                        // eat_colon
+                        false, start,
+                    );
+                }
+            };
 
-            //         const type = this.tsParseTypeAnnotation(/* eatColon */ false);
+            let pos = cur_pos!();
+            let type_ann = p.parse_ts_type_ann(
+                // eat_colon
+                false, pos,
+            )?;
 
-            //         const node: N.TsTypePredicate = this.startNodeAtNode(
-            //           typePredicateVariable,
-            //         );
-            //         node.parameterName = typePredicateVariable;
-            //         node.typeAnnotation = type;
-            //         t.typeAnnotation = this.finishNode(node, "TSTypePredicate");
-            //         return this.finishNode(t, "TSTypeAnnotation");
-            unimplemented!("parse_ts_type_or_type_predicate_ann")
+            let node = box TsType::TsTypePredicate(TsTypePredicate {
+                span: span!(start),
+                param_name: type_pred_var,
+                type_ann,
+            });
+
+            Ok(TsTypeAnn {
+                span: span!(start),
+                type_ann: node,
+            })
         })
     }
 
-    fn parse_ts_type_ann(&mut self, eat_colon: bool) -> PResult<'a, TsTypeAnn> {
-        self.in_type().parse_with(|p| {
-            let start = cur_pos!();
+    fn parse_ts_type_predicate_prefix(&mut self) -> PResult<'a, Option<Ident>> {
+        let id = self.parse_ident(false, false)?;
 
+        if is!("is") && !self.input.had_line_break_before_cur() {
+            assert_and_bump!("is");
+            return Ok(Some(id));
+        }
+
+        Ok(None)
+    }
+
+    fn try_ts_parse<T, F>(&mut self, op: F) -> PResult<'a, Option<T>>
+    where
+        F: FnOnce(&mut Self) -> PResult<'a, Option<T>>,
+    {
+        let mut cloned = self.clone();
+        let res = op(&mut cloned)?;
+        match res {
+            Some(res) => {
+                *self = cloned;
+                Ok(Some(res))
+            }
+            _ => Ok(None),
+        }
+    }
+
+    fn parse_ts_type_ann(&mut self, eat_colon: bool, start: BytePos) -> PResult<'a, TsTypeAnn> {
+        self.in_type().parse_with(|p| {
             if eat_colon {
                 expect!(':');
             }

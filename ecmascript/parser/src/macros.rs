@@ -240,6 +240,9 @@ macro_rules! tok {
     ("implements") => {
         Token::Word(Word::Ident(js_word!("implements")))
     };
+    ("is") => {
+        Token::Word(Word::Ident(js_word!("is")))
+    };
 }
 
 macro_rules! token_including_semi {

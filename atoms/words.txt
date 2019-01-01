@@ -43,6 +43,7 @@ import
 in
 instanceof
 interface
+is
 key
 length
 let

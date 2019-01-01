@@ -110,7 +110,7 @@ impl<'a> Input for SourceFileInput<'a> {
     }
 }
 
-pub trait Input {
+pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
