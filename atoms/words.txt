@@ -7,7 +7,9 @@ RegExp
 _extends
 _toConsumableArray
 abstract
+abstract
 apply
+as
 as
 async
 await
@@ -28,6 +30,7 @@ delete
 do
 else
 enum
+enum
 env
 export
 extends
@@ -37,16 +40,20 @@ for
 from
 function
 get
+global
 if
 implements
 import
 in
+infer
 instanceof
 interface
 is
 key
+keyof
 length
 let
+namespace
 new
 null
 of
@@ -56,6 +63,8 @@ process
 protected
 public
 readonly
+readonly
+require
 return
 set
 static
@@ -68,6 +77,7 @@ true
 try
 typeof
 undefined
+unique
 var
 void
 while

@@ -7,6 +7,14 @@ macro_rules! tok {
         Token::At
     };
 
+    ('&') => {
+        Token::BinOp(BinOpToken::BitAnd)
+    };
+
+    ('|') => {
+        Token::BinOp(BinOpToken::BitOr)
+    };
+
     (',') => {
         Token::Comma
     };
@@ -246,6 +254,34 @@ macro_rules! tok {
     ("new") => {
         Token::Word(Word::Ident(js_word!("new")))
     };
+    ("keyof") => {
+        Token::Word(Word::Ident(js_word!("keyof")))
+    };
+    ("unique") => {
+        Token::Word(Word::Ident(js_word!("unique")))
+    };
+    ("global") => {
+        Token::Word(Word::Ident(js_word!("global")))
+    };
+    ("require") => {
+        Token::Word(Word::Ident(js_word!("require")))
+    };
+    ("enum") => {
+        Token::Word(Word::Ident(js_word!("enum")))
+    };
+    ("readonly") => {
+        Token::Word(Word::Ident(js_word!("readonly")))
+    };
+    ("as") => {
+        Token::Word(Word::Ident(js_word!("as")))
+    };
+    ("namespace") => {
+        Token::Word(Word::Ident(js_word!("namespace")))
+    };
+    ("abstract") => {
+        Token::Word(Word::Ident(js_word!("abstract")))
+    };
+
 }
 
 macro_rules! token_including_semi {
