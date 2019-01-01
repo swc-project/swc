@@ -275,6 +275,7 @@ impl<'a, I: Input> Parser<'a, I> {
         op(&mut cloned)
     }
 
+    /// `tsIsUnambiguouslyStartOfFunctionType`
     fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<'a, bool> {
         assert_and_bump!('(');
         if is_one_of!(')', "...") {
@@ -300,6 +301,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(false)
     }
 
+    /// `tsSkipParameterStart`
     fn skip_ts_parameter_start(&mut self) -> PResult<'a, bool> {
         if is_one_of!(IdentRef, "this") {
             bump!();
@@ -307,14 +309,14 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if is!('{') {
-            let mut braceStackCounter = 1;
+            let mut brace_stack_counter = 1;
             bump!();
 
-            while braceStackCounter > 0 {
+            while brace_stack_counter > 0 {
                 if is!('{') {
-                    braceStackCounter += 1;
+                    brace_stack_counter += 1;
                 } else if is!('}') {
-                    braceStackCounter -= 1;
+                    brace_stack_counter -= 1;
                 }
                 bump!();
             }
