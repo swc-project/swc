@@ -216,12 +216,6 @@ pub struct TsThisType {
 }
 
 #[ast_node]
-pub enum TsConstructorOrFnType {
-    TsFnType(TsFnType),
-    TsConstructorType(TsConstructorType),
-}
-
-#[ast_node]
 pub struct TsFnType {
     pub span: Span,
     pub type_ann: TsTypeAnn,
