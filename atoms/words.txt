@@ -58,6 +58,7 @@ never
 new
 null
 number
+object
 of
 package
 private

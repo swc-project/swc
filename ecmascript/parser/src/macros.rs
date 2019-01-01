@@ -260,6 +260,9 @@ macro_rules! tok {
     ("unique") => {
         Token::Word(Word::Ident(js_word!("unique")))
     };
+    ("object") => {
+        Token::Word(Word::Ident(js_word!("object")))
+    };
     ("global") => {
         Token::Word(Word::Ident(js_word!("global")))
     };
