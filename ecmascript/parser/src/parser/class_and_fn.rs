@@ -97,6 +97,10 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<'a, Vec<Decorator>> {
+        if !self.syntax().decorators() {
+            return Ok(vec![]);
+        }
+
         let mut decorators = vec![];
         let start = cur_pos!();
 
@@ -113,7 +117,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 syntax_error!(span!(start), SyntaxError::DecoratorOnExport);
             }
         } else if !is!("class") {
-            syntax_error!(span!(start), SyntaxError::InvalidLeadingDecorator)
+            // syntax_error!(span!(start), SyntaxError::InvalidLeadingDecorator)
         }
 
         Ok(decorators)
@@ -303,6 +307,9 @@ impl<'a, I: Input> Parser<'a, I> {
             let params = p.with_ctx(arg_ctx).parse_with(|mut p| parse_args(&mut p))?;
 
             expect!(')');
+
+            // typescript extension
+            if p.syntax().typescript() && eat!(':') {}
 
             let body = p.parse_fn_body(is_async, is_generator)?;
 
