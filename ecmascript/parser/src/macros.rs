@@ -243,6 +243,9 @@ macro_rules! tok {
     ("is") => {
         Token::Word(Word::Ident(js_word!("is")))
     };
+    ("new") => {
+        Token::Word(Word::Ident(js_word!("new")))
+    };
 }
 
 macro_rules! token_including_semi {

@@ -242,7 +242,152 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_ts_non_conditional_type(&mut self) -> PResult<'a, Box<TsType>> {
-        unimplemented!("parse_ts_non_conditional_type")
+        if self.is_ts_start_of_fn_type()? {
+            return self
+                .parse_ts_fn_or_constructor_type(true)
+                .map(TsType::from)
+                .map(Box::new);
+        }
+        if is!("new") {
+            // As in `new () => Date`
+            return self
+                .parse_ts_fn_or_constructor_type(false)
+                .map(TsType::from)
+                .map(Box::new);
+        }
+
+        self.parse_ts_union_type_or_higher()
+    }
+
+    fn is_ts_start_of_fn_type(&mut self) -> PResult<'a, bool> {
+        if is!('<') {
+            return Ok(true);
+        }
+
+        Ok(is!('(') && self.ts_look_ahead(|p| p.is_ts_unambiguously_start_of_fn_type())?)
+    }
+
+    fn ts_look_ahead<T, F>(&mut self, op: F) -> PResult<'a, T>
+    where
+        F: FnOnce(&mut Self) -> PResult<'a, T>,
+    {
+        let mut cloned = self.clone();
+        op(&mut cloned)
+    }
+
+    fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<'a, bool> {
+        assert_and_bump!('(');
+        if is_one_of!(')', "...") {
+            // ( )
+            // ( ...
+            return Ok(true);
+        }
+        if self.skip_ts_parameter_start()? {
+            if is_one_of!(':', ',', '?', '=') {
+                // ( xxx :
+                // ( xxx ,
+                // ( xxx ?
+                // ( xxx =
+                return Ok(true);
+            }
+            if eat!(')') {
+                if is!("=>") {
+                    // ( xxx ) =>
+                    return Ok(true);
+                }
+            }
+        }
+        Ok(false)
+    }
+
+    fn skip_ts_parameter_start(&mut self) -> PResult<'a, bool> {
+        if is_one_of!(IdentRef, "this") {
+            bump!();
+            return Ok(true);
+        }
+
+        if is!('{') {
+            let mut braceStackCounter = 1;
+            bump!();
+
+            while braceStackCounter > 0 {
+                if is!('{') {
+                    braceStackCounter += 1;
+                } else if is!('}') {
+                    braceStackCounter -= 1;
+                }
+                bump!();
+            }
+            return Ok(true);
+        }
+
+        return Ok(false);
+    }
+
+    fn parse_ts_fn_or_constructor_type(
+        &mut self,
+        is_fn_type: bool,
+    ) -> PResult<'a, TsFnOrConstructorType> {
+        let start = cur_pos!();
+        if !is_fn_type {
+            expect!("new");
+        }
+
+        // ----- inlined `this.tsFillSignature(tt.arrow, node)`
+        let type_params = self.try_parse_ts_type_params()?;
+        expect!('(');
+        let params = self.parse_ts_binding_list_for_signature()?;
+        let type_ann = self.parse_ts_type_or_type_predicate_ann(&tok!("=>"))?;
+        // ----- end
+
+        Ok(if is_fn_type {
+            TsFnOrConstructorType::TsFnType(TsFnType {
+                span: span!(start),
+                type_params,
+                params,
+                type_ann,
+            })
+        } else {
+            TsFnOrConstructorType::TsConstructorType(TsConstructorType {
+                span: span!(start),
+                type_params,
+                params,
+                type_ann,
+            })
+        })
+    }
+
+    /// `tsParseBindingListForSignature`
+    fn parse_ts_binding_list_for_signature(&mut self) -> PResult<'a, Vec<TsFnParam>> {
+        //     return this.parseBindingList(tt.parenR).map(pattern => {
+        //     if (
+        //       pattern.type !== "Identifier" &&
+        //       pattern.type !== "RestElement" &&
+        //       pattern.type !== "ObjectPattern"
+        //     ) {
+        //       throw this.unexpected(
+        //         pattern.start,
+        //         `Name in a signature must be an Identifier or ObjectPattern, instead
+        // got ${           pattern.type
+        //         }`,
+        //       );
+        //     }
+        //     return pattern;
+        //   });
+        unimplemented!("parse_ts_binding_list_for_signature")
+    }
+
+    /// `tsTryParseTypeParameters`
+    fn try_parse_ts_type_params(&mut self) -> PResult<'a, Option<TsTypeParamDecl>> {
+        if is!('<') {
+            return self.parse_ts_type_params().map(Some);
+        }
+        Ok(None)
+    }
+
+    /// `tsParseUnionTypeOrHigher`
+    fn parse_ts_union_type_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
+        unimplemented!("parse_ts_union_type_or_higher")
     }
 }
 

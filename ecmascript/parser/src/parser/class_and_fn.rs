@@ -298,6 +298,7 @@ impl<'a, I: Input> Parser<'a, I> {
         self.with_ctx(ctx).parse_with(|p| {
             let type_params = if p.syntax().typescript() && is!('<') {
                 //
+                println!("Parsing type params");
                 Some(p.parse_ts_type_params()?)
             } else {
                 None
