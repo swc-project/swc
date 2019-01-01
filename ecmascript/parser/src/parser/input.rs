@@ -6,6 +6,7 @@ use crate::{
 use swc_common::{BytePos, Span, DUMMY_SP};
 
 /// This struct is responsible for managing current token and peeked token.
+#[derive(Clone)]
 pub(super) struct ParserInput<'a, I: Input> {
     iter: Lexer<'a, I>,
     /// Span of the previous token.

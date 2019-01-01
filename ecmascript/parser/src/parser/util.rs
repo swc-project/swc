@@ -86,6 +86,15 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Original context is restored when returned guard is dropped.
+    pub(super) fn in_type<'w>(&'w mut self) -> WithCtx<'w, 'a, I> {
+        let ctx = Context {
+            in_type: true,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx)
+    }
+
+    /// Original context is restored when returned guard is dropped.
     pub(super) fn include_in_expr<'w>(&'w mut self, include_in_expr: bool) -> WithCtx<'w, 'a, I> {
         let ctx = Context {
             include_in_expr,

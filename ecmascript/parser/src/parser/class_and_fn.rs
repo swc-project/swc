@@ -314,8 +314,9 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!(')');
 
             // typescript extension
-            let return_type = if p.syntax().typescript() && eat!(':') {
-                p.parse_ts_type_or_type_predicate_ann().map(Some)?
+            let return_type = if p.syntax().typescript() && is!(':') {
+                p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+                    .map(Some)?
             } else {
                 None
             };

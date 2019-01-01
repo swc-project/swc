@@ -2,8 +2,51 @@ use super::*;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub(super) fn parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<'a, TsTypeAnn> {
-        unimplemented!("parse_ts_type_or_type_predicate_ann")
+    pub(super) fn parse_ts_type_or_type_predicate_ann(
+        &mut self,
+        return_token: &'static Token,
+    ) -> PResult<'a, TsTypeAnn> {
+        self.in_type().parse_with(|p| {
+            if !p.input.eat(return_token) {
+                unexpected!()
+            }
+
+            // const typePredicateVariable =
+            //           this.tsIsIdentifier() &&
+            //           this.tsTryParse(this.tsParseTypePredicatePrefix.bind(this));
+
+            //         if (!typePredicateVariable) {
+            //           return this.tsParseTypeAnnotation(/* eatColon */ false, t);
+            //         }
+
+            //         const type = this.tsParseTypeAnnotation(/* eatColon */ false);
+
+            //         const node: N.TsTypePredicate = this.startNodeAtNode(
+            //           typePredicateVariable,
+            //         );
+            //         node.parameterName = typePredicateVariable;
+            //         node.typeAnnotation = type;
+            //         t.typeAnnotation = this.finishNode(node, "TSTypePredicate");
+            //         return this.finishNode(t, "TSTypeAnnotation");
+            unimplemented!("parse_ts_type_or_type_predicate_ann")
+        })
+    }
+
+    fn parse_ts_type_ann(&mut self, eat_colon: bool) -> PResult<'a, TsTypeAnn> {
+        self.in_type().parse_with(|p| {
+            let start = cur_pos!();
+
+            if eat_colon {
+                expect!(':');
+            }
+
+            let type_ann = p.parse_ts_type()?;
+
+            Ok(TsTypeAnn {
+                span: span!(start),
+                type_ann,
+            })
+        })
     }
 
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<'a, bool> {
@@ -117,11 +160,7 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         token_to_eat: &'static Token,
     ) -> PResult<'a, Option<Box<TsType>>> {
-        let ctx = Context {
-            in_type: true,
-            ..self.ctx()
-        };
-        self.with_ctx(ctx).parse_with(|p| {
+        self.in_type().parse_with(|p| {
             if !p.input.eat(token_to_eat) {
                 return Ok(None);
             }

@@ -30,13 +30,14 @@ mod util;
 pub type PResult<'a, T> = Result<T, ()>;
 
 /// EcmaScript parser.
+#[derive(Clone)]
 pub struct Parser<'a, I: Input> {
     session: Session<'a>,
     state: State,
     input: ParserInput<'a, I>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 struct State {
     labels: Vec<JsWord>,
     /// Start position of an assignment expression.
