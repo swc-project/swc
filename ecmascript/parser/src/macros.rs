@@ -284,6 +284,30 @@ macro_rules! tok {
     ("infer") => {
         Token::Word(Word::Ident(js_word!("infer")))
     };
+    ("any") => {
+        Token::Word(Word::Ident(js_word!("any")))
+    };
+    ("boolean") => {
+        Token::Word(Word::Ident(js_word!("boolean")))
+    };
+    ("bigint") => {
+        Token::Word(Word::Ident(js_word!("bigint")))
+    };
+    ("never") => {
+        Token::Word(Word::Ident(js_word!("never")))
+    };
+    ("number") => {
+        Token::Word(Word::Ident(js_word!("number")))
+    };
+    ("string") => {
+        Token::Word(Word::Ident(js_word!("string")))
+    };
+    ("symbol") => {
+        Token::Word(Word::Ident(js_word!("symbol")))
+    };
+    ("unknown") => {
+        Token::Word(Word::Ident(js_word!("unknown")))
+    };
 }
 
 macro_rules! token_including_semi {

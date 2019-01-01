@@ -59,9 +59,9 @@ pub use self::{
         TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam,
         TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType, TsSignatureDecl,
         TsThisType, TsThisTypeOrIdent, TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn,
-        TsTypeAssertion, TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeParam,
-        TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeQuery, TsTypeRef,
-        TsUnionOrIntersectionType, TsUnionType,
+        TsTypeAssertion, TsTypeCastExpr, TsTypeElement, TsTypeLit, TsTypeOperator,
+        TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
+        TsTypeQuery, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
 
