@@ -70,7 +70,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
     let parse = |name, s| {
         let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), s);
 
-        Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
+        Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
             .parse_expr()
             .unwrap()
     };

@@ -54,7 +54,7 @@ impl<'a> Tester<'a> {
     }
 
     pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
-        let mut stmts = self.with_parser(file_name, Syntax::Es2019, src, |p| p.parse_script())?;
+        let mut stmts = self.with_parser(file_name, Syntax::Es, src, |p| p.parse_script())?;
         assert!(stmts.len() == 1);
 
         Ok(stmts.pop().unwrap())

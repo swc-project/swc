@@ -64,7 +64,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Shorthand,
         babel_method_plain,
         "var obj = {
@@ -80,7 +80,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Shorthand,
         babel_comments,
         "var A = 'a';
@@ -95,7 +95,7 @@ var o = {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Shorthand,
         babel_mixed,
         "var coords = { x, y, foo: 'bar' };",
@@ -107,7 +107,7 @@ var o = {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Shorthand,
         babel_multiple,
         "var coords = { x, y };",
@@ -118,7 +118,7 @@ var o = {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Shorthand,
         babel_single,
         "var coords = { x };",

@@ -102,7 +102,7 @@ macro_rules! tr {
                     handler: &handler,
                     cfg: Default::default(),
                 },
-                Syntax::Es2019,
+                Syntax::Es,
                 SourceFileInput::from(&*fm),
             );
             let module = parser.parse_module().unwrap();

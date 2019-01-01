@@ -2,19 +2,19 @@ use super::*;
 use swc_common::DUMMY_SP as span;
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| p.parse_lhs_expr())
+    test_parser(s, Syntax::Es, |p| p.parse_lhs_expr())
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| p.parse_new_expr())
+    test_parser(s, Syntax::Es, |p| p.parse_new_expr())
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| p.parse_member_expr())
+    test_parser(s, Syntax::Es, |p| p.parse_member_expr())
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| {
+    test_parser(s, Syntax::Es, |p| {
         p.parse_stmt(true).map(|stmt| match stmt {
             Stmt::Expr(expr) => expr,
             _ => unreachable!(),

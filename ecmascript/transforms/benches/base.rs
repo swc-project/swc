@@ -96,7 +96,7 @@ fn module_clone(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
-            Syntax::Es2019,
+            Syntax::Es,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -119,7 +119,7 @@ fn fold_empty(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
-            Syntax::Es2019,
+            Syntax::Es,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -153,7 +153,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
-            Syntax::Es2019,
+            Syntax::Es,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -187,7 +187,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
-            Syntax::Es2019,
+            Syntax::Es,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -265,7 +265,7 @@ fn visit_empty(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
-            Syntax::Es2019,
+            Syntax::Es,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();
@@ -314,7 +314,7 @@ fn visit_contains_this(b: &mut Bencher) {
                 handler: &handler,
                 cfg: Default::default(),
             },
-            Syntax::Es2019,
+            Syntax::Es,
             SourceFileInput::from(&*fm),
         );
         let module = parser.parse_module().unwrap();

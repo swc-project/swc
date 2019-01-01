@@ -2,7 +2,7 @@ use super::SimplifyExpr;
 
 fn test_expr(src: &str, expected: &str) {
     test_transform!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         SimplifyExpr,
         src,
         expected,

@@ -30,7 +30,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         BlockScopedFns,
         basic,
         r#"{

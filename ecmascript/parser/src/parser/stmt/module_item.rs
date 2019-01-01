@@ -126,7 +126,7 @@ impl<'a, I: Input> Parser<'a, I> {
         self.with_ctx(ctx).parse_binding_ident()
     }
 
-    fn parse_export(&mut self) -> PResult<'a, ModuleDecl> {
+    fn parse_export(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
 
@@ -140,14 +140,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if eat!("default") {
             let decl = if is!("class") {
-                self.parse_default_class()?
+                self.parse_default_class(decoraters)?
             } else if is!("async")
                 && peeked_is!("function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                self.parse_default_async_fn()?
+                self.parse_default_async_fn(decoraters)?
             } else if is!("function") {
-                self.parse_default_fn()?
+                self.parse_default_fn(decoraters)?
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');
@@ -158,14 +158,14 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let decl = if is!("class") {
-            self.parse_class_decl()?
+            self.parse_class_decl(decoraters)?
         } else if is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            self.parse_async_fn_decl()?
+            self.parse_async_fn_decl(decoraters)?
         } else if is!("function") {
-            self.parse_fn_decl()?
+            self.parse_fn_decl(decoraters)?
         } else if is!("var")
             || is!("const")
             || (is!("let")
@@ -265,7 +265,11 @@ impl IsDirective for ModuleItem {
 
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, ModuleItem> {
+    fn handle_import_export(
+        &mut self,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, ModuleItem> {
         if !top_level {
             syntax_error!(SyntaxError::NonTopLevelImportExport);
         }
@@ -274,7 +278,7 @@ impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
         let decl = if is!("import") {
             self.parse_import()?
         } else if is!("export") {
-            self.parse_export()?
+            self.parse_export(decorators)?
         } else {
             unreachable!(
                 "handle_import_export should not be called if current token isn't import nor \

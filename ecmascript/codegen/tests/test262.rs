@@ -152,7 +152,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         handler: &handler,
                         cfg: Default::default(),
                     },
-                    Syntax::Es2019,
+                    Syntax::Es,
                     (&*src).into(),
                 );
 

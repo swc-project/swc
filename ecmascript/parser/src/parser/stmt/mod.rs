@@ -55,11 +55,11 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<'a, Stmt> {
-        self.parse_stmt_internal(false, top_level)
+        self.parse_stmt_like(false, top_level)
     }
 
     fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<'a, Stmt> {
-        self.parse_stmt_internal(true, top_level)
+        self.parse_stmt_like(true, top_level)
     }
 
     /// Parse a statement, declaration or module item.
@@ -68,14 +68,22 @@ impl<'a, I: Input> Parser<'a, I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
+        let decorators = self.parse_decorators(true)?;
+
         if is_one_of!("import", "export") {
-            return self.handle_import_export(top_level);
+            return self.handle_import_export(top_level, decorators);
         }
-        self.parse_stmt_internal(include_decl, top_level)
+
+        self.parse_stmt_internal(include_decl, top_level, decorators)
             .map(From::from)
     }
 
-    fn parse_stmt_internal(&mut self, include_decl: bool, top_level: bool) -> PResult<'a, Stmt> {
+    fn parse_stmt_internal(
+        &mut self,
+        include_decl: bool,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Stmt> {
         let start = cur_pos!();
 
         if is_one_of!("break", "continue") {
@@ -117,14 +125,14 @@ impl<'a, I: Input> Parser<'a, I> {
                 unexpected!()
             }
 
-            return self.parse_fn_decl().map(Stmt::from);
+            return self.parse_fn_decl(decorators).map(Stmt::from);
         }
 
         if is!("class") {
             if !include_decl {
                 unexpected!()
             }
-            return self.parse_class_decl().map(Stmt::from);
+            return self.parse_class_decl(decorators).map(Stmt::from);
         }
 
         if is!("if") {
@@ -187,7 +195,7 @@ impl<'a, I: Input> Parser<'a, I> {
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            return self.parse_async_fn_decl().map(From::from);
+            return self.parse_async_fn_decl(decorators).map(From::from);
         }
 
         // If the statement does not start with a statement keyword or a
@@ -526,7 +534,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
         let body = box if is!("function") {
-            let f = self.parse_fn_decl()?;
+            let f = self.parse_fn_decl(vec![])?;
             match f {
                 Decl::Fn(FnDecl {
                     function:
@@ -711,12 +719,16 @@ impl IsDirective for Stmt {
 }
 
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Type>;
+    fn handle_import_export(
+        &mut self,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Type>;
 }
 
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Stmt> {
+    fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
         syntax_error!(SyntaxError::ImportExportInScript);
     }
 }
@@ -724,13 +736,14 @@ impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::EsNextConfig;
     use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, Syntax::Es2019, |p| p.parse_stmt(true))
+        test_parser(s, Syntax::Es, |p| p.parse_stmt(true))
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es2019, |p| p.parse_expr())
+        test_parser(s, Syntax::Es, |p| p.parse_expr())
     }
 
     #[test]
@@ -795,7 +808,8 @@ mod tests {
                         name: Pat::Ident(Ident {
                             span,
                             sym: "a".into()
-                        })
+                        }),
+                        definite: false,
                     }],
                 }),
                 right: box Expr::Ident(Ident {
@@ -838,6 +852,43 @@ mod tests {
                 cons: box stmt("b;"),
                 alt: Some(box stmt("c")),
             })
+        );
+    }
+
+    #[test]
+    fn class_decorator() {
+        assert_eq_ignore_span!(
+            test_parser(
+                "
+            @decorator
+            @dec2
+            class Foo {}
+            ",
+                Syntax::EsNext(EsNextConfig {
+                    decorators: true,
+                    ..Default::default()
+                }),
+                |p| p.parse_stmt_list_item(true),
+            ),
+            Stmt::Decl(Decl::Class(ClassDecl {
+                ident: Ident::new("Foo".into(), span),
+                class: Class {
+                    span,
+                    decorators: vec![
+                        Decorator {
+                            span,
+                            expr: expr("decorator")
+                        },
+                        Decorator {
+                            span,
+                            expr: expr("dec2")
+                        }
+                    ],
+                    super_class: None,
+                    implements: vec![],
+                    body: vec![]
+                }
+            }))
         );
     }
 }

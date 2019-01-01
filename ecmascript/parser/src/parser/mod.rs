@@ -95,7 +95,7 @@ where
 
 #[test]
 fn module_legacy() {
-    test_parser("<!--", Syntax::Es2019, |f| {
+    test_parser("<!--", Syntax::Es, |f| {
         let res = f.parse_module();
         assert!(f.ctx().module);
         assert!(f.ctx().strict);

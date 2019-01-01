@@ -95,7 +95,7 @@ fn add_golden_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         cfg: Default::default(),
                         handler: &handler,
                     };
-                    parser::Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
+                    parser::Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
                         .parse_module()?
                 };
 

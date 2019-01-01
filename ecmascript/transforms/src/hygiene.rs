@@ -122,10 +122,8 @@ mod tests {
             let actual = tester.print(&module);
 
             let expected = {
-                let expected =
-                    tester.with_parser("expected.js", Syntax::Es2019, expected, |p| {
-                        p.parse_module()
-                    })?;
+                let expected = tester
+                    .with_parser("expected.js", Syntax::Es, expected, |p| p.parse_module())?;
                 tester.print(&expected)
             };
 

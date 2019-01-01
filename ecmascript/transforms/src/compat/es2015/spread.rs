@@ -186,7 +186,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         call,
         "ca(a, b, c, ...d, e)",
@@ -194,7 +194,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         call_multi_spread,
         "ca(a, b, ...d, e, f, ...h)",
@@ -202,7 +202,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         call_noop,
         "ca(a, b, c, d, e)",
@@ -210,7 +210,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         array,
         "[a, b, c, ...d, e]",
@@ -218,7 +218,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         array_empty,
         "[a,, b, c, ...d,,, e]",
@@ -226,7 +226,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         new,
         "new C(a, b, c, ...d, e)",
@@ -235,7 +235,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         Spread::default(),
         new_noop,
         "new C(a, b, c, c, d, e)",

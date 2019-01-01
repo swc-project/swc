@@ -96,7 +96,7 @@ fn emit_colors(b: &mut Bencher) {
             cfg: Default::default(),
         };
         let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
-        let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
+        let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
         let module = parser.parse_module().unwrap();
 
         b.iter(|| {

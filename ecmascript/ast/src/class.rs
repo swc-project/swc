@@ -1,5 +1,5 @@
 use crate::{
-    expr::{Expr, ExprOrSpread},
+    expr::Expr,
     function::Function,
     ident::Ident,
     prop::PropName,

@@ -278,11 +278,8 @@ where
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let res = f(&mut Parser::new(
-            Session {
-                handler: &handler,
-                cfg: Default::default(),
-            },
-            Syntax::Es2019,
+            Session { handler: &handler },
+            Syntax::Es,
             (&*fm).into(),
         ));
 

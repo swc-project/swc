@@ -203,7 +203,7 @@ mod tests {
     use swc_common::DUMMY_SP;
 
     fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es2019, |p| p.parse_bin_expr())
+        test_parser(s, Syntax::Es, |p| p.parse_bin_expr())
     }
 
     #[allow(non_upper_case_globals)]

@@ -110,7 +110,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             ':' => {
                 self.input.bump();
 
-                if self.session.cfg.fn_bind && self.input.cur() == Some(':') {
+                if self.syntax.fn_bind() && self.input.cur() == Some(':') {
                     self.input.bump();
                     return Ok(Some(tok!("::")));
                 }

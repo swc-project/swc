@@ -83,7 +83,7 @@ fn test_from_to(from: &str, to: &str) {
                     handler: &handler,
                     cfg: Default::default(),
                 },
-                Syntax::Es2019,
+                Syntax::Es,
                 (&*src).into(),
             ));
 

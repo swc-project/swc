@@ -1,7 +1,7 @@
 use super::*;
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     FnName,
     basic,
     r#"var number = function (x) {
@@ -13,7 +13,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     FnName,
     assign,
     r#"number = function (x) {
@@ -25,7 +25,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     FnName,
     let_complex,
     r#"

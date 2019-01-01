@@ -1,60 +1,67 @@
-//! Parser for function expression and function declaration.
-
 use super::{ident::MaybeOptionalIdentParser, *};
+use swc_common::Spanned;
 
 #[parser]
+/// Parser for function expression and function declaration.
 impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
         expect!("async");
-        self.parse_fn(Some(start))
+        self.parse_fn(Some(start), vec![])
     }
 
     /// Parse function expression
     pub(super) fn parse_fn_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
-        self.parse_fn(None)
+        self.parse_fn(None, vec![])
     }
 
-    pub(super) fn parse_async_fn_decl(&mut self) -> PResult<'a, Decl> {
+    pub(super) fn parse_async_fn_decl(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, Decl> {
         let start = cur_pos!();
         expect!("async");
-        self.parse_fn(Some(start))
+        self.parse_fn(Some(start), decoraters)
     }
 
-    pub(super) fn parse_fn_decl(&mut self) -> PResult<'a, Decl> {
-        self.parse_fn(None)
+    pub(super) fn parse_fn_decl(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, Decl> {
+        self.parse_fn(None, decoraters)
     }
 
-    pub(super) fn parse_default_async_fn(&mut self) -> PResult<'a, ExportDefaultDecl> {
+    pub(super) fn parse_default_async_fn(
+        &mut self,
+        decoraters: Vec<Decorator>,
+    ) -> PResult<'a, ExportDefaultDecl> {
         let start = cur_pos!();
         expect!("async");
-        self.parse_fn(Some(start))
+        self.parse_fn(Some(start), decoraters)
     }
 
-    pub(super) fn parse_default_fn(&mut self) -> PResult<'a, ExportDefaultDecl> {
-        self.parse_fn(None)
+    pub(super) fn parse_default_fn(
+        &mut self,
+        decoraters: Vec<Decorator>,
+    ) -> PResult<'a, ExportDefaultDecl> {
+        self.parse_fn(None, decoraters)
     }
 
-    pub(super) fn parse_class_decl(&mut self) -> PResult<'a, Decl> {
-        self.parse_class()
+    pub(super) fn parse_class_decl(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, Decl> {
+        self.parse_class(decoraters)
     }
 
-    pub(super) fn parse_class_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
-        self.parse_class()
+    pub(super) fn parse_class_expr(&mut self) -> PResult<'a, Box<Expr>> {
+        self.parse_class(vec![])
     }
 
-    pub(super) fn parse_default_class(&mut self) -> PResult<'a, ExportDefaultDecl> {
-        self.parse_class()
+    pub(super) fn parse_default_class(
+        &mut self,
+        decoraters: Vec<Decorator>,
+    ) -> PResult<'a, ExportDefaultDecl> {
+        self.parse_class(decoraters)
     }
 
-    fn parse_class<T>(&mut self) -> PResult<'a, T>
+    fn parse_class<T>(&mut self, decorators: Vec<Decorator>) -> PResult<'a, T>
     where
         T: OutputType,
         Self: MaybeOptionalIdentParser<'a, T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
-            let decorators = p.parse_decorators()?;
-
             let start = cur_pos!();
             expect!("class");
 
@@ -89,11 +96,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_decorators(&mut self, allow_export: bool) -> PResult<'a, Vec<Decorator>> {
-        if !self.session.cfg.decorators {
-            return Ok(vec![]);
-        }
-
+    pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<'a, Vec<Decorator>> {
         let mut decorators = vec![];
         let start = cur_pos!();
 
@@ -106,7 +109,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 unexpected!();
             }
 
-            if !self.session.cfg.decorators_before_export {
+            if !self.syntax().decorators_before_export() {
                 syntax_error!(span!(start), SyntaxError::DecoratorOnExport);
             }
         } else if !is!("class") {
@@ -132,7 +135,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 .map(Box::new)?;
 
             while eat!('.') {
-                let ident = self.parse_ident(true, true);
+                let ident = self.parse_ident(true, true)?;
 
                 expr = box Expr::Member(MemberExpr {
                     span: span!(start),
@@ -145,20 +148,25 @@ impl<'a, I: Input> Parser<'a, I> {
             expr
         };
 
-        let args = self.parse_maybe_decorator_args(expr)?;
+        let expr = self.parse_maybe_decorator_args(expr)?;
 
         Ok(Decorator {
-            span: span!(span),
+            span: span!(start),
             expr,
         })
     }
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
-        if !eat!('(') {
+        if !is!('(') {
             return Ok(expr);
         }
 
-        expect(')');
+        let args = self.parse_args()?;
+        Ok(box Expr::Call(CallExpr {
+            span: span!(expr.span().lo()),
+            callee: ExprOrSuper::Expr(expr),
+            args,
+        }))
     }
 
     fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMember>> {
@@ -174,7 +182,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_class_member(&mut self) -> PResult<'a, ClassMember> {
-        let decorators = self.parse_decorators()?;
+        let decorators = self.parse_decorators(false)?;
 
         let static_token = {
             let start = cur_pos!();
@@ -204,13 +212,15 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(ClassMember::Method(mtd))
     }
 
-    fn parse_fn<T>(&mut self, start_of_async: Option<BytePos>) -> PResult<'a, T>
+    fn parse_fn<T>(
+        &mut self,
+        start_of_async: Option<BytePos>,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, T>
     where
         T: OutputType,
         Self: MaybeOptionalIdentParser<'a, T::Ident>,
     {
-        let decorators = self.parse_decorators()?;
-
         let start = start_of_async.unwrap_or(cur_pos!());
         assert_and_bump!("function");
         let is_async = start_of_async.is_some();
@@ -561,18 +571,15 @@ impl<'a, I: Input> FnBodyParser<'a, BlockStmt> for Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use swc_common::DUMMY_SP;
+    use swc_common::DUMMY_SP as span;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es2019, |p| p.parse_lhs_expr())
+        test_parser(s, Syntax::Es, |p| p.parse_lhs_expr())
     }
 
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es2019, |p| p.parse_expr())
+        test_parser(s, Syntax::Es, |p| p.parse_expr())
     }
-
-    #[allow(non_upper_case_globals)]
-    const span: Span = DUMMY_SP;
 
     #[test]
     fn class_expr() {
@@ -583,9 +590,11 @@ mod tests {
                 expr: box Expr::Class(ClassExpr {
                     ident: None,
                     class: Class {
+                        decorators: vec![],
                         span,
                         body: vec![],
                         super_class: Some(expr("a")),
+                        implements: vec![],
                     },
                 }),
             })
