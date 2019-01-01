@@ -256,27 +256,24 @@ impl<'a, I: Input> Parser<'a, I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            expect!('(');
-            let params_ctx = Context {
-                in_parameters: true,
-                ..p.ctx()
-            };
-            let params = p.with_ctx(params_ctx).parse_formal_params()?;
-            expect!(')');
+            let f = p.parse_fn_args_body(
+                decorators,
+                start,
+                |p| p.parse_formal_params(),
+                is_async,
+                is_generator,
+            )?;
+            // expect!('(');
+            // let params_ctx = Context {
+            //     in_parameters: true,
+            //     ..p.ctx()
+            // };
+            // let params = p.with_ctx(params_ctx).parse_formal_params()?;
+            // expect!(')');
 
-            let body = p.parse_fn_body(is_async, is_generator)?;
+            // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(
-                ident,
-                Function {
-                    decorators,
-                    span: span!(start),
-                    is_async,
-                    is_generator,
-                    params,
-                    body,
-                },
-            ))
+            Ok(T::finish_fn(ident, f))
         })
     }
 
@@ -297,7 +294,15 @@ impl<'a, I: Input> Parser<'a, I> {
             in_generator: is_generator,
             ..self.ctx()
         };
+
         self.with_ctx(ctx).parse_with(|p| {
+            let type_params = if p.syntax().typescript() && is!('<') {
+                //
+                Some(p.parse_ts_type_params()?)
+            } else {
+                None
+            };
+
             expect!('(');
 
             let arg_ctx = Context {
@@ -309,17 +314,23 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!(')');
 
             // typescript extension
-            if p.syntax().typescript() && eat!(':') {}
+            let return_type = if p.syntax().typescript() && eat!(':') {
+                p.parse_ts_type_or_type_predicate_ann().map(Some)?
+            } else {
+                None
+            };
 
             let body = p.parse_fn_body(is_async, is_generator)?;
 
             Ok(Function {
                 span: span!(start),
                 decorators,
+                type_params,
                 params,
                 body,
                 is_async,
                 is_generator,
+                return_type,
             })
         })
     }

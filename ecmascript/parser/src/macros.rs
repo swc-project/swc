@@ -223,6 +223,13 @@ macro_rules! tok {
         Token::Word(Keyword(Yield))
     };
 
+    // ----------
+    // JSX
+    // ----------
+    (JSXTagStart) => {
+        Token::JSXTagStart
+    };
+
     (JSXTagEnd) => {
         Token::JSXTagEnd
     };

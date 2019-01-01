@@ -212,6 +212,8 @@ pub(crate) struct Context {
     /// keyword.
     in_generator: bool,
 
+    in_type: bool,
+
     in_function: bool,
 
     in_parameters: bool,

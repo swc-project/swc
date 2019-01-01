@@ -87,7 +87,9 @@ Module {
                                                 stmts: []
                                             },
                                             is_generator: false,
-                                            is_async: false
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
                                         },
                                         kind: Method,
                                         is_static: false,

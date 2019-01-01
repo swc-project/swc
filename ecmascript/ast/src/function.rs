@@ -1,4 +1,9 @@
-use crate::{class::Decorator, pat::Pat, stmt::BlockStmt, typescript::TsParamProp};
+use crate::{
+    class::Decorator,
+    pat::Pat,
+    stmt::BlockStmt,
+    typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
+};
 use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
@@ -17,6 +22,8 @@ pub struct Function<Body = BlockStmt> {
 
     /// if it's an async function.
     pub is_async: bool,
+    pub type_params: Option<TsTypeParamDecl>,
+    pub return_type: Option<TsTypeAnn>,
 }
 
 #[ast_node]

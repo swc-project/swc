@@ -23,6 +23,7 @@ mod jsx;
 mod object;
 mod pat;
 mod stmt;
+mod typescript;
 mod util;
 
 /// When error ocurred, error is emiited and parser returnes Err(()).
