@@ -163,16 +163,17 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(result)
     }
 
-    // tsParseEntityName(allowReservedWords: boolean): N.TsEntityName {
-    //   let entity: N.TsEntityName = this.parseIdentifier();
-    //   while (this.eat(tt.dot)) {
-    //     const node: N.TsQualifiedName = this.startNodeAtNode(entity);
-    //     node.left = entity;
-    //     node.right = this.parseIdentifier(allowReservedWords);
-    //     entity = this.finishNode(node, "TSQualifiedName");
-    //   }
-    //   return entity;
-    // }
+    /// `tsParseEntityName`
+    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<'a, TsEntityName> {
+        let mut entity = TsEntityName::Ident(self.parse_ident(false, false)?);
+        while eat!('.') {
+            let left = entity;
+            let right = self.parse_ident(allow_reserved_words, allow_reserved_words)?;
+            entity = TsEntityName::TsQualifiedName(box TsQualifiedName { left, right });
+        }
+
+        Ok(entity)
+    }
 
     /// `tsParseTypeReference`
     fn parse_ts_type_ref(&mut self) -> PResult<'a, TsTypeRef> {

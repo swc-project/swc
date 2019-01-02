@@ -128,7 +128,7 @@ impl<'a, I: Input> ParserInput<'a, I> {
     }
 
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
-        self.eat(&Word(Keyword(kwd)))
+        self.eat(&Word(Word::Keyword(kwd)))
     }
 
     /// Returns start of current token.

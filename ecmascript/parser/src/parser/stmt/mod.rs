@@ -519,7 +519,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         expect!('{');
 
-        let stmts = self.parse_block_body(allow_directives, false, Some(&RBrace))?;
+        let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
 
         let span = span!(start);
         Ok(BlockStmt { span, stmts })

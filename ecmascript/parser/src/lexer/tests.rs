@@ -76,12 +76,12 @@ impl WithSpan for f64 {
 }
 impl<'a> WithSpan for &'a str {
     fn into_token(self) -> Token {
-        Word(Ident(self.into()))
+        Word(Word::Ident(self.into()))
     }
 }
 impl WithSpan for Keyword {
     fn into_token(self) -> Token {
-        Word(Keyword(self))
+        Word(Word::Keyword(self))
     }
 }
 impl WithSpan for Word {
@@ -432,12 +432,12 @@ fn simple_regex() {
 fn complex_regex() {
     assert_eq_ignore_span!(
         vec![
-            Word(Ident("f".into())),
+            Word(Word::Ident("f".into())),
             LParen,
             RParen,
             Semi,
-            Word(Keyword(Function)),
-            Word(Ident("foo".into())),
+            Word(Word::Keyword(Function)),
+            Word(Word::Ident("foo".into())),
             LParen,
             RParen,
             LBrace,
@@ -471,18 +471,18 @@ fn simple_div() {
 fn complex_divide() {
     assert_eq!(
         vec![
-            Word(Ident("x".into())),
+            Word(Word::Ident("x".into())),
             AssignOp(Assign),
-            Word(Keyword(Function)),
-            Word(Ident("foo".into())),
+            Word(Word::Keyword(Function)),
+            Word(Word::Ident("foo".into())),
             LParen,
             RParen,
             LBrace,
             RBrace,
             BinOp(Div),
-            Word(Ident("a".into())),
+            Word(Word::Ident("a".into())),
             BinOp(Div),
-            Word(Ident("i".into())),
+            Word(Word::Ident("i".into())),
         ],
         lex_tokens(Syntax::Es, "x = function foo() {} /a/i"),
         "/ should be parsed as div operator"
@@ -494,22 +494,22 @@ fn complex_divide() {
 #[test]
 fn spec_001() {
     let expected = vec![
-        Word(Ident("a".into())),
+        Word(Word::Ident("a".into())),
         AssignOp(Assign),
-        Word(Ident("b".into())),
+        Word(Word::Ident("b".into())),
         BinOp(Div),
-        Word(Ident("hi".into())),
+        Word(Word::Ident("hi".into())),
         BinOp(Div),
-        Word(Ident("g".into())),
+        Word(Word::Ident("g".into())),
         Dot,
-        Word(Ident("exec".into())),
+        Word(Word::Ident("exec".into())),
         LParen,
-        Word(Ident("c".into())),
+        Word(Word::Ident("c".into())),
         RParen,
         Dot,
-        Word(Ident("map".into())),
+        Word(Word::Ident("map".into())),
         LParen,
-        Word(Ident("d".into())),
+        Word(Word::Ident("d".into())),
         RParen,
         Semi,
     ];
@@ -623,7 +623,7 @@ fn migrated_0003() {
     assert_eq!(
         vec![
             LParen.span(0).lb(),
-            Word::False.span(1..6),
+            Token::Word::False.span(1..6),
             RParen.span(6),
             Div.span(8),
             42.span(9..11),
@@ -747,7 +747,7 @@ fn tpl() {
                 has_escape: false
             },
             tok!("${"),
-            Word(Ident("a".into())),
+            Word(Word::Ident("a".into())),
             tok!('}'),
             Template {
                 raw: "".into(),
@@ -768,7 +768,7 @@ fn comment() {
 a"
         ),
         vec![TokenAndSpan {
-            token: Word(Ident("a".into())),
+            token: Word(Word::Ident("a".into())),
             span: sp(7..8),
             // first line
             had_line_break: true
@@ -786,7 +786,7 @@ fn comment_2() {
 a"
         ),
         vec![TokenAndSpan {
-            token: Word(Ident("a".into())),
+            token: Word(Word::Ident("a".into())),
             span: sp(14..15),
             // first line
             had_line_break: true
@@ -851,7 +851,7 @@ fn jsx_04() {
     assert_eq!(
         lex_tokens(Syntax::Jsx, "yield <a></a>"),
         vec![
-            Token::Word(Word::Keyword(Yield)),
+            Token::Word(Token::Word::Keyword(Yield)),
             Token::JSXTagStart,
             Token::JSXName { name: "a".into() },
             Token::JSXTagEnd,

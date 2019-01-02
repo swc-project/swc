@@ -1,4 +1,5 @@
 use super::{pat::PatType, util::ExprExt, *};
+use crate::token::AssignOpToken;
 use either::Either;
 use swc_common::Spanned;
 
@@ -37,7 +38,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // TODO: Check if cur!(true) correct.
         self.state.potential_arrow_start = match *cur!(true)? {
-            Word(Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
+            Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
             _ => None,
         };
 
@@ -56,8 +57,8 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         match cur!(false) {
-            Ok(&AssignOp(op)) => {
-                let left = if op == Assign {
+            Ok(&Token::AssignOp(op)) => {
+                let left = if op == AssignOpToken::Assign {
                     self.reparse_expr_as_pat(PatType::AssignPat, cond)
                         .map(Box::new)
                         .map(PatOrExpr::Pat)?
@@ -157,7 +158,11 @@ impl<'a, I: Input> Parser<'a, I> {
         // Literals
         if {
             match *cur!(false)? {
-                tok!("null") | tok!("true") | tok!("false") | Num(..) | Token::Str { .. } => true,
+                tok!("null")
+                | tok!("true")
+                | tok!("false")
+                | Token::Num(..)
+                | Token::Str { .. } => true,
                 _ => false,
             }
         } {
@@ -167,12 +172,12 @@ impl<'a, I: Input> Parser<'a, I> {
         // Regexp
         if {
             match *cur!(false)? {
-                Regex(..) => true,
+                Token::Regex(..) => true,
                 _ => false,
             }
         } {
             match bump!() {
-                Regex(exp, flags) => {
+                Token::Regex(exp, flags) => {
                     return Ok(box Expr::Lit(Lit::Regex(Regex {
                         span: span!(start),
                         exp,
@@ -505,8 +510,8 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         let (raw, cooked) = match *cur!(true)? {
-            Template { .. } => match bump!() {
-                Template {
+            Token::Template { .. } => match bump!() {
+                Token::Template {
                     raw,
                     cooked,
                     has_escape,
@@ -671,7 +676,7 @@ impl<'a, I: Input> Parser<'a, I> {
             Expr::New(NewExpr { args: None, .. }) => {
                 assert_ne!(
                     cur!(false).ok(),
-                    Some(&LParen),
+                    Some(&tok!('(')),
                     "parse_new_expr() should eat paren if it exists"
                 );
                 return Ok(callee);
@@ -753,7 +758,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let span = span!(start);
                 Lit::Null(Null { span })
             }
-            Word(True) | Word(False) => {
+            Word(Word::True) | Word(Word::False) => {
                 let value = is!("true");
                 bump!();
                 let span = span!(start);
@@ -768,8 +773,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 }),
                 _ => unreachable!(),
             },
-            Num(..) => match bump!() {
-                Num(value) => Lit::Num(Number {
+            Token::Num(..) => match bump!() {
+                Token::Num(value) => Lit::Num(Number {
                     span: span!(start),
                     value,
                 }),

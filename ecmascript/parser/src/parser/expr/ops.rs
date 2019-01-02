@@ -29,9 +29,9 @@ impl<'a, I: Input> Parser<'a, I> {
                 Err(..) => return Ok(left),
             }
         } {
-            &Word(Keyword(In)) if self.ctx().include_in_expr => op!("in"),
-            &Word(Keyword(InstanceOf)) => op!("instanceof"),
-            &BinOp(op) => op.into(),
+            &Word(Word::Keyword(In)) if self.ctx().include_in_expr => op!("in"),
+            &Word(Word::Keyword(InstanceOf)) => op!("instanceof"),
+            &Token::BinOp(op) => op.into(),
             _ => {
                 return Ok(left);
             }
@@ -104,7 +104,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Parse update expression
         if is!("++") || is!("--") {
-            let op = if bump!() == PlusPlus {
+            let op = if bump!() == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
@@ -126,13 +126,13 @@ impl<'a, I: Input> Parser<'a, I> {
         // Parse unary expression
         if is_one_of!("delete", "void", "typeof", '+', '-', '~', '!') {
             let op = match bump!() {
-                Word(Keyword(Delete)) => op!("delete"),
-                Word(Keyword(Void)) => op!("void"),
-                Word(Keyword(TypeOf)) => op!("typeof"),
-                BinOp(Add) => op!(unary, "+"),
-                BinOp(Sub) => op!(unary, "-"),
-                Tilde => op!("~"),
-                Bang => op!("!"),
+                tok!("delete") => op!("delete"),
+                tok!("void") => op!("void"),
+                tok!("typeof") => op!("typeof"),
+                tok!('+') => op!(unary, "+"),
+                tok!('-') => op!(unary, "-"),
+                tok!('~') => op!("~"),
+                tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
             let arg = self.parse_unary_expr()?;
@@ -163,7 +163,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             let start = cur_pos!();
-            let op = if bump!() == PlusPlus {
+            let op = if bump!() == tok!("++") {
                 op!("++")
             } else {
                 op!("--")

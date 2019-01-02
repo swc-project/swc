@@ -1,6 +1,6 @@
 //! 12.1 Identifiers
-
 use super::*;
+use crate::token::Keyword;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -55,18 +55,18 @@ impl<'a, I: Input> Parser<'a, I> {
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected",  "public", "static", or "yield".
             match w {
-                Ident(js_word!("enum")) => {
+                Word::Ident(js_word!("enum")) => {
                     syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
                 }
-                Keyword(Yield)
-                | Ident(js_word!("static"))
-                | Ident(js_word!("implements"))
-                | Ident(js_word!("interface"))
-                | Ident(js_word!("let"))
-                | Ident(js_word!("package"))
-                | Ident(js_word!("private"))
-                | Ident(js_word!("protected"))
-                | Ident(js_word!("public"))
+                Word::Keyword(Keyword::Yield)
+                | Word::Ident(js_word!("static"))
+                | Word::Ident(js_word!("implements"))
+                | Word::Ident(js_word!("interface"))
+                | Word::Ident(js_word!("let"))
+                | Word::Ident(js_word!("package"))
+                | Word::Ident(js_word!("private"))
+                | Word::Ident(js_word!("protected"))
+                | Word::Ident(js_word!("public"))
                     if strict =>
                 {
                     syntax_error!(p.input.prev_span(), SyntaxError::InvalidIdentInStrict)
@@ -82,14 +82,14 @@ impl<'a, I: Input> Parser<'a, I> {
             match w {
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
-                Keyword(Await) if p.ctx().module => {
+                Word::Keyword(Await) if p.ctx().module => {
                     syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
-                Keyword(Let) => Ok(w.into()),
-                Ident(ident) => Ok(ident),
-                Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
-                Keyword(Await) if incl_await => Ok(js_word!("await")),
-                Keyword(..) | Null | True | False => {
+                Word::Keyword(Let) => Ok(w.into()),
+                Word::Ident(ident) => Ok(ident),
+                Word::Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
+                Word::Keyword(Await) if incl_await => Ok(js_word!("await")),
+                Word::Keyword(..) | Word::Null | Word::True | Word::False => {
                     syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
             }

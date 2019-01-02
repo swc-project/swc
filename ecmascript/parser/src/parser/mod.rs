@@ -5,7 +5,7 @@ use crate::{
     error::SyntaxError,
     lexer::{Input, Lexer},
     parser_macros::parser,
-    token::*,
+    token::{Token, Word},
     Context, Session, Syntax,
 };
 use ast::*;

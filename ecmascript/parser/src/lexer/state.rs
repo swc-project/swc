@@ -74,7 +74,7 @@ impl<'a> From<&'a Token> for TokenType {
             Token::JSXName { .. } => TokenType::JSXName,
             Token::BinOp(op) => TokenType::BinOp(op),
 
-            Token::Word(Keyword(k)) => TokenType::Keyword(k),
+            Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
             },
@@ -253,7 +253,7 @@ impl State {
         is_expr_allowed: bool,
     ) -> bool {
         let is_next_keyword = match next {
-            &Word(Keyword(..)) => true,
+            &Word(Word::Keyword(..)) => true,
             _ => false,
         };
 
@@ -308,7 +308,7 @@ impl State {
                         .before_expr()
                 }
 
-                Word(Ident(ref ident)) => {
+                Word(Word::Ident(ref ident)) => {
                     // variable declaration
                     return match prev {
                         Some(prev) => match prev {

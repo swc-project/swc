@@ -1,7 +1,7 @@
 //! Ported from [babel/bablyon][]
 //!
 //! [babel/bablyon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
-pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*, Word::*};
+pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::error::Error;
 pub(crate) use ast::AssignOp as AssignOpToken;
 use ast::{BinaryOp, Str};
@@ -223,9 +223,9 @@ pub enum Word {
 impl From<JsWord> for Word {
     fn from(i: JsWord) -> Self {
         match i {
-            js_word!("null") => Null,
-            js_word!("true") => True,
-            js_word!("false") => False,
+            js_word!("null") => Word::Null,
+            js_word!("true") => Word::True,
+            js_word!("false") => Word::False,
             js_word!("await") => Await.into(),
             js_word!("break") => Break.into(),
             js_word!("case") => Case.into(),
@@ -261,20 +261,20 @@ impl From<JsWord> for Word {
             js_word!("typeof") => TypeOf.into(),
             js_word!("void") => Void.into(),
             js_word!("delete") => Delete.into(),
-            _ => Ident(i),
+            _ => Word::Ident(i),
         }
     }
 }
 impl From<Keyword> for Word {
     fn from(kwd: Keyword) -> Self {
-        Keyword(kwd)
+        Word::Keyword(kwd)
     }
 }
 
 impl From<Word> for JsWord {
     fn from(w: Word) -> Self {
         match w {
-            Keyword(k) => match k {
+            Word::Keyword(k) => match k {
                 Await => js_word!("await"),
                 Break => js_word!("break"),
                 Case => js_word!("case"),
@@ -328,11 +328,11 @@ impl From<Word> for JsWord {
                 Delete => js_word!("delete"),
             },
 
-            Null => js_word!("null"),
-            True => js_word!("true"),
-            False => js_word!("false"),
+            Word::Null => js_word!("null"),
+            Word::True => js_word!("true"),
+            Word::False => js_word!("false"),
 
-            Ident(w) => w,
+            Word::Ident(w) => w,
         }
     }
 }
@@ -534,7 +534,7 @@ impl Token {
             // This is required to recognize `let let` in strict mode.
             tok!("let") => true,
 
-            tok!('{') | tok!('[') | Word(Ident(..)) | tok!("yield") | tok!("await") => true,
+            tok!('{') | tok!('[') | Word(Word::Ident(..)) | tok!("yield") | tok!("await") => true,
 
             _ => false,
         }
