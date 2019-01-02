@@ -258,7 +258,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             let type_pred_var = if is!(IdentRef) {
-                p.try_ts_parse(|p| p.parse_ts_type_predicate_prefix())?
+                p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())?
             } else {
                 None
             };

@@ -171,7 +171,6 @@ impl<'a, I: Input> Parser<'a, I> {
             callee: ExprOrSuper::Expr(expr),
             args,
             type_args: None,
-            type_params: None,
         }))
     }
 

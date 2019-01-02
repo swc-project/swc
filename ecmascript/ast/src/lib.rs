@@ -15,7 +15,10 @@ extern crate swc_atoms;
 extern crate swc_common;
 
 pub use self::{
-    class::{Class, ClassMember, ClassProp, Decorator, Method, MethodKind},
+    class::{
+        Class, ClassMember, ClassMethod, ClassProp, ClassProperty, Decorator, Method, MethodKind,
+        PrivateMethod, PrivateProp,
+    },
     decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
@@ -24,7 +27,7 @@ pub use self::{
         TplElement, TplLit, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, PatOrTsParamProp},
-    ident::{Ident, IdentExt,PrivateName},
+    ident::{Ident, IdentExt, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
         JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,

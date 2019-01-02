@@ -1,7 +1,7 @@
 use crate::{
     expr::Expr,
     function::Function,
-    ident::{Ident,PrivateName},
+    ident::PrivateName,
     prop::PropName,
     typescript::{Accessibility, TsExprWithTypeArgs, TsTypeAnn},
 };
@@ -24,15 +24,21 @@ pub struct Class {
 pub enum ClassMember {
     /// `es2015`
     Method(Method),
+    PrivateMethod(PrivateMethod),
     /// stage 0 / Typescript
     ClassProp(ClassProp),
+    PrivateProp(PrivateProp),
 }
 
+pub type ClassProp = ClassProperty<Box<Expr>>;
+pub type PrivateProp = ClassProperty<PrivateName>;
+
 #[ast_node]
-pub struct ClassProp {
+pub struct ClassProperty<K> {
     pub span: Span,
 
-    pub key: Box<Expr>,
+    #[fold(bound)]
+    pub key: K,
     pub value: Option<Box<Expr>>,
 
     pub type_ann: Option<TsTypeAnn>,
@@ -50,10 +56,14 @@ pub struct ClassProp {
     pub definite: bool,
 }
 
+pub type Method = ClassMethod<PropName>;
+pub type PrivateMethod = ClassMethod<PrivateName>;
+
 #[ast_node]
-pub struct Method {
+pub struct ClassMethod<K> {
     pub span: Span,
-    pub key: PropName,
+    #[fold(bound)]
+    pub key: K,
 
     pub function: Function,
 
