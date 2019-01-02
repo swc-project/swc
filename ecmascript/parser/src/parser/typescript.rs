@@ -91,6 +91,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsIsListTerminator`
+    #[inline(always)]
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<'a, bool> {
         Ok(match kind {
             ParsingContext::EnumMembers | ParsingContext::TypeMembers => is!('}'),
@@ -98,6 +99,24 @@ impl<'a, I: Input> Parser<'a, I> {
             ParsingContext::TupleElementTypes => is!(']'),
             ParsingContext::TypeParametersOrArguments => is!('>'),
         })
+    }
+
+    /// `tsParseList`
+    fn parse_ts_list<T, F>(
+        &mut self,
+        kind: ParsingContext,
+        mut parse_element: F,
+    ) -> PResult<'a, Vec<T>>
+    where
+        F: for<'b> FnMut(&'b mut Self) -> PResult<'b, T>,
+    {
+        let mut buf = vec![];
+        while !self.is_ts_list_terminator(kind)? {
+            // Skipping "parseListElement" from the TS source since that's just for error
+            // handling.
+            buf.push(parse_element(self)?);
+        }
+        Ok(buf)
     }
 
     /// `tsParseDelimitedList`
@@ -233,6 +252,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsParseTypeParameter`
     pub(super) fn parse_ts_type_params(&mut self) -> PResult<'a, TsTypeParamDecl> {
         let start = cur_pos!();
 
@@ -269,6 +289,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsEatThenParseType`
     fn eat_then_parse_ts_type(
         &mut self,
         token_to_eat: &'static Token,
@@ -279,6 +300,17 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             p.parse_ts_type().map(Some)
+        })
+    }
+
+    /// `tsExpectThenParseType`
+    fn expect_then_parse_ts_type(&mut self, token: &'static Token) -> PResult<'a, Box<TsType>> {
+        self.in_type().parse_with(|p| {
+            if !p.input.eat(token) {
+                unexpected!()
+            }
+
+            p.parse_ts_type()
         })
     }
 
@@ -396,45 +428,227 @@ impl<'a, I: Input> Parser<'a, I> {
             return Ok(true);
         }
 
-        return Ok(false);
+        Ok(false)
     }
 
-    // tsParseMappedTypeParameter(): N.TsTypeParameter {
-    //   const node: N.TsTypeParameter = this.startNode();
-    //   node.name = this.parseIdentifierName(node.start);
-    //   node.constraint = this.tsExpectThenParseType(tt._in);
-    //   return this.finishNode(node, "TSTypeParameter");
+    // tsParseBindingListForSignature(): $ReadOnlyArray<
+    //   N.Identifier | N.RestElement | N.ObjectPattern,
+    // > {
+    //   return this.parseBindingList(tt.parenR).map(pattern => {
+    //     if (
+    //       pattern.type !== "Identifier" &&
+    //       pattern.type !== "RestElement" &&
+    //       pattern.type !== "ObjectPattern"
+    //     ) {
+    //       throw this.unexpected(
+    //         pattern.start,
+    //         `Name in a signature must be an Identifier or ObjectPattern, instead
+    // got ${           pattern.type
+    //         }`,
+    //       );
+    //     }
+    //     return pattern;
+    //   });
     // }
 
-    // tsParseMappedType(): N.TsMappedType {
-    //   const node: N.TsMappedType = this.startNode();
-    //   this.expect(tt.braceL);
-    //   if (this.match(tt.plusMin)) {
-    //     node.readonly = this.state.value;
-    //     this.next();
-    //     this.expectContextual("readonly");
-    //   } else if (this.eatContextual("readonly")) {
-    //     node.readonly = true;
+    // tsParseTypeMemberSemicolon(): void {
+    //   if (!this.eat(tt.comma)) {
+    //     this.semicolon();
+    //   }
+    // }
+
+    // tsParseSignatureMember(
+    //   kind: "TSCallSignatureDeclaration" | "TSConstructSignatureDeclaration",
+    // ): N.TsCallSignatureDeclaration | N.TsConstructSignatureDeclaration {
+    //   const node:
+    //     | N.TsCallSignatureDeclaration
+    //     | N.TsConstructSignatureDeclaration = this.startNode();
+    //   if (kind === "TSConstructSignatureDeclaration") {
+    //     this.expect(tt._new);
+    //   }
+    //   this.tsFillSignature(tt.colon, node);
+    //   this.tsParseTypeMemberSemicolon();
+    //   return this.finishNode(node, kind);
+    // }
+
+    // tsIsUnambiguouslyIndexSignature() {
+    //   this.next(); // Skip '{'
+    //   return this.eat(tt.name) && this.match(tt.colon);
+    // }
+
+    // tsTryParseIndexSignature(node: N.TsIndexSignature): ?N.TsIndexSignature {
+    //   if (
+    //     !(
+    //       this.match(tt.bracketL) &&
+    //       this.tsLookAhead(this.tsIsUnambiguouslyIndexSignature.bind(this))
+    //     )
+    //   ) {
+    //     return undefined;
     //   }
 
     //   this.expect(tt.bracketL);
-    //   node.typeParameter = this.tsParseMappedTypeParameter();
+    //   const id = this.parseIdentifier();
+    //   this.expect(tt.colon);
+    //   id.typeAnnotation = this.tsParseTypeAnnotation(/* eatColon */ false);
     //   this.expect(tt.bracketR);
+    //   node.parameters = [id];
 
-    //   if (this.match(tt.plusMin)) {
-    //     node.optional = this.state.value;
-    //     this.next();
-    //     this.expect(tt.question);
-    //   } else if (this.eat(tt.question)) {
-    //     node.optional = true;
-    //   }
-
-    //   node.typeAnnotation = this.tsTryParseType();
-    //   this.semicolon();
-    //   this.expect(tt.braceR);
-
-    //   return this.finishNode(node, "TSMappedType");
+    //   const type = this.tsTryParseTypeAnnotation();
+    //   if (type) node.typeAnnotation = type;
+    //   this.tsParseTypeMemberSemicolon();
+    //   return this.finishNode(node, "TSIndexSignature");
     // }
+
+    // tsParsePropertyOrMethodSignature(
+    //   node: N.TsPropertySignature | N.TsMethodSignature,
+    //   readonly: boolean,
+    // ): N.TsPropertySignature | N.TsMethodSignature {
+    //   this.parsePropertyName(node);
+    //   if (this.eat(tt.question)) node.optional = true;
+    //   const nodeAny: any = node;
+
+    //   if (!readonly && (this.match(tt.parenL) || this.isRelational("<"))) {
+    //     const method: N.TsMethodSignature = nodeAny;
+    //     this.tsFillSignature(tt.colon, method);
+    //     this.tsParseTypeMemberSemicolon();
+    //     return this.finishNode(method, "TSMethodSignature");
+    //   } else {
+    //     const property: N.TsPropertySignature = nodeAny;
+    //     if (readonly) property.readonly = true;
+    //     const type = this.tsTryParseTypeAnnotation();
+    //     if (type) property.typeAnnotation = type;
+    //     this.tsParseTypeMemberSemicolon();
+    //     return this.finishNode(property, "TSPropertySignature");
+    //   }
+    // }
+
+    // tsParseTypeMember(): N.TsTypeElement {
+    //   if (this.match(tt.parenL) || this.isRelational("<")) {
+    //     return this.tsParseSignatureMember("TSCallSignatureDeclaration");
+    //   }
+    //   if (
+    //     this.match(tt._new) &&
+    //     this.tsLookAhead(this.tsIsStartOfConstructSignature.bind(this))
+    //   ) {
+    //     return this.tsParseSignatureMember("TSConstructSignatureDeclaration");
+    //   }
+    //   // Instead of fullStart, we create a node here.
+    //   const node: any = this.startNode();
+    //   const readonly = !!this.tsParseModifier(["readonly"]);
+
+    //   const idx = this.tsTryParseIndexSignature(node);
+    //   if (idx) {
+    //     if (readonly) node.readonly = true;
+    //     return idx;
+    //   }
+    //   return this.tsParsePropertyOrMethodSignature(node, readonly);
+    // }
+
+    // tsIsStartOfConstructSignature() {
+    //   this.next();
+    //   return this.match(tt.parenL) || this.isRelational("<");
+    // }
+
+    /// `tsParseTypeLiteral`
+    fn parse_ts_type_lit(&mut self) -> PResult<'a, TsTypeLit> {
+        let start = cur_pos!();
+        let members = self.parse_ts_object_type_members()?;
+        Ok(TsTypeLit {
+            span: span!(start),
+            members,
+        })
+    }
+
+    /// `tsParseObjectTypeMembers`
+    fn parse_ts_object_type_members(&mut self) -> PResult<'a, Vec<TsTypeElement>> {
+        expect!('{');
+        let members =
+            self.parse_ts_list(ParsingContext::TypeMembers, |p| p.parse_ts_type_member())?;
+        expect!('}');
+        Ok(members)
+    }
+
+    /// `tsIsStartOfMappedType`
+    fn is_ts_start_of_mapped_type(&mut self) -> PResult<'a, bool> {
+        bump!();
+        if eat!('+') || eat!('-') {
+            return Ok(is!("readonly"));
+        }
+        if is!("readonly") {
+            bump!();
+        }
+        if !is!('[') {
+            return Ok(false);
+        }
+        bump!();
+        if !is!(IdentRef) {
+            return Ok(false);
+        }
+        bump!();
+
+        Ok(is!("in"))
+    }
+
+    /// `tsParseMappedTypeParameter`
+    fn parse_ts_mapped_type_param(&mut self) -> PResult<'a, TsTypeParam> {
+        let start = cur_pos!();
+        let name = self.parse_ident_name()?;
+        let constraint = Some(self.expect_then_parse_ts_type(&tok!("in"))?);
+
+        Ok(TsTypeParam {
+            span: span!(start),
+            name,
+            constraint,
+            default: None,
+        })
+    }
+
+    /// `tsParseMappedType`
+    fn parse_ts_mapped_type(&mut self) -> PResult<'a, TsMappedType> {
+        let start = cur_pos!();
+        expect!('{');
+        let mut readonly = None;
+        if is_one_of!('+', '-') {
+            readonly = Some(if is!('+') {
+                TruePlusMinus::Plus
+            } else {
+                TruePlusMinus::Minus
+            });
+            bump!();
+            expect!("readonly")
+        } else if is!("readonly") {
+            readonly = Some(TruePlusMinus::True);
+        }
+
+        expect!('[');
+        let type_param = self.parse_ts_mapped_type_param()?;
+        expect!(']');
+
+        let mut optional = None;
+        if is_one_of!('+', '-') {
+            optional = Some(if is!('+') {
+                TruePlusMinus::Plus
+            } else {
+                TruePlusMinus::Minus
+            });
+            bump!();
+            expect!('?');
+        } else if eat!('?') {
+            optional = Some(TruePlusMinus::True);
+        }
+
+        let type_ann = self.try_parse_ts_type()?;
+        eat!(';');
+        expect!('}');
+
+        Ok(TsMappedType {
+            span: span!(start),
+            readonly,
+            optional,
+            type_param,
+            type_ann,
+        })
+    }
 
     /// `tsParseTupleType`
     fn parse_ts_tuple_type(&mut self) -> PResult<'a, TsTupleType> {
@@ -584,6 +798,31 @@ impl<'a, I: Input> Parser<'a, I> {
         unimplemented!("parse_ts_binding_list_for_signature")
     }
 
+    /// `tsTryParseTypeOrTypePredicateAnnotation`
+    fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
+        if is!(':') {
+            self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+                .map(Some)
+        } else {
+            Ok(None)
+        }
+    }
+
+    /// `tsTryParseTypeAnnotation`
+    fn try_parse_ts_type_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
+        if is!(':') {
+            let pos = cur_pos!();
+            return self.parse_ts_type_ann(/* eat_colon */ true, pos).map(Some);
+        }
+
+        Ok(None)
+    }
+
+    /// `tsTryParseType`
+    fn try_parse_ts_type(&mut self) -> PResult<'a, Option<Box<TsType>>> {
+        self.eat_then_parse_ts_type(&tok!(':'))
+    }
+
     /// `tsTryParseTypeParameters`
     fn try_parse_ts_type_params(&mut self) -> PResult<'a, Option<TsTypeParamDecl>> {
         if is!('<') {
@@ -685,9 +924,11 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             tok!('{') => {
-                //       return this.tsLookAhead(this.tsIsStartOfMappedType.bind(this))
-                //         ? this.tsParseMappedType()
-                //         : this.tsParseTypeLiteral();
+                return if self.ts_look_ahead(|p| p.is_ts_start_of_mapped_type())? {
+                    self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
+                } else {
+                    self.parse_ts_type_lit().map(TsType::from).map(Box::new)
+                };
             }
             tok!('[') => {
                 return self.parse_ts_tuple_type().map(TsType::from).map(Box::new);
