@@ -387,6 +387,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         key: PropName::Ident(Ident {
                             span: static_token,
                             sym: js_word!("static"),
+                            type_ann: None,
                         }),
                         function,
                         kind: MethodKind::Method,

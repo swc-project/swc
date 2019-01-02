@@ -63,6 +63,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     Word(w) => PropName::Ident(Ident {
                         span: span!(start),
                         sym: w.into(),
+                        type_ann: None,
                     }),
                     _ => unreachable!(),
                 },
@@ -246,7 +247,11 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
     type Prop = ObjectPatProp;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
-        Pat::Object(ObjectPat { span, props })
+        Pat::Object(ObjectPat {
+            span,
+            props,
+            type_ann: None,
+        })
     }
 
     /// Production 'BindingProperty'
@@ -259,7 +264,11 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
 
             let arg = box self.parse_binding_pat_or_ident()?;
 
-            return Ok(ObjectPatProp::Rest(RestPat { dot3_token, arg }));
+            return Ok(ObjectPatProp::Rest(RestPat {
+                dot3_token,
+                arg,
+                type_ann: None,
+            }));
         }
 
         let key = self.parse_prop_name()?;

@@ -9,7 +9,7 @@ macro_rules! unexpected {
 ///
 /// Returns bool.
 macro_rules! is {
-    ($p:expr,BindingIdent) => {{
+    ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match cur!($p, false) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
@@ -17,7 +17,7 @@ macro_rules! is {
         }
     }};
 
-    ($p:expr,IdentRef) => {{
+    ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match cur!($p, false) {
             Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
@@ -86,7 +86,7 @@ macro_rules! assert_and_bump {
 /// Returns bool if token is static, and Option<Token>
 ///     if token has data like string.
 macro_rules! eat {
-    ($p:expr,';') => {{
+    ($p:expr, ';') => {{
         trace!("eat(';'): cur={:?}", cur!($p, true));
         $p.input.eat(&Token::Semi)
             || eof!($p)
@@ -95,7 +95,6 @@ macro_rules! eat {
     }};
 
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &tok!($t);
         if is!($p, $t) {
             bump!($p);
             true

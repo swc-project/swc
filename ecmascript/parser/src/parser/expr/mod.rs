@@ -277,10 +277,12 @@ impl<'a, I: Input> Parser<'a, I> {
                         meta: Ident {
                             span: span_of_new,
                             sym: js_word!("new"),
+                            type_ann: None,
                         },
                         prop: Ident {
                             span: span!(start_of_target),
                             sym: js_word!("target"),
+                            type_ann: None,
                         },
                     }));
                 }

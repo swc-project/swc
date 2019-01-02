@@ -1,4 +1,5 @@
 use super::*;
+use either::Either;
 use swc_common::Spanned;
 
 #[parser]
@@ -22,16 +23,19 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parses a modifier matching one the given modifier names.
     ///
     /// `tsParseModifier`
-    fn parse_ts_modifier(&mut self, allowed_modifiers: &[&str]) -> PResult<'a, Option<&str>> {
+    fn parse_ts_modifier(
+        &mut self,
+        allowed_modifiers: &[&'static str],
+    ) -> PResult<'a, Option<&'static str>> {
         let modifier = match *cur!(true)? {
             Token::Word(Word::Ident(ref w)) => w,
             _ => return Ok(None),
         };
 
-        if allowed_modifiers.contains(&*modifier)
-            && self.try_ts_parse(|p| p.ts_next_token_can_follow_modifier())
+        if allowed_modifiers.contains(&&**modifier)
+            && self.try_ts_parse_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))?
         {
-            return Ok(modifier);
+            return Ok(Some(modifier));
         }
 
         return Ok(None);
@@ -294,6 +298,21 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(None)
     }
 
+    fn try_ts_parse_bool<F>(&mut self, op: F) -> PResult<'a, bool>
+    where
+        F: FnOnce(&mut Self) -> PResult<'a, Option<bool>>,
+    {
+        let mut cloned = self.clone();
+        let res = op(&mut cloned)?;
+        match res {
+            Some(res) if res => {
+                *self = cloned;
+                Ok(res)
+            }
+            _ => Ok(false),
+        }
+    }
+
     fn try_ts_parse<T, F>(&mut self, op: F) -> PResult<'a, Option<T>>
     where
         F: FnOnce(&mut Self) -> PResult<'a, Option<T>>,
@@ -350,6 +369,8 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Be sure to be in a type context before calling self.
+    ///
+    /// `tsParseType`
     fn parse_ts_type(&mut self) -> PResult<'a, Box<TsType>> {
         // Need to set `state.inType` so that we don't parse JSX in a type context.
         assert!(self.ctx().in_type);
@@ -486,96 +507,161 @@ impl<'a, I: Input> Parser<'a, I> {
     //   });
     // }
 
-    // tsParseTypeMemberSemicolon(): void {
-    //   if (!self.eat(tt.comma)) {
-    //     self.semicolon();
-    //   }
-    // }
+    /// `tsParseTypeMemberSemicolon`
+    fn parse_ts_type_member_semicolon(&mut self) -> PResult<'a, ()> {
+        if !eat!(',') {
+            expect!(';');
+        }
 
-    // tsParseSignatureMember(
-    //   kind: "TSCallSignatureDeclaration" | "TSConstructSignatureDeclaration",
-    // ): N.TsCallSignatureDeclaration | N.TsConstructSignatureDeclaration {
-    //   const node:
-    //     | N.TsCallSignatureDeclaration
-    //     | N.TsConstructSignatureDeclaration = self.startNode();
-    //   if (kind === "TSConstructSignatureDeclaration") {
-    //     self.expect(tt._new);
-    //   }
-    //   self.tsFillSignature(tt.colon, node);
-    //   self.tsParseTypeMemberSemicolon();
-    //   return self.finishNode(node, kind);
-    // }
+        Ok(())
+    }
 
-    // tsIsUnambiguouslyIndexSignature() {
-    //   bump!(); // Skip '{'
-    //   return self.eat(tt.name) && is!(tt.colon);
-    // }
+    /// `tsParseSignatureMember`
+    fn parse_ts_signature_member(
+        &mut self,
+        kind: SignatureParsingMode,
+    ) -> PResult<'a, Either<TsCallSignatureDecl, TsConstructSignatureDecl>> {
+        let start = cur_pos!();
 
-    // tsTryParseIndexSignature(node: N.TsIndexSignature): ?N.TsIndexSignature {
-    //   if (
-    //     !(
-    //       is!(tt.bracketL) &&
-    //       self.tsLookAhead(self.tsIsUnambiguouslyIndexSignature.bind(this))
-    //     )
-    //   ) {
-    //     return undefined;
-    //   }
+        if kind == SignatureParsingMode::TSConstructSignatureDeclaration {
+            expect!("new");
+        }
 
-    //   self.expect(tt.bracketL);
-    //   const id = self.parseIdentifier();
-    //   self.expect(tt.colon);
-    //   id.typeAnnotation = self.tsParseTypeAnnotation(/* eatColon */ false);
-    //   self.expect(tt.bracketR);
-    //   node.parameters = [id];
+        // ----- inlined this.tsFillSignature(tt.colon, node);
+        let type_params = self.try_parse_ts_type_params()?;
+        expect!('(');
+        let params = self.parse_ts_binding_list_for_signature()?;
+        let type_ann = if eat!(':') {
+            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+        } else {
+            None
+        };
+        // -----
 
-    //   const type = self.tsTryParseTypeAnnotation();
-    //   if (type) node.typeAnnotation = type;
-    //   self.tsParseTypeMemberSemicolon();
-    //   return self.finishNode(node, "TSIndexSignature");
-    // }
+        self.parse_ts_type_member_semicolon()?;
 
-    // tsParsePropertyOrMethodSignature(
-    //   node: N.TsPropertySignature | N.TsMethodSignature,
-    //   readonly: boolean,
-    // ): N.TsPropertySignature | N.TsMethodSignature {
-    //   self.parsePropertyName(node);
-    //   if (self.eat(tt.question)) node.optional = true;
-    //   const nodeAny: any = node;
+        match kind {
+            SignatureParsingMode::TSCallSignatureDeclaration => {
+                Ok(Either::Left(TsCallSignatureDecl {
+                    span: span!(start),
+                    params,
+                    type_ann,
+                    type_params,
+                }))
+            }
+            SignatureParsingMode::TSConstructSignatureDeclaration => {
+                Ok(Either::Right(TsConstructSignatureDecl {
+                    span: span!(start),
+                    params,
+                    type_ann,
+                    type_params,
+                }))
+            }
+        }
+    }
 
-    //   if (!readonly && (is!(tt.parenL) || self.isRelational("<"))) {
-    //     const method: N.TsMethodSignature = nodeAny;
-    //     self.tsFillSignature(tt.colon, method);
-    //     self.tsParseTypeMemberSemicolon();
-    //     return self.finishNode(method, "TSMethodSignature");
-    //   } else {
-    //     const property: N.TsPropertySignature = nodeAny;
-    //     if (readonly) property.readonly = true;
-    //     const type = self.tsTryParseTypeAnnotation();
-    //     if (type) property.typeAnnotation = type;
-    //     self.tsParseTypeMemberSemicolon();
-    //     return self.finishNode(property, "TSPropertySignature");
-    //   }
-    // }
+    /// `tsIsUnambiguouslyIndexSignature`
+    fn is_ts_unambiguously_index_signature(&mut self) -> PResult<'a, bool> {
+        assert_and_bump!('{'); // Skip '{'
+
+        Ok(eat!(IdentRef) && is!(':'))
+    }
+
+    /// `tsTryParseIndexSignature`
+    fn try_parse_ts_index_signature(
+        &mut self,
+        start: BytePos,
+        readonly: bool,
+    ) -> PResult<'a, Option<TsIndexSignature>> {
+        if !(is!('[') && self.ts_look_ahead(|p| p.is_ts_unambiguously_index_signature())?) {
+            return Ok(None);
+        }
+
+        expect!('[');
+
+        let mut id = self.parse_ident(false, false)?;
+
+        expect!(':');
+        let cur_pos = cur_pos!();
+        id.type_ann = self
+            .parse_ts_type_ann(/* eat_colon */ false, cur_pos)
+            .map(Some)?;
+        expect!(']');
+        let params = vec![TsFnParam::Ident(id)];
+
+        let ty = self.try_parse_ts_type_ann()?;
+        let type_ann = if let Some(ty) = ty { Some(ty) } else { None };
+
+        self.parse_ts_type_member_semicolon()?;
+        Ok(Some(TsIndexSignature {
+            span: span!(start),
+            readonly,
+            params,
+            type_ann,
+        }))
+    }
+
+    /// `tsParsePropertyOrMethodSignature`
+    fn parse_ts_property_or_method_signature(
+        &mut self,
+        start: BytePos,
+        readonly: bool,
+    ) -> PResult<'a, Either<TsPropertySignature, TsMethodSignature>> {
+        //   self.parsePropertyName(node);
+        let optional = eat!('?');
+        //   const nodeAny: any = node;
+
+        //   if (!readonly && (is!(tt.parenL) || self.isRelational("<"))) {
+        //     const method: N.TsMethodSignature = nodeAny;
+        //     self.tsFillSignature(tt.colon, method);
+        //     self.tsParseTypeMemberSemicolon();
+        //     return self.finishNode(method, "TSMethodSignature");
+        //   } else {
+        //     const property: N.TsPropertySignature = nodeAny;
+        //     if (readonly) property.readonly = true;
+        //     const type = self.tsTryParseTypeAnnotation();
+        //     if (type) property.typeAnnotation = type;
+        //     self.tsParseTypeMemberSemicolon();
+        //     return self.finishNode(property, "TSPropertySignature");
+        //   }
+    }
 
     /// `tsParseTypeMember`
     fn parse_ts_type_member(&mut self) -> PResult<'a, TsTypeElement> {
-        if is_one_of!('(', '<') {
-            return self.tsParseSignatureMember("TSCallSignatureDeclaration");
+        fn into_type_elem(
+            e: Either<TsCallSignatureDecl, TsConstructSignatureDecl>,
+        ) -> TsTypeElement {
+            match e {
+                Either::Left(e) => e.into(),
+                Either::Right(e) => e.into(),
+            }
         }
-        if is!("new") && self.ts_look_ahead(|p| p.tsIsStartOfConstructSignature)? {
-            return self.tsParseSignatureMember("TSConstructSignatureDeclaration");
+        if is_one_of!('(', '<') {
+            return self
+                .parse_ts_signature_member(SignatureParsingMode::TSCallSignatureDeclaration)
+                .map(into_type_elem);
+        }
+        if is!("new") && self.ts_look_ahead(|p| p.is_ts_start_of_construct_signature())? {
+            return self
+                .parse_ts_signature_member(SignatureParsingMode::TSConstructSignatureDeclaration)
+                .map(into_type_elem);
         }
         // Instead of fullStart, we create a node here.
         let start = cur_pos!();
         let readonly = self.parse_ts_modifier(&["readonly"])?.is_some();
 
-        let idx = self.tsTryParseIndexSignature(node);
+        let idx = self.try_parse_ts_index_signature(start, readonly)?;
         if let Some(idx) = idx {
-            return idx;
+            return Ok(idx.into());
         }
-        return self.tsParsePropertyOrMethodSignature(node, readonly);
+
+        self.parse_ts_property_or_method_signature(start, readonly)
+            .map(|e| match e {
+                Either::Left(e) => e.into(),
+                Either::Right(e) => e.into(),
+            })
     }
-    
+
     /// `tsIsStartOfConstructSignature`
     fn is_ts_start_of_construct_signature(&mut self) -> PResult<'a, bool> {
         bump!();
@@ -672,7 +758,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let type_ann = self.try_parse_ts_type()?;
-        eat!(';');
+        expect!(';');
         expect!('}');
 
         Ok(TsMappedType {
@@ -1138,4 +1224,10 @@ enum ParsingContext {
     TupleElementTypes,
     TypeMembers,
     TypeParametersOrArguments,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum SignatureParsingMode {
+    TSCallSignatureDeclaration,
+    TSConstructSignatureDeclaration,
 }

@@ -61,6 +61,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
                 left: box left,
                 right,
+                type_ann: None,
             }));
         }
 
@@ -95,6 +96,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
+                    type_ann: None,
                 });
                 elems.push(Some(pat));
                 // Trailing comma isn't allowed
@@ -109,6 +111,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(Pat::Array(ArrayPat {
             span: span!(start),
             elems,
+            type_ann: None,
         }))
     }
 
@@ -143,6 +146,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
+                    type_ann: None,
                 });
                 params.push(PatOrTsParamProp::Pat(pat));
                 break;
@@ -275,6 +279,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         PatOrExpr::Pat(left) => left,
                     },
                     right,
+                    type_ann: None,
                 }));
             }
             Expr::Object(ObjectLit { span, props }) => {
@@ -313,6 +318,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                         // FIXME: is BindingPat correct?
                                         arg: box self
                                             .reparse_expr_as_pat(PatType::BindingPat, expr)?,
+                                        type_ann: None,
                                     }))
                                 }
 
@@ -320,6 +326,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             }
                         })
                         .collect::<(PResult<'a, _>)>()?,
+                    type_ann: None,
                 }));
             }
             Expr::Ident(ident) => return Ok(ident.into()),
@@ -330,6 +337,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     return Ok(Pat::Array(ArrayPat {
                         span,
                         elems: vec![],
+                        type_ann: None,
                     }));
                 }
 
@@ -376,6 +384,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                     Pat::Rest(RestPat {
                                         dot3_token,
                                         arg: box pat,
+                                        type_ann: None,
                                     })
                                 })
                                 .map(Some)?
@@ -392,6 +401,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 return Ok(Pat::Array(ArrayPat {
                     span,
                     elems: params,
+                    type_ann: None,
                 }));
             }
 
@@ -450,6 +460,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
+                    type_ann: None,
                 })
             })?,
             ExprOrSpread { expr, .. } => self.reparse_expr_as_pat(pat_ty, expr)?,

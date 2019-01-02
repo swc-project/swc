@@ -79,6 +79,7 @@ pub struct TsQualifiedName {
 }
 
 #[ast_node]
+#[allow(variant_size_differences)]
 pub enum TsEntityName {
     TsQualifiedName(Box<TsQualifiedName>),
     Ident(Ident),
@@ -109,12 +110,16 @@ pub enum TsTypeElement {
 #[ast_node]
 pub struct TsCallSignatureDecl {
     pub span: Span,
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TsTypeAnn>,
     pub type_params: Option<TsTypeParamDecl>,
 }
 
 #[ast_node]
 pub struct TsConstructSignatureDecl {
     pub span: Span,
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TsTypeAnn>,
     pub type_params: Option<TsTypeParamDecl>,
 }
 
@@ -134,6 +139,9 @@ pub struct TsMethodSignature {
 
 #[ast_node]
 pub struct TsIndexSignature {
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TsTypeAnn>,
+
     pub readonly: bool,
     pub span: Span,
 }

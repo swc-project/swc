@@ -8,6 +8,7 @@ use swc_common::{ast_node, Span};
 
 /// Used for `obj` property of `JSXMemberExpr`.
 #[ast_node]
+#[allow(variant_size_differences)]
 pub enum JSXObject {
     JSXMemberExpr(Box<JSXMemberExpr>),
     Ident(Ident),

@@ -1,13 +1,15 @@
+use crate::typescript::TsTypeAnn;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{Fold, Span, Spanned};
 
 /// Ident with span.
-#[derive(Spanned, Fold, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Spanned, Fold, Clone, PartialEq)]
 pub struct Ident {
     pub span: Span,
     #[fold(ignore)]
     pub sym: JsWord,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 impl Debug for Ident {
@@ -33,8 +35,12 @@ impl<T: Display> Debug for DebugUsingDisplay<T> {
 }
 
 impl Ident {
-    pub fn new(sym: JsWord, span: Span) -> Self {
-        Ident { span, sym }
+    pub const fn new(sym: JsWord, span: Span) -> Self {
+        Ident {
+            span,
+            sym,
+            type_ann: None,
+        }
     }
 }
 
