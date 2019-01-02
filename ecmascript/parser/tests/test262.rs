@@ -334,7 +334,7 @@ impl Fold<Expr> for Normalizer {
 
         match e {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
-            Expr::New(n @ NewExpr { args: None }) => Expr::New(NewExpr {
+            Expr::New(n @ NewExpr { args: None, .. }) => Expr::New(NewExpr {
                 args: Some(vec![]),
                 ..n
             }),
