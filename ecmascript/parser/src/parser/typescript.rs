@@ -1,4 +1,5 @@
 use super::*;
+use swc_common::Spanned;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -89,6 +90,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsIsListTerminator`
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<'a, bool> {
         Ok(match kind {
             ParsingContext::EnumMembers | ParsingContext::TypeMembers => is!('}'),
@@ -98,6 +100,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsParseDelimitedList`
     fn parse_ts_delimited_list<T, F>(
         &mut self,
         kind: ParsingContext,
@@ -159,6 +162,54 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(result)
     }
+
+    // tsParseEntityName(allowReservedWords: boolean): N.TsEntityName {
+    //   let entity: N.TsEntityName = this.parseIdentifier();
+    //   while (this.eat(tt.dot)) {
+    //     const node: N.TsQualifiedName = this.startNodeAtNode(entity);
+    //     node.left = entity;
+    //     node.right = this.parseIdentifier(allowReservedWords);
+    //     entity = this.finishNode(node, "TSQualifiedName");
+    //   }
+    //   return entity;
+    // }
+
+    /// `tsParseTypeReference`
+    fn parse_ts_type_ref(&mut self) -> PResult<'a, TsTypeRef> {
+        let start = cur_pos!();
+        let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ false)?;
+        let type_params = if !self.input.had_line_break_before_cur() && is!('<') {
+            Some(self.parse_ts_type_args()?)
+        } else {
+            None
+        };
+        Ok(TsTypeRef {
+            span: span!(start),
+            type_name,
+            type_params,
+        })
+    }
+
+    // tsParseThisTypePredicate(lhs: N.TsThisType): N.TsTypePredicate {
+    //   this.next();
+    //   const node: N.TsTypePredicate = this.startNode();
+    //   node.parameterName = lhs;
+    //   node.typeAnnotation = this.tsParseTypeAnnotation(/* eatColon */ false);
+    //   return this.finishNode(node, "TSTypePredicate");
+    // }
+
+    // tsParseThisTypeNode(): N.TsThisType {
+    //   const node: N.TsThisType = this.startNode();
+    //   this.next();
+    //   return this.finishNode(node, "TSThisType");
+    // }
+
+    // tsParseTypeQuery(): N.TsTypeQuery {
+    //   const node: N.TsTypeQuery = this.startNode();
+    //   this.expect(tt._typeof);
+    //   node.exprName = this.tsParseEntityName(/* allowReservedWords */ true);
+    //   return this.finishNode(node, "TSTypeQuery");
+    // }
 
     pub(super) fn parse_ts_type_params(&mut self) -> PResult<'a, TsTypeParamDecl> {
         let start = cur_pos!();
@@ -326,6 +377,7 @@ impl<'a, I: Input> Parser<'a, I> {
         return Ok(false);
     }
 
+    /// `tsParseFunctionOrConstructorType`
     fn parse_ts_fn_or_constructor_type(
         &mut self,
         is_fn_type: bool,
@@ -359,6 +411,23 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsParseLiteralTypeNode`
+    fn parse_ts_lit_type_node(&mut self) -> PResult<'a, TsLitType> {
+        let start = cur_pos!();
+
+        let lit = match self.parse_lit()? {
+            Lit::Bool(n) => TsLit::Bool(n),
+            Lit::Num(n) => TsLit::Number(n),
+            Lit::Str(n) => TsLit::Str(n),
+            _ => unreachable!(),
+        };
+
+        Ok(TsLitType {
+            span: span!(start),
+            lit,
+        })
+    }
+
     /// `tsParseBindingListForSignature`
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<'a, Vec<TsFnParam>> {
         //     return this.parseBindingList(tt.parenR).map(pattern => {
@@ -387,10 +456,257 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(None)
     }
 
+    /// `tsParseNonArrayType`
+    fn parse_ts_non_array_type(&mut self) -> PResult<'a, Box<TsType>> {
+        let start = cur_pos!();
+
+        match *cur!(true)? {
+            Token::Word(Word::Ident(..)) | tok!("void") | tok!("null") => {
+                let kind = if is!("void") {
+                    Some(TsKeywordTypeKind::TsVoidKeyword)
+                } else if is!("null") {
+                    Some(TsKeywordTypeKind::TsNullKeyword)
+                } else if is!("any") {
+                    Some(TsKeywordTypeKind::TsAnyKeyword)
+                } else if is!("boolean") {
+                    Some(TsKeywordTypeKind::TsBooleanKeyword)
+                } else if is!("bigint") {
+                    Some(TsKeywordTypeKind::TsBigIntKeyword)
+                } else if is!("never") {
+                    Some(TsKeywordTypeKind::TsNeverKeyword)
+                } else if is!("number") {
+                    Some(TsKeywordTypeKind::TsNumberKeyword)
+                } else if is!("object") {
+                    Some(TsKeywordTypeKind::TsObjectKeyword)
+                } else if is!("string") {
+                    Some(TsKeywordTypeKind::TsStringKeyword)
+                } else if is!("symbol") {
+                    Some(TsKeywordTypeKind::TsSymbolKeyword)
+                } else if is!("unknown") {
+                    Some(TsKeywordTypeKind::TsUnknownKeyword)
+                } else {
+                    None
+                };
+
+                let peeked_is_dot = peeked_is!('.');
+
+                match kind {
+                    Some(kind) if !peeked_is_dot => {
+                        bump!();
+                        return Ok(box TsType::TsKeywordType(TsKeywordType {
+                            span: span!(start),
+                            kind,
+                        }));
+                    }
+                    _ => {
+                        return self.parse_ts_type_ref().map(TsType::from).map(Box::new);
+                    }
+                }
+            }
+            Token::Str { .. } | Token::Num { .. } | tok!("true") | tok!("false") => {
+                return self
+                    .parse_ts_lit_type_node()
+                    .map(TsType::from)
+                    .map(Box::new);
+            }
+            tok!('-') => {
+                let start = cur_pos!();
+                bump!();
+                if match *cur!(true)? {
+                    Token::Num(..) => false,
+                    _ => true,
+                } {
+                    unexpected!()
+                }
+                let lit = self.parse_lit()?;
+                let lit = match lit {
+                    Lit::Num(num) => TsLit::Number(Number {
+                        span: num.span,
+                        value: -num.value,
+                    }),
+                    _ => unreachable!(),
+                };
+
+                return Ok(box TsType::TsLitType(TsLitType {
+                    span: span!(start),
+                    lit,
+                }));
+            }
+
+            tok!("this") => {
+                //       const thisKeyword = this.tsParseThisTypeNode();
+                //       if (this.isContextual("is") && !this.hasPrecedingLineBreak()) {
+                //         return this.tsParseThisTypePredicate(thisKeyword);
+                //       } else {
+                //         return thisKeyword;
+                //       }
+            }
+            tok!("typeof") => {
+                return self.parse_ts_type_query();
+            }
+
+            tok!('{') => {
+                //       return this.tsLookAhead(this.tsIsStartOfMappedType.bind(this))
+                //         ? this.tsParseMappedType()
+                //         : this.tsParseTypeLiteral();
+            }
+            tok!('[') => {
+                return self.parse_ts_tuple_type();
+            }
+            tok!('(') => {
+                return self.parse_ts_parenthesized_type();
+            }
+            _ => {}
+        }
+        //   switch (this.state.type) {
+        //   }
+
+        unexpected!()
+    }
+
+    /// `tsParseArrayTypeOrHigher`
+    fn parse_ts_array_type_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
+        let mut ty = self.parse_ts_non_array_type()?;
+
+        while !self.input.had_line_break_before_cur() && eat!('[') {
+            if eat!(']') {
+                ty = box TsType::TsArrayType(TsArrayType {
+                    span: span!(ty.span().lo()),
+                    elem_type: ty,
+                });
+            } else {
+                let index_type = self.parse_ts_type()?;
+                expect!(']');
+                ty = box TsType::TsIndexedAccessType(TsIndexedAccessType {
+                    span: span!(ty.span().lo()),
+                    obj_type: ty,
+                    index_type,
+                })
+            }
+        }
+
+        Ok(ty)
+    }
+
+    /// `tsParseTypeOperator`
+    fn parse_ts_type_operator(&mut self, op: TsTypeOperatorOp) -> PResult<'a, TsTypeOperator> {
+        let start = cur_pos!();
+        match op {
+            TsTypeOperatorOp::Unique => expect!("unique"),
+            TsTypeOperatorOp::KeyOf => expect!("keyof"),
+        }
+
+        let type_ann = self.parse_ts_type_operator_or_higher()?;
+        Ok(TsTypeOperator {
+            span: span!(start),
+            op,
+            type_ann,
+        })
+    }
+
+    /// `tsParseInferType`
+    fn parse_ts_infer_type(&mut self) -> PResult<'a, TsInferType> {
+        let start = cur_pos!();
+        expect!("infer");
+        let type_param_name = self.parse_ident_name()?;
+        let type_param = TsTypeParam {
+            span: type_param_name.span(),
+            name: type_param_name,
+            constraint: None,
+            default: None,
+        };
+        Ok(TsInferType {
+            span: span!(start),
+            type_param,
+        })
+    }
+
+    /// `tsParseTypeOperatorOrHigher`
+    fn parse_ts_type_operator_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
+        let operator = if is!("keyof") {
+            Some(TsTypeOperatorOp::KeyOf)
+        } else if is!("unique") {
+            Some(TsTypeOperatorOp::Unique)
+        } else {
+            None
+        };
+
+        match operator {
+            Some(operator) => self
+                .parse_ts_type_operator(operator)
+                .map(TsType::from)
+                .map(Box::new),
+            None => {
+                if is!("infer") {
+                    self.parse_ts_infer_type().map(TsType::from).map(Box::new)
+                } else {
+                    self.parse_ts_array_type_or_higher()
+                }
+            }
+        }
+    }
+
+    /// `tsParseIntersectionTypeOrHigher`
+    fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
+        self.parse_ts_union_or_intersection_type(
+            UnionOrIntersection::Intersection,
+            |p| p.parse_ts_type_operator_or_higher(),
+            &tok!('&'),
+        )
+    }
+
     /// `tsParseUnionTypeOrHigher`
     fn parse_ts_union_type_or_higher(&mut self) -> PResult<'a, Box<TsType>> {
-        unimplemented!("parse_ts_union_type_or_higher")
+        self.parse_ts_union_or_intersection_type(
+            UnionOrIntersection::Union,
+            |p| p.parse_ts_intersection_type_or_higher(),
+            &tok!('|'),
+        )
     }
+
+    /// `tsParseUnionOrIntersectionType`
+    fn parse_ts_union_or_intersection_type<F>(
+        &mut self,
+        kind: UnionOrIntersection,
+        mut parse_constituent_type: F,
+        operator: &'static Token,
+    ) -> PResult<'a, Box<TsType>>
+    where
+        F: FnMut(&mut Self) -> PResult<'a, Box<TsType>>,
+    {
+        self.input.eat(operator);
+
+        let start = cur_pos!();
+        let ty = parse_constituent_type(self)?;
+        if self.input.is(&operator) {
+            let mut types = vec![ty];
+
+            while self.input.eat(operator) {
+                types.push(parse_constituent_type(self)?);
+            }
+
+            return Ok(box TsType::TsUnionOrIntersectionType(match kind {
+                UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    span: span!(start),
+                    types,
+                }),
+                UnionOrIntersection::Intersection => {
+                    TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
+                        span: span!(start),
+                        types,
+                    })
+                }
+            }));
+        }
+
+        Ok(ty)
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum UnionOrIntersection {
+    Union,
+    Intersection,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

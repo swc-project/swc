@@ -744,7 +744,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// 12.2.5 Array Initializer
-    fn parse_lit(&mut self) -> PResult<'a, Lit> {
+    pub(super) fn parse_lit(&mut self) -> PResult<'a, Lit> {
         let start = cur_pos!();
 
         let v = match *cur!(true)? {
