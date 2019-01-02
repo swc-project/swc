@@ -37,7 +37,7 @@ impl<'a, I: Input> Parser<'a, I> {
         };
 
         if pos.is_some()
-            && self.try_ts_parse_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))?
+            && self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))?
         {
             return Ok(Some(allowed_modifiers[pos.unwrap()]));
         }
@@ -303,7 +303,8 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(None)
     }
 
-    fn try_ts_parse_bool<F>(&mut self, op: F) -> PResult<'a, bool>
+    /// `tsTryParse`
+    fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<'a, bool>
     where
         F: FnOnce(&mut Self) -> PResult<'a, Option<bool>>,
     {
@@ -318,7 +319,8 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn try_ts_parse<T, F>(&mut self, op: F) -> PResult<'a, Option<T>>
+    /// `tsTryParse`
+    pub(super) fn try_parse_ts<T, F>(&mut self, op: F) -> PResult<'a, Option<T>>
     where
         F: FnOnce(&mut Self) -> PResult<'a, Option<T>>,
     {

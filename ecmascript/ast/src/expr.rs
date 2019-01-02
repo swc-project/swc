@@ -8,6 +8,7 @@ use crate::{
     pat::Pat,
     prop::Prop,
     stmt::BlockStmt,
+    typescript::{TsNonNullExpr, TsTypeCastExpr, TsTypeParamInstantiation},
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
 
@@ -76,6 +77,9 @@ pub enum Expr {
     JSXEmpty(JSXEmptyExpr),
     JSXElement(JSXElement),
     JSXFragment(JSXFragment),
+
+    TsNonNullExpr(TsNonNullExpr),
+    TsTypeCastExpr(TsTypeCastExpr),
 }
 
 #[ast_node]
@@ -185,6 +189,8 @@ pub struct CallExpr {
     pub span: Span,
     pub callee: ExprOrSuper,
     pub args: Vec<ExprOrSpread>,
+    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]
@@ -192,6 +198,8 @@ pub struct NewExpr {
     pub span: Span,
     pub callee: Box<Expr>,
     pub args: Option<(Vec<ExprOrSpread>)>,
+    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]

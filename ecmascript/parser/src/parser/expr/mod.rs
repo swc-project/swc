@@ -563,8 +563,27 @@ impl<'a, I: Input> Parser<'a, I> {
         no_call: bool,
     ) -> PResult<'a, (Box<Expr>, bool)> {
         let _ = cur!(false);
-
         let start = cur_pos!();
+
+        if self.input.syntax().typescript() {
+            if self.input.had_line_break_before_cur() && is!('!') {
+                self.input.set_expr_allowed(false);
+                assert_and_bump!('!');
+
+                let expr = match obj {
+                    ExprOrSuper::Super(..) => unimplemented!("super!"),
+                    ExprOrSuper::Expr(expr) => expr,
+                };
+                return Ok((
+                    box Expr::TsNonNullExpr(TsNonNullExpr {
+                        span: span!(start),
+                        expr,
+                    }),
+                    true,
+                ));
+            }
+        }
+
         // member expression
         // $obj.name
         if eat!('.') {
@@ -657,7 +676,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 // jsx as the lt sign is not allowed in places that expect an expression
 
                 // FIXME:
-                // this.finishToken(tt.jsxTagStart);
+                // self.finishToken(tt.jsxTagStart);
 
                 return self.parse_jsx_element().map(into_expr);
             }

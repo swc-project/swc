@@ -171,4 +171,8 @@ impl<'a, I: Input> ParserInput<'a, I> {
     pub const fn syntax(&self) -> Syntax {
         self.iter.syntax
     }
+
+    pub fn set_expr_allowed(&mut self, allow: bool) {
+        self.iter.set_expr_allowed(allow)
+    }
 }
