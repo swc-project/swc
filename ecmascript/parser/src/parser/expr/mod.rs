@@ -274,16 +274,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 let start_of_target = cur_pos!();
                 if eat!("target") {
                     return Ok(box Expr::MetaProp(MetaPropExpr {
-                        meta: Ident {
-                            span: span_of_new,
-                            sym: js_word!("new"),
-                            type_ann: None,
-                        },
-                        prop: Ident {
-                            span: span!(start_of_target),
-                            sym: js_word!("target"),
-                            type_ann: None,
-                        },
+                        meta: Ident::new(js_word!("new"), span_of_new),
+                        prop: Ident::new(js_word!("target"), span!(start_of_target)),
                     }));
                 }
 
@@ -302,6 +294,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(start),
                     callee,
                     args,
+                    type_args: None,
                 }));
 
                 // We should parse subscripts for MemberExpression.
@@ -315,6 +308,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
                 callee,
                 args: None,
+                type_args: None,
             }));
         }
 
@@ -414,9 +408,10 @@ impl<'a, I: Input> Parser<'a, I> {
         if let Some(async_span) = async_span {
             // It's a call expression
             return Ok(box Expr::Call(CallExpr {
-                span: span!(start).with_lo(async_span.lo()),
+                span: span!(async_span.lo()),
                 callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new("async".into(), async_span))),
                 args: expr_or_spreads,
+                type_args: None,
             }));
         }
 
@@ -622,6 +617,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(start),
                     callee: obj,
                     args,
+                    type_args: None,
                 }),
                 true,
             ));
@@ -716,6 +712,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 callee: ExprOrSuper::Expr(callee),
                 args,
+                type_args: None,
             });
 
             return self.parse_subscripts(ExprOrSuper::Expr(call_expr), false);

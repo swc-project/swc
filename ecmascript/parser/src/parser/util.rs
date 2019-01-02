@@ -208,6 +208,10 @@ pub(super) trait ExprExt {
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
             | Expr::JSXFragment(..) => false,
+
+            // typescript
+            Expr::TsNonNullExpr(..) => false,
+            Expr::TsTypeCastExpr(..) => false,
         }
     }
 }
