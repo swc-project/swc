@@ -6,6 +6,9 @@ macro_rules! tok {
     ('@') => {
         crate::token::Token::At
     };
+    ('#') => {
+        crate::token::Token::Hash
+    };
 
     ('&') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::BitAnd)

@@ -1,7 +1,7 @@
 use crate::{
     expr::Expr,
     function::Function,
-    ident::Ident,
+    ident::{Ident,PrivateName},
     prop::PropName,
     typescript::{Accessibility, TsExprWithTypeArgs, TsTypeAnn},
 };
@@ -67,12 +67,6 @@ pub struct Method {
     /// Typescript extension.
     pub is_abstract: bool,
     pub is_optional: bool,
-}
-
-#[ast_node]
-pub struct PrivateName {
-    pub span: Span,
-    pub id: Ident,
 }
 
 #[ast_node]

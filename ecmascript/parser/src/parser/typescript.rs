@@ -27,15 +27,19 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         allowed_modifiers: &[&'static str],
     ) -> PResult<'a, Option<&'static str>> {
-        let modifier = match *cur!(true)? {
-            Token::Word(Word::Ident(ref w)) => w,
-            _ => return Ok(None),
+        let pos = {
+            let modifier = match *cur!(true)? {
+                Token::Word(Word::Ident(ref w)) => w,
+                _ => return Ok(None),
+            };
+
+            allowed_modifiers.iter().position(|s| **s == **modifier)
         };
 
-        if allowed_modifiers.contains(&&**modifier)
+        if pos.is_some()
             && self.try_ts_parse_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))?
         {
-            return Ok(Some(modifier));
+            return Ok(Some(allowed_modifiers[pos.unwrap()]));
         }
 
         return Ok(None);
@@ -241,6 +245,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsParseTypeOrTypePredicateAnnotation`
     pub(super) fn parse_ts_type_or_type_predicate_ann(
         &mut self,
         return_token: &'static Token,
@@ -607,23 +612,75 @@ impl<'a, I: Input> Parser<'a, I> {
         start: BytePos,
         readonly: bool,
     ) -> PResult<'a, Either<TsPropertySignature, TsMethodSignature>> {
-        //   self.parsePropertyName(node);
-        let optional = eat!('?');
-        //   const nodeAny: any = node;
+        // ----- inlined self.parsePropertyName(node);
+        let (computed, key) = if eat!('[') {
+            let key = self.parse_assignment_expr()?;
+            expect!(']');
+            (true, key)
+        } else {
+            let ctx = Context {
+                in_property_name: true,
+                ..self.ctx()
+            };
+            self.with_ctx(ctx).parse_with(|p| {
+                // We check if it's valid for it to be a private name when we push it.
+                let key = match *cur!(true)? {
+                    Token::Num(..) | Token::Str { .. } => p.parse_new_expr(),
+                    _ => p.parse_maybe_private_name().map(|e| match e {
+                        Either::Left(_) => unreachable!(
+                            "private name inside parse_ts_property_or_method_signature"
+                        ),
+                        Either::Right(e) => box Expr::Ident(e),
+                    }),
+                };
 
-        //   if (!readonly && (is!(tt.parenL) || self.isRelational("<"))) {
-        //     const method: N.TsMethodSignature = nodeAny;
-        //     self.tsFillSignature(tt.colon, method);
-        //     self.tsParseTypeMemberSemicolon();
-        //     return self.finishNode(method, "TSMethodSignature");
-        //   } else {
-        //     const property: N.TsPropertySignature = nodeAny;
-        //     if (readonly) property.readonly = true;
-        //     const type = self.tsTryParseTypeAnnotation();
-        //     if (type) property.typeAnnotation = type;
-        //     self.tsParseTypeMemberSemicolon();
-        //     return self.finishNode(property, "TSPropertySignature");
-        //   }
+                key.map(|key| (false, key))
+            })?
+        };
+        // -----
+
+        let optional = eat!('?');
+
+        if !readonly && is_one_of!('(', '<') {
+            // ---- inlined self.tsFillSignature(tt.colon, method);
+            let type_params = self.try_parse_ts_type_params()?;
+            expect!('(');
+            let params = self.parse_ts_binding_list_for_signature()?;
+            let type_ann = if is!(':') {
+                self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+                    .map(Some)?
+            } else {
+                None
+            };
+            // -----
+
+            self.parse_ts_type_member_semicolon()?;
+            return Ok(Either::Right(TsMethodSignature {
+                span: span!(start),
+                computed,
+                readonly,
+                key,
+                optional,
+                type_params,
+                params,
+                type_ann,
+            }));
+        } else {
+            let type_ann = self.try_parse_ts_type_ann()?;
+
+            self.parse_ts_type_member_semicolon()?;
+            return Ok(Either::Left(TsPropertySignature {
+                span: span!(start),
+                computed,
+                readonly,
+                key,
+                optional,
+                init: None,
+                type_params: None,
+                params: vec![],
+                type_ann,
+            }));
+        }
     }
 
     /// `tsParseTypeMember`

@@ -78,7 +78,8 @@ Module {
                                                 )
                                             }
                                         )
-                                    ]
+                                    ],
+                                    type_ann: None
                                 }
                             )
                         ],

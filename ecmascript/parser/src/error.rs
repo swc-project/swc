@@ -83,6 +83,7 @@ pub(crate) enum SyntaxError {
         left: String,
         left_span: Span,
     },
+    Hash,
     LineBreakInThrow,
     LineBreakBeforeArrow,
 
@@ -139,6 +140,8 @@ pub(crate) enum SyntaxError {
 
     TsNonLastRest,
     TsRequiredAfterOptional,
+
+    SpaceBetweenHashAndIdent,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -195,6 +198,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                                          identifier in string mode"
                 .into(),
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
+            Hash => "Unexpected token '#'".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
             Unexpected { ref got } => format!("Unexpected token {}", got).into(),
@@ -257,6 +261,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
             }
+            SpaceBetweenHashAndIdent => "Unexpected space between # and identifier".into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);

@@ -1,7 +1,7 @@
 use crate::typescript::TsTypeAnn;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
-use swc_common::{Fold, Span, Spanned};
+use swc_common::{ast_node, Fold, Span, Spanned};
 
 /// Ident with span.
 #[derive(Spanned, Fold, Clone, PartialEq)]
@@ -19,6 +19,12 @@ impl Debug for Ident {
             .field(&self.span)
             .finish()
     }
+}
+
+#[ast_node]
+pub struct PrivateName {
+    pub span: Span,
+    pub id: Ident,
 }
 
 impl AsRef<str> for Ident {

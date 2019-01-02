@@ -1,9 +1,30 @@
 //! 12.1 Identifiers
 use super::*;
 use crate::token::Keyword;
+use either::Either;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
+    pub(super) fn parse_maybe_private_name(&mut self) -> PResult<'a, Either<PrivateName, Ident>> {
+        let start = cur_pos!();
+        let is_private = is!('#');
+
+        if is_private {
+            bump!();
+            let hash_end = self.input.prev_span().hi();
+            if self.input.cur_pos() - hash_end != BytePos(0) {
+                syntax_error!(span!(start), SyntaxError::SpaceBetweenHashAndIdent);
+            }
+
+            let id = self.parse_ident(true, true)?;
+            Ok(Either::Left(PrivateName {
+                span: span!(start),
+                id,
+            }))
+        } else {
+            self.parse_ident(true, true).map(Either::Right)
+        }
+    }
     /// IdentifierReference
     pub(super) fn parse_ident_ref(&mut self) -> PResult<'a, Ident> {
         let ctx = self.ctx();

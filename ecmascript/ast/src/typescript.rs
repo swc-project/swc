@@ -127,14 +127,25 @@ pub struct TsConstructSignatureDecl {
 pub struct TsPropertySignature {
     pub span: Span,
     pub readonly: bool,
-    pub type_ann: TsTypeAnn,
+    pub key: Box<Expr>,
+    pub computed: bool,
+    pub optional: bool,
     pub init: Option<Box<Expr>>,
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TsTypeAnn>,
     pub type_params: Option<TsTypeParamDecl>,
 }
 
 #[ast_node]
 pub struct TsMethodSignature {
     pub span: Span,
+    pub readonly: bool,
+    pub key: Box<Expr>,
+    pub computed: bool,
+    pub optional: bool,
+    pub params: Vec<TsFnParam>,
+    pub type_ann: Option<TsTypeAnn>,
+    pub type_params: Option<TsTypeParamDecl>,
 }
 
 #[ast_node]

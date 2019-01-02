@@ -330,7 +330,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// Parse `NewExpresion`.
     /// This includes `MemberExpression`.
-    fn parse_new_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_new_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_member_expr_or_new_expr(true)
     }
 

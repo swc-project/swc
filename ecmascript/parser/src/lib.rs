@@ -162,6 +162,26 @@ impl Syntax {
         }
     }
 
+    pub fn class_private_methods(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                class_private_methods: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
+
+    pub fn class_private_props(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                class_private_props: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
+
     pub fn decorators_before_export(self) -> bool {
         match self {
             Syntax::EsNext(EsNextConfig {
@@ -184,18 +204,21 @@ impl Syntax {
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct EsNextConfig {
     /// Support numeric separator.
-    num_sep: bool,
+    pub num_sep: bool,
+
+    pub class_private_props: bool,
+    pub class_private_methods: bool,
 
     /// Support function bind expression.
-    fn_bind: bool,
+    pub fn_bind: bool,
 
     /// Enable decorators.
-    decorators: bool,
+    pub decorators: bool,
 
     /// babel: `decorators.decoratorsBeforeExport`
     ///
     /// Effective only if `decorator` is true.
-    decorators_before_export: bool,
+    pub decorators_before_export: bool,
 }
 
 /// Syntatic context.

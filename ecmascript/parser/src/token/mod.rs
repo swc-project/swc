@@ -23,6 +23,9 @@ pub(crate) enum Token {
     #[kind(before_expr)]
     Arrow,
 
+    /// '#'
+    Hash,
+
     /// '@'
     At,
     /// '.'
