@@ -118,7 +118,8 @@ Module {
                                     )
                                 )
                             }
-                        ]
+                        ],
+                        type_args: None
                     }
                 )
             )

@@ -48,7 +48,8 @@ Module {
                                         }
                                     )
                                 ),
-                                args: None
+                                args: None,
+                                type_args: None
                             }
                         ),
                         right: Ident(

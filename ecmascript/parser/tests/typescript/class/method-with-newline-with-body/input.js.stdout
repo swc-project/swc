@@ -38,7 +38,7 @@ Module {
                             decorators: [],
                             body: [
                                 Method(
-                                    Method {
+                                    ClassMethod {
                                         span: Span {
                                             lo: BytePos(
                                                 14
