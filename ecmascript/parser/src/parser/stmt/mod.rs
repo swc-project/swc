@@ -437,7 +437,32 @@ impl<'a, I: Input> Parser<'a, I> {
 
     fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<'a, VarDeclarator> {
         let start = cur_pos!();
-        let name = self.parse_binding_pat_or_ident()?;
+        let mut name = self.parse_binding_pat_or_ident()?;
+
+        // Typescript extension
+        if self.input.syntax().typescript() && is!(':') {
+            let type_annotation = self.try_parse_ts_type_ann()?;
+            match name {
+                Pat::Array(ArrayPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Assign(AssignPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Ident(Ident {
+                    ref mut type_ann, ..
+                })
+                | Pat::Object(ObjectPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Rest(RestPat {
+                    ref mut type_ann, ..
+                }) => {
+                    *type_ann = type_annotation;
+                }
+                Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
+            }
+        }
 
         //FIXME: This is wrong. Should check in/of only on first loop.
         let init = if !for_loop || !is_one_of!("in", "of") {

@@ -17,6 +17,7 @@ impl Debug for Ident {
         f.debug_tuple("Ident")
             .field(&DebugUsingDisplay(&self.sym))
             .field(&self.span)
+            .field(&self.type_ann)
             .finish()
     }
 }

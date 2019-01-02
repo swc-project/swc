@@ -335,10 +335,14 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn parse_ts_type_ann(&mut self, eat_colon: bool, start: BytePos) -> PResult<'a, TsTypeAnn> {
+    pub(super) fn parse_ts_type_ann(
+        &mut self,
+        eat_colon: bool,
+        start: BytePos,
+    ) -> PResult<'a, TsTypeAnn> {
         self.in_type().parse_with(|p| {
             if eat_colon {
-                expect!(':');
+                assert_and_bump!(':');
             }
 
             let type_ann = p.parse_ts_type()?;
@@ -988,7 +992,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseTypeAnnotation`
-    fn try_parse_ts_type_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
+    pub(super) fn try_parse_ts_type_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
         if is!(':') {
             let pos = cur_pos!();
             return self.parse_ts_type_ann(/* eat_colon */ true, pos).map(Some);

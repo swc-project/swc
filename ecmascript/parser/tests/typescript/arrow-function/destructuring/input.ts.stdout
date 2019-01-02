@@ -56,7 +56,8 @@ Module {
                                                             4
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 ),
                                                 value: Some(
                                                     Lit(

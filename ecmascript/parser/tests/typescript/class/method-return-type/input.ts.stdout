@@ -23,7 +23,8 @@ Module {
                                     7
                                 ),
                                 ctxt: #0
-                            }
+                            },
+                            None
                         ),
                         class: Class {
                             span: Span {
@@ -59,7 +60,8 @@ Module {
                                                         15
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         function: Function {

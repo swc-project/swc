@@ -34,7 +34,8 @@ Module {
                                             1
                                         ),
                                         ctxt: #0
-                                    }
+                                    },
+                                    None
                                 )
                             )
                         ),
@@ -64,7 +65,8 @@ Module {
                                                         3
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         right: Lit(
