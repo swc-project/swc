@@ -190,7 +190,7 @@ pub struct CallExpr {
     pub callee: ExprOrSuper,
     pub args: Vec<ExprOrSpread>,
     pub type_args: Option<TsTypeParamInstantiation>,
-    pub type_params: Option<TsTypeParamInstantiation>,
+    // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]
@@ -199,7 +199,7 @@ pub struct NewExpr {
     pub callee: Box<Expr>,
     pub args: Option<(Vec<ExprOrSpread>)>,
     pub type_args: Option<TsTypeParamInstantiation>,
-    pub type_params: Option<TsTypeParamInstantiation>,
+    // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]

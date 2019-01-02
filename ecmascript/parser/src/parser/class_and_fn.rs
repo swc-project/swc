@@ -170,6 +170,8 @@ impl<'a, I: Input> Parser<'a, I> {
             span: span!(expr.span().lo()),
             callee: ExprOrSuper::Expr(expr),
             args,
+            type_args: None,
+            type_params: None,
         }))
     }
 
