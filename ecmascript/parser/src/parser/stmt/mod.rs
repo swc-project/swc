@@ -728,8 +728,11 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
-    fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
-        syntax_error!(SyntaxError::ImportExportInScript);
+    fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
+        if top_level {
+            syntax_error!(SyntaxError::ImportExportInScript);
+        }
+        unexpected!()
     }
 }
 
