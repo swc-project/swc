@@ -66,7 +66,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     }),
                     _ => unreachable!(),
                 },
-                LBracket => {
+                tok!('[') => {
                     bump!();
                     let expr = p
                         .include_in_expr(true)

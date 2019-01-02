@@ -289,7 +289,7 @@ pub struct TsArrayType {
 #[ast_node]
 pub struct TsTupleType {
     pub span: Span,
-    pub elem_type: Vec<Box<TsType>>,
+    pub elem_types: Vec<Box<TsType>>,
 }
 
 #[ast_node]
@@ -340,7 +340,7 @@ pub struct TsInferType {
 #[ast_node]
 pub struct TsParenthesizedType {
     pub span: Span,
-    pub type_ann: TsTypeAnn,
+    pub type_ann: Box<TsType>,
 }
 
 #[ast_node]

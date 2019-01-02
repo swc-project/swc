@@ -1,5 +1,6 @@
 //! Parser for unary operations and binary operations.
 use super::{util::ExprExt, *};
+use crate::token::Keyword;
 use swc_common::Spanned;
 
 #[parser]
@@ -29,8 +30,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 Err(..) => return Ok(left),
             }
         } {
-            &Word(Word::Keyword(In)) if self.ctx().include_in_expr => op!("in"),
-            &Word(Word::Keyword(InstanceOf)) => op!("instanceof"),
+            &Word(Word::Keyword(Keyword::In)) if self.ctx().include_in_expr => op!("in"),
+            &Word(Word::Keyword(Keyword::InstanceOf)) => op!("instanceof"),
             &Token::BinOp(op) => op.into(),
             _ => {
                 return Ok(left);

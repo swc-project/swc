@@ -1,5 +1,6 @@
 //! 13.3.3 Destructuring Binding Patterns
 use super::{util::ExprExt, *};
+use crate::token::AssignOpToken;
 use std::iter;
 use swc_common::Spanned;
 
@@ -258,7 +259,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
         match *expr {
             Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
-            Expr::Assign(assign_expr @ AssignExpr { op: Assign, .. }) => {
+            Expr::Assign(
+                assign_expr @ AssignExpr {
+                    op: AssignOpToken::Assign,
+                    ..
+                },
+            ) => {
                 let AssignExpr {
                     span, left, right, ..
                 } = assign_expr;

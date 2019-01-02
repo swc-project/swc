@@ -82,13 +82,13 @@ impl<'a, I: Input> Parser<'a, I> {
             match w {
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
-                Word::Keyword(Await) if p.ctx().module => {
+                Word::Keyword(Keyword::Await) if p.ctx().module => {
                     syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
-                Word::Keyword(Let) => Ok(w.into()),
+                Word::Keyword(Keyword::Let) => Ok(w.into()),
                 Word::Ident(ident) => Ok(ident),
-                Word::Keyword(Yield) if incl_yield => Ok(js_word!("yield")),
-                Word::Keyword(Await) if incl_await => Ok(js_word!("await")),
+                Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
+                Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
                     syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }

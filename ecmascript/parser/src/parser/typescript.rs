@@ -191,26 +191,47 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    // tsParseThisTypePredicate(lhs: N.TsThisType): N.TsTypePredicate {
-    //   this.next();
-    //   const node: N.TsTypePredicate = this.startNode();
-    //   node.parameterName = lhs;
-    //   node.typeAnnotation = this.tsParseTypeAnnotation(/* eatColon */ false);
-    //   return this.finishNode(node, "TSTypePredicate");
-    // }
+    /// `tsParseThisTypePredicate`
+    fn parse_ts_this_type_predicate(&mut self, lhs: TsThisType) -> PResult<'a, TsTypePredicate> {
+        assert_and_bump!("is");
+        let start = cur_pos!();
 
-    // tsParseThisTypeNode(): N.TsThisType {
-    //   const node: N.TsThisType = this.startNode();
-    //   this.next();
-    //   return this.finishNode(node, "TSThisType");
-    // }
+        let param_name = TsThisTypeOrIdent::TsThisType(lhs);
+        let cur_pos = cur_pos!();
+        let type_ann = self.parse_ts_type_ann(
+            // eat_colon
+            false, cur_pos,
+        )?;
 
-    // tsParseTypeQuery(): N.TsTypeQuery {
-    //   const node: N.TsTypeQuery = this.startNode();
-    //   this.expect(tt._typeof);
-    //   node.exprName = this.tsParseEntityName(/* allowReservedWords */ true);
-    //   return this.finishNode(node, "TSTypeQuery");
-    // }
+        Ok(TsTypePredicate {
+            span: span!(start),
+            param_name,
+            type_ann,
+        })
+    }
+
+    /// `tsParseThisTypeNode`
+    fn parse_ts_this_type_node(&mut self) -> PResult<'a, TsThisType> {
+        expect!("this");
+
+        Ok(TsThisType {
+            span: self.input.prev_span(),
+        })
+    }
+
+    /// `tsParseTypeQuery`
+    fn parse_ts_type_query(&mut self) -> PResult<'a, TsTypeQuery> {
+        let start = cur_pos!();
+        expect!("typeof");
+        let expr_name = self.parse_ts_entity_name(
+            // allow_reserved_word
+            true,
+        )?;
+        Ok(TsTypeQuery {
+            span: span!(start),
+            expr_name,
+        })
+    }
 
     pub(super) fn parse_ts_type_params(&mut self) -> PResult<'a, TsTypeParamDecl> {
         let start = cur_pos!();
@@ -378,6 +399,120 @@ impl<'a, I: Input> Parser<'a, I> {
         return Ok(false);
     }
 
+    // tsParseMappedTypeParameter(): N.TsTypeParameter {
+    //   const node: N.TsTypeParameter = this.startNode();
+    //   node.name = this.parseIdentifierName(node.start);
+    //   node.constraint = this.tsExpectThenParseType(tt._in);
+    //   return this.finishNode(node, "TSTypeParameter");
+    // }
+
+    // tsParseMappedType(): N.TsMappedType {
+    //   const node: N.TsMappedType = this.startNode();
+    //   this.expect(tt.braceL);
+    //   if (this.match(tt.plusMin)) {
+    //     node.readonly = this.state.value;
+    //     this.next();
+    //     this.expectContextual("readonly");
+    //   } else if (this.eatContextual("readonly")) {
+    //     node.readonly = true;
+    //   }
+
+    //   this.expect(tt.bracketL);
+    //   node.typeParameter = this.tsParseMappedTypeParameter();
+    //   this.expect(tt.bracketR);
+
+    //   if (this.match(tt.plusMin)) {
+    //     node.optional = this.state.value;
+    //     this.next();
+    //     this.expect(tt.question);
+    //   } else if (this.eat(tt.question)) {
+    //     node.optional = true;
+    //   }
+
+    //   node.typeAnnotation = this.tsTryParseType();
+    //   this.semicolon();
+    //   this.expect(tt.braceR);
+
+    //   return this.finishNode(node, "TSMappedType");
+    // }
+
+    /// `tsParseTupleType`
+    fn parse_ts_tuple_type(&mut self) -> PResult<'a, TsTupleType> {
+        let start = cur_pos!();
+        let elem_types = self.parse_ts_bracketed_list(
+            ParsingContext::TupleElementTypes,
+            |p| p.parse_ts_tuple_element_type(),
+            /* bracket */ true,
+            /* skipFirstToken */ false,
+        )?;
+
+        // Validate the elementTypes to ensure:
+        //   No mandatory elements may follow optional elements
+        //   If there's a rest element, it must be at the end of the tuple
+
+        let mut seen_optional_element = false;
+        let len = elem_types.len();
+        for (i, elem_type) in elem_types.iter().enumerate() {
+            match **elem_type {
+                TsType::TsRestType(..) => {
+                    if i != len - 1 {
+                        syntax_error!(span!(start), SyntaxError::TsNonLastRest)
+                    }
+                }
+                TsType::TsOptionalType(..) => {
+                    seen_optional_element = true;
+                }
+                _ if seen_optional_element => {
+                    syntax_error!(span!(start), SyntaxError::TsRequiredAfterOptional)
+                }
+                _ => {}
+            }
+        }
+
+        Ok(TsTupleType {
+            span: span!(start),
+            elem_types,
+        })
+    }
+
+    /// `tsParseTupleElementType`
+    fn parse_ts_tuple_element_type(&mut self) -> PResult<'a, Box<TsType>> {
+        // parses `...TsType[]`
+        let start = cur_pos!();
+
+        if eat!("...") {
+            let type_ann = self.parse_ts_type()?;
+            return Ok(box TsType::TsRestType(TsRestType {
+                span: span!(start),
+                type_ann,
+            }));
+        }
+
+        let ty = self.parse_ts_type()?;
+        // parses `TsType?`
+        if eat!('?') {
+            let type_ann = ty;
+            return Ok(box TsType::TsOptionalType(TsOptionalType {
+                span: span!(start),
+                type_ann,
+            }));
+        }
+
+        Ok(ty)
+    }
+
+    /// `tsParseParenthesizedType`
+    fn parse_ts_parenthesized_type(&mut self) -> PResult<'a, TsParenthesizedType> {
+        let start = cur_pos!();
+        expect!('(');
+        let type_ann = self.parse_ts_type()?;
+        expect!(')');
+        Ok(TsParenthesizedType {
+            span: span!(start),
+            type_ann,
+        })
+    }
+
     /// `tsParseFunctionOrConstructorType`
     fn parse_ts_fn_or_constructor_type(
         &mut self,
@@ -535,15 +670,18 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             tok!("this") => {
-                //       const thisKeyword = this.tsParseThisTypeNode();
-                //       if (this.isContextual("is") && !this.hasPrecedingLineBreak()) {
-                //         return this.tsParseThisTypePredicate(thisKeyword);
-                //       } else {
-                //         return thisKeyword;
-                //       }
+                let this_keyword = self.parse_ts_this_type_node()?;
+                if !self.input.had_line_break_before_cur() && is!("is") {
+                    return self
+                        .parse_ts_this_type_predicate(this_keyword)
+                        .map(TsType::from)
+                        .map(Box::new);
+                } else {
+                    return Ok(box TsType::TsThisType(this_keyword));
+                }
             }
             tok!("typeof") => {
-                return self.parse_ts_type_query();
+                return self.parse_ts_type_query().map(TsType::from).map(Box::new);
             }
 
             tok!('{') => {
@@ -552,10 +690,13 @@ impl<'a, I: Input> Parser<'a, I> {
                 //         : this.tsParseTypeLiteral();
             }
             tok!('[') => {
-                return self.parse_ts_tuple_type();
+                return self.parse_ts_tuple_type().map(TsType::from).map(Box::new);
             }
             tok!('(') => {
-                return self.parse_ts_parenthesized_type();
+                return self
+                    .parse_ts_parenthesized_type()
+                    .map(TsType::from)
+                    .map(Box::new);
             }
             _ => {}
         }
@@ -645,6 +786,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             }
         }
+    }
+
+    /// `tsParseTypeArguments`
+    fn parse_ts_type_args(&mut self) -> PResult<'a, TsTypeParamInstantiation> {
+        unimplemented!("parse_ts_type_args")
     }
 
     /// `tsParseIntersectionTypeOrHigher`

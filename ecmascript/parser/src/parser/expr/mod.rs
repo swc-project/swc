@@ -753,7 +753,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         let v = match *cur!(true)? {
-            Word(Null) => {
+            Word(Word::Null) => {
                 bump!();
                 let span = span!(start);
                 Lit::Null(Null { span })
