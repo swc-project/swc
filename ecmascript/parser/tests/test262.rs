@@ -335,7 +335,8 @@ impl Fold<Expr> for Normalizer {
         match e {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
             Expr::New(n @ NewExpr { args: None }) => Expr::New(NewExpr {
-                args: Some(vec![], ..n),
+                args: Some(vec![]),
+                ..n
             }),
             // Flatten comma expressions.
             Expr::Seq(SeqExpr { mut exprs, span }) => {

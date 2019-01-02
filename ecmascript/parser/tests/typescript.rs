@@ -52,7 +52,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
     for entry in WalkDir::new(&dir).into_iter() {
         let entry = entry?;
-        if entry.file_type().is_dir() || !entry.file_name().to_string_lossy().ends_with(".js") {
+        if entry.file_type().is_dir() || !entry.file_name().to_string_lossy().ends_with(".ts") {
             continue;
         }
         let file_name = entry
