@@ -38,11 +38,15 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
-fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), io::Error> {
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
-        root.push("typescript");
+        root.push(if errors {
+            "typescript-errors"
+        } else {
+            "typescript"
+        });
         root
     };
 
@@ -72,7 +76,11 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let ignore = false;
 
         let dir = dir.clone();
-        let name = format!("typescript::reference::{}", file_name);
+        let name = format!(
+            "typescript::{}::{}",
+            if errors { "error" } else { "reference" },
+            file_name
+        );
         add_test(tests, name, ignore, move || {
             eprintln!(
                 "\n\n========== Running reference test {}\nSource:\n{}\n",
@@ -81,13 +89,24 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
             let path = dir.join(&file_name);
             // Parse source
-            let module = parse_module(&path).expect("should be parsed");
+            let module = parse_module(&path);
 
-            if StdErr::from(format!("{:#?}", module))
-                .compare_to_file(format!("{}.stdout", path.display()))
-                .is_err()
-            {
-                panic!()
+            if errors {
+                let err = module.expect_err("should fail, but parsed as");
+                if err
+                    .compare_to_file(format!("{}.stderr", path.display()))
+                    .is_err()
+                {
+                    panic!()
+                }
+            } else {
+                let module = module.expect("should be parsed\n");
+                if StdErr::from(format!("{:#?}", module))
+                    .compare_to_file(format!("{}.stdout", path.display()))
+                    .is_err()
+                {
+                    panic!()
+                }
             }
         });
     }
@@ -124,6 +143,14 @@ where
 fn references() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    reference_tests(&mut tests).unwrap();
+    reference_tests(&mut tests, false).unwrap();
+    test_main(&args, tests, Options::new());
+}
+
+#[test]
+fn errors() {
+    let args: Vec<_> = env::args().collect();
+    let mut tests = Vec::new();
+    reference_tests(&mut tests, true).unwrap();
     test_main(&args, tests, Options::new());
 }

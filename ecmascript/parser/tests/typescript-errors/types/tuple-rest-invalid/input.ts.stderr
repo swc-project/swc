@@ -1,0 +1,6 @@
+error: A rest element must be last in a tuple type.
+ --> $DIR/tests/typescript-errors/tuple-rest-invalid/input.ts:1:8
+  |
+1 | let x: [...number[], string]
+  |        ^^^^^^^^^^^^^^^^^^^^^
+
