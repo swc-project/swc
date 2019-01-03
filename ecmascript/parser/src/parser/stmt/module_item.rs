@@ -6,6 +6,14 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
+        if self.input.syntax().typescript() {
+            if is!(IdentRef) && peeked_is!('=') {
+                return self
+                    .parse_ts_import_equals_decl(start, false)
+                    .map(From::from);
+            }
+        }
+
         // Handle import 'mod.js'
         let str_start = cur_pos!();
         match *cur!(false)? {
@@ -129,6 +137,13 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_export(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
+
+        if self.input.syntax().typescript() && eat!("import") {
+            // export import A = B
+            return self
+                .parse_ts_import_equals_decl(start, /* is_export */ true)
+                .map(From::from);
+        }
 
         if eat!('*') {
             let src = self.parse_from_clause_and_semi()?;

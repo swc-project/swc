@@ -326,6 +326,9 @@ macro_rules! tok {
     ("unknown") => {
         crate::token::Token::Word(crate::token::Word::Ident(js_word!("unknown")))
     };
+    ("require") => {
+        crate::token::Token::Word(crate::token::Word::Ident(js_word!("require")))
+    };
 }
 
 macro_rules! token_including_semi {

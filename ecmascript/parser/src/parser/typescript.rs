@@ -449,6 +449,62 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(is!('(') && self.ts_look_ahead(|p| p.is_ts_unambiguously_start_of_fn_type())?)
     }
 
+    /// `tsParseImportEqualsDeclaration`
+    pub(super) fn parse_ts_import_equals_decl(
+        &mut self,
+        start: BytePos,
+        is_export: bool,
+    ) -> PResult<'a, TsImportEqualsDecl> {
+        let id = self.parse_ident(false, false)?;
+        expect!('=');
+
+        let module_ref = self.parse_ts_module_ref()?;
+        expect!(';');
+        Ok(TsImportEqualsDecl {
+            span: span!(start),
+            // TODO(kdy1): Is this correct?
+            declare: false,
+            id,
+            is_export,
+            module_ref,
+        })
+    }
+
+    /// `tsIsExternalModuleReference`
+    fn is_ts_external_module_ref(&mut self) -> PResult<'a, bool> {
+        Ok(is!("require") && peeked_is!('('))
+    }
+
+    /// `tsParseModuleReference`
+    fn parse_ts_module_ref(&mut self) -> PResult<'a, TsModuleRef> {
+        if self.is_ts_external_module_ref()? {
+            self.parse_ts_external_module_ref().map(From::from)
+        } else {
+            self.parse_ts_entity_name(/* allow_reserved_words */ false)
+                .map(From::from)
+        }
+    }
+
+    /// `tsParseExternalModuleReference`
+    fn parse_ts_external_module_ref(&mut self) -> PResult<'a, TsExternalModuleRef> {
+        let start = cur_pos!();
+        expect!("require");
+        expect!('(');
+        match *cur!(true)? {
+            Token::Str { .. } => {}
+            _ => unexpected!(),
+        }
+        let expr = match self.parse_lit()? {
+            Lit::Str(s) => s,
+            _ => unreachable!(),
+        };
+        expect!(')');
+        Ok(TsExternalModuleRef {
+            span: span!(start),
+            expr,
+        })
+    }
+
     fn ts_look_ahead<T, F>(&mut self, op: F) -> PResult<'a, T>
     where
         F: FnOnce(&mut Self) -> PResult<'a, T>,
