@@ -3,7 +3,7 @@ use crate::{
     expr::{ClassExpr, Expr, FnExpr},
     ident::Ident,
     lit::Str,
-    typescript::{TsNamespaceExportDecl, TsExportAssignment, TsImportEqualsDecl},
+    typescript::{TsExportAssignment, TsImportEqualsDecl, TsNamespaceExportDecl},
 };
 use swc_common::{ast_node, Span};
 

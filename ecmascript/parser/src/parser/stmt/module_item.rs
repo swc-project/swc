@@ -180,6 +180,21 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if eat!("default") {
+            if self.input.syntax().typescript() {
+                if is!("abstract") && peeked_is!("class") {
+                    let start = cur_pos!();
+                    assert_and_bump!("abstract");
+                    let mut class = self.parse_default_class(decoraters)?;
+                    match class {
+                        ExportDefaultDecl::Class(ClassExpr { ref mut class, .. }) => {
+                            class.is_abstract = true
+                        }
+                        _ => unreachable!(),
+                    }
+                    return Ok(class.into());
+                }
+            }
+
             let decl = if is!("class") {
                 self.parse_default_class(decoraters)?
             } else if is!("async")

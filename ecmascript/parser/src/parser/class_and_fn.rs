@@ -66,11 +66,22 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!("class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
-
-            let super_class = if eat!("extends") {
-                p.parse_lhs_expr().map(Some)?
+            let type_params = if !T::is_fn_expr() && p.input.syntax().typescript() {
+                Some(p.parse_ts_type_params()?)
             } else {
                 None
+            };
+
+            let (super_class, super_type_params) = if eat!("extends") {
+                let super_class = p.parse_lhs_expr().map(Some)?;
+                let super_type_params = if p.input.syntax().typescript() && eat!('<') {
+                    Some(p.parse_ts_type_args()?)
+                } else {
+                    None
+                };
+                (super_class, super_type_params)
+            } else {
+                (None, None)
             };
 
             let implements = if p.input.syntax().typescript() && eat!("implements") {
@@ -88,7 +99,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 Class {
                     span: Span::new(start, end, Default::default()),
                     decorators,
+                    is_abstract: false,
+                    type_params,
                     super_class,
+                    super_type_params,
                     body,
                     implements,
                 },

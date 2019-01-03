@@ -3,7 +3,9 @@ use crate::{
     function::Function,
     ident::PrivateName,
     prop::PropName,
-    typescript::{Accessibility, TsExprWithTypeArgs, TsTypeAnn},
+    typescript::{
+        Accessibility, TsExprWithTypeArgs, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation,
+    },
 };
 use swc_common::{ast_node, Fold, Span};
 
@@ -15,6 +17,11 @@ pub struct Class {
 
     pub body: Vec<ClassMember>,
     pub super_class: Option<Box<Expr>>,
+
+    pub is_abstract: bool,
+
+    pub type_params: Option<TsTypeParamDecl>,
+    pub super_type_params: Option<TsTypeParamInstantiation>,
 
     /// Typescript extension.
     pub implements: Vec<TsExprWithTypeArgs>,
