@@ -1,5 +1,6 @@
 use super::*;
 use either::Either;
+use lexer::TokenContexts;
 use swc_common::Spanned;
 
 #[parser]
@@ -1214,7 +1215,26 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// `tsParseTypeArguments`
     fn parse_ts_type_args(&mut self) -> PResult<'a, TsTypeParamInstantiation> {
-        unimplemented!("parse_ts_type_args")
+        let start = cur_pos!();
+        let params = self.in_type().parse_with(|p| {
+            // Temporarily remove a JSX parsing context, which makes us scan different
+            // tokens.
+            p.ts_in_no_context(|p| {
+                expect!('<');
+                p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                    p.parse_ts_type()
+                })
+            })
+        })?;
+        // This reads the next token after the `>` too, so do this in the enclosing
+        // context. But be sure not to parse a regex in the jsx expression
+        // `<C<number> />`, so set exprAllowed = false
+        self.input.set_expr_allowed(false);
+        expect!('>');
+        return Ok(TsTypeParamInstantiation {
+            span: span!(start),
+            params,
+        });
     }
 
     /// `tsParseIntersectionTypeOrHigher`
@@ -1271,6 +1291,20 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         Ok(ty)
+    }
+
+    /// In no lexer context
+    fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<'a, T>
+    where
+        F: FnOnce(&mut Self) -> PResult<'a, T>,
+    {
+        let cloned = self.input.clone_token_context();
+        self.input
+            .set_token_context(TokenContexts(smallvec![cloned.0[0]]));
+        let res = op(self);
+        self.input.set_token_context(cloned);
+
+        res
     }
 }
 
