@@ -8,7 +8,9 @@ use crate::{
     pat::Pat,
     prop::Prop,
     stmt::BlockStmt,
-    typescript::{TsNonNullExpr, TsTypeCastExpr, TsTypeParamInstantiation},
+    typescript::{
+        TsNonNullExpr, TsTypeAnn, TsTypeCastExpr, TsTypeParamDecl, TsTypeParamInstantiation,
+    },
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
 
@@ -216,6 +218,8 @@ pub struct ArrowExpr {
     pub body: BlockStmtOrExpr,
     pub is_async: bool,
     pub is_generator: bool,
+    pub type_params: Option<TsTypeParamDecl>,
+    pub return_type: Option<TsTypeAnn>,
 }
 
 #[ast_node]
