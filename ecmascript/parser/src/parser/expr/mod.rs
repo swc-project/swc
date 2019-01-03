@@ -297,6 +297,23 @@ impl<'a, I: Input> Parser<'a, I> {
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
             return_if_arrow!(callee);
 
+            let type_args = if self.input.syntax().typescript() && is!('<') {
+                let res = self.try_parse_ts(|p| {
+                    let args = p.parse_ts_type_args()?;
+                    if !is!('(') {
+                        unexpected!()
+                    }
+                    Ok(Some(args))
+                });
+                if let Ok(Some(type_args)) = res {
+                    Some(type_args)
+                } else {
+                    None
+                }
+            } else {
+                None
+            };
+
             if !is_new_expr || is!('(') {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args().map(Some)?;
@@ -305,7 +322,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(start),
                     callee,
                     args,
-                    type_args: None,
+                    type_args,
                 }));
 
                 // We should parse subscripts for MemberExpression.
@@ -319,7 +336,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
                 callee,
                 args: None,
-                type_args: None,
+                type_args,
             }));
         }
 
