@@ -1,0 +1,43 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            11
+        ),
+        ctxt: #0
+    },
+    body: [
+        ModuleDecl(
+            TsExportAssignment(
+                TsExportAssignment {
+                    span: Span {
+                        lo: BytePos(
+                            0
+                        ),
+                        hi: BytePos(
+                            11
+                        ),
+                        ctxt: #0
+                    },
+                    expr: Ident(
+                        Ident(
+                            f,
+                            Span {
+                                lo: BytePos(
+                                    9
+                                ),
+                                hi: BytePos(
+                                    10
+                                ),
+                                ctxt: #0
+                            },
+                            None
+                        )
+                    )
+                }
+            )
+        )
+    ]
+}

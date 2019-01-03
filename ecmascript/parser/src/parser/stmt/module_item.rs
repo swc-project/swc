@@ -138,11 +138,24 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!("export");
 
-        if self.input.syntax().typescript() && eat!("import") {
-            // export import A = B
-            return self
-                .parse_ts_import_equals_decl(start, /* is_export */ true)
-                .map(From::from);
+        if self.input.syntax().typescript() {
+            if eat!("import") {
+                // export import A = B
+                return self
+                    .parse_ts_import_equals_decl(start, /* is_export */ true)
+                    .map(From::from);
+            }
+
+            if eat!('=') {
+                // `export = x;`
+                let expr = self.parse_expr()?;
+                expect!(';');
+                return Ok(TsExportAssignment {
+                    span: span!(start),
+                    expr,
+                }
+                .into());
+            }
         }
 
         if eat!('*') {
