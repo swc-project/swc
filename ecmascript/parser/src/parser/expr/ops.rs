@@ -18,11 +18,29 @@ impl<'a, I: Input> Parser<'a, I> {
     /// `minPrec` provides context that allows the function to stop and
     /// defer further parser to one of its callers when it encounters an
     /// operator that has a lower precedence than the set it is parsing.
+    ///
+    /// `parseExprOp`
     fn parse_bin_op_recursively(
         &mut self,
         left: Box<Expr>,
         min_prec: u8,
-    ) -> PResult<'a, (Box<Expr>)> {
+    ) -> PResult<'a, Box<Expr>> {
+        const PREC_OF_IN: u8 = 7;
+
+        if self.input.syntax().typescript() {
+            if PREC_OF_IN > min_prec && self.input.had_line_break_before_cur() && is!("as") {
+                let span = span!(left.span().lo());
+                let expr = left;
+                let type_ann = self.next_then_parse_ts_type()?;
+                let node = box Expr::TsAsExpr(TsAsExpr {
+                    span,
+                    expr,
+                    type_ann,
+                });
+                return self.parse_bin_op_recursively(node, min_prec);
+            }
+        }
+
         let op = match {
             // Return left on eof
             match cur!(false) {

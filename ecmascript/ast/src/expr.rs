@@ -9,7 +9,8 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsNonNullExpr, TsTypeAnn, TsTypeCastExpr, TsTypeParamDecl, TsTypeParamInstantiation,
+        TsAsExpr, TsNonNullExpr, TsTypeAnn, TsTypeCastExpr, TsTypeParamDecl,
+        TsTypeParamInstantiation,
     },
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
@@ -84,6 +85,7 @@ pub enum Expr {
 
     TsNonNullExpr(TsNonNullExpr),
     TsTypeCastExpr(TsTypeCastExpr),
+    TsAsExpr(TsAsExpr),
 }
 
 #[ast_node]

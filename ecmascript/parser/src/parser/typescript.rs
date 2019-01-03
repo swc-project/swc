@@ -380,6 +380,15 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsNextThenParseType`
+    pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<'a, Box<TsType>> {
+        self.in_type().parse_with(|p| {
+            bump!();
+
+            p.parse_ts_type()
+        })
+    }
+
     /// Be sure to be in a type context before calling self.
     ///
     /// `tsParseType`

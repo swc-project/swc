@@ -211,8 +211,7 @@ pub(super) trait ExprExt {
             | Expr::JSXFragment(..) => false,
 
             // typescript
-            Expr::TsNonNullExpr(..) => false,
-            Expr::TsTypeCastExpr(..) => false,
+            Expr::TsNonNullExpr(..) | Expr::TsTypeCastExpr(..) | Expr::TsAsExpr(..) => false,
         }
     }
 }
