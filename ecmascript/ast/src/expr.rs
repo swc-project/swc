@@ -1,6 +1,6 @@
 use crate::{
     class::Class,
-    function::Function,
+    function::{Function, PatOrTsParamProp},
     ident::Ident,
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
     lit::{Lit, Str},
@@ -214,7 +214,7 @@ pub struct SeqExpr {
 #[ast_node]
 pub struct ArrowExpr {
     pub span: Span,
-    pub params: Vec<Pat>,
+    pub params: Vec<PatOrTsParamProp>,
     pub body: BlockStmtOrExpr,
     pub is_async: bool,
     pub is_generator: bool,
