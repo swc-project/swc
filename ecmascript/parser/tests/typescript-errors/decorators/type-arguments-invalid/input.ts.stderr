@@ -1,5 +1,5 @@
 error: Unexpected token Some(At)
- --> $DIR/tests/typescript-errors/type-arguments-invalid/input.ts:1:1
+ --> $DIR/tests/typescript-errors/decorators/type-arguments-invalid/input.ts:1:1
   |
 1 | @decorator<string>
   | ^
