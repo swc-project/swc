@@ -1073,7 +1073,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseTypeParameters`
-    fn try_parse_ts_type_params(&mut self) -> PResult<'a, Option<TsTypeParamDecl>> {
+    pub(super) fn try_parse_ts_type_params(&mut self) -> PResult<'a, Option<TsTypeParamDecl>> {
         if is!('<') {
             return self.parse_ts_type_params().map(Some);
         }

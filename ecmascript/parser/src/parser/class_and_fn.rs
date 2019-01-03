@@ -66,8 +66,8 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!("class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
-            let type_params = if !T::is_fn_expr() && p.input.syntax().typescript() {
-                Some(p.parse_ts_type_params()?)
+            let type_params = if !p.input.syntax().typescript() {
+                p.try_parse_ts_type_params()?
             } else {
                 None
             };
