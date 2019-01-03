@@ -190,7 +190,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if is!('`') {
             // parse template literal
-            return Ok(box Expr::Tpl(self.parse_tpl_lit(None)?));
+            return Ok(box Expr::Tpl(self.parse_tpl()?));
         }
 
         if is!('(') {
@@ -487,13 +487,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn parse_tpl_lit(&mut self, tag: Option<(Box<Expr>)>) -> PResult<'a, TplLit> {
-        let start = cur_pos!();
-
-        assert_and_bump!('`');
-
-        let is_tagged = tag.is_some();
-
+    fn parse_tpl_elements(
+        &mut self,
+        is_tagged: bool,
+    ) -> PResult<'a, (Vec<Box<Expr>>, Vec<TplElement>)> {
         let mut exprs = vec![];
 
         let cur_elem = self.parse_tpl_element(is_tagged)?;
@@ -509,12 +506,44 @@ impl<'a, I: Input> Parser<'a, I> {
             quasis.push(elem);
         }
 
+        Ok((exprs, quasis))
+    }
+
+    fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<TsTypeParamInstantiation>,
+    ) -> PResult<'a, TaggedTpl> {
+        let start = cur_pos!();
+
+        assert_and_bump!('`');
+
+        let (exprs, quasis) = self.parse_tpl_elements(false)?;
+
         expect!('`');
 
         let span = span!(start);
-        Ok(TplLit {
+        Ok(TaggedTpl {
             span,
             tag,
+            exprs,
+            type_params,
+            quasis,
+        })
+    }
+
+    fn parse_tpl(&mut self) -> PResult<'a, Tpl> {
+        let start = cur_pos!();
+
+        assert_and_bump!('`');
+
+        let (exprs, quasis) = self.parse_tpl_elements(false)?;
+
+        expect!('`');
+
+        let span = span!(start);
+        Ok(Tpl {
+            span,
             exprs,
             quasis,
         })
@@ -595,6 +624,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 ));
             }
 
+            // TODO(kdy1): Remove this.
+            let obj = obj.clone();
             if {
                 match obj {
                     ExprOrSuper::Expr(..) => true,
@@ -604,49 +635,56 @@ impl<'a, I: Input> Parser<'a, I> {
             } && is!('<')
             {
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
-                // There are number of things we are going to "maybe" parse, like type
-            arguments     // on tagged template expressions. If any of them
-            fail, walk it     // back and continue.
+                // There are number of things we are going to "maybe" parse, like type arguments
+                // on tagged template expressions. If any of them fail, walk it back and
+                // continue.
                 let result = self.try_parse_ts(|p| {
-                    if !no_call && self.atPossibleAsync(base) {
-                        // Almost certainly this is a generic async function `async <T>()
-            => ...             // But it might be a call with a type argument
-            `async<T>();`             let asyncArrowFn =
-                            self.tsTryParseGenericAsyncArrowFunction(startPos, startLoc);
-                        if (asyncArrowFn) {
-                            return asyncArrowFn;
+                    if !no_call
+                        && p.at_possible_async(match obj {
+                            ExprOrSuper::Expr(ref expr) => &*expr,
+                            _ => unreachable!(),
+                        })?
+                    {
+                        // Almost certainly this is a generic async function `async <T>() => ...
+                        // But it might be a call with a type argument `async<T>();`
+                        let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn()?;
+                        if let Some(async_arrow_fn) = async_arrow_fn {
+                            return Ok(Some((box Expr::Arrow(async_arrow_fn), true)));
                         }
                     }
 
-                    node.callee = base;
+                    let type_args = p.parse_ts_type_args()?;
 
-                    let type_args = self.parse_ts_type_args()?;
-
-                    if type_args {
-                        if (!no_call && eat!('(')) {
-                            // possibleAsync always false here, because we would have
-            handled it                 // above. $FlowIgnore (won't be any
-                            // undefined arguments)
-                            node.arguments = self.parseCallExpressionArguments(
-                                tt.parenR, /* possibleAsync */ false,
-                            );
-                            node.typeParameters = typeArguments;
-                            return self.finishCallExpression(node);
-                        } else if is!('`') {
-                            return self.parseTaggedTemplateExpression(
-                                startPos,
-                                startLoc,
-                                base,
-                                state,
-                                typeArguments,
-                            );
-                        }
+                    if !no_call && is!('(') {
+                        // possibleAsync always false here, because we would have handled it
+                        // above. (won't be any undefined arguments)
+                        let args = p.parse_args()?;
+                        return Ok(Some((
+                            box Expr::Call(CallExpr {
+                                span: span!(start),
+                                callee: obj,
+                                type_args: Some(type_args),
+                                args,
+                            }),
+                            true,
+                        )));
+                    } else if is!('`') {
+                        return p
+                            .parse_tagged_tpl(
+                                match obj {
+                                    ExprOrSuper::Expr(obj) => obj,
+                                    _ => unreachable!(),
+                                },
+                                Some(type_args),
+                            )
+                            .map(|expr| (box Expr::TaggedTpl(expr), true))
+                            .map(Some);
+                    } else {
+                        unexpected!()
                     }
-
-                    self.unexpected();
                 });
-                if (result) {
-                    return result;
+                if let Ok(Some(result)) = result {
+                    return Ok(result);
                 }
             }
         }
@@ -699,8 +737,8 @@ impl<'a, I: Input> Parser<'a, I> {
             ExprOrSuper::Expr(expr) => {
                 // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
                 if is!('`') {
-                    let tpl = self.parse_tpl_lit(Some(expr))?;
-                    return Ok((box Expr::Tpl(tpl), true));
+                    let tpl = self.parse_tagged_tpl(expr, None)?;
+                    return Ok((box Expr::TaggedTpl(tpl), true));
                 }
 
                 Ok((expr, false))
@@ -836,6 +874,19 @@ impl<'a, I: Input> Parser<'a, I> {
                 delegate: has_star,
             }))
         }
+    }
+
+    fn at_possible_async(&mut self, expr: &Expr) -> PResult<'a, bool> {
+        // TODO(kdy1): !this.state.containsEsc &&
+
+        Ok(self.state.potential_arrow_start == Some(expr.span().lo())
+            && match *expr {
+                Expr::Ident(Ident {
+                    sym: js_word!("async"),
+                    ..
+                }) => true,
+                _ => false,
+            })
     }
 
     /// 12.2.5 Array Initializer

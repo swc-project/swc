@@ -60,7 +60,9 @@ pub enum Expr {
 
     Lit(Lit),
 
-    Tpl(TplLit),
+    Tpl(Tpl),
+
+    TaggedTpl(TaggedTpl),
 
     Arrow(ArrowExpr),
 
@@ -242,11 +244,19 @@ pub struct AwaitExpr {
 }
 
 #[ast_node]
-pub struct TplLit {
+pub struct Tpl {
     pub span: Span,
-    pub tag: Option<(Box<Expr>)>,
     pub exprs: Vec<(Box<Expr>)>,
     pub quasis: Vec<TplElement>,
+}
+
+#[ast_node]
+pub struct TaggedTpl {
+    pub span: Span,
+    pub tag: Box<Expr>,
+    pub exprs: Vec<(Box<Expr>)>,
+    pub quasis: Vec<TplElement>,
+    pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]

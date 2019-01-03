@@ -179,7 +179,8 @@ pub(super) trait ExprExt {
             | Expr::Object(..)
             | Expr::Fn(..)
             | Expr::Class(..)
-            | Expr::Tpl(..) => false,
+            | Expr::Tpl(..)
+            | Expr::TaggedTpl(..) => false,
             Expr::Paren(ParenExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }

@@ -23,8 +23,8 @@ pub use self::{
     expr::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, ClassExpr,
         CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, MemberExpr, MetaPropExpr, NewExpr,
-        ObjectLit, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, ThisExpr,
-        TplElement, TplLit, UnaryExpr, UpdateExpr, YieldExpr,
+        ObjectLit, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, TaggedTpl, ThisExpr,
+        Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, PatOrTsParamProp},
     ident::{Ident, IdentExt, PrivateName},
