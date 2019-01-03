@@ -23,65 +23,67 @@ Module {
                             ctxt: #0
                         },
                         params: [
-                            Object(
-                                ObjectPat {
-                                    span: Span {
-                                        lo: BytePos(
-                                            1
-                                        ),
-                                        hi: BytePos(
-                                            10
-                                        ),
-                                        ctxt: #0
-                                    },
-                                    props: [
-                                        Assign(
-                                            AssignPatProp {
-                                                span: Span {
-                                                    lo: BytePos(
-                                                        3
-                                                    ),
-                                                    hi: BytePos(
-                                                        8
-                                                    ),
-                                                    ctxt: #0
-                                                },
-                                                key: Ident(
-                                                    a,
-                                                    Span {
+                            Pat(
+                                Object(
+                                    ObjectPat {
+                                        span: Span {
+                                            lo: BytePos(
+                                                1
+                                            ),
+                                            hi: BytePos(
+                                                10
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        props: [
+                                            Assign(
+                                                AssignPatProp {
+                                                    span: Span {
                                                         lo: BytePos(
                                                             3
                                                         ),
                                                         hi: BytePos(
-                                                            4
+                                                            8
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                ),
-                                                value: Some(
-                                                    Lit(
-                                                        Num(
-                                                            Number {
-                                                                span: Span {
-                                                                    lo: BytePos(
-                                                                        7
-                                                                    ),
-                                                                    hi: BytePos(
-                                                                        8
-                                                                    ),
-                                                                    ctxt: #0
-                                                                },
-                                                                value: 0.0
-                                                            }
+                                                    key: Ident(
+                                                        a,
+                                                        Span {
+                                                            lo: BytePos(
+                                                                3
+                                                            ),
+                                                            hi: BytePos(
+                                                                4
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        None
+                                                    ),
+                                                    value: Some(
+                                                        Lit(
+                                                            Num(
+                                                                Number {
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            7
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            8
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    value: 0.0
+                                                                }
+                                                            )
                                                         )
                                                     )
-                                                )
-                                            }
-                                        )
-                                    ],
-                                    type_ann: None
-                                }
+                                                }
+                                            )
+                                        ],
+                                        type_ann: None
+                                    }
+                                )
                             )
                         ],
                         body: Expr(
@@ -103,7 +105,9 @@ Module {
                             )
                         ),
                         is_async: false,
-                        is_generator: false
+                        is_generator: false,
+                        type_params: None,
+                        return_type: None
                     }
                 )
             )

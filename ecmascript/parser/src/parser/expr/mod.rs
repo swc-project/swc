@@ -203,7 +203,10 @@ impl<'a, I: Input> Parser<'a, I> {
 
             if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
                 // async a => body
-                let arg = self.parse_binding_ident().map(Pat::from)?;
+                let arg = self
+                    .parse_binding_ident()
+                    .map(Pat::from)
+                    .map(PatOrTsParamProp::from)?;
                 let params = vec![arg];
                 expect!("=>");
                 let body = self.parse_fn_body(true, false)?;
@@ -213,9 +216,13 @@ impl<'a, I: Input> Parser<'a, I> {
                     params,
                     is_async: true,
                     is_generator: false,
+                    // TODO
+                    return_type: None,
+                    // TODO
+                    type_params: None,
                 }));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!("=>") {
-                let params = vec![id.into()];
+                let params = vec![PatOrTsParamProp::Pat(id.into())];
                 let body = self.parse_fn_body(false, false)?;
 
                 return Ok(box Expr::Arrow(ArrowExpr {
@@ -224,6 +231,10 @@ impl<'a, I: Input> Parser<'a, I> {
                     params,
                     is_async: false,
                     is_generator: false,
+                    // TODO
+                    return_type: None,
+                    // TODO
+                    type_params: None,
                 }));
             } else {
                 return Ok(box Expr::Ident(id));
@@ -394,7 +405,9 @@ impl<'a, I: Input> Parser<'a, I> {
             }
             assert_and_bump!("=>");
 
-            let params = self.parse_exprs_as_params(expr_or_spreads)?;
+            let params = self
+                .parse_exprs_as_params(expr_or_spreads)
+                .map(|i| i.into_iter().map(PatOrTsParamProp::from).collect())?;
 
             let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
             return Ok(box Expr::Arrow(ArrowExpr {
@@ -403,6 +416,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 is_generator: false,
                 params,
                 body,
+                // TODO
+                return_type: None,
+                // TODO
+                type_params: None,
             }));
         }
         if let Some(async_span) = async_span {
@@ -576,6 +593,61 @@ impl<'a, I: Input> Parser<'a, I> {
                     }),
                     true,
                 ));
+            }
+
+            if {
+                match obj {
+                    ExprOrSuper::Expr(..) => true,
+                    // super() cannot be generic
+                    _ => false,
+                }
+            } && is!('<')
+            {
+                // tsTryParseAndCatch is expensive, so avoid if not necessary.
+                // There are number of things we are going to "maybe" parse, like type
+            arguments     // on tagged template expressions. If any of them
+            fail, walk it     // back and continue.
+                let result = self.try_parse_ts(|p| {
+                    if !no_call && self.atPossibleAsync(base) {
+                        // Almost certainly this is a generic async function `async <T>()
+            => ...             // But it might be a call with a type argument
+            `async<T>();`             let asyncArrowFn =
+                            self.tsTryParseGenericAsyncArrowFunction(startPos, startLoc);
+                        if (asyncArrowFn) {
+                            return asyncArrowFn;
+                        }
+                    }
+
+                    node.callee = base;
+
+                    let type_args = self.parse_ts_type_args()?;
+
+                    if type_args {
+                        if (!no_call && eat!('(')) {
+                            // possibleAsync always false here, because we would have
+            handled it                 // above. $FlowIgnore (won't be any
+                            // undefined arguments)
+                            node.arguments = self.parseCallExpressionArguments(
+                                tt.parenR, /* possibleAsync */ false,
+                            );
+                            node.typeParameters = typeArguments;
+                            return self.finishCallExpression(node);
+                        } else if is!('`') {
+                            return self.parseTaggedTemplateExpression(
+                                startPos,
+                                startLoc,
+                                base,
+                                state,
+                                typeArguments,
+                            );
+                        }
+                    }
+
+                    self.unexpected();
+                });
+                if (result) {
+                    return result;
+                }
             }
         }
 

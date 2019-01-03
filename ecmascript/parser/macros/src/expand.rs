@@ -60,7 +60,11 @@ impl Fold for InjectSelf {
             }
         }
 
-        if i.method == "parse_with" || i.method == "spanned" || i.method == "ts_in_no_context" {
+        if i.method == "parse_with"
+            || i.method == "spanned"
+            || i.method == "try_parse_ts"
+            || i.method == "ts_in_no_context"
+        {
             //TODO
             let parser = get_parser_arg(&i);
             return fold::fold_expr_method_call(

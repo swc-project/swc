@@ -1213,8 +1213,48 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
+    /// `tsTryParseGenericAsyncArrowFunction`
+    pub(super) fn try_parse_ts_generic_async_arrow_fn(&mut self) -> PResult<'a, Option<ArrowExpr>> {
+        let start = cur_pos!();
+        let res = self.try_parse_ts(|p| {
+            let type_params = p.parse_ts_type_params()?;
+            // Don't use overloaded parseFunctionParams which would look for "<" again.
+            let params = p.parse_formal_params()?;
+            let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
+            expect!("=>");
+
+            Ok(Some((type_params, params, return_type)))
+        })?;
+
+        let (type_params, params, return_type) = match res {
+            Some(v) => v,
+            None => return Ok(None),
+        };
+
+        let ctx = Context {
+            in_async: true,
+            in_generator: false,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx).parse_with(|p| {
+            let is_generator = false;
+            let expr = true; // May be set again by parseFunctionBody.
+            let is_async = true;
+            let body = p.parse_fn_body(true, false)?;
+            Ok(Some(ArrowExpr {
+                span: span!(start),
+                body,
+                is_async,
+                is_generator,
+                type_params: Some(type_params),
+                params,
+                return_type,
+            }))
+        })
+    }
+
     /// `tsParseTypeArguments`
-    fn parse_ts_type_args(&mut self) -> PResult<'a, TsTypeParamInstantiation> {
+    pub(super) fn parse_ts_type_args(&mut self) -> PResult<'a, TsTypeParamInstantiation> {
         let start = cur_pos!();
         let params = self.in_type().parse_with(|p| {
             // Temporarily remove a JSX parsing context, which makes us scan different
