@@ -156,6 +156,19 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
                 .into());
             }
+
+            if eat!("as") {
+                // `export as namespace A;`
+                // See `parseNamespaceExportDeclaration` in TypeScript's own parser
+                expect!("namespace");
+                let id = self.parse_ident(false, false)?;
+                expect!(';');
+                return Ok(TsNamespaceExportDecl {
+                    span: span!(start),
+                    id,
+                }
+                .into());
+            }
         }
 
         if eat!('*') {
