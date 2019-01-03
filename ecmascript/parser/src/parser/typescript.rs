@@ -423,6 +423,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }))
     }
 
+    /// `tsParseNonConditionalType`
     fn parse_ts_non_conditional_type(&mut self) -> PResult<'a, Box<TsType>> {
         if self.is_ts_start_of_fn_type()? {
             return self
@@ -447,6 +448,98 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         Ok(is!('(') && self.ts_look_ahead(|p| p.is_ts_unambiguously_start_of_fn_type())?)
+    }
+
+    /// `tsParseTypeAssertion`
+    fn parse_ts_type_assertion(&mut self) -> PResult<'a, TsTypeAssertion> {
+        let start = cur_pos!();
+        // Not actually necessary to set state.inType because we never reach here if JSX
+        // plugin is enabled, but need `tsInType` to satisfy the assertion in
+        // `tsParseType`.
+        let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+        expect!('>');
+        let expr = self.parse_unary_expr()?;
+        return Ok(TsTypeAssertion {
+            span: span!(start),
+            type_ann,
+            expr,
+        });
+    }
+
+    /// `tsParseHeritageClause`
+    fn parse_ts_heritage_clause(&mut self) -> PResult<'a, Vec<TsExprWithTypeArgs>> {
+        self.parse_ts_delimited_list(ParsingContext::HeritageClauseElement, |p| {
+            p.parse_expr_with_type_args()
+        })
+    }
+
+    /// `tsParseExpressionWithTypeArguments`
+    fn parse_expr_with_type_args(&mut self) -> PResult<'a, TsExprWithTypeArgs> {
+        let start = cur_pos!();
+        // Note: TS uses parseLeftHandSideExpressionOrHigher,
+        // then has grammar errors later if it's not an EntityName.
+
+        let expr = self.parse_ts_entity_name(/* allow_reserved_words */ false)?;
+        let type_params = if is!('<') {
+            Some(self.parse_ts_type_args()?)
+        } else {
+            None
+        };
+
+        Ok(TsExprWithTypeArgs {
+            span: span!(start),
+            expr,
+            type_params,
+        })
+    }
+    /// `tsParseInterfaceDeclaration`
+    pub(super) fn parse_ts_interface_decl(&mut self) -> PResult<'a, TsInterfaceDecl> {
+        let start = cur_pos!();
+
+        assert_and_bump!("interface");
+
+        let id = self.parse_ident(false, false)?;
+        let type_params = self.try_parse_ts_type_params()?;
+
+        let extends = if eat!("extends") {
+            self.parse_ts_heritage_clause()?
+        } else {
+            vec![]
+        };
+
+        let body_start = cur_pos!();
+        let body = self
+            .in_type()
+            .parse_with(|p| p.parse_ts_object_type_members())?;
+        let body = TsInterfaceBody {
+            span: span!(body_start),
+            body,
+        };
+        Ok(TsInterfaceDecl {
+            span: span!(start),
+            // TODO(kdy1): Handle this
+            declare: false,
+            id,
+            type_params,
+            extends,
+            body,
+        })
+    }
+
+    /// `tsParseTypeAliasDeclaration`
+    fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<'a, TsTypeAliasDecl> {
+        let id = self.parse_ident(false, false)?;
+        let type_params = self.try_parse_ts_type_params()?;
+        let type_ann = self.expect_then_parse_ts_type(&tok!('='))?;
+        expect!(';');
+        Ok(TsTypeAliasDecl {
+            // TODO(kdy1): Is this correct?
+            declare: false,
+            span: span!(start),
+            id,
+            type_params,
+            type_ann,
+        })
     }
 
     /// `tsParseImportEqualsDeclaration`
@@ -604,7 +697,7 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!("new");
         }
 
-        // ----- inlined this.tsFillSignature(tt.colon, node);
+        // ----- inlined self.tsFillSignature(tt.colon, node);
         let type_params = self.try_parse_ts_type_params()?;
         expect!('(');
         let params = self.parse_ts_binding_list_for_signature()?;

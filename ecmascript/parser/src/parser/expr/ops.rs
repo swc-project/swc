@@ -118,7 +118,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
         // Parse update expression

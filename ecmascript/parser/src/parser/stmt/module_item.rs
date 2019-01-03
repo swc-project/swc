@@ -193,6 +193,11 @@ impl<'a, I: Input> Parser<'a, I> {
                     }
                     return Ok(class.into());
                 }
+
+                if is!("interface") {
+                    let decl = self.parse_ts_interface_decl().map(Decl::from)?;
+                    return Ok(decl.into());
+                }
             }
 
             let decl = if is!("class") {

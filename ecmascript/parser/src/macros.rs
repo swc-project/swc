@@ -329,6 +329,9 @@ macro_rules! tok {
     ("require") => {
         crate::token::Token::Word(crate::token::Word::Ident(js_word!("require")))
     };
+    ("interface") => {
+        crate::token::Token::Word(crate::token::Word::Ident(js_word!("interface")))
+    };
 }
 
 macro_rules! token_including_semi {
