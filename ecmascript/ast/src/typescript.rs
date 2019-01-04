@@ -244,8 +244,8 @@ pub struct TsThisType {
 #[ast_node]
 pub enum TsFnParam {
     Ident(Ident),
-    RestPat(RestPat),
-    ObjectPat(ObjectPat),
+    Rest(RestPat),
+    Object(ObjectPat),
 }
 
 #[ast_node]

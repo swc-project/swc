@@ -169,10 +169,17 @@ impl<'a, I: Input> Parser<'a, I> {
                 let dot3_token = span!(start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
+                let type_ann = if self.input.syntax().typescript() && is!(':') {
+                    let cur_pos = cur_pos!();
+                    Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                } else {
+                    None
+                };
+
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
-                    type_ann: None,
+                    type_ann,
                 });
                 params.push(PatOrTsParamProp::Pat(pat));
                 break;

@@ -1353,22 +1353,19 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<'a, Vec<TsFnParam>> {
         debug_assert!(self.input.syntax().typescript());
 
-        //     return self.parseBindingList(tt.parenR).map(pattern => {
-        //     if (
-        //       pattern.type !== "Identifier" &&
-        //       pattern.type !== "RestElement" &&
-        //       pattern.type !== "ObjectPattern"
-        //     ) {
-        //       throw self.unexpected(
-        //         pattern.start,
-        //         `Name in a signature must be an Identifier or ObjectPattern, instead
-        // got ${           pattern.type
-        //         }`,
-        //       );
-        //     }
-        //     return pattern;
-        //   });
-        unimplemented!("parse_ts_binding_list_for_signature")
+        let pats = self.parse_formal_params()?;
+        let mut list = vec![];
+
+        for pat in pats {
+            let item = match pat {
+                PatOrTsParamProp::Pat(Pat::Ident(pat)) => TsFnParam::Ident(pat),
+                PatOrTsParamProp::Pat(Pat::Object(pat)) => TsFnParam::Object(pat),
+                PatOrTsParamProp::Pat(Pat::Rest(pat)) => TsFnParam::Rest(pat),
+                _ => unexpected!(),
+            };
+            list.push(item);
+        }
+        Ok(list)
     }
 
     /// `tsTryParseTypeOrTypePredicateAnnotation`
