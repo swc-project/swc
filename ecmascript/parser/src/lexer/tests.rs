@@ -623,7 +623,7 @@ fn migrated_0003() {
     assert_eq!(
         vec![
             LParen.span(0).lb(),
-            Token::Word::False.span(1..6),
+            Word::False.span(1..6),
             RParen.span(6),
             Div.span(8),
             42.span(9..11),
@@ -851,7 +851,7 @@ fn jsx_04() {
     assert_eq!(
         lex_tokens(Syntax::Jsx, "yield <a></a>"),
         vec![
-            Token::Word(Token::Word::Keyword(Yield)),
+            Token::Word(Word::Keyword(Yield)),
             Token::JSXTagStart,
             Token::JSXName { name: "a".into() },
             Token::JSXTagEnd,

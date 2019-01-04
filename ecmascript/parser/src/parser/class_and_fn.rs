@@ -649,6 +649,9 @@ mod tests {
                         body: vec![],
                         super_class: Some(expr("a")),
                         implements: vec![],
+                        is_abstract: false,
+                        super_type_params: None,
+                        type_params: None,
                     },
                 }),
             })

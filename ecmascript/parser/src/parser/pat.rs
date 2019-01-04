@@ -159,7 +159,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
-        // FIXME: This is wrong.
+        // FIXME: This is wrong
         self.parse_formal_params()
     }
 }
@@ -484,6 +484,7 @@ mod tests {
         Ident {
             sym: s.into(),
             span,
+            type_ann: None,
         }
     }
 
@@ -497,13 +498,16 @@ mod tests {
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("b")))]
+                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("c")))]
+                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        type_ann: None
                     }))
-                ]
+                ],
+                type_ann: None
             })
         );
     }
@@ -519,13 +523,16 @@ mod tests {
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("b")))]
+                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("c")))]
+                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        type_ann: None
                     }))
-                ]
+                ],
+                type_ann: None
             })
         );
     }
@@ -541,13 +548,16 @@ mod tests {
                     None,
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("b")))]
+                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("c")))]
+                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        type_ann: None
                     }))
-                ]
+                ],
+                type_ann: None
             })
         );
     }

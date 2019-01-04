@@ -805,8 +805,10 @@ mod tests {
                         span,
                         props: vec![ObjectPatProp::Rest(RestPat {
                             dot3_token: span,
-                            arg: box Pat::Ident(Ident::new("a34".into(), span))
-                        })]
+                            arg: box Pat::Ident(Ident::new("a34".into(), span)),
+                            type_ann: None
+                        })],
+                        type_ann: None,
                     })
                     .into(),
                     body: BlockStmt {
@@ -845,14 +847,16 @@ mod tests {
                         init: None,
                         name: Pat::Ident(Ident {
                             span,
-                            sym: "a".into()
+                            sym: "a".into(),
+                            type_ann: None,
                         }),
                         definite: false,
                     }],
                 }),
                 right: box Expr::Ident(Ident {
                     span,
-                    sym: "b".into()
+                    sym: "b".into(),
+                    type_ann: None,
                 }),
 
                 body: box Stmt::Empty(EmptyStmt { span })
@@ -924,7 +928,10 @@ mod tests {
                     ],
                     super_class: None,
                     implements: vec![],
-                    body: vec![]
+                    body: vec![],
+                    is_abstract: false,
+                    super_type_params: None,
+                    type_params: None,
                 }
             }))
         );
