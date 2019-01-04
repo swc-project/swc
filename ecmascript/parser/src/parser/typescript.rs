@@ -257,6 +257,7 @@ impl<'a, I: Input> Parser<'a, I> {
         if !is!('<') && !is!(JSXTagStart) {
             unexpected!()
         }
+        bump!(); // '<'
 
         let params = self.parse_ts_bracketed_list(
             ParsingContext::TypeParametersOrArguments,
@@ -283,7 +284,9 @@ impl<'a, I: Input> Parser<'a, I> {
             let start = cur_pos!();
 
             if !p.input.eat(return_token) {
-                unexpected!()
+                let cur = format!("{:?}", cur!(false).ok());
+                let span = p.input.cur_span();
+                syntax_error!(span, SyntaxError::Expected(return_token, cur))
             }
 
             let type_pred_var = if is!(IdentRef) {
@@ -1365,6 +1368,7 @@ impl<'a, I: Input> Parser<'a, I> {
             };
             list.push(item);
         }
+        expect!(')');
         Ok(list)
     }
 

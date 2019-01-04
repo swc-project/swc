@@ -26,6 +26,9 @@ fn add_test<F: FnOnce() + Send + 'static>(
     ignore: bool,
     f: F,
 ) {
+    if ignore {
+        return;
+    }
     tests.push(TestDescAndFn {
         desc: TestDesc {
             name: TestName::DynTestName(name),
@@ -97,7 +100,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     panic!()
                 }
             } else {
-                with_parser(false, &path, |p| {
+                with_parser(is_backtrace_enabled(), &path, |p| {
                     let module = p.parse_module()?;
 
                     if StdErr::from(format!("{:#?}", module))
@@ -157,4 +160,11 @@ fn errors() {
     let mut tests = Vec::new();
     reference_tests(&mut tests, true).unwrap();
     test_main(&args, tests, Options::new());
+}
+
+fn is_backtrace_enabled() -> bool {
+    match ::std::env::var("RUST_BACKTRACE") {
+        Ok(val) => val == "1" || val == "full",
+        _ => false,
+    }
 }

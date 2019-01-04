@@ -116,6 +116,8 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// spec: 'FormalParameter'
+    ///
+    /// babel: `parseAssignableListItem`
     pub(super) fn parse_formal_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
         let mut pat = self.parse_binding_element()?;
         if self.input.syntax().typescript() {
@@ -144,8 +146,9 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(pat.into())
     }
 
-    ///
     /// spec: 'FormalParameterList'
+    ///
+    /// babel: `parseBindingList`
     pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
         let mut first = true;
         let mut params = vec![];
@@ -182,7 +185,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 params.push(PatOrTsParamProp::Pat(pat));
                 break;
             } else {
-                params.push(PatOrTsParamProp::Pat(self.parse_binding_element()?));
+                params.push(self.parse_formal_param()?);
             }
         }
 
