@@ -53,6 +53,7 @@ key
 keyof
 length
 let
+module
 namespace
 never
 new
@@ -79,6 +80,7 @@ this
 throw
 true
 try
+type
 typeof
 undefined
 unique
