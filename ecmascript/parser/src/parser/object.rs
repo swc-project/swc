@@ -112,6 +112,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
             let name = self.parse_prop_name()?;
             return self
                 .parse_fn_args_body(
+                    /* is_constructor */ false,
                     // no decorator in an object literal
                     vec![],
                     start,
@@ -145,6 +146,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
         if is!('(') {
             return self
                 .parse_fn_args_body(
+                    /* is_constructor */ false,
                     // no decorator in an object literal
                     vec![],
                     start,
@@ -190,6 +192,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                 return match ident.sym {
                     js_word!("get") => self
                         .parse_fn_args_body(
+                            /* is_constructor */ false,
                             // no decorator in an object literal
                             vec![],
                             start,
@@ -206,6 +209,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                         }),
                     js_word!("set") => self
                         .parse_fn_args_body(
+                            /* is_constructor */ false,
                             // no decorator in an object literal
                             vec![],
                             start,
@@ -224,6 +228,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                         }),
                     js_word!("async") => self
                         .parse_fn_args_body(
+                            /* is_constructor */ false,
                             // no decorator in an object literal
                             vec![],
                             start,

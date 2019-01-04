@@ -232,21 +232,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         };
 
-        let mut mtd = self.parse_method_def(accessibility, static_token, decorators)?;
-
-        match mtd.key {
-            PropName::Ident(Ident {
-                sym: js_word!("constructor"),
-                ..
-            })
-            | PropName::Str(Str {
-                value: js_word!("constructor"),
-                ..
-            }) => {
-                mtd.kind = MethodKind::Constructor;
-            }
-            _ => {}
-        }
+        let mtd = self.parse_method_def(accessibility, static_token, decorators)?;
 
         Ok(ClassMember::Method(mtd))
     }
@@ -289,12 +275,20 @@ impl<'a, I: Input> Parser<'a, I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.parse_maybe_opt_binding_ident()?
         };
+        let is_constructor = T::is_constructor(&ident);
 
         self.with_ctx(ctx).parse_with(|p| {
             let f = p.parse_fn_args_body(
+                is_constructor,
                 decorators,
                 start,
-                |p| p.parse_formal_params(),
+                |p| {
+                    if is_constructor {
+                        p.parse_formal_params()
+                    } else {
+                        p.parse_constructor_params()
+                    }
+                },
                 is_async,
                 is_generator,
             )?;
@@ -315,6 +309,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// `parse_args` closure should not eat '(' or ')'.
     pub(super) fn parse_fn_args_body<F>(
         &mut self,
+        is_constructor: bool,
         decorators: Vec<Decorator>,
         start: BytePos,
         parse_args: F,
@@ -377,14 +372,32 @@ impl<'a, I: Input> Parser<'a, I> {
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Method> {
+        fn is_constructor(key: &PropName) -> bool {
+            match *key {
+                PropName::Ident(Ident {
+                    sym: js_word!("constructor"),
+                    ..
+                })
+                | PropName::Str(Str {
+                    value: js_word!("constructor"),
+                    ..
+                }) => true,
+                _ => false,
+            }
+        }
+
         let is_static = static_token.is_some();
         let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
 
         if eat!('*') {
             let span_of_gen = span!(start);
             let key = self.parse_prop_name()?;
+            if is_constructor(&key) {
+                unexpected!();
+            }
             return self
                 .parse_fn_args_body(
+                    /* is_constructor */ false,
                     decorators,
                     start,
                     Parser::parse_unique_formal_params,
@@ -410,6 +423,7 @@ impl<'a, I: Input> Parser<'a, I> {
             if is!('(') {
                 return self
                     .parse_fn_args_body(
+                        /* is_constructor */ false,
                         decorators,
                         start,
                         Parser::parse_unique_formal_params,
@@ -435,14 +449,22 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let key = self.parse_prop_name()?;
-
+        let is_constructor = is_constructor(&key);
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if is!('(') {
             return self
                 .parse_fn_args_body(
+                    is_constructor,
                     decorators,
                     start,
-                    Parser::parse_unique_formal_params,
+                    // TODO: Handle constuctor
+                    |p| {
+                        if is_constructor {
+                            p.parse_constructor_params()
+                        } else {
+                            p.parse_unique_formal_params()
+                        }
+                    },
                     false,
                     false,
                 )
@@ -474,7 +496,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 return match ident.sym {
                     js_word!("get") => self
-                        .parse_fn_args_body(decorators, start, |_| Ok(vec![]), false, false)
+                        .parse_fn_args_body(
+                            /* is_constructor */ false,
+                            decorators,
+                            start,
+                            |_| Ok(vec![]),
+                            false,
+                            false,
+                        )
                         .map(|function| Method {
                             span: span!(start),
                             is_static: static_token.is_some(),
@@ -488,6 +517,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         }),
                     js_word!("set") => self
                         .parse_fn_args_body(
+                            /* is_constructor */ false,
                             decorators,
                             start,
                             |p| p.parse_formal_param().map(|pat| vec![pat]),
@@ -507,6 +537,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         }),
                     js_word!("async") => self
                         .parse_fn_args_body(
+                            /* is_constructor */ false,
                             decorators,
                             start,
                             Parser::parse_unique_formal_params,
@@ -531,6 +562,11 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
+    fn parse_constructor_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
+        // FIXME: This is wrong
+        self.parse_formal_params()
+    }
+
     pub(super) fn parse_fn_body<T>(&mut self, is_async: bool, is_generator: bool) -> PResult<'a, T>
     where
         Self: FnBodyParser<'a, T>,
@@ -547,6 +583,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
 trait OutputType {
     type Ident;
+
+    fn is_constructor(ident: &Self::Ident) -> bool;
 
     /// From babel..
     ///
@@ -569,6 +607,13 @@ trait OutputType {
 impl OutputType for Box<Expr> {
     type Ident = Option<Ident>;
 
+    fn is_constructor(ident: &Self::Ident) -> bool {
+        match *ident {
+            Some(ref i) => i.sym == js_word!("constructor"),
+            _ => false,
+        }
+    }
+
     fn is_fn_expr() -> bool {
         true
     }
@@ -584,6 +629,13 @@ impl OutputType for Box<Expr> {
 impl OutputType for ExportDefaultDecl {
     type Ident = Option<Ident>;
 
+    fn is_constructor(ident: &Self::Ident) -> bool {
+        match *ident {
+            Some(ref i) => i.sym == js_word!("constructor"),
+            _ => false,
+        }
+    }
+
     fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
         ExportDefaultDecl::Fn(FnExpr { ident, function })
     }
@@ -594,6 +646,10 @@ impl OutputType for ExportDefaultDecl {
 
 impl OutputType for Decl {
     type Ident = Ident;
+
+    fn is_constructor(i: &Self::Ident) -> bool {
+        i.sym == js_word!("constructor")
+    }
 
     fn finish_fn(ident: Ident, function: Function) -> Self {
         Decl::Fn(FnDecl {
