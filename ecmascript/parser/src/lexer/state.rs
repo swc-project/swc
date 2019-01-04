@@ -116,8 +116,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             }
         };
 
-        match self.input.cur() {
-            Some(..) => {}
+        let c = match self.input.cur() {
+            Some(c) => c,
             None => return None,
         };
 
@@ -131,6 +131,14 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         self.state.start = start;
 
         let res = (|| -> Result<Option<_>, _> {
+            if self.syntax.typescript() && self.ctx.in_type {
+                if c == '<' {
+                    return Ok(Some(tok!('<')));
+                } else if c == '>' {
+                    return Ok(Some(tok!('>')));
+                }
+            }
+
             if self.syntax.jsx() && !self.ctx.in_property_name {
                 //jsx
                 if self.state.context.current() == Some(TokenContext::JSXExpr) {

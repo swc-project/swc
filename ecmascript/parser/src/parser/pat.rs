@@ -53,14 +53,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// babel: `parseBindingAtom`
     pub(super) fn parse_binding_element(&mut self) -> PResult<'a, Pat> {
         let start = cur_pos!();
-        let mut left = self.parse_binding_pat_or_ident()?;
-
-        let type_annotation = if self.input.syntax().typescript() && is!(':') {
-            let start = cur_pos!();
-            Some(self.parse_ts_type_ann(/* eat_colon */ true, start)?)
-        } else {
-            None
-        };
+        let left = self.parse_binding_pat_or_ident()?;
 
         if eat!('=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
@@ -68,27 +61,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
                 left: box left,
                 right,
-                type_ann: type_annotation,
+                type_ann: None,
             }));
-        }
-
-        match left {
-            Pat::Ident(Ident {
-                ref mut type_ann, ..
-            })
-            | Pat::Array(ArrayPat {
-                ref mut type_ann, ..
-            })
-            | Pat::Rest(RestPat {
-                ref mut type_ann, ..
-            })
-            | Pat::Object(ObjectPat {
-                ref mut type_ann, ..
-            })
-            | Pat::Assign(AssignPat {
-                ref mut type_ann, ..
-            }) => *type_ann = type_annotation,
-            _ => unreachable!("Expr pattern"),
         }
 
         Ok(left)
