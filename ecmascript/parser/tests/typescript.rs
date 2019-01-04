@@ -15,10 +15,9 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
-use testing::{NormalizedOutput, StdErr};
+use testing::StdErr;
 use walkdir::WalkDir;
 
 fn add_test<F: FnOnce() + Send + 'static>(
@@ -88,10 +87,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
             );
 
             let path = dir.join(&file_name);
-            // Parse source
-            let module = parse_module(&path);
-
             if errors {
+                let module = with_parser(&path, |p| p.parse_module());
                 let err = module.expect_err("should fail, but parsed as");
                 if err
                     .compare_to_file(format!("{}.stderr", path.display()))
@@ -100,22 +97,24 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     panic!()
                 }
             } else {
-                let module = module.expect("should be parsed\n");
-                if StdErr::from(format!("{:#?}", module))
-                    .compare_to_file(format!("{}.stdout", path.display()))
-                    .is_err()
-                {
-                    panic!()
-                }
+                let _ = with_parser(&path, |p| {
+                    let module = p.parse_module();
+
+                    let module = module.expect("should be parsed\n");
+                    if StdErr::from(format!("{:#?}", module))
+                        .compare_to_file(format!("{}.stdout", path.display()))
+                        .is_err()
+                    {
+                        panic!()
+                    }
+
+                    Ok(())
+                });
             }
         });
     }
 
     Ok(())
-}
-
-fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
-    with_parser(file_name, |p| p.parse_module())
 }
 
 fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
