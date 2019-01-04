@@ -3,7 +3,12 @@ use crate::parser::test_parser;
 use swc_common::DUMMY_SP as span;
 
 fn jsx(src: &'static str) -> Box<Expr> {
-    test_parser(src, Syntax::Jsx, |p| p.parse_expr())
+    test_parser(src, Syntax::Jsx, |p| {
+        p.parse_expr().map_err(|e| {
+            e.emit();
+            ()
+        })
+    })
 }
 
 #[test]

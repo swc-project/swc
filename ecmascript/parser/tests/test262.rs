@@ -281,7 +281,11 @@ where
             Session { handler: &handler },
             Syntax::Es,
             (&*fm).into(),
-        ));
+        ))
+        .map_err(|e| {
+            e.emit();
+            ()
+        });
 
         res
     });

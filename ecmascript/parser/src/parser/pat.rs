@@ -511,7 +511,12 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn array_pat(s: &'static str) -> Pat {
-        test_parser(s, Syntax::Es, |p| p.parse_array_binding_pat())
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_array_binding_pat().map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
 
     fn ident(s: &str) -> Ident {

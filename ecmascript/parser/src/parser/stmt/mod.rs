@@ -800,10 +800,20 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, Syntax::Es, |p| p.parse_stmt(true))
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_stmt(true).map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es, |p| p.parse_expr())
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_expr().map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
 
     #[test]
@@ -933,7 +943,10 @@ mod tests {
                     decorators: true,
                     ..Default::default()
                 }),
-                |p| p.parse_stmt_list_item(true),
+                |p| p.parse_stmt_list_item(true).map_err(|e| {
+                    e.emit();
+                    ()
+                }),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
                 ident: Ident::new("Foo".into(), span),

@@ -171,7 +171,11 @@ where
             Session { handler: &handler },
             Syntax::Jsx,
             (&*fm).into(),
-        ));
+        ))
+        .map_err(|e| {
+            e.emit();
+            ()
+        });
 
         res
     });

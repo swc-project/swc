@@ -138,7 +138,11 @@ where
                 Syntax::Typescript
             },
             (&*fm).into(),
-        ));
+        ))
+        .map_err(|e| {
+            e.emit();
+            ()
+        });
 
         res
     });
