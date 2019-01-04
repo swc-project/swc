@@ -24,7 +24,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parses a modifier matching one the given modifier names.
     ///
     /// `tsParseModifier`
-    fn parse_ts_modifier(
+    pub(super) fn parse_ts_modifier(
         &mut self,
         allowed_modifiers: &[&'static str],
     ) -> PResult<'a, Option<&'static str>> {

@@ -200,8 +200,25 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(elems)
     }
 
+    fn parse_access_modifier(&mut self) -> PResult<'a, Option<Accessibility>> {
+        Ok(self
+            .parse_ts_modifier(&["public", "protected", "private"])?
+            .map(|s| match s {
+                "public" => Accessibility::Public,
+                "protected" => Accessibility::Protected,
+                "private" => Accessibility::Private,
+                _ => unreachable!(),
+            }))
+    }
+
     fn parse_class_member(&mut self) -> PResult<'a, ClassMember> {
         let decorators = self.parse_decorators(false)?;
+
+        let accessibility = if self.input.syntax().typescript() {
+            self.parse_access_modifier()?
+        } else {
+            None
+        };
 
         let static_token = {
             let start = cur_pos!();
@@ -212,7 +229,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         };
 
-        let mut mtd = self.parse_method_def(static_token, decorators)?;
+        let mut mtd = self.parse_method_def(accessibility, static_token, decorators)?;
 
         match mtd.key {
             PropName::Ident(Ident {
@@ -354,6 +371,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     fn parse_method_def(
         &mut self,
+        accessibility: Option<Accessibility>,
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Method> {
