@@ -216,9 +216,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     params,
                     is_async: true,
                     is_generator: false,
-                    // TODO
                     return_type: None,
-                    // TODO
                     type_params: None,
                 }));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!("=>") {
@@ -412,6 +410,13 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let expr_or_spreads = self.include_in_expr(true).parse_args_or_pats()?;
 
+        let return_type = if self.input.syntax().typescript() && is!(':') {
+            let start = cur_pos!();
+            Some(self.parse_ts_type_ann(/* eat_colon */ true, start)?)
+        } else {
+            None
+        };
+
         // we parse arrow function at here, to handle it efficiently.
         if is!("=>") {
             if self.input.had_line_break_before_cur() {
@@ -433,9 +438,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 is_generator: false,
                 params,
                 body,
-                // TODO
-                return_type: None,
-                // TODO
+                return_type,
                 type_params: None,
             }));
         }

@@ -122,6 +122,7 @@ fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
+    let fname = file_name.display().to_string();
     let output = ::testing::run_test(|cm, handler| {
         let fm = cm
             .load_file(file_name)
@@ -129,7 +130,11 @@ where
 
         let res = f(&mut Parser::new(
             Session { handler: &handler },
-            Syntax::Tsx,
+            if fname.contains("tsx") {
+                Syntax::Tsx
+            } else {
+                Syntax::Typescript
+            },
             (&*fm).into(),
         ));
 

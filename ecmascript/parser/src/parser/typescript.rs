@@ -642,7 +642,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsParseTypeAssertion`
-    fn parse_ts_type_assertion(&mut self) -> PResult<'a, TsTypeAssertion> {
+    pub(super) fn parse_ts_type_assertion(&mut self) -> PResult<'a, TsTypeAssertion> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!();

@@ -9,7 +9,7 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsNonNullExpr, TsTypeAnn, TsTypeCastExpr, TsTypeParamDecl,
+        TsAsExpr, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
 };
@@ -83,6 +83,7 @@ pub enum Expr {
     JSXElement(JSXElement),
     JSXFragment(JSXFragment),
 
+    TsTypeAssertion(TsTypeAssertion),
     TsNonNullExpr(TsNonNullExpr),
     TsTypeCastExpr(TsTypeCastExpr),
     TsAsExpr(TsAsExpr),

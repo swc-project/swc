@@ -121,6 +121,10 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
+        if !self.input.syntax().jsx() && eat!('<') {
+            return self.parse_ts_type_assertion().map(Expr::from).map(Box::new);
+        }
+
         // Parse update expression
         if is!("++") || is!("--") {
             let op = if bump!() == tok!("++") {

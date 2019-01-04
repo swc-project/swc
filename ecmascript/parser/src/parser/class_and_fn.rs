@@ -121,6 +121,9 @@ impl<'a, I: Input> Parser<'a, I> {
         while is!('@') {
             decorators.push(self.parse_decorator()?);
         }
+        if decorators.is_empty() {
+            return Ok(decorators);
+        }
 
         if is!("export") {
             if !allow_export {
