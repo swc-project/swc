@@ -4,55 +4,37 @@ Module {
             0
         ),
         hi: BytePos(
-            4
+            3
         ),
         ctxt: #0
     },
     body: [
         Stmt(
             Expr(
-                Ident(
-                    Ident(
-                        a,
-                        Span {
-                            lo: BytePos(
-                                0
-                            ),
-                            hi: BytePos(
-                                1
-                            ),
-                            ctxt: #0
-                        }
-                    )
-                )
-            )
-        ),
-        Stmt(
-            Expr(
-                Unary(
-                    UnaryExpr {
+                TsNonNullExpr(
+                    TsNonNullExpr {
                         span: Span {
                             lo: BytePos(
-                                2
+                                1
                             ),
                             hi: BytePos(
-                                4
+                                2
                             ),
                             ctxt: #0
                         },
-                        op: "!",
-                        arg: Ident(
+                        expr: Ident(
                             Ident(
-                                b,
+                                x,
                                 Span {
                                     lo: BytePos(
-                                        3
+                                        0
                                     ),
                                     hi: BytePos(
-                                        4
+                                        1
                                     ),
                                     ctxt: #0
-                                }
+                                },
+                                None
                             )
                         )
                     }

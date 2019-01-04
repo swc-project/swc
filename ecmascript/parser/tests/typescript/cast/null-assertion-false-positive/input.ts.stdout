@@ -1,0 +1,65 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            4
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Ident(
+                    Ident(
+                        a,
+                        Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                1
+                            ),
+                            ctxt: #0
+                        },
+                        None
+                    )
+                )
+            )
+        ),
+        Stmt(
+            Expr(
+                Unary(
+                    UnaryExpr {
+                        span: Span {
+                            lo: BytePos(
+                                2
+                            ),
+                            hi: BytePos(
+                                4
+                            ),
+                            ctxt: #0
+                        },
+                        op: "!",
+                        arg: Ident(
+                            Ident(
+                                b,
+                                Span {
+                                    lo: BytePos(
+                                        3
+                                    ),
+                                    hi: BytePos(
+                                        4
+                                    ),
+                                    ctxt: #0
+                                },
+                                None
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

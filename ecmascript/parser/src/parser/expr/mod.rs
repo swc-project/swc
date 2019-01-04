@@ -624,7 +624,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         if self.input.syntax().typescript() {
-            if self.input.had_line_break_before_cur() && is!('!') {
+            if !self.input.had_line_break_before_cur() && is!('!') {
                 self.input.set_expr_allowed(false);
                 assert_and_bump!('!');
 

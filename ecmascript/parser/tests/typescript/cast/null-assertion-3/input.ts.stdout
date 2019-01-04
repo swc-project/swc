@@ -1,0 +1,107 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            17
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Var(
+                    VarDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                17
+                            ),
+                            ctxt: #0
+                        },
+                        kind: "const",
+                        decls: [
+                            VarDeclarator {
+                                span: Span {
+                                    lo: BytePos(
+                                        6
+                                    ),
+                                    hi: BytePos(
+                                        16
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident(
+                                        x,
+                                        Span {
+                                            lo: BytePos(
+                                                6
+                                            ),
+                                            hi: BytePos(
+                                                7
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        None
+                                    )
+                                ),
+                                init: Some(
+                                    TsNonNullExpr(
+                                        TsNonNullExpr {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    15
+                                                ),
+                                                hi: BytePos(
+                                                    16
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            expr: Call(
+                                                CallExpr {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            10
+                                                        ),
+                                                        hi: BytePos(
+                                                            15
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    callee: Expr(
+                                                        Ident(
+                                                            Ident(
+                                                                foo,
+                                                                Span {
+                                                                    lo: BytePos(
+                                                                        10
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        13
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                None
+                                                            )
+                                                        )
+                                                    ),
+                                                    args: [],
+                                                    type_args: None
+                                                }
+                                            )
+                                        }
+                                    )
+                                ),
+                                definite: false
+                            }
+                        ]
+                    }
+                )
+            )
+        )
+    ]
+}

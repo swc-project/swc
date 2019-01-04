@@ -73,9 +73,6 @@ macro_rules! tok {
     ('%') => {
         crate::token::Token::BinOp(Mod)
     };
-    ('!') => {
-        crate::token::Token::Bang
-    };
     ('~') => {
         crate::token::Token::Tilde
     };
