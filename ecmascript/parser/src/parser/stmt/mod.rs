@@ -874,6 +874,7 @@ mod tests {
                         }),
                         definite: false,
                     }],
+                    declare: false,
                 }),
                 right: box Expr::Ident(Ident {
                     span,
@@ -954,7 +955,8 @@ mod tests {
                     is_abstract: false,
                     super_type_params: None,
                     type_params: None,
-                }
+                },
+                declare: false,
             }))
         );
     }
