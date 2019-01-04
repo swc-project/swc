@@ -28,7 +28,7 @@ impl<'a, I: Input> Parser<'a, I> {
         const PREC_OF_IN: u8 = 7;
 
         if self.input.syntax().typescript() {
-            if PREC_OF_IN > min_prec && self.input.had_line_break_before_cur() && is!("as") {
+            if PREC_OF_IN > min_prec && !self.input.had_line_break_before_cur() && is!("as") {
                 let span = span!(left.span().lo());
                 let expr = left;
                 let type_ann = self.next_then_parse_ts_type()?;
@@ -219,14 +219,11 @@ impl<'a, I: Input> Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use swc_common::DUMMY_SP;
+    use swc_common::DUMMY_SP as span;
 
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::Es, |p| p.parse_bin_expr())
     }
-
-    #[allow(non_upper_case_globals)]
-    const span: Span = DUMMY_SP;
 
     #[test]
     fn simple() {
