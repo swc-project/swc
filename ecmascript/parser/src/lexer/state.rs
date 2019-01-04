@@ -133,8 +133,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         let res = (|| -> Result<Option<_>, _> {
             if self.syntax.typescript() && self.ctx.in_type {
                 if c == '<' {
+                    self.input.bump();
                     return Ok(Some(tok!('<')));
                 } else if c == '>' {
+                    self.input.bump();
                     return Ok(Some(tok!('>')));
                 }
             }
