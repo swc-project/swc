@@ -1177,7 +1177,7 @@ impl<'a, I: Input> Parser<'a, I> {
             });
             bump!();
             expect!("readonly")
-        } else if is!("readonly") {
+        } else if eat!("readonly") {
             readonly = Some(TruePlusMinus::True);
         }
 
@@ -1192,7 +1192,7 @@ impl<'a, I: Input> Parser<'a, I> {
             } else {
                 TruePlusMinus::Minus
             });
-            bump!();
+            bump!(); // +, -
             expect!('?');
         } else if eat!('?') {
             optional = Some(TruePlusMinus::True);
