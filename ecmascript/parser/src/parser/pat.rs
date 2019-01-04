@@ -117,7 +117,31 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// spec: 'FormalParameter'
     pub(super) fn parse_formal_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
-        self.parse_binding_element().map(PatOrTsParamProp::from)
+        let mut pat = self.parse_binding_element()?;
+        if self.input.syntax().typescript() {
+            match pat {
+                Pat::Array(ArrayPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Assign(AssignPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Ident(Ident {
+                    ref mut type_ann, ..
+                })
+                | Pat::Object(ObjectPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Rest(RestPat {
+                    ref mut type_ann, ..
+                }) => {
+                    *type_ann = self.try_parse_ts_type_ann()?;
+                }
+                Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
+            }
+        }
+
+        Ok(pat.into())
     }
 
     ///

@@ -97,7 +97,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     panic!()
                 }
             } else {
-                with_parser(true, &path, |p| {
+                with_parser(false, &path, |p| {
                     let module = p.parse_module()?;
 
                     if StdErr::from(format!("{:#?}", module))
