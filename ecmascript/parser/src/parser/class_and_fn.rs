@@ -178,7 +178,13 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<'a, Box<Expr>> {
-        if !is!('(') {
+        let type_args = if self.input.syntax().typescript() && is!('<') {
+            Some(self.parse_ts_type_args()?)
+        } else {
+            None
+        };
+
+        if type_args.is_none() && !is!('(') {
             return Ok(expr);
         }
 
