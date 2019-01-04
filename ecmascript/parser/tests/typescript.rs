@@ -129,7 +129,7 @@ where
 
         let res = f(&mut Parser::new(
             Session { handler: &handler },
-            Syntax::Typescript,
+            Syntax::Tsx,
             (&*fm).into(),
         ));
 
