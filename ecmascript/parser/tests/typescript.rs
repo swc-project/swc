@@ -88,7 +88,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
             let path = dir.join(&file_name);
             if errors {
-                let module = with_parser(&path, |p| p.parse_module());
+                let module = with_parser(false, &path, |p| p.parse_module());
                 let err = module.expect_err("should fail, but parsed as");
                 if err
                     .compare_to_file(format!("{}.stderr", path.display()))
@@ -97,7 +97,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     panic!()
                 }
             } else {
-                with_parser(&path, |p| {
+                with_parser(true, &path, |p| {
                     let module = p.parse_module()?;
 
                     if StdErr::from(format!("{:#?}", module))
@@ -117,12 +117,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
     Ok(())
 }
 
-fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
+fn with_parser<F, Ret>(treat_error_as_bug: bool, file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
     let fname = file_name.display().to_string();
-    let output = ::testing::run_test(|cm, handler| {
+    let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));

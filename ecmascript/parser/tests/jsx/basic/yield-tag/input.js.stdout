@@ -23,10 +23,13 @@ Module {
                                     11
                                 ),
                                 ctxt: #0
-                            }
+                            },
+                            None
                         ),
+                        declare: false,
                         function: Function {
                             params: [],
+                            decorators: [],
                             span: Span {
                                 lo: BytePos(
                                     0
@@ -83,7 +86,8 @@ Module {
                                                                                 27
                                                                             ),
                                                                             ctxt: #0
-                                                                        }
+                                                                        },
+                                                                        None
                                                                     )
                                                                 ),
                                                                 span: Span {
@@ -121,7 +125,8 @@ Module {
                                                                                     31
                                                                                 ),
                                                                                 ctxt: #0
-                                                                            }
+                                                                            },
+                                                                            None
                                                                         )
                                                                     )
                                                                 }
@@ -136,7 +141,9 @@ Module {
                                 ]
                             },
                             is_generator: true,
-                            is_async: false
+                            is_async: false,
+                            type_params: None,
+                            return_type: None
                         }
                     }
                 )

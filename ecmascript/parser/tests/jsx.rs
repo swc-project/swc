@@ -162,7 +162,7 @@ fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
-    let output = ::testing::run_test(|cm, handler| {
+    let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));

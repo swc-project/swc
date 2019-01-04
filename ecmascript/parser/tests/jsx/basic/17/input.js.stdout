@@ -34,7 +34,8 @@ Module {
                                             4
                                         ),
                                         ctxt: #0
-                                    }
+                                    },
+                                    None
                                 )
                             ),
                             span: Span {
@@ -69,7 +70,8 @@ Module {
                                                         14
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         )
                                     }

@@ -94,14 +94,3 @@ where
     crate::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, syntax, input)))
         .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }
-
-#[test]
-fn module_legacy() {
-    test_parser("<!--", Syntax::Es, |f| {
-        let res = f.parse_module();
-        assert!(f.ctx().module);
-        assert!(f.ctx().strict);
-        let _ = res.expect_err("!");
-        Ok(())
-    });
-}

@@ -35,7 +35,8 @@ Module {
                                                 2
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     ),
                                     name: Ident(
                                         a,
@@ -47,7 +48,8 @@ Module {
                                                 4
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     )
                                 }
                             ),
@@ -84,7 +86,8 @@ Module {
                                                             6
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 ),
                                                 name: Ident(
                                                     v,
@@ -96,7 +99,8 @@ Module {
                                                             8
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 )
                                             }
                                         ),

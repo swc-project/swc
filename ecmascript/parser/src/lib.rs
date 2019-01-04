@@ -260,7 +260,7 @@ where
 {
     use swc_common::FileName;
 
-    ::testing::run_test(|cm, handler| {
+    ::testing::run_test(true, |cm, handler| {
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
         f(Session { handler: &handler }, (&*fm).into())

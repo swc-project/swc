@@ -36,7 +36,8 @@ Module {
                                                     2
                                                 ),
                                                 ctxt: #0
-                                            }
+                                            },
+                                            None
                                         )
                                     ),
                                     prop: Ident(
@@ -49,7 +50,8 @@ Module {
                                                 4
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     )
                                 }
                             ),
@@ -90,7 +92,8 @@ Module {
                                                         8
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         prop: Ident(
@@ -103,7 +106,8 @@ Module {
                                                     10
                                                 ),
                                                 ctxt: #0
-                                            }
+                                            },
+                                            None
                                         )
                                     }
                                 )

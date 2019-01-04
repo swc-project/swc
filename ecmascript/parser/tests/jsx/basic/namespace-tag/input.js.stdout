@@ -35,7 +35,8 @@ Module {
                                                 4
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     ),
                                     name: Ident(
                                         Bar,
@@ -47,7 +48,8 @@ Module {
                                                 8
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     )
                                 }
                             ),
@@ -95,7 +97,8 @@ Module {
                                                 17
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     ),
                                     name: Ident(
                                         Bar,
@@ -107,7 +110,8 @@ Module {
                                                 21
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     )
                                 }
                             ),
@@ -147,7 +151,8 @@ Module {
                                                     27
                                                 ),
                                                 ctxt: #0
-                                            }
+                                            },
+                                            None
                                         ),
                                         name: Ident(
                                             Bar,
@@ -159,7 +164,8 @@ Module {
                                                     31
                                                 ),
                                                 ctxt: #0
-                                            }
+                                            },
+                                            None
                                         )
                                     }
                                 )

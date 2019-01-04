@@ -34,7 +34,8 @@ Module {
                                             2
                                         ),
                                         ctxt: #0
-                                    }
+                                    },
+                                    None
                                 )
                             ),
                             span: Span {
@@ -70,7 +71,8 @@ Module {
                                                             4
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 ),
                                                 name: Ident(
                                                     foo,
@@ -82,7 +84,8 @@ Module {
                                                             8
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 )
                                             }
                                         ),
@@ -140,7 +143,8 @@ Module {
                                                         22
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         )
                                     )
@@ -184,7 +188,8 @@ Module {
                                                         26
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         span: Span {
@@ -223,7 +228,8 @@ Module {
                                                                     29
                                                                 ),
                                                                 ctxt: #0
-                                                            }
+                                                            },
+                                                            None
                                                         )
                                                     ),
                                                     span: Span {
@@ -265,7 +271,8 @@ Module {
                                                             35
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 )
                                             )
                                         }
@@ -295,7 +302,8 @@ Module {
                                                 39
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     )
                                 )
                             }

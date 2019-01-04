@@ -34,7 +34,8 @@ Module {
                                             2
                                         ),
                                         ctxt: #0
-                                    }
+                                    },
+                                    None
                                 )
                             ),
                             span: Span {
@@ -69,7 +70,8 @@ Module {
                                                         5
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         value: Some(
@@ -108,7 +110,8 @@ Module {
                                                                                     9
                                                                                 ),
                                                                                 ctxt: #0
-                                                                            }
+                                                                            },
+                                                                            None
                                                                         )
                                                                     )
                                                                 ),
@@ -123,7 +126,8 @@ Module {
                                                                                 12
                                                                             ),
                                                                             ctxt: #0
-                                                                        }
+                                                                        },
+                                                                        None
                                                                     )
                                                                 ),
                                                                 computed: false
@@ -141,7 +145,8 @@ Module {
                                                                     15
                                                                 ),
                                                                 ctxt: #0
-                                                            }
+                                                            },
+                                                            None
                                                         )
                                                     ),
                                                     computed: false
@@ -172,7 +177,8 @@ Module {
                                                         19
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         value: Some(
@@ -211,7 +217,8 @@ Module {
                                                                                     23
                                                                                 ),
                                                                                 ctxt: #0
-                                                                            }
+                                                                            },
+                                                                            None
                                                                         )
                                                                     )
                                                                 ),
@@ -226,7 +233,8 @@ Module {
                                                                                 26
                                                                             ),
                                                                             ctxt: #0
-                                                                        }
+                                                                        },
+                                                                        None
                                                                     )
                                                                 ),
                                                                 computed: false
@@ -244,7 +252,8 @@ Module {
                                                                     29
                                                                 ),
                                                                 ctxt: #0
-                                                            }
+                                                            },
+                                                            None
                                                         )
                                                     ),
                                                     computed: false
@@ -280,7 +289,8 @@ Module {
                                                         35
                                                     ),
                                                     ctxt: #0
-                                                }
+                                                },
+                                                None
                                             )
                                         ),
                                         span: Span {
@@ -322,7 +332,8 @@ Module {
                                                                                 39
                                                                             ),
                                                                             ctxt: #0
-                                                                        }
+                                                                        },
+                                                                        None
                                                                     )
                                                                 )
                                                             ),
@@ -337,7 +348,8 @@ Module {
                                                                             41
                                                                         ),
                                                                         ctxt: #0
-                                                                    }
+                                                                    },
+                                                                    None
                                                                 )
                                                             ),
                                                             computed: false
@@ -369,7 +381,8 @@ Module {
                                                             47
                                                         ),
                                                         ctxt: #0
-                                                    }
+                                                    },
+                                                    None
                                                 )
                                             )
                                         }
@@ -399,7 +412,8 @@ Module {
                                                 51
                                             ),
                                             ctxt: #0
-                                        }
+                                        },
+                                        None
                                     )
                                 )
                             }
