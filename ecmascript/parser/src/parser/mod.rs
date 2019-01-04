@@ -11,7 +11,7 @@ use crate::{
 use ast::*;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
+use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
 
 #[macro_use]
 mod macros;
@@ -27,7 +27,7 @@ mod typescript;
 mod util;
 
 /// When error ocurred, error is emiited and parser returnes Err(()).
-pub type PResult<'a, T> = Result<T, ()>;
+pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
 #[derive(Clone)]

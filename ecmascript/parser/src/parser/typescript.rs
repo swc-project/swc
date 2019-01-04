@@ -70,7 +70,7 @@ impl<'a, I: Input> Parser<'a, I> {
         mut parse_element: F,
     ) -> PResult<'a, Vec<T>>
     where
-        F: for<'b> FnMut(&'b mut Self) -> PResult<'b, T>,
+        F: FnMut(&mut Self) -> PResult<'a, T>,
     {
         debug_assert!(self.input.syntax().typescript());
 
@@ -90,7 +90,7 @@ impl<'a, I: Input> Parser<'a, I> {
         mut parse_element: F,
     ) -> PResult<'a, Vec<T>>
     where
-        F: for<'b> FnMut(&'b mut Self) -> PResult<'b, T>,
+        F: FnMut(&mut Self) -> PResult<'a, T>,
     {
         debug_assert!(self.input.syntax().typescript());
 
@@ -127,7 +127,7 @@ impl<'a, I: Input> Parser<'a, I> {
         skip_first_token: bool,
     ) -> PResult<'a, Vec<T>>
     where
-        F: for<'b> FnMut(&'b mut Self) -> PResult<'b, T>,
+        F: FnMut(&mut Self) -> PResult<'a, T>,
     {
         debug_assert!(self.input.syntax().typescript());
 
@@ -345,11 +345,15 @@ impl<'a, I: Input> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut cloned = self.clone();
-        let res = op(&mut cloned)?;
+        let res = op(&mut cloned);
         match res {
-            Some(res) if res => {
+            Ok(Some(res)) if res => {
                 *self = cloned;
                 Ok(res)
+            }
+            Err(err) => {
+                let _ = err.cancel();
+                Ok(false)
             }
             _ => Ok(false),
         }
@@ -363,13 +367,17 @@ impl<'a, I: Input> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut cloned = self.clone();
-        let res = op(&mut cloned)?;
+        let res = op(&mut cloned);
         match res {
-            Some(res) => {
+            Ok(Some(res)) => {
                 *self = cloned;
                 Ok(Some(res))
             }
-            _ => Ok(None),
+            Ok(None) => Ok(None),
+            Err(err) => {
+                let _ = err.cancel();
+                Ok(None)
+            }
         }
     }
 
