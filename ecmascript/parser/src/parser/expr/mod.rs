@@ -845,6 +845,12 @@ impl<'a, I: Input> Parser<'a, I> {
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
 
+        let type_args = if self.input.syntax().typescript() && is!('<') {
+            Some(self.parse_ts_type_args()?)
+        } else {
+            None
+        };
+
         if is!('(') {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
@@ -854,10 +860,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 callee: ExprOrSuper::Expr(callee),
                 args,
-                type_args: None,
+                type_args,
             });
 
             return self.parse_subscripts(ExprOrSuper::Expr(call_expr), false);
+        }
+        if type_args.is_some() {
+            // This fails
+            expect!('(');
         }
 
         // This is parsed using production 'NewExpression', which contains
