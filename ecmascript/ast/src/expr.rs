@@ -84,9 +84,9 @@ pub enum Expr {
     JSXFragment(JSXFragment),
 
     TsTypeAssertion(TsTypeAssertion),
-    TsNonNullExpr(TsNonNullExpr),
-    TsTypeCastExpr(TsTypeCastExpr),
-    TsAsExpr(TsAsExpr),
+    TsNonNull(TsNonNullExpr),
+    TsTypeCast(TsTypeCastExpr),
+    TsAs(TsAsExpr),
 }
 
 #[ast_node]

@@ -11,7 +11,7 @@ Module {
     body: [
         Stmt(
             Expr(
-                TsNonNullExpr(
+                TsNonNull(
                     TsNonNullExpr {
                         span: Span {
                             lo: BytePos(

@@ -211,10 +211,8 @@ pub(super) trait ExprExt {
             | Expr::JSXFragment(..) => false,
 
             // typescript
-            Expr::TsNonNullExpr(..)
-            | Expr::TsTypeCastExpr(..)
-            | Expr::TsAsExpr(..)
-            | Expr::TsTypeAssertion(..) => false,
+            Expr::TsNonNull(..) | Expr::TsTypeCast(..) | Expr::TsTypeAssertion(..) => false,
+            Expr::TsAs(TsAsExpr { ref expr, .. }) => expr.is_valid_simple_assignment_target(strict),
         }
     }
 }

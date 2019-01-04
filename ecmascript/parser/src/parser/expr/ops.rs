@@ -32,7 +32,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let span = span!(left.span().lo());
                 let expr = left;
                 let type_ann = self.next_then_parse_ts_type()?;
-                let node = box Expr::TsAsExpr(TsAsExpr {
+                let node = box Expr::TsAs(TsAsExpr {
                     span,
                     expr,
                     type_ann,

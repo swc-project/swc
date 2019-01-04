@@ -11,7 +11,7 @@ Module {
     body: [
         Stmt(
             Expr(
-                TsAsExpr(
+                TsAs(
                     TsAsExpr {
                         span: Span {
                             lo: BytePos(
@@ -72,7 +72,7 @@ Module {
         ),
         Stmt(
             Expr(
-                TsAsExpr(
+                TsAs(
                     TsAsExpr {
                         span: Span {
                             lo: BytePos(
@@ -174,7 +174,7 @@ Module {
                                 None
                             )
                         ),
-                        right: TsAsExpr(
+                        right: TsAs(
                             TsAsExpr {
                                 span: Span {
                                     lo: BytePos(
@@ -223,7 +223,7 @@ Module {
         ),
         Stmt(
             Expr(
-                TsAsExpr(
+                TsAs(
                     TsAsExpr {
                         span: Span {
                             lo: BytePos(
@@ -234,7 +234,7 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        expr: TsAsExpr(
+                        expr: TsAs(
                             TsAsExpr {
                                 span: Span {
                                     lo: BytePos(

@@ -648,7 +648,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     ExprOrSuper::Expr(expr) => expr,
                 };
                 return Ok((
-                    box Expr::TsNonNullExpr(TsNonNullExpr {
+                    box Expr::TsNonNull(TsNonNullExpr {
                         span: span!(start),
                         expr,
                     }),

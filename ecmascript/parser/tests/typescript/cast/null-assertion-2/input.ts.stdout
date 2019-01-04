@@ -23,7 +23,7 @@ Module {
                             ctxt: #0
                         },
                         op: "/",
-                        left: TsNonNullExpr(
+                        left: TsNonNull(
                             TsNonNullExpr {
                                 span: Span {
                                     lo: BytePos(

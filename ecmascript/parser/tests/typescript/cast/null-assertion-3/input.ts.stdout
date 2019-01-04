@@ -51,7 +51,7 @@ Module {
                                     )
                                 ),
                                 init: Some(
-                                    TsNonNullExpr(
+                                    TsNonNull(
                                         TsNonNullExpr {
                                             span: Span {
                                                 lo: BytePos(
