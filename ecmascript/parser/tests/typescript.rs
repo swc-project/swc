@@ -97,10 +97,9 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     panic!()
                 }
             } else {
-                let _ = with_parser(&path, |p| {
-                    let module = p.parse_module();
+                with_parser(&path, |p| {
+                    let module = p.parse_module()?;
 
-                    let module = module.expect("should be parsed\n");
                     if StdErr::from(format!("{:#?}", module))
                         .compare_to_file(format!("{}.stdout", path.display()))
                         .is_err()
@@ -109,7 +108,8 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                     }
 
                     Ok(())
-                });
+                })
+                .unwrap();
             }
         });
     }
