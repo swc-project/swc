@@ -78,6 +78,7 @@ impl<'a, I: Input> Parser<'a, I> {
             .map(From::from)
     }
 
+    /// `parseStatementContent`
     fn parse_stmt_internal(
         &mut self,
         include_decl: bool,
@@ -85,6 +86,15 @@ impl<'a, I: Input> Parser<'a, I> {
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Stmt> {
         let start = cur_pos!();
+
+        if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
+            assert_and_bump!("const");
+            assert_and_bump!("enum");
+            return self
+                .parse_ts_enum_decl(start, /* is_const */ true)
+                .map(Decl::from)
+                .map(Stmt::from);
+        }
 
         if is_one_of!("break", "continue") {
             let is_break = is!("break");

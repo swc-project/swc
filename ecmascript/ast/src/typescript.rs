@@ -453,7 +453,7 @@ pub struct TsEnumDecl {
     pub declare: bool,
     pub is_const: bool,
     pub id: Ident,
-    pub mebers: Vec<TsEnumMember>,
+    pub members: Vec<TsEnumMember>,
 }
 
 #[ast_node]
@@ -473,13 +473,14 @@ pub enum TsEnumMemberId {
 pub struct TsModuleDecl {
     pub span: Span,
     pub declare: bool,
-    pub global: bool, // In TypeScript, this is only available through`node.flags`.
+    /// In TypeScript, this is only available through`node.flags`.
+    pub global: bool,
     pub id: TsModuleName,
-    pub body: TsNamespaceBody,
+    pub body: Option<TsNamespaceBody>,
 }
 
-// // `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl
-// as its body.
+/// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
+/// its body.
 #[ast_node]
 pub enum TsNamespaceBody {
     TsModuleBlock(TsModuleBlock),
@@ -496,7 +497,8 @@ pub struct TsModuleBlock {
 pub struct TsNamespaceDecl {
     pub span: Span,
     pub declare: bool,
-    pub global: bool, // In TypeScript, this is only available through`node.flags`.
+    /// In TypeScript, this is only available through`node.flags`.
+    pub global: bool,
     pub id: Ident,
     pub body: Box<TsNamespaceBody>,
 }

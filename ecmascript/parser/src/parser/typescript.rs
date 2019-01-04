@@ -389,6 +389,139 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
+    /// `tsParseEnumMember`
+    fn parse_ts_enum_member(&mut self) -> PResult<'a, TsEnumMember> {
+        let start = cur_pos!();
+        // Computed property names are grammar errors in an enum, so accept just string
+        // literal or identifier.
+        let id = match *cur!(true)? {
+            Token::Str { .. } => self.parse_lit().map(|lit| match lit {
+                Lit::Str(s) => TsEnumMemberId::Str(s),
+                _ => unreachable!(),
+            })?,
+            _ => self.parse_ident(true, true).map(TsEnumMemberId::from)?,
+        };
+        let init = if eat!('=') {
+            Some(self.parse_assignment_expr()?)
+        } else {
+            None
+        };
+
+        Ok(TsEnumMember {
+            span: span!(start),
+            id,
+            init,
+        })
+    }
+
+    /// `tsParseEnumDeclaration`
+    pub(super) fn parse_ts_enum_decl(
+        &mut self,
+        start: BytePos,
+        is_const: bool,
+    ) -> PResult<'a, TsEnumDecl> {
+        let id = self.parse_ident(false, false)?;
+        expect!('{');
+        let members = self
+            .parse_ts_delimited_list(ParsingContext::EnumMembers, |p| p.parse_ts_enum_member())?;
+        expect!('}');
+
+        Ok(TsEnumDecl {
+            span: span!(start),
+            // TODO(kdy1): Is this correct?
+            declare: false,
+            is_const,
+            id,
+            members,
+        })
+    }
+
+    /// `tsParseModuleBlock`
+    fn parse_ts_module_block(&mut self) -> PResult<'a, TsModuleBlock> {
+        let start = cur_pos!();
+        expect!('{');
+        // Inside of a module block is considered "top-level", meaning it can have
+        // imports and exports.
+        let body = self.parse_block_body(
+            /* directives */ false,
+            /* topLevel */ true,
+            /* end */ Some(&tok!('}')),
+        )?;
+
+        Ok(TsModuleBlock {
+            span: span!(start),
+            body,
+        })
+    }
+
+    /// `tsParseModuleOrNamespaceDeclaration`
+    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<'a, TsModuleDecl> {
+        let id = self.parse_ident(false, false)?;
+        let body: TsNamespaceBody = if eat!('.') {
+            let inner_start = cur_pos!();
+            let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
+            let inner = TsNamespaceDecl {
+                span: inner.span,
+                id: match inner.id {
+                    TsModuleName::Ident(i) => i,
+                    _ => unreachable!(),
+                },
+                body: box inner.body.unwrap(),
+                declare: inner.declare,
+                global: inner.global,
+            };
+            inner.into()
+        } else {
+            self.parse_ts_module_block().map(From::from)?
+        };
+
+        Ok(TsModuleDecl {
+            span: span!(start),
+            declare: false,
+            id: TsModuleName::Ident(id),
+            body: Some(body),
+            global: false,
+        })
+    }
+
+    /// `tsParseAmbientExternalModuleDeclaration`
+    fn parse_ts_ambient_external_module_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<'a, TsModuleDecl> {
+        let (global, id) = if is!("global") {
+            let id = self.parse_ident(false, false)?;
+            (true, TsModuleName::Ident(id))
+        } else if match *cur!(true)? {
+            Token::Str { .. } => true,
+            _ => false,
+        } {
+            let id = self.parse_lit().map(|lit| match lit {
+                Lit::Str(s) => TsModuleName::Str(s),
+                _ => unreachable!(),
+            })?;
+            (false, id)
+        } else {
+            unexpected!();
+        };
+
+        let body = if is!('{') {
+            Some(self.parse_ts_module_block().map(TsNamespaceBody::from)?)
+        } else {
+            expect!(';');
+            None
+        };
+
+        Ok(TsModuleDecl {
+            span: span!(start),
+            // TODO(kdy1): Is this correct?
+            declare: false,
+            id,
+            global,
+            body,
+        })
+    }
+
     /// Be sure to be in a type context before calling self.
     ///
     /// `tsParseType`
@@ -656,26 +789,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(false)
     }
-
-    // tsParseBindingListForSignature(): $ReadOnlyArray<
-    //   N.Identifier | N.RestElement | N.ObjectPattern,
-    // > {
-    //   return self.parseBindingList(tt.parenR).map(pattern => {
-    //     if (
-    //       pattern.type !== "Identifier" &&
-    //       pattern.type !== "RestElement" &&
-    //       pattern.type !== "ObjectPattern"
-    //     ) {
-    //       throw self.unexpected(
-    //         pattern.start,
-    //         `Name in a signature must be an Identifier or ObjectPattern, instead
-    // got ${           pattern.type
-    //         }`,
-    //       );
-    //     }
-    //     return pattern;
-    //   });
-    // }
 
     /// `tsParseTypeMemberSemicolon`
     fn parse_ts_type_member_semicolon(&mut self) -> PResult<'a, ()> {
