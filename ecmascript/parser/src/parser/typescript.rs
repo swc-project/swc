@@ -1757,7 +1757,7 @@ impl<'a, I: Input> Parser<'a, I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
-        let cloned = self.input.clone_token_context();
+        let cloned = self.input.token_context().clone();
         self.input
             .set_token_context(TokenContexts(smallvec![cloned.0[0]]));
         let res = op(self);

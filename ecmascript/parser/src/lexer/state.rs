@@ -83,8 +83,8 @@ impl<'a> From<&'a Token> for TokenType {
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub fn clone_token_context(&self) -> TokenContexts {
-        self.state.context.clone()
+    pub const fn token_context(&self) -> &TokenContexts {
+        &self.state.context
     }
 
     pub fn set_token_context(&mut self, c: TokenContexts) {

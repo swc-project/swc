@@ -176,8 +176,8 @@ impl<'a, I: Input> ParserInput<'a, I> {
         self.iter.set_expr_allowed(allow)
     }
 
-    pub(crate) fn clone_token_context(&self) -> lexer::TokenContexts {
-        self.iter.clone_token_context()
+    pub(crate) const fn token_context(&self) -> &lexer::TokenContexts {
+        self.iter.token_context()
     }
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
