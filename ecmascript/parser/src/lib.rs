@@ -157,7 +157,9 @@ impl Syntax {
         match self {
             Syntax::EsNext(EsNextConfig {
                 decorators: true, ..
-            }) => true,
+            })
+            | Syntax::Typescript
+            | Syntax::Tsx => true,
             _ => false,
         }
     }
