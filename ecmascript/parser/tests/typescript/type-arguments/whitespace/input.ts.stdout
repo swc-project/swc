@@ -1,0 +1,104 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            24
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Fn(
+                    FnDecl {
+                        ident: Ident(
+                            f,
+                            Span {
+                                lo: BytePos(
+                                    9
+                                ),
+                                hi: BytePos(
+                                    10
+                                ),
+                                ctxt: #0
+                            },
+                            None
+                        ),
+                        declare: false,
+                        function: Function {
+                            params: [],
+                            decorators: [],
+                            span: Span {
+                                lo: BytePos(
+                                    0
+                                ),
+                                hi: BytePos(
+                                    24
+                                ),
+                                ctxt: #0
+                            },
+                            body: BlockStmt {
+                                span: Span {
+                                    lo: BytePos(
+                                        22
+                                    ),
+                                    hi: BytePos(
+                                        24
+                                    ),
+                                    ctxt: #0
+                                },
+                                stmts: []
+                            },
+                            is_generator: false,
+                            is_async: false,
+                            type_params: Some(
+                                TsTypeParamDecl {
+                                    span: Span {
+                                        lo: BytePos(
+                                            10
+                                        ),
+                                        hi: BytePos(
+                                            19
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    params: [
+                                        TsTypeParam {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    13
+                                                ),
+                                                hi: BytePos(
+                                                    14
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            name: Ident(
+                                                T,
+                                                Span {
+                                                    lo: BytePos(
+                                                        13
+                                                    ),
+                                                    hi: BytePos(
+                                                        14
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                None
+                                            ),
+                                            constraint: None,
+                                            default: None
+                                        }
+                                    ]
+                                }
+                            ),
+                            return_type: None
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}
