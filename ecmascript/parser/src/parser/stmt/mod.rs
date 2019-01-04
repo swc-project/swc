@@ -447,7 +447,17 @@ impl<'a, I: Input> Parser<'a, I> {
 
     fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<'a, VarDeclarator> {
         let start = cur_pos!();
+
         let mut name = self.parse_binding_pat_or_ident()?;
+
+        let definite = if self.input.syntax().typescript() {
+            match name {
+                Pat::Ident(..) => eat!('!'),
+                _ => false,
+            }
+        } else {
+            false
+        };
 
         // Typescript extension
         if self.input.syntax().typescript() && is!(':') {
@@ -494,7 +504,7 @@ impl<'a, I: Input> Parser<'a, I> {
             span: span!(start),
             name,
             init,
-            definite: false,
+            definite,
         });
     }
 
