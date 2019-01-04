@@ -13,15 +13,16 @@ pub enum Decl {
     Class(ClassDecl),
     Fn(FnDecl),
     Var(VarDecl),
-    TsInterfaceDecl(TsInterfaceDecl),
-    TsTypeAliasDecl(TsTypeAliasDecl),
-    TsEnumDecl(TsEnumDecl),
-    TsModuleDecl(TsModuleDecl),
+    TsInterface(TsInterfaceDecl),
+    TsTypeAlias(TsTypeAliasDecl),
+    TsEnum(TsEnumDecl),
+    TsModule(TsModuleDecl),
 }
 
 #[ast_node]
 pub struct FnDecl {
     pub ident: Ident,
+    pub declare: bool,
     #[span]
     pub function: Function,
 }
@@ -29,6 +30,7 @@ pub struct FnDecl {
 #[ast_node]
 pub struct ClassDecl {
     pub ident: Ident,
+    pub declare: bool,
     #[span]
     pub class: Class,
 }
@@ -37,7 +39,7 @@ pub struct ClassDecl {
 pub struct VarDecl {
     pub span: Span,
     pub kind: VarDeclKind,
-
+    pub declare: bool,
     pub decls: Vec<VarDeclarator>,
 }
 

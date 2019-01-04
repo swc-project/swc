@@ -26,6 +26,7 @@ Module {
                             },
                             None
                         ),
+                        declare: false,
                         class: Class {
                             span: Span {
                                 lo: BytePos(
