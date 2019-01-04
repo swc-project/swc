@@ -1,0 +1,241 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            84
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                8
+                            ),
+                            hi: BytePos(
+                                24
+                            ),
+                            ctxt: #0
+                        },
+                        declare: true,
+                        global: false,
+                        id: Ident(
+                            Ident(
+                                N,
+                                Span {
+                                    lo: BytePos(
+                                        18
+                                    ),
+                                    hi: BytePos(
+                                        19
+                                    ),
+                                    ctxt: #0
+                                },
+                                None
+                            )
+                        ),
+                        body: Some(
+                            TsNamespaceDecl(
+                                TsNamespaceDecl {
+                                    span: Span {
+                                        lo: BytePos(
+                                            20
+                                        ),
+                                        hi: BytePos(
+                                            24
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    declare: false,
+                                    global: false,
+                                    id: Ident(
+                                        M,
+                                        Span {
+                                            lo: BytePos(
+                                                20
+                                            ),
+                                            hi: BytePos(
+                                                21
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        None
+                                    ),
+                                    body: TsModuleBlock(
+                                        TsModuleBlock {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    22
+                                                ),
+                                                hi: BytePos(
+                                                    24
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: []
+                                        }
+                                    )
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                33
+                            ),
+                            hi: BytePos(
+                                44
+                            ),
+                            ctxt: #0
+                        },
+                        declare: true,
+                        global: false,
+                        id: Ident(
+                            Ident(
+                                M,
+                                Span {
+                                    lo: BytePos(
+                                        40
+                                    ),
+                                    hi: BytePos(
+                                        41
+                                    ),
+                                    ctxt: #0
+                                },
+                                None
+                            )
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            42
+                                        ),
+                                        hi: BytePos(
+                                            44
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: []
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                53
+                            ),
+                            hi: BytePos(
+                                66
+                            ),
+                            ctxt: #0
+                        },
+                        declare: true,
+                        global: false,
+                        id: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        60
+                                    ),
+                                    hi: BytePos(
+                                        63
+                                    ),
+                                    ctxt: #0
+                                },
+                                value: Atom('m' type=inline),
+                                has_escape: false
+                            }
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            64
+                                        ),
+                                        hi: BytePos(
+                                            66
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: []
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                75
+                            ),
+                            hi: BytePos(
+                                84
+                            ),
+                            ctxt: #0
+                        },
+                        declare: true,
+                        global: true,
+                        id: Ident(
+                            Ident(
+                                global,
+                                Span {
+                                    lo: BytePos(
+                                        75
+                                    ),
+                                    hi: BytePos(
+                                        81
+                                    ),
+                                    ctxt: #0
+                                },
+                                None
+                            )
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            82
+                                        ),
+                                        hi: BytePos(
+                                            84
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: []
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

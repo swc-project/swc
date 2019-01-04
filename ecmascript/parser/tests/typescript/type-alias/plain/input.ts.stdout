@@ -4,40 +4,53 @@ Module {
             0
         ),
         hi: BytePos(
-            15
+            16
         ),
         ctxt: #0
     },
     body: [
         Stmt(
             Decl(
-                TsEnum(
-                    TsEnumDecl {
+                TsTypeAlias(
+                    TsTypeAliasDecl {
                         span: Span {
                             lo: BytePos(
                                 0
                             ),
                             hi: BytePos(
-                                15
+                                16
                             ),
                             ctxt: #0
                         },
                         declare: false,
-                        is_const: true,
                         id: Ident(
-                            E,
+                            T,
                             Span {
                                 lo: BytePos(
-                                    11
+                                    5
                                 ),
                                 hi: BytePos(
-                                    12
+                                    6
                                 ),
                                 ctxt: #0
                             },
                             None
                         ),
-                        members: []
+                        type_params: None,
+                        type_ann: TsKeywordType(
+                            TsKeywordType {
+                                span: Span {
+                                    lo: BytePos(
+                                        9
+                                    ),
+                                    hi: BytePos(
+                                        15
+                                    ),
+                                    ctxt: #0
+                                },
+                                kind: TsNumberKeyword
+                            }
+                        )
                     }
                 )
             )

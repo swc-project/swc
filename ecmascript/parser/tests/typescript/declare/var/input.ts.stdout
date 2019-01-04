@@ -4,7 +4,7 @@ Module {
             0
         ),
         hi: BytePos(
-            10
+            34
         ),
         ctxt: #0
     },
@@ -15,23 +15,23 @@ Module {
                     VarDecl {
                         span: Span {
                             lo: BytePos(
-                                0
+                                8
                             ),
                             hi: BytePos(
-                                10
+                                14
                             ),
                             ctxt: #0
                         },
-                        kind: "let",
-                        declare: false,
+                        kind: "var",
+                        declare: true,
                         decls: [
                             VarDeclarator {
                                 span: Span {
                                     lo: BytePos(
-                                        4
+                                        12
                                     ),
                                     hi: BytePos(
-                                        9
+                                        13
                                     ),
                                     ctxt: #0
                                 },
@@ -40,10 +40,59 @@ Module {
                                         x,
                                         Span {
                                             lo: BytePos(
-                                                4
+                                                12
                                             ),
                                             hi: BytePos(
-                                                5
+                                                13
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        None
+                                    )
+                                ),
+                                init: None,
+                                definite: false
+                            }
+                        ]
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Decl(
+                Var(
+                    VarDecl {
+                        span: Span {
+                            lo: BytePos(
+                                23
+                            ),
+                            hi: BytePos(
+                                34
+                            ),
+                            ctxt: #0
+                        },
+                        kind: "var",
+                        declare: true,
+                        decls: [
+                            VarDeclarator {
+                                span: Span {
+                                    lo: BytePos(
+                                        27
+                                    ),
+                                    hi: BytePos(
+                                        33
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident(
+                                        x,
+                                        Span {
+                                            lo: BytePos(
+                                                27
+                                            ),
+                                            hi: BytePos(
+                                                28
                                             ),
                                             ctxt: #0
                                         },
@@ -51,38 +100,25 @@ Module {
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
-                                                        5
+                                                        28
                                                     ),
                                                     hi: BytePos(
-                                                        9
+                                                        33
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                type_ann: TsLitType(
-                                                    TsLitType {
+                                                type_ann: TsKeywordType(
+                                                    TsKeywordType {
                                                         span: Span {
                                                             lo: BytePos(
-                                                                7
+                                                                30
                                                             ),
                                                             hi: BytePos(
-                                                                9
+                                                                33
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        lit: Number(
-                                                            Number {
-                                                                span: Span {
-                                                                    lo: BytePos(
-                                                                        8
-                                                                    ),
-                                                                    hi: BytePos(
-                                                                        9
-                                                                    ),
-                                                                    ctxt: #0
-                                                                },
-                                                                value: -1.0
-                                                            }
-                                                        )
+                                                        kind: TsAnyKeyword
                                                     }
                                                 )
                                             }

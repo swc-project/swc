@@ -1,0 +1,128 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            32
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                32
+                            ),
+                            ctxt: #0
+                        },
+                        declare: false,
+                        global: false,
+                        id: Ident(
+                            Ident(
+                                N,
+                                Span {
+                                    lo: BytePos(
+                                        10
+                                    ),
+                                    hi: BytePos(
+                                        11
+                                    ),
+                                    ctxt: #0
+                                },
+                                None
+                            )
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            12
+                                        ),
+                                        hi: BytePos(
+                                            32
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: [
+                                        Decl(
+                                            Var(
+                                                VarDecl {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            18
+                                                        ),
+                                                        hi: BytePos(
+                                                            30
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    kind: "const",
+                                                    declare: false,
+                                                    decls: [
+                                                        VarDeclarator {
+                                                            span: Span {
+                                                                lo: BytePos(
+                                                                    24
+                                                                ),
+                                                                hi: BytePos(
+                                                                    29
+                                                                ),
+                                                                ctxt: #0
+                                                            },
+                                                            name: Ident(
+                                                                Ident(
+                                                                    x,
+                                                                    Span {
+                                                                        lo: BytePos(
+                                                                            24
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            25
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    None
+                                                                )
+                                                            ),
+                                                            init: Some(
+                                                                Lit(
+                                                                    Num(
+                                                                        Number {
+                                                                            span: Span {
+                                                                                lo: BytePos(
+                                                                                    28
+                                                                                ),
+                                                                                hi: BytePos(
+                                                                                    29
+                                                                                ),
+                                                                                ctxt: #0
+                                                                            },
+                                                                            value: 0.0
+                                                                        }
+                                                                    )
+                                                                )
+                                                            ),
+                                                            definite: false
+                                                        }
+                                                    ]
+                                                }
+                                            )
+                                        )
+                                    ]
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

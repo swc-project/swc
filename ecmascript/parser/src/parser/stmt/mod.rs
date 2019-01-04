@@ -214,6 +214,7 @@ impl<'a, I: Input> Parser<'a, I> {
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
+
         let expr = match expr {
             box Expr::Ident(ident) => {
                 if eat!(':') {
@@ -227,6 +228,16 @@ impl<'a, I: Input> Parser<'a, I> {
                 expr
             }
         };
+        match *expr {
+            Expr::Ident(ref ident) => {
+                if self.input.syntax().typescript() {
+                    if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
+                        return Ok(Stmt::Decl(decl));
+                    }
+                }
+            }
+            _ => {}
+        }
 
         if eat!(';') {
             Ok(Stmt::Expr(expr))
@@ -418,7 +429,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<'a, VarDecl> {
+    pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<'a, VarDecl> {
         let start = cur_pos!();
         let kind = match bump!() {
             tok!("const") => VarDeclKind::Const,
@@ -440,6 +451,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(VarDecl {
             span: span!(start),
+            declare: false,
             kind,
             decls,
         })

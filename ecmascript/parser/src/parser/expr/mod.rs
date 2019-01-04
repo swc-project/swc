@@ -29,9 +29,21 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(expr)
     }
 
+    ///`parseMaybeAssign` (overrided)
+    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+        if self.input.syntax().typescript() {
+            // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
+            // syntax.
+
+        }
+        self.parse_assignment_expr_base()
+    }
+
     /// Parse an assignment expression. This includes applications of
     /// operators like `+=`.
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    ///
+    /// `parseMaybeAssign`
+    fn parse_assignment_expr_base(&mut self) -> PResult<'a, (Box<Expr>)> {
         if self.ctx().in_generator && is!("yield") {
             return self.parse_yield_expr();
         }

@@ -1,0 +1,72 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            14
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsTypeAlias(
+                    TsTypeAliasDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                14
+                            ),
+                            ctxt: #0
+                        },
+                        declare: false,
+                        id: Ident(
+                            T,
+                            Span {
+                                lo: BytePos(
+                                    5
+                                ),
+                                hi: BytePos(
+                                    6
+                                ),
+                                ctxt: #0
+                            },
+                            None
+                        ),
+                        type_params: None,
+                        type_ann: TsParenthesizedType(
+                            TsParenthesizedType {
+                                span: Span {
+                                    lo: BytePos(
+                                        9
+                                    ),
+                                    hi: BytePos(
+                                        13
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_ann: TsTypeLit(
+                                    TsTypeLit {
+                                        span: Span {
+                                            lo: BytePos(
+                                                10
+                                            ),
+                                            hi: BytePos(
+                                                12
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        members: []
+                                    }
+                                )
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

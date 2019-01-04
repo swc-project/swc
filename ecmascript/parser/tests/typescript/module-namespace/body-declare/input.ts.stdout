@@ -1,0 +1,137 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            44
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                8
+                            ),
+                            hi: BytePos(
+                                44
+                            ),
+                            ctxt: #0
+                        },
+                        declare: true,
+                        global: false,
+                        id: Ident(
+                            Ident(
+                                N,
+                                Span {
+                                    lo: BytePos(
+                                        18
+                                    ),
+                                    hi: BytePos(
+                                        19
+                                    ),
+                                    ctxt: #0
+                                },
+                                None
+                            )
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            20
+                                        ),
+                                        hi: BytePos(
+                                            44
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: [
+                                        Decl(
+                                            Var(
+                                                VarDecl {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            26
+                                                        ),
+                                                        hi: BytePos(
+                                                            42
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    kind: "const",
+                                                    declare: false,
+                                                    decls: [
+                                                        VarDeclarator {
+                                                            span: Span {
+                                                                lo: BytePos(
+                                                                    32
+                                                                ),
+                                                                hi: BytePos(
+                                                                    41
+                                                                ),
+                                                                ctxt: #0
+                                                            },
+                                                            name: Ident(
+                                                                Ident(
+                                                                    x,
+                                                                    Span {
+                                                                        lo: BytePos(
+                                                                            32
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            33
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    Some(
+                                                                        TsTypeAnn {
+                                                                            span: Span {
+                                                                                lo: BytePos(
+                                                                                    33
+                                                                                ),
+                                                                                hi: BytePos(
+                                                                                    41
+                                                                                ),
+                                                                                ctxt: #0
+                                                                            },
+                                                                            type_ann: TsKeywordType(
+                                                                                TsKeywordType {
+                                                                                    span: Span {
+                                                                                        lo: BytePos(
+                                                                                            35
+                                                                                        ),
+                                                                                        hi: BytePos(
+                                                                                            41
+                                                                                        ),
+                                                                                        ctxt: #0
+                                                                                    },
+                                                                                    kind: TsNumberKeyword
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                )
+                                                            ),
+                                                            init: None,
+                                                            definite: false
+                                                        }
+                                                    ]
+                                                }
+                                            )
+                                        )
+                                    ]
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

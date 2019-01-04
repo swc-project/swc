@@ -1,0 +1,62 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            14
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Var(
+                    VarDecl {
+                        span: Span {
+                            lo: BytePos(
+                                8
+                            ),
+                            hi: BytePos(
+                                14
+                            ),
+                            ctxt: #0
+                        },
+                        kind: "let",
+                        declare: true,
+                        decls: [
+                            VarDeclarator {
+                                span: Span {
+                                    lo: BytePos(
+                                        12
+                                    ),
+                                    hi: BytePos(
+                                        13
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident(
+                                        x,
+                                        Span {
+                                            lo: BytePos(
+                                                12
+                                            ),
+                                            hi: BytePos(
+                                                13
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        None
+                                    )
+                                ),
+                                init: None,
+                                definite: false
+                            }
+                        ]
+                    }
+                )
+            )
+        )
+    ]
+}

@@ -1620,6 +1620,227 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
+    /// `tsParseExpressionStatement`
+    pub(super) fn parse_ts_expr_stmt(
+        &mut self,
+        decorators: Vec<Decorator>,
+        expr: Ident,
+    ) -> PResult<'a, Option<Decl>> {
+        let start = expr.span().lo();
+
+        match &*expr.sym {
+            "declare" => {
+                let decl = self.try_parse_ts_declare(decorators)?;
+                if let Some(mut decl) = decl {
+                    match decl {
+                        Decl::Class(ClassDecl {
+                            ref mut declare, ..
+                        })
+                        | Decl::Fn(FnDecl {
+                            ref mut declare, ..
+                        })
+                        | Decl::Var(VarDecl {
+                            ref mut declare, ..
+                        })
+                        | Decl::TsInterface(TsInterfaceDecl {
+                            ref mut declare, ..
+                        })
+                        | Decl::TsTypeAlias(TsTypeAliasDecl {
+                            ref mut declare, ..
+                        })
+                        | Decl::TsEnum(TsEnumDecl {
+                            ref mut declare, ..
+                        })
+                        | Decl::TsModule(TsModuleDecl {
+                            ref mut declare, ..
+                        }) => *declare = true,
+                    }
+                    return Ok(Some(decl));
+                } else {
+                    return Ok(None);
+                }
+            }
+            "global" => {
+                // `global { }` (with no `declare`) may appear inside an ambient module
+                // declaration.
+                // Would like to use tsParseAmbientExternalModuleDeclaration here, but already
+                // ran past "global".
+                if is!('{') {
+                    let global = true;
+                    let id = TsModuleName::Ident(expr);
+                    let body = self
+                        .parse_ts_module_block()
+                        .map(TsNamespaceBody::from)
+                        .map(Some)?;
+                    return Ok(Some(
+                        TsModuleDecl {
+                            span: span!(start),
+                            global,
+                            declare: false,
+                            id,
+                            body,
+                        }
+                        .into(),
+                    ));
+                } else {
+                    Ok(None)
+                }
+            }
+            _ => return self.parse_ts_decl(start, decorators, expr.sym, /* next */ false),
+        }
+    }
+
+    /// `tsTryParseDeclare`
+    fn try_parse_ts_declare(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Option<Decl>> {
+        let start = cur_pos!();
+
+        if is!("function") {
+            return self.parse_fn_decl(decorators).map(Some);
+        }
+
+        if is!("class") {
+            return self.parse_class_decl(decorators).map(Some);
+        }
+
+        if is!("const") {
+            if peeked_is!("enum") {
+                assert_and_bump!("const");
+                assert_and_bump!("enum");
+
+                return self
+                    .parse_ts_enum_decl(start, /* is_const */ true)
+                    .map(From::from)
+                    .map(Some);
+            }
+        }
+        if is_one_of!("const", "var", "let") {
+            return self.parse_var_stmt(false).map(From::from).map(Some);
+        }
+
+        if is!("global") {
+            return self
+                .parse_ts_ambient_external_module_decl(start)
+                .map(From::from)
+                .map(Some);
+        } else if is!(IdentRef) {
+            let value = match *cur!(true)? {
+                Token::Word(ref w) => w.clone().into(),
+                _ => unreachable!(),
+            };
+            return self.parse_ts_decl(start, decorators, value, /* next */ true);
+        }
+
+        Ok(None)
+    }
+
+    /// Common to tsTryParseDeclare, tsTryParseExportDeclaration, and
+    /// tsParseExpressionStatement.
+    ///
+    /// `tsParseDeclaration`
+    fn parse_ts_decl(
+        &mut self,
+        start: BytePos,
+        decorators: Vec<Decorator>,
+        value: JsWord,
+        next: bool,
+    ) -> PResult<'a, Option<Decl>> {
+        match value {
+            js_word!("abstract") => {
+                if next || is!("class") {
+                    if next {
+                        bump!();
+                    }
+                    let mut decl = self.parse_class_decl(decorators)?;
+                    match decl {
+                        Decl::Class(ClassDecl {
+                            class:
+                                Class {
+                                    ref mut is_abstract,
+                                    ..
+                                },
+                            ..
+                        }) => *is_abstract = true,
+                        _ => unreachable!(),
+                    }
+                    return Ok(Some(decl));
+                }
+            }
+
+            js_word!("enum") => {
+                if next || is!("enum") {
+                    if next {
+                        bump!();
+                    }
+                    return self
+                        .parse_ts_enum_decl(start, /* is_const */ false)
+                        .map(From::from)
+                        .map(Some);
+                }
+            }
+
+            js_word!("interface") => {
+                if next || is!(IdentRef) {
+                    if next {
+                        bump!();
+                    }
+
+                    return self.parse_ts_interface_decl().map(From::from).map(Some);
+                }
+            }
+
+            js_word!("module") => {
+                if next {
+                    bump!();
+                }
+
+                if {
+                    match *cur!(true)? {
+                        Token::Str { .. } => true,
+                        _ => false,
+                    }
+                } {
+                    return self
+                        .parse_ts_ambient_external_module_decl(start)
+                        .map(From::from)
+                        .map(Some);
+                } else if next || is!(IdentRef) {
+                    return self
+                        .parse_ts_module_or_ns_decl(start)
+                        .map(From::from)
+                        .map(Some);
+                }
+            }
+
+            js_word!("namespace") => {
+                if next || is!(IdentRef) {
+                    if next {
+                        bump!();
+                    }
+                    return self
+                        .parse_ts_module_or_ns_decl(start)
+                        .map(From::from)
+                        .map(Some);
+                }
+            }
+
+            js_word!("type") => {
+                if next || is!(IdentRef) {
+                    if next {
+                        bump!();
+                    }
+                    return self
+                        .parse_ts_type_alias_decl(start)
+                        .map(From::from)
+                        .map(Some);
+                }
+            }
+
+            _ => {}
+        }
+
+        Ok(None)
+    }
+
     /// `tsTryParseGenericAsyncArrowFunction`
     pub(super) fn try_parse_ts_generic_async_arrow_fn(&mut self) -> PResult<'a, Option<ArrowExpr>> {
         debug_assert!(self.input.syntax().typescript());

@@ -596,10 +596,18 @@ impl OutputType for Decl {
     type Ident = Ident;
 
     fn finish_fn(ident: Ident, function: Function) -> Self {
-        Decl::Fn(FnDecl { ident, function })
+        Decl::Fn(FnDecl {
+            declare: false,
+            ident,
+            function,
+        })
     }
     fn finish_class(ident: Ident, class: Class) -> Self {
-        Decl::Class(ClassDecl { ident, class })
+        Decl::Class(ClassDecl {
+            declare: false,
+            ident,
+            class,
+        })
     }
 }
 

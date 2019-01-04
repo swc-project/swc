@@ -23,6 +23,7 @@ Module {
                             ctxt: #0
                         },
                         kind: "let",
+                        declare: false,
                         decls: [
                             VarDeclarator {
                                 span: Span {
