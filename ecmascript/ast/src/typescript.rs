@@ -6,7 +6,7 @@ use crate::{
     ident::Ident,
     lit::{Bool, Number, Str},
     pat::{AssignPat, ObjectPat, RestPat},
-    stmt::Stmt,
+    module::ModuleItem,
 };
 use swc_common::{ast_node, Fold, Span};
 
@@ -490,7 +490,7 @@ pub enum TsNamespaceBody {
 #[ast_node]
 pub struct TsModuleBlock {
     pub span: Span,
-    pub body: Vec<Stmt>,
+    pub body: Vec<ModuleItem>,
 }
 
 #[ast_node]

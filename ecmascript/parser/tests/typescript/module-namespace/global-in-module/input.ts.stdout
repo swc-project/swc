@@ -52,128 +52,132 @@ Module {
                                         ctxt: #0
                                     },
                                     body: [
-                                        Decl(
-                                            TsModule(
-                                                TsModuleDecl {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            25
-                                                        ),
-                                                        hi: BytePos(
-                                                            62
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    declare: false,
-                                                    global: true,
-                                                    id: Ident(
-                                                        Ident {
-                                                            sym: global,
-                                                            span: Span {
-                                                                lo: BytePos(
-                                                                    25
-                                                                ),
-                                                                hi: BytePos(
-                                                                    31
-                                                                ),
-                                                                ctxt: #0
-                                                            },
-                                                            type_ann: None,
-                                                            optional: false
-                                                        }
-                                                    ),
-                                                    body: Some(
-                                                        TsModuleBlock(
-                                                            TsModuleBlock {
+                                        Stmt(
+                                            Decl(
+                                                TsModule(
+                                                    TsModuleDecl {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                25
+                                                            ),
+                                                            hi: BytePos(
+                                                                62
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        declare: false,
+                                                        global: true,
+                                                        id: Ident(
+                                                            Ident {
+                                                                sym: global,
                                                                 span: Span {
                                                                     lo: BytePos(
-                                                                        32
+                                                                        25
                                                                     ),
                                                                     hi: BytePos(
-                                                                        62
+                                                                        31
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                body: [
-                                                                    Decl(
-                                                                        Var(
-                                                                            VarDecl {
-                                                                                span: Span {
-                                                                                    lo: BytePos(
-                                                                                        42
-                                                                                    ),
-                                                                                    hi: BytePos(
-                                                                                        56
-                                                                                    ),
-                                                                                    ctxt: #0
-                                                                                },
-                                                                                kind: "var",
-                                                                                declare: false,
-                                                                                decls: [
-                                                                                    VarDeclarator {
+                                                                type_ann: None,
+                                                                optional: false
+                                                            }
+                                                        ),
+                                                        body: Some(
+                                                            TsModuleBlock(
+                                                                TsModuleBlock {
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            32
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            62
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    body: [
+                                                                        Stmt(
+                                                                            Decl(
+                                                                                Var(
+                                                                                    VarDecl {
                                                                                         span: Span {
                                                                                             lo: BytePos(
-                                                                                                46
+                                                                                                42
                                                                                             ),
                                                                                             hi: BytePos(
-                                                                                                55
+                                                                                                56
                                                                                             ),
                                                                                             ctxt: #0
                                                                                         },
-                                                                                        name: Ident(
-                                                                                            Ident {
-                                                                                                sym: x,
+                                                                                        kind: "var",
+                                                                                        declare: false,
+                                                                                        decls: [
+                                                                                            VarDeclarator {
                                                                                                 span: Span {
                                                                                                     lo: BytePos(
                                                                                                         46
                                                                                                     ),
                                                                                                     hi: BytePos(
-                                                                                                        47
+                                                                                                        55
                                                                                                     ),
                                                                                                     ctxt: #0
                                                                                                 },
-                                                                                                type_ann: Some(
-                                                                                                    TsTypeAnn {
+                                                                                                name: Ident(
+                                                                                                    Ident {
+                                                                                                        sym: x,
                                                                                                         span: Span {
                                                                                                             lo: BytePos(
-                                                                                                                47
+                                                                                                                46
                                                                                                             ),
                                                                                                             hi: BytePos(
-                                                                                                                55
+                                                                                                                47
                                                                                                             ),
                                                                                                             ctxt: #0
                                                                                                         },
-                                                                                                        type_ann: TsKeywordType(
-                                                                                                            TsKeywordType {
+                                                                                                        type_ann: Some(
+                                                                                                            TsTypeAnn {
                                                                                                                 span: Span {
                                                                                                                     lo: BytePos(
-                                                                                                                        49
+                                                                                                                        47
                                                                                                                     ),
                                                                                                                     hi: BytePos(
                                                                                                                         55
                                                                                                                     ),
                                                                                                                     ctxt: #0
                                                                                                                 },
-                                                                                                                kind: TsNumberKeyword
+                                                                                                                type_ann: TsKeywordType(
+                                                                                                                    TsKeywordType {
+                                                                                                                        span: Span {
+                                                                                                                            lo: BytePos(
+                                                                                                                                49
+                                                                                                                            ),
+                                                                                                                            hi: BytePos(
+                                                                                                                                55
+                                                                                                                            ),
+                                                                                                                            ctxt: #0
+                                                                                                                        },
+                                                                                                                        kind: TsNumberKeyword
+                                                                                                                    }
+                                                                                                                )
                                                                                                             }
-                                                                                                        )
+                                                                                                        ),
+                                                                                                        optional: false
                                                                                                     }
                                                                                                 ),
-                                                                                                optional: false
+                                                                                                init: None,
+                                                                                                definite: false
                                                                                             }
-                                                                                        ),
-                                                                                        init: None,
-                                                                                        definite: false
+                                                                                        ]
                                                                                     }
-                                                                                ]
-                                                                            }
+                                                                                )
+                                                                            )
                                                                         )
-                                                                    )
-                                                                ]
-                                                            }
+                                                                    ]
+                                                                }
+                                                            )
                                                         )
-                                                    )
-                                                }
+                                                    }
+                                                )
                                             )
                                         )
                                     ]

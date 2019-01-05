@@ -1,0 +1,121 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            50
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                50
+                            ),
+                            ctxt: #0
+                        },
+                        declare: true,
+                        global: false,
+                        id: Str(
+                            Str {
+                                span: Span {
+                                    lo: BytePos(
+                                        15
+                                    ),
+                                    hi: BytePos(
+                                        18
+                                    ),
+                                    ctxt: #0
+                                },
+                                value: Atom('m' type=inline),
+                                has_escape: false
+                            }
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            19
+                                        ),
+                                        hi: BytePos(
+                                            50
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: [
+                                        ModuleDecl(
+                                            Import(
+                                                ImportDecl {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            25
+                                                        ),
+                                                        hi: BytePos(
+                                                            48
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    specifiers: [
+                                                        Namespace(
+                                                            ImportStarAs {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        32
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        38
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                local: Ident {
+                                                                    sym: a,
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            37
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            38
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    type_ann: None,
+                                                                    optional: false
+                                                                }
+                                                            }
+                                                        )
+                                                    ],
+                                                    src: Str {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                44
+                                                            ),
+                                                            hi: BytePos(
+                                                                48
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        value: Atom('a' type=inline),
+                                                        has_escape: false
+                                                    }
+                                                }
+                                            )
+                                        )
+                                    ]
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

@@ -53,69 +53,71 @@ Module {
                                         ctxt: #0
                                     },
                                     body: [
-                                        Decl(
-                                            Var(
-                                                VarDecl {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            18
-                                                        ),
-                                                        hi: BytePos(
-                                                            30
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    kind: "const",
-                                                    declare: false,
-                                                    decls: [
-                                                        VarDeclarator {
-                                                            span: Span {
-                                                                lo: BytePos(
-                                                                    24
-                                                                ),
-                                                                hi: BytePos(
-                                                                    29
-                                                                ),
-                                                                ctxt: #0
-                                                            },
-                                                            name: Ident(
-                                                                Ident {
-                                                                    sym: x,
-                                                                    span: Span {
-                                                                        lo: BytePos(
-                                                                            24
-                                                                        ),
-                                                                        hi: BytePos(
-                                                                            25
-                                                                        ),
-                                                                        ctxt: #0
-                                                                    },
-                                                                    type_ann: None,
-                                                                    optional: false
-                                                                }
+                                        Stmt(
+                                            Decl(
+                                                Var(
+                                                    VarDecl {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                18
                                                             ),
-                                                            init: Some(
-                                                                Lit(
-                                                                    Num(
-                                                                        Number {
-                                                                            span: Span {
-                                                                                lo: BytePos(
-                                                                                    28
-                                                                                ),
-                                                                                hi: BytePos(
-                                                                                    29
-                                                                                ),
-                                                                                ctxt: #0
-                                                                            },
-                                                                            value: 0.0
-                                                                        }
+                                                            hi: BytePos(
+                                                                30
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        kind: "const",
+                                                        declare: false,
+                                                        decls: [
+                                                            VarDeclarator {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        24
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        29
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                name: Ident(
+                                                                    Ident {
+                                                                        sym: x,
+                                                                        span: Span {
+                                                                            lo: BytePos(
+                                                                                24
+                                                                            ),
+                                                                            hi: BytePos(
+                                                                                25
+                                                                            ),
+                                                                            ctxt: #0
+                                                                        },
+                                                                        type_ann: None,
+                                                                        optional: false
+                                                                    }
+                                                                ),
+                                                                init: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        28
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        29
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 0.0
+                                                                            }
+                                                                        )
                                                                     )
-                                                                )
-                                                            ),
-                                                            definite: false
-                                                        }
-                                                    ]
-                                                }
+                                                                ),
+                                                                definite: false
+                                                            }
+                                                        ]
+                                                    }
+                                                )
                                             )
                                         )
                                     ]

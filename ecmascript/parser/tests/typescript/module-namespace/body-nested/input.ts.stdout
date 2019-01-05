@@ -53,53 +53,55 @@ Module {
                                         ctxt: #0
                                     },
                                     body: [
-                                        Decl(
-                                            TsModule(
-                                                TsModuleDecl {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            18
-                                                        ),
-                                                        hi: BytePos(
-                                                            37
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    declare: false,
-                                                    global: false,
-                                                    id: Ident(
-                                                        Ident {
-                                                            sym: B,
-                                                            span: Span {
-                                                                lo: BytePos(
-                                                                    28
-                                                                ),
-                                                                hi: BytePos(
-                                                                    29
-                                                                ),
-                                                                ctxt: #0
-                                                            },
-                                                            type_ann: None,
-                                                            optional: false
-                                                        }
-                                                    ),
-                                                    body: Some(
-                                                        TsModuleBlock(
-                                                            TsModuleBlock {
+                                        Stmt(
+                                            Decl(
+                                                TsModule(
+                                                    TsModuleDecl {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                18
+                                                            ),
+                                                            hi: BytePos(
+                                                                37
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        declare: false,
+                                                        global: false,
+                                                        id: Ident(
+                                                            Ident {
+                                                                sym: B,
                                                                 span: Span {
                                                                     lo: BytePos(
-                                                                        30
+                                                                        28
                                                                     ),
                                                                     hi: BytePos(
-                                                                        37
+                                                                        29
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                body: []
+                                                                type_ann: None,
+                                                                optional: false
                                                             }
+                                                        ),
+                                                        body: Some(
+                                                            TsModuleBlock(
+                                                                TsModuleBlock {
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            30
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            37
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    body: []
+                                                                }
+                                                            )
                                                         )
-                                                    )
-                                                }
+                                                    }
+                                                )
                                             )
                                         )
                                     ]
