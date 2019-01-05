@@ -456,7 +456,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
-            _ => self.parse_ident(true, true).map(TsEnumMemberId::from)?,
+            _ => self.parse_ident_name().map(TsEnumMemberId::from)?,
         };
         let init = if eat!('=') {
             Some(self.parse_assignment_expr()?)

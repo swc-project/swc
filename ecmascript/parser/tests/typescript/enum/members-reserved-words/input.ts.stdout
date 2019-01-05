@@ -1,0 +1,104 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            33
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsEnum(
+                    TsEnumDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                33
+                            ),
+                            ctxt: #0
+                        },
+                        declare: false,
+                        is_const: false,
+                        id: Ident {
+                            sym: E,
+                            span: Span {
+                                lo: BytePos(
+                                    5
+                                ),
+                                hi: BytePos(
+                                    6
+                                ),
+                                ctxt: #0
+                            },
+                            type_ann: None,
+                            optional: false
+                        },
+                        members: [
+                            TsEnumMember {
+                                span: Span {
+                                    lo: BytePos(
+                                        13
+                                    ),
+                                    hi: BytePos(
+                                        18
+                                    ),
+                                    ctxt: #0
+                                },
+                                id: Ident(
+                                    Ident {
+                                        sym: const,
+                                        span: Span {
+                                            lo: BytePos(
+                                                13
+                                            ),
+                                            hi: BytePos(
+                                                18
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                init: None
+                            },
+                            TsEnumMember {
+                                span: Span {
+                                    lo: BytePos(
+                                        24
+                                    ),
+                                    hi: BytePos(
+                                        31
+                                    ),
+                                    ctxt: #0
+                                },
+                                id: Ident(
+                                    Ident {
+                                        sym: default,
+                                        span: Span {
+                                            lo: BytePos(
+                                                24
+                                            ),
+                                            hi: BytePos(
+                                                31
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                init: None
+                            }
+                        ]
+                    }
+                )
+            )
+        )
+    ]
+}
