@@ -214,7 +214,6 @@ impl<'a, I: Input> Parser<'a, I> {
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
-        println!("EXPR {:?}", expr);
 
         let expr = match expr {
             box Expr::Ident(ident) => {

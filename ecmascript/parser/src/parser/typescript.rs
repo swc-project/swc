@@ -909,7 +909,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let type_params = self.try_parse_ts_type_params()?;
         expect!('(');
         let params = self.parse_ts_binding_list_for_signature()?;
-        let type_ann = if eat!(':') {
+        let type_ann = if is!(':') {
             Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
         } else {
             None
@@ -1022,7 +1022,6 @@ impl<'a, I: Input> Parser<'a, I> {
         let optional = eat!('?');
 
         if !readonly && is_one_of!('(', '<') {
-            // ---- inlined self.tsFillSignature(tt.colon, method);
             let type_params = self.try_parse_ts_type_params()?;
             expect!('(');
             let params = self.parse_ts_binding_list_for_signature()?;
@@ -1739,6 +1738,20 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         Ok(None)
+    }
+
+    /// `tsTryParseExportDeclaration`
+    ///
+    /// Note: this won't be called unless the keyword is allowed in
+    /// `shouldParseExportDeclaration`.
+    pub(super) fn try_parse_ts_export_decl(
+        &mut self,
+        decorators: Vec<Decorator>,
+        value: JsWord,
+    ) -> PResult<'a, Option<Decl>> {
+        let start = cur_pos!();
+
+        self.parse_ts_decl(start, decorators, value, true)
     }
 
     /// Common to tsTryParseDeclare, tsTryParseExportDeclaration, and
