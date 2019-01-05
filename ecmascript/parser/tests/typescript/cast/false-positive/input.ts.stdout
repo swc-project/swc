@@ -24,9 +24,9 @@ Module {
                         },
                         callee: Expr(
                             Ident(
-                                Ident(
-                                    f,
-                                    Span {
+                                Ident {
+                                    sym: f,
+                                    span: Span {
                                         lo: BytePos(
                                             0
                                         ),
@@ -35,8 +35,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             )
                         ),
                         args: [
@@ -55,9 +56,9 @@ Module {
                                         },
                                         op: "<",
                                         left: Ident(
-                                            Ident(
-                                                x,
-                                                Span {
+                                            Ident {
+                                                sym: x,
+                                                span: Span {
                                                     lo: BytePos(
                                                         2
                                                     ),
@@ -66,8 +67,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         right: Lit(
                                             Num(
