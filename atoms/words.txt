@@ -26,6 +26,7 @@ continue
 createClass
 createReactClass
 debugger
+declare
 default
 delete
 do
