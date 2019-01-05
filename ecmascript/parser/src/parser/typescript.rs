@@ -706,8 +706,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let start = cur_pos!();
 
-        assert_and_bump!("interface");
-
         let id = self.parse_ident(false, false)?;
         let type_params = self.try_parse_ts_type_params()?;
 

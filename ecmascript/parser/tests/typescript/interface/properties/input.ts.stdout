@@ -1,0 +1,216 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            53
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsInterface(
+                    TsInterfaceDecl {
+                        span: Span {
+                            lo: BytePos(
+                                10
+                            ),
+                            hi: BytePos(
+                                53
+                            ),
+                            ctxt: #0
+                        },
+                        id: Ident(
+                            I,
+                            Span {
+                                lo: BytePos(
+                                    10
+                                ),
+                                hi: BytePos(
+                                    11
+                                ),
+                                ctxt: #0
+                            },
+                            None
+                        ),
+                        declare: false,
+                        type_params: None,
+                        extends: [],
+                        body: TsInterfaceBody {
+                            span: Span {
+                                lo: BytePos(
+                                    12
+                                ),
+                                hi: BytePos(
+                                    53
+                                ),
+                                ctxt: #0
+                            },
+                            body: [
+                                TsPropertySignature(
+                                    TsPropertySignature {
+                                        span: Span {
+                                            lo: BytePos(
+                                                18
+                                            ),
+                                            hi: BytePos(
+                                                20
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        readonly: false,
+                                        key: Ident(
+                                            Ident(
+                                                x,
+                                                Span {
+                                                    lo: BytePos(
+                                                        18
+                                                    ),
+                                                    hi: BytePos(
+                                                        19
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                None
+                                            )
+                                        ),
+                                        computed: false,
+                                        optional: false,
+                                        init: None,
+                                        params: [],
+                                        type_ann: None,
+                                        type_params: None
+                                    }
+                                ),
+                                TsPropertySignature(
+                                    TsPropertySignature {
+                                        span: Span {
+                                            lo: BytePos(
+                                                25
+                                            ),
+                                            hi: BytePos(
+                                                35
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        readonly: false,
+                                        key: Ident(
+                                            Ident(
+                                                y,
+                                                Span {
+                                                    lo: BytePos(
+                                                        25
+                                                    ),
+                                                    hi: BytePos(
+                                                        26
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                None
+                                            )
+                                        ),
+                                        computed: false,
+                                        optional: false,
+                                        init: None,
+                                        params: [],
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        26
+                                                    ),
+                                                    hi: BytePos(
+                                                        34
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: TsKeywordType(
+                                                    TsKeywordType {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                28
+                                                            ),
+                                                            hi: BytePos(
+                                                                34
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        kind: TsNumberKeyword
+                                                    }
+                                                )
+                                            }
+                                        ),
+                                        type_params: None
+                                    }
+                                ),
+                                TsPropertySignature(
+                                    TsPropertySignature {
+                                        span: Span {
+                                            lo: BytePos(
+                                                40
+                                            ),
+                                            hi: BytePos(
+                                                51
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        readonly: false,
+                                        key: Ident(
+                                            Ident(
+                                                z,
+                                                Span {
+                                                    lo: BytePos(
+                                                        40
+                                                    ),
+                                                    hi: BytePos(
+                                                        41
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                None
+                                            )
+                                        ),
+                                        computed: false,
+                                        optional: true,
+                                        init: None,
+                                        params: [],
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        42
+                                                    ),
+                                                    hi: BytePos(
+                                                        50
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: TsKeywordType(
+                                                    TsKeywordType {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                44
+                                                            ),
+                                                            hi: BytePos(
+                                                                50
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        kind: TsNumberKeyword
+                                                    }
+                                                )
+                                            }
+                                        ),
+                                        type_params: None
+                                    }
+                                )
+                            ]
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}
