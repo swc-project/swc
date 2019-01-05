@@ -185,6 +185,9 @@ impl Syntax {
     }
 
     pub fn class_props(self) -> bool {
+        if self.typescript() {
+            return true;
+        }
         match self {
             Syntax::EsNext(EsNextConfig {
                 class_props: true, ..
