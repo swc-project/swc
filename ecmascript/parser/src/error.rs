@@ -147,6 +147,7 @@ pub(crate) enum SyntaxError {
     PropertyNamedConstructor,
     ClassProperty,
     ReadOnlyMethod,
+    TsBindingPatCannotBeOptional,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -273,6 +274,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             }
             ClassProperty => "Class property requires `esnext.classProperty` to be true".into(),
             ReadOnlyMethod => "A method cannot be readonly".into(),
+            TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be optional in an \
+                                             implementation signature."
+                .into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);

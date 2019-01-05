@@ -1827,14 +1827,11 @@ impl<'a, I: Input> Parser<'a, I> {
                         _ => false,
                     }
                 } {
-                    println!("I think this is the case: A",);
-
                     return self
                         .parse_ts_ambient_external_module_decl(start)
                         .map(From::from)
                         .map(Some);
                 } else if next || is!(IdentRef) {
-                    println!("I think this is the case: B",);
                     return self
                         .parse_ts_module_or_ns_decl(start)
                         .map(From::from)
