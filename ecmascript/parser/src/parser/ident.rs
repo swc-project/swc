@@ -22,7 +22,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 id,
             }))
         } else {
-            self.parse_ident(true, true).map(Either::Right)
+            self.parse_ident_name().map(Either::Right)
         }
     }
     /// IdentifierReference
