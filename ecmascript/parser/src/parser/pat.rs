@@ -7,7 +7,7 @@ use swc_common::Spanned;
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, (Option<Ident>)> {
-        if is!(BindingIdent) {
+        if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
             self.parse_binding_ident().map(Some)
         } else {
             Ok(None)

@@ -113,7 +113,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 Word::Keyword(Keyword::Await) if p.ctx().module => {
                     syntax_error!(p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
-                Word::Keyword(Keyword::Let) => Ok(w.into()),
+                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
+                    Ok(js_word!("this"))
+                }
+                Word::Keyword(Keyword::Let) => Ok(js_word!("let")),
                 Word::Ident(ident) => Ok(ident),
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
