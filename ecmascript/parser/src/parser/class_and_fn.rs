@@ -210,7 +210,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(elems)
     }
 
-    fn parse_access_modifier(&mut self) -> PResult<'a, Option<Accessibility>> {
+    pub(super) fn parse_access_modifier(&mut self) -> PResult<'a, Option<Accessibility>> {
         Ok(self
             .parse_ts_modifier(&["public", "protected", "private"])?
             .map(|s| match s {
@@ -358,10 +358,17 @@ impl<'a, I: Input> Parser<'a, I> {
             if readonly {
                 syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
             }
+            let is_constructor = is_constructor(&key);
 
             // TODO: check for duplicate constructors
             return self.make_method(
-                |p| p.parse_formal_params(),
+                |p| {
+                    if is_constructor {
+                        p.parse_constructor_params()
+                    } else {
+                        p.parse_formal_params()
+                    }
+                },
                 MakeMethodArgs {
                     start,
                     is_optional,
@@ -369,7 +376,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     decorators,
                     is_abstract,
                     is_static,
-                    kind: if is_constructor(&key) {
+                    kind: if is_constructor {
                         MethodKind::Constructor
                     } else {
                         MethodKind::Method
@@ -759,11 +766,6 @@ impl<'a, I: Input> Parser<'a, I> {
             }
             .into()),
         }
-    }
-
-    fn parse_constructor_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
-        // FIXME: This is wrong
-        self.parse_formal_params()
     }
 
     pub(super) fn parse_fn_body<T>(&mut self, is_async: bool, is_generator: bool) -> PResult<'a, T>

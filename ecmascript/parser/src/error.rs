@@ -140,6 +140,7 @@ pub(crate) enum SyntaxError {
 
     TsNonLastRest,
     TsRequiredAfterOptional,
+    TsInvalidParamPropPat,
 
     SpaceBetweenHashAndIdent,
 
@@ -266,6 +267,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             TsNonLastRest => "A rest element must be last in a tuple type.".into(),
             TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
+            }
+            TsInvalidParamPropPat => {
+                "Typescript parameter property must be identifer or assignment pattern".into()
             }
             SpaceBetweenHashAndIdent => "Unexpected space between # and identifier".into(),
             AsyncConstructor => "Constructor can't be an async function".into(),

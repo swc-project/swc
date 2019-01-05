@@ -56,7 +56,7 @@ pub struct TsParamProp {
 #[ast_node]
 pub enum TsParamPropParam {
     Ident(Ident),
-    AssignPat(AssignPat),
+    Assign(AssignPat),
 }
 
 /// declare function foo()

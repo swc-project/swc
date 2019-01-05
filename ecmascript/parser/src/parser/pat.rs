@@ -119,6 +119,8 @@ impl<'a, I: Input> Parser<'a, I> {
     ///
     /// babel: `parseAssignableListItem`
     pub(super) fn parse_formal_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
+        let start = cur_pos!();
+
         let mut pat = self.parse_binding_element()?;
         if self.input.syntax().typescript() {
             if eat!('?') {
@@ -156,14 +158,63 @@ impl<'a, I: Input> Parser<'a, I> {
                 Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
             }
         }
+        if eat!('=') {
+            let right = self.parse_expr()?;
+            Ok(Pat::Assign(AssignPat {
+                span: span!(start),
+                left: box pat,
+                type_ann: None,
+                right,
+            })
+            .into())
+        } else {
+            Ok(pat.into())
+        }
+    }
 
-        Ok(pat.into())
+    pub(super) fn parse_constructor_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
+        self.parse_params_with(|p| p.parse_constructor_param())
+    }
+
+    fn parse_constructor_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
+        let start = cur_pos!();
+        let (accessibility, readonly) = if self.input.syntax().typescript() {
+            let accessibility = self.parse_access_modifier()?;
+            (
+                accessibility,
+                self.parse_ts_modifier(&["readonly"])?.is_some(),
+            )
+        } else {
+            (None, false)
+        };
+        if accessibility == None && readonly == false {
+            self.parse_formal_param()
+        } else {
+            Ok(PatOrTsParamProp::TsParamProp(TsParamProp {
+                span: span!(start),
+                accessibility,
+                readonly,
+                decorators: vec![],
+                param: match self.parse_formal_param()? {
+                    PatOrTsParamProp::Pat(Pat::Ident(i)) => TsParamPropParam::Ident(i),
+                    PatOrTsParamProp::Pat(Pat::Assign(a)) => TsParamPropParam::Assign(a),
+                    node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
+                },
+            }))
+        }
+    }
+
+    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
+        self.parse_params_with(|p| p.parse_formal_param())
     }
 
     /// spec: 'FormalParameterList'
     ///
     /// babel: `parseBindingList`
-    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
+    fn parse_params_with<F>(&mut self, mut op: F) -> PResult<'a, Vec<PatOrTsParamProp>>
+    where
+        F: FnMut(&mut Self) -> PResult<'a, PatOrTsParamProp>,
+    {
         let mut first = true;
         let mut params = vec![];
 
@@ -199,7 +250,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 params.push(PatOrTsParamProp::Pat(pat));
                 break;
             } else {
-                params.push(self.parse_formal_param()?);
+                params.push(op(self)?);
             }
         }
 
