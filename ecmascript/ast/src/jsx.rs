@@ -2,6 +2,7 @@ use crate::{
     expr::{Expr, SpreadElement},
     ident::Ident,
     lit::Lit,
+    typescript::TsTypeParamInstantiation,
 };
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
@@ -70,6 +71,7 @@ pub struct JSXOpeningElement {
     pub span: Span,
     pub attrs: Vec<JSXAttrOrSpread>,
     pub self_closing: bool,
+    pub type_args: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]

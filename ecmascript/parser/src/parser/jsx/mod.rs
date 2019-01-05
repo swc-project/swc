@@ -175,13 +175,19 @@ impl<'a, I: Input> Parser<'a, I> {
             .map(Either::Right)
     }
 
+    /// `jsxParseOpeningElementAfterName`
     pub(super) fn parse_jsx_opening_element_after_name(
         &mut self,
         name: JSXElementName,
     ) -> PResult<'a, JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
-
         let start = name.span().lo();
+
+        let type_args = if self.input.syntax().typescript() {
+            self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))?
+        } else {
+            None
+        };
 
         let mut attrs = vec![];
         while let Ok(..) = cur!(false) {
@@ -201,6 +207,7 @@ impl<'a, I: Input> Parser<'a, I> {
             name,
             attrs,
             self_closing,
+            type_args,
         })
     }
 
