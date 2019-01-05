@@ -138,6 +138,20 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!("export");
 
+        // "export declare" is equivalent to just "export".
+        let declare = self.input.syntax().typescript() && eat!("declare");
+
+        if self.input.syntax().typescript() && is!(IdentName) {
+            let sym = match *cur!(true)? {
+                Token::Word(ref w) => w.clone().into(),
+                _ => unreachable!(),
+            };
+            // TODO: remove clone
+            if let Some(decl) = self.try_parse_ts_export_decl(decoraters.clone(), sym)? {
+                return Ok(ModuleDecl::ExportDecl(decl));
+            }
+        }
+
         if self.input.syntax().typescript() {
             if eat!("import") {
                 // export import A = B
@@ -194,7 +208,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     return Ok(class.into());
                 }
 
-                if is!("interface") {
+                if eat!("interface") {
                     let decl = self.parse_ts_interface_decl().map(Decl::from)?;
                     return Ok(decl.into());
                 }

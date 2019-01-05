@@ -1,0 +1,103 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            51
+        ),
+        ctxt: #0
+    },
+    body: [
+        ModuleDecl(
+            ExportDecl(
+                TsInterface(
+                    TsInterfaceDecl {
+                        span: Span {
+                            lo: BytePos(
+                                17
+                            ),
+                            hi: BytePos(
+                                21
+                            ),
+                            ctxt: #0
+                        },
+                        id: Ident(
+                            I,
+                            Span {
+                                lo: BytePos(
+                                    17
+                                ),
+                                hi: BytePos(
+                                    18
+                                ),
+                                ctxt: #0
+                            },
+                            None
+                        ),
+                        declare: false,
+                        type_params: None,
+                        extends: [],
+                        body: TsInterfaceBody {
+                            span: Span {
+                                lo: BytePos(
+                                    19
+                                ),
+                                hi: BytePos(
+                                    21
+                                ),
+                                ctxt: #0
+                            },
+                            body: []
+                        }
+                    }
+                )
+            )
+        ),
+        ModuleDecl(
+            ExportDecl(
+                TsInterface(
+                    TsInterfaceDecl {
+                        span: Span {
+                            lo: BytePos(
+                                47
+                            ),
+                            hi: BytePos(
+                                51
+                            ),
+                            ctxt: #0
+                        },
+                        id: Ident(
+                            A,
+                            Span {
+                                lo: BytePos(
+                                    47
+                                ),
+                                hi: BytePos(
+                                    48
+                                ),
+                                ctxt: #0
+                            },
+                            None
+                        ),
+                        declare: false,
+                        type_params: None,
+                        extends: [],
+                        body: TsInterfaceBody {
+                            span: Span {
+                                lo: BytePos(
+                                    49
+                                ),
+                                hi: BytePos(
+                                    51
+                                ),
+                                ctxt: #0
+                            },
+                            body: []
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}
