@@ -23,7 +23,7 @@ Module {
                             ctxt: #0
                         },
                         kind: "const",
-                        declare: false,
+                        declare: true,
                         decls: [
                             VarDeclarator {
                                 span: Span {
@@ -220,7 +220,7 @@ Module {
                             type_ann: None,
                             optional: false
                         },
-                        declare: false,
+                        declare: true,
                         type_params: None,
                         extends: [],
                         body: TsInterfaceBody {
@@ -252,7 +252,7 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        declare: false,
+                        declare: true,
                         id: Ident {
                             sym: T,
                             span: Span {
@@ -299,7 +299,7 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        declare: false,
+                        declare: true,
                         global: false,
                         id: Ident(
                             Ident {
@@ -350,7 +350,7 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        declare: false,
+                        declare: true,
                         global: false,
                         id: Ident(
                             Ident {

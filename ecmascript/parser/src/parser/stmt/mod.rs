@@ -451,7 +451,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(VarDecl {
             span: span!(start),
-            declare: false,
+            declare: self.ctx().in_declare,
             kind,
             decls,
         })
@@ -501,10 +501,15 @@ impl<'a, I: Input> Parser<'a, I> {
             if eat!('=') {
                 Some(self.parse_assignment_expr()?)
             } else {
-                // Destructuring bindings require initializers.
-                match name {
-                    Pat::Ident(..) => None,
-                    _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
+                // Destructuring bindings require initializers, but
+                // typescript allows `declare` vars not to have initializers.
+                if self.ctx().in_declare {
+                    None
+                } else {
+                    match name {
+                        Pat::Ident(..) => None,
+                        _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
+                    }
                 }
             }
         } else {

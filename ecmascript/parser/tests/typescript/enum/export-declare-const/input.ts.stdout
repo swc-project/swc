@@ -22,7 +22,7 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        declare: false,
+                        declare: true,
                         is_const: true,
                         id: Ident {
                             sym: E,

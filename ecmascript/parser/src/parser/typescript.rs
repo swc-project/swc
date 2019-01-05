@@ -488,7 +488,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(TsEnumDecl {
             span: span!(start),
             // TODO(kdy1): Is this correct?
-            declare: false,
+            declare: self.ctx().in_declare,
             is_const,
             id,
             members,
@@ -540,7 +540,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(TsModuleDecl {
             span: span!(start),
-            declare: false,
+            declare: self.ctx().in_declare,
             id: TsModuleName::Ident(id),
             body: Some(body),
             global: false,
@@ -579,8 +579,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(TsModuleDecl {
             span: span!(start),
-            // TODO(kdy1): Is this correct?
-            declare: false,
+            declare: self.ctx().in_declare,
             id,
             global,
             body,
@@ -727,8 +726,7 @@ impl<'a, I: Input> Parser<'a, I> {
         };
         Ok(TsInterfaceDecl {
             span: span!(start),
-            // TODO(kdy1): Handle this
-            declare: false,
+            declare: self.ctx().in_declare,
             id,
             type_params,
             extends,
@@ -745,8 +743,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let type_ann = self.expect_then_parse_ts_type(&tok!('='))?;
         expect!(';');
         Ok(TsTypeAliasDecl {
-            // TODO(kdy1): Is this correct?
-            declare: false,
+            declare: self.ctx().in_declare,
             span: span!(start),
             id,
             type_params,
@@ -769,8 +766,7 @@ impl<'a, I: Input> Parser<'a, I> {
         expect!(';');
         Ok(TsImportEqualsDecl {
             span: span!(start),
-            // TODO(kdy1): Is this correct?
-            declare: false,
+            declare: self.ctx().in_declare,
             id,
             is_export,
             module_ref,
@@ -1683,7 +1679,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         TsModuleDecl {
                             span: span!(start),
                             global,
-                            declare: false,
+                            declare: self.ctx().in_declare,
                             id,
                             body,
                         }
@@ -1708,43 +1704,50 @@ impl<'a, I: Input> Parser<'a, I> {
             "try_parse_ts_declare should be called after eating `declare`"
         );
 
-        if is!("function") {
-            return self.parse_fn_decl(decorators).map(Some);
-        }
+        let ctx = Context {
+            in_declare: true,
+            ..self.ctx()
+        };
 
-        if is!("class") {
-            return self.parse_class_decl(decorators).map(Some);
-        }
+        self.with_ctx(ctx).parse_with(|p| {
+            if is!("function") {
+                return p.parse_fn_decl(decorators).map(Some);
+            }
 
-        if is!("const") {
-            if peeked_is!("enum") {
-                assert_and_bump!("const");
-                assert_and_bump!("enum");
+            if is!("class") {
+                return p.parse_class_decl(decorators).map(Some);
+            }
 
-                return self
-                    .parse_ts_enum_decl(start, /* is_const */ true)
+            if is!("const") {
+                if peeked_is!("enum") {
+                    assert_and_bump!("const");
+                    assert_and_bump!("enum");
+
+                    return p
+                        .parse_ts_enum_decl(start, /* is_const */ true)
+                        .map(From::from)
+                        .map(Some);
+                }
+            }
+            if is_one_of!("const", "var", "let") {
+                return p.parse_var_stmt(false).map(From::from).map(Some);
+            }
+
+            if is!("global") {
+                return p
+                    .parse_ts_ambient_external_module_decl(start)
                     .map(From::from)
                     .map(Some);
+            } else if is!(IdentName) {
+                let value = match *cur!(true)? {
+                    Token::Word(ref w) => w.clone().into(),
+                    _ => unreachable!(),
+                };
+                return p.parse_ts_decl(start, decorators, value, /* next */ true);
             }
-        }
-        if is_one_of!("const", "var", "let") {
-            return self.parse_var_stmt(false).map(From::from).map(Some);
-        }
 
-        if is!("global") {
-            return self
-                .parse_ts_ambient_external_module_decl(start)
-                .map(From::from)
-                .map(Some);
-        } else if is!(IdentName) {
-            let value = match *cur!(true)? {
-                Token::Word(ref w) => w.clone().into(),
-                _ => unreachable!(),
-            };
-            return self.parse_ts_decl(start, decorators, value, /* next */ true);
-        }
-
-        Ok(None)
+            Ok(None)
+        })
     }
 
     /// `tsTryParseExportDeclaration`

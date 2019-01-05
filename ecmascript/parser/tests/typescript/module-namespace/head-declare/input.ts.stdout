@@ -52,7 +52,7 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    declare: false,
+                                    declare: true,
                                     global: false,
                                     id: Ident {
                                         sym: M,

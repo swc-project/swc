@@ -67,7 +67,7 @@ Module {
                                                             ctxt: #0
                                                         },
                                                         kind: "const",
-                                                        declare: false,
+                                                        declare: true,
                                                         decls: [
                                                             VarDeclarator {
                                                                 span: Span {

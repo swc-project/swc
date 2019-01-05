@@ -251,6 +251,8 @@ pub(crate) struct Context {
     in_generator: bool,
 
     in_type: bool,
+    /// Typescript extension.
+    in_declare: bool,
 
     in_function: bool,
 

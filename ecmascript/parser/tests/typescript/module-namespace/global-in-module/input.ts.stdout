@@ -65,7 +65,7 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        declare: false,
+                                                        declare: true,
                                                         global: true,
                                                         id: Ident(
                                                             Ident {
@@ -110,7 +110,7 @@ Module {
                                                                                             ctxt: #0
                                                                                         },
                                                                                         kind: "var",
-                                                                                        declare: false,
+                                                                                        declare: true,
                                                                                         decls: [
                                                                                             VarDeclarator {
                                                                                                 span: Span {
