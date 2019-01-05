@@ -4,7 +4,7 @@ Module {
             0
         ),
         hi: BytePos(
-            28
+            35
         ),
         ctxt: #0
     },
@@ -34,7 +34,7 @@ Module {
                                     0
                                 ),
                                 hi: BytePos(
-                                    28
+                                    35
                                 ),
                                 ctxt: #0
                             },
@@ -47,7 +47,7 @@ Module {
                                                 14
                                             ),
                                             hi: BytePos(
-                                                26
+                                                18
                                             ),
                                             ctxt: #0
                                         },
@@ -75,24 +75,63 @@ Module {
                                                     14
                                                 ),
                                                 hi: BytePos(
-                                                    26
+                                                    18
                                                 ),
                                                 ctxt: #0
                                             },
-                                            body: Some(
-                                                BlockStmt {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            24
-                                                        ),
-                                                        hi: BytePos(
-                                                            26
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    stmts: []
-                                                }
+                                            body: None,
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: None,
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                23
                                             ),
+                                            hi: BytePos(
+                                                33
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: f,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        23
+                                                    ),
+                                                    hi: BytePos(
+                                                        24
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    23
+                                                ),
+                                                hi: BytePos(
+                                                    33
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: None,
                                             is_generator: false,
                                             is_async: false,
                                             type_params: None,
@@ -100,10 +139,10 @@ Module {
                                                 TsTypeAnn {
                                                     span: Span {
                                                         lo: BytePos(
-                                                            17
+                                                            26
                                                         ),
                                                         hi: BytePos(
-                                                            23
+                                                            32
                                                         ),
                                                         ctxt: #0
                                                     },
@@ -111,10 +150,10 @@ Module {
                                                         TsKeywordType {
                                                             span: Span {
                                                                 lo: BytePos(
-                                                                    19
+                                                                    28
                                                                 ),
                                                                 hi: BytePos(
-                                                                    23
+                                                                    32
                                                                 ),
                                                                 ctxt: #0
                                                             },

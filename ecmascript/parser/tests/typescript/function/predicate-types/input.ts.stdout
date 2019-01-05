@@ -85,18 +85,20 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            body: BlockStmt {
-                                span: Span {
-                                    lo: BytePos(
-                                        33
-                                    ),
-                                    hi: BytePos(
-                                        35
-                                    ),
-                                    ctxt: #0
-                                },
-                                stmts: []
-                            },
+                            body: Some(
+                                BlockStmt {
+                                    span: Span {
+                                        lo: BytePos(
+                                            33
+                                        ),
+                                        hi: BytePos(
+                                            35
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    stmts: []
+                                }
+                            ),
                             is_generator: false,
                             is_async: false,
                             type_params: None,
@@ -245,18 +247,20 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    body: BlockStmt {
-                                        span: Span {
-                                            lo: BytePos(
-                                                68
-                                            ),
-                                            hi: BytePos(
-                                                70
-                                            ),
-                                            ctxt: #0
-                                        },
-                                        stmts: []
-                                    },
+                                    body: Some(
+                                        BlockStmt {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    68
+                                                ),
+                                                hi: BytePos(
+                                                    70
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            stmts: []
+                                        }
+                                    ),
                                     is_generator: false,
                                     is_async: false,
                                     type_params: None,

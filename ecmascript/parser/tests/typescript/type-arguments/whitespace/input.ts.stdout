@@ -40,18 +40,20 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            body: BlockStmt {
-                                span: Span {
-                                    lo: BytePos(
-                                        22
-                                    ),
-                                    hi: BytePos(
-                                        24
-                                    ),
-                                    ctxt: #0
-                                },
-                                stmts: []
-                            },
+                            body: Some(
+                                BlockStmt {
+                                    span: Span {
+                                        lo: BytePos(
+                                            22
+                                        ),
+                                        hi: BytePos(
+                                            24
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    stmts: []
+                                }
+                            ),
                             is_generator: false,
                             is_async: false,
                             type_params: Some(

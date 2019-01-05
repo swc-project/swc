@@ -8,14 +8,13 @@ use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
 #[ast_node]
-pub struct Function<Body = BlockStmt> {
+pub struct Function {
     pub params: Vec<PatOrTsParamProp>,
 
     pub decorators: Vec<Decorator>,
     pub span: Span,
 
-    #[fold(bound)]
-    pub body: Body,
+    pub body: Option<BlockStmt>,
 
     /// if it's a generator.
     pub is_generator: bool,

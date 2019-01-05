@@ -128,18 +128,20 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                body: BlockStmt {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            32
-                                                        ),
-                                                        hi: BytePos(
-                                                            34
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    stmts: []
-                                                },
+                                                body: Some(
+                                                    BlockStmt {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                32
+                                                            ),
+                                                            hi: BytePos(
+                                                                34
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        stmts: []
+                                                    }
+                                                ),
                                                 is_generator: false,
                                                 is_async: false,
                                                 type_params: Some(

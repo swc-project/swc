@@ -4,7 +4,7 @@ Module {
             0
         ),
         hi: BytePos(
-            28
+            38
         ),
         ctxt: #0
     },
@@ -34,7 +34,7 @@ Module {
                                     0
                                 ),
                                 hi: BytePos(
-                                    28
+                                    38
                                 ),
                                 ctxt: #0
                             },
@@ -44,22 +44,22 @@ Module {
                                     ClassMethod {
                                         span: Span {
                                             lo: BytePos(
-                                                14
+                                                21
                                             ),
                                             hi: BytePos(
-                                                26
+                                                36
                                             ),
                                             ctxt: #0
                                         },
                                         key: Ident(
                                             Ident {
-                                                sym: f,
+                                                sym: delete,
                                                 span: Span {
                                                     lo: BytePos(
-                                                        14
+                                                        21
                                                     ),
                                                     hi: BytePos(
-                                                        15
+                                                        27
                                                     ),
                                                     ctxt: #0
                                                 },
@@ -72,27 +72,14 @@ Module {
                                             decorators: [],
                                             span: Span {
                                                 lo: BytePos(
-                                                    14
+                                                    21
                                                 ),
                                                 hi: BytePos(
-                                                    26
+                                                    36
                                                 ),
                                                 ctxt: #0
                                             },
-                                            body: Some(
-                                                BlockStmt {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            24
-                                                        ),
-                                                        hi: BytePos(
-                                                            26
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    stmts: []
-                                                }
-                                            ),
+                                            body: None,
                                             is_generator: false,
                                             is_async: false,
                                             type_params: None,
@@ -100,10 +87,10 @@ Module {
                                                 TsTypeAnn {
                                                     span: Span {
                                                         lo: BytePos(
-                                                            17
+                                                            29
                                                         ),
                                                         hi: BytePos(
-                                                            23
+                                                            35
                                                         ),
                                                         ctxt: #0
                                                     },
@@ -111,10 +98,10 @@ Module {
                                                         TsKeywordType {
                                                             span: Span {
                                                                 lo: BytePos(
-                                                                    19
+                                                                    31
                                                                 ),
                                                                 hi: BytePos(
-                                                                    23
+                                                                    35
                                                                 ),
                                                                 ctxt: #0
                                                             },

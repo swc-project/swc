@@ -41,14 +41,14 @@ pub struct AssignProp {
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
-    pub body: BlockStmt,
+    pub body: Option<BlockStmt>,
 }
 #[ast_node]
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
     pub param: PatOrTsParamProp,
-    pub body: BlockStmt,
+    pub body: Option<BlockStmt>,
 }
 #[ast_node]
 pub struct MethodProp {

@@ -684,9 +684,13 @@ impl<'a, I: Input> FnBodyParser<'a, BlockStmtOrExpr> for Parser<'a, I> {
     }
 }
 
-impl<'a, I: Input> FnBodyParser<'a, BlockStmt> for Parser<'a, I> {
-    fn parse_fn_body_inner(&mut self) -> PResult<'a, BlockStmt> {
-        self.parse_block(true)
+#[parser]
+impl<'a, I: Input> FnBodyParser<'a, Option<BlockStmt>> for Parser<'a, I> {
+    fn parse_fn_body_inner(&mut self) -> PResult<'a, Option<BlockStmt>> {
+        if self.input.syntax().typescript() && eat!(';') {
+            return Ok(None);
+        }
+        self.parse_block(true).map(Some)
     }
 }
 
