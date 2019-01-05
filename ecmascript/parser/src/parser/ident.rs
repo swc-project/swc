@@ -10,21 +10,28 @@ impl<'a, I: Input> Parser<'a, I> {
         let is_private = is!('#');
 
         if is_private {
-            bump!();
-            let hash_end = self.input.prev_span().hi();
-            if self.input.cur_pos() - hash_end != BytePos(0) {
-                syntax_error!(span!(start), SyntaxError::SpaceBetweenHashAndIdent);
-            }
-
-            let id = self.parse_ident(true, true)?;
-            Ok(Either::Left(PrivateName {
-                span: span!(start),
-                id,
-            }))
+            self.parse_private_name().map(Either::Left)
         } else {
             self.parse_ident_name().map(Either::Right)
         }
     }
+
+    pub(super) fn parse_private_name(&mut self) -> PResult<'a, PrivateName> {
+        let start = cur_pos!();
+        assert_and_bump!('#');
+
+        let hash_end = self.input.prev_span().hi();
+        if self.input.cur_pos() - hash_end != BytePos(0) {
+            syntax_error!(span!(start), SyntaxError::SpaceBetweenHashAndIdent);
+        }
+
+        let id = self.parse_ident(true, true)?;
+        Ok(PrivateName {
+            span: span!(start),
+            id,
+        })
+    }
+
     /// IdentifierReference
     pub(super) fn parse_ident_ref(&mut self) -> PResult<'a, Ident> {
         let ctx = self.ctx();

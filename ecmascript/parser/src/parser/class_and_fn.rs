@@ -1,4 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
+use either::Either;
 use swc_common::Spanned;
 
 #[parser]
@@ -223,6 +224,8 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_class_member(&mut self) -> PResult<'a, ClassMember> {
         let decorators = self.parse_decorators(false)?;
 
+        let start = cur_pos!();
+
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?
         } else {
@@ -238,9 +241,288 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         };
 
-        let mtd = self.parse_method_def(accessibility, static_token, decorators)?;
+        if let Some(static_token) = static_token {
+            // Handle static(){}
+            if self.is_class_method()? {
+                let key = Either::Right(PropName::Ident(Ident::new(
+                    js_word!("static"),
+                    static_token,
+                )));
+                let is_optional = self.input.syntax().typescript() && eat!('?');
+                return self.make_method(
+                    |p| p.parse_unique_formal_params(),
+                    MakeMethodArgs {
+                        start,
+                        accessibility,
+                        decorators,
+                        is_optional,
+                        is_async: false,
+                        is_generator: false,
+                        is_static: false,
+                        key,
+                        kind: MethodKind::Method,
+                    },
+                );
+            } else if self.is_class_property()? {
+                // Property named `static`
 
-        Ok(ClassMember::Method(mtd))
+                let key = Either::Right(PropName::Ident(Ident::new(
+                    js_word!("static"),
+                    static_token,
+                )));
+                let is_optional = self.input.syntax().typescript() && eat!('?');
+                return self.make_property(
+                    start,
+                    decorators,
+                    accessibility,
+                    key,
+                    false,
+                    is_optional,
+                    false,
+                );
+            } else {
+                // TODO: error if static contains escape
+            }
+        }
+
+        self.parse_class_member_with_is_static(accessibility, static_token, decorators)
+    }
+
+    fn parse_class_member_with_is_static(
+        &mut self,
+        accessibility: Option<Accessibility>,
+        static_token: Option<Span>,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, ClassMember> {
+        let is_static = static_token.is_some();
+        let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
+
+        if eat!('*') {
+            // generator method
+            let key = self.parse_class_prop_name()?;
+            if is_constructor(&key) {
+                unexpected!();
+            }
+            return self.make_method(
+                Parser::parse_unique_formal_params,
+                MakeMethodArgs {
+                    start,
+                    decorators,
+                    is_async: false,
+                    is_generator: true,
+                    accessibility,
+                    is_optional: false,
+                    is_static,
+                    key,
+                    kind: MethodKind::Method,
+                },
+            );
+        }
+
+        let key = self.parse_class_prop_name()?;
+
+        let is_private = match key {
+            Either::Left(PrivateName { .. }) => true,
+            _ => false,
+        };
+        let is_simple = match key {
+            Either::Right(PropName::Ident(..)) => true,
+            _ => false,
+        };
+        let is_optional = self.input.syntax().typescript() && eat!('?');
+
+        if self.is_class_method()? {
+            // handle a(){} / get(){} / set(){} / async(){}
+
+            // TODO: check for duplicate constructors
+            return self.make_method(
+                |p| p.parse_formal_params(),
+                MakeMethodArgs {
+                    start,
+                    is_optional,
+                    accessibility,
+                    decorators,
+                    is_static,
+                    kind: if is_constructor(&key) {
+                        MethodKind::Constructor
+                    } else {
+                        MethodKind::Method
+                    },
+                    key,
+                    is_async: false,
+                    is_generator: false,
+                },
+            );
+        }
+
+        if self.is_class_property()? {
+            return self.make_property(
+                start,
+                decorators,
+                accessibility,
+                key,
+                is_static,
+                is_optional,
+                false,
+            );
+        }
+
+        if match key {
+            Either::Right(PropName::Ident(ref i)) => i.sym == js_word!("async"),
+            _ => false,
+        } && !self.input.had_line_break_before_cur()
+        {
+            // handle async foo(){}
+
+            let is_generator = eat!('*');
+            let key = self.parse_class_prop_name()?;
+            if is_constructor(&key) {
+                syntax_error!(key.span(), SyntaxError::AsyncConstructor)
+            }
+
+            // handle async foo(){}
+            return self.make_method(
+                |p| p.parse_unique_formal_params(),
+                MakeMethodArgs {
+                    start,
+                    is_static,
+                    key,
+                    accessibility,
+                    is_optional,
+                    decorators,
+                    kind: MethodKind::Method,
+                    is_async: true,
+                    is_generator,
+                },
+            );
+        }
+
+        let is_next_line_generator = self.input.had_line_break_before_cur() && is!('*');
+        match key {
+            // `get\n*` is an uninitialized property named 'get' followed by a generator.
+            Either::Right(PropName::Ident(ref i))
+                if (i.sym == js_word!("get") || i.sym == js_word!("set"))
+                    && !is_next_line_generator =>
+            {
+                // handle get foo(){} / set foo(v){}
+                let key = self.parse_class_prop_name()?;
+
+                return match i.sym {
+                    js_word!("get") => self.make_method(
+                        |_| Ok(vec![]),
+                        MakeMethodArgs {
+                            decorators,
+                            start,
+                            is_async: false,
+                            is_generator: false,
+                            is_optional,
+                            accessibility,
+                            is_static,
+                            key,
+                            kind: MethodKind::Getter,
+                        },
+                    ),
+                    js_word!("set") => self.make_method(
+                        |p| p.parse_formal_param().map(|pat| vec![pat]),
+                        MakeMethodArgs {
+                            decorators,
+                            start,
+                            is_optional,
+                            is_async: false,
+                            is_generator: false,
+                            accessibility,
+                            is_static,
+                            key,
+                            kind: MethodKind::Setter,
+                        },
+                    ),
+                    _ => unreachable!(),
+                };
+            }
+            _ => {}
+        }
+
+        unexpected!()
+    }
+
+    fn make_property(
+        &mut self,
+        start: BytePos,
+        decorators: Vec<Decorator>,
+        accessibility: Option<Accessibility>,
+        key: Either<PrivateName, PropName>,
+        is_static: bool,
+        is_optional: bool,
+        readonly: bool,
+    ) -> PResult<'a, ClassMember> {
+        if is_constructor(&key) {
+            syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
+        }
+
+        let ctx = Context {
+            in_class_prop: true,
+            in_method: false,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx).parse_with(|p| {
+            let value = if is!('=') {
+                if !p.input.syntax().class_props() {
+                    syntax_error!(span!(start), SyntaxError::ClassProperty);
+                }
+                assert_and_bump!('=');
+                Some(p.parse_assignment_expr()?)
+            } else {
+                None
+            };
+
+            expect!(';');
+
+            Ok(match key {
+                Either::Left(key) => ClassProperty {
+                    span: span!(start),
+                    key,
+                    value,
+                    is_static,
+                    decorators,
+                    accessibility,
+                    is_abstract: false,
+                    is_optional,
+                    readonly,
+                    definite: false,
+                    type_ann: None,
+                }
+                .into(),
+                Either::Right(key) => ClassProperty {
+                    span: span!(start),
+                    key: match key {
+                        PropName::Ident(i) => box Expr::Ident(i),
+                        PropName::Str(s) => box Expr::Lit(Lit::Str(s)),
+                        PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
+                        PropName::Computed(e) => e,
+                    },
+                    value,
+                    is_static,
+                    decorators,
+                    accessibility,
+                    is_abstract: false,
+                    is_optional,
+                    readonly,
+                    definite: false,
+                    type_ann: None,
+                }
+                .into(),
+            })
+        })
+    }
+
+    #[inline(always)]
+    fn is_class_method(&mut self) -> PResult<'a, bool> {
+        Ok(is!('(') || (self.input.syntax().typescript() && is!('<')))
+    }
+
+    #[inline(always)]
+    fn is_class_property(&mut self) -> PResult<'a, bool> {
+        Ok((self.input.syntax().typescript() && is_one_of!('!', ':')) || is_one_of!('=', ';', '}'))
     }
 
     fn parse_fn<T>(
@@ -372,195 +654,68 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    fn parse_method_def(
+    fn parse_class_prop_name(&mut self) -> PResult<'a, Either<PrivateName, PropName>> {
+        if is!('#') {
+            self.parse_private_name().map(Either::Left)
+        } else {
+            self.parse_prop_name().map(Either::Right)
+        }
+    }
+
+    fn make_method<F>(
         &mut self,
-        accessibility: Option<Accessibility>,
-        static_token: Option<Span>,
-        decorators: Vec<Decorator>,
-    ) -> PResult<'a, Method> {
-        fn is_constructor(key: &PropName) -> bool {
-            match *key {
-                PropName::Ident(Ident {
-                    sym: js_word!("constructor"),
-                    ..
-                })
-                | PropName::Str(Str {
-                    value: js_word!("constructor"),
-                    ..
-                }) => true,
-                _ => false,
+        parse_args: F,
+        MakeMethodArgs {
+            start,
+            accessibility,
+            is_static,
+            decorators,
+            is_optional,
+            key,
+            kind,
+            is_async,
+            is_generator,
+        }: MakeMethodArgs,
+    ) -> PResult<'a, ClassMember>
+    where
+        F: FnOnce(&mut Self) -> PResult<'a, Vec<PatOrTsParamProp>>,
+    {
+        let function = self.parse_fn_args_body(
+            kind == MethodKind::Constructor,
+            decorators,
+            start,
+            parse_args,
+            is_async,
+            is_generator,
+        )?;
+
+        match key {
+            Either::Left(key) => Ok(ClassMethod {
+                span: span!(start),
+
+                accessibility,
+                is_abstract: false,
+                is_optional,
+
+                is_static,
+                key,
+                function,
+                kind,
             }
-        }
+            .into()),
+            Either::Right(key) => Ok(ClassMethod {
+                span: span!(start),
 
-        let is_static = static_token.is_some();
-        let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
+                accessibility: None,
+                is_abstract: false,
+                is_optional: false,
 
-        if eat!('*') {
-            let span_of_gen = span!(start);
-            let key = self.parse_prop_name()?;
-            if is_constructor(&key) {
-                unexpected!();
+                is_static,
+                key,
+                function,
+                kind: MethodKind::Method,
             }
-            return self
-                .parse_fn_args_body(
-                    /* is_constructor */ false,
-                    decorators,
-                    start,
-                    Parser::parse_unique_formal_params,
-                    false,
-                    true,
-                )
-                .map(|function| Method {
-                    span: span!(start),
-
-                    accessibility: None,
-                    is_abstract: false,
-                    is_optional: false,
-
-                    is_static,
-                    key,
-                    function,
-                    kind: MethodKind::Method,
-                });
-        }
-
-        // Handle static(){}
-        if let Some(static_token) = static_token {
-            if is!('(') {
-                return self
-                    .parse_fn_args_body(
-                        /* is_constructor */ false,
-                        decorators,
-                        start,
-                        Parser::parse_unique_formal_params,
-                        false,
-                        false,
-                    )
-                    .map(|function| Method {
-                        span: span!(start),
-                        is_static: false,
-                        key: PropName::Ident(Ident::new(js_word!("static"), static_token)),
-                        function,
-                        kind: MethodKind::Method,
-
-                        accessibility: None,
-                        is_abstract: false,
-                        is_optional: false,
-                    });
-            }
-        }
-
-        let key = self.parse_prop_name()?;
-        let is_constructor = is_constructor(&key);
-        // Handle `a(){}` (and async(){} / get(){} / set(){})
-        if is!('(') {
-            return self
-                .parse_fn_args_body(
-                    is_constructor,
-                    decorators,
-                    start,
-                    // TODO: Handle constuctor
-                    |p| {
-                        if is_constructor {
-                            p.parse_constructor_params()
-                        } else {
-                            p.parse_unique_formal_params()
-                        }
-                    },
-                    false,
-                    false,
-                )
-                .map(|function| Method {
-                    span: span!(start),
-                    is_static,
-                    key,
-                    function,
-                    kind: MethodKind::Method,
-
-                    accessibility: None,
-                    is_abstract: false,
-                    is_optional: false,
-                });
-        }
-
-        let ident = match key {
-            PropName::Ident(ident) => ident,
-            _ => unexpected!(),
-        };
-
-        // get a(){}
-        // set a(v){}
-        // async a(){}
-
-        match ident.sym {
-            js_word!("get") | js_word!("set") | js_word!("async") => {
-                let key = self.parse_prop_name()?;
-
-                return match ident.sym {
-                    js_word!("get") => self
-                        .parse_fn_args_body(
-                            /* is_constructor */ false,
-                            decorators,
-                            start,
-                            |_| Ok(vec![]),
-                            false,
-                            false,
-                        )
-                        .map(|function| Method {
-                            span: span!(start),
-                            is_static: static_token.is_some(),
-                            key,
-                            function,
-                            kind: MethodKind::Getter,
-
-                            accessibility: None,
-                            is_abstract: false,
-                            is_optional: false,
-                        }),
-                    js_word!("set") => self
-                        .parse_fn_args_body(
-                            /* is_constructor */ false,
-                            decorators,
-                            start,
-                            |p| p.parse_formal_param().map(|pat| vec![pat]),
-                            false,
-                            false,
-                        )
-                        .map(|function| Method {
-                            span: span!(start),
-                            key,
-                            is_static: static_token.is_some(),
-                            function,
-                            kind: MethodKind::Setter,
-
-                            accessibility: None,
-                            is_abstract: false,
-                            is_optional: false,
-                        }),
-                    js_word!("async") => self
-                        .parse_fn_args_body(
-                            /* is_constructor */ false,
-                            decorators,
-                            start,
-                            Parser::parse_unique_formal_params,
-                            true,
-                            false,
-                        )
-                        .map(|function| Method {
-                            span: span!(start),
-                            is_static: static_token.is_some(),
-                            key,
-                            function,
-                            kind: MethodKind::Method,
-
-                            accessibility: None,
-                            is_abstract: false,
-                            is_optional: false,
-                        }),
-                    _ => unreachable!(),
-                };
-            }
-            _ => unexpected!(),
+            .into()),
         }
     }
 
@@ -692,6 +847,32 @@ impl<'a, I: Input> FnBodyParser<'a, Option<BlockStmt>> for Parser<'a, I> {
         }
         self.parse_block(true).map(Some)
     }
+}
+
+fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
+    match *key {
+        Either::Right(PropName::Ident(Ident {
+            sym: js_word!("constructor"),
+            ..
+        }))
+        | Either::Right(PropName::Str(Str {
+            value: js_word!("constructor"),
+            ..
+        })) => true,
+        _ => false,
+    }
+}
+
+struct MakeMethodArgs {
+    start: BytePos,
+    accessibility: Option<Accessibility>,
+    is_static: bool,
+    decorators: Vec<Decorator>,
+    is_optional: bool,
+    key: Either<PrivateName, PropName>,
+    kind: MethodKind,
+    is_async: bool,
+    is_generator: bool,
 }
 
 #[cfg(test)]

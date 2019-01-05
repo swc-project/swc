@@ -142,6 +142,10 @@ pub(crate) enum SyntaxError {
     TsRequiredAfterOptional,
 
     SpaceBetweenHashAndIdent,
+
+    AsyncConstructor,
+    PropertyNamedConstructor,
+    ClassProperty,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -262,6 +266,11 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 "A required element cannot follow an optional element.".into()
             }
             SpaceBetweenHashAndIdent => "Unexpected space between # and identifier".into(),
+            AsyncConstructor => "Constructor can't be an async function".into(),
+            PropertyNamedConstructor => {
+                "Classes may not have a non-static field named 'constructor'".into()
+            }
+            ClassProperty => "Class property requires `esnext.classProperty` to be true".into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);

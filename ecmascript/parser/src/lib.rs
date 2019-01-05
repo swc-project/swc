@@ -184,6 +184,15 @@ impl Syntax {
         }
     }
 
+    pub fn class_props(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                class_props: true, ..
+            }) => true,
+            _ => false,
+        }
+    }
+
     pub fn decorators_before_export(self) -> bool {
         match self {
             Syntax::EsNext(EsNextConfig {
@@ -210,6 +219,7 @@ pub struct EsNextConfig {
 
     pub class_private_props: bool,
     pub class_private_methods: bool,
+    pub class_props: bool,
 
     /// Support function bind expression.
     pub fn_bind: bool,
@@ -242,6 +252,9 @@ pub(crate) struct Context {
     in_function: bool,
 
     in_parameters: bool,
+
+    in_method: bool,
+    in_class_prop: bool,
 
     in_property_name: bool,
 
