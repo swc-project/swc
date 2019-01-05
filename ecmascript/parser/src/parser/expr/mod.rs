@@ -831,18 +831,40 @@ impl<'a, I: Input> Parser<'a, I> {
         match *callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
-            Expr::New(NewExpr { args: None, .. }) => {
+            Expr::New(ne @ NewExpr { args: None, .. }) => {
+                let type_args = if self.input.syntax().typescript() && is!('<') {
+                    Some(self.parse_ts_type_args()?)
+                } else {
+                    None
+                };
+                if type_args.is_some() {
+                    // This fails with `expected (`
+                    expect!('(');
+                }
                 assert_ne!(
                     cur!(false).ok(),
                     Some(&tok!('(')),
                     "parse_new_expr() should eat paren if it exists"
                 );
-                return Ok(callee);
+                return Ok(box Expr::New(NewExpr { type_args, ..ne }));
             }
             _ => {}
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
+
+        let type_args = if self.input.syntax().typescript() && is!('<') {
+            self.try_parse_ts(|p| {
+                let type_args = p.parse_ts_type_args()?;
+                if is!('(') {
+                    Ok(Some(type_args))
+                } else {
+                    Ok(None)
+                }
+            })?
+        } else {
+            None
+        };
 
         if is!('(') {
             // This is parsed using production MemberExpression,
@@ -853,10 +875,14 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 callee: ExprOrSuper::Expr(callee),
                 args,
-                type_args: None,
+                type_args,
             });
 
             return self.parse_subscripts(ExprOrSuper::Expr(call_expr), false);
+        }
+        if type_args.is_some() {
+            // This fails
+            expect!('(');
         }
 
         // This is parsed using production 'NewExpression', which contains
