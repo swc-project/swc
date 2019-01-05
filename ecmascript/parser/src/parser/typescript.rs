@@ -1637,7 +1637,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         match &*expr.sym {
             "declare" => {
-                let decl = self.try_parse_ts_declare(decorators)?;
+                let decl = self.try_parse_ts_declare(start, decorators)?;
                 if let Some(mut decl) = decl {
                     match decl {
                         Decl::Class(ClassDecl {
@@ -1698,8 +1698,15 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseDeclare`
-    fn try_parse_ts_declare(&mut self, decorators: Vec<Decorator>) -> PResult<'a, Option<Decl>> {
-        let start = cur_pos!();
+    fn try_parse_ts_declare(
+        &mut self,
+        start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Option<Decl>> {
+        debug_assert!(
+            !is!("declare"),
+            "try_parse_ts_declare should be called after eating `declare`"
+        );
 
         if is!("function") {
             return self.parse_fn_decl(decorators).map(Some);
@@ -1729,7 +1736,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 .parse_ts_ambient_external_module_decl(start)
                 .map(From::from)
                 .map(Some);
-        } else if is!(IdentRef) {
+        } else if is!(IdentName) {
             let value = match *cur!(true)? {
                 Token::Word(ref w) => w.clone().into(),
                 _ => unreachable!(),
