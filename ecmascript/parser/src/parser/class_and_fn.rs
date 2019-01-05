@@ -75,7 +75,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let (super_class, super_type_params) = if eat!("extends") {
                 let super_class = p.parse_lhs_expr().map(Some)?;
-                let super_type_params = if p.input.syntax().typescript() && eat!('<') {
+                let super_type_params = if p.input.syntax().typescript() && is!('<') {
                     Some(p.parse_ts_type_args()?)
                 } else {
                     None
