@@ -248,6 +248,14 @@ impl<'a, I: Input> Parser<'a, I> {
             self.parse_async_fn_decl(decorators)?
         } else if is!("function") {
             self.parse_fn_decl(decorators)?
+        } else if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
+            let start = cur_pos!();
+            assert_and_bump!("const");
+            assert_and_bump!("enum");
+            return self
+                .parse_ts_enum_decl(start, /* is_const */ true)
+                .map(Decl::from)
+                .map(ModuleDecl::from);
         } else if is!("var")
             || is!("const")
             || (is!("let")
