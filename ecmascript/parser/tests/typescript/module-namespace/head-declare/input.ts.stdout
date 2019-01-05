@@ -25,9 +25,9 @@ Module {
                         declare: true,
                         global: false,
                         id: Ident(
-                            Ident(
-                                N,
-                                Span {
+                            Ident {
+                                sym: N,
+                                span: Span {
                                     lo: BytePos(
                                         18
                                     ),
@@ -36,8 +36,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsNamespaceDecl(
@@ -53,9 +54,9 @@ Module {
                                     },
                                     declare: false,
                                     global: false,
-                                    id: Ident(
-                                        M,
-                                        Span {
+                                    id: Ident {
+                                        sym: M,
+                                        span: Span {
                                             lo: BytePos(
                                                 20
                                             ),
@@ -64,8 +65,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    ),
+                                        type_ann: None,
+                                        optional: false
+                                    },
                                     body: TsModuleBlock(
                                         TsModuleBlock {
                                             span: Span {
@@ -103,9 +105,9 @@ Module {
                         declare: true,
                         global: false,
                         id: Ident(
-                            Ident(
-                                M,
-                                Span {
+                            Ident {
+                                sym: M,
+                                span: Span {
                                     lo: BytePos(
                                         40
                                     ),
@@ -114,8 +116,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsModuleBlock(
@@ -203,9 +206,9 @@ Module {
                         declare: true,
                         global: true,
                         id: Ident(
-                            Ident(
-                                global,
-                                Span {
+                            Ident {
+                                sym: global,
+                                span: Span {
                                     lo: BytePos(
                                         75
                                     ),
@@ -214,8 +217,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsModuleBlock(

@@ -23,9 +23,9 @@ Module {
                             ctxt: #0
                         },
                         expr: Ident(
-                            Ident(
-                                x,
-                                Span {
+                            Ident {
+                                sym: x,
+                                span: Span {
                                     lo: BytePos(
                                         0
                                     ),
@@ -34,8 +34,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         )
                     }
                 )

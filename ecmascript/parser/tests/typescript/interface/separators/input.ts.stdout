@@ -22,9 +22,9 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        id: Ident(
-                            Comma,
-                            Span {
+                        id: Ident {
+                            sym: Comma,
+                            span: Span {
                                 lo: BytePos(
                                     10
                                 ),
@@ -33,8 +33,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         type_params: None,
                         extends: [],
@@ -62,9 +63,9 @@ Module {
                                         },
                                         readonly: false,
                                         key: Ident(
-                                            Ident(
-                                                x,
-                                                Span {
+                                            Ident {
+                                                sym: x,
+                                                span: Span {
                                                     lo: BytePos(
                                                         18
                                                     ),
@@ -73,8 +74,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         computed: false,
                                         optional: false,
@@ -123,9 +125,9 @@ Module {
                                         },
                                         readonly: false,
                                         key: Ident(
-                                            Ident(
-                                                y,
-                                                Span {
+                                            Ident {
+                                                sym: y,
+                                                span: Span {
                                                     lo: BytePos(
                                                         29
                                                     ),
@@ -134,8 +136,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         computed: false,
                                         optional: false,
@@ -190,9 +193,9 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        id: Ident(
-                            Semi,
-                            Span {
+                        id: Ident {
+                            sym: Semi,
+                            span: Span {
                                 lo: BytePos(
                                     51
                                 ),
@@ -201,8 +204,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         type_params: None,
                         extends: [],
@@ -230,9 +234,9 @@ Module {
                                         },
                                         readonly: false,
                                         key: Ident(
-                                            Ident(
-                                                x,
-                                                Span {
+                                            Ident {
+                                                sym: x,
+                                                span: Span {
                                                     lo: BytePos(
                                                         58
                                                     ),
@@ -241,8 +245,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         computed: false,
                                         optional: false,
@@ -291,9 +296,9 @@ Module {
                                         },
                                         readonly: false,
                                         key: Ident(
-                                            Ident(
-                                                y,
-                                                Span {
+                                            Ident {
+                                                sym: y,
+                                                span: Span {
                                                     lo: BytePos(
                                                         69
                                                     ),
@@ -302,8 +307,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         computed: false,
                                         optional: false,
@@ -358,9 +364,9 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        id: Ident(
-                            Newline,
-                            Span {
+                        id: Ident {
+                            sym: Newline,
+                            span: Span {
                                 lo: BytePos(
                                     91
                                 ),
@@ -369,8 +375,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         type_params: None,
                         extends: [],
@@ -398,9 +405,9 @@ Module {
                                         },
                                         readonly: false,
                                         key: Ident(
-                                            Ident(
-                                                x,
-                                                Span {
+                                            Ident {
+                                                sym: x,
+                                                span: Span {
                                                     lo: BytePos(
                                                         105
                                                     ),
@@ -409,8 +416,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         computed: false,
                                         optional: false,
@@ -459,9 +467,9 @@ Module {
                                         },
                                         readonly: false,
                                         key: Ident(
-                                            Ident(
-                                                y,
-                                                Span {
+                                            Ident {
+                                                sym: y,
+                                                span: Span {
                                                     lo: BytePos(
                                                         119
                                                     ),
@@ -470,8 +478,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         computed: false,
                                         optional: false,

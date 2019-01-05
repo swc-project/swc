@@ -12,9 +12,9 @@ Module {
         ModuleDecl(
             ExportDefaultExpr(
                 Ident(
-                    Ident(
-                        abstract,
-                        Span {
+                    Ident {
+                        sym: abstract,
+                        span: Span {
                             lo: BytePos(
                                 78
                             ),
@@ -23,8 +23,9 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        None
-                    )
+                        type_ann: None,
+                        optional: false
+                    }
                 )
             )
         )

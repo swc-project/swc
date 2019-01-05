@@ -4,21 +4,21 @@ Module {
             0
         ),
         hi: BytePos(
-            14
+            23
         ),
         ctxt: #0
     },
     body: [
-        Stmt(
-            Decl(
+        ModuleDecl(
+            ExportDecl(
                 TsTypeAlias(
                     TsTypeAliasDecl {
                         span: Span {
                             lo: BytePos(
-                                0
+                                7
                             ),
                             hi: BytePos(
-                                14
+                                23
                             ),
                             ctxt: #0
                         },
@@ -27,10 +27,10 @@ Module {
                             sym: T,
                             span: Span {
                                 lo: BytePos(
-                                    5
+                                    12
                                 ),
                                 hi: BytePos(
-                                    6
+                                    13
                                 ),
                                 ctxt: #0
                             },
@@ -38,31 +38,18 @@ Module {
                             optional: false
                         },
                         type_params: None,
-                        type_ann: TsParenthesizedType(
-                            TsParenthesizedType {
+                        type_ann: TsKeywordType(
+                            TsKeywordType {
                                 span: Span {
                                     lo: BytePos(
-                                        9
+                                        16
                                     ),
                                     hi: BytePos(
-                                        13
+                                        22
                                     ),
                                     ctxt: #0
                                 },
-                                type_ann: TsTypeLit(
-                                    TsTypeLit {
-                                        span: Span {
-                                            lo: BytePos(
-                                                10
-                                            ),
-                                            hi: BytePos(
-                                                12
-                                            ),
-                                            ctxt: #0
-                                        },
-                                        members: []
-                                    }
-                                )
+                                kind: TsNumberKeyword
                             }
                         )
                     }

@@ -13,9 +13,9 @@ Module {
             Decl(
                 Class(
                     ClassDecl {
-                        ident: Ident(
-                            C,
-                            Span {
+                        ident: Ident {
+                            sym: C,
+                            span: Span {
                                 lo: BytePos(
                                     6
                                 ),
@@ -24,8 +24,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         class: Class {
                             span: Span {
@@ -63,9 +64,9 @@ Module {
                                                 ),
                                                 ctxt: #0
                                             },
-                                            name: Ident(
-                                                T,
-                                                Span {
+                                            name: Ident {
+                                                sym: T,
+                                                span: Span {
                                                     lo: BytePos(
                                                         8
                                                     ),
@@ -74,8 +75,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            ),
+                                                type_ann: None,
+                                                optional: false
+                                            },
                                             constraint: Some(
                                                 TsKeywordType(
                                                     TsKeywordType {
@@ -118,9 +120,9 @@ Module {
                                                                     },
                                                                     readonly: false,
                                                                     key: Ident(
-                                                                        Ident(
-                                                                            x,
-                                                                            Span {
+                                                                        Ident {
+                                                                            sym: x,
+                                                                            span: Span {
                                                                                 lo: BytePos(
                                                                                     29
                                                                                 ),
@@ -129,8 +131,9 @@ Module {
                                                                                 ),
                                                                                 ctxt: #0
                                                                             },
-                                                                            None
-                                                                        )
+                                                                            type_ann: None,
+                                                                            optional: false
+                                                                        }
                                                                     ),
                                                                     computed: false,
                                                                     optional: false,

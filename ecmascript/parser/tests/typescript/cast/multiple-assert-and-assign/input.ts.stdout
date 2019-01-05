@@ -48,9 +48,9 @@ Module {
                                                     ctxt: #0
                                                 },
                                                 expr: Ident(
-                                                    Ident(
-                                                        a,
-                                                        Span {
+                                                    Ident {
+                                                        sym: a,
+                                                        span: Span {
                                                             lo: BytePos(
                                                                 1
                                                             ),
@@ -59,8 +59,9 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        None
-                                                    )
+                                                        type_ann: None,
+                                                        optional: false
+                                                    }
                                                 ),
                                                 type_ann: TsKeywordType(
                                                     TsKeywordType {

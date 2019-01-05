@@ -4,53 +4,41 @@ Module {
             0
         ),
         hi: BytePos(
-            22
+            17
         ),
         ctxt: #0
     },
     body: [
         Stmt(
             Decl(
-                TsInterface(
-                    TsInterfaceDecl {
+                TsEnum(
+                    TsEnumDecl {
                         span: Span {
                             lo: BytePos(
-                                18
+                                0
                             ),
                             hi: BytePos(
-                                22
+                                17
                             ),
                             ctxt: #0
                         },
+                        declare: true,
+                        is_const: false,
                         id: Ident {
-                            sym: I,
+                            sym: E,
                             span: Span {
                                 lo: BytePos(
-                                    18
+                                    13
                                 ),
                                 hi: BytePos(
-                                    19
+                                    14
                                 ),
                                 ctxt: #0
                             },
                             type_ann: None,
                             optional: false
                         },
-                        declare: true,
-                        type_params: None,
-                        extends: [],
-                        body: TsInterfaceBody {
-                            span: Span {
-                                lo: BytePos(
-                                    20
-                                ),
-                                hi: BytePos(
-                                    22
-                                ),
-                                ctxt: #0
-                            },
-                            body: []
-                        }
+                        members: []
                     }
                 )
             )

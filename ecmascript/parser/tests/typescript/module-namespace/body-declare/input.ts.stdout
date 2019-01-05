@@ -25,9 +25,9 @@ Module {
                         declare: true,
                         global: false,
                         id: Ident(
-                            Ident(
-                                N,
-                                Span {
+                            Ident {
+                                sym: N,
+                                span: Span {
                                     lo: BytePos(
                                         18
                                     ),
@@ -36,8 +36,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsModuleBlock(
@@ -78,9 +79,9 @@ Module {
                                                                 ctxt: #0
                                                             },
                                                             name: Ident(
-                                                                Ident(
-                                                                    x,
-                                                                    Span {
+                                                                Ident {
+                                                                    sym: x,
+                                                                    span: Span {
                                                                         lo: BytePos(
                                                                             32
                                                                         ),
@@ -89,7 +90,7 @@ Module {
                                                                         ),
                                                                         ctxt: #0
                                                                     },
-                                                                    Some(
+                                                                    type_ann: Some(
                                                                         TsTypeAnn {
                                                                             span: Span {
                                                                                 lo: BytePos(
@@ -115,8 +116,9 @@ Module {
                                                                                 }
                                                                             )
                                                                         }
-                                                                    )
-                                                                )
+                                                                    ),
+                                                                    optional: false
+                                                                }
                                                             ),
                                                             init: None,
                                                             definite: false

@@ -23,9 +23,9 @@ Module {
                     },
                     declare: false,
                     is_export: false,
-                    id: Ident(
-                        A,
-                        Span {
+                    id: Ident {
+                        sym: A,
+                        span: Span {
                             lo: BytePos(
                                 7
                             ),
@@ -34,15 +34,16 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        None
-                    ),
+                        type_ann: None,
+                        optional: false
+                    },
                     module_ref: TsEntityName(
                         TsQualifiedName(
                             TsQualifiedName {
                                 left: Ident(
-                                    Ident(
-                                        B,
-                                        Span {
+                                    Ident {
+                                        sym: B,
+                                        span: Span {
                                             lo: BytePos(
                                                 11
                                             ),
@@ -51,12 +52,13 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 ),
-                                right: Ident(
-                                    C,
-                                    Span {
+                                right: Ident {
+                                    sym: C,
+                                    span: Span {
                                         lo: BytePos(
                                             13
                                         ),
@@ -65,8 +67,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             }
                         )
                     )

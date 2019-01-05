@@ -13,9 +13,9 @@ Module {
             Decl(
                 Fn(
                     FnDecl {
-                        ident: Ident(
-                            foo,
-                            Span {
+                        ident: Ident {
+                            sym: foo,
+                            span: Span {
                                 lo: BytePos(
                                     9
                                 ),
@@ -24,8 +24,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         function: Function {
                             params: [
@@ -42,9 +43,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             arg: Ident(
-                                                Ident(
-                                                    args,
-                                                    Span {
+                                                Ident {
+                                                    sym: args,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             16
                                                         ),
@@ -53,8 +54,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
                                             type_ann: Some(
                                                 TsTypeAnn {

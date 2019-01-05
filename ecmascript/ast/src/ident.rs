@@ -16,10 +16,11 @@ pub struct Ident {
 
 impl Debug for Ident {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        f.debug_tuple("Ident")
-            .field(&DebugUsingDisplay(&self.sym))
-            .field(&self.span)
-            .field(&self.type_ann)
+        f.debug_struct("Ident")
+            .field("sym", &DebugUsingDisplay(&self.sym))
+            .field("span", &self.span)
+            .field("type_ann", &self.type_ann)
+            .field("optional", &self.optional)
             .finish()
     }
 }

@@ -13,9 +13,9 @@ Module {
             Decl(
                 Fn(
                     FnDecl {
-                        ident: Ident(
-                            f,
-                            Span {
+                        ident: Ident {
+                            sym: f,
+                            span: Span {
                                 lo: BytePos(
                                     9
                                 ),
@@ -24,16 +24,17 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         function: Function {
                             params: [
                                 Pat(
                                     Ident(
-                                        Ident(
-                                            x,
-                                            Span {
+                                        Ident {
+                                            sym: x,
+                                            span: Span {
                                                 lo: BytePos(
                                                     11
                                                 ),
@@ -42,7 +43,7 @@ Module {
                                                 ),
                                                 ctxt: #0
                                             },
-                                            Some(
+                                            type_ann: Some(
                                                 TsTypeAnn {
                                                     span: Span {
                                                         lo: BytePos(
@@ -68,8 +69,9 @@ Module {
                                                         }
                                                     )
                                                 }
-                                            )
-                                        )
+                                            ),
+                                            optional: false
+                                        }
                                     )
                                 )
                             ],
@@ -121,9 +123,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             param_name: Ident(
-                                                Ident(
-                                                    x,
-                                                    Span {
+                                                Ident {
+                                                    sym: x,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             20
                                                         ),
@@ -132,8 +134,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
                                             type_ann: TsTypeAnn {
                                                 span: Span {
@@ -189,9 +192,9 @@ Module {
                                     params: [
                                         Pat(
                                             Ident(
-                                                Ident(
-                                                    x,
-                                                    Span {
+                                                Ident {
+                                                    sym: x,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             46
                                                         ),
@@ -200,7 +203,7 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    Some(
+                                                    type_ann: Some(
                                                         TsTypeAnn {
                                                             span: Span {
                                                                 lo: BytePos(
@@ -226,8 +229,9 @@ Module {
                                                                 }
                                                             )
                                                         }
-                                                    )
-                                                )
+                                                    ),
+                                                    optional: false
+                                                }
                                             )
                                         )
                                     ],
@@ -279,9 +283,9 @@ Module {
                                                         ctxt: #0
                                                     },
                                                     param_name: Ident(
-                                                        Ident(
-                                                            x,
-                                                            Span {
+                                                        Ident {
+                                                            sym: x,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     55
                                                                 ),
@@ -290,8 +294,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            None
-                                                        )
+                                                            type_ann: None,
+                                                            optional: false
+                                                        }
                                                     ),
                                                     type_ann: TsTypeAnn {
                                                         span: Span {

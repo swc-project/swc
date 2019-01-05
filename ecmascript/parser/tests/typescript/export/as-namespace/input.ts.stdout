@@ -21,9 +21,9 @@ Module {
                         ),
                         ctxt: #0
                     },
-                    id: Ident(
-                        A,
-                        Span {
+                    id: Ident {
+                        sym: A,
+                        span: Span {
                             lo: BytePos(
                                 20
                             ),
@@ -32,8 +32,9 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        None
-                    )
+                        type_ann: None,
+                        optional: false
+                    }
                 }
             )
         )

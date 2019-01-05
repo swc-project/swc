@@ -23,9 +23,9 @@ Module {
                             ctxt: #0
                         },
                         declare: false,
-                        id: Ident(
-                            MyType,
-                            Span {
+                        id: Ident {
+                            sym: MyType,
+                            span: Span {
                                 lo: BytePos(
                                     5
                                 ),
@@ -34,8 +34,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         type_params: None,
                         type_ann: TsFnOrConstructorType(
                             TsFnType(
@@ -73,9 +74,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            key: Ident(
-                                                                theme,
-                                                                Span {
+                                                            key: Ident {
+                                                                sym: theme,
+                                                                span: Span {
                                                                     lo: BytePos(
                                                                         17
                                                                     ),
@@ -84,8 +85,9 @@ Module {
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                None
-                                                            ),
+                                                                type_ann: None,
+                                                                optional: false
+                                                            },
                                                             value: None
                                                         }
                                                     )

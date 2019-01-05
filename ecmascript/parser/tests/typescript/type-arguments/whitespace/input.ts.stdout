@@ -13,9 +13,9 @@ Module {
             Decl(
                 Fn(
                     FnDecl {
-                        ident: Ident(
-                            f,
-                            Span {
+                        ident: Ident {
+                            sym: f,
+                            span: Span {
                                 lo: BytePos(
                                     9
                                 ),
@@ -24,8 +24,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         function: Function {
                             params: [],
@@ -75,9 +76,9 @@ Module {
                                                 ),
                                                 ctxt: #0
                                             },
-                                            name: Ident(
-                                                T,
-                                                Span {
+                                            name: Ident {
+                                                sym: T,
+                                                span: Span {
                                                     lo: BytePos(
                                                         13
                                                     ),
@@ -86,8 +87,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            ),
+                                                type_ann: None,
+                                                optional: false
+                                            },
                                             constraint: None,
                                             default: None
                                         }

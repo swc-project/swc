@@ -24,9 +24,9 @@ Module {
                         },
                         callee: Expr(
                             Ident(
-                                Ident(
-                                    f,
-                                    Span {
+                                Ident {
+                                    sym: f,
+                                    span: Span {
                                         lo: BytePos(
                                             0
                                         ),
@@ -35,8 +35,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             )
                         ),
                         args: [],
@@ -64,9 +65,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             type_name: Ident(
-                                                Ident(
-                                                    T,
-                                                    Span {
+                                                Ident {
+                                                    sym: T,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             2
                                                         ),
@@ -75,8 +76,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
                                             type_params: None
                                         }
@@ -103,9 +105,9 @@ Module {
                         },
                         callee: Expr(
                             Ident(
-                                Ident(
-                                    f,
-                                    Span {
+                                Ident {
+                                    sym: f,
+                                    span: Span {
                                         lo: BytePos(
                                             8
                                         ),
@@ -114,8 +116,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             )
                         ),
                         args: [],
@@ -143,9 +146,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             type_name: Ident(
-                                                Ident(
-                                                    T,
-                                                    Span {
+                                                Ident {
+                                                    sym: T,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             10
                                                         ),
@@ -154,8 +157,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
                                             type_params: None
                                         }
@@ -172,9 +176,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             type_name: Ident(
-                                                Ident(
-                                                    U,
-                                                    Span {
+                                                Ident {
+                                                    sym: U,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             13
                                                         ),
@@ -183,8 +187,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
                                             type_params: None
                                         }

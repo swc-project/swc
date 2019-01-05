@@ -23,9 +23,9 @@ Module {
                             ctxt: #0
                         },
                         declare: false,
-                        id: Ident(
-                            T,
-                            Span {
+                        id: Ident {
+                            sym: T,
+                            span: Span {
                                 lo: BytePos(
                                     5
                                 ),
@@ -34,8 +34,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         type_params: Some(
                             TsTypeParamDecl {
                                 span: Span {
@@ -58,9 +59,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        name: Ident(
-                                            U,
-                                            Span {
+                                        name: Ident {
+                                            sym: U,
+                                            span: Span {
                                                 lo: BytePos(
                                                     7
                                                 ),
@@ -69,8 +70,9 @@ Module {
                                                 ),
                                                 ctxt: #0
                                             },
-                                            None
-                                        ),
+                                            type_ann: None,
+                                            optional: false
+                                        },
                                         constraint: Some(
                                             TsKeywordType(
                                                 TsKeywordType {
@@ -113,9 +115,9 @@ Module {
                                                                 },
                                                                 readonly: false,
                                                                 key: Ident(
-                                                                    Ident(
-                                                                        x,
-                                                                        Span {
+                                                                    Ident {
+                                                                        sym: x,
+                                                                        span: Span {
                                                                             lo: BytePos(
                                                                                 28
                                                                             ),
@@ -124,8 +126,9 @@ Module {
                                                                             ),
                                                                             ctxt: #0
                                                                         },
-                                                                        None
-                                                                    )
+                                                                        type_ann: None,
+                                                                        optional: false
+                                                                    }
                                                                 ),
                                                                 computed: false,
                                                                 optional: false,
@@ -181,9 +184,9 @@ Module {
                                     ctxt: #0
                                 },
                                 type_name: Ident(
-                                    Ident(
-                                        Array,
-                                        Span {
+                                    Ident {
+                                        sym: Array,
+                                        span: Span {
                                             lo: BytePos(
                                                 43
                                             ),
@@ -192,8 +195,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 ),
                                 type_params: Some(
                                     TsTypeParamInstantiation {
@@ -219,9 +223,9 @@ Module {
                                                         ctxt: #0
                                                     },
                                                     type_name: Ident(
-                                                        Ident(
-                                                            U,
-                                                            Span {
+                                                        Ident {
+                                                            sym: U,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     49
                                                                 ),
@@ -230,8 +234,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            None
-                                                        )
+                                                            type_ann: None,
+                                                            optional: false
+                                                        }
                                                     ),
                                                     type_params: None
                                                 }

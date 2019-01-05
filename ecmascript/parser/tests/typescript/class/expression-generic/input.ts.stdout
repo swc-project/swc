@@ -61,9 +61,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    name: Ident(
-                                                        T,
-                                                        Span {
+                                                    name: Ident {
+                                                        sym: T,
+                                                        span: Span {
                                                             lo: BytePos(
                                                                 7
                                                             ),
@@ -72,8 +72,9 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        None
-                                                    ),
+                                                        type_ann: None,
+                                                        optional: false
+                                                    },
                                                     constraint: None,
                                                     default: None
                                                 }
@@ -105,9 +106,9 @@ Module {
                         expr: Class(
                             ClassExpr {
                                 ident: Some(
-                                    Ident(
-                                        C,
-                                        Span {
+                                    Ident {
+                                        sym: C,
+                                        span: Span {
                                             lo: BytePos(
                                                 22
                                             ),
@@ -116,8 +117,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 ),
                                 class: Class {
                                     span: Span {
@@ -155,9 +157,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    name: Ident(
-                                                        T,
-                                                        Span {
+                                                    name: Ident {
+                                                        sym: T,
+                                                        span: Span {
                                                             lo: BytePos(
                                                                 24
                                                             ),
@@ -166,8 +168,9 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        None
-                                                    ),
+                                                        type_ann: None,
+                                                        optional: false
+                                                    },
                                                     constraint: None,
                                                     default: None
                                                 }

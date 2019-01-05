@@ -35,9 +35,9 @@ Module {
                                     ctxt: #0
                                 },
                                 callee: Ident(
-                                    Ident(
-                                        A,
-                                        Span {
+                                    Ident {
+                                        sym: A,
+                                        span: Span {
                                             lo: BytePos(
                                                 4
                                             ),
@@ -46,17 +46,18 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 ),
                                 args: None,
                                 type_args: None
                             }
                         ),
                         right: Ident(
-                            Ident(
-                                T,
-                                Span {
+                            Ident {
+                                sym: T,
+                                span: Span {
                                     lo: BytePos(
                                         8
                                     ),
@@ -65,8 +66,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         )
                     }
                 )

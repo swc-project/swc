@@ -35,9 +35,9 @@ Module {
                                         ctxt: #0
                                     },
                                     expr: Ident(
-                                        Ident(
-                                            x,
-                                            Span {
+                                        Ident {
+                                            sym: x,
+                                            span: Span {
                                                 lo: BytePos(
                                                     0
                                                 ),
@@ -46,16 +46,17 @@ Module {
                                                 ),
                                                 ctxt: #0
                                             },
-                                            None
-                                        )
+                                            type_ann: None,
+                                            optional: false
+                                        }
                                     )
                                 }
                             )
                         ),
                         prop: Ident(
-                            Ident(
-                                y,
-                                Span {
+                            Ident {
+                                sym: y,
+                                span: Span {
                                     lo: BytePos(
                                         3
                                     ),
@@ -64,8 +65,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         computed: false
                     }

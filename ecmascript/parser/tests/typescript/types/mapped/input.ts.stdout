@@ -36,9 +36,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        map,
-                                        Span {
+                                    Ident {
+                                        sym: map,
+                                        span: Span {
                                             lo: BytePos(
                                                 4
                                             ),
@@ -47,7 +47,7 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        Some(
+                                        type_ann: Some(
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
@@ -80,9 +80,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            name: Ident(
-                                                                P,
-                                                                Span {
+                                                            name: Ident {
+                                                                sym: P,
+                                                                span: Span {
                                                                     lo: BytePos(
                                                                         12
                                                                     ),
@@ -91,8 +91,9 @@ Module {
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                None
-                                                            ),
+                                                                type_ann: None,
+                                                                optional: false
+                                                            },
                                                             constraint: Some(
                                                                 TsKeywordType(
                                                                     TsKeywordType {
@@ -131,8 +132,9 @@ Module {
                                                     }
                                                 )
                                             }
-                                        )
-                                    )
+                                        ),
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false
@@ -169,9 +171,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        map,
-                                        Span {
+                                    Ident {
+                                        sym: map,
+                                        span: Span {
                                             lo: BytePos(
                                                 41
                                             ),
@@ -180,7 +182,7 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        Some(
+                                        type_ann: Some(
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
@@ -215,9 +217,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            name: Ident(
-                                                                P,
-                                                                Span {
+                                                            name: Ident {
+                                                                sym: P,
+                                                                span: Span {
                                                                     lo: BytePos(
                                                                         58
                                                                     ),
@@ -226,8 +228,9 @@ Module {
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                None
-                                                            ),
+                                                                type_ann: None,
+                                                                optional: false
+                                                            },
                                                             constraint: Some(
                                                                 TsKeywordType(
                                                                     TsKeywordType {
@@ -268,8 +271,9 @@ Module {
                                                     }
                                                 )
                                             }
-                                        )
-                                    )
+                                        ),
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false
@@ -306,9 +310,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        map,
-                                        Span {
+                                    Ident {
+                                        sym: map,
+                                        span: Span {
                                             lo: BytePos(
                                                 88
                                             ),
@@ -317,7 +321,7 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        Some(
+                                        type_ann: Some(
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
@@ -352,9 +356,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            name: Ident(
-                                                                P,
-                                                                Span {
+                                                            name: Ident {
+                                                                sym: P,
+                                                                span: Span {
                                                                     lo: BytePos(
                                                                         106
                                                                     ),
@@ -363,8 +367,9 @@ Module {
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                None
-                                                            ),
+                                                                type_ann: None,
+                                                                optional: false
+                                                            },
                                                             constraint: Some(
                                                                 TsKeywordType(
                                                                     TsKeywordType {
@@ -405,8 +410,9 @@ Module {
                                                     }
                                                 )
                                             }
-                                        )
-                                    )
+                                        ),
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false
@@ -443,9 +449,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        map,
-                                        Span {
+                                    Ident {
+                                        sym: map,
+                                        span: Span {
                                             lo: BytePos(
                                                 137
                                             ),
@@ -454,7 +460,7 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        Some(
+                                        type_ann: Some(
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
@@ -489,9 +495,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            name: Ident(
-                                                                P,
-                                                                Span {
+                                                            name: Ident {
+                                                                sym: P,
+                                                                span: Span {
                                                                     lo: BytePos(
                                                                         155
                                                                     ),
@@ -500,8 +506,9 @@ Module {
                                                                     ),
                                                                     ctxt: #0
                                                                 },
-                                                                None
-                                                            ),
+                                                                type_ann: None,
+                                                                optional: false
+                                                            },
                                                             constraint: Some(
                                                                 TsKeywordType(
                                                                     TsKeywordType {
@@ -542,8 +549,9 @@ Module {
                                                     }
                                                 )
                                             }
-                                        )
-                                    )
+                                        ),
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false

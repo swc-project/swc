@@ -23,9 +23,9 @@ Module {
                             ctxt: #0
                         },
                         tag: Ident(
-                            Ident(
-                                f,
-                                Span {
+                            Ident {
+                                sym: f,
+                                span: Span {
                                     lo: BytePos(
                                         0
                                     ),
@@ -34,8 +34,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         exprs: [],
                         quasis: [
@@ -104,9 +105,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             type_name: Ident(
-                                                Ident(
-                                                    T,
-                                                    Span {
+                                                Ident {
+                                                    sym: T,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             2
                                                         ),
@@ -115,8 +116,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
                                             type_params: None
                                         }

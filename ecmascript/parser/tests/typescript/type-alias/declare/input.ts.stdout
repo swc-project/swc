@@ -23,9 +23,9 @@ Module {
                             ctxt: #0
                         },
                         declare: true,
-                        id: Ident(
-                            T,
-                            Span {
+                        id: Ident {
+                            sym: T,
+                            span: Span {
                                 lo: BytePos(
                                     13
                                 ),
@@ -34,8 +34,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         type_params: None,
                         type_ann: TsKeywordType(
                             TsKeywordType {

@@ -25,9 +25,9 @@ Module {
                         declare: false,
                         global: false,
                         id: Ident(
-                            Ident(
-                                N,
-                                Span {
+                            Ident {
+                                sym: N,
+                                span: Span {
                                     lo: BytePos(
                                         10
                                     ),
@@ -36,8 +36,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsModuleBlock(
@@ -78,9 +79,9 @@ Module {
                                                                 ctxt: #0
                                                             },
                                                             name: Ident(
-                                                                Ident(
-                                                                    x,
-                                                                    Span {
+                                                                Ident {
+                                                                    sym: x,
+                                                                    span: Span {
                                                                         lo: BytePos(
                                                                             24
                                                                         ),
@@ -89,8 +90,9 @@ Module {
                                                                         ),
                                                                         ctxt: #0
                                                                     },
-                                                                    None
-                                                                )
+                                                                    type_ann: None,
+                                                                    optional: false
+                                                                }
                                                             ),
                                                             init: Some(
                                                                 Lit(

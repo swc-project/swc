@@ -13,9 +13,9 @@ Module {
             Decl(
                 Class(
                     ClassDecl {
-                        ident: Ident(
-                            C,
-                            Span {
+                        ident: Ident {
+                            sym: C,
+                            span: Span {
                                 lo: BytePos(
                                     6
                                 ),
@@ -24,8 +24,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         class: Class {
                             span: Span {
@@ -51,9 +52,9 @@ Module {
                                             ctxt: #0
                                         },
                                         key: Ident(
-                                            Ident(
-                                                f,
-                                                Span {
+                                            Ident {
+                                                sym: f,
+                                                span: Span {
                                                     lo: BytePos(
                                                         14
                                                     ),
@@ -62,8 +63,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         function: Function {
                                             params: [],

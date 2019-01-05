@@ -47,9 +47,9 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    key: Ident(
-                                                        a,
-                                                        Span {
+                                                    key: Ident {
+                                                        sym: a,
+                                                        span: Span {
                                                             lo: BytePos(
                                                                 3
                                                             ),
@@ -58,8 +58,9 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        None
-                                                    ),
+                                                        type_ann: None,
+                                                        optional: false
+                                                    },
                                                     value: Some(
                                                         Lit(
                                                             Num(

@@ -25,9 +25,9 @@ Module {
                         declare: false,
                         global: false,
                         id: Ident(
-                            Ident(
-                                N,
-                                Span {
+                            Ident {
+                                sym: N,
+                                span: Span {
                                     lo: BytePos(
                                         10
                                     ),
@@ -36,8 +36,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsModuleBlock(
@@ -75,9 +76,9 @@ Module {
                         declare: false,
                         global: false,
                         id: Ident(
-                            Ident(
-                                M,
-                                Span {
+                            Ident {
+                                sym: M,
+                                span: Span {
                                     lo: BytePos(
                                         25
                                     ),
@@ -86,8 +87,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsNamespaceDecl(
@@ -103,9 +105,9 @@ Module {
                                     },
                                     declare: false,
                                     global: false,
-                                    id: Ident(
-                                        N,
-                                        Span {
+                                    id: Ident {
+                                        sym: N,
+                                        span: Span {
                                             lo: BytePos(
                                                 27
                                             ),
@@ -114,8 +116,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    ),
+                                        type_ann: None,
+                                        optional: false
+                                    },
                                     body: TsNamespaceDecl(
                                         TsNamespaceDecl {
                                             span: Span {
@@ -129,9 +132,9 @@ Module {
                                             },
                                             declare: false,
                                             global: false,
-                                            id: Ident(
-                                                O,
-                                                Span {
+                                            id: Ident {
+                                                sym: O,
+                                                span: Span {
                                                     lo: BytePos(
                                                         29
                                                     ),
@@ -140,8 +143,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            ),
+                                                type_ann: None,
+                                                optional: false
+                                            },
                                             body: TsModuleBlock(
                                                 TsModuleBlock {
                                                     span: Span {
@@ -181,9 +185,9 @@ Module {
                         declare: false,
                         global: false,
                         id: Ident(
-                            Ident(
-                                M,
-                                Span {
+                            Ident {
+                                sym: M,
+                                span: Span {
                                     lo: BytePos(
                                         41
                                     ),
@@ -192,8 +196,9 @@ Module {
                                     ),
                                     ctxt: #0
                                 },
-                                None
-                            )
+                                type_ann: None,
+                                optional: false
+                            }
                         ),
                         body: Some(
                             TsModuleBlock(

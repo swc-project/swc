@@ -34,9 +34,9 @@ Module {
                                     ctxt: #0
                                 },
                                 tag: Ident(
-                                    Ident(
-                                        C,
-                                        Span {
+                                    Ident {
+                                        sym: C,
+                                        span: Span {
                                             lo: BytePos(
                                                 4
                                             ),
@@ -45,8 +45,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 ),
                                 exprs: [],
                                 quasis: [
@@ -115,9 +116,9 @@ Module {
                                                         ctxt: #0
                                                     },
                                                     type_name: Ident(
-                                                        Ident(
-                                                            T,
-                                                            Span {
+                                                        Ident {
+                                                            sym: T,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     6
                                                                 ),
@@ -126,8 +127,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            None
-                                                        )
+                                                            type_ann: None,
+                                                            optional: false
+                                                        }
                                                     ),
                                                     type_params: None
                                                 }

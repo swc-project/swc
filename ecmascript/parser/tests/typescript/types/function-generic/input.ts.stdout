@@ -36,9 +36,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        f,
-                                        Span {
+                                    Ident {
+                                        sym: f,
+                                        span: Span {
                                             lo: BytePos(
                                                 4
                                             ),
@@ -47,7 +47,7 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        Some(
+                                        type_ann: Some(
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
@@ -72,9 +72,9 @@ Module {
                                                             },
                                                             params: [
                                                                 Ident(
-                                                                    Ident(
-                                                                        a,
-                                                                        Span {
+                                                                    Ident {
+                                                                        sym: a,
+                                                                        span: Span {
                                                                             lo: BytePos(
                                                                                 11
                                                                             ),
@@ -83,7 +83,7 @@ Module {
                                                                             ),
                                                                             ctxt: #0
                                                                         },
-                                                                        Some(
+                                                                        type_ann: Some(
                                                                             TsTypeAnn {
                                                                                 span: Span {
                                                                                     lo: BytePos(
@@ -106,9 +106,9 @@ Module {
                                                                                             ctxt: #0
                                                                                         },
                                                                                         type_name: Ident(
-                                                                                            Ident(
-                                                                                                T,
-                                                                                                Span {
+                                                                                            Ident {
+                                                                                                sym: T,
+                                                                                                span: Span {
                                                                                                     lo: BytePos(
                                                                                                         14
                                                                                                     ),
@@ -117,15 +117,17 @@ Module {
                                                                                                     ),
                                                                                                     ctxt: #0
                                                                                                 },
-                                                                                                None
-                                                                                            )
+                                                                                                type_ann: None,
+                                                                                                optional: false
+                                                                                            }
                                                                                         ),
                                                                                         type_params: None
                                                                                     }
                                                                                 )
                                                                             }
-                                                                        )
-                                                                    )
+                                                                        ),
+                                                                        optional: false
+                                                                    }
                                                                 )
                                                             ],
                                                             type_params: Some(
@@ -150,9 +152,9 @@ Module {
                                                                                 ),
                                                                                 ctxt: #0
                                                                             },
-                                                                            name: Ident(
-                                                                                T,
-                                                                                Span {
+                                                                            name: Ident {
+                                                                                sym: T,
+                                                                                span: Span {
                                                                                     lo: BytePos(
                                                                                         8
                                                                                     ),
@@ -161,8 +163,9 @@ Module {
                                                                                     ),
                                                                                     ctxt: #0
                                                                                 },
-                                                                                None
-                                                                            ),
+                                                                                type_ann: None,
+                                                                                optional: false
+                                                                            },
                                                                             constraint: None,
                                                                             default: None
                                                                         }
@@ -191,9 +194,9 @@ Module {
                                                                             ctxt: #0
                                                                         },
                                                                         type_name: Ident(
-                                                                            Ident(
-                                                                                T,
-                                                                                Span {
+                                                                            Ident {
+                                                                                sym: T,
+                                                                                span: Span {
                                                                                     lo: BytePos(
                                                                                         20
                                                                                     ),
@@ -202,8 +205,9 @@ Module {
                                                                                     ),
                                                                                     ctxt: #0
                                                                                 },
-                                                                                None
-                                                                            )
+                                                                                type_ann: None,
+                                                                                optional: false
+                                                                            }
                                                                         ),
                                                                         type_params: None
                                                                     }
@@ -213,8 +217,9 @@ Module {
                                                     )
                                                 )
                                             }
-                                        )
-                                    )
+                                        ),
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false

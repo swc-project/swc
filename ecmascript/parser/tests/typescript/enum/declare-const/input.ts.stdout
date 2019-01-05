@@ -24,9 +24,9 @@ Module {
                         },
                         declare: true,
                         is_const: true,
-                        id: Ident(
-                            E,
-                            Span {
+                        id: Ident {
+                            sym: E,
+                            span: Span {
                                 lo: BytePos(
                                     19
                                 ),
@@ -35,8 +35,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         members: []
                     }
                 )

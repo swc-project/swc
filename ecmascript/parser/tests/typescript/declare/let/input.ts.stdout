@@ -36,9 +36,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        x,
-                                        Span {
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
                                             lo: BytePos(
                                                 12
                                             ),
@@ -47,8 +47,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false

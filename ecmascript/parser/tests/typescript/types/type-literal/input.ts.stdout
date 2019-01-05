@@ -36,9 +36,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        obj,
-                                        Span {
+                                    Ident {
+                                        sym: obj,
+                                        span: Span {
                                             lo: BytePos(
                                                 4
                                             ),
@@ -47,7 +47,7 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        Some(
+                                        type_ann: Some(
                                             TsTypeAnn {
                                                 span: Span {
                                                     lo: BytePos(
@@ -83,9 +83,9 @@ Module {
                                                                     },
                                                                     readonly: false,
                                                                     key: Ident(
-                                                                        Ident(
-                                                                            x,
-                                                                            Span {
+                                                                        Ident {
+                                                                            sym: x,
+                                                                            span: Span {
                                                                                 lo: BytePos(
                                                                                     11
                                                                                 ),
@@ -94,8 +94,9 @@ Module {
                                                                                 ),
                                                                                 ctxt: #0
                                                                             },
-                                                                            None
-                                                                        )
+                                                                            type_ann: None,
+                                                                            optional: false
+                                                                        }
                                                                     ),
                                                                     computed: false,
                                                                     optional: false,
@@ -135,8 +136,9 @@ Module {
                                                     }
                                                 )
                                             }
-                                        )
-                                    )
+                                        ),
+                                        optional: false
+                                    }
                                 ),
                                 init: None,
                                 definite: false

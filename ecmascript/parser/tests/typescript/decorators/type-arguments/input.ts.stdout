@@ -13,9 +13,9 @@ Module {
             Decl(
                 Class(
                     ClassDecl {
-                        ident: Ident(
-                            Test,
-                            Span {
+                        ident: Ident {
+                            sym: Test,
+                            span: Span {
                                 lo: BytePos(
                                     27
                                 ),
@@ -24,8 +24,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         class: Class {
                             span: Span {
@@ -61,9 +62,9 @@ Module {
                                             },
                                             callee: Expr(
                                                 Ident(
-                                                    Ident(
-                                                        decorator,
-                                                        Span {
+                                                    Ident {
+                                                        sym: decorator,
+                                                        span: Span {
                                                             lo: BytePos(
                                                                 1
                                                             ),
@@ -72,8 +73,9 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        None
-                                                    )
+                                                        type_ann: None,
+                                                        optional: false
+                                                    }
                                                 )
                                             ),
                                             args: [],

@@ -13,9 +13,9 @@ Module {
             Decl(
                 Class(
                     ClassDecl {
-                        ident: Ident(
-                            Foo,
-                            Span {
+                        ident: Ident {
+                            sym: Foo,
+                            span: Span {
                                 lo: BytePos(
                                     6
                                 ),
@@ -24,8 +24,9 @@ Module {
                                 ),
                                 ctxt: #0
                             },
-                            None
-                        ),
+                            type_ann: None,
+                            optional: false
+                        },
                         declare: false,
                         class: Class {
                             span: Span {
@@ -51,9 +52,9 @@ Module {
                                             ctxt: #0
                                         },
                                         key: Ident(
-                                            Ident(
-                                                constructor,
-                                                Span {
+                                            Ident {
+                                                sym: constructor,
+                                                span: Span {
                                                     lo: BytePos(
                                                         14
                                                     ),
@@ -62,16 +63,17 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         function: Function {
                                             params: [
                                                 Pat(
                                                     Ident(
-                                                        Ident(
-                                                            set,
-                                                            Span {
+                                                        Ident {
+                                                            sym: set,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     26
                                                                 ),
@@ -80,15 +82,16 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            None
-                                                        )
+                                                            type_ann: None,
+                                                            optional: false
+                                                        }
                                                     )
                                                 ),
                                                 Pat(
                                                     Ident(
-                                                        Ident(
-                                                            readonly,
-                                                            Span {
+                                                        Ident {
+                                                            sym: readonly,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     31
                                                                 ),
@@ -97,8 +100,9 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            None
-                                                        )
+                                                            type_ann: None,
+                                                            optional: false
+                                                        }
                                                     )
                                                 )
                                             ],
@@ -148,9 +152,9 @@ Module {
                                             ctxt: #0
                                         },
                                         key: Ident(
-                                            Ident(
-                                                constructor,
-                                                Span {
+                                            Ident {
+                                                sym: constructor,
+                                                span: Span {
                                                     lo: BytePos(
                                                         46
                                                     ),
@@ -159,16 +163,17 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         function: Function {
                                             params: [
                                                 Pat(
                                                     Ident(
-                                                        Ident(
-                                                            set,
-                                                            Span {
+                                                        Ident {
+                                                            sym: set,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     58
                                                                 ),
@@ -177,7 +182,7 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            Some(
+                                                            type_ann: Some(
                                                                 TsTypeAnn {
                                                                     span: Span {
                                                                         lo: BytePos(
@@ -203,15 +208,16 @@ Module {
                                                                         }
                                                                     )
                                                                 }
-                                                            )
-                                                        )
+                                                            ),
+                                                            optional: false
+                                                        }
                                                     )
                                                 ),
                                                 Pat(
                                                     Ident(
-                                                        Ident(
-                                                            readonly,
-                                                            Span {
+                                                        Ident {
+                                                            sym: readonly,
+                                                            span: Span {
                                                                 lo: BytePos(
                                                                     68
                                                                 ),
@@ -220,7 +226,7 @@ Module {
                                                                 ),
                                                                 ctxt: #0
                                                             },
-                                                            Some(
+                                                            type_ann: Some(
                                                                 TsTypeAnn {
                                                                     span: Span {
                                                                         lo: BytePos(
@@ -246,8 +252,9 @@ Module {
                                                                         }
                                                                     )
                                                                 }
-                                                            )
-                                                        )
+                                                            ),
+                                                            optional: false
+                                                        }
                                                     )
                                                 )
                                             ],

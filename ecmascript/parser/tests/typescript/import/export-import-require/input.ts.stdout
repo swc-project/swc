@@ -23,9 +23,9 @@ Module {
                     },
                     declare: false,
                     is_export: true,
-                    id: Ident(
-                        a,
-                        Span {
+                    id: Ident {
+                        sym: a,
+                        span: Span {
                             lo: BytePos(
                                 14
                             ),
@@ -34,8 +34,9 @@ Module {
                             ),
                             ctxt: #0
                         },
-                        None
-                    ),
+                        type_ann: None,
+                        optional: false
+                    },
                     module_ref: TsExternalModuleRef(
                         TsExternalModuleRef {
                             span: Span {
