@@ -154,7 +154,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<'a, TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
 
-        let mut entity = TsEntityName::Ident(self.parse_ident(false, false)?);
+        let mut entity = TsEntityName::Ident(self.parse_ident_name()?);
         while eat!('.') {
             let left = entity;
             let right = self.parse_ident(allow_reserved_words, allow_reserved_words)?;
@@ -327,7 +327,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_ts_type_predicate_prefix(&mut self) -> PResult<'a, Option<Ident>> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident(false, false)?;
+        let id = self.parse_ident_name()?;
 
         if is!("is") && !self.input.had_line_break_before_cur() {
             assert_and_bump!("is");
@@ -477,7 +477,7 @@ impl<'a, I: Input> Parser<'a, I> {
     ) -> PResult<'a, TsEnumDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident(false, false)?;
+        let id = self.parse_ident_name()?;
         expect!('{');
         let members = self
             .parse_ts_delimited_list(ParsingContext::EnumMembers, |p| p.parse_ts_enum_member())?;
@@ -517,7 +517,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<'a, TsModuleDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident(false, false)?;
+        let id = self.parse_ident_name()?;
         let body: TsNamespaceBody = if eat!('.') {
             let inner_start = cur_pos!();
             let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
@@ -553,7 +553,7 @@ impl<'a, I: Input> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         let (global, id) = if is!("global") {
-            let id = self.parse_ident(false, false)?;
+            let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id))
         } else if match *cur!(true)? {
             Token::Str { .. } => true,
@@ -706,7 +706,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let start = cur_pos!();
 
-        let id = self.parse_ident(false, false)?;
+        let id = self.parse_ident_name()?;
         let type_params = self.try_parse_ts_type_params()?;
 
         let extends = if eat!("extends") {
@@ -738,7 +738,7 @@ impl<'a, I: Input> Parser<'a, I> {
     fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<'a, TsTypeAliasDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident(false, false)?;
+        let id = self.parse_ident_name()?;
         let type_params = self.try_parse_ts_type_params()?;
         let type_ann = self.expect_then_parse_ts_type(&tok!('='))?;
         expect!(';');
@@ -760,7 +760,7 @@ impl<'a, I: Input> Parser<'a, I> {
     ) -> PResult<'a, TsImportEqualsDecl> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident(false, false)?;
+        let id = self.parse_ident_name()?;
         expect!('=');
 
         let module_ref = self.parse_ts_module_ref()?;
@@ -962,7 +962,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         expect!('[');
 
-        let mut id = self.parse_ident(false, false)?;
+        let mut id = self.parse_ident_name()?;
 
         expect!(':');
         let cur_pos = cur_pos!();
@@ -1795,7 +1795,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             js_word!("enum") => {
-                if next || is!("enum") {
+                if next || is!(IdentRef) {
                     if next {
                         bump!();
                     }
