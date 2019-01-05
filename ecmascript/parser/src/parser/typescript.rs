@@ -1394,8 +1394,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// `tsTryParseTypeAnnotation`
     pub(super) fn try_parse_ts_type_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
-        debug_assert!(self.input.syntax().typescript());
-
         if is!(':') {
             let pos = cur_pos!();
             return self.parse_ts_type_ann(/* eat_colon */ true, pos).map(Some);

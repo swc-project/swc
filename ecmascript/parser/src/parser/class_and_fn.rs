@@ -496,6 +496,9 @@ impl<'a, I: Input> Parser<'a, I> {
         if is_constructor(&key) {
             syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
         }
+        let definite = self.input.syntax().typescript() && !is_optional && eat!('!');
+
+        let type_ann = self.try_parse_ts_type_ann()?;
 
         let ctx = Context {
             in_class_prop: true,
@@ -526,8 +529,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_abstract,
                     is_optional,
                     readonly,
-                    definite: false,
-                    type_ann: None,
+                    definite,
+                    type_ann,
                 }
                 .into(),
                 Either::Right(key) => ClassProperty {
@@ -545,8 +548,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_abstract,
                     is_optional,
                     readonly,
-                    definite: false,
-                    type_ann: None,
+                    definite,
+                    type_ann,
                 }
                 .into(),
             })
