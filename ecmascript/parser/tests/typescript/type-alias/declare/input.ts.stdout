@@ -15,7 +15,7 @@ Module {
                     TsTypeAliasDecl {
                         span: Span {
                             lo: BytePos(
-                                8
+                                0
                             ),
                             hi: BytePos(
                                 24

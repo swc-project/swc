@@ -10,6 +10,8 @@ pub struct Ident {
     #[fold(ignore)]
     pub sym: JsWord,
     pub type_ann: Option<TsTypeAnn>,
+    /// TypeScript only. Used in case of an optional parameter.
+    pub optional: bool,
 }
 
 impl Debug for Ident {
@@ -47,6 +49,7 @@ impl Ident {
             span,
             sym,
             type_ann: None,
+            optional: false,
         }
     }
 }

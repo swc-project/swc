@@ -121,6 +121,23 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_formal_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
         let mut pat = self.parse_binding_element()?;
         if self.input.syntax().typescript() {
+            if {
+                match pat {
+                    Pat::Ident(..) => true,
+                    _ => false,
+                }
+            } && eat!('?')
+            {
+                match pat {
+                    Pat::Ident(Ident {
+                        ref mut optional, ..
+                    }) => {
+                        *optional = true;
+                    }
+                    _ => unreachable!(),
+                }
+            }
+
             match pat {
                 Pat::Array(ArrayPat {
                     ref mut type_ann, ..

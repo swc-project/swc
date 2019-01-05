@@ -15,7 +15,7 @@ Module {
                     TsModuleDecl {
                         span: Span {
                             lo: BytePos(
-                                8
+                                0
                             ),
                             hi: BytePos(
                                 24
@@ -93,7 +93,7 @@ Module {
                     TsModuleDecl {
                         span: Span {
                             lo: BytePos(
-                                33
+                                25
                             ),
                             hi: BytePos(
                                 44
@@ -143,7 +143,7 @@ Module {
                     TsModuleDecl {
                         span: Span {
                             lo: BytePos(
-                                53
+                                45
                             ),
                             hi: BytePos(
                                 66
@@ -193,7 +193,7 @@ Module {
                     TsModuleDecl {
                         span: Span {
                             lo: BytePos(
-                                75
+                                67
                             ),
                             hi: BytePos(
                                 84

@@ -60,11 +60,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     _ => unreachable!(),
                 },
                 Word(..) => match bump!() {
-                    Word(w) => PropName::Ident(Ident {
-                        span: span!(start),
-                        sym: w.into(),
-                        type_ann: None,
-                    }),
+                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {

@@ -439,11 +439,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     .map(|function| Method {
                         span: span!(start),
                         is_static: false,
-                        key: PropName::Ident(Ident {
-                            span: static_token,
-                            sym: js_word!("static"),
-                            type_ann: None,
-                        }),
+                        key: PropName::Ident(Ident::new(js_word!("static"), static_token)),
                         function,
                         kind: MethodKind::Method,
 
