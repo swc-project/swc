@@ -245,7 +245,7 @@ Module {
                     TsTypeAliasDecl {
                         span: Span {
                             lo: BytePos(
-                                138
+                                123
                             ),
                             hi: BytePos(
                                 154
@@ -292,7 +292,7 @@ Module {
                     TsModuleDecl {
                         span: Span {
                             lo: BytePos(
-                                170
+                                155
                             ),
                             hi: BytePos(
                                 181
@@ -343,7 +343,7 @@ Module {
                     TsModuleDecl {
                         span: Span {
                             lo: BytePos(
-                                197
+                                182
                             ),
                             hi: BytePos(
                                 211

@@ -134,12 +134,19 @@ impl<'a, I: Input> Parser<'a, I> {
         self.with_ctx(ctx).parse_binding_ident()
     }
 
-    fn parse_export(&mut self, decoraters: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
+    fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
 
         // "export declare" is equivalent to just "export".
         let declare = self.input.syntax().typescript() && eat!("declare");
+
+        if declare {
+            // TODO: Remove
+            if let Some(decl) = self.try_parse_ts_declare(start, decorators.clone())? {
+                return Ok(ModuleDecl::ExportDecl(decl));
+            }
+        }
 
         if self.input.syntax().typescript() && is!(IdentName) {
             let sym = match *cur!(true)? {
@@ -147,7 +154,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => unreachable!(),
             };
             // TODO: remove clone
-            if let Some(decl) = self.try_parse_ts_export_decl(decoraters.clone(), sym)? {
+            if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym)? {
                 return Ok(ModuleDecl::ExportDecl(decl));
             }
         }
@@ -198,7 +205,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 if is!("abstract") && peeked_is!("class") {
                     let start = cur_pos!();
                     assert_and_bump!("abstract");
-                    let mut class = self.parse_default_class(decoraters)?;
+                    let mut class = self.parse_default_class(decorators)?;
                     match class {
                         ExportDefaultDecl::Class(ClassExpr { ref mut class, .. }) => {
                             class.is_abstract = true
@@ -215,14 +222,14 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             let decl = if is!("class") {
-                self.parse_default_class(decoraters)?
+                self.parse_default_class(decorators)?
             } else if is!("async")
                 && peeked_is!("function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                self.parse_default_async_fn(decoraters)?
+                self.parse_default_async_fn(decorators)?
             } else if is!("function") {
-                self.parse_default_fn(decoraters)?
+                self.parse_default_fn(decorators)?
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');
@@ -233,14 +240,14 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let decl = if is!("class") {
-            self.parse_class_decl(decoraters)?
+            self.parse_class_decl(decorators)?
         } else if is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            self.parse_async_fn_decl(decoraters)?
+            self.parse_async_fn_decl(decorators)?
         } else if is!("function") {
-            self.parse_fn_decl(decoraters)?
+            self.parse_fn_decl(decorators)?
         } else if is!("var")
             || is!("const")
             || (is!("let")

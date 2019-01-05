@@ -1698,7 +1698,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseDeclare`
-    fn try_parse_ts_declare(
+    pub(super) fn try_parse_ts_declare(
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
