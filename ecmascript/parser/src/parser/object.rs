@@ -139,7 +139,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
-        if is!('(') {
+        if (self.input.syntax().typescript() && is!('<')) || is!('(') {
             return self
                 .parse_fn_args_body(
                     /* is_constructor */ false,
