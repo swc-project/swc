@@ -942,7 +942,8 @@ impl<'a, I: Input> Parser<'a, I> {
     fn is_ts_unambiguously_index_signature(&mut self) -> PResult<'a, bool> {
         debug_assert!(self.input.syntax().typescript());
 
-        assert_and_bump!('{'); // Skip '{'
+        // Note: babel's comment is wrong
+        assert_and_bump!('['); // Skip '['
 
         Ok(eat!(IdentRef) && is!(':'))
     }
