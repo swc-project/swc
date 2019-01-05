@@ -4,7 +4,8 @@ use crate::{
     ident::PrivateName,
     prop::PropName,
     typescript::{
-        Accessibility, TsExprWithTypeArgs, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation,
+        Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
+        TsTypeParamInstantiation,
     },
 };
 use swc_common::{ast_node, Fold, Span};
@@ -35,6 +36,7 @@ pub enum ClassMember {
     /// stage 0 / Typescript
     ClassProp(ClassProp),
     PrivateProp(PrivateProp),
+    TsIndexSignature(TsIndexSignature),
 }
 
 pub type ClassProp = ClassProperty<Box<Expr>>;

@@ -306,6 +306,14 @@ impl<'a, I: Input> Parser<'a, I> {
             _ => (false, false),
         };
 
+        if self.input.syntax().typescript() && !is_abstract && !is_static && accessibility.is_none()
+        {
+            let idx = self.try_parse_ts_index_signature(start, readonly)?;
+            if let Some(idx) = idx {
+                return Ok(idx.into());
+            }
+        }
+
         if eat!('*') {
             // generator method
             let key = self.parse_class_prop_name()?;

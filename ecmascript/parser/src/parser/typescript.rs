@@ -951,7 +951,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseIndexSignature`
-    fn try_parse_ts_index_signature(
+    pub(super) fn try_parse_ts_index_signature(
         &mut self,
         start: BytePos,
         readonly: bool,
