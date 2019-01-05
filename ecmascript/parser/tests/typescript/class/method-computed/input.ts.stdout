@@ -261,7 +261,7 @@ Module {
                                         is_static: false,
                                         accessibility: None,
                                         is_abstract: false,
-                                        is_optional: false
+                                        is_optional: true
                                     }
                                 )
                             ],

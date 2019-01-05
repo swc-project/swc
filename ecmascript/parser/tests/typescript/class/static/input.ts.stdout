@@ -139,7 +139,9 @@ Module {
                                         },
                                         kind: Method,
                                         is_static: true,
-                                        accessibility: None,
+                                        accessibility: Some(
+                                            Public
+                                        ),
                                         is_abstract: false,
                                         is_optional: false
                                     }
@@ -191,7 +193,9 @@ Module {
                                         },
                                         kind: Method,
                                         is_static: true,
-                                        accessibility: None,
+                                        accessibility: Some(
+                                            Protected
+                                        ),
                                         is_abstract: false,
                                         is_optional: false
                                     }
@@ -243,7 +247,9 @@ Module {
                                         },
                                         kind: Method,
                                         is_static: true,
-                                        accessibility: None,
+                                        accessibility: Some(
+                                            Private
+                                        ),
                                         is_abstract: false,
                                         is_optional: false
                                     }

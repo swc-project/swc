@@ -30,7 +30,9 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         allowed_modifiers: &[&'static str],
     ) -> PResult<'a, Option<&'static str>> {
-        debug_assert!(self.input.syntax().typescript());
+        if !self.input.syntax().typescript() {
+            return Ok(None);
+        }
 
         let pos = {
             let modifier = match *cur!(true)? {

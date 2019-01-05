@@ -113,7 +113,9 @@ Module {
                                         },
                                         kind: Method,
                                         is_static: false,
-                                        accessibility: None,
+                                        accessibility: Some(
+                                            Public
+                                        ),
                                         is_abstract: false,
                                         is_optional: false
                                     }

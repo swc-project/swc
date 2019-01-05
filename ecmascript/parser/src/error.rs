@@ -146,6 +146,7 @@ pub(crate) enum SyntaxError {
     AsyncConstructor,
     PropertyNamedConstructor,
     ClassProperty,
+    ReadOnlyMethod,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -271,6 +272,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 "Classes may not have a non-static field named 'constructor'".into()
             }
             ClassProperty => "Class property requires `esnext.classProperty` to be true".into(),
+            ReadOnlyMethod => "A method cannot be readonly".into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);

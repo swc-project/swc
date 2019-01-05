@@ -1,0 +1,654 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            40
+        ),
+        hi: BytePos(
+            295
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Class(
+                    ClassDecl {
+                        ident: Ident {
+                            sym: C,
+                            span: Span {
+                                lo: BytePos(
+                                    55
+                                ),
+                                hi: BytePos(
+                                    56
+                                ),
+                                ctxt: #0
+                            },
+                            type_ann: None,
+                            optional: false
+                        },
+                        declare: false,
+                        class: Class {
+                            span: Span {
+                                lo: BytePos(
+                                    49
+                                ),
+                                hi: BytePos(
+                                    295
+                                ),
+                                ctxt: #0
+                            },
+                            decorators: [],
+                            body: [
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                63
+                                            ),
+                                            hi: BytePos(
+                                                80
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: a,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        76
+                                                    ),
+                                                    hi: BytePos(
+                                                        77
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    63
+                                                ),
+                                                hi: BytePos(
+                                                    80
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: None,
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: None,
+                                        is_abstract: true,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                85
+                                            ),
+                                            hi: BytePos(
+                                                113
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: s,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        96
+                                                    ),
+                                                    hi: BytePos(
+                                                        97
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    85
+                                                ),
+                                                hi: BytePos(
+                                                    113
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: Some(
+                                                BlockStmt {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            100
+                                                        ),
+                                                        hi: BytePos(
+                                                            113
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    stmts: [
+                                                        Return(
+                                                            ReturnStmt {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        102
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        111
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                arg: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        109
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        110
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 0.0
+                                                                            }
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+                                                        )
+                                                    ]
+                                                }
+                                            ),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: true,
+                                        accessibility: None,
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                125
+                                            ),
+                                            hi: BytePos(
+                                                144
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: pua,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        138
+                                                    ),
+                                                    hi: BytePos(
+                                                        141
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    125
+                                                ),
+                                                hi: BytePos(
+                                                    144
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: None,
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: Some(
+                                            Public
+                                        ),
+                                        is_abstract: true,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                156
+                                            ),
+                                            hi: BytePos(
+                                                186
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: pus,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        167
+                                                    ),
+                                                    hi: BytePos(
+                                                        170
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    156
+                                                ),
+                                                hi: BytePos(
+                                                    186
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: Some(
+                                                BlockStmt {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            173
+                                                        ),
+                                                        hi: BytePos(
+                                                            186
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    stmts: [
+                                                        Return(
+                                                            ReturnStmt {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        175
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        184
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                arg: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        182
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        183
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 0.0
+                                                                            }
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+                                                        )
+                                                    ]
+                                                }
+                                            ),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: true,
+                                        accessibility: Some(
+                                            Public
+                                        ),
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                199
+                                            ),
+                                            hi: BytePos(
+                                                221
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: pu,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        203
+                                                    ),
+                                                    hi: BytePos(
+                                                        205
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    199
+                                                ),
+                                                hi: BytePos(
+                                                    221
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: Some(
+                                                BlockStmt {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            208
+                                                        ),
+                                                        hi: BytePos(
+                                                            221
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    stmts: [
+                                                        Return(
+                                                            ReturnStmt {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        210
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        219
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                arg: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        217
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        218
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 0.0
+                                                                            }
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+                                                        )
+                                                    ]
+                                                }
+                                            ),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: Some(
+                                            Public
+                                        ),
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                236
+                                            ),
+                                            hi: BytePos(
+                                                258
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: po,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        240
+                                                    ),
+                                                    hi: BytePos(
+                                                        242
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    236
+                                                ),
+                                                hi: BytePos(
+                                                    258
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: Some(
+                                                BlockStmt {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            245
+                                                        ),
+                                                        hi: BytePos(
+                                                            258
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    stmts: [
+                                                        Return(
+                                                            ReturnStmt {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        247
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        256
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                arg: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        254
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        255
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 0.0
+                                                                            }
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+                                                        )
+                                                    ]
+                                                }
+                                            ),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: Some(
+                                            Protected
+                                        ),
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                ),
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                271
+                                            ),
+                                            hi: BytePos(
+                                                293
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: pi,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        275
+                                                    ),
+                                                    hi: BytePos(
+                                                        277
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    271
+                                                ),
+                                                hi: BytePos(
+                                                    293
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: Some(
+                                                BlockStmt {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            280
+                                                        ),
+                                                        hi: BytePos(
+                                                            293
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    stmts: [
+                                                        Return(
+                                                            ReturnStmt {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        282
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        291
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                arg: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        289
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        290
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 0.0
+                                                                            }
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+                                                        )
+                                                    ]
+                                                }
+                                            ),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: Some(
+                                            Private
+                                        ),
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                )
+                            ],
+                            super_class: None,
+                            is_abstract: true,
+                            type_params: None,
+                            super_type_params: None,
+                            implements: []
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}

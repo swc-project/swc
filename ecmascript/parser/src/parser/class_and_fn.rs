@@ -255,6 +255,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         start,
                         accessibility,
                         decorators,
+                        is_abstract: false,
                         is_optional,
                         is_async: false,
                         is_generator: false,
@@ -279,6 +280,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     false,
                     is_optional,
                     false,
+                    false,
                 );
             } else {
                 // TODO: error if static contains escape
@@ -297,9 +299,19 @@ impl<'a, I: Input> Parser<'a, I> {
         let is_static = static_token.is_some();
         let start = static_token.map(|s| s.lo()).unwrap_or(cur_pos!());
 
+        let modifier = self.parse_ts_modifier(&["abstract", "readonly"])?;
+        let (is_abstract, readonly) = match modifier {
+            Some("abstract") => (true, self.parse_ts_modifier(&["readonly"])?.is_some()),
+            Some("readonly") => (self.parse_ts_modifier(&["abstract"])?.is_some(), true),
+            _ => (false, false),
+        };
+
         if eat!('*') {
             // generator method
             let key = self.parse_class_prop_name()?;
+            if readonly {
+                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+            }
             if is_constructor(&key) {
                 unexpected!();
             }
@@ -311,6 +323,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_async: false,
                     is_generator: true,
                     accessibility,
+                    is_abstract,
                     is_optional: false,
                     is_static,
                     key,
@@ -334,6 +347,10 @@ impl<'a, I: Input> Parser<'a, I> {
         if self.is_class_method()? {
             // handle a(){} / get(){} / set(){} / async(){}
 
+            if readonly {
+                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+            }
+
             // TODO: check for duplicate constructors
             return self.make_method(
                 |p| p.parse_formal_params(),
@@ -342,6 +359,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_optional,
                     accessibility,
                     decorators,
+                    is_abstract,
                     is_static,
                     kind: if is_constructor(&key) {
                         MethodKind::Constructor
@@ -364,6 +382,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 is_static,
                 is_optional,
                 false,
+                is_abstract,
             );
         }
 
@@ -379,6 +398,9 @@ impl<'a, I: Input> Parser<'a, I> {
             if is_constructor(&key) {
                 syntax_error!(key.span(), SyntaxError::AsyncConstructor)
             }
+            if readonly {
+                syntax_error!(span!(start), SyntaxError::ReadOnlyMethod);
+            }
 
             // handle async foo(){}
             return self.make_method(
@@ -387,6 +409,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     start,
                     is_static,
                     key,
+                    is_abstract,
                     accessibility,
                     is_optional,
                     decorators,
@@ -407,12 +430,17 @@ impl<'a, I: Input> Parser<'a, I> {
                 // handle get foo(){} / set foo(v){}
                 let key = self.parse_class_prop_name()?;
 
+                if readonly {
+                    unexpected!()
+                }
+
                 return match i.sym {
                     js_word!("get") => self.make_method(
                         |_| Ok(vec![]),
                         MakeMethodArgs {
                             decorators,
                             start,
+                            is_abstract,
                             is_async: false,
                             is_generator: false,
                             is_optional,
@@ -428,6 +456,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             decorators,
                             start,
                             is_optional,
+                            is_abstract,
                             is_async: false,
                             is_generator: false,
                             accessibility,
@@ -454,6 +483,7 @@ impl<'a, I: Input> Parser<'a, I> {
         is_static: bool,
         is_optional: bool,
         readonly: bool,
+        is_abstract: bool,
     ) -> PResult<'a, ClassMember> {
         if is_constructor(&key) {
             syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
@@ -485,7 +515,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_static,
                     decorators,
                     accessibility,
-                    is_abstract: false,
+                    is_abstract,
                     is_optional,
                     readonly,
                     definite: false,
@@ -504,7 +534,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_static,
                     decorators,
                     accessibility,
-                    is_abstract: false,
+                    is_abstract,
                     is_optional,
                     readonly,
                     definite: false,
@@ -668,6 +698,7 @@ impl<'a, I: Input> Parser<'a, I> {
         MakeMethodArgs {
             start,
             accessibility,
+            is_abstract,
             is_static,
             decorators,
             is_optional,
@@ -694,7 +725,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
 
                 accessibility,
-                is_abstract: false,
+                is_abstract,
                 is_optional,
 
                 is_static,
@@ -706,9 +737,9 @@ impl<'a, I: Input> Parser<'a, I> {
             Either::Right(key) => Ok(ClassMethod {
                 span: span!(start),
 
-                accessibility: None,
-                is_abstract: false,
-                is_optional: false,
+                accessibility,
+                is_abstract,
+                is_optional,
 
                 is_static,
                 key,
@@ -866,6 +897,7 @@ fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
 struct MakeMethodArgs {
     start: BytePos,
     accessibility: Option<Accessibility>,
+    is_abstract: bool,
     is_static: bool,
     decorators: Vec<Decorator>,
     is_optional: bool,
