@@ -86,7 +86,7 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             let implements = if p.input.syntax().typescript() && eat!("implements") {
-                unimplemented!("implements")
+                p.parse_ts_heritage_clause()?
             } else {
                 vec![]
             };

@@ -673,7 +673,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsParseHeritageClause`
-    fn parse_ts_heritage_clause(&mut self) -> PResult<'a, Vec<TsExprWithTypeArgs>> {
+    pub(super) fn parse_ts_heritage_clause(&mut self) -> PResult<'a, Vec<TsExprWithTypeArgs>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_delimited_list(ParsingContext::HeritageClauseElement, |p| {
