@@ -1,0 +1,6 @@
+error: Unexpected token Some(QuestionMark)
+ --> $DIR/tests/typescript-errors/class/input.ts:2:4
+  |
+2 |   x?!: number;
+  |    ^
+
