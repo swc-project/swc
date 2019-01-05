@@ -828,15 +828,23 @@ impl<'a, I: Input> Parser<'a, I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(callee);
 
+        let type_args = if self.input.syntax().typescript() && is!('<') {
+            self.try_parse_ts(|p| {
+                let type_args = p.parse_ts_type_args()?;
+                if is!('(') {
+                    Ok(Some(type_args))
+                } else {
+                    Ok(None)
+                }
+            })?
+        } else {
+            None
+        };
+
         match *callee {
             // If this is parsed using 'NewExpression' rule, just return it.
             // Because it's not left-recursive.
             Expr::New(ne @ NewExpr { args: None, .. }) => {
-                let type_args = if self.input.syntax().typescript() && is!('<') {
-                    Some(self.parse_ts_type_args()?)
-                } else {
-                    None
-                };
                 if type_args.is_some() {
                     // This fails with `expected (`
                     expect!('(');
@@ -852,19 +860,6 @@ impl<'a, I: Input> Parser<'a, I> {
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
-
-        let type_args = if self.input.syntax().typescript() && is!('<') {
-            self.try_parse_ts(|p| {
-                let type_args = p.parse_ts_type_args()?;
-                if is!('(') {
-                    Ok(Some(type_args))
-                } else {
-                    Ok(None)
-                }
-            })?
-        } else {
-            None
-        };
 
         if is!('(') {
             // This is parsed using production MemberExpression,
