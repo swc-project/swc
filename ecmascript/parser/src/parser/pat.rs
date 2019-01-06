@@ -211,7 +211,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// spec: 'FormalParameterList'
     ///
     /// babel: `parseBindingList`
-    /// 
+    ///
     /// should be called after eating `(`
     fn parse_params_with<F>(&mut self, mut op: F) -> PResult<'a, Vec<PatOrTsParamProp>>
     where
