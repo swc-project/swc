@@ -1,7 +1,7 @@
 use super::{pat::PatType, util::ExprExt, *};
 use crate::token::AssignOpToken;
 use either::Either;
-use swc_common::Spanned;
+use swc_common::{ast_node, Spanned};
 
 mod ops;
 #[cfg(test)]
@@ -419,7 +419,7 @@ impl<'a, I: Input> Parser<'a, I> {
         // But as all patterns of javascript is subset of
         // expressions, we can parse both as expression.
 
-        let expr_or_spreads = self.include_in_expr(true).parse_args_or_pats()?;
+        let paren_items = self.include_in_expr(true).parse_args_or_pats()?;
 
         let return_type = if self.input.syntax().typescript() && is!(':') {
             let start = cur_pos!();
@@ -439,8 +439,10 @@ impl<'a, I: Input> Parser<'a, I> {
             assert_and_bump!("=>");
 
             let params = self
-                .parse_exprs_as_params(expr_or_spreads)
-                .map(|i| i.into_iter().map(PatOrTsParamProp::from).collect())?;
+                .parse_paren_items_as_params(paren_items)?
+                .into_iter()
+                .map(PatOrTsParamProp::from)
+                .collect();
 
             let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
             return Ok(box Expr::Arrow(ArrowExpr {
@@ -453,6 +455,16 @@ impl<'a, I: Input> Parser<'a, I> {
                 type_params: None,
             }));
         }
+
+        let expr_or_spreads = paren_items
+            .into_iter()
+            .map(|item| -> PResult<'a, _> {
+                match item {
+                    PatOrExprOrSpread::ExprOrSpread(e) => Ok(e),
+                    _ => syntax_error!(item.span(), SyntaxError::InvalidExpr),
+                }
+            })
+            .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
             return Ok(box Expr::Call(CallExpr {
@@ -888,9 +900,89 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_expr_or_pat(&mut self) -> PResult<'a, (Box<Expr>)> {
         self.parse_expr()
     }
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, (Vec<ExprOrSpread>)> {
-        self.parse_args()
+
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<'a, Vec<PatOrExprOrSpread>> {
+        expect!('(');
+
+        let mut first = true;
+        let mut items = vec![];
+
+        while !eof!() && !is!(')') {
+            if first {
+                first = false;
+            } else {
+                expect!(',');
+                // Handle trailing comma.
+                if is!(')') {
+                    break;
+                }
+            }
+
+            let arg = self.include_in_expr(true).parse_expr_or_spread()?;
+            let optional = if self.input.syntax().typescript() {
+                if eat!('?') {
+                    match arg {
+                        ExprOrSpread {
+                            spread: None,
+                            expr: box Expr::Ident(..),
+                            ..
+                        } => {}
+                        _ => syntax_error!(arg.span(), SyntaxError::TsBindingPatCannotBeOptional),
+                    }
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            };
+
+            if self.input.syntax().typescript() && is!(':') {
+                if arg.spread.is_some() {
+                    unimplemented!("rest in paren item")
+                }
+
+                let start = cur_pos!();
+                let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
+
+                match pat {
+                    Pat::Ident(Ident {
+                        ref mut type_ann, ..
+                    })
+                    | Pat::Array(ArrayPat {
+                        ref mut type_ann, ..
+                    })
+                    | Pat::Assign(AssignPat {
+                        ref mut type_ann, ..
+                    })
+                    | Pat::Object(ObjectPat {
+                        ref mut type_ann, ..
+                    })
+                    | Pat::Rest(RestPat {
+                        ref mut type_ann, ..
+                    }) => {
+                        *type_ann = self
+                            .parse_ts_type_ann(/* eat_colon */ true, start)
+                            .map(Some)?
+                    }
+                    Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
+                }
+
+                items.push(PatOrExprOrSpread::Pat(pat))
+            } else {
+                items.push(PatOrExprOrSpread::ExprOrSpread(arg));
+            }
+        }
+
+        expect!(')');
+        Ok(items)
     }
+}
+
+#[ast_node]
+pub(in crate::parser) enum PatOrExprOrSpread {
+    Pat(Pat),
+    ExprOrSpread(ExprOrSpread),
 }
 
 /// simple leaf methods.

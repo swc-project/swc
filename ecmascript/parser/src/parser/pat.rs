@@ -1,6 +1,6 @@
 //! 13.3.3 Destructuring Binding Patterns
 use super::{util::ExprExt, *};
-use crate::token::AssignOpToken;
+use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
 use std::iter;
 use swc_common::Spanned;
 
@@ -526,10 +526,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    pub(super) fn parse_exprs_as_params(
+    pub(super) fn parse_paren_items_as_params(
         &mut self,
-        mut exprs: Vec<ExprOrSpread>,
-    ) -> PResult<'a, (Vec<Pat>)> {
+        mut exprs: Vec<PatOrExprOrSpread>,
+    ) -> PResult<'a, Vec<Pat>> {
         let pat_ty = PatType::BindingPat;
 
         let len = exprs.len();
@@ -541,10 +541,16 @@ impl<'a, I: Input> Parser<'a, I> {
 
         for expr in exprs.drain(..len - 1) {
             match expr {
-                ExprOrSpread {
+                PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: Some(..), ..
-                } => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),
-                ExprOrSpread { expr, .. } => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                })
+                | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
+                    syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                }
+                PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                    spread: None, expr, ..
+                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                PatOrExprOrSpread::Pat(pat) => params.push(pat),
             }
         }
 
@@ -552,17 +558,20 @@ impl<'a, I: Input> Parser<'a, I> {
         let expr = exprs.into_iter().next().unwrap();
         let last = match expr {
             // Rest
-            ExprOrSpread {
+            PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
-            } => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
+            }) => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                 Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
                     type_ann: None,
                 })
             })?,
-            ExprOrSpread { expr, .. } => self.reparse_expr_as_pat(pat_ty, expr)?,
+            PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
+                self.reparse_expr_as_pat(pat_ty, expr)?
+            }
+            PatOrExprOrSpread::Pat(pat) => pat,
         };
         params.push(last);
 

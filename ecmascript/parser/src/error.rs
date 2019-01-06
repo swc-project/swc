@@ -111,6 +111,7 @@ pub(crate) enum SyntaxError {
     /// `()`
     EmptyParenExpr,
     InvalidPat,
+    InvalidExpr,
     NotSimpleAssign,
     ExpectedIdent,
     ExpctedSemi,
@@ -229,6 +230,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             SpreadInParenExpr => "Parenthesized expression cannot contain spread operator".into(),
             EmptyParenExpr => "Parenthized expression cannot be empty".into(),
             InvalidPat => "Not a pattern".into(),
+            InvalidExpr => "Not an expression".into(),
             // TODO
             NotSimpleAssign => "Cannot assign to this".into(),
             ExpectedIdent => "Expected ident".into(),
