@@ -198,9 +198,8 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             if can_be_arrow && peeked_is!('(') {
-                let start = cur_pos!();
                 expect!("async");
-                let async_span = span!(start);
+                let async_span = self.input.prev_span();
                 return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
             }
         }
