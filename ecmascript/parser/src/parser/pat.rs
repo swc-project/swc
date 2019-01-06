@@ -215,6 +215,12 @@ impl<'a, I: Input> Parser<'a, I> {
     where
         F: FnMut(&mut Self) -> PResult<'a, PatOrTsParamProp>,
     {
+        debug_assert_ne!(
+            self.input.cur(),
+            Some(&tok!('(')),
+            "parse_params_with should be called **after** eating '('"
+        );
+
         let mut first = true;
         let mut params = vec![];
 
