@@ -37,6 +37,7 @@ pub mod list;
 #[cfg(test)]
 mod tests;
 pub mod text_writer;
+mod typescript;
 pub mod util;
 
 pub type Result = io::Result<()>;
@@ -121,6 +122,9 @@ impl<'a> Emitter<'a> {
                 semi!();
             }
             ModuleDecl::ExportAll(ref d) => emit!(d),
+            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
+            ModuleDecl::TsImportEqualsDecl(ref n) => emit!(n),
+            ModuleDecl::TsNamespaceExportDecl(ref n) => emit!(n),
         }
         self.wr.write_line()?;
     }
@@ -132,9 +136,10 @@ impl<'a> Emitter<'a> {
         keyword!("default");
         space!();
         match *node {
-            ExportDefaultDecl::Class(ref class) => emit!(class),
-            ExportDefaultDecl::Fn(ref f) => emit!(f),
-            ExportDefaultDecl::Var(ref decl) => emit!(decl),
+            ExportDefaultDecl::Class(ref n) => emit!(n),
+            ExportDefaultDecl::Fn(ref n) => emit!(n),
+            ExportDefaultDecl::Var(ref n) => emit!(n),
+            ExportDefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
         semi!();
     }
@@ -369,6 +374,7 @@ impl<'a> Emitter<'a> {
             Expr::Object(ref n) => emit!(n),
             Expr::Paren(ref n) => emit!(n),
             Expr::Seq(ref n) => emit!(n),
+            Expr::TaggedTpl(ref n) => emit!(n),
             Expr::This(ref n) => emit!(n),
             Expr::Tpl(ref n) => emit!(n),
             Expr::Unary(ref n) => emit!(n),
@@ -380,6 +386,11 @@ impl<'a> Emitter<'a> {
             Expr::JSXEmpty(ref n) => emit!(n),
             Expr::JSXElement(ref n) => emit!(n),
             Expr::JSXFragment(ref n) => emit!(n),
+
+            Expr::TsAs(ref n) => emit!(n),
+            Expr::TsNonNull(ref n) => emit!(n),
+            Expr::TsTypeAssertion(ref n) => emit!(n),
+            Expr::TsTypeCast(ref n) => emit!(n),
         }
     }
 
@@ -524,7 +535,20 @@ impl<'a> Emitter<'a> {
         match *node {
             ClassMember::ClassProp(ref n) => emit!(n),
             ClassMember::Method(ref n) => emit!(n),
+            ClassMember::PrivateMethod(ref n) => emit!(n),
+            ClassMember::PrivateProp(ref n) => emit!(n),
+            ClassMember::TsIndexSignature(ref n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    pub fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
+        unimplemented!("emit_private_method")
+    }
+
+    #[emitter]
+    pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
+        unimplemented!("emit_private_prop")
     }
 
     #[emitter]
@@ -644,22 +668,39 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
-    pub fn emit_tpl_lit(&mut self, node: &TplLit) -> Result {
+    pub fn emit_tpl_lit(&mut self, node: &Tpl) -> Result {
         debug_assert!(node.quasis.len() == node.exprs.len() + 1);
 
-        if let Some(ref tag) = node.tag {
-            emit!(tag);
-        }
         punct!("`");
         let i = 0;
-        println!("{:?}", node.exprs.len() + node.quasis.len());
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 emit!(node.quasis[i / 2]);
             } else {
-                punct!("$");
-                punct!("{");
+                punct!("${");
+                emit!(node.exprs[i / 2]);
+                punct!("}");
+            }
+        }
+
+        punct!("`");
+    }
+
+    #[emitter]
+    pub fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
+        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
+
+        emit!(node.tag);
+        emit!(node.type_params);
+        punct!("`");
+        let i = 0;
+
+        for i in 0..(node.quasis.len() + node.exprs.len()) {
+            if i % 2 == 0 {
+                emit!(node.quasis[i / 2]);
+            } else {
+                punct!("${");
                 emit!(node.exprs[i / 2]);
                 punct!("}");
             }

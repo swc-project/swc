@@ -14,6 +14,10 @@ impl<'a> Emitter<'a> {
                 emit!(n);
                 semi!(); // VarDecl is also used for for-loops
             }
+            Decl::TsEnum(ref n) => emit!(n),
+            Decl::TsInterface(ref n) => emit!(n),
+            Decl::TsModule(ref n) => emit!(n),
+            Decl::TsTypeAlias(ref n) => emit!(n),
         }
     }
 
