@@ -1377,6 +1377,8 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseTypeOrTypePredicateAnnotation`
+    ///
+    /// Used for parsing return types.
     fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1873,10 +1875,12 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParseGenericAsyncArrowFunction`
-    pub(super) fn try_parse_ts_generic_async_arrow_fn(&mut self) -> PResult<'a, Option<ArrowExpr>> {
+    pub(super) fn try_parse_ts_generic_async_arrow_fn(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<'a, Option<ArrowExpr>> {
         debug_assert!(self.input.syntax().typescript());
 
-        let start = cur_pos!();
         let res = self.try_parse_ts(|p| {
             let type_params = p.parse_ts_type_params()?;
             // Don't use overloaded parseFunctionParams which would look for "<" again.

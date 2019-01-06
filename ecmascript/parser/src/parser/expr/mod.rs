@@ -184,15 +184,21 @@ impl<'a, I: Input> Parser<'a, I> {
             return Ok(box Expr::This(ThisExpr { span: span!(start) }));
         }
 
-        // Handle async function expression
         if is!("async") {
             if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked() {
+                // handle `async function` expression
                 return self.parse_async_fn_expr();
             }
 
-            if can_be_arrow && self.input.syntax().typescript() {
-                // handle async<T>() => {}
-
+            if can_be_arrow && self.input.syntax().typescript() && peeked_is!('<') {
+                // try parsing `async<T>() => {}`
+                if let Some(res) = self.try_parse_ts(|p| {
+                    let start = cur_pos!();
+                    assert_and_bump!("async");
+                    p.try_parse_ts_generic_async_arrow_fn(start)
+                }) {
+                    return Ok(box Expr::Arrow(res));
+                }
             }
 
             if can_be_arrow && peeked_is!('(') {
@@ -741,7 +747,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     {
                         // Almost certainly this is a generic async function `async <T>() => ...
                         // But it might be a call with a type argument `async<T>();`
-                        let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn()?;
+                        let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
                         if let Some(async_arrow_fn) = async_arrow_fn {
                             return Ok(Some((box Expr::Arrow(async_arrow_fn), true)));
                         }
@@ -929,7 +935,7 @@ impl<'a, I: Input> Parser<'a, I> {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
             let args = self.parse_args()?;
-
+            
             let call_expr = box Expr::Call(CallExpr {
                 span: span!(start),
 
