@@ -48,7 +48,6 @@ impl<'a, I: Input> Parser<'a, I> {
             return self.parse_yield_expr();
         }
 
-        // TODO: Check if cur!(true) correct.
         self.state.potential_arrow_start = match *cur!(true)? {
             Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
             _ => None,
@@ -130,7 +129,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let can_be_arrow = self
             .state
             .potential_arrow_start
-            .map(|s| s == cur_pos!())
+            .map(|s| s == start)
             .unwrap_or(false);
 
         if eat!("this") {
@@ -420,23 +419,27 @@ impl<'a, I: Input> Parser<'a, I> {
         // expressions, we can parse both as expression.
 
         let paren_items = self.include_in_expr(true).parse_args_or_pats()?;
+        let has_pattern = paren_items.iter().any(|item| match item {
+            PatOrExprOrSpread::Pat(..) => true,
+            _ => false,
+        });
 
         let return_type = if self.input.syntax().typescript() && is!(':') {
             let start = cur_pos!();
-            Some(self.parse_ts_type_ann(/* eat_colon */ true, start)?)
+            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
         } else {
             None
         };
 
         // we parse arrow function at here, to handle it efficiently.
-        if is!("=>") {
+        if has_pattern || return_type.is_some() || is!("=>") {
             if self.input.had_line_break_before_cur() {
                 syntax_error!(span!(start), SyntaxError::LineBreakBeforeArrow);
             }
             if !can_be_arrow {
-                unexpected!();
+                unexpected!()
             }
-            assert_and_bump!("=>");
+            expect!("=>");
 
             let params = self
                 .parse_paren_items_as_params(paren_items)?
@@ -937,14 +940,19 @@ impl<'a, I: Input> Parser<'a, I> {
                 false
             };
 
-            if self.input.syntax().typescript() && is!(':') {
+            if optional || self.input.syntax().typescript() && is!(':') {
                 if arg.spread.is_some() {
                     unimplemented!("rest in paren item")
                 }
 
                 let start = cur_pos!();
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
-
+                if optional {
+                    match pat {
+                        Pat::Ident(ref mut i) => i.optional = true,
+                        _ => unreachable!(),
+                    }
+                }
                 match pat {
                     Pat::Ident(Ident {
                         ref mut type_ann, ..
