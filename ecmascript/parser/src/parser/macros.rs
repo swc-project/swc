@@ -44,16 +44,43 @@ macro_rules! is {
     };
 }
 
+macro_rules! peeked_is {
+    ($p:expr, BindingIdent) => {{
+        let ctx = $p.ctx();
+        match peek!($p) {
+            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
+            _ => false,
+        }
+    }};
+
+    ($p:expr, IdentRef) => {{
+        let ctx = $p.ctx();
+        match peek!($p) {
+            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.clone().into()),
+            _ => false,
+        }
+    }};
+
+    ($p:expr,IdentName) => {{
+        match peek!($p) {
+            Ok(&Word(..)) => true,
+            _ => false,
+        }
+    }};
+
+    ($p:expr, ';') => {{
+        compile_error!("peeked_is!(';') is invalid");
+    }};
+
+    ($p:expr, $t:tt) => {
+        $p.input.peeked_is(&tok!($t))
+    };
+}
+
 /// Returns true on eof.
 macro_rules! eof {
     ($p:expr) => {
         cur!($p, false).is_err()
-    };
-}
-
-macro_rules! peeked_is {
-    ($p:expr, $t:tt) => {
-        $p.input.peeked_is(&tok!($t))
     };
 }
 

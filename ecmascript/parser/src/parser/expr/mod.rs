@@ -976,12 +976,33 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             }
 
-            let arg = self.include_in_expr(true).parse_expr_or_spread()?;
+            let arg = {
+                if self.input.syntax().typescript()
+                    && (is!(IdentRef) || (is!("...") && peeked_is!(IdentRef)))
+                {
+                    let spread = if eat!("...") {
+                        Some(self.input.prev_span())
+                    } else {
+                        None
+                    };
+
+                    // At here, we use parse_bin_expr() instead of parse_assignment_expr()
+                    // because `x?: number` should not be parsed as a conditional expression
+                    let expr = if spread.is_some() {
+                        self.include_in_expr(true).parse_bin_expr()?
+                    } else {
+                        self.parse_bin_expr()?
+                    };
+
+                    ExprOrSpread { spread, expr }
+                } else {
+                    self.include_in_expr(true).parse_expr_or_spread()?
+                }
+            };
             let optional = if self.input.syntax().typescript() {
                 if eat!('?') {
                     match arg {
                         ExprOrSpread {
-                            spread: None,
                             expr: box Expr::Ident(..),
                             ..
                         } => {}
