@@ -5,8 +5,8 @@ use crate::{
     expr::Expr,
     ident::Ident,
     lit::{Bool, Number, Str},
-    pat::{AssignPat, ObjectPat, RestPat},
     module::ModuleItem,
+    pat::{AssignPat, ObjectPat, RestPat},
 };
 use swc_common::{ast_node, Fold, Span};
 
@@ -57,17 +57,6 @@ pub struct TsParamProp {
 pub enum TsParamPropParam {
     Ident(Ident),
     Assign(AssignPat),
-}
-
-/// declare function foo()
-#[ast_node]
-pub struct TsDeclareFn {
-    pub span: Span,
-}
-
-#[ast_node]
-pub struct TsDeclareMethod {
-    pub span: Span,
 }
 
 #[ast_node]
