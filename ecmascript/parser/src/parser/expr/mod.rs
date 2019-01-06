@@ -44,7 +44,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     TokenContext::JSXExpr
                 );
 
-                let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some))?;
+                let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
                 if let Some(res) = res {
                     return Ok(res);
                 } else {
@@ -75,7 +75,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => unexpected!(),
             }
             Ok(Some(arrow))
-        })?;
+        });
         if let Some(res) = res {
             return Ok(res);
         }
@@ -96,6 +96,10 @@ impl<'a, I: Input> Parser<'a, I> {
             Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
             _ => None,
         };
+        println!(
+            "potential_arrow_start = {:?}",
+            self.state.potential_arrow_start
+        );
 
         let start = cur_pos!();
 
@@ -184,6 +188,11 @@ impl<'a, I: Input> Parser<'a, I> {
         if is!("async") {
             if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked() {
                 return self.parse_async_fn_expr();
+            }
+
+            if can_be_arrow && self.input.syntax().typescript() {
+                // handle async<T>() => {}
+
             }
 
             if can_be_arrow && peeked_is!('(') {
@@ -350,18 +359,13 @@ impl<'a, I: Input> Parser<'a, I> {
             return_if_arrow!(callee);
 
             let type_args = if self.input.syntax().typescript() && is!('<') {
-                let res = self.try_parse_ts(|p| {
+                self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
                     if !is!('(') {
                         unexpected!()
                     }
                     Ok(Some(args))
-                });
-                if let Ok(Some(type_args)) = res {
-                    Some(type_args)
-                } else {
-                    None
-                }
+                })
             } else {
                 None
             };
@@ -749,6 +753,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         // possibleAsync always false here, because we would have handled it
                         // above. (won't be any undefined arguments)
                         let args = p.parse_args()?;
+
                         return Ok(Some((
                             box Expr::Call(CallExpr {
                                 span: span!(start),
@@ -773,7 +778,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         unexpected!()
                     }
                 });
-                if let Ok(Some(result)) = result {
+                if let Some(result) = result {
                     return Ok(result);
                 }
             }
@@ -895,7 +900,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 } else {
                     Ok(None)
                 }
-            })?
+            })
         } else {
             None
         };
@@ -924,6 +929,7 @@ impl<'a, I: Input> Parser<'a, I> {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
             let args = self.parse_args()?;
+
             let call_expr = box Expr::Call(CallExpr {
                 span: span!(start),
 

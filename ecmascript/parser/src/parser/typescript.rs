@@ -292,7 +292,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             let type_pred_var = if is!(IdentRef) {
-                p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())?
+                p.try_parse_ts(|p| p.parse_ts_type_predicate_prefix())
             } else {
                 None
             };
@@ -362,7 +362,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// `tsTryParse`
-    pub(super) fn try_parse_ts<T, F>(&mut self, op: F) -> PResult<'a, Option<T>>
+    pub(super) fn try_parse_ts<T, F>(&mut self, op: F) -> Option<T>
     where
         F: FnOnce(&mut Self) -> PResult<'a, Option<T>>,
     {
@@ -373,12 +373,12 @@ impl<'a, I: Input> Parser<'a, I> {
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
-                Ok(Some(res))
+                Some(res)
             }
-            Ok(None) => Ok(None),
+            Ok(None) => None,
             Err(err) => {
                 let _ = err.cancel();
-                Ok(None)
+                None
             }
         }
     }
@@ -1885,7 +1885,7 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!("=>");
 
             Ok(Some((type_params, params, return_type)))
-        })?;
+        });
 
         let (type_params, params, return_type) = match res {
             Some(v) => v,

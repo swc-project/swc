@@ -184,7 +184,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = name.span().lo();
 
         let type_args = if self.input.syntax().typescript() {
-            self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))?
+            self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
         } else {
             None
         };
