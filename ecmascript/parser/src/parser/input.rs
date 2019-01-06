@@ -179,6 +179,9 @@ impl<'a, I: Input> ParserInput<'a, I> {
     pub(crate) const fn token_context(&self) -> &lexer::TokenContexts {
         self.iter.token_context()
     }
+    pub fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
+        self.iter.token_context_mut()
+    }
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
     }

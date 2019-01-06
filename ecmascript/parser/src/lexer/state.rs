@@ -86,6 +86,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub const fn token_context(&self) -> &TokenContexts {
         &self.state.context
     }
+    pub fn token_context_mut(&mut self) -> &mut TokenContexts {
+        &mut self.state.context
+    }
 
     pub fn set_token_context(&mut self, c: TokenContexts) {
         self.state.context = c;
@@ -485,15 +488,15 @@ impl TokenContexts {
         return !is_expr_allowed;
     }
 
-    fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         self.0.len()
     }
-    fn pop(&mut self) -> Option<TokenContext> {
+    pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
         trace!("context.pop({:?})", opt);
         opt
     }
-    fn current(&self) -> Option<TokenContext> {
+    pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
     fn push(&mut self, t: TokenContext) {
