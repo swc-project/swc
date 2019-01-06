@@ -1361,9 +1361,9 @@ impl<'a, I: Input> Parser<'a, I> {
 
         for pat in pats {
             let item = match pat {
-                PatOrTsParamProp::Pat(Pat::Ident(pat)) => TsFnParam::Ident(pat),
-                PatOrTsParamProp::Pat(Pat::Object(pat)) => TsFnParam::Object(pat),
-                PatOrTsParamProp::Pat(Pat::Rest(pat)) => TsFnParam::Rest(pat),
+                Pat::Ident(pat) => TsFnParam::Ident(pat),
+                Pat::Object(pat) => TsFnParam::Object(pat),
+                Pat::Rest(pat) => TsFnParam::Rest(pat),
                 _ => unexpected!(),
             };
             list.push(item);

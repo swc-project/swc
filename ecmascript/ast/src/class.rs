@@ -1,8 +1,9 @@
 use crate::{
     expr::Expr,
-    function::Function,
+    function::{Function, PatOrTsParamProp},
     ident::PrivateName,
     prop::PropName,
+    stmt::BlockStmt,
     typescript::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
@@ -30,6 +31,7 @@ pub struct Class {
 
 #[ast_node]
 pub enum ClassMember {
+    Constructor(Constructor),
     /// `es2015`
     Method(Method),
     PrivateMethod(PrivateMethod),
@@ -69,6 +71,16 @@ pub type Method = ClassMethod<PropName>;
 pub type PrivateMethod = ClassMethod<PrivateName>;
 
 #[ast_node]
+pub struct Constructor {
+    pub span: Span,
+    pub key: PropName,
+    pub params: Vec<PatOrTsParamProp>,
+    pub body: Option<BlockStmt>,
+    pub accessibility: Option<Accessibility>,
+    pub is_optional: bool,
+}
+
+#[ast_node]
 pub struct ClassMethod<K> {
     pub span: Span,
     #[fold(bound)]
@@ -97,7 +109,6 @@ pub struct Decorator {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Fold)]
 pub enum MethodKind {
-    Constructor,
     Method,
     Getter,
     Setter,

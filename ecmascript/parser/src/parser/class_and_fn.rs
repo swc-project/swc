@@ -360,32 +360,41 @@ impl<'a, I: Input> Parser<'a, I> {
             }
             let is_constructor = is_constructor(&key);
 
-            // TODO: check for duplicate constructors
-            return self.make_method(
-                |p| {
-                    if is_constructor {
-                        p.parse_constructor_params()
-                    } else {
-                        p.parse_formal_params()
-                    }
-                },
-                MakeMethodArgs {
-                    start,
-                    is_optional,
+            if is_constructor {
+                expect!('(');
+                let params = self.parse_constructor_params()?;
+                expect!(')');
+                let body = self.parse_fn_body(false, false)?;
+
+                // TODO: check for duplicate constructors
+                return Ok(ClassMember::Constructor(Constructor {
+                    span: span!(start),
                     accessibility,
-                    decorators,
-                    is_abstract,
-                    is_static,
-                    kind: if is_constructor {
-                        MethodKind::Constructor
-                    } else {
-                        MethodKind::Method
+                    key: match key {
+                        Either::Right(key) => key,
+                        _ => unreachable!("is_constructor() returns false for PrivateName"),
                     },
-                    key,
-                    is_async: false,
-                    is_generator: false,
-                },
-            );
+                    is_optional,
+                    params,
+                    body,
+                }));
+            } else {
+                return self.make_method(
+                    |p| p.parse_formal_params(),
+                    MakeMethodArgs {
+                        start,
+                        is_optional,
+                        accessibility,
+                        decorators,
+                        is_abstract,
+                        is_static,
+                        kind: MethodKind::Method,
+                        key,
+                        is_async: false,
+                        is_generator: false,
+                    },
+                );
+            }
         }
 
         if self.is_class_property()? {
@@ -619,16 +628,9 @@ impl<'a, I: Input> Parser<'a, I> {
 
         self.with_ctx(ctx).parse_with(|p| {
             let f = p.parse_fn_args_body(
-                is_constructor,
                 decorators,
                 start,
-                |p| {
-                    if is_constructor {
-                        p.parse_formal_params()
-                    } else {
-                        p.parse_constructor_params()
-                    }
-                },
+                |p| p.parse_formal_params(),
                 is_async,
                 is_generator,
             )?;
@@ -649,7 +651,6 @@ impl<'a, I: Input> Parser<'a, I> {
     /// `parse_args` closure should not eat '(' or ')'.
     pub(super) fn parse_fn_args_body<F>(
         &mut self,
-        is_constructor: bool,
         decorators: Vec<Decorator>,
         start: BytePos,
         parse_args: F,
@@ -657,7 +658,7 @@ impl<'a, I: Input> Parser<'a, I> {
         is_generator: bool,
     ) -> PResult<'a, Function>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<PatOrTsParamProp>>,
+        F: FnOnce(&mut Self) -> PResult<'a, Vec<Pat>>,
     {
         let ctx = Context {
             in_async: is_async,
@@ -731,16 +732,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }: MakeMethodArgs,
     ) -> PResult<'a, ClassMember>
     where
-        F: FnOnce(&mut Self) -> PResult<'a, Vec<PatOrTsParamProp>>,
+        F: FnOnce(&mut Self) -> PResult<'a, Vec<Pat>>,
     {
-        let function = self.parse_fn_args_body(
-            kind == MethodKind::Constructor,
-            decorators,
-            start,
-            parse_args,
-            is_async,
-            is_generator,
-        )?;
+        let function =
+            self.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)?;
 
         match key {
             Either::Left(key) => Ok(ClassMethod {

@@ -9,7 +9,7 @@ use swc_common::{ast_node, Span};
 /// Common parts of function and method.
 #[ast_node]
 pub struct Function {
-    pub params: Vec<PatOrTsParamProp>,
+    pub params: Vec<Pat>,
 
     pub decorators: Vec<Decorator>,
     pub span: Span,

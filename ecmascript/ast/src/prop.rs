@@ -1,8 +1,9 @@
 use crate::{
     expr::Expr,
-    function::{Function, PatOrTsParamProp},
+    function::Function,
     ident::Ident,
     lit::{Number, Str},
+    pat::Pat,
     stmt::BlockStmt,
 };
 use swc_common::{ast_node, Span};
@@ -47,7 +48,7 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
-    pub param: PatOrTsParamProp,
+    pub param: Pat,
     pub body: Option<BlockStmt>,
 }
 #[ast_node]

@@ -267,10 +267,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let id = self.parse_ident_name()?;
             if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {
                 // async a => body
-                let arg = self
-                    .parse_binding_ident()
-                    .map(Pat::from)
-                    .map(PatOrTsParamProp::from)?;
+                let arg = self.parse_binding_ident().map(Pat::from)?;
                 let params = vec![arg];
                 expect!("=>");
                 let body = self.parse_fn_body(true, false)?;
@@ -284,7 +281,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     type_params: None,
                 }));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!("=>") {
-                let params = vec![PatOrTsParamProp::Pat(id.into())];
+                let params = vec![id.into()];
                 let body = self.parse_fn_body(false, false)?;
 
                 return Ok(box Expr::Arrow(ArrowExpr {
@@ -493,7 +490,6 @@ impl<'a, I: Input> Parser<'a, I> {
             let params = self
                 .parse_paren_items_as_params(paren_items)?
                 .into_iter()
-                .map(PatOrTsParamProp::from)
                 .collect();
 
             let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
