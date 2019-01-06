@@ -961,6 +961,10 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let mut first = true;
         let mut items = vec![];
+        let mut rest_span = None;
+
+        // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
+        // as a pattern instead of reparsing)
 
         while !eof!() && !is!(')') {
             if first {
@@ -993,10 +997,6 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             if optional || self.input.syntax().typescript() && is!(':') {
-                if arg.spread.is_some() {
-                    unimplemented!("rest in paren item")
-                }
-
                 let start = cur_pos!();
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
@@ -1004,6 +1004,18 @@ impl<'a, I: Input> Parser<'a, I> {
                         Pat::Ident(ref mut i) => i.optional = true,
                         _ => unreachable!(),
                     }
+                }
+                if let Some(span) = arg.spread {
+                    if let Some(rest_span) = rest_span {
+                        // Rest pattern must be last one.
+                        syntax_error!(rest_span, SyntaxError::NonLastRestParam);
+                    }
+                    rest_span = Some(span);
+                    pat = Pat::Rest(RestPat {
+                        dot3_token: span,
+                        arg: box pat,
+                        type_ann: None,
+                    });
                 }
                 match pat {
                     Pat::Ident(Ident {
