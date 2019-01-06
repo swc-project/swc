@@ -96,10 +96,6 @@ impl<'a, I: Input> Parser<'a, I> {
             Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!()),
             _ => None,
         };
-        println!(
-            "potential_arrow_start = {:?}",
-            self.state.potential_arrow_start
-        );
 
         let start = cur_pos!();
 
