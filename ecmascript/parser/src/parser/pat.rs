@@ -596,11 +596,7 @@ mod tests {
     }
 
     fn ident(s: &str) -> Ident {
-        Ident {
-            sym: s.into(),
-            span,
-            type_ann: None,
-        }
+        Ident::new(s.into(), span)
     }
 
     #[test]

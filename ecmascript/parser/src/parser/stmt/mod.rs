@@ -879,20 +879,12 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident {
-                            span,
-                            sym: "a".into(),
-                            type_ann: None,
-                        }),
+                        name: Pat::Ident(Ident::new("a".into(), span)),
                         definite: false,
                     }],
                     declare: false,
                 }),
-                right: box Expr::Ident(Ident {
-                    span,
-                    sym: "b".into(),
-                    type_ann: None,
-                }),
+                right: box Expr::Ident(Ident::new("b".into(), span)),
 
                 body: box Stmt::Empty(EmptyStmt { span })
             })

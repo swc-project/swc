@@ -21,7 +21,8 @@ fn self_closing_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new("a".into(), span)),
                 self_closing: true,
-                attrs: vec![]
+                attrs: vec![],
+                type_args: None,
             },
             children: vec![],
             closing: None,
@@ -39,7 +40,8 @@ fn normal_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new("a".into(), span)),
                 self_closing: false,
-                attrs: vec![]
+                attrs: vec![],
+                type_args: None,
             },
             children: vec![JSXElementChild::JSXText(JSXText {
                 span,
@@ -73,6 +75,7 @@ fn escape_in_attr() {
                 })],
                 name: JSXElementName::Ident(Ident::new("div".into(), span)),
                 self_closing: true,
+                type_args: None,
             },
             children: vec![],
             closing: None

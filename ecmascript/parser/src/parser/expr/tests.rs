@@ -48,14 +48,7 @@ fn arrow_assign() {
         expr("a = b => false"),
         box Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(
-                box Ident {
-                    span,
-                    sym: "a".into(),
-                    type_ann: None,
-                }
-                .into()
-            ),
+            left: PatOrExpr::Pat(box Ident::new("a".into(), span).into()),
             op: op!("="),
             right: expr("b => false"),
         })
@@ -125,42 +118,17 @@ fn object_spread() {
         expr("foo = {a, ...bar, b}"),
         box Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(box Pat::Ident(
-                Ident {
-                    span,
-                    sym: "foo".into(),
-                    type_ann: None
-                }
-                .into()
-            )),
+            left: PatOrExpr::Pat(box Pat::Ident(Ident::new("foo".into(), span))),
             op: op!("="),
             right: box Expr::Object(ObjectLit {
                 span,
                 props: vec![
-                    PropOrSpread::Prop(
-                        box Ident {
-                            span,
-                            sym: "a".into(),
-                            type_ann: None
-                        }
-                        .into()
-                    ),
+                    PropOrSpread::Prop(box Ident::new("a".into(), span).into()),
                     PropOrSpread::Spread(SpreadElement {
                         dot3_token: span,
-                        expr: box Expr::Ident(Ident {
-                            span,
-                            sym: "bar".into(),
-                            type_ann: None,
-                        })
+                        expr: box Expr::Ident(Ident::new("bar".into(), span))
                     }),
-                    PropOrSpread::Prop(
-                        box Ident {
-                            span,
-                            sym: "b".into(),
-                            type_ann: None,
-                        }
-                        .into()
-                    ),
+                    PropOrSpread::Prop(box Ident::new("b".into(), span).into()),
                 ]
             })
         })
@@ -174,12 +142,7 @@ fn new_expr_should_not_eat_too_much() {
         box Expr::Member(MemberExpr {
             span,
             obj: ExprOrSuper::Expr(member_expr("new Date()")),
-            prop: box Ident {
-                sym: "toString".into(),
-                span,
-                type_ann: None,
-            }
-            .into(),
+            prop: box Ident::new("toString".into(), span).into(),
             computed: false,
         })
     );
@@ -233,12 +196,7 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident {
-                span,
-                sym: "a".into(),
-                type_ann: None,
-            })
-            .into()],
+            params: vec![Pat::Ident(Ident::new("a".into(), span)).into()],
             body: BlockStmtOrExpr::Expr(expr("1")),
             return_type: None,
             type_params: None,
@@ -255,11 +213,7 @@ fn arrow_fn_rest() {
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
                 dot3_token: span,
-                arg: box Pat::Ident(Ident {
-                    span,
-                    sym: "a".into(),
-                    type_ann: None
-                }),
+                arg: box Pat::Ident(Ident::new("a".into(), span)),
                 type_ann: None
             })
             .into()],
@@ -277,12 +231,7 @@ fn arrow_fn_no_paren() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident {
-                span,
-                sym: "a".into(),
-                type_ann: None,
-            })
-            .into()],
+            params: vec![Pat::Ident(Ident::new("a".into(), span)).into()],
             body: BlockStmtOrExpr::Expr(expr("1")),
             type_params: None,
             return_type: None,
