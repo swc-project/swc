@@ -25,9 +25,9 @@ Module {
                         opening: JSXOpeningElement {
                             name: JSXNamespacedName(
                                 JSXNamespacedName {
-                                    ns: Ident(
-                                        n,
-                                        Span {
+                                    ns: Ident {
+                                        sym: n,
+                                        span: Span {
                                             lo: BytePos(
                                                 1
                                             ),
@@ -36,11 +36,12 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    ),
-                                    name: Ident(
-                                        a,
-                                        Span {
+                                        type_ann: None,
+                                        optional: false
+                                    },
+                                    name: Ident {
+                                        sym: a,
+                                        span: Span {
                                             lo: BytePos(
                                                 3
                                             ),
@@ -49,8 +50,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 }
                             ),
                             span: Span {
@@ -76,9 +78,9 @@ Module {
                                         },
                                         name: JSXNamespacedName(
                                             JSXNamespacedName {
-                                                ns: Ident(
-                                                    n,
-                                                    Span {
+                                                ns: Ident {
+                                                    sym: n,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             5
                                                         ),
@@ -87,11 +89,12 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                ),
-                                                name: Ident(
-                                                    v,
-                                                    Span {
+                                                    type_ann: None,
+                                                    optional: false
+                                                },
+                                                name: Ident {
+                                                    sym: v,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             7
                                                         ),
@@ -100,15 +103,17 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             }
                                         ),
                                         value: None
                                     }
                                 )
                             ],
-                            self_closing: true
+                            self_closing: true,
+                            type_args: None
                         },
                         children: [],
                         closing: None

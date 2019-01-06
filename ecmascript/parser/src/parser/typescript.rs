@@ -252,8 +252,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// `tsParseTypeParameter`
     pub(super) fn parse_ts_type_params(&mut self) -> PResult<'a, TsTypeParamDecl> {
-        debug_assert!(self.input.syntax().typescript());
-
         let start = cur_pos!();
 
         if !is!('<') && !is!(JSXTagStart) {
@@ -344,8 +342,9 @@ impl<'a, I: Input> Parser<'a, I> {
     where
         F: FnOnce(&mut Self) -> PResult<'a, Option<bool>>,
     {
-        debug_assert!(self.input.syntax().typescript());
-
+        if !self.input.syntax().typescript() {
+            return Ok(false);
+        }
         let mut cloned = self.clone();
         let res = op(&mut cloned);
         match res {
@@ -366,8 +365,9 @@ impl<'a, I: Input> Parser<'a, I> {
     where
         F: FnOnce(&mut Self) -> PResult<'a, Option<T>>,
     {
-        debug_assert!(self.input.syntax().typescript());
-
+        if !self.input.syntax().typescript() {
+            return None;
+        }
         let mut cloned = self.clone();
         let res = op(&mut cloned);
         match res {
@@ -409,8 +409,6 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         token_to_eat: &'static Token,
     ) -> PResult<'a, Option<Box<TsType>>> {
-        debug_assert!(self.input.syntax().typescript());
-
         self.in_type().parse_with(|p| {
             if !p.input.eat(token_to_eat) {
                 return Ok(None);
@@ -952,8 +950,6 @@ impl<'a, I: Input> Parser<'a, I> {
         start: BytePos,
         readonly: bool,
     ) -> PResult<'a, Option<TsIndexSignature>> {
-        debug_assert!(self.input.syntax().typescript());
-
         if !(is!('[') && self.ts_look_ahead(|p| p.is_ts_unambiguously_index_signature())?) {
             return Ok(None);
         }
@@ -1380,8 +1376,6 @@ impl<'a, I: Input> Parser<'a, I> {
     ///
     /// Used for parsing return types.
     fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<'a, Option<TsTypeAnn>> {
-        debug_assert!(self.input.syntax().typescript());
-
         if is!(':') {
             self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                 .map(Some)
@@ -1402,15 +1396,11 @@ impl<'a, I: Input> Parser<'a, I> {
 
     /// `tsTryParseType`
     fn try_parse_ts_type(&mut self) -> PResult<'a, Option<Box<TsType>>> {
-        debug_assert!(self.input.syntax().typescript());
-
         self.eat_then_parse_ts_type(&tok!(':'))
     }
 
     /// `tsTryParseTypeParameters`
     pub(super) fn try_parse_ts_type_params(&mut self) -> PResult<'a, Option<TsTypeParamDecl>> {
-        debug_assert!(self.input.syntax().typescript());
-
         if is!('<') {
             return self.parse_ts_type_params().map(Some);
         }
@@ -1879,8 +1869,6 @@ impl<'a, I: Input> Parser<'a, I> {
         &mut self,
         start: BytePos,
     ) -> PResult<'a, Option<ArrowExpr>> {
-        debug_assert!(self.input.syntax().typescript());
-
         let res = self.try_parse_ts(|p| {
             let type_params = p.parse_ts_type_params()?;
             // Don't use overloaded parseFunctionParams which would look for "<" again.

@@ -262,7 +262,7 @@ impl<'a, I: Input> Parser<'a, I> {
             return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
         }
 
-        if is!("let") || is!(IdentName) {
+        if is!("let") || (self.input.syntax().typescript() && is!(IdentName)) || is!(IdentRef) {
             // TODO: Handle [Yield, Await]
             let id = self.parse_ident_name()?;
             if can_be_arrow && id.sym == js_word!("async") && is!(BindingIdent) {

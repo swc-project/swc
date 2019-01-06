@@ -24,9 +24,9 @@ Module {
                         },
                         opening: JSXOpeningElement {
                             name: Ident(
-                                Ident(
-                                    var,
-                                    Span {
+                                Ident {
+                                    sym: var,
+                                    span: Span {
                                         lo: BytePos(
                                             1
                                         ),
@@ -35,8 +35,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             ),
                             span: Span {
                                 lo: BytePos(
@@ -48,7 +49,8 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [],
-                            self_closing: false
+                            self_closing: false,
+                            type_args: None
                         },
                         children: [],
                         closing: Some(
@@ -63,9 +65,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        var,
-                                        Span {
+                                    Ident {
+                                        sym: var,
+                                        span: Span {
                                             lo: BytePos(
                                                 7
                                             ),
@@ -74,8 +76,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 )
                             }
                         )

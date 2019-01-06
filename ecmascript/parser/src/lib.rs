@@ -35,10 +35,7 @@
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 //!
-//!         let session = Session {
-//!             handler: &handler,
-//!             cfg: Default::default(),
-//!         };
+//!         let session = Session { handler: &handler };
 //!
 //!         // Real usage
 //!         // let fm = cm
@@ -52,7 +49,13 @@
 //!
 //!         let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
 //!
-//!         let _module = parser.parse_module().expect("failed to parser module");
+//!         let _module = parser
+//!             .parse_module()
+//!             .map_err(|e| {
+//!                 e.emit();
+//!                 ()
+//!             })
+//!             .expect("failed to parser module");
 //!     });
 //! }
 //! ```

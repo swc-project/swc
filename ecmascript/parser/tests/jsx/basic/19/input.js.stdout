@@ -24,9 +24,9 @@ Module {
                         },
                         opening: JSXOpeningElement {
                             name: Ident(
-                                Ident(
-                                    div,
-                                    Span {
+                                Ident {
+                                    sym: div,
+                                    span: Span {
                                         lo: BytePos(
                                             1
                                         ),
@@ -35,8 +35,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             ),
                             span: Span {
                                 lo: BytePos(
@@ -60,9 +61,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                pre,
-                                                Span {
+                                            Ident {
+                                                sym: pre,
+                                                span: Span {
                                                     lo: BytePos(
                                                         5
                                                     ),
@@ -71,8 +72,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -107,9 +109,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                pre2,
-                                                Span {
+                                            Ident {
+                                                sym: pre2,
+                                                span: Span {
                                                     lo: BytePos(
                                                         19
                                                     ),
@@ -118,8 +120,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -154,9 +157,9 @@ Module {
                                             ctxt: #0
                                         },
                                         expr: Ident(
-                                            Ident(
-                                                props,
-                                                Span {
+                                            Ident {
+                                                sym: props,
+                                                span: Span {
                                                     lo: BytePos(
                                                         40
                                                     ),
@@ -165,13 +168,15 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         )
                                     }
                                 )
                             ],
-                            self_closing: false
+                            self_closing: false,
+                            type_args: None
                         },
                         children: [],
                         closing: Some(
@@ -186,9 +191,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        div,
-                                        Span {
+                                    Ident {
+                                        sym: div,
+                                        span: Span {
                                             lo: BytePos(
                                                 49
                                             ),
@@ -197,8 +202,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 )
                             }
                         )

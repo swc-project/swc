@@ -500,6 +500,10 @@ impl<'a, I: Input> Parser<'a, I> {
         readonly: bool,
         is_abstract: bool,
     ) -> PResult<'a, ClassMember> {
+        if !self.input.syntax().class_props() {
+            syntax_error!(span!(start), SyntaxError::ClassProperty)
+        }
+
         if is_constructor(&key) {
             syntax_error!(key.span(), SyntaxError::PropertyNamedConstructor);
         }

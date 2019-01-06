@@ -24,9 +24,9 @@ Module {
                         },
                         opening: JSXOpeningElement {
                             name: Ident(
-                                Ident(
-                                    AbC-def,
-                                    Span {
+                                Ident {
+                                    sym: AbC-def,
+                                    span: Span {
                                         lo: BytePos(
                                             1
                                         ),
@@ -35,8 +35,9 @@ Module {
                                         ),
                                         ctxt: #0
                                     },
-                                    None
-                                )
+                                    type_ann: None,
+                                    optional: false
+                                }
                             ),
                             span: Span {
                                 lo: BytePos(
@@ -60,9 +61,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                test,
-                                                Span {
+                                            Ident {
+                                                sym: test,
+                                                span: Span {
                                                     lo: BytePos(
                                                         11
                                                     ),
@@ -71,8 +72,9 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -96,7 +98,8 @@ Module {
                                     }
                                 )
                             ],
-                            self_closing: false
+                            self_closing: false,
+                            type_args: None
                         },
                         children: [
                             JSXText(
@@ -139,9 +142,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        AbC-def,
-                                        Span {
+                                    Ident {
+                                        sym: AbC-def,
+                                        span: Span {
                                             lo: BytePos(
                                                 43
                                             ),
@@ -150,8 +153,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 )
                             }
                         )

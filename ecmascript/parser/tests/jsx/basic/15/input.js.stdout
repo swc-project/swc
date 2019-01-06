@@ -28,9 +28,9 @@ Module {
                                     obj: JSXMemberExpr(
                                         JSXMemberExpr {
                                             obj: Ident(
-                                                Ident(
-                                                    a,
-                                                    Span {
+                                                Ident {
+                                                    sym: a,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             1
                                                         ),
@@ -39,12 +39,13 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             ),
-                                            prop: Ident(
-                                                b,
-                                                Span {
+                                            prop: Ident {
+                                                sym: b,
+                                                span: Span {
                                                     lo: BytePos(
                                                         3
                                                     ),
@@ -53,13 +54,14 @@ Module {
                                                     ),
                                                     ctxt: #0
                                                 },
-                                                None
-                                            )
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         }
                                     ),
-                                    prop: Ident(
-                                        c,
-                                        Span {
+                                    prop: Ident {
+                                        sym: c,
+                                        span: Span {
                                             lo: BytePos(
                                                 5
                                             ),
@@ -68,8 +70,9 @@ Module {
                                             ),
                                             ctxt: #0
                                         },
-                                        None
-                                    )
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 }
                             ),
                             span: Span {
@@ -82,7 +85,8 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [],
-                            self_closing: false
+                            self_closing: false,
+                            type_args: None
                         },
                         children: [],
                         closing: Some(
@@ -101,9 +105,9 @@ Module {
                                         obj: JSXMemberExpr(
                                             JSXMemberExpr {
                                                 obj: Ident(
-                                                    Ident(
-                                                        a,
-                                                        Span {
+                                                    Ident {
+                                                        sym: a,
+                                                        span: Span {
                                                             lo: BytePos(
                                                                 9
                                                             ),
@@ -112,12 +116,13 @@ Module {
                                                             ),
                                                             ctxt: #0
                                                         },
-                                                        None
-                                                    )
+                                                        type_ann: None,
+                                                        optional: false
+                                                    }
                                                 ),
-                                                prop: Ident(
-                                                    b,
-                                                    Span {
+                                                prop: Ident {
+                                                    sym: b,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             11
                                                         ),
@@ -126,13 +131,14 @@ Module {
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    None
-                                                )
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             }
                                         ),
-                                        prop: Ident(
-                                            c,
-                                            Span {
+                                        prop: Ident {
+                                            sym: c,
+                                            span: Span {
                                                 lo: BytePos(
                                                     13
                                                 ),
@@ -141,8 +147,9 @@ Module {
                                                 ),
                                                 ctxt: #0
                                             },
-                                            None
-                                        )
+                                            type_ann: None,
+                                            optional: false
+                                        }
                                     }
                                 )
                             }
