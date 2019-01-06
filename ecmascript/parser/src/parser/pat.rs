@@ -211,16 +211,12 @@ impl<'a, I: Input> Parser<'a, I> {
     /// spec: 'FormalParameterList'
     ///
     /// babel: `parseBindingList`
+    /// 
+    /// should be called after eating `(`
     fn parse_params_with<F>(&mut self, mut op: F) -> PResult<'a, Vec<PatOrTsParamProp>>
     where
         F: FnMut(&mut Self) -> PResult<'a, PatOrTsParamProp>,
     {
-        debug_assert_ne!(
-            self.input.cur(),
-            Some(&tok!('(')),
-            "parse_params_with should be called **after** eating '('"
-        );
-
         let mut first = true;
         let mut params = vec![];
 
