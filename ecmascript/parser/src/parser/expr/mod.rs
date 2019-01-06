@@ -935,7 +935,7 @@ impl<'a, I: Input> Parser<'a, I> {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
             let args = self.parse_args()?;
-            
+
             let call_expr = box Expr::Call(CallExpr {
                 span: span!(start),
 

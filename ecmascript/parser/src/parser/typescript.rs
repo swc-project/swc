@@ -1884,7 +1884,9 @@ impl<'a, I: Input> Parser<'a, I> {
         let res = self.try_parse_ts(|p| {
             let type_params = p.parse_ts_type_params()?;
             // Don't use overloaded parseFunctionParams which would look for "<" again.
+            expect!('(');
             let params = p.parse_formal_params()?;
+            expect!(')');
             let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
             expect!("=>");
 
