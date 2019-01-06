@@ -995,7 +995,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 false
             };
 
-            if optional || self.input.syntax().typescript() && is!(':') {
+            if optional || (self.input.syntax().typescript() && is!(':')) {
                 let start = cur_pos!();
                 let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
                 if optional {
@@ -1037,6 +1037,17 @@ impl<'a, I: Input> Parser<'a, I> {
                             .map(Some)?
                     }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
+                }
+
+                if eat!('=') {
+                    //TODO: is parse_expr correct?
+                    let right = self.parse_expr()?;
+                    pat = Pat::Assign(AssignPat {
+                        span: span!(start),
+                        left: box pat,
+                        right,
+                        type_ann: None,
+                    });
                 }
 
                 items.push(PatOrExprOrSpread::Pat(pat))
