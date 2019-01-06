@@ -16,8 +16,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{sync::Lrc, Fold, FoldWith, Span};
-use swc_ecma_ast::*;
+use swc_common::sync::Lrc;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};

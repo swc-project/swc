@@ -533,6 +533,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_class_memeber(&mut self, node: &ClassMember) -> Result {
         match *node {
+            ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
             ClassMember::Method(ref n) => emit!(n),
             ClassMember::PrivateMethod(ref n) => emit!(n),
@@ -557,15 +558,22 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
+        keyword!("constructor");
+        punct!("(");
+        self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        emit!(n.body);
+    }
+
+    #[emitter]
     pub fn emit_class_method(&mut self, node: &Method) -> Result {
         if node.is_static {
             keyword!("static");
             space!();
         }
         match node.kind {
-            MethodKind::Constructor => {
-                keyword!("constructor");
-            }
             MethodKind::Method => {
                 if node.function.is_async {
                     keyword!("async");
