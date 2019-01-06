@@ -35,37 +35,31 @@ impl<'a, I: Input> Parser<'a, I> {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
 
-            // if is!(JSXTagStart) {
-            //     let cur_context = self.input.token_context().current();
-            //     assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
-            //     // Only time j_oTag is pushed is right after j_expr.
-            //     assert_eq!(
-            //         self.input.token_context().0[self.input.token_context().len() - 2],
-            //         TokenContext::JSXExpr
-            //     );
-            // }
+            if is!(JSXTagStart) {
+                let cur_context = self.input.token_context().current();
+                assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
+                // Only time j_oTag is pushed is right after j_expr.
+                assert_eq!(
+                    self.input.token_context().0[self.input.token_context().len() - 2],
+                    TokenContext::JSXExpr
+                );
 
-            // let res = self.try_parse_ts(|p| {
-            //     let expr = p.parse_assignment_expr_base()?;
-            //     assert_eq!(
-            //         p.input.token_context().current(),
-            //         Some(TokenContext::JSXOpeningTag)
-            //     );
-            //     p.input.token_context_mut().pop();
-            //     assert_eq!(
-            //         p.input.token_context().current(),
-            //         Some(TokenContext::JSXExpr)
-            //     );
-            //     p.input.token_context_mut().pop();
-            //     Ok(Some(expr))
-            // });
-            // if let Ok(Some(res)) = res {
-            //     return Ok(res);
-            // }
-
-            // if res.is_ok() && !is!('<') {
-            //     return self.parse_assignment_expr_base();
-            // }
+                let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some))?;
+                if let Some(res) = res {
+                    return Ok(res);
+                } else {
+                    assert_eq!(
+                        self.input.token_context().current(),
+                        Some(TokenContext::JSXOpeningTag)
+                    );
+                    self.input.token_context_mut().pop();
+                    assert_eq!(
+                        self.input.token_context().current(),
+                        Some(TokenContext::JSXExpr)
+                    );
+                    self.input.token_context_mut().pop();
+                }
+            }
         }
 
         let res = self.try_parse_ts(|p| {
