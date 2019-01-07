@@ -54,3 +54,4 @@ pub mod react;
 pub mod scope;
 mod simplify;
 pub mod util;
+pub mod typescript;
