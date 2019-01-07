@@ -148,12 +148,6 @@ macro_rules! value_of_bitflag {
 }
 
 /// rustfmt-friendly version of `bitblags!`.
-///
-/// 
-/// 
-/// ```
-/// 
-/// ```
 #[macro_export]
 macro_rules! add_bitflags {
     // Done
