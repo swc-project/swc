@@ -77,6 +77,7 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
                 let ident = Ident {
                     span: ident.span.apply_mark(self.mark),
                     sym: ident.sym,
+                    ..ident
                 };
                 return Pat::Ident(ident);
             }
@@ -112,15 +113,17 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 }
 
 impl<'a> Fold<Ident> for BlockFolder<'a> {
-    fn fold(&mut self, Ident { span, sym }: Ident) -> Ident {
+    fn fold(&mut self, i: Ident) -> Ident {
+        let Ident { span, sym, .. } = i;
         if let Some(mark) = self.mark_for(&sym) {
             Ident {
                 sym,
                 span: span.apply_mark(mark),
+                ..i
             }
         } else {
             // Cannot resolve reference. (TODO: Report error)
-            Ident { sym, span }
+            Ident { sym, span, ..i }
         }
     }
 }
@@ -132,7 +135,7 @@ mod tests {
 
     #[test]
     fn test_mark_for() {
-        ::testing::run_test(|_, _| {
+        ::testing::run_test(false, |_, _| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(mark1);
             let mark3 = Mark::fresh(mark2);
@@ -457,7 +460,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         shorthand,
         r#"let a = 'foo';
@@ -473,7 +476,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         same_level,
         r#"
@@ -487,7 +490,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         class_block,
         r#"

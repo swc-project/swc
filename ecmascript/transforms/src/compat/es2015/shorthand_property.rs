@@ -43,7 +43,7 @@ impl Fold<Prop> for Shorthand {
         let prop = prop.fold_children(self);
 
         match prop {
-            Prop::Shorthand(Ident { sym, span }) => Prop::KeyValue(KeyValueProp {
+            Prop::Shorthand(Ident { sym, span, .. }) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!(span, sym.clone())),
                 value: box quote_ident!(span, sym).into(),
             }),

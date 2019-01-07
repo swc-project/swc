@@ -38,8 +38,7 @@ impl Fold<PropName> for PropertyLiteral {
         match n {
             PropName::Str(Str {
                 value: sym, span, ..
-            })
-            | PropName::Ident(Ident { sym, span }) => {
+            }) => {
                 if sym.is_reserved_for_es3() || sym.contains('-') {
                     return PropName::Str(Str {
                         span,
@@ -47,7 +46,19 @@ impl Fold<PropName> for PropertyLiteral {
                         has_escape: false,
                     });
                 } else {
-                    PropName::Ident(Ident { span, sym })
+                    PropName::Ident(Ident::new(sym, span))
+                }
+            }
+            PropName::Ident(i) => {
+                let Ident { sym, span, .. } = i;
+                if sym.is_reserved_for_es3() || sym.contains('-') {
+                    return PropName::Str(Str {
+                        span,
+                        value: sym,
+                        has_escape: false,
+                    });
+                } else {
+                    PropName::Ident(Ident { span, sym, ..i })
                 }
             }
             _ => n,

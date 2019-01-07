@@ -121,6 +121,9 @@ impl Fold<Expr> for ObjectLitFolder {
                                             is_async: false,
                                             is_generator: false,
                                             params: vec![],
+                                            decorators: Default::default(),
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
                                         },
                                     ),
                                     Prop::Setter(SetterProp {
@@ -136,6 +139,9 @@ impl Fold<Expr> for ObjectLitFolder {
                                             is_async: false,
                                             is_generator: false,
                                             params: vec![param],
+                                            decorators: Default::default(),
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
                                         },
                                     ),
                                     _ => unreachable!(),
@@ -208,12 +214,14 @@ impl Fold<Expr> for ObjectLitFolder {
                                 key.as_arg(),
                                 value.as_arg(),
                             ],
+                            type_args: Default::default(),
                         });
                     }
                     exprs.push(box Expr::Call(CallExpr {
                         span,
                         callee: quote_ident!("_defineProperty").as_callee(),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
+                        type_args: Default::default(),
                     }));
                 }
 
@@ -221,6 +229,7 @@ impl Fold<Expr> for ObjectLitFolder {
                     span,
                     name: Pat::Ident(obj_ident.clone()),
                     init: None,
+                    definite: false,
                 });
                 if self.used_define_enum_props {
                     self.vars.push(VarDeclarator {
@@ -230,11 +239,13 @@ impl Fold<Expr> for ObjectLitFolder {
                             span: DUMMY_SP,
                             props: vec![],
                         })),
+                        definite: false,
                     });
                     exprs.push(box Expr::Call(CallExpr {
                         span,
                         callee: quote_ident!("_defineEnumerableProperties").as_callee(),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
+                        type_args: Default::default(),
                     }));
                 }
 
@@ -299,6 +310,7 @@ where
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: folder.vars,
+                            declare: false,
                         }))));
                     }
                     if folder.used_define_enum_props {

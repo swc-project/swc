@@ -57,10 +57,7 @@ impl InjectHelpers {
         let handler =
             Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(self.cm.clone()));
 
-        let session = Session {
-            cfg: Default::default(),
-            handler: &handler,
-        };
+        let session = Session { handler: &handler };
 
         let mut add = |name: &str, flag: &AtomicBool, code: &'static str| {
             let enable = flag.load(Ordering::Relaxed);
@@ -73,6 +70,10 @@ impl InjectHelpers {
 
             let mut stmts = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
                 .parse_script()
+                .map_err(|e| {
+                    e.emit();
+                    ()
+                })
                 .unwrap();
 
             buf.append(&mut stmts);

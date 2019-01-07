@@ -35,6 +35,7 @@ impl Fold<Expr> for Spread {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 span,
+                type_args,
             }) => {
                 let has_spread = args
                     .iter()
@@ -44,6 +45,7 @@ impl Fold<Expr> for Spread {
                         callee: ExprOrSuper::Expr(callee),
                         args,
                         span,
+                        type_args,
                     });
                 }
                 let args_array = concat_args(&self.helpers, span, args.into_iter().map(Some));
@@ -60,15 +62,17 @@ impl Fold<Expr> for Spread {
                 callee,
                 args: Some(args),
                 span,
+                type_args,
             }) => {
                 let has_spread = args
                     .iter()
                     .any(|ExprOrSpread { spread, .. }| spread.is_some());
                 if !has_spread {
                     return Expr::New(NewExpr {
+                        span,
                         callee,
                         args: Some(args),
-                        span,
+                        type_args,
                     });
                 }
 
@@ -90,6 +94,7 @@ impl Fold<Expr> for Spread {
                         .apply(span, callee, vec![args.as_arg()])
                         .wrap_with_paren(),
                     args: Some(vec![]),
+                    type_args,
                 })
             }
             _ => e,
@@ -143,6 +148,7 @@ fn concat_args(
                             span,
                             callee: quote_ident!("_toConsumableArray").as_callee(),
                             args: vec![expr.as_arg()],
+                            type_args: Default::default(),
                         })
                         .as_arg(),
                     );
@@ -178,6 +184,7 @@ fn concat_args(
         .as_callee(),
 
         args: buf,
+        type_args: Default::default(),
     })
 }
 

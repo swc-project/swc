@@ -34,6 +34,7 @@ impl Fold<Expr> for StickyRegex {
                     let str_lit = |s: Str| box Expr::Lit(Lit::Str(s));
 
                     return Expr::New(NewExpr {
+                        span,
                         callee: box quote_ident!(span, "RegExp").into(),
                         args: Some(
                             iter::once(str_lit(exp).as_arg())
@@ -41,7 +42,7 @@ impl Fold<Expr> for StickyRegex {
                                 .chain(flags.map(|flags| str_lit(flags).as_arg()))
                                 .collect(),
                         ),
-                        span,
+                        type_args: Default::default(),
                     });
                 } else {
                     return Expr::Lit(Lit::Regex(Regex { exp, flags, span }));

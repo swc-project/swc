@@ -17,7 +17,9 @@ impl Fold<Stmt> for BlockScopedFns {
                             ident: Some(decl.ident),
                             function: decl.function,
                         })),
+                        definite: false,
                     }],
+                    declare: false,
                 }));
             }
             _ => stmt.fold_children(self),

@@ -69,6 +69,7 @@ impl Fold<Expr> for InstanceOf {
                     span,
                     callee: quote_ident!(span, "_instanceof").as_callee(),
                     args: vec![left.as_arg(), right.as_arg()],
+                    type_args: Default::default(),
                 })
             }
             _ => expr,

@@ -56,6 +56,7 @@ impl Fold<Expr> for AssignFolder {
                             span: DUMMY_SP,
                             name: quote_ident!(span, "ref").into(),
                             init: Some(e.clone()),
+                            definite: false,
                         });
                         quote_ident!(span, "ref")
                     }
@@ -113,6 +114,7 @@ where
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: folder.vars,
+                            declare: false,
                         }))));
                     }
 
@@ -132,6 +134,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
         callee: member_expr!(span, Math.pow).as_callee(),
 
         args: vec![left.as_arg(), right.as_arg()],
+        type_args: Default::default(),
     })
 }
 

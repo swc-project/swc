@@ -76,17 +76,20 @@ impl Fold<Expr> for Arrow {
                 body,
                 is_async,
                 is_generator,
+                type_params,
+                return_type,
             }) => {
                 let used_this = contains_this_expr(&body);
 
                 let fn_expr = Expr::Fn(FnExpr {
                     ident: None,
                     function: Function {
+                        decorators: vec![],
                         span,
                         params,
                         is_async,
                         is_generator,
-                        body: match body {
+                        body: Some(match body {
                             BlockStmtOrExpr::BlockStmt(block) => block,
                             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                                 span: DUMMY_SP,
@@ -95,7 +98,9 @@ impl Fold<Expr> for Arrow {
                                     arg: Some(expr),
                                 })],
                             },
-                        },
+                        }),
+                        type_params,
+                        return_type,
                     },
                 });
 
@@ -113,6 +118,7 @@ impl Fold<Expr> for Arrow {
                     })
                     .as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
                 })
             }
             _ => e,

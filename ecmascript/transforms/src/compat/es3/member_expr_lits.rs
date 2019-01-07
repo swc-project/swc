@@ -29,7 +29,7 @@ impl Fold<MemberExpr> for MemberExprLit {
             Expr::Lit(Lit::Str(Str {
                 value: sym, span, ..
             }))
-            | Expr::Ident(Ident { sym, span }) => {
+            | Expr::Ident(Ident { sym, span, .. }) => {
                 if sym.is_reserved_for_es3() {
                     return MemberExpr {
                         computed: true,

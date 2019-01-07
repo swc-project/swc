@@ -98,7 +98,9 @@ impl Fold<Decl> for Classes {
                         init: Some(box rhs),
                         // Foo in var Foo =
                         name: decl.ident.into(),
+                        definite: false,
                     }],
+                    declare: false,
                 })
             }
             _ => n,
@@ -164,11 +166,15 @@ impl Classes {
                     is_async: false,
                     is_generator: false,
                     params,
-                    body,
+                    body: Some(body),
+                    decorators: Default::default(),
+                    type_params: Default::default(),
+                    return_type: Default::default(),
                 },
             })
             .as_callee(),
             args,
+            type_args: Default::default(),
         })
     }
 
@@ -177,10 +183,74 @@ impl Classes {
         &mut self,
         class_name: Option<Ident>,
         super_class_ident: Option<Ident>,
-        mut class: Class,
+        class: Class,
     ) -> Vec<Stmt> {
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_Class"));
         let mut stmts = vec![];
+
+        let mut priv_methods = vec![];
+        let mut methods = vec![];
+        let mut prop_init_stmts = vec![];
+        let mut static_prop_init_stmts = vec![];
+        let mut constructor = None;
+        for member in class.body {
+            let span = member.span();
+            match member {
+                ClassMember::Constructor(c) => {
+                    if constructor.is_some() {
+                        unimplemented!("multiple constructor")
+                    } else {
+                        constructor = Some(c)
+                    }
+                }
+                ClassMember::PrivateMethod(m) => priv_methods.push(m),
+                ClassMember::Method(m) => methods.push(m),
+                ClassMember::ClassProp(ClassProperty {
+                    key,
+                    value: Some(right),
+                    is_static: true,
+                    ..
+                }) => static_prop_init_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                    span,
+                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                        span,
+                        obj: class_name.clone().as_obj(),
+                        computed: match *key {
+                            Expr::Ident(..) => false,
+                            _ => true,
+                        },
+                        prop: key,
+                    })),
+                    op: op!("="),
+                    right,
+                }))),
+                ClassMember::ClassProp(ClassProperty {
+                    key,
+                    value: Some(right),
+                    is_static: false,
+                    ..
+                }) => prop_init_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                    span,
+                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                        span,
+                        obj: ThisExpr { span }.as_obj(),
+                        computed: match *key {
+                            Expr::Ident(..) => false,
+                            _ => true,
+                        },
+                        prop: key,
+                    })),
+                    op: op!("="),
+                    right,
+                }))),
+                ClassMember::TsIndexSignature(s) => {
+                    unimplemented!("typescript index signature {:?}", s)
+                }
+                ClassMember::PrivateProp(p) => unimplemented!("private class property {:?}", p),
+                // Skip
+                _ => {}
+            }
+        }
 
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
@@ -196,49 +266,41 @@ impl Classes {
                     class_name.clone().as_arg(),
                     super_class_ident.clone().as_arg(),
                 ],
+                type_args: Default::default(),
             })));
         }
 
         // Process constructor
         {
-            let constructor = {
-                // Find constuctor
-                let pos = class.body.iter().position(|m| match m.kind {
-                    MethodKind::Constructor => true,
-                    _ => false,
-                });
-                match pos {
-                    Some(pos) => Some(class.body.remove(pos)),
-                    _ => None,
-                }
-            };
-            let mut function = constructor.map(|c| c.function).unwrap_or_else(|| Function {
-                is_async: false,
-                is_generator: false,
+            let constructor = constructor.unwrap_or_else(|| Constructor {
+                accessibility: None,
+                is_optional: false,
+                key: PropName::Ident(quote_ident!("constructor")),
                 span: class_name.span,
                 params: vec![],
-                body: BlockStmt {
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![],
-                },
+                }),
             });
 
             // inject _classCallCheck(this, Bar);
             self.helpers.class_call_check.store(true, Ordering::Relaxed);
-            function.body.stmts = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
+            let mut body = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
                 args: vec![
                     Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
                     Expr::Ident(class_name.clone()).as_arg(),
                 ],
+                type_args: Default::default(),
             })))
-            .chain(function.body.stmts)
-            .collect();
+            .chain(constructor.body.unwrap().stmts)
+            .collect::<Vec<_>>();
 
             if super_class_ident.is_some() {
                 // inject possibleReturnCheck
-                let super_call_pos = function.body.stmts.iter().position(|c| match *c {
+                let super_call_pos = body.iter().position(|c| match *c {
                     Stmt::Expr(box Expr::Call(CallExpr {
                         callee: ExprOrSuper::Super(..),
                         ..
@@ -246,7 +308,7 @@ impl Classes {
                     _ => false,
                 });
                 // is super() call last?
-                let is_last = super_call_pos == Some(function.body.stmts.len() - 1);
+                let is_last = super_call_pos == Some(body.len() - 1);
 
                 // possible return value from super() call
                 let possible_return_value = box Expr::Call(CallExpr {
@@ -273,7 +335,7 @@ impl Classes {
                             args: if let Some(super_call_pos) = super_call_pos {
                                 // Code like `super(foo, bar)` should be result in
                                 // `.call(this, foo, bar)`
-                                match function.body.stmts[super_call_pos] {
+                                match body[super_call_pos] {
                                     Stmt::Expr(box Expr::Call(CallExpr {
                                         callee: ExprOrSuper::Super(..),
                                         ref args,
@@ -289,38 +351,47 @@ impl Classes {
                                     quote_ident!("arguments").as_arg(),
                                 ]
                             },
+
+                            type_args: Default::default(),
                         });
 
                         apply.as_arg()
                     }],
+                    type_args: Default::default(),
                 });
 
                 match super_call_pos {
                     Some(super_call_pos) => {
-                        if !is_last {
-                            function.body.stmts[super_call_pos] = Stmt::Decl(Decl::Var(VarDecl {
+                        if is_last {
+                            body.append(&mut prop_init_stmts);
+
+                            body[super_call_pos] = Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(possible_return_value),
+                            });
+                        } else {
+                            body[super_call_pos] = Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
                                     name: quote_ident!("_this").into(),
                                     init: Some(possible_return_value),
+                                    definite: false,
                                 }],
+                                declare: false,
                             }));
 
-                            function.body.stmts.push(Stmt::Return(ReturnStmt {
+                            body.append(&mut prop_init_stmts);
+
+                            body.push(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
                                 arg: Some(box Expr::Ident(quote_ident!("_this"))),
                             }));
-                        } else {
-                            function.body.stmts[super_call_pos] = Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(possible_return_value),
-                            });
                         }
                     }
 
-                    _ => function.body.stmts.push(Stmt::Return(ReturnStmt {
+                    _ => body.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(possible_return_value),
                     })),
@@ -335,14 +406,40 @@ impl Classes {
             //
             //
 
+            let params = constructor
+                .params
+                .into_iter()
+                .map(|param| match param {
+                    PatOrTsParamProp::Pat(p) => p,
+                    _ => unimplemented!("TsParamProp in constructor"),
+                })
+                .collect();
+
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
-                function,
+                function: Function {
+                    decorators: Default::default(),
+                    span: constructor.span,
+                    body: Some(BlockStmt {
+                        span: constructor.span,
+                        stmts: body,
+                    }),
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                },
+                declare: false,
             })));
+
+            // Handle static properties
+            stmts.append(&mut static_prop_init_stmts);
         }
 
         // convert class methods
-        stmts.extend(self.fold_class_methods(class_name.clone(), class.body));
+        // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
+        stmts.extend(self.fold_class_methods(class_name.clone(), methods));
 
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
@@ -353,7 +450,15 @@ impl Classes {
         stmts
     }
 
-    fn fold_class_methods(&mut self, class_name: Ident, methods: Vec<Method>) -> Vec<Stmt> {
+    fn fold_class_methods(
+        &mut self,
+        class_name: Ident,
+        methods: Vec<ClassMethod<PropName>>,
+    ) -> Vec<Stmt> {
+        if methods.is_empty() {
+            return vec![];
+        }
+
         /// { key: "prop" }
         fn mk_prop_key(key: &PropName) -> Prop {
             Prop::KeyValue(KeyValueProp {
@@ -392,6 +497,7 @@ impl Classes {
                     .chain(iter::once(methods))
                     .chain(static_methods)
                     .collect(),
+                type_args: Default::default(),
             }))
         }
 
@@ -420,8 +526,6 @@ impl Classes {
             });
 
             match m.kind {
-                MethodKind::Constructor => unreachable!(),
-
                 MethodKind::Method | MethodKind::Getter => {
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
@@ -490,6 +594,7 @@ fn get_prototype_of(obj: &Expr) -> Expr {
         span: DUMMY_SP,
         callee: member_expr!(DUMMY_SP, Object.getPrototypeOf).as_callee(),
         args: vec![obj.clone().as_arg()],
+        type_args: Default::default(),
     });
 
     // `Child.__proto__ || Object.getPrototypeOf(Child)`
@@ -601,6 +706,7 @@ impl<'a> SuperCalleeFolder<'a> {
             span: super_token,
             callee: quote_ident!("_get").as_callee(),
             args: vec![proto_arg, prop_arg, this_arg],
+            type_args: Default::default(),
         })
     }
 
@@ -649,6 +755,7 @@ impl<'a> SuperCalleeFolder<'a> {
                 })
                 .as_arg(),
             ],
+            type_args: Default::default(),
         })
     }
 }
@@ -673,7 +780,12 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
 
             if was_call {
                 match n {
-                    Expr::Call(CallExpr { span, callee, args }) => {
+                    Expr::Call(CallExpr {
+                        span,
+                        callee,
+                        args,
+                        type_args,
+                    }) => {
                         return Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: MemberExpr {
@@ -684,6 +796,7 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
                             }
                             .as_callee(),
                             args: iter::once(ThisExpr { span }.as_arg()).chain(args).collect(),
+                            type_args,
                         });
                     }
                     _ => unreachable!(),

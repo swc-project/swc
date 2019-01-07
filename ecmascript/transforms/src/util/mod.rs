@@ -553,6 +553,7 @@ pub trait ExprExt {
 
             //TODO
             Expr::Tpl(_) => true,
+            Expr::TaggedTpl(_) => true,
             Expr::MetaProp(_) => true,
 
             Expr::Await(_)
@@ -600,6 +601,11 @@ pub trait ExprExt {
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
             | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
+
+            Expr::TsAs(TsAsExpr { ref expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
+            | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => expr.may_have_side_effects(),
         }
     }
 }

@@ -55,6 +55,7 @@ macro_rules! impl_for_for_stmt {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ref_ident.clone()),
                                 init: None,
+                                definite: false,
                             }],
                             ..var_decl
                         });
@@ -97,6 +98,7 @@ macro_rules! impl_for_for_stmt {
                                         span: DUMMY_SP,
                                         name: pat,
                                         init: Some(box Expr::Ident(var_ident.clone())),
+                                        definite: false,
                                     },
                                 );
                             }
@@ -110,7 +112,9 @@ macro_rules! impl_for_for_stmt {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(var_ident.clone()),
                                 init: None,
+                                definite: false,
                             }],
+                            declare: false,
                         })
                     }
                 };
@@ -120,6 +124,7 @@ macro_rules! impl_for_for_stmt {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: mem::replace(&mut self.vars, vec![]),
+                    declare: false,
                 }));
 
                 for_stmt.body = box Stmt::Block(match *for_stmt.body {
@@ -175,6 +180,7 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
                             span: DUMMY_SP,
                             name: Pat::Ident(var_ident.clone()),
                             init: Some(init),
+                            definite: false,
                         });
                     }
                 }
@@ -240,6 +246,7 @@ impl Fold<Expr> for RestFolder {
                     span: DUMMY_SP,
                     name: Pat::Ident(var_ident.clone()),
                     init: None,
+                    definite: false,
                 });
                 // println!("Expr: var_ident = right");
                 self.exprs.push(box Expr::Assign(AssignExpr {
@@ -382,6 +389,7 @@ where
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: folder.mutable_vars,
+                    declare: false,
                 }))));
             }
 
@@ -390,6 +398,7 @@ where
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: folder.vars,
+                    declare: false,
                 }))));
             }
 
@@ -425,10 +434,15 @@ impl Fold<ArrowExpr> for RestFolder {
 
 impl Fold<Function> for RestFolder {
     fn fold(&mut self, f: Function) -> Function {
-        let (params, stmts) = self.fold_fn_like(f.params, f.body.stmts);
+        if f.body.is_none() {
+            return f;
+        }
+        let body = f.body.unwrap();
+
+        let (params, stmts) = self.fold_fn_like(f.params, body.stmts);
         Function {
             params,
-            body: BlockStmt { stmts, ..f.body },
+            body: Some(BlockStmt { stmts, ..body }),
             ..f
         }
     }
@@ -454,11 +468,13 @@ impl Fold<CatchClause> for RestFolder {
             span: DUMMY_SP,
             name: param,
             init: Some(box Expr::Ident(var_ident.clone())),
+            definite: false,
         });
         c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Let,
             decls: mem::replace(&mut self.vars, vec![]),
+            declare: false,
         })))
         .chain(c.body.stmts)
         .collect();
@@ -525,7 +541,8 @@ impl RestFolder {
                         left: box Pat::Array(..),
                         ..
                     }) => param,
-                    Pat::Array(ArrayPat { span, elems }) => {
+                    Pat::Array(n) => {
+                        let ArrayPat { span, elems, .. } = n;
                         let elems = elems
                             .into_iter()
                             .map(|elem| match elem {
@@ -537,6 +554,7 @@ impl RestFolder {
                                             span: DUMMY_SP,
                                             name: param,
                                             init: Some(box Expr::Ident(var_ident.clone())),
+                                            definite: false,
                                         },
                                     );
                                     index += 1;
@@ -546,21 +564,26 @@ impl RestFolder {
                             })
                             .collect();
 
-                        Pat::Array(ArrayPat { span, elems })
+                        Pat::Array(ArrayPat { span, elems, ..n })
                     }
-                    Pat::Assign(AssignPat { span, left, right }) => {
+                    Pat::Assign(n) => {
+                        let AssignPat {
+                            span, left, right, ..
+                        } = n;
                         self.insert_var_if_not_empty(
                             index,
                             VarDeclarator {
                                 span,
                                 name: *left,
                                 init: Some(box Expr::Ident(var_ident.clone())),
+                                definite: false,
                             },
                         );
                         Pat::Assign(AssignPat {
                             span,
                             left: box Pat::Ident(var_ident.clone()),
                             right,
+                            ..n
                         })
                     }
                     _ => {
@@ -571,6 +594,7 @@ impl RestFolder {
                                 span: DUMMY_SP,
                                 name: param,
                                 init: Some(box Expr::Ident(var_ident.clone())),
+                                definite: false,
                             },
                         );
                         Pat::Ident(var_ident.clone())
@@ -588,6 +612,7 @@ impl RestFolder {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: mem::replace(&mut self.vars, vec![]),
+                    declare: false,
                 })))
             }
             .into_iter()
@@ -612,14 +637,27 @@ impl RestFolder {
         // const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo =
         // _extends({}, obj);
 
-        let ObjectPat { span, props } = match pat {
+        let ObjectPat {
+            span,
+            props,
+            type_ann,
+        } = match pat {
             Pat::Object(pat) => pat,
-            Pat::Assign(AssignPat { span, left, right }) => {
+            Pat::Assign(n) => {
+                let AssignPat {
+                    span, left, right, ..
+                } = n;
                 let left =
                     box self.fold_rest(*left, obj, use_expr_for_assign, use_member_for_array);
-                return Pat::Assign(AssignPat { span, left, right });
+                return Pat::Assign(AssignPat {
+                    span,
+                    left,
+                    right,
+                    ..n
+                });
             }
-            Pat::Array(ArrayPat { span, elems }) => {
+            Pat::Array(n) => {
+                let ArrayPat { span, elems, .. } = n;
                 let elems = elems
                     .into_iter()
                     .enumerate()
@@ -646,7 +684,7 @@ impl RestFolder {
                     })
                     .collect();
 
-                return Pat::Array(ArrayPat { span, elems });
+                return Pat::Array(ArrayPat { span, elems, ..n });
             }
             _ => return pat,
         };
@@ -654,7 +692,11 @@ impl RestFolder {
         let mut props: Vec<ObjectPatProp> = props
             .into_iter()
             .map(|prop| match prop {
-                ObjectPatProp::Rest(RestPat { arg, dot3_token }) => {
+                ObjectPatProp::Rest(n) => {
+                    let RestPat {
+                        arg, dot3_token, ..
+                    } = n;
+
                     let pat = self.fold_rest(
                         *arg,
                         // TODO: fix this. this is wrong
@@ -665,6 +707,7 @@ impl RestFolder {
                     ObjectPatProp::Rest(RestPat {
                         dot3_token,
                         arg: box pat,
+                        ..n
                     })
                 }
                 ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
@@ -706,7 +749,11 @@ impl RestFolder {
         match props.last() {
             Some(ObjectPatProp::Rest(..)) => {}
             _ => {
-                return Pat::Object(ObjectPat { span, props });
+                return Pat::Object(ObjectPat {
+                    span,
+                    props,
+                    type_ann,
+                });
             }
         }
         let last = match props.pop() {
@@ -734,10 +781,15 @@ impl RestFolder {
                     obj.clone(),
                     excluded_props,
                 )),
+                definite: false,
             });
         }
 
-        Pat::Object(ObjectPat { props, span })
+        Pat::Object(ObjectPat {
+            props,
+            span,
+            type_ann,
+        })
     }
 }
 
@@ -760,6 +812,7 @@ fn object_without_properties(
                 .as_arg(),
                 obj.as_arg(),
             ],
+            type_args: Default::default(),
         });
     }
 
@@ -778,6 +831,7 @@ fn object_without_properties(
             }
             .as_arg(),
         ],
+        type_args: Default::default(),
     })
 }
 
@@ -823,7 +877,8 @@ fn simplify_pat(pat: Pat) -> Pat {
             let pat = pat.fold_children(self);
 
             match pat {
-                Pat::Object(ObjectPat { span, props }) => {
+                Pat::Object(o) => {
+                    let ObjectPat { span, props, .. } = o;
                     let props = props.move_flat_map(|prop| match prop {
                         ObjectPatProp::KeyValue(KeyValuePatProp {
                             value: box Pat::Object(ObjectPat { ref props, .. }),
@@ -832,7 +887,7 @@ fn simplify_pat(pat: Pat) -> Pat {
                         _ => Some(prop),
                     });
 
-                    Pat::Object(ObjectPat { span, props })
+                    Pat::Object(ObjectPat { span, props, ..o })
                 }
                 _ => pat,
             }
@@ -912,6 +967,7 @@ impl Fold<Expr> for ObjectSpread {
                     span,
                     callee: quote_ident!("_objectSpread").as_callee(),
                     args,
+                    type_args: Default::default(),
                 })
             }
             _ => expr,

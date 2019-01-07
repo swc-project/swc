@@ -22,16 +22,6 @@ macro_rules! quote_str {
     }};
 }
 
-/// Mark span as `processed` to prevent the emitter from deoptimizing
-#[macro_export]
-macro_rules! mark {
-    ($span:expr) => {{
-        let mut span = $span;
-        let parent = span.remove_mark();
-        $span.apply_mark(::swc_common::hygiene::Mark::fresh(parent))
-    }};
-}
-
 #[macro_export]
 macro_rules! quote_expr {
     ($span:expr, null) => {{
