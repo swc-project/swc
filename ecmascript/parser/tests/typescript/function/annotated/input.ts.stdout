@@ -30,65 +30,63 @@ Module {
                         declare: false,
                         function: Function {
                             params: [
-                                Pat(
-                                    Ident(
-                                        Ident {
-                                            sym: x,
-                                            span: Span {
-                                                lo: BytePos(
-                                                    14
-                                                ),
-                                                hi: BytePos(
-                                                    15
-                                                ),
-                                                ctxt: #0
-                                            },
-                                            type_ann: Some(
-                                                TsTypeAnn {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            16
-                                                        ),
-                                                        hi: BytePos(
-                                                            19
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    type_ann: TsTypeRef(
-                                                        TsTypeRef {
-                                                            span: Span {
-                                                                lo: BytePos(
-                                                                    18
-                                                                ),
-                                                                hi: BytePos(
-                                                                    19
-                                                                ),
-                                                                ctxt: #0
-                                                            },
-                                                            type_name: Ident(
-                                                                Ident {
-                                                                    sym: T,
-                                                                    span: Span {
-                                                                        lo: BytePos(
-                                                                            18
-                                                                        ),
-                                                                        hi: BytePos(
-                                                                            19
-                                                                        ),
-                                                                        ctxt: #0
-                                                                    },
-                                                                    type_ann: None,
-                                                                    optional: false
-                                                                }
-                                                            ),
-                                                            type_params: None
-                                                        }
-                                                    )
-                                                }
+                                Ident(
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
+                                            lo: BytePos(
+                                                14
                                             ),
-                                            optional: true
-                                        }
-                                    )
+                                            hi: BytePos(
+                                                15
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        16
+                                                    ),
+                                                    hi: BytePos(
+                                                        19
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: TsTypeRef(
+                                                    TsTypeRef {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                18
+                                                            ),
+                                                            hi: BytePos(
+                                                                19
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        type_name: Ident(
+                                                            Ident {
+                                                                sym: T,
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        18
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        19
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                type_ann: None,
+                                                                optional: false
+                                                            }
+                                                        ),
+                                                        type_params: None
+                                                    }
+                                                )
+                                            }
+                                        ),
+                                        optional: true
+                                    }
                                 )
                             ],
                             decorators: [],

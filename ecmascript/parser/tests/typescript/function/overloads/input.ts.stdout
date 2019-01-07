@@ -30,49 +30,47 @@ Module {
                         declare: false,
                         function: Function {
                             params: [
-                                Pat(
-                                    Ident(
-                                        Ident {
-                                            sym: x,
-                                            span: Span {
-                                                lo: BytePos(
-                                                    18
-                                                ),
-                                                hi: BytePos(
-                                                    19
-                                                ),
-                                                ctxt: #0
-                                            },
-                                            type_ann: Some(
-                                                TsTypeAnn {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            19
-                                                        ),
-                                                        hi: BytePos(
-                                                            27
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    type_ann: TsKeywordType(
-                                                        TsKeywordType {
-                                                            span: Span {
-                                                                lo: BytePos(
-                                                                    21
-                                                                ),
-                                                                hi: BytePos(
-                                                                    27
-                                                                ),
-                                                                ctxt: #0
-                                                            },
-                                                            kind: TsNumberKeyword
-                                                        }
-                                                    )
-                                                }
+                                Ident(
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
+                                            lo: BytePos(
+                                                18
                                             ),
-                                            optional: false
-                                        }
-                                    )
+                                            hi: BytePos(
+                                                19
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        19
+                                                    ),
+                                                    hi: BytePos(
+                                                        27
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: TsKeywordType(
+                                                    TsKeywordType {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                21
+                                                            ),
+                                                            hi: BytePos(
+                                                                27
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        kind: TsNumberKeyword
+                                                    }
+                                                )
+                                            }
+                                        ),
+                                        optional: false
+                                    }
                                 )
                             ],
                             decorators: [],
@@ -142,49 +140,47 @@ Module {
                         declare: false,
                         function: Function {
                             params: [
-                                Pat(
-                                    Ident(
-                                        Ident {
-                                            sym: x,
-                                            span: Span {
-                                                lo: BytePos(
-                                                    56
-                                                ),
-                                                hi: BytePos(
-                                                    57
-                                                ),
-                                                ctxt: #0
-                                            },
-                                            type_ann: Some(
-                                                TsTypeAnn {
-                                                    span: Span {
-                                                        lo: BytePos(
-                                                            57
-                                                        ),
-                                                        hi: BytePos(
-                                                            65
-                                                        ),
-                                                        ctxt: #0
-                                                    },
-                                                    type_ann: TsKeywordType(
-                                                        TsKeywordType {
-                                                            span: Span {
-                                                                lo: BytePos(
-                                                                    59
-                                                                ),
-                                                                hi: BytePos(
-                                                                    65
-                                                                ),
-                                                                ctxt: #0
-                                                            },
-                                                            kind: TsStringKeyword
-                                                        }
-                                                    )
-                                                }
+                                Ident(
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
+                                            lo: BytePos(
+                                                56
                                             ),
-                                            optional: false
-                                        }
-                                    )
+                                            hi: BytePos(
+                                                57
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: Some(
+                                            TsTypeAnn {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        57
+                                                    ),
+                                                    hi: BytePos(
+                                                        65
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: TsKeywordType(
+                                                    TsKeywordType {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                59
+                                                            ),
+                                                            hi: BytePos(
+                                                                65
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        kind: TsStringKeyword
+                                                    }
+                                                )
+                                            }
+                                        ),
+                                        optional: false
+                                    }
                                 )
                             ],
                             decorators: [],

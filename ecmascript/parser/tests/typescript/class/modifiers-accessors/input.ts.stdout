@@ -85,7 +85,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: false,
                                         accessibility: None,
                                         is_abstract: true,
@@ -182,7 +182,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: true,
                                         accessibility: None,
                                         is_abstract: false,
@@ -234,7 +234,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: false,
                                         accessibility: Some(
                                             Public
@@ -333,7 +333,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: true,
                                         accessibility: Some(
                                             Public
@@ -432,7 +432,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: false,
                                         accessibility: Some(
                                             Public
@@ -531,7 +531,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: false,
                                         accessibility: Some(
                                             Protected
@@ -630,7 +630,7 @@ Module {
                                             type_params: None,
                                             return_type: None
                                         },
-                                        kind: Method,
+                                        kind: Getter,
                                         is_static: false,
                                         accessibility: Some(
                                             Private

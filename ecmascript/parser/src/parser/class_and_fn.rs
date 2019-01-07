@@ -761,7 +761,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 is_static,
                 key,
                 function,
-                kind: MethodKind::Method,
+                kind,
             }
             .into()),
         }

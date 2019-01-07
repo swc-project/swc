@@ -23,49 +23,47 @@ Module {
                             ctxt: #0
                         },
                         params: [
-                            Pat(
-                                Ident(
-                                    Ident {
-                                        sym: x,
-                                        span: Span {
-                                            lo: BytePos(
-                                                1
-                                            ),
-                                            hi: BytePos(
-                                                2
-                                            ),
-                                            ctxt: #0
-                                        },
-                                        type_ann: Some(
-                                            TsTypeAnn {
-                                                span: Span {
-                                                    lo: BytePos(
-                                                        3
-                                                    ),
-                                                    hi: BytePos(
-                                                        11
-                                                    ),
-                                                    ctxt: #0
-                                                },
-                                                type_ann: TsKeywordType(
-                                                    TsKeywordType {
-                                                        span: Span {
-                                                            lo: BytePos(
-                                                                5
-                                                            ),
-                                                            hi: BytePos(
-                                                                11
-                                                            ),
-                                                            ctxt: #0
-                                                        },
-                                                        kind: TsNumberKeyword
-                                                    }
-                                                )
-                                            }
+                            Ident(
+                                Ident {
+                                    sym: x,
+                                    span: Span {
+                                        lo: BytePos(
+                                            1
                                         ),
-                                        optional: true
-                                    }
-                                )
+                                        hi: BytePos(
+                                            2
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    type_ann: Some(
+                                        TsTypeAnn {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    3
+                                                ),
+                                                hi: BytePos(
+                                                    11
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            type_ann: TsKeywordType(
+                                                TsKeywordType {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            5
+                                                        ),
+                                                        hi: BytePos(
+                                                            11
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    kind: TsNumberKeyword
+                                                }
+                                            )
+                                        }
+                                    ),
+                                    optional: true
+                                }
                             )
                         ],
                         body: Expr(

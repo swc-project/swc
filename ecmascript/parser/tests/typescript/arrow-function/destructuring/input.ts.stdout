@@ -23,68 +23,66 @@ Module {
                             ctxt: #0
                         },
                         params: [
-                            Pat(
-                                Object(
-                                    ObjectPat {
-                                        span: Span {
-                                            lo: BytePos(
-                                                1
-                                            ),
-                                            hi: BytePos(
-                                                10
-                                            ),
-                                            ctxt: #0
-                                        },
-                                        props: [
-                                            Assign(
-                                                AssignPatProp {
+                            Object(
+                                ObjectPat {
+                                    span: Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            10
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    props: [
+                                        Assign(
+                                            AssignPatProp {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        3
+                                                    ),
+                                                    hi: BytePos(
+                                                        8
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                key: Ident {
+                                                    sym: a,
                                                     span: Span {
                                                         lo: BytePos(
                                                             3
                                                         ),
                                                         hi: BytePos(
-                                                            8
+                                                            4
                                                         ),
                                                         ctxt: #0
                                                     },
-                                                    key: Ident {
-                                                        sym: a,
-                                                        span: Span {
-                                                            lo: BytePos(
-                                                                3
-                                                            ),
-                                                            hi: BytePos(
-                                                                4
-                                                            ),
-                                                            ctxt: #0
-                                                        },
-                                                        type_ann: None,
-                                                        optional: false
-                                                    },
-                                                    value: Some(
-                                                        Lit(
-                                                            Num(
-                                                                Number {
-                                                                    span: Span {
-                                                                        lo: BytePos(
-                                                                            7
-                                                                        ),
-                                                                        hi: BytePos(
-                                                                            8
-                                                                        ),
-                                                                        ctxt: #0
-                                                                    },
-                                                                    value: 0.0
-                                                                }
-                                                            )
+                                                    type_ann: None,
+                                                    optional: false
+                                                },
+                                                value: Some(
+                                                    Lit(
+                                                        Num(
+                                                            Number {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        7
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        8
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                value: 0.0
+                                                            }
                                                         )
                                                     )
-                                                }
-                                            )
-                                        ],
-                                        type_ann: None
-                                    }
-                                )
+                                                )
+                                            }
+                                        )
+                                    ],
+                                    type_ann: None
+                                }
                             )
                         ],
                         body: Expr(
