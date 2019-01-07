@@ -1,6 +1,6 @@
 class a{
-    static constructor() {
+    constructor(){
     }
-    static constructor() {
+    constructor(){
     }
 }

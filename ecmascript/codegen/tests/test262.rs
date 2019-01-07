@@ -26,6 +26,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
     "431ecef8c85d4d24.js",
     "8386fbff927a9e0e.js",
+    "5654d4106d7025c2.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
@@ -135,7 +136,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
             let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-            ::testing::run_test(true, |cm, handler| {
+            ::testing::run_test(false, |cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
                 eprintln!(
                     "{}\nPos: {:?} ~ {:?} (L{})",
