@@ -24,9 +24,9 @@ Module {
                         },
                         opening: JSXOpeningElement {
                             name: Ident(
-                                Ident(
-                                    div,
-                                    Span {
+                                Ident {
+                                    sym: div,
+                                    span: Span {
                                         lo: BytePos(
                                             1
                                         ),
@@ -34,8 +34,10 @@ Module {
                                             4
                                         ),
                                         ctxt: #0
-                                    }
-                                )
+                                    },
+                                    type_ann: None,
+                                    optional: false
+                                }
                             ),
                             span: Span {
                                 lo: BytePos(
@@ -59,9 +61,9 @@ Module {
                                             ctxt: #0
                                         },
                                         expr: Ident(
-                                            Ident(
-                                                c,
-                                                Span {
+                                            Ident {
+                                                sym: c,
+                                                span: Span {
                                                     lo: BytePos(
                                                         9
                                                     ),
@@ -69,13 +71,16 @@ Module {
                                                         10
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         )
                                     }
                                 )
                             ],
-                            self_closing: false
+                            self_closing: false,
+                            type_args: None
                         },
                         children: [
                             JSXText(
@@ -96,9 +101,9 @@ Module {
                             JSXSpreadChild(
                                 JSXSpreadChild {
                                     expr: Ident(
-                                        Ident(
-                                            children,
-                                            Span {
+                                        Ident {
+                                            sym: children,
+                                            span: Span {
                                                 lo: BytePos(
                                                     17
                                                 ),
@@ -106,8 +111,10 @@ Module {
                                                     25
                                                 ),
                                                 ctxt: #0
-                                            }
-                                        )
+                                            },
+                                            type_ann: None,
+                                            optional: false
+                                        }
                                     )
                                 }
                             ),
@@ -115,9 +122,9 @@ Module {
                                 JSXExprContainer {
                                     expr: Expr(
                                         Ident(
-                                            Ident(
-                                                a,
-                                                Span {
+                                            Ident {
+                                                sym: a,
+                                                span: Span {
                                                     lo: BytePos(
                                                         27
                                                     ),
@@ -125,8 +132,10 @@ Module {
                                                         28
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         )
                                     )
                                 }
@@ -134,9 +143,9 @@ Module {
                             JSXSpreadChild(
                                 JSXSpreadChild {
                                     expr: Ident(
-                                        Ident(
-                                            b,
-                                            Span {
+                                        Ident {
+                                            sym: b,
+                                            span: Span {
                                                 lo: BytePos(
                                                     33
                                                 ),
@@ -144,8 +153,10 @@ Module {
                                                     34
                                                 ),
                                                 ctxt: #0
-                                            }
-                                        )
+                                            },
+                                            type_ann: None,
+                                            optional: false
+                                        }
                                     )
                                 }
                             )
@@ -162,9 +173,9 @@ Module {
                                     ctxt: #0
                                 },
                                 name: Ident(
-                                    Ident(
-                                        div,
-                                        Span {
+                                    Ident {
+                                        sym: div,
+                                        span: Span {
                                             lo: BytePos(
                                                 37
                                             ),
@@ -172,8 +183,10 @@ Module {
                                                 40
                                             ),
                                             ctxt: #0
-                                        }
-                                    )
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 )
                             }
                         )

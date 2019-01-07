@@ -1,0 +1,310 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            87
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Var(
+                    VarDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                87
+                            ),
+                            ctxt: #0
+                        },
+                        kind: "const",
+                        declare: false,
+                        decls: [
+                            VarDeclarator {
+                                span: Span {
+                                    lo: BytePos(
+                                        6
+                                    ),
+                                    hi: BytePos(
+                                        86
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident {
+                                        sym: table,
+                                        span: Span {
+                                            lo: BytePos(
+                                                6
+                                            ),
+                                            hi: BytePos(
+                                                11
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                init: Some(
+                                    Object(
+                                        ObjectLit {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    14
+                                                ),
+                                                hi: BytePos(
+                                                    86
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            props: [
+                                                Prop(
+                                                    Method(
+                                                        MethodProp {
+                                                            key: Ident(
+                                                                Ident {
+                                                                    sym: put,
+                                                                    span: Span {
+                                                                        lo: BytePos(
+                                                                            18
+                                                                        ),
+                                                                        hi: BytePos(
+                                                                            21
+                                                                        ),
+                                                                        ctxt: #0
+                                                                    },
+                                                                    type_ann: None,
+                                                                    optional: false
+                                                                }
+                                                            ),
+                                                            function: Function {
+                                                                params: [
+                                                                    Ident(
+                                                                        Ident {
+                                                                            sym: value,
+                                                                            span: Span {
+                                                                                lo: BytePos(
+                                                                                    48
+                                                                                ),
+                                                                                hi: BytePos(
+                                                                                    53
+                                                                                ),
+                                                                                ctxt: #0
+                                                                            },
+                                                                            type_ann: Some(
+                                                                                TsTypeAnn {
+                                                                                    span: Span {
+                                                                                        lo: BytePos(
+                                                                                            53
+                                                                                        ),
+                                                                                        hi: BytePos(
+                                                                                            56
+                                                                                        ),
+                                                                                        ctxt: #0
+                                                                                    },
+                                                                                    type_ann: TsTypeRef(
+                                                                                        TsTypeRef {
+                                                                                            span: Span {
+                                                                                                lo: BytePos(
+                                                                                                    55
+                                                                                                ),
+                                                                                                hi: BytePos(
+                                                                                                    56
+                                                                                                ),
+                                                                                                ctxt: #0
+                                                                                            },
+                                                                                            type_name: Ident(
+                                                                                                Ident {
+                                                                                                    sym: T,
+                                                                                                    span: Span {
+                                                                                                        lo: BytePos(
+                                                                                                            55
+                                                                                                        ),
+                                                                                                        hi: BytePos(
+                                                                                                            56
+                                                                                                        ),
+                                                                                                        ctxt: #0
+                                                                                                    },
+                                                                                                    type_ann: None,
+                                                                                                    optional: false
+                                                                                                }
+                                                                                            ),
+                                                                                            type_params: None
+                                                                                        }
+                                                                                    )
+                                                                                }
+                                                                            ),
+                                                                            optional: false
+                                                                        }
+                                                                    )
+                                                                ],
+                                                                decorators: [],
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        18
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        84
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                body: Some(
+                                                                    BlockStmt {
+                                                                        span: Span {
+                                                                            lo: BytePos(
+                                                                                58
+                                                                            ),
+                                                                            hi: BytePos(
+                                                                                84
+                                                                            ),
+                                                                            ctxt: #0
+                                                                        },
+                                                                        stmts: []
+                                                                    }
+                                                                ),
+                                                                is_generator: false,
+                                                                is_async: false,
+                                                                type_params: Some(
+                                                                    TsTypeParamDecl {
+                                                                        span: Span {
+                                                                            lo: BytePos(
+                                                                                21
+                                                                            ),
+                                                                            hi: BytePos(
+                                                                                47
+                                                                            ),
+                                                                            ctxt: #0
+                                                                        },
+                                                                        params: [
+                                                                            TsTypeParam {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        22
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        46
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                name: Ident {
+                                                                                    sym: T,
+                                                                                    span: Span {
+                                                                                        lo: BytePos(
+                                                                                            22
+                                                                                        ),
+                                                                                        hi: BytePos(
+                                                                                            23
+                                                                                        ),
+                                                                                        ctxt: #0
+                                                                                    },
+                                                                                    type_ann: None,
+                                                                                    optional: false
+                                                                                },
+                                                                                constraint: Some(
+                                                                                    TsTypeLit(
+                                                                                        TsTypeLit {
+                                                                                            span: Span {
+                                                                                                lo: BytePos(
+                                                                                                    32
+                                                                                                ),
+                                                                                                hi: BytePos(
+                                                                                                    46
+                                                                                                ),
+                                                                                                ctxt: #0
+                                                                                            },
+                                                                                            members: [
+                                                                                                TsPropertySignature(
+                                                                                                    TsPropertySignature {
+                                                                                                        span: Span {
+                                                                                                            lo: BytePos(
+                                                                                                                34
+                                                                                                            ),
+                                                                                                            hi: BytePos(
+                                                                                                                44
+                                                                                                            ),
+                                                                                                            ctxt: #0
+                                                                                                        },
+                                                                                                        readonly: false,
+                                                                                                        key: Ident(
+                                                                                                            Ident {
+                                                                                                                sym: id,
+                                                                                                                span: Span {
+                                                                                                                    lo: BytePos(
+                                                                                                                        34
+                                                                                                                    ),
+                                                                                                                    hi: BytePos(
+                                                                                                                        36
+                                                                                                                    ),
+                                                                                                                    ctxt: #0
+                                                                                                                },
+                                                                                                                type_ann: None,
+                                                                                                                optional: false
+                                                                                                            }
+                                                                                                        ),
+                                                                                                        computed: false,
+                                                                                                        optional: false,
+                                                                                                        init: None,
+                                                                                                        params: [],
+                                                                                                        type_ann: Some(
+                                                                                                            TsTypeAnn {
+                                                                                                                span: Span {
+                                                                                                                    lo: BytePos(
+                                                                                                                        36
+                                                                                                                    ),
+                                                                                                                    hi: BytePos(
+                                                                                                                        44
+                                                                                                                    ),
+                                                                                                                    ctxt: #0
+                                                                                                                },
+                                                                                                                type_ann: TsKeywordType(
+                                                                                                                    TsKeywordType {
+                                                                                                                        span: Span {
+                                                                                                                            lo: BytePos(
+                                                                                                                                38
+                                                                                                                            ),
+                                                                                                                            hi: BytePos(
+                                                                                                                                44
+                                                                                                                            ),
+                                                                                                                            ctxt: #0
+                                                                                                                        },
+                                                                                                                        kind: TsStringKeyword
+                                                                                                                    }
+                                                                                                                )
+                                                                                                            }
+                                                                                                        ),
+                                                                                                        type_params: None
+                                                                                                    }
+                                                                                                )
+                                                                                            ]
+                                                                                        }
+                                                                                    )
+                                                                                ),
+                                                                                default: None
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ),
+                                                                return_type: None
+                                                            }
+                                                        }
+                                                    )
+                                                )
+                                            ]
+                                        }
+                                    )
+                                ),
+                                definite: false
+                            }
+                        ]
+                    }
+                )
+            )
+        )
+    ]
+}

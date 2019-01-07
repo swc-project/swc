@@ -29,12 +29,12 @@ mod errors;
 mod output;
 mod paths;
 
-pub fn run_test<F, Ret>(op: F) -> Result<Ret, StdErr>
+pub fn run_test<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-    let (handler, errors) = self::errors::new_handler(cm.clone());
+    let (handler, errors) = self::errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
 
     match result {

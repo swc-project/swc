@@ -1,0 +1,47 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            15
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsEnum(
+                    TsEnumDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                15
+                            ),
+                            ctxt: #0
+                        },
+                        declare: false,
+                        is_const: true,
+                        id: Ident {
+                            sym: E,
+                            span: Span {
+                                lo: BytePos(
+                                    11
+                                ),
+                                hi: BytePos(
+                                    12
+                                ),
+                                ctxt: #0
+                            },
+                            type_ann: None,
+                            optional: false
+                        },
+                        members: []
+                    }
+                )
+            )
+        )
+    ]
+}

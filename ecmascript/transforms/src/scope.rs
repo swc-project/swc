@@ -2,7 +2,7 @@ use ast::*;
 use fnv::{FnvHashMap, FnvHashSet};
 use std::cell::{Cell, RefCell};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, SyntaxContext};
+use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
 /// Contextual folder
 pub trait Traverse {
@@ -17,7 +17,7 @@ pub trait Traverse {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub struct Scope<'a> {
     /// Parent scope of this scope
     pub parent: Option<&'a Scope<'a>>,
@@ -31,11 +31,11 @@ pub struct Scope<'a> {
     /// Whether or not the `this` keyword was used
     pub used_this: Cell<bool>,
 
-    /// All references used in this scope
-    pub used_refs: FnvHashSet<Ident>,
+    // /// All references used in this scope
+    pub used_refs: FnvHashSet<(JsWord, Span)>,
 
-    /// All references declared in this scope
-    pub declared_refs: FnvHashSet<Ident>,
+    // /// All references declared in this scope
+    pub declared_refs: FnvHashSet<(JsWord, Span)>,
 
     pub declared_symbols: FnvHashMap<JsWord, SyntaxContext>,
     /* /// All children of the this scope
@@ -79,6 +79,7 @@ impl<'a> Operator<'a> {
                         // Clear mark
                         span: ident.span.with_ctxt(SyntaxContext::empty()),
                         sym: to.clone(),
+                        ..ident
                     });
                 }
                 _ => {}
@@ -112,7 +113,10 @@ impl<'a> Scope<'a> {
     }
 
     pub fn scope_of(&self, ident: &Ident) -> &'a Scope {
-        if self.declared_refs.contains(ident) {
+        if self
+            .declared_refs
+            .contains(&(ident.sym.clone(), ident.span))
+        {
             self
         } else {
             match self.parent {
@@ -139,7 +143,7 @@ impl<'a> Scope<'a> {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug)]
 pub(crate) enum ScopeOp {
     Rename { from: Ident, to: JsWord },
 }
@@ -271,7 +275,9 @@ impl<'a, 'b, T: Traverse> Fold<Expr> for ScopeAnalyzer<'a, 'b, T> {
     fn fold(&mut self, node: Expr) -> Expr {
         match node {
             Expr::Ident(ref ident) => {
-                self.current.used_refs.insert(ident.clone());
+                self.current
+                    .used_refs
+                    .insert((ident.sym.clone(), ident.span));
             }
             Expr::This(..) => {
                 self.current.used_this.set(true);

@@ -17,7 +17,9 @@ impl Fold<Stmt> for BlockScopedFns {
                             ident: Some(decl.ident),
                             function: decl.function,
                         })),
+                        definite: false,
                     }],
+                    declare: false,
                 }));
             }
             _ => stmt.fold_children(self),
@@ -30,7 +32,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         BlockScopedFns,
         basic,
         r#"{

@@ -1,0 +1,120 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            31
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Class(
+                    ClassDecl {
+                        ident: Ident {
+                            sym: C,
+                            span: Span {
+                                lo: BytePos(
+                                    6
+                                ),
+                                hi: BytePos(
+                                    7
+                                ),
+                                ctxt: #0
+                            },
+                            type_ann: None,
+                            optional: false
+                        },
+                        declare: false,
+                        class: Class {
+                            span: Span {
+                                lo: BytePos(
+                                    0
+                                ),
+                                hi: BytePos(
+                                    31
+                                ),
+                                ctxt: #0
+                            },
+                            decorators: [],
+                            body: [
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                14
+                                            ),
+                                            hi: BytePos(
+                                                29
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: m,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        14
+                                                    ),
+                                                    hi: BytePos(
+                                                        15
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    14
+                                                ),
+                                                hi: BytePos(
+                                                    29
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: Some(
+                                                BlockStmt {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            22
+                                                        ),
+                                                        hi: BytePos(
+                                                            29
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    stmts: []
+                                                }
+                                            ),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: None
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: None,
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                )
+                            ],
+                            super_class: None,
+                            is_abstract: false,
+                            type_params: None,
+                            super_type_params: None,
+                            implements: []
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}

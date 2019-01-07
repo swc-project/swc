@@ -190,12 +190,21 @@ impl StartsWithAlphaNum for Expr {
                 false
             }
 
+            Expr::TaggedTpl(TaggedTpl { ref tag, .. }) => tag.starts_with_alpha_num(),
+
             // it's empty
             Expr::JSXEmpty(..) => false,
             // start with `<`
             Expr::JSXFragment(..) | Expr::JSXElement(..) => false,
             Expr::JSXNamespacedName(..) => true,
             Expr::JSXMebmer(..) => true,
+
+            Expr::TsTypeAssertion(..) => false,
+            Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
+            | Expr::TsAs(TsAsExpr { ref expr, .. }) => expr.starts_with_alpha_num(),
+
+            // TODO
+            Expr::TsTypeCast(..) => true,
         }
     }
 }

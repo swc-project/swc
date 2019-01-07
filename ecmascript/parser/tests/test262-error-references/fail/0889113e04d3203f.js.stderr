@@ -4,9 +4,3 @@ error: Unexpected eof
 1 | class
   |      ^
 
-error: Expected ident
- --> $DIR/tests/test262-parser/fail/0889113e04d3203f.js:1:1
-  |
-1 | class
-  | ^^^^^
-

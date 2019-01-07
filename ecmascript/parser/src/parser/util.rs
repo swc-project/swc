@@ -86,6 +86,15 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Original context is restored when returned guard is dropped.
+    pub(super) fn in_type<'w>(&'w mut self) -> WithCtx<'w, 'a, I> {
+        let ctx = Context {
+            in_type: true,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx)
+    }
+
+    /// Original context is restored when returned guard is dropped.
     pub(super) fn include_in_expr<'w>(&'w mut self, include_in_expr: bool) -> WithCtx<'w, 'a, I> {
         let ctx = Context {
             include_in_expr,
@@ -170,7 +179,8 @@ pub(super) trait ExprExt {
             | Expr::Object(..)
             | Expr::Fn(..)
             | Expr::Class(..)
-            | Expr::Tpl(..) => false,
+            | Expr::Tpl(..)
+            | Expr::TaggedTpl(..) => false,
             Expr::Paren(ParenExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }
@@ -199,6 +209,14 @@ pub(super) trait ExprExt {
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
             | Expr::JSXFragment(..) => false,
+
+            // typescript
+            Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
+            | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. })
+            | Expr::TsAs(TsAsExpr { ref expr, .. }) => {
+                expr.is_valid_simple_assignment_target(strict)
+            }
         }
     }
 }

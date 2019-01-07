@@ -22,7 +22,7 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
-        let out = ::testing::run_test(|cm, handler| op(&mut Tester { cm, handler }));
+        let out = ::testing::run_test(true, |cm, handler| op(&mut Tester { cm, handler }));
 
         match out {
             Ok(()) => {}
@@ -46,7 +46,6 @@ impl<'a> Tester<'a> {
 
         let sess = Session {
             handler: &self.handler,
-            cfg: Default::default(),
         };
 
         let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
@@ -54,7 +53,12 @@ impl<'a> Tester<'a> {
     }
 
     pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
-        let mut stmts = self.with_parser(file_name, Syntax::Es2019, src, |p| p.parse_script())?;
+        let mut stmts = self.with_parser(file_name, Syntax::Es, src, |p| {
+            p.parse_script().map_err(|e| {
+                e.emit();
+                ()
+            })
+        })?;
         assert!(stmts.len() == 1);
 
         Ok(stmts.pop().unwrap())
@@ -74,12 +78,14 @@ impl<'a> Tester<'a> {
         let module = {
             let sess = Session {
                 handler: &self.handler,
-                cfg: Default::default(),
             };
 
             let module = {
                 let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
-                p.parse_module()?
+                p.parse_module().map_err(|e| {
+                    e.emit();
+                    ()
+                })?
             };
             // println!("parsed {} as a module\n{:?}", src, module);
 

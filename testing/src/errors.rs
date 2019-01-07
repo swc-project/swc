@@ -9,7 +9,10 @@ use swc_common::{
 };
 
 /// Creates a new handler for testing.
-pub(crate) fn new_handler(cm: Lrc<SourceMapperDyn>) -> (Handler, BufferedError) {
+pub(crate) fn new_handler(
+    cm: Lrc<SourceMapperDyn>,
+    treat_err_as_bug: bool,
+) -> (Handler, BufferedError) {
     let buf: BufferedError = Default::default();
 
     let e = EmitterWriter::new(box buf.clone(), Some(cm.clone()), false, true);
@@ -17,6 +20,7 @@ pub(crate) fn new_handler(cm: Lrc<SourceMapperDyn>) -> (Handler, BufferedError) 
     let handler = Handler::with_emitter(
         box e,
         HandlerFlags {
+            treat_err_as_bug,
             can_emit_warnings: true,
             ..Default::default()
         },

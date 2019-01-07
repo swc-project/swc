@@ -25,9 +25,9 @@ Module {
                         opening: JSXOpeningElement {
                             name: JSXNamespacedName(
                                 JSXNamespacedName {
-                                    ns: Ident(
-                                        Foo,
-                                        Span {
+                                    ns: Ident {
+                                        sym: Foo,
+                                        span: Span {
                                             lo: BytePos(
                                                 1
                                             ),
@@ -35,11 +35,13 @@ Module {
                                                 4
                                             ),
                                             ctxt: #0
-                                        }
-                                    ),
-                                    name: Ident(
-                                        Bar,
-                                        Span {
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    },
+                                    name: Ident {
+                                        sym: Bar,
+                                        span: Span {
                                             lo: BytePos(
                                                 5
                                             ),
@@ -47,8 +49,10 @@ Module {
                                                 8
                                             ),
                                             ctxt: #0
-                                        }
-                                    )
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 }
                             ),
                             span: Span {
@@ -61,7 +65,8 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [],
-                            self_closing: true
+                            self_closing: true,
+                            type_args: None
                         },
                         children: [],
                         closing: None
@@ -85,9 +90,9 @@ Module {
                         opening: JSXOpeningElement {
                             name: JSXNamespacedName(
                                 JSXNamespacedName {
-                                    ns: Ident(
-                                        Foo,
-                                        Span {
+                                    ns: Ident {
+                                        sym: Foo,
+                                        span: Span {
                                             lo: BytePos(
                                                 14
                                             ),
@@ -95,11 +100,13 @@ Module {
                                                 17
                                             ),
                                             ctxt: #0
-                                        }
-                                    ),
-                                    name: Ident(
-                                        Bar,
-                                        Span {
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    },
+                                    name: Ident {
+                                        sym: Bar,
+                                        span: Span {
                                             lo: BytePos(
                                                 18
                                             ),
@@ -107,8 +114,10 @@ Module {
                                                 21
                                             ),
                                             ctxt: #0
-                                        }
-                                    )
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
                                 }
                             ),
                             span: Span {
@@ -121,7 +130,8 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [],
-                            self_closing: false
+                            self_closing: false,
+                            type_args: None
                         },
                         children: [],
                         closing: Some(
@@ -137,9 +147,9 @@ Module {
                                 },
                                 name: JSXNamespacedName(
                                     JSXNamespacedName {
-                                        ns: Ident(
-                                            Foo,
-                                            Span {
+                                        ns: Ident {
+                                            sym: Foo,
+                                            span: Span {
                                                 lo: BytePos(
                                                     24
                                                 ),
@@ -147,11 +157,13 @@ Module {
                                                     27
                                                 ),
                                                 ctxt: #0
-                                            }
-                                        ),
-                                        name: Ident(
-                                            Bar,
-                                            Span {
+                                            },
+                                            type_ann: None,
+                                            optional: false
+                                        },
+                                        name: Ident {
+                                            sym: Bar,
+                                            span: Span {
                                                 lo: BytePos(
                                                     28
                                                 ),
@@ -159,8 +171,10 @@ Module {
                                                     31
                                                 ),
                                                 ctxt: #0
-                                            }
-                                        )
+                                            },
+                                            type_ann: None,
+                                            optional: false
+                                        }
                                     }
                                 )
                             }

@@ -83,6 +83,7 @@ pub(crate) enum SyntaxError {
         left: String,
         left_span: Span,
     },
+    Hash,
     LineBreakInThrow,
     LineBreakBeforeArrow,
 
@@ -110,6 +111,7 @@ pub(crate) enum SyntaxError {
     /// `()`
     EmptyParenExpr,
     InvalidPat,
+    InvalidExpr,
     NotSimpleAssign,
     ExpectedIdent,
     ExpctedSemi,
@@ -134,6 +136,20 @@ pub(crate) enum SyntaxError {
     JSXExpectedClosingTag {
         tag: JsWord,
     },
+    InvalidLeadingDecorator,
+    DecoratorOnExport,
+
+    TsNonLastRest,
+    TsRequiredAfterOptional,
+    TsInvalidParamPropPat,
+
+    SpaceBetweenHashAndIdent,
+
+    AsyncConstructor,
+    PropertyNamedConstructor,
+    ClassProperty,
+    ReadOnlyMethod,
+    TsBindingPatCannotBeOptional,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -190,6 +206,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                                          identifier in string mode"
                 .into(),
             UnaryInExp { .. } => "** cannot be applied to unary expression".into(),
+            Hash => "Unexpected token '#'".into(),
             LineBreakInThrow => "LineBreak cannot follow 'throw'".into(),
             LineBreakBeforeArrow => "Unexpected line break between arrow head and arrow".into(),
             Unexpected { ref got } => format!("Unexpected token {}", got).into(),
@@ -213,6 +230,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             SpreadInParenExpr => "Parenthesized expression cannot contain spread operator".into(),
             EmptyParenExpr => "Parenthized expression cannot be empty".into(),
             InvalidPat => "Not a pattern".into(),
+            InvalidExpr => "Not an expression".into(),
             // TODO
             NotSimpleAssign => "Cannot assign to this".into(),
             ExpectedIdent => "Expected ident".into(),
@@ -242,6 +260,29 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             JSXExpectedClosingTag { ref tag } => {
                 format!("Expected corresponding JSX closing tag for <{}>", tag).into()
             }
+            InvalidLeadingDecorator => {
+                "Leading decorators must be attached to a class declaration".into()
+            }
+            DecoratorOnExport => "Using the export keyword between a decorator and a class is not \
+                                  allowed. Please use `export @dec class` instead."
+                .into(),
+            TsNonLastRest => "A rest element must be last in a tuple type.".into(),
+            TsRequiredAfterOptional => {
+                "A required element cannot follow an optional element.".into()
+            }
+            TsInvalidParamPropPat => {
+                "Typescript parameter property must be identifer or assignment pattern".into()
+            }
+            SpaceBetweenHashAndIdent => "Unexpected space between # and identifier".into(),
+            AsyncConstructor => "Constructor can't be an async function".into(),
+            PropertyNamedConstructor => {
+                "Classes may not have a non-static field named 'constructor'".into()
+            }
+            ClassProperty => "Class property requires `esnext.classProperty` to be true".into(),
+            ReadOnlyMethod => "A method cannot be readonly".into(),
+            TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be optional in an \
+                                             implementation signature."
+                .into(),
         };
 
         let d = e.handler.error(&msg).span(e.span);

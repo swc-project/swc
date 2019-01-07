@@ -1,5 +1,6 @@
 //! Parser for unary operations and binary operations.
 use super::{util::ExprExt, *};
+use crate::token::Keyword;
 use swc_common::Spanned;
 
 #[parser]
@@ -17,11 +18,29 @@ impl<'a, I: Input> Parser<'a, I> {
     /// `minPrec` provides context that allows the function to stop and
     /// defer further parser to one of its callers when it encounters an
     /// operator that has a lower precedence than the set it is parsing.
+    ///
+    /// `parseExprOp`
     fn parse_bin_op_recursively(
         &mut self,
         left: Box<Expr>,
         min_prec: u8,
-    ) -> PResult<'a, (Box<Expr>)> {
+    ) -> PResult<'a, Box<Expr>> {
+        const PREC_OF_IN: u8 = 7;
+
+        if self.input.syntax().typescript() {
+            if PREC_OF_IN > min_prec && !self.input.had_line_break_before_cur() && is!("as") {
+                let span = span!(left.span().lo());
+                let expr = left;
+                let type_ann = self.next_then_parse_ts_type()?;
+                let node = box Expr::TsAs(TsAsExpr {
+                    span,
+                    expr,
+                    type_ann,
+                });
+                return self.parse_bin_op_recursively(node, min_prec);
+            }
+        }
+
         let op = match {
             // Return left on eof
             match cur!(false) {
@@ -29,9 +48,9 @@ impl<'a, I: Input> Parser<'a, I> {
                 Err(..) => return Ok(left),
             }
         } {
-            &Word(Keyword(In)) if self.ctx().include_in_expr => op!("in"),
-            &Word(Keyword(InstanceOf)) => op!("instanceof"),
-            &BinOp(op) => op.into(),
+            &Word(Word::Keyword(Keyword::In)) if self.ctx().include_in_expr => op!("in"),
+            &Word(Word::Keyword(Keyword::InstanceOf)) => op!("instanceof"),
+            &Token::BinOp(op) => op.into(),
             _ => {
                 return Ok(left);
             }
@@ -99,12 +118,16 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse unary expression and update expression.
     ///
     /// spec: 'UnaryExpression'
-    fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
+
+        if !self.input.syntax().jsx() && eat!('<') {
+            return self.parse_ts_type_assertion().map(Expr::from).map(Box::new);
+        }
 
         // Parse update expression
         if is!("++") || is!("--") {
-            let op = if bump!() == PlusPlus {
+            let op = if bump!() == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
@@ -126,13 +149,13 @@ impl<'a, I: Input> Parser<'a, I> {
         // Parse unary expression
         if is_one_of!("delete", "void", "typeof", '+', '-', '~', '!') {
             let op = match bump!() {
-                Word(Keyword(Delete)) => op!("delete"),
-                Word(Keyword(Void)) => op!("void"),
-                Word(Keyword(TypeOf)) => op!("typeof"),
-                BinOp(Add) => op!(unary, "+"),
-                BinOp(Sub) => op!(unary, "-"),
-                Tilde => op!("~"),
-                Bang => op!("!"),
+                tok!("delete") => op!("delete"),
+                tok!("void") => op!("void"),
+                tok!("typeof") => op!("typeof"),
+                tok!('+') => op!(unary, "+"),
+                tok!('-') => op!(unary, "-"),
+                tok!('~') => op!("~"),
+                tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
             let arg = self.parse_unary_expr()?;
@@ -163,7 +186,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
 
             let start = cur_pos!();
-            let op = if bump!() == PlusPlus {
+            let op = if bump!() == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
@@ -200,14 +223,16 @@ impl<'a, I: Input> Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use swc_common::DUMMY_SP;
+    use swc_common::DUMMY_SP as span;
 
     fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es2019, |p| p.parse_bin_expr())
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_bin_expr().map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
-
-    #[allow(non_upper_case_globals)]
-    const span: Span = DUMMY_SP;
 
     #[test]
     fn simple() {

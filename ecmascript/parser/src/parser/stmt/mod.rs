@@ -55,11 +55,11 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<'a, Stmt> {
-        self.parse_stmt_internal(false, top_level)
+        self.parse_stmt_like(false, top_level)
     }
 
     fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<'a, Stmt> {
-        self.parse_stmt_internal(true, top_level)
+        self.parse_stmt_like(true, top_level)
     }
 
     /// Parse a statement, declaration or module item.
@@ -68,15 +68,33 @@ impl<'a, I: Input> Parser<'a, I> {
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
     {
+        let decorators = self.parse_decorators(true)?;
+
         if is_one_of!("import", "export") {
-            return self.handle_import_export(top_level);
+            return self.handle_import_export(top_level, decorators);
         }
-        self.parse_stmt_internal(include_decl, top_level)
+
+        self.parse_stmt_internal(include_decl, top_level, decorators)
             .map(From::from)
     }
 
-    fn parse_stmt_internal(&mut self, include_decl: bool, top_level: bool) -> PResult<'a, Stmt> {
+    /// `parseStatementContent`
+    fn parse_stmt_internal(
+        &mut self,
+        include_decl: bool,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Stmt> {
         let start = cur_pos!();
+
+        if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
+            assert_and_bump!("const");
+            assert_and_bump!("enum");
+            return self
+                .parse_ts_enum_decl(start, /* is_const */ true)
+                .map(Decl::from)
+                .map(Stmt::from);
+        }
 
         if is_one_of!("break", "continue") {
             let is_break = is!("break");
@@ -117,14 +135,14 @@ impl<'a, I: Input> Parser<'a, I> {
                 unexpected!()
             }
 
-            return self.parse_fn_decl().map(Stmt::from);
+            return self.parse_fn_decl(decorators).map(Stmt::from);
         }
 
         if is!("class") {
             if !include_decl {
                 unexpected!()
             }
-            return self.parse_class_decl().map(Stmt::from);
+            return self.parse_class_decl(decorators).map(Stmt::from);
         }
 
         if is!("if") {
@@ -187,7 +205,7 @@ impl<'a, I: Input> Parser<'a, I> {
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            return self.parse_async_fn_decl().map(From::from);
+            return self.parse_async_fn_decl(decorators).map(From::from);
         }
 
         // If the statement does not start with a statement keyword or a
@@ -196,6 +214,7 @@ impl<'a, I: Input> Parser<'a, I> {
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
+
         let expr = match expr {
             box Expr::Ident(ident) => {
                 if eat!(':') {
@@ -209,6 +228,16 @@ impl<'a, I: Input> Parser<'a, I> {
                 expr
             }
         };
+        match *expr {
+            Expr::Ident(ref ident) => {
+                if self.input.syntax().typescript() {
+                    if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
+                        return Ok(Stmt::Decl(decl));
+                    }
+                }
+            }
+            _ => {}
+        }
 
         if eat!(';') {
             Ok(Stmt::Expr(expr))
@@ -400,7 +429,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<'a, VarDecl> {
+    pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<'a, VarDecl> {
         let start = cur_pos!();
         let kind = match bump!() {
             tok!("const") => VarDeclKind::Const,
@@ -422,6 +451,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         Ok(VarDecl {
             span: span!(start),
+            declare: self.ctx().in_declare,
             kind,
             decls,
         })
@@ -429,17 +459,57 @@ impl<'a, I: Input> Parser<'a, I> {
 
     fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<'a, VarDeclarator> {
         let start = cur_pos!();
-        let name = self.parse_binding_pat_or_ident()?;
+
+        let mut name = self.parse_binding_pat_or_ident()?;
+
+        let definite = if self.input.syntax().typescript() {
+            match name {
+                Pat::Ident(..) => eat!('!'),
+                _ => false,
+            }
+        } else {
+            false
+        };
+
+        // Typescript extension
+        if self.input.syntax().typescript() && is!(':') {
+            let type_annotation = self.try_parse_ts_type_ann()?;
+            match name {
+                Pat::Array(ArrayPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Assign(AssignPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Ident(Ident {
+                    ref mut type_ann, ..
+                })
+                | Pat::Object(ObjectPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Rest(RestPat {
+                    ref mut type_ann, ..
+                }) => {
+                    *type_ann = type_annotation;
+                }
+                Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
+            }
+        }
 
         //FIXME: This is wrong. Should check in/of only on first loop.
         let init = if !for_loop || !is_one_of!("in", "of") {
             if eat!('=') {
                 Some(self.parse_assignment_expr()?)
             } else {
-                // Destructuring bindings require initializers.
-                match name {
-                    Pat::Ident(..) => None,
-                    _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
+                // Destructuring bindings require initializers, but
+                // typescript allows `declare` vars not to have initializers.
+                if self.ctx().in_declare {
+                    None
+                } else {
+                    match name {
+                        Pat::Ident(..) => None,
+                        _ => syntax_error!(span!(start), SyntaxError::PatVarWithoutInit),
+                    }
                 }
             }
         } else {
@@ -451,6 +521,7 @@ impl<'a, I: Input> Parser<'a, I> {
             span: span!(start),
             name,
             init,
+            definite,
         });
     }
 
@@ -510,7 +581,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         expect!('{');
 
-        let stmts = self.parse_block_body(allow_directives, false, Some(&RBrace))?;
+        let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
 
         let span = span!(start);
         Ok(BlockStmt { span, stmts })
@@ -525,7 +596,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
         let body = box if is!("function") {
-            let f = self.parse_fn_decl()?;
+            let f = self.parse_fn_decl(vec![])?;
             match f {
                 Decl::Fn(FnDecl {
                     function:
@@ -710,12 +781,16 @@ impl IsDirective for Stmt {
 }
 
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Type>;
+    fn handle_import_export(
+        &mut self,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Type>;
 }
 
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, Stmt> {
+    fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
         syntax_error!(SyntaxError::ImportExportInScript);
     }
 }
@@ -723,13 +798,24 @@ impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::EsNextConfig;
     use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, Syntax::Es2019, |p| p.parse_stmt(true))
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_stmt(true).map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es2019, |p| p.parse_expr())
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_expr().map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
 
     #[test]
@@ -753,8 +839,10 @@ mod tests {
                         span,
                         props: vec![ObjectPatProp::Rest(RestPat {
                             dot3_token: span,
-                            arg: box Pat::Ident(Ident::new("a34".into(), span))
-                        })]
+                            arg: box Pat::Ident(Ident::new("a34".into(), span)),
+                            type_ann: None
+                        })],
+                        type_ann: None,
                     })
                     .into(),
                     body: BlockStmt {
@@ -791,16 +879,12 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident {
-                            span,
-                            sym: "a".into()
-                        })
+                        name: Pat::Ident(Ident::new("a".into(), span)),
+                        definite: false,
                     }],
+                    declare: false,
                 }),
-                right: box Expr::Ident(Ident {
-                    span,
-                    sym: "b".into()
-                }),
+                right: box Expr::Ident(Ident::new("b".into(), span)),
 
                 body: box Stmt::Empty(EmptyStmt { span })
             })
@@ -837,6 +921,50 @@ mod tests {
                 cons: box stmt("b;"),
                 alt: Some(box stmt("c")),
             })
+        );
+    }
+
+    #[test]
+    fn class_decorator() {
+        assert_eq_ignore_span!(
+            test_parser(
+                "
+            @decorator
+            @dec2
+            class Foo {}
+            ",
+                Syntax::EsNext(EsNextConfig {
+                    decorators: true,
+                    ..Default::default()
+                }),
+                |p| p.parse_stmt_list_item(true).map_err(|e| {
+                    e.emit();
+                    ()
+                }),
+            ),
+            Stmt::Decl(Decl::Class(ClassDecl {
+                ident: Ident::new("Foo".into(), span),
+                class: Class {
+                    span,
+                    decorators: vec![
+                        Decorator {
+                            span,
+                            expr: expr("decorator")
+                        },
+                        Decorator {
+                            span,
+                            expr: expr("dec2")
+                        }
+                    ],
+                    super_class: None,
+                    implements: vec![],
+                    body: vec![],
+                    is_abstract: false,
+                    super_type_params: None,
+                    type_params: None,
+                },
+                declare: false,
+            }))
         );
     }
 }

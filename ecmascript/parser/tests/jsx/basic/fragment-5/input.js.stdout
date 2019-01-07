@@ -66,9 +66,9 @@ Module {
                                     },
                                     opening: JSXOpeningElement {
                                         name: Ident(
-                                            Ident(
-                                                div,
-                                                Span {
+                                            Ident {
+                                                sym: div,
+                                                span: Span {
                                                     lo: BytePos(
                                                         34
                                                     ),
@@ -76,8 +76,10 @@ Module {
                                                         37
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         span: Span {
                                             lo: BytePos(
@@ -89,7 +91,8 @@ Module {
                                             ctxt: #0
                                         },
                                         attrs: [],
-                                        self_closing: false
+                                        self_closing: false,
+                                        type_args: None
                                     },
                                     children: [],
                                     closing: Some(
@@ -104,9 +107,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             name: Ident(
-                                                Ident(
-                                                    div,
-                                                    Span {
+                                                Ident {
+                                                    sym: div,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             40
                                                         ),
@@ -114,8 +117,10 @@ Module {
                                                             43
                                                         ),
                                                         ctxt: #0
-                                                    }
-                                                )
+                                                    },
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             )
                                         }
                                     )
@@ -153,9 +158,9 @@ Module {
                                     },
                                     opening: JSXOpeningElement {
                                         name: Ident(
-                                            Ident(
-                                                div,
-                                                Span {
+                                            Ident {
+                                                sym: div,
+                                                span: Span {
                                                     lo: BytePos(
                                                         48
                                                     ),
@@ -163,8 +168,10 @@ Module {
                                                         51
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         span: Span {
                                             lo: BytePos(
@@ -176,7 +183,8 @@ Module {
                                             ctxt: #0
                                         },
                                         attrs: [],
-                                        self_closing: false
+                                        self_closing: false,
+                                        type_args: None
                                     },
                                     children: [],
                                     closing: Some(
@@ -191,9 +199,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             name: Ident(
-                                                Ident(
-                                                    div,
-                                                    Span {
+                                                Ident {
+                                                    sym: div,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             54
                                                         ),
@@ -201,8 +209,10 @@ Module {
                                                             57
                                                         ),
                                                         ctxt: #0
-                                                    }
-                                                )
+                                                    },
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             )
                                         }
                                     )

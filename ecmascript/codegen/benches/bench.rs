@@ -90,14 +90,17 @@ module.exports = {
 fn emit_colors(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
-    let _ = ::testing::run_test(|cm, handler| {
-        let session = Session {
-            handler: &handler,
-            cfg: Default::default(),
-        };
+    let _ = ::testing::run_test(true, |cm, handler| {
+        let session = Session { handler: &handler };
         let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
-        let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
-        let module = parser.parse_module().unwrap();
+        let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
+        let module = parser
+            .parse_module()
+            .map_err(|e| {
+                e.emit();
+                ()
+            })
+            .unwrap();
 
         b.iter(|| {
             let buf = vec![];

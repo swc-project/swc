@@ -6,6 +6,14 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
+        if self.input.syntax().typescript() {
+            if is!(IdentRef) && peeked_is!('=') {
+                return self
+                    .parse_ts_import_equals_decl(start, false)
+                    .map(From::from);
+            }
+        }
+
         // Handle import 'mod.js'
         let str_start = cur_pos!();
         match *cur!(false)? {
@@ -126,9 +134,63 @@ impl<'a, I: Input> Parser<'a, I> {
         self.with_ctx(ctx).parse_binding_ident()
     }
 
-    fn parse_export(&mut self) -> PResult<'a, ModuleDecl> {
+    fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<'a, ModuleDecl> {
         let start = cur_pos!();
         assert_and_bump!("export");
+
+        // "export declare" is equivalent to just "export".
+        let declare = self.input.syntax().typescript() && eat!("declare");
+
+        if declare {
+            // TODO: Remove
+            if let Some(decl) = self.try_parse_ts_declare(start, decorators.clone())? {
+                return Ok(ModuleDecl::ExportDecl(decl));
+            }
+        }
+
+        if self.input.syntax().typescript() && is!(IdentName) {
+            let sym = match *cur!(true)? {
+                Token::Word(ref w) => w.clone().into(),
+                _ => unreachable!(),
+            };
+            // TODO: remove clone
+            if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym)? {
+                return Ok(ModuleDecl::ExportDecl(decl));
+            }
+        }
+
+        if self.input.syntax().typescript() {
+            if eat!("import") {
+                // export import A = B
+                return self
+                    .parse_ts_import_equals_decl(start, /* is_export */ true)
+                    .map(From::from);
+            }
+
+            if eat!('=') {
+                // `export = x;`
+                let expr = self.parse_expr()?;
+                expect!(';');
+                return Ok(TsExportAssignment {
+                    span: span!(start),
+                    expr,
+                }
+                .into());
+            }
+
+            if eat!("as") {
+                // `export as namespace A;`
+                // See `parseNamespaceExportDeclaration` in TypeScript's own parser
+                expect!("namespace");
+                let id = self.parse_ident(false, false)?;
+                expect!(';');
+                return Ok(TsNamespaceExportDecl {
+                    span: span!(start),
+                    id,
+                }
+                .into());
+            }
+        }
 
         if eat!('*') {
             let src = self.parse_from_clause_and_semi()?;
@@ -139,15 +201,35 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if eat!("default") {
+            if self.input.syntax().typescript() {
+                if is!("abstract") && peeked_is!("class") {
+                    let start = cur_pos!();
+                    assert_and_bump!("abstract");
+                    let mut class = self.parse_default_class(decorators)?;
+                    match class {
+                        ExportDefaultDecl::Class(ClassExpr { ref mut class, .. }) => {
+                            class.is_abstract = true
+                        }
+                        _ => unreachable!(),
+                    }
+                    return Ok(class.into());
+                }
+
+                if eat!("interface") {
+                    let decl = self.parse_ts_interface_decl().map(Decl::from)?;
+                    return Ok(decl.into());
+                }
+            }
+
             let decl = if is!("class") {
-                self.parse_default_class()?
+                self.parse_default_class(decorators)?
             } else if is!("async")
                 && peeked_is!("function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                self.parse_default_async_fn()?
+                self.parse_default_async_fn(decorators)?
             } else if is!("function") {
-                self.parse_default_fn()?
+                self.parse_default_fn(decorators)?
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');
@@ -158,14 +240,22 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let decl = if is!("class") {
-            self.parse_class_decl()?
+            self.parse_class_decl(decorators)?
         } else if is!("async")
             && peeked_is!("function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            self.parse_async_fn_decl()?
+            self.parse_async_fn_decl(decorators)?
         } else if is!("function") {
-            self.parse_fn_decl()?
+            self.parse_fn_decl(decorators)?
+        } else if self.input.syntax().typescript() && is!("const") && peeked_is!("enum") {
+            let start = cur_pos!();
+            assert_and_bump!("const");
+            assert_and_bump!("enum");
+            return self
+                .parse_ts_enum_decl(start, /* is_const */ true)
+                .map(Decl::from)
+                .map(ModuleDecl::from);
         } else if is!("var")
             || is!("const")
             || (is!("let")
@@ -265,7 +355,11 @@ impl IsDirective for ModuleItem {
 
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
-    fn handle_import_export(&mut self, top_level: bool) -> PResult<'a, ModuleItem> {
+    fn handle_import_export(
+        &mut self,
+        top_level: bool,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, ModuleItem> {
         if !top_level {
             syntax_error!(SyntaxError::NonTopLevelImportExport);
         }
@@ -274,7 +368,7 @@ impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
         let decl = if is!("import") {
             self.parse_import()?
         } else if is!("export") {
-            self.parse_export()?
+            self.parse_export(decorators)?
         } else {
             unreachable!(
                 "handle_import_export should not be called if current token isn't import nor \

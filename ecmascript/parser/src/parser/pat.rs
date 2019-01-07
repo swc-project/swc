@@ -1,12 +1,13 @@
 //! 13.3.3 Destructuring Binding Patterns
 use super::{util::ExprExt, *};
+use crate::{parser::expr::PatOrExprOrSpread, token::AssignOpToken};
 use std::iter;
 use swc_common::Spanned;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<'a, (Option<Ident>)> {
-        if is!(BindingIdent) {
+        if is!(BindingIdent) || (self.input.syntax().typescript() && is!("this")) {
             self.parse_binding_ident().map(Some)
         } else {
             Ok(None)
@@ -60,6 +61,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
                 left: box left,
                 right,
+                type_ann: None,
             }));
         }
 
@@ -94,6 +96,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
+                    type_ann: None,
                 });
                 elems.push(Some(pat));
                 // Trailing comma isn't allowed
@@ -108,17 +111,67 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(Pat::Array(ArrayPat {
             span: span!(start),
             elems,
+            type_ann: None,
         }))
     }
 
     /// spec: 'FormalParameter'
+    ///
+    /// babel: `parseAssignableListItem`
     pub(super) fn parse_formal_param(&mut self) -> PResult<'a, Pat> {
-        self.parse_binding_element()
+        let start = cur_pos!();
+
+        let mut pat = self.parse_binding_element()?;
+        if self.input.syntax().typescript() {
+            if eat!('?') {
+                match pat {
+                    Pat::Ident(Ident {
+                        ref mut optional, ..
+                    }) => {
+                        *optional = true;
+                    }
+                    _ => syntax_error!(
+                        self.input.prev_span(),
+                        SyntaxError::TsBindingPatCannotBeOptional
+                    ),
+                }
+            }
+
+            match pat {
+                Pat::Array(ArrayPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Assign(AssignPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Ident(Ident {
+                    ref mut type_ann, ..
+                })
+                | Pat::Object(ObjectPat {
+                    ref mut type_ann, ..
+                })
+                | Pat::Rest(RestPat {
+                    ref mut type_ann, ..
+                }) => {
+                    *type_ann = self.try_parse_ts_type_ann()?;
+                }
+                Pat::Expr(expr) => unreachable!("invalid syntax: Pat(expr): {:?}", expr),
+            }
+        }
+        if eat!('=') {
+            let right = self.parse_expr()?;
+            Ok(Pat::Assign(AssignPat {
+                span: span!(start),
+                left: box pat,
+                type_ann: None,
+                right,
+            }))
+        } else {
+            Ok(pat)
+        }
     }
 
-    ///
-    /// spec: 'FormalParameterList'
-    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, (Vec<Pat>)> {
+    pub(super) fn parse_constructor_params(&mut self) -> PResult<'a, Vec<PatOrTsParamProp>> {
         let mut first = true;
         let mut params = vec![];
 
@@ -139,22 +192,101 @@ impl<'a, I: Input> Parser<'a, I> {
                 let dot3_token = span!(start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
+                let type_ann = if self.input.syntax().typescript() && is!(':') {
+                    let cur_pos = cur_pos!();
+                    Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                } else {
+                    None
+                };
+
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
+                    type_ann,
                 });
-                params.push(pat);
+                params.push(PatOrTsParamProp::Pat(pat));
                 break;
             } else {
-                params.push(self.parse_binding_element()?);
+                params.push(self.parse_constructor_param()?);
             }
         }
 
         Ok(params)
     }
 
-    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, (Vec<Pat>)> {
-        // FIXME: This is wrong.
+    fn parse_constructor_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
+        let start = cur_pos!();
+        let (accessibility, readonly) = if self.input.syntax().typescript() {
+            let accessibility = self.parse_access_modifier()?;
+            (
+                accessibility,
+                self.parse_ts_modifier(&["readonly"])?.is_some(),
+            )
+        } else {
+            (None, false)
+        };
+        if accessibility == None && readonly == false {
+            self.parse_formal_param().map(PatOrTsParamProp::from)
+        } else {
+            Ok(PatOrTsParamProp::TsParamProp(TsParamProp {
+                span: span!(start),
+                accessibility,
+                readonly,
+                decorators: vec![],
+                param: match self.parse_formal_param()? {
+                    Pat::Ident(i) => TsParamPropParam::Ident(i),
+                    Pat::Assign(a) => TsParamPropParam::Assign(a),
+                    node => syntax_error!(node.span(), SyntaxError::TsInvalidParamPropPat),
+                },
+            }))
+        }
+    }
+
+    pub(super) fn parse_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
+        let mut first = true;
+        let mut params = vec![];
+
+        while !eof!() && !is!(')') {
+            if first {
+                first = false;
+            } else {
+                expect!(',');
+                // Handle trailing comma.
+                if is!(')') {
+                    break;
+                }
+            }
+
+            let start = cur_pos!();
+
+            if eat!("...") {
+                let dot3_token = span!(start);
+
+                let pat = self.parse_binding_pat_or_ident()?;
+                let type_ann = if self.input.syntax().typescript() && is!(':') {
+                    let cur_pos = cur_pos!();
+                    Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                } else {
+                    None
+                };
+
+                let pat = Pat::Rest(RestPat {
+                    dot3_token,
+                    arg: box pat,
+                    type_ann,
+                });
+                params.push(pat);
+                break;
+            } else {
+                params.push(self.parse_formal_param()?);
+            }
+        }
+
+        Ok(params)
+    }
+
+    pub(super) fn parse_unique_formal_params(&mut self) -> PResult<'a, Vec<Pat>> {
+        // FIXME: This is wrong
         self.parse_formal_params()
     }
 }
@@ -258,7 +390,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
         match *expr {
             Expr::Paren(inner) => syntax_error!(span, SyntaxError::InvalidPat),
-            Expr::Assign(assign_expr @ AssignExpr { op: Assign, .. }) => {
+            Expr::Assign(
+                assign_expr @ AssignExpr {
+                    op: AssignOpToken::Assign,
+                    ..
+                },
+            ) => {
                 let AssignExpr {
                     span, left, right, ..
                 } = assign_expr;
@@ -269,6 +406,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         PatOrExpr::Pat(left) => left,
                     },
                     right,
+                    type_ann: None,
                 }));
             }
             Expr::Object(ObjectLit { span, props }) => {
@@ -307,6 +445,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                         // FIXME: is BindingPat correct?
                                         arg: box self
                                             .reparse_expr_as_pat(PatType::BindingPat, expr)?,
+                                        type_ann: None,
                                     }))
                                 }
 
@@ -314,6 +453,7 @@ impl<'a, I: Input> Parser<'a, I> {
                             }
                         })
                         .collect::<(PResult<'a, _>)>()?,
+                    type_ann: None,
                 }));
             }
             Expr::Ident(ident) => return Ok(ident.into()),
@@ -324,6 +464,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     return Ok(Pat::Array(ArrayPat {
                         span,
                         elems: vec![],
+                        type_ann: None,
                     }));
                 }
 
@@ -370,6 +511,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                     Pat::Rest(RestPat {
                                         dot3_token,
                                         arg: box pat,
+                                        type_ann: None,
                                     })
                                 })
                                 .map(Some)?
@@ -386,6 +528,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 return Ok(Pat::Array(ArrayPat {
                     span,
                     elems: params,
+                    type_ann: None,
                 }));
             }
 
@@ -411,10 +554,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }
     }
 
-    pub(super) fn parse_exprs_as_params(
+    pub(super) fn parse_paren_items_as_params(
         &mut self,
-        mut exprs: Vec<ExprOrSpread>,
-    ) -> PResult<'a, (Vec<Pat>)> {
+        mut exprs: Vec<PatOrExprOrSpread>,
+    ) -> PResult<'a, Vec<Pat>> {
         let pat_ty = PatType::BindingPat;
 
         let len = exprs.len();
@@ -426,10 +569,16 @@ impl<'a, I: Input> Parser<'a, I> {
 
         for expr in exprs.drain(..len - 1) {
             match expr {
-                ExprOrSpread {
+                PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: Some(..), ..
-                } => syntax_error!(expr.span(), SyntaxError::NonLastRestParam),
-                ExprOrSpread { expr, .. } => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                })
+                | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
+                    syntax_error!(expr.span(), SyntaxError::NonLastRestParam)
+                }
+                PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                    spread: None, expr, ..
+                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                PatOrExprOrSpread::Pat(pat) => params.push(pat),
             }
         }
 
@@ -437,16 +586,20 @@ impl<'a, I: Input> Parser<'a, I> {
         let expr = exprs.into_iter().next().unwrap();
         let last = match expr {
             // Rest
-            ExprOrSpread {
+            PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
-            } => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
+            }) => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                 Pat::Rest(RestPat {
                     dot3_token,
                     arg: box pat,
+                    type_ann: None,
                 })
             })?,
-            ExprOrSpread { expr, .. } => self.reparse_expr_as_pat(pat_ty, expr)?,
+            PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
+                self.reparse_expr_as_pat(pat_ty, expr)?
+            }
+            PatOrExprOrSpread::Pat(pat) => pat,
         };
         params.push(last);
 
@@ -460,14 +613,16 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn array_pat(s: &'static str) -> Pat {
-        test_parser(s, Syntax::Es2019, |p| p.parse_array_binding_pat())
+        test_parser(s, Syntax::Es, |p| {
+            p.parse_array_binding_pat().map_err(|e| {
+                e.emit();
+                ()
+            })
+        })
     }
 
     fn ident(s: &str) -> Ident {
-        Ident {
-            sym: s.into(),
-            span,
-        }
+        Ident::new(s.into(), span)
     }
 
     #[test]
@@ -480,13 +635,16 @@ mod tests {
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("b")))]
+                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("c")))]
+                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        type_ann: None
                     }))
-                ]
+                ],
+                type_ann: None
             })
         );
     }
@@ -502,13 +660,16 @@ mod tests {
                     Some(Pat::Ident(ident("a"))),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("b")))]
+                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("c")))]
+                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        type_ann: None
                     }))
-                ]
+                ],
+                type_ann: None
             })
         );
     }
@@ -524,13 +685,16 @@ mod tests {
                     None,
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("b")))]
+                        elems: vec![Some(Pat::Ident(ident("b")))],
+                        type_ann: None
                     })),
                     Some(Pat::Array(ArrayPat {
                         span,
-                        elems: vec![Some(Pat::Ident(ident("c")))]
+                        elems: vec![Some(Pat::Ident(ident("c")))],
+                        type_ann: None
                     }))
-                ]
+                ],
+                type_ann: None
             })
         );
     }

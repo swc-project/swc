@@ -87,16 +87,17 @@ fn add_golden_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 file_name, input
             );
 
-            let stderr = ::testing::run_test(|cm, handler| {
+            let stderr = ::testing::run_test(false, |cm, handler| {
                 let fm = cm.new_source_file(FileName::Real(path.clone()), input);
 
                 let module = {
-                    let session = parser::Session {
-                        cfg: Default::default(),
-                        handler: &handler,
-                    };
-                    parser::Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
-                        .parse_module()?
+                    let session = parser::Session { handler: &handler };
+                    parser::Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
+                        .parse_module()
+                        .map_err(|e| {
+                            e.emit();
+                            ()
+                        })?
                 };
 
                 lints::lint_all(&handler, &module);

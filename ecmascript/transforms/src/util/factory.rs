@@ -35,6 +35,7 @@ pub trait ExprFactory: Into<Expr> {
             span,
             callee: apply.as_callee(),
             args: iter::once(this.as_arg()).chain(args).collect(),
+            type_args: None,
         })
     }
 

@@ -2,23 +2,43 @@ use super::*;
 use swc_common::DUMMY_SP as span;
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| p.parse_lhs_expr())
+    test_parser(s, Syntax::Es, |p| {
+        p.parse_lhs_expr().map_err(|e| {
+            e.emit();
+            ()
+        })
+    })
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| p.parse_new_expr())
+    test_parser(s, Syntax::Es, |p| {
+        p.parse_new_expr().map_err(|e| {
+            e.emit();
+            ()
+        })
+    })
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| p.parse_member_expr())
+    test_parser(s, Syntax::Es, |p| {
+        p.parse_member_expr().map_err(|e| {
+            e.emit();
+            ()
+        })
+    })
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::Es2019, |p| {
-        p.parse_stmt(true).map(|stmt| match stmt {
-            Stmt::Expr(expr) => expr,
-            _ => unreachable!(),
-        })
+    test_parser(s, Syntax::Es, |p| {
+        p.parse_stmt(true)
+            .map(|stmt| match stmt {
+                Stmt::Expr(expr) => expr,
+                _ => unreachable!(),
+            })
+            .map_err(|e| {
+                e.emit();
+                ()
+            })
     })
 }
 
@@ -28,13 +48,7 @@ fn arrow_assign() {
         expr("a = b => false"),
         box Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(
-                box Ident {
-                    span,
-                    sym: "a".into(),
-                }
-                .into()
-            ),
+            left: PatOrExpr::Pat(box Ident::new("a".into(), span).into()),
             op: op!("="),
             right: expr("b => false"),
         })
@@ -49,6 +63,7 @@ fn async_call() {
             span,
             callee: ExprOrSuper::Expr(expr("async")),
             args: vec![],
+            type_args: None,
         })
     );
 }
@@ -63,6 +78,8 @@ fn async_arrow() {
             is_generator: false,
             params: vec![],
             body: BlockStmtOrExpr::Expr(expr("foo")),
+            return_type: None,
+            type_params: None,
         })
     );
 }
@@ -79,14 +96,18 @@ fn object_rest_pat() {
                 span,
                 props: vec![ObjectPatProp::Rest(RestPat {
                     dot3_token: span,
-                    arg: box Pat::Ident(Ident::new("a34".into(), span))
-                })]
+                    arg: box Pat::Ident(Ident::new("a34".into(), span)),
+                    type_ann: None,
+                })],
+                type_ann: None
             })
             .into()],
             body: BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span,
                 stmts: vec![]
-            })
+            }),
+            return_type: None,
+            type_params: None,
         })
     );
 }
@@ -97,38 +118,17 @@ fn object_spread() {
         expr("foo = {a, ...bar, b}"),
         box Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(box Pat::Ident(
-                Ident {
-                    span,
-                    sym: "foo".into()
-                }
-                .into()
-            )),
+            left: PatOrExpr::Pat(box Pat::Ident(Ident::new("foo".into(), span))),
             op: op!("="),
             right: box Expr::Object(ObjectLit {
                 span,
                 props: vec![
-                    PropOrSpread::Prop(
-                        box Ident {
-                            span,
-                            sym: "a".into()
-                        }
-                        .into()
-                    ),
+                    PropOrSpread::Prop(box Ident::new("a".into(), span).into()),
                     PropOrSpread::Spread(SpreadElement {
                         dot3_token: span,
-                        expr: box Expr::Ident(Ident {
-                            span,
-                            sym: "bar".into(),
-                        })
+                        expr: box Expr::Ident(Ident::new("bar".into(), span))
                     }),
-                    PropOrSpread::Prop(
-                        box Ident {
-                            span,
-                            sym: "b".into()
-                        }
-                        .into()
-                    ),
+                    PropOrSpread::Prop(box Ident::new("b".into(), span).into()),
                 ]
             })
         })
@@ -142,11 +142,7 @@ fn new_expr_should_not_eat_too_much() {
         box Expr::Member(MemberExpr {
             span,
             obj: ExprOrSuper::Expr(member_expr("new Date()")),
-            prop: box Ident {
-                sym: "toString".into(),
-                span,
-            }
-            .into(),
+            prop: box Ident::new("toString".into(), span).into(),
             computed: false,
         })
     );
@@ -159,6 +155,7 @@ fn lhs_expr_as_new_expr_prod() {
             span,
             callee: lhs("Date.toString"),
             args: Some(vec![]),
+            type_args: None,
         })
     );
 }
@@ -171,6 +168,7 @@ fn lhs_expr_as_call() {
             span,
             callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
             args: vec![],
+            type_args: None,
         })
     )
 }
@@ -185,6 +183,8 @@ fn arrow_fn_no_args() {
             is_generator: false,
             params: vec![],
             body: BlockStmtOrExpr::Expr(expr("1")),
+            return_type: None,
+            type_params: None,
         })
     );
 }
@@ -196,11 +196,10 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident {
-                span,
-                sym: "a".into(),
-            })],
+            params: vec![Pat::Ident(Ident::new("a".into(), span)).into()],
             body: BlockStmtOrExpr::Expr(expr("1")),
+            return_type: None,
+            type_params: None,
         })
     );
 }
@@ -214,12 +213,13 @@ fn arrow_fn_rest() {
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
                 dot3_token: span,
-                arg: box Pat::Ident(Ident {
-                    span,
-                    sym: "a".into(),
-                }),
-            })],
+                arg: box Pat::Ident(Ident::new("a".into(), span)),
+                type_ann: None
+            })
+            .into()],
             body: BlockStmtOrExpr::Expr(expr("1")),
+            return_type: None,
+            type_params: None,
         })
     );
 }
@@ -231,11 +231,10 @@ fn arrow_fn_no_paren() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident {
-                span,
-                sym: "a".into(),
-            })],
+            params: vec![Pat::Ident(Ident::new("a".into(), span)).into()],
             body: BlockStmtOrExpr::Expr(expr("1")),
+            type_params: None,
+            return_type: None,
         })
     );
 }
@@ -248,6 +247,7 @@ fn new_no_paren() {
             span,
             callee: expr("a"),
             args: None,
+            type_args: None,
         })
     );
 }
@@ -260,6 +260,7 @@ fn new_new_no_paren() {
             span,
             callee: expr("new a"),
             args: None,
+            type_args: None,
         })
     );
 }

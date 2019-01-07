@@ -24,9 +24,9 @@ Module {
                         },
                         opening: JSXOpeningElement {
                             name: Ident(
-                                Ident(
-                                    a,
-                                    Span {
+                                Ident {
+                                    sym: a,
+                                    span: Span {
                                         lo: BytePos(
                                             1
                                         ),
@@ -34,8 +34,10 @@ Module {
                                             2
                                         ),
                                         ctxt: #0
-                                    }
-                                )
+                                    },
+                                    type_ann: None,
+                                    optional: false
+                                }
                             ),
                             span: Span {
                                 lo: BytePos(
@@ -59,9 +61,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                b,
-                                                Span {
+                                            Ident {
+                                                sym: b,
+                                                span: Span {
                                                     lo: BytePos(
                                                         3
                                                     ),
@@ -69,8 +71,10 @@ Module {
                                                         4
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -105,9 +109,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                c,
-                                                Span {
+                                            Ident {
+                                                sym: c,
+                                                span: Span {
                                                     lo: BytePos(
                                                         11
                                                     ),
@@ -115,8 +119,10 @@ Module {
                                                         12
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -151,9 +157,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                d,
-                                                Span {
+                                            Ident {
+                                                sym: d,
+                                                span: Span {
                                                     lo: BytePos(
                                                         17
                                                     ),
@@ -161,8 +167,10 @@ Module {
                                                         18
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -197,9 +205,9 @@ Module {
                                             ctxt: #0
                                         },
                                         name: Ident(
-                                            Ident(
-                                                e,
-                                                Span {
+                                            Ident {
+                                                sym: e,
+                                                span: Span {
                                                     lo: BytePos(
                                                         27
                                                     ),
@@ -207,8 +215,10 @@ Module {
                                                         28
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         value: Some(
                                             Lit(
@@ -232,7 +242,8 @@ Module {
                                     }
                                 )
                             ],
-                            self_closing: true
+                            self_closing: true,
+                            type_args: None
                         },
                         children: [],
                         closing: None

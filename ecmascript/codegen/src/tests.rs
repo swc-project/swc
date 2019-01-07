@@ -71,7 +71,7 @@ fn test_from_to(from: &str, to: &str) {
     where
         F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
     {
-        self::testing::run_test(|cm, handler| {
+        self::testing::run_test(true, |cm, handler| {
             let src = cm.new_source_file(FileName::Real(file_name.into()), s.to_string());
             println!(
                 "Source: \n{}\nPos: {:?} ~ {:?}",
@@ -79,13 +79,14 @@ fn test_from_to(from: &str, to: &str) {
             );
 
             let res = f(&mut Parser::new(
-                Session {
-                    handler: &handler,
-                    cfg: Default::default(),
-                },
-                Syntax::Es2019,
+                Session { handler: &handler },
+                Syntax::Es,
                 (&*src).into(),
-            ));
+            ))
+            .map_err(|e| {
+                e.emit();
+                ()
+            });
 
             res
         })

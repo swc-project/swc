@@ -5,6 +5,7 @@
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 pub use self::input::Input;
+pub(crate) use self::state::{TokenContext, TokenContexts};
 use self::{state::State, util::*};
 use crate::{
     error::{Error, SyntaxError},
@@ -26,6 +27,7 @@ pub mod util;
 
 pub(crate) type LexResult<T> = Result<T, Error>;
 
+#[derive(Clone)]
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
     pub ctx: Context,
@@ -54,6 +56,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
 
         let token = match c {
+            '#' => return self.read_token_number_sign(),
             // Identifier or keyword. '\uXXXX' sequences are allowed in
             // identifiers, so '\' also dispatches to that.
             c if c == '\\' || c.is_ident_start() => return self.read_ident_or_keyword().map(Some),
@@ -110,7 +113,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             ':' => {
                 self.input.bump();
 
-                if self.session.cfg.fn_bind && self.input.cur() == Some(':') {
+                if self.syntax.fn_bind() && self.input.cur() == Some(':') {
                     self.input.bump();
                     return Ok(Some(tok!("::")));
                 }
@@ -276,6 +279,47 @@ impl<'a, I: Input> Lexer<'a, I> {
         };
 
         Ok(Some(token))
+    }
+
+    /// `#`
+    fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
+        assert!(self.cur().is_some());
+
+        let start = self.input.cur_pos();
+
+        if self.input.is_at_start() && self.read_token_interpreter()? {
+            return Ok(None);
+        }
+
+        if self.syntax.class_private_props() || self.syntax.class_private_methods() {
+            self.input.bump(); // '#'
+            return Ok(Some(Token::Hash));
+        }
+
+        self.error(start, SyntaxError::Hash)?
+    }
+
+    fn read_token_interpreter(&mut self) -> LexResult<bool> {
+        if !self.input.is_at_start() {
+            return Ok(false);
+        }
+
+        let start = self.input.cur_pos();
+        self.input.bump();
+        let c = self.input.cur();
+        if c == Some('!') {
+            loop {
+                while let Some(c) = self.input.cur() {
+                    if c != '\n' && c != '\r' && c != '\u{8232}' && c != '\u{8233}' {
+                        self.input.bump();
+                        continue;
+                    }
+                }
+            }
+        } else {
+            self.input.reset_to(start);
+            return Ok(false);
+        }
     }
 
     /// Read an escaped charater for string literal.
@@ -765,6 +809,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     pub fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
+    }
+
+    pub fn set_expr_allowed(&mut self, allow: bool) {
+        self.state.is_expr_allowed = allow;
     }
 }
 

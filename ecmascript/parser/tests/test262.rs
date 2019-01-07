@@ -23,6 +23,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
     "431ecef8c85d4d24.js",
     "8386fbff927a9e0e.js",
+    "5654d4106d7025c2.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
@@ -272,19 +273,20 @@ fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
-    let output = ::testing::run_test(|cm, handler| {
+    let output = ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let res = f(&mut Parser::new(
-            Session {
-                handler: &handler,
-                cfg: Default::default(),
-            },
-            Syntax::Es2019,
+            Session { handler: &handler },
+            Syntax::Es,
             (&*fm).into(),
-        ));
+        ))
+        .map_err(|e| {
+            e.emit();
+            ()
+        });
 
         res
     });
@@ -337,14 +339,9 @@ impl Fold<Expr> for Normalizer {
 
         match e {
             Expr::Paren(ParenExpr { expr, .. }) => *expr,
-            Expr::New(NewExpr {
-                callee,
-                args: None,
-                span,
-            }) => Expr::New(NewExpr {
-                span,
-                callee,
+            Expr::New(n @ NewExpr { args: None, .. }) => Expr::New(NewExpr {
                 args: Some(vec![]),
+                ..n
             }),
             // Flatten comma expressions.
             Expr::Seq(SeqExpr { mut exprs, span }) => {

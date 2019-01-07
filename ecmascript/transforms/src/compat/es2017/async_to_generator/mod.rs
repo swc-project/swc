@@ -100,6 +100,7 @@ impl Fold<MethodProp> for Actual {
             span: DUMMY_SP,
             callee: fn_ref.as_callee(),
             args: vec![],
+            type_args: Default::default(),
         });
 
         MethodProp {
@@ -108,13 +109,16 @@ impl Fold<MethodProp> for Actual {
                 span: DUMMY_SP,
                 is_async: false,
                 is_generator: false,
-                body: BlockStmt {
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(box fn_ref),
                     })],
-                },
+                }),
+                decorators: Default::default(),
+                return_type: Default::default(),
+                type_params: Default::default(),
             },
             ..prop
         }
@@ -149,11 +153,11 @@ impl Fold<MethodProp> for Actual {
 ///     }
 /// }
 /// ```
-struct ClassMethodFolder {
+struct MethodFolder {
     vars: Vec<VarDeclarator>,
 }
 
-impl ClassMethodFolder {
+impl MethodFolder {
     fn ident_for_super(&mut self, prop: &Expr) -> (Mark, Ident) {
         let mark = Mark::fresh(Mark::root());
         let prop_span = prop.span();
@@ -166,7 +170,7 @@ impl ClassMethodFolder {
     }
 }
 
-impl Fold<Expr> for ClassMethodFolder {
+impl Fold<Expr> for MethodFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
         // TODO(kdy): Cache (Reuse declaration for same property)
 
@@ -221,13 +225,17 @@ impl Fold<Expr> for ClassMethodFolder {
                             op,
                             right: box args_ident.into(),
                         })),
+                        type_params: Default::default(),
+                        return_type: Default::default(),
                     })),
+                    definite: false,
                 });
 
                 Expr::Call(CallExpr {
                     span,
                     callee: ident.as_callee(),
                     args: vec![right.as_arg()],
+                    type_args: Default::default(),
                 })
             }
 
@@ -242,6 +250,7 @@ impl Fold<Expr> for ClassMethodFolder {
                         computed,
                     })),
                 args,
+                type_args,
             }) => {
                 let (mark, ident) = self.ident_for_super(&prop);
                 let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
@@ -256,6 +265,7 @@ impl Fold<Expr> for ClassMethodFolder {
                         params: vec![Pat::Rest(RestPat {
                             dot3_token: DUMMY_SP,
                             arg: box Pat::Ident(args_ident.clone()),
+                            type_ann: Default::default(),
                         })],
                         body: BlockStmtOrExpr::Expr(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -270,14 +280,19 @@ impl Fold<Expr> for ClassMethodFolder {
                                 spread: Some(DUMMY_SP),
                                 expr: box args_ident.clone().into(),
                             }],
+                            type_args: Default::default(),
                         })),
+                        type_params: Default::default(),
+                        return_type: Default::default(),
                     })),
+                    definite: false,
                 });
 
                 Expr::Call(CallExpr {
                     span,
                     callee: ident.as_callee(),
                     args,
+                    type_args,
                 })
             }
             // super.getter
@@ -305,13 +320,17 @@ impl Fold<Expr> for ClassMethodFolder {
                             }
                             .into(),
                         ),
+                        type_params: Default::default(),
+                        return_type: Default::default(),
                     })),
+                    definite: false,
                 });
 
                 Expr::Call(CallExpr {
                     span,
                     callee: ident.as_callee(),
                     args: vec![],
+                    type_args: Default::default(),
                 })
             }
             _ => expr.fold_children(self),
@@ -319,14 +338,17 @@ impl Fold<Expr> for ClassMethodFolder {
     }
 }
 
-impl Fold<ClassMethod> for Actual {
-    fn fold(&mut self, m: ClassMethod) -> ClassMethod {
-        if m.kind != ClassMethodKind::Method || !m.function.is_async {
+impl Fold<Method> for Actual {
+    fn fold(&mut self, m: Method) -> Method {
+        if m.function.body.is_none() {
+            return m;
+        }
+        if m.kind != MethodKind::Method || !m.function.is_async {
             return m;
         }
         let params = m.function.params.clone();
 
-        let mut folder = ClassMethodFolder { vars: vec![] };
+        let mut folder = MethodFolder { vars: vec![] };
         let function = m.function.fold_children(&mut folder);
         let expr = make_fn_ref(
             &self.helpers,
@@ -343,16 +365,17 @@ impl Fold<ClassMethod> for Actual {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 decls: folder.vars,
+                declare: false,
             })))
         };
 
-        ClassMethod {
+        Method {
             function: Function {
                 span: m.span,
                 is_async: false,
                 is_generator: false,
                 params,
-                body: BlockStmt {
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: hoisted_super
                         .into_iter()
@@ -362,10 +385,14 @@ impl Fold<ClassMethod> for Actual {
                                 span: DUMMY_SP,
                                 callee: expr.as_callee(),
                                 args: vec![],
+                                type_args: Default::default(),
                             })),
                         })))
                         .collect(),
-                },
+                }),
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
             },
             ..m
         }
@@ -380,12 +407,14 @@ impl Fold<Expr> for Actual {
                 span,
                 callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
                 args,
+                type_args,
             }) => {
                 if !args.is_empty() || !fn_expr.function.is_async {
                     return Expr::Call(CallExpr {
                         span,
                         callee: ExprOrSuper::Expr(box Expr::Fn(fn_expr)),
                         args,
+                        type_args,
                     });
                 }
 
@@ -399,19 +428,24 @@ impl Fold<Expr> for Actual {
         match expr {
             Expr::Fn(
                 expr @ FnExpr {
-                    function: Function { is_async: true, .. },
+                    function:
+                        Function {
+                            is_async: true,
+                            body: Some(..),
+                            ..
+                        },
                     ..
                 },
             ) => {
                 let function = self.fold_fn(expr.ident.clone(), expr.function, false);
-                let body = BlockStmt {
+                let body = Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: self
                         .extra_stmts
                         .drain(..)
-                        .chain(function.body.stmts)
+                        .chain(function.body.unwrap().stmts)
                         .collect(),
-                };
+                });
 
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
@@ -421,6 +455,7 @@ impl Fold<Expr> for Actual {
                     })
                     .as_callee(),
                     args: vec![],
+                    type_args: Default::default(),
                 })
             }
             _ => expr,
@@ -439,6 +474,7 @@ impl Fold<FnDecl> for Actual {
         FnDecl {
             ident: f.ident,
             function,
+            declare: false,
         }
     }
 }
@@ -446,6 +482,9 @@ impl Fold<FnDecl> for Actual {
 impl Actual {
     #[inline(always)]
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
+        if f.body.is_none() {
+            return f;
+        }
         let span = f.span();
         let params = f.params.clone();
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
@@ -463,9 +502,10 @@ impl Actual {
         if is_decl {
             let real_fn = FnDecl {
                 ident: real_fn_ident.clone(),
+                declare: false,
                 function: Function {
                     span: DUMMY_SP,
-                    body: BlockStmt {
+                    body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![
                             Stmt::Expr(box Expr::Assign(AssignExpr {
@@ -483,10 +523,13 @@ impl Actual {
                                 )),
                             }),
                         ],
-                    },
+                    }),
                     params: vec![],
                     is_async: false,
                     is_generator: false,
+                    decorators: Default::default(),
+                    type_params: Default::default(),
+                    return_type: Default::default(),
                 },
             };
             self.extra_stmts.push(Stmt::Decl(Decl::Fn(real_fn)));
@@ -498,7 +541,9 @@ impl Actual {
                     span: DUMMY_SP,
                     name: Pat::Ident(real_fn_ident.clone()),
                     init: Some(box right),
+                    definite: false,
                 }],
+                declare: false,
             })));
         }
 
@@ -512,7 +557,7 @@ impl Actual {
         });
         Function {
             span,
-            body: BlockStmt {
+            body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: if is_decl {
                     vec![apply]
@@ -526,18 +571,24 @@ impl Actual {
                                 is_async: false,
                                 is_generator: false,
                                 params: vec![],
-                                body: BlockStmt {
+                                body: Some(BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: vec![apply],
-                                },
+                                }),
+                                decorators: Default::default(),
+                                type_params: Default::default(),
+                                return_type: Default::default(),
                             },
                         })),
                     })]
                 },
-            },
+            }),
             params: params.clone(),
             is_generator: false,
             is_async: false,
+            decorators: Default::default(),
+            return_type: Default::default(),
+            type_params: Default::default(),
         }
     }
 }
@@ -591,6 +642,7 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
             }
             .as_callee(),
             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+            type_args: Default::default(),
         })
     } else {
         Expr::Fn(expr)
@@ -600,6 +652,7 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
         span,
         callee: quote_ident!("_asyncToGenerator").as_callee(),
         args: vec![expr.as_arg()],
+        type_args: Default::default(),
     })
 }
 

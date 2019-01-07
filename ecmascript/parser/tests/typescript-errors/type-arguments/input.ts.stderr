@@ -1,0 +1,6 @@
+error: Unexpected token Some(Semi)
+ --> $DIR/tests/typescript-errors/type-arguments/input.ts:1:9
+  |
+1 | new A<T>;
+  |         ^
+

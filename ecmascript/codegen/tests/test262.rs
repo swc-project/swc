@@ -16,8 +16,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{sync::Lrc, Fold, FoldWith, Span};
-use swc_ecma_ast::*;
+use swc_common::sync::Lrc;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
@@ -27,6 +26,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporalily ignored
     "431ecef8c85d4d24.js",
     "8386fbff927a9e0e.js",
+    "5654d4106d7025c2.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
@@ -136,7 +136,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
             let mut wr = Buf(Arc::new(RwLock::new(vec![])));
 
-            ::testing::run_test(|cm, handler| {
+            ::testing::run_test(false, |cm, handler| {
                 let src = cm.load_file(&entry.path()).expect("failed to load file");
                 eprintln!(
                     "{}\nPos: {:?} ~ {:?} (L{})",
@@ -147,14 +147,8 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 );
 
                 let handlers = box MyHandlers;
-                let mut parser: Parser<SourceFileInput> = Parser::new(
-                    Session {
-                        handler: &handler,
-                        cfg: Default::default(),
-                    },
-                    Syntax::Es2019,
-                    (&*src).into(),
-                );
+                let mut parser: Parser<SourceFileInput> =
+                    Parser::new(Session { handler: &handler }, Syntax::Es, (&*src).into());
 
                 let s: Lrc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
                 let mut src_map_builder = SourceMapBuilder::new(Some(&s));
@@ -174,9 +168,19 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     // Parse source
                     if module {
-                        emitter.emit_module(&parser.parse_module()?).unwrap();
+                        emitter
+                            .emit_module(&parser.parse_module().map_err(|e| {
+                                e.emit();
+                                ()
+                            })?)
+                            .unwrap();
                     } else {
-                        emitter.emit_script(&parser.parse_script()?).unwrap();
+                        emitter
+                            .emit_script(&parser.parse_script().map_err(|e| {
+                                e.emit();
+                                ()
+                            })?)
+                            .unwrap();
                     }
                 }
                 let ref_file = format!("{}", ref_dir.join(&file_name).display());
@@ -200,87 +204,6 @@ fn identity() {
     let mut tests = Vec::new();
     error_tests(&mut tests).expect("failed to load testss");
     test_main(&args, tests, Options::new());
-}
-
-pub fn normalize<T>(t: T) -> T
-where
-    Normalizer: Fold<T>,
-{
-    let mut n = Normalizer;
-    n.fold(t)
-}
-
-pub struct Normalizer;
-impl Fold<Span> for Normalizer {
-    fn fold(&mut self, _: Span) -> Span {
-        Span::default()
-    }
-}
-impl Fold<Str> for Normalizer {
-    fn fold(&mut self, s: Str) -> Str {
-        Str {
-            span: Default::default(),
-            has_escape: false,
-            ..s
-        }
-    }
-}
-impl Fold<Expr> for Normalizer {
-    fn fold(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children(self);
-
-        match e {
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
-            Expr::New(NewExpr {
-                callee,
-                args: None,
-                span,
-            }) => Expr::New(NewExpr {
-                span,
-                callee,
-                args: Some(vec![]),
-            }),
-            // Flatten comma expressions.
-            Expr::Seq(SeqExpr { mut exprs, span }) => {
-                let need_work = exprs.iter().any(|n| match **n {
-                    Expr::Seq(..) => true,
-                    _ => false,
-                });
-
-                if need_work {
-                    exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-                        match *e {
-                            Expr::Seq(SeqExpr { exprs, .. }) => v.extend(exprs),
-                            _ => v.push(e),
-                        }
-                        v
-                    });
-                }
-                Expr::Seq(SeqExpr { exprs, span })
-            }
-            _ => e,
-        }
-    }
-}
-
-impl Fold<PropName> for Normalizer {
-    fn fold(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children(self);
-
-        match n {
-            PropName::Ident(Ident { sym, .. }) => PropName::Str(Str {
-                span: Default::default(),
-                value: sym,
-                has_escape: false,
-            }),
-            PropName::Num(num) => PropName::Str(Str {
-                span: Default::default(),
-                value: num.to_string().into(),
-                has_escape: false,
-            }),
-            _ => n,
-        }
-    }
 }
 
 #[derive(Debug, Clone)]

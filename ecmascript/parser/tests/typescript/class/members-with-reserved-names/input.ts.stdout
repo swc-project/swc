@@ -1,0 +1,135 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            38
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                Class(
+                    ClassDecl {
+                        ident: Ident {
+                            sym: C,
+                            span: Span {
+                                lo: BytePos(
+                                    6
+                                ),
+                                hi: BytePos(
+                                    7
+                                ),
+                                ctxt: #0
+                            },
+                            type_ann: None,
+                            optional: false
+                        },
+                        declare: false,
+                        class: Class {
+                            span: Span {
+                                lo: BytePos(
+                                    0
+                                ),
+                                hi: BytePos(
+                                    38
+                                ),
+                                ctxt: #0
+                            },
+                            decorators: [],
+                            body: [
+                                Method(
+                                    ClassMethod {
+                                        span: Span {
+                                            lo: BytePos(
+                                                21
+                                            ),
+                                            hi: BytePos(
+                                                36
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        key: Ident(
+                                            Ident {
+                                                sym: delete,
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        21
+                                                    ),
+                                                    hi: BytePos(
+                                                        27
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
+                                        ),
+                                        function: Function {
+                                            params: [],
+                                            decorators: [],
+                                            span: Span {
+                                                lo: BytePos(
+                                                    21
+                                                ),
+                                                hi: BytePos(
+                                                    36
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            body: None,
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: None,
+                                            return_type: Some(
+                                                TsTypeAnn {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            29
+                                                        ),
+                                                        hi: BytePos(
+                                                            35
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    type_ann: TsKeywordType(
+                                                        TsKeywordType {
+                                                            span: Span {
+                                                                lo: BytePos(
+                                                                    31
+                                                                ),
+                                                                hi: BytePos(
+                                                                    35
+                                                                ),
+                                                                ctxt: #0
+                                                            },
+                                                            kind: TsVoidKeyword
+                                                        }
+                                                    )
+                                                }
+                                            )
+                                        },
+                                        kind: Method,
+                                        is_static: false,
+                                        accessibility: Some(
+                                            Public
+                                        ),
+                                        is_abstract: false,
+                                        is_optional: false
+                                    }
+                                )
+                            ],
+                            super_class: None,
+                            is_abstract: false,
+                            type_params: None,
+                            super_type_params: None,
+                            implements: []
+                        }
+                    }
+                )
+            )
+        )
+    ]
+}

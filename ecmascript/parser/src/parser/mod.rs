@@ -5,13 +5,13 @@ use crate::{
     error::SyntaxError,
     lexer::{Input, Lexer},
     parser_macros::parser,
-    token::*,
+    token::{Token, Word},
     Context, Session, Syntax,
 };
 use ast::*;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
+use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
 
 #[macro_use]
 mod macros;
@@ -23,19 +23,21 @@ mod jsx;
 mod object;
 mod pat;
 mod stmt;
+mod typescript;
 mod util;
 
 /// When error ocurred, error is emiited and parser returnes Err(()).
-pub type PResult<'a, T> = Result<T, ()>;
+pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
+#[derive(Clone)]
 pub struct Parser<'a, I: Input> {
     session: Session<'a>,
     state: State,
     input: ParserInput<'a, I>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 struct State {
     labels: Vec<JsWord>,
     /// Start position of an assignment expression.
@@ -91,15 +93,4 @@ where
 {
     crate::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, syntax, input)))
         .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
-}
-
-#[test]
-fn module_legacy() {
-    test_parser("<!--", Syntax::Es2019, |f| {
-        let res = f.parse_module();
-        assert!(f.ctx().module);
-        assert!(f.ctx().strict);
-        let _ = res.expect_err("!");
-        Ok(())
-    });
 }

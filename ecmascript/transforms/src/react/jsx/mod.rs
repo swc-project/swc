@@ -63,15 +63,16 @@ fn default_throw_if_namespace() -> bool {
 pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl Fold<Module> {
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
-    let session = Session {
-        cfg: Default::default(),
-        handler: &handler,
-    };
+    let session = Session { handler: &handler };
     let parse = |name, s| {
         let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), s);
 
-        Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm))
+        Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
             .parse_expr()
+            .map_err(|e| {
+                e.emit();
+                ()
+            })
             .unwrap()
     };
 
@@ -110,6 +111,7 @@ impl Jsx {
                         .filter_map(|c| self.jsx_elem_child_to_expr(c))
                 })
                 .collect(),
+            type_args: None,
         })
     }
 
@@ -133,6 +135,7 @@ impl Jsx {
                         .filter_map(|c| self.jsx_elem_child_to_expr(c))
                 })
                 .collect(),
+            type_args: Default::default(),
         })
     }
 
@@ -215,6 +218,7 @@ impl Jsx {
                     }
                 },
                 args,
+                type_args: None,
             })
         } else {
             box Expr::Object(ObjectLit {

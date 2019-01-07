@@ -1,11 +1,12 @@
 use crate::{
-    lexer::{Input, Lexer},
+    lexer::{self, Input, Lexer},
     token::*,
     Context, Syntax,
 };
 use swc_common::{BytePos, Span, DUMMY_SP};
 
 /// This struct is responsible for managing current token and peeked token.
+#[derive(Clone)]
 pub(super) struct ParserInput<'a, I: Input> {
     iter: Lexer<'a, I>,
     /// Span of the previous token.
@@ -127,7 +128,7 @@ impl<'a, I: Input> ParserInput<'a, I> {
     }
 
     pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
-        self.eat(&Word(Keyword(kwd)))
+        self.eat(&Word(Word::Keyword(kwd)))
     }
 
     /// Returns start of current token.
@@ -169,5 +170,19 @@ impl<'a, I: Input> ParserInput<'a, I> {
 
     pub const fn syntax(&self) -> Syntax {
         self.iter.syntax
+    }
+
+    pub fn set_expr_allowed(&mut self, allow: bool) {
+        self.iter.set_expr_allowed(allow)
+    }
+
+    pub(crate) const fn token_context(&self) -> &lexer::TokenContexts {
+        self.iter.token_context()
+    }
+    pub fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
+        self.iter.token_context_mut()
+    }
+    pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
+        self.iter.set_token_context(c)
     }
 }

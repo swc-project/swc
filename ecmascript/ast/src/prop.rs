@@ -1,4 +1,11 @@
-use super::{BlockStmt, Expr, Function, Ident, Number, Pat, Str};
+use crate::{
+    expr::Expr,
+    function::Function,
+    ident::Ident,
+    lit::{Number, Str},
+    pat::Pat,
+    stmt::BlockStmt,
+};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -35,14 +42,14 @@ pub struct AssignProp {
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
-    pub body: BlockStmt,
+    pub body: Option<BlockStmt>,
 }
 #[ast_node]
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
     pub param: Pat,
-    pub body: BlockStmt,
+    pub body: Option<BlockStmt>,
 }
 #[ast_node]
 pub struct MethodProp {

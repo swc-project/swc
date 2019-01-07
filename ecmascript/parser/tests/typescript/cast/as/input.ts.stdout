@@ -1,0 +1,320 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            106
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                TsAs(
+                    TsAsExpr {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                1
+                            ),
+                            ctxt: #0
+                        },
+                        expr: Ident(
+                            Ident {
+                                sym: x,
+                                span: Span {
+                                    lo: BytePos(
+                                        0
+                                    ),
+                                    hi: BytePos(
+                                        1
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_ann: None,
+                                optional: false
+                            }
+                        ),
+                        type_ann: TsTypeRef(
+                            TsTypeRef {
+                                span: Span {
+                                    lo: BytePos(
+                                        5
+                                    ),
+                                    hi: BytePos(
+                                        6
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_name: Ident(
+                                    Ident {
+                                        sym: T,
+                                        span: Span {
+                                            lo: BytePos(
+                                                5
+                                            ),
+                                            hi: BytePos(
+                                                6
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                type_params: None
+                            }
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Expr(
+                TsAs(
+                    TsAsExpr {
+                        span: Span {
+                            lo: BytePos(
+                                8
+                            ),
+                            hi: BytePos(
+                                13
+                            ),
+                            ctxt: #0
+                        },
+                        expr: Bin(
+                            BinExpr {
+                                span: Span {
+                                    lo: BytePos(
+                                        8
+                                    ),
+                                    hi: BytePos(
+                                        13
+                                    ),
+                                    ctxt: #0
+                                },
+                                op: "<",
+                                left: Ident(
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
+                                            lo: BytePos(
+                                                8
+                                            ),
+                                            hi: BytePos(
+                                                9
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                right: Ident(
+                                    Ident {
+                                        sym: y,
+                                        span: Span {
+                                            lo: BytePos(
+                                                12
+                                            ),
+                                            hi: BytePos(
+                                                13
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                )
+                            }
+                        ),
+                        type_ann: TsKeywordType(
+                            TsKeywordType {
+                                span: Span {
+                                    lo: BytePos(
+                                        17
+                                    ),
+                                    hi: BytePos(
+                                        24
+                                    ),
+                                    ctxt: #0
+                                },
+                                kind: TsBooleanKeyword
+                            }
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Expr(
+                Bin(
+                    BinExpr {
+                        span: Span {
+                            lo: BytePos(
+                                49
+                            ),
+                            hi: BytePos(
+                                66
+                            ),
+                            ctxt: #0
+                        },
+                        op: "===",
+                        left: Ident(
+                            Ident {
+                                sym: x,
+                                span: Span {
+                                    lo: BytePos(
+                                        49
+                                    ),
+                                    hi: BytePos(
+                                        50
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_ann: None,
+                                optional: false
+                            }
+                        ),
+                        right: TsAs(
+                            TsAsExpr {
+                                span: Span {
+                                    lo: BytePos(
+                                        55
+                                    ),
+                                    hi: BytePos(
+                                        56
+                                    ),
+                                    ctxt: #0
+                                },
+                                expr: Lit(
+                                    Num(
+                                        Number {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    55
+                                                ),
+                                                hi: BytePos(
+                                                    56
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            value: 1.0
+                                        }
+                                    )
+                                ),
+                                type_ann: TsKeywordType(
+                                    TsKeywordType {
+                                        span: Span {
+                                            lo: BytePos(
+                                                60
+                                            ),
+                                            hi: BytePos(
+                                                66
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        kind: TsNumberKeyword
+                                    }
+                                )
+                            }
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Expr(
+                TsAs(
+                    TsAsExpr {
+                        span: Span {
+                            lo: BytePos(
+                                92
+                            ),
+                            hi: BytePos(
+                                100
+                            ),
+                            ctxt: #0
+                        },
+                        expr: TsAs(
+                            TsAsExpr {
+                                span: Span {
+                                    lo: BytePos(
+                                        92
+                                    ),
+                                    hi: BytePos(
+                                        93
+                                    ),
+                                    ctxt: #0
+                                },
+                                expr: Ident(
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
+                                            lo: BytePos(
+                                                92
+                                            ),
+                                            hi: BytePos(
+                                                93
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                type_ann: TsKeywordType(
+                                    TsKeywordType {
+                                        span: Span {
+                                            lo: BytePos(
+                                                97
+                                            ),
+                                            hi: BytePos(
+                                                100
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        kind: TsAnyKeyword
+                                    }
+                                )
+                            }
+                        ),
+                        type_ann: TsTypeRef(
+                            TsTypeRef {
+                                span: Span {
+                                    lo: BytePos(
+                                        104
+                                    ),
+                                    hi: BytePos(
+                                        105
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_name: Ident(
+                                    Ident {
+                                        sym: T,
+                                        span: Span {
+                                            lo: BytePos(
+                                                104
+                                            ),
+                                            hi: BytePos(
+                                                105
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                type_params: None
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

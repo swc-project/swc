@@ -1,0 +1,78 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            5
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Member(
+                    MemberExpr {
+                        span: Span {
+                            lo: BytePos(
+                                2
+                            ),
+                            hi: BytePos(
+                                4
+                            ),
+                            ctxt: #0
+                        },
+                        obj: Expr(
+                            TsNonNull(
+                                TsNonNullExpr {
+                                    span: Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            2
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    expr: Ident(
+                                        Ident {
+                                            sym: x,
+                                            span: Span {
+                                                lo: BytePos(
+                                                    0
+                                                ),
+                                                hi: BytePos(
+                                                    1
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            type_ann: None,
+                                            optional: false
+                                        }
+                                    )
+                                }
+                            )
+                        ),
+                        prop: Ident(
+                            Ident {
+                                sym: y,
+                                span: Span {
+                                    lo: BytePos(
+                                        3
+                                    ),
+                                    hi: BytePos(
+                                        4
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_ann: None,
+                                optional: false
+                            }
+                        ),
+                        computed: false
+                    }
+                )
+            )
+        )
+    ]
+}

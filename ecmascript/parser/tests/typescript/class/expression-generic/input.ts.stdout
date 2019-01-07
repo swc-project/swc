@@ -1,0 +1,190 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            31
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Paren(
+                    ParenExpr {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                13
+                            ),
+                            ctxt: #0
+                        },
+                        expr: Class(
+                            ClassExpr {
+                                ident: None,
+                                class: Class {
+                                    span: Span {
+                                        lo: BytePos(
+                                            1
+                                        ),
+                                        hi: BytePos(
+                                            12
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    decorators: [],
+                                    body: [],
+                                    super_class: None,
+                                    is_abstract: false,
+                                    type_params: Some(
+                                        TsTypeParamDecl {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    6
+                                                ),
+                                                hi: BytePos(
+                                                    9
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            params: [
+                                                TsTypeParam {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            7
+                                                        ),
+                                                        hi: BytePos(
+                                                            8
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    name: Ident {
+                                                        sym: T,
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                7
+                                                            ),
+                                                            hi: BytePos(
+                                                                8
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        type_ann: None,
+                                                        optional: false
+                                                    },
+                                                    constraint: None,
+                                                    default: None
+                                                }
+                                            ]
+                                        }
+                                    ),
+                                    super_type_params: None,
+                                    implements: []
+                                }
+                            }
+                        )
+                    }
+                )
+            )
+        ),
+        Stmt(
+            Expr(
+                Paren(
+                    ParenExpr {
+                        span: Span {
+                            lo: BytePos(
+                                15
+                            ),
+                            hi: BytePos(
+                                30
+                            ),
+                            ctxt: #0
+                        },
+                        expr: Class(
+                            ClassExpr {
+                                ident: Some(
+                                    Ident {
+                                        sym: C,
+                                        span: Span {
+                                            lo: BytePos(
+                                                22
+                                            ),
+                                            hi: BytePos(
+                                                23
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                class: Class {
+                                    span: Span {
+                                        lo: BytePos(
+                                            16
+                                        ),
+                                        hi: BytePos(
+                                            29
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    decorators: [],
+                                    body: [],
+                                    super_class: None,
+                                    is_abstract: false,
+                                    type_params: Some(
+                                        TsTypeParamDecl {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    23
+                                                ),
+                                                hi: BytePos(
+                                                    26
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            params: [
+                                                TsTypeParam {
+                                                    span: Span {
+                                                        lo: BytePos(
+                                                            24
+                                                        ),
+                                                        hi: BytePos(
+                                                            25
+                                                        ),
+                                                        ctxt: #0
+                                                    },
+                                                    name: Ident {
+                                                        sym: T,
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                24
+                                                            ),
+                                                            hi: BytePos(
+                                                                25
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        type_ann: None,
+                                                        optional: false
+                                                    },
+                                                    constraint: None,
+                                                    default: None
+                                                }
+                                            ]
+                                        }
+                                    ),
+                                    super_type_params: None,
+                                    implements: []
+                                }
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

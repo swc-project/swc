@@ -7,6 +7,7 @@
 #![feature(trace_macros)]
 #![feature(split_ascii_whitespace)]
 #![cfg_attr(test, feature(test))]
+#![recursion_limit = "1024"]
 
 #[macro_use(js_word)]
 extern crate swc_atoms;
@@ -53,3 +54,4 @@ pub mod react;
 pub mod scope;
 mod simplify;
 pub mod util;
+pub mod typescript;

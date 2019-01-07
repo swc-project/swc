@@ -55,10 +55,12 @@ impl Fold<Expr> for Fixer {
                 span,
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
+                type_args,
             }) => Expr::Call(CallExpr {
                 span,
                 callee: callee.wrap_with_paren().as_callee(),
                 args,
+                type_args,
             }),
             _ => expr,
         }

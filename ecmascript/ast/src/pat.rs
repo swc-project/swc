@@ -1,4 +1,4 @@
-use super::{Expr, Ident, PropName};
+use crate::{expr::Expr, ident::Ident, prop::PropName, typescript::TsTypeAnn};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -21,12 +21,14 @@ pub enum Pat {
 pub struct ArrayPat {
     pub span: Span,
     pub elems: Vec<(Option<Pat>)>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node]
 pub struct ObjectPat {
     pub span: Span,
     pub props: Vec<ObjectPatProp>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node]
@@ -34,6 +36,7 @@ pub struct AssignPat {
     pub span: Span,
     pub left: Box<Pat>,
     pub right: Box<Expr>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 /// EsTree `RestElement`
@@ -43,6 +46,7 @@ pub struct RestPat {
     pub dot3_token: Span,
     #[span(hi)]
     pub arg: Box<Pat>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node]

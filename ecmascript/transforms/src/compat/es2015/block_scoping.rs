@@ -77,6 +77,7 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
                 let ident = Ident {
                     span: ident.span.apply_mark(self.mark),
                     sym: ident.sym,
+                    ..ident
                 };
                 return Pat::Ident(ident);
             }
@@ -112,15 +113,17 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 }
 
 impl<'a> Fold<Ident> for BlockFolder<'a> {
-    fn fold(&mut self, Ident { span, sym }: Ident) -> Ident {
+    fn fold(&mut self, i: Ident) -> Ident {
+        let Ident { span, sym, .. } = i;
         if let Some(mark) = self.mark_for(&sym) {
             Ident {
                 sym,
                 span: span.apply_mark(mark),
+                ..i
             }
         } else {
             // Cannot resolve reference. (TODO: Report error)
-            Ident { sym, span }
+            Ident { sym, span, ..i }
         }
     }
 }
@@ -132,7 +135,7 @@ mod tests {
 
     #[test]
     fn test_mark_for() {
-        ::testing::run_test(|_, _| {
+        ::testing::run_test(false, |_, _| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(mark1);
             let mark3 = Mark::fresh(mark2);
@@ -169,7 +172,7 @@ mod tests {
     }
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         basic,
         r#"
@@ -195,7 +198,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         general_assignment_patterns,
         r#"const foo = "foo";
@@ -217,7 +220,7 @@ function foobar() {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         general_function,
         r#"function test() {
@@ -230,7 +233,7 @@ function foobar() {
 
     test!(
         ignore,
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         babel_issue_1051,
         r#"foo.func1 = function() {
@@ -271,7 +274,7 @@ function foobar() {
 
     test!(
         ignore,
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         // TODO(kdy1): WTF is this (again)?
         block_scoping(),
         babel_issue_2174,
@@ -296,7 +299,7 @@ if (true) {
 
     test!(
         ignore,
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         babel_issue_4363,
         r#"function WithoutCurlyBraces() {
@@ -363,7 +366,7 @@ function WithCurlyBraces() {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         babel_issue_4946,
         r#"(function foo() {
@@ -377,7 +380,7 @@ function WithCurlyBraces() {
     // TODO: try {} catch (a) { let a } should report error
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         babel_issue_973,
         r#"let arr = [];
@@ -396,7 +399,7 @@ for(var i = 0; i < 10; i++){
     );
 
     test_exec!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         |_| block_scoping(),
         pass_assignment,
         r#"let a = 1;
@@ -405,7 +408,7 @@ expect(a).toBe(2);"#
     );
 
     test_exec!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         |_| block_scoping(),
         pass_call,
         r#"let a = 1;
@@ -418,7 +421,7 @@ expect(b()).toBe(2);"#
     );
 
     test_exec!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         |_| block_scoping(),
         pass_update,
         r#"let a = 1;
@@ -427,7 +430,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         fn_param,
         r#"let a = 'foo';
@@ -441,7 +444,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         fn_body,
         r#"let a = 'foo';
@@ -457,7 +460,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         shorthand,
         r#"let a = 'foo';
@@ -473,7 +476,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         same_level,
         r#"
@@ -487,7 +490,7 @@ expect(a).toBe(2);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es2019,
+        ::swc_ecma_parser::Syntax::Es,
         block_scoping(),
         class_block,
         r#"

@@ -1,0 +1,6 @@
+error: A method cannot be readonly
+ --> $DIR/tests/typescript-errors/class/method-readonly/input.ts:2:5
+  |
+2 |     readonly m() {}
+  |     ^^^^^^^^^^
+

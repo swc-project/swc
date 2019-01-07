@@ -59,6 +59,8 @@ impl Fold<Expr> for TypeOfSymbol {
                     span,
                     callee: quote_ident!(span, "_typeof").as_callee(),
                     args: vec![arg.as_arg()],
+
+                    type_args: Default::default(),
                 });
             }
             _ => expr,

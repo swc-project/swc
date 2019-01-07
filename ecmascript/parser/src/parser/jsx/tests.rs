@@ -3,7 +3,12 @@ use crate::parser::test_parser;
 use swc_common::DUMMY_SP as span;
 
 fn jsx(src: &'static str) -> Box<Expr> {
-    test_parser(src, Syntax::Jsx, |p| p.parse_expr())
+    test_parser(src, Syntax::Jsx, |p| {
+        p.parse_expr().map_err(|e| {
+            e.emit();
+            ()
+        })
+    })
 }
 
 #[test]
@@ -16,7 +21,8 @@ fn self_closing_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new("a".into(), span)),
                 self_closing: true,
-                attrs: vec![]
+                attrs: vec![],
+                type_args: None,
             },
             children: vec![],
             closing: None,
@@ -34,7 +40,8 @@ fn normal_01() {
                 span,
                 name: JSXElementName::Ident(Ident::new("a".into(), span)),
                 self_closing: false,
-                attrs: vec![]
+                attrs: vec![],
+                type_args: None,
             },
             children: vec![JSXElementChild::JSXText(JSXText {
                 span,
@@ -68,6 +75,7 @@ fn escape_in_attr() {
                 })],
                 name: JSXElementName::Ident(Ident::new("div".into(), span)),
                 self_closing: true,
+                type_args: None,
             },
             children: vec![],
             closing: None

@@ -66,6 +66,7 @@ macro_rules! impl_for_for_stmt {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ref_ident.clone()),
                                 init: None,
+                                definite: false,
                             }],
                             ..var_decl
                         });
@@ -83,6 +84,7 @@ macro_rules! impl_for_for_stmt {
                                 })
                                 .collect::<Vec<_>>()
                                 .fold_with(self),
+                            declare: false,
                         }));
                         (left, stmt)
                     }
@@ -156,6 +158,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                             Pat::Rest(RestPat {
                                 dot3_token,
                                 box arg,
+                                ..
                             }) => VarDeclarator {
                                 span: dot3_token,
                                 name: arg,
@@ -173,7 +176,9 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                         span: dot3_token,
                                     })
                                     .as_arg()],
+                                    type_args: Default::default(),
                                 })),
+                                definite: false,
                             },
                             _ => VarDeclarator {
                                 span: elem.span(),
@@ -181,6 +186,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                 // So we fold it again.
                                 name: elem,
                                 init: Some(box make_ref_idx_expr(&ref_ident, i)),
+                                definite: false,
                             },
                         };
                         decls.extend(vec![var_decl].fold_with(self));
@@ -214,8 +220,10 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                             "Cannot destructure 'undefined' or 'null'"
                                         ))
                                         .as_arg()]),
+                                        type_args: Default::default(),
                                     }
                                     .as_arg()],
+                                    type_args: Default::default(),
                                 }),
                             })),
                         )
@@ -235,6 +243,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                         &ref_ident,
                                         box prop_name_to_expr(key),
                                     )),
+                                    definite: false,
                                 };
                                 decls.extend(vec![var_decl].fold_with(self));
                             }
@@ -253,6 +262,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                             span: prop_span,
                                             name: Pat::Ident(key.clone().into()),
                                             init: Some(box make_cond_expr(ref_ident, value)),
+                                            definite: false,
                                         };
                                         decls.extend(vec![var_decl].fold_with(self));
                                     }
@@ -264,6 +274,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                                 &ref_ident,
                                                 box key.clone().into(),
                                             )),
+                                            definite: false,
                                         };
                                         decls.extend(vec![var_decl].fold_with(self));
                                     }
@@ -277,6 +288,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     span,
                     left,
                     right: def_value,
+                    type_ann: _,
                 }) => {
                     assert!(
                         decl.init.is_some(),
@@ -290,6 +302,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         span: DUMMY_SP,
                         name: Pat::Ident(tmp_ident.clone()),
                         init: decl.init,
+                        definite: false,
                     });
 
                     let var_decl = VarDeclarator {
@@ -297,6 +310,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         name: *left,
                         // tmp === void 0 ? def_value : tmp
                         init: Some(box make_cond_expr(tmp_ident, def_value)),
+                        definite: false,
                     };
                     decls.extend(vec![var_decl].fold_with(self))
                 }
@@ -311,7 +325,12 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
 
 impl Fold<Function> for Destructuring {
     fn fold(&mut self, f: Function) -> Function {
+        if f.body.is_none() {
+            return f;
+        }
+
         let f = f.fold_children(self);
+        let body = f.body.unwrap();
 
         let mut params = Vec::with_capacity(f.params.len());
         let mut decls = vec![];
@@ -329,6 +348,7 @@ impl Fold<Function> for Destructuring {
                         span,
                         name: pat,
                         init: Some(box Expr::Ident(ref_ident)),
+                        definite: false,
                     })
                 }
                 _ => {}
@@ -336,26 +356,27 @@ impl Fold<Function> for Destructuring {
         }
 
         let stmts = if decls.is_empty() {
-            f.body.stmts
+            body.stmts
         } else {
             iter::once(
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls,
+                    declare: false,
                 }))
                 .fold_with(self),
             )
-            .chain(f.body.stmts)
+            .chain(body.stmts)
             .collect()
         };
 
         Function {
             params,
-            body: BlockStmt {
-                span: f.body.span,
+            body: Some(BlockStmt {
+                span: body.span,
                 stmts,
-            },
+            }),
             ..f
         }
     }
@@ -431,7 +452,11 @@ impl Fold<Expr> for AssignFolder {
                             exprs,
                         })
                     }
-                    Pat::Object(ObjectPat { span, props }) => {
+                    Pat::Object(ObjectPat {
+                        span,
+                        props,
+                        type_ann: None,
+                    }) => {
                         let ref_ident = make_ref_ident(&mut self.vars, None);
 
                         let mut exprs = vec![];
@@ -560,6 +585,7 @@ where
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: folder.vars,
+                            declare: false,
                         }))));
                     }
 
@@ -607,6 +633,7 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
                 span,
                 name: Pat::Ident(ref_ident.clone()),
                 init,
+                definite: false,
             });
 
             ref_ident
@@ -679,6 +706,8 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::Class(..)
         | Expr::Tpl(..) => false,
 
+        Expr::TaggedTpl(..) => true,
+
         Expr::Paren(ParenExpr { ref expr, .. }) => can_be_null(expr),
         Expr::Seq(SeqExpr { ref exprs, .. }) => {
             exprs.last().map(|e| can_be_null(e)).unwrap_or(true)
@@ -696,6 +725,12 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::JSXEmpty(..)
         | Expr::JSXElement(..)
         | Expr::JSXFragment(..) => unreachable!("destructuring jsx"),
+
+        // Trust user
+        Expr::TsNonNull(..) => false,
+        Expr::TsAs(TsAsExpr { ref expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
+        | Expr::TsTypeCast(TsTypeCastExpr { ref expr, .. }) => can_be_null(expr),
     }
 }
 

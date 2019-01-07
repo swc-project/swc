@@ -1,0 +1,60 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            16
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Decl(
+                TsTypeAlias(
+                    TsTypeAliasDecl {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                16
+                            ),
+                            ctxt: #0
+                        },
+                        declare: false,
+                        id: Ident {
+                            sym: T,
+                            span: Span {
+                                lo: BytePos(
+                                    5
+                                ),
+                                hi: BytePos(
+                                    6
+                                ),
+                                ctxt: #0
+                            },
+                            type_ann: None,
+                            optional: false
+                        },
+                        type_params: None,
+                        type_ann: TsKeywordType(
+                            TsKeywordType {
+                                span: Span {
+                                    lo: BytePos(
+                                        9
+                                    ),
+                                    hi: BytePos(
+                                        15
+                                    ),
+                                    ctxt: #0
+                                },
+                                kind: TsNumberKeyword
+                            }
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

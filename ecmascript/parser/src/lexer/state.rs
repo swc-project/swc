@@ -7,7 +7,7 @@ use swc_common::BytePos;
 /// State of lexer.
 ///
 /// Ported from babylon.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(super) struct State {
     pub is_expr_allowed: bool,
     pub octal_pos: Option<BytePos>,
@@ -19,7 +19,7 @@ pub(super) struct State {
     pub cur_line: usize,
     pub line_start: BytePos,
 
-    context: Context,
+    context: TokenContexts,
     syntax: Syntax,
 
     token_type: Option<TokenType>,
@@ -74,7 +74,7 @@ impl<'a> From<&'a Token> for TokenType {
             Token::JSXName { .. } => TokenType::JSXName,
             Token::BinOp(op) => TokenType::BinOp(op),
 
-            Token::Word(Keyword(k)) => TokenType::Keyword(k),
+            Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
             },
@@ -82,6 +82,18 @@ impl<'a> From<&'a Token> for TokenType {
     }
 }
 
+impl<'a, I: Input> Lexer<'a, I> {
+    pub const fn token_context(&self) -> &TokenContexts {
+        &self.state.context
+    }
+    pub fn token_context_mut(&mut self) -> &mut TokenContexts {
+        &mut self.state.context
+    }
+
+    pub fn set_token_context(&mut self, c: TokenContexts) {
+        self.state.context = c;
+    }
+}
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
@@ -107,8 +119,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             }
         };
 
-        match self.input.cur() {
-            Some(..) => {}
+        let c = match self.input.cur() {
+            Some(c) => c,
             None => return None,
         };
 
@@ -122,9 +134,19 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         self.state.start = start;
 
         let res = (|| -> Result<Option<_>, _> {
-            if self.syntax.jsx() {
+            if self.syntax.typescript() && self.ctx.in_type {
+                if c == '<' {
+                    self.input.bump();
+                    return Ok(Some(tok!('<')));
+                } else if c == '>' {
+                    self.input.bump();
+                    return Ok(Some(tok!('>')));
+                }
+            }
+
+            if self.syntax.jsx() && !self.ctx.in_property_name {
                 //jsx
-                if self.state.context.current() == Some(Type::JSXExpr) {
+                if self.state.context.current() == Some(TokenContext::JSXExpr) {
                     let start = self.cur_pos();
 
                     return self.read_jsx_token();
@@ -132,8 +154,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
                 let c = self.cur();
                 if let Some(c) = c {
-                    if self.state.context.current() == Some(Type::JSXOpeningTag)
-                        || self.state.context.current() == Some(Type::JSXClosingTag)
+                    if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+                        || self.state.context.current() == Some(TokenContext::JSXClosingTag)
                     {
                         if c.is_ident_start() {
                             return self.read_jsx_word().map(Some);
@@ -145,7 +167,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         }
 
                         if (c == '\'' || c == '"')
-                            && self.state.context.current() == Some(Type::JSXOpeningTag)
+                            && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                         {
                             return self.read_jsx_str(c).map(Some);
                         }
@@ -158,7 +180,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 }
             }
 
-            if let Some(Type::Tpl {
+            if let Some(TokenContext::Tpl {
                 start: start_pos_of_tpl,
             }) = self.state.context.current()
             {
@@ -195,7 +217,7 @@ impl State {
             octal_pos: None,
             is_first: true,
             had_line_break: false,
-            context: Context(smallvec![Type::BraceStmt]),
+            context: TokenContexts(smallvec![TokenContext::BraceStmt]),
             token_type: None,
             start: BytePos(0),
             line_start: BytePos(0),
@@ -244,7 +266,7 @@ impl State {
     /// `is_expr_allowed`: previous value.
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
-        context: &mut Context,
+        context: &mut TokenContexts,
         syntax: Syntax,
         prev: Option<TokenType>,
         start: BytePos,
@@ -253,7 +275,7 @@ impl State {
         is_expr_allowed: bool,
     ) -> bool {
         let is_next_keyword = match next {
-            &Word(Keyword(..)) => true,
+            &Word(Word::Keyword(..)) => true,
             _ => false,
         };
 
@@ -271,13 +293,15 @@ impl State {
                     let out = context.pop().unwrap();
 
                     // let a = function(){}
-                    if out == Type::BraceStmt && context.current() == Some(Type::FnExpr) {
+                    if out == TokenContext::BraceStmt
+                        && context.current() == Some(TokenContext::FnExpr)
+                    {
                         context.pop();
                         return false;
                     }
 
                     // ${} in template
-                    if out == Type::TplQuasi {
+                    if out == TokenContext::TplQuasi {
                         return true;
                     }
 
@@ -291,20 +315,22 @@ impl State {
                     if is_expr_allowed
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
-                        context.push(Type::FnExpr);
+                        context.push(TokenContext::FnExpr);
                     }
                     return false;
                 }
 
                 // for (a of b) {}
-                tok!("of") if Some(Type::ParenStmt { is_for_loop: true }) == context.current() => {
+                tok!("of")
+                    if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
+                {
                     // e.g. for (a of _) => true
                     !prev
                         .expect("context.current() if ParenStmt, so prev token cannot be None")
                         .before_expr()
                 }
 
-                Word(Ident(ref ident)) => {
+                Word(Word::Ident(ref ident)) => {
                     // variable declaration
                     return match prev {
                         Some(prev) => match prev {
@@ -324,16 +350,16 @@ impl State {
 
                 tok!('{') => {
                     let cur = context.current();
-                    if syntax.jsx() && cur == Some(Type::JSXOpeningTag) {
-                        context.push(Type::BraceExpr)
-                    } else if syntax.jsx() && cur == Some(Type::JSXExpr) {
-                        context.push(Type::TplQuasi);
+                    if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
+                        context.push(TokenContext::BraceExpr)
+                    } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
+                        context.push(TokenContext::TplQuasi);
                     } else {
                         let next_ctxt =
                             if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
-                                Type::BraceStmt
+                                TokenContext::BraceStmt
                             } else {
-                                Type::BraceExpr
+                                TokenContext::BraceExpr
                             };
                         context.push(next_ctxt);
                     }
@@ -343,12 +369,12 @@ impl State {
                 tok!('/') if syntax.jsx() && prev == Some(TokenType::JSXTagStart) => {
                     context.pop();
                     context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
-                    context.push(Type::JSXClosingTag); // reconsider as closing tag context
+                    context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
                     false
                 }
 
                 tok!("${") => {
-                    context.push(Type::TplQuasi);
+                    context.push(TokenContext::TplQuasi);
                     return true;
                 }
 
@@ -357,11 +383,11 @@ impl State {
 
                     context.push(match prev {
                         Some(TokenType::Keyword(k)) => match k {
-                            If | With | While => Type::ParenStmt { is_for_loop: false },
-                            For => Type::ParenStmt { is_for_loop: true },
-                            _ => Type::ParenExpr,
+                            If | With | While => TokenContext::ParenStmt { is_for_loop: false },
+                            For => TokenContext::ParenStmt { is_for_loop: true },
+                            _ => TokenContext::ParenExpr,
                         },
-                        _ => Type::ParenExpr,
+                        _ => TokenContext::ParenExpr,
                     });
                     return true;
                 }
@@ -371,30 +397,30 @@ impl State {
 
                 tok!('`') => {
                     // If we are in template, ` terminates template.
-                    if let Some(Type::Tpl { .. }) = context.current() {
+                    if let Some(TokenContext::Tpl { .. }) = context.current() {
                         context.pop();
                     } else {
-                        context.push(Type::Tpl { start });
+                        context.push(TokenContext::Tpl { start });
                     }
                     return false;
                 }
 
                 // tt.jsxTagStart.updateContext
                 Token::JSXTagStart => {
-                    context.push(Type::JSXExpr); // treat as beginning of JSX expression
-                    context.push(Type::JSXOpeningTag); // start opening tag context
+                    context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
+                    context.push(TokenContext::JSXOpeningTag); // start opening tag context
                     return false;
                 }
 
                 // tt.jsxTagEnd.updateContext
                 Token::JSXTagEnd => {
                     let out = context.pop();
-                    if (out == Some(Type::JSXOpeningTag)
+                    if (out == Some(TokenContext::JSXOpeningTag)
                         && prev == Some(TokenType::BinOp(BinOpToken::Div)))
-                        || out == Some(Type::JSXClosingTag)
+                        || out == Some(TokenContext::JSXClosingTag)
                     {
                         context.pop();
-                        return context.current() == Some(Type::JSXExpr);
+                        return context.current() == Some(TokenContext::JSXExpr);
                     } else {
                         return true;
                     }
@@ -408,9 +434,9 @@ impl State {
     }
 }
 
-#[derive(Debug, Default)]
-struct Context(SmallVec<[Type; 32]>);
-impl Context {
+#[derive(Debug, Clone, Default)]
+pub(crate) struct TokenContexts(pub SmallVec<[TokenContext; 32]>);
+impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
     fn is_brace_block(
@@ -421,10 +447,10 @@ impl Context {
     ) -> bool {
         match prev {
             Some(TokenType::Colon) => match self.current() {
-                Some(Type::BraceStmt) => return true,
+                Some(TokenContext::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
-                Some(Type::BraceExpr) => return false,
+                Some(TokenContext::BraceExpr) => return false,
                 _ => {}
             },
             _ => {}
@@ -452,7 +478,7 @@ impl Context {
             }
 
             // If previous token was `{`
-            Some(TokenType::LBrace) => return self.current() == Some(Type::BraceStmt),
+            Some(TokenType::LBrace) => return self.current() == Some(TokenContext::BraceStmt),
 
             // `class C<T> { ... }`
             Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
@@ -462,18 +488,18 @@ impl Context {
         return !is_expr_allowed;
     }
 
-    fn len(&self) -> usize {
+    pub fn len(&self) -> usize {
         self.0.len()
     }
-    fn pop(&mut self) -> Option<Type> {
+    pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
         trace!("context.pop({:?})", opt);
         opt
     }
-    fn current(&self) -> Option<Type> {
+    pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
-    fn push(&mut self, t: Type) {
+    fn push(&mut self, t: TokenContext) {
         trace!("context.push({:?})", t);
         self.0.push(t);
     }
@@ -484,7 +510,7 @@ impl Context {
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
 #[kind(fucntion(is_expr = "bool", preserve_space = "bool"))]
-enum Type {
+pub(crate) enum TokenContext {
     BraceStmt,
     #[kind(is_expr)]
     BraceExpr,
@@ -522,7 +548,7 @@ where
         let mut l = Lexer::new(sess, syntax, fm);
         let res = f(&mut l);
 
-        let c: SmallVec<[Type; 32]> = smallvec![Type::BraceStmt];
+        let c: SmallVec<[TokenContext; 32]> = smallvec![TokenContext::BraceStmt];
         assert_eq!(l.state.context.0, c);
 
         res

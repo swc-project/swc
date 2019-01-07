@@ -100,6 +100,7 @@ impl Actual {
                             init: Some(step_value),
                             ..var.decls.pop().unwrap()
                         }],
+                        declare: false,
                     }))
                 }
                 VarDeclOrPat::Pat(pat) => Stmt::Expr(box Expr::Assign(AssignExpr {
@@ -128,6 +129,7 @@ impl Actual {
                 span: DUMMY_SP,
                 value: true,
             }))),
+            definite: false,
         });
         let error_flag_ident = Ident::new("_didIteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
@@ -137,12 +139,14 @@ impl Actual {
                 span: DUMMY_SP,
                 value: false,
             }))),
+            definite: false,
         });
         let error_ident = Ident::new("_iteratorError".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(error_ident.clone()),
             init: Some(box Expr::Ident(Ident::new(js_word!("undefined"), DUMMY_SP))),
+            definite: false,
         });
 
         let for_stmt = ForStmt {
@@ -150,6 +154,7 @@ impl Actual {
             init: Some(VarDeclOrExpr::VarDecl(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
+                declare: false,
                 decls: vec![
                     VarDeclarator {
                         span: DUMMY_SP,
@@ -164,12 +169,15 @@ impl Actual {
                             }
                             .as_callee(),
                             args: vec![],
+                            type_args: Default::default(),
                         })),
+                        definite: false,
                     },
                     VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(step.clone()),
                         init: None,
+                        definite: false,
                     },
                 ],
             })),
@@ -205,6 +213,7 @@ impl Actual {
                                         }
                                         .as_callee(),
                                         args: vec![],
+                                        type_args: Default::default(),
                                     }),
                                 }),
                             }),
@@ -365,6 +374,7 @@ fn make_finally_block(
                             span: DUMMY_SP,
                             callee: iterator_return.as_callee(),
                             args: vec![],
+                            type_args: Default::default(),
                         }))],
                     }),
                     alt: None,
@@ -423,6 +433,7 @@ where
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: folder.top_level_vars,
+                            declare: false,
                         }))));
                     }
 

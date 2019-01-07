@@ -108,13 +108,19 @@ impl<'a> Input for SourceFileInput<'a> {
         self.start_pos = to;
         self.last_pos = to;
     }
+
+    fn is_at_start(&self) -> bool {
+        self.fm.start_pos == self.last_pos
+    }
 }
 
-pub trait Input {
+pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
+
+    fn is_at_start(&self) -> bool;
 
     fn cur_pos(&mut self) -> BytePos;
 

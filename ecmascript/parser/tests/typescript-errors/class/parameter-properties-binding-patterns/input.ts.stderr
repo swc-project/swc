@@ -1,0 +1,6 @@
+error: Typescript parameter property must be identifer or assignment pattern
+ --> $DIR/tests/typescript-errors/class/parameter-properties-binding-patterns/input.ts:2:24
+  |
+2 |     constructor(public []) {}
+  |                        ^^
+

@@ -33,6 +33,7 @@ impl Params {
                         span,
                         name: param,
                         init: Some(box Expr::Ident(binding)),
+                        definite: false,
                     })
                 }
                 Pat::Assign(..) => {
@@ -45,9 +46,12 @@ impl Params {
                         span,
                         name: param,
                         init: Some(box Expr::Ident(binding)),
+                        definite: false,
                     })
                 }
-                Pat::Rest(RestPat { dot3_token: _, arg }) => {
+                Pat::Rest(RestPat {
+                    dot3_token: _, arg, ..
+                }) => {
                     // Inject a for statement
                     //
                     // for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key <
@@ -70,6 +74,7 @@ impl Params {
                                 span: DUMMY_SP,
                                 name: arg,
                                 init: Some(box tmp_ident.clone().into()),
+                                definite: false,
                             });
                             tmp_ident
                         }
@@ -124,6 +129,7 @@ impl Params {
                                     span,
                                     name: Pat::Ident(len_ident.clone()),
                                     init: Some(member_expr!(span, arguments.length)),
+                                    definite: false,
                                 },
                                 // a1 = new Array(_len - $i)
                                 VarDeclarator {
@@ -136,7 +142,9 @@ impl Params {
                                             // `len` or  `len - $i`
                                             make_minus_i(&len_ident, true).as_arg()
                                         }]),
+                                        type_args: Default::default(),
                                     })),
+                                    definite: false,
                                 },
                                 // _key = 0
                                 VarDeclarator {
@@ -146,8 +154,10 @@ impl Params {
                                         span,
                                         value: i as f64,
                                     }))),
+                                    definite: false,
                                 },
                             ],
+                            declare: false,
                         })),
                         // `_key < _len`
                         test: Some(box Expr::Bin(BinExpr {
@@ -205,6 +215,7 @@ impl Params {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
                 decls,
+                declare: false,
             })))
         }
         .into_iter()
@@ -216,6 +227,7 @@ impl Params {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
                 decls: decls_after_unpack,
+                declare: false,
             })))
         })
         .chain(body.stmts)
@@ -254,22 +266,37 @@ impl Fold<CatchClause> for Params {
 
 impl Fold<SetterProp> for Params {
     fn fold(&mut self, f: SetterProp) -> SetterProp {
+        if f.body.is_none() {
+            return f;
+        }
+
         let f = f.fold_children(self);
 
-        let (mut params, body) = self.fold_fn_like(vec![f.param], f.body);
+        let (mut params, body) = self.fold_fn_like(vec![f.param], f.body.unwrap());
         assert!(params.len() == 1);
 
         let param = params.pop().unwrap();
-        SetterProp { param, body, ..f }
+        SetterProp {
+            param,
+            body: Some(body),
+            ..f
+        }
     }
 }
 
 impl Fold<Function> for Params {
     fn fold(&mut self, f: Function) -> Function {
+        if f.body.is_none() {
+            return f;
+        }
         let f = f.fold_children(self);
 
-        let (params, body) = self.fold_fn_like(f.params, f.body);
+        let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
 
-        Function { params, body, ..f }
+        Function {
+            params,
+            body: Some(body),
+            ..f
+        }
     }
 }

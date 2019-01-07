@@ -226,7 +226,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut total: Ret = Default::default();
 
         while let Some(c) = self.cur() {
-            if self.session.cfg.num_sep {
+            if self.syntax.num_sep() {
                 // let prev: char = unimplemented!("prev");
                 // let next = self.input.peek();
 
@@ -288,7 +288,7 @@ mod tests {
         F: FnOnce(&mut Lexer<SourceFileInput>) -> Ret,
     {
         crate::with_test_sess(s, |sess, fm| {
-            let mut l = Lexer::new(sess, Syntax::Es2019, fm.into());
+            let mut l = Lexer::new(sess, Syntax::Es, fm.into());
             Ok(f(&mut l))
         })
         .unwrap()
@@ -376,7 +376,7 @@ mod tests {
 
             let vec = panic::catch_unwind(|| {
                 crate::with_test_sess(case, |mut sess, input| {
-                    let mut l = Lexer::new(sess, Syntax::Es2019, input);
+                    let mut l = Lexer::new(sess, Syntax::Es, input);
                     l.ctx.strict = strict;
                     Ok(l.map(|ts| ts.token).collect::<Vec<_>>())
                 })

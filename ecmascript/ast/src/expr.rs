@@ -1,6 +1,17 @@
-use super::{
-    AssignOp, BinaryOp, BlockStmt, Class, Function, Ident, JSXElement, JSXEmptyExpr, JSXFragment,
-    JSXMemberExpr, JSXNamespacedName, Lit, Pat, Prop, Str, UnaryOp, UpdateOp,
+use crate::{
+    class::Class,
+    function::Function,
+    ident::Ident,
+    jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
+    lit::{Lit, Str},
+    operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
+    pat::Pat,
+    prop::Prop,
+    stmt::BlockStmt,
+    typescript::{
+        TsAsExpr, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeCastExpr, TsTypeParamDecl,
+        TsTypeParamInstantiation,
+    },
 };
 use swc_common::{ast_node, Fold, Span, Spanned};
 
@@ -50,7 +61,9 @@ pub enum Expr {
 
     Lit(Lit),
 
-    Tpl(TplLit),
+    Tpl(Tpl),
+
+    TaggedTpl(TaggedTpl),
 
     Arrow(ArrowExpr),
 
@@ -69,6 +82,11 @@ pub enum Expr {
     JSXEmpty(JSXEmptyExpr),
     JSXElement(JSXElement),
     JSXFragment(JSXFragment),
+
+    TsTypeAssertion(TsTypeAssertion),
+    TsNonNull(TsNonNullExpr),
+    TsTypeCast(TsTypeCastExpr),
+    TsAs(TsAsExpr),
 }
 
 #[ast_node]
@@ -178,6 +196,8 @@ pub struct CallExpr {
     pub span: Span,
     pub callee: ExprOrSuper,
     pub args: Vec<ExprOrSpread>,
+    pub type_args: Option<TsTypeParamInstantiation>,
+    // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]
@@ -185,6 +205,8 @@ pub struct NewExpr {
     pub span: Span,
     pub callee: Box<Expr>,
     pub args: Option<(Vec<ExprOrSpread>)>,
+    pub type_args: Option<TsTypeParamInstantiation>,
+    // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]
@@ -201,6 +223,8 @@ pub struct ArrowExpr {
     pub body: BlockStmtOrExpr,
     pub is_async: bool,
     pub is_generator: bool,
+    pub type_params: Option<TsTypeParamDecl>,
+    pub return_type: Option<TsTypeAnn>,
 }
 
 #[ast_node]
@@ -223,11 +247,19 @@ pub struct AwaitExpr {
 }
 
 #[ast_node]
-pub struct TplLit {
+pub struct Tpl {
     pub span: Span,
-    pub tag: Option<(Box<Expr>)>,
     pub exprs: Vec<(Box<Expr>)>,
     pub quasis: Vec<TplElement>,
+}
+
+#[ast_node]
+pub struct TaggedTpl {
+    pub span: Span,
+    pub tag: Box<Expr>,
+    pub exprs: Vec<(Box<Expr>)>,
+    pub quasis: Vec<TplElement>,
+    pub type_params: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]

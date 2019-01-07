@@ -9,7 +9,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 }
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_function_array,
     r#"
@@ -25,7 +25,7 @@ function foo([_param]) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_var_basic,
     r#"
@@ -37,7 +37,7 @@ var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_assignment_exec,
     r#"
@@ -53,7 +53,7 @@ expect(c).toEqual({b: 2});
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_catch_exec,
     r#"
@@ -75,7 +75,7 @@ try {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_assignment_expression,
     r#"({ a1 } = c1);
@@ -92,7 +92,7 @@ console.log(( _c3 = c3, b3 = _objectWithoutProperties(_c3, ['a3']), { a3  } = _c
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_catch_clause,
     r#"
@@ -134,7 +134,7 @@ try{
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_export,
     r#"
@@ -161,7 +161,7 @@ export var [dd, ee] = ads;
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     chain!(
         tr(Default::default()),
         Spread {
@@ -242,7 +242,7 @@ async function a() {
 
 test_exec!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_impure_computed_exec,
     r#"
@@ -272,7 +272,7 @@ expect(z).toBe("zee");
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_impure_computed,
     r#"
@@ -353,7 +353,7 @@ expect(z).toBe("zee");"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_nested_2,
     r#"
@@ -402,7 +402,7 @@ const {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_nested_computed_key,
     r#"
@@ -429,7 +429,7 @@ const _ref = {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_nested_default_value_exec,
     r#"
@@ -447,7 +447,7 @@ expect(d).toEqual({})
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_nested_default_value,
     r#"
@@ -474,7 +474,7 @@ const _ref = {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_nested_order_exec,
     r#"
@@ -502,7 +502,7 @@ expect(result).toBe("barbazfoo");
 "#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   rest_nested_order,
   r#"
@@ -514,7 +514,7 @@ const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo = _objectWithout
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_nested,
     r#"
@@ -551,7 +551,7 @@ const {
 
 test_exec!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_non_string_computed_exec,
     r#"
@@ -614,7 +614,7 @@ expect(dy).toBe("sy");
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_non_string_computed,
     r#"
@@ -728,7 +728,7 @@ expect(dy).toBe("sy");"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_parameters,
     r#"
@@ -823,7 +823,7 @@ function b3({
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_symbol_exec,
     r#"
@@ -851,7 +851,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);"#
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_symbol,
     r#"
@@ -892,7 +892,7 @@ if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_variable_destructuring_1,
     r#"
@@ -947,7 +947,7 @@ const {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_variable_destructuring_2,
     r#"
@@ -971,7 +971,7 @@ let {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_variable_destructuring_3,
     r#"
@@ -983,7 +983,7 @@ let y4 = _extends({}, z.x4);
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_with_array_rest_exec,
     r#"
@@ -995,7 +995,7 @@ expect(bar).toEqual([2, 3, 4]);
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_with_array_rest_exec_2,
     r#"
@@ -1015,7 +1015,7 @@ expect(objectRest).toEqual({d: 'oyez'})
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_with_array_rest,
     r#"
@@ -1037,7 +1037,7 @@ let _ref = {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     spread_assignment,
     r#"
@@ -1057,7 +1057,7 @@ z = {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     spread_expression,
     r#"
@@ -1093,7 +1093,7 @@ test!(
 "#
 );
 
-test_exec!(::swc_ecma_parser::Syntax::Es2019,
+test_exec!(::swc_ecma_parser::Syntax::Es,
     tr,
     spread_no_object_assign_exec,
     r#"
@@ -1141,7 +1141,7 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     spread_variable_declaration,
     r#"var z = { ...x };"#,

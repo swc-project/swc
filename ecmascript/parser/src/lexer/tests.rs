@@ -76,12 +76,12 @@ impl WithSpan for f64 {
 }
 impl<'a> WithSpan for &'a str {
     fn into_token(self) -> Token {
-        Word(Ident(self.into()))
+        Word(Word::Ident(self.into()))
     }
 }
 impl WithSpan for Keyword {
     fn into_token(self) -> Token {
-        Word(Keyword(self))
+        Word(Word::Keyword(self))
     }
 }
 impl WithSpan for Word {
@@ -103,7 +103,7 @@ impl WithSpan for AssignOpToken {
 #[test]
 fn module_legacy_octal() {
     assert_eq!(
-        lex_module(Syntax::Es2019, "01"),
+        lex_module(Syntax::Es, "01"),
         vec![Token::Error(Error {
             span: sp(0..2),
             error: SyntaxError::LegacyOctal,
@@ -115,7 +115,7 @@ fn module_legacy_octal() {
 #[test]
 fn module_legacy_decimal() {
     assert_eq!(
-        lex_module(Syntax::Es2019, "08"),
+        lex_module(Syntax::Es, "08"),
         vec![Token::Error(Error {
             span: sp(0..2),
             error: SyntaxError::LegacyDecimal,
@@ -128,7 +128,7 @@ fn module_legacy_decimal() {
 #[test]
 fn module_legacy_comment_1() {
     assert_eq!(
-        lex_module(Syntax::Es2019, "<!-- foo oo"),
+        lex_module(Syntax::Es, "<!-- foo oo"),
         vec![Token::Error(Error {
             span: sp(0..11),
             error: SyntaxError::LegacyCommentInModule,
@@ -141,7 +141,7 @@ fn module_legacy_comment_1() {
 #[test]
 fn module_legacy_comment_2() {
     assert_eq!(
-        lex_module(Syntax::Es2019, "-->"),
+        lex_module(Syntax::Es, "-->"),
         vec![Token::Error(Error {
             span: sp(0..3),
             error: SyntaxError::LegacyCommentInModule,
@@ -162,7 +162,7 @@ fn test262_lexer_error_0001() {
             1.span(7..8),
             RParen.span(8..9),
         ],
-        lex(Syntax::Es2019, "123..a(1)")
+        lex(Syntax::Es, "123..a(1)")
     )
 }
 
@@ -178,41 +178,35 @@ fn test262_lexer_error_0002() {
             .lb(),
             Semi.span(15..16),
         ],
-        lex(Syntax::Es2019, r#"'use\x20strict';"#)
+        lex(Syntax::Es, r#"'use\x20strict';"#)
     );
 }
 
 #[test]
 fn test262_lexer_error_0003() {
-    assert_eq!(vec!["a".span(0..6).lb()], lex(Syntax::Es2019, r#"\u0061"#));
+    assert_eq!(vec!["a".span(0..6).lb()], lex(Syntax::Es, r#"\u0061"#));
 }
 
 #[test]
 fn test262_lexer_error_0004() {
     assert_eq!(
         vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), 1.into_token()],
-        lex_tokens(Syntax::Es2019, "+{} / 1")
+        lex_tokens(Syntax::Es, "+{} / 1")
     );
 }
 
 #[test]
 fn ident_escape_unicode() {
-    assert_eq!(
-        vec!["aa".span(0..7).lb()],
-        lex(Syntax::Es2019, r#"a\u0061"#)
-    );
+    assert_eq!(vec!["aa".span(0..7).lb()], lex(Syntax::Es, r#"a\u0061"#));
 }
 
 #[test]
 fn ident_escape_unicode_2() {
-    assert_eq!(
-        vec!["℘℘".span(0..6).lb()],
-        lex(Syntax::Es2019, "℘℘")
-    );
+    assert_eq!(vec!["℘℘".span(0..6).lb()], lex(Syntax::Es, "℘℘"));
 
     assert_eq!(
         vec!["℘℘".span(0..9).lb()],
-        lex(Syntax::Es2019, r#"℘\u2118"#)
+        lex(Syntax::Es, r#"℘\u2118"#)
     );
 }
 
@@ -220,7 +214,7 @@ fn ident_escape_unicode_2() {
 fn tpl_multiline() {
     assert_eq!(
         lex_tokens(
-            Syntax::Es2019,
+            Syntax::Es,
             "`this
 is
 multiline`"
@@ -240,7 +234,7 @@ multiline`"
 #[test]
 fn tpl_raw_unicode_escape() {
     assert_eq!(
-        lex_tokens(Syntax::Es2019, r"`\u{0010}`"),
+        lex_tokens(Syntax::Es, r"`\u{0010}`"),
         vec![
             tok!('`'),
             Token::Template {
@@ -256,7 +250,7 @@ fn tpl_raw_unicode_escape() {
 #[test]
 fn str_escape() {
     assert_eq!(
-        lex_tokens(Syntax::Es2019, r#"'\n'"#),
+        lex_tokens(Syntax::Es, r#"'\n'"#),
         vec![Token::Str {
             value: "\n".into(),
             has_escape: true
@@ -267,7 +261,7 @@ fn str_escape() {
 #[test]
 fn str_escape_2() {
     assert_eq!(
-        lex_tokens(Syntax::Es2019, r#"'\\n'"#),
+        lex_tokens(Syntax::Es, r#"'\\n'"#),
         vec![Token::Str {
             value: "\\n".into(),
             has_escape: true
@@ -278,7 +272,7 @@ fn str_escape_2() {
 #[test]
 fn str_escape_hex() {
     assert_eq!(
-        lex(Syntax::Es2019, r#"'\x61'"#),
+        lex(Syntax::Es, r#"'\x61'"#),
         vec![Token::Str {
             value: "a".into(),
             has_escape: true,
@@ -291,7 +285,7 @@ fn str_escape_hex() {
 #[test]
 fn str_escape_octal() {
     assert_eq!(
-        lex(Syntax::Es2019, r#"'Hello\012World'"#),
+        lex(Syntax::Es, r#"'Hello\012World'"#),
         vec![Token::Str {
             value: "Hello\nWorld".into(),
             has_escape: true,
@@ -304,7 +298,7 @@ fn str_escape_octal() {
 #[test]
 fn str_escape_unicode_long() {
     assert_eq!(
-        lex(Syntax::Es2019, r#"'\u{00000000034}'"#),
+        lex(Syntax::Es, r#"'\u{00000000034}'"#),
         vec![Token::Str {
             value: "4".into(),
             has_escape: true,
@@ -317,7 +311,7 @@ fn str_escape_unicode_long() {
 #[test]
 fn regexp_unary_void() {
     assert_eq!(
-        lex(Syntax::Es2019, "void /test/"),
+        lex(Syntax::Es, "void /test/"),
         vec![
             Void.span(0..4).lb(),
             Regex(
@@ -332,7 +326,7 @@ fn regexp_unary_void() {
         ]
     );
     assert_eq!(
-        lex(Syntax::Es2019, "void (/test/)"),
+        lex(Syntax::Es, "void (/test/)"),
         vec![
             Void.span(0..4).lb(),
             LParen.span(5..6),
@@ -353,7 +347,7 @@ fn regexp_unary_void() {
 #[test]
 fn non_regexp_unary_plus() {
     assert_eq!(
-        lex(Syntax::Es2019, "+{} / 1"),
+        lex(Syntax::Es, "+{} / 1"),
         vec![
             tok!('+').span(0..1).lb(),
             tok!('{').span(1..2),
@@ -370,7 +364,7 @@ fn non_regexp_unary_plus() {
 fn paren_semi() {
     assert_eq!(
         vec![LParen.span(0).lb(), RParen.span(1), Semi.span(2)],
-        lex(Syntax::Es2019, "();")
+        lex(Syntax::Es, "();")
     );
 }
 
@@ -384,7 +378,7 @@ fn ident_paren() {
             RParen.span(4),
             Semi.span(5),
         ],
-        lex(Syntax::Es2019, "a(bc);")
+        lex(Syntax::Es, "a(bc);")
     );
 }
 
@@ -392,14 +386,14 @@ fn ident_paren() {
 fn read_word() {
     assert_eq!(
         vec!["a".span(0).lb(), "b".span(2), "c".span(4)],
-        lex(Syntax::Es2019, "a b c"),
+        lex(Syntax::Es, "a b c"),
     )
 }
 
 #[test]
 fn simple_regex() {
     assert_eq!(
-        lex(Syntax::Es2019, "x = /42/i"),
+        lex(Syntax::Es, "x = /42/i"),
         vec![
             "x".span(0).lb(),
             Assign.span(2),
@@ -420,7 +414,7 @@ fn simple_regex() {
     );
 
     assert_eq!(
-        lex(Syntax::Es2019, "/42/"),
+        lex(Syntax::Es, "/42/"),
         vec![Regex(
             Str {
                 span: sp(1..3),
@@ -438,12 +432,12 @@ fn simple_regex() {
 fn complex_regex() {
     assert_eq_ignore_span!(
         vec![
-            Word(Ident("f".into())),
+            Word(Word::Ident("f".into())),
             LParen,
             RParen,
             Semi,
-            Word(Keyword(Function)),
-            Word(Ident("foo".into())),
+            Word(Word::Keyword(Function)),
+            Word(Word::Ident("foo".into())),
             LParen,
             RParen,
             LBrace,
@@ -461,7 +455,7 @@ fn complex_regex() {
                 }),
             ),
         ],
-        lex_tokens(Syntax::Es2019, "f(); function foo() {} /42/i")
+        lex_tokens(Syntax::Es, "f(); function foo() {} /42/i")
     )
 }
 
@@ -469,7 +463,7 @@ fn complex_regex() {
 fn simple_div() {
     assert_eq!(
         vec!["a".span(0).lb(), Div.span(2), "b".span(4)],
-        lex(Syntax::Es2019, "a / b")
+        lex(Syntax::Es, "a / b")
     );
 }
 
@@ -477,20 +471,20 @@ fn simple_div() {
 fn complex_divide() {
     assert_eq!(
         vec![
-            Word(Ident("x".into())),
+            Word(Word::Ident("x".into())),
             AssignOp(Assign),
-            Word(Keyword(Function)),
-            Word(Ident("foo".into())),
+            Word(Word::Keyword(Function)),
+            Word(Word::Ident("foo".into())),
             LParen,
             RParen,
             LBrace,
             RBrace,
             BinOp(Div),
-            Word(Ident("a".into())),
+            Word(Word::Ident("a".into())),
             BinOp(Div),
-            Word(Ident("i".into())),
+            Word(Word::Ident("i".into())),
         ],
-        lex_tokens(Syntax::Es2019, "x = function foo() {} /a/i"),
+        lex_tokens(Syntax::Es, "x = function foo() {} /a/i"),
         "/ should be parsed as div operator"
     )
 }
@@ -500,22 +494,22 @@ fn complex_divide() {
 #[test]
 fn spec_001() {
     let expected = vec![
-        Word(Ident("a".into())),
+        Word(Word::Ident("a".into())),
         AssignOp(Assign),
-        Word(Ident("b".into())),
+        Word(Word::Ident("b".into())),
         BinOp(Div),
-        Word(Ident("hi".into())),
+        Word(Word::Ident("hi".into())),
         BinOp(Div),
-        Word(Ident("g".into())),
+        Word(Word::Ident("g".into())),
         Dot,
-        Word(Ident("exec".into())),
+        Word(Word::Ident("exec".into())),
         LParen,
-        Word(Ident("c".into())),
+        Word(Word::Ident("c".into())),
         RParen,
         Dot,
-        Word(Ident("map".into())),
+        Word(Word::Ident("map".into())),
         LParen,
-        Word(Ident("d".into())),
+        Word(Word::Ident("d".into())),
         RParen,
         Semi,
     ];
@@ -523,14 +517,14 @@ fn spec_001() {
     assert_eq!(
         expected,
         lex_tokens(
-            Syntax::Es2019,
+            Syntax::Es,
             "a = b
 /hi/g.exec(c).map(d);"
         )
     );
     assert_eq!(
         expected,
-        lex_tokens(Syntax::Es2019, "a = b / hi / g.exec(c).map(d);")
+        lex_tokens(Syntax::Es, "a = b / hi / g.exec(c).map(d);")
     );
 }
 
@@ -539,7 +533,7 @@ fn spec_001() {
 #[test]
 fn after_if() {
     assert_eq!(
-        lex(Syntax::Es2019, "if(x){} /y/.test(z)"),
+        lex(Syntax::Es, "if(x){} /y/.test(z)"),
         vec![
             Keyword::If.span(0..2).lb(),
             LParen.span(2),
@@ -567,7 +561,7 @@ fn after_if() {
 
 #[test]
 fn empty() {
-    assert_eq!(lex(Syntax::Es2019, ""), vec![]);
+    assert_eq!(lex(Syntax::Es, ""), vec![]);
 }
 
 #[test]
@@ -584,7 +578,7 @@ fn invalid_number_failure() {
 //             BlockComment(" hello world ".into()).span(0..17),
 //             Regex("42".into(), "".into()).span(17..21),
 //         ],
-//         lex(Syntax::Es2019, "/* hello world */  /42/")
+//         lex(Syntax::Es, "/* hello world */  /42/")
 //     )
 // }
 
@@ -599,7 +593,7 @@ fn invalid_number_failure() {
 //             42.span(13..15),
 //             LineComment(" the Ultimate".into()).span(17..32),
 //         ],
-//         lex(Syntax::Es2019, "var answer = 42  // the Ultimate"),
+//         lex(Syntax::Es, "var answer = 42  // the Ultimate"),
 //     )
 // }
 
@@ -620,7 +614,7 @@ fn migrated_0002() {
             .span(9..13),
             RParen.span(13),
         ],
-        lex(Syntax::Es2019, "tokenize(/42/)")
+        lex(Syntax::Es, "tokenize(/42/)")
     )
 }
 
@@ -635,7 +629,7 @@ fn migrated_0003() {
             42.span(9..11),
             Div.span(11),
         ],
-        lex(Syntax::Es2019, "(false) /42/"),
+        lex(Syntax::Es, "(false) /42/"),
     )
 }
 
@@ -659,7 +653,7 @@ fn migrated_0004() {
             )
             .span(15..19),
         ],
-        lex(Syntax::Es2019, "function f(){} /42/")
+        lex(Syntax::Es, "function f(){} /42/")
     );
 }
 
@@ -677,7 +671,7 @@ fn migrated_0004() {
 //             Div.span(13),
 //             42.span(14..16),
 //         ],
-//         lex(Syntax::Es2019, "function (){} /42")
+//         lex(Syntax::Es, "function (){} /42")
 //     );
 // }
 
@@ -686,7 +680,7 @@ fn migrated_0006() {
     // This test seems wrong.
     // assert_eq!(
     //     vec![LBrace.span(0).lb(), RBrace.span(1), Div.span(3), 42.span(4..6)],
-    //     lex(Syntax::Es2019, "{} /42")
+    //     lex(Syntax::Es, "{} /42")
     // )
 
     assert_eq!(
@@ -703,7 +697,7 @@ fn migrated_0006() {
             )
             .span(3..7),
         ],
-        lex(Syntax::Es2019, "{} /42/")
+        lex(Syntax::Es, "{} /42/")
     )
 }
 
@@ -714,21 +708,21 @@ fn str_lit() {
             value: "abcde".into(),
             has_escape: false,
         }],
-        lex_tokens(Syntax::Es2019, "'abcde'")
+        lex_tokens(Syntax::Es, "'abcde'")
     );
     assert_eq_ignore_span!(
         vec![Token::Str {
             value: "abc".into(),
             has_escape: true,
         }],
-        lex_tokens(Syntax::Es2019, "'\\\nabc'")
+        lex_tokens(Syntax::Es, "'\\\nabc'")
     );
 }
 
 #[test]
 fn tpl_empty() {
     assert_eq!(
-        lex_tokens(Syntax::Es2019, r#"``"#),
+        lex_tokens(Syntax::Es, r#"``"#),
         vec![
             tok!('`'),
             Template {
@@ -744,7 +738,7 @@ fn tpl_empty() {
 #[test]
 fn tpl() {
     assert_eq!(
-        lex_tokens(Syntax::Es2019, r#"`${a}`"#),
+        lex_tokens(Syntax::Es, r#"`${a}`"#),
         vec![
             tok!('`'),
             Template {
@@ -753,7 +747,7 @@ fn tpl() {
                 has_escape: false
             },
             tok!("${"),
-            Word(Ident("a".into())),
+            Word(Word::Ident("a".into())),
             tok!('}'),
             Template {
                 raw: "".into(),
@@ -769,12 +763,12 @@ fn tpl() {
 fn comment() {
     assert_eq!(
         lex(
-            Syntax::Es2019,
+            Syntax::Es,
             "// foo
 a"
         ),
         vec![TokenAndSpan {
-            token: Word(Ident("a".into())),
+            token: Word(Word::Ident("a".into())),
             span: sp(7..8),
             // first line
             had_line_break: true
@@ -786,13 +780,13 @@ a"
 fn comment_2() {
     assert_eq!(
         lex(
-            Syntax::Es2019,
+            Syntax::Es,
             "// foo
 // bar
 a"
         ),
         vec![TokenAndSpan {
-            token: Word(Ident("a".into())),
+            token: Word(Word::Ident("a".into())),
             span: sp(14..15),
             // first line
             had_line_break: true
@@ -875,7 +869,7 @@ fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
 
     b.iter(|| {
-        let _ = with_lexer(Syntax::Es2019, include_str!("../../colors.js"), |lexer| {
+        let _ = with_lexer(Syntax::Es, include_str!("../../colors.js"), |lexer| {
             for _ in lexer {}
             Ok(())
         });

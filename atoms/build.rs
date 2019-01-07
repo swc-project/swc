@@ -3,7 +3,10 @@ extern crate string_cache_codegen;
 use std::{env, path::Path};
 
 fn main() {
-    let strs = include_str!("words.txt").lines().map(|l| l.trim()).collect::<Vec<_>>();
+    let strs = include_str!("words.txt")
+        .lines()
+        .map(|l| l.trim())
+        .collect::<Vec<_>>();
     gen("js_word", "JsWord", &strs);
 }
 

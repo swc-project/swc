@@ -1,4 +1,10 @@
-use super::{ClassExpr, Decl, Expr, FnExpr, Ident, Str, VarDecl};
+use crate::{
+    decl::{Decl, VarDecl},
+    expr::{ClassExpr, Expr, FnExpr},
+    ident::Ident,
+    lit::Str,
+    typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
+};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
@@ -11,6 +17,9 @@ pub enum ModuleDecl {
 
     ExportDefaultExpr(Box<Expr>),
     ExportAll(ExportAll),
+    TsImportEqualsDecl(TsImportEqualsDecl),
+    TsExportAssignment(TsExportAssignment),
+    TsNamespaceExportDecl(TsNamespaceExportDecl),
 }
 
 #[ast_node]
@@ -45,6 +54,8 @@ pub enum ExportDefaultDecl {
     Fn(FnExpr),
 
     Var(VarDecl),
+
+    TsInterfaceDecl(TsInterfaceDecl),
 }
 
 #[ast_node]

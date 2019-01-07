@@ -1,0 +1,6 @@
+error: Expected Semi, got Some(Bang)
+ --> $DIR/tests/typescript-errors/class/input.ts:2:5
+  |
+2 |   x?!: number;
+  |     ^
+

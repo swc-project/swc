@@ -53,16 +53,13 @@ fn yui(b: &mut Bencher) {
 fn bench_module(b: &mut Bencher, src: &'static str) {
     b.bytes = src.len() as _;
 
-    let _ = ::testing::run_test(|cm, handler| {
-        let session = Session {
-            handler: &handler,
-            cfg: Default::default(),
-        };
+    let _ = ::testing::run_test(false, |cm, handler| {
+        let session = Session { handler: &handler };
         let fm = cm.new_source_file(FileName::Anon(0), src.into());
 
         b.iter(|| {
             test::black_box({
-                let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
+                let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
                 let _ = parser.parse_module();
             })
         });

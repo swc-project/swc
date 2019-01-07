@@ -11,7 +11,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 }
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     babel_6057_simple,
     r#"const a = 'bar';
@@ -28,7 +28,7 @@ function foo() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     default_before_last,
     r#"function foo(a = "foo", b) {}"#,
@@ -38,7 +38,7 @@ test!(
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     default_destructuring,
     r#"function required(msg) {
@@ -63,7 +63,7 @@ expect(sum({arr:[1,2]})).toBe(3);"#
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     default_earlier_params,
     r#"function f(a, b = a, c = b) { return c; }
@@ -73,7 +73,7 @@ expect(3).toBe(f(3));"#
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     default_eval,
     r#"let x = "outside";
@@ -98,7 +98,7 @@ outer();"#
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     default_iife_1128,
     r#"const bar = true;
@@ -113,7 +113,7 @@ foo(1, 2, 3);"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     chain!(Classes::default(), tr(Default::default())),
     default_iife_4253,
     r#"class Ref {
@@ -135,7 +135,7 @@ Ref.nextID = 0;"#
 
 test_exec!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     // Stage0
     tr,
     default_iife_4253_exec,
@@ -151,7 +151,7 @@ expect(new Ref().id).toBe(2);"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     chain!(Classes::default(), tr(Default::default())),
     default_iife_self,
     r#"class Ref {
@@ -185,7 +185,7 @@ var X = function() {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     default_iife_self_exec,
     r#"class Ref {
@@ -197,7 +197,7 @@ test_exec!(
 expect(new Ref().ref).toBe(Ref);"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   default_multiple,
   r#"var t = function (e = "foo", f = 5) {
@@ -218,7 +218,7 @@ var a = function(e, param) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     default_rest_mix,
     r#"function fn(
@@ -236,7 +236,7 @@ test!(
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   default_rest_1,
   r#"const a = 1;
@@ -255,7 +255,7 @@ function rest(param) {
 rest(undefined, 2);"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   default_rest_2,
   r#"const a = 1;
@@ -274,7 +274,7 @@ function rest2(param) {
 rest2(undefined, 2);"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   default_rest_3,
   r#"const a = 1;
@@ -294,7 +294,7 @@ rest3(undefined, 2);"#
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     default_rest_exec,
     r#"const a = 1;
@@ -315,7 +315,7 @@ rest3(undefined, 2)"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     default_setter_noexec,
     r#"const obj = {
@@ -333,7 +333,7 @@ test!(
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     default_setter_exec,
     r#"const defaultValue = 1;
@@ -348,7 +348,7 @@ expect(obj.num).toBe(defaultValue);"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     default_single,
     r#"var t = function (f = "foo") {
@@ -361,7 +361,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     destructuring_rest,
     r#"// #3861
@@ -381,7 +381,7 @@ function t(param, param1) {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     regression_4333,
     r#"const args = 'bar';
@@ -399,7 +399,7 @@ function foo() {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     regression_4348,
     r#"function first(...values) {
@@ -417,7 +417,7 @@ test!(
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     // type
     tr(Default::default()),
     regression_4634,
@@ -441,7 +441,7 @@ let oneOf = function () {
 };"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   regression_5787,
   r#"function f(a, ...rest) {
@@ -472,7 +472,7 @@ function f(a) {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     regression_5787_exec,
     r#"function f1(a, ...rest) {
@@ -490,7 +490,7 @@ expect(f2(1, 2)).toBeUndefined();"#
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_args_deoptimiazation,
     r#"function x (...rest) {
@@ -509,7 +509,7 @@ function x() {
 test!(
     // Stage 0
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_arrow_fn,
     r#"var concat = (...arrs) => {
@@ -611,7 +611,7 @@ var innerclassproperties = function () {
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_async_arrow_fn,
     r#"var concat = async (...arrs) => {
@@ -656,7 +656,7 @@ function () {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     chain!(crate::compat::es2015::arrow(), tr(Default::default())),
     rest_binding_deoptimisation,
     r#"const deepAssign = (...args) => args = [];
@@ -673,7 +673,7 @@ test!(
 test!(
   // optimiation is not implemented
   ignore,
-  ::swc_ecma_parser::Syntax::Es2019,
+  ::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   rest_deepest_common_ancestor_earliest_child,
   r#"// single reference
@@ -868,7 +868,7 @@ function r() {
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   rest_length,
   r#"var t = function (f, ...items) {
@@ -899,7 +899,7 @@ function t(f) {
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_length_exec,
     r#"var length = function (a, b, ...items) {
@@ -915,7 +915,7 @@ expect(length(1, 2, 3)).toBe(1);"#
 test!(
     // optimisation is not implemented
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_member_expression_deoptimisation,
     r#"var t = function (...items) {
@@ -973,7 +973,7 @@ function t() {
 test!(
     // optimisation is not implemented
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_member_expression_optimisation,
     r#"var t = function (...items) {
@@ -1028,7 +1028,7 @@ function t() {
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
   tr(Default::default()),
   rest_multiple,
   r#"var t = function (f, ...items) {
@@ -1081,7 +1081,7 @@ function u(f, g) {
 test!(
     // optimisation is not implemented
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_nested_5656,
     r#"function a(...args) {
@@ -1142,7 +1142,7 @@ function d(thing) {
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::Es2019,
+test!(::swc_ecma_parser::Syntax::Es,
     chain!(Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
@@ -1170,7 +1170,7 @@ test!(::swc_ecma_parser::Syntax::Es2019,
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_patterns,
     r#"function foo(...[a]) {}"#,
@@ -1183,7 +1183,7 @@ test!(
 );
 
 test_exec!(
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr,
     rest_patterns_exec,
     r#"
@@ -1197,7 +1197,7 @@ expect(foo(1, 2, 3)).toEqual(3);"#
 test!(
     // optimisation is not implemented
     ignore,
-    ::swc_ecma_parser::Syntax::Es2019,
+    ::swc_ecma_parser::Syntax::Es,
     tr(Default::default()),
     rest_spread_optimisation,
     r#"// optimisation

@@ -1,0 +1,80 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            15
+        ),
+        ctxt: #0
+    },
+    body: [
+        ModuleDecl(
+            TsImportEqualsDecl(
+                TsImportEqualsDecl {
+                    span: Span {
+                        lo: BytePos(
+                            0
+                        ),
+                        hi: BytePos(
+                            15
+                        ),
+                        ctxt: #0
+                    },
+                    declare: false,
+                    is_export: false,
+                    id: Ident {
+                        sym: A,
+                        span: Span {
+                            lo: BytePos(
+                                7
+                            ),
+                            hi: BytePos(
+                                8
+                            ),
+                            ctxt: #0
+                        },
+                        type_ann: None,
+                        optional: false
+                    },
+                    module_ref: TsEntityName(
+                        TsQualifiedName(
+                            TsQualifiedName {
+                                left: Ident(
+                                    Ident {
+                                        sym: B,
+                                        span: Span {
+                                            lo: BytePos(
+                                                11
+                                            ),
+                                            hi: BytePos(
+                                                12
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                right: Ident {
+                                    sym: C,
+                                    span: Span {
+                                        lo: BytePos(
+                                            13
+                                        ),
+                                        hi: BytePos(
+                                            14
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    type_ann: None,
+                                    optional: false
+                                }
+                            }
+                        )
+                    )
+                }
+            )
+        )
+    ]
+}

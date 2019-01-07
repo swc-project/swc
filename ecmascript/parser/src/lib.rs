@@ -35,10 +35,7 @@
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 //!
-//!         let session = Session {
-//!             handler: &handler,
-//!             cfg: Default::default(),
-//!         };
+//!         let session = Session { handler: &handler };
 //!
 //!         // Real usage
 //!         // let fm = cm
@@ -50,9 +47,15 @@
 //!             "function foo() {}".into(),
 //!         );
 //!
-//!         let mut parser = Parser::new(session, Syntax::Es2019, SourceFileInput::from(&*fm));
+//!         let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
 //!
-//!         let _module = parser.parse_module().expect("failed to parser module");
+//!         let _module = parser
+//!             .parse_module()
+//!             .map_err(|e| {
+//!                 e.emit();
+//!                 ()
+//!             })
+//!             .expect("failed to parser module");
 //!     });
 //! }
 //! ```
@@ -109,16 +112,24 @@ mod parser;
 mod token;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(tag = "syntax")]
 pub enum Syntax {
-    Es2019,
+    #[serde = "esnext"]
+    EsNext(EsNextConfig),
+    /// Standard
+    #[serde = "es"]
+    Es,
+    #[serde = "jsx"]
     Jsx,
+    #[serde = "typescript"]
     Typescript,
+    #[serde = "tsx"]
     Tsx,
 }
 
-impl Default for Syntax{
-    fn default()->Self{
-        Syntax::Es2019
+impl Default for Syntax {
+    fn default() -> Self {
+        Syntax::Es
     }
 }
 
@@ -130,20 +141,107 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn fn_bind(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig { fn_bind: true, .. }) => true,
+            _ => false,
+        }
+    }
+
+    pub fn num_sep(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig { num_sep: true, .. }) => true,
+            _ => false,
+        }
+    }
+
+    pub fn decorators(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                decorators: true, ..
+            })
+            | Syntax::Typescript
+            | Syntax::Tsx => true,
+            _ => false,
+        }
+    }
+
+    pub fn class_private_methods(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                class_private_methods: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
+
+    pub fn class_private_props(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                class_private_props: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
+
+    pub fn class_props(self) -> bool {
+        if self.typescript() {
+            return true;
+        }
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                class_props: true, ..
+            }) => true,
+            _ => false,
+        }
+    }
+
+    pub fn decorators_before_export(self) -> bool {
+        match self {
+            Syntax::EsNext(EsNextConfig {
+                decorators_before_export: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
+
+    /// Should we pare typescript?
+    pub fn typescript(self) -> bool {
+        match self {
+            Syntax::Typescript | Syntax::Tsx => true,
+            _ => false,
+        }
+    }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
-pub struct Config {
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct EsNextConfig {
     /// Support numeric separator.
     pub num_sep: bool,
 
+    pub class_private_props: bool,
+    pub class_private_methods: bool,
+    pub class_props: bool,
+
     /// Support function bind expression.
     pub fn_bind: bool,
+
+    /// Enable decorators.
+    pub decorators: bool,
+
+    /// babel: `decorators.decoratorsBeforeExport`
+    ///
+    /// Effective only if `decorator` is true.
+    pub decorators_before_export: bool,
 }
 
 /// Syntatic context.
 #[derive(Debug, Clone, Copy, Default)]
-struct Context {
+pub(crate) struct Context {
     /// Is in module code?
     module: bool,
     strict: bool,
@@ -155,16 +253,24 @@ struct Context {
     /// keyword.
     in_generator: bool,
 
+    in_type: bool,
+    /// Typescript extension.
+    in_declare: bool,
+
     in_function: bool,
 
     in_parameters: bool,
+
+    in_method: bool,
+    in_class_prop: bool,
+
+    in_property_name: bool,
 
     in_forced_jsx_context: bool,
 }
 
 #[derive(Clone, Copy)]
 pub struct Session<'a> {
-    pub cfg: Config,
     pub handler: &'a Handler,
 }
 
@@ -175,15 +281,9 @@ where
 {
     use swc_common::FileName;
 
-    ::testing::run_test(|cm, handler| {
+    ::testing::run_test(true, |cm, handler| {
         let fm = cm.new_source_file(FileName::Real("testing".into()), src.into());
 
-        f(
-            Session {
-                handler: &handler,
-                cfg: Default::default(),
-            },
-            (&*fm).into(),
-        )
+        f(Session { handler: &handler }, (&*fm).into())
     })
 }

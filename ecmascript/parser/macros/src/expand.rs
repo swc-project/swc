@@ -60,7 +60,11 @@ impl Fold for InjectSelf {
             }
         }
 
-        if i.method == "parse_with" || i.method == "spanned" {
+        if i.method == "parse_with"
+            || i.method == "spanned"
+            || i.method == "try_parse_ts"
+            || i.method == "ts_in_no_context"
+        {
             //TODO
             let parser = get_parser_arg(&i);
             return fold::fold_expr_method_call(
@@ -107,7 +111,7 @@ impl Fold for InjectSelf {
         let span = get_joinned_span(&i.path);
 
         match &*name {
-            "vec" | "unreachable" | "tok" | "op" | "js_word" => return i,
+            "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => return i,
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
             | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" => {
                 let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());

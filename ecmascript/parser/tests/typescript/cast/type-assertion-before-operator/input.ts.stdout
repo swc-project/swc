@@ -1,0 +1,90 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            15
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Bin(
+                    BinExpr {
+                        span: Span {
+                            lo: BytePos(
+                                1
+                            ),
+                            hi: BytePos(
+                                14
+                            ),
+                            ctxt: #0
+                        },
+                        op: "+",
+                        left: TsTypeAssertion(
+                            TsTypeAssertion {
+                                span: Span {
+                                    lo: BytePos(
+                                        1
+                                    ),
+                                    hi: BytePos(
+                                        10
+                                    ),
+                                    ctxt: #0
+                                },
+                                expr: Lit(
+                                    Num(
+                                        Number {
+                                            span: Span {
+                                                lo: BytePos(
+                                                    9
+                                                ),
+                                                hi: BytePos(
+                                                    10
+                                                ),
+                                                ctxt: #0
+                                            },
+                                            value: 1.0
+                                        }
+                                    )
+                                ),
+                                type_ann: TsKeywordType(
+                                    TsKeywordType {
+                                        span: Span {
+                                            lo: BytePos(
+                                                1
+                                            ),
+                                            hi: BytePos(
+                                                7
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        kind: TsNumberKeyword
+                                    }
+                                )
+                            }
+                        ),
+                        right: Lit(
+                            Num(
+                                Number {
+                                    span: Span {
+                                        lo: BytePos(
+                                            13
+                                        ),
+                                        hi: BytePos(
+                                            14
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    value: 1.0
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

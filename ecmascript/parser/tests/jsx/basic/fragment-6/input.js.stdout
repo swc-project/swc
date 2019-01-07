@@ -47,9 +47,9 @@ Module {
                                     },
                                     opening: JSXOpeningElement {
                                         name: Ident(
-                                            Ident(
-                                                div,
-                                                Span {
+                                            Ident {
+                                                sym: div,
+                                                span: Span {
                                                     lo: BytePos(
                                                         3
                                                     ),
@@ -57,8 +57,10 @@ Module {
                                                         6
                                                     ),
                                                     ctxt: #0
-                                                }
-                                            )
+                                                },
+                                                type_ann: None,
+                                                optional: false
+                                            }
                                         ),
                                         span: Span {
                                             lo: BytePos(
@@ -70,7 +72,8 @@ Module {
                                             ctxt: #0
                                         },
                                         attrs: [],
-                                        self_closing: false
+                                        self_closing: false,
+                                        type_args: None
                                     },
                                     children: [
                                         JSXText(
@@ -101,9 +104,9 @@ Module {
                                                 ctxt: #0
                                             },
                                             name: Ident(
-                                                Ident(
-                                                    div,
-                                                    Span {
+                                                Ident {
+                                                    sym: div,
+                                                    span: Span {
                                                         lo: BytePos(
                                                             19
                                                         ),
@@ -111,8 +114,10 @@ Module {
                                                             22
                                                         ),
                                                         ctxt: #0
-                                                    }
-                                                )
+                                                    },
+                                                    type_ann: None,
+                                                    optional: false
+                                                }
                                             )
                                         }
                                     )

@@ -24,9 +24,9 @@ Module {
                         },
                         opening: JSXOpeningElement {
                             name: Ident(
-                                Ident(
-                                    a,
-                                    Span {
+                                Ident {
+                                    sym: a,
+                                    span: Span {
                                         lo: BytePos(
                                             1
                                         ),
@@ -34,8 +34,10 @@ Module {
                                             2
                                         ),
                                         ctxt: #0
-                                    }
-                                )
+                                    },
+                                    type_ann: None,
+                                    optional: false
+                                }
                             ),
                             span: Span {
                                 lo: BytePos(
@@ -47,7 +49,8 @@ Module {
                                 ctxt: #0
                             },
                             attrs: [],
-                            self_closing: true
+                            self_closing: true,
+                            type_args: None
                         },
                         children: [],
                         closing: None

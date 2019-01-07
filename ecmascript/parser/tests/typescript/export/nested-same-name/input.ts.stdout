@@ -1,0 +1,199 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            66
+        ),
+        ctxt: #0
+    },
+    body: [
+        ModuleDecl(
+            ExportDecl(
+                Var(
+                    VarDecl {
+                        span: Span {
+                            lo: BytePos(
+                                7
+                            ),
+                            hi: BytePos(
+                                19
+                            ),
+                            ctxt: #0
+                        },
+                        kind: "const",
+                        declare: false,
+                        decls: [
+                            VarDeclarator {
+                                span: Span {
+                                    lo: BytePos(
+                                        13
+                                    ),
+                                    hi: BytePos(
+                                        18
+                                    ),
+                                    ctxt: #0
+                                },
+                                name: Ident(
+                                    Ident {
+                                        sym: x,
+                                        span: Span {
+                                            lo: BytePos(
+                                                13
+                                            ),
+                                            hi: BytePos(
+                                                14
+                                            ),
+                                            ctxt: #0
+                                        },
+                                        type_ann: None,
+                                        optional: false
+                                    }
+                                ),
+                                init: Some(
+                                    Lit(
+                                        Num(
+                                            Number {
+                                                span: Span {
+                                                    lo: BytePos(
+                                                        17
+                                                    ),
+                                                    hi: BytePos(
+                                                        18
+                                                    ),
+                                                    ctxt: #0
+                                                },
+                                                value: 0.0
+                                            }
+                                        )
+                                    )
+                                ),
+                                definite: false
+                            }
+                        ]
+                    }
+                )
+            )
+        ),
+        ModuleDecl(
+            ExportDecl(
+                TsModule(
+                    TsModuleDecl {
+                        span: Span {
+                            lo: BytePos(
+                                27
+                            ),
+                            hi: BytePos(
+                                66
+                            ),
+                            ctxt: #0
+                        },
+                        declare: false,
+                        global: false,
+                        id: Ident(
+                            Ident {
+                                sym: N,
+                                span: Span {
+                                    lo: BytePos(
+                                        37
+                                    ),
+                                    hi: BytePos(
+                                        38
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_ann: None,
+                                optional: false
+                            }
+                        ),
+                        body: Some(
+                            TsModuleBlock(
+                                TsModuleBlock {
+                                    span: Span {
+                                        lo: BytePos(
+                                            39
+                                        ),
+                                        hi: BytePos(
+                                            66
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    body: [
+                                        ModuleDecl(
+                                            ExportDecl(
+                                                Var(
+                                                    VarDecl {
+                                                        span: Span {
+                                                            lo: BytePos(
+                                                                52
+                                                            ),
+                                                            hi: BytePos(
+                                                                64
+                                                            ),
+                                                            ctxt: #0
+                                                        },
+                                                        kind: "const",
+                                                        declare: false,
+                                                        decls: [
+                                                            VarDeclarator {
+                                                                span: Span {
+                                                                    lo: BytePos(
+                                                                        58
+                                                                    ),
+                                                                    hi: BytePos(
+                                                                        63
+                                                                    ),
+                                                                    ctxt: #0
+                                                                },
+                                                                name: Ident(
+                                                                    Ident {
+                                                                        sym: x,
+                                                                        span: Span {
+                                                                            lo: BytePos(
+                                                                                58
+                                                                            ),
+                                                                            hi: BytePos(
+                                                                                59
+                                                                            ),
+                                                                            ctxt: #0
+                                                                        },
+                                                                        type_ann: None,
+                                                                        optional: false
+                                                                    }
+                                                                ),
+                                                                init: Some(
+                                                                    Lit(
+                                                                        Num(
+                                                                            Number {
+                                                                                span: Span {
+                                                                                    lo: BytePos(
+                                                                                        62
+                                                                                    ),
+                                                                                    hi: BytePos(
+                                                                                        63
+                                                                                    ),
+                                                                                    ctxt: #0
+                                                                                },
+                                                                                value: 1.0
+                                                                            }
+                                                                        )
+                                                                    )
+                                                                ),
+                                                                definite: false
+                                                            }
+                                                        ]
+                                                    }
+                                                )
+                                            )
+                                        )
+                                    ]
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

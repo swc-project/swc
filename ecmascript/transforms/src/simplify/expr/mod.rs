@@ -601,6 +601,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             Expr::Ident(Ident {
                 sym: js_word!("Infinity"),
                 span,
+                ..
             }) => return Expr::Unary(UnaryExpr { op, arg, span }),
             // "-NaN" is "NaN"
             Expr::Ident(Ident {
@@ -997,6 +998,7 @@ where
                 return;
             }
 
+            Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
             Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
             Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
 
@@ -1005,6 +1007,11 @@ where
             | Expr::JSXEmpty(..)
             | Expr::JSXElement(..)
             | Expr::JSXFragment(..) => unreachable!("simplyfing jsx"),
+
+            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsTypeCast(TsTypeCastExpr { expr, .. })
+            | Expr::TsAs(TsAsExpr { expr, .. }) => add_effects(v, expr),
         }
     }
 
