@@ -15,7 +15,7 @@ extern crate testing;
 use std::sync::Arc;
 use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
-use swc_ecma_transforms::compat;
+use swc_ecma_transforms::{compat, helpers};
 use test::Bencher;
 
 static SOURCE: &'static str = r#"
@@ -94,18 +94,21 @@ macro_rules! tr {
     ($b:expr, $tr:expr) => {
         $b.bytes = SOURCE.len() as _;
 
-        let _ = ::testing::run_test(|cm, handler| {
+        let _ = ::testing::run_test(false, |cm, handler| {
             let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
 
             let mut parser = Parser::new(
-                Session {
-                    handler: &handler,
-                    cfg: Default::default(),
-                },
+                Session { handler: &handler },
                 Syntax::Es,
                 SourceFileInput::from(&*fm),
             );
-            let module = parser.parse_module().unwrap();
+            let module = parser
+                .parse_module()
+                .map_err(|e| {
+                    e.emit();
+                    ()
+                })
+                .unwrap();
             let helpers = Arc::new(helpers::Helpers::default());
             let mut tr = $tr(helpers);
 

@@ -45,9 +45,13 @@ impl Compiler {
 
             let session = ParseSess {
                 handler: &self.handler,
-                cfg: Default::default(),
             };
-            Parser::new(session, syntax, SourceFileInput::from(&*fm)).parse_module()
+            Parser::new(session, syntax, SourceFileInput::from(&*fm))
+                .parse_module()
+                .map_err(|e| {
+                    e.emit();
+                    ()
+                })
         })
     }
 
@@ -58,9 +62,13 @@ impl Compiler {
 
             let session = ParseSess {
                 handler: &self.handler,
-                cfg: Default::default(),
             };
-            Parser::new(session, syntax, SourceFileInput::from(&*fm)).parse_module()
+            Parser::new(session, syntax, SourceFileInput::from(&*fm))
+                .parse_module()
+                .map_err(|e| {
+                    e.emit();
+                    ()
+                })
         })
     }
 
