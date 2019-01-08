@@ -220,38 +220,48 @@ impl Syntax {
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct TsConfig {
+    #[serde(default)]
     pub tsx: bool,
 
+    #[serde(default)]
     pub decorators: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct EsConfig {
+    #[serde(default)]
     pub jsx: bool,
     /// Support numeric separator.
     #[serde(rename = "numericSeparator")]
+    #[serde(default)]
     pub num_sep: bool,
 
     #[serde(rename = "classPrivateProperty")]
+    #[serde(default)]
     pub class_private_props: bool,
 
     #[serde(rename = "privateMethod")]
+    #[serde(default)]
     pub class_private_methods: bool,
 
     #[serde(rename = "classProperty")]
+    #[serde(default)]
     pub class_props: bool,
 
     /// Support function bind expression.
     #[serde(rename = "functionBind")]
+    #[serde(default)]
     pub fn_bind: bool,
 
     /// Enable decorators.
+    #[serde(default)]
     pub decorators: bool,
 
     /// babel: `decorators.decoratorsBeforeExport`
     ///
     /// Effective only if `decorator` is true.
     #[serde(rename = "decoratorsBeforeExport")]
+    #[serde(default)]
     pub decorators_before_export: bool,
 }
 
