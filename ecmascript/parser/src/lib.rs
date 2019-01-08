@@ -47,7 +47,11 @@
 //!             "function foo() {}".into(),
 //!         );
 //!
-//!         let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
+//!         let mut parser = Parser::new(
+//!             session,
+//!             Syntax::Es(Default::default()),
+//!             SourceFileInput::from(&*fm),
+//!         );
 //!
 //!         let _module = parser
 //!             .parse_module()
