@@ -13,13 +13,15 @@ use std::{collections::HashMap, env};
 /// `.swcrc` file
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct Config {
+    #[serde(default)]
     pub jsc: JscConfig,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct JscConfig {
-    #[serde(rename = "parser")]
+    #[serde(rename = "parser", default)]
     pub syntax: Syntax,
+    #[serde(default)]
     pub transform: TrnasformConfig,
 }
 
@@ -27,16 +29,19 @@ pub struct JscConfig {
 pub struct TrnasformConfig {
     #[serde(default)]
     pub react: react::Options,
+    #[serde(default)]
     pub optimizer: Option<OptimizerConfig>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct OptimizerConfig {
+    #[serde(default)]
     pub globals: Option<GlobalPassOption>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct GlobalPassOption {
+    #[serde(default)]
     pub vars: FnvHashMap<String, String>,
 }
 
