@@ -47,7 +47,11 @@
 //!             "function foo() {}".into(),
 //!         );
 //!
-//!         let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
+//!         let mut parser = Parser::new(
+//!             session,
+//!             Syntax::Es(Default::default()),
+//!             SourceFileInput::from(&*fm),
+//!         );
 //!
 //!         let _module = parser
 //!             .parse_module()
@@ -114,22 +118,16 @@ mod token;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(tag = "syntax")]
 pub enum Syntax {
-    #[serde = "esnext"]
-    EsNext(EsNextConfig),
     /// Standard
-    #[serde = "es"]
-    Es,
-    #[serde = "jsx"]
-    Jsx,
-    #[serde = "typescript"]
-    Typescript,
-    #[serde = "tsx"]
-    Tsx,
+    #[serde(rename = "ecmascript")]
+    Es(EsConfig),
+    #[serde(rename = "typescript")]
+    Typescript(TsConfig),
 }
 
 impl Default for Syntax {
     fn default() -> Self {
-        Syntax::Es
+        Syntax::Es(Default::default())
     }
 }
 
@@ -137,39 +135,41 @@ impl Syntax {
     /// Should we pare jsx?
     pub fn jsx(self) -> bool {
         match self {
-            Syntax::Jsx | Syntax::Tsx => true,
+            Syntax::Es(EsConfig { jsx: true, .. })
+            | Syntax::Typescript(TsConfig { tsx: true, .. }) => true,
             _ => false,
         }
     }
 
     pub fn fn_bind(self) -> bool {
         match self {
-            Syntax::EsNext(EsNextConfig { fn_bind: true, .. }) => true,
+            Syntax::Es(EsConfig { fn_bind: true, .. }) => true,
             _ => false,
         }
     }
 
     pub fn num_sep(self) -> bool {
         match self {
-            Syntax::EsNext(EsNextConfig { num_sep: true, .. }) => true,
+            Syntax::Es(EsConfig { num_sep: true, .. }) => true,
             _ => false,
         }
     }
 
     pub fn decorators(self) -> bool {
         match self {
-            Syntax::EsNext(EsNextConfig {
+            Syntax::Es(EsConfig {
                 decorators: true, ..
             })
-            | Syntax::Typescript
-            | Syntax::Tsx => true,
+            | Syntax::Typescript(TsConfig {
+                decorators: true, ..
+            }) => true,
             _ => false,
         }
     }
 
     pub fn class_private_methods(self) -> bool {
         match self {
-            Syntax::EsNext(EsNextConfig {
+            Syntax::Es(EsConfig {
                 class_private_methods: true,
                 ..
             }) => true,
@@ -179,7 +179,7 @@ impl Syntax {
 
     pub fn class_private_props(self) -> bool {
         match self {
-            Syntax::EsNext(EsNextConfig {
+            Syntax::Es(EsConfig {
                 class_private_props: true,
                 ..
             }) => true,
@@ -192,7 +192,7 @@ impl Syntax {
             return true;
         }
         match self {
-            Syntax::EsNext(EsNextConfig {
+            Syntax::Es(EsConfig {
                 class_props: true, ..
             }) => true,
             _ => false,
@@ -201,7 +201,7 @@ impl Syntax {
 
     pub fn decorators_before_export(self) -> bool {
         match self {
-            Syntax::EsNext(EsNextConfig {
+            Syntax::Es(EsConfig {
                 decorators_before_export: true,
                 ..
             }) => true,
@@ -212,22 +212,37 @@ impl Syntax {
     /// Should we pare typescript?
     pub fn typescript(self) -> bool {
         match self {
-            Syntax::Typescript | Syntax::Tsx => true,
+            Syntax::Typescript(..) => true,
             _ => false,
         }
     }
 }
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct EsNextConfig {
+pub struct TsConfig {
+    pub tsx: bool,
+
+    pub decorators: bool,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct EsConfig {
+    pub jsx: bool,
     /// Support numeric separator.
+    #[serde(rename = "numericSeparator")]
     pub num_sep: bool,
 
+    #[serde(rename = "classPrivateProperty")]
     pub class_private_props: bool,
+
+    #[serde(rename = "privateMethod")]
     pub class_private_methods: bool,
+
+    #[serde(rename = "classProperty")]
     pub class_props: bool,
 
     /// Support function bind expression.
+    #[serde(rename = "functionBind")]
     pub fn_bind: bool,
 
     /// Enable decorators.
@@ -236,6 +251,7 @@ pub struct EsNextConfig {
     /// babel: `decorators.decoratorsBeforeExport`
     ///
     /// Effective only if `decorator` is true.
+    #[serde(rename = "decoratorsBeforeExport")]
     pub decorators_before_export: bool,
 }
 

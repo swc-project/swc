@@ -18,7 +18,9 @@ swc_atoms = { version = "0.1", path ="./atoms" }
 swc_common = { version = "0.1", path ="./common" }
 swc_ecmascript = { version = "0.1", path ="./ecmascript" }
 sourcemap = "2.2"
-
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+fnv = "1"
 
 [profile.bench]
 lto = true

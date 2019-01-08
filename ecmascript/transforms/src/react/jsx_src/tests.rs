@@ -8,7 +8,10 @@ fn tr() -> impl Fold<Module> {
 
 test_exec!(
     ignore,
-    ::swc_ecma_parser::Syntax::Jsx,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
     |_| tr(),
     basic_sample,
     r#"
@@ -30,7 +33,10 @@ expect(actual).toBe(expected);
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Jsx,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
     tr(),
     no_jsx,
     r#"var x = 42;"#,
@@ -39,7 +45,10 @@ test!(
 
 test_exec!(
     ignore,
-    ::swc_ecma_parser::Syntax::Jsx,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
     |_| tr(),
     with_source,
     r#"

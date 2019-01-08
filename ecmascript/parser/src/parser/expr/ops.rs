@@ -226,7 +226,7 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es, |p| {
+        test_parser(s, Syntax::default(), |p| {
             p.parse_bin_expr().map_err(|e| {
                 e.emit();
                 ()

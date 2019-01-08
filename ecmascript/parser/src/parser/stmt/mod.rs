@@ -798,11 +798,11 @@ impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::EsNextConfig;
+    use crate::EsConfig;
     use swc_common::DUMMY_SP as span;
 
     fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, Syntax::Es, |p| {
+        test_parser(s, Syntax::default(), |p| {
             p.parse_stmt(true).map_err(|e| {
                 e.emit();
                 ()
@@ -810,7 +810,7 @@ mod tests {
         })
     }
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es, |p| {
+        test_parser(s, Syntax::default(), |p| {
             p.parse_expr().map_err(|e| {
                 e.emit();
                 ()
@@ -933,7 +933,7 @@ mod tests {
             @dec2
             class Foo {}
             ",
-                Syntax::EsNext(EsNextConfig {
+                Syntax::Es(EsConfig {
                     decorators: true,
                     ..Default::default()
                 }),

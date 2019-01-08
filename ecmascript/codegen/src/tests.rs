@@ -80,7 +80,7 @@ fn test_from_to(from: &str, to: &str) {
 
             let res = f(&mut Parser::new(
                 Session { handler: &handler },
-                Syntax::Es,
+                Syntax::default(),
                 (&*src).into(),
             ))
             .map_err(|e| {

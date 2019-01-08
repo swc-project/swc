@@ -68,7 +68,7 @@ impl InjectHelpers {
                 .cm
                 .new_source_file(FileName::Custom(name.into()), code.into());
 
-            let mut stmts = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
+            let mut stmts = Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
                 .parse_script()
                 .map_err(|e| {
                     e.emit();

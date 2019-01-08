@@ -169,7 +169,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Exponentation,
         babel_binary,
         "2 ** 2",
@@ -178,7 +178,7 @@ mod tests {
 
     test_exec!(
         ignore,
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         |_| Exponentation,
         babel_comprehensive,
         r#"expect(2 ** 3).toBe(8);
@@ -207,7 +207,7 @@ expect(2 ** 3 ** 2).toBe(512);"#
     test_exec!(
         // FIXME
         ignore,
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         |_| Exponentation,
         babel_memoize_object,
         r#"var counters = 0;
@@ -223,7 +223,7 @@ expect(counters).toBe(1);"#
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Exponentation,
         assign,
         r#"x **= 3"#,
@@ -231,7 +231,7 @@ expect(counters).toBe(1);"#
         ok_if_code_eq
     );
 
-    //     test!(::swc_ecma_parser::Syntax::Es,
+    //     test!(::swc_ecma_parser::Syntax::default(),
     //         Exponentation,
     //         babel_4403,
     //         "var a, b;

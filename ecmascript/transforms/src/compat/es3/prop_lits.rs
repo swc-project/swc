@@ -71,7 +71,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         PropertyLiteral,
         babel_basic,
         r#"var foo = {

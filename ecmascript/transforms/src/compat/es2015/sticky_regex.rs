@@ -58,7 +58,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         StickyRegex,
         babel_basic,
         "var re = /o+/y;",
@@ -66,7 +66,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         StickyRegex,
         babel_ignore_non_sticky,
         "var re = /o+/;",

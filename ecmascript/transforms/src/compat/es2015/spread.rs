@@ -193,7 +193,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         call,
         "ca(a, b, c, ...d, e)",
@@ -201,7 +201,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         call_multi_spread,
         "ca(a, b, ...d, e, f, ...h)",
@@ -209,7 +209,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         call_noop,
         "ca(a, b, c, d, e)",
@@ -217,7 +217,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         array,
         "[a, b, c, ...d, e]",
@@ -225,7 +225,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         array_empty,
         "[a,, b, c, ...d,,, e]",
@@ -233,7 +233,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         new,
         "new C(a, b, c, ...d, e)",
@@ -242,7 +242,7 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         Spread::default(),
         new_noop,
         "new C(a, b, c, c, d, e)",
