@@ -43,7 +43,7 @@ mod tests {
     use super::*;
 
     test!(
-        ::swc_ecma_parser::Syntax::Es,
+        ::swc_ecma_parser::Syntax::default(),
         ReservedWord,
         babel_issue_6477,
         r#"

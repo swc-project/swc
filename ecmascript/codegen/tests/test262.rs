@@ -147,8 +147,11 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 );
 
                 let handlers = box MyHandlers;
-                let mut parser: Parser<SourceFileInput> =
-                    Parser::new(Session { handler: &handler }, Syntax::Es, (&*src).into());
+                let mut parser: Parser<SourceFileInput> = Parser::new(
+                    Session { handler: &handler },
+                    Syntax::default(),
+                    (&*src).into(),
+                );
 
                 let s: Lrc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
                 let mut src_map_builder = SourceMapBuilder::new(Some(&s));

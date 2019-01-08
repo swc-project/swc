@@ -59,7 +59,8 @@ fn bench_module(b: &mut Bencher, src: &'static str) {
 
         b.iter(|| {
             test::black_box({
-                let mut parser = Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm));
+                let mut parser =
+                    Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm));
                 let _ = parser.parse_module();
             })
         });

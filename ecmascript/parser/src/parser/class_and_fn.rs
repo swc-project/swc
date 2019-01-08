@@ -926,7 +926,7 @@ mod tests {
     use swc_common::DUMMY_SP as span;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es, |p| {
+        test_parser(s, Syntax::default(), |p| {
             p.parse_lhs_expr().map_err(|e| {
                 e.emit();
                 ()
@@ -935,7 +935,7 @@ mod tests {
     }
 
     fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::Es, |p| {
+        test_parser(s, Syntax::default(), |p| {
             p.parse_expr().map_err(|e| {
                 e.emit();
                 ()

@@ -1,7 +1,7 @@
 use super::*;
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     destructuring,
     r#"let foo = ({bar}) => undefined;"#,
@@ -11,7 +11,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     basic,
     r#"let echo = (bar) => bar"#,
@@ -21,7 +21,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     empty_arguments,
     r#"var t = () => 5 + 5;"#,
@@ -31,7 +31,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     expression,
     r#"arr.map(x => x * x);"#,
@@ -41,7 +41,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     inside_call,
     r#"arr.map(i => i + 1);"#,
@@ -51,7 +51,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     multiple_arguments,
     r#"var t = (i, x) => i * x;"#,
@@ -60,7 +60,7 @@ test!(
 };"#
 );
 
-// test!(::swc_ecma_parser::Syntax::Es,
+// test!(::swc_ecma_parser::Syntax::default(),
 //     Arrow,
 //     nested,
 //     r#"module.exports = {
@@ -95,7 +95,7 @@ test!(
 // );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     paren_insertion,
     r#"var t = i => i * 5;"#,
@@ -105,7 +105,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     single_argument,
     r#"var t = (i) => i * 5;"#,
@@ -115,7 +115,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es,
+    ::swc_ecma_parser::Syntax::default(),
     Arrow,
     statement,
     r#"nums.forEach(v => {

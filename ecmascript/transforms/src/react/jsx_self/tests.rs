@@ -5,7 +5,10 @@ fn tr() -> impl Fold<Module> {
 }
 
 test!(
-    ::swc_ecma_parser::Syntax::Jsx,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
     tr(),
     basic_sample,
     r#"var x = <sometag />"#,

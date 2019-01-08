@@ -15,7 +15,7 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::StdErr;
 use walkdir::WalkDir;
@@ -132,11 +132,10 @@ where
 
         let res = f(&mut Parser::new(
             Session { handler: &handler },
-            if fname.contains("tsx") {
-                Syntax::Tsx
-            } else {
-                Syntax::Typescript
-            },
+            Syntax::Typescript(TsConfig {
+                tsx: fname.contains("tsx"),
+                decorators: true,
+            }),
             (&*fm).into(),
         ))
         .map_err(|e| {

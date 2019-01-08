@@ -280,7 +280,7 @@ where
 
         let res = f(&mut Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             (&*fm).into(),
         ))
         .map_err(|e| {

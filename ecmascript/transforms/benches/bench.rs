@@ -99,7 +99,7 @@ macro_rules! tr {
 
             let mut parser = Parser::new(
                 Session { handler: &handler },
-                Syntax::Es,
+                Syntax::default(),
                 SourceFileInput::from(&*fm),
             );
             let module = parser

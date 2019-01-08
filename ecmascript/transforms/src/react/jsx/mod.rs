@@ -16,7 +16,7 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Options {
     #[serde(default = "default_pragma")]
     pub pragma: String,
@@ -67,7 +67,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
     let parse = |name, s| {
         let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), s);
 
-        Parser::new(session, Syntax::Es, SourceFileInput::from(&*fm))
+        Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
             .parse_expr()
             .map_err(|e| {
                 e.emit();

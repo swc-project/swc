@@ -93,7 +93,7 @@ fn module_clone(b: &mut Bencher) {
 
         let mut parser = Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             SourceFileInput::from(&*fm),
         );
         let module = parser
@@ -119,7 +119,7 @@ fn fold_empty(b: &mut Bencher) {
 
         let mut parser = Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             SourceFileInput::from(&*fm),
         );
         let module = parser
@@ -156,7 +156,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
 
         let mut parser = Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             SourceFileInput::from(&*fm),
         );
         let module = parser
@@ -193,7 +193,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
 
         let mut parser = Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             SourceFileInput::from(&*fm),
         );
         let module = parser
@@ -275,7 +275,7 @@ fn visit_empty(b: &mut Bencher) {
 
         let mut parser = Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             SourceFileInput::from(&*fm),
         );
         let module = parser
@@ -327,7 +327,7 @@ fn visit_contains_this(b: &mut Bencher) {
 
         let mut parser = Parser::new(
             Session { handler: &handler },
-            Syntax::Es,
+            Syntax::default(),
             SourceFileInput::from(&*fm),
         );
         let module = parser

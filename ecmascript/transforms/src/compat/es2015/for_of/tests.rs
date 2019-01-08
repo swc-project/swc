@@ -1,6 +1,6 @@
 use super::*;
 
-test!(::swc_ecma_parser::Syntax::Es,
+test!(::swc_ecma_parser::Syntax::default(),
     ForOf,
     spec_identifier,
     r#"for (i of arr) {
@@ -27,7 +27,7 @@ try {
 }"#,ok_if_code_eq
 );
 
-test!(::swc_ecma_parser::Syntax::Es,ForOf, spec_ignore_cases, r#"for (var i of foo) {
+test!(::swc_ecma_parser::Syntax::default(),ForOf, spec_ignore_cases, r#"for (var i of foo) {
   switch (i) {
     case 1:
       break;
@@ -58,7 +58,7 @@ try {
   }
 }"#, ok_if_code_eq);
 
-test!(::swc_ecma_parser::Syntax::Es,ForOf, spec_let, r#"for (let i of arr) {
+test!(::swc_ecma_parser::Syntax::default(),ForOf, spec_let, r#"for (let i of arr) {
 
 }"#, r#"
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
@@ -83,7 +83,7 @@ try {
 }"#,
 ok_if_code_eq);
 
-test!(::swc_ecma_parser::Syntax::Es,ForOf, spec_member_expr, r#"for (obj.prop of arr) {
+test!(::swc_ecma_parser::Syntax::default(),ForOf, spec_member_expr, r#"for (obj.prop of arr) {
 
 }"#, r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
@@ -107,7 +107,7 @@ try {
 }"#,
 ok_if_code_eq);
 
-test!(::swc_ecma_parser::Syntax::Es,ForOf, spec_multiple, r#"for (var i of arr) {
+test!(::swc_ecma_parser::Syntax::default(),ForOf, spec_multiple, r#"for (var i of arr) {
 
 }
 
@@ -156,7 +156,7 @@ try {
   }
 }"#, ok_if_code_eq);
 
-test!(::swc_ecma_parser::Syntax::Es,ForOf, spec_nested_label_for_of, r#"b: for (let c of d()) {
+test!(::swc_ecma_parser::Syntax::default(),ForOf, spec_nested_label_for_of, r#"b: for (let c of d()) {
   for (let e of f()) {
     continue b;
   }
@@ -202,7 +202,7 @@ try {
   }
 }"#, ok_if_code_eq);
 
-test!(::swc_ecma_parser::Syntax::Es,ForOf, spec_var, r#"for (var i of arr) {
+test!(::swc_ecma_parser::Syntax::default(),ForOf, spec_var, r#"for (var i of arr) {
 
 }"#, r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 

@@ -1,6 +1,10 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 
+extern crate fnv;
 extern crate rayon;
+extern crate serde;
+extern crate serde_json;
 pub extern crate sourcemap;
 pub extern crate swc_atoms as atoms;
 pub extern crate swc_common as common;
@@ -8,6 +12,7 @@ pub extern crate swc_ecmascript as ecmascript;
 
 use self::{
     common::{errors::Handler, sync::Lrc, FileName, Globals, SourceMap, GLOBALS},
+    config::Config,
     ecmascript::{
         ast::Module,
         codegen::{self, Emitter},
@@ -15,12 +20,22 @@ use self::{
     },
 };
 use sourcemap::SourceMapBuilder;
-use std::{io, path::Path};
+use std::{
+    cell::RefCell,
+    collections::HashMap,
+    fs::File,
+    io,
+    path::{Path, PathBuf},
+    sync::Arc,
+};
+
+pub mod config;
 
 pub struct Compiler {
     pub globals: Globals,
     pub cm: Lrc<SourceMap>,
     handler: Handler,
+    config_caches: RefCell<HashMap<PathBuf, Arc<Config>>>,
 }
 
 impl Compiler {
@@ -29,7 +44,32 @@ impl Compiler {
             cm,
             handler,
             globals: Globals::new(),
+            config_caches: Default::default(),
         }
+    }
+
+    pub fn config_for_file(&self, path: &Path) -> Result<Arc<Config>, io::Error> {
+        assert!(!path.is_file());
+
+        let mut parent = path.parent();
+        while let Some(dir) = parent {
+            let swcrc = dir.join(".swcrc");
+            if let Some(c) = self.config_caches.borrow().get(&swcrc) {
+                return Ok(c.clone());
+            }
+
+            if swcrc.exists() {
+                let mut r = File::open(&swcrc)?;
+                let config: Config = serde_json::from_reader(r)?;
+                let arc = Arc::new(config);
+                self.config_caches.borrow_mut().insert(swcrc, arc.clone());
+                return Ok(arc);
+            }
+
+            parent = dir.parent();
+        }
+
+        Ok(Default::default())
     }
 
     pub fn run<F, T>(&self, op: F) -> T
@@ -56,8 +96,14 @@ impl Compiler {
     }
 
     /// TODO
-    pub fn parse_js_file(&self, syntax: Syntax, path: &Path) -> Result<Module, ()> {
+    pub fn parse_js_file(&self, syntax: Option<Syntax>, path: &Path) -> Result<Module, ()> {
         self.run(|| {
+            let syntax = syntax.unwrap_or_else(|| {
+                self.config_for_file(path)
+                    .map(|c| c.jsc.syntax)
+                    .expect("failed to load config")
+            });
+
             let fm = self.cm.load_file(path).expect("failed to load file");
 
             let session = ParseSess {
@@ -72,7 +118,7 @@ impl Compiler {
         })
     }
 
-    /// Returns code, sourcemap (if config is file)
+    /// Returns code, sourcemap
     pub fn emit_module(
         &self,
         module: &Module,

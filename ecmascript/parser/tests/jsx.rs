@@ -169,7 +169,10 @@ where
 
         let res = f(&mut Parser::new(
             Session { handler: &handler },
-            Syntax::Jsx,
+            ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
             (&*fm).into(),
         ))
         .map_err(|e| {
