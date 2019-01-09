@@ -13,14 +13,10 @@ description = "Speedy web compiler"
 name = "swc"
 
 [dependencies]
-rayon = "1.0.3"
-swc_atoms = { version = "0.1", path ="./atoms" }
-swc_common = { version = "0.1", path ="./common" }
-swc_ecmascript = { version = "0.1", path ="./ecmascript" }
+swc_atoms = { path ="./atoms" }
+swc_common = { path ="./common" }
+swc_ecmascript = { path ="./ecmascript" }
 sourcemap = "2.2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-fnv = "1"
 
 [profile.bench]
 lto = true
