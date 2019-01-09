@@ -14,6 +14,7 @@ struct InjectSelf {
     parser: Option<Ident>,
 }
 
+#[cfg(procmacro2_semver_exempt)]
 fn get_joinned_span(t: &ToTokens) -> Span {
     let tts: TokenStream = t.dump().into();
     let (mut first, mut last) = (None, None);
@@ -27,6 +28,23 @@ fn get_joinned_span(t: &ToTokens) -> Span {
     }
     let cs = Span::call_site();
     first.unwrap_or(cs).join(last.unwrap_or(cs)).unwrap_or(cs)
+}
+
+#[cfg(not(procmacro2_semver_exempt))]
+fn get_joinned_span(t: &ToTokens) -> Span {
+    let tts: TokenStream = t.dump().into();
+    let (mut first, mut last) = (None, None);
+    for tt in tts {
+        match first {
+            None => first = Some(tt.span()),
+            _ => {}
+        }
+
+        last = Some(tt.span());
+    }
+    let cs = Span::call_site();
+    // first.unwrap_or(cs).join(last.unwrap_or(cs)).unwrap_or(cs)
+    first.unwrap_or(cs)
 }
 
 fn parse_args<T, P>(t: TokenStream) -> Punctuated<T, P>
