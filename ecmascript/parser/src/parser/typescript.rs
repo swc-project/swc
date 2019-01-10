@@ -591,7 +591,7 @@ impl<'a, I: Input> Parser<'a, I> {
         debug_assert!(self.input.syntax().typescript());
 
         // Need to set `state.inType` so that we don't parse JSX in a type context.
-        assert!(self.ctx().in_type);
+        debug_assert!(self.ctx().in_type);
 
         let start = cur_pos!();
 

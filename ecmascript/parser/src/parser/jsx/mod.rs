@@ -368,7 +368,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {
         debug_assert!(self.input.syntax().jsx());
-        assert!({
+        debug_assert!({
             match *cur!(false)? {
                 Token::JSXText { .. } => true,
                 _ => false,

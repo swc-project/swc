@@ -63,7 +63,7 @@ impl<'a, I: Input> ParserInput<'a, I> {
     }
 
     pub fn peek(&mut self) -> Option<&Token> {
-        assert!(
+        debug_assert!(
             self.cur.is_some(),
             "parser should not call peek() without knowing current token"
         );

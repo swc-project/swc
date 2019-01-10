@@ -206,7 +206,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         assert_and_bump!("await");
-        assert!(self.ctx().in_async);
+        debug_assert!(self.ctx().in_async);
 
         if is!('*') {
             syntax_error!(SyntaxError::AwaitStar);

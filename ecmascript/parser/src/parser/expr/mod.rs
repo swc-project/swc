@@ -548,7 +548,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 expr,
             }));
         } else {
-            assert!(expr_or_spreads.len() >= 2);
+            debug_assert!(expr_or_spreads.len() >= 2);
 
             let mut exprs = Vec::with_capacity(expr_or_spreads.len());
             for expr in expr_or_spreads {
@@ -560,7 +560,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     ExprOrSpread { expr, .. } => exprs.push(expr),
                 }
             }
-            assert!(exprs.len() >= 2);
+            debug_assert!(exprs.len() >= 2);
 
             // span of sequence expression should not include '(', ')'
             let seq_expr = box Expr::Seq(SeqExpr {
@@ -1091,7 +1091,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let start = cur_pos!();
 
         assert_and_bump!("yield");
-        assert!(self.ctx().in_generator);
+        debug_assert!(self.ctx().in_generator);
 
         // Spec says
         // YieldExpression cannot be used within the FormalParameters of a generator

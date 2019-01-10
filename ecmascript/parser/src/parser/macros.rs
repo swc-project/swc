@@ -211,7 +211,7 @@ macro_rules! cur {
 
 macro_rules! peek {
     ($p:expr) => {{
-        assert!(
+        debug_assert!(
             $p.input.knows_cur(),
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
@@ -236,7 +236,7 @@ Current token is {:?}",
 
 macro_rules! bump {
     ($p:expr) => {{
-        assert!(
+        debug_assert!(
             $p.input.knows_cur(),
             "parser should not call bump() without knowing current token"
         );
