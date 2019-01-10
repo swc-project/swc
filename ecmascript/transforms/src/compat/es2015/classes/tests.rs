@@ -1,8 +1,12 @@
 use super::*;
 
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    Classes { helpers }
+}
+
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     basic,
     r#"class Test {
   constructor(name) {
@@ -33,7 +37,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     method_hoisted,
     r#"class Foo {
   foo(){
@@ -57,7 +61,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     static_method,
     r#"class Foo {
   static st(){}
@@ -78,7 +82,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     complex_with_consturctor,
     r#"class Foo {
   foo(){
@@ -104,7 +108,7 @@ test!(
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  Classes::default(),
+  tr(Default::default()),
   super_access,
   r#"class Parent {
   foo(a){}
@@ -158,7 +162,7 @@ var Child = function (_Parent) {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     method_override,
     r#"class Parent {
   foo(a){}
@@ -207,7 +211,7 @@ var Child = function (_Parent) {
 }(Parent);"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),Classes::default(), inherit_constructor, r#"class Parent {
+test!(::swc_ecma_parser::Syntax::default(),tr(Default::default()), inherit_constructor, r#"class Parent {
   constructor(){
   }
   foo(){}
@@ -239,7 +243,7 @@ var Child = function (_Parent) {
 }(Parent);"#);
 
 test!(::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     custom_constructor,
     r#"class Parent {
   constructor(){
@@ -278,7 +282,7 @@ var Child = function (_Parent) {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    Classes::default(),
+    tr(Default::default()),
     custom_constructor_super_order,
     r#"class Parent {
   constructor(){

@@ -40,6 +40,7 @@ mod tests;
 ///   return Test;
 /// }();
 /// ```
+#[derive(Default)]
 pub struct Classes {
     pub helpers: Arc<Helpers>,
 }

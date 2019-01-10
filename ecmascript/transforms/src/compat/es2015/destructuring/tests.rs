@@ -1,8 +1,12 @@
 use super::*;
 
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    Destructuring { helpers }
+}
+
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
     r#"let ref = foo ? foo : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
@@ -11,7 +15,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     obj_assign_expr,
     r#"let a;
 [{ a = 1 }] = foo"#,
@@ -22,7 +26,7 @@ var ref, ref1, ref2;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], 
@@ -31,7 +35,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref, ref1, ref2;
@@ -42,7 +46,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     assign_expr_completion_record,
     r#"var x, y;
 [x, y] = [1, 2];"#,
@@ -52,7 +56,7 @@ var ref;
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     assign_expr_pat,
     r#"var z = {};
 var { x: { y } = {} } = z;"#,
@@ -65,7 +69,7 @@ var ref = z ? z : _throw(new TypeError("Cannot destructure 'undefined' or 'null'
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     assign_expr,
     r#"console.log([x] = [123]);"#,
     r#"var ref;
@@ -94,7 +98,7 @@ test_exec!(
 );
 
 // test!(::swc_ecma_parser::Syntax::default(),
-//     Destructuring::default(),
+//     tr(Default::default()),
 //     empty_obj_pat_2,
 //     r#"var {} = null;"#,
 //     r#"var _ref = null;
@@ -103,7 +107,7 @@ test_exec!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['foo', 'hello', [', ', 'junk'], ['world']], a = ref[1], ref1 = ref[2],
@@ -114,7 +118,7 @@ test!(
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     es7_object_rest_builtins,
     r#"var z = {};
 var { ...x } = z;
@@ -148,7 +152,7 @@ _o;"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     es7_object_rest,
     r#"var z = {};
 var { ...x } = z;
@@ -182,7 +186,7 @@ _o;"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     export_variable,
     r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#,
     r#"
@@ -198,7 +202,7 @@ export { a, b, d, f };"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     for_in,
     r#"for (var [name, value] in obj) {
   print("Name: " + name + ", Value: " + value);
@@ -212,7 +216,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     for_let,
     r#"for (let [ i, n ] = range; ; ) {}"#,
     r#"for(let i = range[0], n = range[1];;){}"#
@@ -220,7 +224,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     for_of,
     r#"for (var [ name, before, after ] of test.expectation.registers) {
 
@@ -242,7 +246,7 @@ expect(rest).toEqual({});"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     babel_issue_3081,
     r#"let list = [1, 2, 3, 4];
 for (let i = 0, { length } = list; i < length; i++) {
@@ -273,7 +277,7 @@ expect(arr).toEqual([1, 2, 3]);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     babel_issue_5628,
     r#"
 (function () {
@@ -293,7 +297,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     babel_issue_5744,
     r#"if (true) [a, b] = [b, a];"#,
     r#"var ref;
@@ -303,7 +307,7 @@ if (true) ( ref = [b, a], a = ref[0], b = ref[1], ref);"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     babel_issue_6373,
     r#"import { NestedObjects } from "./some-module"
 
@@ -318,7 +322,7 @@ const Foo = _someModule.NestedObjects.Foo,
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     known_array,
     r#"var z = [];
 var [x, ...y] = z;"#,
@@ -329,7 +333,7 @@ var x = z[0],
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     member_expr,
     r#"[foo.foo, foo.bar] = [1, 2];"#,
     r#"var ref;
@@ -338,7 +342,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     mixed,
     r#"var rect = {};
 var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
@@ -350,7 +354,7 @@ var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     multiple,
     r#"var coords = [1, 2];
 var { x, y } = coords,
@@ -379,7 +383,7 @@ expect(rest).toEqual({ 2: "b", 3: "c" });"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     object_advanced,
     r#"var rect = {};
 var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
@@ -395,7 +399,7 @@ var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     object_basic,
     r#"var coords = [1, 2];
 var { x, y } = coords;"#,
@@ -419,7 +423,7 @@ expect(xs).toEqual([0, 1, 2]);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    Destructuring::default(),
+    tr(Default::default()),
     spread,
     r#"function isSorted([x, y, ...wow]) {
   if (!zs.length) return true
