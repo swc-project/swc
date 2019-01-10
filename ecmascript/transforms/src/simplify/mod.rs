@@ -12,7 +12,7 @@ pub fn simplifier() -> impl Fold<Module> + 'static {
     Simplifier.then(crate::fixer::fixer())
 }
 
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Default)]
 struct Simplifier;
 
 impl<T: StmtLike> Fold<Vec<T>> for Simplifier

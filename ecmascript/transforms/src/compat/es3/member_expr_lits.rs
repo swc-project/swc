@@ -18,7 +18,7 @@ use swc_common::{Fold, FoldWith};
 /// obj["const"] = "isKeyword";
 /// obj["var"] = "isKeyword";
 /// ```
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Default)]
 pub struct MemberExprLit;
 
 impl Fold<MemberExpr> for MemberExprLit {

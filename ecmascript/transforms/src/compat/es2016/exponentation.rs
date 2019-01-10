@@ -21,11 +21,10 @@ use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP
 ///
 /// x = Math.pow(x, 3);
 /// ```
-pub fn exponentation() -> impl Fold<Module> + Clone + Copy {
+pub fn exponentation() -> impl Fold<Module> {
     Exponentation
 }
 
-#[derive(Debug, Clone, Copy)]
 struct Exponentation;
 
 #[derive(Default)]

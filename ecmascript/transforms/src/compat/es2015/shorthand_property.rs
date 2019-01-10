@@ -35,7 +35,7 @@ use swc_common::{Fold, FoldWith};
 ///   }
 /// };
 /// ```
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Default)]
 pub struct Shorthand;
 
 impl Fold<Prop> for Shorthand {

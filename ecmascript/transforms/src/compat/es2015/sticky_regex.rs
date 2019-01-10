@@ -17,7 +17,6 @@ use swc_common::{Fold, FoldWith};
 /// ```js
 /// new RegExp("o+", "y")
 /// ```
-#[derive(Debug, Clone, Copy)]
 pub struct StickyRegex;
 
 impl Fold<Expr> for StickyRegex {
