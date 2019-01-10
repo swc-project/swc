@@ -37,7 +37,7 @@ pub struct Parser<'a, I: Input> {
     input: ParserInput<'a, I>,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Clone, Default)]
 struct State {
     labels: Vec<JsWord>,
     /// Start position of an assignment expression.

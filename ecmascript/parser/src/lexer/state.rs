@@ -7,7 +7,7 @@ use swc_common::BytePos;
 /// State of lexer.
 ///
 /// Ported from babylon.
-#[derive(Debug, Clone)]
+#[derive( Clone)]
 pub(super) struct State {
     pub is_expr_allowed: bool,
     pub octal_pos: Option<BytePos>,
@@ -434,7 +434,7 @@ impl State {
     }
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Clone, Default)]
 pub(crate) struct TokenContexts(pub SmallVec<[TokenContext; 32]>);
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according

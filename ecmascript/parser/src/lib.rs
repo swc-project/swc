@@ -115,7 +115,7 @@ mod lexer;
 mod parser;
 mod token;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Deserialize, Serialize)]
 #[serde(tag = "syntax")]
 pub enum Syntax {
     /// Standard
@@ -218,7 +218,7 @@ impl Syntax {
     }
 }
 
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive( Clone, Copy, Default, Serialize, Deserialize)]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
@@ -227,7 +227,7 @@ pub struct TsConfig {
     pub decorators: bool,
 }
 
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive( Clone, Copy, Default, Serialize, Deserialize)]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
@@ -266,7 +266,7 @@ pub struct EsConfig {
 }
 
 /// Syntatic context.
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Clone, Copy, Default)]
 pub(crate) struct Context {
     /// Is in module code?
     module: bool,
