@@ -153,7 +153,7 @@ pub(crate) enum SyntaxError {
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
-    #[inline(always)]
+    #[cold]
     fn from(e: ErrorToDiag<'a>) -> Self {
         Error {
             span: e.span,
@@ -163,7 +163,7 @@ impl<'a> From<ErrorToDiag<'a>> for Error {
 }
 
 impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
-    #[inline(always)]
+    #[cold]
     fn from(e: ErrorToDiag<'a>) -> Self {
         let msg: Cow<'static, _> = match e.error {
             LegacyDecimal => "Legacy decimal escape is not permitted in strict mode".into(),

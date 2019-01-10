@@ -1,7 +1,7 @@
 use std::str;
 use swc_common::{BytePos, SourceFile};
 
-#[derive(Debug, Clone)]
+#[derive( Clone)]
 pub struct SourceFileInput<'a> {
     fm: &'a SourceFile,
     start_pos: BytePos,

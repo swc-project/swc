@@ -40,7 +40,6 @@ mod tests;
 ///   return Test;
 /// }();
 /// ```
-#[derive(Debug, Clone, Default)]
 pub struct Classes {
     pub helpers: Arc<Helpers>,
 }
@@ -620,7 +619,6 @@ fn get_prototype_of(obj: &Expr) -> Expr {
 ///
 /// _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype),
 /// 'foo', this).call(this, a);
-#[derive(Debug)]
 struct SuperCallFolder<'a> {
     class_name: &'a Ident,
     helpers: Arc<Helpers>,

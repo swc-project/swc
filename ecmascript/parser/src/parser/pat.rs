@@ -291,7 +291,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 }
 ///
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug,Clone, Copy, PartialEq, Eq)]
 pub enum PatType {
     BindingPat,
     BindingElement,

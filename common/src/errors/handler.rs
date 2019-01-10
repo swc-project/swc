@@ -1,5 +1,5 @@
 use super::{Diagnostic, DiagnosticBuilder};
-use rustc_data_structures::sync::{Lrc, Send, Sync};
+use crate::sync::{Lrc, Send, Sync};
 pub use rustc_errors::{
     emitter::{Emitter, EmitterWriter},
     HandlerFlags,

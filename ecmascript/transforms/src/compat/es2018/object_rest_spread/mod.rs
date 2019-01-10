@@ -7,7 +7,9 @@ use std::{
     iter, mem,
     sync::{atomic::Ordering, Arc},
 };
-use swc_common::{Fold, FoldWith, Mark, MoveMap, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{
+    util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
+};
 
 #[cfg(test)]
 mod tests;

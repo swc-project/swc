@@ -7,7 +7,7 @@ use std::{
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 
 /// es2015 - `SpreadElement`
-#[derive(Debug, Clone, Default)]
+#[derive(Default)]
 pub struct Spread {
     pub helpers: Arc<Helpers>,
 }

@@ -6,7 +6,6 @@ pub fn fixer() -> impl Fold<Module> {
     Fixer
 }
 
-#[derive(Debug)]
 struct Fixer;
 
 impl Fold<Stmt> for Fixer {

@@ -38,7 +38,6 @@ pub fn destructuring(helpers: Arc<Helpers>) -> impl Fold<Module> + Fold<BlockStm
     Destructuring { helpers }
 }
 
-#[derive(Debug, Clone, Default)]
 struct Destructuring {
     helpers: Arc<Helpers>,
 }
@@ -382,7 +381,7 @@ impl Fold<Function> for Destructuring {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 struct AssignFolder {
     helpers: Arc<Helpers>,
     vars: Vec<VarDeclarator>,

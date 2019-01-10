@@ -49,7 +49,7 @@ struct ComputedProps {
     helpers: Arc<Helpers>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,
     used_define_enum_props: bool,

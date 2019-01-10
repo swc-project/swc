@@ -11,7 +11,7 @@ use swc_common::{
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
 /// Tracks used helper methods. (e.g. __extends)
-#[derive(Debug, Default)]
+#[derive(Default)]
 pub struct Helpers {
     /// `_extends({}, b)`
     pub extends: AtomicBool,

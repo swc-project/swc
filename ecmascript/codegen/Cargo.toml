@@ -11,10 +11,10 @@ description = "Ecmascript code generator for the swc project."
 bitflags = "1"
 swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.1", path ="../../common" }
-swc_ecma_ast = { version = "0.4", path ="../ast" }
+swc_ecma_ast = { version = "0.5", path ="../ast" }
 swc_ecma_codegen_macros = { version = "0.1", path ="./macros" }
 sourcemap = "2.2"
 
 [dev-dependencies]
 testing = { version = "0.1", path ="../../testing" }
-swc_ecma_parser = { version = "0.6", path ="../parser" }
+swc_ecma_parser = { version = "0.7", path ="../parser" }

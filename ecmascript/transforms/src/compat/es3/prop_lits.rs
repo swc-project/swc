@@ -28,7 +28,7 @@ use swc_common::{Fold, FoldWith};
 ///   foo: 1
 /// };
 /// ```
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Default)]
 pub struct PropertyLiteral;
 
 impl Fold<PropName> for PropertyLiteral {

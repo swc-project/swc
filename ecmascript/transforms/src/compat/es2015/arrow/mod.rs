@@ -57,7 +57,6 @@ pub fn arrow() -> impl Fold<Expr> {
     Arrow
 }
 
-#[derive(Debug, Clone, Copy)]
 struct Arrow;
 
 impl Fold<Expr> for Arrow {

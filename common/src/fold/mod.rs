@@ -1,8 +1,7 @@
 use self::and_then::AndThen;
-use crate::util::Map;
+use crate::util::{map::Map, move_map::MoveMap};
 use either::Either;
 use string_cache::{Atom, StaticAtomSet};
-use syntax::util::move_map::MoveMap;
 
 pub mod and_then;
 

@@ -2013,13 +2013,13 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 enum UnionOrIntersection {
     Union,
     Intersection,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 enum ParsingContext {
     EnumMembers,
     HeritageClauseElement,
@@ -2028,7 +2028,7 @@ enum ParsingContext {
     TypeParametersOrArguments,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive( Clone, Copy, PartialEq, Eq)]
 enum SignatureParsingMode {
     TSCallSignatureDeclaration,
     TSConstructSignatureDeclaration,

@@ -743,7 +743,6 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 }
 
-#[derive(Debug, PartialEq)]
 enum ForHead {
     For {
         init: Option<VarDeclOrExpr>,
