@@ -17,6 +17,7 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 mod tests;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Options {
     #[serde(default = "default_pragma")]
     pub pragma: String,
