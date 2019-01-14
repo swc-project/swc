@@ -1,4 +1,4 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::{helpers::Helpers, pass::Pass, util::ExprFactory};
 use ast::*;
 use std::{
     iter,
@@ -40,7 +40,7 @@ mod tests;
 ///   return Test;
 /// }();
 /// ```
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Classes {
     pub helpers: Arc<Helpers>,
 }

@@ -1,6 +1,8 @@
+use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
+#[derive(Clone, Copy)]
 pub struct BlockScopedFns;
 
 impl Fold<Stmt> for BlockScopedFns {

@@ -1,4 +1,4 @@
-use crate::util::ExprFactory;
+use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
@@ -9,6 +9,7 @@ pub fn parameters() -> Params {
     Params
 }
 
+#[derive(Clone, Copy)]
 pub struct Params;
 // prevent_recurse!(Params, Pat);
 

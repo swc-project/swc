@@ -1,6 +1,9 @@
 use ast::*;
 use fnv::{FnvHashMap, FnvHashSet};
-use std::cell::{Cell, RefCell};
+use std::{
+    cell::{Cell, RefCell},
+    rc::Rc,
+};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
@@ -17,7 +20,7 @@ pub trait Traverse {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Scope<'a> {
     /// Parent scope of this scope
     pub parent: Option<&'a Scope<'a>>,
@@ -40,7 +43,7 @@ pub struct Scope<'a> {
     pub declared_symbols: FnvHashMap<JsWord, SyntaxContext>,
     /* /// All children of the this scope
      * pub children: Vec<Scope<'a>>, */
-    pub(crate) ops: RefCell<Vec<ScopeOp>>,
+    pub(crate) ops: Rc<RefCell<Vec<ScopeOp>>>,
 }
 
 pub struct Operator<'a>(&'a [ScopeOp]);

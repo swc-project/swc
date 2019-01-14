@@ -2028,7 +2028,7 @@ enum ParsingContext {
     TypeParametersOrArguments,
 }
 
-#[derive( Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 enum SignatureParsingMode {
     TSCallSignatureDeclaration,
     TSConstructSignatureDeclaration,

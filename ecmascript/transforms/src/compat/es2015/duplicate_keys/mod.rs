@@ -1,3 +1,4 @@
+use crate::pass::Pass;
 use ast::*;
 use fnv::FnvHashSet;
 use swc_atoms::JsWord;
@@ -6,11 +7,11 @@ use swc_common::{Fold, FoldWith, Spanned};
 #[cfg(test)]
 mod tests;
 
-pub fn duplicate_keys() -> impl Fold<Expr> {
+pub fn duplicate_keys() -> impl Pass {
     DuplicateKeys
 }
 
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 struct DuplicateKeys;
 
 impl Fold<Expr> for DuplicateKeys {

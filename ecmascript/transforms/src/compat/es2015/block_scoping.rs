@@ -6,7 +6,7 @@ use swc_common::{Fold, FoldWith, Mark};
 pub fn block_scoping() -> BlockFolder<'static> {
     BlockFolder::new(Mark::fresh(Mark::root()), Scope::new(ScopeKind::Fn, None))
 }
-
+#[derive(Clone)]
 pub struct BlockFolder<'a> {
     mark: Mark,
     current: Scope<'a>,

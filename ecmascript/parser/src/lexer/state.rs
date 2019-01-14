@@ -7,7 +7,7 @@ use swc_common::BytePos;
 /// State of lexer.
 ///
 /// Ported from babylon.
-#[derive( Clone)]
+#[derive(Clone)]
 pub(super) struct State {
     pub is_expr_allowed: bool,
     pub octal_pos: Option<BytePos>,

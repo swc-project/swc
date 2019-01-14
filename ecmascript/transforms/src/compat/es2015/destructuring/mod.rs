@@ -1,5 +1,6 @@
 use crate::{
     helpers::Helpers,
+    pass::Pass,
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
@@ -34,10 +35,11 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring(helpers: Arc<Helpers>) -> impl Fold<Module> + Fold<BlockStmt> {
+pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass {
     Destructuring { helpers }
 }
 
+#[derive(Clone)]
 struct Destructuring {
     helpers: Arc<Helpers>,
 }

@@ -1,4 +1,4 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::{helpers::Helpers, pass::Pass, util::ExprFactory};
 use ast::*;
 use std::{
     iter,
@@ -8,7 +8,7 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct TemplateLiteral {
     pub helpers: Arc<Helpers>,
 }

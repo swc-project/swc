@@ -5,7 +5,7 @@ pub use self::{
     instanceof::InstanceOf, parameters::parameters, shorthand_property::Shorthand, spread::Spread,
     sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
-use crate::helpers::Helpers;
+use crate::{helpers::Helpers, pass::Pass};
 use ast::{Expr, Module, Stmt};
 use std::sync::Arc;
 use swc_common::Fold;
@@ -28,8 +28,8 @@ mod template_literal;
 mod typeof_symbol;
 
 /// Compiles es2015 to es5.
-pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
-    fn exprs(helpers: &Arc<Helpers>) -> impl Fold<Expr> {
+pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass {
+    fn exprs(helpers: &Arc<Helpers>) -> impl Pass {
         chain_at!(
             Expr,
             arrow(),
@@ -51,7 +51,7 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Fold<Module> {
         )
     }
 
-    fn stmts(helpers: &Arc<Helpers>) -> impl Fold<Stmt> {
+    fn stmts(helpers: &Arc<Helpers>) -> impl Pass {
         chain_at!(
             Stmt,
             exprs(helpers),

@@ -1,4 +1,7 @@
-use crate::util::{ExprFactory, StmtLike};
+use crate::{
+    pass::Pass,
+    util::{ExprFactory, StmtLike},
+};
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -21,10 +24,10 @@ use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP
 ///
 /// x = Math.pow(x, 3);
 /// ```
-pub fn exponentation() -> impl Fold<Module> {
+pub fn exponentation() -> impl Pass {
     Exponentation
 }
-
+#[derive(Clone, Copy)]
 struct Exponentation;
 
 #[derive(Default)]

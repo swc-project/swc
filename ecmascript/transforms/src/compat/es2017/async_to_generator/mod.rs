@@ -1,5 +1,6 @@
 use crate::{
     helpers::Helpers,
+    pass::Pass,
     util::{contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
@@ -32,11 +33,11 @@ mod tests;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Fold<Module> {
+pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Pass {
     AsyncToGenerator { helpers }
 }
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 struct AsyncToGenerator {
     helpers: Arc<Helpers>,
 }

@@ -1,3 +1,4 @@
+use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
@@ -23,6 +24,7 @@ pub fn function_name() -> FnName {
     FnName
 }
 
+#[derive(Clone, Copy)]
 pub struct FnName;
 
 struct Renamer {

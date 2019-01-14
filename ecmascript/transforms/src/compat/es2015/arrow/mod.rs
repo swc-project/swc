@@ -1,4 +1,7 @@
-use crate::util::{contains_this_expr, ExprFactory};
+use crate::{
+    pass::Pass,
+    util::{contains_this_expr, ExprFactory},
+};
 use ast::*;
 use swc_common::{Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 
@@ -53,10 +56,11 @@ mod tests;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Fold<Expr> {
+pub fn arrow() -> impl Pass {
     Arrow
 }
 
+#[derive(Clone, Copy)]
 struct Arrow;
 
 impl Fold<Expr> for Arrow {

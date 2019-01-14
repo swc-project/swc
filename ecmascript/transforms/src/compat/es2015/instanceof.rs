@@ -28,6 +28,7 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith};
 ///
 /// _instanceof(foo, Bar);
 /// ```
+#[derive(Clone)]
 pub struct InstanceOf {
     pub helpers: Arc<Helpers>,
 }

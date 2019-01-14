@@ -218,7 +218,7 @@ impl Syntax {
     }
 }
 
-#[derive( Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Clone, Copy, Default, Serialize, Deserialize)]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
@@ -227,7 +227,7 @@ pub struct TsConfig {
     pub decorators: bool,
 }
 
-#[derive( Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Clone, Copy, Default, Serialize, Deserialize)]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,

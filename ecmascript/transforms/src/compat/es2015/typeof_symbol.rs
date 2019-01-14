@@ -20,6 +20,7 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith};
 ///
 /// _typeof(Symbol()) === "symbol";
 /// ```
+#[derive(Clone)]
 pub struct TypeOfSymbol {
     pub helpers: Arc<Helpers>,
 }

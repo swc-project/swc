@@ -1,4 +1,7 @@
-use crate::util::{ExprFactory, StmtLike};
+use crate::{
+    pass::Pass,
+    util::{ExprFactory, StmtLike},
+};
 use ast::*;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -39,10 +42,11 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn for_of() -> impl Fold<Module> {
+pub fn for_of() -> impl Pass {
     ForOf
 }
 
+#[derive(Clone, Copy)]
 struct ForOf;
 
 /// Real folder.

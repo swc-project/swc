@@ -18,7 +18,7 @@ use swc_common::Fold;
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct ReservedWord;
 
 impl Fold<Ident> for ReservedWord {
