@@ -1,4 +1,3 @@
-use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, FoldWith};
 

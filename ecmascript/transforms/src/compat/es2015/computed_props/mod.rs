@@ -41,7 +41,7 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(helpers: Arc<Helpers>) -> impl Pass {
+pub fn computed_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
     ComputedProps { helpers }
 }
 

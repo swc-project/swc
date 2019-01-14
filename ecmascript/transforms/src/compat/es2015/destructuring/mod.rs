@@ -35,7 +35,7 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass {
+pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass + Clone {
     Destructuring { helpers }
 }
 

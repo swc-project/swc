@@ -42,7 +42,7 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn for_of() -> impl Pass {
+pub fn for_of() -> impl Pass + Clone + Copy {
     ForOf
 }
 

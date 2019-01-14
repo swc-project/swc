@@ -56,7 +56,7 @@ mod tests;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Pass {
+pub fn arrow() -> impl Pass + Clone + Copy {
     Arrow
 }
 

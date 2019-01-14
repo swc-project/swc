@@ -7,7 +7,7 @@ use swc_common::{Fold, FoldWith, Spanned};
 #[cfg(test)]
 mod tests;
 
-pub fn duplicate_keys() -> impl Pass {
+pub fn duplicate_keys() -> impl Pass + Clone + Copy {
     DuplicateKeys
 }
 

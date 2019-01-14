@@ -16,6 +16,7 @@ swc_ecma_parser = { path ="../parser" }
 either = "1.5"
 fnv = "1"
 serde = { version = "1", features = ["derive"] }
+objekt = "0.1"
 
 [dev-dependencies]
 testing = { path ="../../testing" }

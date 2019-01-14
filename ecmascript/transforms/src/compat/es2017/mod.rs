@@ -4,6 +4,6 @@ use std::sync::Arc;
 
 mod async_to_generator;
 
-pub fn es2017(helpers: &Arc<Helpers>) -> impl Pass {
+pub fn es2017(helpers: &Arc<Helpers>) -> impl Pass + Clone {
     async_to_generator(helpers.clone())
 }

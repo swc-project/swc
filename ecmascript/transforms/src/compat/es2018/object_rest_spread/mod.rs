@@ -1,5 +1,6 @@
 use crate::{
     helpers::Helpers,
+    pass::Pass,
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
@@ -15,7 +16,7 @@ use swc_common::{
 mod tests;
 
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Fold<Module> {
+pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Pass + Clone {
     chain!(
         ObjectRest {
             helpers: helpers.clone(),
@@ -24,6 +25,7 @@ pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Fold<Module> {
     )
 }
 
+#[derive(Clone)]
 struct ObjectRest {
     helpers: Arc<Helpers>,
 }
@@ -899,6 +901,7 @@ fn simplify_pat(pat: Pat) -> Pat {
     pat.fold_with(&mut PatSimplifier)
 }
 
+#[derive(Clone)]
 struct ObjectSpread {
     helpers: Arc<Helpers>,
 }

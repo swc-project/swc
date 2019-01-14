@@ -8,7 +8,6 @@ pub use self::{
 use crate::{helpers::Helpers, pass::Pass};
 use ast::{Expr, Module, Stmt};
 use std::sync::Arc;
-use swc_common::Fold;
 
 mod arrow;
 mod block_scoped_fn;
@@ -28,8 +27,8 @@ mod template_literal;
 mod typeof_symbol;
 
 /// Compiles es2015 to es5.
-pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass {
-    fn exprs(helpers: &Arc<Helpers>) -> impl Pass {
+pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
+    fn exprs(helpers: &Arc<Helpers>) -> impl Pass + Clone {
         chain_at!(
             Expr,
             arrow(),
@@ -51,7 +50,7 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass {
         )
     }
 
-    fn stmts(helpers: &Arc<Helpers>) -> impl Pass {
+    fn stmts(helpers: &Arc<Helpers>) -> impl Pass + Clone {
         chain_at!(
             Stmt,
             exprs(helpers),

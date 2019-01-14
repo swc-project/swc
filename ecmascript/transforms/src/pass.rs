@@ -15,9 +15,9 @@ macro_rules! mk_impl {
 macro_rules! mk_trait {
     ($($T:ty,)*) => {
         /// Crazy trait to make traversal fast again.
-        pub trait Pass: Clone + $( ::swc_common::Fold<$T> + )* {}
+        pub trait Pass: objekt::Clone + $( ::swc_common::Fold<$T> + )* {}
         impl<P> Pass for P
-            where P: ?Sized + Clone + $( ::swc_common::Fold<$T> +)*{
+            where P: ?Sized + objekt::Clone + $( ::swc_common::Fold<$T> +)*{
 
         }
 

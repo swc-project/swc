@@ -31,6 +31,7 @@ extern crate test;
 #[macro_use]
 extern crate testing;
 extern crate either;
+extern crate objekt;
 extern crate serde;
 
 pub use self::{

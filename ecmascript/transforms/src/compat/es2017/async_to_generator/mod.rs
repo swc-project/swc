@@ -33,7 +33,7 @@ mod tests;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Pass {
+pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Pass + Clone {
     AsyncToGenerator { helpers }
 }
 
