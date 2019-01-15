@@ -573,12 +573,6 @@ fn empty() {
     assert_eq!(lex(Syntax::default(), ""), vec![]);
 }
 
-#[test]
-#[ignore]
-fn invalid_number_failure() {
-    unimplemented!()
-}
-
 // #[test]
 // #[ignore]
 // fn leading_comment() {

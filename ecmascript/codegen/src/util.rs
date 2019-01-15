@@ -211,7 +211,7 @@ impl StartsWithAlphaNum for Expr {
 
 impl StartsWithAlphaNum for Pat {
     fn starts_with_alpha_num(&self) -> bool {
-        unimplemented!()
+        unimplemented!("starts_with_alpha_num for Pat")
     }
 }
 

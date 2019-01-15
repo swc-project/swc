@@ -738,5 +738,5 @@ pub(crate) fn to_u32(_d: f64) -> u32 {
     // // returning (int)d does not work as d can be outside int range
     // // but the result must always be 32 lower bits of l
     // return (int) l;
-    unimplemented!()
+    unimplemented!("to_u32")
 }
