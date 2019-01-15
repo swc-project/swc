@@ -1,6 +1,6 @@
 //! Ported from closure compiler.
 use self::expr::SimplifyExpr;
-use crate::util::*;
+use crate::{pass::Pass, util::*};
 use ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
@@ -8,11 +8,11 @@ mod expr;
 #[cfg(test)]
 mod tests;
 
-pub fn simplifier(enable: bool) -> impl Fold<Module> + 'static {
+pub fn simplifier(enable: bool) -> impl Pass + Clone + Copy + 'static {
     Simplifier { enable }
 }
 
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 struct Simplifier {
     enable: bool,
 }

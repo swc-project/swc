@@ -1,3 +1,4 @@
+use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, DUMMY_SP};
 
@@ -7,10 +8,10 @@ mod tests;
 /// `@babel/plugin-transform-react-jsx-self`
 ///
 /// Add a __self prop to all JSX Elements
-pub fn jsx_self(dev: bool) -> impl Fold<Module> {
+pub fn jsx_self(dev: bool) -> impl Pass + Clone + Copy {
     JsxSelf { dev }
 }
-
+#[derive(Clone, Copy)]
 struct JsxSelf {
     dev: bool,
 }

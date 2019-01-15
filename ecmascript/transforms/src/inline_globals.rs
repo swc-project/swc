@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
 
+#[derive(Clone)]
 pub struct InlineGlobals {
     pub envs: HashMap<JsWord, Expr>,
     pub globals: HashMap<JsWord, Expr>,

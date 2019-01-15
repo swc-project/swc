@@ -1,9 +1,12 @@
-use crate::scope::{Scope, ScopeAnalyzer, ScopeOp, Traverse};
+use crate::{
+    pass::Pass,
+    scope::{Scope, ScopeAnalyzer, ScopeOp, Traverse},
+};
 use ast::*;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
-pub struct Hygiene;
+struct Hygiene;
 
 impl Hygiene {
     fn add_declared_ref(&self, scope: &mut Scope, ident: Ident) {
@@ -57,7 +60,7 @@ impl Traverse for Hygiene {
     }
 }
 
-pub fn hygiene() -> impl Fold<Module> {
+pub fn hygiene() -> impl Pass + Clone + Copy {
     struct MarkClearer;
     impl Fold<Span> for MarkClearer {
         fn fold(&mut self, span: Span) -> Span {
@@ -65,6 +68,7 @@ pub fn hygiene() -> impl Fold<Module> {
         }
     }
 
+    #[derive(Clone, Copy)]
     struct Folder;
     impl Fold<Module> for Folder {
         fn fold(&mut self, module: Module) -> Module {
@@ -78,6 +82,7 @@ pub fn hygiene() -> impl Fold<Module> {
 
     Folder
 }
+
 #[cfg(test)]
 mod tests {
     use super::*;

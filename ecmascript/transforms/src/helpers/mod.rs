@@ -45,6 +45,7 @@ pub struct Helpers {
     pub object_spread: AtomicBool,
 }
 
+#[derive(Clone)]
 pub struct InjectHelpers {
     pub cm: Lrc<SourceMap>,
     pub helpers: Arc<Helpers>,

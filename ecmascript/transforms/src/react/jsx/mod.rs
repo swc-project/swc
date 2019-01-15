@@ -1,4 +1,4 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::{helpers::Helpers, pass::Pass, util::ExprFactory};
 use ast::*;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -61,7 +61,7 @@ fn default_throw_if_namespace() -> bool {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl Fold<Module> {
+pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl Pass + Clone {
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
     let session = Session { handler: &handler };
@@ -88,6 +88,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
     }
 }
 
+#[derive(Clone)]
 struct Jsx {
     pragma: ExprOrSuper,
     pragma_frag: ExprOrSpread,

@@ -1,11 +1,12 @@
-use crate::util::ExprFactory;
+use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
 use swc_common::{Fold, FoldWith, Spanned};
 
-pub fn fixer() -> impl Fold<Module> {
+pub fn fixer() -> impl Pass + Clone {
     Fixer
 }
 
+#[derive(Clone, Copy)]
 struct Fixer;
 
 impl Fold<Stmt> for Fixer {

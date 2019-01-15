@@ -1,11 +1,13 @@
+use crate::pass::Pass;
 use ast::*;
 use swc_common::Fold;
 
 /// Strips type annotatiobs out.
-pub fn strip() -> impl Fold<Module> {
+pub fn strip() -> impl Pass + Clone + Copy {
     Strip
 }
 
+#[derive(Clone, Copy)]
 struct Strip;
 
 macro_rules! to_none {

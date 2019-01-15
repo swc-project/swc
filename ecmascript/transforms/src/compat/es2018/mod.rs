@@ -1,12 +1,10 @@
 pub use self::object_rest_spread::object_rest_spread;
 
-use crate::helpers::Helpers;
-use ast::Module;
+use crate::{helpers::Helpers, pass::Pass};
 use std::sync::Arc;
-use swc_common::Fold;
 
 mod object_rest_spread;
 
-pub fn es2018(helpers: &Arc<Helpers>) -> impl Fold<Module> {
+pub fn es2018(helpers: &Arc<Helpers>) -> impl Pass + Clone {
     object_rest_spread(helpers.clone())
 }

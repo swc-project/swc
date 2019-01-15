@@ -1,3 +1,4 @@
+use crate::pass::Pass;
 use ast::*;
 use swc_common::{sync::Lrc, FileName, Fold, SourceMap, DUMMY_SP};
 
@@ -5,10 +6,11 @@ use swc_common::{sync::Lrc, FileName, Fold, SourceMap, DUMMY_SP};
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Fold<Module> {
+pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Pass + Clone {
     JsxSrc { cm, dev }
 }
 
+#[derive(Clone)]
 struct JsxSrc {
     cm: Lrc<SourceMap>,
     dev: bool,

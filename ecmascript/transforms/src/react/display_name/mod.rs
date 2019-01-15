@@ -1,3 +1,4 @@
+use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
@@ -7,10 +8,11 @@ mod tests;
 /// `@babel/plugin-transform-react-display-name`
 ///
 /// Add displayName to React.createClass calls
-pub fn display_name() -> impl Fold<Module> {
+pub fn display_name() -> impl Pass + Clone + Copy {
     DisplayName
 }
 
+#[derive(Clone, Copy)]
 struct DisplayName;
 
 impl Fold<VarDeclarator> for DisplayName {
