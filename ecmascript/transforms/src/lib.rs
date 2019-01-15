@@ -18,6 +18,8 @@ extern crate swc_ecma_ast as ast;
 #[cfg(test)]
 extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
+#[macro_use]
+extern crate lazy_static;
 #[cfg(test)]
 #[macro_use]
 extern crate pretty_assertions;

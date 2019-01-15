@@ -6,7 +6,7 @@ use std::sync::{
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Fold, SourceMap,
+    FileName, FilePathMapping, Fold, SourceMap,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
@@ -53,36 +53,42 @@ pub struct InjectHelpers {
 
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<Stmt> {
+        lazy_static! {
+            static ref CM: Lrc<SourceMap> = { Lrc::new(SourceMap::new(FilePathMapping::empty())) };
+            static ref HANDLER: Handler =
+                { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
+            static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
+        }
+
         let mut buf = vec![];
 
-        let handler =
-            Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(self.cm.clone()));
-
-        let session = Session { handler: &handler };
-
-        let mut add = |name: &str, flag: &AtomicBool, code: &'static str| {
-            let enable = flag.load(Ordering::Relaxed);
-            if !enable {
-                return;
-            }
-            let fm = self
-                .cm
-                .new_source_file(FileName::Custom(name.into()), code.into());
-
-            let mut stmts = Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
-                .parse_script()
-                .map_err(|e| {
-                    e.emit();
-                    ()
-                })
-                .unwrap();
-
-            buf.append(&mut stmts);
-        };
         macro_rules! add {
-            ($name:tt,$b:expr) => {
-                add($name, $b, include_str!($name));
-            };
+            ($name:tt, $b:expr) => {{
+                lazy_static! {
+                    static ref STMTS: Vec<Stmt> = {
+                        let code = include_str!($name);
+                        let fm = CM.new_source_file(
+                            FileName::Custom(stringify!($name).into()),
+                            code.into(),
+                        );
+
+                        let stmts =
+                            Parser::new(*SESSION, Syntax::default(), SourceFileInput::from(&*fm))
+                                .parse_script()
+                                .map_err(|e| {
+                                    e.emit();
+                                    ()
+                                })
+                                .unwrap();
+                        stmts
+                    };
+                }
+
+                let enable = $b.load(Ordering::Relaxed);
+                if enable {
+                    buf.extend_from_slice(&STMTS)
+                }
+            }};
         }
 
         add!("_extends.js", &self.helpers.extends);

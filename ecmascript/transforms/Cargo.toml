@@ -15,8 +15,9 @@ swc_ecma_ast = { path ="../ast" }
 swc_ecma_parser = { path ="../parser" }
 either = "1.5"
 fnv = "1"
-serde = { version = "1", features = ["derive"] }
+lazy_static = "1"
 objekt = "0.1"
+serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
 testing = { path ="../../testing" }
