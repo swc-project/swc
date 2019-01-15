@@ -8,18 +8,24 @@ mod expr;
 #[cfg(test)]
 mod tests;
 
-pub fn simplifier() -> impl Fold<Module> + 'static {
-    Simplifier.then(crate::fixer::fixer())
+pub fn simplifier(enable: bool) -> impl Fold<Module> + 'static {
+    Simplifier { enable }
 }
 
 #[derive(Default)]
-struct Simplifier;
+struct Simplifier {
+    enable: bool,
+}
 
 impl<T: StmtLike> Fold<Vec<T>> for Simplifier
 where
     Self: Fold<T>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        if !self.enable {
+            return stmts;
+        }
+
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt_like in stmts {
