@@ -72,14 +72,10 @@ pub fn derive_string_enum(input: proc_macro::TokenStream) -> proc_macro::TokenSt
         .expect("failed to parse derive input");
     let mut tts = TokenStream::new();
 
-    quote_spanned!(def_site() => extern crate std;).to_tokens(&mut tts);
-
     make_as_str(&input).to_tokens(&mut tts);
 
-    derive_fmt(&input, quote_spanned!(def_site() => std::fmt::Debug)).to_tokens(&mut tts);
-    derive_fmt(&input, quote_spanned!(def_site() => std::fmt::Display)).to_tokens(&mut tts);
-
-    // println!("Expanded:{}", tokens);
+    derive_fmt(&input, quote_spanned!(call_site() => std::fmt::Debug)).to_tokens(&mut tts);
+    derive_fmt(&input, quote_spanned!(call_site() => std::fmt::Display)).to_tokens(&mut tts);
 
     tts.into()
 }

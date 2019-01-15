@@ -29,6 +29,7 @@ mod visit;
 #[proc_macro_derive(Fold, attributes(fold))]
 pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+    let name = input.ident.clone();
 
     let fold_item = self::fold::derive(input.clone());
     let visit_item = self::visit::derive(input);
@@ -36,11 +37,14 @@ pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         Vars {
             fold_item: fold_item,
             visit_item: visit_item,
+            NAME: Ident::new(&format!("IMPL_FOLD_FOR_{}",name), Span::call_site()),
         },
         {
-            extern crate swc_common;
-            fold_item
-            visit_item
+            const NAME: () = {
+                extern crate swc_common;
+                fold_item
+                visit_item
+            };
         }
     ));
 
@@ -50,10 +54,15 @@ pub fn derive_fold(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 #[proc_macro_derive(Spanned, attributes(span))]
 pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+    let name = input.ident.clone();
 
     let item = self::spanned::derive(input);
 
-    print_item("derive(Spanned)", item.dump())
+    print_item(
+        "derive(Spanned)",
+        &format!("IMPL_SPANNED_FOR_{}", name),
+        item.dump(),
+    )
 }
 
 #[proc_macro_derive(FromVariant)]
@@ -104,11 +113,22 @@ pub fn ast_node(
 }
 
 /// Workarounds https://github.com/rust-lang/rust/issues/44925
-fn print_item<T: Into<TokenStream>>(name: &'static str, item: T) -> proc_macro::TokenStream {
-    let item =
-        Quote::new(def_site::<Span>()).quote_with(smart_quote!(Vars { item: item.into() }, {
-            extern crate swc_common;
-            item
-        }));
+fn print_item<T: Into<TokenStream>>(
+    name: &'static str,
+    const_name: &str,
+    item: T,
+) -> proc_macro::TokenStream {
+    let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
+        Vars {
+            item: item.into(),
+            NAME: Ident::new(&const_name, Span::call_site())
+        },
+        {
+            const NAME: () = {
+                extern crate swc_common;
+                item
+            };
+        }
+    ));
     print(name, item)
 }
