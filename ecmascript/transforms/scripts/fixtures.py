@@ -28,13 +28,13 @@ for name in fm:
     m = fm[name]
     print('// {}'.format(name))
     if 'exec.js' in m:
-        print('test_exec!(tr(Default::default()), {}, r#"\n{}\n"#)'.format(
+        print('test_exec!(tr(Default::default()), {}, r#"\n{}\n"#);'.format(
             name, m['exec.js']
         ))
         pass
     elif 'options.json' in m:
         pass
     else:
-        print('test!(tr(Default::default()), {}, r#"\n{}\n"#, r#"\n{}\n"#)'.format(
+        print('test!(tr(Default::default()), {}, r#"\n{}\n"#, r#"\n{}\n"#);'.format(
             name, m['input.js'], m['output.js']
         ))

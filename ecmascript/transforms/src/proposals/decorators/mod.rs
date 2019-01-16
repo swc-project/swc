@@ -49,3 +49,5 @@ pub fn decorators() -> impl Fold<Module> {
 }
 
 struct Decorators;
+
+impl Fold<Stmt> for Decorators {}

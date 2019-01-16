@@ -22,7 +22,7 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
-        let out = ::testing::run_test(true, |cm, handler| op(&mut Tester { cm, handler }));
+        let out = ::testing::run_test(false, |cm, handler| op(&mut Tester { cm, handler }));
 
         match out {
             Ok(()) => {}
