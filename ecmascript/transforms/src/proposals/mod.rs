@@ -1,3 +1,3 @@
-pub use self::decorator::decorator;
+pub use self::decorators::decorators;
 
-mod decorator;
+mod decorators;
