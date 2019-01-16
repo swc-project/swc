@@ -891,6 +891,11 @@ fn jsx_04() {
     );
 }
 
+#[test]
+fn max_integer() {
+    lex_tokens(::Syntax::default(), "1.7976931348623157e+308");
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;

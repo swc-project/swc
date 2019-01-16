@@ -293,3 +293,14 @@ fn array_lit() {
         })
     );
 }
+
+#[test]
+fn max_integer() {
+    assert_eq_ignore_span!(
+        expr("1.7976931348623157e+308"),
+        box Expr::Lit(Lit::Num(Number {
+            span,
+            value: 1.7976931348623157e+308
+        }))
+    )
+}

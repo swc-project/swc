@@ -613,7 +613,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = self.cur_pos();
-        match self.read_int(16, count, raw)? {
+        match self.read_int_u32(16, count, raw)? {
             Some(val) => match char::from_u32(val) {
                 Some(c) => Ok(c),
                 None => self.error(start, SyntaxError::NonUtf8Char { val })?,
@@ -625,7 +625,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read `CodePoint`.
     fn read_code_point(&mut self, mut raw: &mut Raw) -> LexResult<char> {
         let start = self.cur_pos();
-        let val = self.read_int(16, 0, raw)?;
+        let val = self.read_int_u32(16, 0, raw)?;
         match val {
             Some(val) if 0x10FFFF >= val => match char::from_u32(val) {
                 Some(c) => Ok(c),
