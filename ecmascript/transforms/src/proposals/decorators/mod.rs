@@ -1,5 +1,7 @@
+use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
-use swc_common::Fold;
+use std::sync::Arc;
+use swc_common::{Fold, FoldWith, Mark, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -44,10 +46,163 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn decorators() -> impl Fold<Module> {
-    Decorators
+pub fn decorators(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    Decorators { helpers }
 }
 
-struct Decorators;
+struct Decorators {
+    helpers: Arc<Helpers>,
+}
 
-impl Fold<Stmt> for Decorators {}
+impl Fold<Stmt> for Decorators {
+    fn fold(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children(self);
+
+        match stmt {
+            Stmt::Decl(Decl::Class(ClassDecl {
+                ident,
+                declare: false,
+                mut class,
+            })) => {
+                if class.decorators.is_empty() {
+                    return Stmt::Decl(Decl::Class(ClassDecl {
+                        ident,
+                        declare: false,
+                        class,
+                    }));
+                }
+                let mark = Mark::fresh(Mark::root());
+                let initialize = quote_ident!(DUMMY_SP.apply_mark(mark), "_initialize");
+
+                {
+                    // Inject initialize
+                    let pos = class.body.iter().position(|member| match *member {
+                        ClassMember::Constructor(Constructor { body: Some(..), .. }) => true,
+                        _ => false,
+                    });
+
+                    let initialize_call = Stmt::Expr(box Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: initialize.clone().as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    }));
+
+                    match pos {
+                        Some(pos) => match class.body[pos] {
+                            ClassMember::Constructor(ref mut c) => match c.body {
+                                Some(ref mut body) => body.stmts.push(initialize_call),
+                                None => unreachable!(),
+                            },
+                            _ => unreachable!(),
+                        },
+                        None => {
+                            class.body.push(ClassMember::Constructor(Constructor {
+                                span: DUMMY_SP,
+                                key: PropName::Ident(quote_ident!("constructor")),
+                                is_optional: false,
+                                accessibility: Default::default(),
+                                params: vec![],
+                                body: Some(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![initialize_call],
+                                }),
+                            }));
+                        }
+                    }
+                };
+
+                let decorate_call = box Expr::Call(make_decorate_call(
+                    class.decorators,
+                    FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+
+                            params: vec![Pat::Ident(initialize.clone())],
+
+                            decorators: Default::default(),
+                            is_async: false,
+                            is_generator: false,
+
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![
+                                    // 'use strict';
+                                    Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!("use strict")))),
+                                    Stmt::Decl(Decl::Class(ClassDecl {
+                                        ident: ident.clone(),
+                                        class: Class {
+                                            decorators: Default::default(),
+                                            ..class
+                                        },
+                                        declare: false,
+                                    })),
+                                    Stmt::Return(ReturnStmt {
+                                        span: DUMMY_SP,
+                                        arg: Some(box Expr::Object(ObjectLit {
+                                            span: DUMMY_SP,
+                                            props: vec![
+                                                PropOrSpread::Prop(box Prop::KeyValue(
+                                                    KeyValueProp {
+                                                        key: PropName::Ident(quote_ident!("F")),
+                                                        value: box Expr::Ident(ident.clone()),
+                                                    },
+                                                )),
+                                                PropOrSpread::Prop(box Prop::KeyValue(
+                                                    KeyValueProp {
+                                                        key: PropName::Ident(quote_ident!("d")),
+                                                        value: box Expr::Array(ArrayLit {
+                                                            span: DUMMY_SP,
+                                                            elems: vec![],
+                                                        }),
+                                                    },
+                                                )),
+                                            ],
+                                        })),
+                                    }),
+                                ],
+                            }),
+
+                            return_type: Default::default(),
+                            type_params: Default::default(),
+                        },
+                    }
+                    .as_arg(),
+                ));
+
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(ident),
+                        definite: false,
+                        init: Some(decorate_call),
+                    }],
+                }))
+            }
+            _ => stmt,
+        }
+    }
+}
+
+fn make_decorate_call(decorators: Vec<Decorator>, arg: ExprOrSpread) -> CallExpr {
+    CallExpr {
+        span: DUMMY_SP,
+        callee: member_expr!(DUMMY_SP, babelHelpers.decorate).as_callee(),
+        args: vec![
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: decorators
+                    .into_iter()
+                    .map(|dec| Some(dec.expr.as_arg()))
+                    .collect(),
+            }
+            .as_arg(),
+            arg,
+        ],
+        type_args: Default::default(),
+    }
+}
