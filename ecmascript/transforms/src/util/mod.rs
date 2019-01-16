@@ -17,7 +17,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Visit, VisitWith};
+use swc_common::{Spanned, Visit, VisitWith};
 
 mod factory;
 mod value;
@@ -739,4 +739,14 @@ pub(crate) fn to_u32(_d: f64) -> u32 {
     // // but the result must always be 32 lower bits of l
     // return (int) l;
     unimplemented!("to_u32")
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
+    let span = expr.span();
+    match *expr {
+        Expr::Ident(ref ident) => Ident::new(format!("_{}", ident.sym).into(), span),
+        Expr::Member(ref member) => alias_ident_for(&member.prop, default),
+        _ => quote_ident!(default),
+    }
 }

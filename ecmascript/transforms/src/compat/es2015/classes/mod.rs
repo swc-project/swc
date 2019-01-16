@@ -1,4 +1,7 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::{
+    helpers::Helpers,
+    util::{alias_ident_for, ExprFactory},
+};
 use ast::*;
 use std::{
     iter,
@@ -133,15 +136,11 @@ impl Classes {
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
-        fn determine_super_ident(sc: &Expr) -> Ident {
-            match *sc {
-                Expr::Ident(ref i) => quote_ident!(i.span, format!("_{}", i.sym)),
-                Expr::Member(ref member) => determine_super_ident(&member.prop),
-                _ => quote_ident!("_Super"),
-            }
-        }
         // Ident of the super class *inside* function.
-        let super_ident = class.super_class.as_ref().map(|e| determine_super_ident(e));
+        let super_ident = class
+            .super_class
+            .as_ref()
+            .map(|e| alias_ident_for(e, "_Super"));
 
         let (params, args) = if let Some(ref super_ident) = super_ident {
             (
