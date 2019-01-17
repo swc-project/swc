@@ -156,11 +156,11 @@ impl<'a, I: Input> ParserInput<'a, I> {
     }
 
     /// Returns span of the previous token.
-    pub const fn prev_span(&self) -> Span {
+    pub fn prev_span(&self) -> Span {
         self.prev_span
     }
 
-    pub const fn get_ctx(&self) -> Context {
+    pub fn get_ctx(&self) -> Context {
         self.iter.ctx
     }
 
@@ -168,7 +168,7 @@ impl<'a, I: Input> ParserInput<'a, I> {
         self.iter.ctx = ctx;
     }
 
-    pub const fn syntax(&self) -> Syntax {
+    pub fn syntax(&self) -> Syntax {
         self.iter.syntax
     }
 
@@ -176,7 +176,7 @@ impl<'a, I: Input> ParserInput<'a, I> {
         self.iter.set_expr_allowed(allow)
     }
 
-    pub(crate) const fn token_context(&self) -> &lexer::TokenContexts {
+    pub(crate) fn token_context(&self) -> &lexer::TokenContexts {
         self.iter.token_context()
     }
     pub fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {

@@ -81,7 +81,7 @@ impl<'a, I: Input> Parser<'a, I> {
         })
     }
 
-    const fn ctx(&self) -> Context {
+    fn ctx(&self) -> Context {
         self.input.get_ctx()
     }
 }

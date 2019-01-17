@@ -69,11 +69,8 @@
 
 #![feature(box_syntax)]
 #![feature(box_patterns)]
-#![feature(const_fn)]
 #![feature(specialization)]
 #![feature(never_type)]
-#![feature(try_from)]
-#![feature(try_trait)]
 #![cfg_attr(test, feature(test))]
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]

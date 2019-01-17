@@ -24,10 +24,10 @@ impl<'a> DiagnosticBuilder<'a> {
         msg: &str,
     ) -> Self {
         DiagnosticBuilder {
-            db: box Builder::new_diagnostic(
+            db: Box::new(Builder::new_diagnostic(
                 &handler.inner,
                 RustcDiagnostic::new_with_code(level, code, msg),
-            ),
+            )),
         }
     }
 
@@ -174,6 +174,6 @@ impl<'a> DiagnosticBuilder<'a> {
 impl<'a> From<Builder<'a>> for DiagnosticBuilder<'a> {
     #[inline(always)]
     fn from(db: Builder<'a>) -> Self {
-        DiagnosticBuilder { db: box db }
+        DiagnosticBuilder { db: Box::new(db) }
     }
 }

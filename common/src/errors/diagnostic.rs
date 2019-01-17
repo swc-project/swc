@@ -19,7 +19,7 @@ impl Diagnostic {
     #[inline(always)]
     pub fn new_with_code(level: Level, code: Option<DiagnosticId>, msg: &str) -> Self {
         Diagnostic {
-            inner: box RustcDiagnostic::new_with_code(level, code, msg),
+            inner: Box::new(RustcDiagnostic::new_with_code(level, code, msg)),
         }
     }
 
@@ -202,6 +202,8 @@ impl Diagnostic {
 impl From<RustcDiagnostic> for Diagnostic {
     #[inline(always)]
     fn from(inner: RustcDiagnostic) -> Self {
-        Diagnostic { inner: box inner }
+        Diagnostic {
+            inner: Box::new(inner),
+        }
     }
 }
