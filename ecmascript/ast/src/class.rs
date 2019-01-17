@@ -9,7 +9,9 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
-use swc_common::{ast_node, Fold, Span};
+#[cfg(feature = "fold")]
+use swc_common::Fold;
+use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub struct Class {
@@ -48,7 +50,7 @@ pub type PrivateProp = ClassProperty<PrivateName>;
 pub struct ClassProperty<K> {
     pub span: Span,
 
-    #[fold(bound)]
+    #[cfg_attr(feature = "fold", fold(bound))]
     pub key: K,
     pub value: Option<Box<Expr>>,
 
@@ -83,12 +85,12 @@ pub struct Constructor {
 #[ast_node]
 pub struct ClassMethod<K> {
     pub span: Span,
-    #[fold(bound)]
+    #[cfg_attr(feature = "fold", fold(bound))]
     pub key: K,
 
     pub function: Function,
 
-    #[fold(ignore)]
+    #[cfg_attr(feature = "fold", fold(ignore))]
     pub kind: MethodKind,
 
     pub is_static: bool,
@@ -107,7 +109,8 @@ pub struct Decorator {
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Fold)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum MethodKind {
     Method,
     Getter,

@@ -1,8 +1,10 @@
 use enum_kind::Kind;
 use string_enum::StringEnum;
+#[cfg(feature = "fold")]
 use swc_common::Fold;
 
-#[derive(Kind, Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(Kind, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 #[kind(function(precedence = "u8"))]
 pub enum BinaryOp {
     /// `==`
@@ -85,7 +87,8 @@ pub enum BinaryOp {
     Exp,
 }
 
-#[derive(Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum AssignOp {
     /// `=`
     Assign,
@@ -116,7 +119,8 @@ pub enum AssignOp {
     ExpAssign,
 }
 
-#[derive(Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
@@ -124,7 +128,8 @@ pub enum UpdateOp {
     MinusMinus,
 }
 
-#[derive(Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum UnaryOp {
     /// `-`
     Minus,

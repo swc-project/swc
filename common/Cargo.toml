@@ -7,6 +7,12 @@ repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_common/"
 description = "Common utilities for the swc project."
 
+[features]
+default = []
+# Enable folder and visitor. Requires nightly compiler.
+fold = ["ast_node/fold"]
+
+
 [dependencies]
 ast_node = { version = "0.2", path = "../macros/ast_node" }
 string_cache = "0.7"
@@ -15,3 +21,4 @@ rustc-ap-rustc_errors = "313"
 rustc-ap-syntax = "313"
 rustc-ap-rustc_data_structures = "313"
 rustc-ap-syntax_pos = "313"
+

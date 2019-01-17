@@ -6,7 +6,9 @@ use crate::{
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
-use swc_common::{ast_node, Fold, Span};
+#[cfg(feature = "fold")]
+use swc_common::Fold;
+use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum Decl {
@@ -43,7 +45,8 @@ pub struct VarDecl {
     pub decls: Vec<VarDeclarator>,
 }
 
-#[derive(Fold, StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum VarDeclKind {
     /// `var`
     Var,
