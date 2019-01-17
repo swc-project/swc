@@ -7,6 +7,13 @@ repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_ecma_parser/"
 description = "Feature-complete es2019 parser."
 
+[features]
+default = []
+# Requires nightly.
+fold = ["swc_common/fold", "swc_ecma_ast/fold"]
+# Verify that expression is valid. Requires nightly.
+verify = ["fold"]
+
 [dependencies]
 swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.1", path ="../../common" }
