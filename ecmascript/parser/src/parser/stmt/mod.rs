@@ -215,14 +215,14 @@ impl<'a, I: Input> Parser<'a, I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
 
-        let expr = match expr {
-            box Expr::Ident(ident) => {
+        let expr = match *expr {
+            Expr::Ident(ident) => {
                 if eat!(':') {
                     return self.parse_labelled_stmt(ident);
                 }
                 Box::new(Expr::Ident(ident))
             }
-            expr => {
+            _ => {
                 let expr = self.verify_expr(expr)?;
 
                 expr
@@ -763,11 +763,14 @@ pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
-            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(Str {
-                ref value,
-                has_escape: false,
-                ..
-            })))) => value == "use strict",
+            Some(&Stmt::Expr(ref expr)) => match **expr {
+                Expr::Lit(Lit::Str(Str {
+                    ref value,
+                    has_escape: false,
+                    ..
+                })) => value == "use strict",
+                _ => false,
+            },
             _ => false,
         }
     }

@@ -1000,11 +1000,8 @@ impl<'a, I: Input> Parser<'a, I> {
             };
             let optional = if self.input.syntax().typescript() {
                 if eat!('?') {
-                    match arg {
-                        ExprOrSpread {
-                            expr: box Expr::Ident(..),
-                            ..
-                        } => {}
+                    match *arg.expr {
+                        Expr::Ident(..) => {}
                         _ => syntax_error!(arg.span(), SyntaxError::TsBindingPatCannotBeOptional),
                     }
                     true
