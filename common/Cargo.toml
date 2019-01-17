@@ -17,8 +17,10 @@ fold = ["ast_node/fold"]
 ast_node = { version = "0.2", path = "../macros/ast_node" }
 string_cache = "0.7"
 either = "1.5"
+scoped-tls = { version = "0.1.1", features = ["nightly"] }
+unicode-width = "0.1.4"
+cfg-if = "0.1.2"
 rustc-ap-rustc_errors = "313"
 rustc-ap-syntax = "313"
 rustc-ap-rustc_data_structures = "313"
-rustc-ap-syntax_pos = "313"
 

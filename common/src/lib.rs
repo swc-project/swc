@@ -2,11 +2,16 @@
 
 extern crate ast_node;
 extern crate either;
-extern crate rustc_data_structures;
 extern crate rustc_errors;
+#[macro_use]
+extern crate rustc_data_structures;
+#[macro_use]
+extern crate scoped_tls;
+#[macro_use]
+extern crate cfg_if;
 extern crate string_cache;
 extern crate syntax;
-extern crate syntax_pos;
+extern crate unicode_width;
 
 #[cfg(feature = "fold")]
 pub use self::fold::{Fold, FoldWith, Visit, VisitWith};
@@ -31,4 +36,5 @@ pub mod errors;
 pub mod fold;
 pub mod macros;
 mod pos;
+mod syntax_pos;
 pub mod util;
