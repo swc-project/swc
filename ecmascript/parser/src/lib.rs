@@ -67,9 +67,8 @@
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
 
-#![feature(box_syntax)]
 #![feature(box_patterns)]
-#![cfg_attr(feature = "fold", feature(specialization))]
+#![cfg_attr(any(test, feature = "fold"), feature(specialization))]
 #![cfg_attr(test, feature(test))]
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]

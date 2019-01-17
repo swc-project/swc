@@ -32,11 +32,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 let span = span!(left.span().lo());
                 let expr = left;
                 let type_ann = self.next_then_parse_ts_type()?;
-                let node = box Expr::TsAs(TsAsExpr {
+                let node = Box::new(Expr::TsAs(TsAsExpr {
                     span,
                     expr,
                     type_ann,
-                });
+                }));
                 return self.parse_bin_op_recursively(node, min_prec);
             }
         }
@@ -104,12 +104,12 @@ impl<'a, I: Input> Parser<'a, I> {
             )?
         };
 
-        let node = box Expr::Bin(BinExpr {
+        let node = Box::new(Expr::Bin(BinExpr {
             span: span!(left.span().lo()),
             op,
             left,
             right,
-        });
+        }));
 
         let expr = self.parse_bin_op_recursively(node, min_prec)?;
         Ok(expr)
@@ -138,12 +138,12 @@ impl<'a, I: Input> Parser<'a, I> {
                 // This is early ReferenceError
                 syntax_error!(arg.span(), SyntaxError::NotSimpleAssign)
             }
-            return Ok(box Expr::Update(UpdateExpr {
+            return Ok(Box::new(Expr::Update(UpdateExpr {
                 span: span!(start),
                 prefix: true,
                 op,
                 arg,
-            }));
+            })));
         }
 
         // Parse unary expression
@@ -159,11 +159,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => unreachable!(),
             };
             let arg = self.parse_unary_expr()?;
-            return Ok(box Expr::Unary(UnaryExpr {
+            return Ok(Box::new(Expr::Unary(UnaryExpr {
                 span: span!(start),
                 op,
                 arg,
-            }));
+            })));
         }
 
         if self.ctx().in_async && is!("await") {
@@ -192,12 +192,12 @@ impl<'a, I: Input> Parser<'a, I> {
                 op!("--")
             };
 
-            return Ok(box Expr::Update(UpdateExpr {
+            return Ok(Box::new(Expr::Update(UpdateExpr {
                 span: span!(start),
                 prefix: false,
                 op,
                 arg: expr,
-            }));
+            })));
         }
         Ok(expr)
     }
@@ -213,10 +213,10 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let arg = self.parse_unary_expr()?;
-        Ok(box Expr::Await(AwaitExpr {
+        Ok(Box::new(Expr::Await(AwaitExpr {
             span: span!(start),
             arg,
-        }))
+        })))
     }
 }
 
@@ -238,12 +238,12 @@ mod tests {
     fn simple() {
         assert_eq_ignore_span!(
             bin("5 + 4 * 7"),
-            box Expr::Bin(BinExpr {
+            Box::new(Expr::Bin(BinExpr {
                 span,
                 op: op!(bin, "+"),
                 left: bin("5"),
                 right: bin("4 * 7"),
-            })
+            }))
         );
     }
 
@@ -251,12 +251,12 @@ mod tests {
     fn same_prec() {
         assert_eq_ignore_span!(
             bin("5 + 4 + 7"),
-            box Expr::Bin(BinExpr {
+            Box::new(Expr::Bin(BinExpr {
                 span,
                 op: op!(bin, "+"),
                 left: bin("5 + 4"),
                 right: bin("7"),
-            })
+            }))
         );
     }
 

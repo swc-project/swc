@@ -160,7 +160,7 @@ impl<'a, I: Input> Parser<'a, I> {
         while eat!('.') {
             let left = entity;
             let right = self.parse_ident(allow_reserved_words, allow_reserved_words)?;
-            entity = TsEntityName::TsQualifiedName(box TsQualifiedName { left, right });
+            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
         }
 
         Ok(entity)
@@ -311,11 +311,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 false, pos,
             )?;
 
-            let node = box TsType::TsTypePredicate(TsTypePredicate {
+            let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
                 span: span!(start),
                 param_name: type_pred_var,
                 type_ann,
-            });
+            }));
 
             Ok(TsTypeAnn {
                 span: span!(start),
@@ -527,7 +527,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     TsModuleName::Ident(i) => i,
                     _ => unreachable!(),
                 },
-                body: box inner.body.unwrap(),
+                body: Box::new(inner.body.unwrap()),
                 declare: inner.declare,
                 global: inner.global,
             };
@@ -611,13 +611,13 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let false_type = self.parse_ts_type()?;
 
-        Ok(box TsType::TsConditionalType(TsConditionalType {
+        Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
             span: span!(start),
             check_type,
             extends_type,
             true_type,
             false_type,
-        }))
+        })))
     }
 
     /// `tsParseNonConditionalType`
@@ -1004,7 +1004,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         Either::Left(_) => unreachable!(
                             "private name inside parse_ts_property_or_method_signature"
                         ),
-                        Either::Right(e) => box Expr::Ident(e),
+                        Either::Right(e) => Box::new(Expr::Ident(e)),
                     }),
                 };
 
@@ -1264,20 +1264,20 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if eat!("...") {
             let type_ann = self.parse_ts_type()?;
-            return Ok(box TsType::TsRestType(TsRestType {
+            return Ok(Box::new(TsType::TsRestType(TsRestType {
                 span: span!(start),
                 type_ann,
-            }));
+            })));
         }
 
         let ty = self.parse_ts_type()?;
         // parses `TsType?`
         if eat!('?') {
             let type_ann = ty;
-            return Ok(box TsType::TsOptionalType(TsOptionalType {
+            return Ok(Box::new(TsType::TsOptionalType(TsOptionalType {
                 span: span!(start),
                 type_ann,
-            }));
+            })));
         }
 
         Ok(ty)
@@ -1446,10 +1446,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 match kind {
                     Some(kind) if !peeked_is_dot => {
                         bump!();
-                        return Ok(box TsType::TsKeywordType(TsKeywordType {
+                        return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
                             span: span!(start),
                             kind,
-                        }));
+                        })));
                     }
                     _ => {
                         return self.parse_ts_type_ref().map(TsType::from).map(Box::new);
@@ -1480,10 +1480,10 @@ impl<'a, I: Input> Parser<'a, I> {
                     _ => unreachable!(),
                 };
 
-                return Ok(box TsType::TsLitType(TsLitType {
+                return Ok(Box::new(TsType::TsLitType(TsLitType {
                     span: span!(start),
                     lit,
-                }));
+                })));
             }
 
             tok!("this") => {
@@ -1494,7 +1494,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         .map(TsType::from)
                         .map(Box::new);
                 } else {
-                    return Ok(box TsType::TsThisType(this_keyword));
+                    return Ok(Box::new(TsType::TsThisType(this_keyword)));
                 }
             }
             tok!("typeof") => {
@@ -1533,18 +1533,18 @@ impl<'a, I: Input> Parser<'a, I> {
 
         while !self.input.had_line_break_before_cur() && eat!('[') {
             if eat!(']') {
-                ty = box TsType::TsArrayType(TsArrayType {
+                ty = Box::new(TsType::TsArrayType(TsArrayType {
                     span: span!(ty.span().lo()),
                     elem_type: ty,
-                });
+                }));
             } else {
                 let index_type = self.parse_ts_type()?;
                 expect!(']');
-                ty = box TsType::TsIndexedAccessType(TsIndexedAccessType {
+                ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
                     span: span!(ty.span().lo()),
                     obj_type: ty,
                     index_type,
-                })
+                }))
             }
         }
 
@@ -1979,7 +1979,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 types.push(parse_constituent_type(self)?);
             }
 
-            return Ok(box TsType::TsUnionOrIntersectionType(match kind {
+            return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
                 UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
                     span: span!(start),
                     types,
@@ -1990,7 +1990,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         types,
                     })
                 }
-            }));
+            })));
         }
 
         Ok(ty)

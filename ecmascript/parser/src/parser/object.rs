@@ -85,7 +85,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = PropOrSpread;
 
     fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
-        box Expr::Object(ObjectLit { span, props })
+        Box::new(Expr::Object(ObjectLit { span, props }))
     }
 
     /// spec: 'PropertyDefinition'
@@ -116,10 +116,10 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                     true,
                 )
                 .map(|function| {
-                    PropOrSpread::Prop(box Prop::Method(MethodProp {
+                    PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
                         key: name,
                         function,
-                    }))
+                    })))
                 });
         }
 
@@ -131,10 +131,10 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
         // { a: expr, }
         if eat!(':') {
             let value = self.include_in_expr(true).parse_assignment_expr()?;
-            return Ok(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+            return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
                 value,
-            })));
+            }))));
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
@@ -148,7 +148,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                     false,
                     false,
                 )
-                .map(|function| box Prop::Method(MethodProp { key, function }))
+                .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
                 .map(PropOrSpread::Prop);
         }
 
@@ -167,12 +167,12 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 
             if eat!('=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
-                return Ok(PropOrSpread::Prop(box Prop::Assign(AssignProp {
+                return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                     key: ident,
                     value,
-                })));
+                }))));
             }
-            return Ok(PropOrSpread::Prop(box Prop::from(ident)));
+            return Ok(PropOrSpread::Prop(Box::new(Prop::from(ident))));
         }
 
         // get a(){}
@@ -194,11 +194,11 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             false,
                         )
                         .map(|Function { body, .. }| {
-                            PropOrSpread::Prop(box Prop::Getter(GetterProp {
+                            PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
                                 span: span!(start),
                                 key,
                                 body,
-                            }))
+                            })))
                         }),
                     js_word!("set") => self
                         .parse_fn_args_body(
@@ -211,12 +211,12 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                         )
                         .map(|Function { params, body, .. }| {
                             debug_assert_eq!(params.len(), 1);
-                            PropOrSpread::Prop(box Prop::Setter(SetterProp {
+                            PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
                                 span: span!(start),
                                 key,
                                 body,
                                 param: params.into_iter().next().unwrap(),
-                            }))
+                            })))
                         }),
                     js_word!("async") => self
                         .parse_fn_args_body(
@@ -228,7 +228,7 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
                             false,
                         )
                         .map(|function| {
-                            PropOrSpread::Prop(box Prop::Method(MethodProp { key, function }))
+                            PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
                         }),
                     _ => unreachable!(),
                 };
@@ -258,7 +258,7 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
             // spread elemnent
             let dot3_token = span!(start);
 
-            let arg = box self.parse_binding_pat_or_ident()?;
+            let arg = Box::new(self.parse_binding_pat_or_ident()?);
 
             return Ok(ObjectPatProp::Rest(RestPat {
                 dot3_token,
@@ -269,7 +269,7 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
 
         let key = self.parse_prop_name()?;
         if eat!(':') {
-            let value = box self.parse_binding_element()?;
+            let value = Box::new(self.parse_binding_element()?);
 
             return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
         }

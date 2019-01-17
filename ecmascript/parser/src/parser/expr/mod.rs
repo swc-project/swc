@@ -20,10 +20,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 exprs.push(self.parse_assignment_expr()?);
             }
             let end = exprs.last().unwrap().span().hi();
-            return Ok(box Expr::Seq(SeqExpr {
+            return Ok(Box::new(Expr::Seq(SeqExpr {
                 span: span!(start),
                 exprs,
-            }));
+            })));
         }
 
         Ok(expr)
@@ -130,13 +130,13 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 bump!();
                 let right = self.parse_assignment_expr()?;
-                Ok(box Expr::Assign(AssignExpr {
+                Ok(Box::new(Expr::Assign(AssignExpr {
                     span: span!(start),
                     op,
                     // TODO:
                     left,
                     right,
-                }))
+                })))
             }
             _ => Ok(cond),
         }
@@ -154,12 +154,12 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!(':');
             let alt = self.parse_assignment_expr()?;
 
-            Ok(box Expr::Cond(CondExpr {
+            Ok(Box::new(Expr::Cond(CondExpr {
                 test,
                 cons,
                 alt,
                 span: span!(start),
-            }))
+            })))
         } else {
             return Ok(test);
         }
@@ -177,7 +177,7 @@ impl<'a, I: Input> Parser<'a, I> {
             .unwrap_or(false);
 
         if eat!("this") {
-            return Ok(box Expr::This(ThisExpr { span: span!(start) }));
+            return Ok(Box::new(Expr::This(ThisExpr { span: span!(start) })));
         }
 
         if is!("async") {
@@ -193,7 +193,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     assert_and_bump!("async");
                     p.try_parse_ts_generic_async_arrow_fn(start)
                 }) {
-                    return Ok(box Expr::Arrow(res));
+                    return Ok(Box::new(Expr::Arrow(res)));
                 }
             }
 
@@ -231,7 +231,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 _ => false,
             }
         } {
-            return Ok(box Expr::Lit(self.parse_lit()?));
+            return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
         }
 
         // Regexp
@@ -243,11 +243,11 @@ impl<'a, I: Input> Parser<'a, I> {
         } {
             match bump!() {
                 Token::Regex(exp, flags) => {
-                    return Ok(box Expr::Lit(Lit::Regex(Regex {
+                    return Ok(Box::new(Expr::Lit(Lit::Regex(Regex {
                         span: span!(start),
                         exp,
                         flags,
-                    })));
+                    }))));
                 }
                 _ => unreachable!(),
             }
@@ -255,7 +255,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         if is!('`') {
             // parse template literal
-            return Ok(box Expr::Tpl(self.parse_tpl()?));
+            return Ok(Box::new(Expr::Tpl(self.parse_tpl()?)));
         }
 
         if is!('(') {
@@ -271,7 +271,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let params = vec![arg];
                 expect!("=>");
                 let body = self.parse_fn_body(true, false)?;
-                return Ok(box Expr::Arrow(ArrowExpr {
+                return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(start),
                     body,
                     params,
@@ -279,12 +279,12 @@ impl<'a, I: Input> Parser<'a, I> {
                     is_generator: false,
                     return_type: None,
                     type_params: None,
-                }));
+                })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!("=>") {
                 let params = vec![id.into()];
                 let body = self.parse_fn_body(false, false)?;
 
-                return Ok(box Expr::Arrow(ArrowExpr {
+                return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(start),
                     body,
                     params,
@@ -294,9 +294,9 @@ impl<'a, I: Input> Parser<'a, I> {
                     return_type: None,
                     // TODO
                     type_params: None,
-                }));
+                })));
             } else {
-                return Ok(box Expr::Ident(id));
+                return Ok(Box::new(Expr::Ident(id)));
             }
         }
 
@@ -328,7 +328,7 @@ impl<'a, I: Input> Parser<'a, I> {
         expect!(']');
 
         let span = span!(start);
-        Ok(box Expr::Array(ArrayLit { span, elems }))
+        Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
     }
 
     fn parse_member_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
@@ -343,10 +343,10 @@ impl<'a, I: Input> Parser<'a, I> {
             if eat!('.') {
                 let start_of_target = cur_pos!();
                 if eat!("target") {
-                    return Ok(box Expr::MetaProp(MetaPropExpr {
+                    return Ok(Box::new(Expr::MetaProp(MetaPropExpr {
                         meta: Ident::new(js_word!("new"), span_of_new),
                         prop: Ident::new(js_word!("target"), span!(start_of_target)),
-                    }));
+                    })));
                 }
 
                 unexpected!()
@@ -372,12 +372,12 @@ impl<'a, I: Input> Parser<'a, I> {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args().map(Some)?;
 
-                let new_expr = ExprOrSuper::Expr(box Expr::New(NewExpr {
+                let new_expr = ExprOrSuper::Expr(Box::new(Expr::New(NewExpr {
                     span: span!(start),
                     callee,
                     args,
                     type_args,
-                }));
+                })));
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
@@ -386,12 +386,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
             // Parsed with 'NewExpression' production.
 
-            return Ok(box Expr::New(NewExpr {
+            return Ok(Box::new(Expr::New(NewExpr {
                 span: span!(start),
                 callee,
                 args: None,
                 type_args,
-            }));
+            })));
         }
 
         if eat!("super") {
@@ -493,7 +493,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 .collect();
 
             let body: BlockStmtOrExpr = self.parse_fn_body(async_span.is_some(), false)?;
-            return Ok(box Expr::Arrow(ArrowExpr {
+            return Ok(Box::new(Expr::Arrow(ArrowExpr {
                 span: span!(start),
                 is_async: async_span.is_some(),
                 is_generator: false,
@@ -501,7 +501,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 body,
                 return_type,
                 type_params: None,
-            }));
+            })));
         }
 
         let expr_or_spreads = paren_items
@@ -515,12 +515,15 @@ impl<'a, I: Input> Parser<'a, I> {
             .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
-            return Ok(box Expr::Call(CallExpr {
+            return Ok(Box::new(Expr::Call(CallExpr {
                 span: span!(async_span.lo()),
-                callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new("async".into(), async_span))),
+                callee: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
+                    "async".into(),
+                    async_span,
+                )))),
                 args: expr_or_spreads,
                 type_args: None,
-            }));
+            })));
         }
 
         // It was not head of arrow function.
@@ -543,10 +546,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 } => syntax_error!(expr.span(), SyntaxError::SpreadInParenExpr),
                 ExprOrSpread { expr, .. } => expr,
             };
-            return Ok(box Expr::Paren(ParenExpr {
+            return Ok(Box::new(Expr::Paren(ParenExpr {
                 span: span!(start),
                 expr,
-            }));
+            })));
         } else {
             debug_assert!(expr_or_spreads.len() >= 2);
 
@@ -563,18 +566,18 @@ impl<'a, I: Input> Parser<'a, I> {
             debug_assert!(exprs.len() >= 2);
 
             // span of sequence expression should not include '(', ')'
-            let seq_expr = box Expr::Seq(SeqExpr {
+            let seq_expr = Box::new(Expr::Seq(SeqExpr {
                 span: Span::new(
                     exprs.first().unwrap().span().lo(),
                     exprs.last().unwrap().span().hi(),
                     Default::default(),
                 ),
                 exprs,
-            });
-            return Ok(box Expr::Paren(ParenExpr {
+            }));
+            return Ok(Box::new(Expr::Paren(ParenExpr {
                 span: span!(start),
                 expr: seq_expr,
-            }));
+            })));
         }
     }
 
@@ -707,10 +710,10 @@ impl<'a, I: Input> Parser<'a, I> {
                     ExprOrSuper::Expr(expr) => expr,
                 };
                 return Ok((
-                    box Expr::TsNonNull(TsNonNullExpr {
+                    Box::new(Expr::TsNonNull(TsNonNullExpr {
                         span: span!(start),
                         expr,
-                    }),
+                    })),
                     true,
                 ));
             }
@@ -740,7 +743,7 @@ impl<'a, I: Input> Parser<'a, I> {
                         // But it might be a call with a type argument `async<T>();`
                         let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
                         if let Some(async_arrow_fn) = async_arrow_fn {
-                            return Ok(Some((box Expr::Arrow(async_arrow_fn), true)));
+                            return Ok(Some((Box::new(Expr::Arrow(async_arrow_fn)), true)));
                         }
                     }
 
@@ -752,12 +755,12 @@ impl<'a, I: Input> Parser<'a, I> {
                         let args = p.parse_args()?;
 
                         return Ok(Some((
-                            box Expr::Call(CallExpr {
+                            Box::new(Expr::Call(CallExpr {
                                 span: span!(start),
                                 callee: obj,
                                 type_args: Some(type_args),
                                 args,
-                            }),
+                            })),
                             true,
                         )));
                     } else if is!('`') {
@@ -769,7 +772,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                 },
                                 Some(type_args),
                             )
-                            .map(|expr| (box Expr::TaggedTpl(expr), true))
+                            .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                             .map(Some);
                     } else {
                         unexpected!()
@@ -784,15 +787,15 @@ impl<'a, I: Input> Parser<'a, I> {
         // member expression
         // $obj.name
         if eat!('.') {
-            let prop: Box<Expr> = box self.parse_ident_name().map(Expr::from)?;
+            let prop: Box<Expr> = Box::new(self.parse_ident_name().map(Expr::from)?);
             return Ok((
-                box Expr::Member(MemberExpr {
+                Box::new(Expr::Member(MemberExpr {
                     span: span!(start),
                     obj,
 
                     prop,
                     computed: false,
-                }),
+                })),
                 true,
             ));
         }
@@ -802,12 +805,12 @@ impl<'a, I: Input> Parser<'a, I> {
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(']');
             return Ok((
-                box Expr::Member(MemberExpr {
+                Box::new(Expr::Member(MemberExpr {
                     span: span!(start),
                     obj,
                     prop,
                     computed: true,
-                }),
+                })),
                 true,
             ));
         }
@@ -815,12 +818,12 @@ impl<'a, I: Input> Parser<'a, I> {
         if !no_call && is!('(') {
             let args = self.parse_args()?;
             return Ok((
-                box Expr::Call(CallExpr {
+                Box::new(Expr::Call(CallExpr {
                     span: span!(start),
                     callee: obj,
                     args,
                     type_args: None,
-                }),
+                })),
                 true,
             ));
         }
@@ -830,7 +833,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
                 if is!('`') {
                     let tpl = self.parse_tagged_tpl(expr, None)?;
-                    return Ok((box Expr::TaggedTpl(tpl), true));
+                    return Ok((Box::new(Expr::TaggedTpl(tpl)), true));
                 }
 
                 Ok((expr, false))
@@ -851,8 +854,8 @@ impl<'a, I: Input> Parser<'a, I> {
         if self.input.syntax().jsx() {
             fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
                 match e {
-                    Either::Left(l) => box l.into(),
-                    Either::Right(r) => box r.into(),
+                    Either::Left(l) => Box::new(l.into()),
+                    Either::Right(r) => Box::new(r.into()),
                 }
             }
             match *cur!(true)? {
@@ -915,7 +918,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     Some(&tok!('(')),
                     "parse_new_expr() should eat paren if it exists"
                 );
-                return Ok(box Expr::New(NewExpr { type_args, ..ne }));
+                return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
             }
             _ => {}
         }
@@ -927,13 +930,13 @@ impl<'a, I: Input> Parser<'a, I> {
             // which is left-recursive.
             let args = self.parse_args()?;
 
-            let call_expr = box Expr::Call(CallExpr {
+            let call_expr = Box::new(Expr::Call(CallExpr {
                 span: span!(start),
 
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            });
+            }));
 
             return self.parse_subscripts(ExprOrSuper::Expr(call_expr), false);
         }
@@ -1029,7 +1032,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
                         dot3_token: span,
-                        arg: box pat,
+                        arg: Box::new(pat),
                         type_ann: None,
                     });
                 }
@@ -1061,7 +1064,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     let right = self.parse_expr()?;
                     pat = Pat::Assign(AssignPat {
                         span: span!(start),
-                        left: box pat,
+                        left: Box::new(pat),
                         right,
                         type_ann: None,
                     });
@@ -1102,20 +1105,20 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if is!(';') || (!is!('*') && !cur!(false).map(Token::starts_expr).unwrap_or(true)) {
-            Ok(box Expr::Yield(YieldExpr {
+            Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(start),
                 arg: None,
                 delegate: false,
-            }))
+            })))
         } else {
             let has_star = eat!('*');
             let arg = self.parse_assignment_expr()?;
 
-            Ok(box Expr::Yield(YieldExpr {
+            Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(start),
                 arg: Some(arg),
                 delegate: has_star,
-            }))
+            })))
         }
     }
 

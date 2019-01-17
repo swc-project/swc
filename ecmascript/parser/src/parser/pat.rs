@@ -59,7 +59,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             return Ok(Pat::Assign(AssignPat {
                 span: span!(start),
-                left: box left,
+                left: Box::new(left),
                 right,
                 type_ann: None,
             }));
@@ -95,7 +95,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let pat = self.parse_binding_pat_or_ident()?;
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
-                    arg: box pat,
+                    arg: Box::new(pat),
                     type_ann: None,
                 });
                 elems.push(Some(pat));
@@ -162,7 +162,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let right = self.parse_expr()?;
             Ok(Pat::Assign(AssignPat {
                 span: span!(start),
-                left: box pat,
+                left: Box::new(pat),
                 type_ann: None,
                 right,
             }))
@@ -201,7 +201,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
-                    arg: box pat,
+                    arg: Box::new(pat),
                     type_ann,
                 });
                 params.push(PatOrTsParamProp::Pat(pat));
@@ -272,7 +272,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 let pat = Pat::Rest(RestPat {
                     dot3_token,
-                    arg: box pat,
+                    arg: Box::new(pat),
                     type_ann,
                 });
                 params.push(pat);
@@ -402,7 +402,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 return Ok(Pat::Assign(AssignPat {
                     span,
                     left: match left {
-                        PatOrExpr::Expr(left) => box self.reparse_expr_as_pat(pat_ty, left)?,
+                        PatOrExpr::Expr(left) => Box::new(self.reparse_expr_as_pat(pat_ty, left)?),
                         PatOrExpr::Pat(left) => left,
                     },
                     right,
@@ -428,8 +428,10 @@ impl<'a, I: Input> Parser<'a, I> {
                                 PropOrSpread::Prop(box Prop::KeyValue(kv_prop)) => {
                                     Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
                                         key: kv_prop.key,
-                                        value: box self
-                                            .reparse_expr_as_pat(pat_ty.element(), kv_prop.value)?,
+                                        value: Box::new(self.reparse_expr_as_pat(
+                                            pat_ty.element(),
+                                            kv_prop.value,
+                                        )?),
                                     }))
                                 }
                                 PropOrSpread::Prop(box Prop::Assign(assign_prop)) => {
@@ -443,8 +445,9 @@ impl<'a, I: Input> Parser<'a, I> {
                                     Ok(ObjectPatProp::Rest(RestPat {
                                         dot3_token,
                                         // FIXME: is BindingPat correct?
-                                        arg: box self
-                                            .reparse_expr_as_pat(PatType::BindingPat, expr)?,
+                                        arg: Box::new(
+                                            self.reparse_expr_as_pat(PatType::BindingPat, expr)?,
+                                        ),
                                         type_ann: None,
                                     }))
                                 }
@@ -510,7 +513,7 @@ impl<'a, I: Input> Parser<'a, I> {
                                 .map(|pat| {
                                     Pat::Rest(RestPat {
                                         dot3_token,
-                                        arg: box pat,
+                                        arg: Box::new(pat),
                                         type_ann: None,
                                     })
                                 })
@@ -592,7 +595,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }) => self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                 Pat::Rest(RestPat {
                     dot3_token,
-                    arg: box pat,
+                    arg: Box::new(pat),
                     type_ann: None,
                 })
             })?,
