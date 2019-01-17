@@ -1,28 +1,3 @@
-//! The source positions and related helper functions.
-//!
-//! ## Note
-//!
-//! This API is completely unstable and subject to change.
-
-#![doc(html_logo_url = "https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png",
-      html_favicon_url = "https://doc.rust-lang.org/favicon.ico",
-      html_root_url = "https://doc.rust-lang.org/nightly/")]
-
-#![feature(const_fn)]
-#![feature(crate_visibility_modifier)]
-#![feature(custom_attribute)]
-#![feature(nll)]
-#![feature(non_exhaustive)]
-#![feature(optin_builtin_traits)]
-#![feature(rustc_attrs)]
-#![feature(specialization)]
-#![feature(step_trait)]
-#![cfg_attr(not(stage0), feature(stdsimd))]
-
-
-
-
-
 pub use self::{
     hygiene::{ExpnInfo, Mark, SyntaxContext},
     span_encoding::{Span, DUMMY_SP},
@@ -1022,18 +997,6 @@ pub struct FileLines {
 
 thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter) -> fmt::Result> =
                 Cell::new(default_span_debug));
-
-#[derive(Debug)]
-pub struct MacroBacktrace {
-    /// span where macro was applied to generate this code
-    pub call_site: Span,
-
-    /// name of macro that was applied (e.g., "foo!" or "#[derive(Eq)]")
-    pub macro_decl_name: String,
-
-    /// span where macro was defined (if known)
-    pub def_site_span: Option<Span>,
-}
 
 // _____________________________________________________________________________
 // SpanLinesError, SpanSnippetError, DistinctSources,

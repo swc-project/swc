@@ -1,62 +1,107 @@
-use super::Handler;
-use rustc_errors::{Diagnostic as RustcDiagnostic, Level};
-pub use rustc_errors::{DiagnosticId, DiagnosticStyledString};
+use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use std::fmt;
-use MultiSpan;
-use Span;
+use syntax_pos::{MultiSpan, Span};
 
 #[must_use]
+#[derive(Clone, Debug, PartialEq, Hash)]
 pub struct Diagnostic {
-    pub(crate) inner: Box<RustcDiagnostic>,
+    pub level: Level,
+    pub message: Vec<(String, Style)>,
+    pub code: Option<DiagnosticId>,
+    pub span: MultiSpan,
+    pub children: Vec<SubDiagnostic>,
+    pub suggestions: Vec<CodeSuggestion>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub enum DiagnosticId {
+    Error(String),
+    Lint(String),
+}
+
+/// For example a note attached to an error.
+#[derive(Clone, Debug, PartialEq, Hash)]
+pub struct SubDiagnostic {
+    pub level: Level,
+    pub message: Vec<(String, Style)>,
+    pub span: MultiSpan,
+    pub render_span: Option<MultiSpan>,
+}
+
+#[derive(PartialEq, Eq)]
+pub struct DiagnosticStyledString(pub Vec<StringPart>);
+
+impl DiagnosticStyledString {
+    pub fn new() -> DiagnosticStyledString {
+        DiagnosticStyledString(vec![])
+    }
+    pub fn push_normal<S: Into<String>>(&mut self, t: S) {
+        self.0.push(StringPart::Normal(t.into()));
+    }
+    pub fn push_highlighted<S: Into<String>>(&mut self, t: S) {
+        self.0.push(StringPart::Highlighted(t.into()));
+    }
+    pub fn normal<S: Into<String>>(t: S) -> DiagnosticStyledString {
+        DiagnosticStyledString(vec![StringPart::Normal(t.into())])
+    }
+
+    pub fn highlighted<S: Into<String>>(t: S) -> DiagnosticStyledString {
+        DiagnosticStyledString(vec![StringPart::Highlighted(t.into())])
+    }
+
+    pub fn content(&self) -> String {
+        self.0.iter().map(|x| x.content()).collect::<String>()
+    }
+}
+
+#[derive(PartialEq, Eq)]
+pub enum StringPart {
+    Normal(String),
+    Highlighted(String),
+}
+
+impl StringPart {
+    pub fn content(&self) -> &str {
+        match self {
+            &StringPart::Normal(ref s) | &StringPart::Highlighted(ref s) => s,
+        }
+    }
 }
 
 impl Diagnostic {
-    #[inline(always)]
-    pub fn new(level: Level, msg: &str) -> Self {
-        Self::new_with_code(level, None, msg)
+    pub fn new(level: Level, message: &str) -> Self {
+        Diagnostic::new_with_code(level, None, message)
     }
 
-    #[inline(always)]
-    pub fn new_with_code(level: Level, code: Option<DiagnosticId>, msg: &str) -> Self {
+    pub fn new_with_code(level: Level, code: Option<DiagnosticId>, message: &str) -> Self {
         Diagnostic {
-            inner: Box::new(RustcDiagnostic::new_with_code(level, code, msg)),
+            level,
+            message: vec![(message.to_owned(), Style::NoStyle)],
+            code,
+            span: MultiSpan::new(),
+            children: vec![],
+            suggestions: vec![],
         }
     }
 
-    #[inline(always)]
-    pub fn new_note(msg: &str) -> Self {
-        Self::new(Level::Note, msg)
-    }
+    pub fn is_error(&self) -> bool {
+        match self.level {
+            Level::Bug | Level::Fatal | Level::PhaseFatal | Level::Error | Level::FailureNote => {
+                true
+            }
 
-    #[inline(always)]
-    pub fn new_warn(msg: &str) -> Self {
-        Self::new(Level::Warning, msg)
-    }
-
-    #[inline(always)]
-    pub fn new_error(msg: &str) -> Self {
-        Self::new(Level::Error, msg)
-    }
-
-    #[inline(always)]
-    pub fn new_fatal(msg: &str) -> Self {
-        Self::new(Level::Fatal, msg)
-    }
-
-    #[inline(always)]
-    pub fn emit_to(self, handler: &Handler) {
-        handler.emit(self)
+            Level::Warning | Level::Note | Level::Help | Level::Cancelled => false,
+        }
     }
 
     /// Cancel the diagnostic (a structured diagnostic must either be emitted or
     /// canceled or it will panic when dropped).
-    #[inline(always)]
-    pub fn cancel(mut self) -> Self {
-        self.inner.cancel();
-        self
+    pub fn cancel(&mut self) {
+        self.level = Level::Cancelled;
     }
+
     pub fn cancelled(&self) -> bool {
-        self.inner.cancelled()
+        self.level == Level::Cancelled
     }
 
     /// Add a span/label to be included in the resulting snippet.
@@ -65,75 +110,98 @@ impl Diagnostic {
     /// all, and you just supplied a `Span` to create the diagnostic,
     /// then the snippet will just include that `Span`, which is
     /// called the primary span.
-    #[inline(always)]
-    pub fn span_label<T: Into<String>>(mut self, span: Span, label: T) -> Self {
-        self.inner.span_label(span, label.into());
+    pub fn span_label<T: Into<String>>(&mut self, span: Span, label: T) -> &mut Self {
+        self.span.push_span_label(span, label.into());
         self
     }
 
-    #[inline(always)]
+    pub fn replace_span_with(&mut self, after: Span) -> &mut Self {
+        let before = self.span.clone();
+        self.set_span(after);
+        for span_label in before.span_labels() {
+            if let Some(label) = span_label.label {
+                self.span_label(after, label);
+            }
+        }
+        self
+    }
+
     pub fn note_expected_found(
-        mut self,
-        label: &fmt::Display,
+        &mut self,
+        label: &dyn fmt::Display,
         expected: DiagnosticStyledString,
         found: DiagnosticStyledString,
-    ) -> Self {
-        self.inner.note_expected_found(label, expected, found);
-        self
+    ) -> &mut Self {
+        self.note_expected_found_extra(label, expected, found, &"", &"")
     }
 
-    #[inline(always)]
     pub fn note_expected_found_extra(
-        mut self,
-        label: &fmt::Display,
+        &mut self,
+        label: &dyn fmt::Display,
         expected: DiagnosticStyledString,
         found: DiagnosticStyledString,
-        expected_extra: &fmt::Display,
-        found_extra: &fmt::Display,
-    ) -> Self {
-        self.inner
-            .note_expected_found_extra(label, expected, found, expected_extra, found_extra);
+        expected_extra: &dyn fmt::Display,
+        found_extra: &dyn fmt::Display,
+    ) -> &mut Self {
+        let mut msg: Vec<_> = vec![(format!("expected {} `", label), Style::NoStyle)];
+        msg.extend(expected.0.iter().map(|x| match *x {
+            StringPart::Normal(ref s) => (s.to_owned(), Style::NoStyle),
+            StringPart::Highlighted(ref s) => (s.to_owned(), Style::Highlight),
+        }));
+        msg.push((format!("`{}\n", expected_extra), Style::NoStyle));
+        msg.push((format!("   found {} `", label), Style::NoStyle));
+        msg.extend(found.0.iter().map(|x| match *x {
+            StringPart::Normal(ref s) => (s.to_owned(), Style::NoStyle),
+            StringPart::Highlighted(ref s) => (s.to_owned(), Style::Highlight),
+        }));
+        msg.push((format!("`{}", found_extra), Style::NoStyle));
+
+        // For now, just attach these as notes
+        self.highlighted_note(msg);
         self
     }
 
-    #[inline(always)]
-    pub fn note(mut self, msg: &str) -> Self {
-        self.inner.note(msg);
+    pub fn note_trait_signature(&mut self, name: String, signature: String) -> &mut Self {
+        self.highlighted_note(vec![
+            (format!("`{}` from trait: `", name), Style::NoStyle),
+            (signature, Style::Highlight),
+            ("`".to_string(), Style::NoStyle),
+        ]);
         self
     }
 
-    // pub fn highlighted_note(mut self, msg: Vec<(String, Style)>) -> Self {
-    //     self.inner.highlighted_note(msg);
-    //     self
-    // }
-
-    #[inline(always)]
-    pub fn span_note<S: Into<MultiSpan>>(mut self, sp: S, msg: &str) -> Self {
-        self.inner.span_note(sp, msg);
+    pub fn note(&mut self, msg: &str) -> &mut Self {
+        self.sub(Level::Note, msg, MultiSpan::new(), None);
         self
     }
 
-    #[inline(always)]
-    pub fn warn(mut self, msg: &str) -> Self {
-        self.inner.warn(msg);
+    pub fn highlighted_note(&mut self, msg: Vec<(String, Style)>) -> &mut Self {
+        self.sub_with_highlights(Level::Note, msg, MultiSpan::new(), None);
         self
     }
 
-    #[inline(always)]
-    pub fn span_warn<S: Into<MultiSpan>>(mut self, sp: S, msg: &str) -> Self {
-        self.inner.span_warn(sp, msg);
+    pub fn span_note<S: Into<MultiSpan>>(&mut self, sp: S, msg: &str) -> &mut Self {
+        self.sub(Level::Note, msg, sp.into(), None);
         self
     }
 
-    #[inline(always)]
-    pub fn help(mut self, msg: &str) -> Self {
-        self.inner.help(msg);
+    pub fn warn(&mut self, msg: &str) -> &mut Self {
+        self.sub(Level::Warning, msg, MultiSpan::new(), None);
         self
     }
 
-    #[inline(always)]
-    pub fn span_help<S: Into<MultiSpan>>(mut self, sp: S, msg: &str) -> Self {
-        self.inner.span_help(sp, msg);
+    pub fn span_warn<S: Into<MultiSpan>>(&mut self, sp: S, msg: &str) -> &mut Self {
+        self.sub(Level::Warning, msg, sp.into(), None);
+        self
+    }
+
+    pub fn help(&mut self, msg: &str) -> &mut Self {
+        self.sub(Level::Help, msg, MultiSpan::new(), None);
+        self
+    }
+
+    pub fn span_help<S: Into<MultiSpan>>(&mut self, sp: S, msg: &str) -> &mut Self {
+        self.sub(Level::Help, msg, sp.into(), None);
         self
     }
 
@@ -142,9 +210,19 @@ impl Diagnostic {
     /// and not the text.
     ///
     /// See `CodeSuggestion` for more information.
-    #[inline(always)]
-    pub fn span_suggestion_short(mut self, sp: Span, msg: &str, suggestion: String) -> Self {
-        self.inner.span_suggestion_short(sp, msg, suggestion);
+    #[deprecated(note = "Use `span_suggestion_short_with_applicability`")]
+    pub fn span_suggestion_short(&mut self, sp: Span, msg: &str, suggestion: String) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: vec![Substitution {
+                parts: vec![SubstitutionPart {
+                    snippet: suggestion,
+                    span: sp,
+                }],
+            }],
+            msg: msg.to_owned(),
+            show_code_when_inline: false,
+            applicability: Applicability::Unspecified,
+        });
         self
     }
 
@@ -162,48 +240,214 @@ impl Diagnostic {
     /// * should not contain any parts like "the following", "as shown"
     /// * may look like "to do xyz, use" or "to do xyz, use abc"
     /// * may contain a name of a function, variable or type, but not whole
-    /// expressions
+    ///   expressions
     ///
     /// See `CodeSuggestion` for more information.
-    #[inline(always)]
-    pub fn span_suggestion(mut self, sp: Span, msg: &str, suggestion: String) -> Self {
-        self.inner.span_suggestion(sp, msg, suggestion);
+    #[deprecated(note = "Use `span_suggestion_with_applicability`")]
+    pub fn span_suggestion(&mut self, sp: Span, msg: &str, suggestion: String) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: vec![Substitution {
+                parts: vec![SubstitutionPart {
+                    snippet: suggestion,
+                    span: sp,
+                }],
+            }],
+            msg: msg.to_owned(),
+            show_code_when_inline: true,
+            applicability: Applicability::Unspecified,
+        });
         self
+    }
+
+    pub fn multipart_suggestion_with_applicability(
+        &mut self,
+        msg: &str,
+        suggestion: Vec<(Span, String)>,
+        applicability: Applicability,
+    ) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: vec![Substitution {
+                parts: suggestion
+                    .into_iter()
+                    .map(|(span, snippet)| SubstitutionPart { snippet, span })
+                    .collect(),
+            }],
+            msg: msg.to_owned(),
+            show_code_when_inline: true,
+            applicability,
+        });
+        self
+    }
+
+    #[deprecated(note = "Use `multipart_suggestion_with_applicability`")]
+    pub fn multipart_suggestion(
+        &mut self,
+        msg: &str,
+        suggestion: Vec<(Span, String)>,
+    ) -> &mut Self {
+        self.multipart_suggestion_with_applicability(msg, suggestion, Applicability::Unspecified)
     }
 
     /// Prints out a message with multiple suggested edits of the code.
-    #[inline(always)]
-    pub fn span_suggestions(mut self, sp: Span, msg: &str, suggestions: Vec<String>) -> Self {
-        self.inner.span_suggestions(sp, msg, suggestions);
+    #[deprecated(note = "Use `span_suggestions_with_applicability`")]
+    pub fn span_suggestions(&mut self, sp: Span, msg: &str, suggestions: Vec<String>) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: suggestions
+                .into_iter()
+                .map(|snippet| Substitution {
+                    parts: vec![SubstitutionPart { snippet, span: sp }],
+                })
+                .collect(),
+            msg: msg.to_owned(),
+            show_code_when_inline: true,
+            applicability: Applicability::Unspecified,
+        });
         self
     }
 
-    #[inline(always)]
-    pub fn span<S: Into<MultiSpan>>(mut self, sp: S) -> Self {
-        self.inner.set_span(sp);
+    /// This is a suggestion that may contain mistakes or fillers and should
+    /// be read and understood by a human.
+    pub fn span_suggestion_with_applicability(
+        &mut self,
+        sp: Span,
+        msg: &str,
+        suggestion: String,
+        applicability: Applicability,
+    ) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: vec![Substitution {
+                parts: vec![SubstitutionPart {
+                    snippet: suggestion,
+                    span: sp,
+                }],
+            }],
+            msg: msg.to_owned(),
+            show_code_when_inline: true,
+            applicability,
+        });
         self
     }
 
-    #[inline(always)]
-    pub fn code(mut self, s: DiagnosticId) -> Self {
-        self.inner.code(s);
+    pub fn span_suggestions_with_applicability(
+        &mut self,
+        sp: Span,
+        msg: &str,
+        suggestions: impl Iterator<Item = String>,
+        applicability: Applicability,
+    ) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: suggestions
+                .map(|snippet| Substitution {
+                    parts: vec![SubstitutionPart { snippet, span: sp }],
+                })
+                .collect(),
+            msg: msg.to_owned(),
+            show_code_when_inline: true,
+            applicability,
+        });
         self
     }
 
-    // /// Used by a lint. Copies over all details *but* the "main
-    // /// message".
-    // pub fn copy_details_not_message(mut self, from: &Diagnostic) {
-    //     self.span = from.span.clone();
-    //     self.code = from.code.clone();
-    //     self.children.extend(from.children.iter().cloned())
-    // }
+    pub fn span_suggestion_short_with_applicability(
+        &mut self,
+        sp: Span,
+        msg: &str,
+        suggestion: String,
+        applicability: Applicability,
+    ) -> &mut Self {
+        self.suggestions.push(CodeSuggestion {
+            substitutions: vec![Substitution {
+                parts: vec![SubstitutionPart {
+                    snippet: suggestion,
+                    span: sp,
+                }],
+            }],
+            msg: msg.to_owned(),
+            show_code_when_inline: false,
+            applicability,
+        });
+        self
+    }
+
+    pub fn set_span<S: Into<MultiSpan>>(&mut self, sp: S) -> &mut Self {
+        self.span = sp.into();
+        self
+    }
+
+    pub fn code(&mut self, s: DiagnosticId) -> &mut Self {
+        self.code = Some(s);
+        self
+    }
+
+    pub fn get_code(&self) -> Option<DiagnosticId> {
+        self.code.clone()
+    }
+
+    pub fn message(&self) -> String {
+        self.message
+            .iter()
+            .map(|i| i.0.as_str())
+            .collect::<String>()
+    }
+
+    pub fn styled_message(&self) -> &Vec<(String, Style)> {
+        &self.message
+    }
+
+    /// Used by a lint. Copies over all details *but* the "main
+    /// message".
+    pub fn copy_details_not_message(&mut self, from: &Diagnostic) {
+        self.span = from.span.clone();
+        self.code = from.code.clone();
+        self.children.extend(from.children.iter().cloned())
+    }
+
+    /// Convenience function for internal use, clients should use one of the
+    /// public methods above.
+    pub fn sub(
+        &mut self,
+        level: Level,
+        message: &str,
+        span: MultiSpan,
+        render_span: Option<MultiSpan>,
+    ) {
+        let sub = SubDiagnostic {
+            level,
+            message: vec![(message.to_owned(), Style::NoStyle)],
+            span,
+            render_span,
+        };
+        self.children.push(sub);
+    }
+
+    /// Convenience function for internal use, clients should use one of the
+    /// public methods above.
+    fn sub_with_highlights(
+        &mut self,
+        level: Level,
+        message: Vec<(String, Style)>,
+        span: MultiSpan,
+        render_span: Option<MultiSpan>,
+    ) {
+        let sub = SubDiagnostic {
+            level,
+            message,
+            span,
+            render_span,
+        };
+        self.children.push(sub);
+    }
 }
 
-impl From<RustcDiagnostic> for Diagnostic {
-    #[inline(always)]
-    fn from(inner: RustcDiagnostic) -> Self {
-        Diagnostic {
-            inner: Box::new(inner),
-        }
+impl SubDiagnostic {
+    pub fn message(&self) -> String {
+        self.message
+            .iter()
+            .map(|i| i.0.as_str())
+            .collect::<String>()
+    }
+
+    pub fn styled_message(&self) -> &Vec<(String, Style)> {
+        &self.message
     }
 }

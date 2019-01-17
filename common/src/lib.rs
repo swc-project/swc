@@ -1,17 +1,23 @@
 #![cfg_attr(feature = "fold", feature(specialization))]
 
 extern crate ast_node;
+extern crate atty;
 extern crate either;
-extern crate rustc_errors;
+extern crate owning_ref;
+extern crate parking_lot;
+extern crate rayon;
+extern crate rayon_core;
+extern crate string_cache;
+extern crate syntax;
+extern crate termcolor;
+extern crate unicode_width;
 #[macro_use]
+extern crate log;
 extern crate rustc_data_structures;
 #[macro_use]
 extern crate scoped_tls;
 #[macro_use]
 extern crate cfg_if;
-extern crate string_cache;
-extern crate syntax;
-extern crate unicode_width;
 
 #[cfg(feature = "fold")]
 pub use self::fold::{Fold, FoldWith, Visit, VisitWith};
@@ -20,7 +26,6 @@ pub use self::{
     pos::*,
 };
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
-pub use rustc_data_structures::sync;
 use std::fmt::Debug;
 pub use syntax::source_map::{
     FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError,
@@ -36,5 +41,6 @@ pub mod errors;
 pub mod fold;
 pub mod macros;
 mod pos;
+pub mod sync;
 mod syntax_pos;
 pub mod util;
