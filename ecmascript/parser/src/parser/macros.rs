@@ -182,8 +182,7 @@ macro_rules! cur {
                             span: e.span,
                             error: e.error,
                         });
-                    let err: Result<!, _> = Err(err);
-                    err?
+                    return Err(err.into());
                 }
                 _ => unreachable!(),
             }
@@ -197,8 +196,7 @@ macro_rules! cur {
                         last,
                         handler: &$p.session.handler,
                     });
-                    let err: Result<!, _> = Err(err);
-                    err?
+                    return Err(err.into());
                 }
                 Err($crate::error::Eof {
                     last,
@@ -303,7 +301,6 @@ macro_rules! syntax_error {
             span: $span,
             error: $err,
         });
-        let err: Result<!, _> = Err(err);
-        err?
+        return Err(err.into());
     }};
 }

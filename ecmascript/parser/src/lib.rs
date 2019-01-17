@@ -70,7 +70,6 @@
 #![feature(box_syntax)]
 #![feature(box_patterns)]
 #![cfg_attr(feature = "fold", feature(specialization))]
-#![feature(never_type)]
 #![cfg_attr(test, feature(test))]
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]

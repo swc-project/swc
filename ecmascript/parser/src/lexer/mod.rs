@@ -213,7 +213,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // Handle -->
                     if self.state.had_line_break && c == '-' && self.eat('>') {
                         if self.ctx.module {
-                            self.error(start, SyntaxError::LegacyCommentInModule)?
+                            return self.error(start, SyntaxError::LegacyCommentInModule)?;
                         }
                         self.skip_line_comment(0);
                         self.skip_space()?;

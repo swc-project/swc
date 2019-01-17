@@ -1,7 +1,6 @@
 use super::*;
-use swc_common::{Span, Spanned};
 #[cfg(feature = "verify")]
-use swc_common::{Visit, VisitWith};
+use swc_common::{Span, Spanned, Visit, VisitWith};
 
 impl<'a, I: Input> Parser<'a, I> {
     #[cfg(feature = "verify")]

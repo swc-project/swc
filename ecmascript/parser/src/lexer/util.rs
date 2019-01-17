@@ -85,13 +85,13 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
     #[cold]
-    pub(super) fn error(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<!> {
+    pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
         let span = self.span(start);
         self.error_span(span, kind)
     }
 
     #[cold]
-    pub(super) fn error_span(&mut self, span: Span, kind: SyntaxError) -> LexResult<!> {
+    pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
         let err = ErrorToDiag {
             handler: self.session.handler,
             span,
