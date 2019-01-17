@@ -352,7 +352,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 *self = cloned;
                 Ok(res)
             }
-            Err(err) => {
+            Err(mut err) => {
                 let _ = err.cancel();
                 Ok(false)
             }
@@ -376,7 +376,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 Some(res)
             }
             Ok(None) => None,
-            Err(err) => {
+            Err(mut err) => {
                 let _ = err.cancel();
                 None
             }
