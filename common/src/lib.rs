@@ -1,4 +1,3 @@
-#![feature(never_type)]
 #![feature(specialization)]
 extern crate ast_node;
 extern crate either;
