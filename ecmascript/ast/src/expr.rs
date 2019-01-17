@@ -13,7 +13,9 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
-use swc_common::{ast_node, Fold, Span, Spanned};
+#[cfg(feature = "fold")]
+use swc_common::Fold;
+use swc_common::{ast_node, Span, Spanned};
 
 #[ast_node]
 pub enum Expr {
@@ -283,7 +285,8 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
-#[derive(Fold, Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     pub spread: Option<Span>,
     pub expr: Box<Expr>,

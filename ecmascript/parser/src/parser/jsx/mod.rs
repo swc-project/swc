@@ -55,7 +55,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
                 obj: match node {
                     JSXElementName::Ident(i) => JSXObject::Ident(i),
-                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(box i),
+                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
                     _ => unimplemented!("JSXNamespacedName -> JSXObject"),
                 },
                 prop,
@@ -280,7 +280,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                             children.push(p.parse_jsx_element_at(start).map(|e| match e {
                                 Either::Left(e) => JSXElementChild::from(e),
-                                Either::Right(e) => JSXElementChild::from(box e),
+                                Either::Right(e) => JSXElementChild::from(Box::new(e)),
                             })?);
                         }
                         Token::JSXText { .. } => {
@@ -419,9 +419,12 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> JsWord {
     fn get_qualified_obj_name(obj: &JSXObject) -> JsWord {
         match *obj {
             JSXObject::Ident(ref i) => i.sym.clone(),
-            JSXObject::JSXMemberExpr(box JSXMemberExpr { ref obj, ref prop }) => {
-                format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into()
-            }
+            JSXObject::JSXMemberExpr(ref member) => format!(
+                "{}.{}",
+                get_qualified_obj_name(&member.obj),
+                member.prop.sym
+            )
+            .into(),
         }
     }
     match *name {

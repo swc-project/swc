@@ -3,7 +3,7 @@ use swc_common::DUMMY_SP as span;
 
 fn lhs(s: &'static str) -> Box<Expr> {
     test_parser(s, Syntax::default(), |p| {
-        p.parse_lhs_expr().map_err(|e| {
+        p.parse_lhs_expr().map_err(|mut e| {
             e.emit();
             ()
         })
@@ -12,7 +12,7 @@ fn lhs(s: &'static str) -> Box<Expr> {
 
 fn new_expr(s: &'static str) -> Box<Expr> {
     test_parser(s, Syntax::default(), |p| {
-        p.parse_new_expr().map_err(|e| {
+        p.parse_new_expr().map_err(|mut e| {
             e.emit();
             ()
         })
@@ -21,7 +21,7 @@ fn new_expr(s: &'static str) -> Box<Expr> {
 
 fn member_expr(s: &'static str) -> Box<Expr> {
     test_parser(s, Syntax::default(), |p| {
-        p.parse_member_expr().map_err(|e| {
+        p.parse_member_expr().map_err(|mut e| {
             e.emit();
             ()
         })
@@ -35,7 +35,7 @@ fn expr(s: &'static str) -> Box<Expr> {
                 Stmt::Expr(expr) => expr,
                 _ => unreachable!(),
             })
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })

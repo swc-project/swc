@@ -12,10 +12,7 @@ pub struct SourceFileInput<'a> {
 
 impl<'a> From<&'a SourceFile> for SourceFileInput<'a> {
     fn from(fm: &'a SourceFile) -> Self {
-        let src = match fm.src {
-            Some(ref s) => s,
-            None => unreachable!("Cannot lex SourceFile without source: {}", fm.name),
-        };
+        let src = &fm.src;
 
         SourceFileInput {
             start_pos: fm.start_pos,

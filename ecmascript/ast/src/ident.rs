@@ -4,10 +4,11 @@ use swc_atoms::JsWord;
 use swc_common::{ast_node, Fold, Span, Spanned};
 
 /// Ident with span.
-#[derive(Spanned, Fold, Clone, PartialEq)]
+#[derive(Spanned, Clone, PartialEq)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub struct Ident {
     pub span: Span,
-    #[fold(ignore)]
+    #[cfg_attr(feature = "fold", fold(ignore))]
     pub sym: JsWord,
     pub type_ann: Option<TsTypeAnn>,
     /// TypeScript only. Used in case of an optional parameter.

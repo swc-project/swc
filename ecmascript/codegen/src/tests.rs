@@ -83,7 +83,7 @@ fn test_from_to(from: &str, to: &str) {
                 Syntax::default(),
                 (&*src).into(),
             ))
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             });

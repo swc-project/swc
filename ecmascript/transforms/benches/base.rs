@@ -98,7 +98,7 @@ fn module_clone(b: &mut Bencher) {
         );
         let module = parser
             .parse_module()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -124,7 +124,7 @@ fn fold_empty(b: &mut Bencher) {
         );
         let module = parser
             .parse_module()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -161,7 +161,7 @@ fn fold_noop_impl_all(b: &mut Bencher) {
         );
         let module = parser
             .parse_module()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -198,7 +198,7 @@ fn fold_noop_impl_vec(b: &mut Bencher) {
         );
         let module = parser
             .parse_module()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -280,7 +280,7 @@ fn visit_empty(b: &mut Bencher) {
         );
         let module = parser
             .parse_module()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -332,7 +332,7 @@ fn visit_contains_this(b: &mut Bencher) {
         );
         let module = parser
             .parse_module()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })

@@ -124,7 +124,7 @@ impl<'a, I: Input> Parser<'a, I> {
         Span::new(start, end, Default::default())
     }
 
-    pub(super) const fn syntax(&self) -> Syntax {
+    pub(super) fn syntax(&self) -> Syntax {
         self.input.syntax()
     }
 }

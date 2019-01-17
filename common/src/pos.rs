@@ -1,7 +1,8 @@
+#[cfg(feature = "fold")]
 use fold::{FoldWith, VisitWith};
 pub use syntax_pos::{
-    hygiene, BytePos, ExpnFormat, ExpnInfo, FileName, Globals, Mark, MultiSpan, SourceFile, Span,
-    SpanData, SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
+    hygiene, BytePos, ExpnInfo, FileName, Globals, Mark, MultiSpan, SourceFile, Span, SpanData,
+    SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
 };
 
 ///
@@ -70,6 +71,7 @@ where
     }
 }
 
+#[cfg(feature = "fold")]
 impl<F> FoldWith<F> for Span {
     /// No op as span does not have any child.
     fn fold_children(self, _: &mut F) -> Span {
@@ -77,6 +79,7 @@ impl<F> FoldWith<F> for Span {
     }
 }
 
+#[cfg(feature = "fold")]
 impl<F> VisitWith<F> for Span {
     /// No op as span does not have any child.
     fn visit_children(&self, _: &mut F) {}

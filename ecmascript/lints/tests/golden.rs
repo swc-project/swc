@@ -94,7 +94,7 @@ fn add_golden_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let session = parser::Session { handler: &handler };
                     parser::Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
                         .parse_module()
-                        .map_err(|e| {
+                        .map_err(|mut e| {
                             e.emit();
                             ()
                         })?

@@ -1,7 +1,7 @@
 #![feature(specialization)]
 
 extern crate swc_common;
-use swc_common::{Fold, FoldWith, Visit, VisitWith};
+use swc_common::{Fold, FoldWith, VisitWith};
 struct MyFold;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]

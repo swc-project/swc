@@ -18,7 +18,9 @@ pub(crate) struct Eof<'a> {
 
 impl<'a> From<Eof<'a>> for DiagnosticBuilder<'a> {
     fn from(Eof { handler, last }: Eof<'a>) -> Self {
-        handler.error("Unexpected eof").span(last)
+        let mut db = handler.struct_err("Unexpected eof");
+        db.set_span(last);
+        db
     }
 }
 
@@ -285,19 +287,22 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 .into(),
         };
 
-        let d = e.handler.error(&msg).span(e.span);
+        let mut db = e.handler.struct_err(&msg);
+        db.set_span(e.span);
 
-        let d = match e.error {
-            ExpectedSemiForExprStmt { expr } => d.span_note(
-                expr,
-                "This is the expression part of an expression statement",
-            ),
-            MultipleDefault { previous } => {
-                d.span_note(previous, "previous default case is declared at here")
+        match e.error {
+            ExpectedSemiForExprStmt { expr } => {
+                db.span_note(
+                    expr,
+                    "This is the expression part of an expression statement",
+                );
             }
-            _ => d,
-        };
+            MultipleDefault { previous } => {
+                db.span_note(previous, "previous default case is declared at here");
+            }
+            _ => {}
+        }
 
-        d
+        db
     }
 }

@@ -159,12 +159,12 @@ impl<'a, I: Input> Parser<'a, I> {
             while eat!('.') {
                 let ident = self.parse_ident(true, true)?;
 
-                expr = box Expr::Member(MemberExpr {
+                expr = Box::new(Expr::Member(MemberExpr {
                     span: span!(start),
                     obj: ExprOrSuper::Expr(expr),
                     computed: false,
-                    prop: box Expr::Ident(ident),
-                })
+                    prop: Box::new(Expr::Ident(ident)),
+                }))
             }
 
             expr
@@ -190,12 +190,12 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         let args = self.parse_args()?;
-        Ok(box Expr::Call(CallExpr {
+        Ok(Box::new(Expr::Call(CallExpr {
             span: span!(expr.span().lo()),
             callee: ExprOrSuper::Expr(expr),
             args,
             type_args: None,
-        }))
+        })))
     }
 
     fn parse_class_body(&mut self) -> PResult<'a, Vec<ClassMember>> {
@@ -556,9 +556,9 @@ impl<'a, I: Input> Parser<'a, I> {
                 Either::Right(key) => ClassProperty {
                     span: span!(start),
                     key: match key {
-                        PropName::Ident(i) => box Expr::Ident(i),
-                        PropName::Str(s) => box Expr::Lit(Lit::Str(s)),
-                        PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
+                        PropName::Ident(i) => Box::new(Expr::Ident(i)),
+                        PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),
+                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
                         PropName::Computed(e) => e,
                     },
                     value,
@@ -819,10 +819,10 @@ impl OutputType for Box<Expr> {
     }
 
     fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
-        box Expr::Fn(FnExpr { ident, function })
+        Box::new(Expr::Fn(FnExpr { ident, function }))
     }
     fn finish_class(ident: Option<Ident>, class: Class) -> Self {
-        box Expr::Class(ClassExpr { ident, class })
+        Box::new(Expr::Class(ClassExpr { ident, class }))
     }
 }
 
@@ -927,7 +927,7 @@ mod tests {
 
     fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_lhs_expr().map_err(|e| {
+            p.parse_lhs_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -936,7 +936,7 @@ mod tests {
 
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_expr().map_err(|e| {
+            p.parse_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -947,9 +947,9 @@ mod tests {
     fn class_expr() {
         assert_eq_ignore_span!(
             expr("(class extends a {})"),
-            box Expr::Paren(ParenExpr {
+            Box::new(Expr::Paren(ParenExpr {
                 span,
-                expr: box Expr::Class(ClassExpr {
+                expr: Box::new(Expr::Class(ClassExpr {
                     ident: None,
                     class: Class {
                         decorators: vec![],
@@ -961,8 +961,8 @@ mod tests {
                         super_type_params: None,
                         type_params: None,
                     },
-                }),
-            })
+                })),
+            }))
         );
     }
 }

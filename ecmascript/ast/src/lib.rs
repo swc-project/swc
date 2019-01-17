@@ -1,5 +1,3 @@
-#![feature(specialization)]
-#![feature(never_type)]
 #![deny(unreachable_patterns)]
 #![deny(missing_copy_implementations)]
 #![deny(missing_debug_implementations)]

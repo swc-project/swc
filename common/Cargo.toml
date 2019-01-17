@@ -1,17 +1,30 @@
 [package]
 name = "swc_common"
-version = "0.1.4"
+version = "0.2.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
 documentation = "https://swc-project.github.io/rustdoc/swc_common/"
 description = "Common utilities for the swc project."
 
+[features]
+default = []
+# Enable folder and visitor. Requires nightly compiler.
+fold = ["ast_node/fold"]
+
+
 [dependencies]
-ast_node = { version = "0.2", path = "../macros/ast_node" }
+ast_node = { version = "0.3", path = "../macros/ast_node" }
 string_cache = "0.7"
 either = "1.5"
-rustc-ap-rustc_errors = "313"
-rustc-ap-syntax = "313"
-rustc-ap-rustc_data_structures = "313"
-rustc-ap-syntax_pos = "313"
+scoped-tls = { version = "0.1.1", features = ["nightly"] }
+unicode-width = "0.1.4"
+cfg-if = "0.1.2"
+log = "0.4"
+atty = "0.2"
+parking_lot = "0.6"
+fxhash = "0.2"
+termcolor = "1.0"
+rayon = "1"
+rayon-core = "1"
+owning_ref = "0.4"

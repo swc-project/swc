@@ -55,7 +55,7 @@
 //!
 //!         let _module = parser
 //!             .parse_module()
-//!             .map_err(|e| {
+//!             .map_err(|mut e| {
 //!                 e.emit();
 //!                 ()
 //!             })
@@ -67,13 +67,8 @@
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
 
-#![feature(box_syntax)]
-#![feature(box_patterns)]
-#![feature(const_fn)]
-#![feature(specialization)]
-#![feature(never_type)]
-#![feature(try_from)]
-#![feature(try_trait)]
+#![cfg_attr(any(test, feature = "fold"), feature(specialization))]
+#![cfg_attr(test, feature(box_syntax))]
 #![cfg_attr(test, feature(test))]
 #![deny(unreachable_patterns)]
 #![deny(unsafe_code)]

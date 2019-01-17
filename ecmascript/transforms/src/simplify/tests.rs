@@ -3,7 +3,12 @@ use super::Simplifier;
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
-        test_transform!(::swc_ecma_parser::Syntax::default(), Simplifier, $l, $r)
+        test_transform!(
+            ::swc_ecma_parser::Syntax::default(),
+            Simplifier { enable: true },
+            $l,
+            $r
+        )
     };
     ($l:expr, $r:expr,) => {
         test_expr!($l, $r);

@@ -1,5 +1,5 @@
 use super::{Fold, FoldWith, Visit, VisitWith};
-use syntax::util::move_map::MoveMap;
+use crate::util::move_map::MoveMap;
 
 #[macro_export]
 macro_rules! chain {

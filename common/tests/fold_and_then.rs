@@ -2,6 +2,7 @@
 #![feature(box_syntax)]
 #![feature(specialization)]
 #![feature(test)]
+#![cfg(feature = "fold")]
 
 #[macro_use]
 extern crate swc_common;

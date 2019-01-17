@@ -122,14 +122,14 @@ mod tests {
                 body: stmts.into_iter().map(ModuleItem::Stmt).collect(),
             };
 
-            let module = hygiene().fold(module);
+            let module = module.fold_with(&mut hygiene());
 
             let actual = tester.print(&module);
 
             let expected = {
                 let expected =
                     tester.with_parser("expected.js", Syntax::default(), expected, |p| {
-                        p.parse_module().map_err(|e| {
+                        p.parse_module().map_err(|mut e| {
                             e.emit();
                             ()
                         })

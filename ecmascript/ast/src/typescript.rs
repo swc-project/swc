@@ -8,7 +8,9 @@ use crate::{
     module::ModuleItem,
     pat::{AssignPat, ObjectPat, RestPat},
 };
-use swc_common::{ast_node, Fold, Span};
+#[cfg(feature = "fold")]
+use swc_common::Fold;
+use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub struct TsTypeAnn {
@@ -209,7 +211,8 @@ pub struct TsKeywordType {
     pub kind: TsKeywordTypeKind,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Fold)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsKeywordTypeKind {
     TsAnyKeyword,
     TsUnknownKeyword,
@@ -358,7 +361,8 @@ pub struct TsTypeOperator {
     pub type_ann: Box<TsType>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Fold)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsTypeOperatorOp {
     KeyOf,
     Unique,
@@ -371,7 +375,8 @@ pub struct TsIndexedAccessType {
     pub index_type: Box<TsType>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Fold)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TruePlusMinus {
     True,
     Plus,
@@ -558,7 +563,8 @@ pub struct TsNonNullExpr {
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Fold)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "fold", derive(Fold))]
 pub enum Accessibility {
     Public,
     Protected,

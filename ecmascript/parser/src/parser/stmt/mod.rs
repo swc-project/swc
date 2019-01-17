@@ -215,14 +215,14 @@ impl<'a, I: Input> Parser<'a, I> {
         // Identifier node, we switch to interpreting it as a label.
         let expr = self.include_in_expr(true).parse_expr()?;
 
-        let expr = match expr {
-            box Expr::Ident(ident) => {
+        let expr = match *expr {
+            Expr::Ident(ident) => {
                 if eat!(':') {
                     return self.parse_labelled_stmt(ident);
                 }
-                box Expr::Ident(ident)
+                Box::new(Expr::Ident(ident))
             }
-            expr => {
+            _ => {
                 let expr = self.verify_expr(expr)?;
 
                 expr
@@ -260,11 +260,11 @@ impl<'a, I: Input> Parser<'a, I> {
             if !self.ctx().strict && is!("function") {
                 // TODO: report error?
             }
-            box self.parse_stmt(false)?
+            self.parse_stmt(false).map(Box::new)?
         };
 
         let alt = if eat!("else") {
-            Some(box self.parse_stmt(false)?)
+            Some(self.parse_stmt(false).map(Box::new)?)
         } else {
             None
         };
@@ -530,7 +530,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         assert_and_bump!("do");
 
-        let body = box self.parse_stmt(false)?;
+        let body = self.parse_stmt(false).map(Box::new)?;
         expect!("while");
         let test = self.include_in_expr(true).parse_expr()?;
 
@@ -551,7 +551,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let test = self.include_in_expr(true).parse_expr()?;
         expect!(')');
 
-        let body = box self.parse_stmt(false)?;
+        let body = self.parse_stmt(false).map(Box::new)?;
 
         let span = span!(start);
         Ok(Stmt::While(WhileStmt { span, test, body }))
@@ -570,7 +570,7 @@ impl<'a, I: Input> Parser<'a, I> {
         let obj = self.include_in_expr(true).parse_expr()?;
         expect!(')');
 
-        let body = box self.parse_stmt(false)?;
+        let body = self.parse_stmt(false).map(Box::new)?;
 
         let span = span!(start);
         Ok(Stmt::With(WithStmt { span, obj, body }))
@@ -595,7 +595,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 syntax_error!(SyntaxError::DuplicateLabel(label.sym.clone()));
             }
         }
-        let body = box if is!("function") {
+        let body = Box::new(if is!("function") {
             let f = self.parse_fn_decl(vec![])?;
             match f {
                 Decl::Fn(FnDecl {
@@ -613,7 +613,7 @@ impl<'a, I: Input> Parser<'a, I> {
             f.into()
         } else {
             self.parse_stmt(false)?
-        };
+        });
 
         Ok(Stmt::Labeled(LabeledStmt {
             span: span!(start),
@@ -634,7 +634,7 @@ impl<'a, I: Input> Parser<'a, I> {
         expect!('(');
         let head = self.parse_for_head()?;
         expect!(')');
-        let body = box self.parse_stmt(false)?;
+        let body = self.parse_stmt(false).map(Box::new)?;
 
         let span = span!(start);
         Ok(match head {
@@ -763,11 +763,14 @@ pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
-            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(Str {
-                ref value,
-                has_escape: false,
-                ..
-            })))) => value == "use strict",
+            Some(&Stmt::Expr(ref expr)) => match **expr {
+                Expr::Lit(Lit::Str(Str {
+                    ref value,
+                    has_escape: false,
+                    ..
+                })) => value == "use strict",
+                _ => false,
+            },
             _ => false,
         }
     }
@@ -802,7 +805,7 @@ mod tests {
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_stmt(true).map_err(|e| {
+            p.parse_stmt(true).map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -810,7 +813,7 @@ mod tests {
     }
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_expr().map_err(|e| {
+            p.parse_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -936,7 +939,7 @@ mod tests {
                     decorators: true,
                     ..Default::default()
                 }),
-                |p| p.parse_stmt_list_item(true).map_err(|e| {
+                |p| p.parse_stmt_list_item(true).map_err(|mut e| {
                     e.emit();
                     ()
                 }),
