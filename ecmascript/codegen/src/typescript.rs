@@ -1,6 +1,4 @@
 use super::{Emitter, Result};
-use crate::list::ListFormat;
-use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 

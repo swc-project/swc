@@ -6,7 +6,7 @@ use std::sync::{
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, FilePathMapping, Fold, SourceMap,
+    FileName, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
@@ -75,6 +75,7 @@ impl InjectHelpers {
                         let stmts =
                             Parser::new(*SESSION, Syntax::default(), SourceFileInput::from(&*fm))
                                 .parse_script()
+                                .map(|stmts| stmts.fold_with(&mut DropSpan))
                                 .map_err(|mut e| {
                                     e.emit();
                                     ()
@@ -136,5 +137,12 @@ impl Fold<Module> for InjectHelpers {
             .collect();
 
         Module { body, ..module }
+    }
+}
+
+struct DropSpan;
+impl Fold<Span> for DropSpan {
+    fn fold(&mut self, _: Span) -> Span {
+        DUMMY_SP
     }
 }
