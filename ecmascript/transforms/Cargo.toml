@@ -12,7 +12,7 @@ publish = false
 swc_atoms = { path ="../../atoms" }
 swc_common = { path ="../../common" }
 swc_ecma_ast = { path ="../ast" }
-swc_ecma_parser = { path ="../parser" }
+swc_ecma_parser = { path ="../parser", features = ["verify"] }
 either = "1.5"
 fnv = "1"
 lazy_static = "1"
