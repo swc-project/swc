@@ -1996,7 +1996,10 @@ impl<'a, I: Input> Parser<'a, I> {
         Ok(ty)
     }
 
-    /// In no lexer context
+}
+
+impl<'a, I: Input> Parser<'a, I> {
+        /// In no lexer context
     fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<'a, T>
     where
         F: FnOnce(&mut Self) -> PResult<'a, T>,
