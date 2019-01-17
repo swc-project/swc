@@ -8,16 +8,15 @@ use self::{
     Level::*,
 };
 use crate::sync::{self, AtomicUsize, Lock, Lrc};
-use rustc_data_structures::{fx::FxHashSet, stable_hasher::StableHasher};
+use fxhash::FxHashSet;
+use rustc_data_structures::stable_hasher::StableHasher;
 use std::{
     borrow::Cow,
     cell::Cell,
     error, fmt, panic,
     sync::atomic::{AtomicBool, Ordering::SeqCst},
 };
-use syntax_pos::{
-    BytePos, FileLinesResult, FileName, Loc, MultiSpan, SourceFile, Span, NO_EXPANSION,
-};
+use syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION};
 use termcolor::{Color, ColorSpec};
 
 mod diagnostic;
@@ -99,7 +98,6 @@ pub trait SourceMapper {
     fn span_to_filename(&self, sp: Span) -> FileName;
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span>;
     fn call_span_if_macro(&self, sp: Span) -> Span;
-    fn ensure_source_file_source_present(&self, source_file: Lrc<SourceFile>) -> bool;
     fn doctest_offset_line(&self, file: &FileName, line: usize) -> usize;
 }
 

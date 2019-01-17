@@ -6,7 +6,7 @@
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use std::{fmt, mem};
+use std::fmt;
 use Span;
 use GLOBALS;
 

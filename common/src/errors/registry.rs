@@ -1,4 +1,4 @@
-use rustc_data_structures::fx::FxHashMap;
+use fxhash::FxHashMap;
 
 #[derive(Clone)]
 pub struct Registry {

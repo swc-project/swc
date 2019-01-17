@@ -6,7 +6,7 @@ use super::{
 };
 use crate::sync::Lrc;
 use atty;
-use rustc_data_structures::fx::FxHashMap;
+use fxhash::FxHashMap;
 use std::{
     borrow::Cow,
     cmp::{min, Reverse},
@@ -987,10 +987,10 @@ impl EmitterWriter {
 
         // Print out the annotate source lines that correspond with the error
         for annotated_file in annotated_files {
-            // we can't annotate anything if the source is unavailable.
-            if !sm.ensure_source_file_source_present(annotated_file.file.clone()) {
-                continue;
-            }
+            // // we can't annotate anything if the source is unavailable.
+            // if !sm.ensure_source_file_source_present(annotated_file.file.clone()) {
+            //     continue;
+            // }
 
             // print out the span location and spacer before we print the annotated source
             // to do this, we need to know if this span will be primary
