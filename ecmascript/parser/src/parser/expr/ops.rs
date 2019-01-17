@@ -227,7 +227,7 @@ mod tests {
 
     fn bin(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_bin_expr().map_err(|e| {
+            p.parse_bin_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })

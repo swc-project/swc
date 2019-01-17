@@ -75,7 +75,7 @@ impl InjectHelpers {
                         let stmts =
                             Parser::new(*SESSION, Syntax::default(), SourceFileInput::from(&*fm))
                                 .parse_script()
-                                .map_err(|e| {
+                                .map_err(|mut e| {
                                     e.emit();
                                     ()
                                 })

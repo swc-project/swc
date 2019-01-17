@@ -153,7 +153,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     (&*src).into(),
                 );
 
-                let s: Lrc<String> = src.src.as_ref().map(|s| s.clone()).unwrap();
+                let s: Lrc<String> = src.src.clone();
                 let mut src_map_builder = SourceMapBuilder::new(Some(&s));
                 {
                     let mut emitter = Emitter {
@@ -172,14 +172,14 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     // Parse source
                     if module {
                         emitter
-                            .emit_module(&parser.parse_module().map_err(|e| {
+                            .emit_module(&parser.parse_module().map_err(|mut e| {
                                 e.emit();
                                 ()
                             })?)
                             .unwrap();
                     } else {
                         emitter
-                            .emit_script(&parser.parse_script().map_err(|e| {
+                            .emit_script(&parser.parse_script().map_err(|mut e| {
                                 e.emit();
                                 ()
                             })?)

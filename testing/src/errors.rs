@@ -17,7 +17,7 @@ pub(crate) fn new_handler(
 
     let e = EmitterWriter::new(box buf.clone(), Some(cm.clone()), false, true);
 
-    let handler = Handler::with_emitter(
+    let handler = Handler::with_emitter_and_flags(
         box e,
         HandlerFlags {
             treat_err_as_bug,

@@ -104,7 +104,7 @@ macro_rules! tr {
             );
             let module = parser
                 .parse_module()
-                .map_err(|e| {
+                .map_err(|mut e| {
                     e.emit();
                     ()
                 })

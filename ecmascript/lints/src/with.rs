@@ -7,6 +7,9 @@ pub struct With<'a> {
 
 impl<'a> Visit<WithStmt> for With<'a> {
     fn visit(&mut self, stmt: &WithStmt) {
-        self.handler.warn("with statement").span(stmt.span).emit();
+        self.handler
+            .struct_warn("with statement")
+            .set_span(stmt.span)
+            .emit();
     }
 }

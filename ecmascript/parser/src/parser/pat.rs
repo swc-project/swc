@@ -619,7 +619,7 @@ mod tests {
 
     fn array_pat(s: &'static str) -> Pat {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_array_binding_pat().map_err(|e| {
+            p.parse_array_binding_pat().map_err(|mut e| {
                 e.emit();
                 ()
             })

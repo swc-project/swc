@@ -1,12 +1,9 @@
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
-    emitter::ColorConfig,
+    emitter::{ColorConfig, EmitterWriter},
 };
-use self::{
-    emitter::{Emitter, EmitterWriter},
-    Level::*,
-};
+use self::{emitter::Emitter, Level::*};
 use crate::sync::{self, AtomicUsize, Lock, Lrc};
 use fxhash::FxHashSet;
 use rustc_data_structures::stable_hasher::StableHasher;

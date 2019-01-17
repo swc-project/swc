@@ -927,7 +927,7 @@ mod tests {
 
     fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_lhs_expr().map_err(|e| {
+            p.parse_lhs_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -936,7 +936,7 @@ mod tests {
 
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_expr().map_err(|e| {
+            p.parse_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })

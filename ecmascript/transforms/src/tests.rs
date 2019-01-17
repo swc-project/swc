@@ -54,7 +54,7 @@ impl<'a> Tester<'a> {
 
     pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
         let mut stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
-            p.parse_script().map_err(|e| {
+            p.parse_script().map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -82,7 +82,7 @@ impl<'a> Tester<'a> {
 
             let module = {
                 let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
-                p.parse_module().map_err(|e| {
+                p.parse_module().map_err(|mut e| {
                     e.emit();
                     ()
                 })?

@@ -805,7 +805,7 @@ mod tests {
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_stmt(true).map_err(|e| {
+            p.parse_stmt(true).map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -813,7 +813,7 @@ mod tests {
     }
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_expr().map_err(|e| {
+            p.parse_expr().map_err(|mut e| {
                 e.emit();
                 ()
             })
@@ -939,7 +939,7 @@ mod tests {
                     decorators: true,
                     ..Default::default()
                 }),
-                |p| p.parse_stmt_list_item(true).map_err(|e| {
+                |p| p.parse_stmt_list_item(true).map_err(|mut e| {
                     e.emit();
                     ()
                 }),

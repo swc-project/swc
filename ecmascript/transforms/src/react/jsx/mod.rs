@@ -70,7 +70,7 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
 
         Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
             .parse_expr()
-            .map_err(|e| {
+            .map_err(|mut e| {
                 e.emit();
                 ()
             })
