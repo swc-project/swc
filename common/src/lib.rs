@@ -13,7 +13,6 @@ extern crate termcolor;
 extern crate unicode_width;
 #[macro_use]
 extern crate log;
-#[macro_use]
 extern crate scoped_tls;
 #[macro_use]
 extern crate cfg_if;

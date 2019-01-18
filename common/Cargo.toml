@@ -1,6 +1,6 @@
 [package]
 name = "swc_common"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -17,7 +17,7 @@ fold = ["ast_node/fold"]
 ast_node = { version = "0.3", path = "../macros/ast_node" }
 string_cache = "0.7"
 either = "1.5"
-scoped-tls = { version = "0.1.1", features = ["nightly"] }
+scoped-tls = { version = "0.1.1" }
 unicode-width = "0.1.4"
 cfg-if = "0.1.2"
 log = "0.4"
