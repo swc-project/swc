@@ -1,0 +1,161 @@
+use ast::*;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc,
+};
+use swc_common::{
+    errors::{ColorConfig, Handler},
+    sync::Lrc,
+    FileName, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
+};
+use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+
+macro_rules! define_helpers {
+    (
+        Helpers {
+            $( $name:ident : ( $( $dep:ident ),* ), )*
+        }
+    ) => {
+        /// Tracks used helper methods. (e.g. __extends)
+        #[derive(Default)]
+        pub struct Helpers {
+            $( $name: AtomicBool, )*
+        }
+
+        impl Helpers {
+            $(
+                pub fn $name(&self) {
+                    self.$name();
+                    $(
+                        self.$dep();
+                    )*
+                }
+            )*
+        }
+    };
+}
+define_helpers!(Helpers {
+    extends: (),
+    to_consumable_array: (),
+    class_call_check: (),
+    inherits: (),
+    to_array: (),
+    decorate: (to_array, to_property_key),
+    to_property_key: (),
+    possible_constructor_return: (),
+    create_class: (),
+    get: (),
+    instance_of: (),
+    type_of: (),
+    tagged_template_literal: (),
+    define_property: (),
+    define_enumerable_property: (),
+    set: (),
+    get_prototype_of: (),
+    throw: (),
+    async_to_generator: (),
+    object_without_properties: (),
+    object_spread: (),
+});
+
+#[derive(Clone)]
+pub struct InjectHelpers {
+    pub cm: Lrc<SourceMap>,
+    pub helpers: Arc<Helpers>,
+}
+
+impl InjectHelpers {
+    fn mk_helpers(&self) -> Vec<Stmt> {
+        lazy_static! {
+            static ref CM: Lrc<SourceMap> = { Lrc::new(SourceMap::new(FilePathMapping::empty())) };
+            static ref HANDLER: Handler =
+                { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
+            static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
+        }
+
+        let mut buf = vec![];
+
+        macro_rules! add {
+            ($name:tt, $b:expr) => {{
+                lazy_static! {
+                    static ref STMTS: Vec<Stmt> = {
+                        let code = include_str!($name);
+                        let fm = CM.new_source_file(
+                            FileName::Custom(stringify!($name).into()),
+                            code.into(),
+                        );
+
+                        let stmts =
+                            Parser::new(*SESSION, Syntax::default(), SourceFileInput::from(&*fm))
+                                .parse_script()
+                                .map(|stmts| stmts.fold_with(&mut DropSpan))
+                                .map_err(|mut e| {
+                                    e.emit();
+                                    ()
+                                })
+                                .unwrap();
+                        stmts
+                    };
+                }
+
+                let enable = $b.load(Ordering::Relaxed);
+                if enable {
+                    buf.extend_from_slice(&STMTS)
+                }
+            }};
+        }
+
+        add!("_extends.js", &self.helpers.extends);
+        add!("_toConsumableArray.js", &self.helpers.to_consumable_array);
+        add!("_classCallCheck.js", &self.helpers.class_call_check);
+        add!("_inherits.js", &self.helpers.inherits);
+        add!(
+            "_possibleConstructorReturn.js",
+            &self.helpers.possible_constructor_return
+        );
+        add!("_createClass.js", &self.helpers.create_class);
+        add!("_get.js", &self.helpers.get);
+        add!("_instanceof.js", &self.helpers.instance_of);
+        add!("_typeof.js", &self.helpers.type_of);
+        add!(
+            "_taggedTemplateLiteral.js",
+            &self.helpers.tagged_template_literal
+        );
+        add!("_defineProperty.js", &self.helpers.define_property);
+        add!(
+            "_defineEnumerableProperties.js",
+            &self.helpers.define_enumerable_property
+        );
+        add!("_set.js", &self.helpers.set);
+        add!("_getPrototypeOf.js", &self.helpers.get_prototype_of);
+        add!("_throw.js", &self.helpers.throw);
+        add!("_asyncToGenerator.js", &self.helpers.async_to_generator);
+        add!(
+            "_objectWithoutProperties.js",
+            &self.helpers.object_without_properties
+        );
+        add!("_objectSpread.js", &self.helpers.object_spread);
+
+        buf
+    }
+}
+
+impl Fold<Module> for InjectHelpers {
+    fn fold(&mut self, module: Module) -> Module {
+        let body = self
+            .mk_helpers()
+            .into_iter()
+            .map(ModuleItem::Stmt)
+            .chain(module.body)
+            .collect();
+
+        Module { body, ..module }
+    }
+}
+
+struct DropSpan;
+impl Fold<Span> for DropSpan {
+    fn fold(&mut self, _: Span) -> Span {
+        DUMMY_SP
+    }
+}

@@ -1,9 +1,6 @@
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
-use std::{
-    iter,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
@@ -71,9 +68,7 @@ impl Fold<Expr> for TemplateLiteral {
                 tag, exprs, quasis, ..
             }) => {
                 assert!(quasis.len() == exprs.len() + 1);
-                self.helpers
-                    .tagged_template_literal
-                    .store(true, Ordering::Relaxed);
+                self.helpers.tagged_template_literal();
 
                 let mark = Mark::fresh(Mark::root());
                 let fn_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_templateObject");

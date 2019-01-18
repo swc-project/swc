@@ -4,10 +4,7 @@ use crate::{
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{
-    iter,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -202,7 +199,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     let ref_ident = if can_be_null {
-                        self.helpers.throw.store(true, Ordering::Relaxed);
+                        self.helpers.throw();
                         make_ref_ident(
                             &mut decls,
                             Some(box Expr::Cond(CondExpr {

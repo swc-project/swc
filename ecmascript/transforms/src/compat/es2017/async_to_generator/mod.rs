@@ -4,10 +4,7 @@ use crate::{
     util::{contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{
-    iter,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -629,7 +626,7 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
     expr.function.is_generator = true;
 
     let span = expr.span();
-    helpers.async_to_generator.store(true, Ordering::Relaxed);
+    helpers.async_to_generator();
 
     let contains_this = contains_this_expr(&expr.function.body);
     let expr = if contains_this {

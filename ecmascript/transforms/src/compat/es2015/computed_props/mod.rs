@@ -4,7 +4,7 @@ use crate::{
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
-use std::sync::{atomic::Ordering, Arc};
+use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -306,7 +306,7 @@ where
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        self.helpers.define_property.store(true, Ordering::Relaxed);
+                        self.helpers.define_property();
                         buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
@@ -315,9 +315,7 @@ where
                         }))));
                     }
                     if folder.used_define_enum_props {
-                        self.helpers
-                            .define_enumerable_property
-                            .store(true, Ordering::Relaxed);
+                        self.helpers.define_enumerable_properties();
                     }
 
                     buf.push(T::from_stmt(stmt));

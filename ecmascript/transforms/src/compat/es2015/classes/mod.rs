@@ -3,10 +3,7 @@ use crate::{
     util::{alias_ident_for, ExprFactory},
 };
 use ast::*;
-use std::{
-    iter,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -253,10 +250,8 @@ impl Classes {
 
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
-            self.helpers.inherits.store(true, Ordering::Relaxed);
-            self.helpers
-                .possible_constructor_return
-                .store(true, Ordering::Relaxed);
+            self.helpers.inherits();
+            self.helpers.possible_constructor_return();
 
             stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
@@ -284,7 +279,7 @@ impl Classes {
             });
 
             // inject _classCallCheck(this, Bar);
-            self.helpers.class_call_check.store(true, Ordering::Relaxed);
+            self.helpers.class_call_check();
             let mut body = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
@@ -561,7 +556,7 @@ impl Classes {
         if props.is_empty() && static_props.is_empty() {
             return vec![];
         }
-        self.helpers.create_class.store(true, Ordering::Relaxed);
+        self.helpers.create_class();
         vec![mk_create_class_call(
             class_name,
             mk_arg_obj_for_create_class(props),
@@ -774,7 +769,7 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
         let n = n.fold_with(&mut callee_folder);
 
         if callee_folder.inject_get {
-            self.helpers.get.store(true, Ordering::Relaxed);
+            self.helpers.get();
 
             if was_call {
                 match n {
@@ -803,7 +798,7 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
         }
 
         if callee_folder.inject_set {
-            self.helpers.set.store(true, Ordering::Relaxed);
+            self.helpers.set();
         }
 
         n

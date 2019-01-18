@@ -1,9 +1,6 @@
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
-use std::{
-    iter, mem,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, mem, sync::Arc};
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 
 /// es2015 - `SpreadElement`
@@ -141,7 +138,7 @@ fn concat_args(
                     //
                     make_arr!();
 
-                    helpers.to_consumable_array.store(true, Ordering::Relaxed);
+                    helpers.to_consumable_array();
 
                     buf.push(
                         Expr::Call(CallExpr {
