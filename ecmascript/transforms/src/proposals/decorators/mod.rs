@@ -127,6 +127,7 @@ impl Fold<Stmt> for Decorators {
                     }
                 };
 
+                self.helpers.decorate();
                 let decorate_call = box Expr::Call(make_decorate_call(
                     class.decorators,
                     iter::once({
@@ -217,7 +218,7 @@ fn make_decorate_call(
 ) -> CallExpr {
     CallExpr {
         span: DUMMY_SP,
-        callee: member_expr!(DUMMY_SP, babelHelpers.decorate).as_callee(),
+        callee: member_expr!(DUMMY_SP, _decorate).as_callee(),
         args: iter::once(
             ArrayLit {
                 span: DUMMY_SP,

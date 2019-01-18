@@ -24,7 +24,7 @@ test!(
 class A {}
 "#,
     r#"
-let A = babelHelpers.decorate([dec()], function (_initialize) {
+let A = _decorate([dec()], function (_initialize) {
   "use strict";
 
   class A {
@@ -65,7 +65,7 @@ class B extends A {
 
 "#,
     r#"
-let B = babelHelpers.decorate([dec], function (_initialize, _A) {
+let B = _decorate([dec], function (_initialize, _A) {
   "use strict";
 
   class B extends _A {
@@ -115,7 +115,7 @@ export default @dec() class {}
 
 "#,
     r#"
-export default babelHelpers.decorate([dec()], function (_initialize) {
+export default _decorate([dec()], function (_initialize) {
   class _class {
     constructor() {
       _initialize(this);
@@ -146,7 +146,7 @@ class B extends A {
 
 "#,
     r#"
-let B = babelHelpers.decorate([dec], function (_initialize, _A) {
+let B = _decorate([dec], function (_initialize, _A) {
   "use strict";
 
   class B extends _A {
@@ -246,7 +246,7 @@ class Foo {
 "#,
     r#"
 var _method = 1;
-let Foo = babelHelpers.decorate([decorator], function (_initialize) {
+let Foo = _decorate([decorator], function (_initialize) {
   "use strict";
 
   class Foo {
@@ -381,7 +381,7 @@ class Foo {
 
 "#,
     r#"
-let Foo = babelHelpers.decorate([_ => desc = _], function (_initialize) {
+let Foo = _decorate([_ => desc = _], function (_initialize) {
   "use strict";
 
   class Foo {
@@ -492,7 +492,7 @@ class Sub extends Super {
 }
 "#,
     r#"
-let Sub = babelHelpers.decorate([decorator(parameter)], function (_initialize, _Super) {
+let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
   "use strict";
 
   class Sub extends _Super {
@@ -549,7 +549,7 @@ class A {
 }
 "#,
     r#"
-let A = babelHelpers.decorate([dec(a, b, ...c)], function (_initialize) {
+let A = _decorate([dec(a, b, ...c)], function (_initialize) {
   "use strict";
 
   class A {
@@ -671,7 +671,7 @@ class B extends A {
 
 "#,
     r#"
-let B = babelHelpers.decorate([dec], function (_initialize, _A) {
+let B = _decorate([dec], function (_initialize, _A) {
   "use strict";
 
   class B extends _A {
@@ -723,7 +723,7 @@ export default @dec() class Foo {}
 
 "#,
     r#"
-let Foo = babelHelpers.decorate([dec()], function (_initialize) {
+let Foo = _decorate([dec()], function (_initialize) {
   class Foo {
     constructor() {
       _initialize(this);
@@ -906,7 +906,7 @@ test!(
 () => {
   "use strict";
 
-  let Foo = babelHelpers.decorate([dec], function (_initialize) {
+  let Foo = _decorate([dec], function (_initialize) {
     class Foo {
       constructor() {
         _initialize(this);
@@ -926,7 +926,7 @@ test!(
 };
 
 () => {
-  let Foo = babelHelpers.decorate([dec], function (_initialize2) {
+  let Foo = _decorate([dec], function (_initialize2) {
     "use strict";
 
     class Foo {
@@ -1119,7 +1119,7 @@ test!(
 
 "#,
     r#"
-let A = babelHelpers.decorate([dec], function (_initialize, _B) {
+let A = _decorate([dec], function (_initialize, _B) {
   "use strict";
 
   class A extends _B {
@@ -1153,7 +1153,7 @@ async function g() {
 "#,
     r#"
 async function g() {
-  let A = babelHelpers.decorate([dec], function (_initialize, _super) {
+  let A = _decorate([dec], function (_initialize, _super) {
     "use strict";
 
     class A extends _super {
@@ -1187,7 +1187,7 @@ function* g() {
 "#,
     r#"
 function* g() {
-  let A = babelHelpers.decorate([dec], function (_initialize, _super) {
+  let A = _decorate([dec], function (_initialize, _super) {
     "use strict";
 
     class A extends _super {
@@ -1378,7 +1378,7 @@ class B extends A {
 
 "#,
     r#"
-let B = babelHelpers.decorate([dec], function (_initialize, _A) {
+let B = _decorate([dec], function (_initialize, _A) {
   "use strict";
 
   class B extends _A {
@@ -1617,7 +1617,7 @@ test!(
 (@dec() class {});
 "#,
     r#"
-babelHelpers.decorate([dec()], function (_initialize) {
+_decorate([dec()], function (_initialize) {
   "use strict";
 
   class _class {
@@ -1681,7 +1681,7 @@ class Foo {
 
 "#,
     r#"
-let Foo = babelHelpers.decorate([_ => desc = _], function (_initialize) {
+let Foo = _decorate([_ => desc = _], function (_initialize) {
   "use strict";
 
   class Foo {

@@ -1,8 +1,6 @@
-var getPrototypeOf = require("./getPrototypeOf");
-
 function _superPropBase(object, property) {
   while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = getPrototypeOf(object);
+    object = _getPrototypeOf(object);
     if (object === null) break;
   }
 

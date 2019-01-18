@@ -1,5 +1,3 @@
-var AwaitValue = require("./AwaitValue");
-
 function AsyncGenerator(gen) {
   var front, back;
 
@@ -26,7 +24,7 @@ function AsyncGenerator(gen) {
     try {
       var result = gen[key](arg);
       var value = result.value;
-      var wrappedAwait = value instanceof AwaitValue;
+      var wrappedAwait = value instanceof _AwaitValue;
       Promise.resolve(wrappedAwait ? value.wrapped : value).then(function (arg) {
         if (wrappedAwait) {
           resume("next", arg);
@@ -96,4 +94,3 @@ AsyncGenerator.prototype.throw = function (arg) {
 AsyncGenerator.prototype.return = function (arg) {
   return this._invoke("return", arg);
 };
-

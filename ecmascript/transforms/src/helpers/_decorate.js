@@ -1,9 +1,3 @@
-var _typeof = require("../helpers/typeof");
-
-var toArray = require("./toArray");
-
-var toPropertyKey = require("./toPropertyKey");
-
 function _decorate(decorators, factory, superClass) {
   var r = factory(function initialize(O) {
     _initializeInstanceElements(O, decorated.elements);
@@ -17,7 +11,7 @@ function _decorate(decorators, factory, superClass) {
 }
 
 function _createElementDescriptor(def) {
-  var key = toPropertyKey(def.key);
+  var key = _toPropertyKey(def.key);
   var descriptor;
 
   if (def.kind === "method") {
@@ -288,7 +282,7 @@ function _fromElementDescriptor(element) {
 
 function _toElementDescriptors(elementObjects) {
   if (elementObjects === undefined) return;
-  return toArray(elementObjects).map(function (elementObject) {
+  return _toArray(elementObjects).map(function (elementObject) {
     var element = _toElementDescriptor(elementObject);
 
     _disallowProperty(elementObject, "finisher", "An element descriptor");
@@ -306,7 +300,7 @@ function _toElementDescriptor(elementObject) {
     throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"');
   }
 
-  var key = toPropertyKey(elementObject.key);
+  var key = _toPropertyKey(elementObject.key);
   var placement = String(elementObject.placement);
 
   if (placement !== "static" && placement !== "prototype" && placement !== "own") {

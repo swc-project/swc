@@ -1,5 +1,3 @@
-var _typeof = require("../helpers/typeof");
-
 function _toPrimitive(input, hint) {
   if (_typeof(input) !== "object" || input === null) return input;
   var prim = input[Symbol.toPrimitive];

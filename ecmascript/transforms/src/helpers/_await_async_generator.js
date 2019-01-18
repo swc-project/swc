@@ -1,5 +1,3 @@
-var AwaitValue = require("./AwaitValue");
-
 function _awaitAsyncGenerator(value) {
-  return new AwaitValue(value);
+  return new _AwaitValue(value);
 }
