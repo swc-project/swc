@@ -27,7 +27,7 @@ class A {}
 "#,
     r#"
 let A = _decorate([dec()], function (_initialize) {
-  "use strict";
+  
 
   class A {
     constructor() {
@@ -68,7 +68,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  "use strict";
+  
 
   class B extends _A {
     constructor() {
@@ -149,7 +149,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  "use strict";
+  
 
   class B extends _A {
     constructor() {
@@ -249,7 +249,7 @@ class Foo {
     r#"
 var _method = 1;
 let Foo = _decorate([decorator], function (_initialize) {
-  "use strict";
+  
 
   class Foo {
     constructor() {
@@ -384,7 +384,7 @@ class Foo {
 "#,
     r#"
 let Foo = _decorate([_ => desc = _], function (_initialize) {
-  "use strict";
+  
 
   class Foo {
     constructor() {
@@ -495,7 +495,7 @@ class Sub extends Super {
 "#,
     r#"
 let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
-  "use strict";
+  
 
   class Sub extends _Super {
     constructor() {
@@ -552,7 +552,7 @@ class A {
 "#,
     r#"
 let A = _decorate([dec(a, b, ...c)], function (_initialize) {
-  "use strict";
+  
 
   class A {
     constructor() {
@@ -674,7 +674,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  "use strict";
+  
 
   class B extends _A {
     constructor() {
@@ -889,7 +889,7 @@ test!(
     transformation_strict_directive,
     r#"
 (() => {
-  "use strict";
+  
 
   @dec
   class Foo {
@@ -907,7 +907,7 @@ test!(
 "#,
     r#"
 () => {
-  "use strict";
+  
 
   let Foo = _decorate([dec], function (_initialize) {
     class Foo {
@@ -930,7 +930,7 @@ test!(
 
 () => {
   let Foo = _decorate([dec], function (_initialize2) {
-    "use strict";
+    
 
     class Foo {
       constructor() {
@@ -1123,7 +1123,7 @@ test!(
 "#,
     r#"
 let A = _decorate([dec], function (_initialize, _B) {
-  "use strict";
+  
 
   class A extends _B {
     constructor(...args) {
@@ -1157,7 +1157,7 @@ async function g() {
     r#"
 async function g() {
   let A = _decorate([dec], function (_initialize, _super) {
-    "use strict";
+    
 
     class A extends _super {
       constructor(...args) {
@@ -1191,7 +1191,7 @@ function* g() {
     r#"
 function* g() {
   let A = _decorate([dec], function (_initialize, _super) {
-    "use strict";
+    
 
     class A extends _super {
       constructor(...args) {
@@ -1382,7 +1382,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  "use strict";
+  
 
   class B extends _A {
     constructor() {
@@ -1621,7 +1621,7 @@ test!(
 "#,
     r#"
 (_decorate([dec()], function (_initialize) {
-  "use strict";
+  
 
   class _class {
     constructor() {
@@ -1685,7 +1685,7 @@ class Foo {
 "#,
     r#"
 let Foo = _decorate([_ => desc = _], function (_initialize) {
-  "use strict";
+  
 
   class Foo {
     constructor() {
