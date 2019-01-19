@@ -3,8 +3,9 @@ use crate::helpers::Helpers;
 use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
-fn syntax() -> Syntax {
+fn syntax(decorators_before_export: bool) -> Syntax {
     Syntax::Es(EsConfig {
+        decorators_before_export,
         decorators: true,
         ..Default::default()
     })
@@ -16,7 +17,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 // transformation_declaration
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_declaration,
     r#"
@@ -44,7 +45,7 @@ let A = _decorate([dec()], function (_initialize) {
 );
 // transformation_initialize_after_super_multiple
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_initialize_after_super_multiple,
     r#"
@@ -107,7 +108,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 );
 // transformation_export_default_anonymous
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_export_default_anonymous,
     r#"
@@ -133,7 +134,7 @@ export default _decorate([dec()], function (_initialize) {
 );
 // transformation_initialize_after_super_statement
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_initialize_after_super_statement,
     r#"
@@ -168,7 +169,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 );
 // element_descriptors_created_own_method_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_created_own_method_exec,
     r#"
@@ -205,7 +206,7 @@ expect(Object.getOwnPropertyDescriptor(new A(), "foo")).toEqual({
 );
 // finishers_return_class_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     finishers_return_class_exec,
     r#"
@@ -230,7 +231,7 @@ expect(A).toBe(C);
 );
 // misc_method_name_not_shadow
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     misc_method_name_not_shadow,
     r#"
@@ -272,7 +273,7 @@ let Foo = _decorate([decorator], function (_initialize) {
 );
 // element_descriptors_original_class_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_original_class_exec,
     r#"
@@ -300,7 +301,7 @@ expect(el.elements).toHaveLength(3);
 );
 // duplicated_keys_create_existing_element_with_extras_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_create_existing_element_with_extras_exec,
     r#"
@@ -334,7 +335,7 @@ expect(() => {
 );
 // finishers_no_in_extras_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     finishers_no_in_extras_exec,
     r#"
@@ -364,7 +365,7 @@ expect(() => {
 );
 // duplicated_keys_computed_keys_same_value
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     duplicated_keys_computed_keys_same_value,
     r#"
@@ -413,7 +414,7 @@ let Foo = _decorate([_ => desc = _], function (_initialize) {
 );
 // transformation_only_decorated
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_only_decorated,
     r#"
@@ -437,7 +438,7 @@ class B {
 );
 // ordering_finishers_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     ordering_finishers_exec,
     r#"
@@ -480,7 +481,7 @@ expect(log).toEqual(numsFrom0to9);
 );
 // transformation_initiailzer_after_super_bug_8808
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_initiailzer_after_super_bug_8808,
     r#"
@@ -514,7 +515,7 @@ let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
 );
 // duplicated_keys_original_method_overwritten_no_decorators_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_original_method_overwritten_no_decorators_exec,
     r#"
@@ -539,7 +540,7 @@ expect(A.prototype.method()).toBe(2);
 );
 // transformation_arguments
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_arguments,
     r#"
@@ -574,7 +575,7 @@ let A = _decorate([dec(a, b, ...c)], function (_initialize) {
 );
 // duplicated_keys_original_method_overwritten_both_decorated_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_original_method_overwritten_both_decorated_exec,
     r#"
@@ -596,7 +597,7 @@ expect(() => {
 );
 // ordering_field_initializers_after_methods_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     ordering_field_initializers_after_methods_exec,
     r#"
@@ -632,7 +633,7 @@ expect(counter).toBe(2);
 );
 // misc_to_primitive_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     misc_to_primitive_exec,
     r#"
@@ -658,7 +659,7 @@ expect(calls).toBe(1);
 // ordering
 // transformation_initialize_after_super_expression
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_initialize_after_super_expression,
     r#"
@@ -693,7 +694,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 );
 // element_descriptors_not_reused_field_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_not_reused_field_exec,
     r#"
@@ -715,7 +716,7 @@ expect(dec1.initializer).toBe(dec2.initializer);
 );
 // transformation_export_default_named
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_export_default_named,
     r#"
@@ -742,7 +743,7 @@ export { Foo as default };
 );
 // element_descriptors_original_own_field_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_original_own_field_exec,
     r#"
@@ -773,7 +774,7 @@ expect(el.initializer()).toBe(val);
 // transformation
 // ordering_decorators_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     ordering_decorators_exec,
     r#"
@@ -814,7 +815,7 @@ expect(log).toEqual(numsFrom0to23);
 // transformation_async_generator_method
 // element_descriptors_default_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_default_exec,
     r#"
@@ -837,7 +838,7 @@ expect(Foo.prototype.bar).toBe(2);
 );
 // element_descriptors_original_prototype_method_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_original_prototype_method_exec,
     r#"
@@ -864,7 +865,7 @@ expect(el).toEqual(Object.defineProperty({
 );
 // misc_method_name_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     misc_method_name_exec,
     r#"
@@ -881,7 +882,7 @@ expect(Foo.prototype.method.name).toBe("method");
 );
 // transformation_strict_directive
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_strict_directive,
     r#"
@@ -951,7 +952,7 @@ test!(
 );
 // element_descriptors_created_static_method_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_created_static_method_exec,
     r#"
@@ -988,7 +989,7 @@ expect(Object.getOwnPropertyDescriptor(A, "foo")).toEqual({
 );
 // misc_method_name_not_shadow_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     misc_method_name_not_shadow_exec,
     r#"
@@ -1011,7 +1012,7 @@ expect(Foo.prototype.method.name).toBe("method");
 // transformation_class_decorators_yield_await
 // duplicated_keys_original_method_overwritten_second_decorated_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_original_method_overwritten_second_decorated_exec,
     r#"
@@ -1032,7 +1033,7 @@ expect(() => {
 );
 // duplicated_keys_get_set_both_decorated_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_get_set_both_decorated_exec,
     r#"
@@ -1052,7 +1053,7 @@ expect(() => {
 );
 // duplicated_keys_original_method_overwritten_first_decorated_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_original_method_overwritten_first_decorated_exec,
     r#"
@@ -1073,7 +1074,7 @@ expect(() => {
 );
 // element_descriptors_created_prototype_field_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_created_prototype_field_exec,
     r#"
@@ -1111,7 +1112,7 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 );
 // transformation_extends
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_extends,
     r#"
@@ -1142,7 +1143,7 @@ let A = _decorate([dec], function (_initialize, _B) {
 // finishers
 // transformation_extends_await
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_extends_await,
     r#"
@@ -1176,7 +1177,7 @@ async function g() {
 );
 // transformation_extends_yield
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_extends_yield,
     r#"
@@ -1210,7 +1211,7 @@ function* g() {
 );
 // element_descriptors_created_static_field_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_created_static_field_exec,
     r#"
@@ -1249,7 +1250,7 @@ expect(Object.getOwnPropertyDescriptor(A, "foo")).toEqual({
 );
 // element_descriptors_created_own_field_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_created_own_field_exec,
     r#"
@@ -1288,7 +1289,7 @@ expect(Object.getOwnPropertyDescriptor(new A(), "foo")).toEqual({
 );
 // element_descriptors_not_reused_method_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_not_reused_method_exec,
     r#"
@@ -1310,7 +1311,7 @@ expect(dec1.descriptor.value).toBe(dec2.descriptor.value);
 );
 // element_descriptors_not_reused_class_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_not_reused_class_exec,
     r#"
@@ -1327,7 +1328,7 @@ expect(dec1).not.toBe(dec2);
 );
 // duplicated_keys_computed_keys_same_ast_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_computed_keys_same_ast_exec,
     r#"
@@ -1364,7 +1365,7 @@ expect(i).toBe(2);
 );
 // transformation_initialize_after_super_bug_8931
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_initialize_after_super_bug_8931,
     r#"
@@ -1403,7 +1404,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 // duplicated_keys
 // ordering_static_field_initializers_after_methods_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     ordering_static_field_initializers_after_methods_exec,
     r#"
@@ -1435,7 +1436,7 @@ expect(counter).toBe(2);
 );
 // element_descriptors_original_static_method_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_original_static_method_exec,
     r#"
@@ -1462,7 +1463,7 @@ expect(el).toEqual(Object.defineProperty({
 );
 // duplicated_keys_extras_duplicated_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_extras_duplicated_exec,
     r#"
@@ -1503,7 +1504,7 @@ expect(() => {
 );
 // duplicated_keys_extras_same_as_return_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_extras_same_as_return_exec,
     r#"
@@ -1543,7 +1544,7 @@ expect(() => {
 );
 // finishers_class_as_parameter_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     finishers_class_as_parameter_exec,
     r#"
@@ -1568,7 +1569,7 @@ expect(C).toBe(A);
 );
 // duplicated_keys_moved_and_created_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_moved_and_created_exec,
     r#"
@@ -1610,7 +1611,7 @@ expect(Foo.prototype.bar).toBe(value2);
 );
 // transformation_expression
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     transformation_expression,
     r#"
@@ -1637,7 +1638,7 @@ _decorate([dec()], function (_initialize) {
 );
 // duplicated_keys_original_method_prototype_and_static_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_original_method_prototype_and_static_exec,
     r#"
@@ -1664,7 +1665,7 @@ expect(A.method()).toBe(2);
 // element_descriptors
 // duplicated_keys_computed_keys_same_ast
 test!(
-    syntax(),
+    syntax(false),
     tr(Default::default()),
     duplicated_keys_computed_keys_same_ast,
     r#"
@@ -1713,7 +1714,7 @@ let Foo = _decorate([_ => desc = _], function (_initialize) {
 );
 // element_descriptors_created_prototype_method_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_created_prototype_method_exec,
     r#"
@@ -1749,7 +1750,7 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 );
 // duplicated_keys_create_existing_element_from_method_decorator_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_create_existing_element_from_method_decorator_exec,
     r#"
@@ -1781,7 +1782,7 @@ expect(() => {
 );
 // element_descriptors_original_static_field_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_original_static_field_exec,
     r#"
@@ -1811,7 +1812,7 @@ expect(el.initializer()).toBe(val);
 );
 // duplicated_keys_coalesce_get_set_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_coalesce_get_set_exec,
     r#"
@@ -1843,7 +1844,7 @@ expect(desc.set()).toBe(2);
 // misc
 // transformation_extends_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     transformation_extends_exec,
     r#"
@@ -1859,7 +1860,7 @@ expect(new A).toBeInstanceOf(B);
 );
 // duplicated_keys_create_existing_element_from_class_decorator_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_create_existing_element_from_class_decorator_exec,
     r#"
@@ -1889,7 +1890,7 @@ expect(() => {
 );
 // duplicated_keys_computed_keys_same_value_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     duplicated_keys_computed_keys_same_value_exec,
     r#"
@@ -1928,7 +1929,7 @@ expect(j).toBe(1);
 );
 // element_descriptors_original_own_field_without_initiailzer_exec
 test_exec!(
-    syntax(),
+    syntax(false),
     tr,
     element_descriptors_original_own_field_without_initiailzer_exec,
     r#"

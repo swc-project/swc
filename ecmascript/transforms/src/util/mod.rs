@@ -750,3 +750,12 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
         _ => quote_ident!(default),
     }
 }
+
+pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
+    match p {
+        PropName::Ident(i) => Expr::Ident(i),
+        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
+        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::Computed(expr) => *expr,
+    }
+}

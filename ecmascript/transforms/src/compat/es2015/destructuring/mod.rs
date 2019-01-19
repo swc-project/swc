@@ -1,7 +1,7 @@
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{ExprFactory, StmtLike},
+    util::{prop_name_to_expr, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{iter, sync::Arc};
@@ -636,15 +636,6 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
 
             ref_ident
         }
-    }
-}
-
-fn prop_name_to_expr(p: PropName) -> Expr {
-    match p {
-        PropName::Ident(i) => Expr::Ident(i),
-        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
-        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::Computed(expr) => *expr,
     }
 }
 
