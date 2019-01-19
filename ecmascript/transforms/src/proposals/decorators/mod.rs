@@ -164,10 +164,25 @@ fn fold_class(helpers: &Helpers, ident: Ident, mut class: Class) -> Expr {
                 key: PropName::Ident(quote_ident!("constructor")),
                 is_optional: false,
                 accessibility: Default::default(),
-                params: vec![],
+                params: vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                    dot3_token: DUMMY_SP,
+                    arg: box Pat::Ident(quote_ident!("args")),
+                    type_ann: Default::default(),
+                }))],
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![initialize_call],
+                    stmts: vec![
+                        Stmt::Expr(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: ExprOrSuper::Super(DUMMY_SP),
+                            args: vec![ExprOrSpread {
+                                spread: Some(DUMMY_SP),
+                                expr: box Expr::Ident(quote_ident!("args")),
+                            }],
+                            type_args: Default::default(),
+                        })),
+                        initialize_call,
+                    ],
                 }),
             }),
         }
