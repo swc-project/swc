@@ -186,12 +186,12 @@ impl<'a> VariantBinder<'a> {
                                     .collect(),
                                 colon_token: f.colon_token,
                                 member: Member::Named(ident),
-                                pat: box Pat::Ident(PatIdent {
+                                pat: Box::new(Pat::Ident(PatIdent {
                                     by_ref,
                                     mutability,
                                     ident: binded_ident,
                                     subpat: None,
-                                }),
+                                })),
                             }
                         })
                     })

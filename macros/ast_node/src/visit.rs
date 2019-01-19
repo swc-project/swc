@@ -79,20 +79,24 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
             let body = match *v.data() {
                 // Handle unit-like structs separately
-                Fields::Unit => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(Vars {}, {
-                        {
-                            // no-op
-                        }
-                    }))
-                    .parse(),
-                _ => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(Vars { fields }, {
-                        {
-                            fields
-                        }
-                    }))
-                    .parse(),
+                Fields::Unit => Box::new(
+                    Quote::new(def_site::<Span>())
+                        .quote_with(smart_quote!(Vars {}, {
+                            {
+                                // no-op
+                            }
+                        }))
+                        .parse(),
+                ),
+                _ => Box::new(
+                    Quote::new(def_site::<Span>())
+                        .quote_with(smart_quote!(Vars { fields }, {
+                            {
+                                fields
+                            }
+                        }))
+                        .parse(),
+                ),
             };
 
             Arm {
@@ -117,9 +121,11 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(def_site::<Span>())
-            .quote_with(smart_quote!(Vars {}, { *self }))
-            .parse(),
+        expr: Box::new(
+            Quote::new(def_site::<Span>())
+                .quote_with(smart_quote!(Vars {}, { *self }))
+                .parse(),
+        ),
         arms,
     });
 

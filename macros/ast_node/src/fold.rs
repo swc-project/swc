@@ -104,26 +104,30 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
             let body = match *v.data() {
                 // Handle unit-like structs separately
-                Fields::Unit => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(Vars { Name: qual_name }, {
-                        {
-                            return Name;
-                        }
-                    }))
-                    .parse(),
-                _ => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(
-                        Vars {
-                            Name: qual_name,
-                            fields,
-                        },
-                        {
+                Fields::Unit => Box::new(
+                    Quote::new(def_site::<Span>())
+                        .quote_with(smart_quote!(Vars { Name: qual_name }, {
                             {
-                                return Name { fields };
+                                return Name;
                             }
-                        }
-                    ))
-                    .parse(),
+                        }))
+                        .parse(),
+                ),
+                _ => Box::new(
+                    Quote::new(def_site::<Span>())
+                        .quote_with(smart_quote!(
+                            Vars {
+                                Name: qual_name,
+                                fields,
+                            },
+                            {
+                                {
+                                    return Name { fields };
+                                }
+                            }
+                        ))
+                        .parse(),
+                ),
             };
 
             Arm {
@@ -148,9 +152,11 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(def_site::<Span>())
-            .quote_with(smart_quote!(Vars {}, { self }))
-            .parse(),
+        expr: Box::new(
+            Quote::new(def_site::<Span>())
+                .quote_with(smart_quote!(Vars {}, { self }))
+                .parse(),
+        ),
         arms,
     });
 

@@ -191,7 +191,7 @@ impl FnDef {
                     ]
                     .into_iter()
                     .collect(),
-                    output: ReturnType::Type(name_span.as_token(), box return_type),
+                    output: ReturnType::Type(name_span.as_token(), Box::new(return_type)),
                     generics: Default::default(),
                     variadic: None,
                 },

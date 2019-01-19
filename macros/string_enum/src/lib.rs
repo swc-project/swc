@@ -1,5 +1,3 @@
-#![feature(box_syntax)]
-
 #[macro_use]
 extern crate pmutil;
 extern crate proc_macro;
@@ -128,18 +126,22 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(&v.attrs());
 
-            let body = box Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(Vars { str_value }, { return str_value }))
-                .parse();
+            let body = Box::new(
+                Quote::new(def_site::<Span>())
+                    .quote_with(smart_quote!(Vars { str_value }, { return str_value }))
+                    .parse(),
+            );
 
             let pat = match *v.data() {
-                Fields::Unit => box Pat::Path(PatPath {
+                Fields::Unit => Box::new(Pat::Path(PatPath {
                     qself: None,
                     path: qual_name,
-                }),
-                _ => box Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(Vars { qual_name }, { qual_name{..} }))
-                    .parse(),
+                })),
+                _ => Box::new(
+                    Quote::new(def_site::<Span>())
+                        .quote_with(smart_quote!(Vars { qual_name }, { qual_name{..} }))
+                        .parse(),
+                ),
             };
 
             Arm {
@@ -169,9 +171,11 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(def_site::<Span>())
-            .quote_with(smart_quote!(Vars {}, { self }))
-            .parse(),
+        expr: Box::new(
+            Quote::new(def_site::<Span>())
+                .quote_with(smart_quote!(Vars {}, { self }))
+                .parse(),
+        ),
         arms,
     });
 

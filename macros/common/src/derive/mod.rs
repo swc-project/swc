@@ -49,9 +49,9 @@ impl<'a> Derive<'a> {
                 let mut t = TokenStream::new();
                 input.ident.to_tokens(&mut t);
                 ty_generics.to_tokens(&mut t);
-                box parse(t.dump().into()).unwrap_or_else(|err| {
+                Box::new(parse(t.dump().into()).unwrap_or_else(|err| {
                     panic!("failed to parse type: {}\nType: {}", err, t.dump())
-                })
+                }))
             };
 
             (generics, ty)

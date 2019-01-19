@@ -1,5 +1,3 @@
-#![feature(box_syntax)]
-
 extern crate darling;
 #[macro_use]
 extern crate pmutil;

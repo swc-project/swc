@@ -47,9 +47,11 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: def_site(),
         brace_token: def_site(),
-        expr: box Quote::new(def_site::<Span>())
-            .quote_with(smart_quote!(Vars {}, { self }))
-            .parse(),
+        expr: Box::new(
+            Quote::new(def_site::<Span>())
+                .quote_with(smart_quote!(Vars {}, { self }))
+                .parse(),
+        ),
         arms,
     });
 
@@ -74,11 +76,13 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<Expr> {
     /// `swc_common::Spanned::span(#field)`
     fn simple_field(field: &ToTokens) -> Box<Expr> {
-        box Quote::new(def_site::<Span>())
-            .quote_with(smart_quote!(Vars { field }, {
-                swc_common::Spanned::span(field)
-            }))
-            .parse()
+        Box::new(
+            Quote::new(def_site::<Span>())
+                .quote_with(smart_quote!(Vars { field }, {
+                    swc_common::Spanned::span(field)
+                }))
+                .parse(),
+        )
     }
 
     if bindings.len() == 0 {
@@ -146,12 +150,14 @@ fn make_body_for_variant(v: &VariantBinder, bindings: Vec<BindedField>) -> Box<E
     match (lo, hi) {
         (Some(&(ref lo_field, _)), Some(&(ref hi_field, _))) => {
             // Create a new span from lo_field.lo(), hi_field.hi()
-            box Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(Vars { lo_field, hi_field }, {
-                    swc_common::Spanned::span(lo_field)
-                        .with_hi(swc_common::Spanned::span(hi_field).hi())
-                }))
-                .parse()
+            Box::new(
+                Quote::new(def_site::<Span>())
+                    .quote_with(smart_quote!(Vars { lo_field, hi_field }, {
+                        swc_common::Spanned::span(lo_field)
+                            .with_hi(swc_common::Spanned::span(hi_field).hi())
+                    }))
+                    .parse(),
+            )
         }
         _ => panic!("#[derive(Spanned)]: #[span(lo)] and #[span(hi)] is required"),
     }
