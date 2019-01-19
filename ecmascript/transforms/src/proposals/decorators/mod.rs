@@ -65,7 +65,7 @@ impl Fold<Stmt> for Decorators {
             Stmt::Decl(Decl::Class(ClassDecl {
                 ident,
                 declare: false,
-                mut class,
+                class,
             })) => {
                 if class.decorators.is_empty() {
                     return Stmt::Decl(Decl::Class(ClassDecl {
@@ -74,177 +74,8 @@ impl Fold<Stmt> for Decorators {
                         class,
                     }));
                 }
-                let mark = Mark::fresh(Mark::root());
-                let initialize = quote_ident!(DUMMY_SP.apply_mark(mark), "_initialize");
-                let super_class_ident = match class.super_class {
-                    Some(ref expr) => Some(alias_ident_for(expr, "_Super")),
-                    None => None,
-                };
-                let super_class_expr = class.super_class;
-                class.super_class = super_class_ident.clone().map(|i| box Expr::Ident(i));
 
-                let constructor = {
-                    let initialize_call = Stmt::Expr(box Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: initialize.clone().as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
-                    }));
-
-                    // Inject initialize
-                    let pos = class.body.iter().position(|member| match *member {
-                        ClassMember::Constructor(Constructor { body: Some(..), .. }) => true,
-                        _ => false,
-                    });
-
-                    match pos {
-                        Some(pos) => {
-                            match class.body[pos] {
-                                ClassMember::Constructor(ref mut c) => match c.body {
-                                    Some(ref mut body) => {
-                                        // inject _initialize(this) after **all** super call
-
-                                        let mut injector = InitializeInjector { initialize_call };
-                                        let stmts = mem::replace(&mut body.stmts, vec![]);
-                                        body.stmts = stmts.fold_with(&mut injector);
-                                    }
-                                    None => unreachable!(),
-                                },
-                                _ => unreachable!(),
-                            }
-
-                            class.body.remove(pos)
-                        }
-                        None => ClassMember::Constructor(Constructor {
-                            span: DUMMY_SP,
-                            key: PropName::Ident(quote_ident!("constructor")),
-                            is_optional: false,
-                            accessibility: Default::default(),
-                            params: vec![],
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![initialize_call],
-                            }),
-                        }),
-                    }
-                };
-
-                let descriptors = class
-                    .body
-                    .into_iter()
-                    .filter_map(|member| {
-                        //
-                        match member {
-                            ClassMember::Constructor(_) => unreachable!("multiple constructor?"),
-                            ClassMember::TsIndexSignature(_) => None,
-                            ClassMember::Method(method) => {
-                                //   kind: "method",
-                                //   key: getKeyJ(),
-                                //   value: function () {
-                                //     return 2;
-                                //   }
-                                Some(
-                                    ObjectLit {
-                                        span: DUMMY_SP,
-                                        props: vec![
-                                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("kind")),
-                                                value: box Expr::Lit(Lit::Str(quote_str!(
-                                                    "method"
-                                                ))),
-                                            })),
-                                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("key")),
-                                                value: box prop_name_to_expr(method.key),
-                                            })),
-                                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("value")),
-                                                value: box FnExpr {
-                                                    // TODO(kdy1): Fucntion name
-                                                    ident: None,
-                                                    function: method.function,
-                                                }
-                                                .into(),
-                                            })),
-                                        ],
-                                    }
-                                    .as_arg(),
-                                )
-                            }
-                            _ => unimplemented!("ClassMember::{:?}", member),
-                        }
-                    })
-                    .map(Some)
-                    .collect();
-
-                self.helpers.decorate();
-                let decorate_call = box Expr::Call(make_decorate_call(
-                    class.decorators,
-                    iter::once({
-                        // function(_initialize) {}
-                        FnExpr {
-                            ident: None,
-                            function: Function {
-                                span: DUMMY_SP,
-
-                                params: iter::once(Pat::Ident(initialize.clone()))
-                                    .chain(super_class_ident.map(Pat::Ident))
-                                    .collect(),
-
-                                decorators: Default::default(),
-                                is_async: false,
-                                is_generator: false,
-
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![
-                                        // 'use strict';
-                                        Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!(
-                                            "use strict"
-                                        )))),
-                                        Stmt::Decl(Decl::Class(ClassDecl {
-                                            ident: ident.clone(),
-                                            class: Class {
-                                                decorators: Default::default(),
-                                                body: vec![constructor],
-                                                ..class
-                                            },
-                                            declare: false,
-                                        })),
-                                        Stmt::Return(ReturnStmt {
-                                            span: DUMMY_SP,
-                                            arg: Some(box Expr::Object(ObjectLit {
-                                                span: DUMMY_SP,
-                                                props: vec![
-                                                    PropOrSpread::Prop(box Prop::KeyValue(
-                                                        KeyValueProp {
-                                                            key: PropName::Ident(quote_ident!("F")),
-                                                            value: box Expr::Ident(ident.clone()),
-                                                        },
-                                                    )),
-                                                    PropOrSpread::Prop(box Prop::KeyValue(
-                                                        KeyValueProp {
-                                                            key: PropName::Ident(quote_ident!("d")),
-                                                            value: box Expr::Array(ArrayLit {
-                                                                span: DUMMY_SP,
-                                                                elems: descriptors,
-                                                            }),
-                                                        },
-                                                    )),
-                                                ],
-                                            })),
-                                        }),
-                                    ],
-                                }),
-
-                                return_type: Default::default(),
-                                type_params: Default::default(),
-                            },
-                        }
-                        .as_arg()
-                    })
-                    .chain(super_class_expr.map(|e| e.as_arg())),
-                ));
+                let decorate_call = box fold_class(&self.helpers, ident.clone(), class);
 
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
@@ -261,6 +92,197 @@ impl Fold<Stmt> for Decorators {
             _ => stmt,
         }
     }
+}
+
+impl Fold<Expr> for Decorators {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+
+        match expr {
+            Expr::Class(ClassExpr { ident, class }) => {
+                if class.decorators.is_empty() {
+                    return Expr::Class(ClassExpr { ident, class });
+                }
+
+                let decorate_call = fold_class(
+                    &self.helpers,
+                    ident.unwrap_or_else(|| quote_ident!("_class")),
+                    class,
+                );
+
+                decorate_call
+            }
+            _ => expr,
+        }
+    }
+}
+
+fn fold_class(helpers: &Helpers, ident: Ident, mut class: Class) -> Expr {
+    let mark = Mark::fresh(Mark::root());
+    let initialize = quote_ident!(DUMMY_SP.apply_mark(mark), "_initialize");
+    let super_class_ident = match class.super_class {
+        Some(ref expr) => Some(alias_ident_for(expr, "_Super")),
+        None => None,
+    };
+    let super_class_expr = class.super_class;
+    class.super_class = super_class_ident.clone().map(|i| box Expr::Ident(i));
+
+    let constructor = {
+        let initialize_call = Stmt::Expr(box Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: initialize.clone().as_callee(),
+            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+            type_args: Default::default(),
+        }));
+
+        // Inject initialize
+        let pos = class.body.iter().position(|member| match *member {
+            ClassMember::Constructor(Constructor { body: Some(..), .. }) => true,
+            _ => false,
+        });
+
+        match pos {
+            Some(pos) => {
+                match class.body[pos] {
+                    ClassMember::Constructor(ref mut c) => match c.body {
+                        Some(ref mut body) => {
+                            // inject _initialize(this) after **all** super call
+
+                            let mut injector = InitializeInjector { initialize_call };
+                            let stmts = mem::replace(&mut body.stmts, vec![]);
+                            body.stmts = stmts.fold_with(&mut injector);
+                        }
+                        None => unreachable!(),
+                    },
+                    _ => unreachable!(),
+                }
+
+                class.body.remove(pos)
+            }
+            None => ClassMember::Constructor(Constructor {
+                span: DUMMY_SP,
+                key: PropName::Ident(quote_ident!("constructor")),
+                is_optional: false,
+                accessibility: Default::default(),
+                params: vec![],
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![initialize_call],
+                }),
+            }),
+        }
+    };
+
+    let descriptors = class
+        .body
+        .into_iter()
+        .filter_map(|member| {
+            //
+            match member {
+                ClassMember::Constructor(_) => unreachable!("multiple constructor?"),
+                ClassMember::TsIndexSignature(_) => None,
+                ClassMember::Method(method) => {
+                    //   kind: "method",
+                    //   key: getKeyJ(),
+                    //   value: function () {
+                    //     return 2;
+                    //   }
+                    Some(
+                        ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("kind")),
+                                    value: box Expr::Lit(Lit::Str(quote_str!("method"))),
+                                })),
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("key")),
+                                    value: box prop_name_to_expr(method.key),
+                                })),
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("value")),
+                                    value: box FnExpr {
+                                        // TODO(kdy1): Fucntion name
+                                        ident: None,
+                                        function: method.function,
+                                    }
+                                    .into(),
+                                })),
+                            ],
+                        }
+                        .as_arg(),
+                    )
+                }
+                _ => unimplemented!("ClassMember::{:?}", member),
+            }
+        })
+        .map(Some)
+        .collect();
+
+    helpers.decorate();
+    let decorate_call = Expr::Call(make_decorate_call(
+        class.decorators,
+        iter::once({
+            // function(_initialize) {}
+            FnExpr {
+                ident: None,
+                function: Function {
+                    span: DUMMY_SP,
+
+                    params: iter::once(Pat::Ident(initialize.clone()))
+                        .chain(super_class_ident.map(Pat::Ident))
+                        .collect(),
+
+                    decorators: Default::default(),
+                    is_async: false,
+                    is_generator: false,
+
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            // 'use strict';
+                            Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!("use strict")))),
+                            Stmt::Decl(Decl::Class(ClassDecl {
+                                ident: ident.clone(),
+                                class: Class {
+                                    decorators: Default::default(),
+                                    body: vec![constructor],
+                                    ..class
+                                },
+                                declare: false,
+                            })),
+                            Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(box Expr::Object(ObjectLit {
+                                    span: DUMMY_SP,
+                                    props: vec![
+                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("F")),
+                                            value: box Expr::Ident(ident.clone()),
+                                        })),
+                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("d")),
+                                            value: box Expr::Array(ArrayLit {
+                                                span: DUMMY_SP,
+                                                elems: descriptors,
+                                            }),
+                                        })),
+                                    ],
+                                })),
+                            }),
+                        ],
+                    }),
+
+                    return_type: Default::default(),
+                    type_params: Default::default(),
+                },
+            }
+            .as_arg()
+        })
+        .chain(super_class_expr.map(|e| e.as_arg())),
+    ));
+
+    decorate_call
 }
 
 fn make_decorate_call(

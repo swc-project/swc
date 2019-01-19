@@ -1618,7 +1618,7 @@ test!(
 (@dec() class {});
 "#,
     r#"
-_decorate([dec()], function (_initialize) {
+(_decorate([dec()], function (_initialize) {
   "use strict";
 
   class _class {
@@ -1632,7 +1632,7 @@ _decorate([dec()], function (_initialize) {
     F: _class,
     d: []
   };
-});
+}));
 
 "#
 );
