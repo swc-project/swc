@@ -759,3 +759,18 @@ pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Computed(expr) => *expr,
     }
 }
+/// Simillar to `prop_name_to_expr`, but used for value position.
+///
+/// e.g. value from `{ key: value }`
+pub(crate) fn prop_name_to_expr_value(p: PropName) -> Expr {
+    match p {
+        PropName::Ident(i) => Expr::Lit(Lit::Str(Str {
+            span: i.span,
+            value: i.sym,
+            has_escape: false,
+        })),
+        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
+        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::Computed(expr) => *expr,
+    }
+}

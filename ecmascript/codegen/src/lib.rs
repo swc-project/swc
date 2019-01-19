@@ -558,31 +558,21 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        unimplemented!("emit_private_method")
+        self.emit_class_method(n)
     }
 
     #[emitter]
-    pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
-        unimplemented!("emit_private_prop")
+    pub fn emit_method(&mut self, n: &Method) -> Result {
+        self.emit_class_method(n)
     }
 
-    #[emitter]
-    pub fn emit_class_prop(&mut self, node: &ClassProp) -> Result {
-        unimplemented!("emit_class_prop")
-    }
+    fn emit_class_method<K: Node>(&mut self, node: &ClassMethod<K>) -> Result {
+        macro_rules! __cur_emitter {
+            () => {
+                self
+            };
+        }
 
-    #[emitter]
-    pub fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
-        keyword!("constructor");
-        punct!("(");
-        self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    pub fn emit_class_method(&mut self, node: &Method) -> Result {
         if node.is_static {
             keyword!("static");
             space!();
@@ -614,6 +604,27 @@ impl<'a> Emitter<'a> {
         }
 
         self.emit_fn_trailing(&node.function)?;
+        Ok(())
+    }
+
+    #[emitter]
+    pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
+        unimplemented!("emit_private_prop")
+    }
+
+    #[emitter]
+    pub fn emit_class_prop(&mut self, node: &ClassProp) -> Result {
+        unimplemented!("emit_class_prop")
+    }
+
+    #[emitter]
+    pub fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
+        keyword!("constructor");
+        punct!("(");
+        self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        emit!(n.body);
     }
 
     #[emitter]
@@ -905,6 +916,12 @@ impl<'a> Emitter<'a> {
         punct!("(");
         emit!(node.expr);
         punct!(")");
+    }
+
+    #[emitter]
+    fn emit_private_name(&mut self, n: &PrivateName) -> Result {
+        punct!("#");
+        emit!(n.id)
     }
 
     #[emitter]

@@ -7,6 +7,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     Syntax::Es(EsConfig {
         decorators_before_export,
         decorators: true,
+        class_props: true,
         ..Default::default()
     })
 }
@@ -882,6 +883,7 @@ expect(Foo.prototype.method.name).toBe("method");
 );
 // transformation_strict_directive
 test!(
+    ignore,
     syntax(false),
     tr(Default::default()),
     transformation_strict_directive,
