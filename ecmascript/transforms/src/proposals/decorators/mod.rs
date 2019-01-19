@@ -1,5 +1,6 @@
 use crate::{
     helpers::Helpers,
+    pass::Pass,
     util::{alias_ident_for, prop_name_to_expr_value, ExprFactory},
 };
 use ast::*;
@@ -49,13 +50,14 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn decorators(helpers: Arc<Helpers>) -> impl Fold<Module> {
+pub fn decorators(helpers: Arc<Helpers>) -> impl Pass + Clone {
     Decorators {
         helpers,
         is_in_strict: false,
     }
 }
 
+#[derive(Clone)]
 struct Decorators {
     helpers: Arc<Helpers>,
     is_in_strict: bool,

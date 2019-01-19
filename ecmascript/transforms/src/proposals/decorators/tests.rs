@@ -1,5 +1,5 @@
 use super::*;
-use crate::helpers::Helpers;
+use crate::{helpers::Helpers, proposals::class_properties};
 use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -13,7 +13,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 }
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    decorators(helpers)
+    chain!(decorators(helpers), class_properties())
 }
 
 // transformation_declaration
