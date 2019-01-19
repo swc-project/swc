@@ -33,7 +33,7 @@ fn get_joinned_span(t: &ToTokens) -> Span {
 #[cfg(not(procmacro2_semver_exempt))]
 fn get_joinned_span(t: &ToTokens) -> Span {
     let tts: TokenStream = t.dump().into();
-    let (mut first, last) = (None, None);
+    let mut first = None;
     for tt in tts {
         match first {
             None => first = Some(tt.span()),
