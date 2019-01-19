@@ -46,8 +46,11 @@ impl<'a, I: Input> Parser<'a, I> {
         self.parse_class(decoraters)
     }
 
-    pub(super) fn parse_class_expr(&mut self) -> PResult<'a, Box<Expr>> {
-        self.parse_class(vec![])
+    pub(super) fn parse_class_expr(
+        &mut self,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Box<Expr>> {
+        self.parse_class(decorators)
     }
 
     pub(super) fn parse_default_class(
