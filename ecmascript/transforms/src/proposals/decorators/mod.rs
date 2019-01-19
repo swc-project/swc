@@ -121,7 +121,7 @@ fn fold_class(helpers: &Helpers, ident: Ident, mut class: Class) -> Expr {
     let mark = Mark::fresh(Mark::root());
     let initialize = quote_ident!(DUMMY_SP.apply_mark(mark), "_initialize");
     let super_class_ident = match class.super_class {
-        Some(ref expr) => Some(alias_ident_for(expr, "_Super")),
+        Some(ref expr) => Some(alias_ident_for(expr, "_super")),
         None => None,
     };
     let super_class_expr = class.super_class;
