@@ -10,7 +10,7 @@ fm = {}
 
 for f in files:
     name = join('./fixtures', f)
-    test_name, file_type = f.rsplit('_', 1)
+    test_name, file_type = f.rsplit('-', 1)
     if file_type == 'input.mjs':
         file_type = 'input.js'
     if file_type == 'output.mjs':
@@ -18,6 +18,7 @@ for f in files:
 
     if file_type == 'exec.js':
         test_name = '{}_exec'.format(test_name)
+    
     if not test_name in fm:
         fm[test_name] = {}
     with open(name, "r") as f:
@@ -26,8 +27,9 @@ for f in files:
 
 for name in fm:
     m = fm[name]
+    name = name.replace('-', '_')
     print()
-    # print('// {}'.format(name))
+    print('// {}'.format(name))
     if 'exec.js' in m:
         print('test_exec!(syntax(), tr, {}, r#"\n{}\n"#);'.format(
             name, m['exec.js']
@@ -35,7 +37,7 @@ for name in fm:
         pass
     elif 'options.json' in m:
         pass
-    else:
+    elif 'input.js' in m and 'output.js' in m:
         print('test!(syntax(),tr( Default::default()), {}, r#"\n{}\n"#, r#"\n{}\n"#);'.format(
             name, m['input.js'], m['output.js']
         ))
