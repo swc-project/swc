@@ -969,4 +969,32 @@ mod tests {
             }))
         );
     }
+
+    #[test]
+    fn example() {
+        let src = r#"
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+function App() {
+  return <h1>JSX is working!</h1>
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+
+"#;
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
 }

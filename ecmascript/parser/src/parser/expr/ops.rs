@@ -121,7 +121,7 @@ impl<'a, I: Input> Parser<'a, I> {
     pub(in crate::parser) fn parse_unary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let start = cur_pos!();
 
-        if !self.input.syntax().jsx() && eat!('<') {
+        if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!('<') {
             return self.parse_ts_type_assertion().map(Expr::from).map(Box::new);
         }
 
