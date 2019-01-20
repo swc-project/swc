@@ -1,5 +1,7 @@
+pub use self::constructor::default_constructor;
 use self::constructor::{
     constructor_fn, make_possible_return_value, ConstructorFolder, ReturningMode, SuperCallFinder,
+    SuperFoldingMode,
 };
 use crate::{
     helpers::Helpers,
@@ -119,17 +121,9 @@ impl Fold<Decl> for Classes {
                         type_args: Default::default(),
                     }));
 
-                    let mut constructor = constructor.unwrap_or_else(|| Constructor {
-                        span: DUMMY_SP,
-                        key: PropName::Ident(quote_ident!("constructor")),
-                        accessibility: Default::default(),
-                        is_optional: false,
-                        params: vec![],
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![],
-                        }),
-                    });
+                    let mut constructor = constructor
+                        .unwrap_or_else(|| default_constructor(decl.class.super_class.is_some()));
+                    dbg!(&constructor);
                     constructor
                         .body
                         .as_mut()
@@ -353,17 +347,8 @@ impl Classes {
 
         // Process constructor
         {
-            let constructor = constructor.unwrap_or_else(|| Constructor {
-                accessibility: None,
-                is_optional: false,
-                key: PropName::Ident(quote_ident!("constructor")),
-                span: class_name.span,
-                params: vec![],
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![],
-                }),
-            });
+            let constructor =
+                constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
             // inject _classCallCheck(this, Bar);
             self.helpers.class_call_check();
@@ -386,21 +371,6 @@ impl Classes {
                 let mark = Mark::fresh(Mark::root());
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
-                body.insert(
-                    0,
-                    Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        declare: false,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(this.clone()),
-                            init: None,
-                            definite: false,
-                        }],
-                    })),
-                );
-
                 let mut folder = ConstructorFolder {
                     helpers: &self.helpers,
                     class_name: &class_name,
@@ -409,6 +379,23 @@ impl Classes {
                 };
 
                 body = body.fold_with(&mut folder);
+                match mode {
+                    Some(SuperFoldingMode::Assign) => body.insert(
+                        0,
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            declare: false,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(this.clone()),
+                                init: None,
+                                definite: false,
+                            }],
+                        })),
+                    ),
+                    _ => {}
+                }
 
                 let is_last_return = match body.last() {
                     Some(Stmt::Return(..)) => true,

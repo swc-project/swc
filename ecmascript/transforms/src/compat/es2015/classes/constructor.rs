@@ -10,13 +10,18 @@ pub(super) struct SuperCallFinder {
 
 impl SuperCallFinder {
     ///
-    /// - `None`: if no `super()` is found
+    /// - `None`: if no `super()` is found or super() is last call
     /// - `Some(Var)`: `var _this = ...`
     /// - `Some(Assign)`: `_this = ...`
-    pub fn find<N>(node: &N) -> Option<SuperFoldingMode>
-    where
-        N: VisitWith<Self>,
-    {
+    pub fn find(node: &Vec<Stmt>) -> Option<SuperFoldingMode> {
+        match node.last() {
+            Some(Stmt::Expr(box Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                ..
+            }))) => return None,
+            _ => {}
+        }
+
         let mut v = SuperCallFinder { mode: None };
         node.visit_with(&mut v);
         v.mode
@@ -94,7 +99,8 @@ pub(super) struct ConstructorFolder<'a> {
     pub mark: Mark,
 }
 
-#[derive(Clone, Copy)]
+/// `None`: `return _possibleConstructorReturn`
+#[derive(Debug, Clone, Copy)]
 pub(super) enum SuperFoldingMode {
     /// `_this = ...`
     Assign,
@@ -104,6 +110,11 @@ pub(super) enum SuperFoldingMode {
 
 impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
+        match self.mode {
+            None | Some(SuperFoldingMode::Var) => {}
+            _ => return stmt,
+        }
+        dbg!(self.mode);
         let stmt = stmt.fold_children(self);
 
         match stmt {
@@ -120,17 +131,24 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                     },
                 ));
 
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
+                match self.mode {
+                    Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")),
-                        init,
-                        definite: false,
-                    }],
-                }))
+                        declare: false,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")),
+                            init,
+                            definite: false,
+                        }],
+                    })),
+                    None => Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: init,
+                    }),
+                    _ => unreachable!(),
+                }
             }
             _ => stmt,
         }
@@ -168,6 +186,11 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = expr.fold_children(self);
 
+        match self.mode {
+            Some(SuperFoldingMode::Assign) => {}
+            _ => return expr,
+        }
+
         match expr {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
@@ -181,6 +204,7 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
                         args: Some(args),
                     },
                 );
+
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
@@ -265,4 +289,38 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
         },
         type_args: Default::default(),
     })
+}
+
+pub fn default_constructor(has_super: bool) -> Constructor {
+    Constructor {
+        span: DUMMY_SP,
+        key: PropName::Ident(quote_ident!("constructor")),
+        accessibility: Default::default(),
+        is_optional: false,
+        params: if has_super {
+            vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                dot3_token: DUMMY_SP,
+                arg: box Pat::Ident(quote_ident!("args")),
+                type_ann: Default::default(),
+            }))]
+        } else {
+            vec![]
+        },
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts: if has_super {
+                vec![Stmt::Expr(box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: ExprOrSuper::Super(DUMMY_SP),
+                    args: vec![ExprOrSpread {
+                        spread: Some(DUMMY_SP),
+                        expr: box Expr::Ident(quote_ident!("args")),
+                    }],
+                    type_args: Default::default(),
+                }))]
+            } else {
+                vec![]
+            },
+        }),
+    }
 }

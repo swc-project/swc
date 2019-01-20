@@ -1,4 +1,5 @@
 use crate::{
+    compat::es2015::default_constructor,
     helpers::Helpers,
     pass::Pass,
     util::{alias_ident_for, ExprFactory, ModuleItemLike, StmtLike},
@@ -270,37 +271,7 @@ impl ClassProperties {
             }
         }
 
-        let mut constructor = constructor.unwrap_or_else(|| Constructor {
-            span: DUMMY_SP,
-            key: PropName::Ident(quote_ident!("constructor")),
-            accessibility: Default::default(),
-            is_optional: false,
-            params: if has_super {
-                vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
-                    dot3_token: DUMMY_SP,
-                    arg: box Pat::Ident(quote_ident!("args")),
-                    type_ann: Default::default(),
-                }))]
-            } else {
-                vec![]
-            },
-            body: Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: if has_super {
-                    vec![Stmt::Expr(box Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: ExprOrSuper::Super(DUMMY_SP),
-                        args: vec![ExprOrSpread {
-                            spread: Some(DUMMY_SP),
-                            expr: box Expr::Ident(quote_ident!("args")),
-                        }],
-                        type_args: Default::default(),
-                    }))]
-                } else {
-                    vec![]
-                },
-            }),
-        });
+        let mut constructor = constructor.unwrap_or_else(|| default_constructor(has_super));
 
         // Allow using super multiple time
         constructor.body = constructor
