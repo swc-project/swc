@@ -554,10 +554,15 @@ impl<'a, I: Input> Parser<'a, I> {
                     readonly,
                     definite,
                     type_ann,
+                    computed: false,
                 }
                 .into(),
                 Either::Right(key) => ClassProperty {
                     span: span!(start),
+                    computed: match key {
+                        PropName::Computed(..) => true,
+                        _ => false,
+                    },
                     key: match key {
                         PropName::Ident(i) => Box::new(Expr::Ident(i)),
                         PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),

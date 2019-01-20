@@ -1,7 +1,9 @@
 use crate::typescript::TsTypeAnn;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
-use swc_common::{ast_node, Fold, Span, Spanned};
+#[cfg(feature = "fold")]
+use swc_common::Fold;
+use swc_common::{ast_node, Span, Spanned};
 
 /// Ident with span.
 #[derive(Spanned, Clone, PartialEq)]
