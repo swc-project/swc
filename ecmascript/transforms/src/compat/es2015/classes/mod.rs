@@ -1,6 +1,6 @@
 use crate::{
     helpers::Helpers,
-    util::{alias_ident_for, ExprFactory},
+    util::{alias_ident_for, prop_name_to_expr, ExprFactory},
 };
 use ast::*;
 use std::{iter, sync::Arc};
@@ -508,7 +508,8 @@ impl Classes {
                         box Expr::Lit(Lit::Str(quote_str!(i.span, i.sym.clone())))
                     }
                     PropName::Str(ref s) => box Expr::Lit(Lit::Str(s.clone())),
-                    _ => unimplemented!("PropName {:?}", key),
+                    PropName::Num(n) => box Expr::Lit(Lit::Num(n)),
+                    PropName::Computed(ref expr) => expr.clone(),
                 },
             })
         }
@@ -544,10 +545,8 @@ impl Classes {
         let (mut props, mut static_props) = (vec![], vec![]);
 
         for m in methods {
-            let prop_name = match m.key {
-                PropName::Ident(ref i) => i,
-                _ => unimplemented!("non-ident prop name: {:?}", m.key),
-            };
+            let prop_key = box mk_prop_key(&m.key);
+            let prop_name = prop_name_to_expr(m.key);
 
             let append_to: &mut Vec<_> = if m.is_static {
                 &mut static_props
@@ -561,7 +560,10 @@ impl Classes {
             });
 
             let value = box Expr::Fn(FnExpr {
-                ident: Some(prop_name.clone()),
+                ident: match prop_name {
+                    Expr::Ident(ident) => Some(ident),
+                    _ => None,
+                },
                 function,
             });
 
@@ -570,7 +572,7 @@ impl Classes {
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
-                            PropOrSpread::Prop(box mk_prop_key(&m.key)),
+                            PropOrSpread::Prop(prop_key),
                             PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(if m.kind == MethodKind::Getter {
                                     quote_ident!("get")
@@ -588,7 +590,7 @@ impl Classes {
                     append_to.push(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
-                            PropOrSpread::Prop(box mk_prop_key(&m.key)),
+                            PropOrSpread::Prop(prop_key),
                             PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("set")),
                                 value,

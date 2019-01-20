@@ -20,14 +20,14 @@ mod tests;
 pub fn class_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
     ClassProperties {
         helpers,
-        marker: Mark::fresh(Mark::root()),
+        mark: Mark::fresh(Mark::root()),
     }
 }
 
 #[derive(Clone)]
 struct ClassProperties {
     helpers: Arc<Helpers>,
-    marker: Mark,
+    mark: Mark,
 }
 
 impl<T> Fold<Vec<T>> for ClassProperties
@@ -50,7 +50,15 @@ where
                                     class,
                                 },
                             )) => {
-                                let (decl, stmts) = self.fold_class(ident.clone(), class);
+                                let (vars, decl, stmts) = self.fold_class(ident.clone(), class);
+                                if !vars.is_empty() {
+                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls: vars,
+                                        declare: false,
+                                    }))));
+                                }
                                 buf.push(T::from_stmt(Stmt::Decl(decl)));
                                 buf.extend(stmts.into_iter().map(T::from_stmt));
                                 buf.push(
@@ -75,7 +83,15 @@ where
                                 declare: false,
                                 class,
                             })) => {
-                                let (decl, stmts) = self.fold_class(ident, class);
+                                let (vars, decl, stmts) = self.fold_class(ident, class);
+                                if !vars.is_empty() {
+                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls: vars,
+                                        declare: false,
+                                    }))));
+                                }
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(decl)) {
                                         Ok(t) => t,
@@ -101,7 +117,15 @@ where
                             class,
                             declare: false,
                         })) => {
-                            let (decl, stmts) = self.fold_class(ident, class);
+                            let (vars, decl, stmts) = self.fold_class(ident, class);
+                            if !vars.is_empty() {
+                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls: vars,
+                                    declare: false,
+                                }))));
+                            }
                             buf.push(T::from_stmt(Stmt::Decl(decl)));
                             buf.extend(stmts.into_iter().map(T::from_stmt));
                         }
@@ -116,17 +140,38 @@ where
 }
 
 impl ClassProperties {
-    fn fold_class(&mut self, ident: Ident, class: Class) -> (Decl, Vec<Stmt>) {
+    fn fold_class(&mut self, ident: Ident, class: Class) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
         let has_super = class.super_class.is_some();
 
-        let (mut constructor_stmts, mut extra_stmts, mut members, mut constructor) =
-            (vec![], vec![], vec![], None);
+        let (mut constructor_stmts, mut vars, mut extra_stmts, mut members, mut constructor) =
+            (vec![], vec![], vec![], vec![], None);
 
         for member in class.body {
             match member {
-                ClassMember::PrivateMethod(..)
-                | ClassMember::Method(..)
-                | ClassMember::TsIndexSignature(..) => members.push(member),
+                ClassMember::PrivateMethod(..) | ClassMember::TsIndexSignature(..) => {
+                    members.push(member)
+                }
+
+                ClassMember::Method(method) => {
+                    let key = match method.key {
+                        PropName::Computed(expr) => {
+                            let ident =
+                                quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(self.mark)), "tmp");
+                            // Handle computed property
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone()),
+                                init: Some(expr),
+                                definite: false,
+                            });
+                            // We use computed because `classes` pass converts PropName::Ident to
+                            // string.
+                            PropName::Computed(box Expr::Ident(ident))
+                        }
+                        _ => method.key,
+                    };
+                    members.push(ClassMember::Method(Method { key, ..method }))
+                }
 
                 ClassMember::ClassProp(prop) => {
                     let key = match *prop.key {
@@ -136,7 +181,19 @@ impl ClassProperties {
                             has_escape: false,
                         })
                         .as_arg(),
-                        _ => prop.key.as_arg(),
+
+                        _ => {
+                            let ident =
+                                quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(self.mark)), "tmp");
+                            // Handle computed property
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone()),
+                                init: Some(prop.key),
+                                definite: false,
+                            });
+                            ident.as_arg()
+                        }
                     };
                     let value = match prop.value {
                         Some(v) => v.as_arg(),
@@ -254,6 +311,7 @@ impl ClassProperties {
         members.push(ClassMember::Constructor(constructor));
 
         (
+            vars,
             Decl::Class(ClassDecl {
                 ident: ident.clone(),
                 declare: false,
