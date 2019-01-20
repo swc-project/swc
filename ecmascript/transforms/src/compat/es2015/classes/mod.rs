@@ -68,26 +68,88 @@ impl Fold<Decl> for Classes {
         let n = n.fold_children(self);
 
         match n {
-            // TODO: Don't wrap simple classes with function
-            //
-            //    class Foo {}
-            //
-            // should be
-            //
-            //    var Foo = function Foo() {
-            //        _classCallCheck(this, Foo);
-            //    };
-            //
-            // instead of
-            //    var Foo = function(){
-            //      function Foo() {
-            //          _classCallCheck(this, Foo);
-            //      }
-            //
-            //      return Foo;
-            //    }();
-            Decl::Class(decl) => {
+            Decl::Class(mut decl) => {
                 let span = decl.span();
+
+                if decl.class.super_class.is_none()
+                    && (decl.class.body.is_empty()
+                        || (decl.class.body.len() == 1
+                            && match decl.class.body[0] {
+                                ClassMember::Constructor(_) => true,
+                                _ => false,
+                            }))
+                {
+                    //    class Foo {}
+                    //
+                    // should be
+                    //
+                    //    var Foo = function Foo() {
+                    //        _classCallCheck(this, Foo);
+                    //    };
+                    //
+                    // instead of
+                    //    var Foo = function(){
+                    //      function Foo() {
+                    //          _classCallCheck(this, Foo);
+                    //      }
+                    //
+                    //      return Foo;
+                    //    }();
+                    self.helpers.class_call_check();
+
+                    let constructor = if decl.class.body.is_empty() {
+                        None
+                    } else {
+                        match decl.class.body.remove(0) {
+                            ClassMember::Constructor(c) => Some(c),
+                            _ => unreachable!(),
+                        }
+                    };
+                    let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
+                        args: vec![
+                            Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
+                            Expr::Ident(decl.ident.clone()).as_arg(),
+                        ],
+                        type_args: Default::default(),
+                    }));
+
+                    let mut constructor = constructor.unwrap_or_else(|| Constructor {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("constructor")),
+                        accessibility: Default::default(),
+                        is_optional: false,
+                        params: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![],
+                        }),
+                    });
+                    constructor
+                        .body
+                        .as_mut()
+                        .unwrap()
+                        .stmts
+                        .insert(0, class_call_check);
+
+                    return Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            init: Some(box Expr::Fn(FnExpr {
+                                ident: Some(decl.ident.clone()),
+                                function: constructor_fn(constructor),
+                            })),
+                            // Foo in var Foo =
+                            name: decl.ident.into(),
+                            definite: false,
+                        }],
+                        declare: false,
+                    });
+                }
+
                 let rhs = self.fold_class(Some(decl.ident.clone()), decl.class);
 
                 Decl::Var(VarDecl {
@@ -399,31 +461,15 @@ impl Classes {
             //     console.log('bar');
             //
             //
-
-            let params = constructor
-                .params
-                .into_iter()
-                .map(|param| match param {
-                    PatOrTsParamProp::Pat(p) => p,
-                    _ => unimplemented!("TsParamProp in constructor"),
-                })
-                .collect();
-
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
-                function: Function {
-                    decorators: Default::default(),
-                    span: constructor.span,
+                function: constructor_fn(Constructor {
                     body: Some(BlockStmt {
-                        span: constructor.span,
+                        span: DUMMY_SP,
                         stmts: body,
                     }),
-                    params,
-                    is_async: false,
-                    is_generator: false,
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                },
+                    ..constructor
+                }),
                 declare: false,
             })));
 
@@ -802,5 +848,26 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
         }
 
         n
+    }
+}
+
+fn constructor_fn(c: Constructor) -> Function {
+    Function {
+        span: DUMMY_SP,
+        decorators: Default::default(),
+        params: c
+            .params
+            .into_iter()
+            .map(|pat| match pat {
+                PatOrTsParamProp::Pat(p) => p,
+                _ => unimplemented!("TsParamProp in constructor"),
+            })
+            .collect(),
+        body: c.body,
+        is_async: false,
+        is_generator: false,
+
+        type_params: Default::default(),
+        return_type: Default::default(),
     }
 }

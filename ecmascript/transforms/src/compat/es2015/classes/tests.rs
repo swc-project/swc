@@ -7,6 +7,24 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     tr(Default::default()),
+    basic_no_method,
+    r#"class Test {
+  constructor(name) {
+    this.name = name;
+  }
+}"#,
+    r#"
+var Test = function Test(name) {
+  _classCallCheck(this, Test);
+
+  this.name = name;
+}
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    tr(Default::default()),
     basic,
     r#"class Test {
   constructor(name) {
