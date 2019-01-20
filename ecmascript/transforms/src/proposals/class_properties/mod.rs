@@ -175,9 +175,9 @@ impl ClassProperties {
 
                 ClassMember::ClassProp(prop) => {
                     let key = match *prop.key {
-                        Expr::Ident(i) => Lit::Str(Str {
+                        Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
                             span: i.span,
-                            value: i.sym,
+                            value: i.sym.clone(),
                             has_escape: false,
                         })
                         .as_arg(),
