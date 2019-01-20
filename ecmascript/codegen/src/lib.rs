@@ -558,12 +558,12 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        self.emit_class_method(n)
+        self.emit_class_method(n)?;
     }
 
     #[emitter]
     pub fn emit_method(&mut self, n: &Method) -> Result {
-        self.emit_class_method(n)
+        self.emit_class_method(n)?;
     }
 
     fn emit_class_method<K: Node>(&mut self, node: &ClassMethod<K>) -> Result {
