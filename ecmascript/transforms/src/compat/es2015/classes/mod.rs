@@ -1,6 +1,5 @@
 use self::constructor::{
-    constructor_fn, make_possible_return_value, ConstructorFolder, SuperCallFinder,
-    SuperFoldingMode,
+    constructor_fn, make_possible_return_value, ConstructorFolder, ReturningMode, SuperCallFinder,
 };
 use crate::{
     helpers::Helpers,
@@ -384,44 +383,42 @@ impl Classes {
                 // inject possibleReturnCheck
                 let mode = SuperCallFinder::find(&body);
 
-                if let Some(mode) = mode {
-                    let mark = Mark::fresh(Mark::root());
-                    let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
+                let mark = Mark::fresh(Mark::root());
+                let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
-                    let mut folder = ConstructorFolder {
-                        helpers: &self.helpers,
-                        class_name: &class_name,
-                        mode,
-                        mark,
-                    };
-
-                    body = body.fold_with(&mut folder);
-                    match mode {
-                        SuperFoldingMode::Assign => {
-                            body.insert(
-                                0,
-                                Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
-                                    declare: false,
-                                    kind: VarDeclKind::Var,
-                                    decls: vec![VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(this.clone()),
-                                        init: None,
-                                        definite: false,
-                                    }],
-                                })),
-                            );
-                        }
-                        _ => {}
-                    }
-                    body.push(Stmt::Return(ReturnStmt {
+                body.insert(
+                    0,
+                    Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
-                        arg: Some(box this.into()),
-                    }));
-                } else {
-                    let possible_return_value =
-                        box make_possible_return_value(&self.helpers, &class_name, None);
+                        declare: false,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(this.clone()),
+                            init: None,
+                            definite: false,
+                        }],
+                    })),
+                );
+
+                let mut folder = ConstructorFolder {
+                    helpers: &self.helpers,
+                    class_name: &class_name,
+                    mode,
+                    mark,
+                };
+
+                body = body.fold_with(&mut folder);
+
+                let is_last_return = match body.last() {
+                    Some(Stmt::Return(..)) => true,
+                    _ => false,
+                };
+                if !is_last_return {
+                    let possible_return_value = box make_possible_return_value(
+                        &self.helpers,
+                        ReturningMode::Returning { mark, arg: None },
+                    );
                     body.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(possible_return_value),

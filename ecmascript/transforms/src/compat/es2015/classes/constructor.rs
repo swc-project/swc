@@ -89,10 +89,11 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
 pub(super) struct ConstructorFolder<'a> {
     pub helpers: &'a Helpers,
     pub class_name: &'a Ident,
-    pub mode: SuperFoldingMode,
+    pub mode: Option<SuperFoldingMode>,
     /// Mark for `_this`
     pub mark: Mark,
 }
+
 #[derive(Clone, Copy)]
 pub(super) enum SuperFoldingMode {
     /// `_this = ...`
@@ -103,10 +104,7 @@ pub(super) enum SuperFoldingMode {
 
 impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        match self.mode {
-            SuperFoldingMode::Var => {}
-            _ => return stmt.fold_children(self),
-        }
+        let stmt = stmt.fold_children(self);
 
         match stmt {
             Stmt::Expr(box Expr::Call(CallExpr {
@@ -116,8 +114,10 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
             })) => {
                 let init = Some(box make_possible_return_value(
                     self.helpers,
-                    self.class_name,
-                    Some(args),
+                    ReturningMode::Prototype {
+                        class_name: self.class_name.clone(),
+                        args: Some(args),
+                    },
                 ));
 
                 Stmt::Decl(Decl::Var(VarDecl {
@@ -137,13 +137,35 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
     }
 }
 
+impl<'a> Fold<ReturnStmt> for ConstructorFolder<'a> {
+    fn fold(&mut self, stmt: ReturnStmt) -> ReturnStmt {
+        let arg = Some(box make_possible_return_value(
+            self.helpers,
+            ReturningMode::Returning {
+                mark: self.mark,
+                arg: stmt.arg,
+            },
+        ));
+
+        ReturnStmt { arg, ..stmt }
+    }
+}
+
+macro_rules! noop {
+    ($T:ty) => {
+        impl<'a> Fold<$T> for ConstructorFolder<'a> {
+            fn fold(&mut self, n: $T) -> $T {
+                n
+            }
+        }
+    };
+}
+
+noop!(Function);
+noop!(Class);
+
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
-        match self.mode {
-            SuperFoldingMode::Assign => {}
-            _ => return expr,
-        }
-
         let expr = expr.fold_children(self);
 
         match expr {
@@ -152,8 +174,13 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
                 args,
                 ..
             }) => {
-                let right =
-                    box make_possible_return_value(self.helpers, self.class_name, Some(args));
+                let right = box make_possible_return_value(
+                    self.helpers,
+                    ReturningMode::Prototype {
+                        class_name: self.class_name.clone(),
+                        args: Some(args),
+                    },
+                );
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
@@ -169,48 +196,73 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     }
 }
 
-pub(super) fn make_possible_return_value(
-    helpers: &Helpers,
-    class_name: &Ident,
-    args: Option<Vec<ExprOrSpread>>,
-) -> Expr {
-    // possible return value from super() call
+#[derive(Debug)]
+pub(super) enum ReturningMode {
+    /// `return arg`
+    Returning {
+        /// Mark for `_this`
+        mark: Mark,
+        arg: Option<Box<Expr>>,
+    },
+
+    /// `super()` call
+    Prototype {
+        class_name: Ident,
+        /// None when `super(arguments)` is injected because no constructor is
+        /// defined.
+        args: Option<Vec<ExprOrSpread>>,
+    },
+}
+
+pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode) -> Expr {
+    helpers.possible_constructor_return();
+    let callee = quote_ident!("_possibleConstructorReturn").as_callee();
+
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: quote_ident!("_possibleConstructorReturn").as_callee(),
-        args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
-            let apply = box Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: MemberExpr {
-                    span: DUMMY_SP,
-                    obj: ExprOrSuper::Expr(box get_prototype_of(
-                        helpers,
-                        &Expr::Ident(class_name.clone()),
-                    )),
-                    computed: false,
-                    prop: box Expr::Ident(if args.is_some() {
-                        quote_ident!("call")
-                    } else {
-                        quote_ident!("apply")
-                    }),
-                }
-                .as_callee(),
-                // super(foo, bar) => possibleReturnCheck(this, foo, bar)
-                args: match args {
-                    Some(args) => iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
-                        .chain(args)
-                        .collect(),
-                    None => vec![
-                        ThisExpr { span: DUMMY_SP }.as_arg(),
-                        quote_ident!("arguments").as_arg(),
-                    ],
-                },
+        callee,
+        args: match mode {
+            ReturningMode::Returning { mark, arg } => {
+                iter::once(quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg())
+                    .chain(arg.map(|arg| arg.as_arg()))
+                    .collect()
+            }
+            ReturningMode::Prototype { class_name, args } => {
+                vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
+                    let apply = box Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: ExprOrSuper::Expr(box get_prototype_of(
+                                helpers,
+                                &Expr::Ident(class_name),
+                            )),
+                            computed: false,
+                            prop: box Expr::Ident(if args.is_some() {
+                                quote_ident!("call")
+                            } else {
+                                quote_ident!("apply")
+                            }),
+                        }
+                        .as_callee(),
+                        // super(foo, bar) => possibleReturnCheck(this, foo, bar)
+                        args: match args {
+                            Some(args) => iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                .chain(args)
+                                .collect(),
+                            None => vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ],
+                        },
 
-                type_args: Default::default(),
-            });
+                        type_args: Default::default(),
+                    });
 
-            apply.as_arg()
-        }],
+                    apply.as_arg()
+                }]
+            }
+        },
         type_args: Default::default(),
     })
 }
