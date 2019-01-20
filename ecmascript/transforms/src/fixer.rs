@@ -44,6 +44,12 @@ impl Fold<Expr> for Fixer {
                 computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Fn(_)),
                 prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Assign(_)),
+                prop,
             }) => MemberExpr {
                 span,
                 computed,
