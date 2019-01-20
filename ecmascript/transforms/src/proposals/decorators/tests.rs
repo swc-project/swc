@@ -13,7 +13,10 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 }
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    chain!(decorators(helpers), class_properties())
+    chain!(
+        decorators(helpers.clone()),
+        class_properties(helpers.clone())
+    )
 }
 
 // transformation_declaration

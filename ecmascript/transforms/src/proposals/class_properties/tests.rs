@@ -12,7 +12,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    chain!(class_properties(helpers.clone()), Classes { helpers })
+    class_properties(helpers.clone()).then(Classes { helpers })
 }
 
 test!(
