@@ -23,7 +23,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 };
@@ -115,14 +115,14 @@ var BaseView = class {
 "#,
     r#"
 var BaseView = function BaseView() {
-  "use strict";
+  
 
   _classCallCheck(this, BaseView);
   this.autoRender = true;
 };
 
 var BaseView = function BaseView() {
-  "use strict";
+  
 
   _classCallCheck(this, BaseView);
   this.autoRender = true;
@@ -131,7 +131,7 @@ var BaseView = function BaseView() {
 var BaseView =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function BaseView() {
     _classCallCheck(this, BaseView);
@@ -155,7 +155,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_getter_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
   get test() {
     return 1;
@@ -185,7 +185,7 @@ expect(obj.test).toBe(2);
 
 "#,
     r#"
-"use strict";
+
 
 let Base =
 /*#__PURE__*/
@@ -262,7 +262,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -285,7 +285,7 @@ test!(
     tr(Default::default()),
     get_set_get_semantics_data_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
 }
 Base.prototype.test = 1;
@@ -303,7 +303,7 @@ expect(obj.get()).toBe(1);
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -346,7 +346,7 @@ test_exec!(
     tr,
     get_set_call_semantics_setter_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
   set test(v) {
     throw new Error("gobbledygook");
@@ -380,7 +380,7 @@ test_exec!(
     tr,
     get_set_set_semantics_data_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base  {
 }
 Object.defineProperty(Base.prototype, 'test', {
@@ -453,7 +453,7 @@ var constructor;
 var CustomElement =
 /*#__PURE__*/
 function (_HTMLElement) {
-  "use strict";
+  
 
   _inherits(CustomElement, _HTMLElement);
 
@@ -492,7 +492,7 @@ class A extends B {
 var A =
 /*#__PURE__*/
 function (_B) {
-  "use strict";
+  
 
   _inherits(A, _B);
 
@@ -527,7 +527,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_not_defined_on_parent_setter_on_obj,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -552,7 +552,7 @@ expect(obj.test).toBe(3);
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -603,7 +603,7 @@ test!(
     tr(Default::default()),
     get_set_get_semantics_setter_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
   set test(v) {
     throw new Error("called");
@@ -627,7 +627,7 @@ expect(obj.get()).toBeUndefined();
 
 "#,
     r#"
-"use strict";
+
 
 let Base =
 /*#__PURE__*/
@@ -698,7 +698,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -738,7 +738,7 @@ class Test extends Foo {
 var Test =
 /*#__PURE__*/
 function (_Foo) {
-  "use strict";
+  
 
   _inherits(Test, _Foo);
 
@@ -787,7 +787,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Test() {
     _classCallCheck(this, Test);
@@ -818,7 +818,7 @@ export default class {}
 
 "#,
     r#"
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -850,7 +850,7 @@ var x = {
   Foo:
   /*#__PURE__*/
   function (_Foo) {
-    "use strict";
+    
 
     _inherits(_class, _Foo);
 
@@ -878,7 +878,7 @@ var o = { foo: class foo {} };
     r#"
 var o = {
   foo: function foo() {
-    "use strict";
+    
 
     _classCallCheck(this, foo);
   }
@@ -943,7 +943,7 @@ expect(Test.test()).toBe(Function);
 var Test =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Test() {
     _classCallCheck(this, Test);
@@ -975,7 +975,7 @@ test!(
     tr(Default::default()),
     get_set_get_semantics_getter_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
   get test() {
     expect(this).toBe(obj);
@@ -1000,7 +1000,7 @@ expect(obj.get()).toBe(1);
 
 "#,
     r#"
-"use strict";
+
 
 let Base =
 /*#__PURE__*/
@@ -1073,7 +1073,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -1097,7 +1097,7 @@ test!(
     tr(Default::default()),
     get_set_call_semantics_getter_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
   get test() {
     expect(this).toBe(obj);
@@ -1127,7 +1127,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 
 "#,
     r#"
-"use strict";
+
 
 let Base =
 /*#__PURE__*/
@@ -1235,7 +1235,7 @@ test_exec!(
     tr,
     get_set_call_semantics_data_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
   test(...args) {
     expect(this).toBe(obj);
@@ -1283,7 +1283,7 @@ test!(
     tr(Default::default()),
     get_set_call_semantics_data_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
   test(...args) {
     expect(this).toBe(obj);
@@ -1310,7 +1310,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 
 "#,
     r#"
-"use strict";
+
 
 let Base =
 /*#__PURE__*/
@@ -1394,7 +1394,7 @@ class A {
 var A =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function A() {
     _classCallCheck(this, A);
@@ -1418,7 +1418,7 @@ function () {
 
 // get_set_memoized_update
 test!(syntax(),tr( Default::default()), get_set_memoized_update, r#"
-"use strict";
+
 class Base {}
 Object.defineProperty(Base.prototype, 0, {
   value: 0,
@@ -1461,7 +1461,7 @@ expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
 "#, r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -1529,7 +1529,7 @@ expect(obj[1]).toBe(2);
 
 // spec_nested_class_super_property_in_key
 test!(syntax(),tr( Default::default()), spec_nested_class_super_property_in_key, r#"
-"use strict";
+
 class Hello {
   toString() {
     return 'hello';
@@ -1552,7 +1552,7 @@ class Outer extends Hello {
 expect(new Outer().hello()).toBe('hello');
 
 "#, r#"
-"use strict";
+
 
 var Hello =
 /*#__PURE__*/
@@ -1619,7 +1619,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -1663,7 +1663,7 @@ test_exec!(
     tr,
     spec_nested_class_super_call_in_key_exec,
     r#"
-"use strict";
+
 class Hello {
   constructor() {
     return {
@@ -1724,7 +1724,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -1759,7 +1759,7 @@ class Test extends Foo {
 var Test =
 /*#__PURE__*/
 function (_Foo) {
-  "use strict";
+  
 
   _inherits(Test, _Foo);
 
@@ -1799,7 +1799,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -1832,7 +1832,7 @@ test_exec!(
     tr,
     get_set_set_semantics_not_defined_on_parent_data_on_obj_exec,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -1862,7 +1862,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_data_defined_on_parent,
     r#"
-"use strict";
+
 class Base  {
 }
 Object.defineProperty(Base.prototype, 'test', {
@@ -1890,7 +1890,7 @@ expect(obj.test).toBe(3);
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -1943,7 +1943,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_not_defined_on_parent_getter_on_obj,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -1963,7 +1963,7 @@ expect(obj.test).toBe(3);
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -2010,7 +2010,7 @@ test_exec!(
     tr,
     spec_returning_from_derived_constructor_exec,
     r#"
-"use strict";
+
 class Foo {
   constructor() {
     return { x: 1 };
@@ -2103,7 +2103,7 @@ cp.m();
 var Point =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Point() {
     _classCallCheck(this, Point);
@@ -2121,7 +2121,7 @@ function () {
 var ColorPoint =
 /*#__PURE__*/
 function (_Point) {
-  "use strict";
+  
 
   _inherits(ColorPoint, _Point);
 
@@ -2168,7 +2168,7 @@ class Test {
 "#,
     r#"
 var Test = function Test() {
-  "use strict";
+  
 
   _classCallCheck(this, Test);
   _get(_getPrototypeOf(Test.prototype), "hasOwnProperty", this).call(this, "test");
@@ -2201,7 +2201,7 @@ export default class RandomComponent extends Component {
 
 "#,
     r#"
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2308,7 +2308,7 @@ export default class a2 extends b {
 
 "#,
     r#"
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2385,7 +2385,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Test() {
     _classCallCheck(this, Test);
@@ -2409,7 +2409,7 @@ test!(
     tr(Default::default()),
     spec_nested_object_super_call_in_key,
     r#"
-"use strict";
+
 class Hello {
   constructor() {
     return {
@@ -2436,7 +2436,7 @@ expect(new Outer().hello()).toBe('hello');
 
 "#,
     r#"
-"use strict";
+
 
 var Hello = function Hello() {
   _classCallCheck(this, Hello);
@@ -2480,7 +2480,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_not_defined_on_parent_not_on_obj,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -2498,7 +2498,7 @@ expect(obj.test).toBe(3);
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -2551,7 +2551,7 @@ class Child extends Base {
 var Child =
 /*#__PURE__*/
 function (_Base) {
-  "use strict";
+  
 
   _inherits(Child, _Base);
 
@@ -2585,7 +2585,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -2636,7 +2636,7 @@ class ConstructorScoping {
 "#,
     r#"
 var Test = function Test() {
-  "use strict";
+  
 
   _classCallCheck(this, Test);
   this.state = "test";
@@ -2645,7 +2645,7 @@ var Test = function Test() {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -2662,7 +2662,7 @@ function (_Bar) {
 }(Bar);
 
 var ConstructorScoping = function ConstructorScoping() {
-  "use strict";
+  
 
   _classCallCheck(this, ConstructorScoping);
   var bar;
@@ -2707,7 +2707,7 @@ class MyCtrl3 {
     r#"
 var MyCtrl = function MyCtrl(a) {
   "any directive prologue";
-  "use strict";
+  
 
   _classCallCheck(this, MyCtrl);
   foo;
@@ -2716,7 +2716,7 @@ var MyCtrl = function MyCtrl(a) {
 var MyCtrl2 = function MyCtrl2(a) {
   "a";
   "b";
-  "use strict";
+  
 
   _classCallCheck(this, MyCtrl2);
   foo;
@@ -2724,7 +2724,7 @@ var MyCtrl2 = function MyCtrl2(a) {
 
 var MyCtrl3 = function MyCtrl3(a) {
   "a";
-  "use strict";
+  
 
   _classCallCheck(this, MyCtrl3);
   foo;
@@ -2753,7 +2753,7 @@ class Child extends Base {
 var Child =
 /*#__PURE__*/
 function (_Base) {
-  "use strict";
+  
 
   _inherits(Child, _Base);
 
@@ -2776,7 +2776,7 @@ test_exec!(
     tr,
     get_set_get_semantics_getter_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
   get test() {
     expect(this).toBe(obj);
@@ -2817,7 +2817,7 @@ export default function() {
 
 "#,
     r#"
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2861,7 +2861,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Test() {
     _classCallCheck(this, Test);
@@ -2891,7 +2891,7 @@ class B extends A {
 
 "#, r#"
 var A = function A() {
-  "use strict";
+  
 
   _classCallCheck(this, A);
 };
@@ -2899,7 +2899,7 @@ var A = function A() {
 var B =
 /*#__PURE__*/
 function (_A) {
-  "use strict";
+  
 
   _inherits(B, _A);
 
@@ -2932,7 +2932,7 @@ var t = new Example();
 "#,
     r#"
 var Example = function Example() {
-  "use strict";
+  
 
   _classCallCheck(this, Example);
 
@@ -2970,7 +2970,7 @@ class TestMultipleMethods extends (class {
 var TestEmpty =
 /*#__PURE__*/
 function (_ref) {
-  "use strict";
+  
 
   _inherits(TestEmpty, _ref);
 
@@ -2983,7 +2983,7 @@ function (_ref) {
 }(
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function _class() {
     _classCallCheck(this, _class);
@@ -2995,7 +2995,7 @@ function () {
 var TestConstructorOnly =
 /*#__PURE__*/
 function (_ref2) {
-  "use strict";
+  
 
   _inherits(TestConstructorOnly, _ref2);
 
@@ -3008,7 +3008,7 @@ function (_ref2) {
 }(
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function _class2() {
     _classCallCheck(this, _class2);
@@ -3020,7 +3020,7 @@ function () {
 var TestMethodOnly =
 /*#__PURE__*/
 function (_ref3) {
-  "use strict";
+  
 
   _inherits(TestMethodOnly, _ref3);
 
@@ -3033,7 +3033,7 @@ function (_ref3) {
 }(
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function _class3() {
     _classCallCheck(this, _class3);
@@ -3049,7 +3049,7 @@ function () {
 var TestConstructorAndMethod =
 /*#__PURE__*/
 function (_ref4) {
-  "use strict";
+  
 
   _inherits(TestConstructorAndMethod, _ref4);
 
@@ -3062,7 +3062,7 @@ function (_ref4) {
 }(
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function _class4() {
     _classCallCheck(this, _class4);
@@ -3078,7 +3078,7 @@ function () {
 var TestMultipleMethods =
 /*#__PURE__*/
 function (_ref5) {
-  "use strict";
+  
 
   _inherits(TestMultipleMethods, _ref5);
 
@@ -3091,7 +3091,7 @@ function (_ref5) {
 }(
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function _class5() {
     _classCallCheck(this, _class5);
@@ -3117,7 +3117,7 @@ test!(
     tr(Default::default()),
     spec_nested_class_super_call_in_key,
     r#"
-"use strict";
+
 class Hello {
   constructor() {
     return {
@@ -3144,7 +3144,7 @@ expect(new Outer().hello()).toBe('hello');
 
 "#,
     r#"
-"use strict";
+
 
 var Hello = function Hello() {
   _classCallCheck(this, Hello);
@@ -3201,7 +3201,7 @@ test_exec!(
     tr,
     get_set_get_semantics_data_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
 }
 Object.defineProperty(Base.prototype, 'test', {
@@ -3262,7 +3262,7 @@ export default class Connection extends EventEmitter {
 
 "#,
     r#"
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -3317,7 +3317,7 @@ test_exec!(
     tr,
     get_set_set_semantics_setter_defined_on_parent_exec,
     r#"
-"use strict";
+
 let value = 1;
 class Base {
   set test(v) {
@@ -3391,7 +3391,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Test() {
     _classCallCheck(this, Test);
@@ -3428,7 +3428,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -3481,7 +3481,7 @@ class Test extends Foo {
 var Test =
 /*#__PURE__*/
 function (_Foo) {
-  "use strict";
+  
 
   _inherits(Test, _Foo);
 
@@ -3535,7 +3535,7 @@ test_exec!(
     tr,
     get_set_call_semantics_getter_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
   get test() {
     expect(this).toBe(obj);
@@ -3592,7 +3592,7 @@ test_exec!(
     tr,
     spec_nested_object_super_property_in_key_exec,
     r#"
-"use strict";
+
 class Hello {
   toString() {
     return 'hello';
@@ -3634,7 +3634,7 @@ class A {
 var A =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function A() {
     _classCallCheck(this, A);
@@ -3658,7 +3658,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_setter_defined_on_parent,
     r#"
-"use strict";
+
 let value = 1;
 class Base {
   set test(v) {
@@ -3686,7 +3686,7 @@ expect(obj.test).toBe(2);
 
 "#,
     r#"
-"use strict";
+
 
 let value = 1;
 
@@ -3749,7 +3749,7 @@ test!(
     tr(Default::default()),
     get_set_call_semantics_not_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -3773,7 +3773,7 @@ expect(() => {
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -3837,7 +3837,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 
 // spec_nested_object_super_property_in_key
 test!(syntax(),tr( Default::default()), spec_nested_object_super_property_in_key, r#"
-"use strict";
+
 class Hello {
   toString() {
     return 'hello';
@@ -3860,7 +3860,7 @@ class Outer extends Hello {
 expect(new Outer().hello()).toBe('hello');
 
 "#, r#"
-"use strict";
+
 
 var Hello =
 /*#__PURE__*/
@@ -3910,7 +3910,7 @@ test_exec!(
     tr,
     get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -3996,7 +3996,7 @@ test!(
     tr(Default::default()),
     get_set_call_semantics_setter_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
   set test(v) {
     throw new Error("gobbledygook");
@@ -4023,7 +4023,7 @@ expect(() => {
 
 "#,
     r#"
-"use strict";
+
 
 let Base =
 /*#__PURE__*/
@@ -4090,7 +4090,7 @@ class Test extends Foo { }
 var Test =
 /*#__PURE__*/
 function (_Foo) {
-  "use strict";
+  
 
   _inherits(Test, _Foo);
 
@@ -4113,7 +4113,7 @@ test_exec!(
     tr,
     spec_nested_object_super_call_in_key_exec,
     r#"
-"use strict";
+
 class Hello {
   constructor() {
     return {
@@ -4158,7 +4158,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -4194,7 +4194,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -4242,7 +4242,7 @@ test_exec!(
     tr,
     get_set_get_semantics_not_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -4270,7 +4270,7 @@ test!(
     tr(Default::default()),
     get_set_set_semantics_not_defined_on_parent_data_on_obj,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -4293,7 +4293,7 @@ expect(obj.test).toBe(3);
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -4340,7 +4340,7 @@ test_exec!(
     tr,
     get_set_set_semantics_not_defined_on_parent_getter_on_obj_exec,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -4369,7 +4369,7 @@ expect(obj.test).toBe(3);
 
 // get_set_memoized_assign
 test!(syntax(),tr( Default::default()), get_set_memoized_assign, r#"
-"use strict";
+
 class Base {}
 Object.defineProperty(Base.prototype, 0, {
   value: 0,
@@ -4412,7 +4412,7 @@ expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
 "#, r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -4498,7 +4498,7 @@ test_exec!(
     tr,
     get_set_call_semantics_not_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -4529,7 +4529,7 @@ test_exec!(
     tr,
     spec_nested_class_super_property_in_key_exec,
     r#"
-"use strict";
+
 class Hello {
   toString() {
     return 'hello';
@@ -4573,7 +4573,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -4618,7 +4618,7 @@ test_exec!(
     tr,
     get_set_memoized_update_exec,
     r#"
-"use strict";
+
 class Base {}
 Object.defineProperty(Base.prototype, 0, {
   value: 0,
@@ -4696,7 +4696,7 @@ test_exec!(
     tr,
     get_set_memoized_assign_exec,
     r#"
-"use strict";
+
 class Base {}
 Object.defineProperty(Base.prototype, 0, {
   value: 0,
@@ -4758,7 +4758,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -4792,7 +4792,7 @@ class BaseController2 extends Chaplin.Controller.Another {
 var BaseController =
 /*#__PURE__*/
 function (_Chaplin$Controller) {
-  "use strict";
+  
 
   _inherits(BaseController, _Chaplin$Controller);
 
@@ -4807,7 +4807,7 @@ function (_Chaplin$Controller) {
 var BaseController2 =
 /*#__PURE__*/
 function (_Chaplin$Controller$A) {
-  "use strict";
+  
 
   _inherits(BaseController2, _Chaplin$Controller$A);
 
@@ -4840,7 +4840,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -4919,7 +4919,7 @@ test!(
     tr(Default::default()),
     get_set_get_semantics_not_defined_on_parent,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -4940,7 +4940,7 @@ expect(obj.get()).toBeUndefined();
 
 "#,
     r#"
-"use strict";
+
 
 let Base = function Base() {
   _classCallCheck(this, Base);
@@ -4992,7 +4992,7 @@ class Test { }
 "#,
     r#"
 var Test = function Test() {
-  "use strict";
+  
 
   _classCallCheck(this, Test);
 };
@@ -5049,7 +5049,7 @@ test_exec!(
     tr,
     get_set_set_semantics_not_defined_on_parent_not_on_obj_exec,
     r#"
-"use strict";
+
 class Base {
 }
 
@@ -5074,7 +5074,7 @@ test_exec!(
     tr,
     get_set_get_semantics_setter_defined_on_parent_exec,
     r#"
-"use strict";
+
 class Base {
   set test(v) {
     throw new Error("called");
@@ -5242,7 +5242,7 @@ test_exec!(
     tr,
     get_set_set_semantics_getter_defined_on_parent_exec,
     r#"
-"use strict";
+
 let called = false;
 class Base {
   get test() {
