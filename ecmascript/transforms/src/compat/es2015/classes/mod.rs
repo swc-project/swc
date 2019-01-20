@@ -1,11 +1,16 @@
+use self::constructor::{
+    constructor_fn, make_possible_return_value, ConstructorFolder, SuperCallFinder,
+    SuperFoldingMode,
+};
 use crate::{
     helpers::Helpers,
     util::{alias_ident_for, prop_name_to_expr, ExprFactory},
 };
 use ast::*;
 use std::{iter, sync::Arc};
-use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
+mod constructor;
 #[cfg(test)]
 mod tests;
 
@@ -202,10 +207,31 @@ impl Classes {
             .map(|e| alias_ident_for(e, "_Super"));
 
         let (params, args) = if let Some(ref super_ident) = super_ident {
-            (
-                vec![Pat::Ident(super_ident.clone())],
-                vec![class.super_class.clone().unwrap().as_arg()],
-            )
+            let params = vec![Pat::Ident(super_ident.clone())];
+
+            let super_class = class.super_class.clone().unwrap();
+            let is_super_native = match *super_class {
+                Expr::Ident(Ident { ref sym, .. }) => match *sym {
+                    js_word!("Object") | js_word!("Array") => true,
+                    _ => false,
+                },
+                _ => false,
+            };
+            if is_super_native {
+                self.helpers.wrap_native_super();
+                (
+                    params,
+                    vec![CallExpr {
+                        span: DUMMY_SP,
+                        callee: quote_ident!("_wrapNativeSuper").as_callee(),
+                        args: vec![super_class.as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .as_arg()],
+                )
+            } else {
+                (params, vec![super_class.as_arg()])
+            }
         } else {
             (vec![], vec![])
         };
@@ -356,101 +382,50 @@ impl Classes {
 
             if super_class_ident.is_some() {
                 // inject possibleReturnCheck
-                let super_call_pos = body.iter().position(|c| match *c {
-                    Stmt::Expr(box Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
-                        ..
-                    })) => true,
-                    _ => false,
-                });
-                // is super() call last?
-                let is_last = super_call_pos == Some(body.len() - 1);
+                let mode = SuperCallFinder::find(&body);
 
-                // possible return value from super() call
-                let possible_return_value = box Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: quote_ident!("_possibleConstructorReturn").as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
-                        let apply = box Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: ExprOrSuper::Expr(
-                                    box get_prototype_of(&Expr::Ident(class_name.clone()))
-                                        .wrap_with_paren(),
-                                ),
-                                computed: false,
-                                prop: box Expr::Ident(if super_call_pos.is_some() {
-                                    quote_ident!("call")
-                                } else {
-                                    quote_ident!("apply")
-                                }),
-                            }
-                            .as_callee(),
+                if let Some(mode) = mode {
+                    let mark = Mark::fresh(Mark::root());
+                    let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
-                            args: if let Some(super_call_pos) = super_call_pos {
-                                // Code like `super(foo, bar)` should be result in
-                                // `.call(this, foo, bar)`
-                                match body[super_call_pos] {
-                                    Stmt::Expr(box Expr::Call(CallExpr {
-                                        callee: ExprOrSuper::Super(..),
-                                        ref args,
-                                        ..
-                                    })) => iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
-                                        .chain(args.into_iter().cloned())
-                                        .collect(),
-                                    _ => unreachable!(),
-                                }
-                            } else {
-                                vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    quote_ident!("arguments").as_arg(),
-                                ]
-                            },
+                    let mut folder = ConstructorFolder {
+                        helpers: &self.helpers,
+                        class_name: &class_name,
+                        mode,
+                        mark,
+                    };
 
-                            type_args: Default::default(),
-                        });
-
-                        apply.as_arg()
-                    }],
-                    type_args: Default::default(),
-                });
-
-                match super_call_pos {
-                    Some(super_call_pos) => {
-                        if is_last {
-                            body.append(&mut prop_init_stmts);
-
-                            body[super_call_pos] = Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(possible_return_value),
-                            });
-                        } else {
-                            body[super_call_pos] = Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls: vec![VarDeclarator {
+                    body = body.fold_with(&mut folder);
+                    match mode {
+                        SuperFoldingMode::Assign => {
+                            body.insert(
+                                0,
+                                Stmt::Decl(Decl::Var(VarDecl {
                                     span: DUMMY_SP,
-                                    name: quote_ident!("_this").into(),
-                                    init: Some(possible_return_value),
-                                    definite: false,
-                                }],
-                                declare: false,
-                            }));
-
-                            body.append(&mut prop_init_stmts);
-
-                            body.push(Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(box Expr::Ident(quote_ident!("_this"))),
-                            }));
+                                    declare: false,
+                                    kind: VarDeclKind::Var,
+                                    decls: vec![VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(this.clone()),
+                                        init: None,
+                                        definite: false,
+                                    }],
+                                })),
+                            );
                         }
+                        _ => {}
                     }
-
-                    _ => body.push(Stmt::Return(ReturnStmt {
+                    body.push(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(box this.into()),
+                    }));
+                } else {
+                    let possible_return_value =
+                        box make_possible_return_value(&self.helpers, &class_name, None);
+                    body.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(possible_return_value),
-                    })),
+                    }));
                 }
             }
 
@@ -554,9 +529,9 @@ impl Classes {
                 &mut props
             };
 
-            let function = m.function.fold_with(&mut SuperCallFolder {
+            let function = m.function.fold_with(&mut SuperFieldAccessFolder {
                 class_name: &class_name,
-                helpers: self.helpers.clone(),
+                helpers: &self.helpers,
             });
 
             let value = box Expr::Fn(FnExpr {
@@ -622,30 +597,14 @@ impl Classes {
 /// ```js
 /// Child.__proto__ || Object.getPrototypeOf(Child)
 /// ```
-fn get_prototype_of(obj: &Expr) -> Expr {
-    // `Child.__proto__`
-    let proto = box Expr::Member(MemberExpr {
-        span: DUMMY_SP,
-        obj: ExprOrSuper::Expr(box obj.clone()),
-        computed: false,
-        prop: box Expr::Ident(quote_ident!("__proto__")),
-    });
+fn get_prototype_of(helpers: &Helpers, obj: &Expr) -> Expr {
+    helpers.get_prototype_of();
 
-    // `Object.getPrototypeOf(Child)`
-    let get_proto_of = box Expr::Call(CallExpr {
+    Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: member_expr!(DUMMY_SP, Object.getPrototypeOf).as_callee(),
+        callee: member_expr!(DUMMY_SP, _getPrototypeOf).as_callee(),
         args: vec![obj.clone().as_arg()],
         type_args: Default::default(),
-    });
-
-    // `Child.__proto__ || Object.getPrototypeOf(Child)`
-    Expr::Bin(BinExpr {
-        span: DUMMY_SP,
-        left: proto,
-        op: op!("||"),
-        // Object.getPrototypeOf(Child)
-        right: get_proto_of,
     })
 }
 
@@ -662,13 +621,15 @@ fn get_prototype_of(obj: &Expr) -> Expr {
 ///
 /// _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype),
 /// 'foo', this).call(this, a);
-struct SuperCallFolder<'a> {
+struct SuperFieldAccessFolder<'a> {
     class_name: &'a Ident,
-    helpers: Arc<Helpers>,
+    helpers: &'a Helpers,
 }
 
 struct SuperCalleeFolder<'a> {
+    helpers: &'a Helpers,
     class_name: &'a Ident,
+    /// True if we should inject get and
     inject_get: bool,
     inject_set: bool,
 }
@@ -718,12 +679,15 @@ impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>) -> Expr {
         self.inject_get = true;
 
-        let proto_arg = get_prototype_of(&Expr::Member(MemberExpr {
-            span: super_token,
-            obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
-            prop: box Expr::Ident(quote_ident!("prototype")),
-            computed: false,
-        }))
+        let proto_arg = get_prototype_of(
+            self.helpers,
+            &Expr::Member(MemberExpr {
+                span: super_token,
+                obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
+                prop: box Expr::Ident(quote_ident!("prototype")),
+                computed: false,
+            }),
+        )
         .as_arg();
 
         let prop_arg = match *prop {
@@ -754,12 +718,15 @@ impl<'a> SuperCalleeFolder<'a> {
     fn super_to_set_call(&mut self, super_token: Span, prop: Box<Expr>, rhs: Box<Expr>) -> Expr {
         self.inject_set = true;
 
-        let proto_arg = get_prototype_of(&Expr::Member(MemberExpr {
-            span: super_token,
-            obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
-            prop: box Expr::Ident(quote_ident!("prototype")),
-            computed: false,
-        }))
+        let proto_arg = get_prototype_of(
+            self.helpers,
+            &Expr::Member(MemberExpr {
+                span: super_token,
+                obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
+                prop: box Expr::Ident(quote_ident!("prototype")),
+                computed: false,
+            }),
+        )
         .as_arg();
 
         let prop_arg = match *prop {
@@ -801,12 +768,13 @@ impl<'a> SuperCalleeFolder<'a> {
     }
 }
 
-impl<'a> Fold<Expr> for SuperCallFolder<'a> {
+impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         let mut callee_folder = SuperCalleeFolder {
             class_name: self.class_name,
             inject_get: false,
             inject_set: false,
+            helpers: self.helpers,
         };
 
         let was_call = match n {
@@ -850,26 +818,5 @@ impl<'a> Fold<Expr> for SuperCallFolder<'a> {
         }
 
         n
-    }
-}
-
-fn constructor_fn(c: Constructor) -> Function {
-    Function {
-        span: DUMMY_SP,
-        decorators: Default::default(),
-        params: c
-            .params
-            .into_iter()
-            .map(|pat| match pat {
-                PatOrTsParamProp::Pat(p) => p,
-                _ => unimplemented!("TsParamProp in constructor"),
-            })
-            .collect(),
-        body: c.body,
-        is_async: false,
-        is_generator: false,
-
-        type_params: Default::default(),
-        return_type: Default::default(),
     }
 }

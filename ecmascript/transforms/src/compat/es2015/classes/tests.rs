@@ -3964,16 +3964,10 @@ test_exec!(
     tr,
     extend_builtins_overwritten_null_exec,
     r#"
-var env = {
-  Array: null,
-};
+let Array = null;
 
-// We need to use "with" to avoid leaking the modified Array to other tests.
-with (env) {
-  class List extends Array {}
-  expect(List.prototype.__proto__).toBeUndefined();
-}
-
+class List extends Array {}
+expect(List.prototype.__proto__).toBeUndefined();
 "#
 );
 
@@ -5113,19 +5107,15 @@ test_exec!(
     r#"
 var called = false;
 
-var env = {
-  Array: function Array() {
-    called = true;
-  }
-};
-
-// We need to use "with" to avoid leaking the modified Array to other tests.
-with (env) {
-  class List extends Array {};
-  new List();
-
-  expect(called).toBe(true);
+Array: function Array() {
+  called = true;
 }
+
+
+class List extends Array {};
+new List();
+
+expect(called).toBe(true);
 
 "#
 );

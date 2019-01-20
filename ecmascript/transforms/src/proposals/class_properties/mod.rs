@@ -4,8 +4,8 @@ use crate::{
     util::{alias_ident_for, ExprFactory, ModuleItemLike, StmtLike},
 };
 use ast::*;
-use std::sync::Arc;
-use swc_common::{Fold, FoldWith, Mark, DUMMY_SP};
+use std::{iter, sync::Arc};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -301,12 +301,11 @@ impl ClassProperties {
                 },
             }),
         });
-        constructor
+
+        // Allow using super multiple time
+        constructor.body = constructor
             .body
-            .as_mut()
-            .unwrap()
-            .stmts
-            .append(&mut constructor_stmts);
+            .fold_with(&mut DefinePropertyInjector { constructor_stmts });
 
         members.push(ClassMember::Constructor(constructor));
 
@@ -322,5 +321,29 @@ impl ClassProperties {
             }),
             extra_stmts,
         )
+    }
+}
+
+struct DefinePropertyInjector {
+    constructor_stmts: Vec<Stmt>,
+}
+
+impl Fold<Vec<Stmt>> for DefinePropertyInjector {
+    fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let stmts = stmts.fold_children(self);
+
+        stmts.move_flat_map(|stmt| match stmt {
+            Stmt::Expr(box Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                ..
+            })) => iter::once(stmt).chain(self.constructor_stmts.clone()),
+            _ => iter::once(stmt).chain(vec![]),
+        })
+    }
+}
+
+impl Fold<Function> for DefinePropertyInjector {
+    fn fold(&mut self, n: Function) -> Function {
+        n
     }
 }
