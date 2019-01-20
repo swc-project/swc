@@ -1,5 +1,5 @@
 use super::*;
-use crate::{helpers::Helpers, proposals::class_properties};
+use crate::{compat::es2015::Classes, helpers::Helpers};
 use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -11,8 +11,8 @@ fn syntax() -> Syntax {
     })
 }
 
-fn tr(_: Arc<Helpers>) -> impl Fold<Module> {
-    class_properties()
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    chain!(class_properties(helpers.clone()), Classes { helpers })
 }
 
 test!(
@@ -29,7 +29,7 @@ var Foo = class {
 var _class, _temp;
 
 var Foo = (_temp = _class = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 }, _defineProperty(_class, "num", 0), _temp);
@@ -86,7 +86,7 @@ function test(x) {
   var _x = x;
 
   var F = function F() {
-    "use strict";
+    
 
     _classCallCheck(this, F);
     _defineProperty(this, _x, 1);
@@ -121,7 +121,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -160,7 +160,7 @@ class Child extends Parent {
 var Child =
 /*#__PURE__*/
 function (_Parent) {
-  "use strict";
+  
 
   _inherits(Child, _Parent);
 
@@ -229,7 +229,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -366,7 +366,7 @@ function withContext(ComposedComponent) {
   return _temp = _class =
   /*#__PURE__*/
   function (_Component) {
-    "use strict";
+    
 
     _inherits(WithContext, _Component);
 
@@ -403,7 +403,7 @@ class A {
 "#,
     r#"
 var A = function A(_force) {
-  "use strict";
+  
 
   _classCallCheck(this, A);
   _defineProperty(this, "force", force);
@@ -434,7 +434,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -495,7 +495,7 @@ expect(() => {
 "#,
     r#"
 var C = function C() {
-  "use strict";
+  
 
   _classCallCheck(this, C);
   _defineProperty(this, "y", _classPrivateFieldGet(this, _x));
@@ -520,7 +520,7 @@ test!(
     tr(Default::default()),
     nested_class_super_call_in_key,
     r#"
-"use strict";
+
 class Hello {
   constructor() {
     return {
@@ -545,7 +545,7 @@ expect(new Outer().hello).toBe('hello');
 
 "#,
     r#"
-"use strict";
+
 
 let Hello = function Hello() {
   _classCallCheck(this, Hello);
@@ -597,7 +597,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", void 0);
@@ -628,7 +628,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -735,7 +735,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 };
@@ -757,7 +757,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 
@@ -810,7 +810,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -847,7 +847,7 @@ class B extends A {
 var A =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function A() {
     _classCallCheck(this, A);
@@ -865,7 +865,7 @@ function () {
 var B =
 /*#__PURE__*/
 function (_A) {
-  "use strict";
+  
 
   _inherits(B, _A);
 
@@ -903,7 +903,7 @@ class Foo {
 var foo = "bar";
 
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 
@@ -942,7 +942,7 @@ class Foo {
 var foo = "bar";
 
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", foo);
@@ -1013,7 +1013,7 @@ var _ref4 = `template${expression}`;
 var MyClass =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function MyClass() {
     _classCallCheck(this, MyClass);
@@ -1079,7 +1079,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -1126,7 +1126,7 @@ test_exec!(
     tr,
     regression_7371_exec,
     r#"
-"use strict";
+
 class C {
 }
 
@@ -1312,7 +1312,7 @@ test_exec!(
     tr,
     nested_class_super_property_in_key_exec,
     r#"
-"use strict";
+
 class Hello {
   toString() {
     return 'hello';
@@ -1353,7 +1353,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -1396,7 +1396,7 @@ class Outer {
 "#,
     r#"
 var Outer = function Outer() {
-  "use strict";
+  
 
   _classCallCheck(this, Outer);
 
@@ -1440,7 +1440,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -1482,7 +1482,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -1551,7 +1551,7 @@ test_exec!(
     tr,
     nested_class_super_call_in_key_exec,
     r#"
-"use strict";
+
 class Hello {
   constructor() {
     return {
@@ -1633,7 +1633,7 @@ class Foo {
 var foo = "bar";
 
 var Foo = function Foo(_foo) {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", this);
@@ -1659,7 +1659,7 @@ class Bar extends Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 
@@ -1674,7 +1674,7 @@ var _prop = new WeakMap();
 var Bar =
 /*#__PURE__*/
 function (_Foo) {
-  "use strict";
+  
 
   _inherits(Bar, _Foo);
 
@@ -1715,7 +1715,7 @@ class B extends A {
 var A =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function A() {
     _classCallCheck(this, A);
@@ -1733,7 +1733,7 @@ function () {
 var B =
 /*#__PURE__*/
 function (_A) {
-  "use strict";
+  
 
   _inherits(B, _A);
 
@@ -1774,7 +1774,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "one", _classPrivateFieldGet(this, _private));
@@ -1807,7 +1807,7 @@ var _four = new WeakMap();
 );
 
 test!(syntax(), tr(Default::default()), nested_class_super_property_in_key, r#"
-"use strict";
+
 class Hello {
   toString() {
     return 'hello';
@@ -1828,7 +1828,7 @@ class Outer extends Hello {
 expect(new Outer().hello).toBe('hello');
 
 "#, r#"
-"use strict";
+
 
 let Hello =
 /*#__PURE__*/
@@ -1947,7 +1947,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
   _defineProperty(this, 0, "foo");
@@ -1973,7 +1973,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2071,7 +2071,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 
@@ -2107,7 +2107,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
@@ -2153,7 +2153,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", "foo");
@@ -2233,7 +2233,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 };
@@ -2294,7 +2294,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2375,7 +2375,7 @@ class Foo {
 var foo = "bar";
 
 var Foo = function Foo(_foo) {
-  "use strict";
+  
 
   _classCallCheck(this, Foo);
 
@@ -2560,7 +2560,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  "use strict";
+  
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2598,7 +2598,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
-  "use strict";
+  
 
   _inherits(Foo, _Bar);
 
