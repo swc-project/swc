@@ -9,6 +9,10 @@ Make the web (development) faster.
 
 swc is rust port of [babel][] and [closure compiler][].
 
+# Documentation
+
+Check out the documentation [in the website](https://swc-project.github.io/docs/introduction).
+
 
 # Installation
 
