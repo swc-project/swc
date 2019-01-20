@@ -1,7 +1,7 @@
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{ExprFactory, ModuleItemLike, StmtLike},
+    util::{alias_ident_for, ExprFactory, ModuleItemLike, StmtLike},
 };
 use ast::*;
 use std::sync::Arc;
@@ -183,8 +183,8 @@ impl ClassProperties {
                         .as_arg(),
 
                         _ => {
-                            let ident =
-                                quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(self.mark)), "tmp");
+                            let mut ident = alias_ident_for(&prop.key, "_ref");
+                            ident.span = ident.span.apply_mark(Mark::fresh(self.mark));
                             // Handle computed property
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,

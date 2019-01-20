@@ -988,70 +988,49 @@ class MyClass {
 
 "#,
     r#"
-var foo = "foo";
-
-var bar = () => {};
-
-var four = 4;
-
-var _one = one();
-
-var _ref = 2 * four + seven;
-
-var _undefined = undefined;
-
-var _computed = computed();
-
-var _computed2 = computed();
-
-var _ref2 = "test" + one;
-
-var _ref3 = /regex/;
-var _baz = baz;
-var _ref4 = `template${expression}`;
-
-var MyClass =
-/*#__PURE__*/
-function () {
-  
-
-  function MyClass() {
-    _classCallCheck(this, MyClass);
-    _defineProperty(this, null, "null");
-    _defineProperty(this, _undefined, "undefined");
-    _defineProperty(this, void 0, "void 0");
-    _defineProperty(this, _ref3, "regex");
-    _defineProperty(this, foo, "foo");
-    _defineProperty(this, bar, "bar");
-    _defineProperty(this, _baz, "baz");
-    _defineProperty(this, `template`, "template");
-    _defineProperty(this, _ref4, "template-with-expression");
-  }
-
-  _createClass(MyClass, [{
-    key: _ref2,
-    value: function () {}
-  }, {
-    key: "whatever",
-    get: function () {},
-    set: function (value) {}
-  }, {
-    key: _computed,
-    get: function () {}
-  }, {
-    key: _computed2,
-    set: function (value) {}
-  }], [{
-    key: 10,
-    value: function () {}
-  }]);
-  return MyClass;
-}();
-
-_defineProperty(MyClass, _one, "test");
-_defineProperty(MyClass, 2 * 4 + 7, "247");
-_defineProperty(MyClass, 2 * four + 7, "247");
-_defineProperty(MyClass, _ref, "247");
+const foo = 'foo';
+const bar = ()=>{
+};
+const four = 4;
+var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = 'whatever', tmp1 = 'whatever', tmp2 = computed(), tmp3 = computed(), tmp4 = 'test' + one, tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref7 = `template`, _ref8 = `template${expression}`;
+var MyClass = (function() {
+    function MyClass() {
+        _classCallCheck(this, MyClass);
+        _defineProperty(this, _ref4, 'null');
+        _defineProperty(this, _undefined, 'undefined');
+        _defineProperty(this, _ref5, 'void 0');
+        _defineProperty(this, _ref6, 'regex');
+        _defineProperty(this, _foo, 'foo');
+        _defineProperty(this, _bar, 'bar');
+        _defineProperty(this, _baz, 'baz');
+        _defineProperty(this, _ref7, 'template');
+        _defineProperty(this, _ref8, 'template-with-expression');
+    }
+    _createClass(MyClass, [{
+             key: tmp, get: function tmp() {
+                } 
+        }, {
+             key: tmp1, set: function tmp1(value) {
+                } 
+        }, {
+             key: tmp2, get: function tmp2() {
+                } 
+        }, {
+             key: tmp3, set: function tmp3(value) {
+                } 
+        }, {
+             key: tmp4, value: function tmp4() {
+                } 
+        }], [{
+             key: tmp5, value: function tmp5() {
+                } 
+        }]);
+    return MyClass;
+})();
+_defineProperty(MyClass, _ref, 'test');
+_defineProperty(MyClass, _ref1, '247');
+_defineProperty(MyClass, _ref2, '247');
+_defineProperty(MyClass, _ref3, '247');
 
 "#
 );
