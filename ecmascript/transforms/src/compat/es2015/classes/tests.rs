@@ -1827,7 +1827,7 @@ function () {
     value: function foo() {}
   }, {
     key: bar,
-    value: function value() {}
+    value: function bar() {}
   }, {
     key: bar + "foo",
     value: function value() {}
