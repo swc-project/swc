@@ -387,7 +387,7 @@ impl Classes {
 
                 body = body.fold_with(&mut folder);
                 match mode {
-                    Some(SuperFoldingMode::Assign) => body.insert(
+                    None | Some(SuperFoldingMode::Assign) => body.insert(
                         0,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,

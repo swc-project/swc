@@ -4220,7 +4220,7 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
 
-    const fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
     fn();
     return _possibleConstructorReturn(_this);
@@ -4784,7 +4784,7 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
 
-    const fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
     return _possibleConstructorReturn(_this);
   }

@@ -6,6 +6,8 @@ use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
+    /// True in conditional statement or arrow expresion.
+    in_complex: bool,
 }
 
 impl SuperCallFinder {
@@ -22,9 +24,30 @@ impl SuperCallFinder {
             _ => {}
         }
 
-        let mut v = SuperCallFinder { mode: None };
+        let mut v = SuperCallFinder {
+            mode: None,
+            in_complex: false,
+        };
         node.visit_with(&mut v);
         v.mode
+    }
+}
+
+impl Visit<ArrowExpr> for SuperCallFinder {
+    fn visit(&mut self, expr: &ArrowExpr) {
+        let old = self.in_complex;
+        self.in_complex = true;
+        expr.visit_children(self);
+        self.in_complex = old;
+    }
+}
+
+impl Visit<IfStmt> for SuperCallFinder {
+    fn visit(&mut self, stmt: &IfStmt) {
+        let old = self.in_complex;
+        self.in_complex = true;
+        stmt.visit_children(self);
+        self.in_complex = old;
     }
 }
 
@@ -49,8 +72,12 @@ impl Visit<CallExpr> for SuperCallFinder {
     fn visit(&mut self, e: &CallExpr) {
         match e.callee {
             ExprOrSuper::Super(..) => match self.mode {
-                None => self.mode = Some(SuperFoldingMode::Var),
-                // Multiple `super()` detected
+                None if !self.in_complex => self.mode = Some(SuperFoldingMode::Var),
+
+                // Complex `super()`
+                None if self.in_complex => self.mode = Some(SuperFoldingMode::Assign),
+
+                // Multiple `super()`
                 Some(SuperFoldingMode::Var) => self.mode = Some(SuperFoldingMode::Assign),
                 _ => {}
             },
@@ -103,7 +130,7 @@ pub(super) struct ConstructorFolder<'a> {
 /// `None`: `return _possibleConstructorReturn`
 #[derive(Debug, Clone, Copy)]
 pub(super) enum SuperFoldingMode {
-    /// `_this = ...`
+    /// `var _this;` followed by `_this = ...`
     Assign,
     /// `var _this = ...`
     Var,
