@@ -3853,7 +3853,11 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // exec_declaration
 
 // spec_nested_object_super_property_in_key
-test!(syntax(),spec_tr( Default::default()), spec_nested_object_super_property_in_key, r#"
+test!(
+    syntax(),
+    spec_tr(Default::default()),
+    spec_nested_object_super_property_in_key,
+    r#"
 
 class Hello {
   toString() {
@@ -3876,7 +3880,8 @@ class Outer extends Hello {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#, r#"
+"#,
+    r#"
 
 
 var Hello =
@@ -3901,12 +3906,10 @@ function (_Hello) {
   _inherits(Outer, _Hello);
 
   function Outer() {
-    var _this;
-
     _classCallCheck(this, Outer);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
     var Inner = {
-      [_get(_getPrototypeOf(Outer.prototype), "toString", _assertThisInitialized(_this)).call(_assertThisInitialized(_this))]() {
+      [_get(_getPrototypeOf(Outer.prototype), 'toString', this)()] () {
         return 'hello';
       }
 
@@ -3919,7 +3922,8 @@ function (_Hello) {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#);
+"#
+);
 
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec
 test_exec!(

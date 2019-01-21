@@ -377,15 +377,16 @@ impl Classes {
 
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
-                let mut folder = ConstructorFolder {
+                // Handle `super()`
+                body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
                     helpers: &self.helpers,
                     class_name: &class_name,
                     mode,
                     mark,
-                };
+                });
 
-                body = body.fold_with(&mut folder);
+                // Handle `super.XX`
                 body = {
                     let mut vars = vec![];
                     let mut body = body.fold_with(&mut SuperFieldAccessFolder {
