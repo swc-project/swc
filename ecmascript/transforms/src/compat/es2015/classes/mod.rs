@@ -391,6 +391,13 @@ impl Classes {
             .collect::<Vec<_>>();
 
             if super_class_ident.is_some() {
+                let is_always_initialized = body.iter().any(|s| match s {
+                    Stmt::Expr(box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Super(..),
+                        ..
+                    })) => true,
+                    _ => false,
+                });
                 // inject possibleReturnCheck
                 let mode = SuperCallFinder::find(&body);
 
@@ -414,6 +421,7 @@ impl Classes {
                         helpers: &self.helpers,
                         vars: &mut vars,
                         constructor_this_mark: Some(mark),
+                        alias_this: is_always_initialized,
                     });
                     if !vars.is_empty() {
                         body.insert(
@@ -600,6 +608,7 @@ impl Classes {
                 helpers: &self.helpers,
                 vars: &mut vars,
                 constructor_this_mark: None,
+                alias_this: false,
             });
             if !vars.is_empty() {
                 function.body.as_mut().unwrap().stmts.insert(
@@ -692,6 +701,7 @@ struct SuperFieldAccessFolder<'a> {
     vars: &'a mut Vec<VarDeclarator>,
     /// Mark for the `_this`. Used only when folding constructor.
     constructor_this_mark: Option<Mark>,
+    alias_this: bool,
 }
 
 struct SuperCalleeFolder<'a> {
@@ -703,6 +713,7 @@ struct SuperCalleeFolder<'a> {
     inject_set: bool,
     /// Mark for the `_this`. Used only when folding constructor.
     constructor_this_mark: Option<Mark>,
+    alias_this: bool,
 }
 
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
@@ -813,17 +824,19 @@ impl<'a> SuperCalleeFolder<'a> {
         .as_arg();
 
         let this_arg = match self.constructor_this_mark {
-            Some(mark) => {
+            Some(mark) if self.alias_this => {
+                let this = quote_ident!(super_token.apply_mark(mark), "_this");
+
                 self.helpers.assert_this_initialized();
                 CallExpr {
                     span: DUMMY_SP,
                     callee: quote_ident!("_assertThisInitialized").as_callee(),
-                    args: vec![quote_ident!(super_token.apply_mark(mark), "_this").as_arg()],
+                    args: vec![this.as_arg()],
                     type_args: Default::default(),
                 }
                 .as_arg()
             }
-            None => ThisExpr { span: super_token }.as_arg(),
+            _ => ThisExpr { span: super_token }.as_arg(),
         };
 
         Expr::Call(CallExpr {
@@ -992,6 +1005,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             helpers: self.helpers,
             vars: self.vars,
             constructor_this_mark: self.constructor_this_mark,
+            alias_this: self.alias_this,
         };
 
         let was_call = match n {
