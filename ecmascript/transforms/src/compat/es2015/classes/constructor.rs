@@ -133,7 +133,7 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
                             DUMMY_SP.apply_mark(self.mark),
-                            "_thid"
+                            "_this"
                         ))),
                         op: op!("="),
                         right: box expr,
