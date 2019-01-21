@@ -539,15 +539,16 @@ impl Classes {
             }
 
             let value = box Expr::Fn(FnExpr {
-                ident: match prop_name {
-                    Expr::Ident(ident) => {
-                        if m.kind == MethodKind::Method {
-                            Some(ident)
-                        } else {
-                            None
+                ident: if m.kind == MethodKind::Method {
+                    match prop_name {
+                        Expr::Ident(ident) => Some(ident),
+                        Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                            Some(Ident::new(value, span))
                         }
+                        _ => Some(quote_ident!("value")),
                     }
-                    _ => None,
+                } else {
+                    None
                 },
                 function,
             });
