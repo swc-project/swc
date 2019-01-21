@@ -1775,13 +1775,11 @@ function (_Foo) {
   _inherits(Test, _Foo);
 
   function Test() {
-    var _this;
-
     _classCallCheck(this, Test);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
+    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this));
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever;
-    return _this;
+    return _possibleConstructorReturn(_this);
   }
 
   return Test;
