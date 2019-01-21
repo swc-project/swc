@@ -17,7 +17,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Spanned, Visit, VisitWith};
+use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod factory;
 mod value;
@@ -794,5 +794,56 @@ pub(crate) fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
         PropName::Num(n) => Expr::Lit(Lit::Num(n)),
         PropName::Computed(expr) => *expr,
+    }
+}
+
+pub fn default_constructor(has_super: bool) -> Constructor {
+    let span = DUMMY_SP;
+
+    Constructor {
+        span: DUMMY_SP,
+        key: PropName::Ident(quote_ident!("constructor")),
+        accessibility: Default::default(),
+        is_optional: false,
+        params: if has_super {
+            vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                dot3_token: DUMMY_SP,
+                arg: box Pat::Ident(quote_ident!(span, "args")),
+                type_ann: Default::default(),
+            }))]
+        } else {
+            vec![]
+        },
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts: if has_super {
+                vec![Stmt::Expr(box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: ExprOrSuper::Super(DUMMY_SP),
+                    args: vec![ExprOrSpread {
+                        spread: Some(DUMMY_SP),
+                        expr: box Expr::Ident(quote_ident!(span, "args")),
+                    }],
+                    type_args: Default::default(),
+                }))]
+            } else {
+                vec![]
+            },
+        }),
+    }
+}
+
+/// Check if `e` is `...arguments`
+pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
+    match *e {
+        ExprOrSpread {
+            spread: Some(..),
+            expr:
+                box Expr::Ident(Ident {
+                    sym: js_word!("arguments"),
+                    ..
+                }),
+        } => true,
+        _ => false,
     }
 }

@@ -97,6 +97,7 @@ pub(super) struct ConstructorFolder<'a> {
     pub mode: Option<SuperFoldingMode>,
     /// Mark for `_this`
     pub mark: Mark,
+    pub is_constructor_default: bool,
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -114,7 +115,6 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
             None | Some(SuperFoldingMode::Var) => {}
             _ => return stmt,
         }
-        dbg!(self.mode);
         let stmt = stmt.fold_children(self);
 
         match stmt {
@@ -126,6 +126,7 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                 let init = Some(box make_possible_return_value(
                     self.helpers,
                     ReturningMode::Prototype {
+                        is_constructor_default: self.is_constructor_default,
                         class_name: self.class_name.clone(),
                         args: Some(args),
                     },
@@ -202,6 +203,7 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
                     ReturningMode::Prototype {
                         class_name: self.class_name.clone(),
                         args: Some(args),
+                        is_constructor_default: self.is_constructor_default,
                     },
                 );
 
@@ -231,6 +233,7 @@ pub(super) enum ReturningMode {
 
     /// `super()` call
     Prototype {
+        is_constructor_default: bool,
         class_name: Ident,
         /// None when `super(arguments)` is injected because no constructor is
         /// defined.
@@ -251,7 +254,11 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                     .chain(arg.map(|arg| arg.as_arg()))
                     .collect()
             }
-            ReturningMode::Prototype { class_name, args } => {
+            ReturningMode::Prototype {
+                class_name,
+                args,
+                is_constructor_default,
+            } => {
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
                     let apply = box Expr::Call(CallExpr {
                         span: DUMMY_SP,
@@ -262,7 +269,7 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                                 &Expr::Ident(class_name),
                             )),
                             computed: false,
-                            prop: box Expr::Ident(if args.is_some() {
+                            prop: box Expr::Ident(if args.is_some() && !is_constructor_default {
                                 quote_ident!("call")
                             } else {
                                 quote_ident!("apply")
@@ -271,9 +278,18 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                         .as_callee(),
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)
                         args: match args {
-                            Some(args) => iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
-                                .chain(args)
-                                .collect(),
+                            Some(args) => {
+                                if is_constructor_default {
+                                    vec![
+                                        ThisExpr { span: DUMMY_SP }.as_arg(),
+                                        quote_ident!("arguments").as_arg(),
+                                    ]
+                                } else {
+                                    iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                        .chain(args)
+                                        .collect()
+                                }
+                            }
                             None => vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 quote_ident!("arguments").as_arg(),
@@ -289,38 +305,4 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
         },
         type_args: Default::default(),
     })
-}
-
-pub fn default_constructor(has_super: bool) -> Constructor {
-    Constructor {
-        span: DUMMY_SP,
-        key: PropName::Ident(quote_ident!("constructor")),
-        accessibility: Default::default(),
-        is_optional: false,
-        params: if has_super {
-            vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
-                dot3_token: DUMMY_SP,
-                arg: box Pat::Ident(quote_ident!("args")),
-                type_ann: Default::default(),
-            }))]
-        } else {
-            vec![]
-        },
-        body: Some(BlockStmt {
-            span: DUMMY_SP,
-            stmts: if has_super {
-                vec![Stmt::Expr(box Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: ExprOrSuper::Super(DUMMY_SP),
-                    args: vec![ExprOrSpread {
-                        spread: Some(DUMMY_SP),
-                        expr: box Expr::Ident(quote_ident!("args")),
-                    }],
-                    type_args: Default::default(),
-                }))]
-            } else {
-                vec![]
-            },
-        }),
-    }
 }

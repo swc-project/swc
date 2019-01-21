@@ -1,20 +1,9 @@
 pub use self::{
-    arrow::arrow,
-    block_scoped_fn::BlockScopedFns,
-    block_scoping::block_scoping,
-    classes::{default_constructor, Classes},
-    computed_props::computed_properties,
-    destructuring::destructuring,
-    duplicate_keys::duplicate_keys,
-    for_of::for_of,
-    function_name::function_name,
-    instanceof::InstanceOf,
-    parameters::parameters,
-    shorthand_property::Shorthand,
-    spread::Spread,
-    sticky_regex::StickyRegex,
-    template_literal::TemplateLiteral,
-    typeof_symbol::TypeOfSymbol,
+    arrow::arrow, block_scoped_fn::BlockScopedFns, block_scoping::block_scoping, classes::Classes,
+    computed_props::computed_properties, destructuring::destructuring,
+    duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
+    instanceof::InstanceOf, parameters::parameters, shorthand_property::Shorthand, spread::Spread,
+    sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::{helpers::Helpers, pass::Pass};
 use ast::{Expr, Module, Stmt};

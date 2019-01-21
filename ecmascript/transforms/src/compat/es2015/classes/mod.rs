@@ -1,11 +1,12 @@
-pub use self::constructor::default_constructor;
 use self::constructor::{
     constructor_fn, make_possible_return_value, ConstructorFolder, ReturningMode, SuperCallFinder,
     SuperFoldingMode,
 };
 use crate::{
     helpers::Helpers,
-    util::{alias_ident_for, prop_name_to_expr, ExprFactory},
+    util::{
+        alias_ident_for, default_constructor, is_rest_arguments, prop_name_to_expr, ExprFactory,
+    },
 };
 use ast::*;
 use std::{iter, sync::Arc};
@@ -123,7 +124,6 @@ impl Fold<Decl> for Classes {
 
                     let mut constructor = constructor
                         .unwrap_or_else(|| default_constructor(decl.class.super_class.is_some()));
-                    dbg!(&constructor);
                     constructor
                         .body
                         .as_mut()
@@ -133,7 +133,7 @@ impl Fold<Decl> for Classes {
 
                     return Decl::Var(VarDecl {
                         span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
+                        kind: VarDeclKind::Let,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             init: Some(box Expr::Fn(FnExpr {
@@ -152,7 +152,7 @@ impl Fold<Decl> for Classes {
 
                 Decl::Var(VarDecl {
                     span,
-                    kind: VarDeclKind::Var,
+                    kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
                         init: Some(box rhs),
@@ -345,10 +345,17 @@ impl Classes {
             })));
         }
 
+        let mark = Mark::fresh(Mark::root());
+
         // Process constructor
         {
-            let constructor =
-                constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
+            let mut is_constructor_default = false;
+            let constructor = constructor.unwrap_or_else(|| {
+                is_constructor_default = true;
+                let mut c = default_constructor(super_class_ident.is_some());
+                c.params = vec![];
+                c
+            });
 
             // inject _classCallCheck(this, Bar);
             self.helpers.class_call_check();
@@ -368,10 +375,10 @@ impl Classes {
                 // inject possibleReturnCheck
                 let mode = SuperCallFinder::find(&body);
 
-                let mark = Mark::fresh(Mark::root());
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
                 let mut folder = ConstructorFolder {
+                    is_constructor_default,
                     helpers: &self.helpers,
                     class_name: &class_name,
                     mode,
@@ -520,7 +527,13 @@ impl Classes {
 
             let value = box Expr::Fn(FnExpr {
                 ident: match prop_name {
-                    Expr::Ident(ident) => Some(ident),
+                    Expr::Ident(ident) => {
+                        if m.kind == MethodKind::Method {
+                            Some(ident)
+                        } else {
+                            None
+                        }
+                    }
                     _ => None,
                 },
                 function,
@@ -776,9 +789,30 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                     Expr::Call(CallExpr {
                         span,
                         callee,
-                        args,
+                        mut args,
                         type_args,
                     }) => {
+                        if args.len() == 1 && is_rest_arguments(&args[0]) {
+                            return Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: callee,
+                                    prop: box Expr::Ident(quote_ident!("apply")),
+                                    computed: false,
+                                }
+                                .as_callee(),
+                                args: iter::once(ThisExpr { span }.as_arg())
+                                    .chain(iter::once({
+                                        let mut arg = args.pop().unwrap();
+                                        arg.spread = None;
+                                        arg
+                                    }))
+                                    .collect(),
+                                type_args,
+                            });
+                        }
+
                         return Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: MemberExpr {

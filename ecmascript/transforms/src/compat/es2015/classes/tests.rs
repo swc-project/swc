@@ -572,15 +572,15 @@ function (_Base) {
   }
 
   _createClass(Obj, [{
-    key: "set",
-    value: function set() {
-      return _set(_getPrototypeOf(Obj.prototype), "test", 3, this, true);
-    }
-  }, {
     key: "test",
     set: function (v) {
       expect(this).toBe(obj);
       value = v;
+    }
+  }, {
+    key: "set",
+    value: function set() {
+      return _set(_getPrototypeOf(Obj.prototype), "test", 3, this, true);
     }
   }]);
 
@@ -1981,13 +1981,13 @@ function (_Base) {
   }
 
   _createClass(Obj, [{
+    key: "test",
+    get: function () {}
+  }, {
     key: "set",
     value: function set() {
       return _set(_getPrototypeOf(Obj.prototype), "test", 3, this, true);
     }
-  }, {
-    key: "test",
-    get: function () {}
   }]);
 
   return Obj;

@@ -1,8 +1,7 @@
 use crate::{
-    compat::es2015::default_constructor,
     helpers::Helpers,
     pass::Pass,
-    util::{alias_ident_for, ExprFactory, ModuleItemLike, StmtLike},
+    util::{alias_ident_for, default_constructor, ExprFactory, ModuleItemLike, StmtLike},
 };
 use ast::*;
 use std::{iter, sync::Arc};
