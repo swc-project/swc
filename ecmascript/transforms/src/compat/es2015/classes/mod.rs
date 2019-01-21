@@ -520,10 +520,23 @@ impl Classes {
                 &mut props
             };
 
-            let function = m.function.fold_with(&mut SuperFieldAccessFolder {
+            let mut vars = vec![];
+            let mut function = m.function.fold_with(&mut SuperFieldAccessFolder {
                 class_name: &class_name,
                 helpers: &self.helpers,
+                vars: &mut vars,
             });
+            if !vars.is_empty() {
+                function.body.as_mut().unwrap().stmts.insert(
+                    0,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vars,
+                    })),
+                );
+            }
 
             let value = box Expr::Fn(FnExpr {
                 ident: match prop_name {
@@ -621,10 +634,12 @@ fn get_prototype_of(helpers: &Helpers, obj: &Expr) -> Expr {
 struct SuperFieldAccessFolder<'a> {
     class_name: &'a Ident,
     helpers: &'a Helpers,
+    vars: &'a mut Vec<VarDeclarator>,
 }
 
 struct SuperCalleeFolder<'a> {
     helpers: &'a Helpers,
+    vars: &'a mut Vec<VarDeclarator>,
     class_name: &'a Ident,
     /// True if we should inject get and
     inject_get: bool,
@@ -634,10 +649,46 @@ struct SuperCalleeFolder<'a> {
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         let n = match n {
+            Expr::Update(UpdateExpr {
+                span,
+                arg,
+                op,
+                prefix,
+            }) => match *arg {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(super_token),
+                    prop,
+                    ..
+                }) => {
+                    let op = match op {
+                        op!("++") => op!("+="),
+                        op!("--") => op!("-="),
+                    };
+
+                    self.super_to_set_call(
+                        super_token,
+                        true,
+                        prop,
+                        op,
+                        box Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 1.0,
+                        })),
+                    )
+                }
+                _ => {
+                    return Expr::Update(UpdateExpr {
+                        span,
+                        arg,
+                        op,
+                        prefix,
+                    });
+                }
+            },
             Expr::Assign(AssignExpr {
                 span,
                 left,
-                op: op!("="),
+                op,
                 right,
             }) => match left {
                 PatOrExpr::Expr(box Expr::Member(MemberExpr {
@@ -649,7 +700,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                     obj: ExprOrSuper::Super(super_token),
                     prop,
                     ..
-                }))) => self.super_to_set_call(super_token, prop, right),
+                }))) => self.super_to_set_call(super_token, false, prop, op, right),
                 _ => Expr::Assign(AssignExpr {
                     span,
                     left: left.fold_children(self),
@@ -665,7 +716,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                 obj: ExprOrSuper::Super(super_token),
                 prop,
                 ..
-            }) => self.super_to_get_call(super_token, prop),
+            }) => self.super_to_get_call(super_token, prop, false),
 
             _ => n,
         }
@@ -673,7 +724,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 }
 
 impl<'a> SuperCalleeFolder<'a> {
-    fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>) -> Expr {
+    fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, raw: bool) -> Expr {
         self.inject_get = true;
 
         let proto_arg = get_prototype_of(
@@ -692,13 +743,12 @@ impl<'a> SuperCalleeFolder<'a> {
                 sym: ref value,
                 span,
                 ..
-            }) => Expr::Lit(Lit::Str(Str {
+            }) if !raw => Expr::Lit(Lit::Str(Str {
                 span,
                 value: value.clone(),
                 has_escape: false,
             })),
-            ref e @ Expr::Lit(Lit::Str(Str { .. })) => e.clone(),
-            _ => unimplemented!("non-ident / non-string super field"),
+            ref expr => expr.clone(),
         }
         .as_arg();
 
@@ -712,8 +762,40 @@ impl<'a> SuperCalleeFolder<'a> {
         })
     }
 
-    fn super_to_set_call(&mut self, super_token: Span, prop: Box<Expr>, rhs: Box<Expr>) -> Expr {
+    fn super_to_set_call(
+        &mut self,
+        super_token: Span,
+        is_update: bool,
+        prop: Box<Expr>,
+        op: AssignOp,
+        rhs: Box<Expr>,
+    ) -> Expr {
         self.inject_set = true;
+
+        let mut ref_ident = alias_ident_for(&rhs, "_ref");
+        ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
+
+        let mut update_ident = alias_ident_for(&rhs, "_superRef");
+        update_ident.span = update_ident.span.apply_mark(Mark::fresh(Mark::root()));
+
+        if op != op!("=") {
+            // Memoize
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(ref_ident.clone()),
+                init: None,
+                definite: false,
+            });
+
+            if is_update {
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(update_ident.clone()),
+                    init: None,
+                    definite: false,
+                });
+            }
+        }
 
         let proto_arg = get_prototype_of(
             self.helpers,
@@ -736,16 +818,71 @@ impl<'a> SuperCalleeFolder<'a> {
                 value: value.clone(),
                 has_escape: false,
             })),
-            ref e @ Expr::Lit(Lit::Str(Str { .. })) => e.clone(),
-            _ => unimplemented!("non-ident / non-string super field"),
-        }
-        .as_arg();
+            ref e => e.clone(),
+        };
+        let prop_arg = match op {
+            op!("=") => prop_arg.as_arg(),
+            _ => AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(box Pat::Ident(ref_ident.clone())),
+                op: op!("="),
+                right: prop,
+            }
+            .as_arg(),
+        };
 
-        let rhs_arg = rhs.as_arg();
+        let rhs_arg = match op {
+            op!("=") => rhs.as_arg(),
+            _ => {
+                let left = box self.super_to_get_call(
+                    super_token,
+                    box Expr::Ident(ref_ident.clone()),
+                    true,
+                );
+                let left = if is_update {
+                    box AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box Pat::Ident(update_ident.clone())),
+                        op: op!("="),
+                        right: box Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!(unary, "+"),
+                            arg: left,
+                        }),
+                    }
+                    .wrap_with_paren()
+                } else {
+                    left
+                };
+
+                BinExpr {
+                    span: DUMMY_SP,
+                    left,
+                    op: match op {
+                        op!("=") => unreachable!(),
+
+                        op!("+=") => op!(bin, "+"),
+                        op!("-=") => op!(bin, "-"),
+                        op!("*=") => op!("*"),
+                        op!("/=") => op!("/"),
+                        op!("%=") => op!("%"),
+                        op!("<<=") => op!("<<"),
+                        op!(">>=") => op!(">>"),
+                        op!(">>>=") => op!(">>>"),
+                        op!("|=") => op!("|"),
+                        op!("&=") => op!("&"),
+                        op!("^=") => op!("^"),
+                        op!("**=") => op!("**"),
+                    },
+                    right: rhs,
+                }
+                .as_arg()
+            }
+        };
 
         let this_arg = ThisExpr { span: super_token }.as_arg();
 
-        Expr::Call(CallExpr {
+        let expr = Expr::Call(CallExpr {
             span: super_token,
             callee: quote_ident!("_set").as_callee(),
             args: vec![
@@ -761,7 +898,16 @@ impl<'a> SuperCalleeFolder<'a> {
                 .as_arg(),
             ],
             type_args: Default::default(),
-        })
+        });
+
+        if is_update {
+            Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: vec![box expr, box Expr::Ident(update_ident)],
+            })
+        } else {
+            expr
+        }
     }
 }
 
@@ -772,6 +918,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             inject_get: false,
             inject_set: false,
             helpers: self.helpers,
+            vars: self.vars,
         };
 
         let was_call = match n {

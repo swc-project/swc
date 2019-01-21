@@ -164,6 +164,7 @@ macro_rules! test_transform {
             }
 
             println!(">>>>> Orig <<<<<\n{}", $input);
+            println!(">>>>> Code <<<<<\n{}", actual_src);
             assert_eq!(
                 crate::tests::DebugUsingDisplay(&actual_src),
                 crate::tests::DebugUsingDisplay(&expected_src)

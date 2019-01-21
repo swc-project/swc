@@ -765,12 +765,16 @@ pub(crate) fn to_u32(_d: f64) -> u32 {
 
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
-    let span = expr.span();
-    match *expr {
-        Expr::Ident(ref ident) => Ident::new(format!("_{}", ident.sym).into(), span),
-        Expr::Member(ref member) => alias_ident_for(&member.prop, default),
-        _ => quote_ident!(default),
+    fn sym(expr: &Expr, default: &str) -> JsWord {
+        match *expr {
+            Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
+            Expr::Member(ref member) => sym(&member.prop, default),
+            _ => default.into(),
+        }
     }
+
+    let span = expr.span();
+    quote_ident!(span, sym(expr, default))
 }
 
 pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {

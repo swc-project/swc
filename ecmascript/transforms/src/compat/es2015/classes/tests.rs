@@ -1499,16 +1499,16 @@ function (_Base) {
   _createClass(Obj, [{
     key: "update",
     value: function update() {
-      var _proper$prop, _super$proper$prop;
+      var _ref, _superRef;
 
-      _set(_getPrototypeOf(Obj.prototype), _proper$prop = proper.prop, (_super$proper$prop = +_get(_getPrototypeOf(Obj.prototype), _proper$prop, this)) + 1, this, true), _super$proper$prop;
+      _set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;
     }
   }, {
     key: "update2",
     value: function update2() {
-      var _i, _super$i;
+      var _ref, _superRef;
 
-      _set(_getPrototypeOf(Obj.prototype), _i = i, (_super$i = +_get(_getPrototypeOf(Obj.prototype), _i, this)) + 1, this, true), _super$i;
+      _set(_getPrototypeOf(Obj.prototype), _ref = i, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;
     }
   }]);
 
@@ -4450,16 +4450,16 @@ function (_Base) {
   _createClass(Obj, [{
     key: "assign",
     value: function assign() {
-      var _proper$prop;
+      var _ref;
 
-      _set(_getPrototypeOf(Obj.prototype), _proper$prop = proper.prop, _get(_getPrototypeOf(Obj.prototype), _proper$prop, this) + 1, this, true);
+      _set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, _get(_getPrototypeOf(Obj.prototype), _ref, this) + 1, this, true);
     }
   }, {
     key: "assign2",
     value: function assign2() {
-      var _i;
+      var _ref;
 
-      _set(_getPrototypeOf(Obj.prototype), _i = i, _get(_getPrototypeOf(Obj.prototype), _i, this) + 1, this, true);
+      _set(_getPrototypeOf(Obj.prototype), _ref = i, _get(_getPrototypeOf(Obj.prototype), _ref, this) + 1, this, true);
     }
   }]);
 
