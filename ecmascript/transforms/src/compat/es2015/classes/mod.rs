@@ -716,8 +716,9 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Super(super_token),
                 prop,
+                computed,
                 ..
-            }) => self.super_to_get_call(super_token, prop, false),
+            }) => self.super_to_get_call(super_token, prop, computed),
 
             _ => n,
         }
@@ -725,7 +726,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 }
 
 impl<'a> SuperCalleeFolder<'a> {
-    fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, raw: bool) -> Expr {
+    fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, computed: bool) -> Expr {
         self.inject_get = true;
 
         let proto_arg = get_prototype_of(
@@ -744,7 +745,7 @@ impl<'a> SuperCalleeFolder<'a> {
                 sym: ref value,
                 span,
                 ..
-            }) if !raw => Expr::Lit(Lit::Str(Str {
+            }) if !computed => Expr::Lit(Lit::Str(Str {
                 span,
                 value: value.clone(),
                 has_escape: false,
