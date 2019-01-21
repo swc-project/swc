@@ -10,6 +10,7 @@ _toConsumableArray
 abstract
 any
 apply
+arguments
 as
 async
 await
