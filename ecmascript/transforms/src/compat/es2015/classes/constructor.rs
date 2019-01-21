@@ -123,6 +123,8 @@ pub(super) struct ConstructorFolder<'a> {
     /// Mark for `_this`
     pub mark: Mark,
     pub is_constructor_default: bool,
+    /// True when recursing into other function or class.
+    pub ignore_return: bool,
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -187,6 +189,10 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
 
 impl<'a> Fold<ReturnStmt> for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: ReturnStmt) -> ReturnStmt {
+        if self.ignore_return {
+            return stmt;
+        }
+
         let arg = Some(box make_possible_return_value(
             self.helpers,
             ReturningMode::Returning {
@@ -199,18 +205,23 @@ impl<'a> Fold<ReturnStmt> for ConstructorFolder<'a> {
     }
 }
 
-macro_rules! noop {
+macro_rules! ignore_return {
     ($T:ty) => {
         impl<'a> Fold<$T> for ConstructorFolder<'a> {
             fn fold(&mut self, n: $T) -> $T {
+                let old = self.ignore_return;
+                self.ignore_return = true;
+                let n = n.fold_children(self);
+                self.ignore_return = old;
+
                 n
             }
         }
     };
 }
 
-noop!(Function);
-noop!(Class);
+ignore_return!(Function);
+ignore_return!(Class);
 
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
