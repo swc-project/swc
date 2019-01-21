@@ -2239,9 +2239,11 @@ exports.default = RandomComponent;
 // regression_T7537
 
 // extend_builtins_imported_babel_plugin_transform_builtin_classes_exec
-test_exec!(syntax(), tr, extend_builtins_imported_babel_plugin_transform_builtin_classes_exec, r#"
-// Imported from
-// https://github.com/WebReflection/babel-plugin-transform-builtin-classes/blob/85efe1374e1c59a8323c7eddd4326f6c93d9f64f/test/test.js
+test_exec!(
+    syntax(),
+    tr,
+    extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
+    r#"
 
 class List extends Array {
   constructor(value) {
@@ -2281,7 +2283,8 @@ expect(s).toHaveLength(2);
 expect(s.join()).toBe('4,5');
 expect(s.method()).toBe(s);
 
-"#);
+"#
+);
 
 // regression_3028
 test!(

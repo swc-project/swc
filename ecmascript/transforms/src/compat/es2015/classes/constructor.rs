@@ -111,10 +111,6 @@ pub(super) enum SuperFoldingMode {
 
 impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        match self.mode {
-            None | Some(SuperFoldingMode::Var) => {}
-            _ => return stmt,
-        }
         let stmt = stmt.fold_children(self);
 
         match stmt {
@@ -123,16 +119,25 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                 args,
                 ..
             })) => {
-                let init = Some(box make_possible_return_value(
+                let expr = make_possible_return_value(
                     self.helpers,
                     ReturningMode::Prototype {
                         is_constructor_default: self.is_constructor_default,
                         class_name: self.class_name.clone(),
                         args: Some(args),
                     },
-                ));
+                );
 
                 match self.mode {
+                    Some(SuperFoldingMode::Assign) => Stmt::Expr(box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box Pat::Ident(quote_ident!(
+                            DUMMY_SP.apply_mark(self.mark),
+                            "_thid"
+                        ))),
+                        op: op!("="),
+                        right: box expr,
+                    })),
                     Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         declare: false,
@@ -140,15 +145,14 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this")),
-                            init,
+                            init: Some(box expr),
                             definite: false,
                         }],
                     })),
                     None => Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: init,
+                        arg: Some(box expr),
                     }),
-                    _ => unreachable!(),
                 }
             }
             _ => stmt,
