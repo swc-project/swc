@@ -1827,10 +1827,10 @@ function () {
     value: function foo() {}
   }, {
     key: bar,
-    value: function bar() {}
+    value: function() {}
   }, {
     key: bar + "foo",
-    value: function value() {}
+    value: function () {}
   }]);
   return Foo;
 }();

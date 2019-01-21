@@ -512,6 +512,10 @@ impl Classes {
 
         for m in methods {
             let prop_key = box mk_prop_key(&m.key);
+            let computed = match m.key {
+                PropName::Computed(..) => true,
+                _ => false,
+            };
             let prop_name = prop_name_to_expr(m.key);
 
             let append_to: &mut Vec<_> = if m.is_static {
@@ -539,13 +543,13 @@ impl Classes {
             }
 
             let value = box Expr::Fn(FnExpr {
-                ident: if m.kind == MethodKind::Method {
+                ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(ident),
                         Expr::Lit(Lit::Str(Str { span, value, .. })) => {
                             Some(Ident::new(value, span))
                         }
-                        _ => Some(quote_ident!("value")),
+                        _ => None,
                     }
                 } else {
                     None
