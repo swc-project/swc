@@ -1160,7 +1160,7 @@ impl<'a, I: Input> Parser<'a, I> {
             Token::Num(..) => match bump!() {
                 Token::Num(value) => Lit::Num(Number {
                     span: span!(start),
-                    value,
+                    value: value.into(),
                 }),
                 _ => unreachable!(),
             },

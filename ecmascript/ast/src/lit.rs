@@ -1,4 +1,5 @@
 use crate::jsx::JSXText;
+use ordered_float::OrderedFloat;
 use std::fmt::{self, Display, Formatter};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
@@ -53,7 +54,7 @@ pub type RegexFlags = Str;
 #[derive(Copy)]
 pub struct Number {
     pub span: Span,
-    pub value: f64,
+    pub value: OrderedFloat<f64>,
 }
 
 impl Display for Number {

@@ -7,6 +7,7 @@
 #![deny(variant_size_differences)]
 
 extern crate enum_kind;
+extern crate ordered_float;
 #[macro_use]
 extern crate string_enum;
 extern crate swc_atoms;

@@ -5,10 +5,12 @@ use self::constructor::{
 use crate::{
     helpers::Helpers,
     util::{
-        alias_ident_for, default_constructor, is_rest_arguments, prop_name_to_expr, ExprFactory,
+        alias_ident_for, default_constructor, drop_span, is_rest_arguments, prop_name_to_expr,
+        ExprFactory,
     },
 };
 use ast::*;
+use indexmap::IndexMap;
 use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -179,6 +181,12 @@ impl Fold<Decl> for Classes {
 
         n.fold_children(self)
     }
+}
+
+struct Data {
+    method: Option<Box<Expr>>,
+    set: Option<Box<Expr>>,
+    get: Option<Box<Expr>>,
 }
 
 impl Fold<Expr> for Classes {
@@ -514,13 +522,42 @@ impl Classes {
             })
         }
 
-        fn mk_arg_obj_for_create_class(props: Vec<Expr>) -> ExprOrSpread {
+        fn mk_arg_obj_for_create_class(props: IndexMap<PropName, Data>) -> ExprOrSpread {
             if props.is_empty() {
                 return quote_expr!(DUMMY_SP, null).as_arg();
             }
             Expr::Array(ArrayLit {
                 span: DUMMY_SP,
-                elems: props.into_iter().map(|e| Some(e.as_arg())).collect(),
+                elems: props
+                    .into_iter()
+                    .map(|(key, data)| {
+                        let mut props = vec![PropOrSpread::Prop(box mk_prop_key(&key))];
+
+                        macro_rules! add {
+                            ($field:expr, $kind:expr, $s:literal) => {{
+                                if let Some(value) = $field {
+                                    props.push(PropOrSpread::Prop(box Prop::KeyValue(
+                                        KeyValueProp {
+                                            key: PropName::Ident(quote_ident!($s)),
+                                            value,
+                                        },
+                                    )));
+                                }
+                            }};
+                        }
+
+                        add!(data.get, MethodKind::Getter, "get");
+                        add!(data.set, MethodKind::Setter, "set");
+                        add!(data.method, MethodKind::Method, "value");
+
+                        ObjectLit {
+                            span: DUMMY_SP,
+                            props,
+                        }
+                        .as_arg()
+                    })
+                    .map(Some)
+                    .collect(),
             })
             .as_arg()
         }
@@ -542,17 +579,16 @@ impl Classes {
             }))
         }
 
-        let (mut props, mut static_props) = (vec![], vec![]);
+        let (mut props, mut static_props) = (IndexMap::new(), IndexMap::new());
 
         for m in methods {
-            let prop_key = box mk_prop_key(&m.key);
             let computed = match m.key {
                 PropName::Computed(..) => true,
                 _ => false,
             };
-            let prop_name = prop_name_to_expr(m.key);
+            let prop_name = prop_name_to_expr(m.key.clone());
 
-            let append_to: &mut Vec<_> = if m.is_static {
+            let append_to: &mut IndexMap<_, _> = if m.is_static {
                 &mut static_props
             } else {
                 &mut props
@@ -592,37 +628,16 @@ impl Classes {
                 function,
             });
 
+            let key = drop_span(m.key);
+            let data = append_to.entry(key).or_insert_with(|| Data {
+                get: None,
+                set: None,
+                method: None,
+            });
             match m.kind {
-                MethodKind::Method | MethodKind::Getter => {
-                    append_to.push(Expr::Object(ObjectLit {
-                        span: DUMMY_SP,
-                        props: vec![
-                            PropOrSpread::Prop(prop_key),
-                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(if m.kind == MethodKind::Getter {
-                                    quote_ident!("get")
-                                } else {
-                                    quote_ident!("value")
-                                }),
-                                value,
-                            })),
-                        ],
-                    }));
-                }
-
-                MethodKind::Setter => {
-                    // Setter
-                    append_to.push(Expr::Object(ObjectLit {
-                        span: DUMMY_SP,
-                        props: vec![
-                            PropOrSpread::Prop(prop_key),
-                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("set")),
-                                value,
-                            })),
-                        ],
-                    }))
-                }
+                MethodKind::Getter => data.get = Some(value),
+                MethodKind::Setter => data.set = Some(value),
+                MethodKind::Method => data.method = Some(value),
             }
         }
 
@@ -716,7 +731,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                         op,
                         box Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
-                            value: 1.0,
+                            value: 1.0.into(),
                         })),
                     )
                 }

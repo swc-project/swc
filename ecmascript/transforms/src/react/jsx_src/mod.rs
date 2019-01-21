@@ -49,7 +49,7 @@ impl Fold<JSXOpeningElement> for JsxSrc {
                             key: PropName::Ident(quote_ident!("lineNumber")),
                             value: box Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
-                                value: (file_lines.lines[0].line_index + 1) as _,
+                                value: ((file_lines.lines[0].line_index + 1) as f64).into(),
                             })),
                         })),
                     ],

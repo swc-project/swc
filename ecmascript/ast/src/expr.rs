@@ -285,7 +285,7 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     pub spread: Option<Span>,

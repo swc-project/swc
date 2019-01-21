@@ -672,7 +672,7 @@ impl RestFolder {
                                     computed: true,
                                     prop: box Expr::Lit(Lit::Num(Number {
                                         span: DUMMY_SP,
-                                        value: i as _,
+                                        value: (i as f64).into(),
                                     })),
                                 })
                             } else {

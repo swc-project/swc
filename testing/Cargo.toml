@@ -8,7 +8,7 @@ documentation = "https://swc-project.github.io/rustdoc/testing/"
 description = "Testing utilities for the swc project."
 
 [dependencies]
-swc_common = { version = "0.2", path ="../common", features = ["fold"] }
+swc_common = { version = "0.3", path ="../common", features = ["fold"] }
 lazy_static = "1"
 regex = "0.2.5"
 relative-path = "0.4.0"

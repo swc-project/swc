@@ -78,9 +78,9 @@ pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenS
 }
 
 /// Alias for
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
-/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
-/// enum.
+/// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, Hash, Eq)]` for a struct
+/// and `#[derive(Spanned, Fold, Clone, Debug, PartialEq, Hash, Eq,
+/// FromVariant)]` for an enum.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
@@ -96,12 +96,12 @@ pub fn ast_node(
     let mut item = Quote::new(Span::call_site());
     item = match input.data {
         Data::Enum(..) => item.quote_with(smart_quote!(Vars { input }, {
-            #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
+            #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq, Hash, Eq)]
             #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
             input
         })),
         _ => item.quote_with(smart_quote!(Vars { input }, {
-            #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+            #[derive(::swc_common::Spanned, Clone, Debug, PartialEq, Hash, Eq)]
             #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
             input
         })),

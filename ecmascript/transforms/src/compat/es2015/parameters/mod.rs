@@ -93,7 +93,7 @@ impl Params {
                                 op: op!(bin, "-"),
                                 right: box Expr::Lit(Lit::Num(Number {
                                     span,
-                                    value: i as f64,
+                                    value: (i as f64).into(),
                                 })),
                             }
                             .into();
@@ -109,12 +109,15 @@ impl Params {
                                     op: op!(">"),
                                     right: box Expr::Lit(Lit::Num(Number {
                                         span,
-                                        value: i as _,
+                                        value: (i as f64).into(),
                                     })),
                                 }
                                 .into(),
                                 cons: box bin,
-                                alt: box Expr::Lit(Lit::Num(Number { span, value: 0.0 })),
+                                alt: box Expr::Lit(Lit::Num(Number {
+                                    span,
+                                    value: 0.0.into(),
+                                })),
                             })
                         }
                     };
@@ -153,7 +156,7 @@ impl Params {
                                     name: Pat::Ident(idx_ident.clone().into()),
                                     init: Some(box Expr::Lit(Lit::Num(Number {
                                         span,
-                                        value: i as f64,
+                                        value: (i as f64).into(),
                                     }))),
                                     definite: false,
                                 },

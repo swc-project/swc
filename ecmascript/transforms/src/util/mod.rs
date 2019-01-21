@@ -17,7 +17,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod factory;
 mod value;
@@ -265,7 +265,7 @@ pub trait ExprExt {
             Expr::Lit(ref l) => match *l {
                 Lit::Bool(Bool { value: true, .. }) => 1.0,
                 Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
-                Lit::Num(Number { value: n, .. }) => n,
+                Lit::Num(Number { value: n, .. }) => n.into_inner(),
                 Lit::Str(Str { ref value, .. }) => return num_from_str(value),
                 _ => return Unknown,
             },
@@ -850,4 +850,17 @@ pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
         } => true,
         _ => false,
     }
+}
+
+pub(crate) struct DropSpan;
+impl Fold<Span> for DropSpan {
+    fn fold(&mut self, _: Span) -> Span {
+        DUMMY_SP
+    }
+}
+pub(crate) fn drop_span<N>(node: N) -> N
+where
+    N: FoldWith<DropSpan>,
+{
+    node.fold_with(&mut DropSpan)
 }

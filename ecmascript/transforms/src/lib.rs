@@ -9,6 +9,7 @@
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
+extern crate indexmap;
 #[macro_use(js_word)]
 extern crate swc_atoms;
 extern crate fnv;

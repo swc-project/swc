@@ -1,6 +1,6 @@
 [package]
 name = "swc_common"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -10,11 +10,11 @@ description = "Common utilities for the swc project."
 [features]
 default = []
 # Enable folder and visitor. Requires nightly compiler.
-fold = ["ast_node/fold"]
+fold = ["ast_node/fold", "ordered-float", "num-traits"]
 
 
 [dependencies]
-ast_node = { version = "0.3", path = "../macros/ast_node" }
+ast_node = { version = "0.4", path = "../macros/ast_node" }
 string_cache = "0.7"
 either = "1.5"
 scoped-tls = { version = "0.1.1" }
@@ -28,3 +28,5 @@ termcolor = "1.0"
 rayon = "1"
 rayon-core = "1"
 owning_ref = "0.4"
+num-traits = { version = "0.2", optional = true }
+ordered-float = { version = "1.0.1", optional = true }
