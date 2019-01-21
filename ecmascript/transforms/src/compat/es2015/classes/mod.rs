@@ -429,7 +429,7 @@ impl Classes {
                     body
                 };
                 match mode {
-                    None | Some(SuperFoldingMode::Assign) => body.insert(
+                    Some(SuperFoldingMode::Assign) => body.insert(
                         0,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
