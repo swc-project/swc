@@ -1,6 +1,7 @@
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
+    fmt,
     io::{self, Write},
     sync::{Arc, RwLock},
 };
@@ -162,12 +163,26 @@ macro_rules! test_transform {
                 unreachable!()
             }
 
-            panic!(
-                "\n\t>>>>> Code <<<<<\n{}\n\t>>>>> Actual <<<<<\n{}\n\t>>>>> Expected <<<<<\n{}",
-                $input, actual_src, expected_src
+            println!(">>>>> Orig <<<<<\n{}", $input);
+            assert_eq!(
+                crate::tests::DebugUsingDisplay(&actual_src),
+                crate::tests::DebugUsingDisplay(&expected_src)
             );
+            unreachable!()
+            // panic!(
+            //     "\n\t>>>>> Code <<<<<\n{}\n\t>>>>> Actual <<<<<\n{}\n\t>>>>> Expected
+            // <<<<<\n{}",     $input, actual_src, expected_src
+            // );
         });
     }};
+}
+
+#[derive(PartialEq, Eq)]
+pub(crate) struct DebugUsingDisplay<'a>(pub &'a str);
+impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Display::fmt(self.0, f)
+    }
 }
 
 /// Test transformation.
