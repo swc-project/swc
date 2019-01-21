@@ -33,23 +33,21 @@ impl SuperCallFinder {
     }
 }
 
-impl Visit<ArrowExpr> for SuperCallFinder {
-    fn visit(&mut self, expr: &ArrowExpr) {
-        let old = self.in_complex;
-        self.in_complex = true;
-        expr.visit_children(self);
-        self.in_complex = old;
-    }
+macro_rules! mark_as_complex {
+    ($T:ty) => {
+        impl Visit<$T> for SuperCallFinder {
+            fn visit(&mut self, node: &$T) {
+                let old = self.in_complex;
+                self.in_complex = true;
+                node.visit_children(self);
+                self.in_complex = old;
+            }
+        }
+    };
 }
-
-impl Visit<IfStmt> for SuperCallFinder {
-    fn visit(&mut self, stmt: &IfStmt) {
-        let old = self.in_complex;
-        self.in_complex = true;
-        stmt.visit_children(self);
-        self.in_complex = old;
-    }
-}
+mark_as_complex!(ArrowExpr);
+mark_as_complex!(IfStmt);
+mark_as_complex!(PropName);
 
 impl Visit<MemberExpr> for SuperCallFinder {
     fn visit(&mut self, e: &MemberExpr) {
@@ -116,7 +114,7 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
 ///
 /// # Out
 /// ```js
-/// _this = possi;
+/// _this = ...;
 /// ```
 pub(super) struct ConstructorFolder<'a> {
     pub helpers: &'a Helpers,
