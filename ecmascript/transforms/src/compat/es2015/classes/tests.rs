@@ -1,4 +1,5 @@
 use super::*;
+use crate::compat::es2015::{block_scoping, function_name, Spread};
 use swc_ecma_parser::Syntax;
 
 fn syntax() -> Syntax {
@@ -9,10 +10,23 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     Classes { helpers }
 }
 
+fn spec_tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    chain!(
+        function_name(),
+        Classes {
+            helpers: helpers.clone()
+        },
+        Spread {
+            helpers: helpers.clone()
+        },
+        block_scoping()
+    )
+}
+
 // spec_constructor_only
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_constructor_only,
     r#"
 class Foo {
@@ -72,7 +86,7 @@ cp.m();
 // spec_this_not_allowed_before_super_in_derived_classes_5_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_this_not_allowed_before_super_in_derived_classes_5_exec,
     r#"
 class Bar {}
@@ -91,7 +105,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_statement
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_statement,
     r#"
 var BaseView = class BaseView {
@@ -248,7 +262,7 @@ expect(obj.test).toBe(2);
 // spec_derived_constructor_must_call_super
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_derived_constructor_must_call_super,
     r#"
 class Foo extends Bar {
@@ -682,7 +696,7 @@ expect(obj.get()).toBeUndefined();
 // spec_this_not_allowed_before_super_in_derived_classes_4
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_this_not_allowed_before_super_in_derived_classes_4,
     r#"
 class Foo extends Bar {
@@ -721,7 +735,7 @@ function (_Bar) {
 );
 
 // spec_calling_super_properties
-test!(syntax(),tr( Default::default()), spec_calling_super_properties, r#"
+test!(syntax(),spec_tr( Default::default()), spec_calling_super_properties, r#"
 class Test extends Foo {
   constructor() {
     super();
@@ -770,7 +784,7 @@ function (_Foo) {
 // spec_instance_getter_and_setter
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_instance_getter_and_setter,
     r#"
 class Test {
@@ -869,7 +883,7 @@ var x = {
 // spec_inferred_expression_name
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_inferred_expression_name,
     r#"
 var o = { foo: class foo {} };
@@ -917,7 +931,7 @@ expect(constructor).toBe(CustomElement);
 // spec_default_super
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_default_super,
     r#"
 class Test {
@@ -1058,7 +1072,7 @@ expect(obj.get()).toBe(1);
 // spec_this_not_allowed_before_super_in_derived_classes
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_this_not_allowed_before_super_in_derived_classes,
     r#"
 class Foo extends Bar {
@@ -1192,7 +1206,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // spec_derived_constructor_must_call_super_4_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_derived_constructor_must_call_super_4_exec,
     r#"
 class Bar {}
@@ -1213,7 +1227,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_export_default
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_export_default,
     r#"
 export default class Foo {}
@@ -1372,7 +1386,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // spec_static
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_static,
     r#"
 class A {
@@ -1528,7 +1542,7 @@ expect(obj[1]).toBe(2);
 "#);
 
 // spec_nested_class_super_property_in_key
-test!(syntax(),tr( Default::default()), spec_nested_class_super_property_in_key, r#"
+test!(syntax(),spec_tr( Default::default()), spec_nested_class_super_property_in_key, r#"
 
 class Hello {
   toString() {
@@ -1608,7 +1622,7 @@ expect(new Outer().hello()).toBe('hello');
 "#);
 
 // spec_super_reference_in_prop_exression
-test!(syntax(),tr( Default::default()), spec_super_reference_in_prop_exression, r#"
+test!(syntax(),spec_tr( Default::default()), spec_super_reference_in_prop_exression, r#"
 class Foo extends Bar {
   constructor() {
     super[super().method]();
@@ -1639,7 +1653,7 @@ function (_Bar) {
 // spec_super_reference_before_in_lambda_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_super_reference_before_in_lambda_exec,
     r#"
 class Bar {
@@ -1660,7 +1674,7 @@ new Foo();
 // spec_nested_class_super_call_in_key_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_nested_class_super_call_in_key_exec,
     r#"
 
@@ -1694,7 +1708,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_this_not_allowed_before_super_in_derived_classes_4_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_this_not_allowed_before_super_in_derived_classes_4_exec,
     r#"
 class Bar {}
@@ -1713,7 +1727,7 @@ new Foo();
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_2
-test!(syntax(),tr( Default::default()), spec_this_not_allowed_before_super_in_derived_classes_2, r#"
+test!(syntax(),spec_tr( Default::default()), spec_this_not_allowed_before_super_in_derived_classes_2, r#"
 class Foo extends Bar {
   constructor() {
     super(this);
@@ -1743,7 +1757,7 @@ function (_Bar) {
 // spec_accessing_super_properties
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_accessing_super_properties,
     r#"
 class Test extends Foo {
@@ -1784,7 +1798,7 @@ function (_Foo) {
 // spec_computed_methods
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_computed_methods,
     r#"
 class Foo {
@@ -2007,7 +2021,7 @@ expect(obj.test).toBe(3);
 // spec_returning_from_derived_constructor_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_returning_from_derived_constructor_exec,
     r#"
 
@@ -2156,7 +2170,7 @@ cp.m();
 // spec_super_function_fallback
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_super_function_fallback,
     r#"
 class Test {
@@ -2374,7 +2388,7 @@ exports.default = a2;
 // spec_instance_setter
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_instance_setter,
     r#"
 class Test {
@@ -2409,7 +2423,7 @@ function () {
 // spec_nested_object_super_call_in_key
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_nested_object_super_call_in_key,
     r#"
 
@@ -2540,7 +2554,7 @@ expect(obj.test).toBe(3);
 // spec_derived_constructor_no_super_return_falsey
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_derived_constructor_no_super_return_falsey,
     r#"
 class Child extends Base {
@@ -2574,7 +2588,7 @@ function (_Base) {
 // spec_this_not_allowed_before_super_in_derived_classes_5
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_this_not_allowed_before_super_in_derived_classes_5,
     r#"
 class Foo extends Bar {
@@ -2611,7 +2625,7 @@ function (_Bar) {
 // spec_constructor
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_constructor,
     r#"
 class Test {
@@ -2680,7 +2694,7 @@ var ConstructorScoping = function ConstructorScoping() {
 // spec_preserves_directives
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_preserves_directives,
     r#"
 class MyCtrl {
@@ -2742,7 +2756,7 @@ var MyCtrl3 = function MyCtrl3(a) {
 // spec_derived_constructor_no_super_return_object
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_derived_constructor_no_super_return_object,
     r#"
 class Child extends Base {
@@ -2850,7 +2864,7 @@ function _default() {
 // spec_instance_method
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_instance_method,
     r#"
 class Test {
@@ -2921,7 +2935,7 @@ function (_A) {
 // spec_constructor_binding_collision
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_constructor_binding_collision,
     r#"
 class Example {
@@ -2948,7 +2962,7 @@ var t = new Example();
 );
 
 // spec_super_class_anonymous
-test!(syntax(),tr( Default::default()), spec_super_class_anonymous, r#"
+test!(syntax(),spec_tr( Default::default()), spec_super_class_anonymous, r#"
 class TestEmpty extends (class {}) {
 }
 
@@ -3117,7 +3131,7 @@ function () {
 // spec_nested_class_super_call_in_key
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_nested_class_super_call_in_key,
     r#"
 
@@ -3380,7 +3394,7 @@ expect(table.returnParam(false)).toBe(false);
 // spec_instance_getter
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_instance_getter,
     r#"
 class Test {
@@ -3415,7 +3429,7 @@ function () {
 // spec_this_not_allowed_before_super_in_derived_classes_3
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_this_not_allowed_before_super_in_derived_classes_3,
     r#"
 class Foo extends Bar {
@@ -3453,7 +3467,7 @@ function (_Bar) {
 );
 
 // spec_accessing_super_class
-test!(syntax(),tr( Default::default()), spec_accessing_super_class, r#"
+test!(syntax(),spec_tr( Default::default()), spec_accessing_super_class, r#"
 class Test extends Foo {
   constructor() {
     woops.super.test();
@@ -3572,7 +3586,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // spec_this_not_allowed_before_super_in_derived_classes_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_this_not_allowed_before_super_in_derived_classes_exec,
     r#"
 class Bar {}
@@ -3592,7 +3606,7 @@ expect(() => new Foo()).toThrow();
 // spec_nested_object_super_property_in_key_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_nested_object_super_property_in_key_exec,
     r#"
 
@@ -3820,7 +3834,7 @@ expect(() => {
 // spec_derived_constructor_must_call_super_2_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_derived_constructor_must_call_super_2_exec,
     r#"
 class Bar {}
@@ -3839,7 +3853,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // exec_declaration
 
 // spec_nested_object_super_property_in_key
-test!(syntax(),tr( Default::default()), spec_nested_object_super_property_in_key, r#"
+test!(syntax(),spec_tr( Default::default()), spec_nested_object_super_property_in_key, r#"
 
 class Hello {
   toString() {
@@ -3945,7 +3959,7 @@ expect(obj.test).toBe(3);
 // spec_this_not_allowed_before_super_in_derived_classes_2_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_this_not_allowed_before_super_in_derived_classes_2_exec,
     r#"
 class Bar {}
@@ -3977,7 +3991,7 @@ expect(List.prototype.__proto__).toBeUndefined();
 // spec_super_reference_before_bare_super_inline_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_super_reference_before_bare_super_inline_exec,
     r#"
 class Bar {}
@@ -4083,7 +4097,7 @@ expect(() => {
 // spec_super_class
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_super_class,
     r#"
 class Test extends Foo { }
@@ -4113,7 +4127,7 @@ function (_Foo) {
 // spec_nested_object_super_call_in_key_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_nested_object_super_call_in_key_exec,
     r#"
 
@@ -4147,7 +4161,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_derived_constructor_must_call_super_2
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_derived_constructor_must_call_super_2,
     r#"
 class Foo extends Bar {
@@ -4182,7 +4196,7 @@ function (_Bar) {
 // spec_derived_constructor_must_call_super_3
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_derived_constructor_must_call_super_3,
     r#"
 class Foo extends Bar {
@@ -4221,7 +4235,7 @@ function (_Bar) {
 // spec_this_not_allowed_before_super_in_derived_classes_3_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_this_not_allowed_before_super_in_derived_classes_3_exec,
     r#"
 class Bar {}
@@ -4529,7 +4543,7 @@ expect(() => {
 // spec_nested_class_super_property_in_key_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_nested_class_super_property_in_key_exec,
     r#"
 
@@ -4560,7 +4574,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_relaxed_method_coercion
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_relaxed_method_coercion,
     r#"
 // #1649
@@ -4598,7 +4612,7 @@ function () {
 // spec_derived_constructor_must_call_super_3_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_derived_constructor_must_call_super_3_exec,
     r#"
 class Bar {}
@@ -4669,7 +4683,7 @@ expect(obj[1]).toBe(2);
 // spec_computed_methods_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_computed_methods_exec,
     r#"
 const sym = Symbol();
@@ -4747,7 +4761,7 @@ expect(obj[1]).toBe(2);
 // spec_derived_constructor_must_call_super_4
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_derived_constructor_must_call_super_4,
     r#"
 class Foo extends Bar {
@@ -4782,7 +4796,7 @@ function (_Bar) {
 );
 
 // spec_super_class_id_member_expression
-test!(syntax(),tr( Default::default()), spec_super_class_id_member_expression, r#"
+test!(syntax(),spec_tr( Default::default()), spec_super_class_id_member_expression, r#"
 class BaseController extends Chaplin.Controller {
 
 }
@@ -4827,7 +4841,7 @@ function (_Chaplin$Controller$A) {
 // spec_delay_arrow_function_for_bare_super_derived
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_delay_arrow_function_for_bare_super_derived,
     r#"
 class Foo extends Bar {
@@ -4867,7 +4881,7 @@ function (_Bar) {
 // spec_default_super_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_default_super_exec,
     r#"
 class Test {
@@ -4894,7 +4908,7 @@ expect(Test.test()).toBe(Function);
 // spec_super_reference_before_in_lambda_3_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_super_reference_before_in_lambda_3_exec,
     r#"
 class Bar {
@@ -4987,7 +5001,7 @@ expect(obj.get()).toBeUndefined();
 // spec_plain_class
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_plain_class,
     r#"
 class Test { }
@@ -5006,7 +5020,7 @@ var Test = function Test() {
 // spec_super_reference_before_bare_super_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_super_reference_before_bare_super_exec,
     r#"
 class Bar {}
@@ -5026,7 +5040,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_super_reference_before_in_lambda_2_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_super_reference_before_in_lambda_2_exec,
     r#"
 class Bar {
@@ -5126,7 +5140,7 @@ expect(called).toBe(true);
 // spec_derived_constructor_must_call_super_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_derived_constructor_must_call_super_exec,
     r#"
 class Bar {}
@@ -5147,7 +5161,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_export_super_class
 test!(
     syntax(),
-    tr(Default::default()),
+    spec_tr(Default::default()),
     spec_export_super_class,
     r#"
 export default class extends A {}
@@ -5210,7 +5224,7 @@ expect(t2).toBeInstanceOf(Array);
 // spec_super_reference_in_prop_exression_exec
 test_exec!(
     syntax(),
-    tr,
+    spec_tr,
     spec_super_reference_in_prop_exression_exec,
     r#"
 let called = false;
