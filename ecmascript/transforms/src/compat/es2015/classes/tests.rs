@@ -1,5 +1,5 @@
 use super::*;
-use crate::compat::es2015::{block_scoping, function_name, Spread};
+use crate::compat::es2015::{block_scoping, Spread};
 use swc_ecma_parser::Syntax;
 
 fn syntax() -> Syntax {
@@ -12,7 +12,6 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 fn spec_tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
-        function_name(),
         Classes {
             helpers: helpers.clone()
         },
@@ -1590,10 +1589,8 @@ function (_Hello) {
   _inherits(Outer, _Hello);
 
   function Outer() {
-    var _this;
-
     _classCallCheck(this, Outer);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
 
     var Inner =
     /*#__PURE__*/
@@ -1603,8 +1600,8 @@ function (_Hello) {
       }
 
       _createClass(Inner, [{
-        key: _get(_getPrototypeOf(Outer.prototype), "toString", _assertThisInitialized(_this)).call(_assertThisInitialized(_this)),
-        value: function value() {
+        key: _get(_getPrototypeOf(Outer.prototype), "toString", _assertThisInitialized(_this)).call(_this),
+        value: function () {
           return 'hello';
         }
       }]);

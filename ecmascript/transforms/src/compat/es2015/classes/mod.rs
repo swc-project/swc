@@ -72,9 +72,7 @@ impl Fold<Decl> for Classes {
             return n;
         }
 
-        let n = n.fold_children(self);
-
-        match n {
+        let n = match n {
             Decl::Class(mut decl) => {
                 let span = decl.span();
 
@@ -164,17 +162,17 @@ impl Fold<Decl> for Classes {
                 })
             }
             _ => n,
-        }
+        };
+
+        n.fold_children(self)
     }
 }
 
 impl Fold<Expr> for Classes {
     fn fold(&mut self, n: Expr) -> Expr {
-        let n = n.fold_children(self);
-
         match n {
-            Expr::Class(e) => self.fold_class(e.ident, e.class),
-            _ => n,
+            Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children(self),
+            _ => n.fold_children(self),
         }
     }
 }
@@ -981,11 +979,16 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             if was_call {
                 match n {
                     Expr::Call(CallExpr {
-                        span,
+                        span: _,
                         callee,
                         mut args,
                         type_args,
                     }) => {
+                        let this = match self.constructor_this_mark {
+                            Some(mark) => quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg(),
+                            _ => ThisExpr { span: DUMMY_SP }.as_arg(),
+                        };
+
                         if args.len() == 1 && is_rest_arguments(&args[0]) {
                             return Expr::Call(CallExpr {
                                 span: DUMMY_SP,
@@ -996,7 +999,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                                     computed: false,
                                 }
                                 .as_callee(),
-                                args: iter::once(ThisExpr { span }.as_arg())
+                                args: iter::once(this)
                                     .chain(iter::once({
                                         let mut arg = args.pop().unwrap();
                                         arg.spread = None;
@@ -1016,7 +1019,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                                 computed: false,
                             }
                             .as_callee(),
-                            args: iter::once(ThisExpr { span }.as_arg()).chain(args).collect(),
+                            args: iter::once(this).chain(args).collect(),
                             type_args,
                         });
                     }
