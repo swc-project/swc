@@ -386,6 +386,26 @@ impl Classes {
                 };
 
                 body = body.fold_with(&mut folder);
+                body = {
+                    let mut vars = vec![];
+                    let mut body = body.fold_with(&mut SuperFieldAccessFolder {
+                        class_name: &class_name,
+                        helpers: &self.helpers,
+                        vars: &mut vars,
+                    });
+                    if !vars.is_empty() {
+                        body.insert(
+                            0,
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vars,
+                            })),
+                        );
+                    }
+                    body
+                };
                 match mode {
                     None | Some(SuperFoldingMode::Assign) => body.insert(
                         0,
