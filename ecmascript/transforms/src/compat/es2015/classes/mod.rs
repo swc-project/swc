@@ -122,12 +122,25 @@ impl Fold<Decl> for Classes {
 
                     let mut constructor = constructor
                         .unwrap_or_else(|| default_constructor(decl.class.super_class.is_some()));
+                    // inject class call check after directives
+                    let class_call_check_idx = constructor
+                        .body
+                        .as_ref()
+                        .unwrap()
+                        .stmts
+                        .iter()
+                        .position(|item| match item {
+                            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+                            _ => true,
+                        })
+                        .unwrap_or(0);
+
                     constructor
                         .body
                         .as_mut()
                         .unwrap()
                         .stmts
-                        .insert(0, class_call_check);
+                        .insert(class_call_check_idx, class_call_check);
 
                     return Decl::Var(VarDecl {
                         span: DUMMY_SP,
