@@ -808,10 +808,10 @@ function () {
 
   _createClass(Test, [{
     key: "test",
-    get: function get() {
+    get: function () {
       return 5 + 5;
     },
-    set: function set(val) {
+    set: function (val) {
       this._test = val;
     }
   }]);
@@ -2407,7 +2407,7 @@ function () {
 
   _createClass(Test, [{
     key: "test",
-    set: function set(val) {
+    set: function (val) {
       this._test = val;
     }
   }]);
@@ -2681,7 +2681,7 @@ var ConstructorScoping = function ConstructorScoping() {
   _classCallCheck(this, ConstructorScoping);
   var bar;
   {
-    var _bar;
+    var bar1;
   }
 };
 
@@ -3413,7 +3413,7 @@ function () {
 
   _createClass(Test, [{
     key: "test",
-    get: function get() {
+    get: function () {
       return 5 + 5;
     }
   }]);
