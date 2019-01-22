@@ -38,7 +38,7 @@
 </p>
 
 
-swc is a community-driven project, and is maintained by a group of [volunteers](https://swc-project.github.io/team). If you'd like to help support the future of the project, please consider:
+swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
 - Giving developer time on the project. (Message us on [Gitter](https://gitter.im/swcproject/Lobby) for guidance!)
 - Giving funds by becoming a sponsor (see below)!
