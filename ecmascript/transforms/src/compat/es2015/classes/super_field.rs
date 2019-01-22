@@ -27,6 +27,7 @@ pub(super) struct SuperFieldAccessFolder<'a> {
     /// Mark for the `_this`. Used only when folding constructor.
     pub constructor_this_mark: Option<Mark>,
     pub alias_this: bool,
+    pub is_static: bool,
 }
 
 struct SuperCalleeFolder<'a> {
@@ -39,6 +40,7 @@ struct SuperCalleeFolder<'a> {
     /// Mark for the `_this`. Used only when folding constructor.
     constructor_this_mark: Option<Mark>,
     alias_this: bool,
+    is_static: bool,
 }
 
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
@@ -125,12 +127,18 @@ impl<'a> SuperCalleeFolder<'a> {
 
         let proto_arg = get_prototype_of(
             self.helpers,
-            &Expr::Member(MemberExpr {
-                span: super_token,
-                obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
-                prop: box Expr::Ident(quote_ident!("prototype")),
-                computed: false,
-            }),
+            &if self.is_static {
+                // Foo
+                Expr::Ident(self.class_name.clone())
+            } else {
+                // Foo.prototype
+                Expr::Member(MemberExpr {
+                    span: super_token,
+                    obj: ExprOrSuper::Expr(box Expr::Ident(self.class_name.clone())),
+                    prop: box Expr::Ident(quote_ident!("prototype")),
+                    computed: false,
+                })
+            },
         )
         .as_arg();
 
@@ -333,6 +341,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             vars: self.vars,
             constructor_this_mark: self.constructor_this_mark,
             alias_this: self.alias_this,
+            is_static: self.is_static,
         };
 
         let was_call = match n {

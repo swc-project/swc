@@ -118,7 +118,7 @@ impl Fold<Decl> for Classes {
                     self.helpers.class_call_check();
                     inject_class_call_check(&mut constructor, decl.ident.clone());
                     let mut body = constructor.body.unwrap();
-                    body.stmts = self.handle_super_access(&decl.ident, body.stmts, Mark::root());
+                    body.stmts = self.handle_super_access(&decl.ident, body.stmts, None);
                     constructor.body = Some(body);
 
                     return Decl::Var(VarDecl {
@@ -358,6 +358,7 @@ impl Classes {
             self.helpers.class_call_check();
             inject_class_call_check(&mut constructor, class_name.clone());
             let mut body = constructor.body.unwrap().stmts;
+            let mut insert_this = false;
 
             if super_class_ident.is_some() {
                 let is_always_initialized = body.iter().any(|s| match s {
@@ -382,9 +383,10 @@ impl Classes {
                     ignore_return: false,
                 });
 
-                if (mode == None && !is_always_initialized)
-                    || mode == Some(SuperFoldingMode::Assign)
-                {
+                insert_this = (mode == None && !is_always_initialized)
+                    || mode == Some(SuperFoldingMode::Assign);
+
+                if insert_this {
                     body.insert(
                         0,
                         Stmt::Decl(Decl::Var(VarDecl {
@@ -418,7 +420,11 @@ impl Classes {
             }
 
             // Handle `super.XX`
-            body = self.handle_super_access(&class_name, body, mark);
+            body = self.handle_super_access(
+                &class_name,
+                body,
+                if insert_this { Some(mark) } else { None },
+            );
 
             // TODO: Handle
             //
@@ -456,23 +462,24 @@ impl Classes {
         stmts
     }
 
+    ///
+    /// - `this_mark`: `Some(mark)` if we injected `var _this;`; otherwise
+    ///   `None`
     fn handle_super_access(
         &mut self,
         class_name: &Ident,
         body: Vec<Stmt>,
-        this_mark: Mark,
+        this_mark: Option<Mark>,
     ) -> Vec<Stmt> {
         let mut vars = vec![];
         let mut body = body.fold_with(&mut SuperFieldAccessFolder {
             class_name,
             helpers: &self.helpers,
             vars: &mut vars,
-            constructor_this_mark: if this_mark == Mark::root() {
-                None
-            } else {
-                Some(this_mark)
-            },
+            constructor_this_mark: this_mark,
             alias_this: true,
+            // constructor cannot be static
+            is_static: false,
         });
 
         if !vars.is_empty() {
@@ -592,6 +599,7 @@ impl Classes {
                 vars: &mut vars,
                 constructor_this_mark: None,
                 alias_this: false,
+                is_static: m.is_static,
             });
             if !vars.is_empty() {
                 function.body.as_mut().unwrap().stmts.insert(
