@@ -128,7 +128,7 @@ pub(super) struct ConstructorFolder<'a> {
 }
 
 /// `None`: `return _possibleConstructorReturn`
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum SuperFoldingMode {
     /// `var _this;` followed by `_this = ...`
     Assign,

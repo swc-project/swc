@@ -112,37 +112,10 @@ impl Fold<Decl> for Classes {
                             _ => unreachable!(),
                         }
                     };
-                    let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
-                        args: vec![
-                            Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-                            Expr::Ident(decl.ident.clone()).as_arg(),
-                        ],
-                        type_args: Default::default(),
-                    }));
 
                     let mut constructor = constructor
                         .unwrap_or_else(|| default_constructor(decl.class.super_class.is_some()));
-                    // inject class call check after directives
-                    let class_call_check_idx = constructor
-                        .body
-                        .as_ref()
-                        .unwrap()
-                        .stmts
-                        .iter()
-                        .position(|item| match item {
-                            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
-                            _ => true,
-                        })
-                        .unwrap_or(0);
-
-                    constructor
-                        .body
-                        .as_mut()
-                        .unwrap()
-                        .stmts
-                        .insert(class_call_check_idx, class_call_check);
+                    inject_class_call_check(&mut constructor, decl.ident.clone());
 
                     return Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -369,7 +342,7 @@ impl Classes {
         // Process constructor
         {
             let mut is_constructor_default = false;
-            let constructor = constructor.unwrap_or_else(|| {
+            let mut constructor = constructor.unwrap_or_else(|| {
                 is_constructor_default = true;
                 let mut c = default_constructor(super_class_ident.is_some());
                 c.params = vec![];
@@ -378,17 +351,8 @@ impl Classes {
 
             // inject _classCallCheck(this, Bar);
             self.helpers.class_call_check();
-            let mut body = iter::once(Stmt::Expr(box Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
-                args: vec![
-                    Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-                    Expr::Ident(class_name.clone()).as_arg(),
-                ],
-                type_args: Default::default(),
-            })))
-            .chain(constructor.body.unwrap().stmts)
-            .collect::<Vec<_>>();
+            inject_class_call_check(&mut constructor, class_name.clone());
+            let mut body = constructor.body.unwrap().stmts;
 
             if super_class_ident.is_some() {
                 let is_always_initialized = body.iter().any(|s| match s {
@@ -421,8 +385,9 @@ impl Classes {
                         helpers: &self.helpers,
                         vars: &mut vars,
                         constructor_this_mark: Some(mark),
-                        alias_this: is_always_initialized,
+                        alias_this: true,
                     });
+
                     if !vars.is_empty() {
                         body.insert(
                             0,
@@ -436,8 +401,11 @@ impl Classes {
                     }
                     body
                 };
-                match mode {
-                    Some(SuperFoldingMode::Assign) => body.insert(
+
+                if (mode == None && !is_always_initialized)
+                    || mode == Some(SuperFoldingMode::Assign)
+                {
+                    body.insert(
                         0,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
@@ -450,8 +418,7 @@ impl Classes {
                                 definite: false,
                             }],
                         })),
-                    ),
-                    _ => {}
+                    )
                 }
 
                 let is_last_return = match body.last() {
@@ -1076,4 +1043,35 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
 
         n
     }
+}
+
+fn inject_class_call_check(c: &mut Constructor, name: Ident) {
+    let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
+        args: vec![
+            Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
+            Expr::Ident(name).as_arg(),
+        ],
+        type_args: Default::default(),
+    }));
+
+    // inject class call check after directives
+    let class_call_check_idx = c
+        .body
+        .as_ref()
+        .unwrap()
+        .stmts
+        .iter()
+        .position(|item| match item {
+            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+            _ => true,
+        })
+        .unwrap_or(0);
+
+    c.body
+        .as_mut()
+        .unwrap()
+        .stmts
+        .insert(class_call_check_idx, class_call_check);
 }
