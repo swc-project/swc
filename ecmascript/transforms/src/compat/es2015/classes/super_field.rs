@@ -353,9 +353,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             }) => true,
             _ => false,
         };
-        if should_invoke_call {
-            dbg!(&n);
-        }
 
         let n = n.fold_with(&mut callee_folder);
 
