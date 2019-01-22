@@ -51,7 +51,7 @@ where
     visitor.found
 }
 
-pub(crate) trait ModuleItemLike: StmtLike {
+pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
     }
@@ -60,7 +60,7 @@ pub(crate) trait ModuleItemLike: StmtLike {
     }
 }
 
-pub(crate) trait StmtLike: Sized {
+pub trait StmtLike: Sized {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn from_stmt(stmt: Stmt) -> Self;
 }

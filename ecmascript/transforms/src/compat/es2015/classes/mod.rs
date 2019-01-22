@@ -7,7 +7,10 @@ use self::{
 };
 use crate::{
     helpers::Helpers,
-    util::{alias_ident_for, default_constructor, drop_span, prop_name_to_expr, ExprFactory},
+    util::{
+        alias_ident_for, default_constructor, drop_span, prop_name_to_expr, ExprFactory,
+        ModuleItemLike, StmtLike,
+    },
 };
 use ast::*;
 use indexmap::IndexMap;
@@ -55,6 +58,79 @@ pub struct Classes {
     pub helpers: Arc<Helpers>,
 }
 
+impl<T> Fold<Vec<T>> for Classes
+where
+    T: StmtLike + ModuleItemLike + FoldWith<Self>,
+{
+    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        let mut buf = Vec::with_capacity(stmts.len());
+
+        for stmt in stmts {
+            match T::try_into_stmt(stmt) {
+                Err(node) => match node.try_into_module_decl() {
+                    Ok(decl) => {
+                        let decl = decl.fold_children(self);
+
+                        match decl {
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
+                                ClassExpr { ident, class },
+                            )) => {
+                                let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
+
+                                let decl = self.fold_class_as_var_decl(ident.clone(), class);
+                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
+
+                                buf.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                        NamedExport {
+                                            span: DUMMY_SP,
+                                            specifiers: vec![ExportSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: ident,
+                                                exported: Some(quote_ident!("default")),
+                                            }],
+                                            src: None,
+                                        },
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
+                                    },
+                                );
+                            }
+                            ModuleDecl::ExportDecl(Decl::Class(ClassDecl {
+                                ident,
+                                declare: false,
+                                class,
+                            })) => {
+                                let decl = self.fold_class_as_var_decl(ident, class);
+                                buf.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                        Decl::Var(decl),
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
+                                    },
+                                );
+                            }
+                            _ => buf.push(match T::try_from_module_decl(decl) {
+                                Ok(t) => t,
+                                Err(..) => unreachable!(),
+                            }),
+                        };
+                    }
+                    Err(..) => unreachable!(),
+                },
+                Ok(stmt) => {
+                    let stmt = stmt.fold_children(self);
+                    buf.push(T::from_stmt(stmt));
+                }
+            }
+        }
+
+        buf
+    }
+}
+
 impl Fold<Decl> for Classes {
     fn fold(&mut self, n: Decl) -> Decl {
         fn should_work(node: &Decl) -> bool {
@@ -76,83 +152,7 @@ impl Fold<Decl> for Classes {
         }
 
         let n = match n {
-            Decl::Class(mut decl) => {
-                let span = decl.span();
-
-                if decl.class.super_class.is_none()
-                    && (decl.class.body.is_empty()
-                        || (decl.class.body.len() == 1
-                            && match decl.class.body[0] {
-                                ClassMember::Constructor(_) => true,
-                                _ => false,
-                            }))
-                {
-                    //    class Foo {}
-                    //
-                    // should be
-                    //
-                    //    var Foo = function Foo() {
-                    //        _classCallCheck(this, Foo);
-                    //    };
-                    //
-                    // instead of
-                    //    var Foo = function(){
-                    //      function Foo() {
-                    //          _classCallCheck(this, Foo);
-                    //      }
-                    //
-                    //      return Foo;
-                    //    }();
-
-                    let constructor = if decl.class.body.is_empty() {
-                        None
-                    } else {
-                        match decl.class.body.remove(0) {
-                            ClassMember::Constructor(c) => Some(c),
-                            _ => unreachable!(),
-                        }
-                    };
-
-                    let mut constructor = constructor
-                        .unwrap_or_else(|| default_constructor(decl.class.super_class.is_some()));
-                    self.helpers.class_call_check();
-                    inject_class_call_check(&mut constructor, decl.ident.clone());
-                    let mut body = constructor.body.unwrap();
-                    body.stmts = self.handle_super_access(&decl.ident, body.stmts, None);
-                    constructor.body = Some(body);
-
-                    return Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            init: Some(box Expr::Fn(FnExpr {
-                                ident: Some(decl.ident.clone()),
-                                function: constructor_fn(constructor),
-                            })),
-                            // Foo in var Foo =
-                            name: decl.ident.into(),
-                            definite: false,
-                        }],
-                        declare: false,
-                    });
-                }
-
-                let rhs = self.fold_class(Some(decl.ident.clone()), decl.class);
-
-                Decl::Var(VarDecl {
-                    span,
-                    kind: VarDeclKind::Let,
-                    decls: vec![VarDeclarator {
-                        span,
-                        init: Some(box rhs),
-                        // Foo in var Foo =
-                        name: decl.ident.into(),
-                        definite: false,
-                    }],
-                    declare: false,
-                })
-            }
+            Decl::Class(decl) => Decl::Var(self.fold_class_as_var_decl(decl.ident, decl.class)),
             _ => n,
         };
 
@@ -176,6 +176,83 @@ impl Fold<Expr> for Classes {
 }
 
 impl Classes {
+    fn fold_class_as_var_decl(&mut self, ident: Ident, mut class: Class) -> VarDecl {
+        if class.super_class.is_none()
+            && (class.body.is_empty()
+                || (class.body.len() == 1
+                    && match class.body[0] {
+                        ClassMember::Constructor(_) => true,
+                        _ => false,
+                    }))
+        {
+            //    class Foo {}
+            //
+            // should be
+            //
+            //    var Foo = function Foo() {
+            //        _classCallCheck(this, Foo);
+            //    };
+            //
+            // instead of
+            //    var Foo = function(){
+            //      function Foo() {
+            //          _classCallCheck(this, Foo);
+            //      }
+            //
+            //      return Foo;
+            //    }();
+
+            let constructor = if class.body.is_empty() {
+                None
+            } else {
+                match class.body.remove(0) {
+                    ClassMember::Constructor(c) => Some(c),
+                    _ => unreachable!(),
+                }
+            };
+
+            let mut constructor =
+                constructor.unwrap_or_else(|| default_constructor(class.super_class.is_some()));
+            self.helpers.class_call_check();
+            inject_class_call_check(&mut constructor, ident.clone());
+            let mut body = constructor.body.unwrap();
+            body.stmts = self.handle_super_access(&ident, body.stmts, None);
+            constructor.body = Some(body);
+
+            return VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Let,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    init: Some(box Expr::Fn(FnExpr {
+                        ident: Some(ident.clone()),
+                        function: constructor_fn(constructor),
+                    })),
+                    // Foo in var Foo =
+                    name: ident.into(),
+                    definite: false,
+                }],
+                declare: false,
+            };
+        }
+
+        let span = class.span;
+        let rhs = self.fold_class(Some(ident.clone()), class);
+
+        VarDecl {
+            span,
+            kind: VarDeclKind::Let,
+            decls: vec![VarDeclarator {
+                span,
+                init: Some(box rhs),
+                // Foo in var Foo =
+                name: ident.into(),
+                definite: false,
+            }],
+            declare: false,
+        }
+    }
+
     /// Turns class expresion into iife.
     ///
     /// ```js
