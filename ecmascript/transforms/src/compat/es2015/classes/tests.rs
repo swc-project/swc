@@ -109,6 +109,8 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 
 // spec_statement
 test!(
+    // We don't use function-name pass
+    ignore,
     syntax(),
     spec_tr(Default::default()),
     spec_statement,
