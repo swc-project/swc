@@ -176,66 +176,7 @@ impl Fold<Expr> for Classes {
 }
 
 impl Classes {
-    fn fold_class_as_var_decl(&mut self, ident: Ident, mut class: Class) -> VarDecl {
-        if class.super_class.is_none()
-            && (class.body.is_empty()
-                || (class.body.len() == 1
-                    && match class.body[0] {
-                        ClassMember::Constructor(_) => true,
-                        _ => false,
-                    }))
-        {
-            //    class Foo {}
-            //
-            // should be
-            //
-            //    var Foo = function Foo() {
-            //        _classCallCheck(this, Foo);
-            //    };
-            //
-            // instead of
-            //    var Foo = function(){
-            //      function Foo() {
-            //          _classCallCheck(this, Foo);
-            //      }
-            //
-            //      return Foo;
-            //    }();
-
-            let constructor = if class.body.is_empty() {
-                None
-            } else {
-                match class.body.remove(0) {
-                    ClassMember::Constructor(c) => Some(c),
-                    _ => unreachable!(),
-                }
-            };
-
-            let mut constructor =
-                constructor.unwrap_or_else(|| default_constructor(class.super_class.is_some()));
-            self.helpers.class_call_check();
-            inject_class_call_check(&mut constructor, ident.clone());
-            let mut body = constructor.body.unwrap();
-            body.stmts = self.handle_super_access(&ident, body.stmts, None);
-            constructor.body = Some(body);
-
-            return VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    init: Some(box Expr::Fn(FnExpr {
-                        ident: Some(ident.clone()),
-                        function: constructor_fn(constructor),
-                    })),
-                    // Foo in var Foo =
-                    name: ident.into(),
-                    definite: false,
-                }],
-                declare: false,
-            };
-        }
-
+    fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
         let span = class.span;
         let rhs = self.fold_class(Some(ident.clone()), class);
 
@@ -265,7 +206,57 @@ impl Classes {
     ///   };
     /// }()
     /// ```
-    fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
+    fn fold_class(&mut self, class_name: Option<Ident>, mut class: Class) -> Expr {
+        if class_name.is_some()
+            && class.super_class.is_none()
+            && (class.body.is_empty()
+                || (class.body.len() == 1
+                    && match class.body[0] {
+                        ClassMember::Constructor(_) => true,
+                        _ => false,
+                    }))
+        {
+            //    class Foo {}
+            //
+            // should be
+            //
+            //    var Foo = function Foo() {
+            //        _classCallCheck(this, Foo);
+            //    };
+            //
+            // instead of
+            //    var Foo = function(){
+            //      function Foo() {
+            //          _classCallCheck(this, Foo);
+            //      }
+            //
+            //      return Foo;
+            //    }();
+
+            let ident = class_name.unwrap();
+            let constructor = if class.body.is_empty() {
+                None
+            } else {
+                match class.body.remove(0) {
+                    ClassMember::Constructor(c) => Some(c),
+                    _ => unreachable!(),
+                }
+            };
+
+            let mut constructor =
+                constructor.unwrap_or_else(|| default_constructor(class.super_class.is_some()));
+            self.helpers.class_call_check();
+            inject_class_call_check(&mut constructor, ident.clone());
+            let mut body = constructor.body.unwrap();
+            body.stmts = self.handle_super_access(&ident, body.stmts, None);
+            constructor.body = Some(body);
+
+            return Expr::Fn(FnExpr {
+                ident: Some(ident.clone()),
+                function: constructor_fn(constructor),
+            });
+        }
+
         // Ident of the super class *inside* function.
         let super_ident = class
             .super_class
