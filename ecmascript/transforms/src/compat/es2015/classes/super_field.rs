@@ -342,17 +342,27 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             is_static: self.is_static,
         };
 
-        let was_call = match n {
-            Expr::Call(..) => true,
+        let should_invoke_call = match n {
+            Expr::Call(CallExpr {
+                callee:
+                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Super(..),
+                        ..
+                    })),
+                ..
+            }) => true,
             _ => false,
         };
+        if should_invoke_call {
+            dbg!(&n);
+        }
 
         let n = n.fold_with(&mut callee_folder);
 
         if callee_folder.inject_get {
             self.helpers.get();
 
-            if was_call {
+            if should_invoke_call {
                 match n {
                     Expr::Call(CallExpr {
                         span: _,

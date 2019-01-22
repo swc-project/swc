@@ -740,7 +740,11 @@ function (_Bar) {
 );
 
 // spec_calling_super_properties
-test!(syntax(),spec_tr( Default::default()), spec_calling_super_properties, r#"
+test!(
+    syntax(),
+    spec_tr(Default::default()),
+    spec_calling_super_properties,
+    r#"
 class Test extends Foo {
   constructor() {
     super();
@@ -753,7 +757,8 @@ class Test extends Foo {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Test =
 /*#__PURE__*/
 function (_Foo) {
@@ -762,12 +767,10 @@ function (_Foo) {
   _inherits(Test, _Foo);
 
   function Test() {
-    var _this;
-
     _classCallCheck(this, Test);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever();
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).call(_assertThisInitialized(_this));
+    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
+    _get(_getPrototypeOf(Test.prototype), "test", this).whatever();
+    _get(_getPrototypeOf(Test.prototype), "test", this).call(this);
     return _this;
   }
 
@@ -780,7 +783,8 @@ function (_Foo) {
   return Test;
 }(Foo);
 
-"#);
+"#
+);
 
 // spec_super_reference_before_bare_super
 
