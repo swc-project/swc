@@ -10,7 +10,7 @@ use std::fmt::Display;
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(&mut self, starts_with_dot: bool) -> LexResult<f64> {
-        debug_assert!(self.cur().is_some());
+        assert!(self.cur().is_some());
         if starts_with_dot {
             debug_assert_eq!(
                 self.cur(),
@@ -80,8 +80,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.cur() == Some('.') {
             self.bump();
             if starts_with_dot {
-                debug_assert!(self.cur().is_some());
-                debug_assert!(self.cur().unwrap().is_digit(10));
+                assert!(self.cur().is_some());
+                assert!(self.cur().unwrap().is_digit(10));
             }
 
             // Read numbers after dot

@@ -193,8 +193,8 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// by isIdentifierStart in readToken.
     pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
-        debug_assert!(self.input.cur().is_some());
-        debug_assert!(self.input.cur().unwrap().is_ident_start());
+        assert!(self.input.cur().is_some());
+        assert!(self.input.cur().unwrap().is_ident_start());
 
         let cur_pos = self.input.cur_pos();
         let slice = self.input.uncons_while(|c| c.is_ident_part() || c == '-');

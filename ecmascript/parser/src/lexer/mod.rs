@@ -283,7 +283,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// `#`
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur().is_some());
+        assert!(self.cur().is_some());
 
         let start = self.input.cur_pos();
 
@@ -458,7 +458,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
+        assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
         let start = self.cur_pos();
         let c = self.cur().unwrap();
@@ -506,7 +506,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur().is_some());
+        assert!(self.cur().is_some());
         let start = self.cur_pos();
 
         let (word, has_escape) = self.read_word_as_str()?;
@@ -534,7 +534,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// returns (word, has_escape)
     fn read_word_as_str(&mut self) -> LexResult<(JsWord, bool)> {
-        debug_assert!(self.cur().is_some());
+        assert!(self.cur().is_some());
 
         let mut has_escape = false;
         let mut word = String::new();
@@ -637,7 +637,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
+        assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
         let quote = self.cur().unwrap();
         self.bump(); // '"'

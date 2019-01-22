@@ -16,7 +16,7 @@ use std::{
     path::Path,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax};
+use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::{NormalizedOutput, StdErr};
 use walkdir::WalkDir;

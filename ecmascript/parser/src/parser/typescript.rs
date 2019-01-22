@@ -1691,7 +1691,7 @@ impl<'a, I: Input> Parser<'a, I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<'a, Option<Decl>> {
-        debug_assert!(
+        assert!(
             !is!("declare"),
             "try_parse_ts_declare should be called after eating `declare`"
         );

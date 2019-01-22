@@ -234,7 +234,7 @@ Current token is {:?}",
 
 macro_rules! bump {
     ($p:expr) => {{
-        debug_assert!(
+        assert!(
             $p.input.knows_cur(),
             "parser should not call bump() without knowing current token"
         );

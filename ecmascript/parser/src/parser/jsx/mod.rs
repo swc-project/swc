@@ -242,6 +242,7 @@ impl<'a, I: Input> Parser<'a, I> {
     ) -> PResult<'a, Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
 
+        let _ = cur!(true);
         let start = cur_pos!();
         let forced_jsx_context = match bump!() {
             tok!('<') => true,
@@ -271,6 +272,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
                             if peeked_is!('/') {
                                 bump!(); // JSXTagStart
+                                let _ = cur!(true);
                                 assert_and_bump!('/');
 
                                 closing_element =
@@ -353,7 +355,7 @@ impl<'a, I: Input> Parser<'a, I> {
     /// babel: `jsxParseElement`
     pub(super) fn parse_jsx_element(&mut self) -> PResult<'a, Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({
+        assert!({
             match *cur!(true)? {
                 Token::JSXTagStart | tok!('<') => true,
                 _ => false,
@@ -368,7 +370,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<'a, JSXText> {
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({
+        assert!({
             match *cur!(false)? {
                 Token::JSXText { .. } => true,
                 _ => false,

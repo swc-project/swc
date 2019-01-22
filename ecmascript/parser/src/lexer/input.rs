@@ -58,7 +58,7 @@ impl<'a> Input for SourceFileInput<'a> {
     }
 
     fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
-        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
         let start_idx = (start - self.fm.start_pos).0 as usize;

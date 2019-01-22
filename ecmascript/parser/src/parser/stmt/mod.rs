@@ -997,4 +997,28 @@ ReactDOM.render(<App />, document.getElementById('root'))
             },
         );
     }
+
+    #[test]
+    fn ice() {
+        let src = r#"import React from "react"
+
+function App() {
+  return <h1>works</h1>
+}
+
+export default App"#;
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
 }
