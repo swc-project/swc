@@ -1,9 +1,15 @@
 use super::*;
 use crate::compat::es2015::{block_scoping, Spread};
-use swc_ecma_parser::Syntax;
+use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
+use swc_ecma_parser::{EsConfig, Syntax};
 
 fn syntax() -> Syntax {
     Syntax::default()
+}
+
+fn jsx() -> impl Fold<Module> {
+    let cm = SourceMap::new(FilePathMapping::empty());
+    crate::react::jsx(Lrc::new(cm), Default::default(), Default::default())
 }
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
@@ -2208,8 +2214,11 @@ var Test = function Test() {
 
 // regression_2775
 test!(
-    syntax(),
-    tr(Default::default()),
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    chain!(tr(Default::default()), jsx()),
     regression_2775,
     r#"
 import React, {Component} from 'react';
@@ -2682,11 +2691,9 @@ function (_Bar) {
   _inherits(Foo, _Bar);
 
   function Foo() {
-    var _this;
-
     _classCallCheck(this, Foo);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
-    _this.state = "test";
+    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    this.state = "test";
     return _this;
   }
 
@@ -2968,7 +2975,7 @@ var Example = function Example() {
 
   _classCallCheck(this, Example);
 
-  var _Example;
+  var Example1;
 };
 
 var t = new Example();
