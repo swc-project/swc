@@ -165,22 +165,16 @@ class X {
     this.x = x
   }
 }"#,
-    r#"var Ref = function() {
-    function Ref(param) {
+    r#"var Ref = function Ref(param) {
         var tmp = param, ref = tmp === void 0 ? Ref : tmp;
         _classCallCheck(this, Ref);
         this.ref = ref;
     }
-    return Ref;
-}();
-var X = function() {
-    function X(param) {
+var X = function X(param) {
         var tmp = param, x = tmp === void 0 ? foo : tmp;
         _classCallCheck(this, X);
         this.x = x;
-    }
-    return X;
-}();
+    };
 "#
 );
 

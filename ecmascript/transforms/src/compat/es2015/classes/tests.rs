@@ -1448,8 +1448,8 @@ function () {
     value: function a() {}
   }, {
     key: "b",
-    get: function get() {},
-    set: function set(b) {}
+    get: function () {},
+    set: function (b) {}
   }]);
   return A;
 }();
@@ -1668,8 +1668,8 @@ function (_Bar) {
     var _this;
 
     _classCallCheck(this, Foo);
-    _get(_getPrototypeOf(Foo.prototype), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))).method, _assertThisInitialized(_this)).call(_assertThisInitialized(_this));
-    return _this;
+    _get(_getPrototypeOf(Foo.prototype), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))).method, _assertThisInitialized(_this)).call(_this);
+    return _possibleConstructorReturn(_this);
   }
 
   return Foo;
@@ -1807,9 +1807,9 @@ function (_Foo) {
   function Test() {
     _classCallCheck(this, Test);
     var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this));
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever;
-    return _possibleConstructorReturn(_this);
+    _get(_getPrototypeOf(Test.prototype), "test", this);
+    _get(_getPrototypeOf(Test.prototype), "test", this).whatever;
+    return _this;
   }
 
   return Test;
@@ -4895,9 +4895,10 @@ function (_Bar) {
     var _this;
 
     _classCallCheck(this, Foo);
-    return _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, () => {
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, () => {
       _this.test;
     }));
+    return _this;
   }
 
   return Foo;
