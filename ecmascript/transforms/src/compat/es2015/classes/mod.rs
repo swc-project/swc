@@ -628,7 +628,11 @@ impl Classes {
                 function,
             });
 
-            let key = drop_span(m.key);
+            let key = match m.key {
+                // Method with computed key cannot be merged.
+                PropName::Computed(..) => m.key,
+                _ => drop_span(m.key),
+            };
             let data = append_to.entry(key).or_insert_with(|| Data {
                 get: None,
                 set: None,

@@ -4617,10 +4617,10 @@ function () {
 
   _createClass(Foo, [{
     key: Symbol(),
-    value: function value() {}
+    value: function () {}
   }, {
     key: Symbol(),
-    value: function value() {}
+    value: function () {}
   }]);
   return Foo;
 }();
