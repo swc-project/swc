@@ -1,13 +1,52 @@
-# speedy web compiler
 
-[![Build Status](https://travis-ci.org/swc-project/swc.svg?branch=master)](https://travis-ci.org/swc-project/swc)
-[![codecov](https://codecov.io/gh/swc-project/swc/branch/master/graph/badge.svg)](https://codecov.io/gh/swc-project/swc)
 
------
+<p align="center">
+   Make the web (development) faster.
+</p>
 
-Make the web (development) faster.
+<p align="center">
+   <a href="https://www.npmjs.com/package/swc">
+      <img alt="npm Downloads" src="https://img.shields.io/npm/dm/swc.svg?maxAge=43200&label=npm%20downloads">
+   </a>
+    <a href="">
+      <img alt="undefined" src="https://img.shields.io/crates/d/swc_common.svg?label=crates.io%20dowloads">
+    </a>
+</p>
+<p align="center">
+   <a href="https://travis-ci.org/swc-project/swc">
+      <img alt="Travis Status" src="https://img.shields.io/travis/swc-project/swc/master.svg?label=travis&maxAge=43200">
+   </a>
+   <a href="https://codecov.io/gh/swc-project/swc">
+      <img alt="Coverage" src="https://codecov.io/gh/swc-project/swc/branch/master/graph/badge.svg">
+   </a>
+   <a href="https://gitter.im/swcproject/Lobby">
+      <img alt="Gitter" src="https://img.shields.io/gitter/room/swc-project/swc.svg">
+   </a>
+</p>
 
-swc is rust port of [babel][] and [closure compiler][].
+
+
+<h2 align="center">Supporting swc</h2>
+
+<p align="center">
+   <a href="#backers">
+      <img alt="Backers on Open Collective" src="https://opencollective.com/swc/backers/badge.svg" />
+   </a>
+   <a href="#sponsors">
+      <img alt="Sponsors on Open Collective" src="https://opencollective.com/swc/sponsors/badge.svg"/>
+   </a>
+</p>
+
+
+swc is a community-driven project, and is maintained by a group of [volunteers](https://swc-project.github.io/team). If you'd like to help support the future of the project, please consider:
+
+- Giving developer time on the project. (Message us on [Gitter](https://gitter.im/swcproject/Lobby) for guidance!)
+- Giving funds by becoming a sponsor (see below)!
+
+## Open Collective Sponsors
+
+Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/swc#sponsor)]
+
 
 # Documentation
 
