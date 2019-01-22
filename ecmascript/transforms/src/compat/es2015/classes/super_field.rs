@@ -331,8 +331,6 @@ impl<'a> SuperCalleeFolder<'a> {
 
 impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
-        let n = n.fold_children(self);
-
         let mut callee_folder = SuperCalleeFolder {
             class_name: self.class_name,
             inject_get: false,
@@ -410,6 +408,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             self.helpers.set();
         }
 
-        n
+        n.fold_children(self)
     }
 }

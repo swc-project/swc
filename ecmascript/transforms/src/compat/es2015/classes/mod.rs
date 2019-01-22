@@ -408,14 +408,21 @@ impl Classes {
                     _ => false,
                 };
                 if !is_last_return {
-                    let possible_return_value = box make_possible_return_value(
-                        &self.helpers,
-                        ReturningMode::Returning { mark, arg: None },
-                    );
-                    body.push(Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(possible_return_value),
-                    }));
+                    if is_always_initialized {
+                        body.push(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(box Expr::Ident(this)),
+                        }));
+                    } else {
+                        let possible_return_value = box make_possible_return_value(
+                            &self.helpers,
+                            ReturningMode::Returning { mark, arg: None },
+                        );
+                        body.push(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(possible_return_value),
+                        }));
+                    }
                 }
             }
 
