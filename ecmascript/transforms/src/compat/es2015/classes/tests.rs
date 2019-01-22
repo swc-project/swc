@@ -982,6 +982,26 @@ expect(Test.test()).toBe(Function);
 "#
 );
 
+// spec_default_super
+test!(
+    syntax(),
+    spec_tr(Default::default()),
+    spec_default_super_constructor,
+    r#"
+class Test {
+  constructor() {
+    return super.constructor;
+  }
+}
+"#,
+    r#"
+var Test = function Test() {
+  _classCallCheck(this, Test);
+  return _get(_getPrototypeOf(Test.prototype), "constructor", this);
+}
+"#
+);
+
 // get_set_get_semantics_getter_defined_on_parent
 test!(
     syntax(),

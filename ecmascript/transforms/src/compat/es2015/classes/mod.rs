@@ -103,7 +103,6 @@ impl Fold<Decl> for Classes {
                     //
                     //      return Foo;
                     //    }();
-                    self.helpers.class_call_check();
 
                     let constructor = if decl.class.body.is_empty() {
                         None
@@ -116,7 +115,11 @@ impl Fold<Decl> for Classes {
 
                     let mut constructor = constructor
                         .unwrap_or_else(|| default_constructor(decl.class.super_class.is_some()));
+                    self.helpers.class_call_check();
                     inject_class_call_check(&mut constructor, decl.ident.clone());
+                    let mut body = constructor.body.unwrap();
+                    body.stmts = self.handle_super_access(&decl.ident, body.stmts, Mark::root());
+                    constructor.body = Some(body);
 
                     return Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -338,6 +341,7 @@ impl Classes {
             })));
         }
 
+        // Marker for `_this`
         let mark = Mark::fresh(Mark::root());
 
         // Process constructor
@@ -378,31 +382,6 @@ impl Classes {
                     ignore_return: false,
                 });
 
-                // Handle `super.XX`
-                body = {
-                    let mut vars = vec![];
-                    let mut body = body.fold_with(&mut SuperFieldAccessFolder {
-                        class_name: &class_name,
-                        helpers: &self.helpers,
-                        vars: &mut vars,
-                        constructor_this_mark: Some(mark),
-                        alias_this: true,
-                    });
-
-                    if !vars.is_empty() {
-                        body.insert(
-                            0,
-                            Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                declare: false,
-                                decls: vars,
-                            })),
-                        );
-                    }
-                    body
-                };
-
                 if (mode == None && !is_always_initialized)
                     || mode == Some(SuperFoldingMode::Assign)
                 {
@@ -438,6 +417,9 @@ impl Classes {
                 }
             }
 
+            // Handle `super.XX`
+            body = self.handle_super_access(&class_name, body, mark);
+
             // TODO: Handle
             //
             //     console.log('foo');
@@ -472,6 +454,39 @@ impl Classes {
         }));
 
         stmts
+    }
+
+    fn handle_super_access(
+        &mut self,
+        class_name: &Ident,
+        body: Vec<Stmt>,
+        this_mark: Mark,
+    ) -> Vec<Stmt> {
+        let mut vars = vec![];
+        let mut body = body.fold_with(&mut SuperFieldAccessFolder {
+            class_name,
+            helpers: &self.helpers,
+            vars: &mut vars,
+            constructor_this_mark: if this_mark == Mark::root() {
+                None
+            } else {
+                Some(this_mark)
+            },
+            alias_this: true,
+        });
+
+        if !vars.is_empty() {
+            body.insert(
+                0,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars,
+                })),
+            );
+        }
+        body
     }
 
     fn fold_class_methods(

@@ -106,18 +106,13 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
             _ => n.fold_children(self),
         };
 
-        dbg!(&n);
         match n {
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Super(super_token),
                 prop,
                 computed,
                 ..
-            }) => {
-                dbg!(&prop);
-
-                self.super_to_get_call(super_token, prop, computed)
-            }
+            }) => self.super_to_get_call(super_token, prop, computed),
 
             _ => n,
         }
