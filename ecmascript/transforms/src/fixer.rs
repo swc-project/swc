@@ -3,11 +3,21 @@ use ast::*;
 use swc_common::{Fold, FoldWith, Spanned};
 
 pub fn fixer() -> impl Pass + Clone {
-    Fixer
+    Fixer {
+        ctx: Context::Default,
+    }
 }
 
 #[derive(Clone, Copy)]
-struct Fixer;
+struct Fixer {
+    ctx: Context,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Context {
+    Default,
+    ForcedExpr,
+}
 
 impl Fold<Stmt> for Fixer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
@@ -22,6 +32,35 @@ impl Fold<Stmt> for Fixer {
         }
     }
 }
+
+macro_rules! context_fn_args {
+    ($T:tt) => {
+        impl Fold<$T> for Fixer {
+            fn fold(&mut self, node: $T) -> $T {
+                let $T {
+                    span,
+                    callee,
+                    args,
+                    type_args,
+                } = node;
+
+                let old = self.ctx;
+                self.ctx = Context::ForcedExpr;
+                let args = args.fold_with(self);
+                self.ctx = old;
+
+                $T {
+                    span,
+                    callee: callee.fold_children(self),
+                    args,
+                    type_args,
+                }
+            }
+        }
+    };
+}
+context_fn_args!(NewExpr);
+context_fn_args!(CallExpr);
 
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -62,12 +101,24 @@ impl Fold<Expr> for Fixer {
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
                 type_args,
-            }) => Expr::Call(CallExpr {
-                span,
-                callee: callee.wrap_with_paren().as_callee(),
-                args,
-                type_args,
-            }),
+            }) => {
+                dbg!(self.ctx);
+                if self.ctx != Context::ForcedExpr {
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: callee.wrap_with_paren().as_callee(),
+                        args,
+                        type_args,
+                    })
+                } else {
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: callee.as_callee(),
+                        args,
+                        type_args,
+                    })
+                }
+            }
             _ => expr,
         }
     }
@@ -97,4 +148,17 @@ impl Fold<BinExpr> for Fixer {
             _ => expr,
         }
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    test!(
+        Default::default(),
+        fixer(),
+        fn_expr_position,
+        r#"foo(function(){}())"#,
+        r#"foo(function(){}())"#
+    );
 }
