@@ -210,58 +210,42 @@ impl Classes {
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, mut class: Class) -> Expr {
-        if class_name.is_some()
-            && class.super_class.is_none()
-            && (class.body.is_empty()
-                || (class.body.len() == 1
-                    && match class.body[0] {
-                        ClassMember::Constructor(_) => true,
-                        _ => false,
-                    }))
-        {
-            //    class Foo {}
-            //
-            // should be
-            //
-            //    var Foo = function Foo() {
-            //        _classCallCheck(this, Foo);
-            //    };
-            //
-            // instead of
-            //    var Foo = function(){
-            //      function Foo() {
-            //          _classCallCheck(this, Foo);
-            //      }
-            //
-            //      return Foo;
-            //    }();
+        // if class_name.is_some()
+        //     && class.super_class.is_none()
+        //     && (class.body.is_empty()
+        //         || (class.body.len() == 1
+        //             && match class.body[0] {
+        //                 ClassMember::Constructor(_) => true,
+        //                 _ => false,
+        //             }))
+        // {
+        //     let ident = class_name.unwrap();
+        //     let constructor = if class.body.is_empty() {
+        //         None
+        //     } else {
+        //         match class.body.remove(0) {
+        //             ClassMember::Constructor(c) => Some(c),
+        //             _ => unreachable!(),
+        //         }
+        //     };
 
-            let ident = class_name.unwrap();
-            let constructor = if class.body.is_empty() {
-                None
-            } else {
-                match class.body.remove(0) {
-                    ClassMember::Constructor(c) => Some(c),
-                    _ => unreachable!(),
-                }
-            };
+        //     let constructor =
+        //         constructor.unwrap_or_else(||
+        // default_constructor(class.super_class.is_some()));     //TOOD
+        //     let (mut constructor, _) = replace_this_in_constructor(Mark::root(),
+        // constructor);
 
-            let constructor =
-                constructor.unwrap_or_else(|| default_constructor(class.super_class.is_some()));
-            //TOOD
-            let (mut constructor, _) = replace_this_in_constructor(Mark::root(), constructor);
+        //     self.helpers.class_call_check();
+        //     inject_class_call_check(&mut constructor, ident.clone());
+        //     let mut body = constructor.body.unwrap();
+        //     body.stmts = self.handle_super_access(&ident, body.stmts, None);
+        //     constructor.body = Some(body);
 
-            self.helpers.class_call_check();
-            inject_class_call_check(&mut constructor, ident.clone());
-            let mut body = constructor.body.unwrap();
-            body.stmts = self.handle_super_access(&ident, body.stmts, None);
-            constructor.body = Some(body);
-
-            return Expr::Fn(FnExpr {
-                ident: Some(ident.clone()),
-                function: constructor_fn(constructor),
-            });
-        }
+        //     return Expr::Fn(FnExpr {
+        //         ident: Some(ident.clone()),
+        //         function: constructor_fn(constructor),
+        //     });
+        // }
 
         // Ident of the super class *inside* function.
         let super_ident = class
@@ -299,9 +283,42 @@ impl Classes {
             (vec![], vec![])
         };
 
+        let mut stmts = self.class_to_stmts(class_name, super_ident, class);
+
+        if stmts.len() == 1 {
+            //    class Foo {}
+            //
+            // should be
+            //
+            //    var Foo = function Foo() {
+            //        _classCallCheck(this, Foo);
+            //    };
+            //
+            // instead of
+            //    var Foo = function(){
+            //      function Foo() {
+            //          _classCallCheck(this, Foo);
+            //      }
+            //
+            //      return Foo;
+            //    }();
+
+            let stmt = stmts.pop().unwrap();
+            match stmt {
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    ident, function, ..
+                })) => {
+                    return Expr::Fn(FnExpr {
+                        ident: Some(ident),
+                        function,
+                    });
+                }
+                _ => unreachable!(),
+            }
+        }
         let body = BlockStmt {
             span: DUMMY_SP,
-            stmts: self.class_to_stmts(class_name, super_ident, class),
+            stmts,
         };
 
         Expr::Call(CallExpr {
@@ -421,20 +438,25 @@ impl Classes {
         // Process constructor
         {
             let mut is_constructor_default = false;
-            let constructor = constructor.unwrap_or_else(|| {
+            let mut constructor = constructor.unwrap_or_else(|| {
                 is_constructor_default = true;
                 let mut c = default_constructor(super_class_ident.is_some());
                 c.params = vec![];
                 c
             });
-            let (mut constructor, inserted_this) = replace_this_in_constructor(mark, constructor);
+            let mut insert_this = false;
+
+            if super_class_ident.is_some() {
+                let (c, inserted_this) = replace_this_in_constructor(mark, constructor);
+                constructor = c;
+                insert_this |= inserted_this;
+            }
 
             // inject _classCallCheck(this, Bar);
             self.helpers.class_call_check();
             inject_class_call_check(&mut constructor, class_name.clone());
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
-            let mut insert_this = inserted_this;
 
             let is_always_initialized = is_always_initialized(&body);
 
@@ -445,7 +467,7 @@ impl Classes {
 
             if super_class_ident.is_some() {
                 // inject possibleReturnCheck
-                let mode = if inserted_this {
+                let mode = if insert_this {
                     Some(SuperFoldingMode::Assign)
                 } else {
                     SuperCallFinder::find(&body)
@@ -539,6 +561,10 @@ impl Classes {
         // convert class methods
         // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
         stmts.extend(self.fold_class_methods(class_name.clone(), methods));
+
+        if stmts.len() == 1 {
+            return stmts;
+        }
 
         // `return Foo`
         stmts.push(Stmt::Return(ReturnStmt {
