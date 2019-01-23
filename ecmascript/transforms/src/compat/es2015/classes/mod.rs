@@ -430,7 +430,8 @@ impl Classes {
             self.helpers.class_call_check();
             inject_class_call_check(&mut constructor, class_name.clone());
             let mut body = constructor.body.unwrap().stmts;
-            let mut insert_this = false;
+            // should we insert `var _this`?
+            let mut insert_this = inserted_this;
 
             if super_class_ident.is_some() {
                 let is_always_initialized = body.iter().any(|s| match s {
@@ -440,6 +441,9 @@ impl Classes {
                     })) => true,
                     _ => false,
                 });
+
+                // let is_always_initialized = false;
+
                 // inject possibleReturnCheck
                 let mode = if inserted_this {
                     Some(SuperFoldingMode::Assign)
@@ -459,7 +463,7 @@ impl Classes {
                     ignore_return: false,
                 });
 
-                insert_this = (mode == None && !is_always_initialized)
+                insert_this |= (mode == None && !is_always_initialized)
                     || mode == Some(SuperFoldingMode::Assign);
 
                 if insert_this {
