@@ -1,4 +1,3 @@
-#![feature(proc_macro_hygiene)]
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
 

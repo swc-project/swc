@@ -1,64 +1,76 @@
 macro_rules! opt_leading_space {
-    ($e:expr) => {
+    ($emitter:expr, $e:expr) => {
         if let Some(ref e) = $e {
-            space!();
-            emit!(e);
+            space!($emitter);
+            emit!($emitter, e);
         }
     };
 }
 
 macro_rules! opt {
-    ($e:expr) => {{
+    ($emitter:expr, $e:expr) => {{
         if let Some(ref expr) = $e {
-            emit!(expr);
+            emit!($emitter, expr);
         }
+    }};
+    ($emitter:expr, $e:expr,) => {{
+        opt!($emitter, $e)
     }};
 }
 
 macro_rules! emit {
-    ($e:expr) => {{
-        ::Node::emit_with(&$e, __cur_emitter!())?;
+    ($emitter:expr, $e:expr) => {{
+        ::Node::emit_with(&$e, $emitter)?;
     }};
 }
 
 macro_rules! keyword {
-    ($span:expr, $s:expr) => {
-        __cur_emitter!().wr.write_keyword(Some($span), $s)?;
+    ($emitter:expr, $span:expr, $s:expr) => {
+        $emitter.wr.write_keyword(Some($span), $s)?;
     };
-    ($s:expr) => {
-        __cur_emitter!().wr.write_keyword(None, $s)?;
+    ($emitter:expr, $s:expr) => {
+        $emitter.wr.write_keyword(None, $s)?;
     };
 }
 
 macro_rules! punct {
-    (";") => {
-        __cur_emitter!().wr.write_semi()?;
+    ($emitter:expr, ";") => {
+        $emitter.wr.write_semi()?;
     };
-    ($s:expr) => {
-        __cur_emitter!().wr.write_punct($s)?;
+    ($emitter:expr, $s:expr) => {
+        $emitter.wr.write_punct($s)?;
     };
 }
 
 macro_rules! operator {
-    ($s:expr) => {
-        __cur_emitter!().wr.write_operator($s)?;
+    ($emitter:expr, $s:expr) => {
+        $emitter.wr.write_operator($s)?;
     };
 }
 
 macro_rules! space {
-    () => {
-        __cur_emitter!().wr.write_space()?;
+    ($emitter:expr) => {
+        $emitter.wr.write_space()?;
+    };
+    ($emitter:expr,) => {
+        space!($emitter)
     };
 }
 
 macro_rules! formatting_space {
-    () => {
-        __cur_emitter!().wr.write_space()?;
+    ($emitter:expr) => {
+        $emitter.wr.write_space()?;
+    };
+    ($emitter:expr,) => {
+        formatting_space!($emitter)
     };
 }
 
 macro_rules! semi {
-    () => {
-        punct!(";")
+    ($emitter:expr) => {
+        punct!($emitter, ";")
+    };
+    ($emitter:expr, ) => {
+        punct!($emitter, ";")
     };
 }

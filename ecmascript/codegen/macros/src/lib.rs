@@ -2,15 +2,21 @@
 extern crate pmutil;
 extern crate proc_macro;
 extern crate proc_macro2;
+#[macro_use]
 extern crate quote;
 extern crate swc_macros_common;
 extern crate syn;
+
 use proc_macro::TokenStream;
 use swc_macros_common::prelude::*;
+use syn::fold::Fold;
+
+mod fold;
 
 #[proc_macro_attribute]
 pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
-    let item = syn::parse(item).expect("failed to parse input as an item");
+    let item: ImplItemMethod = syn::parse(item).expect("failed to parse input as an item");
+    let item = fold::InjectSelf { parser: None }.fold_impl_item_method(item);
     let item = expand(item);
 
     print("emitter", item.dump())
@@ -70,12 +76,6 @@ fn (&mut self, node: Node) -> Result;
                             ()
                         };
 
-                        #[allow(unused_macros)]
-                        macro_rules! __cur_emitter {
-                            () => {
-                                self
-                            };
-                        }
                         {
                             block
                         };
