@@ -3023,10 +3023,10 @@ class TestMultipleMethods extends (class {
 "#, r#"
 var TestEmpty =
 /*#__PURE__*/
-function (_ref) {
+function (_super) {
   
 
-  _inherits(TestEmpty, _ref);
+  _inherits(TestEmpty, _super);
 
   function TestEmpty() {
     _classCallCheck(this, TestEmpty);
@@ -3048,10 +3048,10 @@ function () {
 
 var TestConstructorOnly =
 /*#__PURE__*/
-function (_ref2) {
+function (_super) {
   
 
-  _inherits(TestConstructorOnly, _ref2);
+  _inherits(TestConstructorOnly, _super);
 
   function TestConstructorOnly() {
     _classCallCheck(this, TestConstructorOnly);
@@ -3064,19 +3064,19 @@ function (_ref2) {
 function () {
   
 
-  function _class2() {
-    _classCallCheck(this, _class2);
+  function _class() {
+    _classCallCheck(this, _class);
   }
 
-  return _class2;
+  return _class;
 }());
 
 var TestMethodOnly =
 /*#__PURE__*/
-function (_ref3) {
+function (_super) {
   
 
-  _inherits(TestMethodOnly, _ref3);
+  _inherits(TestMethodOnly, _super);
 
   function TestMethodOnly() {
     _classCallCheck(this, TestMethodOnly);
@@ -3089,23 +3089,23 @@ function (_ref3) {
 function () {
   
 
-  function _class3() {
-    _classCallCheck(this, _class3);
+  function _class() {
+    _classCallCheck(this, _class);
   }
 
-  _createClass(_class3, [{
+  _createClass(_class, [{
     key: "method",
     value: function method() {}
   }]);
-  return _class3;
+  return _class;
 }());
 
 var TestConstructorAndMethod =
 /*#__PURE__*/
-function (_ref4) {
+function (_super) {
   
 
-  _inherits(TestConstructorAndMethod, _ref4);
+  _inherits(TestConstructorAndMethod, _super);
 
   function TestConstructorAndMethod() {
     _classCallCheck(this, TestConstructorAndMethod);
@@ -3118,23 +3118,23 @@ function (_ref4) {
 function () {
   
 
-  function _class4() {
-    _classCallCheck(this, _class4);
+  function _class() {
+    _classCallCheck(this, _class);
   }
 
-  _createClass(_class4, [{
+  _createClass(_class, [{
     key: "method",
     value: function method() {}
   }]);
-  return _class4;
+  return _class;
 }());
 
 var TestMultipleMethods =
 /*#__PURE__*/
-function (_ref5) {
+function (_super) {
   
 
-  _inherits(TestMultipleMethods, _ref5);
+  _inherits(TestMultipleMethods, _super);
 
   function TestMultipleMethods() {
     _classCallCheck(this, TestMultipleMethods);
@@ -3147,18 +3147,18 @@ function (_ref5) {
 function () {
   
 
-  function _class5() {
-    _classCallCheck(this, _class5);
+  function _class() {
+    _classCallCheck(this, _class);
   }
 
-  _createClass(_class5, [{
+  _createClass(_class, [{
     key: "m1",
     value: function m1() {}
   }, {
     key: "m2",
     value: function m2() {}
   }]);
-  return _class5;
+  return _class;
 }());
 
 "#);
