@@ -2,7 +2,7 @@ use super::{Result, WriteJs};
 use swc_common::Span;
 
 pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
-    box OmitTrailingSemi {
+    OmitTrailingSemi {
         inner: w,
         pending_semi: false,
     }
