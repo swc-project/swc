@@ -1,8 +1,3 @@
-#![feature(box_syntax)]
-#![feature(box_patterns)]
-#![feature(specialization)]
-#![feature(proc_macro_hygiene)]
-#![feature(trace_macros)]
 #![recursion_limit = "1024"]
 #![allow(unused_variables)]
 
@@ -436,11 +431,19 @@ impl<'a> Emitter<'a> {
     /// `1..toString` is a valid property access, emit a dot after the literal
     pub fn needs_2dots_for_property_access(&self, expr: &ExprOrSuper) -> bool {
         match *expr {
-            ExprOrSuper::Expr(box Expr::Lit(Lit::Num(Number { span, .. }))) => {
-                // check if numeric literal is a decimal literal that was originally written
-                // with a dot
-                let text = self.cm.span_to_string(span);
-                return !text.contains(".");
+            ExprOrSuper::Expr(ref expr) => {
+                match **expr {
+                    Expr::Lit(Lit::Num(Number { span, .. })) => {
+                        // check if numeric literal is a decimal literal that was originally written
+                        // with a dot
+                        if let Ok(text) = self.cm.span_to_snippet(span) {
+                            return !text.contains(".");
+                        } else {
+                            true
+                        }
+                    }
+                    _ => false,
+                }
             }
             _ => false,
         }
