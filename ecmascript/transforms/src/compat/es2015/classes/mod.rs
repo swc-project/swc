@@ -434,13 +434,7 @@ impl Classes {
             let mut insert_this = inserted_this;
 
             if super_class_ident.is_some() {
-                let is_always_initialized = body.iter().any(|s| match s {
-                    Stmt::Expr(box Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
-                        ..
-                    })) => true,
-                    _ => false,
-                });
+                let is_always_initialized = is_always_initialized(&body);
 
                 // let is_always_initialized = false;
 
@@ -791,4 +785,41 @@ fn inject_class_call_check(c: &mut Constructor, name: Ident) {
         .unwrap()
         .stmts
         .insert(class_call_check_idx, class_call_check);
+}
+
+/// Returns true if no `super` is used before `super()` call.
+fn is_always_initialized(body: &[Stmt]) -> bool {
+    struct SuperFinder {
+        found: bool,
+    }
+
+    impl Visit<ExprOrSuper> for SuperFinder {
+        fn visit(&mut self, node: &ExprOrSuper) {
+            match *node {
+                ExprOrSuper::Super(..) => self.found = true,
+                _ => {}
+            }
+        }
+    }
+
+    let pos = match body.iter().position(|s| match s {
+        Stmt::Expr(box Expr::Call(CallExpr {
+            callee: ExprOrSuper::Super(..),
+            ..
+        })) => true,
+        _ => false,
+    }) {
+        Some(pos) => pos,
+        _ => return false,
+    };
+
+    let mut v = SuperFinder { found: false };
+    let body = &body[..pos];
+    body.visit_with(&mut v);
+
+    if v.found {
+        return false;
+    }
+
+    true
 }

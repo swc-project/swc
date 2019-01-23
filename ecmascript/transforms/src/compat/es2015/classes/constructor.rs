@@ -49,6 +49,17 @@ mark_as_complex!(ArrowExpr);
 mark_as_complex!(IfStmt);
 mark_as_complex!(PropName);
 
+impl Visit<AssignExpr> for SuperCallFinder {
+    fn visit(&mut self, node: &AssignExpr) {
+        node.left.visit_with(self);
+
+        let old = self.in_complex;
+        self.in_complex = true;
+        node.right.visit_children(self);
+        self.in_complex = old;
+    }
+}
+
 impl Visit<MemberExpr> for SuperCallFinder {
     fn visit(&mut self, e: &MemberExpr) {
         e.visit_children(self);
@@ -225,12 +236,12 @@ ignore_return!(Class);
 
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
-
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => return expr,
         }
+
+        let expr = expr.fold_children(self);
 
         match expr {
             Expr::Call(CallExpr {
