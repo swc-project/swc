@@ -1,7 +1,7 @@
 use self::{
     constructor::{
-        constructor_fn, make_possible_return_value, ConstructorFolder, ReturningMode,
-        SuperCallFinder, SuperFoldingMode,
+        constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
+        ReturningMode, SuperCallFinder, SuperFoldingMode,
     },
     super_field::SuperFieldAccessFolder,
 };
@@ -243,8 +243,12 @@ impl Classes {
                 }
             };
 
-            let mut constructor =
+            let constructor =
                 constructor.unwrap_or_else(|| default_constructor(class.super_class.is_some()));
+            //TOOD
+            let (mut constructor, inserted_this) =
+                replace_this_in_constructor(Mark::root(), constructor);
+
             self.helpers.class_call_check();
             inject_class_call_check(&mut constructor, ident.clone());
             let mut body = constructor.body.unwrap();
@@ -415,12 +419,13 @@ impl Classes {
         // Process constructor
         {
             let mut is_constructor_default = false;
-            let mut constructor = constructor.unwrap_or_else(|| {
+            let constructor = constructor.unwrap_or_else(|| {
                 is_constructor_default = true;
                 let mut c = default_constructor(super_class_ident.is_some());
                 c.params = vec![];
                 c
             });
+            let (mut constructor, inserted_this) = replace_this_in_constructor(mark, constructor);
 
             // inject _classCallCheck(this, Bar);
             self.helpers.class_call_check();
@@ -437,7 +442,11 @@ impl Classes {
                     _ => false,
                 });
                 // inject possibleReturnCheck
-                let mode = SuperCallFinder::find(&body);
+                let mode = if inserted_this {
+                    Some(SuperFoldingMode::Assign)
+                } else {
+                    SuperCallFinder::find(&body)
+                };
 
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 

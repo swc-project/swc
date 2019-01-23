@@ -346,3 +346,71 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
         type_args: Default::default(),
     })
 }
+
+/// `mark`: Mark for `_this`
+pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constructor, bool) {
+    struct Replacer {
+        mark: Mark,
+        found: bool,
+        wrap_with_assertiion: bool,
+    }
+
+    impl Fold<Expr> for Replacer {
+        fn fold(&mut self, expr: Expr) -> Expr {
+            match expr {
+                Expr::This(..) => {
+                    self.found = true;
+                    let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+
+                    // TODO:
+                    // self.helpers.assert_this_initialized();
+
+                    if self.wrap_with_assertiion {
+                        Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_ident!("_assertThisInitialized").as_callee(),
+                            args: vec![this.as_arg()],
+                            type_args: Default::default(),
+                        })
+                    } else {
+                        Expr::Ident(this)
+                    }
+                }
+                _ => expr.fold_children(self),
+            }
+        }
+    }
+
+    impl Fold<MemberExpr> for Replacer {
+        fn fold(
+            &mut self,
+            MemberExpr {
+                span,
+                obj,
+                prop,
+                computed,
+            }: MemberExpr,
+        ) -> MemberExpr {
+            let old = self.wrap_with_assertiion;
+            self.wrap_with_assertiion = false;
+            let obj = obj.fold_children(self);
+            self.wrap_with_assertiion = old;
+
+            MemberExpr {
+                span,
+                obj,
+                prop: prop.fold_children(self),
+                computed,
+            }
+        }
+    }
+
+    let mut v = Replacer {
+        found: false,
+        mark,
+        wrap_with_assertiion: true,
+    };
+    let c = c.fold_with(&mut v);
+
+    (c, v.found)
+}

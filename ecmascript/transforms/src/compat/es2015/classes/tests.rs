@@ -728,7 +728,7 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
 
-    var fn = () => _assertThisInitialized(_assertThisInitialized(_this));
+    var fn = () => _assertThisInitialized(_this);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
     fn();
@@ -1127,7 +1127,8 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
     _this.foo = "bar";
-    return _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))
+    return _this;
   }
 
   return Foo;
@@ -1756,14 +1757,19 @@ new Foo();
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_2
-test!(syntax(),spec_tr( Default::default()), spec_this_not_allowed_before_super_in_derived_classes_2, r#"
+test!(
+    syntax(),
+    spec_tr(Default::default()),
+    spec_this_not_allowed_before_super_in_derived_classes_2,
+    r#"
 class Foo extends Bar {
   constructor() {
     super(this);
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
@@ -1775,13 +1781,15 @@ function (_Bar) {
     var _this;
 
     _classCallCheck(this, Foo);
-    return _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, _assertThisInitialized(_assertThisInitialized(_this))));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, _assertThisInitialized(_this)));
+    return _this;
   }
 
   return Foo;
 }(Bar);
 
-"#);
+"#
+);
 
 // spec_accessing_super_properties
 test!(
@@ -2378,7 +2386,7 @@ function (_b) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(a1).call(this));
 
     _this.x = function () {
-      return _assertThisInitialized(_assertThisInitialized(_this));
+      return _assertThisInitialized(_this);
     };
 
     return _this;
@@ -2640,7 +2648,7 @@ function (_Bar) {
     var _this;
 
     _classCallCheck(this, Foo);
-    Foo[_assertThisInitialized(_assertThisInitialized(_this))];
+    Foo[_assertThisInitialized(_this)];
     return _possibleConstructorReturn(_this);
   }
 
@@ -3482,10 +3490,11 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
 
-    var fn = () => _assertThisInitialized(_assertThisInitialized(_this));
+    var fn = () => _assertThisInitialized(_this);
 
     fn();
-    return _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))
+    return _this;
   }
 
   return Foo;
