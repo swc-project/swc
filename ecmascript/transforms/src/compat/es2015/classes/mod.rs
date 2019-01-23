@@ -433,11 +433,14 @@ impl Classes {
             // should we insert `var _this`?
             let mut insert_this = inserted_this;
 
+            let is_always_initialized = is_always_initialized(&body);
+
+            // We should handle branching
+            if !is_always_initialized {
+                insert_this = true;
+            }
+
             if super_class_ident.is_some() {
-                let is_always_initialized = is_always_initialized(&body);
-
-                // let is_always_initialized = false;
-
                 // inject possibleReturnCheck
                 let mode = if inserted_this {
                     Some(SuperFoldingMode::Assign)
@@ -797,7 +800,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
         fn visit(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
-                _ => {}
+                _ => node.visit_children(self),
             }
         }
     }
@@ -815,6 +818,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
 
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
+
     body.visit_with(&mut v);
 
     if v.found {
