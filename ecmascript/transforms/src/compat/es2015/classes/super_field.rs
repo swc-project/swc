@@ -154,6 +154,8 @@ impl<'a> SuperCalleeFolder<'a> {
         }
         .as_arg();
 
+        dbg!(self.constructor_this_mark);
+
         let this_arg = match self.constructor_this_mark {
             Some(mark) => {
                 let this = quote_ident!(super_token.apply_mark(mark), "_this");

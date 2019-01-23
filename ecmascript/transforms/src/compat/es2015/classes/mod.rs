@@ -209,7 +209,7 @@ impl Classes {
     ///   };
     /// }()
     /// ```
-    fn fold_class(&mut self, class_name: Option<Ident>, mut class: Class) -> Expr {
+    fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
         // if class_name.is_some()
         //     && class.super_class.is_none()
         //     && (class.body.is_empty()
@@ -489,8 +489,8 @@ impl Classes {
                     || mode == Some(SuperFoldingMode::Assign);
 
                 if insert_this {
-                    body.insert(
-                        0,
+                    prepend(
+                        &mut body,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             declare: false,
@@ -502,7 +502,7 @@ impl Classes {
                                 definite: false,
                             }],
                         })),
-                    )
+                    );
                 }
 
                 let is_last_return = match body.last() {
@@ -532,7 +532,11 @@ impl Classes {
             body = self.handle_super_access(
                 &class_name,
                 body,
-                if insert_this { Some(mark) } else { None },
+                if insert_this && super_class_ident.is_some() {
+                    Some(mark)
+                } else {
+                    None
+                },
             );
 
             // TODO: Handle
@@ -786,6 +790,19 @@ fn get_prototype_of(helpers: &Helpers, obj: &Expr) -> Expr {
     })
 }
 
+/// inject `stmt` after directives
+fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
+    let idx = stmts
+        .iter()
+        .position(|item| match item {
+            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+            _ => true,
+        })
+        .unwrap_or(0);
+
+    stmts.insert(idx, stmt);
+}
+
 fn inject_class_call_check(c: &mut Constructor, name: Ident) {
     let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
         span: DUMMY_SP,
@@ -797,24 +814,7 @@ fn inject_class_call_check(c: &mut Constructor, name: Ident) {
         type_args: Default::default(),
     }));
 
-    // inject class call check after directives
-    let class_call_check_idx = c
-        .body
-        .as_ref()
-        .unwrap()
-        .stmts
-        .iter()
-        .position(|item| match item {
-            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
-            _ => true,
-        })
-        .unwrap_or(0);
-
-    c.body
-        .as_mut()
-        .unwrap()
-        .stmts
-        .insert(class_call_check_idx, class_call_check);
+    prepend(&mut c.body.as_mut().unwrap().stmts, class_call_check)
 }
 
 /// Returns true if no `super` is used before `super()` call.
