@@ -210,48 +210,11 @@ impl Classes {
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
-        // if class_name.is_some()
-        //     && class.super_class.is_none()
-        //     && (class.body.is_empty()
-        //         || (class.body.len() == 1
-        //             && match class.body[0] {
-        //                 ClassMember::Constructor(_) => true,
-        //                 _ => false,
-        //             }))
-        // {
-        //     let ident = class_name.unwrap();
-        //     let constructor = if class.body.is_empty() {
-        //         None
-        //     } else {
-        //         match class.body.remove(0) {
-        //             ClassMember::Constructor(c) => Some(c),
-        //             _ => unreachable!(),
-        //         }
-        //     };
-
-        //     let constructor =
-        //         constructor.unwrap_or_else(||
-        // default_constructor(class.super_class.is_some()));     //TOOD
-        //     let (mut constructor, _) = replace_this_in_constructor(Mark::root(),
-        // constructor);
-
-        //     self.helpers.class_call_check();
-        //     inject_class_call_check(&mut constructor, ident.clone());
-        //     let mut body = constructor.body.unwrap();
-        //     body.stmts = self.handle_super_access(&ident, body.stmts, None);
-        //     constructor.body = Some(body);
-
-        //     return Expr::Fn(FnExpr {
-        //         ident: Some(ident.clone()),
-        //         function: constructor_fn(constructor),
-        //     });
-        // }
-
         // Ident of the super class *inside* function.
         let super_ident = class
             .super_class
             .as_ref()
-            .map(|e| alias_ident_for(e, "_Super"));
+            .map(|e| alias_ident_for(e, "_super"));
 
         let (params, args) = if let Some(ref super_ident) = super_ident {
             let params = vec![Pat::Ident(super_ident.clone())];
@@ -349,7 +312,8 @@ impl Classes {
         super_class_ident: Option<Ident>,
         class: Class,
     ) -> Vec<Stmt> {
-        let class_name = class_name.unwrap_or_else(|| quote_ident!("_Class"));
+        let is_named = class_name.is_some();
+        let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
 
         let mut priv_methods = vec![];
@@ -566,7 +530,7 @@ impl Classes {
         // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
         stmts.extend(self.fold_class_methods(class_name.clone(), methods));
 
-        if stmts.len() == 1 {
+        if is_named && stmts.len() == 1 {
             return stmts;
         }
 
