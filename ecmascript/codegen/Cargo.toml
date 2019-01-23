@@ -12,7 +12,7 @@ bitflags = "1"
 swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.2", path ="../../common" }
 swc_ecma_ast = { version = "0.6", path ="../ast" }
-swc_ecma_codegen_macros = { version = "0.1", path ="./macros" }
+swc_ecma_codegen_macros = { version = "0.2", path ="./macros" }
 sourcemap = "2.2"
 
 [dev-dependencies]
