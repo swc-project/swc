@@ -386,15 +386,17 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             &mut self,
             MemberExpr {
                 span,
-                obj,
+                mut obj,
                 prop,
                 computed,
             }: MemberExpr,
         ) -> MemberExpr {
-            let old = self.wrap_with_assertiion;
-            self.wrap_with_assertiion = false;
-            let obj = obj.fold_children(self);
-            self.wrap_with_assertiion = old;
+            if self.mark != Mark::root() {
+                let old = self.wrap_with_assertiion;
+                self.wrap_with_assertiion = false;
+                obj = obj.fold_children(self);
+                self.wrap_with_assertiion = old;
+            }
 
             MemberExpr {
                 span,

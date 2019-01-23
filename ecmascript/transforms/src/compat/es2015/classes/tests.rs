@@ -2705,9 +2705,10 @@ function (_Bar) {
   _inherits(Foo, _Bar);
 
   function Foo() {
+    var _this;
     _classCallCheck(this, Foo);
-    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
-    this.state = "test";
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this.state = "test";
     return _this;
   }
 

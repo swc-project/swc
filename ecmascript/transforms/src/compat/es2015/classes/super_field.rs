@@ -26,7 +26,6 @@ pub(super) struct SuperFieldAccessFolder<'a> {
     pub vars: &'a mut Vec<VarDeclarator>,
     /// Mark for the `_this`. Used only when folding constructor.
     pub constructor_this_mark: Option<Mark>,
-    pub alias_this: bool,
     pub is_static: bool,
 }
 
@@ -39,7 +38,6 @@ struct SuperCalleeFolder<'a> {
     inject_set: bool,
     /// Mark for the `_this`. Used only when folding constructor.
     constructor_this_mark: Option<Mark>,
-    alias_this: bool,
     is_static: bool,
 }
 
@@ -157,7 +155,7 @@ impl<'a> SuperCalleeFolder<'a> {
         .as_arg();
 
         let this_arg = match self.constructor_this_mark {
-            Some(mark) if self.alias_this => {
+            Some(mark) => {
                 let this = quote_ident!(super_token.apply_mark(mark), "_this");
 
                 self.helpers.assert_this_initialized();
@@ -338,7 +336,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             helpers: self.helpers,
             vars: self.vars,
             constructor_this_mark: self.constructor_this_mark,
-            alias_this: self.alias_this,
             is_static: self.is_static,
         };
 

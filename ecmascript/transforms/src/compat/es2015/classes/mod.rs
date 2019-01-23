@@ -246,8 +246,7 @@ impl Classes {
             let constructor =
                 constructor.unwrap_or_else(|| default_constructor(class.super_class.is_some()));
             //TOOD
-            let (mut constructor, inserted_this) =
-                replace_this_in_constructor(Mark::root(), constructor);
+            let (mut constructor, _) = replace_this_in_constructor(Mark::root(), constructor);
 
             self.helpers.class_call_check();
             inject_class_call_check(&mut constructor, ident.clone());
@@ -561,7 +560,6 @@ impl Classes {
             helpers: &self.helpers,
             vars: &mut vars,
             constructor_this_mark: this_mark,
-            alias_this: true,
             // constructor cannot be static
             is_static: false,
         });
@@ -682,7 +680,6 @@ impl Classes {
                 helpers: &self.helpers,
                 vars: &mut vars,
                 constructor_this_mark: None,
-                alias_this: false,
                 is_static: m.is_static,
             });
             if !vars.is_empty() {
