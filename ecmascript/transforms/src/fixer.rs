@@ -102,7 +102,6 @@ impl Fold<Expr> for Fixer {
                 args,
                 type_args,
             }) => {
-                dbg!(self.ctx);
                 if self.ctx != Context::ForcedExpr {
                     Expr::Call(CallExpr {
                         span,
