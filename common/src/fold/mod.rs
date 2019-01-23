@@ -32,7 +32,7 @@ pub trait Fold<T> {
 /// Visitor based on a type system.
 ///
 /// This trait requires `#![feature(specialization)]`.
-pub trait Visit<T> {
+pub trait Visit<T: ?Sized> {
     fn visit(&mut self, node: &T);
 
     /// Creates a folder which applies `folder` after `self`.
@@ -59,7 +59,7 @@ where
     }
 }
 
-impl<T, F: ?Sized> Visit<T> for Box<F>
+impl<T: ?Sized, F: ?Sized> Visit<T> for Box<F>
 where
     T: VisitWith<Self>,
     F: Visit<T>,
@@ -79,7 +79,7 @@ where
     }
 }
 
-impl<'a, T, F: ?Sized> Visit<T> for &'a mut F
+impl<'a, T: ?Sized, F: ?Sized> Visit<T> for &'a mut F
 where
     T: VisitWith<Self>,
     F: Visit<T>,
@@ -98,7 +98,7 @@ where
     }
 }
 
-impl<T, F> Visit<T> for F
+impl<T: ?Sized, F> Visit<T> for F
 where
     T: VisitWith<F>,
 {
@@ -153,15 +153,12 @@ pub trait VisitWith<F> {
     ///
     /// This bypasses a type inference bug which is caused by specialization.
 
-    fn visit_with(&self, f: &mut F)
-    where
-        Self: Sized,
-    {
+    fn visit_with(&self, f: &mut F) {
         f.visit(self)
     }
 }
 
-impl<'a, T, F> VisitWith<F> for &'a T
+impl<'a, T: ?Sized, F> VisitWith<F> for &'a T
 where
     F: Visit<T>,
 {
@@ -179,7 +176,7 @@ where
     }
 }
 
-impl<T, F> VisitWith<F> for Box<T>
+impl<T: ?Sized, F> VisitWith<F> for Box<T>
 where
     F: Visit<T>,
 {
