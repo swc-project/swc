@@ -4850,10 +4850,10 @@ class BaseController2 extends Chaplin.Controller.Another {
 "#, r#"
 var BaseController =
 /*#__PURE__*/
-function (_Chaplin$Controller) {
+function (_Controller) {
   
 
-  _inherits(BaseController, _Chaplin$Controller);
+  _inherits(BaseController, _Controller);
 
   function BaseController() {
     _classCallCheck(this, BaseController);
@@ -4865,10 +4865,10 @@ function (_Chaplin$Controller) {
 
 var BaseController2 =
 /*#__PURE__*/
-function (_Chaplin$Controller$A) {
+function (_Another) {
   
 
-  _inherits(BaseController2, _Chaplin$Controller$A);
+  _inherits(BaseController2, _Another);
 
   function BaseController2() {
     _classCallCheck(this, BaseController2);
