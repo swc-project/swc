@@ -18,7 +18,8 @@ fnv = "1"
 lazy_static = "1"
 objekt = "0.1"
 serde = { version = "1", features = ["derive"] }
-indexmap = "1.0.2"
+indexmap = "1"
+ordered-float = "1.0.1"
 
 [dev-dependencies]
 testing = { path ="../../testing" }

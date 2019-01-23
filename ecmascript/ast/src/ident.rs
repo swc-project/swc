@@ -6,7 +6,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned};
 
 /// Ident with span.
-#[derive(Spanned, Clone, PartialEq, Eq, Hash)]
+#[derive(Spanned, Clone, PartialEq)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct Ident {
     pub span: Span,

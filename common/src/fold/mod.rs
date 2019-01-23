@@ -1,8 +1,6 @@
 use self::and_then::AndThen;
 use crate::util::{map::Map, move_map::MoveMap};
 use either::Either;
-use num_traits::Float;
-use ordered_float::OrderedFloat;
 use string_cache::{Atom, StaticAtomSet};
 
 pub mod and_then;
@@ -283,16 +281,4 @@ where
             Either::Right(ref b) => f.visit(b),
         }
     }
-}
-
-impl<T: Float, F> FoldWith<F> for OrderedFloat<T> {
-    /// no-op
-    fn fold_children(self, _: &mut F) -> OrderedFloat<T> {
-        self
-    }
-}
-
-impl<T: Float, F> VisitWith<F> for OrderedFloat<T> {
-    /// no-op
-    fn visit_children(&self, _: &mut F) {}
 }

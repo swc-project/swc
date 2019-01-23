@@ -3,13 +3,14 @@ use self::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
         ReturningMode, SuperCallFinder, SuperFoldingMode,
     },
+    prop_name::HashKey,
     super_field::SuperFieldAccessFolder,
 };
 use crate::{
     helpers::Helpers,
     util::{
-        alias_ident_for, default_constructor, drop_span, prop_name_to_expr, ExprFactory,
-        ModuleItemLike, StmtLike,
+        alias_ident_for, default_constructor, prop_name_to_expr, ExprFactory, ModuleItemLike,
+        StmtLike,
     },
 };
 use ast::*;
@@ -18,6 +19,7 @@ use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod constructor;
+mod prop_name;
 mod super_field;
 #[cfg(test)]
 mod tests;
@@ -56,6 +58,13 @@ mod tests;
 #[derive(Default, Clone)]
 pub struct Classes {
     pub helpers: Arc<Helpers>,
+}
+
+struct Data {
+    key_prop: Box<Prop>,
+    method: Option<Box<Expr>>,
+    set: Option<Box<Expr>>,
+    get: Option<Box<Expr>>,
 }
 
 impl<T> Fold<Vec<T>> for Classes
@@ -158,12 +167,6 @@ impl Fold<Decl> for Classes {
 
         n.fold_children(self)
     }
-}
-
-struct Data {
-    method: Option<Box<Expr>>,
-    set: Option<Box<Expr>>,
-    get: Option<Box<Expr>>,
 }
 
 impl Fold<Expr> for Classes {
@@ -589,7 +592,7 @@ impl Classes {
         }
 
         /// { key: "prop" }
-        fn mk_prop_key(key: &PropName) -> Prop {
+        fn mk_key_prop(key: &PropName) -> Prop {
             Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!(key.span(), "key")),
                 value: match *key {
@@ -603,7 +606,7 @@ impl Classes {
             })
         }
 
-        fn mk_arg_obj_for_create_class(props: IndexMap<PropName, Data>) -> ExprOrSpread {
+        fn mk_arg_obj_for_create_class(props: IndexMap<HashKey, Data>) -> ExprOrSpread {
             if props.is_empty() {
                 return quote_expr!(DUMMY_SP, null).as_arg();
             }
@@ -611,8 +614,8 @@ impl Classes {
                 span: DUMMY_SP,
                 elems: props
                     .into_iter()
-                    .map(|(key, data)| {
-                        let mut props = vec![PropOrSpread::Prop(box mk_prop_key(&key))];
+                    .map(|(_, data)| {
+                        let mut props = vec![PropOrSpread::Prop(data.key_prop)];
 
                         macro_rules! add {
                             ($field:expr, $kind:expr, $s:literal) => {{
@@ -663,11 +666,13 @@ impl Classes {
         let (mut props, mut static_props) = (IndexMap::new(), IndexMap::new());
 
         for m in methods {
+            let key = HashKey::from(&m.key);
+            let key_prop = box mk_key_prop(&m.key);
             let computed = match m.key {
                 PropName::Computed(..) => true,
                 _ => false,
             };
-            let prop_name = prop_name_to_expr(m.key.clone());
+            let prop_name = prop_name_to_expr(m.key);
 
             let append_to: &mut IndexMap<_, _> = if m.is_static {
                 &mut static_props
@@ -710,12 +715,8 @@ impl Classes {
                 function,
             });
 
-            let key = match m.key {
-                // Method with computed key cannot be merged.
-                PropName::Computed(..) => m.key,
-                _ => drop_span(m.key),
-            };
             let data = append_to.entry(key).or_insert_with(|| Data {
+                key_prop,
                 get: None,
                 set: None,
                 method: None,

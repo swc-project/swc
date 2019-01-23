@@ -109,7 +109,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
         })) => match op {
             // 'foo'.length
             KnownOp::Len => Expr::Lit(Lit::Num(Number {
-                value: (value.chars().count() as f64).into(),
+                value: value.chars().count() as f64,
                 span,
             })),
 
@@ -150,7 +150,7 @@ fn fold_member_expr(e: MemberExpr) -> Expr {
             }
 
             return Expr::Lit(Lit::Num(Number {
-                value: (elems.len() as f64).into(),
+                value: elems.len() as _,
                 span,
             }));
         }
@@ -197,10 +197,7 @@ fn fold_bin(
                 Known(v) => {
                     return preserve_effects(
                         span,
-                        Expr::Lit(Lit::Num(Number {
-                            value: v.into(),
-                            span,
-                        })),
+                        Expr::Lit(Lit::Num(Number { value: v, span })),
                         { iter::once(left).chain(iter::once(right)) },
                     );
                 }
@@ -264,10 +261,7 @@ fn fold_bin(
                             Known(v) => {
                                 return preserve_effects(
                                     span,
-                                    Expr::Lit(Lit::Num(Number {
-                                        value: v.into(),
-                                        span,
-                                    })),
+                                    Expr::Lit(Lit::Num(Number { value: v, span })),
                                     { iter::once(left).chain(iter::once(right)) },
                                 );
                             }
@@ -456,10 +450,7 @@ fn fold_bin(
                                 span,
                                 left: left_lhs,
                                 op: left_op,
-                                right: box Expr::Lit(Lit::Num(Number {
-                                    value: value.into(),
-                                    span,
-                                })),
+                                right: box Expr::Lit(Lit::Num(Number { value, span })),
                             });
                         }
                         _ => {
@@ -600,10 +591,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             Known(v) => {
                 return preserve_effects(
                     span,
-                    Expr::Lit(Lit::Num(Number {
-                        value: v.into(),
-                        span,
-                    })),
+                    Expr::Lit(Lit::Num(Number { value: v, span })),
                     iter::once(arg),
                 );
             }
@@ -621,10 +609,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
                 ..
             }) => return *arg,
             Expr::Lit(Lit::Num(Number { value: f, .. })) => {
-                return Expr::Lit(Lit::Num(Number {
-                    value: (-f.into_inner()).into(),
-                    span,
-                }));
+                return Expr::Lit(Lit::Num(Number { value: -f, span }));
             }
             _ => {
 
@@ -635,7 +620,7 @@ fn fold_unary(UnaryExpr { span, op, arg }: UnaryExpr) -> Expr {
             return Expr::Unary(UnaryExpr {
                 op: op!("void"),
                 arg: box Expr::Lit(Lit::Num(Number {
-                    value: 0.0.into(),
+                    value: 0.0,
                     span: arg.span(),
                 })),
                 span,
@@ -853,10 +838,7 @@ fn perform_abstract_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool>
             return perform_abstract_eq_cmp(
                 span,
                 left,
-                &Expr::Lit(Lit::Num(Number {
-                    value: rv.into(),
-                    span,
-                })),
+                &Expr::Lit(Lit::Num(Number { value: rv, span })),
             );
         }
 
@@ -864,10 +846,7 @@ fn perform_abstract_eq_cmp(span: Span, left: &Expr, right: &Expr) -> Value<bool>
             let lv = left.as_number()?;
             return perform_abstract_eq_cmp(
                 span,
-                &Expr::Lit(Lit::Num(Number {
-                    value: lv.into(),
-                    span,
-                })),
+                &Expr::Lit(Lit::Num(Number { value: lv, span })),
                 right,
             );
         }

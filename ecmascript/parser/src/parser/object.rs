@@ -55,7 +55,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 Token::Num(_) => match bump!() {
                     Token::Num(value) => PropName::Num(Number {
                         span: span!(start),
-                        value: value.into(),
+                        value,
                     }),
                     _ => unreachable!(),
                 },

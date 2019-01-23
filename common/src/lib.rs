@@ -4,10 +4,6 @@ extern crate ast_node;
 extern crate atty;
 extern crate either;
 extern crate fxhash;
-#[cfg(feature = "fold")]
-extern crate num_traits;
-#[cfg(feature = "fold")]
-extern crate ordered_float;
 extern crate owning_ref;
 extern crate parking_lot;
 extern crate rayon;
@@ -29,12 +25,12 @@ pub use self::{
     source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
 };
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
-use std::{fmt::Debug, hash::Hash};
+use std::fmt::Debug;
 
 /// A marker trait for ast nodes.
-pub trait AstNode: Debug + PartialEq + Clone + Spanned + Eq + Hash {}
+pub trait AstNode: Debug + PartialEq + Clone + Spanned {}
 
-impl<N: Debug + PartialEq + Clone + Spanned + Eq + Hash> AstNode for N {}
+impl<N: Debug + PartialEq + Clone + Spanned> AstNode for N {}
 
 pub mod errors;
 #[cfg(feature = "fold")]

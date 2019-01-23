@@ -1475,7 +1475,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 let lit = match lit {
                     Lit::Num(num) => TsLit::Number(Number {
                         span: num.span,
-                        value: (-num.value.into_inner()).into(),
+                        value: -num.value,
                     }),
                     _ => unreachable!(),
                 };

@@ -170,7 +170,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                     }
                                     .as_callee(),
                                     args: vec![Lit::Num(Number {
-                                        value: (i as f64).into(),
+                                        value: i as f64,
                                         span: dot3_token,
                                     })
                                     .as_arg()],
@@ -604,7 +604,7 @@ fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
         computed: true,
         prop: box Expr::Lit(Lit::Num(Number {
             span: DUMMY_SP,
-            value: (i as f64).into(),
+            value: i as f64,
         })),
     })
 }
@@ -664,7 +664,7 @@ fn make_cond_expr(tmp: Ident, def_value: Box<Expr>) -> Expr {
                 op: op!("void"),
                 arg: box Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
-                    value: 0.0.into(),
+                    value: 0.0,
                 })),
             }),
         }),
