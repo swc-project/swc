@@ -40,8 +40,13 @@ impl Builder {
         let mut e = Emitter {
             cfg: self.cfg,
             cm: self.cm.clone(),
-            wr: box text_writer::JsWriter::new(self.cm.clone(), "\n", s, &mut src_map_builder),
-            handlers: box Noop,
+            wr: Box::new(text_writer::JsWriter::new(
+                self.cm.clone(),
+                "\n",
+                s,
+                &mut src_map_builder,
+            )),
+            handlers: Box::new(Noop),
             pos_of_leading_comments: Default::default(),
         };
 
