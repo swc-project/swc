@@ -3947,7 +3947,7 @@ function (_Hello) {
     _classCallCheck(this, Outer);
     var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
     var Inner = {
-      [_get(_getPrototypeOf(Outer.prototype), 'toString', this)()] () {
+      [_get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this))()] () {
         return 'hello';
       }
 
