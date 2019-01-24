@@ -204,11 +204,13 @@ impl<'a> Fold<ReturnStmt> for ConstructorFolder<'a> {
             return stmt;
         }
 
+        let arg = stmt.arg.fold_with(self);
+
         let arg = Some(box make_possible_return_value(
             self.helpers,
             ReturningMode::Returning {
                 mark: self.mark,
-                arg: stmt.arg,
+                arg,
             },
         ));
 
@@ -233,6 +235,7 @@ macro_rules! ignore_return {
 
 ignore_return!(Function);
 ignore_return!(Class);
+ignore_return!(ArrowExpr);
 
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
