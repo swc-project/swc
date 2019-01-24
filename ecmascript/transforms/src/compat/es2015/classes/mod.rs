@@ -429,14 +429,14 @@ impl Classes {
                 insert_this = true;
             }
 
-            if super_class_ident.is_some() {
-                // inject possibleReturnCheck
-                let mode = if insert_this {
-                    Some(SuperFoldingMode::Assign)
-                } else {
-                    SuperCallFinder::find(&body)
-                };
+            // inject possibleReturnCheck
+            let mode = if insert_this {
+                Some(SuperFoldingMode::Assign)
+            } else {
+                SuperCallFinder::find(&body)
+            };
 
+            if super_class_ident.is_some() {
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
                 // Handle `super()`
@@ -492,15 +492,17 @@ impl Classes {
                 }
             }
 
+            // dbg!(insert_this);
+            // dbg!(super_class_ident.is_some());
+
+            let is_this_declared = (insert_this && super_class_ident.is_some())
+                || (mode == Some(SuperFoldingMode::Var));
+
             // Handle `super.XX`
             body = self.handle_super_access(
                 &class_name,
                 body,
-                if insert_this && super_class_ident.is_some() {
-                    Some(mark)
-                } else {
-                    None
-                },
+                if is_this_declared { Some(mark) } else { None },
             );
 
             // TODO: Handle
