@@ -2107,11 +2107,11 @@ function (_Bar) {
 
   _inherits(Foo, _Bar);
 
-  function Foo(...args) {
+  function Foo() {
     var _this;
 
     _classCallCheck(this, Foo);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, ...args));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments))
     _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
   }
