@@ -1,4 +1,5 @@
 Array
+HTMLElement
 Infinity
 NODE_ENV
 NaN

@@ -222,7 +222,7 @@ impl Classes {
             let super_class = class.super_class.clone().unwrap();
             let is_super_native = match *super_class {
                 Expr::Ident(Ident { ref sym, .. }) => match *sym {
-                    js_word!("Object") | js_word!("Array") => true,
+                    js_word!("Object") | js_word!("Array") | js_word!("HTMLElement") => true,
                     _ => false,
                 },
                 _ => false,
