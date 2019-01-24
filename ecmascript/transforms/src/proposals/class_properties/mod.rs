@@ -201,7 +201,7 @@ impl ClassProperties {
                         _ => quote_ident!("undefined").as_arg(),
                     };
                     self.helpers.define_property();
-                    let callee = quote_ident!("_defineProperty").as_callee();
+                    let callee = quote_ident!(DUMMY_SP, "_defineProperty").as_callee();
 
                     if prop.is_static {
                         extra_stmts.push(Stmt::Expr(box Expr::Call(CallExpr {

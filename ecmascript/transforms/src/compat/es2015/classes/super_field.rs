@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::iter;
-use swc_common::{Fold, FoldWith, Mark, Span, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 
 /// Process function body.
 ///
@@ -378,6 +378,21 @@ impl<'a> SuperCalleeFolder<'a> {
 
 impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
+        // Skip injected `_defineProperty` calls
+        if n.span().is_dummy() {
+            match n {
+                Expr::Call(CallExpr {
+                    callee:
+                        ExprOrSuper::Expr(box Expr::Ident(Ident {
+                            sym: js_word!("_defineProperty"),
+                            ..
+                        })),
+                    ..
+                }) => return n,
+                _ => {}
+            }
+        }
+
         let mut callee_folder = SuperCalleeFolder {
             class_name: self.class_name,
             inject_get: false,

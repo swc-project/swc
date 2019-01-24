@@ -6,6 +6,7 @@ NaN
 Object
 React
 RegExp
+_defineProperty
 _extends
 _toConsumableArray
 abstract
