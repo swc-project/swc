@@ -17,7 +17,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Visit, VisitWith};
+use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod factory;
 mod value;
@@ -51,10 +51,21 @@ where
     visitor.found
 }
 
+pub trait ModuleItemLike: StmtLike {
+    fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
+        Err(self)
+    }
+    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+        Err(decl)
+    }
+}
+
 pub trait StmtLike: Sized {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn from_stmt(stmt: Stmt) -> Self;
 }
+
+impl ModuleItemLike for Stmt {}
 
 impl StmtLike for Stmt {
     fn try_into_stmt(self) -> Result<Stmt, Self> {
@@ -65,6 +76,17 @@ impl StmtLike for Stmt {
     }
 }
 
+impl ModuleItemLike for ModuleItem {
+    fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
+        match self {
+            ModuleItem::ModuleDecl(decl) => Ok(decl),
+            _ => Err(self),
+        }
+    }
+    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+        Ok(ModuleItem::ModuleDecl(decl))
+    }
+}
 impl StmtLike for ModuleItem {
     fn try_into_stmt(self) -> Result<Stmt, Self> {
         match self {
@@ -739,4 +761,93 @@ pub(crate) fn to_u32(_d: f64) -> u32 {
     // // but the result must always be 32 lower bits of l
     // return (int) l;
     unimplemented!("to_u32")
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
+    fn sym(expr: &Expr, default: &str) -> JsWord {
+        match *expr {
+            Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
+            Expr::Member(ref member) => sym(&member.prop, default),
+            _ => default.into(),
+        }
+    }
+
+    let span = expr.span();
+    quote_ident!(span, sym(expr, default))
+}
+
+pub(crate) fn prop_name_to_expr(p: PropName) -> Expr {
+    match p {
+        PropName::Ident(i) => Expr::Ident(i),
+        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
+        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::Computed(expr) => *expr,
+    }
+}
+/// Simillar to `prop_name_to_expr`, but used for value position.
+///
+/// e.g. value from `{ key: value }`
+pub(crate) fn prop_name_to_expr_value(p: PropName) -> Expr {
+    match p {
+        PropName::Ident(i) => Expr::Lit(Lit::Str(Str {
+            span: i.span,
+            value: i.sym,
+            has_escape: false,
+        })),
+        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
+        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
+        PropName::Computed(expr) => *expr,
+    }
+}
+
+pub fn default_constructor(has_super: bool) -> Constructor {
+    let span = DUMMY_SP;
+
+    Constructor {
+        span: DUMMY_SP,
+        key: PropName::Ident(quote_ident!("constructor")),
+        accessibility: Default::default(),
+        is_optional: false,
+        params: if has_super {
+            vec![PatOrTsParamProp::Pat(Pat::Rest(RestPat {
+                dot3_token: DUMMY_SP,
+                arg: box Pat::Ident(quote_ident!(span, "args")),
+                type_ann: Default::default(),
+            }))]
+        } else {
+            vec![]
+        },
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts: if has_super {
+                vec![Stmt::Expr(box Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: ExprOrSuper::Super(DUMMY_SP),
+                    args: vec![ExprOrSpread {
+                        spread: Some(DUMMY_SP),
+                        expr: box Expr::Ident(quote_ident!(span, "args")),
+                    }],
+                    type_args: Default::default(),
+                }))]
+            } else {
+                vec![]
+            },
+        }),
+    }
+}
+
+/// Check if `e` is `...arguments`
+pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
+    match *e {
+        ExprOrSpread {
+            spread: Some(..),
+            expr:
+                box Expr::Ident(Ident {
+                    sym: js_word!("arguments"),
+                    ..
+                }),
+        } => true,
+        _ => false,
+    }
 }

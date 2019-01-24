@@ -1,13 +1,10 @@
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{ExprFactory, StmtLike},
+    util::{prop_name_to_expr, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{
-    iter,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -202,7 +199,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     let ref_ident = if can_be_null {
-                        self.helpers.throw.store(true, Ordering::Relaxed);
+                        self.helpers.throw();
                         make_ref_ident(
                             &mut decls,
                             Some(box Expr::Cond(CondExpr {
@@ -639,15 +636,6 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
 
             ref_ident
         }
-    }
-}
-
-fn prop_name_to_expr(p: PropName) -> Expr {
-    match p {
-        PropName::Ident(i) => Expr::Ident(i),
-        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
-        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::Computed(expr) => *expr,
     }
 }
 

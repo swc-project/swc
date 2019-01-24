@@ -46,8 +46,11 @@ impl<'a, I: Input> Parser<'a, I> {
         self.parse_class(decoraters)
     }
 
-    pub(super) fn parse_class_expr(&mut self) -> PResult<'a, Box<Expr>> {
-        self.parse_class(vec![])
+    pub(super) fn parse_class_expr(
+        &mut self,
+        decorators: Vec<Decorator>,
+    ) -> PResult<'a, Box<Expr>> {
+        self.parse_class(decorators)
     }
 
     pub(super) fn parse_default_class(
@@ -551,10 +554,15 @@ impl<'a, I: Input> Parser<'a, I> {
                     readonly,
                     definite,
                     type_ann,
+                    computed: false,
                 }
                 .into(),
                 Either::Right(key) => ClassProperty {
                     span: span!(start),
+                    computed: match key {
+                        PropName::Computed(..) => true,
+                        _ => false,
+                    },
                     key: match key {
                         PropName::Ident(i) => Box::new(Expr::Ident(i)),
                         PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),

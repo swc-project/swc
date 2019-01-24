@@ -1,6 +1,6 @@
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
-use std::sync::{atomic::Ordering, Arc};
+use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-instanceof`
@@ -64,7 +64,7 @@ impl Fold<Expr> for InstanceOf {
                 op: op!("instanceof"),
                 right,
             }) => {
-                self.helpers.instance_of.store(true, Ordering::Relaxed);
+                self.helpers.instanceof();
 
                 Expr::Call(CallExpr {
                     span,

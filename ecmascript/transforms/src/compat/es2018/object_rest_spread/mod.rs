@@ -4,10 +4,7 @@ use crate::{
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{
-    iter, mem,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, mem, sync::Arc};
 use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
 };
@@ -803,7 +800,7 @@ fn object_without_properties(
     excluded_props: Vec<Option<ExprOrSpread>>,
 ) -> Expr {
     if excluded_props.is_empty() {
-        helpers.extends.store(true, Ordering::Relaxed);
+        helpers.extends();
 
         return Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -820,9 +817,7 @@ fn object_without_properties(
         });
     }
 
-    helpers
-        .object_without_properties
-        .store(true, Ordering::Relaxed);
+    helpers.object_without_properties();
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,
@@ -966,8 +961,8 @@ impl Fold<Expr> for ObjectSpread {
                     buf
                 };
 
-                self.helpers.define_property.store(true, Ordering::Relaxed);
-                self.helpers.object_spread.store(true, Ordering::Relaxed);
+                self.helpers.define_property();
+                self.helpers.object_spread();
                 Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!("_objectSpread").as_callee(),

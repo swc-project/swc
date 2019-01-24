@@ -1,6 +1,6 @@
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
-use std::sync::{atomic::Ordering, Arc};
+use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-typeof-symbol`
@@ -55,7 +55,7 @@ impl Fold<Expr> for TypeOfSymbol {
                 op: op!("typeof"),
                 arg,
             }) => {
-                self.helpers.type_of.store(true, Ordering::Relaxed);
+                self.helpers.type_of();
                 return Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!(span, "_typeof").as_callee(),

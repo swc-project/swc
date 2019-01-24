@@ -58,6 +58,7 @@ pub struct ClassProperty<K> {
 
     pub is_static: bool,
     pub decorators: Vec<Decorator>,
+    pub computed: bool,
 
     /// Typescript extension.
     pub accessibility: Option<Accessibility>,

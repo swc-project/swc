@@ -23,6 +23,9 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
+        for dec in &node.class.decorators {
+            emit!(dec);
+        }
         keyword!("class");
         space!();
         emit!(node.ident);

@@ -215,6 +215,8 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_constructor_param(&mut self) -> PResult<'a, PatOrTsParamProp> {
+        let decorators = self.parse_decorators(false)?;
+
         let start = cur_pos!();
         let (accessibility, readonly) = if self.input.syntax().typescript() {
             let accessibility = self.parse_access_modifier()?;
@@ -232,7 +234,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 span: span!(start),
                 accessibility,
                 readonly,
-                decorators: vec![],
+                decorators,
                 param: match self.parse_formal_param()? {
                     Pat::Ident(i) => TsParamPropParam::Ident(i),
                     Pat::Assign(a) => TsParamPropParam::Assign(a),

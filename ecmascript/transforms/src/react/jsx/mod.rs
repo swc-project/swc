@@ -1,10 +1,7 @@
 use crate::{helpers::Helpers, pass::Pass, util::ExprFactory};
 use ast::*;
 use serde::{Deserialize, Serialize};
-use std::{
-    iter, mem,
-    sync::{atomic::Ordering, Arc},
-};
+use std::{iter, mem, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -215,7 +212,7 @@ impl Jsx {
                     if self.use_builtins {
                         member_expr!(DUMMY_SP, Object.assign).as_callee()
                     } else {
-                        self.helpers.extends.store(true, Ordering::Relaxed);
+                        self.helpers.extends();
                         quote_ident!("_extends").as_callee()
                     }
                 },

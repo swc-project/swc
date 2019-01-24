@@ -108,12 +108,12 @@ impl<'a> Emitter<'a> {
             }
             ModuleDecl::ExportNamed(ref d) => emit!(d),
             ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref d) => {
+            ModuleDecl::ExportDefaultExpr(ref n) => {
                 keyword!("export");
                 space!();
                 keyword!("default");
                 space!();
-                emit!(d);
+                emit!(n);
                 semi!();
             }
             ModuleDecl::ExportAll(ref d) => emit!(d),
@@ -345,7 +345,7 @@ impl<'a> Emitter<'a> {
     pub fn emit_expr_or_super(&mut self, node: &ExprOrSuper) -> Result {
         match *node {
             ExprOrSuper::Expr(ref e) => emit!(e),
-            ExprOrSuper::Super(_) => keyword!("super"),
+            ExprOrSuper::Super(span) => keyword!(span, "super"),
         }
     }
 
@@ -392,6 +392,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
         emit!(node.callee);
+
         punct!("(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
         punct!(")");
@@ -400,7 +401,6 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
         keyword!("new");
-
         space!();
         emit!(node.callee);
 
@@ -511,7 +511,18 @@ impl<'a> Emitter<'a> {
     }
 
     #[emitter]
+    pub fn emit_decorator(&mut self, node: &Decorator) -> Result {
+        punct!("@");
+        emit!(node.expr);
+        self.wr.write_line()?;
+    }
+
+    #[emitter]
     pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
+        for dec in &node.class.decorators {
+            emit!(dec);
+        }
+
         keyword!("class");
 
         opt_leading_space!(node.ident);
@@ -547,31 +558,21 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        unimplemented!("emit_private_method")
+        self.emit_class_method(n)?;
     }
 
     #[emitter]
-    pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
-        unimplemented!("emit_private_prop")
+    pub fn emit_method(&mut self, n: &Method) -> Result {
+        self.emit_class_method(n)?;
     }
 
-    #[emitter]
-    pub fn emit_class_prop(&mut self, node: &ClassProp) -> Result {
-        unimplemented!("emit_class_prop")
-    }
+    fn emit_class_method<K: Node>(&mut self, node: &ClassMethod<K>) -> Result {
+        macro_rules! __cur_emitter {
+            () => {
+                self
+            };
+        }
 
-    #[emitter]
-    pub fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
-        keyword!("constructor");
-        punct!("(");
-        self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    pub fn emit_class_method(&mut self, node: &Method) -> Result {
         if node.is_static {
             keyword!("static");
             space!();
@@ -603,6 +604,27 @@ impl<'a> Emitter<'a> {
         }
 
         self.emit_fn_trailing(&node.function)?;
+        Ok(())
+    }
+
+    #[emitter]
+    pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
+        unimplemented!("emit_private_prop")
+    }
+
+    #[emitter]
+    pub fn emit_class_prop(&mut self, node: &ClassProp) -> Result {
+        unimplemented!("emit_class_prop")
+    }
+
+    #[emitter]
+    pub fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
+        keyword!("constructor");
+        punct!("(");
+        self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        emit!(n.body);
     }
 
     #[emitter]
@@ -894,6 +916,12 @@ impl<'a> Emitter<'a> {
         punct!("(");
         emit!(node.expr);
         punct!(")");
+    }
+
+    #[emitter]
+    fn emit_private_name(&mut self, n: &PrivateName) -> Result {
+        punct!("#");
+        emit!(n.id)
     }
 
     #[emitter]

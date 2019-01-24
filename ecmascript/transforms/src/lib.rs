@@ -14,6 +14,8 @@ extern crate swc_atoms;
 extern crate fnv;
 #[macro_use]
 extern crate swc_common;
+extern crate indexmap;
+extern crate ordered_float;
 extern crate swc_ecma_ast as ast;
 #[cfg(test)]
 extern crate swc_ecma_codegen;

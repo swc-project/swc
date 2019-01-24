@@ -211,13 +211,13 @@ impl<'a, I: Input> Parser<'a, I> {
             return self.parse_object();
         }
 
+        let decorators = self.parse_decorators(false)?;
+
         // Handle FunctionExpression and GeneratorExpression
         if is!("function") {
             return self.parse_fn_expr();
-        }
-
-        if is!("class") {
-            return self.parse_class_expr();
+        } else if is!("class") {
+            return self.parse_class_expr(decorators);
         }
 
         // Literals
