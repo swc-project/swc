@@ -70,7 +70,7 @@ yarn add --dev swc
 ## Parsers
  - [x] es2019
  - [x] jsx
- - [ ] typescript
+ - [x] typescript
 
 ## Transforms
 New generation javascript to old-days javascript.
