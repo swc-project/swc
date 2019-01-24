@@ -959,7 +959,7 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", foo);
-  var _foo = "foo";
+  var foo1 = "foo";
   var baz = "baz";
 };
 
