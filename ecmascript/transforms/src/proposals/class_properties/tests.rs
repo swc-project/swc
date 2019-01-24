@@ -137,7 +137,7 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "bar", "foo");
+    _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
   }
 
@@ -177,7 +177,7 @@ function (_Parent) {
     _classCallCheck(this, Child);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Child).call(this));
 
-    _scopedFunctionWithThis.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+    _scopedFunctionWithThis.set(_assertThisInitialized(_this), {
       writable: true,
       value: () => {
         _this.name = {};
@@ -247,10 +247,10 @@ function (_Bar) {
 
     if (condition) {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
-      _defineProperty(_assertThisInitialized(_assertThisInitialized(_assertThisInitialized(_this))), "bar", "foo");
+      _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     } else {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
-      _defineProperty(_assertThisInitialized(_assertThisInitialized(_assertThisInitialized(_this))), "bar", "foo");
+      _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     }
 
     return _possibleConstructorReturn(_this);
@@ -647,14 +647,14 @@ function (_Bar) {
     if (condition) {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
-      _bar.set(_assertThisInitialized(_assertThisInitialized(_assertThisInitialized(_this))), {
+      _bar.set(_assertThisInitialized(_this), {
         writable: true,
         value: "foo"
       });
     } else {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
-      _bar.set(_assertThisInitialized(_assertThisInitialized(_assertThisInitialized(_this))), {
+      _bar.set(_assertThisInitialized(_this), {
         writable: true,
         value: "foo"
       });
@@ -876,12 +876,12 @@ function (_A) {
 
   _inherits(B, _A);
 
-  function B(...args) {
+  function B() {
     var _this;
 
     _classCallCheck(this, B);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this, ...args));
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_assertThisInitialized(_this)));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+    _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -1353,7 +1353,7 @@ function (_Bar) {
     _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
-    _bar.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+    _bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     });
@@ -1480,7 +1480,7 @@ function (_Bar) {
     var _temp, _this;
 
     _classCallCheck(this, Foo);
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "bar", "foo"), _temp));
+    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp));
     return _this;
   }
 
@@ -1674,7 +1674,7 @@ function (_Foo) {
     _classCallCheck(this, Bar);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).call(this, ...args));
 
-    _prop2.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+    _prop2.set(_assertThisInitialized(_this), {
       writable: true,
       value: "bar"
     });
@@ -1733,7 +1733,7 @@ function (_A) {
     _classCallCheck(this, B);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this, ...args));
 
-    _foo.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+    _foo.set(_assertThisInitialized(_this), {
       writable: true,
       value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_assertThisInitialized(_this))
     });
@@ -2106,7 +2106,7 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, ...args));
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "bar", "foo");
+    _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
   }
 
@@ -2596,7 +2596,7 @@ function (_Bar) {
     var _temp, _this;
 
     _classCallCheck(this, Foo);
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _bar.set(_assertThisInitialized(_assertThisInitialized(_this)), {
+    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     }), _temp));
