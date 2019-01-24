@@ -8,8 +8,8 @@
    <a href="https://www.npmjs.com/package/swc">
       <img alt="npm Downloads" src="https://img.shields.io/npm/dm/swc.svg?maxAge=43200&label=npm%20downloads">
    </a>
-    <a href="">
-      <img alt="undefined" src="https://img.shields.io/crates/d/swc_common.svg?label=crates.io%20dowloads">
+    <a href="https://crates.io/crates/swc_ecma_parser">
+      <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20dowloads">
     </a>
 </p>
 <p align="center">
