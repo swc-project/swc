@@ -1628,7 +1628,7 @@ class Foo {
     r#"
 var foo = "bar";
 
-var Foo = function Foo(_foo) {
+var Foo = function Foo(foo1) {
   
 
   _classCallCheck(this, Foo);
