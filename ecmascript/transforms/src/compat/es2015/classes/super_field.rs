@@ -27,6 +27,14 @@ pub(super) struct SuperFieldAccessFolder<'a> {
     /// Mark for the `_this`. Used only when folding constructor.
     pub constructor_this_mark: Option<Mark>,
     pub is_static: bool,
+
+    pub folding_constructor: bool,
+
+    /// True while folding a function / class.
+    pub in_nested_scope: bool,
+
+    /// `Some(mark)` if `var this2 = this`is required.
+    pub this_alias_mark: Option<Mark>,
 }
 
 struct SuperCalleeFolder<'a> {
@@ -39,10 +47,51 @@ struct SuperCalleeFolder<'a> {
     /// Mark for the `_this`. Used only when folding constructor.
     constructor_this_mark: Option<Mark>,
     is_static: bool,
+
+    /// True while folding a function / class.
+    in_nested_scope: bool,
+
+    /// `Some(mark)` if `var this2 = this`is required.
+    this_alias_mark: Option<Mark>,
 }
+
+macro_rules! mark_nested {
+    ($T:tt) => {
+        impl<'a> Fold<$T> for SuperFieldAccessFolder<'a> {
+            fn fold(&mut self, n: $T) -> $T {
+                if self.folding_constructor {
+                    let old = self.in_nested_scope;
+                    self.in_nested_scope = true;
+                    let n = n.fold_children(self);
+                    self.in_nested_scope = old;
+                    n
+                } else {
+                    n.fold_children(self)
+                }
+            }
+        }
+    };
+}
+
+mark_nested!(Function);
+mark_nested!(Class);
 
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
+        match n {
+            Expr::This(ThisExpr { span }) if self.in_nested_scope => {
+                if self.this_alias_mark.is_none() {
+                    self.this_alias_mark = Some(Mark::fresh(Mark::root()));
+                }
+
+                return Expr::Ident(quote_ident!(
+                    span.apply_mark(self.this_alias_mark.unwrap()),
+                    "_this2"
+                ));
+            }
+            _ => {}
+        }
+
         let n = match n {
             Expr::Update(UpdateExpr {
                 span,
@@ -337,6 +386,8 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             vars: self.vars,
             constructor_this_mark: self.constructor_this_mark,
             is_static: self.is_static,
+            in_nested_scope: self.in_nested_scope,
+            this_alias_mark: self.this_alias_mark,
         };
 
         let should_invoke_call = match n {
@@ -352,6 +403,9 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
         };
 
         let n = n.fold_with(&mut callee_folder);
+        if callee_folder.this_alias_mark.is_some() {
+            self.this_alias_mark = callee_folder.this_alias_mark;
+        }
 
         if callee_folder.inject_get {
             self.helpers.get();

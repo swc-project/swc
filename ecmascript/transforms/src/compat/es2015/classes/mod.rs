@@ -492,9 +492,6 @@ impl Classes {
                 }
             }
 
-            // dbg!(insert_this);
-            // dbg!(super_class_ident.is_some());
-
             let is_this_declared = (insert_this && super_class_ident.is_some())
                 || (mode == Some(SuperFoldingMode::Var));
 
@@ -555,18 +552,40 @@ impl Classes {
         this_mark: Option<Mark>,
     ) -> Vec<Stmt> {
         let mut vars = vec![];
-        let mut body = body.fold_with(&mut SuperFieldAccessFolder {
+        let mut folder = SuperFieldAccessFolder {
             class_name,
             helpers: &self.helpers,
             vars: &mut vars,
             constructor_this_mark: this_mark,
             // constructor cannot be static
             is_static: false,
-        });
+            folding_constructor: true,
+            in_nested_scope: false,
+            this_alias_mark: None,
+        };
+
+        let mut body = body.fold_with(&mut folder);
+
+        if let Some(mark) = folder.this_alias_mark {
+            prepend(
+                &mut body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    kind: VarDeclKind::Var,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this2")),
+                        init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
+                        definite: false,
+                    }],
+                })),
+            );
+        }
 
         if !vars.is_empty() {
-            body.insert(
-                0,
+            prepend(
+                &mut body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -677,16 +696,38 @@ impl Classes {
             };
 
             let mut vars = vec![];
-            let mut function = m.function.fold_with(&mut SuperFieldAccessFolder {
+            let mut folder = SuperFieldAccessFolder {
                 class_name: &class_name,
                 helpers: &self.helpers,
                 vars: &mut vars,
                 constructor_this_mark: None,
                 is_static: m.is_static,
-            });
+                folding_constructor: false,
+                in_nested_scope: false,
+                this_alias_mark: None,
+            };
+            let mut function = m.function.fold_with(&mut folder);
+
+            if let Some(mark) = folder.this_alias_mark {
+                prepend(
+                    &mut function.body.as_mut().unwrap().stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        declare: false,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this2")),
+                            init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
+                            definite: false,
+                        }],
+                    })),
+                );
+            }
+
             if !vars.is_empty() {
-                function.body.as_mut().unwrap().stmts.insert(
-                    0,
+                prepend(
+                    &mut function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,

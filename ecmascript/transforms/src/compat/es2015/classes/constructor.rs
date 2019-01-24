@@ -400,7 +400,6 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
 
                     // TODO:
                     // self.helpers.assert_this_initialized();
-                    // dbg!(self.wrap_with_assertiion);
 
                     if self.wrap_with_assertiion {
                         Expr::Call(CallExpr {
