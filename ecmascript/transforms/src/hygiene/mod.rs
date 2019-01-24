@@ -1,0 +1,218 @@
+use crate::{
+    pass::Pass,
+    scope::{Scope, ScopeKind, ScopeOp},
+};
+use ast::*;
+use swc_atoms::JsWord;
+use swc_common::{Fold, FoldWith, Span, SyntaxContext};
+
+#[cfg(test)]
+mod tests;
+
+impl<'a> Hygiene<'a> {
+    fn add_declared_ref(&mut self, ident: Ident) {
+        dbg!((ident.span.ctxt(), &ident.sym));
+
+        if !self.current.is_declared(&ident.sym) {
+            // first symbol
+            self.current
+                .declared_symbols
+                .insert(ident.sym.clone(), ident.span.ctxt());
+            return;
+        }
+        if self.current.declared_symbols.get(&ident.sym) == Some(&ident.span.ctxt()) {
+            // skip if previous symbol is declared on the same level.
+            return;
+        }
+
+        // symbol conflicts
+        let renamed = {
+            debug_assert!(self.current.is_declared(&ident.sym));
+
+            let mut i = 0;
+            loop {
+                i += 1;
+                let sym: JsWord = format!("{}{}", ident.sym, i).into();
+
+                if !self.current.is_declared(&sym) {
+                    break sym;
+                }
+            }
+        };
+
+        eprintln!("renaming {:?} -> {}", ident, renamed);
+
+        self.current
+            .scope_of(&ident)
+            .ops
+            .borrow_mut()
+            .push(ScopeOp::Rename {
+                from: ident,
+                to: renamed,
+            });
+    }
+}
+
+pub fn hygiene() -> impl Pass + Clone + Copy {
+    struct MarkClearer;
+    impl Fold<Span> for MarkClearer {
+        fn fold(&mut self, span: Span) -> Span {
+            span.with_ctxt(SyntaxContext::empty())
+        }
+    }
+
+    #[derive(Clone, Copy)]
+    struct Folder;
+    impl Fold<Module> for Folder {
+        fn fold(&mut self, module: Module) -> Module {
+            module
+                .fold_with(&mut Hygiene::new())
+                .fold_with(&mut MarkClearer)
+        }
+    }
+
+    Folder
+}
+
+#[doc(hidden)]
+struct Hygiene<'a> {
+    current: Scope<'a>,
+}
+
+pub(crate) struct Operator<'a>(pub &'a [ScopeOp]);
+
+impl<'a> Hygiene<'a> {
+    pub fn new() -> Self {
+        Hygiene {
+            current: Scope::new(ScopeKind::Fn, None),
+        }
+    }
+
+    fn apply_ops<N>(&mut self, node: N) -> N
+    where
+        for<'o> N: FoldWith<Operator<'o>>,
+    {
+        let ops = self.current.ops.borrow();
+
+        if ops.is_empty() {
+            return node;
+        }
+        node.fold_with(&mut Operator(&ops))
+    }
+}
+
+impl<'a> Fold<Module> for Hygiene<'a> {
+    fn fold(&mut self, module: Module) -> Module {
+        let module = module.fold_children(self);
+
+        self.apply_ops(module)
+    }
+}
+
+impl<'a> Fold<TryStmt> for Hygiene<'a> {
+    fn fold(&mut self, node: TryStmt) -> TryStmt {
+        TryStmt {
+            span: node.span,
+            block: node.block.fold_children(self),
+            handler: node.handler.fold_with(self),
+            finalizer: node.finalizer.fold_children(self),
+        }
+    }
+}
+
+impl<'a> Fold<BlockStmt> for Hygiene<'a> {
+    fn fold(&mut self, node: BlockStmt) -> BlockStmt {
+        let node = {
+            let mut analyzer = Hygiene {
+                current: Scope::new(ScopeKind::Block, Some(&self.current)),
+            };
+
+            node.fold_children(&mut analyzer)
+        };
+
+        self.apply_ops(node)
+    }
+}
+
+impl<'a> Hygiene<'a> {
+    fn fold_fn(&mut self, ident: Option<Ident>, mut node: Function) -> Function {
+        match ident {
+            Some(ident) => {
+                self.add_declared_ref(ident);
+            }
+            _ => {}
+        }
+
+        let mut analyzer = Hygiene {
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
+        };
+
+        node.params = node.params.fold_children(&mut analyzer);
+        node.body = node.body.fold_children(&mut analyzer);
+
+        // self.current.children.push(analyzer.current);
+
+        self.apply_ops(node)
+    }
+}
+
+impl<'a> Fold<Pat> for Hygiene<'a> {
+    fn fold(&mut self, pat: Pat) -> Pat {
+        match pat {
+            Pat::Ident(ident) => {
+                self.add_declared_ref(ident.clone());
+                Pat::Ident(ident)
+            }
+            // TODO
+            _ => pat.fold_children(self),
+        }
+    }
+}
+
+impl<'a> Fold<FnExpr> for Hygiene<'a> {
+    fn fold(&mut self, mut node: FnExpr) -> FnExpr {
+        node.function = self.fold_fn(node.ident.clone(), node.function);
+
+        node
+    }
+}
+
+impl<'a> Fold<FnDecl> for Hygiene<'a> {
+    fn fold(&mut self, mut node: FnDecl) -> FnDecl {
+        node.function = self.fold_fn(Some(node.ident.clone()), node.function);
+
+        node
+    }
+}
+
+impl<'a> Fold<Expr> for Hygiene<'a> {
+    fn fold(&mut self, node: Expr) -> Expr {
+        match node {
+            Expr::Ident(ref ident) => {
+                self.current
+                    .used_refs
+                    .insert((ident.sym.clone(), ident.span));
+            }
+            Expr::This(..) => {
+                self.current.used_this.set(true);
+            }
+
+            Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
+            _ => {}
+        }
+
+        node
+    }
+}
+
+impl<'a> Fold<ExprOrSuper> for Hygiene<'a> {
+    fn fold(&mut self, node: ExprOrSuper) -> ExprOrSuper {
+        match node {
+            ExprOrSuper::Super(..) => {
+                self.current.used_super.set(true);
+                node
+            }
+            _ => node.fold_children(self),
+        }
+    }
+}
