@@ -96,28 +96,19 @@ impl Fold<Expr> for Fixer {
                 prop,
             }
             .into(),
+
+            // Function expression cannot start with `function`
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
                 type_args,
-            }) => {
-                if self.ctx != Context::ForcedExpr {
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: callee.wrap_with_paren().as_callee(),
-                        args,
-                        type_args,
-                    })
-                } else {
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: callee.as_callee(),
-                        args,
-                        type_args,
-                    })
-                }
-            }
+            }) => Expr::Call(CallExpr {
+                span,
+                callee: callee.wrap_with_paren().as_callee(),
+                args,
+                type_args,
+            }),
             _ => expr,
         }
     }
