@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::{iter, sync::Arc};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -175,6 +175,7 @@ impl ClassProperties {
                 }
 
                 ClassMember::ClassProp(prop) => {
+                    let prop_span = prop.span();
                     let key = match *prop.key {
                         Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
                             span: i.span,
@@ -197,10 +198,8 @@ impl ClassProperties {
                             ident.as_arg()
                         }
                     };
-                    let value = match prop.value {
-                        Some(v) => v.as_arg(),
-                        _ => quote_ident!("undefined").as_arg(),
-                    };
+                    let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
+
                     self.helpers.define_property();
                     let callee = quote_ident!(DUMMY_SP, "_defineProperty").as_callee();
 
@@ -221,10 +220,8 @@ impl ClassProperties {
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
-                    let value = match prop.value {
-                        Some(v) => v,
-                        _ => box quote_ident!("undefined").into(),
-                    };
+                    let prop_span = prop.span();
+                    let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
                     if prop.is_static {
                         extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -336,4 +333,12 @@ impl Fold<Function> for DefinePropertyInjector {
     fn fold(&mut self, n: Function) -> Function {
         n
     }
+}
+
+fn undefined(span: Span) -> Box<Expr> {
+    box Expr::Unary(UnaryExpr {
+        span,
+        op: op!("void"),
+        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, span })),
+    })
 }
