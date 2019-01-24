@@ -456,4 +456,18 @@ function Foo() {
         );
     }
 
+    #[test]
+    fn var_class_decl() {
+        test(
+            |tester| {
+                let mark2 = Mark::fresh(Mark::root());
+
+                Ok(vec![
+                    tester.parse_stmt("actual1.js", "var Foo = function Foo(){}")?
+                ])
+            },
+            "var Foo = function Foo(){}",
+        );
+    }
+
 }
