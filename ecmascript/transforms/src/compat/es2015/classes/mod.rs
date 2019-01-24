@@ -399,15 +399,18 @@ impl Classes {
         // Marker for `_this`
         let mark = Mark::fresh(Mark::root());
 
-        // Process constructor
         {
-            let mut is_constructor_default = false;
-            let mut constructor = constructor.unwrap_or_else(|| {
-                is_constructor_default = true;
-                let mut c = default_constructor(super_class_ident.is_some());
-                c.params = vec![];
-                c
-            });
+            // Process constructor
+
+            let mut constructor =
+                constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
+
+            // Black magic to detect injected constructor.
+            let is_constructor_default = constructor.span.is_dummy();
+            if is_constructor_default {
+                constructor.params = vec![];
+            }
+
             let mut insert_this = false;
 
             if super_class_ident.is_some() {
