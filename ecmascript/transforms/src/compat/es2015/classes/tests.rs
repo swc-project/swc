@@ -771,8 +771,8 @@ function (_Foo) {
   function Test() {
     _classCallCheck(this, Test);
     var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
-    _get(_getPrototypeOf(Test.prototype), "test", this).whatever();
-    _get(_getPrototypeOf(Test.prototype), "test", this).call(this);
+    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever();
+    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).call(_this);
     return _this;
   }
 

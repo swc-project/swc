@@ -284,6 +284,7 @@ pub(super) enum ReturningMode {
 
     /// `super()` call
     Prototype {
+        /// Hack to handle injected (default) constructor
         is_constructor_default: bool,
         class_name: Ident,
         /// None when `super(arguments)` is injected because no constructor is
@@ -310,28 +311,48 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                 args,
                 is_constructor_default,
             } => {
-                let fn_name = if args.is_some() && !is_constructor_default {
-                    quote_ident!("call")
+                let (fn_name, args) = if is_constructor_default {
+                    (
+                        quote_ident!("apply"),
+                        vec![
+                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                            quote_ident!("arguments").as_arg(),
+                        ],
+                    )
                 } else {
-                    quote_ident!("apply")
-                };
-                let args = match args {
-                    Some(args) => {
-                        if is_constructor_default {
+                    match args {
+                        Some(mut args) => {
+                            //
+                            if args.len() == 1
+                                && match args[0] {
+                                    ExprOrSpread {
+                                        spread: Some(..), ..
+                                    } => true,
+                                    _ => false,
+                                }
+                            {
+                                args[0].spread = None;
+                                (
+                                    quote_ident!("apply"),
+                                    vec![ThisExpr { span: DUMMY_SP }.as_arg(), args.pop().unwrap()],
+                                )
+                            } else {
+                                (
+                                    quote_ident!("call"),
+                                    iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                        .chain(args)
+                                        .collect(),
+                                )
+                            }
+                        }
+                        None => (
+                            quote_ident!("apply"),
                             vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 quote_ident!("arguments").as_arg(),
-                            ]
-                        } else {
-                            iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
-                                .chain(args)
-                                .collect()
-                        }
+                            ],
+                        ),
                     }
-                    None => vec![
-                        ThisExpr { span: DUMMY_SP }.as_arg(),
-                        quote_ident!("arguments").as_arg(),
-                    ],
                 };
 
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
@@ -347,6 +368,7 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                             prop: box Expr::Ident(fn_name),
                         }
                         .as_callee(),
+
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)
                         args,
 
