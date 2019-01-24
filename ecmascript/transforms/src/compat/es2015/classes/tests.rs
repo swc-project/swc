@@ -3034,7 +3034,7 @@ function (_super) {
   }
 
   return TestEmpty;
-}(
+}((
 /*#__PURE__*/
 function () {
   
@@ -3044,7 +3044,7 @@ function () {
   }
 
   return _class;
-}());
+}()));
 
 var TestConstructorOnly =
 /*#__PURE__*/
@@ -3059,8 +3059,7 @@ function (_super) {
   }
 
   return TestConstructorOnly;
-}(
-/*#__PURE__*/
+}((/*#__PURE__*/
 function () {
   
 
@@ -3069,7 +3068,7 @@ function () {
   }
 
   return _class;
-}());
+}()));
 
 var TestMethodOnly =
 /*#__PURE__*/
@@ -3084,7 +3083,7 @@ function (_super) {
   }
 
   return TestMethodOnly;
-}(
+}((
 /*#__PURE__*/
 function () {
   
@@ -3098,7 +3097,7 @@ function () {
     value: function method() {}
   }]);
   return _class;
-}());
+}()));
 
 var TestConstructorAndMethod =
 /*#__PURE__*/
@@ -3113,7 +3112,7 @@ function (_super) {
   }
 
   return TestConstructorAndMethod;
-}(
+}((
 /*#__PURE__*/
 function () {
   
@@ -3127,7 +3126,7 @@ function () {
     value: function method() {}
   }]);
   return _class;
-}());
+}()));
 
 var TestMultipleMethods =
 /*#__PURE__*/
@@ -3142,7 +3141,7 @@ function (_super) {
   }
 
   return TestMultipleMethods;
-}(
+}((
 /*#__PURE__*/
 function () {
   
@@ -3159,7 +3158,7 @@ function () {
     value: function m2() {}
   }]);
   return _class;
-}());
+}()));
 
 "#);
 
