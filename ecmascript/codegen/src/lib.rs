@@ -567,39 +567,33 @@ impl<'a> Emitter<'a> {
     }
 
     fn emit_class_method<K: Node>(&mut self, node: &ClassMethod<K>) -> Result {
-        macro_rules! __cur_emitter {
-            () => {
-                self
-            };
-        }
-
         if node.is_static {
-            keyword!("static");
-            space!();
+            keyword!(self, "static");
+            space!(self);
         }
         match node.kind {
             MethodKind::Method => {
                 if node.function.is_async {
-                    keyword!("async");
+                    keyword!(self, "async");
                 }
-                space!();
+                space!(self);
                 if node.function.is_generator {
-                    punct!("*");
+                    punct!(self, "*");
                 }
 
-                emit!(node.key);
+                emit!(self, node.key);
             }
             MethodKind::Getter => {
-                keyword!("get");
-                space!();
+                keyword!(self, "get");
+                space!(self);
 
-                emit!(node.key);
+                emit!(self, node.key);
             }
             MethodKind::Setter => {
-                keyword!("set");
-                space!();
+                keyword!(self, "set");
+                space!(self);
 
-                emit!(node.key);
+                emit!(self, node.key);
             }
         }
 
