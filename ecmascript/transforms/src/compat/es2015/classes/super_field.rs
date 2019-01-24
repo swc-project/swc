@@ -148,7 +148,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                 _ => Expr::Assign(AssignExpr {
                     span,
                     left: left.fold_children(self),
-                    op: op!("="),
+                    op,
                     right: right.fold_children(self),
                 }),
             },
