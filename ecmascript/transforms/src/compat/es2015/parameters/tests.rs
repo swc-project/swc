@@ -1154,7 +1154,7 @@ test!(::swc_ecma_parser::Syntax::default(),
             _inherits(Foo, _Bar);
             function Foo() {
                 _classCallCheck(this, Foo);
-                return _possibleConstructorReturn(this, (Foo.__proto__ || Object.getPrototypeOf(Foo)).apply(this, arguments));
+                return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments));
             }
             return Foo;
         }(Bar);
