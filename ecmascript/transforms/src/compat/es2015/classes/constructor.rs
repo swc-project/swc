@@ -310,6 +310,30 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                 args,
                 is_constructor_default,
             } => {
+                let fn_name = if args.is_some() && !is_constructor_default {
+                    quote_ident!("call")
+                } else {
+                    quote_ident!("apply")
+                };
+                let args = match args {
+                    Some(args) => {
+                        if is_constructor_default {
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ]
+                        } else {
+                            iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                .chain(args)
+                                .collect()
+                        }
+                    }
+                    None => vec![
+                        ThisExpr { span: DUMMY_SP }.as_arg(),
+                        quote_ident!("arguments").as_arg(),
+                    ],
+                };
+
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
                     let apply = box Expr::Call(CallExpr {
                         span: DUMMY_SP,
@@ -320,32 +344,11 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                                 &Expr::Ident(class_name),
                             )),
                             computed: false,
-                            prop: box Expr::Ident(if args.is_some() && !is_constructor_default {
-                                quote_ident!("call")
-                            } else {
-                                quote_ident!("apply")
-                            }),
+                            prop: box Expr::Ident(fn_name),
                         }
                         .as_callee(),
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)
-                        args: match args {
-                            Some(args) => {
-                                if is_constructor_default {
-                                    vec![
-                                        ThisExpr { span: DUMMY_SP }.as_arg(),
-                                        quote_ident!("arguments").as_arg(),
-                                    ]
-                                } else {
-                                    iter::once(ThisExpr { span: DUMMY_SP }.as_arg())
-                                        .chain(args)
-                                        .collect()
-                                }
-                            }
-                            None => vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                quote_ident!("arguments").as_arg(),
-                            ],
-                        },
+                        args,
 
                         type_args: Default::default(),
                     });
