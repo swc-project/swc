@@ -916,6 +916,8 @@ var o = {
 
 // regression_8499_exec
 test_exec!(
+    // Wrong test (babel + jest fails)
+    ignore,
     syntax(),
     tr,
     regression_8499_exec,
