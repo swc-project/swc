@@ -564,6 +564,7 @@ impl Classes {
             is_static: false,
             folding_constructor: true,
             in_nested_scope: false,
+            in_injected_define_property_call: false,
             this_alias_mark: None,
         };
 
@@ -707,6 +708,7 @@ impl Classes {
                 is_static: m.is_static,
                 folding_constructor: false,
                 in_nested_scope: false,
+                in_injected_define_property_call: false,
                 this_alias_mark: None,
             };
             let mut function = m.function.fold_with(&mut folder);

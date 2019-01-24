@@ -30,6 +30,9 @@ pub(super) struct SuperFieldAccessFolder<'a> {
 
     pub folding_constructor: bool,
 
+    /// True while folding **injected** `_defineProperty` call
+    pub in_injected_define_property_call: bool,
+
     /// True while folding a function / class.
     pub in_nested_scope: bool,
 
@@ -59,7 +62,8 @@ macro_rules! mark_nested {
     ($T:tt) => {
         impl<'a> Fold<$T> for SuperFieldAccessFolder<'a> {
             fn fold(&mut self, n: $T) -> $T {
-                if self.folding_constructor {
+                // injected `_defineProperty` should be handled like method
+                if self.folding_constructor && !self.in_injected_define_property_call {
                     let old = self.in_nested_scope;
                     self.in_nested_scope = true;
                     let n = n.fold_children(self);
@@ -378,7 +382,8 @@ impl<'a> SuperCalleeFolder<'a> {
 
 impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
-        // Skip injected `_defineProperty` calls
+        // We pretend method folding mode for while folding injected `_defineProperty`
+        // calls.
         if n.span().is_dummy() {
             match n {
                 Expr::Call(CallExpr {
@@ -388,7 +393,13 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                             ..
                         })),
                     ..
-                }) => return n,
+                }) => {
+                    let old = self.in_injected_define_property_call;
+                    self.in_injected_define_property_call = true;
+                    let n = n.fold_children(self);
+                    self.in_injected_define_property_call = old;
+                    return n;
+                }
                 _ => {}
             }
         }
