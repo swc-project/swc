@@ -3230,7 +3230,7 @@ function (_Hello) {
 
       _createClass(Inner, [{
         key: _this = _possibleConstructorReturn(_this2, _getPrototypeOf(Outer).call(_this2)),
-        value: function value() {
+        value: function () {
           return 'hello';
         }
       }]);
