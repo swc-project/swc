@@ -153,6 +153,7 @@ impl ClassProperties {
                 }
 
                 ClassMember::Method(method) => {
+                    // we handle computed key here to preserve the execution order
                     let key = match method.key {
                         PropName::Computed(expr) => {
                             let ident =
@@ -271,11 +272,25 @@ impl ClassProperties {
         }
 
         let mut constructor = constructor.unwrap_or_else(|| default_constructor(has_super));
+        dbg!(constructor_stmts.len());
+        {
+            // Allow using super multiple time
+            let mut folder = DefinePropertyInjector {
+                constructor_stmts,
+                injected: false,
+            };
+            constructor.body = constructor.body.fold_with(&mut folder);
 
-        // Allow using super multiple time
-        constructor.body = constructor
-            .body
-            .fold_with(&mut DefinePropertyInjector { constructor_stmts });
+            if !folder.injected {
+                // there was no super() call
+                constructor
+                    .body
+                    .as_mut()
+                    .unwrap()
+                    .stmts
+                    .append(&mut folder.constructor_stmts)
+            }
+        }
 
         members.push(ClassMember::Constructor(constructor));
 
@@ -295,6 +310,7 @@ impl ClassProperties {
 }
 
 struct DefinePropertyInjector {
+    injected: bool,
     constructor_stmts: Vec<Stmt>,
 }
 
@@ -306,7 +322,10 @@ impl Fold<Vec<Stmt>> for DefinePropertyInjector {
             Stmt::Expr(box Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 ..
-            })) => iter::once(stmt).chain(self.constructor_stmts.clone()),
+            })) => {
+                self.injected = true;
+                iter::once(stmt).chain(self.constructor_stmts.clone())
+            }
             _ => iter::once(stmt).chain(vec![]),
         })
     }

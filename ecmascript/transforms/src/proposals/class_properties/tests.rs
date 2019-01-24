@@ -1,5 +1,8 @@
 use super::*;
-use crate::{compat::es2015::Classes, helpers::Helpers};
+use crate::{
+    compat::es2015::{block_scoping, Classes},
+    helpers::Helpers,
+};
 use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -12,7 +15,11 @@ fn syntax() -> Syntax {
 }
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    class_properties(helpers.clone()).then(Classes { helpers })
+    chain!(
+        class_properties(helpers.clone()),
+        Classes { helpers },
+        block_scoping()
+    )
 }
 
 test!(
