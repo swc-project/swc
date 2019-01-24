@@ -219,7 +219,11 @@ expect(test[1]).toBe(o);
 "#
 );
 
-test!(syntax(), tr(Default::default()), public_derived_multiple_supers, r#"
+test!(
+    syntax(),
+    tr(Default::default()),
+    public_derived_multiple_supers,
+    r#"
 class Foo extends Bar {
   bar = "foo";
 
@@ -232,7 +236,8 @@ class Foo extends Bar {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
@@ -259,7 +264,8 @@ function (_Bar) {
   return Foo;
 }(Bar);
 
-"#);
+"#
+);
 
 test_exec!(
     syntax(),
