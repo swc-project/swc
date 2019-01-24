@@ -182,6 +182,7 @@ impl ClassProperties {
                             has_escape: false,
                         })
                         .as_arg(),
+                        Expr::Lit(ref lit) if !prop.computed => lit.clone().as_arg(),
 
                         _ => {
                             let mut ident = alias_ident_for(&prop.key, "_ref");
