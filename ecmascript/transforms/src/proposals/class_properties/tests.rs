@@ -995,11 +995,15 @@ class MyClass {
 
 "#,
     r#"
-const foo = 'foo';
-const bar = ()=>{
+var foo = 'foo';
+var bar = ()=>{
 };
-const four = 4;
-var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = 'whatever', tmp1 = 'whatever', tmp2 = computed(), tmp3 = computed(), tmp4 = 'test' + one, tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref7 = `template`, _ref8 = `template${expression}`;
+var four = 4;
+var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven,
+  _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = 'whatever',
+  tmp1 = 'whatever', tmp2 = computed(), tmp3 = computed(), tmp4 = 'test' + one,
+  tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz,
+  _ref7 = `template`, _ref8 = `template${expression}`;
 var MyClass = (function() {
     function MyClass() {
         _classCallCheck(this, MyClass);
@@ -1014,22 +1018,22 @@ var MyClass = (function() {
         _defineProperty(this, _ref8, 'template-with-expression');
     }
     _createClass(MyClass, [{
-             key: tmp, get: function tmp() {
+             key: tmp, get: function () {
                 } 
         }, {
-             key: tmp1, set: function tmp1(value) {
+             key: tmp1, set: function (value) {
                 } 
         }, {
-             key: tmp2, get: function tmp2() {
+             key: tmp2, get: function () {
                 } 
         }, {
-             key: tmp3, set: function tmp3(value) {
+             key: tmp3, set: function (value) {
                 } 
         }, {
-             key: tmp4, value: function tmp4() {
+             key: tmp4, value: function () {
                 } 
         }], [{
-             key: tmp5, value: function tmp5() {
+             key: tmp5, value: function () {
                 } 
         }]);
     return MyClass;
