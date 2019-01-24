@@ -122,14 +122,11 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-    r#"var Ref = function() {
-    function Ref(param) {
+    r#"var Ref = function Ref(param) {
         var tmp = param, id = tmp === void 0 ? ++Ref.nextID : tmp;
         _classCallCheck(this, Ref);
         this.id = id;
-    }
-    return Ref;
-}();
+    };
 Ref.nextID = 0;"#
 );
 
