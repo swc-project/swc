@@ -11,7 +11,10 @@ mod tests;
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
-        dbg!((ident.span.ctxt(), &ident.sym));
+        if ident.span.ctxt() == SyntaxContext::empty() {
+            return;
+        }
+
 
         if !self.current.is_declared(&ident.sym) {
             // first symbol
@@ -78,8 +81,6 @@ pub fn hygiene() -> impl Pass + Clone + Copy {
 struct Hygiene<'a> {
     current: Scope<'a>,
 }
-
-pub(crate) struct Operator<'a>(pub &'a [ScopeOp]);
 
 impl<'a> Hygiene<'a> {
     pub fn new() -> Self {
@@ -213,6 +214,60 @@ impl<'a> Fold<ExprOrSuper> for Hygiene<'a> {
                 node
             }
             _ => node.fold_children(self),
+        }
+    }
+}
+
+struct Operator<'a>(&'a [ScopeOp]);
+
+impl<'a> Fold<Prop> for Operator<'a> {
+    fn fold(&mut self, prop: Prop) -> Prop {
+        match prop {
+            Prop::Shorthand(i) => {
+                // preserve key
+                match self.rename_ident(i.clone()) {
+                    Ok(renamed) => Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident {
+                            // clear mark
+                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            ..i
+                        }),
+                        value: box Expr::Ident(renamed),
+                    }),
+                    Err(i) => Prop::Shorthand(i),
+                }
+            }
+            _ => prop.fold_children(self),
+        }
+    }
+}
+
+impl<'a> Operator<'a> {
+    /// Returns `Ok(renamed_ident)` if ident should be renamed.
+    fn rename_ident(&mut self, ident: Ident) -> Result<Ident, Ident> {
+        for op in self.0 {
+            match *op {
+                ScopeOp::Rename { ref from, ref to }
+                    if *from.sym == ident.sym && from.span.ctxt() == ident.span.ctxt() =>
+                {
+                    return Ok(Ident {
+                        // Clear mark
+                        span: ident.span.with_ctxt(SyntaxContext::empty()),
+                        sym: to.clone(),
+                        ..ident
+                    });
+                }
+                _ => {}
+            }
+        }
+        Err(ident)
+    }
+}
+
+impl<'a> Fold<Ident> for Operator<'a> {
+    fn fold(&mut self, ident: Ident) -> Ident {
+        match self.rename_ident(ident) {
+            Ok(i) | Err(i) => i,
         }
     }
 }
