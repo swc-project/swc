@@ -10,10 +10,6 @@ struct Hygiene;
 
 impl Hygiene {
     fn add_declared_ref(&self, scope: &mut Scope, ident: Ident) {
-        if ident.span.ctxt() == SyntaxContext::empty() {
-            return;
-        }
-
         if !scope.is_declared(&ident.sym) {
             // first symbol
 
@@ -413,4 +409,51 @@ mod tests {
             ",
         );
     }
+
+    #[test]
+    fn mark_root() {
+        test(
+            |tester| {
+                let mark2 = Mark::fresh(Mark::root());
+
+                Ok(vec![
+                    tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
+                    Stmt::Decl(Decl::Fn(FnDecl {
+                        ident: quote_ident!("Foo"),
+                        function: Function {
+                            span: DUMMY_SP,
+                            is_async: false,
+                            is_generator: false,
+                            decorators: vec![],
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![
+                                    tester
+                                        .parse_stmt("actual2.js", "var foo = 'foo';")?
+                                        .fold_with(&mut marker(&[("foo", mark2)])),
+                                    tester.parse_stmt(
+                                        "actual3.js",
+                                        "_defineProperty(this, 'bar', foo);",
+                                    )?,
+                                ],
+                            }),
+                            params: vec![],
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+
+                        declare: false,
+                    })),
+                ])
+            },
+            "
+var foo = 'bar';
+function Foo() {
+    var foo1 = 'foo';
+    _defineProperty(this, 'bar', foo);
+}
+            ",
+        );
+    }
+
 }
