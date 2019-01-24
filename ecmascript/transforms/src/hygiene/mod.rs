@@ -15,7 +15,6 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
-
         if !self.current.is_declared(&ident.sym) {
             // first symbol
             self.current
@@ -42,8 +41,6 @@ impl<'a> Hygiene<'a> {
                 }
             }
         };
-
-        eprintln!("renaming {:?} -> {}", ident, renamed);
 
         self.current
             .scope_of(&ident)
