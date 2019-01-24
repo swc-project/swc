@@ -3547,7 +3547,7 @@ function (_Foo) {
     _classCallCheck(this, Test);
     woops.super.test();
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).call(_assertThisInitialized(_this));
+    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).call(_this);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).apply(this, arguments));
     _this = _possibleConstructorReturn(this, (_babelHelpers$getProt = _getPrototypeOf(Test)).call.apply(_babelHelpers$getProt, [this, "test"].concat(Array.prototype.slice.call(arguments))));
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).apply(_assertThisInitialized(_this), arguments);
