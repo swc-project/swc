@@ -887,7 +887,7 @@ function (_A) {
 
     _classCallCheck(this, B);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
-    _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_assertThisInitialized(_this)));
+    _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this));
     return _this;
   }
 
