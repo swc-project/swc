@@ -144,6 +144,8 @@ macro_rules! test_transform {
             let expected =
                 tester.apply_transform(::testing::DropSpan, "expected.js", $syntax, $expected)?;
 
+            eprintln!("----- Actual -----");
+
             let actual = tester.apply_transform($tr, "actual.js", $syntax, $input)?;
             let actual = actual.fold_with(&mut crate::fixer::fixer());
 
