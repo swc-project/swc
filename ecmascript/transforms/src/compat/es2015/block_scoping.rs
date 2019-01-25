@@ -1,11 +1,35 @@
-use crate::scope::{Scope, ScopeKind};
+use crate::scope::ScopeKind;
 use ast::*;
+use fnv::FnvHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
 pub fn block_scoping() -> BlockFolder<'static> {
     BlockFolder::new(Mark::root(), Scope::new(ScopeKind::Fn, None), None)
 }
+
+#[derive(Debug, Clone)]
+struct Scope<'a> {
+    /// Parent scope of this scope
+    parent: Option<&'a Scope<'a>>,
+
+    /// Kind of the scope.
+    kind: ScopeKind,
+
+    /// All references declared in this scope
+    declared_symbols: FnvHashSet<JsWord>,
+}
+
+impl<'a> Scope<'a> {
+    pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
+        Scope {
+            parent,
+            kind,
+            declared_symbols: Default::default(),
+        }
+    }
+}
+
 #[derive(Clone)]
 pub struct BlockFolder<'a> {
     mark: Mark,
@@ -27,7 +51,7 @@ impl<'a> BlockFolder<'a> {
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
-            if cur.declared_symbols.contains_key(sym) {
+            if cur.declared_symbols.contains(sym) {
                 if mark == Mark::root() {
                     return None;
                 }
@@ -52,9 +76,7 @@ impl<'a> BlockFolder<'a> {
         };
 
         if should_insert {
-            self.current
-                .declared_symbols
-                .insert(ident.sym.clone(), ident.span.ctxt());
+            self.current.declared_symbols.insert(ident.sym.clone());
         }
 
         Ident {
@@ -211,7 +233,6 @@ impl<'a> Fold<Ident> for BlockFolder<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use swc_common::SyntaxContext;
 
     #[test]
     fn test_mark_for() {
@@ -227,20 +248,14 @@ mod tests {
                 Scope::new(ScopeKind::Block, Some(&folder1.current)),
                 None,
             );
-            folder2
-                .current
-                .declared_symbols
-                .insert("foo".into(), SyntaxContext::empty());
+            folder2.current.declared_symbols.insert("foo".into());
 
             let mut folder3 = BlockFolder::new(
                 mark3,
                 Scope::new(ScopeKind::Block, Some(&folder2.current)),
                 None,
             );
-            folder3
-                .current
-                .declared_symbols
-                .insert("bar".into(), SyntaxContext::empty());
+            folder3.current.declared_symbols.insert("bar".into());
             assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
 
             let mut folder4 = BlockFolder::new(
@@ -248,10 +263,7 @@ mod tests {
                 Scope::new(ScopeKind::Block, Some(&folder3.current)),
                 None,
             );
-            folder4
-                .current
-                .declared_symbols
-                .insert("foo".into(), SyntaxContext::empty());
+            folder4.current.declared_symbols.insert("foo".into());
 
             assert_eq!(folder4.mark_for(&"foo".into()), Some(mark4));
             assert_eq!(folder4.mark_for(&"bar".into()), Some(mark3));

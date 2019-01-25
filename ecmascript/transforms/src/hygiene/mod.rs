@@ -1,53 +1,53 @@
-use crate::{
-    pass::Pass,
-    scope::{Scope, ScopeKind, ScopeOp},
-};
+use self::ops::{Operator, ScopeOp};
+use crate::{pass::Pass, scope::ScopeKind};
 use ast::*;
+use fnv::{FnvHashMap, FnvHashSet};
+use std::{cell::RefCell, rc::Rc};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
+mod ops;
 #[cfg(test)]
 mod tests;
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
-        if !self.current.is_declared(&ident.sym) {
-            // first symbol
-            self.current
-                .declared_symbols
-                .insert(ident.sym.clone(), ident.span.ctxt());
-            return;
-        }
+        let ctxt = ident.span.ctxt();
 
-        if self.current.get_deflcared_symbol(&ident.sym) == Some(ident.span.ctxt()) {
+        let can_declare_without_renaming = self.current.can_declare(&ident.sym, ctxt);
+
+        self.current
+            .declared_symbols
+            .entry(ident.sym.clone())
+            .or_insert_with(Vec::new)
+            .push(ctxt);
+
+        if can_declare_without_renaming {
             // skip if previous symbol is declared on the same level.
             return;
         }
 
-        self.rename(ident.sym, ident.span.ctxt());
+        self.rename(ident.sym, ctxt);
     }
 
     fn add_used_ref(&mut self, ident: Ident) {
+        let ctxt = ident.span.ctxt();
+
         self.current
             .used_refs
             .insert((ident.sym.clone(), ident.span));
 
-        // Context of the previous ident declaration.
-        let prev_decl_ctxt = self.current.get_deflcared_symbol(&ident.sym);
+        // We rename declaration instead of usage
+        let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
-        if prev_decl_ctxt.is_none() || prev_decl_ctxt == Some(ident.span.ctxt()) {
-            // Good. No need to rename.
-            return;
+        for cx in conflicts {
+            self.rename(ident.sym.clone(), cx)
         }
-
-        self.rename(ident.sym, prev_decl_ctxt.unwrap())
     }
 
     fn rename(&mut self, sym: JsWord, ctxt: SyntaxContext) {
         // symbol conflicts
         let renamed = {
-            debug_assert!(self.current.is_declared(&sym));
-
             let mut i = 0;
             loop {
                 i += 1;
@@ -58,8 +58,6 @@ impl<'a> Hygiene<'a> {
                 }
             }
         };
-
-        eprintln!("Renaming {}{:?} -> {}", sym, ctxt, renamed);
 
         self.current
             .scope_of(&sym, ctxt)
@@ -212,9 +210,6 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
                     ..e
                 });
             }
-            Expr::This(..) => {
-                self.current.used_this.set(true);
-            }
 
             Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
             _ => {}
@@ -224,68 +219,119 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
     }
 }
 
-impl<'a> Fold<ExprOrSuper> for Hygiene<'a> {
-    fn fold(&mut self, node: ExprOrSuper) -> ExprOrSuper {
-        match node {
-            ExprOrSuper::Super(..) => {
-                self.current.used_super.set(true);
-                node
-            }
-            _ => node.fold_children(self),
-        }
-    }
+#[derive(Debug, Clone)]
+struct Scope<'a> {
+    /// Parent scope of this scope
+    pub parent: Option<&'a Scope<'a>>,
+
+    /// Kind of the scope.
+    pub kind: ScopeKind,
+
+    /// All references used in this scope
+    pub used_refs: FnvHashSet<(JsWord, Span)>,
+
+    /// All references declared in this scope
+    pub declared_symbols: FnvHashMap<JsWord, Vec<SyntaxContext>>,
+
+    pub(crate) ops: Rc<RefCell<Vec<ScopeOp>>>,
 }
 
-struct Operator<'a>(&'a [ScopeOp]);
+impl<'a> Scope<'a> {
+    pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
+        Scope {
+            parent,
+            kind,
+            used_refs: Default::default(),
+            declared_symbols: Default::default(),
+            // children: Default::default(),
+            ops: Default::default(),
+        }
+    }
 
-impl<'a> Fold<Prop> for Operator<'a> {
-    fn fold(&mut self, prop: Prop) -> Prop {
-        match prop {
-            Prop::Shorthand(i) => {
-                // preserve key
-                match self.rename_ident(i.clone()) {
-                    Ok(renamed) => Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident {
-                            // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
-                            ..i
-                        }),
-                        value: box Expr::Ident(renamed),
-                    }),
-                    Err(i) => Prop::Shorthand(i),
+    fn scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
+        if let Some(prev) = self.declared_symbols.get(sym) {
+            if prev.contains(&ctxt) {
+                return match self.parent {
+                    Some(ref parent) => parent,
+                    // Root scope.
+                    _ => self,
+                };
+            }
+        }
+
+        match self.parent {
+            Some(ref parent) => parent.scope_of(sym, ctxt),
+            _ => self,
+        }
+    }
+
+    fn can_declare(&self, sym: &JsWord, ctxt: SyntaxContext) -> bool {
+        macro_rules! parent {
+            () => {
+                match self.parent {
+                    Some(parent) => Some(parent.can_declare(sym, ctxt)),
+                    None => None,
+                }
+            };
+        }
+
+        if let Some(ctxts) = self.declared_symbols.get(&sym) {
+            if ctxts.contains(&ctxt) {
+                return true;
+            }
+            match parent!() {
+                None => return false,
+                Some(res) => return res,
+            }
+        }
+
+        match parent!() {
+            None => true,
+            Some(res) => res,
+        }
+    }
+
+    /// Returns all **conflicting** contexts.
+    ///
+    /// It other words, all `SyntaxContext`s with same `sym` will be returned,
+    /// even when defined on parent scope.
+    fn conflicts(&self, mut sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
+        let mut ctxts = vec![];
+
+        let mut cur = Some(self);
+
+        while let Some(scope) = cur {
+            for op in scope.ops.borrow().iter() {
+                match *op {
+                    ScopeOp::Rename { ref from, ref to } if from.0 == *sym => sym = to.clone(),
+                    _ => {}
                 }
             }
-            _ => prop.fold_children(self),
-        }
-    }
-}
 
-impl<'a> Operator<'a> {
-    /// Returns `Ok(renamed_ident)` if ident should be renamed.
-    fn rename_ident(&mut self, ident: Ident) -> Result<Ident, Ident> {
-        for op in self.0 {
+            if let Some(cxs) = scope.declared_symbols.get(&sym) {
+                ctxts.extend_from_slice(&cxs);
+            }
+
+            cur = scope.parent;
+        }
+        ctxts.retain(|c| *c != ctxt);
+
+        ctxts
+    }
+
+    fn is_declared(&self, sym: &JsWord) -> bool {
+        if self.declared_symbols.contains_key(sym) {
+            return true;
+        }
+        for op in self.ops.borrow().iter() {
             match *op {
-                ScopeOp::Rename { ref from, ref to }
-                    if *from.0 == ident.sym && from.1 == ident.span.ctxt() =>
-                {
-                    return Ok(Ident {
-                        // Clear mark
-                        span: ident.span.with_ctxt(SyntaxContext::empty()),
-                        sym: to.clone(),
-                        ..ident
-                    });
-                }
+                ScopeOp::Rename { ref to, .. } if sym == to => return true,
                 _ => {}
             }
         }
-        Err(ident)
-    }
-}
-
-impl<'a> Fold<Ident> for Operator<'a> {
-    fn fold(&mut self, ident: Ident) -> Ident {
-        match self.rename_ident(ident) {
-            Ok(i) | Err(i) => i,
+        match self.parent {
+            Some(parent) => parent.is_declared(sym),
+            _ => false,
         }
     }
 }

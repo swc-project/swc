@@ -413,10 +413,9 @@ fn fn_args() {
             }))])
         },
         "
-function Foo(force1) {
-    _defineProperty(this, 'force', force);
-}
-
-            ",
+        function Foo(force1) {
+            _defineProperty(this, 'force', force);
+        }
+        ",
     );
 }
