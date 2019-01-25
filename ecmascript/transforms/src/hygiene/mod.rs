@@ -11,14 +11,21 @@ mod tests;
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
+        dbg!((ident.span.ctxt(), &ident.sym));
+
         if !self.current.is_declared(&ident.sym) {
             // first symbol
             self.current
                 .declared_symbols
                 .insert(ident.sym.clone(), ident.span.ctxt());
+            dbg!("First");
             return;
         }
-        if self.current.declared_symbols.get(&ident.sym) == Some(&ident.span.ctxt()) {
+
+        dbg!(&self.current.declared_symbols);
+        if self.current.get_deflcared_symbol(&ident.sym) == Some(ident.span.ctxt()) {
+            dbg!("Skip");
+
             // skip if previous symbol is declared on the same level.
             return;
         }
@@ -37,6 +44,8 @@ impl<'a> Hygiene<'a> {
                 }
             }
         };
+
+        eprintln!("Rename {:?} -> {}", ident, renamed);
 
         self.current
             .scope_of(&ident)

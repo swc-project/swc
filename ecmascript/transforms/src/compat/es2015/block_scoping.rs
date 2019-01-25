@@ -549,6 +549,28 @@ expect(a).toBe(2);"#
     test!(
         ::swc_ecma_parser::Syntax::default(),
         block_scoping(),
+        class_block_2,
+        r#"
+    var Foo = (function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        })(Bar);
+    "#,
+        r#"
+    var Foo = (function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        })(Bar);
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        block_scoping(),
         class_var,
         r#"var Foo = function Foo(){}"#,
         r#"var Foo = function Foo(){}"#

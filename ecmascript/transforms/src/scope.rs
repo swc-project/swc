@@ -61,6 +61,16 @@ impl<'a> Scope<'a> {
         }
     }
 
+    pub(crate) fn get_deflcared_symbol(&self, sym: &JsWord) -> Option<SyntaxContext> {
+        if let Some(c) = self.declared_symbols.get(&sym) {
+            return Some(*c);
+        }
+        match self.parent {
+            Some(parent) => parent.get_deflcared_symbol(sym),
+            None => None,
+        }
+    }
+
     pub(crate) fn is_declared(&self, sym: &JsWord) -> bool {
         if self.declared_symbols.contains_key(sym) {
             return true;
