@@ -19,6 +19,19 @@ enum Context {
     ForcedExpr,
 }
 
+impl Fold<VarDeclarator> for Fixer {
+    fn fold(&mut self, node: VarDeclarator) -> VarDeclarator {
+        let name = node.name.fold_children(self);
+
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        let init = node.init.fold_with(self);
+        self.ctx = old;
+
+        VarDeclarator { name, init, ..node }
+    }
+}
+
 impl Fold<Stmt> for Fixer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children(self);
@@ -103,12 +116,23 @@ impl Fold<Expr> for Fixer {
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
                 type_args,
-            }) => Expr::Call(CallExpr {
-                span,
-                callee: callee.wrap_with_paren().as_callee(),
-                args,
-                type_args,
-            }),
+            }) => {
+                if self.ctx == Context::ForcedExpr {
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: callee.as_callee(),
+                        args,
+                        type_args,
+                    })
+                } else {
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: callee.wrap_with_paren().as_callee(),
+                        args,
+                        type_args,
+                    })
+                }
+            }
             _ => expr,
         }
     }
