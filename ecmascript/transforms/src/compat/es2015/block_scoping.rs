@@ -365,12 +365,12 @@ mod tests {
         "#,
         r#"
         {
-            var foo1 = 1;
+            var foo = 1;
             {
-                var foo = 2;
-                use(foo);
+                var foo1 = 2;
+                use(foo1);
             }
-            use(foo1);
+            use(foo);
         }
         "#
     );
