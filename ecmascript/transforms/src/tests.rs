@@ -96,8 +96,7 @@ impl<'a> Tester<'a> {
         let module = module
             .fold_with(&mut tr)
             .fold_with(&mut ::testing::DropSpan)
-            .fold_with(&mut Normalizer)
-            .fold_with(&mut crate::hygiene::hygiene());
+            .fold_with(&mut Normalizer);
 
         Ok(module)
     }
@@ -146,8 +145,10 @@ macro_rules! test_transform {
 
             eprintln!("----- Actual -----");
 
-            let actual = tester.apply_transform($tr, "actual.js", $syntax, $input)?;
-            let actual = actual.fold_with(&mut crate::fixer::fixer());
+            let actual = tester
+                .apply_transform($tr, "actual.js", $syntax, $input)?
+                .fold_with(&mut crate::hygiene::hygiene())
+                .fold_with(&mut crate::fixer::fixer());
 
             if actual == expected {
                 return Ok(());
