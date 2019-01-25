@@ -16,6 +16,8 @@ impl<'a> Hygiene<'a> {
 
         let can_declare_without_renaming = self.current.can_declare(&ident.sym, ctxt);
 
+        dbg!((&ident.sym, can_declare_without_renaming));
+
         self.current
             .declared_symbols
             .entry(ident.sym.clone())
@@ -138,11 +140,14 @@ impl<'a> Fold<TryStmt> for Hygiene<'a> {
 impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let node = {
-            let mut analyzer = Hygiene {
+            let mut folder = Hygiene {
                 current: Scope::new(ScopeKind::Block, Some(&self.current)),
             };
 
-            node.fold_children(&mut analyzer)
+            let node = node.fold_children(&mut folder);
+            dbg!(&folder.current.ops);
+            dbg!(&self.current.ops);
+            node
         };
 
         self.apply_ops(node)
@@ -163,9 +168,10 @@ impl<'a> Hygiene<'a> {
         };
 
         node.params = node.params.fold_with(&mut folder);
-        node.body = node.body.fold_with(&mut folder);
+        node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
 
-        // self.current.children.push(analyzer.current);
+        dbg!(&folder.current.ops);
+        dbg!(&self.current.ops);
 
         self.apply_ops(node)
     }
@@ -266,28 +272,25 @@ impl<'a> Scope<'a> {
     }
 
     fn can_declare(&self, sym: &JsWord, ctxt: SyntaxContext) -> bool {
-        macro_rules! parent {
-            () => {
-                match self.parent {
-                    Some(parent) => Some(parent.can_declare(sym, ctxt)),
-                    None => None,
+        match self.parent {
+            None => {}
+            Some(parent) => {
+                if !parent.can_declare(sym, ctxt) {
+                    return false;
                 }
-            };
+            }
         }
 
         if let Some(ctxts) = self.declared_symbols.get(&sym) {
             if ctxts.contains(&ctxt) {
-                return true;
+                // Already declared with same context.
+                true
+            } else {
+                false
             }
-            match parent!() {
-                None => return false,
-                Some(res) => return res,
-            }
-        }
-
-        match parent!() {
-            None => true,
-            Some(res) => res,
+        } else {
+            // No variable named `sym` is declared
+            true
         }
     }
 
