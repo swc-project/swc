@@ -288,12 +288,12 @@ mod tests {
         "#,
         r#"
         {
-            var foo = 1;
+            var foo1 = 1;
             {
-                var foo1 = 2;
-                use(foo1);
+                var foo = 2;
+                use(foo);
             }
-            use(foo);
+            use(foo1);
         }
         "#
     );
