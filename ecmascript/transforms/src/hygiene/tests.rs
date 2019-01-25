@@ -105,12 +105,13 @@ fn hygiene_block_scoping() {
             ];
             Ok(stmts)
         },
-        "var foo = 1;
-            {
-                let foo1 = 2;
-                use(foo1);
-            }
-            use(foo);",
+        "
+        var foo = 1;
+        {
+            let foo1 = 2;
+            use(foo1);
+        }
+        use(foo);",
     );
 }
 
@@ -381,5 +382,41 @@ fn var_class_decl() {
             ])
         },
         "var Foo = function Foo(){}",
+    );
+}
+
+#[test]
+fn fn_args() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+
+            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                ident: quote_ident!("Foo"),
+                function: Function {
+                    span: DUMMY_SP,
+                    is_async: false,
+                    is_generator: false,
+                    decorators: vec![],
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![tester
+                            .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?],
+                    }),
+                    params: vec![Pat::Ident(quote_ident!("force"))
+                        .fold_with(&mut marker(&[("force", mark1)]))],
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                },
+
+                declare: false,
+            }))])
+        },
+        "
+function Foo(force1) {
+    _defineProperty(this, 'force', force);
+}
+
+            ",
     );
 }

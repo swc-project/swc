@@ -24,14 +24,34 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
+        self.rename(ident.sym, ident.span.ctxt());
+    }
+
+    fn add_used_ref(&mut self, ident: Ident) {
+        self.current
+            .used_refs
+            .insert((ident.sym.clone(), ident.span));
+
+        // Context of the previous ident declaration.
+        let prev_decl_ctxt = self.current.get_deflcared_symbol(&ident.sym);
+
+        if prev_decl_ctxt.is_none() || prev_decl_ctxt == Some(ident.span.ctxt()) {
+            // Good. No need to rename.
+            return;
+        }
+
+        self.rename(ident.sym, prev_decl_ctxt.unwrap())
+    }
+
+    fn rename(&mut self, sym: JsWord, ctxt: SyntaxContext) {
         // symbol conflicts
         let renamed = {
-            debug_assert!(self.current.is_declared(&ident.sym));
+            debug_assert!(self.current.is_declared(&sym));
 
             let mut i = 0;
             loop {
                 i += 1;
-                let sym: JsWord = format!("{}{}", ident.sym, i).into();
+                let sym: JsWord = format!("{}{}", sym, i).into();
 
                 if !self.current.is_declared(&sym) {
                     break sym;
@@ -39,12 +59,14 @@ impl<'a> Hygiene<'a> {
             }
         };
 
+        eprintln!("Renaming {}{:?} -> {}", sym, ctxt, renamed);
+
         self.current
-            .scope_of(&ident)
+            .scope_of(&sym, ctxt)
             .ops
             .borrow_mut()
             .push(ScopeOp::Rename {
-                from: ident,
+                from: (sym, ctxt),
                 to: renamed,
             });
     }
@@ -138,12 +160,12 @@ impl<'a> Hygiene<'a> {
             _ => {}
         }
 
-        let mut analyzer = Hygiene {
+        let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
         };
 
-        node.params = node.params.fold_children(&mut analyzer);
-        node.body = node.body.fold_children(&mut analyzer);
+        node.params = node.params.fold_with(&mut folder);
+        node.body = node.body.fold_with(&mut folder);
 
         // self.current.children.push(analyzer.current);
 
@@ -183,10 +205,12 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
 impl<'a> Fold<Expr> for Hygiene<'a> {
     fn fold(&mut self, node: Expr) -> Expr {
         match node {
-            Expr::Ident(ref ident) => {
-                self.current
-                    .used_refs
-                    .insert((ident.sym.clone(), ident.span));
+            Expr::Ident(ref ident) => self.add_used_ref(ident.clone()),
+            Expr::Member(e) => {
+                return Expr::Member(MemberExpr {
+                    obj: e.obj.fold_with(self),
+                    ..e
+                });
             }
             Expr::This(..) => {
                 self.current.used_this.set(true);
@@ -242,7 +266,7 @@ impl<'a> Operator<'a> {
         for op in self.0 {
             match *op {
                 ScopeOp::Rename { ref from, ref to }
-                    if *from.sym == ident.sym && from.span.ctxt() == ident.span.ctxt() =>
+                    if *from.0 == ident.sym && from.1 == ident.span.ctxt() =>
                 {
                     return Ok(Ident {
                         // Clear mark

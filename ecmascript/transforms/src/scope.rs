@@ -21,12 +21,10 @@ pub struct Scope<'a> {
     /// Whether or not the `this` keyword was used
     pub used_this: Cell<bool>,
 
-    // /// All references used in this scope
+    /// All references used in this scope
     pub used_refs: FnvHashSet<(JsWord, Span)>,
 
-    // /// All references declared in this scope
-    pub declared_refs: FnvHashSet<(JsWord, Span)>,
-
+    /// All references declared in this scope
     pub declared_symbols: FnvHashMap<JsWord, SyntaxContext>,
 
     pub(crate) ops: Rc<RefCell<Vec<ScopeOp>>>,
@@ -47,17 +45,20 @@ impl<'a> Scope<'a> {
         }
     }
 
-    pub fn scope_of(&self, ident: &Ident) -> &'a Scope {
-        if self
-            .declared_refs
-            .contains(&(ident.sym.clone(), ident.span))
-        {
-            self
-        } else {
-            match self.parent {
-                Some(ref parent) => parent.scope_of(ident),
-                _ => self,
+    pub fn scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
+        if let Some(prev) = self.declared_symbols.get(sym) {
+            if *prev == ctxt {
+                return match self.parent {
+                    Some(ref parent) => parent,
+                    // Root scope.
+                    _ => self,
+                };
             }
+        }
+
+        match self.parent {
+            Some(ref parent) => parent.scope_of(sym, ctxt),
+            _ => self,
         }
     }
 
@@ -90,7 +91,10 @@ impl<'a> Scope<'a> {
 
 #[derive(Debug)]
 pub(crate) enum ScopeOp {
-    Rename { from: Ident, to: JsWord },
+    Rename {
+        from: (JsWord, SyntaxContext),
+        to: JsWord,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
