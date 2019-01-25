@@ -5,7 +5,11 @@ use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
 pub fn block_scoping() -> BlockFolder<'static> {
-    BlockFolder::new(Mark::root(), Scope::new(ScopeKind::Fn, None), None)
+    BlockFolder::new(
+        Mark::fresh(Mark::root()),
+        Scope::new(ScopeKind::Fn, None),
+        None,
+    )
 }
 
 #[derive(Debug, Clone)]
@@ -65,11 +69,18 @@ impl<'a> BlockFolder<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+        // eprintln!(
+        //     "Binding: {}{:?}; cur.mark = {:?}",
+        //     ident.sym,
+        //     ident.span.ctxt(),
+        //     self.mark
+        // );
+
         let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
             if *cur != ident.sym {
                 (true, self.mark)
             } else {
-                eprintln!("Overriding! {}:{:?}", ident.sym, override_mark);
+                // eprintln!("Overriding! {} -> {:?}", ident.sym, override_mark);
                 (false, override_mark)
             }
         } else {
@@ -202,6 +213,7 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 
         let old_def = self.cur_defining.take();
         self.cur_defining = cur_name;
+        // eprintln!("Defining {:?}", self.cur_defining);
 
         let init = decl.init.fold_children(self);
 
@@ -214,9 +226,6 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 impl<'a> Fold<Ident> for BlockFolder<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
         let Ident { span, sym, .. } = i;
-        if self.cur_defining.as_ref().map(|v| &v.0) == Some(&sym) {
-            return Ident { sym, ..i };
-        }
 
         if let Some(mark) = self.mark_for(&sym) {
             Ident {
