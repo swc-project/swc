@@ -38,7 +38,6 @@ impl<'a> Scope<'a> {
             used_super: Cell::new(false),
             used_this: Cell::new(false),
             used_refs: Default::default(),
-            declared_refs: Default::default(),
             declared_symbols: Default::default(),
             // children: Default::default(),
             ops: Default::default(),
