@@ -481,14 +481,20 @@ pub(super) struct VarRenamer<'a> {
     pub class_name: &'a JsWord,
 }
 
-impl<'a> Fold<Ident> for VarRenamer<'a> {
-    fn fold(&mut self, ident: Ident) -> Ident {
-        if *self.class_name == ident.sym {
-            return Ident {
-                span: ident.span.apply_mark(self.mark),
-                ..ident
-            };
+impl<'a> Fold<Pat> for VarRenamer<'a> {
+    fn fold(&mut self, pat: Pat) -> Pat {
+        match pat {
+            Pat::Ident(ident) => {
+                if *self.class_name == ident.sym {
+                    return Pat::Ident(Ident {
+                        span: ident.span.apply_mark(self.mark),
+                        ..ident
+                    });
+                } else {
+                    Pat::Ident(ident)
+                }
+            }
+            _ => pat.fold_children(self),
         }
-        ident
     }
 }
