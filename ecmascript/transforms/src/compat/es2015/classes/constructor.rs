@@ -2,6 +2,7 @@ use super::get_prototype_of;
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::iter;
+use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
 
 pub(super) struct SuperCallFinder {
@@ -454,4 +455,40 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     let c = c.fold_with(&mut v);
 
     (c, v.found)
+}
+
+/// # In
+///
+/// ```js
+/// 
+/// class Example {
+///   constructor() {
+///     var Example;
+///   }
+/// }
+/// ```
+///
+/// # Out
+///
+/// ```js
+/// var Example = function Example() {
+///     _classCallCheck(this, Example);
+///     var Example1;
+/// };
+/// ```
+pub(super) struct VarRenamer<'a> {
+    pub mark: Mark,
+    pub class_name: &'a JsWord,
+}
+
+impl<'a> Fold<Ident> for VarRenamer<'a> {
+    fn fold(&mut self, ident: Ident) -> Ident {
+        if *self.class_name == ident.sym {
+            return Ident {
+                span: ident.span.apply_mark(self.mark),
+                ..ident
+            };
+        }
+        ident
+    }
 }

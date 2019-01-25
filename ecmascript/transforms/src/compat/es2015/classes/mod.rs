@@ -1,7 +1,7 @@
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
-        ReturningMode, SuperCallFinder, SuperFoldingMode,
+        ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
     },
     prop_name::HashKey,
     super_field::SuperFieldAccessFolder,
@@ -405,6 +405,12 @@ impl Classes {
             let mut constructor =
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
+            // Rename variables to avoid conflicting with class name
+            constructor.body = constructor.body.fold_with(&mut VarRenamer {
+                mark: Mark::fresh(Mark::root()),
+                class_name: &class_name.sym,
+            });
+
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
             if is_constructor_default {
@@ -505,13 +511,6 @@ impl Classes {
                 if is_this_declared { Some(mark) } else { None },
             );
 
-            // TODO: Handle
-            //
-            //     console.log('foo');
-            //     super();
-            //     console.log('bar');
-            //
-            //
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
                 function: constructor_fn(Constructor {
