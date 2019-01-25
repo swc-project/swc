@@ -61,7 +61,7 @@ where
 }
 
 #[test]
-fn hygiene_simple() {
+fn simple() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
@@ -79,14 +79,16 @@ fn hygiene_simple() {
                     .fold_with(&mut marker(&[("foo", mark1)])),
             ])
         },
-        "var foo = 1;
-            var foo1 = 2;
-            use(foo);",
+        "
+        var foo = 1;
+        var foo1 = 2;
+        use(foo);
+        ",
     );
 }
 
 #[test]
-fn hygiene_block_scoping() {
+fn block_scoping_with_usage() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
@@ -112,6 +114,32 @@ fn hygiene_block_scoping() {
             use(foo1);
         }
         use(foo);",
+    );
+}
+
+#[test]
+fn block_scoping_no_usage() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(mark1);
+
+            let stmts = vec![
+                tester
+                    .parse_stmt("actual1.js", "let foo;")?
+                    .fold_with(&mut marker(&[("foo", mark1)])),
+                tester
+                    .parse_stmt("actual2.js", "{ let foo }")?
+                    .fold_with(&mut marker(&[("foo", mark2)])),
+            ];
+            Ok(stmts)
+        },
+        "
+        let foo;
+        {
+            let foo1;
+        }
+        ",
     );
 }
 
