@@ -11,10 +11,6 @@ mod tests;
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
-        if ident.span.ctxt() == SyntaxContext::empty() {
-            return;
-        }
-
         if !self.current.is_declared(&ident.sym) {
             // first symbol
             self.current

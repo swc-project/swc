@@ -4,13 +4,14 @@ use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
 pub fn block_scoping() -> BlockFolder<'static> {
-    BlockFolder::new(Mark::fresh(Mark::root()), Scope::new(ScopeKind::Fn, None))
+    BlockFolder::new(Mark::root(), Scope::new(ScopeKind::Fn, None))
 }
 #[derive(Clone)]
 pub struct BlockFolder<'a> {
     mark: Mark,
     current: Scope<'a>,
 }
+
 impl<'a> BlockFolder<'a> {
     fn new(mark: Mark, current: Scope<'a>) -> Self {
         BlockFolder { mark, current }
@@ -21,6 +22,9 @@ impl<'a> BlockFolder<'a> {
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
+            if mark == Mark::root() {
+                return None;
+            }
             if cur.declared_symbols.contains_key(sym) {
                 return Some(mark);
             }
@@ -75,7 +79,11 @@ impl<'a> Fold<Pat> for BlockFolder<'a> {
                     .insert(ident.sym.clone(), ident.span.ctxt());
 
                 let ident = Ident {
-                    span: ident.span.apply_mark(self.mark),
+                    span: if self.mark == Mark::root() {
+                        ident.span
+                    } else {
+                        ident.span.apply_mark(self.mark)
+                    },
                     sym: ident.sym,
                     ..ident
                 };
@@ -103,12 +111,39 @@ impl<'a> Fold<Expr> for BlockFolder<'a> {
 
 impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        VarDeclarator {
-            // order is important
-            init: decl.init.fold_children(self),
-            name: decl.name.fold_with(self),
-            ..decl
-        }
+        // order is important
+
+        let name = match decl.name {
+            Pat::Ident(Ident { ref sym, .. }) => Some(sym),
+            _ => None,
+        };
+
+        let init = match decl.init {
+            Some(box Expr::Fn(FnExpr {
+                ident: Some(ident),
+                function,
+            })) => {
+                if Some(&ident.sym) == name {
+                    Some(box Expr::Fn(FnExpr {
+                        ident: Some(ident),
+                        function: function.fold_with(self),
+                    }))
+                } else {
+                    Some(box Expr::Fn(
+                        FnExpr {
+                            ident: Some(ident),
+                            function,
+                        }
+                        .fold_with(self),
+                    ))
+                }
+            }
+
+            _ => decl.init.fold_children(self),
+        };
+        let name = decl.name.fold_with(self);
+
+        VarDeclarator { name, init, ..decl }
     }
 }
 
@@ -509,5 +544,13 @@ expect(a).toBe(2);"#
             return Foo;
         }(Bar);
         "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        block_scoping(),
+        class_var,
+        r#"var Foo = function Foo(){}"#,
+        r#"var Foo = function Foo(){}"#
     );
 }
