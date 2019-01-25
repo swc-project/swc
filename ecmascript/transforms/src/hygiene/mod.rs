@@ -16,8 +16,6 @@ impl<'a> Hygiene<'a> {
 
         let can_declare_without_renaming = self.current.can_declare(&ident.sym, ctxt);
 
-        dbg!((&ident.sym, can_declare_without_renaming));
-
         self.current
             .declared_symbols
             .entry(ident.sym.clone())
@@ -145,8 +143,6 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
             };
 
             let node = node.fold_children(&mut folder);
-            dbg!(&folder.current.ops);
-            dbg!(&self.current.ops);
             node
         };
 
@@ -169,9 +165,6 @@ impl<'a> Hygiene<'a> {
 
         node.params = node.params.fold_with(&mut folder);
         node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
-
-        dbg!(&folder.current.ops);
-        dbg!(&self.current.ops);
 
         self.apply_ops(node)
     }
