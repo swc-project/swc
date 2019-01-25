@@ -563,3 +563,30 @@ fn flat_in_fn() {
         ",
     );
 }
+
+#[test]
+fn param_order() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "function foo(param, param1) {
+                                    use(param);
+                                }",
+                )?
+                .fold_with(&mut marker(&[
+                    ("param", mark1),
+                    ("param1", mark2),
+                ]))])
+        },
+        "
+        function foo(param, param1) {
+            use(param);
+        }
+        ",
+    );
+}
