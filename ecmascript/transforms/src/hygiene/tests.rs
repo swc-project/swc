@@ -515,7 +515,7 @@ fn class_nested_var() {
         function Foo() {
             var bar;
             {
-                var bar2;
+                var bar1;
             }
         }
         ",
