@@ -69,18 +69,18 @@ impl<'a> BlockFolder<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
-        // eprintln!(
-        //     "Binding: {}{:?}; cur.mark = {:?}",
-        //     ident.sym,
-        //     ident.span.ctxt(),
-        //     self.mark
-        // );
+        eprintln!(
+            "Binding: {}{:?}; cur.mark = {:?}",
+            ident.sym,
+            ident.span.ctxt(),
+            self.mark
+        );
 
         let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
             if *cur != ident.sym {
                 (true, self.mark)
             } else {
-                // eprintln!("Overriding! {} -> {:?}", ident.sym, override_mark);
+                eprintln!("Overriding! {} -> {:?}", ident.sym, override_mark);
                 (false, override_mark)
             }
         } else {
@@ -95,6 +95,7 @@ impl<'a> BlockFolder<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
+                eprintln!("!! {} -> {:?}", ident.sym, mark);
                 ident.span.apply_mark(mark)
             },
             sym: ident.sym,
@@ -211,13 +212,36 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
             _ => None,
         };
 
-        let old_def = self.cur_defining.take();
-        self.cur_defining = cur_name;
-        // eprintln!("Defining {:?}", self.cur_defining);
+        let is_class_like = match decl.init {
+            Some(box Expr::Fn(..))
+            | Some(box Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(box Expr::Fn(..)),
+                ..
+            }))
+            | Some(box Expr::Paren(ParenExpr {
+                expr:
+                    box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(box Expr::Fn(..)),
+                        ..
+                    }),
+                ..
+            })) => true,
+            _ => false,
+        };
 
-        let init = decl.init.fold_children(self);
+        let init = if is_class_like {
+            let old_def = self.cur_defining.take();
+            self.cur_defining = cur_name;
+            eprintln!("Defining {:?}", self.cur_defining);
 
-        self.cur_defining = old_def;
+            let init = decl.init.fold_children(self);
+
+            self.cur_defining = old_def;
+            eprintln!("Defining finished");
+            init
+        } else {
+            decl.init.fold_children(self)
+        };
 
         VarDeclarator { name, init, ..decl }
     }
@@ -228,6 +252,7 @@ impl<'a> Fold<Ident> for BlockFolder<'a> {
         let Ident { span, sym, .. } = i;
 
         if let Some(mark) = self.mark_for(&sym) {
+            eprintln!("{} -> {:?}", sym, mark);
             Ident {
                 sym,
                 span: span.apply_mark(mark),
@@ -281,6 +306,48 @@ mod tests {
         })
         .unwrap();
     }
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        block_scoping(),
+        basic_no_usage,
+        "
+        let foo;
+        {
+            let foo;
+        }
+        ",
+        "
+        var foo;
+        {
+            var foo1;
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        block_scoping(),
+        class_nested_var,
+        "
+        var ConstructorScoping = function ConstructorScoping() {
+            _classCallCheck(this, ConstructorScoping);
+            var bar;
+            {
+                var bar;
+            }
+        }
+        ",
+        "
+        var ConstructorScoping = function ConstructorScoping() {
+            _classCallCheck(this, ConstructorScoping);
+            var bar;
+            {
+                var bar1;
+            }
+        }
+        "
+    );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
