@@ -69,13 +69,6 @@ impl<'a> BlockFolder<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
-        eprintln!(
-            "Binding: {}{:?}; cur.mark = {:?}",
-            ident.sym,
-            ident.span.ctxt(),
-            self.mark
-        );
-
         let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
             if *cur != ident.sym {
                 (true, self.mark)
@@ -86,6 +79,12 @@ impl<'a> BlockFolder<'a> {
         } else {
             (true, self.mark)
         };
+        eprintln!(
+            "Binding: {}{:?}; -> {:?}",
+            ident.sym,
+            ident.span.ctxt(),
+            mark
+        );
 
         if should_insert {
             self.current.declared_symbols.insert(ident.sym.clone());
@@ -95,7 +94,7 @@ impl<'a> BlockFolder<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
-                eprintln!("!! {} -> {:?}", ident.sym, mark);
+                eprintln!("Applying mark {} -> {:?}", ident.sym, mark);
                 ident.span.apply_mark(mark)
             },
             sym: ident.sym,
@@ -268,6 +267,18 @@ impl<'a> Fold<Ident> for BlockFolder<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    macro_rules! identical {
+        ($name:ident, $src:literal) => {
+            test!(
+                ::swc_ecma_parser::Syntax::default(),
+                block_scoping(),
+                $name,
+                $src,
+                $src
+            );
+        };
+    }
 
     #[test]
     fn test_mark_for() {
@@ -761,11 +772,22 @@ var Outer = function(_Hello) {
 "#
     );
 
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        block_scoping(),
+    identical!(class_var_constructor_only, r#"var Foo = function Foo(){}"#);
+
+    identical!(
         class_var,
-        r#"var Foo = function Foo(){}"#,
-        r#"var Foo = function Foo(){}"#
+        r#"
+        var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+                var _this;
+                _classCallCheck(this, Foo);
+                Foo[_assertThisInitialized(_this)];
+                return _possibleConstructorReturn(_this);
+            }
+            return Foo;
+        }(Bar);
+"#
     );
+
 }
