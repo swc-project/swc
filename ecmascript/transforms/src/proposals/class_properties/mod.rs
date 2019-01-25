@@ -1,3 +1,4 @@
+use self::used_name::{UsedNameCollector, UsedNameRenamer};
 use crate::{
     helpers::Helpers,
     pass::Pass,
@@ -5,10 +6,13 @@ use crate::{
 };
 use ast::*;
 use std::{iter, sync::Arc};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    util::move_map::MoveMap, Fold, FoldWith, Mark, Span, Spanned, VisitWith, DUMMY_SP,
+};
 
 #[cfg(test)]
 mod tests;
+mod used_name;
 
 ///
 ///
@@ -145,6 +149,7 @@ impl ClassProperties {
 
         let (mut constructor_stmts, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
+        let mut used_names = vec![];
 
         for member in class.body {
             match member {
@@ -198,6 +203,9 @@ impl ClassProperties {
                             ident.as_arg()
                         }
                     };
+                    prop.value.visit_with(&mut UsedNameCollector {
+                        used_names: &mut used_names,
+                    });
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
 
                     self.helpers.define_property();
@@ -221,6 +229,9 @@ impl ClassProperties {
                 }
                 ClassMember::PrivateProp(prop) => {
                     let prop_span = prop.span();
+                    prop.value.visit_with(&mut UsedNameCollector {
+                        used_names: &mut used_names,
+                    });
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
                     if prop.is_static {
@@ -269,8 +280,17 @@ impl ClassProperties {
             }
         }
 
-        let mut constructor = constructor.unwrap_or_else(|| default_constructor(has_super));
-        dbg!(constructor_stmts.len());
+        let mut constructor = constructor
+            .map(|mut c| {
+                // Handle collisions
+                c.body = c.body.fold_with(&mut UsedNameRenamer {
+                    mark: Mark::fresh(Mark::root()),
+                    used_names: &used_names,
+                });
+                c
+            })
+            .unwrap_or_else(|| default_constructor(has_super));
+
         {
             // Allow using super multiple time
             let mut folder = DefinePropertyInjector {

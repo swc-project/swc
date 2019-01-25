@@ -958,9 +958,9 @@ var Foo = function Foo() {
   
 
   _classCallCheck(this, Foo);
-  _defineProperty(this, "bar", foo);
   var foo1 = "foo";
   var baz = "baz";
+  _defineProperty(this, "bar", foo);
 };
 
 _defineProperty(Foo, "bar", baz);
