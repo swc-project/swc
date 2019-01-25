@@ -386,6 +386,31 @@ fn var_class_decl() {
 }
 
 #[test]
+fn var_class_decl_2() {
+    test(
+        |tester| {
+            Ok(vec![tester.parse_stmt(
+                "actual1.js",
+                "
+                var Foo = (function() {
+                    function Foo() {}
+                    return Foo;
+                }())
+                ",
+            )?])
+        },
+        "
+        var Foo = (function(){
+            function Foo(){
+
+            }
+            return Foo;
+        }())
+        ",
+    );
+}
+
+#[test]
 fn fn_args() {
     test(
         |tester| {
