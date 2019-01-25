@@ -1,2 +1,3 @@
 export var a = function() {
-};
+}
+;

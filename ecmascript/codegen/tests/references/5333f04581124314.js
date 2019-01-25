@@ -4,6 +4,7 @@ if (a) {
             debugger;
         }
     }
-} else {
+}
+ else {
     d();
 }

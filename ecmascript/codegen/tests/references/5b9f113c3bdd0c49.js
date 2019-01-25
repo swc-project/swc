@@ -13,6 +13,7 @@ function a() {
             function e() {
             }
             ;
-        })();
+        }
+        )();
     }
 }

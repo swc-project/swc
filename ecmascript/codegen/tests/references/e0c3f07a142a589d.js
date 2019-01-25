@@ -1,6 +1,7 @@
 function a() {
     if (b) {
-    } else {
+    }
+     else {
         c();
     }
 }

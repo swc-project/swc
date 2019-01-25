@@ -6,5 +6,6 @@ e = typeof{
 f = typeof/./;
 g = typeof false;
 h = typeof function() {
-};
+}
+;
 i = typeof j;

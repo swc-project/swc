@@ -5,4 +5,5 @@ a(function() {
         b();
         return void 1;
     }
-});
+}
+);

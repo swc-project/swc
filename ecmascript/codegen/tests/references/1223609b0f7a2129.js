@@ -1,5 +1,7 @@
  !function() {
     a();
-}(), !function() {
+}
+(), !function() {
     b();
-}(), c() + 1;
+}
+(), c() + 1;

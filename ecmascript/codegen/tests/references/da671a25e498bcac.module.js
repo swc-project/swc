@@ -1,2 +1,3 @@
 export default function a() {
-};
+}
+;

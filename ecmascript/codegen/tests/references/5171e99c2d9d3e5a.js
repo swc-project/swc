@@ -2,6 +2,7 @@ if (a) {
     if (b) {
         true;
     }
-} else {
+}
+ else {
     false;
 }

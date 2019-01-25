@@ -1,3 +1,4 @@
 try{
-}catch (yield) {
+}
+catch (yield) {
 }

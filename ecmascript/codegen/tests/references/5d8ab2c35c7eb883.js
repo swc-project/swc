@@ -1,6 +1,7 @@
 var a;
 if (b()) {
     a();
-} else {
+}
+ else {
     a();
 }

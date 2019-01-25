@@ -1,2 +1,3 @@
 var a = function eval() {
-};
+}
+;

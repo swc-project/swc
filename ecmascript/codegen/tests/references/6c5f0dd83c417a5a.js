@@ -1,7 +1,8 @@
 function a() {
     try{
         a();
-    }catch (b) {
+    }
+    catch (b) {
         var c = 1;
     }
     return c;

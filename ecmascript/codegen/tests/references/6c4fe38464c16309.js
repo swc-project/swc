@@ -1,3 +1,4 @@
 (function arguments() {
     'use strict';
-})();
+}
+)();

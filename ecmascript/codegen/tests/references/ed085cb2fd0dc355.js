@@ -1,6 +1,7 @@
 var a;
 if (!b && !c && !d && !e) {
     a = 1;
-} else {
+}
+ else {
     a = 2;
 }

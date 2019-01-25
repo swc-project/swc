@@ -1,5 +1,7 @@
 (function() {
     do {
         a();
-    }while (false)
-}());
+    }
+    while (false)
+}
+());

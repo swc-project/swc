@@ -1325,6 +1325,7 @@ impl<'a> Emitter<'a> {
             ListFormat::MultiLineBlockStatements,
         )?;
         punct!("}");
+        self.wr.write_line()?;
     }
 
     #[emitter]

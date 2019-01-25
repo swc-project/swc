@@ -1,4 +1,5 @@
 if (a) {
     b();
-} else {
+}
+ else {
 }

@@ -1,3 +1,4 @@
 try{
-}catch (eval) {
+}
+catch (eval) {
 }

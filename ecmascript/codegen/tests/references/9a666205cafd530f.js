@@ -2,6 +2,7 @@ function* a() {
     ({
          b () {
                 yield;
-            } 
+            }
+         
     });
 }

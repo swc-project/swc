@@ -1,3 +1,4 @@
 var a = function() {
     b();
-};
+}
+;

@@ -2,4 +2,5 @@
     'use strict';
     function a() {
     }
-});
+}
+);

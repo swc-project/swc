@@ -3,14 +3,17 @@
     if (b) return;
     a = new c();
     return a;
-})()(function() {
+}
+)()(function() {
     var a;
     if (b) return;
     a = new c();
     return a;
-})()(function() {
+}
+)()(function() {
     var a;
     if (b) return;
     a = new c();
     return a;
-})();
+}
+)();

@@ -1,7 +1,9 @@
 a = {
      get b () {
             return c;
-        }, set b (b){
+        }
+        , set b (b){
             c = b;
-        } 
+        }
+     
 };

@@ -1,3 +1,4 @@
 do {
     a;
-}while (b)
+}
+while (b)

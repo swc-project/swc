@@ -7,12 +7,14 @@ a = !b ? !null : !3;
 a = b() ? !4 : !-3.5;
 if (b) {
     a = true;
-} else {
+}
+ else {
     a = false;
 }
 if (b) {
     a = !5;
-} else {
+}
+ else {
     a = !6;
 }
 a = b ? false : true;
@@ -23,12 +25,14 @@ a = !b ? !9 : !10;
 a = b() ? !11 : !12;
 if (b) {
     a = false;
-} else {
+}
+ else {
     a = true;
 }
 if (b) {
     a = !13;
-} else {
+}
+ else {
     a = !14;
 }
 a = b ? 15 : false;
