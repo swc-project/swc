@@ -4,11 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
 pub fn block_scoping() -> BlockFolder<'static> {
-    BlockFolder::new(
-        Mark::fresh(Mark::root()),
-        Scope::new(ScopeKind::Fn, None),
-        None,
-    )
+    BlockFolder::new(Mark::root(), Scope::new(ScopeKind::Fn, None), None)
 }
 #[derive(Clone)]
 pub struct BlockFolder<'a> {
