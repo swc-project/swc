@@ -334,7 +334,7 @@ fn shorthand() {
 }
 
 #[test]
-fn same_level() {
+fn same_mark() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
@@ -479,7 +479,7 @@ fn fn_args() {
 }
 
 #[test]
-fn class_nested_var() {
+fn block_in_fn() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
@@ -517,6 +517,48 @@ fn class_nested_var() {
             {
                 var bar1;
             }
+        }
+        ",
+    );
+}
+
+#[test]
+fn flat_in_fn() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(mark1);
+
+            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                ident: quote_ident!("Foo"),
+                function: Function {
+                    span: DUMMY_SP,
+                    is_async: false,
+                    is_generator: false,
+                    decorators: vec![],
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![
+                            tester
+                                .parse_stmt("actual1.js", "var bar;")?
+                                .fold_with(&mut marker(&[("bar", mark1)])),
+                            tester
+                                .parse_stmt("actual2.js", "var bar;")?
+                                .fold_with(&mut marker(&[("bar", mark2)])),
+                        ],
+                    }),
+                    params: vec![],
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                },
+
+                declare: false,
+            }))])
+        },
+        "
+        function Foo() {
+            var bar;
+            var bar1;
         }
         ",
     );
