@@ -4,17 +4,26 @@ use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark};
 
 pub fn block_scoping() -> BlockFolder<'static> {
-    BlockFolder::new(Mark::root(), Scope::new(ScopeKind::Fn, None))
+    BlockFolder::new(
+        Mark::fresh(Mark::root()),
+        Scope::new(ScopeKind::Fn, None),
+        None,
+    )
 }
 #[derive(Clone)]
 pub struct BlockFolder<'a> {
     mark: Mark,
     current: Scope<'a>,
+    cur_defining: Option<(JsWord, Mark)>,
 }
 
 impl<'a> BlockFolder<'a> {
-    fn new(mark: Mark, current: Scope<'a>) -> Self {
-        BlockFolder { mark, current }
+    fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
+        BlockFolder {
+            mark,
+            current,
+            cur_defining,
+        }
     }
 
     fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
@@ -22,10 +31,10 @@ impl<'a> BlockFolder<'a> {
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
-            if mark == Mark::root() {
-                return None;
-            }
             if cur.declared_symbols.contains_key(sym) {
+                if mark == Mark::root() {
+                    return None;
+                }
                 return Some(mark);
             }
             mark = mark.parent();
@@ -34,16 +43,49 @@ impl<'a> BlockFolder<'a> {
 
         None
     }
+
+    fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
+            if *cur != ident.sym {
+                (true, self.mark)
+            } else {
+                (false, override_mark)
+            }
+        } else {
+            (true, self.mark)
+        };
+
+        if should_insert {
+            self.current
+                .declared_symbols
+                .insert(ident.sym.clone(), ident.span.ctxt());
+        }
+
+        Ident {
+            span: if mark == Mark::root() {
+                ident.span
+            } else {
+                ident.span.apply_mark(mark)
+            },
+            sym: ident.sym,
+            ..ident
+        }
+    }
 }
 
 impl<'a> Fold<Function> for BlockFolder<'a> {
     fn fold(&mut self, f: Function) -> Function {
         let child_mark = Mark::fresh(self.mark);
 
-        let mut child_folder =
-            BlockFolder::new(child_mark, Scope::new(ScopeKind::Fn, Some(&self.current)));
+        let mut child_folder = BlockFolder::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+        );
 
-        f.fold_children(&mut child_folder)
+        let f = f.fold_children(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+        f
     }
 }
 
@@ -54,9 +96,12 @@ impl<'a> Fold<BlockStmt> for BlockFolder<'a> {
         let mut child_folder = BlockFolder::new(
             child_mark,
             Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
         );
 
-        block.fold_children(&mut child_folder)
+        let block = block.fold_children(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+        block
     }
 }
 
@@ -70,23 +115,39 @@ impl<'a> Fold<VarDecl> for BlockFolder<'a> {
     }
 }
 
+impl<'a> Fold<FnExpr> for BlockFolder<'a> {
+    fn fold(&mut self, e: FnExpr) -> FnExpr {
+        let ident = if let Some(ident) = e.ident {
+            Some(self.fold_binding_ident(ident))
+        } else {
+            None
+        };
+
+        let function = e.function.fold_with(self);
+
+        FnExpr { ident, function }
+    }
+}
+
+impl<'a> Fold<FnDecl> for BlockFolder<'a> {
+    fn fold(&mut self, node: FnDecl) -> FnDecl {
+        let ident = self.fold_binding_ident(node.ident);
+
+        let function = node.function.fold_with(self);
+
+        FnDecl {
+            ident,
+            function,
+            ..node
+        }
+    }
+}
+
 impl<'a> Fold<Pat> for BlockFolder<'a> {
     fn fold(&mut self, pat: Pat) -> Pat {
         match pat {
             Pat::Ident(ident) => {
-                self.current
-                    .declared_symbols
-                    .insert(ident.sym.clone(), ident.span.ctxt());
-
-                let ident = Ident {
-                    span: if self.mark == Mark::root() {
-                        ident.span
-                    } else {
-                        ident.span.apply_mark(self.mark)
-                    },
-                    sym: ident.sym,
-                    ..ident
-                };
+                let ident = self.fold_binding_ident(ident);
                 return Pat::Ident(ident);
             }
 
@@ -113,35 +174,19 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         // order is important
 
-        let name = match decl.name {
-            Pat::Ident(Ident { ref sym, .. }) => Some(sym),
+        let name = decl.name.fold_with(self);
+
+        let cur_name = match name {
+            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
             _ => None,
         };
 
-        let init = match decl.init {
-            Some(box Expr::Fn(FnExpr {
-                ident: Some(ident),
-                function,
-            })) => {
-                if Some(&ident.sym) == name {
-                    Some(box Expr::Fn(FnExpr {
-                        ident: Some(ident),
-                        function: function.fold_with(self),
-                    }))
-                } else {
-                    Some(box Expr::Fn(
-                        FnExpr {
-                            ident: Some(ident),
-                            function,
-                        }
-                        .fold_with(self),
-                    ))
-                }
-            }
+        let old_def = self.cur_defining.take();
+        self.cur_defining = cur_name;
 
-            _ => decl.init.fold_children(self),
-        };
-        let name = decl.name.fold_with(self);
+        let init = decl.init.fold_children(self);
+
+        self.cur_defining = old_def;
 
         VarDeclarator { name, init, ..decl }
     }
@@ -150,6 +195,10 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 impl<'a> Fold<Ident> for BlockFolder<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
         let Ident { span, sym, .. } = i;
+        if self.cur_defining.as_ref().map(|v| &v.0) == Some(&sym) {
+            return Ident { sym, ..i };
+        }
+
         if let Some(mark) = self.mark_for(&sym) {
             Ident {
                 sym,
@@ -176,24 +225,33 @@ mod tests {
             let mark3 = Mark::fresh(mark2);
             let mark4 = Mark::fresh(mark3);
 
-            let folder1 = BlockFolder::new(mark1, Scope::new(ScopeKind::Block, None));
-            let mut folder2 =
-                BlockFolder::new(mark2, Scope::new(ScopeKind::Block, Some(&folder1.current)));
+            let folder1 = BlockFolder::new(mark1, Scope::new(ScopeKind::Block, None), None);
+            let mut folder2 = BlockFolder::new(
+                mark2,
+                Scope::new(ScopeKind::Block, Some(&folder1.current)),
+                None,
+            );
             folder2
                 .current
                 .declared_symbols
                 .insert("foo".into(), SyntaxContext::empty());
 
-            let mut folder3 =
-                BlockFolder::new(mark3, Scope::new(ScopeKind::Block, Some(&folder2.current)));
+            let mut folder3 = BlockFolder::new(
+                mark3,
+                Scope::new(ScopeKind::Block, Some(&folder2.current)),
+                None,
+            );
             folder3
                 .current
                 .declared_symbols
                 .insert("bar".into(), SyntaxContext::empty());
             assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
 
-            let mut folder4 =
-                BlockFolder::new(mark4, Scope::new(ScopeKind::Block, Some(&folder3.current)));
+            let mut folder4 = BlockFolder::new(
+                mark4,
+                Scope::new(ScopeKind::Block, Some(&folder3.current)),
+                None,
+            );
             folder4
                 .current
                 .declared_symbols
@@ -566,6 +624,56 @@ expect(a).toBe(2);"#
             return Foo;
         })(Bar);
         "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        block_scoping(),
+        class_nested,
+        r#"
+var Outer = function(_Hello) {
+    _inherits(Outer, _Hello);
+    function Outer() {
+        _classCallCheck(this, Outer);
+        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+        var Inner = function() {
+            function Inner() {
+                _classCallCheck(this, Inner1);
+            }
+            _createClass(Inner, [{
+                     key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
+                            return 'hello';
+                        } 
+                }]);
+            return Inner;
+        }();
+        return _possibleConstructorReturn(_this, new Inner());
+    }
+    return Outer;
+}(Hello);
+"#,
+        r#"
+var Outer = function(_Hello) {
+    _inherits(Outer, _Hello);
+    function Outer() {
+        _classCallCheck(this, Outer);
+        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+        var Inner = function() {
+            function Inner() {
+                _classCallCheck(this, Inner1);
+            }
+            _createClass(Inner, [{
+                     key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
+                            return 'hello';
+                        } 
+                }]);
+            return Inner;
+        }();
+        return _possibleConstructorReturn(_this, new Inner());
+    }
+    return Outer;
+}(Hello);
+"#
     );
 
     test!(
