@@ -2,7 +2,7 @@ use crate::scope::ScopeKind;
 use ast::*;
 use fnv::FnvHashSet;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark};
+use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 
 pub fn block_scoping() -> BlockFolder<'static> {
     BlockFolder::new(
@@ -69,22 +69,19 @@ impl<'a> BlockFolder<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+        if ident.span.ctxt() != SyntaxContext::empty() {
+            return ident;
+        }
+
         let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
             if *cur != ident.sym {
                 (true, self.mark)
             } else {
-                eprintln!("Overriding! {} -> {:?}", ident.sym, override_mark);
                 (false, override_mark)
             }
         } else {
             (true, self.mark)
         };
-        eprintln!(
-            "Binding: {}{:?}; -> {:?}",
-            ident.sym,
-            ident.span.ctxt(),
-            mark
-        );
 
         if should_insert {
             self.current.declared_symbols.insert(ident.sym.clone());
@@ -94,7 +91,7 @@ impl<'a> BlockFolder<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
-                eprintln!("Applying mark {} -> {:?}", ident.sym, mark);
+                eprintln!("{}{:?} -> {:?}", ident.sym, ident.span.ctxt(), mark);
                 ident.span.apply_mark(mark)
             },
             sym: ident.sym,
@@ -212,15 +209,21 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
         };
 
         let is_class_like = match decl.init {
-            Some(box Expr::Fn(..))
-            | Some(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(box Expr::Fn(..)),
+            Some(box Expr::Fn(FnExpr { ref ident, .. }))
+                if cur_name.is_some()
+                    && ident.as_ref().map(|v| &v.sym) == cur_name.as_ref().map(|v| &v.0) =>
+            {
+                true
+            }
+
+            Some(box Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
                 ..
             }))
             | Some(box Expr::Paren(ParenExpr {
                 expr:
                     box Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(box Expr::Fn(..)),
+                        callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
                         ..
                     }),
                 ..
@@ -249,9 +252,12 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 impl<'a> Fold<Ident> for BlockFolder<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
         let Ident { span, sym, .. } = i;
+        if span.ctxt() != SyntaxContext::empty() {
+            return Ident { sym, ..i };
+        }
 
         if let Some(mark) = self.mark_for(&sym) {
-            eprintln!("{} -> {:?}", sym, mark);
+            eprintln!("{}{:?} -> {:?}", sym, span.ctxt(), mark);
             Ident {
                 sym,
                 span: span.apply_mark(mark),
