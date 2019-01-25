@@ -69,6 +69,7 @@ impl<'a> BlockFolder<'a> {
             if *cur != ident.sym {
                 (true, self.mark)
             } else {
+                eprintln!("Overriding! {}:{:?}", ident.sym, override_mark);
                 (false, override_mark)
             }
         } else {
@@ -646,7 +647,7 @@ var Outer = function(_Hello) {
         var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
         var Inner = function() {
             function Inner() {
-                _classCallCheck(this, Inner1);
+                _classCallCheck(this, Inner);
             }
             _createClass(Inner, [{
                      key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
@@ -668,7 +669,7 @@ var Outer = function(_Hello) {
         var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
         var Inner = function() {
             function Inner() {
-                _classCallCheck(this, Inner1);
+                _classCallCheck(this, Inner);
             }
             _createClass(Inner, [{
                      key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
