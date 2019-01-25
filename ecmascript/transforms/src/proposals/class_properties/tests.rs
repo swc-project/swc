@@ -1010,7 +1010,7 @@ var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + se
   tmp1 = 'whatever', tmp2 = computed(), tmp3 = computed(), tmp4 = 'test' + one,
   tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz,
   _ref7 = `template`, _ref8 = `template${expression}`;
-var MyClass = (function() {
+var MyClass = function() {
     function MyClass() {
         _classCallCheck(this, MyClass);
         _defineProperty(this, _ref4, 'null');
@@ -1043,7 +1043,7 @@ var MyClass = (function() {
                 } 
         }]);
     return MyClass;
-})();
+}();
 _defineProperty(MyClass, _ref, 'test');
 _defineProperty(MyClass, _ref1, '247');
 _defineProperty(MyClass, _ref2, '247');
