@@ -91,7 +91,6 @@ impl<'a> BlockFolder<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
-                eprintln!("{}{:?} -> {:?}", ident.sym, ident.span.ctxt(), mark);
                 ident.span.apply_mark(mark)
             },
             sym: ident.sym,
@@ -234,12 +233,10 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
         let init = if is_class_like {
             let old_def = self.cur_defining.take();
             self.cur_defining = cur_name;
-            eprintln!("Defining {:?}", self.cur_defining);
 
             let init = decl.init.fold_children(self);
 
             self.cur_defining = old_def;
-            eprintln!("Defining finished");
             init
         } else {
             decl.init.fold_children(self)
@@ -257,7 +254,6 @@ impl<'a> Fold<Ident> for BlockFolder<'a> {
         }
 
         if let Some(mark) = self.mark_for(&sym) {
-            eprintln!("{}{:?} -> {:?}", sym, span.ctxt(), mark);
             Ident {
                 sym,
                 span: span.apply_mark(mark),
