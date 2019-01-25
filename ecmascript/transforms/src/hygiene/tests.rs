@@ -389,15 +389,20 @@ fn var_class_decl() {
 fn var_class_decl_2() {
     test(
         |tester| {
-            Ok(vec![tester.parse_stmt(
-                "actual1.js",
-                "
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "
                 var Foo = (function() {
                     function Foo() {}
                     return Foo;
                 }())
                 ",
-            )?])
+                )?
+                .fold_with(&mut marker(&[(
+                    "Foo",
+                    Mark::fresh(Mark::root()),
+                )]))])
         },
         "
         var Foo = (function(){
