@@ -55,6 +55,22 @@ impl Fold<Stmt> for Fixer {
                     expr,
                 }))
             }
+
+            // ({ a } = foo)
+            Stmt::Expr(box Expr::Assign(AssignExpr {
+                span,
+                left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+                op,
+                right,
+            })) => Stmt::Expr(box Expr::Paren(ParenExpr {
+                span,
+                expr: box Expr::Assign(AssignExpr {
+                    span,
+                    left: PatOrExpr::Pat(left),
+                    op,
+                    right,
+                }),
+            })),
             _ => stmt,
         };
 
