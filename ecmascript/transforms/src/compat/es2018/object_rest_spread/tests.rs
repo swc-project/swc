@@ -1070,26 +1070,26 @@ test!(
 ({ ...{ get foo () { return 'foo' } } });
 "#,
     r#"
-(_objectSpread({
+_objectSpread({
   x
 }, y, {
   a
 }, b, {
   c
-}));
+});
 
-(_objectSpread({}, Object.prototype));
+_objectSpread({}, Object.prototype);
 
-(_objectSpread({}, {
+_objectSpread({}, {
   foo: 'bar'
-}));
+});
 
-(_objectSpread({}, {
+_objectSpread({}, {
   get foo() {
     return 'foo';
   }
 
-}));
+});
 "#
 );
 
