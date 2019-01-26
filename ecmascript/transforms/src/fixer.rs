@@ -43,7 +43,18 @@ impl Fold<Stmt> for Fixer {
             Stmt::Expr(expr @ box Expr::Fn(FnExpr { ident: None, .. })) => {
                 Stmt::Expr(box expr.wrap_with_paren())
             }
-            Stmt::Expr(box Expr::Paren(ParenExpr { expr, .. })) => Stmt::Expr(expr),
+            Stmt::Expr(box Expr::Paren(ParenExpr { span, expr })) => match *expr {
+                Expr::Object(..) | Expr::Fn(..) => {
+                    Stmt::Expr(box Expr::Paren(ParenExpr { span, expr }))
+                }
+                _ => Stmt::Expr(expr),
+            },
+            Stmt::Expr(expr @ box Expr::Object(..)) | Stmt::Expr(expr @ box Expr::Fn(..)) => {
+                Stmt::Expr(box Expr::Paren(ParenExpr {
+                    span: expr.span(),
+                    expr,
+                }))
+            }
             _ => stmt,
         };
 
