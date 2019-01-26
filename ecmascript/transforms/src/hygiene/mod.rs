@@ -16,6 +16,10 @@ impl<'a> Hygiene<'a> {
 
         let can_declare_without_renaming = self.current.can_declare(&ident.sym, ctxt);
 
+        if cfg!(debug_assertions) {
+            eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
+        }
+
         self.current
             .declared_symbols
             .borrow_mut()
@@ -62,11 +66,11 @@ impl<'a> Hygiene<'a> {
             }
         };
 
-        let scope = self.current.parent_scope_of(&sym, ctxt);
-
         if cfg!(debug_assertions) {
             eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
         }
+
+        let scope = self.current.scope_of(&sym, ctxt);
 
         debug_assert!(
             {
@@ -95,7 +99,8 @@ impl<'a> Hygiene<'a> {
                 .push(ctxt);
         }
 
-        scope.ops.borrow_mut().push(ScopeOp::Rename {
+        let parent = scope.parent.unwrap_or(scope);
+        parent.ops.borrow_mut().push(ScopeOp::Rename {
             from: (sym, ctxt),
             to: renamed,
         });
@@ -348,11 +353,17 @@ impl<'a> Scope<'a> {
             cur = scope.parent;
         }
 
-        let scope = self.parent_scope_of(&sym, ctxt);
+        // let scope = self.scope_of(&sym, ctxt);
 
+        let mut cur = Some(self);
         let mut ctxts = vec![];
-        if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
-            ctxts.extend_from_slice(&cxs);
+        while let Some(scope) = cur {
+            dbg!(&scope.declared_symbols.borrow());
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
+                ctxts.extend_from_slice(&cxs);
+            }
+
+            cur = scope.parent;
         }
         ctxts.retain(|c| *c != ctxt);
 
