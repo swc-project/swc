@@ -415,7 +415,7 @@ class A {
 
 "#,
     r#"
-var A = function A(_force) {
+var A = function A(force1) {
   
 
   _classCallCheck(this, A);
