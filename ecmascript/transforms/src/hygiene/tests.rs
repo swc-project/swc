@@ -567,7 +567,7 @@ fn flat_in_fn() {
 #[test]
 fn params_in_fn() {
     test(
-        |tester| {
+        |_tester| {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 

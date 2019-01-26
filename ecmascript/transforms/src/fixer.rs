@@ -41,6 +41,7 @@ impl Fold<Stmt> for Fixer {
             Stmt::Expr(expr @ box Expr::Fn(FnExpr { ident: None, .. })) => {
                 Stmt::Expr(box expr.wrap_with_paren())
             }
+            Stmt::Expr(box Expr::Paren(ParenExpr { expr, .. })) => Stmt::Expr(expr),
             _ => stmt,
         }
     }
