@@ -619,3 +619,41 @@ fn next_fn() {
         ",
     );
 }
+
+#[test]
+fn for_x() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![
+                tester
+                    .parse_stmt(
+                        "actual1.js",
+                        "for (var _ref of []){
+                            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                        }",
+                    )?
+                    .fold_with(&mut marker(&[("_ref", mark1)])),
+                tester
+                    .parse_stmt(
+                        "actual2.js",
+                        "for (var _ref of []){
+                            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                        }",
+                    )?
+                    .fold_with(&mut marker(&[("_ref", mark2)])),
+            ])
+        },
+        "
+        for (var _ref of []){
+            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+        }
+
+        for (var _ref1 of []){
+            var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
+        }
+        ",
+    );
+}
