@@ -717,3 +717,21 @@ fn fn_param_same_name() {
         "function foo(param, param1){}",
     );
 }
+
+#[test]
+fn fn_param_same_name_in_arg() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt("actual1.js", "use(function (param, param){})")?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "param",
+                    &[mark1, mark2],
+                )]))])
+        },
+        "use(function (param, param1){})",
+    );
+}
