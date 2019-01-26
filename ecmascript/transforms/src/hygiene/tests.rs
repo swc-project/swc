@@ -23,6 +23,31 @@ impl Fold<Ident> for Marker {
     }
 }
 
+struct OnceMarker {
+    map: HashMap<JsWord, Vec<Mark>>,
+}
+
+impl OnceMarker {
+    fn new(markers: &[(&str, &[Mark])]) -> OnceMarker {
+        OnceMarker {
+            map: markers
+                .iter()
+                .map(|(k, v)| ((*k).into(), (*v).into()))
+                .collect(),
+        }
+    }
+}
+
+impl Fold<Ident> for OnceMarker {
+    fn fold(&mut self, mut ident: Ident) -> Ident {
+        if let Some(marks) = self.map.get_mut(&ident.sym) {
+            ident.span = ident.span.apply_mark(marks.remove(0));
+        }
+
+        ident
+    }
+}
+
 fn test<F>(op: F, expected: &str)
 where
     F: FnOnce(&mut crate::tests::Tester) -> Result<Vec<Stmt>, ()>,
@@ -672,5 +697,23 @@ fn for_x() {
             }
         }
         ",
+    );
+}
+
+#[test]
+fn fn_param_same_name() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt("actual1.js", "function foo(param, param){}")?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "param",
+                    &[mark1, mark2],
+                )]))])
+        },
+        "function foo(param, param1){}",
     );
 }
