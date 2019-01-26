@@ -1,7 +1,7 @@
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{ExprFactory, StmtLike},
+    util::{alias_ident_for, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{iter, mem, sync::Arc};
@@ -173,11 +173,10 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let decl = decl.fold_children(self);
 
-            let mut var_ident = match decl.init {
+            let var_ident = match decl.init {
                 Some(box Expr::Ident(ref ident)) => ident.clone(),
-                _ => quote_ident!("_ref"),
+                _ => quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(Mark::root())), "_ref"),
             };
-            var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
             let has_init = decl.init.is_some();
             if let Some(init) = decl.init {
@@ -245,10 +244,7 @@ impl Fold<Expr> for RestFolder {
                 op: op!("="),
                 right,
             }) => {
-                let mut var_ident = match *right {
-                    Expr::Ident(ref ident) => quote_ident!(format!("_{}", ident.sym)),
-                    _ => quote_ident!("_tmp"),
-                };
+                let mut var_ident = alias_ident_for(&right, "_tmp");
                 var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
                 // println!("Var: var_ident = None");
