@@ -21,7 +21,7 @@ test!(
 [{ a = 1 }] = foo"#,
     r#"let a;
 var ref, ref1, ref2;
-( ref = foo, ( ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref1), ref);"#
+ref = foo, ( ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref1), ref;"#
 );
 
 test!(
@@ -39,8 +39,8 @@ test!(
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref, ref1, ref2;
-( ref = ['hello', [', ', 'junk'], ['world']], a = ref[0],
- ( ref1 = ref[1], b = ref1[0], ref1), ( ref2 = ref[2], c = ref2[0], ref2), ref);
+ref = ['hello', [', ', 'junk'], ['world']], a = ref[0],
+    ( ref1 = ref[1], b = ref1[0], ref1), ( ref2 = ref[2], c = ref2[0], ref2), ref;
 "#
 );
 
@@ -52,7 +52,7 @@ test!(
 [x, y] = [1, 2];"#,
     r#"var x, y;
 var ref;
-( ref = [1, 2], x = ref[0], y = ref[1], ref);"#
+ref = [1, 2], x = ref[0], y = ref[1], ref;"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
@@ -301,7 +301,7 @@ test!(
     babel_issue_5744,
     r#"if (true) [a, b] = [b, a];"#,
     r#"var ref;
-if (true) ( ref = [b, a], a = ref[0], b = ref[1], ref);"#
+if (true) ref = [b, a], a = ref[0], b = ref[1], ref;"#
 );
 
 test!(
@@ -337,7 +337,7 @@ test!(
     member_expr,
     r#"[foo.foo, foo.bar] = [1, 2];"#,
     r#"var ref;
-( ref = [1, 2], foo.foo = ref[0], foo.bar = ref[1], ref);"#
+ref = [1, 2], foo.foo = ref[0], foo.bar = ref[1], ref;"#
 );
 
 test!(

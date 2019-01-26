@@ -1551,14 +1551,14 @@ function (_Base) {
     value: function update() {
       var _ref, _superRef;
 
-      (_set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef);
+      _set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;
     }
   }, {
     key: "update2",
     value: function update2() {
       var _ref, _superRef;
 
-      (_set(_getPrototypeOf(Obj.prototype), _ref = i, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef);
+      _set(_getPrototypeOf(Obj.prototype), _ref = i, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;
     }
   }]);
 

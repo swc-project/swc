@@ -557,6 +557,8 @@ function WithCurlyBraces() {
     );
 
     test!(
+        // Cannot represent function expression without parens (in result code)
+        ignore,
         ::swc_ecma_parser::Syntax::default(),
         block_scoping(),
         babel_issue_4946,
