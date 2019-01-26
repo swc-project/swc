@@ -273,6 +273,19 @@ impl<'a> Fold<Ident> for BlockFolder<'a> {
     }
 }
 
+impl<'a> Fold<ArrowExpr> for BlockFolder<'a> {
+    fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let params = e.params.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = e.body.fold_with(self);
+
+        ArrowExpr { params, body, ..e }
+    }
+}
+
 impl<'a> Fold<Constructor> for BlockFolder<'a> {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let old_in_var_decl = self.in_var_decl;
