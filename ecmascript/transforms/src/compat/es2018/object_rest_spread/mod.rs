@@ -60,20 +60,29 @@ macro_rules! impl_for_for_stmt {
                             }],
                             ..var_decl
                         });
+
                         // Unpack variables
                         let mut decls = var_decl
                             .decls
                             .into_iter()
                             .map(|decl| VarDeclarator {
+                                name: self.fold_rest(
+                                    decl.name,
+                                    box Expr::Ident(ref_ident.clone()),
+                                    false,
+                                    true,
+                                ),
                                 init: Some(box Expr::Ident(ref_ident.clone())),
                                 ..decl
                             })
-                            .collect::<Vec<_>>()
-                            .fold_with(self);
+                            .collect::<Vec<_>>();
+                        // .fold_with(self);
 
                         // **prepend** decls to self.vars
                         decls.append(&mut self.vars);
                         mem::swap(&mut self.vars, &mut decls);
+                        dbg!(&self.vars);
+                        dbg!(&left);
                         left
                     }
                     VarDeclOrPat::Pat(pat) => {
