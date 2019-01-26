@@ -243,7 +243,9 @@ macro_rules! exec_tr {
                     $input
                 ),
             )?;
-            let module = module.fold_with(&mut crate::fixer::fixer());
+            let module = module
+                .fold_with(&mut crate::hygiene::hygiene())
+                .fold_with(&mut crate::fixer::fixer());
 
             let src_without_helpers = tester.print(&module);
             let module = module.fold_with(&mut InjectHelpers {
