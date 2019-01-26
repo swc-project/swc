@@ -28,6 +28,39 @@ fn spec_tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     )
 }
 
+test!(
+    syntax(),
+    tr(Default::default()),
+    custom_singleton,
+    r#"
+let singleton;
+class Sub extends Foo {
+  constructor() {
+    if (singleton) {
+      return singleton;
+    }
+    singleton = super();
+  }
+}
+"#,
+    r#"
+let singleton;
+let Sub = function(_Foo) {
+    _inherits(Sub, _Foo);
+    function Sub() {
+        var _this;
+        _classCallCheck(this, Sub);
+        if (singleton) {
+            return _possibleConstructorReturn(_this, singleton);
+        }
+        singleton = _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub).call(this));
+        return _possibleConstructorReturn(_this);
+    }
+    return Sub;
+}(Foo);
+"#
+);
+
 // spec_constructor_only
 test!(
     syntax(),

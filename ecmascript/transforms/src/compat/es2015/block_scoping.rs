@@ -39,6 +39,7 @@ pub struct BlockFolder<'a> {
     mark: Mark,
     current: Scope<'a>,
     cur_defining: Option<(JsWord, Mark)>,
+    in_var_decl: bool,
 }
 
 impl<'a> BlockFolder<'a> {
@@ -47,6 +48,7 @@ impl<'a> BlockFolder<'a> {
             mark,
             current,
             cur_defining,
+            in_var_decl: false,
         }
     }
 
@@ -100,17 +102,24 @@ impl<'a> BlockFolder<'a> {
 }
 
 impl<'a> Fold<Function> for BlockFolder<'a> {
-    fn fold(&mut self, f: Function) -> Function {
+    fn fold(&mut self, mut f: Function) -> Function {
         let child_mark = Mark::fresh(self.mark);
 
-        let mut child_folder = BlockFolder::new(
+        // Child folder
+        let mut folder = BlockFolder::new(
             child_mark,
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.cur_defining.take(),
         );
 
-        let f = f.fold_children(&mut child_folder);
-        self.cur_defining = child_folder.cur_defining;
+        folder.in_var_decl = true;
+        f.params = f.params.fold_with(&mut folder);
+
+        folder.in_var_decl = false;
+        f.body = f.body.map(|stmt| stmt.fold_children(&mut folder));
+
+        self.cur_defining = folder.cur_defining;
+
         f
     }
 }
@@ -169,30 +178,21 @@ impl<'a> Fold<FnDecl> for BlockFolder<'a> {
     }
 }
 
-impl<'a> Fold<Pat> for BlockFolder<'a> {
-    fn fold(&mut self, pat: Pat) -> Pat {
-        match pat {
-            Pat::Ident(ident) => {
-                let ident = self.fold_binding_ident(ident);
-                return Pat::Ident(ident);
-            }
-
-            // TODO(kdy1): Is this ok?
-            _ => pat.fold_children(self),
-        }
-    }
-}
-
 impl<'a> Fold<Expr> for BlockFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
-        match expr {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = false;
+        let expr = match expr {
             // Leftmost one of a member expression shoukld be resolved.
             Expr::Member(me) => Expr::Member(MemberExpr {
                 obj: me.obj.fold_with(self),
                 ..me
             }),
             _ => expr.fold_children(self),
-        }
+        };
+        self.in_var_decl = old_in_var_decl;
+
+        expr
     }
 }
 
@@ -200,7 +200,10 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         // order is important
 
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
         let name = decl.name.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
 
         let cur_name = match name {
             Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
@@ -248,21 +251,57 @@ impl<'a> Fold<VarDeclarator> for BlockFolder<'a> {
 
 impl<'a> Fold<Ident> for BlockFolder<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
-        let Ident { span, sym, .. } = i;
-        if span.ctxt() != SyntaxContext::empty() {
-            return Ident { sym, ..i };
-        }
-
-        if let Some(mark) = self.mark_for(&sym) {
-            Ident {
-                sym,
-                span: span.apply_mark(mark),
-                ..i
-            }
+        if self.in_var_decl {
+            self.fold_binding_ident(i)
         } else {
-            // Cannot resolve reference. (TODO: Report error)
-            Ident { sym, span, ..i }
+            let Ident { span, sym, .. } = i;
+            if span.ctxt() != SyntaxContext::empty() {
+                return Ident { sym, ..i };
+            }
+
+            if let Some(mark) = self.mark_for(&sym) {
+                Ident {
+                    sym,
+                    span: span.apply_mark(mark),
+                    ..i
+                }
+            } else {
+                // Cannot resolve reference. (TODO: Report error)
+                Ident { sym, span, ..i }
+            }
         }
+    }
+}
+
+impl<'a> Fold<Constructor> for BlockFolder<'a> {
+    fn fold(&mut self, c: Constructor) -> Constructor {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let params = c.params.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = c.body.fold_with(self);
+        let key = c.key.fold_with(self);
+
+        Constructor {
+            params,
+            body,
+            key,
+            ..c
+        }
+    }
+}
+
+impl<'a> Fold<CatchClause> for BlockFolder<'a> {
+    fn fold(&mut self, c: CatchClause) -> CatchClause {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let param = c.param.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = c.body.fold_with(self);
+
+        CatchClause { param, body, ..c }
     }
 }
 
@@ -792,6 +831,26 @@ var Outer = function(_Hello) {
             return Foo;
         }(Bar);
 "#
+    );
+
+    identical!(
+        class_singleton,
+        r#"
+var singleton;
+var Sub = function(_Foo) {
+    _inherits(Sub, _Foo);
+    function Sub() {
+        var _this;
+        _classCallCheck(this, Sub);
+        if (singleton) {
+            return _possibleConstructorReturn(_this, singleton);
+        }
+        singleton = _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub).call(this));
+        return _possibleConstructorReturn(_this);
+    }
+    return Sub;
+}(Foo);
+        "#
     );
 
 }

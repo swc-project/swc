@@ -130,12 +130,14 @@ pub fn hygiene() -> impl Pass + Clone + Copy {
 #[doc(hidden)]
 struct Hygiene<'a> {
     current: Scope<'a>,
+    in_var_decl: bool,
 }
 
 impl<'a> Hygiene<'a> {
     pub fn new() -> Self {
         Hygiene {
             current: Scope::new(ScopeKind::Fn, None),
+            in_var_decl: false,
         }
     }
 
@@ -175,6 +177,7 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)),
+            in_var_decl: false,
         };
         let node = node.fold_children(&mut folder);
 
@@ -193,25 +196,28 @@ impl<'a> Hygiene<'a> {
 
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)),
+            in_var_decl: false,
         };
 
+        folder.in_var_decl = true;
         node.params = node.params.fold_with(&mut folder);
+
+        folder.in_var_decl = false;
         node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
 
         folder.apply_ops(node)
     }
 }
 
-impl<'a> Fold<Pat> for Hygiene<'a> {
-    fn fold(&mut self, pat: Pat) -> Pat {
-        match pat {
-            Pat::Ident(ident) => {
-                self.add_declared_ref(ident.clone());
-                Pat::Ident(ident)
-            }
-            // TODO
-            _ => pat.fold_children(self),
-        }
+impl<'a> Fold<VarDeclarator> for Hygiene<'a> {
+    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let name = decl.name.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let init = decl.init.fold_with(self);
+        VarDeclarator { name, init, ..decl }
     }
 }
 
@@ -231,20 +237,35 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
     }
 }
 
+impl<'a> Fold<Ident> for Hygiene<'a> {
+    /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
+    fn fold(&mut self, i: Ident) -> Ident {
+        if self.in_var_decl {
+            self.add_declared_ref(i.clone())
+        } else {
+            self.add_used_ref(i.clone());
+        }
+
+        i
+    }
+}
+
 impl<'a> Fold<Expr> for Hygiene<'a> {
     fn fold(&mut self, node: Expr) -> Expr {
-        match node {
-            Expr::Ident(ref ident) => self.add_used_ref(ident.clone()),
-            Expr::Member(e) => {
-                return Expr::Member(MemberExpr {
-                    obj: e.obj.fold_with(self),
-                    ..e
-                });
-            }
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = false;
+        let node = match node {
+            Expr::Ident(..) => node.fold_children(self),
+            Expr::Member(e) => Expr::Member(MemberExpr {
+                obj: e.obj.fold_with(self),
+                ..e
+            }),
 
-            Expr::Assign(..) | Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
-            _ => {}
-        }
+            Expr::Assign(..) | Expr::Fn(..) | Expr::Call(..) => node.fold_children(self),
+            _ => node,
+        };
+
+        self.in_var_decl = old_in_var_decl;
 
         node
     }
@@ -369,5 +390,37 @@ impl<'a> Scope<'a> {
             Some(parent) => parent.is_declared(sym),
             _ => false,
         }
+    }
+}
+
+impl<'a> Fold<Constructor> for Hygiene<'a> {
+    fn fold(&mut self, c: Constructor) -> Constructor {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let params = c.params.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = c.body.fold_with(self);
+        let key = c.key.fold_with(self);
+
+        Constructor {
+            params,
+            body,
+            key,
+            ..c
+        }
+    }
+}
+
+impl<'a> Fold<CatchClause> for Hygiene<'a> {
+    fn fold(&mut self, c: CatchClause) -> CatchClause {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let param = c.param.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = c.body.fold_with(self);
+
+        CatchClause { param, body, ..c }
     }
 }
