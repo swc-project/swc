@@ -34,16 +34,22 @@ impl Fold<VarDeclarator> for Fixer {
 
 impl Fold<Stmt> for Fixer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children(self);
+        let old = self.ctx;
+        self.ctx = Context::Default;
 
-        match stmt {
+        let stmt = stmt.fold_children(self);
+        let stmt = match stmt {
             // It's important for arrow pass to work properly.
             Stmt::Expr(expr @ box Expr::Fn(FnExpr { ident: None, .. })) => {
                 Stmt::Expr(box expr.wrap_with_paren())
             }
             Stmt::Expr(box Expr::Paren(ParenExpr { expr, .. })) => Stmt::Expr(expr),
             _ => stmt,
-        }
+        };
+
+        self.ctx = old;
+
+        stmt
     }
 }
 

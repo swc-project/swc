@@ -49,7 +49,7 @@ let TestClass = {
 let TestClass = {
      name: 'John Doe',
      testMethodFailure () {
-        return new Promise((function(resolve) {
+        return new Promise(function(resolve) {
           var _ref = _asyncToGenerator((function*(resolve) {
             console.log(this);
             setTimeout(resolve, 1000);
@@ -57,7 +57,7 @@ let TestClass = {
           return function() {
             return _ref.apply(this, arguments);
           };
-        })().bind(this));
+        }().bind(this));
       } 
 };
 "#
@@ -181,9 +181,9 @@ function _s() {
         for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             args[_key - 1] = arguments[_key];
         }
-        let t = (function(y, a) {
+        let t = function(y, a) {
             var _t = _asyncToGenerator((function*(y, a) {
-                let r = (function(z, b) {
+                let r = function(z, b) {
                     var _ref = _asyncToGenerator((function*(z, b) {
                         for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];
@@ -195,7 +195,7 @@ function _s() {
                     return function() {
                         return _ref.apply(this, arguments);
                     };
-                })().bind(this);
+                }().bind(this);
                 yield r();
                 console.log(this, args, arguments);
                 return this.g(r);
@@ -203,7 +203,7 @@ function _s() {
             return function t() {
                 return _t.apply(this, arguments);
             };
-        })().bind(this);
+        }().bind(this);
         yield t();
         return this.h(t);
     }).bind(this));
@@ -347,14 +347,14 @@ var foo = async function bar() {
 };
 "#,
     r#"
-var foo = (function() {
+var foo = function() {
   var _bar = _asyncToGenerator(function*() {
     console.log(bar);
   });
   return function bar() {
     return _bar.apply(this, arguments);
   };
-})();
+}();
 "#
 );
 
@@ -366,13 +366,13 @@ test!(
 foo(async function () {
 });"#,
     r#"
-foo((function() {
+foo(function() {
   var _ref = _asyncToGenerator(function*() {
   });
   return function() {
     return _ref.apply(this, arguments);
   };
-})());
+}());
 "#
 );
 
