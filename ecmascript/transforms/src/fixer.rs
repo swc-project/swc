@@ -168,11 +168,15 @@ impl Fold<BinExpr> for Fixer {
 mod tests {
     use super::*;
 
-    test!(
-        Default::default(),
-        fixer(),
-        fn_expr_position,
-        r#"foo(function(){}())"#,
-        r#"foo(function(){}())"#
-    );
+    macro_rules! identical {
+        ($name:ident, $src:literal) => {
+            test!(Default::default(), fixer(), $name, $src, $src);
+        };
+    }
+
+    identical!(fn_expr_position, r#"foo(function(){}())"#);
+
+    identical!(fn_decl, r#"function foo(){}"#);
+
+    identical!(iife, r#"(function(){})()"#);
 }
