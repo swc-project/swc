@@ -735,3 +735,36 @@ fn fn_param_same_name_in_arg() {
         "use(function (param, param1){})",
     );
 }
+
+#[test]
+fn nested_fn_param_with_same_name() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "
+                    function _three() {
+                        _three = _asyncToGenerator(function*(a, param, c, param) {
+                        });
+                        return _three.apply(this, arguments);
+                    }
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "param",
+                    &[mark1, mark2],
+                )]))])
+        },
+        "
+        function _three() {
+            _three = _asyncToGenerator(function*(a, param, c, param1) {
+            });
+            return _three.apply(this, arguments);
+        }
+        ",
+    );
+}
