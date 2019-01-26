@@ -2,13 +2,13 @@ use self::used_name::{UsedNameCollector, UsedNameRenamer};
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{alias_ident_for, default_constructor, ExprFactory, ModuleItemLike, StmtLike},
+    util::{
+        alias_ident_for, default_constructor, undefined, ExprFactory, ModuleItemLike, StmtLike,
+    },
 };
 use ast::*;
 use std::{iter, sync::Arc};
-use swc_common::{
-    util::move_map::MoveMap, Fold, FoldWith, Mark, Span, Spanned, VisitWith, DUMMY_SP,
-};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -356,12 +356,4 @@ impl Fold<Function> for DefinePropertyInjector {
     fn fold(&mut self, n: Function) -> Function {
         n
     }
-}
-
-fn undefined(span: Span) -> Box<Expr> {
-    box Expr::Unary(UnaryExpr {
-        span,
-        op: op!("void"),
-        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, span })),
-    })
 }

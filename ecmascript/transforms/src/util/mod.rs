@@ -17,7 +17,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod factory;
 mod value;
@@ -850,4 +850,12 @@ pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
         } => true,
         _ => false,
     }
+}
+
+pub(crate) fn undefined(span: Span) -> Box<Expr> {
+    box Expr::Unary(UnaryExpr {
+        span,
+        op: op!("void"),
+        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, span })),
+    })
 }
