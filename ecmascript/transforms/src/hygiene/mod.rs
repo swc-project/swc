@@ -242,7 +242,7 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
                 });
             }
 
-            Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
+            Expr::Assign(..) | Expr::Fn(..) | Expr::Call(..) => return node.fold_children(self),
             _ => {}
         }
 
