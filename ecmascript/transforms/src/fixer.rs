@@ -39,38 +39,39 @@ impl Fold<Stmt> for Fixer {
 
         let stmt = stmt.fold_children(self);
         let stmt = match stmt {
-            // It's important for arrow pass to work properly.
-            Stmt::Expr(expr @ box Expr::Fn(FnExpr { ident: None, .. })) => {
-                Stmt::Expr(box expr.wrap_with_paren())
-            }
-            Stmt::Expr(box Expr::Paren(ParenExpr { span, expr })) => match *expr {
-                Expr::Object(..) | Expr::Fn(..) => {
-                    Stmt::Expr(box Expr::Paren(ParenExpr { span, expr }))
+            Stmt::Expr(expr) => {
+                fn unwrap_paren_expr(e: Box<Expr>) -> Box<Expr> {
+                    match *e {
+                        Expr::Paren(ParenExpr { expr, .. }) => unwrap_paren_expr(expr),
+                        _ => e,
+                    }
                 }
-                _ => Stmt::Expr(expr),
-            },
-            Stmt::Expr(expr @ box Expr::Object(..)) | Stmt::Expr(expr @ box Expr::Fn(..)) => {
-                Stmt::Expr(box Expr::Paren(ParenExpr {
-                    span: expr.span(),
-                    expr,
-                }))
+                let expr = unwrap_paren_expr(expr);
+
+                match *expr {
+                    // It's important for arrow pass to work properly.
+                    Expr::Object(..) | Expr::Fn(..) => Stmt::Expr(box expr.wrap_with_paren()),
+
+                    // ({ a } = foo)
+                    Expr::Assign(AssignExpr {
+                        span,
+                        left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+                        op,
+                        right,
+                    }) => Stmt::Expr(
+                        box AssignExpr {
+                            span,
+                            left: PatOrExpr::Pat(left),
+                            op,
+                            right,
+                        }
+                        .wrap_with_paren(),
+                    ),
+
+                    _ => Stmt::Expr(expr),
+                }
             }
 
-            // ({ a } = foo)
-            Stmt::Expr(box Expr::Assign(AssignExpr {
-                span,
-                left: PatOrExpr::Pat(left @ box Pat::Object(..)),
-                op,
-                right,
-            })) => Stmt::Expr(box Expr::Paren(ParenExpr {
-                span,
-                expr: box Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(left),
-                    op,
-                    right,
-                }),
-            })),
             _ => stmt,
         };
 
@@ -112,7 +113,7 @@ context_fn_args!(CallExpr);
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
         let mut expr = match expr {
-            Expr::Paren(..) => expr,
+            Expr::Paren(..) => return expr,
             _ => expr.fold_children(self),
         };
 
