@@ -99,8 +99,7 @@ impl<'a> Hygiene<'a> {
                 .push(ctxt);
         }
 
-        let parent = scope.parent.unwrap_or(scope);
-        parent.ops.borrow_mut().push(ScopeOp::Rename {
+        scope.ops.borrow_mut().push(ScopeOp::Rename {
             from: (sym, ctxt),
             to: renamed,
         });
@@ -174,16 +173,12 @@ impl<'a> Fold<TryStmt> for Hygiene<'a> {
 
 impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
-        let node = {
-            let mut folder = Hygiene {
-                current: Scope::new(ScopeKind::Block, Some(&self.current)),
-            };
-
-            let node = node.fold_children(&mut folder);
-            node
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Block, Some(&self.current)),
         };
+        let node = node.fold_children(&mut folder);
 
-        self.apply_ops(node)
+        folder.apply_ops(node)
     }
 }
 
@@ -203,7 +198,7 @@ impl<'a> Hygiene<'a> {
         node.params = node.params.fold_with(&mut folder);
         node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
 
-        self.apply_ops(node)
+        folder.apply_ops(node)
     }
 }
 
