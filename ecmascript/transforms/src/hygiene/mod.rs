@@ -27,6 +27,7 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
+        eprintln!("Renaming from decl");
         self.rename(ident.sym, ctxt);
     }
 
@@ -40,6 +41,7 @@ impl<'a> Hygiene<'a> {
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
+        eprintln!("Renaming from usage");
         for cx in conflicts {
             self.rename(ident.sym.clone(), cx)
         }
@@ -59,14 +61,28 @@ impl<'a> Hygiene<'a> {
             }
         };
 
-        self.current
-            .scope_of(&sym, ctxt)
-            .ops
-            .borrow_mut()
-            .push(ScopeOp::Rename {
-                from: (sym, ctxt),
-                to: renamed,
-            });
+        let is_ok = {
+            self.current
+                .scope_of(&sym, ctxt)
+                .ops
+                .borrow()
+                .iter()
+                .all(|op| match *op {
+                    ScopeOp::Rename { ref from, .. } => from.0 != sym || from.1 != ctxt,
+                })
+        };
+        if is_ok {
+            eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
+
+            self.current
+                .scope_of(&sym, ctxt)
+                .ops
+                .borrow_mut()
+                .push(ScopeOp::Rename {
+                    from: (sym, ctxt),
+                    to: renamed,
+                });
+        }
     }
 }
 
@@ -299,17 +315,43 @@ impl<'a> Scope<'a> {
         while let Some(scope) = cur {
             for op in scope.ops.borrow().iter() {
                 match *op {
-                    ScopeOp::Rename { ref from, ref to } if from.0 == *sym => sym = to.clone(),
+                    ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
+                        eprintln!("Changing symbol: {} -> {}", from.0, to);
+                        sym = to.clone()
+                    }
                     _ => {}
                 }
             }
 
+            cur = scope.parent;
+        }
+
+        let mut cur = Some(self);
+        while let Some(scope) = cur {
             if let Some(cxs) = scope.declared_symbols.get(&sym) {
                 ctxts.extend_from_slice(&cxs);
             }
 
             cur = scope.parent;
         }
+
+        // while let Some(scope) = cur {
+        //     for op in scope.ops.borrow().iter() {
+        //         match *op {
+        //             ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1
+        // == ctxt => {                 eprintln!("Changing symbol: {} -> {}",
+        // from.0, to);                 sym = to.clone()
+        //             }
+        //             _ => {}
+        //         }
+        //     }
+
+        //     if let Some(cxs) = scope.declared_symbols.get(&sym) {
+        //         ctxts.extend_from_slice(&cxs);
+        //     }
+
+        //     cur = scope.parent;
+        // }
         ctxts.retain(|c| *c != ctxt);
 
         ctxts
