@@ -280,16 +280,6 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn parent_scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
-        match self.scope_of(sym, ctxt) {
-            Scope {
-                parent: Some(parent),
-                ..
-            } => parent,
-            scope => scope,
-        }
-    }
-
     fn scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
         if let Some(prev) = self.declared_symbols.borrow().get(sym) {
             if prev.contains(&ctxt) {
