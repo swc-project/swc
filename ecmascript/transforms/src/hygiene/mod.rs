@@ -326,7 +326,9 @@ impl<'a> Scope<'a> {
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
     fn conflicts(&self, mut sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
-        eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
+        if cfg!(debug_assertions) {
+            eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
+        }
 
         let mut cur = Some(self);
 
@@ -334,7 +336,9 @@ impl<'a> Scope<'a> {
             for op in scope.ops.borrow().iter() {
                 match *op {
                     ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
-                        eprintln!("Changing symbol: {} -> {}", from.0, to);
+                        if cfg!(debug_assertions) {
+                            eprintln!("Changing symbol: {} -> {}", from.0, to);
+                        }
                         sym = to.clone()
                     }
                     _ => {}
