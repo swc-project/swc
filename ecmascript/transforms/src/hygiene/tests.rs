@@ -565,6 +565,39 @@ fn flat_in_fn() {
 }
 
 #[test]
+fn params_in_fn() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+                ident: quote_ident!("Foo"),
+                function: Function {
+                    span: DUMMY_SP,
+                    is_async: false,
+                    is_generator: false,
+                    decorators: vec![],
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![],
+                    }),
+                    params: vec![
+                        Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark1))),
+                        Pat::Ident(Ident::new("param".into(), DUMMY_SP.apply_mark(mark2))),
+                    ],
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                },
+
+                declare: false,
+            }))])
+        },
+        "function Foo(param, param1) {}",
+    );
+}
+
+#[test]
 fn next_fn() {
     test(
         |tester| {
