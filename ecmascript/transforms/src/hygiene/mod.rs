@@ -1,8 +1,8 @@
 use self::ops::{Operator, ScopeOp};
 use crate::{pass::Pass, scope::ScopeKind};
 use ast::*;
-use fnv::{FnvHashMap, FnvHashSet};
-use std::{cell::RefCell, rc::Rc};
+use fnv::FnvHashMap;
+use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
 
@@ -18,6 +18,7 @@ impl<'a> Hygiene<'a> {
 
         self.current
             .declared_symbols
+            .borrow_mut()
             .entry(ident.sym.clone())
             .or_insert_with(Vec::new)
             .push(ctxt);
@@ -27,21 +28,21 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
-        eprintln!("Renaming from decl");
+        if cfg!(debug_assertions) {
+            eprintln!("Renaming from decl");
+        }
         self.rename(ident.sym, ctxt);
     }
 
     fn add_used_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
-        self.current
-            .used_refs
-            .insert((ident.sym.clone(), ident.span));
-
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
-        eprintln!("Renaming from usage");
+        if cfg!(debug_assertions) && !conflicts.is_empty() {
+            eprintln!("Renaming from usage");
+        }
         for cx in conflicts {
             self.rename(ident.sym.clone(), cx)
         }
@@ -61,28 +62,43 @@ impl<'a> Hygiene<'a> {
             }
         };
 
-        let is_ok = {
-            self.current
-                .scope_of(&sym, ctxt)
-                .ops
-                .borrow()
-                .iter()
-                .all(|op| match *op {
+        let scope = self.current.parent_scope_of(&sym, ctxt);
+
+        if cfg!(debug_assertions) {
+            eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
+        }
+
+        debug_assert!(
+            {
+                scope.ops.borrow().iter().all(|op| match *op {
                     ScopeOp::Rename { ref from, .. } => from.0 != sym || from.1 != ctxt,
                 })
-        };
-        if is_ok {
-            eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
+            },
+            "failed to rename {}{:?}: should not rename an ident multiple time\n{:?}",
+            sym,
+            ctxt,
+            scope.ops.borrow(),
+        );
 
-            self.current
-                .scope_of(&sym, ctxt)
-                .ops
-                .borrow_mut()
-                .push(ScopeOp::Rename {
-                    from: (sym, ctxt),
-                    to: renamed,
-                });
+        {
+            // Update symbol list
+            let mut declared_symbols = scope.declared_symbols.borrow_mut();
+
+            declared_symbols
+                .entry(sym.clone())
+                .or_default()
+                .retain(|c| *c != ctxt);
+
+            declared_symbols
+                .entry(renamed.clone())
+                .or_default()
+                .push(ctxt);
         }
+
+        scope.ops.borrow_mut().push(ScopeOp::Rename {
+            from: (sym, ctxt),
+            to: renamed,
+        });
     }
 }
 
@@ -234,7 +250,7 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct Scope<'a> {
     /// Parent scope of this scope
     pub parent: Option<&'a Scope<'a>>,
@@ -242,13 +258,10 @@ struct Scope<'a> {
     /// Kind of the scope.
     pub kind: ScopeKind,
 
-    /// All references used in this scope
-    pub used_refs: FnvHashSet<(JsWord, Span)>,
-
     /// All references declared in this scope
-    pub declared_symbols: FnvHashMap<JsWord, Vec<SyntaxContext>>,
+    pub declared_symbols: RefCell<FnvHashMap<JsWord, Vec<SyntaxContext>>>,
 
-    pub(crate) ops: Rc<RefCell<Vec<ScopeOp>>>,
+    pub(crate) ops: RefCell<Vec<ScopeOp>>,
 }
 
 impl<'a> Scope<'a> {
@@ -256,21 +269,26 @@ impl<'a> Scope<'a> {
         Scope {
             parent,
             kind,
-            used_refs: Default::default(),
             declared_symbols: Default::default(),
             // children: Default::default(),
             ops: Default::default(),
         }
     }
 
+    fn parent_scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
+        match self.scope_of(sym, ctxt) {
+            Scope {
+                parent: Some(parent),
+                ..
+            } => parent,
+            scope => scope,
+        }
+    }
+
     fn scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
-        if let Some(prev) = self.declared_symbols.get(sym) {
+        if let Some(prev) = self.declared_symbols.borrow().get(sym) {
             if prev.contains(&ctxt) {
-                return match self.parent {
-                    Some(ref parent) => parent,
-                    // Root scope.
-                    _ => self,
-                };
+                return self;
             }
         }
 
@@ -290,7 +308,7 @@ impl<'a> Scope<'a> {
             }
         }
 
-        if let Some(ctxts) = self.declared_symbols.get(&sym) {
+        if let Some(ctxts) = self.declared_symbols.borrow().get(&sym) {
             if ctxts.contains(&ctxt) {
                 // Already declared with same context.
                 true
@@ -308,7 +326,7 @@ impl<'a> Scope<'a> {
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
     fn conflicts(&self, mut sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
-        let mut ctxts = vec![];
+        eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
 
         let mut cur = Some(self);
 
@@ -326,39 +344,19 @@ impl<'a> Scope<'a> {
             cur = scope.parent;
         }
 
-        let mut cur = Some(self);
-        while let Some(scope) = cur {
-            if let Some(cxs) = scope.declared_symbols.get(&sym) {
-                ctxts.extend_from_slice(&cxs);
-            }
+        let scope = self.parent_scope_of(&sym, ctxt);
 
-            cur = scope.parent;
+        let mut ctxts = vec![];
+        if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
+            ctxts.extend_from_slice(&cxs);
         }
-
-        // while let Some(scope) = cur {
-        //     for op in scope.ops.borrow().iter() {
-        //         match *op {
-        //             ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1
-        // == ctxt => {                 eprintln!("Changing symbol: {} -> {}",
-        // from.0, to);                 sym = to.clone()
-        //             }
-        //             _ => {}
-        //         }
-        //     }
-
-        //     if let Some(cxs) = scope.declared_symbols.get(&sym) {
-        //         ctxts.extend_from_slice(&cxs);
-        //     }
-
-        //     cur = scope.parent;
-        // }
         ctxts.retain(|c| *c != ctxt);
 
         ctxts
     }
 
     fn is_declared(&self, sym: &JsWord) -> bool {
-        if self.declared_symbols.contains_key(sym) {
+        if self.declared_symbols.borrow().contains_key(sym) {
             return true;
         }
         for op in self.ops.borrow().iter() {
