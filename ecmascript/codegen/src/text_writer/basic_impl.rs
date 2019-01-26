@@ -63,16 +63,18 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
         if data.len() > 0 {
             if let Some(span) = span {
-                let loc = self.cm.lookup_char_pos(span.lo());
+                if !span.is_dummy() {
+                    let loc = self.cm.lookup_char_pos(span.lo());
 
-                self.srcmap.add(
-                    self.line_count as _,
-                    self.line_pos as _,
-                    loc.line as _,
-                    loc.col.0 as _,
-                    None,
-                    None,
-                );
+                    self.srcmap.add(
+                        self.line_count as _,
+                        self.line_pos as _,
+                        loc.line as _,
+                        loc.col.0 as _,
+                        None,
+                        None,
+                    );
+                }
             }
 
             if self.line_start {
@@ -82,16 +84,18 @@ impl<'a, W: Write> JsWriter<'a, W> {
             cnt += self.raw_write(data.as_bytes())?;
 
             if let Some(span) = span {
-                let loc = self.cm.lookup_char_pos(span.hi());
+                if !span.is_dummy() {
+                    let loc = self.cm.lookup_char_pos(span.hi());
 
-                self.srcmap.add(
-                    self.line_count as _,
-                    self.line_pos as _,
-                    loc.line as _,
-                    loc.col.0 as _,
-                    None,
-                    None,
-                );
+                    self.srcmap.add(
+                        self.line_count as _,
+                        self.line_pos as _,
+                        loc.line as _,
+                        loc.col.0 as _,
+                        None,
+                        None,
+                    );
+                }
             }
         }
 
