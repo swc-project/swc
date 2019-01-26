@@ -1,3 +1,2 @@
 var a = function arguments() {
-}
-;
+};

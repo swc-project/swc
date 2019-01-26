@@ -1,6 +1,5 @@
 if (a) {
     b;
-}
- else {
+} else {
     b;
 }

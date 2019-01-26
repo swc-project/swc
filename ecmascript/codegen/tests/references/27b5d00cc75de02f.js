@@ -1,8 +1,7 @@
 function a(b) {
     if (b) {
         return;
-    }
-     else {
+    } else {
         return 1;
     }
 }

@@ -1,8 +1,7 @@
 function a() {
     if (void 1) {
         var b = 2;
-    }
-     else {
+    } else {
         c(a);
     }
     c(b);

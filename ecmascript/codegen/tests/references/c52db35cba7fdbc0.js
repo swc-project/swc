@@ -1,10 +1,8 @@
 (function() {
     try{
         throw 'a';
-    }
-    finally{
+    }finally{
         b();
     }
     c();
-}
-());
+}());

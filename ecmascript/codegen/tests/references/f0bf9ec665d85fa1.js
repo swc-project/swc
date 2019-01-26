@@ -1,5 +1,6 @@
 class a{
      b() {
-        ()=>super.c;
+        ()=>super.c
+        ;
     }
 }

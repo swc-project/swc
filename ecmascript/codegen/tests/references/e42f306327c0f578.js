@@ -1,6 +1,5 @@
 'use strict';
 var a = {
      set b (a){
-        }
-        , b: 1 
+        }, b: 1 
 };

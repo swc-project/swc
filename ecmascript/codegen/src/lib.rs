@@ -685,6 +685,7 @@ impl<'a> Emitter<'a> {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
+                self.wr.write_line();
             }
         }
     }
@@ -1325,18 +1326,19 @@ impl<'a> Emitter<'a> {
             ListFormat::MultiLineBlockStatements,
         )?;
         punct!("}");
-        self.wr.write_line()?;
     }
 
     #[emitter]
     pub fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
-        punct!(";")
+        punct!(";");
+        self.wr.write_line()?;
     }
 
     #[emitter]
     pub fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
         keyword!("debugger");
         semi!();
+        self.wr.write_line()?;
     }
 
     #[emitter]

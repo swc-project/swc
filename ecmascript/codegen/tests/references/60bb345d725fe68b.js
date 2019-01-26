@@ -2,11 +2,9 @@
     if (a) {
         b();
         return 1;
-    }
-     else {
+    } else {
         b();
         return 2;
     }
     c();
-}
-());
+}());

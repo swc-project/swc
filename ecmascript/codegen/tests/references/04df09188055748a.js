@@ -1,21 +1,16 @@
 if (a) {
     b();
-}
- else if (c) {
+} else if (c) {
     d();
-}
- else if (e) {
+} else if (e) {
     f();
 }
 if (a) {
     b();
-}
- else if (c) {
+} else if (c) {
     d();
-}
- else if (e) {
+} else if (e) {
     f();
-}
- else {
+} else {
     g();
 }

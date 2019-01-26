@@ -1,5 +1,4 @@
 function* a() {
     (function yield() {
-    }
-    );
+    });
 }

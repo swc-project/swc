@@ -1,8 +1,6 @@
 (function() {
     return true;
-}
-)() ? a.b(true) : a.b(false);
+})() ? a.b(true) : a.b(false);
 (function() {
     a.b('c');
-}
-)();
+})();

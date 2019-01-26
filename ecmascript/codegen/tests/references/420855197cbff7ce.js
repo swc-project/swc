@@ -2,10 +2,8 @@
     if (a) {
         return 1;
         b();
-    }
-     else {
+    } else {
         c();
     }
     return 2;
-}
-());
+}());

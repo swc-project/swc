@@ -1,4 +1,3 @@
 (function() {
     var a = 1;
-}
-).b(this);
+}).b(this);

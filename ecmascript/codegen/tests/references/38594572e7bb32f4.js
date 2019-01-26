@@ -3,5 +3,4 @@
         a(arguments);
     }
     a(arguments);
-}
-());
+}());

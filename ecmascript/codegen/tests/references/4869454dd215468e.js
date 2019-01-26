@@ -1,6 +1,4 @@
 try{
-}
-catch (a) {
-}
-finally{
+}catch (a) {
+}finally{
 }

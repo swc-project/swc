@@ -1,7 +1,6 @@
 var a, b;
 if (c()) {
     a = new b(1);
-}
- else {
+} else {
     a = new b(2);
 }

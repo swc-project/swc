@@ -1,6 +1,5 @@
 try{
     a();
-}
-catch (b) {
+}catch (b) {
     c(b);
 }

@@ -1,4 +1,3 @@
 if (a) {
-}
- else {
+} else {
 }

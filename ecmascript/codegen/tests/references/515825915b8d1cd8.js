@@ -1,10 +1,8 @@
 while(a){
     try{
-    }
-    catch (b) {
+    }catch (b) {
     }
     (function() {
         c('d');
-    }
-    ());
+    }());
 }

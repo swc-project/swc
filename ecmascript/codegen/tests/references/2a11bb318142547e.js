@@ -1,12 +1,10 @@
 if (a()) {
     if (b()) {
         c();
-    }
-     else {
+    } else {
         d();
     }
-}
- else {
+} else {
     d();
 }
 if (a()) {

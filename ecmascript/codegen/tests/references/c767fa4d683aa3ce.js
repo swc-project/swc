@@ -1,6 +1,5 @@
 ({
      get a () {
             new.target;
-        }
-     
+        } 
 });

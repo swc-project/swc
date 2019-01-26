@@ -3,8 +3,7 @@ for(;;){
         if (b) {
             continue;
         }
-    }
-     else {
+    } else {
         ;
     }
 }

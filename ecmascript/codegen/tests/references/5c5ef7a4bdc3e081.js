@@ -1,7 +1,6 @@
 var a;
 if (b) {
     a = 1 + 2;
-}
- else {
+} else {
     a = 3;
 }

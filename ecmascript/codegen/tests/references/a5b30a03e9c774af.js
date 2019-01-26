@@ -1,18 +1,13 @@
 try{
     (function() {
         a('b');
-    }
-    ());
-}
-catch (c) {
+    }());
+}catch (c) {
     (function() {
         a('b');
-    }
-    ());
-}
-finally{
+    }());
+}finally{
     (function() {
         a('b');
-    }
-    ());
+    }());
 }

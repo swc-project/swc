@@ -4,5 +4,4 @@
         } 
 }}bar${`nested${function() {
     return 2;
-}
-}endnest`}end`;
+}}endnest`}end`;

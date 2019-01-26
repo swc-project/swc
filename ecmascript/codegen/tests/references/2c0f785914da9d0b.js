@@ -1,4 +1,3 @@
 (function package() {
     'use strict';
-}
-)();
+})();

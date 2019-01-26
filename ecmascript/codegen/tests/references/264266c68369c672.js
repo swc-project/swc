@@ -2,8 +2,7 @@ function a() {
     var b;
     if (b = 'b') {
         return b;
-    }
-     else {
+    } else {
         return b;
     }
 }

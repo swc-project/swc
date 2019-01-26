@@ -2,5 +2,4 @@
     'use strict';
     function a() {
     }
-}
-);
+});
