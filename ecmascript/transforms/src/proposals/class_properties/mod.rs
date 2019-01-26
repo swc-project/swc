@@ -281,13 +281,16 @@ impl ClassProperties {
         }
 
         let mut constructor = constructor
-            .map(|mut c| {
-                // Handle collisions
-                c.body = c.body.fold_with(&mut UsedNameRenamer {
+            .map(|c| {
+                let mut folder = UsedNameRenamer {
                     mark: Mark::fresh(Mark::root()),
                     used_names: &used_names,
-                });
-                c
+                };
+
+                // Handle collisions
+                let body = c.body.fold_with(&mut folder);
+                let params = c.params.fold_with(&mut folder);
+                Constructor { body, params, ..c }
             })
             .unwrap_or_else(|| default_constructor(has_super));
 
