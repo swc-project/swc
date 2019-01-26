@@ -625,7 +625,9 @@ fn for_x() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(mark1);
+            let mark3 = Mark::fresh(mark1);
+            let mark4 = Mark::fresh(mark3);
 
             Ok(vec![
                 tester
@@ -644,6 +646,16 @@ fn for_x() {
                         }",
                     )?
                     .fold_with(&mut marker(&[("_ref", mark2)])),
+                tester
+                    .parse_stmt(
+                        "actual3.js",
+                        "async function a() {
+                            for await (var _ref of []){
+                                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                            }
+                        }",
+                    )?
+                    .fold_with(&mut marker(&[("_ref", mark4)])),
             ])
         },
         "
@@ -653,6 +665,11 @@ fn for_x() {
 
         for (var _ref1 of []){
             var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
+        }
+        async function a() {
+            for await (var _ref2 of []){
+                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+            }
         }
         ",
     );

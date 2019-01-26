@@ -348,7 +348,7 @@ impl<'a> Scope<'a> {
         let mut cur = Some(self);
         let mut ctxts = vec![];
         while let Some(scope) = cur {
-            dbg!(&scope.declared_symbols.borrow());
+            // dbg!(&scope.declared_symbols.borrow());
             if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
                 ctxts.extend_from_slice(&cxs);
             }
