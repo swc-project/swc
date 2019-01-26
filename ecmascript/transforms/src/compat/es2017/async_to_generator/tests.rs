@@ -296,7 +296,7 @@ function two(a, b) {
 }
 function _three() {
   _three = _asyncToGenerator(function*(a, param, c, param1) {
-    let tmp = param, b = tmp === void 0 ? 1 : tmp, tmp = param1, d = tmp === void 0 ? 3 : tmp;
+    let tmp = param, b = tmp === void 0 ? 1 : tmp, tmp1 = param1, d = tmp1 === void 0 ? 3 : tmp1;
   });
   return _three.apply(this, arguments);
 }
@@ -327,7 +327,7 @@ function five(a, param) {
 function _six() {
   _six = _asyncToGenerator(function*(a, param) {
     let tmp = param, ref = tmp === void 0 ? {
-    } : tmp, ref = ref ? ref : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), b = ref.b;
+    } : tmp, ref1 = ref ? ref : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), b = ref1.b;
   });
   return _six.apply(this, arguments);
 }
