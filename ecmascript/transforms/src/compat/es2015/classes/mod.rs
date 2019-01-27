@@ -318,7 +318,6 @@ impl Classes {
 
         let mut priv_methods = vec![];
         let mut methods = vec![];
-        let mut prop_init_stmts = vec![];
         let mut static_prop_init_stmts = vec![];
         let mut constructor = None;
         for member in class.body {
@@ -352,31 +351,15 @@ impl Classes {
                     op: op!("="),
                     right,
                 }))),
-                ClassMember::ClassProp(ClassProperty {
-                    key,
-                    value: Some(right),
-                    is_static: false,
-                    ..
-                }) => prop_init_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span,
-                        obj: ThisExpr { span }.as_obj(),
-                        computed: match *key {
-                            Expr::Ident(..) => false,
-                            _ => true,
-                        },
-                        prop: key,
-                    })),
-                    op: op!("="),
-                    right,
-                }))),
+                ClassMember::ClassProp(..) => {
+                    unreachable!("classes pass: property\nclass_properties pass should remove this")
+                }
+                ClassMember::PrivateProp(..) => unreachable!(
+                    "classes pass: private property\nclass_properties pass should remove this"
+                ),
                 ClassMember::TsIndexSignature(s) => {
                     unimplemented!("typescript index signature {:?}", s)
                 }
-                ClassMember::PrivateProp(p) => unimplemented!("private class property {:?}", p),
-                // Skip
-                _ => {}
             }
         }
 
