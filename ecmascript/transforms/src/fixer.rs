@@ -203,9 +203,15 @@ impl Fold<BinExpr> for Fixer {
 mod tests {
     use super::*;
 
+    macro_rules! test_fixer {
+        ($name:ident, $from:literal, $to:literal) => {
+            test!(Default::default(), fixer(), $name, $from, $to);
+        };
+    }
+
     macro_rules! identical {
         ($name:ident, $src:literal) => {
-            test!(Default::default(), fixer(), $name, $src, $src);
+            test_fixer!($name, $src, $src);
         };
     }
 
@@ -214,4 +220,10 @@ mod tests {
     identical!(fn_decl, r#"function foo(){}"#);
 
     identical!(iife, r#"(function(){})()"#);
+
+    test_fixer!(
+        paren_seq_arg,
+        "foo(( _temp = _this = init, _temp));",
+        "foo( _temp = _this = init, _temp);"
+    );
 }
