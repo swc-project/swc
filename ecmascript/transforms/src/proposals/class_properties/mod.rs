@@ -53,7 +53,8 @@ where
                             )) => {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
 
-                                let (vars, decl, stmts) = self.fold_class(ident.clone(), class);
+                                let (vars, decl, stmts) =
+                                    self.fold_class_as_decl(ident.clone(), class);
                                 if !vars.is_empty() {
                                     buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
@@ -86,7 +87,7 @@ where
                                 declare: false,
                                 class,
                             })) => {
-                                let (vars, decl, stmts) = self.fold_class(ident, class);
+                                let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
                                 if !vars.is_empty() {
                                     buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
@@ -120,7 +121,7 @@ where
                             class,
                             declare: false,
                         })) => {
-                            let (vars, decl, stmts) = self.fold_class(ident, class);
+                            let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
                             if !vars.is_empty() {
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                     span: DUMMY_SP,
@@ -150,7 +151,7 @@ impl Fold<BlockStmtOrExpr> for ClassProperties {
             BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
                 let mut stmts = vec![];
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (vars, decl, mut extra_stmts) = self.fold_class(ident.clone(), class);
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
                 if !vars.is_empty() {
                     stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -174,7 +175,11 @@ impl Fold<BlockStmtOrExpr> for ClassProperties {
 }
 
 impl ClassProperties {
-    fn fold_class(&mut self, ident: Ident, class: Class) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
+    fn fold_class_as_decl(
+        &mut self,
+        ident: Ident,
+        class: Class,
+    ) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
         let has_super = class.super_class.is_some();
 
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
