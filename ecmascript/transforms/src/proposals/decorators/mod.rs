@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::{iter, mem, sync::Arc};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -194,8 +194,7 @@ impl Fold<Expr> for Decorators {
 
 impl Decorators {
     fn fold_class(&self, ident: Ident, mut class: Class) -> Expr {
-        let mark = Mark::fresh(Mark::root());
-        let initialize = quote_ident!(DUMMY_SP.apply_mark(mark), "_initialize");
+        let initialize = private_ident!("_initialize");
         let super_class_ident = match class.super_class {
             Some(ref expr) => Some(alias_ident_for(expr, "_super")),
             None => None,

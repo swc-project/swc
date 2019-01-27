@@ -3,7 +3,7 @@ use crate::{
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
-use swc_common::{Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -52,15 +52,15 @@ impl Fold<Expr> for AssignFolder {
 
                     // unimplemented
                     PatOrExpr::Expr(ref e) => {
-                        let mark = Mark::fresh(Mark::root());
-                        let span = e.span().apply_mark(mark);
+                        let ref_ident = private_ident!(e.span(), "ref");
+
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
-                            name: quote_ident!(span, "ref").into(),
+                            name: ref_ident.clone().into(),
                             init: Some(e.clone()),
                             definite: false,
                         });
-                        quote_ident!(span, "ref")
+                        ref_ident
                     }
 
                     left => {

@@ -49,11 +49,10 @@ where
 
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
-                                ClassExpr {
-                                    ident: Some(ident),
-                                    class,
-                                },
+                                ClassExpr { ident, class },
                             )) => {
+                                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+
                                 let (vars, decl, stmts) = self.fold_class(ident.clone(), class);
                                 if !vars.is_empty() {
                                     buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -140,6 +139,33 @@ where
         }
 
         buf
+    }
+}
+
+impl Fold<BlockStmtOrExpr> for ClassProperties {
+    fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let span = body.span();
+
+        match body {
+            BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
+                let mut stmts = vec![];
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let (vars, decl, mut extra_stmts) = self.fold_class(ident, class);
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+
+                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
+            }
+            _ => body.fold_children(self),
+        }
     }
 }
 
@@ -425,10 +451,11 @@ impl<'a> Fold<Expr> for ExprDefinePropertyInjector<'a> {
                 callee: ExprOrSuper::Super(..),
                 ..
             }) => {
-                self.injected_tmp = Some(self.injected_tmp.take().unwrap_or_else(|| {
-                    let mark = Mark::fresh(Mark::root());
-                    quote_ident!(DUMMY_SP.apply_mark(mark), "_temp")
-                }));
+                self.injected_tmp = Some(
+                    self.injected_tmp
+                        .take()
+                        .unwrap_or_else(|| private_ident!("_temp")),
+                );
                 self.injected = true;
 
                 Expr::Seq(SeqExpr {

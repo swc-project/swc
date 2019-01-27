@@ -47,10 +47,7 @@ macro_rules! impl_for_for_stmt {
 
                 let left = match for_stmt.left {
                     VarDeclOrPat::VarDecl(var_decl) => {
-                        let ref_ident = {
-                            let mark = Mark::fresh(Mark::root());
-                            quote_ident!(DUMMY_SP.apply_mark(mark), "_ref")
-                        };
+                        let ref_ident = private_ident!("_ref");
                         let left = VarDeclOrPat::VarDecl(VarDecl {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
@@ -466,8 +463,8 @@ impl Fold<CatchClause> for RestFolder {
             _ => return c,
         };
 
-        let mark = Mark::fresh(Mark::root());
-        let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_err");
+        ;
+        let var_ident = private_ident!("_err");
         let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false, true);
         // initialize (or destructure)
         self.push_var_if_not_empty(VarDeclarator {
@@ -529,8 +526,7 @@ impl RestFolder {
         let params = params
             .into_iter()
             .map(|param| {
-                let mark = Mark::fresh(Mark::root());
-                let var_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_param");
+                let var_ident = private_ident!(param.span(), "_param");
                 let mut index = self.vars.len();
                 let param = self.fold_rest(param, box Expr::Ident(var_ident.clone()), false, false);
                 match param {

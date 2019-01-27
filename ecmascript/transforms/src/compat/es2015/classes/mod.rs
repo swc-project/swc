@@ -318,10 +318,8 @@ impl Classes {
 
         let mut priv_methods = vec![];
         let mut methods = vec![];
-        let mut static_prop_init_stmts = vec![];
         let mut constructor = None;
         for member in class.body {
-            let span = member.span();
             match member {
                 ClassMember::Constructor(c) => {
                     if constructor.is_some() {
@@ -332,25 +330,7 @@ impl Classes {
                 }
                 ClassMember::PrivateMethod(m) => priv_methods.push(m),
                 ClassMember::Method(m) => methods.push(m),
-                ClassMember::ClassProp(ClassProperty {
-                    key,
-                    value: Some(right),
-                    is_static: true,
-                    ..
-                }) => static_prop_init_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span,
-                        obj: class_name.clone().as_obj(),
-                        computed: match *key {
-                            Expr::Ident(..) => false,
-                            _ => true,
-                        },
-                        prop: key,
-                    })),
-                    op: op!("="),
-                    right,
-                }))),
+
                 ClassMember::ClassProp(..) => {
                     unreachable!("classes pass: property\nclass_properties pass should remove this")
                 }
@@ -505,9 +485,6 @@ impl Classes {
                 }),
                 declare: false,
             })));
-
-            // Handle static properties
-            stmts.append(&mut static_prop_init_stmts);
         }
 
         // convert class methods

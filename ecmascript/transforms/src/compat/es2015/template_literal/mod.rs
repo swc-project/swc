@@ -1,7 +1,7 @@
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::{iter, sync::Arc};
-use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
@@ -70,8 +70,7 @@ impl Fold<Expr> for TemplateLiteral {
                 assert!(quasis.len() == exprs.len() + 1);
                 self.helpers.tagged_template_literal();
 
-                let mark = Mark::fresh(Mark::root());
-                let fn_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_templateObject");
+                let fn_ident = private_ident!("_templateObject");
 
                 let tpl_obj_fn = {
                     Expr::Fn(FnExpr {
