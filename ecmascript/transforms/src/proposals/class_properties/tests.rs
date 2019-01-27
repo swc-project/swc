@@ -1483,10 +1483,11 @@ function (_Bar) {
   _inherits(Foo, _Bar);
 
   function Foo() {
-    var _temp, _this;
+    var _this;
 
     _classCallCheck(this, Foo);
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp));
+    var _temp;
+    foo(_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp);
     return _this;
   }
 

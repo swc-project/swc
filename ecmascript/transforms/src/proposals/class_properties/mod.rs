@@ -147,7 +147,7 @@ impl ClassProperties {
     fn fold_class(&mut self, ident: Ident, class: Class) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
         let has_super = class.super_class.is_some();
 
-        let (mut constructor_stmts, mut vars, mut extra_stmts, mut members, mut constructor) =
+        let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
 
@@ -219,12 +219,12 @@ impl ClassProperties {
                             type_args: Default::default(),
                         })))
                     } else {
-                        constructor_stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
+                        constructor_exprs.push(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee,
                             args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), key, value],
                             type_args: Default::default(),
-                        })));
+                        }));
                     }
                 }
                 ClassMember::PrivateProp(prop) => {
@@ -270,7 +270,7 @@ impl ClassProperties {
                                 }),
                             }],
                         })));
-                    //TODO: constructor_stmts.push()
+                    //TODO: constructor_exprs.push()
                     } else {
 
                     }
@@ -297,7 +297,7 @@ impl ClassProperties {
         {
             // Allow using super multiple time
             let mut folder = DefinePropertyInjector {
-                constructor_stmts,
+                constructor_exprs: &constructor_exprs,
                 injected: false,
             };
             constructor.body = constructor.body.fold_with(&mut folder);
@@ -309,7 +309,7 @@ impl ClassProperties {
                     .as_mut()
                     .unwrap()
                     .stmts
-                    .append(&mut folder.constructor_stmts)
+                    .extend(constructor_exprs.into_iter().map(Stmt::Expr))
             }
         }
 
@@ -330,13 +330,17 @@ impl ClassProperties {
     }
 }
 
-struct DefinePropertyInjector {
+struct DefinePropertyInjector<'a> {
     injected: bool,
-    constructor_stmts: Vec<Stmt>,
+    constructor_exprs: &'a [Box<Expr>],
 }
 
-impl Fold<Vec<Stmt>> for DefinePropertyInjector {
+impl<'a> Fold<Vec<Stmt>> for DefinePropertyInjector<'a> {
     fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        if self.constructor_exprs.is_empty() {
+            return stmts;
+        }
+
         let stmts = stmts.fold_children(self);
 
         stmts.move_flat_map(|stmt| match stmt {
@@ -345,15 +349,90 @@ impl Fold<Vec<Stmt>> for DefinePropertyInjector {
                 ..
             })) => {
                 self.injected = true;
-                iter::once(stmt).chain(self.constructor_stmts.clone())
+                None.into_iter()
+                    .chain(iter::once(stmt))
+                    .chain(self.constructor_exprs.iter().cloned().map(Stmt::Expr))
             }
-            _ => iter::once(stmt).chain(vec![]),
+            _ => {
+                let mut folder = ExprDefinePropertyInjector {
+                    injected: false,
+                    constructor_exprs: self.constructor_exprs,
+                    injected_tmp: None,
+                };
+                let stmt = stmt.fold_with(&mut folder);
+
+                self.injected |= folder.injected;
+                let iter = folder
+                    .injected_tmp
+                    .map(|ident| {
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident),
+                                init: None,
+                                definite: false,
+                            }],
+                            declare: false,
+                        }))
+                    })
+                    .into_iter()
+                    .chain(iter::once(stmt))
+                    .chain((&[]).iter().cloned().map(Stmt::Expr));
+
+                iter
+            }
         })
     }
 }
 
-impl Fold<Function> for DefinePropertyInjector {
+impl<'a> Fold<Function> for DefinePropertyInjector<'a> {
     fn fold(&mut self, n: Function) -> Function {
         n
+    }
+}
+
+/// Handles code like `foo(super())`
+struct ExprDefinePropertyInjector<'a> {
+    injected: bool,
+    constructor_exprs: &'a [Box<Expr>],
+    injected_tmp: Option<Ident>,
+}
+
+impl<'a> Fold<Expr> for ExprDefinePropertyInjector<'a> {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+
+        match expr {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                ..
+            }) => {
+                self.injected_tmp = Some(self.injected_tmp.take().unwrap_or_else(|| {
+                    let mark = Mark::fresh(Mark::root());
+                    quote_ident!(DUMMY_SP.apply_mark(mark), "_temp")
+                }));
+                self.injected = true;
+
+                Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: iter::once(box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box Pat::Ident(
+                            self.injected_tmp.as_ref().cloned().unwrap(),
+                        )),
+                        op: op!("="),
+                        right: box expr,
+                    }))
+                    .chain(self.constructor_exprs.iter().cloned())
+                    .chain(iter::once(box Expr::Ident(
+                        self.injected_tmp.as_ref().cloned().unwrap(),
+                    )))
+                    .collect(),
+                })
+            }
+            _ => expr,
+        }
     }
 }
