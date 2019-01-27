@@ -53,12 +53,12 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
     fn stmts(helpers: &Arc<Helpers>) -> impl Pass + Clone {
         chain_at!(
             Stmt,
+            function_name(),
             exprs(helpers),
             Classes {
                 helpers: helpers.clone(),
             },
             BlockScopedFns,
-            function_name(),
             parameters(),
         )
     }
