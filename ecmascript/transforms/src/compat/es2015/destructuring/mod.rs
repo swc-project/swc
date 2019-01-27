@@ -678,6 +678,7 @@ fn can_be_null(e: &Expr) -> bool {
         Expr::Lit(Lit::Null(..))
         | Expr::This(..)
         | Expr::Ident(..)
+        | Expr::PrivateName(..)
         | Expr::Member(..)
         | Expr::Call(..)
         | Expr::New(..)

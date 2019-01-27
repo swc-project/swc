@@ -375,6 +375,7 @@ impl<'a> Emitter<'a> {
             Expr::Unary(ref n) => emit!(n),
             Expr::Update(ref n) => emit!(n),
             Expr::Yield(ref n) => emit!(n),
+            Expr::PrivateName(ref n) => emit!(n),
 
             Expr::JSXMebmer(ref n) => emit!(n),
             Expr::JSXNamespacedName(ref n) => emit!(n),

@@ -556,7 +556,7 @@ pub trait ExprExt {
 
     fn may_have_side_effects(&self) -> bool {
         match *self.as_expr_kind() {
-            Expr::Lit(..) | Expr::Ident(..) | Expr::This(..) => false,
+            Expr::Lit(..) | Expr::Ident(..) | Expr::This(..) | Expr::PrivateName(..) => false,
             Expr::Paren(ref e) => e.expr.may_have_side_effects(),
             // Function expression does not have any side effect if it's not used.
             Expr::Fn(..) | Expr::Arrow(ArrowExpr { .. }) => false,

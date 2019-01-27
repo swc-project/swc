@@ -931,7 +931,12 @@ where
     /// preserving order and conditions. (think a() ? yield b() : c())
     fn add_effects(v: &mut Vec<Box<Expr>>, box expr: Box<Expr>) {
         match expr {
-            Expr::Lit(..) | Expr::This(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Ident(..) => {
+            Expr::Lit(..)
+            | Expr::This(..)
+            | Expr::Fn(..)
+            | Expr::Arrow(..)
+            | Expr::Ident(..)
+            | Expr::PrivateName(..) => {
                 return;
             }
 
