@@ -2190,29 +2190,24 @@ export default param =>
 
 "#,
     r#"
-export default (param => {
-  var _class, _temp;
-
-  return _temp = _class =
-  /*#__PURE__*/
-  function () {
+export default (param)=>{
+  var App = function() {
     function App() {
       _classCallCheck(this, App);
     }
-
     _createClass(App, [{
-      key: "getParam",
+      key: 'getParam',
       value: function getParam() {
         return param;
-      }
+      } 
     }]);
     return App;
-  }(), _defineProperty(_class, "props", {
-    prop1: 'prop1',
-    prop2: 'prop2'
-  }), _temp;
-});
-
+  }();
+  _defineProperty(App, 'props', {
+    prop1: 'prop1', prop2: 'prop2' 
+  });
+  return App;
+};
 "#
 );
 

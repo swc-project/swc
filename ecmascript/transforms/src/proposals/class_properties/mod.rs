@@ -150,7 +150,7 @@ impl Fold<BlockStmtOrExpr> for ClassProperties {
             BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
                 let mut stmts = vec![];
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (vars, decl, mut extra_stmts) = self.fold_class(ident, class);
+                let (vars, decl, mut extra_stmts) = self.fold_class(ident.clone(), class);
                 if !vars.is_empty() {
                     stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -161,6 +161,10 @@ impl Fold<BlockStmtOrExpr> for ClassProperties {
                 }
                 stmts.push(Stmt::Decl(decl));
                 stmts.append(&mut extra_stmts);
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Ident(ident)),
+                }));
 
                 BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
             }
