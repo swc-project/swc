@@ -14,11 +14,14 @@ impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
-        let can_declare_without_renaming = self.current.can_declare(&ident.sym, ctxt);
+        let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
 
         if cfg!(debug_assertions) {
             eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
         }
+
+        let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
+        let sym = self.current.change_symbol(ident.sym, ctxt);
 
         self.current
             .declared_symbols
@@ -88,10 +91,8 @@ impl<'a> Hygiene<'a> {
             // Update symbol list
             let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
-            declared_symbols
-                .entry(sym.clone())
-                .or_default()
-                .retain(|c| *c != ctxt);
+        old.retain(|c| *c != ctxt);
+        debug_assert!(old.len() == 0 || old.len() == 1);
 
             declared_symbols
                 .entry(renamed.clone())
@@ -309,11 +310,13 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn can_declare(&self, sym: &JsWord, ctxt: SyntaxContext) -> bool {
+    fn can_declare(&self, sym: JsWord, ctxt: SyntaxContext) -> bool {
+        let sym = self.change_symbol(sym, ctxt);
+
         match self.parent {
             None => {}
             Some(parent) => {
-                if !parent.can_declare(sym, ctxt) {
+                if !parent.can_declare(sym.clone(), ctxt) {
                     return false;
                 }
             }
@@ -336,11 +339,31 @@ impl<'a> Scope<'a> {
     ///
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
-    fn conflicts(&self, mut sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
+    fn conflicts(&self, sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
         if cfg!(debug_assertions) {
             eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
         }
 
+        let sym = self.change_symbol(sym, ctxt);
+
+        // let scope = self.scope_of(&sym, ctxt);
+
+        let mut cur = Some(self);
+        let mut ctxts = vec![];
+        while let Some(scope) = cur {
+            // dbg!(&scope.declared_symbols.borrow());
+            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
+                ctxts.extend_from_slice(&cxs);
+            }
+
+            cur = scope.parent;
+        }
+        ctxts.retain(|c| *c != ctxt);
+
+        ctxts
+    }
+
+    fn change_symbol(&self, mut sym: JsWord, ctxt: SyntaxContext) -> JsWord {
         let mut cur = Some(self);
 
         while let Some(scope) = cur {
@@ -359,21 +382,7 @@ impl<'a> Scope<'a> {
             cur = scope.parent;
         }
 
-        // let scope = self.scope_of(&sym, ctxt);
-
-        let mut cur = Some(self);
-        let mut ctxts = vec![];
-        while let Some(scope) = cur {
-            // dbg!(&scope.declared_symbols.borrow());
-            if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
-                ctxts.extend_from_slice(&cxs);
-            }
-
-            cur = scope.parent;
-        }
-        ctxts.retain(|c| *c != ctxt);
-
-        ctxts
+        sym
     }
 
     fn is_declared(&self, sym: &JsWord) -> bool {
