@@ -1475,9 +1475,7 @@ class Foo extends Bar {
 }
 
 "#, r#"
-var Foo =
-/*#__PURE__*/
-function (_Bar) {
+var Foo = function (_Bar) {
   
 
   _inherits(Foo, _Bar);
@@ -1487,8 +1485,8 @@ function (_Bar) {
 
     _classCallCheck(this, Foo);
     var _temp;
-    foo(_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp);
-    return _this;
+    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp));
+    return _possibleConstructorReturn(_this);
   }
 
   return Foo;

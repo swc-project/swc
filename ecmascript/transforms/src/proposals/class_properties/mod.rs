@@ -341,8 +341,6 @@ impl<'a> Fold<Vec<Stmt>> for DefinePropertyInjector<'a> {
             return stmts;
         }
 
-        let stmts = stmts.fold_children(self);
-
         stmts.move_flat_map(|stmt| match stmt {
             Stmt::Expr(box Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
@@ -354,44 +352,62 @@ impl<'a> Fold<Vec<Stmt>> for DefinePropertyInjector<'a> {
                     .chain(self.constructor_exprs.iter().cloned().map(Stmt::Expr))
             }
             _ => {
-                let mut folder = ExprDefinePropertyInjector {
+                let mut folder = DefinePropertyInjector {
                     injected: false,
                     constructor_exprs: self.constructor_exprs,
-                    injected_tmp: None,
                 };
-                let stmt = stmt.fold_with(&mut folder);
-
+                let stmt = stmt.fold_children(&mut folder);
                 self.injected |= folder.injected;
-                let iter = folder
-                    .injected_tmp
-                    .map(|ident| {
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(ident),
-                                init: None,
-                                definite: false,
-                            }],
-                            declare: false,
-                        }))
-                    })
-                    .into_iter()
-                    .chain(iter::once(stmt))
-                    .chain((&[]).iter().cloned().map(Stmt::Expr));
+                if folder.injected {
+                    None.into_iter()
+                        .chain(iter::once(stmt))
+                        .chain((&[]).iter().cloned().map(Stmt::Expr))
+                } else {
+                    let mut folder = ExprDefinePropertyInjector {
+                        injected: false,
+                        constructor_exprs: self.constructor_exprs,
+                        injected_tmp: None,
+                    };
+                    let stmt = stmt.fold_with(&mut folder);
 
-                iter
+                    self.injected |= folder.injected;
+                    let iter = folder
+                        .injected_tmp
+                        .map(|ident| {
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident),
+                                    init: None,
+                                    definite: false,
+                                }],
+                                declare: false,
+                            }))
+                        })
+                        .into_iter()
+                        .chain(iter::once(stmt))
+                        .chain((&[]).iter().cloned().map(Stmt::Expr));
+
+                    iter
+                }
             }
         })
     }
 }
 
-impl<'a> Fold<Function> for DefinePropertyInjector<'a> {
-    fn fold(&mut self, n: Function) -> Function {
-        n
-    }
+macro_rules! fold_noop {
+    ($T:tt) => {
+        impl<'a> Fold<$T> for DefinePropertyInjector<'a> {
+            fn fold(&mut self, n: $T) -> $T {
+                n
+            }
+        }
+    };
 }
+fold_noop!(Function);
+fold_noop!(Class);
 
 /// Handles code like `foo(super())`
 struct ExprDefinePropertyInjector<'a> {
