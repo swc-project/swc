@@ -189,43 +189,42 @@ impl Actual {
             test: Some(box Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
                 op: op!("!"),
-                arg: box Expr::Paren(ParenExpr {
-                    span: DUMMY_SP,
-                    expr: box Expr::Member(MemberExpr {
+                arg: {
+                    let step_expr = box Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        obj: ExprOrSuper::Expr(box Expr::Assign(AssignExpr {
+                        left: PatOrExpr::Pat(box Pat::Ident(step.clone())),
+                        op: op!("="),
+                        // `_iterator.next()`
+                        right: box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(normal_completion_ident.clone())),
-                            op: op!("="),
-                            right: box Expr::Paren(ParenExpr {
+                            // `_iterator.next`
+                            callee: MemberExpr {
                                 span: DUMMY_SP,
-                                expr: box Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(box Pat::Ident(step.clone())),
-                                    op: op!("="),
-                                    // `_iterator.next()`
-                                    right: box Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        // `_iterator.next`
-                                        callee: MemberExpr {
-                                            span: DUMMY_SP,
-                                            computed: false,
-                                            obj: ExprOrSuper::Expr(box Expr::Ident(
-                                                iterator.clone(),
-                                            )),
-                                            prop: member_expr!(DUMMY_SP, next),
-                                        }
-                                        .as_callee(),
-                                        args: vec![],
-                                        type_args: Default::default(),
-                                    }),
-                                }),
-                            }),
-                        })),
-                        computed: false,
-                        prop: box Expr::Ident(quote_ident!("done")),
-                    }),
-                }),
+                                computed: false,
+                                obj: ExprOrSuper::Expr(box Expr::Ident(iterator.clone())),
+                                prop: member_expr!(DUMMY_SP, next),
+                            }
+                            .as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }),
+                    })
+                    .wrap_with_paren();
+
+                    let iteration_normal_completion = box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Pat(box Pat::Ident(normal_completion_ident.clone())),
+                        op: op!("="),
+                        right: box Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: step_expr.as_obj(),
+                            computed: false,
+                            prop: box Expr::Ident(quote_ident!("done")),
+                        }),
+                    });
+
+                    iteration_normal_completion
+                },
             })),
 
             // `_iteratorNormalCompletion = true`

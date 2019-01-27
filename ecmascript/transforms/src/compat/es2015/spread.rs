@@ -234,8 +234,9 @@ mod tests {
         Spread::default(),
         new,
         "new C(a, b, c, ...d, e)",
-        "new (Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
-         [e])))();"
+        "new Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
+         [e]))();",
+        ok_if_code_eq
     );
 
     test!(

@@ -769,12 +769,12 @@ expect(a).toBe(2);"#
         })(Bar);
     "#,
         r#"
-    var Foo = (function(_Bar) {
+    var Foo = function(_Bar) {
             _inherits(Foo, _Bar);
             function Foo() {
             }
             return Foo;
-        })(Bar);
+        }(Bar);
         "#
     );
 

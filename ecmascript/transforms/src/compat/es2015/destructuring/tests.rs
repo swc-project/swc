@@ -21,7 +21,7 @@ test!(
 [{ a = 1 }] = foo"#,
     r#"let a;
 var ref, ref1, ref2;
-ref = foo, ( ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref1), ref;"#
+ref = foo, ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref;"#
 );
 
 test!(
@@ -39,8 +39,8 @@ test!(
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref, ref1, ref2;
-ref = ['hello', [', ', 'junk'], ['world']], a = ref[0],
-    ( ref1 = ref[1], b = ref1[0], ref1), ( ref2 = ref[2], c = ref2[0], ref2), ref;
+ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1],
+     b = ref1[0], ref2 = ref[2], c = ref2[0], ref;
 "#
 );
 
