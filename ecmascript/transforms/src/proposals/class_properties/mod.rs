@@ -339,7 +339,7 @@ impl ClassProperties {
                     }
 
                     let ident = Ident::new(
-                        prop.key.id.sym,
+                        format!("_{}", prop.key.id.sym).into(),
                         // We use `self.mark` for private variables.
                         prop.key.span.apply_mark(self.mark),
                     );

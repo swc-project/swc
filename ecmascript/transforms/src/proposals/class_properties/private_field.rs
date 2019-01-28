@@ -51,7 +51,10 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
 
-                let ident = Ident::new(n.id.sym, n.id.span.apply_mark(self.mark));
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span.apply_mark(self.mark),
+                );
 
                 let var = alias_ident_for(&obj, "_ref");
 
@@ -181,7 +184,10 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
 
-                let ident = Ident::new(n.id.sym, n.id.span.apply_mark(self.mark));
+                let ident = Ident::new(
+                    format!("_{}", n.id.sym).into(),
+                    n.id.span.apply_mark(self.mark),
+                );
 
                 let var = alias_ident_for(&obj, "_ref");
 
@@ -318,8 +324,11 @@ impl<'a> FieldAccessFolder<'a> {
             ExprOrSuper::Expr(obj) => obj,
         };
 
-        let ident = Ident::new(n.id.sym, n.id.span.apply_mark(self.mark));
-        let is_static = self.statics.contains(&ident.sym);
+        let is_static = self.statics.contains(&n.id.sym);
+        let ident = Ident::new(
+            format!("_{}", n.id.sym).into(),
+            n.id.span.apply_mark(self.mark),
+        );
 
         if is_static {
             self.helpers.class_static_private_field_spec_get();
