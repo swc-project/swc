@@ -650,14 +650,14 @@ function (_Bar) {
     if (condition) {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
-      _bar.set(_assertThisInitialized(_this), {
+      bar.set(_assertThisInitialized(_this), {
         writable: true,
         value: "foo"
       });
     } else {
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
-      _bar.set(_assertThisInitialized(_this), {
+      bar.set(_assertThisInitialized(_this), {
         writable: true,
         value: "foo"
       });
@@ -669,7 +669,7 @@ function (_Bar) {
   return Foo;
 }(Bar);
 
-var _bar = new WeakMap();
+var bar = new WeakMap();
 
 "#
 );
@@ -769,13 +769,13 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  bar.set(this, {
     writable: true,
     value: void 0
   });
 };
 
-var _bar = new WeakMap();
+var bar = new WeakMap();
 
 "#
 );
@@ -915,15 +915,16 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  var foo1 = "foo";
+
+  bar.set(this, {
     writable: true,
     value: foo
   });
 
-  var _foo = "foo";
 };
 
-var _bar = new WeakMap();
+var bar = new WeakMap();
 
 "#
 );
@@ -1354,7 +1355,7 @@ function (_Bar) {
     _classCallCheck(this, Foo);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
 
-    _bar.set(_assertThisInitialized(_this), {
+    bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     });
@@ -1365,7 +1366,7 @@ function (_Bar) {
   return Foo;
 }(Bar);
 
-var _bar = new WeakMap();
+var bar = new WeakMap();
 
 "#
 );
@@ -1436,7 +1437,7 @@ function () {
   function Foo() {
     _classCallCheck(this, Foo);
 
-    _foo.set(this, {
+    foo.set(this, {
       writable: true,
       value: 0
     });
@@ -1445,18 +1446,18 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var _this$foo, _other$obj, _other$obj$foo, _other$obj2;
+      var _this$foo, _obj, _obj$foo, _obj2;
 
-      _classPrivateFieldSet(this, _foo, (_this$foo = +_classPrivateFieldGet(this, _foo)) + 1), _this$foo;
-      _classPrivateFieldSet(this, _foo, +_classPrivateFieldGet(this, _foo) + 1);
-      _classPrivateFieldSet(_other$obj = other.obj, _foo, (_other$obj$foo = +_classPrivateFieldGet(_other$obj, _foo)) + 1), _other$obj$foo;
-      _classPrivateFieldSet(_other$obj2 = other.obj, _foo, +_classPrivateFieldGet(_other$obj2, _foo) + 1);
+      _classPrivateFieldSet(this, foo, (_this$foo = +_classPrivateFieldGet(this, _foo)) + 1), _this$foo;
+      _classPrivateFieldSet(this, foo, +_classPrivateFieldGet(this, _foo) + 1);
+      _classPrivateFieldSet(_obj = other.obj, _foo, (_obj$foo = +_classPrivateFieldGet(_obj, _foo)) + 1), _obj$foo;
+      _classPrivateFieldSet(_obj2 = other.obj, _foo, +_classPrivateFieldGet(_obj2, _foo) + 1);
     }
   }]);
   return Foo;
 }();
 
-var _foo = new WeakMap();
+var foo = new WeakMap();
 
 "#);
 
@@ -1733,7 +1734,7 @@ function (_A) {
     _classCallCheck(this, B);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this, ...args));
 
-    _foo.set(_assertThisInitialized(_this), {
+    foo.set(_assertThisInitialized(_this), {
       writable: true,
       value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_assertThisInitialized(_this))
     });
@@ -1744,7 +1745,7 @@ function (_A) {
   return B;
 }(A);
 
-var _foo = new WeakMap();
+var foo = new WeakMap();
 
 "#);
 
@@ -1947,7 +1948,11 @@ var Foo = function Foo() {
 "#
 );
 
-test!(syntax(), tr(Default::default()), private_assignment, r#"
+test!(
+    syntax(),
+    tr(Default::default()),
+    private_assignment,
+    r#"
 class Foo {
   #foo = 0;
 
@@ -1959,7 +1964,8 @@ class Foo {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo =
 /*#__PURE__*/
 function () {
@@ -1968,7 +1974,7 @@ function () {
   function Foo() {
     _classCallCheck(this, Foo);
 
-    _foo.set(this, {
+    foo.set(this, {
       writable: true,
       value: 0
     });
@@ -1977,20 +1983,21 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var _other$obj;
+      var _obj;
 
-      _classPrivateFieldSet(this, _foo, _classPrivateFieldGet(this, _foo) + 1);
-      _classPrivateFieldSet(this, _foo, 2);
-      _classPrivateFieldSet(_other$obj = other.obj, _foo, _classPrivateFieldGet(_other$obj, _foo) + 1);
-      _classPrivateFieldSet(other.obj, _foo, 2);
+      _classPrivateFieldSet(this, foo, _classPrivateFieldGet(this, foo) + 1);
+      _classPrivateFieldSet(this, foo, 2);
+      _classPrivateFieldSet(_obj = other.obj, foo, _classPrivateFieldGet(_obj, foo) + 1);
+      _classPrivateFieldSet(other.obj, foo, 2);
     }
   }]);
   return Foo;
 }();
 
-var _foo = new WeakMap();
+var foo = new WeakMap();
 
-"#);
+"#
+);
 
 test_exec!(
     syntax(),
@@ -2276,18 +2283,17 @@ class Foo {
 
 "#,
     r#"
-var Foo =
-/*#__PURE__*/
-function () {
+var Foo = function () {
   
 
   function Foo() {
+    var _this = this;
     _classCallCheck(this, Foo);
 
-    _foo.set(this, {
+    foo.set(this, {
       writable: true,
       value: function () {
-        return this;
+        return _this;
       }
     });
   }
@@ -2295,16 +2301,16 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var _other$obj;
+      var _obj;
 
-      _classPrivateFieldGet(this, _foo).call(this);
-      _classPrivateFieldGet(_other$obj = other.obj, _foo).call(_other$obj);
+      _classPrivateFieldGet(this, foo).call(this);
+      _classPrivateFieldGet(_obj = other.obj, foo).call(_obj);
     }
   }]);
   return Foo;
 }();
 
-var _foo = new WeakMap();
+var foo = new WeakMap();
 
 "#
 );
@@ -2364,7 +2370,7 @@ var Foo = function Foo(_foo) {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  bar.set(this, {
     writable: true,
     value: this
   });
@@ -2375,7 +2381,7 @@ var Foo = function Foo(_foo) {
   });
 };
 
-var _bar = new WeakMap();
+var bar = new WeakMap();
 
 var _baz = new WeakMap();
 
@@ -2554,13 +2560,13 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(x) {
-      return _classStaticPrivateFieldSpecGet(Foo, Foo, _foo).call(Foo, x);
+      return _classStaticPrivateFieldSpecGet(Foo, Foo, foo).call(Foo, x);
     }
   }]);
   return Foo;
 }();
 
-var _foo = {
+var foo = {
   writable: true,
   value: function (x) {
     return x;
@@ -2591,7 +2597,7 @@ function (_Bar) {
     var _temp, _this;
 
     _classCallCheck(this, Foo);
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _bar.set(_assertThisInitialized(_this), {
+    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     }), _temp));
@@ -2601,7 +2607,7 @@ function (_Bar) {
   return Foo;
 }(Bar);
 
-var _bar = new WeakMap();
+var bar = new WeakMap();
 
 "#);
 
