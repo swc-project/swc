@@ -3,12 +3,15 @@ use crate::{
     util::{alias_ident_for, prepend, ExprFactory},
 };
 use ast::*;
+use fnv::FnvHashSet;
 use std::{iter, mem};
+use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
     pub vars: Vec<VarDeclarator>,
+    pub statics: FnvHashSet<JsWord>,
     pub helpers: &'a Helpers,
 }
 

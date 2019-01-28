@@ -10,6 +10,7 @@ use crate::{
     },
 };
 use ast::*;
+use fnv::FnvHashSet;
 use std::{iter, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
@@ -247,13 +248,14 @@ impl ClassProperties {
         class: Class,
     ) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
         // Create one mark per class
-        self.mark = Mark::fresh(self.mark);
+        self.mark = Mark::fresh(Mark::root());
 
         let has_super = class.super_class.is_some();
 
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
+        let mut statics = FnvHashSet::default();
 
         for member in class.body {
             match member {
@@ -332,6 +334,9 @@ impl ClassProperties {
                 }
                 ClassMember::PrivateProp(prop) => {
                     let prop_span = prop.span();
+                    if prop.is_static {
+                        statics.insert(prop.key.id.sym.clone());
+                    }
 
                     let ident = Ident::new(
                         prop.key.id.sym,
@@ -426,6 +431,7 @@ impl ClassProperties {
 
         let members = members.fold_with(&mut FieldAccessFolder {
             mark: self.mark,
+            statics,
             vars: vec![],
             helpers: &self.helpers,
         });
