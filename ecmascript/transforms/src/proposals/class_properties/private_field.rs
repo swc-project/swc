@@ -29,7 +29,8 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             prefix,
                             op,
                             arg: box Expr::Member(arg),
-                        });
+                        })
+                        .fold_children(self);
                     }
                 };
 
@@ -40,7 +41,8 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             prefix,
                             op,
                             arg: box Expr::Member(arg),
-                        });
+                        })
+                        .fold_children(self);
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -154,7 +156,8 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             left: PatOrExpr::Expr(box Expr::Member(left)),
                             op,
                             right,
-                        });
+                        })
+                        .fold_children(self);
                     }
                 };
 
@@ -168,7 +171,8 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                             })),
                             op,
                             right,
-                        });
+                        })
+                        .fold_children(self);
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -271,6 +275,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                         args,
                         type_args,
                     })
+                    .fold_children(self)
                 }
             }
             Expr::Member(e) => self.fold_private_get(e, None).0,

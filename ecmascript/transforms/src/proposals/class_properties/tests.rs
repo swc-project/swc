@@ -2079,7 +2079,7 @@ var Foo = function Foo() {
 
   y.set(this, {
     writable: true,
-    value: _classPrivateFieldGet(this, _x)
+    value: _classPrivateFieldGet(this, x)
   });
 };
 
