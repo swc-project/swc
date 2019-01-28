@@ -14,8 +14,6 @@ impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
-        let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
-
         if cfg!(debug_assertions) {
             eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
         }
@@ -26,7 +24,7 @@ impl<'a> Hygiene<'a> {
         self.current
             .declared_symbols
             .borrow_mut()
-            .entry(ident.sym.clone())
+            .entry(sym.clone())
             .or_insert_with(Vec::new)
             .push(ctxt);
 
@@ -38,7 +36,7 @@ impl<'a> Hygiene<'a> {
         if cfg!(debug_assertions) {
             eprintln!("Renaming from decl");
         }
-        self.rename(ident.sym, ctxt);
+        self.rename(sym, ctxt);
     }
 
     fn add_used_ref(&mut self, ident: Ident) {
@@ -75,6 +73,9 @@ impl<'a> Hygiene<'a> {
 
         let scope = self.current.scope_of(&sym, ctxt);
 
+        // Update symbol list
+        let mut declared_symbols = scope.declared_symbols.borrow_mut();
+
         debug_assert!(
             {
                 scope.ops.borrow().iter().all(|op| match *op {
@@ -87,18 +88,14 @@ impl<'a> Hygiene<'a> {
             scope.ops.borrow(),
         );
 
-        {
-            // Update symbol list
-            let mut declared_symbols = scope.declared_symbols.borrow_mut();
-
+        let old = declared_symbols.entry(sym.clone()).or_default();
+        debug_assert!(old.contains(&ctxt));
         old.retain(|c| *c != ctxt);
         debug_assert!(old.len() == 0 || old.len() == 1);
 
-            declared_symbols
-                .entry(renamed.clone())
-                .or_default()
-                .push(ctxt);
-        }
+        let new = declared_symbols.entry(renamed.clone()).or_default();
+        new.push(ctxt);
+        debug_assert!(new.len() == 1);
 
         scope.ops.borrow_mut().push(ScopeOp::Rename {
             from: (sym, ctxt),
@@ -311,8 +308,6 @@ impl<'a> Scope<'a> {
     }
 
     fn can_declare(&self, sym: JsWord, ctxt: SyntaxContext) -> bool {
-        let sym = self.change_symbol(sym, ctxt);
-
         match self.parent {
             None => {}
             Some(parent) => {
@@ -351,7 +346,6 @@ impl<'a> Scope<'a> {
         let mut cur = Some(self);
         let mut ctxts = vec![];
         while let Some(scope) = cur {
-            // dbg!(&scope.declared_symbols.borrow());
             if let Some(cxs) = scope.declared_symbols.borrow().get(&sym) {
                 ctxts.extend_from_slice(&cxs);
             }
@@ -371,7 +365,7 @@ impl<'a> Scope<'a> {
                 match *op {
                     ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
                         if cfg!(debug_assertions) {
-                            eprintln!("Changing symbol: {} -> {}", from.0, to);
+                            eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
                         }
                         sym = to.clone()
                     }
