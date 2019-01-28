@@ -1691,7 +1691,11 @@ var prop2 = new WeakMap();
 "#
 );
 
-test!(syntax(), tr(Default::default()), private_super_call, r#"
+test!(
+    syntax(),
+    tr(Default::default()),
+    private_super_call,
+    r#"
 class A {
   foo() {
     return "bar";
@@ -1702,10 +1706,9 @@ class B extends A {
   #foo = super.foo();
 }
 
-"#, r#"
-var A =
-/*#__PURE__*/
-function () {
+"#,
+    r#"
+var A = function () {
   
 
   function A() {
@@ -1728,15 +1731,15 @@ function (_A) {
 
   _inherits(B, _A);
 
-  function B(...args) {
+  function B() {
     var _this;
 
     _classCallCheck(this, B);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this, ...args));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
 
     foo.set(_assertThisInitialized(_this), {
       writable: true,
-      value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_assertThisInitialized(_this))
+      value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this))()
     });
 
     return _this;
@@ -1747,7 +1750,8 @@ function (_A) {
 
 var foo = new WeakMap();
 
-"#);
+"#
+);
 
 test!(
     syntax(),
@@ -2576,7 +2580,11 @@ var foo = {
 "#
 );
 
-test!(syntax(), tr(Default::default()), private_super_expression, r#"
+test!(
+    syntax(),
+    tr(Default::default()),
+    private_super_expression,
+    r#"
 class Foo extends Bar {
   #bar = "foo";
 
@@ -2585,7 +2593,8 @@ class Foo extends Bar {
   }
 }
 
-"#, r#"
+"#,
+    r#"
 var Foo =
 /*#__PURE__*/
 function (_Bar) {
@@ -2594,14 +2603,16 @@ function (_Bar) {
   _inherits(Foo, _Bar);
 
   function Foo() {
-    var _temp, _this;
+    var _this;
 
     _classCallCheck(this, Foo);
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), bar.set(_assertThisInitialized(_this), {
+    var _temp;
+    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)),
+     bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     }), _temp));
-    return _this;
+    return _possibleConstructorReturn(_this);
   }
 
   return Foo;
@@ -2609,7 +2620,8 @@ function (_Bar) {
 
 var bar = new WeakMap();
 
-"#);
+"#
+);
 
 test_exec!(
     syntax(),
