@@ -1654,13 +1654,13 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  prop.set(this, {
+  prop1.set(this, {
     writable: true,
     value: "foo"
   });
 };
 
-var prop = new WeakMap();
+var prop1 = new WeakMap();
 
 var Bar =
 /*#__PURE__*/
@@ -1669,11 +1669,11 @@ function (_Foo) {
 
   _inherits(Bar, _Foo);
 
-  function Bar(...args) {
+  function Bar() {
     var _this;
 
     _classCallCheck(this, Bar);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).call(this, ...args));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
 
     prop2.set(_assertThisInitialized(_this), {
       writable: true,

@@ -29,7 +29,7 @@ mod used_name;
 pub fn class_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
     ClassProperties {
         helpers,
-        mark: Mark::fresh(Mark::root()),
+        mark: Mark::root(),
     }
 }
 
@@ -246,6 +246,9 @@ impl ClassProperties {
         ident: Ident,
         class: Class,
     ) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
+        // Create one mark per class
+        self.mark = Mark::fresh(self.mark);
+
         let has_super = class.super_class.is_some();
 
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
@@ -262,8 +265,7 @@ impl ClassProperties {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
                         PropName::Computed(expr) => {
-                            let ident =
-                                quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(self.mark)), "tmp");
+                            let ident = private_ident!("tmp");
                             // Handle computed property
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
