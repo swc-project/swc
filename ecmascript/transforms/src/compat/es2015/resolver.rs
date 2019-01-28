@@ -1,0 +1,864 @@
+use crate::scope::ScopeKind;
+use ast::*;
+use fnv::FnvHashSet;
+use swc_atoms::JsWord;
+use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
+
+pub fn resolver() -> Resolver<'static> {
+    Resolver::new(
+        Mark::fresh(Mark::root()),
+        Scope::new(ScopeKind::Fn, None),
+        None,
+    )
+}
+
+#[derive(Debug, Clone)]
+struct Scope<'a> {
+    /// Parent scope of this scope
+    parent: Option<&'a Scope<'a>>,
+
+    /// Kind of the scope.
+    kind: ScopeKind,
+
+    /// All references declared in this scope
+    declared_symbols: FnvHashSet<JsWord>,
+}
+
+impl<'a> Scope<'a> {
+    pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
+        Scope {
+            parent,
+            kind,
+            declared_symbols: Default::default(),
+        }
+    }
+}
+
+#[derive(Clone)]
+pub struct Resolver<'a> {
+    mark: Mark,
+    current: Scope<'a>,
+    cur_defining: Option<(JsWord, Mark)>,
+    in_var_decl: bool,
+}
+
+impl<'a> Resolver<'a> {
+    fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
+        Resolver {
+            mark,
+            current,
+            cur_defining,
+            in_var_decl: false,
+        }
+    }
+
+    fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
+        let mut mark = self.mark;
+        let mut scope = Some(&self.current);
+
+        while let Some(cur) = scope {
+            if cur.declared_symbols.contains(sym) {
+                if mark == Mark::root() {
+                    return None;
+                }
+                return Some(mark);
+            }
+            mark = mark.parent();
+            scope = cur.parent;
+        }
+
+        None
+    }
+
+    fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+        if ident.span.ctxt() != SyntaxContext::empty() {
+            return ident;
+        }
+
+        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
+            if *cur != ident.sym {
+                (true, self.mark)
+            } else {
+                (false, override_mark)
+            }
+        } else {
+            (true, self.mark)
+        };
+
+        if should_insert {
+            self.current.declared_symbols.insert(ident.sym.clone());
+        }
+
+        Ident {
+            span: if mark == Mark::root() {
+                ident.span
+            } else {
+                ident.span.apply_mark(mark)
+            },
+            sym: ident.sym,
+            ..ident
+        }
+    }
+}
+
+impl<'a> Fold<Function> for Resolver<'a> {
+    fn fold(&mut self, mut f: Function) -> Function {
+        let child_mark = Mark::fresh(self.mark);
+
+        // Child folder
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.cur_defining.take(),
+        );
+
+        folder.in_var_decl = true;
+        f.params = f.params.fold_with(&mut folder);
+
+        folder.in_var_decl = false;
+        f.body = f.body.map(|stmt| stmt.fold_children(&mut folder));
+
+        self.cur_defining = folder.cur_defining;
+
+        f
+    }
+}
+
+impl<'a> Fold<BlockStmt> for Resolver<'a> {
+    fn fold(&mut self, block: BlockStmt) -> BlockStmt {
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut child_folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.cur_defining.take(),
+        );
+
+        let block = block.fold_children(&mut child_folder);
+        self.cur_defining = child_folder.cur_defining;
+        block
+    }
+}
+
+impl<'a> Fold<FnExpr> for Resolver<'a> {
+    fn fold(&mut self, e: FnExpr) -> FnExpr {
+        let ident = if let Some(ident) = e.ident {
+            Some(self.fold_binding_ident(ident))
+        } else {
+            None
+        };
+
+        let function = e.function.fold_with(self);
+
+        FnExpr { ident, function }
+    }
+}
+
+impl<'a> Fold<FnDecl> for Resolver<'a> {
+    fn fold(&mut self, node: FnDecl) -> FnDecl {
+        let ident = self.fold_binding_ident(node.ident);
+
+        let function = node.function.fold_with(self);
+
+        FnDecl {
+            ident,
+            function,
+            ..node
+        }
+    }
+}
+
+impl<'a> Fold<Expr> for Resolver<'a> {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = false;
+        let expr = match expr {
+            // Leftmost one of a member expression shoukld be resolved.
+            Expr::Member(me) => Expr::Member(MemberExpr {
+                obj: me.obj.fold_with(self),
+                ..me
+            }),
+            _ => expr.fold_children(self),
+        };
+        self.in_var_decl = old_in_var_decl;
+
+        expr
+    }
+}
+
+impl<'a> Fold<VarDeclarator> for Resolver<'a> {
+    fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        // order is important
+
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let name = decl.name.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let cur_name = match name {
+            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
+            _ => None,
+        };
+
+        let is_class_like = match decl.init {
+            Some(box Expr::Fn(FnExpr { ref ident, .. }))
+                if cur_name.is_some()
+                    && ident.as_ref().map(|v| &v.sym) == cur_name.as_ref().map(|v| &v.0) =>
+            {
+                true
+            }
+
+            Some(box Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
+                ..
+            }))
+            | Some(box Expr::Paren(ParenExpr {
+                expr:
+                    box Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
+                        ..
+                    }),
+                ..
+            })) => true,
+            _ => false,
+        };
+
+        let init = if is_class_like {
+            let old_def = self.cur_defining.take();
+            self.cur_defining = cur_name;
+
+            let init = decl.init.fold_children(self);
+
+            self.cur_defining = old_def;
+            init
+        } else {
+            decl.init.fold_children(self)
+        };
+
+        VarDeclarator { name, init, ..decl }
+    }
+}
+
+impl<'a> Fold<Ident> for Resolver<'a> {
+    fn fold(&mut self, i: Ident) -> Ident {
+        if self.in_var_decl {
+            self.fold_binding_ident(i)
+        } else {
+            let Ident { span, sym, .. } = i;
+            if span.ctxt() != SyntaxContext::empty() {
+                return Ident { sym, ..i };
+            }
+
+            if let Some(mark) = self.mark_for(&sym) {
+                Ident {
+                    sym,
+                    span: span.apply_mark(mark),
+                    ..i
+                }
+            } else {
+                // Cannot resolve reference. (TODO: Report error)
+                Ident { sym, span, ..i }
+            }
+        }
+    }
+}
+
+impl<'a> Fold<ArrowExpr> for Resolver<'a> {
+    fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let params = e.params.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = e.body.fold_with(self);
+
+        ArrowExpr { params, body, ..e }
+    }
+}
+
+impl<'a> Fold<Constructor> for Resolver<'a> {
+    fn fold(&mut self, c: Constructor) -> Constructor {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let params = c.params.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = c.body.fold_with(self);
+        let key = c.key.fold_with(self);
+
+        Constructor {
+            params,
+            body,
+            key,
+            ..c
+        }
+    }
+}
+
+impl<'a> Fold<CatchClause> for Resolver<'a> {
+    fn fold(&mut self, c: CatchClause) -> CatchClause {
+        let old_in_var_decl = self.in_var_decl;
+        self.in_var_decl = true;
+        let param = c.param.fold_with(self);
+        self.in_var_decl = old_in_var_decl;
+
+        let body = c.body.fold_with(self);
+
+        CatchClause { param, body, ..c }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::compat::es2015::block_scoping;
+
+    fn tr() -> impl Fold<Module> {
+        chain!(resolver(), block_scoping())
+    }
+
+    macro_rules! identical {
+        ($name:ident, $src:literal) => {
+            test!(
+                ::swc_ecma_parser::Syntax::default(),
+                tr(),
+                $name,
+                $src,
+                $src
+            );
+        };
+    }
+
+    #[test]
+    fn test_mark_for() {
+        ::testing::run_test(false, |_, _| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(mark1);
+            let mark3 = Mark::fresh(mark2);
+            let mark4 = Mark::fresh(mark3);
+
+            let folder1 = Resolver::new(mark1, Scope::new(ScopeKind::Block, None), None);
+            let mut folder2 = Resolver::new(
+                mark2,
+                Scope::new(ScopeKind::Block, Some(&folder1.current)),
+                None,
+            );
+            folder2.current.declared_symbols.insert("foo".into());
+
+            let mut folder3 = Resolver::new(
+                mark3,
+                Scope::new(ScopeKind::Block, Some(&folder2.current)),
+                None,
+            );
+            folder3.current.declared_symbols.insert("bar".into());
+            assert_eq!(folder3.mark_for(&"bar".into()), Some(mark3));
+
+            let mut folder4 = Resolver::new(
+                mark4,
+                Scope::new(ScopeKind::Block, Some(&folder3.current)),
+                None,
+            );
+            folder4.current.declared_symbols.insert("foo".into());
+
+            assert_eq!(folder4.mark_for(&"foo".into()), Some(mark4));
+            assert_eq!(folder4.mark_for(&"bar".into()), Some(mark3));
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        basic_no_usage,
+        "
+        let foo;
+        {
+            let foo;
+        }
+        ",
+        "
+        var foo;
+        {
+            var foo1;
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        class_nested_var,
+        "
+        var ConstructorScoping = function ConstructorScoping() {
+            _classCallCheck(this, ConstructorScoping);
+            var bar;
+            {
+                var bar;
+            }
+        }
+        ",
+        "
+        var ConstructorScoping = function ConstructorScoping() {
+            _classCallCheck(this, ConstructorScoping);
+            var bar;
+            {
+                var bar1;
+            }
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        basic,
+        r#"
+        {
+            var foo = 1;
+            {
+                let foo = 2;
+                use(foo);
+            }
+            use(foo)
+        }
+        "#,
+        r#"
+        {
+            var foo = 1;
+            {
+                var foo1 = 2;
+                use(foo1);
+            }
+            use(foo);
+        }
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        general_assignment_patterns,
+        r#"const foo = "foo";
+
+function foobar() {
+  for (let item of [1, 2, 3]) {
+    let foo = "bar";
+    [bar, foo] = [1, 2];
+  }
+}"#,
+        r#"var foo = "foo";
+
+function foobar() {
+  for (var item of [1, 2, 3]) {
+    var foo1 = "bar";
+    [bar, foo1] = [1, 2];
+  }
+}"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        general_function,
+        r#"function test() {
+  let foo = "bar";
+}"#,
+        r#"function test() {
+  var foo = "bar";
+}"#
+    );
+
+    test!(
+        ignore,
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        babel_issue_1051,
+        r#"foo.func1 = function() {
+  if (cond1) {
+    for (;;) {
+      if (cond2) {
+        function func2() {}
+        function func3() {}
+        func4(function() {
+          func2();
+        });
+        break;
+      }
+    }
+  }
+};"#,
+        r#"foo.func1 = function () {
+  if (cond1) {
+    for (;;) {
+      if (cond2) {
+        var _ret = function () {
+          function func2() {}
+
+          function func3() {}
+
+          func4(function () {
+            func2();
+          });
+          return "break";
+        }();
+
+        if (_ret === "break") break;
+      }
+    }
+  }
+};"#
+    );
+
+    test!(
+        ignore,
+        ::swc_ecma_parser::Syntax::default(),
+        // TODO(kdy1): WTF is this (again)?
+        tr(),
+        babel_issue_2174,
+        r#"if (true) {
+  function foo() {}
+  function bar() {
+    return foo;
+  }
+  for (var x in {}) {}
+}"#,
+        r#"
+if (true) {
+  var foo = function () {};
+
+  var bar = function () {
+    return foo;
+  };
+
+  for (var x in {}) {}
+}"#
+    );
+
+    test!(
+        ignore,
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        babel_issue_4363,
+        r#"function WithoutCurlyBraces() {
+  if (true)
+    for (let k in kv) {
+        function foo() { return this }
+        function bar() { return foo.call(this) }
+        console.log(this, k) // => undefined
+    }
+}
+
+function WithCurlyBraces() {
+  if (true) {
+    for (let k in kv) {
+        function foo() { return this }
+        function bar() { return foo.call(this) }
+        console.log(this, k) // => 777
+    }
+  }
+}"#,
+        r#"function WithoutCurlyBraces() {
+  var _this = this;
+
+  if (true) {
+    var _loop = function (k) {
+      function foo() {
+        return this;
+      }
+
+      function bar() {
+        return foo.call(this);
+      }
+
+      console.log(_this, k); // => undefined
+    };
+
+    for (var k in kv) {
+      _loop(k);
+    }
+  }
+}
+
+function WithCurlyBraces() {
+  var _this2 = this;
+
+  if (true) {
+    var _loop2 = function (k) {
+      function foo() {
+        return this;
+      }
+
+      function bar() {
+        return foo.call(this);
+      }
+
+      console.log(_this2, k); // => 777
+    };
+
+    for (var k in kv) {
+      _loop2(k);
+    }
+  }
+}"#
+    );
+
+    test!(
+        // Cannot represent function expression without parens (in result code)
+        ignore,
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        babel_issue_4946,
+        r#"(function foo() {
+  let foo = true;
+});"#,
+        r#"(function foo() {
+  var foo = true;
+});"#
+    );
+
+    // TODO: try {} catch (a) { let a } should report error
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        babel_issue_973,
+        r#"let arr = [];
+for(let i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
+    arr.push(() => i);
+  }
+}
+"#,
+        r#"var arr = [];
+for(var i = 0; i < 10; i++){
+    for(var i1 = 0; i1 < 10; i1++){
+        arr.push(()=>i1);
+    }
+}"#
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        pass_assignment,
+        r#"let a = 1;
+a = 2;
+expect(a).toBe(2);"#
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        pass_call,
+        r#"let a = 1;
+
+function b() {
+  return a + 1;
+}
+
+expect(b()).toBe(2);"#
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| tr(),
+        pass_update,
+        r#"let a = 1;
+a++;
+expect(a).toBe(2);"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        fn_param,
+        r#"let a = 'foo';
+    function foo(a) {
+        use(a);
+    }"#,
+        r#"var a = 'foo';
+    function foo(a1) {
+        use(a1);
+    }"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        fn_body,
+        r#"let a = 'foo';
+    function foo() {
+        let a = 'bar';
+        use(a);
+    }"#,
+        r#"var a = 'foo';
+    function foo() {
+        var a1 = 'bar';
+        use(a1);
+    }"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        shorthand,
+        r#"let a = 'foo';
+    function foo() {
+        let a = 'bar';
+        use({a});
+    }"#,
+        r#"var a = 'foo';
+    function foo() {
+        var a1 = 'bar';
+        use({a: a1});
+    }"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        same_level,
+        r#"
+        var a = 'foo';
+        var a = 'bar';
+        "#,
+        r#"
+        var a = 'foo';
+        var a = 'bar';
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        class_block,
+        r#"
+    var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        }(Bar);
+    "#,
+        r#"
+    var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        }(Bar);
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        class_block_2,
+        r#"
+    var Foo = (function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        })(Bar);
+    "#,
+        r#"
+    var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+            }
+            return Foo;
+        }(Bar);
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        tr(),
+        class_nested,
+        r#"
+var Outer = function(_Hello) {
+    _inherits(Outer, _Hello);
+    function Outer() {
+        _classCallCheck(this, Outer);
+        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+        var Inner = function() {
+            function Inner() {
+                _classCallCheck(this, Inner);
+            }
+            _createClass(Inner, [{
+                     key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
+                            return 'hello';
+                        } 
+                }]);
+            return Inner;
+        }();
+        return _possibleConstructorReturn(_this, new Inner());
+    }
+    return Outer;
+}(Hello);
+"#,
+        r#"
+var Outer = function(_Hello) {
+    _inherits(Outer, _Hello);
+    function Outer() {
+        _classCallCheck(this, Outer);
+        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+        var Inner = function() {
+            function Inner() {
+                _classCallCheck(this, Inner);
+            }
+            _createClass(Inner, [{
+                     key: _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this), value: function() {
+                            return 'hello';
+                        } 
+                }]);
+            return Inner;
+        }();
+        return _possibleConstructorReturn(_this, new Inner());
+    }
+    return Outer;
+}(Hello);
+"#
+    );
+
+    identical!(class_var_constructor_only, r#"var Foo = function Foo(){}"#);
+
+    identical!(
+        class_var,
+        r#"
+        var Foo = function(_Bar) {
+            _inherits(Foo, _Bar);
+            function Foo() {
+                var _this;
+                _classCallCheck(this, Foo);
+                Foo[_assertThisInitialized(_this)];
+                return _possibleConstructorReturn(_this);
+            }
+            return Foo;
+        }(Bar);
+"#
+    );
+
+    identical!(
+        class_singleton,
+        r#"
+var singleton;
+var Sub = function(_Foo) {
+    _inherits(Sub, _Foo);
+    function Sub() {
+        var _this;
+        _classCallCheck(this, Sub);
+        if (singleton) {
+            return _possibleConstructorReturn(_this, singleton);
+        }
+        singleton = _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub).call(this));
+        return _possibleConstructorReturn(_this);
+    }
+    return Sub;
+}(Foo);
+        "#
+    );
+
+}

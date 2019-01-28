@@ -1,5 +1,5 @@
 use super::*;
-use crate::compat::es2015::{arrow, block_scoping, Spread};
+use crate::compat::es2015::{arrow, block_scoping, resolver, Spread};
 use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -18,13 +18,14 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 fn spec_tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
+        resolver(),
         Classes {
             helpers: helpers.clone()
         },
         Spread {
             helpers: helpers.clone()
         },
-        block_scoping()
+        block_scoping(),
     )
 }
 

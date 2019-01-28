@@ -182,7 +182,7 @@ function _s() {
             args[_key - 1] = arguments[_key];
         }
         let t = function(y, a) {
-            var _t = _asyncToGenerator((function*(y, a) {
+            var _ref = _asyncToGenerator((function*(y, a) {
                 let r = function(z, b) {
                     var _ref = _asyncToGenerator((function*(z, b) {
                         for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
@@ -200,8 +200,8 @@ function _s() {
                 console.log(this, args, arguments);
                 return this.g(r);
             }).bind(this));
-            return function t() {
-                return _t.apply(this, arguments);
+            return function () {
+                return _ref.apply(this, arguments);
             };
         }().bind(this);
         yield t();

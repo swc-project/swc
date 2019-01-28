@@ -8,6 +8,7 @@ use crate::{
 };
 use ast::*;
 use std::{iter, sync::Arc};
+use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -140,6 +141,67 @@ where
         }
 
         buf
+    }
+}
+
+impl Fold<Expr> for ClassProperties {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+
+        match expr {
+            // TODO(kdy1): Make it generate smaller code.
+            //
+            // We currently creates a iife for a class expression.
+            // Although this results in a large code, but it's ok as class expression is rarely used
+            // in wild.
+            Expr::Class(ClassExpr { ident, class }) => {
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let mut stmts = vec![];
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Ident(ident)),
+                }));
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            is_async: false,
+                            is_generator: false,
+                            params: vec![],
+
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            }),
+
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                })
+            }
+            _ => expr,
+        }
     }
 }
 
@@ -315,11 +377,36 @@ impl ClassProperties {
             }
         }
 
+        let constructor =
+            self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
+        members.push(ClassMember::Constructor(constructor));
+
+        (
+            vars,
+            Decl::Class(ClassDecl {
+                ident: ident.clone(),
+                declare: false,
+                class: Class {
+                    body: members,
+                    ..class
+                },
+            }),
+            extra_stmts,
+        )
+    }
+
+    fn process_constructor(
+        &mut self,
+        constructor: Option<Constructor>,
+        has_super: bool,
+        used_names: &[JsWord],
+        constructor_exprs: Vec<Box<Expr>>,
+    ) -> Constructor {
         let mut constructor = constructor
             .map(|c| {
                 let mut folder = UsedNameRenamer {
                     mark: Mark::fresh(Mark::root()),
-                    used_names: &used_names,
+                    used_names,
                 };
 
                 // Handle collisions
@@ -348,20 +435,7 @@ impl ClassProperties {
             }
         }
 
-        members.push(ClassMember::Constructor(constructor));
-
-        (
-            vars,
-            Decl::Class(ClassDecl {
-                ident: ident.clone(),
-                declare: false,
-                class: Class {
-                    body: members,
-                    ..class
-                },
-            }),
-            extra_stmts,
-        )
+        constructor
     }
 }
 

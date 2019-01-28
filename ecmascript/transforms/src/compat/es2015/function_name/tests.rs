@@ -1,8 +1,17 @@
 use super::*;
+use crate::{
+    compat::es2015::{block_scoping, resolver},
+    helpers::Helpers,
+};
+use std::sync::Arc;
+
+fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
+    chain!(resolver(), function_name(), block_scoping())
+}
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    FnName,
+    tr(Default::default()),
     basic,
     r#"var number = function (x) {
   return x;
@@ -14,7 +23,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    FnName,
+    tr(Default::default()),
     assign,
     r#"number = function (x) {
   return x;
@@ -26,7 +35,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    FnName,
+    tr(Default::default()),
     let_complex,
     r#"
 let TestClass = {
@@ -41,7 +50,7 @@ let TestClass = {
 };
 "#,
     r#"
-let TestClass = {
+var TestClass = {
   name: "John Doe",
 
   testMethodFailure() {
@@ -51,5 +60,35 @@ let TestClass = {
     });
   }
 }
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    tr(Default::default()),
+    class_simple,
+    r#"
+var Foo = function() {
+  var Foo = function () {
+   _classCallCheck(this, Foo);
+  };
+  _defineProperty(Foo, 'num', 0);
+  return Foo;
+}();
+expect(Foo.num).toBe(0);
+expect(Foo.num = 1).toBe(1);
+expect(Foo.name).toBe('Foo');
+"#,
+    r#"
+var Foo = function() {
+  var Foo = function Foo() {
+   _classCallCheck(this, Foo);
+  };
+  _defineProperty(Foo, 'num', 0);
+  return Foo;
+}();
+expect(Foo.num).toBe(0);
+expect(Foo.num = 1).toBe(1);
+expect(Foo.name).toBe('Foo');
 "#
 );

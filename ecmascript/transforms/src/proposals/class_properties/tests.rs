@@ -1,6 +1,6 @@
 use super::*;
 use crate::{
-    compat::es2015::{block_scoping, Classes},
+    compat::es2015::{block_scoping, function_name, resolver, Classes},
     helpers::Helpers,
 };
 use std::sync::Arc;
@@ -16,9 +16,11 @@ fn syntax() -> Syntax {
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
+        resolver(),
+        function_name(),
         class_properties(helpers.clone()),
         Classes { helpers },
-        block_scoping()
+        block_scoping(),
     )
 }
 

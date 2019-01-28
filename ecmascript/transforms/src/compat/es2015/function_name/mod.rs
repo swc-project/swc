@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Mark};
 
 #[cfg(test)]
 mod tests;
@@ -12,31 +12,47 @@ mod tests;
 /// var number = function (x) {
 ///   return x;
 /// };
+/// var Foo = (class {});
 /// ```
 /// ## Out
 /// ```js
 /// var number = function number(x) {
 ///   return x;
 /// }
+/// var Foo = (class Foo {});
 /// ```
 pub fn function_name() -> FnName {
-    FnName
+    FnName {
+        mark: Mark::fresh(Mark::root()),
+    }
 }
 
 #[derive(Clone, Copy)]
-pub struct FnName;
+pub struct FnName {
+    mark: Mark,
+}
 
 struct Renamer {
+    mark: Mark,
     name: Option<Ident>,
 }
 
 impl Fold<VarDeclarator> for FnName {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
+        let mut decl = decl.fold_children(self);
+
         match decl.name {
-            Pat::Ident(ref ident) => {
-                let init = decl.init.fold_with(&mut Renamer {
+            Pat::Ident(ref mut ident) => {
+                let mut folder = Renamer {
+                    mark: self.mark,
                     name: Some(ident.clone()),
-                });
+                };
+                let init = decl.init.fold_with(&mut folder);
+
+                // It's taken. So we apply the marker to the ident
+                if folder.name.is_none() {
+                    ident.span = ident.span.apply_mark(self.mark);
+                }
 
                 return VarDeclarator { init, ..decl };
             }
@@ -47,18 +63,26 @@ impl Fold<VarDeclarator> for FnName {
 
 impl Fold<AssignExpr> for FnName {
     fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
-        let expr = expr.fold_children(self);
+        let mut expr = expr.fold_children(self);
 
         if expr.op != op!("=") {
             return expr;
         }
 
         match expr.left {
-            PatOrExpr::Pat(box Pat::Ident(ref ident))
-            | PatOrExpr::Expr(box Expr::Ident(ref ident)) => {
-                let right = expr.right.fold_with(&mut Renamer {
+            PatOrExpr::Pat(box Pat::Ident(ref mut ident))
+            | PatOrExpr::Expr(box Expr::Ident(ref mut ident)) => {
+                let mut folder = Renamer {
+                    mark: self.mark,
                     name: Some(ident.clone()),
-                });
+                };
+
+                let right = expr.right.fold_with(&mut folder);
+
+                // It's taken. So we apply the marker to the ident
+                if folder.name.is_none() {
+                    ident.span = ident.span.apply_mark(self.mark);
+                }
 
                 return AssignExpr { right, ..expr };
             }
@@ -67,27 +91,42 @@ impl Fold<AssignExpr> for FnName {
     }
 }
 
-impl Fold<FnExpr> for Renamer {
-    fn fold(&mut self, expr: FnExpr) -> FnExpr {
-        match expr.ident {
-            Some(..) => return expr,
-            None => FnExpr {
-                ident: self.name.take(),
-                ..expr
-            },
+macro_rules! impl_for {
+    ($T:tt) => {
+        impl Fold<$T> for Renamer {
+            fn fold(&mut self, node: $T) -> $T {
+                match node.ident {
+                    Some(..) => return node,
+                    None => $T {
+                        ident: match self.name.take() {
+                            Some(mut ident) => {
+                                ident.span = ident.span.apply_mark(self.mark);
+                                Some(ident)
+                            }
+                            _ => None,
+                        },
+                        ..node
+                    },
+                }
+            }
         }
-    }
+    };
+}
+impl_for!(FnExpr);
+impl_for!(ClassExpr);
+
+macro_rules! noop {
+    ($T:tt) => {
+        impl Fold<$T> for Renamer {
+            /// Don't recurse.
+            fn fold(&mut self, node: $T) -> $T {
+                node
+            }
+        }
+    };
 }
 
-impl Fold<ObjectLit> for Renamer {
-    /// Don't recurse.
-    fn fold(&mut self, node: ObjectLit) -> ObjectLit {
-        node
-    }
-}
-impl Fold<ArrayLit> for Renamer {
-    /// Don't recurse.
-    fn fold(&mut self, node: ArrayLit) -> ArrayLit {
-        node
-    }
-}
+noop!(ObjectLit);
+noop!(ArrayLit);
+noop!(CallExpr);
+noop!(NewExpr);
