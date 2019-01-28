@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::{Fold, FoldWith, Mark};
+use swc_common::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -22,18 +22,13 @@ mod tests;
 /// var Foo = (class Foo {});
 /// ```
 pub fn function_name() -> FnName {
-    FnName {
-        mark: Mark::fresh(Mark::root()),
-    }
+    FnName
 }
 
 #[derive(Clone, Copy)]
-pub struct FnName {
-    mark: Mark,
-}
+pub struct FnName;
 
 struct Renamer {
-    mark: Mark,
     name: Option<Ident>,
 }
 
@@ -44,15 +39,9 @@ impl Fold<VarDeclarator> for FnName {
         match decl.name {
             Pat::Ident(ref mut ident) => {
                 let mut folder = Renamer {
-                    mark: self.mark,
                     name: Some(ident.clone()),
                 };
                 let init = decl.init.fold_with(&mut folder);
-
-                // It's taken. So we apply the marker to the ident
-                if folder.name.is_none() {
-                    ident.span = ident.span.apply_mark(self.mark);
-                }
 
                 return VarDeclarator { init, ..decl };
             }
@@ -73,16 +62,10 @@ impl Fold<AssignExpr> for FnName {
             PatOrExpr::Pat(box Pat::Ident(ref mut ident))
             | PatOrExpr::Expr(box Expr::Ident(ref mut ident)) => {
                 let mut folder = Renamer {
-                    mark: self.mark,
                     name: Some(ident.clone()),
                 };
 
                 let right = expr.right.fold_with(&mut folder);
-
-                // It's taken. So we apply the marker to the ident
-                if folder.name.is_none() {
-                    ident.span = ident.span.apply_mark(self.mark);
-                }
 
                 return AssignExpr { right, ..expr };
             }
@@ -98,13 +81,7 @@ macro_rules! impl_for {
                 match node.ident {
                     Some(..) => return node,
                     None => $T {
-                        ident: match self.name.take() {
-                            Some(mut ident) => {
-                                ident.span = ident.span.apply_mark(self.mark);
-                                Some(ident)
-                            }
-                            _ => None,
-                        },
+                        ident: self.name.take(),
                         ..node
                     },
                 }
