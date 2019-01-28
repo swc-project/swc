@@ -538,7 +538,7 @@ impl Classes {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this2")),
+                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
                         init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
                         definite: false,
                     }],
@@ -681,7 +681,7 @@ impl Classes {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this2")),
+                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
                             init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
                             definite: false,
                         }],

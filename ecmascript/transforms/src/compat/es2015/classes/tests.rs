@@ -3259,9 +3259,9 @@ function (_Hello) {
   _inherits(Outer, _Hello);
 
   function Outer() {
-    var _this2 = this;
+    var _this = this;
 
-    var _this;
+    var _this1;
 
     _classCallCheck(this, Outer);
 
@@ -3273,7 +3273,7 @@ function (_Hello) {
       }
 
       _createClass(Inner, [{
-        key: _this = _possibleConstructorReturn(_this2, _getPrototypeOf(Outer).call(_this2)),
+        key: _this1 = _possibleConstructorReturn(_this, _getPrototypeOf(Outer).call(_this)),
         value: function () {
           return 'hello';
         }
@@ -3281,7 +3281,7 @@ function (_Hello) {
       return Inner;
     }();
 
-    return _possibleConstructorReturn(_this, new Inner());
+    return _possibleConstructorReturn(_this1, new Inner());
   }
 
   return Outer;

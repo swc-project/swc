@@ -90,7 +90,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 
                 return Expr::Ident(quote_ident!(
                     span.apply_mark(self.this_alias_mark.unwrap()),
-                    "_this2"
+                    "_this"
                 ));
             }
             _ => {}
