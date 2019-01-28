@@ -433,6 +433,7 @@ impl ClassProperties {
             mark: self.mark,
             statics,
             vars: vec![],
+            class_name: &ident,
             helpers: &self.helpers,
         });
 

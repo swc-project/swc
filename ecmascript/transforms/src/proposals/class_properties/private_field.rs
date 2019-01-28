@@ -10,6 +10,7 @@ use swc_common::{Fold, FoldWith, Mark, Spanned, DUMMY_SP};
 
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
+    pub class_name: &'a Ident,
     pub vars: Vec<VarDeclarator>,
     pub statics: FnvHashSet<JsWord>,
     pub helpers: &'a Helpers,
@@ -86,7 +87,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 }
 
                 let value = {
-                    let arg = box self.fold_private_get(arg, Some(var)).1;
+                    let arg = box self.fold_private_get(arg, Some(var)).0;
                     let left = box Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!(unary, "+"),
@@ -212,7 +213,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 let value = if op == op!("=") {
                     right.as_arg()
                 } else {
-                    let left = box self.fold_private_get(left, Some(var)).1;
+                    let left = box self.fold_private_get(left, Some(var)).0;
 
                     BinExpr {
                         span: DUMMY_SP,
@@ -256,44 +257,39 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 args,
                 type_args,
             }) => {
-                let (is_static, e, this) = self.fold_private_get(callee, None);
+                let (e, this) = self.fold_private_get(callee, None);
 
-                if is_static {
-                    assert!(this.is_none());
-                    return e;
+                if let Some(this) = this {
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: e.as_obj(),
+                            prop: member_expr!(DUMMY_SP, call),
+                            computed: false,
+                        }
+                        .as_callee(),
+                        args: iter::once(this.as_arg()).chain(args).collect(),
+                        type_args,
+                    })
                 } else {
-                    if let Some(this) = this {
-                        Expr::Call(CallExpr {
-                            span,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: e.as_obj(),
-                                prop: member_expr!(DUMMY_SP, call),
-                                computed: false,
-                            }
-                            .as_callee(),
-                            args: iter::once(this.as_arg()).chain(args).collect(),
-                            type_args,
-                        })
-                    } else {
-                        Expr::Call(CallExpr {
-                            span,
-                            callee: ExprOrSuper::Expr(box e),
-                            args,
-                            type_args,
-                        })
-                        .fold_children(self)
-                    }
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(box e),
+                        args,
+                        type_args,
+                    })
+                    .fold_children(self)
                 }
             }
-            Expr::Member(e) => self.fold_private_get(e, None).1,
+            Expr::Member(e) => self.fold_private_get(e, None).0,
             _ => return e.fold_children(self),
         }
     }
 }
 
 impl<'a> FieldAccessFolder<'a> {
-    /// Returns `(is_static, expr, thisObject)`
+    /// Returns `(expr, thisObject)`
     ///
     ///   - `obj_alias`: If alias is already declared, this method will use
     ///     `obj_alias` instead of declaring a new one.
@@ -301,18 +297,17 @@ impl<'a> FieldAccessFolder<'a> {
         &mut self,
         e: MemberExpr,
         obj_alias: Option<Ident>,
-    ) -> (bool, Expr, Option<Expr>) {
+    ) -> (Expr, Option<Expr>) {
         let is_alias_initialized = obj_alias.is_some();
 
         let n = match *e.prop {
             Expr::PrivateName(n) => n,
-            _ => return (false, Expr::Member(e), None),
+            _ => return (Expr::Member(e), None),
         };
 
         let obj = match e.obj {
             ExprOrSuper::Super(..) => {
                 return (
-                    false,
                     Expr::Member(MemberExpr {
                         prop: box Expr::PrivateName(n),
                         ..e
@@ -327,14 +322,28 @@ impl<'a> FieldAccessFolder<'a> {
         let is_static = self.statics.contains(&ident.sym);
 
         if is_static {
-            unimplemented!()
+            self.helpers.class_static_private_field_spec_get();
+            let get = quote_ident!("_classStaticPrivateFieldSpecGet").as_callee();
+
+            (
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: get,
+                    args: vec![
+                        self.class_name.clone().as_arg(),
+                        self.class_name.clone().as_arg(),
+                        ident.clone().as_arg(),
+                    ],
+                    type_args: Default::default(),
+                }),
+                Some(Expr::Ident(self.class_name.clone())),
+            )
         } else {
             self.helpers.class_private_field_get();
             let get = quote_ident!("_classPrivateFieldGet").as_callee();
 
             match *obj {
                 Expr::This(this) => (
-                    false,
                     CallExpr {
                         span: DUMMY_SP,
                         callee: get,
@@ -358,7 +367,6 @@ impl<'a> FieldAccessFolder<'a> {
                     });
 
                     (
-                        false,
                         CallExpr {
                             span: DUMMY_SP,
                             callee: get,
