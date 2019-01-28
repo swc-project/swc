@@ -6,7 +6,8 @@ use crate::{
     helpers::Helpers,
     pass::Pass,
     util::{
-        alias_ident_for, default_constructor, undefined, ExprFactory, ModuleItemLike, StmtLike,
+        alias_ident_for, default_constructor, prepend_stmts, undefined, ExprFactory,
+        ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
@@ -482,12 +483,10 @@ impl ClassProperties {
 
             if !folder.injected {
                 // there was no super() call
-                constructor
-                    .body
-                    .as_mut()
-                    .unwrap()
-                    .stmts
-                    .extend(constructor_exprs.into_iter().map(Stmt::Expr))
+                prepend_stmts(
+                    &mut constructor.body.as_mut().unwrap().stmts,
+                    constructor_exprs.into_iter().map(Stmt::Expr),
+                )
             }
         }
 

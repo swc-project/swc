@@ -1388,7 +1388,8 @@ class Outer {
 "#,
     r#"
 var Outer = function Outer() {
-  
+  var _this = this;
+
 
   _classCallCheck(this, Outer);
 
@@ -1399,8 +1400,8 @@ var Outer = function Outer() {
 
   var Test =
   /*#__PURE__*/
-  function (_babelHelpers$classPr) {
-    _inherits(Test, _babelHelpers$classPr);
+  function (_super) {
+    _inherits(Test, _super);
 
     function Test() {
       _classCallCheck(this, Test);
@@ -1408,7 +1409,7 @@ var Outer = function Outer() {
     }
 
     return Test;
-  }(_classPrivateFieldGet(this, _outer));
+  }(_classPrivateFieldGet(_this, _outer));
 };
 
 var _outer = new WeakMap();

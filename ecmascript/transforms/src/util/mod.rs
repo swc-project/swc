@@ -871,3 +871,26 @@ pub(crate) fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
 
     stmts.insert(idx, stmt);
 }
+
+/// inject `stmts` after directives
+pub(crate) fn prepend_stmts(
+    to: &mut Vec<Stmt>,
+    stmts: impl Iterator + ExactSizeIterator<Item = Stmt>,
+) {
+    let idx = to
+        .iter()
+        .position(|item| match item {
+            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+            _ => true,
+        })
+        .unwrap_or(0);
+
+    let mut buf = Vec::with_capacity(to.len() + stmts.len());
+    // TODO: Optimze (maybe unsafe)
+
+    buf.extend(to.drain(..idx));
+    buf.extend(stmts);
+    buf.extend(to.drain(idx..));
+
+    *to = buf
+}
