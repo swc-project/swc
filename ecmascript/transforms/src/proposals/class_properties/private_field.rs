@@ -12,7 +12,7 @@ pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
     pub class_name: &'a Ident,
     pub vars: Vec<VarDeclarator>,
-    pub statics: FnvHashSet<JsWord>,
+    pub statics: &'a FnvHashSet<JsWord>,
     pub helpers: &'a Helpers,
 }
 

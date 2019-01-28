@@ -431,7 +431,7 @@ impl ClassProperties {
 
         let members = members.fold_with(&mut FieldAccessFolder {
             mark: self.mark,
-            statics,
+            statics: &statics,
             vars: vec![],
             class_name: &ident,
             helpers: &self.helpers,
