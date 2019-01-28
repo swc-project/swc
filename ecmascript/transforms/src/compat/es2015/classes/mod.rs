@@ -9,8 +9,8 @@ use self::{
 use crate::{
     helpers::Helpers,
     util::{
-        alias_ident_for, default_constructor, prop_name_to_expr, ExprFactory, ModuleItemLike,
-        StmtLike,
+        alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory,
+        ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
@@ -759,19 +759,6 @@ fn get_prototype_of(helpers: &Helpers, obj: &Expr) -> Expr {
         args: vec![obj.clone().as_arg()],
         type_args: Default::default(),
     })
-}
-
-/// inject `stmt` after directives
-fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
-    let idx = stmts
-        .iter()
-        .position(|item| match item {
-            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
-            _ => true,
-        })
-        .unwrap_or(0);
-
-    stmts.insert(idx, stmt);
 }
 
 fn inject_class_call_check(c: &mut Constructor, name: Ident) {

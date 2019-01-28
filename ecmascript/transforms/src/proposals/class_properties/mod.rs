@@ -1,4 +1,7 @@
-use self::used_name::{UsedNameCollector, UsedNameRenamer};
+use self::{
+    private_field::FieldAccessFolder,
+    used_name::{UsedNameCollector, UsedNameRenamer},
+};
 use crate::{
     helpers::Helpers,
     pass::Pass,
@@ -11,6 +14,7 @@ use std::{iter, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
+mod private_field;
 #[cfg(test)]
 mod tests;
 mod used_name;
@@ -326,51 +330,88 @@ impl ClassProperties {
                 }
                 ClassMember::PrivateProp(prop) => {
                     let prop_span = prop.span();
+
+                    let ident = Ident::new(
+                        prop.key.id.sym,
+                        // We use `self.mark` for private variables.
+                        prop.key.span.apply_mark(self.mark),
+                    );
                     prop.value.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
                     });
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
-                    if prop.is_static {
-                        extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                    let extra_init = if prop.is_static {
+                        box Expr::Object(ObjectLit {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                definite: false,
-                                name: Pat::Ident(ident.clone()),
-                                init: Some(if prop.is_static {
-                                    box Expr::New(NewExpr {
+                            props: vec![
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("writable")),
+                                    value: box Expr::Lit(Lit::Bool(Bool {
                                         span: DUMMY_SP,
-                                        callee: box Expr::Ident(quote_ident!("WeakMap")),
-                                        args: Some(vec![]),
-                                        type_args: Default::default(),
-                                    })
-                                } else {
-                                    box Expr::Object(ObjectLit {
-                                        span: DUMMY_SP,
-                                        props: vec![
-                                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("writable")),
-                                                value: box Expr::Lit(Lit::Bool(Bool {
-                                                    span: DUMMY_SP,
-                                                    value: true,
-                                                })),
-                                            })),
-                                            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("value")),
-                                                value,
-                                            })),
-                                        ],
-                                    })
-                                }),
-                            }],
-                        })));
-                    //TODO: constructor_exprs.push()
+                                        value: true,
+                                    })),
+                                })),
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("value")),
+                                    value,
+                                })),
+                            ],
+                        })
                     } else {
+                        constructor_exprs.push(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ident.clone().as_obj(),
+                                prop: box Expr::Ident(quote_ident!("set")),
+                                computed: false,
+                            }
+                            .as_callee(),
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                ObjectLit {
+                                    span: DUMMY_SP,
+                                    props: vec![
+                                        // writeable: true
+                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("writable")),
+                                            value: box Expr::Lit(Lit::Bool(Bool {
+                                                value: true,
+                                                span: DUMMY_SP,
+                                            })),
+                                        })),
+                                        // value: value,
+                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("value")),
+                                            value,
+                                        })),
+                                    ],
+                                }
+                                .as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        }));
 
-                    }
+                        box Expr::New(NewExpr {
+                            span: DUMMY_SP,
+                            callee: box Expr::Ident(quote_ident!("WeakMap")),
+                            args: Some(vec![]),
+                            type_args: Default::default(),
+                        })
+                    };
+
+                    extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            definite: false,
+                            name: Pat::Ident(ident.clone()),
+                            init: Some(extra_init),
+                        }],
+                    })));
                 }
 
                 ClassMember::Constructor(c) => constructor = Some(c),
@@ -380,6 +421,12 @@ impl ClassProperties {
         let constructor =
             self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
         members.push(ClassMember::Constructor(constructor));
+
+        let members = members.fold_with(&mut FieldAccessFolder {
+            mark: self.mark,
+            vars: vec![],
+            helpers: &self.helpers,
+        });
 
         (
             vars,

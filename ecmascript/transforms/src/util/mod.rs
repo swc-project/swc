@@ -17,7 +17,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod factory;
 mod value;
@@ -772,8 +772,7 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
             _ => default.into(),
         }
     }
-
-    let span = expr.span();
+    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
     quote_ident!(span, sym(expr, default))
 }
 
@@ -858,4 +857,17 @@ pub(crate) fn undefined(span: Span) -> Box<Expr> {
         op: op!("void"),
         arg: box Expr::Lit(Lit::Num(Number { value: 0.0, span })),
     })
+}
+
+/// inject `stmt` after directives
+pub(crate) fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
+    let idx = stmts
+        .iter()
+        .position(|item| match item {
+            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+            _ => true,
+        })
+        .unwrap_or(0);
+
+    stmts.insert(idx, stmt);
 }
