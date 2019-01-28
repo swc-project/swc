@@ -1446,12 +1446,12 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var _this$foo, _obj, _obj$foo, _obj2;
+      var old, _obj, old1, _obj1;
 
-      _classPrivateFieldSet(this, foo, (_this$foo = +_classPrivateFieldGet(this, _foo)) + 1), _this$foo;
-      _classPrivateFieldSet(this, foo, +_classPrivateFieldGet(this, _foo) + 1);
-      _classPrivateFieldSet(_obj = other.obj, _foo, (_obj$foo = +_classPrivateFieldGet(_obj, _foo)) + 1), _obj$foo;
-      _classPrivateFieldSet(_obj2 = other.obj, _foo, +_classPrivateFieldGet(_obj2, _foo) + 1);
+      _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + 1), old;
+      _classPrivateFieldSet(this, foo, +_classPrivateFieldGet(this, foo) + 1);
+      _classPrivateFieldSet(_obj = other.obj, foo, (old1 = +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+      _classPrivateFieldSet(_obj1 = other.obj, foo, +_classPrivateFieldGet(_obj1, foo) + 1);
     }
   }]);
   return Foo;

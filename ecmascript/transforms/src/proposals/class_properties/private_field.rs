@@ -15,6 +15,125 @@ pub(super) struct FieldAccessFolder<'a> {
 impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
     fn fold(&mut self, e: Expr) -> Expr {
         match e {
+            Expr::Update(UpdateExpr {
+                span,
+                prefix,
+                op,
+                arg: box Expr::Member(arg),
+            }) => {
+                let n = match *arg.prop {
+                    Expr::PrivateName(ref n) => n.clone(),
+                    _ => {
+                        return Expr::Update(UpdateExpr {
+                            span,
+                            prefix,
+                            op,
+                            arg: box Expr::Member(arg),
+                        });
+                    }
+                };
+
+                let obj = match arg.obj {
+                    ExprOrSuper::Super(..) => {
+                        return Expr::Update(UpdateExpr {
+                            span,
+                            prefix,
+                            op,
+                            arg: box Expr::Member(arg),
+                        });
+                    }
+                    ExprOrSuper::Expr(ref obj) => obj.clone(),
+                };
+
+                let ident = Ident::new(n.id.sym, n.id.span.apply_mark(self.mark));
+
+                let var = alias_ident_for(&obj, "_ref");
+
+                let this = if match *obj {
+                    Expr::This(..) => true,
+                    _ => false,
+                } {
+                    ThisExpr { span: DUMMY_SP }.as_arg()
+                } else {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(var.clone()),
+                        init: None,
+                        definite: false,
+                    });
+                    AssignExpr {
+                        span: obj.span(),
+                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                        op: op!("="),
+                        right: obj,
+                    }
+                    .as_arg()
+                };
+                // Used iff !prefix
+                let old_var = private_ident!("old");
+                if !prefix {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(old_var.clone()),
+                        init: None,
+                        definite: false,
+                    });
+                }
+
+                let value = {
+                    let arg = box self.fold_private_get(arg, Some(var)).0;
+                    let left = box Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!(unary, "+"),
+                        arg,
+                    });
+                    let left = if prefix {
+                        left
+                    } else {
+                        box Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(box Pat::Ident(old_var.clone())),
+                            op: op!("="),
+                            right: left,
+                        })
+                    };
+
+                    BinExpr {
+                        span: DUMMY_SP,
+                        left,
+                        op: match op {
+                            op!("++") => op!(bin, "+"),
+                            op!("--") => op!(bin, "-"),
+                        },
+                        right: box Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 1.0.into(),
+                        })),
+                    }
+                    .as_arg()
+                };
+
+                self.helpers.class_private_field_set();
+                let set = quote_ident!("_classPrivateFieldSet").as_callee();
+
+                let expr = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: set,
+                    args: vec![this, ident.as_arg(), value],
+
+                    type_args: Default::default(),
+                });
+
+                if prefix {
+                    expr
+                } else {
+                    Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![box expr, box Expr::Ident(old_var)],
+                    })
+                }
+            }
+
             Expr::Assign(AssignExpr {
                 span,
                 left: PatOrExpr::Pat(box Pat::Expr(box Expr::Member(left))),
