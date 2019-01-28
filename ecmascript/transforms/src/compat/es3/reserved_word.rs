@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::Fold;
+use swc_common::{Fold, FoldWith};
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -24,6 +24,15 @@ pub struct ReservedWord;
 impl Fold<Ident> for ReservedWord {
     fn fold(&mut self, i: Ident) -> Ident {
         fold_ident(i)
+    }
+}
+
+impl Fold<MemberExpr> for ReservedWord {
+    fn fold(&mut self, e: MemberExpr) -> MemberExpr {
+        MemberExpr {
+            obj: e.obj.fold_with(self),
+            ..e
+        }
     }
 }
 
