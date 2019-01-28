@@ -915,12 +915,11 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  var foo1 = "foo";
-
   _bar.set(this, {
     writable: true,
     value: foo
   });
+  var foo1 = "foo";
 
 };
 
