@@ -3,6 +3,7 @@ use self::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
         ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
     },
+    native::is_native,
     prop_name::HashKey,
     super_field::SuperFieldAccessFolder,
 };
@@ -19,6 +20,7 @@ use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 mod constructor;
+mod native;
 mod prop_name;
 mod super_field;
 #[cfg(test)]
@@ -221,10 +223,7 @@ impl Classes {
 
             let super_class = class.super_class.clone().unwrap();
             let is_super_native = match *super_class {
-                Expr::Ident(Ident { ref sym, .. }) => match *sym {
-                    js_word!("Object") | js_word!("Array") | js_word!("HTMLElement") => true,
-                    _ => false,
-                },
+                Expr::Ident(Ident { ref sym, .. }) => is_native(sym),
                 _ => false,
             };
             if is_super_native {
