@@ -259,8 +259,9 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
                 ..e
             }),
 
-            Expr::Assign(..) | Expr::Fn(..) | Expr::Call(..) => node.fold_children(self),
-            _ => node,
+            Expr::This(..) => node,
+
+            _ => node.fold_children(self),
         };
 
         self.in_var_decl = old_in_var_decl;

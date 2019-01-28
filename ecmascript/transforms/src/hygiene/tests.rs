@@ -768,3 +768,126 @@ fn nested_fn_param_with_same_name() {
         ",
     );
 }
+
+#[test]
+fn regression_001() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "var Foo = function() {
+    function Foo() {
+        _classCallCheck(this, Foo);
+        foo.set(this, {
+             writable: true, value: 0 
+        });
+    }
+    _createClass(Foo, [{
+             key: 'test', value: function test(other) {
+                    var old, _obj, old, _obj;
+                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
+                     1), old;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
+                     +_classPrivateFieldGet(_obj, foo)) + 1), old;
+                } 
+        }]);
+    return Foo;
+}();
+                    ",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "old",
+                    &[mark1, mark2, mark1, mark1, mark2, mark2],
+                )]))])
+        },
+        "var Foo = function() {
+    function Foo() {
+        _classCallCheck(this, Foo);
+        foo.set(this, {
+             writable: true, value: 0 
+        });
+    }
+    _createClass(Foo, [{
+             key: 'test', value: function test(other) {
+                    var old, _obj, old1, _obj;
+                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
+         1), old;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
+         +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+                } 
+        }]);
+    return Foo;
+}();
+        ",
+    );
+}
+
+#[test]
+fn regression_002() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "_createClass(Foo, [{
+             key: 'test', value: function test(other) {
+                    var old, _obj, old, _obj;
+                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
+                     1), old;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
+                     +_classPrivateFieldGet(_obj, foo)) + 1), old;
+                } 
+        }])",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "old",
+                    &[mark1, mark2, mark1, mark1, mark2, mark2],
+                )]))])
+        },
+        "_createClass(Foo, [{
+             key: 'test', value: function test(other) {
+                    var old, _obj, old1, _obj;
+                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
+         1), old;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
+         +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+                } 
+        }]);",
+    );
+}
+
+#[test]
+fn regression_003() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_stmts(
+                    "actual1.js",
+                    "var old, _obj, old, _obj;
+                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
+                     1), old;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
+                     +_classPrivateFieldGet(_obj, foo)) + 1), old;",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "old",
+                    &[mark1, mark2, mark1, mark1, mark2, mark2],
+                )])))
+        },
+        "var old, _obj, old1, _obj;
+                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
+         1), old;
+                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
+         +_classPrivateFieldGet(_obj, foo)) + 1), old1;",
+    );
+}
