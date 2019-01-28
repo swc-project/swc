@@ -178,7 +178,7 @@ function (_Parent) {
     _classCallCheck(this, Child);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Child).call(this));
 
-    _scopedFunctionWithThis.set(_assertThisInitialized(_this), {
+    scopedFunctionWithThis.set(_assertThisInitialized(_this), {
       writable: true,
       value: () => {
         _this.name = {};
@@ -191,7 +191,7 @@ function (_Parent) {
   return Child;
 }(Parent);
 
-var _scopedFunctionWithThis = new WeakMap();
+var scopedFunctionWithThis = new WeakMap();
 
 "#
 );
@@ -508,15 +508,15 @@ var C = function C() {
   
 
   _classCallCheck(this, C);
-  _defineProperty(this, "y", _classPrivateFieldGet(this, _x));
+  _defineProperty(this, "y", _classPrivateFieldGet(this, x));
 
-  _x.set(this, {
+  x.set(this, {
     writable: true,
     value: void 0
   });
 };
 
-var _x = new WeakMap();
+var x = new WeakMap();
 
 expect(() => {
   new C();
@@ -1392,7 +1392,7 @@ var Outer = function Outer() {
 
   _classCallCheck(this, Outer);
 
-  _outer.set(this, {
+  outer.set(this, {
     writable: true,
     value: void 0
   });
@@ -1408,10 +1408,10 @@ var Outer = function Outer() {
     }
 
     return Test;
-  }(_classPrivateFieldGet(this, _outer));
+  }(_classPrivateFieldGet(this, outer));
 };
 
-var _outer = new WeakMap();
+var outer = new WeakMap();
 
 "#
 );
@@ -1654,13 +1654,13 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _prop.set(this, {
+  prop.set(this, {
     writable: true,
     value: "foo"
   });
 };
 
-var _prop = new WeakMap();
+var prop = new WeakMap();
 
 var Bar =
 /*#__PURE__*/
@@ -1675,7 +1675,7 @@ function (_Foo) {
     _classCallCheck(this, Bar);
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).call(this, ...args));
 
-    _prop2.set(_assertThisInitialized(_this), {
+    prop2.set(_assertThisInitialized(_this), {
       writable: true,
       value: "bar"
     });
@@ -1686,7 +1686,7 @@ function (_Foo) {
   return Bar;
 }(Foo);
 
-var _prop2 = new WeakMap();
+var prop2 = new WeakMap();
 
 "#
 );
@@ -1768,31 +1768,31 @@ var Foo = function Foo() {
   
 
   _classCallCheck(this, Foo);
-  _defineProperty(this, "one", _classPrivateFieldGet(this, _private));
+  _defineProperty(this, "one", _classPrivateFieldGet(this, private));
 
-  _two.set(this, {
+  two.set(this, {
     writable: true,
     value: _classPrivateFieldGet(this, _private)
   });
 
-  _private.set(this, {
+  private.set(this, {
     writable: true,
     value: 0
   });
 
-  _defineProperty(this, "three", _classPrivateFieldGet(this, _private));
+  _defineProperty(this, "three", _classPrivateFieldGet(this, private));
 
-  _four.set(this, {
+  four.set(this, {
     writable: true,
     value: _classPrivateFieldGet(this, _private)
   });
 };
 
-var _two = new WeakMap();
+var two = new WeakMap();
 
-var _private = new WeakMap();
+var private = new WeakMap();
 
-var _four = new WeakMap();
+var four = new WeakMap();
 
 "#
 );
@@ -2072,20 +2072,20 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _x.set(this, {
+  x.set(this, {
     writable: true,
     value: 0
   });
 
-  _y.set(this, {
+  y.set(this, {
     writable: true,
     value: _classPrivateFieldGet(this, _x)
   });
 };
 
-var _x = new WeakMap();
+var x = new WeakMap();
 
-var _y = new WeakMap();
+var y = new WeakMap();
 
 "#
 );
@@ -2375,7 +2375,7 @@ var Foo = function Foo(_foo) {
     value: this
   });
 
-  _baz.set(this, {
+  baz.set(this, {
     writable: true,
     value: foo
   });
@@ -2383,7 +2383,7 @@ var Foo = function Foo(_foo) {
 
 var bar = new WeakMap();
 
-var _baz = new WeakMap();
+var baz = new WeakMap();
 
 "#
 );
