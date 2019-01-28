@@ -25,7 +25,7 @@ impl<'a, I: Input> Parser<'a, I> {
             syntax_error!(span!(start), SyntaxError::SpaceBetweenHashAndIdent);
         }
 
-        let id = self.parse_ident(true, true)?;
+        let id = self.parse_ident_name()?;
         Ok(PrivateName {
             span: span!(start),
             id,
