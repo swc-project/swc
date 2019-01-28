@@ -51,6 +51,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
 
+                let is_static = self.statics.contains(&n.id.sym);
                 let ident = Ident::new(
                     format!("_{}", n.id.sym).into(),
                     n.id.span.apply_mark(self.mark),
@@ -184,6 +185,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
 
+                let is_static = self.statics.contains(&n.id.sym);
                 let ident = Ident::new(
                     format!("_{}", n.id.sym).into(),
                     n.id.span.apply_mark(self.mark),
@@ -245,16 +247,34 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                self.helpers.class_private_field_set();
-                let set = quote_ident!("_classPrivateFieldSet").as_callee();
+                if is_static {
+                    self.helpers.class_static_private_field_spec_set();
+                    let set = quote_ident!("_classStaticPrivateFieldSpecSet").as_callee();
 
-                Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: set,
-                    args: vec![this, ident.as_arg(), value],
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: set,
+                        args: vec![
+                            this,
+                            self.class_name.clone().as_arg(),
+                            ident.as_arg(),
+                            value,
+                        ],
 
-                    type_args: Default::default(),
-                })
+                        type_args: Default::default(),
+                    })
+                } else {
+                    self.helpers.class_private_field_set();
+                    let set = quote_ident!("_classPrivateFieldSet").as_callee();
+
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: set,
+                        args: vec![this, ident.as_arg(), value],
+
+                        type_args: Default::default(),
+                    })
+                }
             }
 
             Expr::Call(CallExpr {
@@ -339,7 +359,7 @@ impl<'a> FieldAccessFolder<'a> {
                     span: DUMMY_SP,
                     callee: get,
                     args: vec![
-                        self.class_name.clone().as_arg(),
+                        obj.as_arg(),
                         self.class_name.clone().as_arg(),
                         ident.clone().as_arg(),
                     ],
