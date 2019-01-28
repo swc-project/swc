@@ -569,10 +569,17 @@ macro_rules! fold_noop {
                 n
             }
         }
+
+        impl<'a> Fold<$T> for ExprDefinePropertyInjector<'a> {
+            fn fold(&mut self, n: $T) -> $T {
+                n
+            }
+        }
     };
 }
 fold_noop!(Function);
 fold_noop!(Class);
+fold_noop!(Constructor);
 
 /// Handles code like `foo(super())`
 struct ExprDefinePropertyInjector<'a> {
