@@ -86,7 +86,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 }
 
                 let value = {
-                    let arg = box self.fold_private_get(arg, Some(var)).0;
+                    let arg = box self.fold_private_get(arg, Some(var)).1;
                     let left = box Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!(unary, "+"),
@@ -212,7 +212,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 let value = if op == op!("=") {
                     right.as_arg()
                 } else {
-                    let left = box self.fold_private_get(left, Some(var)).0;
+                    let left = box self.fold_private_get(left, Some(var)).1;
 
                     BinExpr {
                         span: DUMMY_SP,
@@ -256,39 +256,44 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 args,
                 type_args,
             }) => {
-                let (e, this) = self.fold_private_get(callee, None);
+                let (is_static, e, this) = self.fold_private_get(callee, None);
 
-                if let Some(this) = this {
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: e.as_obj(),
-                            prop: member_expr!(DUMMY_SP, call),
-                            computed: false,
-                        }
-                        .as_callee(),
-                        args: iter::once(this.as_arg()).chain(args).collect(),
-                        type_args,
-                    })
+                if is_static {
+                    assert!(this.is_none());
+                    return e;
                 } else {
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: ExprOrSuper::Expr(box e),
-                        args,
-                        type_args,
-                    })
-                    .fold_children(self)
+                    if let Some(this) = this {
+                        Expr::Call(CallExpr {
+                            span,
+                            callee: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: e.as_obj(),
+                                prop: member_expr!(DUMMY_SP, call),
+                                computed: false,
+                            }
+                            .as_callee(),
+                            args: iter::once(this.as_arg()).chain(args).collect(),
+                            type_args,
+                        })
+                    } else {
+                        Expr::Call(CallExpr {
+                            span,
+                            callee: ExprOrSuper::Expr(box e),
+                            args,
+                            type_args,
+                        })
+                        .fold_children(self)
+                    }
                 }
             }
-            Expr::Member(e) => self.fold_private_get(e, None).0,
+            Expr::Member(e) => self.fold_private_get(e, None).1,
             _ => return e.fold_children(self),
         }
     }
 }
 
 impl<'a> FieldAccessFolder<'a> {
-    /// Returns `(expr, thisObject)`
+    /// Returns `(is_static, expr, thisObject)`
     ///
     ///   - `obj_alias`: If alias is already declared, this method will use
     ///     `obj_alias` instead of declaring a new one.
@@ -296,17 +301,18 @@ impl<'a> FieldAccessFolder<'a> {
         &mut self,
         e: MemberExpr,
         obj_alias: Option<Ident>,
-    ) -> (Expr, Option<Expr>) {
+    ) -> (bool, Expr, Option<Expr>) {
         let is_alias_initialized = obj_alias.is_some();
 
         let n = match *e.prop {
             Expr::PrivateName(n) => n,
-            _ => return (Expr::Member(e), None),
+            _ => return (false, Expr::Member(e), None),
         };
 
         let obj = match e.obj {
             ExprOrSuper::Super(..) => {
                 return (
+                    false,
                     Expr::Member(MemberExpr {
                         prop: box Expr::PrivateName(n),
                         ..e
@@ -318,58 +324,65 @@ impl<'a> FieldAccessFolder<'a> {
         };
 
         let ident = Ident::new(n.id.sym, n.id.span.apply_mark(self.mark));
+        let is_static = self.statics.contains(&ident.sym);
 
-        self.helpers.class_private_field_get();
-        let get = quote_ident!("_classPrivateFieldGet").as_callee();
+        if is_static {
+            unimplemented!()
+        } else {
+            self.helpers.class_private_field_get();
+            let get = quote_ident!("_classPrivateFieldGet").as_callee();
 
-        match *obj {
-            Expr::This(this) => (
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: get,
-                    args: vec![this.as_arg(), ident.as_arg()],
-
-                    type_args: Default::default(),
-                }
-                .into(),
-                Some(Expr::This(this)),
-            ),
-            _ => {
-                let var = obj_alias.unwrap_or_else(|| {
-                    let var = alias_ident_for(&obj, "_ref");
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(var.clone()),
-                        init: None,
-                        definite: false,
-                    });
-                    var
-                });
-
-                (
+            match *obj {
+                Expr::This(this) => (
+                    false,
                     CallExpr {
                         span: DUMMY_SP,
                         callee: get,
-                        args: vec![
-                            if is_alias_initialized {
-                                var.clone().as_arg()
-                            } else {
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
-                                    op: op!("="),
-                                    right: obj,
-                                }
-                                .as_arg()
-                            },
-                            ident.as_arg(),
-                        ],
+                        args: vec![this.as_arg(), ident.as_arg()],
 
                         type_args: Default::default(),
                     }
                     .into(),
-                    Some(Expr::Ident(var)),
-                )
+                    Some(Expr::This(this)),
+                ),
+                _ => {
+                    let var = obj_alias.unwrap_or_else(|| {
+                        let var = alias_ident_for(&obj, "_ref");
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(var.clone()),
+                            init: None,
+                            definite: false,
+                        });
+                        var
+                    });
+
+                    (
+                        false,
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: get,
+                            args: vec![
+                                if is_alias_initialized {
+                                    var.clone().as_arg()
+                                } else {
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                                        op: op!("="),
+                                        right: obj,
+                                    }
+                                    .as_arg()
+                                },
+                                ident.as_arg(),
+                            ],
+
+                            type_args: Default::default(),
+                        }
+                        .into(),
+                        Some(Expr::Ident(var)),
+                    )
+                }
             }
         }
     }
