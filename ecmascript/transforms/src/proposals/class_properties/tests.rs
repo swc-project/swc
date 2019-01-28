@@ -375,28 +375,24 @@ function withContext(ComposedComponent) {
 "#,
     r#"
 function withContext(ComposedComponent) {
-  var _class, _temp;
-
-  return _temp = _class =
-  /*#__PURE__*/
-  function (_Component) {
-    
-
-    _inherits(WithContext, _Component);
-
-    function WithContext() {
-      _classCallCheck(this, WithContext);
-      return _possibleConstructorReturn(this, _getPrototypeOf(WithContext).apply(this, arguments));
-    }
-
+  return (function() {
+    var WithContext = function(_Component) {
+      _inherits(WithContext, _Component);
+      function WithContext() {
+        _classCallCheck(this, WithContext);
+        return _possibleConstructorReturn(this, _getPrototypeOf(WithContext).apply(this, arguments));
+      }
+      return WithContext;
+    }(Component);
+    _defineProperty(WithContext, 'propTypes', {
+      context: PropTypes.shape({
+        addCss: PropTypes.func,
+        setTitle: PropTypes.func,
+        setMeta: PropTypes.func 
+      }) 
+    });
     return WithContext;
-  }(Component), _defineProperty(_class, "propTypes", {
-    context: PropTypes.shape({
-      addCss: PropTypes.func,
-      setTitle: PropTypes.func,
-      setMeta: PropTypes.func
-    })
-  }), _temp;
+  })();
 }
 
 "#
@@ -716,24 +712,22 @@ call(class {
 
 export default class {
   static test = true
-};
+}
 
 "#,
     r#"
-var _class, _temp;
-
-call((_temp = _class = function _class() {
+call(function() {
+    var _class = function _class() {
+      _classCallCheck(this, _class);
+    };
+    _defineProperty(_class, 'test', true);
+    return _class;
+}());
+var _class = function _class() {
   _classCallCheck(this, _class);
-}, _defineProperty(_class, "test", true), _temp));
-
-var _default = function _default() {
-  _classCallCheck(this, _default);
 };
-
-_defineProperty(_default, "test", true);
-export { _default as default };
-;
-
+_defineProperty(_class, 'test', true);
+export { _class as default }
 "#
 );
 
