@@ -35,14 +35,13 @@ var Foo = class {
 
 "#,
     r#"
-var _class, _temp;
-
-var Foo = (_temp = _class = function Foo() {
-  
-
-  _classCallCheck(this, Foo);
-}, _defineProperty(_class, "num", 0), _temp);
-
+var Foo = function() {
+    var Foo = function Foo() {
+        _classCallCheck(this, Foo);
+    };
+    _defineProperty(Foo, 'num', 0);
+    return Foo;
+}();
 "#
 );
 
