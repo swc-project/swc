@@ -184,16 +184,16 @@ function _s() {
         let t = function(y, a) {
             var _ref = _asyncToGenerator((function*(y, a) {
                 let r = function(z, b) {
-                    var _ref = _asyncToGenerator((function*(z, b) {
-                        for(let _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-                            innerArgs[_key - 2] = arguments[_key];
+                    var _ref1 = _asyncToGenerator((function*(z, b) {
+                        for(let _len1 = arguments.length, innerArgs = new Array(_len1 > 2 ? _len1 - 2 : 0), _key1 = 2; _key1 < _len1; _key1++){
+                            innerArgs[_key1 - 2] = arguments[_key1];
                         }
                         yield z;
                         console.log(this, innerArgs, arguments);
                         return this.x;
                     }).bind(this));
                     return function() {
-                        return _ref.apply(this, arguments);
+                        return _ref1.apply(this, arguments);
                     };
                 }().bind(this);
                 yield r();
