@@ -305,6 +305,17 @@ impl Decorators {
                                         ))),
                                     },
                                 )))
+                                .chain(if method.is_static {
+                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("static")),
+                                        value: box Expr::Lit(Lit::Bool(Bool {
+                                            value: true,
+                                            span: DUMMY_SP,
+                                        })),
+                                    })))
+                                } else {
+                                    None
+                                })
                                 .chain({
                                     //
                                     if method.function.decorators.is_empty() {
