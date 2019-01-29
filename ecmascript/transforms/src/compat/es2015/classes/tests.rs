@@ -62,6 +62,35 @@ let Sub = function(_Foo) {
 "#
 );
 
+test_exec!(
+    syntax(),
+    tr,
+    custom_nested,
+    r#"
+class Hello{
+  constructor(){
+    return {
+      toString () {
+        return 'hello';
+      } 
+    };
+  }
+}
+class Outer extends Hello{
+  constructor(){
+    var _ref = super();
+    class Inner{
+      constructor(){
+        this[_ref] = 'hello';
+      }
+    }
+    return new Inner();
+  }
+}
+expect(new Outer().hello).toBe('hello');
+"#
+);
+
 // spec_constructor_only
 test!(
     syntax(),
