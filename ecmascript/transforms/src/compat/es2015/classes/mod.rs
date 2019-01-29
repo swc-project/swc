@@ -19,6 +19,8 @@ use indexmap::IndexMap;
 use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
+#[macro_use]
+mod macros;
 mod constructor;
 mod native;
 mod prop_name;

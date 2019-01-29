@@ -239,6 +239,8 @@ ignore_return!(Class);
 ignore_return!(ArrowExpr);
 ignore_return!(Constructor);
 
+fold_only_key!(ConstructorFolder);
+
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         match self.mode {

@@ -80,6 +80,9 @@ macro_rules! mark_nested {
 mark_nested!(Function);
 mark_nested!(Class);
 
+fold_only_key!(SuperFieldAccessFolder);
+fold_only_key!(SuperCalleeFolder);
+
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         match n {
