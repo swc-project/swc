@@ -1,5 +1,5 @@
 use super::*;
-use crate::{compat::es2015::Classes, helpers::Helpers, proposals::class_properties};
+use crate::{helpers::Helpers, proposals::class_properties};
 use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
