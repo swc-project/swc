@@ -396,6 +396,12 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         wrap_with_assertiion: bool,
     }
 
+    impl Fold<Class> for Replacer {
+        fn fold(&mut self, n: Class) -> Class {
+            n
+        }
+    }
+
     impl Fold<Expr> for Replacer {
         fn fold(&mut self, expr: Expr) -> Expr {
             match expr {
