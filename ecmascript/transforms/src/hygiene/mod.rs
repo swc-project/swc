@@ -10,11 +10,13 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
+const LOG: bool = true;
+
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
-        if cfg!(debug_assertions) {
+        if cfg!(debug_assertions) && LOG {
             eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
         }
 
@@ -33,7 +35,7 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
-        if cfg!(debug_assertions) {
+        if cfg!(debug_assertions) && LOG {
             eprintln!("Renaming from decl");
         }
         self.rename(sym, ctxt);
@@ -45,7 +47,7 @@ impl<'a> Hygiene<'a> {
         // We rename declaration instead of usage
         let conflicts = self.current.conflicts(ident.sym.clone(), ctxt);
 
-        if cfg!(debug_assertions) && !conflicts.is_empty() {
+        if cfg!(debug_assertions) && LOG && !conflicts.is_empty() {
             eprintln!("Renaming from usage");
         }
         for cx in conflicts {
@@ -67,7 +69,7 @@ impl<'a> Hygiene<'a> {
             }
         };
 
-        if cfg!(debug_assertions) {
+        if cfg!(debug_assertions) && LOG {
             eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
         }
 
@@ -336,7 +338,7 @@ impl<'a> Scope<'a> {
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
     fn conflicts(&self, sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
-        if cfg!(debug_assertions) {
+        if cfg!(debug_assertions) && LOG {
             eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
         }
 
@@ -365,7 +367,7 @@ impl<'a> Scope<'a> {
             for op in scope.ops.borrow().iter() {
                 match *op {
                     ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
-                        if cfg!(debug_assertions) {
+                        if cfg!(debug_assertions) && LOG {
                             eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
                         }
                         sym = to.clone()
