@@ -608,6 +608,8 @@ expect(() => {
 );
 // ordering_field_initializers_after_methods_exec
 test_exec!(
+    // Babel 7.3.0 fails
+    ignore,
     syntax(false),
     tr,
     ordering_field_initializers_after_methods_exec,
@@ -1416,6 +1418,8 @@ let B = _decorate([dec], function (_initialize, _A) {
 // duplicated_keys
 // ordering_static_field_initializers_after_methods_exec
 test_exec!(
+    // Babel 7.3.0 fails
+    ignore,
     syntax(false),
     tr,
     ordering_static_field_initializers_after_methods_exec,
