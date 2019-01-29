@@ -14,9 +14,9 @@ impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
         let ctxt = ident.span.ctxt();
 
-        if cfg!(debug_assertions) {
-            eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
-        }
+        // if cfg!(debug_assertions) {
+        //     eprintln!("Declaring {}{:?} ", ident.sym, ctxt);
+        // }
 
         let can_declare_without_renaming = self.current.can_declare(ident.sym.clone(), ctxt);
         let sym = self.current.change_symbol(ident.sym, ctxt);
@@ -33,9 +33,9 @@ impl<'a> Hygiene<'a> {
             return;
         }
 
-        if cfg!(debug_assertions) {
-            eprintln!("Renaming from decl");
-        }
+        // if cfg!(debug_assertions) {
+        //     eprintln!("Renaming from decl");
+        // }
         self.rename(sym, ctxt);
     }
 
@@ -67,9 +67,9 @@ impl<'a> Hygiene<'a> {
             }
         };
 
-        if cfg!(debug_assertions) {
-            eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
-        }
+        // if cfg!(debug_assertions) {
+        //     eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
+        // }
 
         let scope = self.current.scope_of(&sym, ctxt);
 
@@ -336,9 +336,9 @@ impl<'a> Scope<'a> {
     /// It other words, all `SyntaxContext`s with same `sym` will be returned,
     /// even when defined on parent scope.
     fn conflicts(&self, sym: JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
-        if cfg!(debug_assertions) {
-            eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
-        }
+        // if cfg!(debug_assertions) {
+        //     eprintln!("Finding conflicts for {}{:?} ", sym, ctxt);
+        // }
 
         let sym = self.change_symbol(sym, ctxt);
 
@@ -365,9 +365,9 @@ impl<'a> Scope<'a> {
             for op in scope.ops.borrow().iter() {
                 match *op {
                     ScopeOp::Rename { ref from, ref to } if from.0 == *sym && from.1 == ctxt => {
-                        if cfg!(debug_assertions) {
-                            eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
-                        }
+                        // if cfg!(debug_assertions) {
+                        //     eprintln!("Changing symbol: {}{:?} -> {}", sym, ctxt, to);
+                        // }
                         sym = to.clone()
                     }
                     _ => {}
