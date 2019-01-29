@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::{iter, mem, sync::Arc};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -145,7 +145,7 @@ impl Fold<Decl> for Decorators {
                 declare: false,
                 class,
             }) => {
-                if class.decorators.is_empty() {
+                if !contains_decorator(&class) {
                     return Decl::Class(ClassDecl {
                         ident,
                         declare: false,
@@ -178,7 +178,7 @@ impl Fold<Expr> for Decorators {
 
         match expr {
             Expr::Class(ClassExpr { ident, class }) => {
-                if class.decorators.is_empty() {
+                if !contains_decorator(&class) {
                     return Expr::Class(ClassExpr { ident, class });
                 }
 
@@ -282,7 +282,8 @@ impl Decorators {
                     ClassMember::Method(method) => {
                         let fn_name = match method.key {
                             PropName::Ident(ref i) => Some(i.clone()),
-                            _ => unimplemented!("name of decorated method"),
+                            PropName::Str(ref s) => Some(Ident::new(s.value.clone(), s.span)),
+                            _ => None,
                         };
                         //   kind: "method",
                         //   key: getKeyJ(),
@@ -473,4 +474,22 @@ impl Fold<Function> for InitializeInjector {
     fn fold(&mut self, n: Function) -> Function {
         n
     }
+}
+
+struct DecoratorFinder {
+    found: bool,
+}
+impl Visit<Decorator> for DecoratorFinder {
+    fn visit(&mut self, _: &Decorator) {
+        self.found = true
+    }
+}
+
+fn contains_decorator<N>(node: &N) -> bool
+where
+    N: VisitWith<DecoratorFinder>,
+{
+    let mut v = DecoratorFinder { found: false };
+    node.visit_with(&mut v);
+    v.found
 }

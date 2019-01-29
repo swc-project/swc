@@ -16,9 +16,6 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
         decorators(helpers.clone()),
         class_properties(helpers.clone()),
-        Classes {
-            helpers: helpers.clone()
-        },
     )
 }
 
