@@ -19,6 +19,7 @@ use std::{
 use swc_atoms::JsWord;
 use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
+pub(crate) mod constructor;
 mod factory;
 mod value;
 
@@ -744,24 +745,24 @@ pub(crate) fn to_int32(d: f64) -> i32 {
     return l as i32;
 }
 
-pub(crate) fn to_u32(_d: f64) -> u32 {
-    //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
-    //   return 0;
-    // }
+// pub(crate) fn to_u32(_d: f64) -> u32 {
+//     //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
+//     //   return 0;
+//     // }
 
-    // d = Math.signum(d) * Math.floor(Math.abs(d));
+//     // d = Math.signum(d) * Math.floor(Math.abs(d));
 
-    // double two32 = 4294967296.0;
-    // // this ensures that d is positive
-    // d = ((d % two32) + two32) % two32;
-    // // (double)(long)d == d should hold here
+//     // double two32 = 4294967296.0;
+//     // // this ensures that d is positive
+//     // d = ((d % two32) + two32) % two32;
+//     // // (double)(long)d == d should hold here
 
-    // long l = (long) d;
-    // // returning (int)d does not work as d can be outside int range
-    // // but the result must always be 32 lower bits of l
-    // return (int) l;
-    unimplemented!("to_u32")
-}
+//     // long l = (long) d;
+//     // // returning (int)d does not work as d can be outside int range
+//     // // but the result must always be 32 lower bits of l
+//     // return (int) l;
+//     unimplemented!("to_u32")
+// }
 
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {

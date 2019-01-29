@@ -6,15 +6,15 @@ use crate::{
     helpers::Helpers,
     pass::Pass,
     util::{
-        alias_ident_for, default_constructor, prepend_stmts, undefined, ExprFactory,
-        ModuleItemLike, StmtLike,
+        alias_ident_for, constructor::inject_after_super, default_constructor, undefined,
+        ExprFactory, ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
 use fnv::FnvHashSet;
-use std::{iter, sync::Arc};
+use std::sync::Arc;
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
 mod private_field;
 #[cfg(test)]
@@ -459,7 +459,7 @@ impl ClassProperties {
         used_names: &[JsWord],
         constructor_exprs: Vec<Box<Expr>>,
     ) -> Constructor {
-        let mut constructor = constructor
+        let constructor = constructor
             .map(|c| {
                 let mut folder = UsedNameRenamer {
                     mark: Mark::fresh(Mark::root()),
@@ -473,154 +473,6 @@ impl ClassProperties {
             })
             .unwrap_or_else(|| default_constructor(has_super));
 
-        {
-            // Allow using super multiple time
-            let mut folder = DefinePropertyInjector {
-                constructor_exprs: &constructor_exprs,
-                injected: false,
-            };
-            constructor.body = constructor.body.fold_with(&mut folder);
-
-            if !folder.injected {
-                // there was no super() call
-                prepend_stmts(
-                    &mut constructor.body.as_mut().unwrap().stmts,
-                    constructor_exprs.into_iter().map(Stmt::Expr),
-                )
-            }
-        }
-
-        constructor
-    }
-}
-
-struct DefinePropertyInjector<'a> {
-    injected: bool,
-    constructor_exprs: &'a [Box<Expr>],
-}
-
-impl<'a> Fold<Vec<Stmt>> for DefinePropertyInjector<'a> {
-    fn fold(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
-        if self.constructor_exprs.is_empty() {
-            return stmts;
-        }
-
-        stmts.move_flat_map(|stmt| match stmt {
-            Stmt::Expr(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
-                ..
-            })) => {
-                self.injected = true;
-                None.into_iter()
-                    .chain(iter::once(stmt))
-                    .chain(self.constructor_exprs.iter().cloned().map(Stmt::Expr))
-            }
-            _ => {
-                let mut folder = DefinePropertyInjector {
-                    injected: false,
-                    constructor_exprs: self.constructor_exprs,
-                };
-                let stmt = stmt.fold_children(&mut folder);
-                self.injected |= folder.injected;
-                if folder.injected {
-                    None.into_iter()
-                        .chain(iter::once(stmt))
-                        .chain((&[]).iter().cloned().map(Stmt::Expr))
-                } else {
-                    let mut folder = ExprDefinePropertyInjector {
-                        injected: false,
-                        constructor_exprs: self.constructor_exprs,
-                        injected_tmp: None,
-                    };
-                    let stmt = stmt.fold_with(&mut folder);
-
-                    self.injected |= folder.injected;
-                    let iter = folder
-                        .injected_tmp
-                        .map(|ident| {
-                            Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(ident),
-                                    init: None,
-                                    definite: false,
-                                }],
-                                declare: false,
-                            }))
-                        })
-                        .into_iter()
-                        .chain(iter::once(stmt))
-                        .chain((&[]).iter().cloned().map(Stmt::Expr));
-
-                    iter
-                }
-            }
-        })
-    }
-}
-
-macro_rules! fold_noop {
-    ($T:tt) => {
-        impl<'a> Fold<$T> for DefinePropertyInjector<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-
-        impl<'a> Fold<$T> for ExprDefinePropertyInjector<'a> {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-    };
-}
-fold_noop!(Function);
-fold_noop!(Class);
-fold_noop!(Constructor);
-
-/// Handles code like `foo(super())`
-struct ExprDefinePropertyInjector<'a> {
-    injected: bool,
-    constructor_exprs: &'a [Box<Expr>],
-    injected_tmp: Option<Ident>,
-}
-
-impl<'a> Fold<Expr> for ExprDefinePropertyInjector<'a> {
-    fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
-
-        match expr {
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
-                ..
-            }) => {
-                self.injected_tmp = Some(
-                    self.injected_tmp
-                        .take()
-                        .unwrap_or_else(|| private_ident!("_temp")),
-                );
-                self.injected = true;
-
-                Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: iter::once(box Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(box Pat::Ident(
-                            self.injected_tmp.as_ref().cloned().unwrap(),
-                        )),
-                        op: op!("="),
-                        right: box expr,
-                    }))
-                    .chain(self.constructor_exprs.iter().cloned())
-                    .chain(iter::once(box Expr::Ident(
-                        self.injected_tmp.as_ref().cloned().unwrap(),
-                    )))
-                    .collect(),
-                })
-            }
-            _ => expr,
-        }
+        inject_after_super(constructor, constructor_exprs)
     }
 }

@@ -690,7 +690,7 @@ let B = _decorate([dec], function (_initialize, _A) {
     constructor() {
       var _temp;
 
-      0, (_temp = super(), _initialize(this), _temp);
+      0, _temp = super(), _initialize(this);
     }
 
   }
