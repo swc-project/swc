@@ -27,11 +27,47 @@ impl Fold<Ident> for ReservedWord {
     }
 }
 
+macro_rules! noop {
+    ($T:tt) => {
+        impl Fold<$T> for ReservedWord {
+            fn fold(&mut self, node: $T) -> $T {
+                node
+            }
+        }
+    };
+}
+noop!(PropName);
+noop!(ExportSpecifier);
+
+impl Fold<ImportSpecific> for ReservedWord {
+    fn fold(&mut self, s: ImportSpecific) -> ImportSpecific {
+        if s.imported.is_some() {
+            ImportSpecific {
+                local: s.local.fold_with(self),
+                ..s
+            }
+        } else {
+            ImportSpecific {
+                imported: s.imported.fold_with(self),
+                ..s
+            }
+        }
+    }
+}
+
 impl Fold<MemberExpr> for ReservedWord {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
-        MemberExpr {
-            obj: e.obj.fold_with(self),
-            ..e
+        if e.computed {
+            MemberExpr {
+                obj: e.obj.fold_with(self),
+                prop: e.prop.fold_with(self),
+                ..e
+            }
+        } else {
+            MemberExpr {
+                obj: e.obj.fold_with(self),
+                ..e
+            }
         }
     }
 }
@@ -50,6 +86,18 @@ fn fold_ident(i: Ident) -> Ident {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    macro_rules! identical {
+        ($name:ident, $src:literal) => {
+            test!(
+                ::swc_ecma_parser::Syntax::default(),
+                ReservedWord,
+                $name,
+                $src,
+                $src
+            );
+        };
+    }
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -74,4 +122,6 @@ function utf8CheckByte(_byte) {
 }
 "#
     );
+
+    identical!(export_as_default, "export { Foo as default }");
 }
