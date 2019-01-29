@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::{iter, mem, sync::Arc};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Visit, VisitWith, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -376,6 +376,90 @@ impl Decorators {
                             has_escape: false,
                         }));
                         fold_method!(method, Some(fn_name), key_prop_value)
+                    }
+                    ClassMember::ClassProp(prop) => {
+                        let prop_span = prop.span();
+                        let key_prop_value = match *prop.key {
+                            Expr::Ident(i) => box Expr::Lit(Lit::Str(Str {
+                                span: i.span,
+                                value: i.sym,
+                                has_escape: false,
+                            })),
+                            _ => prop.key,
+                        };
+                        //
+                        Some(
+                            ObjectLit {
+                                span: prop_span,
+                                props: iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("kind")),
+                                        value: box Expr::Lit(Lit::Str(quote_str!("field"))),
+                                    },
+                                )))
+                                .chain(if prop.is_static {
+                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("static")),
+                                        value: box Expr::Lit(Lit::Bool(Bool {
+                                            value: true,
+                                            span: DUMMY_SP,
+                                        })),
+                                    })))
+                                } else {
+                                    None
+                                })
+                                .chain({
+                                    //
+                                    if prop.decorators.is_empty() {
+                                        None
+                                    } else {
+                                        Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("decorators")),
+                                            value: box Expr::Array(ArrayLit {
+                                                span: DUMMY_SP,
+                                                elems: prop
+                                                    .decorators
+                                                    .into_iter()
+                                                    .map(|dec| dec.expr.as_arg())
+                                                    .map(Some)
+                                                    .collect(),
+                                            }),
+                                        })))
+                                    }
+                                })
+                                .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                                    KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("key")),
+                                        value: key_prop_value,
+                                    },
+                                ))))
+                                .chain(iter::once(PropOrSpread::Prop(box Prop::Method(
+                                    MethodProp {
+                                        key: PropName::Ident(quote_ident!("valiue")),
+                                        function: Function {
+                                            span: DUMMY_SP,
+                                            is_async: false,
+                                            is_generator: false,
+                                            decorators: vec![],
+                                            params: vec![],
+
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![Stmt::Return(ReturnStmt {
+                                                    span: DUMMY_SP,
+                                                    arg: prop.value,
+                                                })],
+                                            }),
+
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                        },
+                                    },
+                                ))))
+                                .collect(),
+                            }
+                            .as_arg(),
+                        )
                     }
                     _ => unimplemented!("ClassMember::{:?}", member,),
                 }
