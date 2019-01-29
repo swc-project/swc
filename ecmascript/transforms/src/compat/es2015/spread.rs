@@ -87,9 +87,11 @@ impl Fold<Expr> for Spread {
 
                 Expr::New(NewExpr {
                     span,
-                    callee: box member_expr!(span, Function.prototype.bind)
-                        .apply(span, callee, vec![args.as_arg()])
-                        .wrap_with_paren(),
+                    callee: box member_expr!(span, Function.prototype.bind).apply(
+                        span,
+                        callee,
+                        vec![args.as_arg()],
+                    ),
                     args: Some(vec![]),
                     type_args,
                 })
@@ -234,8 +236,9 @@ mod tests {
         Spread::default(),
         new,
         "new C(a, b, c, ...d, e)",
-        "new (Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
-         [e])))();"
+        "new Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
+         [e]))();",
+        ok_if_code_eq
     );
 
     test!(

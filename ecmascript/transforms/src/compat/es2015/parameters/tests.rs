@@ -4,9 +4,10 @@ use std::sync::Arc;
 
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
+        crate::compat::es2015::resolver(),
         Params,
         crate::compat::es2015::destructuring(helpers.clone()),
-        crate::compat::es2015::block_scoping()
+        crate::compat::es2015::block_scoping(),
     )
 }
 

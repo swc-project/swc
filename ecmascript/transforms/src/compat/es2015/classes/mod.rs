@@ -1,16 +1,17 @@
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
-        ReturningMode, SuperCallFinder, SuperFoldingMode,
+        ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
     },
+    native::is_native,
     prop_name::HashKey,
     super_field::SuperFieldAccessFolder,
 };
 use crate::{
     helpers::Helpers,
     util::{
-        alias_ident_for, default_constructor, prop_name_to_expr, ExprFactory, ModuleItemLike,
-        StmtLike,
+        alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory,
+        ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
@@ -18,7 +19,10 @@ use indexmap::IndexMap;
 use std::{iter, sync::Arc};
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
+#[macro_use]
+mod macros;
 mod constructor;
+mod native;
 mod prop_name;
 mod super_field;
 #[cfg(test)]
@@ -78,8 +82,6 @@ where
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(decl) => {
-                        let decl = decl.fold_children(self);
-
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
                                 ClassExpr { ident, class },
@@ -87,6 +89,7 @@ where
                                 let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
 
                                 let decl = self.fold_class_as_var_decl(ident.clone(), class);
+                                let decl = decl.fold_children(self);
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
 
                                 buf.push(
@@ -112,6 +115,7 @@ where
                                 class,
                             })) => {
                                 let decl = self.fold_class_as_var_decl(ident, class);
+                                let decl = decl.fold_children(self);
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         Decl::Var(decl),
@@ -121,10 +125,12 @@ where
                                     },
                                 );
                             }
-                            _ => buf.push(match T::try_from_module_decl(decl) {
-                                Ok(t) => t,
-                                Err(..) => unreachable!(),
-                            }),
+                            _ => {
+                                buf.push(match T::try_from_module_decl(decl.fold_children(self)) {
+                                    Ok(t) => t,
+                                    Err(..) => unreachable!(),
+                                })
+                            }
                         };
                     }
                     Err(..) => unreachable!(),
@@ -221,10 +227,7 @@ impl Classes {
 
             let super_class = class.super_class.clone().unwrap();
             let is_super_native = match *super_class {
-                Expr::Ident(Ident { ref sym, .. }) => match *sym {
-                    js_word!("Object") | js_word!("Array") | js_word!("HTMLElement") => true,
-                    _ => false,
-                },
+                Expr::Ident(Ident { ref sym, .. }) => is_native(sym),
                 _ => false,
             };
             if is_super_native {
@@ -318,11 +321,8 @@ impl Classes {
 
         let mut priv_methods = vec![];
         let mut methods = vec![];
-        let mut prop_init_stmts = vec![];
-        let mut static_prop_init_stmts = vec![];
         let mut constructor = None;
         for member in class.body {
-            let span = member.span();
             match member {
                 ClassMember::Constructor(c) => {
                     if constructor.is_some() {
@@ -333,50 +333,16 @@ impl Classes {
                 }
                 ClassMember::PrivateMethod(m) => priv_methods.push(m),
                 ClassMember::Method(m) => methods.push(m),
-                ClassMember::ClassProp(ClassProperty {
-                    key,
-                    value: Some(right),
-                    is_static: true,
-                    ..
-                }) => static_prop_init_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span,
-                        obj: class_name.clone().as_obj(),
-                        computed: match *key {
-                            Expr::Ident(..) => false,
-                            _ => true,
-                        },
-                        prop: key,
-                    })),
-                    op: op!("="),
-                    right,
-                }))),
-                ClassMember::ClassProp(ClassProperty {
-                    key,
-                    value: Some(right),
-                    is_static: false,
-                    ..
-                }) => prop_init_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span,
-                        obj: ThisExpr { span }.as_obj(),
-                        computed: match *key {
-                            Expr::Ident(..) => false,
-                            _ => true,
-                        },
-                        prop: key,
-                    })),
-                    op: op!("="),
-                    right,
-                }))),
+
+                ClassMember::ClassProp(..) => {
+                    unreachable!("classes pass: property\nclass_properties pass should remove this")
+                }
+                ClassMember::PrivateProp(..) => unreachable!(
+                    "classes pass: private property\nclass_properties pass should remove this"
+                ),
                 ClassMember::TsIndexSignature(s) => {
                     unimplemented!("typescript index signature {:?}", s)
                 }
-                ClassMember::PrivateProp(p) => unimplemented!("private class property {:?}", p),
-                // Skip
-                _ => {}
             }
         }
 
@@ -399,15 +365,24 @@ impl Classes {
         // Marker for `_this`
         let mark = Mark::fresh(Mark::root());
 
-        // Process constructor
         {
-            let mut is_constructor_default = false;
-            let mut constructor = constructor.unwrap_or_else(|| {
-                is_constructor_default = true;
-                let mut c = default_constructor(super_class_ident.is_some());
-                c.params = vec![];
-                c
+            // Process constructor
+
+            let mut constructor =
+                constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
+
+            // Rename variables to avoid conflicting with class name
+            constructor.body = constructor.body.fold_with(&mut VarRenamer {
+                mark: Mark::fresh(Mark::root()),
+                class_name: &class_name.sym,
             });
+
+            // Black magic to detect injected constructor.
+            let is_constructor_default = constructor.span.is_dummy();
+            if is_constructor_default {
+                constructor.params = vec![];
+            }
+
             let mut insert_this = false;
 
             if super_class_ident.is_some() {
@@ -439,6 +414,7 @@ impl Classes {
             if super_class_ident.is_some() {
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
+                // We should fold body instead of constructor itself.
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
@@ -502,13 +478,6 @@ impl Classes {
                 if is_this_declared { Some(mark) } else { None },
             );
 
-            // TODO: Handle
-            //
-            //     console.log('foo');
-            //     super();
-            //     console.log('bar');
-            //
-            //
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
                 function: constructor_fn(Constructor {
@@ -520,9 +489,6 @@ impl Classes {
                 }),
                 declare: false,
             })));
-
-            // Handle static properties
-            stmts.append(&mut static_prop_init_stmts);
         }
 
         // convert class methods
@@ -561,6 +527,7 @@ impl Classes {
             is_static: false,
             folding_constructor: true,
             in_nested_scope: false,
+            in_injected_define_property_call: false,
             this_alias_mark: None,
         };
 
@@ -575,7 +542,7 @@ impl Classes {
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this2")),
+                        name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
                         init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
                         definite: false,
                     }],
@@ -704,6 +671,7 @@ impl Classes {
                 is_static: m.is_static,
                 folding_constructor: false,
                 in_nested_scope: false,
+                in_injected_define_property_call: false,
                 this_alias_mark: None,
             };
             let mut function = m.function.fold_with(&mut folder);
@@ -717,7 +685,7 @@ impl Classes {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this2")),
+                            name: Pat::Ident(quote_ident!(DUMMY_SP.apply_mark(mark), "_this")),
                             init: Some(box Expr::This(ThisExpr { span: DUMMY_SP })),
                             definite: false,
                         }],
@@ -795,19 +763,6 @@ fn get_prototype_of(helpers: &Helpers, obj: &Expr) -> Expr {
         args: vec![obj.clone().as_arg()],
         type_args: Default::default(),
     })
-}
-
-/// inject `stmt` after directives
-fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
-    let idx = stmts
-        .iter()
-        .position(|item| match item {
-            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
-            _ => true,
-        })
-        .unwrap_or(0);
-
-    stmts.insert(idx, stmt);
 }
 
 fn inject_class_call_check(c: &mut Constructor, name: Ident) {

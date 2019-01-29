@@ -1,5 +1,5 @@
 use super::*;
-use crate::compat::es2015::{arrow, block_scoping, Spread};
+use crate::compat::es2015::{arrow, block_scoping, resolver, Spread};
 use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -18,15 +18,78 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 fn spec_tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
+        resolver(),
         Classes {
             helpers: helpers.clone()
         },
         Spread {
             helpers: helpers.clone()
         },
-        block_scoping()
+        block_scoping(),
     )
 }
+
+test!(
+    syntax(),
+    tr(Default::default()),
+    custom_singleton,
+    r#"
+let singleton;
+class Sub extends Foo {
+  constructor() {
+    if (singleton) {
+      return singleton;
+    }
+    singleton = super();
+  }
+}
+"#,
+    r#"
+let singleton;
+let Sub = function(_Foo) {
+    _inherits(Sub, _Foo);
+    function Sub() {
+        var _this;
+        _classCallCheck(this, Sub);
+        if (singleton) {
+            return _possibleConstructorReturn(_this, singleton);
+        }
+        singleton = _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub).call(this));
+        return _possibleConstructorReturn(_this);
+    }
+    return Sub;
+}(Foo);
+"#
+);
+
+test_exec!(
+    syntax(),
+    tr,
+    custom_nested,
+    r#"
+class Hello{
+  constructor(){
+    return {
+      toString () {
+        return 'hello';
+      } 
+    };
+  }
+}
+class Outer extends Hello{
+  constructor(){
+    var _ref = super();
+    class Inner{
+      constructor(){
+        this[_ref] = 'hello';
+      }
+    }
+    return new Inner();
+  }
+}
+expect(new Outer().hello).toBe('hello');
+"#
+);
 
 // spec_constructor_only
 test!(
@@ -3044,7 +3107,7 @@ function (_super) {
   }
 
   return TestEmpty;
-}((
+}(
 /*#__PURE__*/
 function () {
   
@@ -3054,7 +3117,7 @@ function () {
   }
 
   return _class;
-}()));
+}());
 
 var TestConstructorOnly =
 /*#__PURE__*/
@@ -3069,7 +3132,7 @@ function (_super) {
   }
 
   return TestConstructorOnly;
-}((/*#__PURE__*/
+}(/*#__PURE__*/
 function () {
   
 
@@ -3078,7 +3141,7 @@ function () {
   }
 
   return _class;
-}()));
+}());
 
 var TestMethodOnly =
 /*#__PURE__*/
@@ -3093,7 +3156,7 @@ function (_super) {
   }
 
   return TestMethodOnly;
-}((
+}(
 /*#__PURE__*/
 function () {
   
@@ -3107,7 +3170,7 @@ function () {
     value: function method() {}
   }]);
   return _class;
-}()));
+}());
 
 var TestConstructorAndMethod =
 /*#__PURE__*/
@@ -3122,7 +3185,7 @@ function (_super) {
   }
 
   return TestConstructorAndMethod;
-}((
+}(
 /*#__PURE__*/
 function () {
   
@@ -3136,7 +3199,7 @@ function () {
     value: function method() {}
   }]);
   return _class;
-}()));
+}());
 
 var TestMultipleMethods =
 /*#__PURE__*/
@@ -3151,7 +3214,7 @@ function (_super) {
   }
 
   return TestMultipleMethods;
-}((
+}(
 /*#__PURE__*/
 function () {
   
@@ -3168,7 +3231,7 @@ function () {
     value: function m2() {}
   }]);
   return _class;
-}()));
+}());
 
 "#);
 
@@ -3225,9 +3288,9 @@ function (_Hello) {
   _inherits(Outer, _Hello);
 
   function Outer() {
-    var _this2 = this;
+    var _this = this;
 
-    var _this;
+    var _this1;
 
     _classCallCheck(this, Outer);
 
@@ -3239,7 +3302,7 @@ function (_Hello) {
       }
 
       _createClass(Inner, [{
-        key: _this = _possibleConstructorReturn(_this2, _getPrototypeOf(Outer).call(_this2)),
+        key: _this1 = _possibleConstructorReturn(_this, _getPrototypeOf(Outer).call(_this)),
         value: function () {
           return 'hello';
         }
@@ -3247,7 +3310,7 @@ function (_Hello) {
       return Inner;
     }();
 
-    return _possibleConstructorReturn(_this, new Inner());
+    return _possibleConstructorReturn(_this1, new Inner());
   }
 
   return Outer;

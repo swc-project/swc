@@ -1,0 +1,489 @@
+use self::{
+    class_name_tdz::ClassNameTdzFolder,
+    private_field::FieldAccessFolder,
+    used_name::{UsedNameCollector, UsedNameRenamer},
+};
+use crate::{
+    helpers::Helpers,
+    pass::Pass,
+    util::{
+        alias_ident_for, constructor::inject_after_super, default_constructor, undefined,
+        ExprFactory, ModuleItemLike, StmtLike,
+    },
+};
+use ast::*;
+use fnv::FnvHashSet;
+use std::sync::Arc;
+use swc_atoms::JsWord;
+use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
+
+mod class_name_tdz;
+mod private_field;
+#[cfg(test)]
+mod tests;
+mod used_name;
+
+///
+///
+///
+///
+/// # Impl note
+///
+/// We use custom helper to handle export defaul class
+pub fn class_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
+    ClassProperties {
+        helpers,
+        mark: Mark::root(),
+    }
+}
+
+#[derive(Clone)]
+struct ClassProperties {
+    helpers: Arc<Helpers>,
+    mark: Mark,
+}
+
+impl<T> Fold<Vec<T>> for ClassProperties
+where
+    T: StmtLike + ModuleItemLike + FoldWith<Self>,
+{
+    fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
+        let mut buf = Vec::with_capacity(stmts.len());
+
+        for stmt in stmts {
+            match T::try_into_stmt(stmt) {
+                Err(node) => match node.try_into_module_decl() {
+                    Ok(decl) => {
+                        let decl = decl.fold_children(self);
+
+                        match decl {
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
+                                ClassExpr { ident, class },
+                            )) => {
+                                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+
+                                let (vars, decl, stmts) =
+                                    self.fold_class_as_decl(ident.clone(), class);
+                                if !vars.is_empty() {
+                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls: vars,
+                                        declare: false,
+                                    }))));
+                                }
+                                buf.push(T::from_stmt(Stmt::Decl(decl)));
+                                buf.extend(stmts.into_iter().map(T::from_stmt));
+                                buf.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                        NamedExport {
+                                            span: DUMMY_SP,
+                                            specifiers: vec![ExportSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: ident,
+                                                exported: Some(private_ident!("default")),
+                                            }],
+                                            src: None,
+                                        },
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
+                                    },
+                                );
+                            }
+                            ModuleDecl::ExportDecl(Decl::Class(ClassDecl {
+                                ident,
+                                declare: false,
+                                class,
+                            })) => {
+                                let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
+                                if !vars.is_empty() {
+                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls: vars,
+                                        declare: false,
+                                    }))));
+                                }
+                                buf.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(decl)) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
+                                    },
+                                );
+                                buf.extend(stmts.into_iter().map(T::from_stmt));
+                            }
+                            _ => buf.push(match T::try_from_module_decl(decl) {
+                                Ok(t) => t,
+                                Err(..) => unreachable!(),
+                            }),
+                        };
+                    }
+                    Err(..) => unreachable!(),
+                },
+                Ok(stmt) => {
+                    let stmt = stmt.fold_children(self);
+                    // Fold class
+                    match stmt {
+                        Stmt::Decl(Decl::Class(ClassDecl {
+                            ident,
+                            class,
+                            declare: false,
+                        })) => {
+                            let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
+                            if !vars.is_empty() {
+                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls: vars,
+                                    declare: false,
+                                }))));
+                            }
+                            buf.push(T::from_stmt(Stmt::Decl(decl)));
+                            buf.extend(stmts.into_iter().map(T::from_stmt));
+                        }
+                        _ => buf.push(T::from_stmt(stmt)),
+                    }
+                }
+            }
+        }
+
+        buf
+    }
+}
+
+impl Fold<Expr> for ClassProperties {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children(self);
+
+        match expr {
+            // TODO(kdy1): Make it generate smaller code.
+            //
+            // We currently creates a iife for a class expression.
+            // Although this results in a large code, but it's ok as class expression is rarely used
+            // in wild.
+            Expr::Class(ClassExpr { ident, class }) => {
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let mut stmts = vec![];
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Ident(ident)),
+                }));
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            is_async: false,
+                            is_generator: false,
+                            params: vec![],
+
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            }),
+
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                })
+            }
+            _ => expr,
+        }
+    }
+}
+
+impl Fold<BlockStmtOrExpr> for ClassProperties {
+    fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let span = body.span();
+
+        match body {
+            BlockStmtOrExpr::Expr(box Expr::Class(ClassExpr { ident, class })) => {
+                let mut stmts = vec![];
+                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+                if !vars.is_empty() {
+                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        declare: false,
+                    })));
+                }
+                stmts.push(Stmt::Decl(decl));
+                stmts.append(&mut extra_stmts);
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(box Expr::Ident(ident)),
+                }));
+
+                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
+            }
+            _ => body.fold_children(self),
+        }
+    }
+}
+
+impl ClassProperties {
+    fn fold_class_as_decl(
+        &mut self,
+        ident: Ident,
+        class: Class,
+    ) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
+        // Create one mark per class
+        self.mark = Mark::fresh(Mark::root());
+
+        let has_super = class.super_class.is_some();
+
+        let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
+            (vec![], vec![], vec![], vec![], None);
+        let mut used_names = vec![];
+        let mut statics = FnvHashSet::default();
+
+        for member in class.body {
+            match member {
+                ClassMember::PrivateMethod(..) | ClassMember::TsIndexSignature(..) => {
+                    members.push(member)
+                }
+
+                ClassMember::Method(method) => {
+                    // we handle computed key here to preserve the execution order
+                    let key = match method.key {
+                        PropName::Computed(expr) => {
+                            let expr = expr.fold_with(&mut ClassNameTdzFolder {
+                                helpers: &self.helpers,
+                                class_name: &ident,
+                            });
+                            let ident = private_ident!("tmp");
+                            // Handle computed property
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone()),
+                                init: Some(expr),
+                                definite: false,
+                            });
+                            // We use computed because `classes` pass converts PropName::Ident to
+                            // string.
+                            PropName::Computed(box Expr::Ident(ident))
+                        }
+                        _ => method.key,
+                    };
+                    members.push(ClassMember::Method(Method { key, ..method }))
+                }
+
+                ClassMember::ClassProp(mut prop) => {
+                    let prop_span = prop.span();
+                    prop.key = prop.key.fold_with(&mut ClassNameTdzFolder {
+                        helpers: &self.helpers,
+                        class_name: &ident,
+                    });
+
+                    let key = match *prop.key {
+                        Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
+                            span: i.span,
+                            value: i.sym.clone(),
+                            has_escape: false,
+                        })
+                        .as_arg(),
+                        Expr::Lit(ref lit) if !prop.computed => lit.clone().as_arg(),
+
+                        _ => {
+                            let mut ident = alias_ident_for(&prop.key, "_ref");
+                            ident.span = ident.span.apply_mark(Mark::fresh(self.mark));
+                            // Handle computed property
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone()),
+                                init: Some(prop.key),
+                                definite: false,
+                            });
+                            ident.as_arg()
+                        }
+                    };
+                    prop.value.visit_with(&mut UsedNameCollector {
+                        used_names: &mut used_names,
+                    });
+                    let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
+
+                    self.helpers.define_property();
+                    let callee = quote_ident!(DUMMY_SP, "_defineProperty").as_callee();
+
+                    if prop.is_static {
+                        extra_stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee,
+                            args: vec![ident.clone().as_arg(), key, value],
+                            type_args: Default::default(),
+                        })))
+                    } else {
+                        constructor_exprs.push(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee,
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), key, value],
+                            type_args: Default::default(),
+                        }));
+                    }
+                }
+                ClassMember::PrivateProp(prop) => {
+                    let prop_span = prop.span();
+                    if prop.is_static {
+                        statics.insert(prop.key.id.sym.clone());
+                    }
+
+                    let ident = Ident::new(
+                        format!("_{}", prop.key.id.sym).into(),
+                        // We use `self.mark` for private variables.
+                        prop.key.span.apply_mark(self.mark),
+                    );
+                    prop.value.visit_with(&mut UsedNameCollector {
+                        used_names: &mut used_names,
+                    });
+                    let value = prop.value.unwrap_or_else(|| undefined(prop_span));
+
+                    let extra_init = if prop.is_static {
+                        box Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("writable")),
+                                    value: box Expr::Lit(Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })),
+                                })),
+                                PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("value")),
+                                    value,
+                                })),
+                            ],
+                        })
+                    } else {
+                        constructor_exprs.push(box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ident.clone().as_obj(),
+                                prop: box Expr::Ident(quote_ident!("set")),
+                                computed: false,
+                            }
+                            .as_callee(),
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                ObjectLit {
+                                    span: DUMMY_SP,
+                                    props: vec![
+                                        // writeable: true
+                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("writable")),
+                                            value: box Expr::Lit(Lit::Bool(Bool {
+                                                value: true,
+                                                span: DUMMY_SP,
+                                            })),
+                                        })),
+                                        // value: value,
+                                        PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                            key: PropName::Ident(quote_ident!("value")),
+                                            value,
+                                        })),
+                                    ],
+                                }
+                                .as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        }));
+
+                        box Expr::New(NewExpr {
+                            span: DUMMY_SP,
+                            callee: box Expr::Ident(quote_ident!("WeakMap")),
+                            args: Some(vec![]),
+                            type_args: Default::default(),
+                        })
+                    };
+
+                    extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            definite: false,
+                            name: Pat::Ident(ident.clone()),
+                            init: Some(extra_init),
+                        }],
+                    })));
+                }
+
+                ClassMember::Constructor(c) => constructor = Some(c),
+            }
+        }
+
+        let constructor =
+            self.process_constructor(constructor, has_super, &used_names, constructor_exprs);
+        members.push(ClassMember::Constructor(constructor));
+
+        let members = members.fold_with(&mut FieldAccessFolder {
+            mark: self.mark,
+            statics: &statics,
+            vars: vec![],
+            class_name: &ident,
+            helpers: &self.helpers,
+        });
+
+        (
+            vars,
+            Decl::Class(ClassDecl {
+                ident: ident.clone(),
+                declare: false,
+                class: Class {
+                    body: members,
+                    ..class
+                },
+            }),
+            extra_stmts,
+        )
+    }
+
+    fn process_constructor(
+        &mut self,
+        constructor: Option<Constructor>,
+        has_super: bool,
+        used_names: &[JsWord],
+        constructor_exprs: Vec<Box<Expr>>,
+    ) -> Constructor {
+        let constructor = constructor
+            .map(|c| {
+                let mut folder = UsedNameRenamer {
+                    mark: Mark::fresh(Mark::root()),
+                    used_names,
+                };
+
+                // Handle collisions
+                let body = c.body.fold_with(&mut folder);
+                let params = c.params.fold_with(&mut folder);
+                Constructor { body, params, ..c }
+            })
+            .unwrap_or_else(|| default_constructor(has_super));
+
+        inject_after_super(constructor, constructor_exprs)
+    }
+}

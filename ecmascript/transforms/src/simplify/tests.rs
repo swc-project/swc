@@ -15,12 +15,12 @@ macro_rules! test_stmt {
     };
 }
 
-/// Should not modify expression.
-macro_rules! same_stmt {
-    ($l:expr) => {
-        test_stmt!($l, $l)
-    };
-}
+// /// Should not modify expression.
+// macro_rules! same_stmt {
+//     ($l:expr) => {
+//         test_stmt!($l, $l)
+//     };
+// }
 
 /// Ensures that it is removed.
 macro_rules! compiled_out {

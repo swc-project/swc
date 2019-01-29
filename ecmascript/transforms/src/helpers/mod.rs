@@ -93,7 +93,7 @@ define_helpers!(Helpers {
     await_async_generator: (await_value),
     await_value: (),
     class_call_check: (),
-    class_name_tdzerror: (),
+    class_name_tdz_error: (),
     class_private_field_get: (),
     class_private_field_loose_base: (),
     // class_private_field_loose_key: (),

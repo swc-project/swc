@@ -17,8 +17,9 @@ use std::{
     ops::Add,
 };
 use swc_atoms::JsWord;
-use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
+pub(crate) mod constructor;
 mod factory;
 mod value;
 
@@ -556,7 +557,7 @@ pub trait ExprExt {
 
     fn may_have_side_effects(&self) -> bool {
         match *self.as_expr_kind() {
-            Expr::Lit(..) | Expr::Ident(..) | Expr::This(..) => false,
+            Expr::Lit(..) | Expr::Ident(..) | Expr::This(..) | Expr::PrivateName(..) => false,
             Expr::Paren(ref e) => e.expr.may_have_side_effects(),
             // Function expression does not have any side effect if it's not used.
             Expr::Fn(..) | Expr::Arrow(ArrowExpr { .. }) => false,
@@ -744,24 +745,24 @@ pub(crate) fn to_int32(d: f64) -> i32 {
     return l as i32;
 }
 
-pub(crate) fn to_u32(_d: f64) -> u32 {
-    //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
-    //   return 0;
-    // }
+// pub(crate) fn to_u32(_d: f64) -> u32 {
+//     //   if (Double.isNaN(d) || Double.isInfinite(d) || d == 0) {
+//     //   return 0;
+//     // }
 
-    // d = Math.signum(d) * Math.floor(Math.abs(d));
+//     // d = Math.signum(d) * Math.floor(Math.abs(d));
 
-    // double two32 = 4294967296.0;
-    // // this ensures that d is positive
-    // d = ((d % two32) + two32) % two32;
-    // // (double)(long)d == d should hold here
+//     // double two32 = 4294967296.0;
+//     // // this ensures that d is positive
+//     // d = ((d % two32) + two32) % two32;
+//     // // (double)(long)d == d should hold here
 
-    // long l = (long) d;
-    // // returning (int)d does not work as d can be outside int range
-    // // but the result must always be 32 lower bits of l
-    // return (int) l;
-    unimplemented!("to_u32")
-}
+//     // long l = (long) d;
+//     // // returning (int)d does not work as d can be outside int range
+//     // // but the result must always be 32 lower bits of l
+//     // return (int) l;
+//     unimplemented!("to_u32")
+// }
 
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
@@ -772,8 +773,7 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
             _ => default.into(),
         }
     }
-
-    let span = expr.span();
+    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
     quote_ident!(span, sym(expr, default))
 }
 
@@ -851,3 +851,58 @@ pub(crate) fn is_rest_arguments(e: &ExprOrSpread) -> bool {
         _ => false,
     }
 }
+
+pub(crate) fn undefined(span: Span) -> Box<Expr> {
+    box Expr::Unary(UnaryExpr {
+        span,
+        op: op!("void"),
+        arg: box Expr::Lit(Lit::Num(Number { value: 0.0, span })),
+    })
+}
+
+/// inject `stmt` after directives
+pub(crate) fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
+    let idx = stmts
+        .iter()
+        .position(|item| match item {
+            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+            _ => true,
+        })
+        .unwrap_or(0);
+
+    stmts.insert(idx, stmt);
+}
+
+/// inject `stmts` after directives
+pub(crate) fn prepend_stmts(
+    to: &mut Vec<Stmt>,
+    stmts: impl Iterator + ExactSizeIterator<Item = Stmt>,
+) {
+    let idx = to
+        .iter()
+        .position(|item| match item {
+            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+            _ => true,
+        })
+        .unwrap_or(0);
+
+    let mut buf = Vec::with_capacity(to.len() + stmts.len());
+    // TODO: Optimze (maybe unsafe)
+
+    buf.extend(to.drain(..idx));
+    buf.extend(stmts);
+    buf.extend(to.drain(idx..));
+
+    *to = buf
+}
+
+pub trait IdentExt: Into<Ident> {
+    fn private(self) -> Ident {
+        let mut i = self.into();
+        i.span = i.span.apply_mark(Mark::fresh(Mark::root()));
+
+        i
+    }
+}
+
+impl<T> IdentExt for T where T: Into<Ident> {}

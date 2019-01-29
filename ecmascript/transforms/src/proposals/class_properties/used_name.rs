@@ -1,0 +1,33 @@
+use ast::*;
+use swc_atoms::JsWord;
+use swc_common::{Fold, Mark, Visit, VisitWith};
+
+pub(super) struct UsedNameRenamer<'a> {
+    pub mark: Mark,
+    pub used_names: &'a [JsWord],
+}
+
+impl<'a> Fold<Ident> for UsedNameRenamer<'a> {
+    fn fold(&mut self, ident: Ident) -> Ident {
+        if self.used_names.contains(&ident.sym) {
+            return Ident {
+                span: ident.span.apply_mark(self.mark),
+                ..ident
+            };
+        }
+        ident
+    }
+}
+
+pub(super) struct UsedNameCollector<'a> {
+    pub used_names: &'a mut Vec<JsWord>,
+}
+
+impl<'a> Visit<Expr> for UsedNameCollector<'a> {
+    fn visit(&mut self, expr: &Expr) {
+        match *expr {
+            Expr::Ident(ref i) => self.used_names.push(i.sym.clone()),
+            _ => expr.visit_children(self),
+        }
+    }
+}

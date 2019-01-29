@@ -787,7 +787,10 @@ impl<'a, I: Input> Parser<'a, I> {
         // member expression
         // $obj.name
         if eat!('.') {
-            let prop: Box<Expr> = Box::new(self.parse_ident_name().map(Expr::from)?);
+            let prop: Box<Expr> = Box::new(self.parse_maybe_private_name().map(|e| match e {
+                Either::Left(p) => Expr::PrivateName(p),
+                Either::Right(i) => Expr::Ident(i),
+            })?);
             return Ok((
                 Box::new(Expr::Member(MemberExpr {
                     span: span!(start),

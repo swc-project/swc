@@ -1,3 +1,4 @@
 function* a() {
-    (b)=>b * yield;
+    (b)=>b * yield
+    ;
 }

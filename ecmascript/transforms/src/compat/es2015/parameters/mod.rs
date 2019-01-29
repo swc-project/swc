@@ -26,8 +26,7 @@ impl Params {
             match param {
                 Pat::Ident(..) => params.push(param),
                 Pat::Array(..) | Pat::Object(..) => {
-                    let mark = Mark::fresh(Mark::root());
-                    let binding = quote_ident!(span.apply_mark(mark), "param");
+                    let binding = private_ident!(span, "param");
 
                     params.push(Pat::Ident(binding.clone()));
                     decls.push(VarDeclarator {
@@ -38,8 +37,7 @@ impl Params {
                     })
                 }
                 Pat::Assign(..) => {
-                    let mark = Mark::fresh(Mark::root());
-                    let binding = quote_ident!(span.apply_mark(mark), "param");
+                    let binding = private_ident!(span, "param");
 
                     params.push(Pat::Ident(binding.clone()));
                     // This expands to invalid code, but is fixed by destructing pass

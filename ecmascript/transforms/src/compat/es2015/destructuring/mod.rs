@@ -118,8 +118,7 @@ impl_for_for_stmt!(ForInStmt);
 impl_for_for_stmt!(ForOfStmt);
 
 fn make_ref_ident_for_for_stmt() -> Ident {
-    let mark = Mark::fresh(Mark::root());
-    quote_ident!(DUMMY_SP.apply_mark(mark), "ref")
+    private_ident!("ref")
 }
 
 impl Fold<Vec<VarDeclarator>> for Destructuring {
@@ -338,8 +337,7 @@ impl Fold<Function> for Destructuring {
             match pat {
                 Pat::Ident(..) => params.push(pat),
                 Pat::Array(..) | Pat::Object(..) | Pat::Assign(..) => {
-                    let mark = Mark::fresh(Mark::root());
-                    let ref_ident = quote_ident!(span.apply_mark(mark), "ref");
+                    let ref_ident = private_ident!(span, "ref");
 
                     params.push(Pat::Ident(ref_ident.clone()));
                     decls.push(VarDeclarator {
@@ -624,8 +622,7 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
             };
 
             let span = init.span();
-            let mark = Mark::fresh(Mark::root());
-            let ref_ident = quote_ident!(span.apply_mark(mark), s);
+            let ref_ident = private_ident!(span, s);
 
             decls.push(VarDeclarator {
                 span,
@@ -678,6 +675,7 @@ fn can_be_null(e: &Expr) -> bool {
         Expr::Lit(Lit::Null(..))
         | Expr::This(..)
         | Expr::Ident(..)
+        | Expr::PrivateName(..)
         | Expr::Member(..)
         | Expr::Call(..)
         | Expr::New(..)

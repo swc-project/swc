@@ -541,7 +541,7 @@ fn unary_ops_str_cmp() {
 
 #[test]
 fn seq_expr_array() {
-    test_expr("([foo()], x)", "(foo(), x)");
+    test_expr("([foo()], x)", "foo(), x");
 }
 
 #[test]

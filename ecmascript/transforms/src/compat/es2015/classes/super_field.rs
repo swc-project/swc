@@ -5,7 +5,7 @@ use crate::{
 };
 use ast::*;
 use std::iter;
-use swc_common::{Fold, FoldWith, Mark, Span, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 
 /// Process function body.
 ///
@@ -29,6 +29,9 @@ pub(super) struct SuperFieldAccessFolder<'a> {
     pub is_static: bool,
 
     pub folding_constructor: bool,
+
+    /// True while folding **injected** `_defineProperty` call
+    pub in_injected_define_property_call: bool,
 
     /// True while folding a function / class.
     pub in_nested_scope: bool,
@@ -59,7 +62,8 @@ macro_rules! mark_nested {
     ($T:tt) => {
         impl<'a> Fold<$T> for SuperFieldAccessFolder<'a> {
             fn fold(&mut self, n: $T) -> $T {
-                if self.folding_constructor {
+                // injected `_defineProperty` should be handled like method
+                if self.folding_constructor && !self.in_injected_define_property_call {
                     let old = self.in_nested_scope;
                     self.in_nested_scope = true;
                     let n = n.fold_children(self);
@@ -76,6 +80,9 @@ macro_rules! mark_nested {
 mark_nested!(Function);
 mark_nested!(Class);
 
+fold_only_key!(SuperFieldAccessFolder);
+fold_only_key!(SuperCalleeFolder);
+
 impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
         match n {
@@ -86,7 +93,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 
                 return Expr::Ident(quote_ident!(
                     span.apply_mark(self.this_alias_mark.unwrap()),
-                    "_this2"
+                    "_this"
                 ));
             }
             _ => {}
@@ -315,7 +322,7 @@ impl<'a> SuperCalleeFolder<'a> {
                             arg: left,
                         }),
                     }
-                    .wrap_with_paren()
+                    .into()
                 } else {
                     left
                 };
@@ -378,6 +385,28 @@ impl<'a> SuperCalleeFolder<'a> {
 
 impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
     fn fold(&mut self, n: Expr) -> Expr {
+        // We pretend method folding mode for while folding injected `_defineProperty`
+        // calls.
+        if n.span().is_dummy() {
+            match n {
+                Expr::Call(CallExpr {
+                    callee:
+                        ExprOrSuper::Expr(box Expr::Ident(Ident {
+                            sym: js_word!("_defineProperty"),
+                            ..
+                        })),
+                    ..
+                }) => {
+                    let old = self.in_injected_define_property_call;
+                    self.in_injected_define_property_call = true;
+                    let n = n.fold_children(self);
+                    self.in_injected_define_property_call = old;
+                    return n;
+                }
+                _ => {}
+            }
+        }
+
         let mut callee_folder = SuperCalleeFolder {
             class_name: self.class_name,
             inject_get: false,

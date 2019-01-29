@@ -53,13 +53,19 @@ impl<'a> Tester<'a> {
         op(&mut p)
     }
 
-    pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
-        let mut stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
+    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
+        let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
             p.parse_script().map_err(|mut e| {
                 e.emit();
                 ()
             })
         })?;
+
+        Ok(stmts)
+    }
+
+    pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
+        let mut stmts = self.parse_stmts(file_name, src)?;
         assert!(stmts.len() == 1);
 
         Ok(stmts.pop().unwrap())
@@ -96,8 +102,7 @@ impl<'a> Tester<'a> {
         let module = module
             .fold_with(&mut tr)
             .fold_with(&mut ::testing::DropSpan)
-            .fold_with(&mut Normalizer)
-            .fold_with(&mut crate::hygiene::hygiene());
+            .fold_with(&mut Normalizer);
 
         Ok(module)
     }
@@ -142,10 +147,14 @@ macro_rules! test_transform {
 
         crate::tests::Tester::run(|tester: &mut crate::tests::Tester| {
             let expected =
-                tester.apply_transform(crate::fixer::fixer(), "expected.js", $syntax, $expected)?;
+                tester.apply_transform(::testing::DropSpan, "expected.js", $syntax, $expected)?;
 
-            let actual = tester.apply_transform($tr, "actual.js", $syntax, $input)?;
-            let actual = actual.fold_with(&mut crate::fixer::fixer());
+            eprintln!("----- Actual -----");
+
+            let actual = tester
+                .apply_transform($tr, "actual.js", $syntax, $input)?
+                .fold_with(&mut crate::hygiene::hygiene())
+                .fold_with(&mut crate::fixer::fixer());
 
             if actual == expected {
                 return Ok(());
@@ -240,7 +249,9 @@ macro_rules! exec_tr {
                     $input
                 ),
             )?;
-            let module = module.fold_with(&mut crate::fixer::fixer());
+            let module = module
+                .fold_with(&mut crate::hygiene::hygiene())
+                .fold_with(&mut crate::fixer::fixer());
 
             let src_without_helpers = tester.print(&module);
             let module = module.fold_with(&mut InjectHelpers {

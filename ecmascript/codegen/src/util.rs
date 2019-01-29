@@ -159,6 +159,8 @@ impl StartsWithAlphaNum for Expr {
             | Expr::New(_)
             | Expr::MetaProp(_) => true,
 
+            Expr::PrivateName(_) => false,
+
             // Handle other literals.
             Expr::Lit(_) => false,
 

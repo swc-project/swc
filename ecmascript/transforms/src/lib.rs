@@ -55,6 +55,7 @@ pub mod helpers;
 mod hygiene;
 mod inline_globals;
 pub mod pass;
+pub mod proposals;
 pub mod react;
 pub mod scope;
 mod simplify;

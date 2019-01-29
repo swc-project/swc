@@ -203,6 +203,9 @@ pub(super) trait ExprExt {
 
             Expr::Seq(..) => false,
 
+            // MemberExpression is valid assignment target
+            Expr::PrivateName(..) => false,
+
             // jsx
             Expr::JSXMebmer(..)
             | Expr::JSXNamespacedName(..)

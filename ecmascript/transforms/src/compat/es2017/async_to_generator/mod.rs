@@ -487,8 +487,7 @@ impl Actual {
         let params = f.params.clone();
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
-        let mark = Mark::fresh(Mark::root());
-        let real_fn_ident = quote_ident!(ident.span.apply_mark(mark), format!("_{}", ident.sym));
+        let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));
         let right = make_fn_ref(
             &self.helpers,
             FnExpr {

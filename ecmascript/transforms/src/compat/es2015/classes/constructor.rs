@@ -2,6 +2,7 @@ use super::get_prototype_of;
 use crate::{helpers::Helpers, util::ExprFactory};
 use ast::*;
 use std::iter;
+use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Visit, VisitWith, DUMMY_SP};
 
 pub(super) struct SuperCallFinder {
@@ -236,6 +237,9 @@ macro_rules! ignore_return {
 ignore_return!(Function);
 ignore_return!(Class);
 ignore_return!(ArrowExpr);
+ignore_return!(Constructor);
+
+fold_only_key!(ConstructorFolder);
 
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -394,6 +398,12 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         wrap_with_assertiion: bool,
     }
 
+    impl Fold<Class> for Replacer {
+        fn fold(&mut self, n: Class) -> Class {
+            n
+        }
+    }
+
     impl Fold<Expr> for Replacer {
         fn fold(&mut self, expr: Expr) -> Expr {
             match expr {
@@ -454,4 +464,46 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
     let c = c.fold_with(&mut v);
 
     (c, v.found)
+}
+
+/// # In
+///
+/// ```js
+/// 
+/// class Example {
+///   constructor() {
+///     var Example;
+///   }
+/// }
+/// ```
+///
+/// # Out
+///
+/// ```js
+/// var Example = function Example() {
+///     _classCallCheck(this, Example);
+///     var Example1;
+/// };
+/// ```
+pub(super) struct VarRenamer<'a> {
+    pub mark: Mark,
+    pub class_name: &'a JsWord,
+}
+
+impl<'a> Fold<Pat> for VarRenamer<'a> {
+    fn fold(&mut self, pat: Pat) -> Pat {
+        match pat {
+            Pat::Ident(ident) => {
+                if *self.class_name == ident.sym {
+                    return Pat::Ident(Ident {
+                        span: ident.span.apply_mark(self.mark),
+                        ..ident
+                    });
+                } else {
+                    Pat::Ident(ident)
+                }
+            }
+            _ => pat.fold_children(self),
+        }
+    }
 }

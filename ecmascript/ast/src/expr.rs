@@ -1,7 +1,7 @@
 use crate::{
     class::Class,
     function::Function,
-    ident::Ident,
+    ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
     lit::{Lit, Str},
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
@@ -89,6 +89,8 @@ pub enum Expr {
     TsNonNull(TsNonNullExpr),
     TsTypeCast(TsTypeCastExpr),
     TsAs(TsAsExpr),
+
+    PrivateName(PrivateName),
 }
 
 #[ast_node]
