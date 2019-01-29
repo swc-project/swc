@@ -435,7 +435,7 @@ impl Decorators {
                                 ))))
                                 .chain(iter::once(PropOrSpread::Prop(box Prop::Method(
                                     MethodProp {
-                                        key: PropName::Ident(quote_ident!("valiue")),
+                                        key: PropName::Ident(quote_ident!("value")),
                                         function: Function {
                                             span: DUMMY_SP,
                                             is_async: false,
