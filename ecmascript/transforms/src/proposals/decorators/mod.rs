@@ -295,7 +295,13 @@ impl Decorators {
                                 props: iter::once(PropOrSpread::Prop(box Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(quote_ident!("kind")),
-                                        value: box Expr::Lit(Lit::Str(quote_str!("method"))),
+                                        value: box Expr::Lit(Lit::Str(quote_str!(
+                                            match method.kind {
+                                                MethodKind::Method => "method",
+                                                MethodKind::Getter => "get",
+                                                MethodKind::Setter => "set",
+                                            }
+                                        ))),
                                     },
                                 )))
                                 .chain({

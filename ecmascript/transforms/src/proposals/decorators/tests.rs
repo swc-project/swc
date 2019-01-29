@@ -1,5 +1,5 @@
 use super::*;
-use crate::{helpers::Helpers, proposals::class_properties};
+use crate::{compat::es2015::Classes, helpers::Helpers, proposals::class_properties};
 use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -15,14 +15,22 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
     chain!(
         decorators(helpers.clone()),
-        class_properties(helpers.clone())
+        class_properties(helpers.clone()),
+        Classes {
+            helpers: helpers.clone()
+        },
     )
+}
+
+/// Folder for `transformation_*` tests
+fn transformation(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    decorators(helpers.clone())
 }
 
 // transformation_declaration
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_declaration,
     r#"
 @dec()
@@ -50,7 +58,7 @@ let A = _decorate([dec()], function (_initialize) {
 // transformation_initialize_after_super_multiple
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_initialize_after_super_multiple,
     r#"
 @dec
@@ -113,7 +121,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 // transformation_export_default_anonymous
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_export_default_anonymous,
     r#"
 export default @dec() class {}
@@ -139,7 +147,7 @@ export default _decorate([dec()], function (_initialize) {
 // transformation_initialize_after_super_statement
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_initialize_after_super_statement,
     r#"
 @dec
@@ -419,7 +427,7 @@ let Foo = _decorate([_ => desc = _], function (_initialize) {
 // transformation_only_decorated
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_only_decorated,
     r#"
 class B {
@@ -486,7 +494,7 @@ expect(log).toEqual(numsFrom0to9);
 // transformation_initiailzer_after_super_bug_8808
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_initiailzer_after_super_bug_8808,
     r#"
 @decorator(parameter)
@@ -545,7 +553,7 @@ expect(A.prototype.method()).toBe(2);
 // transformation_arguments
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_arguments,
     r#"
 @dec(a, b, ...c)
@@ -664,7 +672,7 @@ expect(calls).toBe(1);
 // transformation_initialize_after_super_expression
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_initialize_after_super_expression,
     r#"
 @dec
@@ -721,7 +729,7 @@ expect(dec1.initializer).toBe(dec2.initializer);
 // transformation_export_default_named
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_export_default_named,
     r#"
 export default @dec() class Foo {}
@@ -888,7 +896,7 @@ expect(Foo.prototype.method.name).toBe("method");
 test!(
     ignore,
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_strict_directive,
     r#"
 (() => {
@@ -1118,7 +1126,7 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 // transformation_extends
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_extends,
     r#"
 @dec class A extends B {}
@@ -1149,7 +1157,7 @@ let A = _decorate([dec], function (_initialize, _B) {
 // transformation_extends_await
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_extends_await,
     r#"
 async function g() {
@@ -1175,7 +1183,7 @@ async function g() {
       F: A,
       d: []
     };
-  }, (await B));
+  }, await B);
 }
 
 "#
@@ -1183,7 +1191,7 @@ async function g() {
 // transformation_extends_yield
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_extends_yield,
     r#"
 function* g() {
@@ -1209,7 +1217,7 @@ function* g() {
       F: A,
       d: []
     };
-  }, (yield B));
+  }, yield B);
 }
 
 "#
@@ -1371,7 +1379,7 @@ expect(i).toBe(2);
 // transformation_initialize_after_super_bug_8931
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_initialize_after_super_bug_8931,
     r#"
 @dec
@@ -1617,13 +1625,13 @@ expect(Foo.prototype.bar).toBe(value2);
 // transformation_expression
 test!(
     syntax(false),
-    tr(Default::default()),
+    transformation(Default::default()),
     transformation_expression,
     r#"
 (@dec() class {});
 "#,
     r#"
-(_decorate([dec()], function (_initialize) {
+_decorate([dec()], function (_initialize) {
   
 
   class _class {
@@ -1637,7 +1645,7 @@ test!(
     F: _class,
     d: []
   };
-}));
+});
 
 "#
 );
