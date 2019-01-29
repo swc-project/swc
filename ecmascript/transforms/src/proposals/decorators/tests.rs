@@ -24,7 +24,10 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 /// Folder for `transformation_*` tests
 fn transformation(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    decorators(helpers.clone())
+    chain!(
+        decorators(helpers.clone()),
+        class_properties(helpers.clone()),
+    )
 }
 
 // transformation_declaration
@@ -438,11 +441,10 @@ class B {
 "#,
     r#"
 class B {
+  bar() {}
   constructor() {
     _defineProperty(this, "foo", 2);
   }
-
-  bar() {}
 
 }
 
