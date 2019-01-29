@@ -322,7 +322,7 @@ impl<'a> SuperCalleeFolder<'a> {
                             arg: left,
                         }),
                     }
-                    .wrap_with_paren()
+                    .into()
                 } else {
                     left
                 };

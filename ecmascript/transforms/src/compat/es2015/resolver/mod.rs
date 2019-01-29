@@ -7,7 +7,7 @@ use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 pub fn resolver() -> Resolver<'static> {
     Resolver::new(
@@ -232,16 +232,20 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
                 callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
                 ..
             }))
-            | Some(box Expr::Paren(ParenExpr {
-                expr:
-                    box Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
+            | Some(box Expr::Call(CallExpr {
+                callee:
+                    ExprOrSuper::Expr(box Expr::Paren(ParenExpr {
+                        expr: box Expr::Fn(FnExpr { ident: None, .. }),
                         ..
-                    }),
+                    })),
                 ..
             })) => true,
             _ => false,
         };
+
+        if !is_class_like {
+            dbg!(&decl.init);
+        }
 
         let old_def = self.cur_defining.take();
         self.cur_defining = if is_class_like { cur_name } else { None };

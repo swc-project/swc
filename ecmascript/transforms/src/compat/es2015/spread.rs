@@ -87,9 +87,11 @@ impl Fold<Expr> for Spread {
 
                 Expr::New(NewExpr {
                     span,
-                    callee: box member_expr!(span, Function.prototype.bind)
-                        .apply(span, callee, vec![args.as_arg()])
-                        .wrap_with_paren(),
+                    callee: box member_expr!(span, Function.prototype.bind).apply(
+                        span,
+                        callee,
+                        vec![args.as_arg()],
+                    ),
                     args: Some(vec![]),
                     type_args,
                 })

@@ -208,8 +208,7 @@ impl Actual {
                             args: vec![],
                             type_args: Default::default(),
                         }),
-                    })
-                    .wrap_with_paren();
+                    });
 
                     let iteration_normal_completion = box Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
