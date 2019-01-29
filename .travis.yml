@@ -27,10 +27,10 @@ before_install:
 
 install:
     - npm i -g jest
-    - cargo test --no-run --color always --all
+    - cargo test --no-run --color always --all --all-features
 
 script:
-    - RUST_BACKTRACE=full cargo test --color always --all
+    - RUST_BACKTRACE=full cargo test --color always --all --all-features
 
 before_deploy:
     - CARGO_TARGET_DIR=$HOME/cargo-target cargo doc --color always 
