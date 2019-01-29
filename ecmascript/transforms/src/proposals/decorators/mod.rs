@@ -1,7 +1,7 @@
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{alias_ident_for, prop_name_to_expr_value, ExprFactory},
+    util::{alias_ident_for, prop_name_to_expr_value, undefined, ExprFactory},
 };
 use ast::*;
 use std::{iter, mem, sync::Arc};
@@ -433,8 +433,8 @@ impl Decorators {
                                         value: key_prop_value,
                                     },
                                 ))))
-                                .chain(iter::once(PropOrSpread::Prop(box Prop::Method(
-                                    MethodProp {
+                                .chain(iter::once(PropOrSpread::Prop(box match prop.value {
+                                    Some(value) => Prop::Method(MethodProp {
                                         key: PropName::Ident(quote_ident!("value")),
                                         function: Function {
                                             span: DUMMY_SP,
@@ -447,15 +447,19 @@ impl Decorators {
                                                 span: DUMMY_SP,
                                                 stmts: vec![Stmt::Return(ReturnStmt {
                                                     span: DUMMY_SP,
-                                                    arg: prop.value,
+                                                    arg: Some(value),
                                                 })],
                                             }),
 
                                             type_params: Default::default(),
                                             return_type: Default::default(),
                                         },
-                                    },
-                                ))))
+                                    }),
+                                    _ => Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("value")),
+                                        value: undefined(DUMMY_SP),
+                                    }),
+                                })))
                                 .collect(),
                             }
                             .as_arg(),
