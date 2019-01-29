@@ -71,6 +71,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: false,
                                         is_optional: false,
@@ -135,6 +136,7 @@ Module {
                                         ),
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: false,
                                         is_optional: true,
@@ -173,6 +175,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: true,
                                         is_optional: false,
@@ -211,6 +214,7 @@ Module {
                                         type_ann: None,
                                         is_static: true,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: false,
                                         is_optional: false,
@@ -249,6 +253,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),
@@ -289,6 +294,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Protected
                                         ),
@@ -329,6 +335,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Private
                                         ),
@@ -369,6 +376,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: true,
                                         is_optional: false,
@@ -407,6 +415,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: true,
                                         is_optional: false,
@@ -445,6 +454,7 @@ Module {
                                         type_ann: None,
                                         is_static: true,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: false,
                                         is_optional: false,
@@ -483,6 +493,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),
@@ -523,6 +534,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),
@@ -563,6 +575,7 @@ Module {
                                         type_ann: None,
                                         is_static: true,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),
@@ -603,6 +616,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),
@@ -643,6 +657,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),
@@ -683,6 +698,7 @@ Module {
                                         type_ann: None,
                                         is_static: true,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: Some(
                                             Public
                                         ),

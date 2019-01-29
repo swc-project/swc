@@ -246,6 +246,7 @@ Module {
                                         type_ann: None,
                                         is_static: false,
                                         decorators: [],
+                                        computed: false,
                                         accessibility: None,
                                         is_abstract: false,
                                         is_optional: false,
