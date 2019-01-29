@@ -258,7 +258,7 @@ class Foo {
 
 "#,
     r#"
-var _method = 1;
+var method = 1;
 let Foo = _decorate([decorator], function (_initialize) {
   
 
@@ -274,8 +274,8 @@ let Foo = _decorate([decorator], function (_initialize) {
     d: [{
       kind: "method",
       key: "method",
-      value: function method() {
-        return _method;
+      value: function method1() {
+        return method;
       }
     }]
   };

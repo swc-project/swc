@@ -1,7 +1,7 @@
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{alias_ident_for, prop_name_to_expr_value, undefined, ExprFactory},
+    util::{alias_ident_for, prop_name_to_expr_value, undefined, ExprFactory, IdentExt},
 };
 use ast::*;
 use std::{iter, mem, sync::Arc};
@@ -331,8 +331,7 @@ impl Decorators {
                             KeyValueProp {
                                 key: PropName::Ident(quote_ident!("value")),
                                 value: box FnExpr {
-                                    // TODO(kdy1): Fucntion name
-                                    ident: fn_name,
+                                    ident: fn_name.map(IdentExt::private),
                                     function: Function {
                                         decorators: vec![],
                                         ..$method.function

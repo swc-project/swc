@@ -894,3 +894,14 @@ pub(crate) fn prepend_stmts(
 
     *to = buf
 }
+
+pub trait IdentExt: Into<Ident> {
+    fn private(self) -> Ident {
+        let mut i = self.into();
+        i.span = i.span.apply_mark(Mark::fresh(Mark::root()));
+
+        i
+    }
+}
+
+impl<T> IdentExt for T where T: Into<Ident> {}
