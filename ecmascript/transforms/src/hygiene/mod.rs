@@ -256,10 +256,20 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
         self.in_var_decl = false;
         let node = match node {
             Expr::Ident(..) => node.fold_children(self),
-            Expr::Member(e) => Expr::Member(MemberExpr {
-                obj: e.obj.fold_with(self),
-                ..e
-            }),
+            Expr::Member(e) => {
+                if e.computed {
+                    Expr::Member(MemberExpr {
+                        obj: e.obj.fold_with(self),
+                        prop: e.prop.fold_with(self),
+                        ..e
+                    })
+                } else {
+                    Expr::Member(MemberExpr {
+                        obj: e.obj.fold_with(self),
+                        ..e
+                    })
+                }
+            }
 
             Expr::This(..) => node,
 

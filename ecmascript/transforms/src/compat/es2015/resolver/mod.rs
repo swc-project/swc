@@ -7,6 +7,8 @@ use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 #[cfg(test)]
 mod tests;
 
+const LOG: bool = false;
+
 pub fn resolver() -> Resolver<'static> {
     Resolver::new(
         Mark::fresh(Mark::root()),
@@ -74,6 +76,10 @@ impl<'a> Resolver<'a> {
     }
 
     fn fold_binding_ident(&mut self, ident: Ident) -> Ident {
+        if cfg!(debug_assertions) && LOG {
+            eprintln!("resolver: Binding {}{:?}", ident.sym, ident.span.ctxt());
+        }
+
         if ident.span.ctxt() != SyntaxContext::empty() {
             return ident;
         }
@@ -96,6 +102,7 @@ impl<'a> Resolver<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
+                eprintln!("\t-> {:?}", mark);
                 ident.span.apply_mark(mark)
             },
             sym: ident.sym,
@@ -177,10 +184,20 @@ impl<'a> Fold<Expr> for Resolver<'a> {
         self.in_var_decl = false;
         let expr = match expr {
             // Leftmost one of a member expression shoukld be resolved.
-            Expr::Member(me) => Expr::Member(MemberExpr {
-                obj: me.obj.fold_with(self),
-                ..me
-            }),
+            Expr::Member(me) => {
+                if me.computed {
+                    Expr::Member(MemberExpr {
+                        obj: me.obj.fold_with(self),
+                        prop: me.prop.fold_with(self),
+                        ..me
+                    })
+                } else {
+                    Expr::Member(MemberExpr {
+                        obj: me.obj.fold_with(self),
+                        ..me
+                    })
+                }
+            }
             _ => expr.fold_children(self),
         };
         self.in_var_decl = old_in_var_decl;
@@ -226,17 +243,12 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
             _ => false,
         };
 
-        let init = if is_class_like {
-            let old_def = self.cur_defining.take();
-            self.cur_defining = cur_name;
+        let old_def = self.cur_defining.take();
+        self.cur_defining = if is_class_like { cur_name } else { None };
 
-            let init = decl.init.fold_children(self);
+        let init = decl.init.fold_children(self);
 
-            self.cur_defining = old_def;
-            init
-        } else {
-            decl.init.fold_children(self)
-        };
+        self.cur_defining = old_def;
 
         VarDeclarator { name, init, ..decl }
     }
@@ -248,11 +260,19 @@ impl<'a> Fold<Ident> for Resolver<'a> {
             self.fold_binding_ident(i)
         } else {
             let Ident { span, sym, .. } = i;
+
+            if cfg!(debug_assertions) && LOG {
+                eprintln!("resolver: IdentRef {}{:?}", sym, i.span.ctxt());
+            }
+
             if span.ctxt() != SyntaxContext::empty() {
                 return Ident { sym, ..i };
             }
 
             if let Some(mark) = self.mark_for(&sym) {
+                if cfg!(debug_assertions) && LOG {
+                    eprintln!("\t -> {:?}", mark);
+                }
                 Ident {
                     sym,
                     span: span.apply_mark(mark),
