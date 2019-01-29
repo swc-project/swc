@@ -237,6 +237,7 @@ macro_rules! ignore_return {
 ignore_return!(Function);
 ignore_return!(Class);
 ignore_return!(ArrowExpr);
+ignore_return!(Constructor);
 
 impl<'a> Fold<Expr> for ConstructorFolder<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {

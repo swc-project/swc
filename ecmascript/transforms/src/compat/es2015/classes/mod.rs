@@ -410,6 +410,7 @@ impl Classes {
             if super_class_ident.is_some() {
                 let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
+                // We should fold body instead of constructor itself.
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
