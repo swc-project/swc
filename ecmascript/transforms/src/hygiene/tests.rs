@@ -891,3 +891,43 @@ fn regression_003() {
          +_classPrivateFieldGet(_obj, foo)) + 1), old1;",
     );
 }
+
+#[test]
+fn regression_004() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_stmts(
+                    "actual1.js",
+                    "function foo(...args){}
+                    function bar(...args){}",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("args", &[mark1, mark2])])))
+        },
+        "function foo(...args){}
+        function bar(...args){}",
+    );
+}
+
+#[test]
+fn regression_005() {
+    test(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_stmts(
+                    "actual1.js",
+                    "var foo = (...args)=>{}
+                    var bar = (...args)=>{}",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("args", &[mark1, mark2])])))
+        },
+        "var foo = (...args)=>{}
+        var bar = (...args)=>{}",
+    );
+}

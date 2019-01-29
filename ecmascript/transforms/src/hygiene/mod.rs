@@ -410,15 +410,19 @@ impl<'a> Scope<'a> {
 }
 
 impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
-    fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
-        let params = e.params.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
+    fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
+        let mut folder = Hygiene {
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
+            in_var_decl: false,
+        };
 
-        let body = e.body.fold_with(self);
+        folder.in_var_decl = true;
+        node.params = node.params.fold_with(&mut folder);
 
-        ArrowExpr { params, body, ..e }
+        folder.in_var_decl = false;
+        node.body = node.body.fold_with(&mut folder);
+
+        folder.apply_ops(node)
     }
 }
 
