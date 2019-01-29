@@ -419,9 +419,9 @@ const _ref = {
 }, { [(_param)=>{
     var rest = _extends({
     }, _param);
-    let _ref = {
+    let _ref1 = {
     }, b = _extends({
-    }, _ref);
+    }, _ref1);
 }]: a , [( _tmp = {
 }, d = _extends({
 }, _tmp), _tmp)]: c  } = _ref;
@@ -464,9 +464,9 @@ const _ref = {
 }, { a =(_param)=>{
     var rest = _extends({
     }, _param);
-    let _ref = {
+    let _ref1 = {
     }, b = _extends({
-    }, _ref);
+    }, _ref1);
 } , c =( _tmp = {
 }, d = _extends({
 }, _tmp), _tmp)  } = _ref;
