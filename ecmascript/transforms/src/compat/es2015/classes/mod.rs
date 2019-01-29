@@ -80,8 +80,6 @@ where
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(decl) => {
-                        let decl = decl.fold_children(self);
-
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
                                 ClassExpr { ident, class },
@@ -89,6 +87,7 @@ where
                                 let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
 
                                 let decl = self.fold_class_as_var_decl(ident.clone(), class);
+                                let decl = decl.fold_children(self);
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
 
                                 buf.push(
@@ -114,6 +113,7 @@ where
                                 class,
                             })) => {
                                 let decl = self.fold_class_as_var_decl(ident, class);
+                                let decl = decl.fold_children(self);
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         Decl::Var(decl),
@@ -123,10 +123,12 @@ where
                                     },
                                 );
                             }
-                            _ => buf.push(match T::try_from_module_decl(decl) {
-                                Ok(t) => t,
-                                Err(..) => unreachable!(),
-                            }),
+                            _ => {
+                                buf.push(match T::try_from_module_decl(decl.fold_children(self)) {
+                                    Ok(t) => t,
+                                    Err(..) => unreachable!(),
+                                })
+                            }
                         };
                     }
                     Err(..) => unreachable!(),
