@@ -561,7 +561,7 @@ expect(new Outer().hello).toBe('hello');
     r#"
 
 
-let Hello = function Hello() {
+var Hello = function Hello() {
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -571,9 +571,7 @@ let Hello = function Hello() {
   };
 };
 
-let Outer =
-/*#__PURE__*/
-function (_Hello) {
+var Outer = function (_Hello) {
   _inherits(Outer, _Hello);
 
   function Outer() {
@@ -583,7 +581,7 @@ function (_Hello) {
 
     var _ref = _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
 
-    let Inner = function Inner() {
+    var Inner = function Inner() {
       _classCallCheck(this, Inner);
       _defineProperty(this, _ref, "hello");
     };
@@ -1829,9 +1827,7 @@ expect(new Outer().hello).toBe('hello');
 "#, r#"
 
 
-let Hello =
-/*#__PURE__*/
-function () {
+var Hello = function () {
   function Hello() {
     _classCallCheck(this, Hello);
   }
@@ -1845,22 +1841,18 @@ function () {
   return Hello;
 }();
 
-let Outer =
-/*#__PURE__*/
-function (_Hello) {
+var Outer = function (_Hello) {
   _inherits(Outer, _Hello);
 
   function Outer() {
-    var _this;
-
     _classCallCheck(this, Outer);
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
 
-    var _babelHelpers$get$cal = _get(_getPrototypeOf(Outer.prototype), "toString", _assertThisInitialized(_this)).call(_assertThisInitialized(_this));
+    var _ref = _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this);
 
-    let Inner = function Inner() {
+    var Inner = function Inner() {
       _classCallCheck(this, Inner);
-      _defineProperty(this, _babelHelpers$get$cal, 'hello');
+      _defineProperty(this, _ref, 'hello');
     };
 
     return _possibleConstructorReturn(_this, new Inner());
