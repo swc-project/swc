@@ -271,6 +271,83 @@ impl Decorators {
             }
         };
 
+        macro_rules! fold_method {
+            ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
+                let fn_name = $fn_name;
+                //   kind: "method",
+                //   key: getKeyJ(),
+                //   value: function () {
+                //     return 2;
+                //   }
+                Some(
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props: iter::once(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("kind")),
+                            value: box Expr::Lit(Lit::Str(quote_str!(match $method.kind {
+                                MethodKind::Method => "method",
+                                MethodKind::Getter => "get",
+                                MethodKind::Setter => "set",
+                            }))),
+                        })))
+                        .chain(if $method.is_static {
+                            Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("static")),
+                                value: box Expr::Lit(Lit::Bool(Bool {
+                                    value: true,
+                                    span: DUMMY_SP,
+                                })),
+                            })))
+                        } else {
+                            None
+                        })
+                        .chain({
+                            //
+                            if $method.function.decorators.is_empty() {
+                                None
+                            } else {
+                                Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("decorators")),
+                                    value: box Expr::Array(ArrayLit {
+                                        span: DUMMY_SP,
+                                        elems: $method
+                                            .function
+                                            .decorators
+                                            .into_iter()
+                                            .map(|dec| dec.expr.as_arg())
+                                            .map(Some)
+                                            .collect(),
+                                    }),
+                                })))
+                            }
+                        })
+                        .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                            KeyValueProp {
+                                key: PropName::Ident(quote_ident!("key")),
+                                value: $key_prop_value,
+                            },
+                        ))))
+                        .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
+                            KeyValueProp {
+                                key: PropName::Ident(quote_ident!("value")),
+                                value: box FnExpr {
+                                    // TODO(kdy1): Fucntion name
+                                    ident: fn_name,
+                                    function: Function {
+                                        decorators: vec![],
+                                        ..$method.function
+                                    },
+                                }
+                                .into(),
+                            },
+                        ))))
+                        .collect(),
+                    }
+                    .as_arg(),
+                )
+            }};
+        }
+
         let descriptors = class
             .body
             .into_iter()
@@ -285,83 +362,22 @@ impl Decorators {
                             PropName::Str(ref s) => Some(Ident::new(s.value.clone(), s.span)),
                             _ => None,
                         };
-                        //   kind: "method",
-                        //   key: getKeyJ(),
-                        //   value: function () {
-                        //     return 2;
-                        //   }
-                        Some(
-                            ObjectLit {
-                                span: DUMMY_SP,
-                                props: iter::once(PropOrSpread::Prop(box Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("kind")),
-                                        value: box Expr::Lit(Lit::Str(quote_str!(
-                                            match method.kind {
-                                                MethodKind::Method => "method",
-                                                MethodKind::Getter => "get",
-                                                MethodKind::Setter => "set",
-                                            }
-                                        ))),
-                                    },
-                                )))
-                                .chain(if method.is_static {
-                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("static")),
-                                        value: box Expr::Lit(Lit::Bool(Bool {
-                                            value: true,
-                                            span: DUMMY_SP,
-                                        })),
-                                    })))
-                                } else {
-                                    None
-                                })
-                                .chain({
-                                    //
-                                    if method.function.decorators.is_empty() {
-                                        None
-                                    } else {
-                                        Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                            key: PropName::Ident(quote_ident!("decorators")),
-                                            value: box Expr::Array(ArrayLit {
-                                                span: DUMMY_SP,
-                                                elems: method
-                                                    .function
-                                                    .decorators
-                                                    .into_iter()
-                                                    .map(|dec| dec.expr.as_arg())
-                                                    .map(Some)
-                                                    .collect(),
-                                            }),
-                                        })))
-                                    }
-                                })
-                                .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("key")),
-                                        value: box prop_name_to_expr_value(method.key),
-                                    },
-                                ))))
-                                .chain(iter::once(PropOrSpread::Prop(box Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("value")),
-                                        value: box FnExpr {
-                                            // TODO(kdy1): Fucntion name
-                                            ident: fn_name,
-                                            function: Function {
-                                                decorators: vec![],
-                                                ..method.function
-                                            },
-                                        }
-                                        .into(),
-                                    },
-                                ))))
-                                .collect(),
-                            }
-                            .as_arg(),
-                        )
+                        let key_prop_value = box prop_name_to_expr_value(method.key);
+                        fold_method!(method, fn_name, key_prop_value)
                     }
-                    _ => unimplemented!("ClassMember::{:?}", member),
+                    ClassMember::PrivateMethod(method) => {
+                        let fn_name = Ident::new(
+                            format!("_{}", method.key.id.sym).into(),
+                            method.key.id.span,
+                        );
+                        let key_prop_value = box Expr::Lit(Lit::Str(Str {
+                            span: method.key.id.span,
+                            value: method.key.id.sym,
+                            has_escape: false,
+                        }));
+                        fold_method!(method, Some(fn_name), key_prop_value)
+                    }
+                    _ => unimplemented!("ClassMember::{:?}", member,),
                 }
             })
             .map(Some)
