@@ -1,4 +1,5 @@
 use self::{
+    class_name_tdz::ClassNameTdzFolder,
     private_field::FieldAccessFolder,
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
@@ -16,6 +17,7 @@ use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
+mod class_name_tdz;
 mod private_field;
 #[cfg(test)]
 mod tests;
@@ -268,6 +270,10 @@ impl ClassProperties {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
                         PropName::Computed(expr) => {
+                            let expr = expr.fold_with(&mut ClassNameTdzFolder {
+                                helpers: &self.helpers,
+                                class_name: &ident,
+                            });
                             let ident = private_ident!("tmp");
                             // Handle computed property
                             vars.push(VarDeclarator {
@@ -285,8 +291,13 @@ impl ClassProperties {
                     members.push(ClassMember::Method(Method { key, ..method }))
                 }
 
-                ClassMember::ClassProp(prop) => {
+                ClassMember::ClassProp(mut prop) => {
                     let prop_span = prop.span();
+                    prop.key = prop.key.fold_with(&mut ClassNameTdzFolder {
+                        helpers: &self.helpers,
+                        class_name: &ident,
+                    });
+
                     let key = match *prop.key {
                         Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
                             span: i.span,

@@ -581,11 +581,11 @@ function (_Hello) {
 
     _classCallCheck(this, Outer);
 
-    var _this2 = _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _ref = _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
 
     let Inner = function Inner() {
       _classCallCheck(this, Inner);
-      _defineProperty(this, _this2, "hello");
+      _defineProperty(this, _ref, "hello");
     };
 
     return _possibleConstructorReturn(_this, new Inner());
@@ -957,9 +957,9 @@ var Foo = function Foo() {
   
 
   _classCallCheck(this, Foo);
+  _defineProperty(this, "bar", foo);
   var foo1 = "foo";
   var baz = "baz";
-  _defineProperty(this, "bar", foo);
 };
 
 _defineProperty(Foo, "bar", baz);
