@@ -79,7 +79,7 @@ where
                                             specifiers: vec![ExportSpecifier {
                                                 span: DUMMY_SP,
                                                 orig: ident,
-                                                exported: Some(quote_ident!("default")),
+                                                exported: Some(private_ident!("default")),
                                             }],
                                             src: None,
                                         },
