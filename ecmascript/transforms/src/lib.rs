@@ -54,6 +54,7 @@ mod fixer;
 pub mod helpers;
 mod hygiene;
 mod inline_globals;
+pub mod modules;
 pub mod pass;
 pub mod proposals;
 pub mod react;
