@@ -7,7 +7,7 @@ use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = false;
 
 pub fn resolver() -> Resolver<'static> {
     Resolver::new(
