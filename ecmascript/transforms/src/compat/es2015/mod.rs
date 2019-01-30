@@ -57,9 +57,6 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
             Stmt,
             function_name(),
             exprs(helpers),
-            Classes {
-                helpers: helpers.clone(),
-            },
             BlockScopedFns,
             parameters(),
         )
@@ -68,6 +65,9 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
     chain_at!(
         Module,
         resolver(),
+        Classes {
+            helpers: helpers.clone(),
+        },
         stmts(helpers),
         for_of(),
         computed_properties(helpers.clone()),

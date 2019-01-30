@@ -214,6 +214,7 @@ impl Syntax {
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
@@ -223,6 +224,7 @@ pub struct TsConfig {
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
