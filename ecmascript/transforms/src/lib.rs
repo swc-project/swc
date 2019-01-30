@@ -9,19 +9,19 @@
 #![cfg_attr(test, feature(test))]
 #![recursion_limit = "1024"]
 
+#[macro_use]
+extern crate lazy_static;
 #[macro_use(js_word)]
 extern crate swc_atoms;
-extern crate fnv;
 #[macro_use]
 extern crate swc_common;
+extern crate fxhash;
 extern crate indexmap;
 extern crate ordered_float;
 extern crate swc_ecma_ast as ast;
 #[cfg(test)]
 extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
-#[macro_use]
-extern crate lazy_static;
 #[cfg(test)]
 #[macro_use]
 extern crate pretty_assertions;

@@ -4,3 +4,4 @@ mod amd;
 mod common_js;
 mod system_js;
 mod umd;
+mod util;

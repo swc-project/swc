@@ -1,7 +1,7 @@
 use self::ops::{Operator, ScopeOp};
 use crate::{pass::Pass, scope::ScopeKind};
 use ast::*;
-use fnv::FnvHashMap;
+use fxhash::FxHashMap;
 use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext};
@@ -291,7 +291,7 @@ struct Scope<'a> {
     pub kind: ScopeKind,
 
     /// All references declared in this scope
-    pub declared_symbols: RefCell<FnvHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Vec<ScopeOp>>,
 }

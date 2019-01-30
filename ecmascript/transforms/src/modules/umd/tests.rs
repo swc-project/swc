@@ -1,11 +1,11 @@
 use super::*;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
-  Default::default()
+    Default::default()
 }
 
 fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
-  umd()
+    umd()
 }
 
 // umd_exports_variable
@@ -71,15 +71,15 @@ export class foo9 {}
 
 // umd_export_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_named,
+    r#"
 var foo;
 export {foo};
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -108,16 +108,16 @@ export {foo};
 
 // umd_export_default_11
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_11,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_11,
+    r#"
 export default new Cachier()
 
 export function Cachier(databaseName) {}
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -153,14 +153,14 @@ export function Cachier(databaseName) {}
 
 // umd_export_from_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_from_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_from_4,
+    r#"
 export {foo as bar} from "foo";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -194,14 +194,14 @@ export {foo as bar} from "foo";
 
 // umd_export_default_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_3,
+    r#"
 export default [];
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -234,10 +234,10 @@ export default [];
 
 // umd_imports_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_imports_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_imports_default,
+    r#"
 import foo from "foo";
 import {default as foo2} from "foo";
 
@@ -245,7 +245,7 @@ foo;
 foo2;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -271,15 +271,15 @@ foo2;
 
 // umd_export_named_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_named_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_named_3,
+    r#"
 var foo, bar;
 export {foo as default, bar};
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -309,16 +309,16 @@ export {foo as default, bar};
 
 // umd_imports_glob
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_imports_glob,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_imports_glob,
+    r#"
 import * as foo from "foo";
 
 foo;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -343,14 +343,14 @@ foo;
 
 // umd_export_default_6
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_6,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_6,
+    r#"
 export default class {}
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -381,14 +381,14 @@ export default class {}
 
 // umd_export_default_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_5,
+    r#"
 export default function () {}
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -417,10 +417,10 @@ export default function () {}
 
 // umd_hoist_function_exports
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_hoist_function_exports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_hoist_function_exports,
+    r#"
 import { isEven } from "./evens";
 
 export function nextOdd(n) {
@@ -434,7 +434,7 @@ export var isOdd = (function (isEven) {
 })(isEven);
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "./evens"], factory);
@@ -474,14 +474,14 @@ export var isOdd = (function (isEven) {
 
 // umd_export_from_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_from_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_from_2,
+    r#"
 export {foo as default} from "foo";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -515,14 +515,14 @@ export {foo as default} from "foo";
 
 // umd_export_default_8
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_8,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_8,
+    r#"
 export default class Foo {}
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -557,15 +557,15 @@ export default class Foo {}
 
 // umd_export_named_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_named_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_named_5,
+    r#"
 var foo, bar;
 export {foo, bar};
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -595,16 +595,16 @@ export {foo, bar};
 
 // umd_imports_exact_globals_false
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_imports_exact_globals_false,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_imports_exact_globals_false,
+    r#"
 import fooBar1 from "foo-bar";
 import fooBar2 from "./mylib/foo-bar";
 import fizzBuzz from "fizzbuzz";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo-bar", "./mylib/foo-bar", "fizzbuzz"], factory);
@@ -634,14 +634,14 @@ import fizzBuzz from "fizzbuzz";
 
 // umd_export_default_10
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_10,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_10,
+    r#"
 export default (function(){return "foo"})();
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -674,14 +674,14 @@ export default (function(){return "foo"})();
 
 // umd_export_from
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_from,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_from,
+    r#"
 export {foo} from "foo";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -713,14 +713,14 @@ export {foo} from "foo";
 
 // umd_export_from_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_from_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_from_5,
+    r#"
 export {foo, bar} from "foo";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -760,14 +760,14 @@ export {foo, bar} from "foo";
 
 // umd_export_default_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_2,
+    r#"
 export default {};
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -796,10 +796,10 @@ export default {};
 
 // umd_imports_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_imports_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_imports_named,
+    r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
 import {bar as baz2} from "foo";
@@ -813,7 +813,7 @@ baz3;
 xyz;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -842,15 +842,15 @@ xyz;
 
 // umd_imports_mixing
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_imports_mixing,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_imports_mixing,
+    r#"
 import foo, {baz as xyz} from "foo";
 xyz;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo"], factory);
@@ -875,10 +875,10 @@ xyz;
 
 // umd_remap
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_remap,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_remap,
+    r#"
 export var test = 2;
 test = 5;
 test++;
@@ -902,7 +902,7 @@ export { d as e, d as f };
 d = 4;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -951,15 +951,15 @@ d = 4;
 
 // umd_export_named_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_named_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_named_2,
+    r#"
 var foo;
 export {foo as default};
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -988,14 +988,14 @@ export {foo as default};
 
 // umd_export_default_7
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_7,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_7,
+    r#"
 export default function foo () {}
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1026,14 +1026,14 @@ export default function foo () {}
 
 // umd_non_default_imports
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_non_default_imports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_non_default_imports,
+    r#"
 import { render } from "./lib/render";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["./lib/render"], factory);
@@ -1055,16 +1055,16 @@ import { render } from "./lib/render";
 
 // umd_imports
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_imports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_imports,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["foo", "foo-bar", "./directory/foo-bar"], factory);
@@ -1086,14 +1086,14 @@ import "./directory/foo-bar";
 
 // umd_export_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default,
+    r#"
 export default 42;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1122,14 +1122,14 @@ export default 42;
 
 // umd_export_default_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_4,
+    r#"
 export default foo;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1158,14 +1158,14 @@ export default foo;
 
 // umd_export_from_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_from_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_from_3,
+    r#"
 export {foo as default, bar} from "foo";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);
@@ -1203,16 +1203,16 @@ export {foo as default, bar} from "foo";
 
 // umd_export_default_9
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_default_9,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_default_9,
+    r#"
 var foo;
 export { foo as default };
 
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1241,10 +1241,10 @@ export { foo as default };
 
 // umd_overview
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_overview,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_overview,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -1263,7 +1263,7 @@ bar;
 bar2;
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo", "foo-bar", "./directory/foo-bar"], factory);
@@ -1301,15 +1301,15 @@ bar2;
 
 // umd_export_named_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_named_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_named_4,
+    r#"
 var foo;
 export {foo as bar};
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -1338,14 +1338,14 @@ export {foo as bar};
 
 // umd_export_from_6
 test!(
-  syntax(),
-  tr(Default::default()),
-  umd_export_from_6,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    umd_export_from_6,
+    r#"
 export * from "foo";
 
 "#,
-  r#"
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports", "foo"], factory);

@@ -1,6 +1,6 @@
 use crate::scope::ScopeKind;
 use ast::*;
-use fnv::FnvHashSet;
+use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, SyntaxContext};
 
@@ -26,7 +26,7 @@ struct Scope<'a> {
     kind: ScopeKind,
 
     /// All references declared in this scope
-    declared_symbols: FnvHashSet<JsWord>,
+    declared_symbols: FxHashSet<JsWord>,
 }
 
 impl<'a> Scope<'a> {

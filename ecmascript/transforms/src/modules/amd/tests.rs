@@ -1,23 +1,23 @@
 use super::*;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
-  Default::default()
+    Default::default()
 }
 
 fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
-  amd()
+    amd()
 }
 
 // amd_export_default_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_4,
+    r#"
 export default foo;
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -34,14 +34,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_from_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_from_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_from_2,
+    r#"
 export {foo} from "foo";
 
 "#,
-  r#"
+    r#"
 define(["exports", "foo"], function (_exports, _foo) {
   "use strict";
 
@@ -61,15 +61,15 @@ define(["exports", "foo"], function (_exports, _foo) {
 
 // amd_export_named_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_named_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_named_2,
+    r#"
 var foo, bar;
 export {foo, bar};
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -87,10 +87,10 @@ define(["exports"], function (_exports) {
 
 // amd_imports_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_imports_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_imports_default,
+    r#"
 import foo from "foo";
 import {default as foo2} from "foo";
 
@@ -98,7 +98,7 @@ foo;
 foo2;
 
 "#,
-  r#"
+    r#"
 define(["foo"], function (_foo) {
   "use strict";
 
@@ -112,17 +112,17 @@ define(["foo"], function (_foo) {
 
 // amd_imports_mixing
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_imports_mixing,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_imports_mixing,
+    r#"
 import foo, {baz as xyz} from "foo";
 
 foo;
 xyz;
 
 "#,
-  r#"
+    r#"
 define(["foo"], function (_foo) {
   "use strict";
 
@@ -136,15 +136,15 @@ define(["foo"], function (_foo) {
 
 // amd_export_default_9
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_9,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_9,
+    r#"
 var foo;
 export { foo as default };
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -165,14 +165,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default,
+    r#"
 export default 42;
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -189,14 +189,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_default_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_2,
+    r#"
 export default {};
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -213,14 +213,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_from_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_from_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_from_4,
+    r#"
 export {foo as bar} from "foo";
 
 "#,
-  r#"
+    r#"
 define(["exports", "foo"], function (_exports, _foo) {
   "use strict";
 
@@ -240,15 +240,15 @@ define(["exports", "foo"], function (_exports, _foo) {
 
 // amd_export_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_named,
+    r#"
 var foo;
 export {foo};
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -267,14 +267,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_from
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_from,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_from,
+    r#"
 export * from "foo";
 
 "#,
-  r#"
+    r#"
 define(["exports", "foo"], function (_exports, _foo) {
   "use strict";
 
@@ -297,14 +297,14 @@ define(["exports", "foo"], function (_exports, _foo) {
 
 // amd_export_default_7
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_7,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_7,
+    r#"
 export default function foo () {}
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -321,15 +321,15 @@ define(["exports"], function (_exports) {
 
 // amd_export_named_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_named_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_named_4,
+    r#"
 var foo;
 export {foo as default};
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -346,16 +346,16 @@ define(["exports"], function (_exports) {
 
 // amd_imports_glob
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_imports_glob,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_imports_glob,
+    r#"
 import * as foo from "foo";
 
 foo;
 
 "#,
-  r#"
+    r#"
 define(["foo"], function (foo) {
   "use strict";
 
@@ -368,10 +368,10 @@ define(["foo"], function (foo) {
 
 // amd_remap
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_remap,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_remap,
+    r#"
 export var test = 2;
 test = 5;
 test++;
@@ -395,7 +395,7 @@ export { d as e, d as f };
 d = 4;
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -432,16 +432,16 @@ define(["exports"], function (_exports) {
 
 // amd_imports
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_imports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_imports,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-  r#"
+    r#"
 define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooBar2) {
   "use strict";
 });
@@ -451,14 +451,14 @@ define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooB
 
 // amd_export_from_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_from_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_from_3,
+    r#"
 export {foo, bar} from "foo";
 
 "#,
-  r#"
+    r#"
 define(["exports", "foo"], function (_exports, _foo) {
   "use strict";
 
@@ -484,14 +484,14 @@ define(["exports", "foo"], function (_exports, _foo) {
 
 // amd_export_default_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_5,
+    r#"
 export default function () {}
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -508,14 +508,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_default_10
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_10,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_10,
+    r#"
 export default (function(){return "foo"})();
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -536,15 +536,15 @@ define(["exports"], function (_exports) {
 
 // amd_export_named_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_named_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_named_3,
+    r#"
 var foo;
 export {foo as bar};
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -605,14 +605,14 @@ define(["exports", "foo", "foo-bar", "./directory/foo-bar"], function (_exports,
 
 // amd_export_from_6
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_from_6,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_from_6,
+    r#"
 export {foo as default, bar} from "foo";
 
 "#,
-  r#"
+    r#"
 define(["exports", "foo"], function (_exports, _foo) {
   "use strict";
 
@@ -638,10 +638,10 @@ define(["exports", "foo"], function (_exports, _foo) {
 
 // amd_hoist_function_exports
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_hoist_function_exports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_hoist_function_exports,
+    r#"
 import { isEven } from "./evens";
 
 export function nextOdd(n) {
@@ -655,7 +655,7 @@ export var isOdd = (function (isEven) {
 })(isEven);
 
 "#,
-  r#"
+    r#"
 define(["exports", "./evens"], function (_exports, _evens) {
   "use strict";
 
@@ -683,14 +683,14 @@ define(["exports", "./evens"], function (_exports, _evens) {
 
 // amd_export_default_8
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_8,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_8,
+    r#"
 export default class Foo {}
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -709,14 +709,14 @@ define(["exports"], function (_exports) {
 
 // amd_export_from_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_from_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_from_5,
+    r#"
 export {foo as default} from "foo";
 
 "#,
-  r#"
+    r#"
 define(["exports", "foo"], function (_exports, _foo) {
   "use strict";
 
@@ -736,14 +736,14 @@ define(["exports", "foo"], function (_exports, _foo) {
 
 // amd_export_default_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_3,
+    r#"
 export default [];
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -760,17 +760,17 @@ define(["exports"], function (_exports) {
 
 // amd_import_order
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_import_order,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_import_order,
+    r#"
 import './foo';
 import bar from './bar';
 import './derp';
 import { qux } from './qux';
 
 "#,
-  r#"
+    r#"
 define(["./foo", "./bar", "./derp", "./qux"], function (_foo, _bar, _derp, _qux) {
   "use strict";
 
@@ -782,15 +782,15 @@ define(["./foo", "./bar", "./derp", "./qux"], function (_foo, _bar, _derp, _qux)
 
 // amd_export_specifier_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_specifier_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_specifier_default,
+    r#"
 var a = 1;
 export { a as default };
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -856,10 +856,10 @@ define(["exports"], function (_exports) {
 
 // amd_imports_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_imports_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_imports_named,
+    r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
 import {bar as baz2} from "foo";
@@ -873,7 +873,7 @@ baz3;
 xyz;
 
 "#,
-  r#"
+    r#"
 define(["foo"], function (_foo) {
   "use strict";
 
@@ -890,14 +890,14 @@ define(["foo"], function (_foo) {
 
 // amd_export_default_6
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_default_6,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_default_6,
+    r#"
 export default class {}
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -920,15 +920,15 @@ define(["exports"], function (_exports) {
 
 // amd_export_named_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  amd_export_named_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    amd_export_named_5,
+    r#"
 var foo, bar;
 export {foo as default, bar};
 
 "#,
-  r#"
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 

@@ -1,24 +1,24 @@
 use super::*;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
-  Default::default()
+    Default::default()
 }
 
-fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
-  common_js()
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    common_js(helpers)
 }
 
 // strict_export_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_2,
+    r#"
 var foo;
 export { foo as default };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.default = void 0;
@@ -30,10 +30,10 @@ exports.default = foo;
 
 // interop_hoist_function_exports
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_hoist_function_exports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_hoist_function_exports,
+    r#"
 import { isEven } from "./evens";
 
 export function nextOdd(n) {
@@ -47,7 +47,7 @@ export var isOdd = (function (isEven) {
 })(isEven);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -77,14 +77,14 @@ exports.isOdd = isOdd;
 
 // misc_undefined_this_root_declaration
 test!(
-  syntax(),
-  tr(Default::default()),
-  misc_undefined_this_root_declaration,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    misc_undefined_this_root_declaration,
+    r#"
 var self = this;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var self = void 0;
@@ -94,14 +94,14 @@ var self = void 0;
 
 // interop_export_default_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_3,
+    r#"
 export default [];
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -116,16 +116,16 @@ exports.default = _default;
 
 // misc_copy_getters_setters
 test!(
-  syntax(),
-  tr(Default::default()),
-  misc_copy_getters_setters,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    misc_copy_getters_setters,
+    r#"
 import Foo, { baz } from "./moduleWithGetter";
 
 export { Foo, baz };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -161,10 +161,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // update_expression_positive_suffix
 test!(
-  syntax(),
-  tr(Default::default()),
-  update_expression_positive_suffix,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    update_expression_positive_suffix,
+    r#"
 export let diffLevel = 0;
 
 export function diff() {
@@ -174,7 +174,7 @@ export function diff() {
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -196,16 +196,16 @@ function diff() {
 
 // interop_export_default_11
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_11,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_11,
+    r#"
 export default new Cachier()
 
 export function Cachier(databaseName) {}
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -225,15 +225,15 @@ function Cachier(databaseName) {}
 
 // interop_export_named_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_named_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_named_5,
+    r#"
 var foo, bar;
 export {foo as default, bar};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -296,14 +296,14 @@ exports.foo9 = foo9;
 
 // interop_export_from_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from_2,
+    r#"
 export {foo} from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -323,15 +323,15 @@ var _foo = require("foo");
 
 // lazy_local_reexport_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_reexport_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_reexport_default,
+    r#"
 import foo from "./foo";
 export { foo as default };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -344,29 +344,29 @@ Object.defineProperty(exports, "default", {
   }
 });
 
-var _foo = babelHelpers.interopRequireDefault(require("./foo"));
+var _foo = _interopRequireDefault(require("./foo"));
 
 "#
 );
 
 // lazy_local_reexport_namespace
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_reexport_namespace,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_reexport_namespace,
+    r#"
 import * as namespace from "./foo";
 export { namespace };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.namespace = void 0;
-var namespace = babelHelpers.interopRequireDefault(require("./foo"));
+var namespace = _interopRequireDefault(require("./foo"));
 exports.namespace = namespace;
 
 "#
@@ -378,14 +378,14 @@ exports.namespace = namespace;
 
 // interop_export_default_6
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_6,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_6,
+    r#"
 export default class {}
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -400,18 +400,18 @@ exports.default = _default;
 "#
 );
 
-// noInterop_import_default_only
+// no_interop_import_default_only
 test!(
-  syntax(),
-  tr(Default::default()),
-  noInterop_import_default_only,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    no_interop_import_default_only,
+    r#"
 import foo from "foo";
 
 foo();
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _foo = require("foo");
@@ -425,14 +425,14 @@ var _foo = require("foo");
 
 // interop_export_from_7
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from_7,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from_7,
+    r#"
 export {default as foo} from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -445,17 +445,17 @@ Object.defineProperty(exports, "foo", {
   }
 });
 
-var _foo = babelHelpers.interopRequireDefault(require("foo"));
+var _foo = _interopRequireDefault(require("foo"));
 
 "#
 );
 
 // interop_remap
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_remap,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_remap,
+    r#"
 export var test = 2;
 test = 5;
 test++;
@@ -479,7 +479,7 @@ export { d as e, d as f };
 d = 4;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -514,14 +514,14 @@ exports.f = exports.e = d = 4;
 
 // lazy_dep_reexport_all
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_reexport_all,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_reexport_all,
+    r#"
 export * from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -549,14 +549,14 @@ Object.keys(_foo).forEach(function (key) {
 
 // lazy_local_sideeffect
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_sideeffect,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_sideeffect,
+    r#"
 import "./a";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 require("./a");
@@ -566,14 +566,14 @@ require("./a");
 
 // strict_export_const_destructuring_deep
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_deep,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_deep,
+    r#"
 export const { foo: { bar: [baz, qux] } } = {};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.qux = exports.baz = void 0;
@@ -590,14 +590,14 @@ exports.baz = baz;
 
 // lazy_local_reexport_all
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_reexport_all,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_reexport_all,
+    r#"
 export * from "./foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -623,14 +623,14 @@ Object.keys(_foo).forEach(function (key) {
 
 // interop_export_from_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from_4,
+    r#"
 export {foo as bar} from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -650,10 +650,10 @@ var _foo = require("foo");
 
 // interop_export_destructured
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_destructured,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_destructured,
+    r#"
 export let x = 0;
 export let y = 0;
 
@@ -674,7 +674,7 @@ export function f4 () {
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -725,14 +725,14 @@ function f4() {
 
 // strict_export_const_destructuring_array
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_array,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_array,
+    r#"
 export const [foo, bar] = [];
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -745,15 +745,15 @@ exports.foo = foo;
 
 // interop_export_named_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_named_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_named_3,
+    r#"
 var foo;
 export {foo as bar};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -770,17 +770,17 @@ exports.bar = foo;
 
 // interop_imports_glob
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_imports_glob,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_imports_glob,
+    r#"
 import * as foo from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var foo = babelHelpers.interopRequireWildcard(require("foo"));
+var foo = _interopRequireWildcard(require("foo"));
 
 "#
 );
@@ -791,14 +791,14 @@ var foo = babelHelpers.interopRequireWildcard(require("foo"));
 
 // strict_export
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export,
+    r#"
 export function foo() {}
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.foo = foo;
@@ -808,19 +808,19 @@ function foo() {}
 "#
 );
 
-// noInterop_import_wildcard
+// no_interop_import_wildcard
 test!(
-  syntax(),
-  tr(Default::default()),
-  noInterop_import_wildcard,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    no_interop_import_wildcard,
+    r#"
 import * as foo from 'foo';
 
 foo.bar();
 foo.baz();
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var foo = require("foo");
@@ -833,14 +833,14 @@ foo.baz();
 
 // interop_export_default_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_5,
+    r#"
 export default function () {}
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -855,14 +855,14 @@ function _default() {}
 
 // strict_export_const_destructuring_object_default_params
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_object_default_params,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_object_default_params,
+    r#"
 export const { foo, bar = 1 } = {};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -878,16 +878,16 @@ exports.foo = foo;
 
 // lazy_whitelist_reexport_all
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_reexport_all,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_reexport_all,
+    r#"
 export * from "white";
 
 export * from "black";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -925,20 +925,20 @@ Object.keys(_black).forEach(function (key) {
 
 // lazy_dep_import_namespace
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_import_namespace,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_import_namespace,
+    r#"
 import * as foo from "foo";
 
 console.log(foo);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 function foo() {
-  const data = babelHelpers.interopRequireDefault(require("foo"));
+  const data = _interopRequireDefault(require("foo"));
 
   foo = function () {
     return data;
@@ -954,15 +954,15 @@ console.log(foo());
 
 // lazy_whitelist_reexport_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_reexport_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_reexport_default,
+    r#"
 import foo from "white";
 export { foo as default };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -975,7 +975,7 @@ Object.defineProperty(exports, "default", {
   }
 });
 
-var _white = babelHelpers.interopRequireDefault(require("white"));
+var _white = _interopRequireDefault(require("white"));
 
 "#
 );
@@ -984,14 +984,14 @@ var _white = babelHelpers.interopRequireDefault(require("white"));
 
 // interop_export_default_8
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_8,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_8,
+    r#"
 export default class Foo {}
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1008,14 +1008,14 @@ exports.default = Foo;
 
 // strict_export_1
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_1,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_1,
+    r#"
 export default foo;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.default = void 0;
@@ -1027,16 +1027,16 @@ exports.default = _default;
 
 // lazy_local_import_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_import_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_import_named,
+    r#"
 import { foo } from "./foo";
 
 console.log(foo);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _foo = require("./foo");
@@ -1048,14 +1048,14 @@ console.log(_foo.foo);
 
 // interop_export_default_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_2,
+    r#"
 export default {};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1070,15 +1070,15 @@ exports.default = _default;
 
 // interop_export_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_named,
+    r#"
 var foo;
 export {foo};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1093,22 +1093,22 @@ exports.foo = foo;
 
 // interop_imports_ordering
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_imports_ordering,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_imports_ordering,
+    r#"
 import './foo';
 import bar from './bar';
 import './derp';
 import { qux } from './qux';
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 require("./foo");
 
-var _bar = babelHelpers.interopRequireDefault(require("./bar"));
+var _bar = _interopRequireDefault(require("./bar"));
 
 require("./derp");
 
@@ -1119,16 +1119,16 @@ var _qux = require("./qux");
 
 // strict_export_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_3,
+    r#"
 export {};
 
 export {} from 'foo';
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 require("foo");
@@ -1138,15 +1138,15 @@ require("foo");
 
 // interop_export_named_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_named_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_named_4,
+    r#"
 var foo;
 export {foo as default};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1161,10 +1161,10 @@ exports.default = foo;
 
 // misc_import_const_throw
 test!(
-  syntax(),
-  tr(Default::default()),
-  misc_import_const_throw,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    misc_import_const_throw,
+    r#"
 import Foo from "foo";
 
 import * as Bar from "bar";
@@ -1184,7 +1184,7 @@ Baz = 44;
 ({prop: Baz} = {});
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _foo = _interopRequireDefault(require("foo"));
@@ -1232,19 +1232,19 @@ _baz.Baz = (44, function () {
 
 // lazy_local_import_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_import_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_import_default,
+    r#"
 import foo from "./foo";
 
 console.log(foo);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var _foo = babelHelpers.interopRequireDefault(require("./foo"));
+var _foo = _interopRequireDefault(require("./foo"));
 
 console.log(_foo.default);
 
@@ -1253,10 +1253,10 @@ console.log(_foo.default);
 
 // lazy_whitelist_reexport_namespace
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_reexport_namespace,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_reexport_namespace,
+    r#"
 import * as namespace1 from "white";
 export { namespace1 };
 
@@ -1264,18 +1264,18 @@ import * as namespace2 from "black";
 export { namespace2 };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.namespace2 = exports.namespace1 = void 0;
-var namespace1 = babelHelpers.interopRequireDefault(require("white"));
+var namespace1 = _interopRequireDefault(require("white"));
 exports.namespace1 = namespace1;
 
 function namespace2() {
-  const data = babelHelpers.interopRequireDefault(require("black"));
+  const data = _interopRequireDefault(require("black"));
 
   namespace2 = function () {
     return data;
@@ -1296,14 +1296,14 @@ Object.defineProperty(exports, "namespace2", {
 
 // interop_export_from_3
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from_3,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from_3,
+    r#"
 export {foo, bar} from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1329,15 +1329,15 @@ var _foo = require("foo");
 
 // lazy_dep_reexport_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_reexport_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_reexport_named,
+    r#"
 import { named } from "foo";
 export { named };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1365,10 +1365,10 @@ function _foo() {
 
 // auxiliary_comment_overview
 test!(
-  syntax(),
-  tr(Default::default()),
-  auxiliary_comment_overview,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    auxiliary_comment_overview,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -1388,7 +1388,7 @@ bar2;
 foo;
 
 "#,
-  r#"
+    r#"
 /*before*/
 "use strict";
 
@@ -1416,13 +1416,13 @@ require("./directory/foo-bar")
 
 var
 /*before*/
-_foo2 = babelHelpers.interopRequireDefault(require("foo2"))
+_foo2 = _interopRequireDefault(require("foo2"))
 /*after*/
 ;
 
 var
 /*before*/
-foo2 = babelHelpers.interopRequireDefault(require("foo3"))
+foo2 = _interopRequireDefault(require("foo3"))
 /*after*/
 ;
 
@@ -1506,10 +1506,10 @@ default
 
 // interop_imports_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_imports_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_imports_default,
+    r#"
 import foo from "foo";
 import {default as foo2} from "foo";
 
@@ -1517,10 +1517,10 @@ foo;
 foo2;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var _foo = babelHelpers.interopRequireDefault(require("foo"));
+var _foo = _interopRequireDefault(require("foo"));
 
 _foo.default;
 _foo.default;
@@ -1530,14 +1530,14 @@ _foo.default;
 
 // misc_undefined_this_root_reference
 test!(
-  syntax(),
-  tr(Default::default()),
-  misc_undefined_this_root_reference,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    misc_undefined_this_root_reference,
+    r#"
 this;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 void 0;
@@ -1549,14 +1549,14 @@ void 0;
 
 // interop_export_default_10
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_10,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_10,
+    r#"
 export default (function(){return "foo"})();
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1575,10 +1575,10 @@ exports.default = _default;
 
 // lazy_whitelist_import_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_import_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_import_named,
+    r#"
 import { foo1 } from "white";
 
 console.log(foo1);
@@ -1588,7 +1588,7 @@ import { foo2 } from "black";
 console.log(foo2);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _white = require("white");
@@ -1611,14 +1611,14 @@ console.log(_black().foo2);
 
 // interop_export_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default,
+    r#"
 export default 42;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1635,19 +1635,19 @@ exports.default = _default;
 
 // lazy_local_import_namespace
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_import_namespace,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_import_namespace,
+    r#"
 import * as foo from "./foo";
 
 console.log(foo);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var foo = babelHelpers.interopRequireDefault(require("./foo"));
+var foo = _interopRequireDefault(require("./foo"));
 console.log(foo);
 
 "#
@@ -1657,14 +1657,14 @@ console.log(foo);
 
 // interop_export_default_7
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_7,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_7,
+    r#"
 export default function foo () {}
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1679,10 +1679,10 @@ function foo() {}
 
 // lazy_whitelist_reexport_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_reexport_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_reexport_named,
+    r#"
 import { named1 } from "white";
 export { named1 };
 
@@ -1690,7 +1690,7 @@ import { named2 } from "black";
 export { named2 };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1728,14 +1728,14 @@ function _black() {
 
 // interop_export_from
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from,
+    r#"
 export * from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1757,18 +1757,18 @@ Object.keys(_foo).forEach(function (key) {
 "#
 );
 
-// disable_strict_mode_strictMode_false
+// disable_strict_mode_strict_mode_false
 test!(
-  syntax(),
-  tr(Default::default()),
-  disable_strict_mode_strictMode_false,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    disable_strict_mode_strict_mode_false,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-  r#"
+    r#"
 require("foo");
 
 require("foo-bar");
@@ -1780,14 +1780,14 @@ require("./directory/foo-bar");
 
 // interop_export_from_6
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from_6,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from_6,
+    r#"
 export {foo as default, bar} from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1813,14 +1813,14 @@ var _foo = require("foo");
 
 // interop_export_from_5
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_from_5,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_from_5,
+    r#"
 export {foo as default} from "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1840,10 +1840,10 @@ var _foo = require("foo");
 
 // strict_import
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_import,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_import,
+    r#"
 import foo from "foo";
 import { default as foo2 } from "foo";
 import { foo3 } from "foo";
@@ -1855,10 +1855,10 @@ foo3;
 foo3();
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var foo4 = babelHelpers.interopRequireWildcard(require("foo"));
+var foo4 = _interopRequireWildcard(require("foo"));
 foo4.default;
 foo4.default;
 foo4.foo3;
@@ -1869,15 +1869,15 @@ foo4.foo3;
 
 // interop_export_named_2
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_named_2,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_named_2,
+    r#"
 var foo, bar;
 export {foo, bar};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1893,10 +1893,10 @@ exports.foo = foo;
 
 // lazy_whitelist_import_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_import_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_import_default,
+    r#"
 import foo1 from "white";
 
 console.log(foo1);
@@ -1906,13 +1906,13 @@ import foo2 from "black";
 console.log(foo2);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var _white = babelHelpers.interopRequireDefault(require("white"));
+var _white = _interopRequireDefault(require("white"));
 
 function _black() {
-  const data = babelHelpers.interopRequireDefault(require("black"));
+  const data = _interopRequireDefault(require("black"));
 
   _black = function () {
     return data;
@@ -1929,16 +1929,16 @@ console.log(_black().default);
 
 // interop_imports
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_imports,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_imports,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 require("foo");
@@ -1954,14 +1954,14 @@ require("./directory/foo-bar");
 
 // strict_export_const_destructuring_object
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_object,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_object,
+    r#"
 export const { foo: bar, baz } = {};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.baz = exports.bar = void 0;
@@ -1979,10 +1979,10 @@ exports.bar = bar;
 
 // update_expression_negative_suffix
 test!(
-  syntax(),
-  tr(Default::default()),
-  update_expression_negative_suffix,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    update_expression_negative_suffix,
+    r#"
 export let diffLevel = 0;
 
 export function diff() {
@@ -1992,7 +1992,7 @@ export function diff() {
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2014,16 +2014,16 @@ function diff() {
 
 // interop_module_shadow
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_module_shadow,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_module_shadow,
+    r#"
 export function module() {
   
 }
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2038,14 +2038,14 @@ function _module() {}
 
 // strict_export_const_destructuring_object_rest
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_object_rest,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_object_rest,
+    r#"
 export const { foo, ...bar } = {};
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -2061,15 +2061,15 @@ exports.foo = foo;
 
 // lazy_whitelist_sideeffect
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_sideeffect,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_sideeffect,
+    r#"
 import "white";
 import "black";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 require("white");
@@ -2081,15 +2081,15 @@ require("black");
 
 // lazy_dep_reexport_namespace
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_reexport_namespace,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_reexport_namespace,
+    r#"
 import * as namespace from "foo";
 export { namespace };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2098,7 +2098,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.namespace = void 0;
 
 function namespace() {
-  const data = babelHelpers.interopRequireDefault(require("foo"));
+  const data = _interopRequireDefault(require("foo"));
 
   namespace = function () {
     return data;
@@ -2119,14 +2119,14 @@ Object.defineProperty(exports, "namespace", {
 
 // interop_export_default_4
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_4,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_4,
+    r#"
 export default foo;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2139,16 +2139,16 @@ exports.default = _default;
 "#
 );
 
-// noInterop_export_from
+// no_interop_export_from
 test!(
-  syntax(),
-  tr(Default::default()),
-  noInterop_export_from,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    no_interop_export_from,
+    r#"
 export { default } from 'foo';
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2170,14 +2170,14 @@ var _foo = require("foo");
 
 // lazy_dep_sideeffect
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_sideeffect,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_sideeffect,
+    r#"
 import "foo";
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 require("foo");
@@ -2808,14 +2808,14 @@ var _foo = require("foo");
 
 // strict_export_const_destructuring_array_default_params
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_array_default_params,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_array_default_params,
+    r#"
 export const [foo, bar = 2] = [];
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.bar = exports.foo = void 0;
@@ -2828,10 +2828,10 @@ exports.foo = foo;
 
 // interop_imports_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_imports_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_imports_named,
+    r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
 import {bar as baz2} from "foo";
@@ -2845,7 +2845,7 @@ baz3;
 xyz;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var _foo = require("foo");
@@ -2866,10 +2866,10 @@ _foo.xyz;
 
 // lazy_whitelist_import_namespace
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_whitelist_import_namespace,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_whitelist_import_namespace,
+    r#"
 import * as foo1 from "white";
 
 console.log(foo1);
@@ -2879,13 +2879,13 @@ import * as foo2 from "black";
 console.log(foo2);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var foo1 = babelHelpers.interopRequireDefault(require("white"));
+var foo1 = _interopRequireDefault(require("white"));
 
 function foo2() {
-  const data = babelHelpers.interopRequireDefault(require("black"));
+  const data = _interopRequireDefault(require("black"));
 
   foo2 = function () {
     return data;
@@ -2902,16 +2902,16 @@ console.log(foo2());
 
 // lazy_dep_import_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_import_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_import_named,
+    r#"
 import { foo } from "foo";
 
 console.log(foo);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 function _foo() {
@@ -2931,15 +2931,15 @@ console.log(_foo().foo);
 
 // lazy_dep_reexport_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_reexport_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_reexport_default,
+    r#"
 import foo from "foo";
 export { foo as default };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2953,7 +2953,7 @@ Object.defineProperty(exports, "default", {
 });
 
 function _foo() {
-  const data = babelHelpers.interopRequireDefault(require("foo"));
+  const data = _interopRequireDefault(require("foo"));
 
   _foo = function () {
     return data;
@@ -2967,16 +2967,16 @@ function _foo() {
 
 // interop_export_default_9
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_default_9,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_default_9,
+    r#"
 var foo;
 export { foo as default };
 
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2991,14 +2991,14 @@ exports.default = foo;
 
 // misc_undefined_this_arrow_function
 test!(
-  syntax(),
-  tr(Default::default()),
-  misc_undefined_this_arrow_function,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    misc_undefined_this_arrow_function,
+    r#"
 var foo = () => this;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 var foo = () => void 0;
@@ -3008,14 +3008,14 @@ var foo = () => void 0;
 
 // misc_undefined_this_root_call
 test!(
-  syntax(),
-  tr(Default::default()),
-  misc_undefined_this_root_call,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    misc_undefined_this_root_call,
+    r#"
 this.foo();
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 (void 0).foo();
@@ -3025,20 +3025,20 @@ this.foo();
 
 // strict_import_wildcard
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_import_wildcard,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_import_wildcard,
+    r#"
 import * as foo from 'foo';
 
 foo.bar();
 foo.baz();
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var foo = babelHelpers.interopRequireWildcard(require("foo"));
+var foo = _interopRequireWildcard(require("foo"));
 foo.bar();
 foo.baz();
 
@@ -3047,20 +3047,20 @@ foo.baz();
 
 // lazy_dep_import_default
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_dep_import_default,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_dep_import_default,
+    r#"
 import foo from "foo";
 
 console.log(foo);
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 function _foo() {
-  const data = babelHelpers.interopRequireDefault(require("foo"));
+  const data = _interopRequireDefault(require("foo"));
 
   _foo = function () {
     return data;
@@ -3076,15 +3076,15 @@ console.log(_foo().default);
 
 // lazy_local_reexport_named
 test!(
-  syntax(),
-  tr(Default::default()),
-  lazy_local_reexport_named,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    lazy_local_reexport_named,
+    r#"
 import { named } from "./foo";
 export { named };
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3104,14 +3104,14 @@ var _foo = require("./foo");
 
 // strict_export_const_destructuring_array_rest
 test!(
-  syntax(),
-  tr(Default::default()),
-  strict_export_const_destructuring_array_rest,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    strict_export_const_destructuring_array_rest,
+    r#"
 export const [foo, bar, ...baz] = [];
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 exports.baz = exports.bar = exports.foo = void 0;
@@ -3131,20 +3131,20 @@ exports.foo = foo;
 
 // interop_imports_mixing
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_imports_mixing,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_imports_mixing,
+    r#"
 import foo, {baz as xyz} from "foo";
 
 foo;
 xyz;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
-var _foo = babelHelpers.interopRequireWildcard(require("foo"));
+var _foo = _interopRequireWildcard(require("foo"));
 
 _foo.default;
 _foo.baz;
@@ -3154,10 +3154,10 @@ _foo.baz;
 
 // interop_overview
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_overview,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_overview,
+    r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -3175,7 +3175,7 @@ bar2;
 foo;
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3189,9 +3189,9 @@ require("foo-bar");
 
 require("./directory/foo-bar");
 
-var _foo2 = babelHelpers.interopRequireDefault(require("foo2"));
+var _foo2 = _interopRequireDefault(require("foo2"));
 
-var foo2 = babelHelpers.interopRequireWildcard(require("foo3"));
+var foo2 = _interopRequireWildcard(require("foo3"));
 
 var _foo4 = require("foo4");
 
@@ -3212,10 +3212,10 @@ _foo2.default;
 
 // interop_export_all
 test!(
-  syntax(),
-  tr(Default::default()),
-  interop_export_all,
-  r#"
+    syntax(),
+    tr(Default::default()),
+    interop_export_all,
+    r#"
 // The fact that this exports both a normal default, and all of the names via
 // re-export is an edge case that is important not to miss. See
 // https://github.com/babel/babel/issues/8306 as an example.
@@ -3224,7 +3224,7 @@ export default _default;
 export * from 'react';
 
 "#,
-  r#"
+    r#"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3233,7 +3233,7 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {};
 exports.default = void 0;
 
-var _react = babelHelpers.interopRequireWildcard(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 Object.keys(_react).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3260,10 +3260,10 @@ exports.default = _default2;
 
 // source_map_exec
 test_exec!(
-  syntax(),
-  tr,
-  source_map_exec,
-  r#"
+    syntax(),
+    tr,
+    source_map_exec,
+    r#"
 var tests = [
   'import "foo";',
   'import foo from "foo";',
@@ -3299,5 +3299,3 @@ tests.forEach(function (code) {
 
 "#
 );
-
-// noInterop
