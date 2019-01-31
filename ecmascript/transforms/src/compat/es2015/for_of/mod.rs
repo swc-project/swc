@@ -48,6 +48,7 @@ pub fn for_of() -> impl Pass + Clone + Copy {
 
 #[derive(Clone, Copy)]
 struct ForOf;
+pass_clone!(ForOf);
 
 /// Real folder.
 #[derive(Default)]

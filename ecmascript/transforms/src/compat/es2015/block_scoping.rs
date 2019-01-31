@@ -8,6 +8,7 @@ pub fn block_scoping() -> impl Pass + Clone + Copy {
 
 #[derive(Clone, Copy)]
 struct BlockScoping;
+pass_clone!(BlockScoping);
 
 impl Fold<VarDecl> for BlockScoping {
     fn fold(&mut self, var: VarDecl) -> VarDecl {

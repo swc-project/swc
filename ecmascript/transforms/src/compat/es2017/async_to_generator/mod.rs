@@ -38,6 +38,8 @@ pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Pass + Clone {
 struct AsyncToGenerator {
     helpers: Arc<Helpers>,
 }
+pass_from!(AsyncToGenerator, |helpers| AsyncToGenerator { helpers });
+
 struct Actual {
     helpers: Arc<Helpers>,
     extra_stmts: Vec<Stmt>,

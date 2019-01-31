@@ -9,6 +9,7 @@ pub fn strip() -> impl Pass + Clone + Copy {
 
 #[derive(Clone, Copy)]
 struct Strip;
+pass_clone!(Strip);
 
 impl Fold<Vec<ModuleItem>> for Strip {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {

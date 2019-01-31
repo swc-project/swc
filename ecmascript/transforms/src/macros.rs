@@ -24,3 +24,23 @@ macro_rules! chain_at {
         }
     }};
 }
+
+macro_rules! pass_clone {
+    ($T:tt) => {
+        impl crate::pass::New for $T {
+            fn new(&self, _: ::std::sync::Arc<crate::helpers::Helpers>) -> Self {
+                self.clone()
+            }
+        }
+    };
+}
+
+macro_rules! pass_from {
+    ($T:ty, $op:expr) => {
+        impl crate::pass::New for $T {
+            fn new(&self, helpers: ::std::sync::Arc<crate::helpers::Helpers>) -> Self {
+                $op(helpers)
+            }
+        }
+    };
+}

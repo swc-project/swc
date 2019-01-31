@@ -92,6 +92,7 @@ struct Jsx {
     use_builtins: bool,
     helpers: Arc<Helpers>,
 }
+pass_clone!(Jsx);
 
 impl Jsx {
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {

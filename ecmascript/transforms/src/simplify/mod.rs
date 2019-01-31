@@ -16,6 +16,7 @@ pub fn simplifier(enable: bool) -> impl Pass + Clone + Copy + 'static {
 struct Simplifier {
     enable: bool,
 }
+pass_clone!(Simplifier);
 
 impl<T: StmtLike> Fold<Vec<T>> for Simplifier
 where
