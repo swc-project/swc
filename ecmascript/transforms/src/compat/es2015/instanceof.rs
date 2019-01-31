@@ -32,6 +32,7 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith};
 pub struct InstanceOf {
     pub helpers: Arc<Helpers>,
 }
+pass_from!(InstanceOf, |helpers| InstanceOf { helpers });
 
 impl Fold<Expr> for InstanceOf {
     fn fold(&mut self, expr: Expr) -> Expr {

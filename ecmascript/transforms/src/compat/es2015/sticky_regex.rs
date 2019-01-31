@@ -19,6 +19,7 @@ use swc_common::{Fold, FoldWith};
 /// ```
 #[derive(Clone, Copy)]
 pub struct StickyRegex;
+pass_clone!(StickyRegex);
 
 impl Fold<Expr> for StickyRegex {
     fn fold(&mut self, e: Expr) -> Expr {

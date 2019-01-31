@@ -42,6 +42,10 @@ struct ClassProperties {
     helpers: Arc<Helpers>,
     mark: Mark,
 }
+pass_from!(ClassProperties, |helpers| ClassProperties {
+    helpers,
+    mark: Mark::root(),
+});
 
 impl<T> Fold<Vec<T>> for ClassProperties
 where

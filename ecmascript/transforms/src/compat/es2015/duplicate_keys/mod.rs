@@ -13,6 +13,7 @@ pub fn duplicate_keys() -> impl Pass + Clone + Copy {
 
 #[derive(Default, Clone, Copy)]
 struct DuplicateKeys;
+pass_clone!(DuplicateKeys);
 
 impl Fold<Expr> for DuplicateKeys {
     fn fold(&mut self, expr: Expr) -> Expr {

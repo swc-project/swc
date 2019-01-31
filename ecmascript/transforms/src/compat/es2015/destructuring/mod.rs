@@ -1,6 +1,6 @@
 use crate::{
     helpers::Helpers,
-    pass::Pass,
+    pass::{New, Pass},
     util::{prop_name_to_expr, ExprFactory, StmtLike},
 };
 use ast::*;
@@ -32,7 +32,7 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass + Clone {
+pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass {
     Destructuring { helpers }
 }
 
@@ -40,6 +40,7 @@ pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass + Clone {
 struct Destructuring {
     helpers: Arc<Helpers>,
 }
+pass_from!(Destructuring, |helpers| Destructuring { helpers });
 
 macro_rules! impl_for_for_stmt {
     ($T:tt) => {

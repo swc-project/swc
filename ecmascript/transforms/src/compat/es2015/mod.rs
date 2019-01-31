@@ -29,8 +29,8 @@ mod template_literal;
 mod typeof_symbol;
 
 /// Compiles es2015 to es5.
-pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
-    fn exprs(helpers: &Arc<Helpers>) -> impl Pass + Clone {
+pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass {
+    fn exprs(helpers: &Arc<Helpers>) -> impl Pass {
         chain_at!(
             Expr,
             arrow(),
@@ -52,7 +52,7 @@ pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
         )
     }
 
-    fn stmts(helpers: &Arc<Helpers>) -> impl Pass + Clone {
+    fn stmts(helpers: &Arc<Helpers>) -> impl Pass {
         chain_at!(
             Stmt,
             function_name(),

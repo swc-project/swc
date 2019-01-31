@@ -15,6 +15,7 @@ pub fn jsx_self(dev: bool) -> impl Pass + Clone + Copy {
 struct JsxSelf {
     dev: bool,
 }
+pass_clone!(JsxSelf);
 
 impl Fold<JSXOpeningElement> for JsxSelf {
     fn fold(&mut self, mut n: JSXOpeningElement) -> JSXOpeningElement {

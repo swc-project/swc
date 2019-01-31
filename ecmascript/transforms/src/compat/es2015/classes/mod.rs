@@ -63,6 +63,7 @@ mod tests;
 pub struct Classes {
     pub helpers: Arc<Helpers>,
 }
+pass_from!(Classes, |helpers| Classes { helpers });
 
 struct Data {
     key_prop: Box<Prop>,

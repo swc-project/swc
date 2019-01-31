@@ -20,6 +20,7 @@ use swc_common::{Fold, FoldWith};
 /// ```
 #[derive(Default, Clone, Copy)]
 pub struct ReservedWord;
+pass_clone!(ReservedWord);
 
 impl Fold<Ident> for ReservedWord {
     fn fold(&mut self, i: Ident) -> Ident {

@@ -24,6 +24,7 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith};
 pub struct TypeOfSymbol {
     pub helpers: Arc<Helpers>,
 }
+pass_from!(TypeOfSymbol, |helpers| TypeOfSymbol { helpers });
 
 impl Fold<Expr> for TypeOfSymbol {
     fn fold(&mut self, expr: Expr) -> Expr {

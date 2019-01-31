@@ -123,6 +123,7 @@ pub fn hygiene() -> impl Pass + Clone + Copy {
                 .fold_with(&mut MarkClearer)
         }
     }
+    pass_clone!(Folder);
 
     Folder
 }

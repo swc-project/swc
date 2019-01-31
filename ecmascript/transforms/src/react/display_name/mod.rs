@@ -14,6 +14,7 @@ pub fn display_name() -> impl Pass + Clone + Copy {
 
 #[derive(Clone, Copy)]
 struct DisplayName;
+pass_clone!(DisplayName);
 
 impl Fold<VarDeclarator> for DisplayName {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {

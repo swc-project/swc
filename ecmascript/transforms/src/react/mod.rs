@@ -5,6 +5,7 @@ pub use self::{
     jsx_src::jsx_src,
 };
 use crate::{helpers::Helpers, pass::Pass};
+use ast::Module;
 use std::sync::Arc;
 use swc_common::{sync::Lrc, SourceMap};
 
@@ -19,7 +20,8 @@ mod jsx_src;
 pub fn react(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl Pass + Clone {
     let Options { development, .. } = options;
 
-    chain!(
+    chain_at!(
+        Module,
         jsx(cm.clone(), options, helpers),
         display_name(),
         jsx_src(development, cm),
