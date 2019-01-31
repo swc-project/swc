@@ -409,6 +409,79 @@ impl<'a> Scope<'a> {
     }
 }
 
+#[macro_export]
+macro_rules! track_ident {
+    ($T:tt) => {
+        impl<'a> Fold<ExportSpecifier> for $T<'a> {
+            fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
+                let old_in_var_decl = self.in_var_decl;
+                self.in_var_decl = false;
+
+                let s = s.fold_children(self);
+
+                self.in_var_decl = old_in_var_decl;
+
+                s
+            }
+        }
+
+        impl<'a> Fold<ImportSpecifier> for $T<'a> {
+            fn fold(&mut self, s: ImportSpecifier) -> ImportSpecifier {
+                let old_in_var_decl = self.in_var_decl;
+                self.in_var_decl = true;
+
+                let s = match s {
+                    ImportSpecifier::Specific(ImportSpecific { imported: None, .. })
+                    | ImportSpecifier::Namespace(..)
+                    | ImportSpecifier::Default(..) => s.fold_children(self),
+                    ImportSpecifier::Specific(s) => ImportSpecifier::Specific(ImportSpecific {
+                        local: s.local.fold_with(self),
+                        ..s
+                    }),
+                };
+
+                self.in_var_decl = old_in_var_decl;
+
+                s
+            }
+        }
+
+        impl<'a> Fold<Constructor> for $T<'a> {
+            fn fold(&mut self, c: Constructor) -> Constructor {
+                let old_in_var_decl = self.in_var_decl;
+                self.in_var_decl = true;
+                let params = c.params.fold_with(self);
+                self.in_var_decl = old_in_var_decl;
+
+                let body = c.body.fold_with(self);
+                let key = c.key.fold_with(self);
+
+                Constructor {
+                    params,
+                    body,
+                    key,
+                    ..c
+                }
+            }
+        }
+
+        impl<'a> Fold<CatchClause> for $T<'a> {
+            fn fold(&mut self, c: CatchClause) -> CatchClause {
+                let old_in_var_decl = self.in_var_decl;
+                self.in_var_decl = true;
+                let param = c.param.fold_with(self);
+                self.in_var_decl = old_in_var_decl;
+
+                let body = c.body.fold_with(self);
+
+                CatchClause { param, body, ..c }
+            }
+        }
+    };
+}
+
+track_ident!(Hygiene);
+
 impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
     fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
         let mut folder = Hygiene {
@@ -423,37 +496,5 @@ impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
         node.body = node.body.fold_with(&mut folder);
 
         folder.apply_ops(node)
-    }
-}
-
-impl<'a> Fold<Constructor> for Hygiene<'a> {
-    fn fold(&mut self, c: Constructor) -> Constructor {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
-        let params = c.params.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
-
-        let body = c.body.fold_with(self);
-        let key = c.key.fold_with(self);
-
-        Constructor {
-            params,
-            body,
-            key,
-            ..c
-        }
-    }
-}
-
-impl<'a> Fold<CatchClause> for Hygiene<'a> {
-    fn fold(&mut self, c: CatchClause) -> CatchClause {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
-        let param = c.param.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
-
-        let body = c.body.fold_with(self);
-
-        CatchClause { param, body, ..c }
     }
 }

@@ -49,10 +49,11 @@ mod tests;
 mod quote;
 #[macro_use]
 mod macros;
+#[macro_use]
+mod hygiene;
 pub mod compat;
 mod fixer;
 pub mod helpers;
-mod hygiene;
 mod inline_globals;
 pub mod modules;
 pub mod pass;

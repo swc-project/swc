@@ -600,3 +600,5 @@ identical!(
     var i = new Bar();
     expect(i[sym]()).toBe(3);"
 );
+
+identical!(module_01, "import { foo as foo } from 'src';");

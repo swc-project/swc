@@ -52,13 +52,23 @@ fn test<F>(op: F, expected: &str)
 where
     F: FnOnce(&mut crate::tests::Tester) -> Result<Vec<Stmt>, ()>,
 {
-    ::tests::Tester::run(|tester| {
-        let stmts = op(tester)?;
+    test_module(
+        |tester| {
+            Ok(Module {
+                span: DUMMY_SP,
+                body: op(tester)?.into_iter().map(ModuleItem::Stmt).collect(),
+            })
+        },
+        expected,
+    )
+}
 
-        let module = Module {
-            span: DUMMY_SP,
-            body: stmts.into_iter().map(ModuleItem::Stmt).collect(),
-        };
+fn test_module<F>(op: F, expected: &str)
+where
+    F: FnOnce(&mut crate::tests::Tester) -> Result<Module, ()>,
+{
+    ::tests::Tester::run(|tester| {
+        let module = op(tester)?;
 
         let module = module.fold_with(&mut hygiene());
 
@@ -929,5 +939,67 @@ fn regression_005() {
         },
         "var foo = (...args)=>{}
         var bar = (...args)=>{}",
+    );
+}
+
+#[test]
+fn module_01() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "import foo from 'src1';
+                    import foo from 'src2';",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2])])))
+        },
+        "import foo from 'src1';
+        import foo1 from 'src2';",
+    );
+}
+
+#[test]
+fn module_02() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "import {foo} from 'src1';
+                    import {foo} from 'src2';",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2])])))
+        },
+        "import {foo} from 'src1';
+        import {foo as foo1} from 'src2';",
+    );
+}
+
+#[test]
+fn module_03() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "var foo = 1;
+                    var foo = 2;
+                    export {foo}",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2, mark2])])))
+        },
+        "var foo = 1;
+        var foo1 = 2;
+        export {foo1 as foo}",
     );
 }

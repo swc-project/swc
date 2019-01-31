@@ -292,6 +292,8 @@ impl<'a> Fold<Ident> for Resolver<'a> {
     }
 }
 
+track_ident!(Resolver);
+
 impl<'a> Fold<ArrowExpr> for Resolver<'a> {
     fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
         let old_in_var_decl = self.in_var_decl;
@@ -302,37 +304,5 @@ impl<'a> Fold<ArrowExpr> for Resolver<'a> {
         let body = e.body.fold_with(self);
 
         ArrowExpr { params, body, ..e }
-    }
-}
-
-impl<'a> Fold<Constructor> for Resolver<'a> {
-    fn fold(&mut self, c: Constructor) -> Constructor {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
-        let params = c.params.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
-
-        let body = c.body.fold_with(self);
-        let key = c.key.fold_with(self);
-
-        Constructor {
-            params,
-            body,
-            key,
-            ..c
-        }
-    }
-}
-
-impl<'a> Fold<CatchClause> for Resolver<'a> {
-    fn fold(&mut self, c: CatchClause) -> CatchClause {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
-        let param = c.param.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
-
-        let body = c.body.fold_with(self);
-
-        CatchClause { param, body, ..c }
     }
 }

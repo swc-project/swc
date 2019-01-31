@@ -53,6 +53,15 @@ impl<'a> Tester<'a> {
         op(&mut p)
     }
 
+    pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Module, ()> {
+        self.with_parser(file_name, Syntax::default(), src, |p| {
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        })
+    }
+
     pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
         let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
             p.parse_script().map_err(|mut e| {
