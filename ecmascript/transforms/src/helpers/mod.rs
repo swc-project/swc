@@ -79,8 +79,25 @@ macro_rules! define_helpers {
                 buf
             }
         }
+
+        impl Fold<Module> for HelperResetter {
+            fn fold(&mut self, module:Module)->Module{
+                $(
+                    self.helpers.$name.store(false, Ordering::Relaxed);
+                )*
+                
+                module
+            }
+        }
     };
 }
+
+/// Disables all helpers.
+/// Used to reset list of injected helpers.
+pub struct HelperResetter {
+    pub helpers: Arc<Helpers>,
+}
+
 define_helpers!(Helpers {
     apply_decorated_descriptor: (),
     array_with_holes: (),
