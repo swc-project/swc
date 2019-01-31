@@ -1,4 +1,8 @@
-use super::*;
+use super::common_js;
+use crate::helpers::Helpers;
+use ast::*;
+use std::sync::Arc;
+use swc_common::Fold;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()

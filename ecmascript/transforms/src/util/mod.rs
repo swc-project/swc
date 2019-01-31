@@ -14,7 +14,7 @@ use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
     num::FpCategory,
-    ops::Add,
+    ops::{Add, Deref, DerefMut},
 };
 use swc_atoms::JsWord;
 use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -906,3 +906,36 @@ pub trait IdentExt: Into<Ident> {
 }
 
 impl<T> IdentExt for T where T: Into<Ident> {}
+
+/// Variable which is resetted on .clone()
+#[derive(Default, Copy)]
+pub(crate) struct PerPassVar<T: Default> {
+    pub value: T,
+}
+
+impl<T: Default> From<T> for PerPassVar<T> {
+    fn from(value: T) -> Self {
+        PerPassVar { value }
+    }
+}
+
+impl<T: Default> Deref for PerPassVar<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.value
+    }
+}
+
+impl<T: Default> DerefMut for PerPassVar<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        &mut self.value
+    }
+}
+
+impl<T: Default> Clone for PerPassVar<T> {
+    fn clone(&self) -> Self {
+        PerPassVar {
+            value: Default::default(),
+        }
+    }
+}

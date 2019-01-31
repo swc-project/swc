@@ -8,7 +8,7 @@ use crate::{
     pass::Pass,
     util::{
         alias_ident_for, constructor::inject_after_super, default_constructor, undefined,
-        ExprFactory, ModuleItemLike, StmtLike,
+        ExprFactory, ModuleItemLike, PerPassVar, StmtLike,
     },
 };
 use ast::*;
@@ -309,7 +309,7 @@ impl ClassProperties {
 
                         _ => {
                             let mut ident = alias_ident_for(&prop.key, "_ref");
-                            ident.span = ident.span.apply_mark(Mark::fresh(self.mark));
+                            ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
                             // Handle computed property
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
