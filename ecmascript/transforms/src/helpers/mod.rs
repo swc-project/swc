@@ -85,7 +85,7 @@ macro_rules! define_helpers {
                 $(
                     self.helpers.$name.store(false, Ordering::Relaxed);
                 )*
-                
+
                 module
             }
         }

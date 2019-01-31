@@ -102,7 +102,9 @@ impl<'a> Resolver<'a> {
             span: if mark == Mark::root() {
                 ident.span
             } else {
-                eprintln!("\t-> {:?}", mark);
+                if cfg!(debug_assertions) && LOG {
+                    eprintln!("\t-> {:?}", mark);
+                }
                 ident.span.apply_mark(mark)
             },
             sym: ident.sym,
