@@ -94,6 +94,7 @@ macro_rules! define_helpers {
 
 /// Disables all helpers.
 /// Used to reset list of injected helpers.
+#[derive(Clone)]
 pub struct HelperResetter {
     pub helpers: Arc<Helpers>,
 }
