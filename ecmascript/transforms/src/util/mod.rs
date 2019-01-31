@@ -909,32 +909,32 @@ impl<T> IdentExt for T where T: Into<Ident> {}
 
 /// Variable which is resetted on .clone()
 #[derive(Default, Copy)]
-pub(crate) struct PerPassVar<T: Default> {
+pub(crate) struct State<T: Default> {
     pub value: T,
 }
 
-impl<T: Default> From<T> for PerPassVar<T> {
+impl<T: Default> From<T> for State<T> {
     fn from(value: T) -> Self {
-        PerPassVar { value }
+        State { value }
     }
 }
 
-impl<T: Default> Deref for PerPassVar<T> {
+impl<T: Default> Deref for State<T> {
     type Target = T;
     fn deref(&self) -> &T {
         &self.value
     }
 }
 
-impl<T: Default> DerefMut for PerPassVar<T> {
+impl<T: Default> DerefMut for State<T> {
     fn deref_mut(&mut self) -> &mut T {
         &mut self.value
     }
 }
 
-impl<T: Default> Clone for PerPassVar<T> {
+impl<T: Default> Clone for State<T> {
     fn clone(&self) -> Self {
-        PerPassVar {
+        State {
             value: Default::default(),
         }
     }

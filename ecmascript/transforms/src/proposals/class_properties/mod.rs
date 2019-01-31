@@ -8,7 +8,7 @@ use crate::{
     pass::Pass,
     util::{
         alias_ident_for, constructor::inject_after_super, default_constructor, undefined,
-        ExprFactory, ModuleItemLike, PerPassVar, StmtLike,
+        ExprFactory, ModuleItemLike, StmtLike,
     },
 };
 use ast::*;
