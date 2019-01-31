@@ -62,7 +62,6 @@ pub fn arrow() -> impl Pass + Clone + Copy {
 
 #[derive(Clone, Copy)]
 struct Arrow;
-pass_clone!(Arrow);
 
 impl Fold<Expr> for Arrow {
     fn fold(&mut self, e: Expr) -> Expr {

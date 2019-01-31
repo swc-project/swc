@@ -16,7 +16,6 @@ pub fn resolver() -> Resolver<'static> {
         None,
     )
 }
-pass_from!(Resolver<'static>, |_| resolver());
 
 #[derive(Debug, Clone)]
 struct Scope<'a> {

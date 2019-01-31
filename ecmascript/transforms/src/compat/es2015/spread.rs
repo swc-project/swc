@@ -8,7 +8,6 @@ use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 pub struct Spread {
     pub helpers: Arc<Helpers>,
 }
-pass_from!(Spread, |helpers| Spread { helpers });
 
 impl Fold<Expr> for Spread {
     fn fold(&mut self, e: Expr) -> Expr {

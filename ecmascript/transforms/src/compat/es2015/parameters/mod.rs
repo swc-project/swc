@@ -12,7 +12,6 @@ pub fn parameters() -> Params {
 #[derive(Clone, Copy)]
 pub struct Params;
 // prevent_recurse!(Params, Pat);
-pass_clone!(Params);
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {

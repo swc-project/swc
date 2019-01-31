@@ -1,6 +1,6 @@
 use crate::{
     helpers::Helpers,
-    pass::{New, Pass},
+    pass::Pass,
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
@@ -41,15 +41,14 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(helpers: Arc<Helpers>) -> impl Pass {
+pub fn computed_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
     ComputedProps { helpers }
 }
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 struct ComputedProps {
     helpers: Arc<Helpers>,
 }
-pass_from!(ComputedProps, |helpers| ComputedProps { helpers });
 
 #[derive(Default)]
 struct ObjectLitFolder {

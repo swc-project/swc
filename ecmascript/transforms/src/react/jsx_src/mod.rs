@@ -15,7 +15,6 @@ struct JsxSrc {
     cm: Lrc<SourceMap>,
     dev: bool,
 }
-pass_clone!(JsxSrc);
 
 impl Fold<JSXOpeningElement> for JsxSrc {
     fn fold(&mut self, mut e: JSXOpeningElement) -> JSXOpeningElement {

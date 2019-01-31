@@ -65,10 +65,6 @@ struct Decorators {
     helpers: Arc<Helpers>,
     is_in_strict: bool,
 }
-pass_from!(Decorators, |helpers| Decorators {
-    helpers,
-    is_in_strict: false,
-});
 
 impl Fold<Vec<ModuleItem>> for Decorators {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {

@@ -1,11 +1,6 @@
-use crate::helpers::Helpers;
 use ast::*;
-use std::{marker::PhantomData, sync::Arc};
+use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
-
-pub trait New {
-    fn new(&self, helpers: Arc<Helpers>) -> Self;
-}
 
 macro_rules! mk_impl {
     ($T:ty) => {
@@ -20,9 +15,9 @@ macro_rules! mk_impl {
 macro_rules! mk_trait {
     ($($T:ty,)*) => {
         /// Crazy trait to make traversal fast again.
-        pub trait Pass: New + $( ::swc_common::Fold<$T> + )* {}
+        pub trait Pass: objekt::Clone + $( ::swc_common::Fold<$T> + )* {}
         impl<P> Pass for P
-            where P: ?Sized + New + $( ::swc_common::Fold<$T> +)*{
+            where P: ?Sized + objekt::Clone + $( ::swc_common::Fold<$T> +)*{
 
         }
 
@@ -161,19 +156,6 @@ where
         //     type_name::<T>()
         // );
         self.second.fold(self.first.fold(node))
-    }
-}
-impl<A, B, N> New for JoinedPass<A, B, N>
-where
-    A: New,
-    B: New,
-{
-    fn new(&self, helpers: Arc<Helpers>) -> Self {
-        JoinedPass {
-            first: self.first.new(helpers.clone()),
-            second: self.second.new(helpers),
-            ty: PhantomData,
-        }
     }
 }
 

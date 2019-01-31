@@ -30,7 +30,6 @@ use swc_common::{Fold, FoldWith};
 /// ```
 #[derive(Default, Clone, Copy)]
 pub struct PropertyLiteral;
-pass_clone!(PropertyLiteral);
 
 impl Fold<PropName> for PropertyLiteral {
     fn fold(&mut self, n: PropName) -> PropName {
