@@ -37,7 +37,6 @@ use swc_common::{Fold, FoldWith};
 /// ```
 #[derive(Default, Clone, Copy)]
 pub struct Shorthand;
-pass_clone!(Shorthand);
 
 impl Fold<Prop> for Shorthand {
     fn fold(&mut self, prop: Prop) -> Prop {

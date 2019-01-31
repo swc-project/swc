@@ -9,7 +9,6 @@ mod tests;
 pub struct TemplateLiteral {
     pub helpers: Arc<Helpers>,
 }
-pass_from!(TemplateLiteral, |helpers| TemplateLiteral { helpers });
 
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {

@@ -3,7 +3,6 @@ use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 #[derive(Clone, Copy)]
 pub struct BlockScopedFns;
-pass_clone!(BlockScopedFns);
 
 impl Fold<Stmt> for BlockScopedFns {
     fn fold(&mut self, stmt: Stmt) -> Stmt {

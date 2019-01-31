@@ -12,9 +12,6 @@ pub fn fixer() -> impl Pass + Clone {
 struct Fixer {
     ctx: Context,
 }
-pass_from!(Fixer, |_| Fixer {
-    ctx: Context::Default,
-});
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Context {

@@ -14,7 +14,7 @@ use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
     num::FpCategory,
-    ops::{Add, Deref, DerefMut},
+    ops::Add,
 };
 use swc_atoms::JsWord;
 use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
@@ -906,36 +906,3 @@ pub trait IdentExt: Into<Ident> {
 }
 
 impl<T> IdentExt for T where T: Into<Ident> {}
-
-/// State of the pass. Resetted to default when cloned.
-#[derive(Default, Copy)]
-pub(crate) struct State<T: Default> {
-    value: T,
-}
-
-impl<T: Default> Deref for State<T> {
-    type Target = T;
-    fn deref(&self) -> &T {
-        &self.value
-    }
-}
-
-impl<T: Default> DerefMut for State<T> {
-    fn deref_mut(&mut self) -> &mut T {
-        &mut self.value
-    }
-}
-
-impl<T: Default> From<T> for State<T> {
-    fn from(value: T) -> Self {
-        State { value }
-    }
-}
-
-impl<T: Default> Clone for State<T> {
-    fn clone(&self) -> Self {
-        State {
-            value: Default::default(),
-        }
-    }
-}

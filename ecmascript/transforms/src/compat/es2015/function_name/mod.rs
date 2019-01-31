@@ -27,7 +27,6 @@ pub fn function_name() -> FnName {
 
 #[derive(Clone, Copy)]
 pub struct FnName;
-pass_clone!(FnName);
 
 struct Renamer {
     name: Option<Ident>,

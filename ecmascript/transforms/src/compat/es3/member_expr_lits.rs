@@ -20,7 +20,6 @@ use swc_common::{Fold, FoldWith};
 /// ```
 #[derive(Default, Clone, Copy)]
 pub struct MemberExprLit;
-pass_clone!(MemberExprLit);
 
 impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {

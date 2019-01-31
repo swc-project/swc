@@ -14,8 +14,7 @@ mod tests;
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Pass + Clone {
-    chain_at!(
-        Module,
+    chain!(
         ObjectRest {
             helpers: helpers.clone(),
         },
@@ -27,7 +26,6 @@ pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Pass + Clone {
 struct ObjectRest {
     helpers: Arc<Helpers>,
 }
-pass_from!(ObjectRest, |helpers| ObjectRest { helpers });
 
 struct RestFolder {
     helpers: Arc<Helpers>,
@@ -903,7 +901,6 @@ fn simplify_pat(pat: Pat) -> Pat {
 struct ObjectSpread {
     helpers: Arc<Helpers>,
 }
-pass_from!(ObjectSpread, |helpers| ObjectSpread { helpers });
 
 impl Fold<Expr> for ObjectSpread {
     fn fold(&mut self, expr: Expr) -> Expr {

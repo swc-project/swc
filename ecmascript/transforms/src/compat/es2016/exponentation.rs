@@ -29,7 +29,6 @@ pub fn exponentation() -> impl Pass + Clone {
 }
 #[derive(Clone, Copy)]
 struct Exponentation;
-pass_clone!(Exponentation);
 
 #[derive(Default)]
 struct AssignFolder {
