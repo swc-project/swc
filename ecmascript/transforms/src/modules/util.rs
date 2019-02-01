@@ -23,7 +23,7 @@ pub(super) fn local_name_for_src(src: &Str) -> JsWord {
         return format!("_{}", src.value).into();
     }
 
-    unimplemented!()
+    return format!("_{}", src.value.split("/").last().unwrap()).into();
 }
 
 pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {

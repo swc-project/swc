@@ -11,6 +11,8 @@ use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext, DUMMY_SP};
 
+type IndexMap<K, V> = indexmap::IndexMap<K, V, fxhash::FxBuildHasher>;
+
 #[cfg(test)]
 mod tests;
 
@@ -48,7 +50,7 @@ struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    imports: FxHashMap<JsWord, Option<(JsWord, Span)>>,
+    imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
@@ -494,7 +496,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
             }
         }
 
-        for (src, import) in self.scope.value.imports.drain() {
+        for (src, import) in self.scope.value.imports.drain(..) {
             let require = make_require_call(src.clone());
 
             match import {
