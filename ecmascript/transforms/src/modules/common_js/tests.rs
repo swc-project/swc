@@ -3643,7 +3643,7 @@ foo;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.test2 = exports.test = void 0;
+exports.test = exports.test2 = void 0;
 
 require("foo");
 
