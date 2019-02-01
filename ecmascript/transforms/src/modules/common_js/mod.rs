@@ -98,6 +98,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
             }};
         }
 
+        let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
@@ -208,8 +209,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(..)) => {
-                    // First export
-                    if exports.is_empty() && export_alls.is_empty() {
+                    if !emitted_esmodule {
+                        emitted_esmodule = true;
                         //  Object.defineProperty(exports, '__esModule', {
                         //       value: true
                         //  });
@@ -232,6 +233,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     }
 
                     macro_rules! init_export {
+                        ("default") => {{
+                            init_export!(js_word!("default"))
+                        }};
                         ($name:expr) => {{
                             exports.push($name.clone());
                             initialized.insert($name.clone());
@@ -258,7 +262,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                         | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
-                            init_export!(js_word!("default"))
+                            init_export!("default")
                         }
                         _ => {}
                     }
@@ -292,12 +296,40 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 },
                             ))));
                         }
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::Var(var))) => {
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var.clone()))));
+
+                            for decl in var.decls {
+                                let ident = match decl.name {
+                                    Pat::Ident(i) => i,
+                                    _ => unimplemented!("exporting variable with destructuring"),
+                                };
+
+                                init_export!(ident.sym);
+
+                                extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: quote_ident!("exports").as_obj(),
+                                            computed: false,
+                                            prop: box Expr::Ident(ident.clone()),
+                                        })),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    },
+                                ))));
+                            }
+                        }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..)) => {
                             //
                             extra_stmts.push(item.fold_with(self));
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) => match decl {
                             ExportDefaultDecl::Class(ClassExpr { ident, class }) => {
+                                init_export!("default");
+
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                 extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
@@ -321,6 +353,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 ))));
                             }
                             ExportDefaultDecl::Fn(FnExpr { ident, function }) => {
+                                // init_export!("default");
+
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                 extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
