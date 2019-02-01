@@ -226,18 +226,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             // })
 
                             let key_ident = private_ident!("key");
-                            let get_fn_body = Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: DUMMY_SP,
-                                    arg: Some(box Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: imported.clone().as_obj(),
-                                        prop: box key_ident.clone().into(),
-                                        computed: true,
-                                    })),
-                                })],
-                            });
 
                             let function = Function {
                                 span: DUMMY_SP,
@@ -268,45 +256,13 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                         }),
                                         Stmt::Expr(box define_property(vec![
                                             quote_ident!("exports").as_arg(),
-                                            key_ident.as_arg(),
-                                            ObjectLit {
+                                            key_ident.clone().as_arg(),
+                                            make_descriptor(box Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
-                                                props: vec![
-                                                    PropOrSpread::Prop(box Prop::KeyValue(
-                                                        KeyValueProp {
-                                                            key: PropName::Ident(quote_ident!(
-                                                                "enumerable"
-                                                            )),
-                                                            value: box Lit::Bool(Bool {
-                                                                span: DUMMY_SP,
-                                                                value: true,
-                                                            })
-                                                            .into(),
-                                                        },
-                                                    )),
-                                                    PropOrSpread::Prop(box Prop::KeyValue(
-                                                        KeyValueProp {
-                                                            key: PropName::Ident(quote_ident!(
-                                                                "get"
-                                                            )),
-                                                            value: box FnExpr {
-                                                                ident: None,
-                                                                function: Function {
-                                                                    span: DUMMY_SP,
-                                                                    is_async: false,
-                                                                    is_generator: false,
-                                                                    decorators: Default::default(),
-                                                                    params: vec![],
-                                                                    body: get_fn_body,
-                                                                    return_type: Default::default(),
-                                                                    type_params: Default::default(),
-                                                                },
-                                                            }
-                                                            .into(),
-                                                        },
-                                                    )),
-                                                ],
-                                            }
+                                                obj: imported.clone().as_obj(),
+                                                prop: box key_ident.into(),
+                                                computed: true,
+                                            }))
                                             .as_arg(),
                                         ])),
                                     ],
@@ -315,6 +271,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 type_params: Default::default(),
                             };
 
+                            // We use extra_stmts because it should be placed *after* import
+                            // statements.
                             extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Call(
                                 CallExpr {
                                     span: DUMMY_SP,
@@ -353,10 +311,48 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             //
                             extra_stmts.push(item.fold_with(self));
                         }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(..)) => {
-                            // let imported = export.src.map(|src| import!(src));
 
-                            extra_stmts.push(item.fold_with(self));
+                        // export { foo } from 'foo';
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                            let imported = export.src.clone().map(|src| import!(src));
+
+                            stmts.reserve(export.specifiers.len());
+
+                            for ExportSpecifier { orig, exported, .. } in export.specifiers {
+                                if let Some(ref src) = export.src {
+                                    if orig.sym == js_word!("default") {
+                                        self.scope
+                                            .import_types
+                                            .entry(src.value.clone())
+                                            .or_insert(false);
+                                    }
+                                }
+
+                                stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
+                                    vec![
+                                        quote_ident!("exports").as_arg(),
+                                        {
+                                            // export { foo }
+                                            //  -> 'foo'
+
+                                            // export { foo as bar }
+                                            //  -> 'bar'
+                                            let i = exported.unwrap_or_else(|| orig.clone());
+                                            Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                        },
+                                        make_descriptor(match imported {
+                                            Some(ref imported) => box Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: imported.clone().as_obj(),
+                                                computed: false,
+                                                prop: box Expr::Ident(orig),
+                                            }),
+                                            None => box Expr::Ident(orig).fold_with(self),
+                                        })
+                                        .as_arg(),
+                                    ],
+                                ))));
+                            }
                         }
 
                         _ => unreachable!(),
@@ -461,5 +457,46 @@ impl Fold<Expr> for CommonJs {
             }
             _ => expr.fold_children(self),
         }
+    }
+}
+
+fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
+    let get_fn_body = Some(BlockStmt {
+        span: DUMMY_SP,
+        stmts: vec![Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(get_expr),
+        })],
+    });
+
+    ObjectLit {
+        span: DUMMY_SP,
+        props: vec![
+            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("enumerable")),
+                value: box Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                })
+                .into(),
+            })),
+            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("get")),
+                value: box FnExpr {
+                    ident: None,
+                    function: Function {
+                        span: DUMMY_SP,
+                        is_async: false,
+                        is_generator: false,
+                        decorators: Default::default(),
+                        params: vec![],
+                        body: get_fn_body,
+                        return_type: Default::default(),
+                        type_params: Default::default(),
+                    },
+                }
+                .into(),
+            })),
+        ],
     }
 }
