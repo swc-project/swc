@@ -3698,9 +3698,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var _exportNames = {};
-exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
+exports.default = void 0;
+
+
+// The fact that this exports both a normal default, and all of the names via
+// re-export is an edge case that is important not to miss. See
+// https://github.com/babel/babel/issues/8306 as an example.
+var _default = _react.default;
+exports.default = _default;
 
 Object.keys(_react).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3712,11 +3719,6 @@ Object.keys(_react).forEach(function (key) {
     }
   });
 });
-// The fact that this exports both a normal default, and all of the names via
-// re-export is an edge case that is important not to miss. See
-// https://github.com/babel/babel/issues/8306 as an example.
-var _default2 = _react.default;
-exports.default = _default2;
 
 "#
 );
