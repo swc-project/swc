@@ -9,7 +9,7 @@ use fxhash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::{iter, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
 type IndexMap<K, V> = indexmap::IndexMap<K, V, fxhash::FxBuildHasher>;
 
@@ -65,6 +65,20 @@ struct Scope {
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
     idents: FxHashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+
+    /// Declared variables except const.
+    declared_vars: Vec<(JsWord, SyntaxContext)>,
+
+    /// Maps of exported variables.
+    ///
+    ///
+    /// e.g.
+    ///  - `export { a }`
+    ///   -> `{ a: a }`
+    ///
+    ///  - `export { a as b }`
+    ///   -> `{ a: b }`
+    exported_vars: FxHashMap<(JsWord, SyntaxContext), (JsWord, SyntaxContext)>,
 }
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
@@ -643,6 +657,28 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
             }))));
         }
 
+        if !initialized.is_empty() {
+            // Inject `exports.default = exports.foo = void 0`;
+
+            let mut rhs = undefined(DUMMY_SP);
+
+            for name in initialized.into_iter() {
+                rhs = box Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: quote_ident!("exports").as_callee(),
+                        computed: false,
+                        prop: box Expr::Ident(Ident::new(name, DUMMY_SP)),
+                    })),
+                    op: op!("="),
+                    right: rhs,
+                });
+            }
+
+            stmts.push(ModuleItem::Stmt(Stmt::Expr(rhs)));
+        }
+
         for (src, import) in self.scope.value.imports.drain(..) {
             let require = make_require_call(src.clone());
 
@@ -688,28 +724,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     stmts.push(ModuleItem::Stmt(Stmt::Expr(box require)));
                 }
             }
-        }
-
-        if !initialized.is_empty() {
-            // Inject `exports.default = exports.foo = void 0`;
-
-            let mut rhs = undefined(DUMMY_SP);
-
-            for name in initialized.into_iter() {
-                rhs = box Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span: DUMMY_SP,
-                        obj: quote_ident!("exports").as_callee(),
-                        computed: false,
-                        prop: box Expr::Ident(Ident::new(name, DUMMY_SP)),
-                    })),
-                    op: op!("="),
-                    right: rhs,
-                });
-            }
-
-            stmts.push(ModuleItem::Stmt(Stmt::Expr(rhs)));
         }
 
         stmts.append(&mut extra_stmts);
@@ -760,6 +774,38 @@ impl Fold<Expr> for CommonJs {
             }
             _ => expr.fold_children(self),
         }
+    }
+}
+
+impl Fold<VarDecl> for CommonJs {
+    ///
+    /// - No-op for const variables.
+    /// - collects all declared variables for let and var.
+    fn fold(&mut self, var: VarDecl) -> VarDecl {
+        if var.kind == VarDeclKind::Const {
+            return var;
+        }
+        var.decls.visit_with(&mut VarCollector {
+            to: &mut self.scope.value.declared_vars,
+        });
+
+        var
+    }
+}
+
+struct VarCollector<'a> {
+    pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
+}
+
+impl<'a> Visit<VarDeclarator> for VarCollector<'a> {
+    fn visit(&mut self, node: &VarDeclarator) {
+        node.name.visit_with(self);
+    }
+}
+
+impl<'a> Visit<Ident> for VarCollector<'a> {
+    fn visit(&mut self, i: &Ident) {
+        self.to.push((i.sym.clone(), i.span.ctxt()))
     }
 }
 

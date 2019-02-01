@@ -3699,8 +3699,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {};
 
-var _react = _interopRequireWildcard(require("react"));
 exports.default = void 0;
+var _react = _interopRequireWildcard(require("react"));
 
 
 // The fact that this exports both a normal default, and all of the names via
