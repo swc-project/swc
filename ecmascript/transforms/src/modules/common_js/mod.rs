@@ -219,6 +219,14 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             ExportDefaultDecl::TsInterfaceDecl(..),
                         )) => {}
 
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+                            self.scope
+                                .value
+                                .import_types
+                                .entry(export.src.value.clone())
+                                .and_modify(|v| *v = true);
+                        }
+
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                         | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
                             init_default_export!()
