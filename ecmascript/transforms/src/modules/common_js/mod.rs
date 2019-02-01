@@ -1,8 +1,8 @@
-use super::util::{local_name_for_src, make_require_call};
+use super::util::{define_property, local_name_for_src, make_require_call};
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{ExprFactory, State},
+    util::{undefined, ExprFactory, State},
 };
 use ast::*;
 use fxhash::FxHashMap;
@@ -59,12 +59,15 @@ struct Scope {
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        let mut stmts = Vec::with_capacity(items.len() + 1);
-        let mut extra_stmts = Vec::with_capacity(items.len() + 1);
+        let mut stmts = Vec::with_capacity(items.len() + 4);
+        let mut extra_stmts = Vec::with_capacity(items.len());
 
         stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Lit(Lit::Str(
             quote_str!("use strict"),
         )))));
+
+        let mut has_export = false;
+        let mut has_default_export = false;
 
         for item in items {
             match item {
@@ -144,6 +147,219 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 }
                             }
                         }
+                    }
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(..)) => {
+                    if !has_export {
+                        // First export
+                        has_export = true;
+
+                        //  Object.defineProperty(exports, '__esModule', {
+                        //       value: true
+                        //  });
+                        stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(vec![
+                            quote_ident!("exports").as_arg(),
+                            Lit::Str(quote_str!("__esModule")).as_arg(),
+                            ObjectLit {
+                                span: DUMMY_SP,
+                                props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("value")),
+                                    value: box Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })
+                                    .into(),
+                                }))],
+                            }
+                            .as_arg(),
+                        ]))));
+                    }
+
+                    if !has_default_export
+                        && match item {
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
+                            | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => true,
+                            _ => false,
+                        }
+                    {
+                        has_default_export = true;
+                        // exports.default = void 0;
+                        stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                            op: op!("="),
+                            right: undefined(DUMMY_SP),
+                        }))))
+                    }
+
+                    /// Import src to export fomr it.
+                    macro_rules! import {
+                        ($src:expr) => {{
+                            let ident = private_ident!(local_name_for_src(&$src));
+
+                            if !self.scope.value.imports.contains_key(&$src.value) {
+                                self.scope.value.imports.insert(
+                                    $src.value.clone(),
+                                    Some((ident.sym.clone(), ident.span)),
+                                );
+                            }
+
+                            ident
+                        }};
+                    }
+
+                    match item {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                            let imported = import!(export.src);
+                            // Object.keys(_foo).forEach(function (key) {
+                            //   if (key === "default" || key === "__esModule") return;
+                            //   Object.defineProperty(exports, key, {
+                            //     enumerable: true,
+                            //     get: function () {
+                            //       return _foo[key];
+                            //     }
+                            //   });
+                            // })
+
+                            let key_ident = private_ident!("key");
+                            let get_fn_body = Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(box Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: imported.clone().as_obj(),
+                                        prop: box key_ident.clone().into(),
+                                        computed: true,
+                                    })),
+                                })],
+                            });
+
+                            let function = Function {
+                                span: DUMMY_SP,
+                                is_async: false,
+                                is_generator: false,
+                                decorators: Default::default(),
+                                params: vec![Pat::Ident(key_ident.clone())],
+                                body: Some(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![
+                                        Stmt::If(IfStmt {
+                                            span: DUMMY_SP,
+                                            // key === "default" || key === "__esModule"
+                                            test: box key_ident
+                                                .clone()
+                                                .make_eq(Lit::Str(quote_str!("default")))
+                                                .make_bin(
+                                                    op!("||"),
+                                                    key_ident.clone().make_eq(Lit::Str(
+                                                        quote_str!("__esModule"),
+                                                    )),
+                                                ),
+                                            cons: box Stmt::Return(ReturnStmt {
+                                                span: DUMMY_SP,
+                                                arg: None,
+                                            }),
+                                            alt: None,
+                                        }),
+                                        Stmt::Expr(box define_property(vec![
+                                            quote_ident!("exports").as_arg(),
+                                            key_ident.as_arg(),
+                                            ObjectLit {
+                                                span: DUMMY_SP,
+                                                props: vec![
+                                                    PropOrSpread::Prop(box Prop::KeyValue(
+                                                        KeyValueProp {
+                                                            key: PropName::Ident(quote_ident!(
+                                                                "enumerable"
+                                                            )),
+                                                            value: box Lit::Bool(Bool {
+                                                                span: DUMMY_SP,
+                                                                value: true,
+                                                            })
+                                                            .into(),
+                                                        },
+                                                    )),
+                                                    PropOrSpread::Prop(box Prop::KeyValue(
+                                                        KeyValueProp {
+                                                            key: PropName::Ident(quote_ident!(
+                                                                "get"
+                                                            )),
+                                                            value: box FnExpr {
+                                                                ident: None,
+                                                                function: Function {
+                                                                    span: DUMMY_SP,
+                                                                    is_async: false,
+                                                                    is_generator: false,
+                                                                    decorators: Default::default(),
+                                                                    params: vec![],
+                                                                    body: get_fn_body,
+                                                                    return_type: Default::default(),
+                                                                    type_params: Default::default(),
+                                                                },
+                                                            }
+                                                            .into(),
+                                                        },
+                                                    )),
+                                                ],
+                                            }
+                                            .as_arg(),
+                                        ])),
+                                    ],
+                                }),
+                                return_type: Default::default(),
+                                type_params: Default::default(),
+                            };
+
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Call(
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    // Object.keys(_foo).forEach
+                                    callee: MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
+                                            args: vec![imported.as_arg()],
+                                            type_args: Default::default(),
+                                        }
+                                        .as_obj(),
+                                        computed: false,
+                                        prop: box Expr::Ident(quote_ident!("forEach")),
+                                    }
+                                    .as_callee(),
+                                    args: vec![FnExpr {
+                                        ident: None,
+                                        function,
+                                    }
+                                    .as_arg()],
+                                    type_args: Default::default(),
+                                },
+                            ))));
+                        }
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..)) => {
+                            //
+                            extra_stmts.push(item.fold_with(self));
+                        }
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..)) => {
+                            //
+                            extra_stmts.push(item.fold_with(self));
+                        }
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
+                            //
+                            extra_stmts.push(item.fold_with(self));
+                        }
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(..)) => {
+                            // let imported = export.src.map(|src| import!(src));
+
+                            extra_stmts.push(item.fold_with(self));
+                        }
+
+                        _ => unreachable!(),
                     }
                 }
                 _ => extra_stmts.push(item.fold_with(self)),

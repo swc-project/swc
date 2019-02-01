@@ -1734,7 +1734,7 @@ function _black() {
 test!(
     syntax(),
     tr(Default::default()),
-    interop_export_from,
+    interop_export_from_1,
     r#"
 export * from "foo";
 

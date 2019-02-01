@@ -25,3 +25,13 @@ pub(super) fn local_name_for_src(src: &Str) -> JsWord {
 
     unimplemented!()
 }
+
+pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
+    Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: member_expr!(DUMMY_SP, Object.defineProperty).as_callee(),
+        args,
+
+        type_args: Default::default(),
+    })
+}
