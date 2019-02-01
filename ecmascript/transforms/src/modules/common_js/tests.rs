@@ -1268,7 +1268,7 @@ test!(
             ..Default::default()
         }
     ),
-    interop_export_named,
+    interop_export_named_1,
     r#"
 var foo;
 export {foo};
