@@ -5,7 +5,7 @@ use crate::{
     util::{undefined, ExprFactory, State},
 };
 use ast::*;
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use swc_atoms::JsWord;
@@ -77,7 +77,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         )))));
 
         let mut has_export = false;
-        let mut has_default_export = false;
+        let mut initialized = FxHashSet::default();
 
         for item in items {
             match item {
@@ -189,30 +189,16 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         ]))));
                     }
 
-                    macro_rules! init_default_export {
-                        () => {{
-                            if !has_default_export {
-                                has_default_export = true;
-                                // exports.default = void 0;
-                                stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(member_expr!(
-                                            DUMMY_SP,
-                                            exports.default
-                                        )),
-                                        op: op!("="),
-                                        right: undefined(DUMMY_SP),
-                                    },
-                                ))))
-                            }
+                    macro_rules! init_export {
+                        ($name:expr) => {{
+                            initialized.insert($name.clone());
                         }};
                     }
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                             ExportDefaultDecl::Fn(..),
                         )) => {
-                            has_default_export = true;
+                            // initialized.insert(js_word!("default"));
                         }
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
@@ -229,7 +215,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                         | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
-                            init_default_export!()
+                            init_export!(js_word!("default"))
                         }
                         _ => {}
                     }
@@ -452,14 +438,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             stmts.reserve(export.specifiers.len());
 
                             for ExportSpecifier { orig, exported, .. } in export.specifiers {
-                                let is_export_default = match exported {
-                                    Some(ref exported) => exported.sym == js_word!("default"),
-                                    _ => orig.sym == js_word!("default"),
-                                };
                                 let is_import_default = orig.sym == js_word!("default");
-                                if is_export_default {
-                                    has_default_export = true;
-                                }
 
                                 if let Some(ref src) = export.src {
                                     if is_import_default {
@@ -478,15 +457,28 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     }),
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
+                                //
+                                let is_value_ident = match *value {
+                                    Expr::Ident(..) => true,
+                                    _ => false,
+                                };
 
-                                if export.src.is_none() && is_export_default {
+                                if is_value_ident {
+                                    let exported_symbol = exported
+                                        .as_ref()
+                                        .map(|e| e.sym.clone())
+                                        .unwrap_or_else(|| orig.sym.clone());
+                                    init_export!(exported_symbol);
+
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
                                         box Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(member_expr!(
-                                                DUMMY_SP,
-                                                exports.default
-                                            )),
+                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: quote_ident!("exports").as_callee(),
+                                                computed: false,
+                                                prop: box Expr::Ident(exported.unwrap_or(orig)),
+                                            })),
                                             op: op!("="),
                                             right: value,
                                         }),
@@ -563,6 +555,28 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     stmts.push(ModuleItem::Stmt(Stmt::Expr(box require)));
                 }
             }
+        }
+
+        if !initialized.is_empty() {
+            // Inject `exports.default = exports.foo = void 0`;
+
+            let mut rhs = undefined(DUMMY_SP);
+
+            for name in initialized.into_iter() {
+                rhs = box Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: quote_ident!("exports").as_callee(),
+                        computed: false,
+                        prop: box Expr::Ident(Ident::new(name, DUMMY_SP)),
+                    })),
+                    op: op!("="),
+                    right: rhs,
+                });
+            }
+
+            stmts.push(ModuleItem::Stmt(Stmt::Expr(rhs)));
         }
 
         stmts.append(&mut extra_stmts);
