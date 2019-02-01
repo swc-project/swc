@@ -479,21 +479,35 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
 
-                                stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
-                                    vec![
-                                        quote_ident!("exports").as_arg(),
-                                        {
-                                            // export { foo }
-                                            //  -> 'foo'
+                                if export.src.is_none() && is_export_default {
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
+                                        box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(member_expr!(
+                                                DUMMY_SP,
+                                                exports.default
+                                            )),
+                                            op: op!("="),
+                                            right: value,
+                                        }),
+                                    )));
+                                } else {
+                                    stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
+                                        vec![
+                                            quote_ident!("exports").as_arg(),
+                                            {
+                                                // export { foo }
+                                                //  -> 'foo'
 
-                                            // export { foo as bar }
-                                            //  -> 'bar'
-                                            let i = exported.unwrap_or_else(|| orig);
-                                            Lit::Str(quote_str!(i.span, i.sym)).as_arg()
-                                        },
-                                        make_descriptor(value).as_arg(),
-                                    ],
-                                ))));
+                                                // export { foo as bar }
+                                                //  -> 'bar'
+                                                let i = exported.unwrap_or_else(|| orig);
+                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                            },
+                                            make_descriptor(value).as_arg(),
+                                        ],
+                                    ))));
+                                }
                             }
                         }
 
