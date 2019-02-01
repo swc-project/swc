@@ -6,12 +6,20 @@ use crate::{
 };
 use ast::*;
 use fxhash::FxHashMap;
+use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
+
+#[derive(Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub lazy: bool,
+}
 
 pub fn common_js(helpers: Arc<Helpers>) -> impl Pass + Clone {
     CommonJs {
@@ -438,12 +446,13 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     Some(ref exported) => exported.sym == js_word!("default"),
                                     _ => orig.sym == js_word!("default"),
                                 };
+                                let is_import_default = orig.sym == js_word!("default");
                                 if is_export_default {
-                                    init_default_export!();
+                                    has_default_export = true;
                                 }
 
                                 if let Some(ref src) = export.src {
-                                    if is_export_default {
+                                    if is_import_default {
                                         self.scope
                                             .import_types
                                             .entry(src.value.clone())
@@ -460,35 +469,21 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
 
-                                if is_export_default {
-                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
-                                        box Expr::Assign(AssignExpr {
-                                            span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(member_expr!(
-                                                DUMMY_SP,
-                                                exports.default
-                                            )),
-                                            op: op!("="),
-                                            right: value,
-                                        }),
-                                    )));
-                                } else {
-                                    stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
-                                        vec![
-                                            quote_ident!("exports").as_arg(),
-                                            {
-                                                // export { foo }
-                                                //  -> 'foo'
+                                stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
+                                    vec![
+                                        quote_ident!("exports").as_arg(),
+                                        {
+                                            // export { foo }
+                                            //  -> 'foo'
 
-                                                // export { foo as bar }
-                                                //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
-                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
-                                            },
-                                            make_descriptor(value).as_arg(),
-                                        ],
-                                    ))));
-                                }
+                                            // export { foo as bar }
+                                            //  -> 'bar'
+                                            let i = exported.unwrap_or_else(|| orig);
+                                            Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                        },
+                                        make_descriptor(value).as_arg(),
+                                    ],
+                                ))));
                             }
                         }
 
