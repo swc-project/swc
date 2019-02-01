@@ -459,7 +459,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         // Used only if export * exists
         let export_names = {
             let export_names = private_ident!("_exportNames");
-            if !export_alls.is_empty() {
+            if !export_alls.is_empty() && has_export {
                 stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
