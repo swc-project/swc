@@ -215,7 +215,7 @@ export function Cachier(databaseName) {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Cachier = Cachier;
+
 exports.default = void 0;
 
 var _default = new Cachier();
@@ -223,7 +223,7 @@ var _default = new Cachier();
 exports.default = _default;
 
 function Cachier(databaseName) {}
-
+exports.Cachier = Cachier;
 "#
 );
 
@@ -850,9 +850,9 @@ export default function () {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = _default;
 
 function _default() {}
+exports.default = _default;
 
 "#
 );
@@ -1674,9 +1674,10 @@ export default function foo () {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = foo;
 
 function foo() {}
+
+exports.default = foo;
 
 "#
 );

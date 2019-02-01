@@ -133,7 +133,6 @@ impl<'a> Emitter<'a> {
         match *node {
             ExportDefaultDecl::Class(ref n) => emit!(n),
             ExportDefaultDecl::Fn(ref n) => emit!(n),
-            ExportDefaultDecl::Var(ref n) => emit!(n),
             ExportDefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
         semi!();

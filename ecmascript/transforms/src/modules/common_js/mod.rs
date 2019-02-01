@@ -179,21 +179,41 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         ]))));
                     }
 
-                    if !has_default_export
-                        && match item {
-                            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
-                            | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => true,
-                            _ => false,
+                    macro_rules! init_default_export {
+                        () => {{
+                            if !has_default_export {
+                                has_default_export = true;
+                                // exports.default = void 0;
+                                stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(member_expr!(
+                                            DUMMY_SP,
+                                            exports.default
+                                        )),
+                                        op: op!("="),
+                                        right: undefined(DUMMY_SP),
+                                    },
+                                ))))
+                            }
+                        }};
+                    }
+                    match item {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
+                            ExportDefaultDecl::Fn(..),
+                        )) => {
+                            has_default_export = true;
                         }
-                    {
-                        has_default_export = true;
-                        // exports.default = void 0;
-                        stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
-                            op: op!("="),
-                            right: undefined(DUMMY_SP),
-                        }))))
+
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
+                            ExportDefaultDecl::TsInterfaceDecl(..),
+                        )) => {}
+
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
+                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
+                            init_default_export!()
+                        }
+                        _ => {}
                     }
 
                     /// Import src to export fomr it.
@@ -299,17 +319,112 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 },
                             ))));
                         }
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Class(..)))
+                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Fn(..))) => {
+                            let ident = match decl {
+                                Decl::Class(ref c) => c.ident.clone(),
+                                Decl::Fn(ref f) => f.ident.clone(),
+                                _ => unreachable!(),
+                            };
+
+                            //
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(decl)));
+
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: quote_ident!("exports").as_obj(),
+                                        computed: false,
+                                        prop: box Expr::Ident(ident.clone()),
+                                    })),
+                                    op: op!("="),
+                                    right: box ident.into(),
+                                },
+                            ))));
+                        }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..)) => {
                             //
                             extra_stmts.push(item.fold_with(self));
                         }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..)) => {
-                            //
-                            extra_stmts.push(item.fold_with(self));
-                        }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..)) => {
-                            //
-                            extra_stmts.push(item.fold_with(self));
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) => match decl {
+                            ExportDefaultDecl::Class(ClassExpr { ident, class }) => {
+                                let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
+                                extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
+                                    ClassDecl {
+                                        ident: ident.clone(),
+                                        class,
+                                        declare: false,
+                                    },
+                                ))));
+
+                                extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(member_expr!(
+                                            DUMMY_SP,
+                                            exports.default
+                                        )),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    },
+                                ))));
+                            }
+                            ExportDefaultDecl::Fn(FnExpr { ident, function }) => {
+                                let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
+                                extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                    ident: ident.clone(),
+                                    function,
+                                    declare: false,
+                                }))));
+
+                                extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(member_expr!(
+                                            DUMMY_SP,
+                                            exports.default
+                                        )),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    },
+                                ))));
+                            }
+                            _ => extra_stmts.push(
+                                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl))
+                                    .fold_with(self),
+                            ),
+                        },
+
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(expr)) => {
+                            let ident = private_ident!("_default");
+
+                            // TODO: Optimization (when expr cannot throw, `exports.default =
+                            // void 0` is not required)
+
+                            // We use extra statements because of the initialzation
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone()),
+                                    init: Some(expr),
+                                    definite: false,
+                                }],
+                                declare: false,
+                            }))));
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                    op: op!("="),
+                                    right: box ident.into(),
+                                },
+                            ))));
                         }
 
                         // export { foo } from 'foo';
@@ -319,39 +434,61 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             stmts.reserve(export.specifiers.len());
 
                             for ExportSpecifier { orig, exported, .. } in export.specifiers {
+                                let is_export_default = match exported {
+                                    Some(ref exported) => exported.sym == js_word!("default"),
+                                    _ => orig.sym == js_word!("default"),
+                                };
+                                if is_export_default {
+                                    init_default_export!();
+                                }
+
                                 if let Some(ref src) = export.src {
-                                    if orig.sym == js_word!("default") {
+                                    if is_export_default {
                                         self.scope
                                             .import_types
                                             .entry(src.value.clone())
                                             .or_insert(false);
                                     }
                                 }
+                                let value = match imported {
+                                    Some(ref imported) => box Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: imported.clone().as_obj(),
+                                        computed: false,
+                                        prop: box Expr::Ident(orig.clone()),
+                                    }),
+                                    None => box Expr::Ident(orig.clone()).fold_with(self),
+                                };
 
-                                stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
-                                    vec![
-                                        quote_ident!("exports").as_arg(),
-                                        {
-                                            // export { foo }
-                                            //  -> 'foo'
+                                if is_export_default {
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
+                                        box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(member_expr!(
+                                                DUMMY_SP,
+                                                exports.default
+                                            )),
+                                            op: op!("="),
+                                            right: value,
+                                        }),
+                                    )));
+                                } else {
+                                    stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(
+                                        vec![
+                                            quote_ident!("exports").as_arg(),
+                                            {
+                                                // export { foo }
+                                                //  -> 'foo'
 
-                                            // export { foo as bar }
-                                            //  -> 'bar'
-                                            let i = exported.unwrap_or_else(|| orig.clone());
-                                            Lit::Str(quote_str!(i.span, i.sym)).as_arg()
-                                        },
-                                        make_descriptor(match imported {
-                                            Some(ref imported) => box Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: imported.clone().as_obj(),
-                                                computed: false,
-                                                prop: box Expr::Ident(orig),
-                                            }),
-                                            None => box Expr::Ident(orig).fold_with(self),
-                                        })
-                                        .as_arg(),
-                                    ],
-                                ))));
+                                                // export { foo as bar }
+                                                //  -> 'bar'
+                                                let i = exported.unwrap_or_else(|| orig);
+                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                            },
+                                            make_descriptor(value).as_arg(),
+                                        ],
+                                    ))));
+                                }
                             }
                         }
 

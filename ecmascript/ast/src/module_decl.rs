@@ -53,8 +53,6 @@ pub enum ExportDefaultDecl {
 
     Fn(FnExpr),
 
-    Var(VarDecl),
-
     TsInterfaceDecl(TsInterfaceDecl),
 }
 
