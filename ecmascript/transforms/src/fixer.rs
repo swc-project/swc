@@ -293,8 +293,8 @@ impl Fold<Expr> for Fixer {
                         ..
                     }) => expr.right,
 
-                    // Handle `foo = (bar = init(), baz)
-                    Expr::Assign(right) => box right.wrap_with_paren(),
+                    // Handle `foo = bar = init()
+                    Expr::Seq(right) => box right.wrap_with_paren(),
                     _ => expr.right,
                 };
 
@@ -395,4 +395,6 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
         regression_7,
         "( _temp = super(), _initialize(this), _temp).method();"
     );
+
+    identical!(regresion_8, "exports.bar = exports.default = void 0;");
 }
