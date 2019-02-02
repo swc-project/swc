@@ -1,6 +1,9 @@
 use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use swc_common::{
+    util::{map::Map, move_map::MoveMap},
+    Fold, FoldWith,
+};
 
 pub fn fixer() -> impl Pass + Clone {
     Fixer {
@@ -79,31 +82,51 @@ impl Fold<Stmt> for Fixer {
             _ => stmt.fold_children(self),
         };
 
-        let stmt = match stmt {
-            Stmt::Expr(expr) => {
-                match *expr {
-                    // It's important for arrow pass to work properly.
-                    Expr::Object(..) | Expr::Fn(..) => Stmt::Expr(box expr.wrap_with_paren()),
+        fn handle_expr_stmt(expr: Expr) -> Expr {
+            match expr {
+                // It's important for arrow pass to work properly.
+                Expr::Object(..) | Expr::Fn(..) => expr.wrap_with_paren(),
 
-                    // ({ a } = foo)
-                    Expr::Assign(AssignExpr {
-                        span,
-                        left: PatOrExpr::Pat(left @ box Pat::Object(..)),
-                        op,
-                        right,
-                    }) => Stmt::Expr(
-                        box AssignExpr {
-                            span,
-                            left: PatOrExpr::Pat(left),
-                            op,
-                            right,
-                        }
-                        .wrap_with_paren(),
-                    ),
-
-                    _ => Stmt::Expr(expr),
+                // ({ a } = foo)
+                Expr::Assign(AssignExpr {
+                    span,
+                    left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+                    op,
+                    right,
+                }) => AssignExpr {
+                    span,
+                    left: PatOrExpr::Pat(left),
+                    op,
+                    right,
                 }
+                .wrap_with_paren(),
+
+                Expr::Seq(SeqExpr { span, exprs }) => {
+                    debug_assert!(
+                        exprs.len() != 1,
+                        "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
+                    );
+
+                    let mut first = true;
+                    Expr::Seq(SeqExpr {
+                        span,
+                        exprs: exprs.move_map(|expr| {
+                            if first {
+                                first = false;
+                                expr.map(handle_expr_stmt)
+                            } else {
+                                expr
+                            }
+                        }),
+                    })
+                }
+
+                _ => expr,
             }
+        }
+
+        let stmt = match stmt {
+            Stmt::Expr(expr) => Stmt::Expr(expr.map(handle_expr_stmt)),
 
             _ => stmt,
         };
@@ -353,30 +376,30 @@ mod tests {
     identical!(paren_seq_arg, "foo(( _temp = _this = init(), _temp));");
 
     identical!(
-        regression_1,
+        regression_01,
         "_set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = \
          +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;"
     );
 
     identical!(
-        regression_2,
+        regression_02,
         "var obj = (_obj = {}, _defineProperty(_obj, 'first', 'first'), _defineProperty(_obj, \
          'second', 'second'), _obj);"
     );
 
     identical!(
-        regression_3,
+        regression_03,
         "_iteratorNormalCompletion = (_step = _iterator.next()).done"
     );
 
     identical!(
-        regression_4,
+        regression_04,
         "var _tmp;
 const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(
-        regression_5,
+        regression_05,
         "for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step \
          = _iterator.next()).done); _iteratorNormalCompletion = true) {
     i = _step.value;
@@ -384,7 +407,7 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(
-        regression_6,
+        regression_06,
         "
         var _tmp;
         const { [( _tmp = {}, d = _extends({}, _tmp), _tmp)]: c  } = _ref;
@@ -392,9 +415,13 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(
-        regression_7,
+        regression_07,
         "( _temp = super(), _initialize(this), _temp).method();"
     );
 
-    identical!(regresion_8, "exports.bar = exports.default = void 0;");
+    identical!(regression_08, "exports.bar = exports.default = void 0;");
+
+    identical!(regression_09, "({x} = { x: 1 });");
+
+    identical!(regression_10, "({x} = { x: 1 }), exports.x = x;");
 }
