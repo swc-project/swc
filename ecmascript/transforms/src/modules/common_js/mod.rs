@@ -23,6 +23,8 @@ pub struct Config {
     pub strict: bool,
     #[serde(default)]
     pub lazy: bool,
+    #[serde(default)]
+    pub no_interop: bool,
 }
 
 pub fn common_js(helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {

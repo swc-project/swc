@@ -511,6 +511,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            no_interop: true,
             ..Default::default()
         }
     ),
@@ -526,7 +527,7 @@ foo();
 
 var _foo = require("foo");
 
-(0, _foo.default)();
+_foo.default();
 
 "#
 );
@@ -984,6 +985,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            no_interop: true,
             ..Default::default()
         }
     ),
@@ -2537,6 +2539,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            no_interop: true,
             ..Default::default()
         }
     ),
