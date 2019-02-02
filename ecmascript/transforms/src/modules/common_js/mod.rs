@@ -737,7 +737,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     let ty = self.scope.value.import_types.get(&src);
 
                     let rhs = match ty {
-                        Some(true) => {
+                        Some(true) if !self.config.no_interop => {
                             self.helpers.interop_require_wildcard();
                             box Expr::Call(CallExpr {
                                 span: DUMMY_SP,
@@ -746,7 +746,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 type_args: Default::default(),
                             })
                         }
-                        Some(false) => {
+                        Some(false) if !self.config.no_interop => {
                             self.helpers.interop_require_default();
                             box Expr::Call(CallExpr {
                                 span: DUMMY_SP,
