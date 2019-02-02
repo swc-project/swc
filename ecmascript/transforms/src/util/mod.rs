@@ -941,3 +941,24 @@ impl<T: Default> Clone for State<T> {
         }
     }
 }
+
+/// Finds all idents of variable
+pub(crate) struct DestructuringFinder<'a> {
+    pub found: &'a mut Vec<(JsWord, Span)>,
+}
+
+impl<'a> Visit<Expr> for DestructuringFinder<'a> {
+    /// No-op (we don't care about expressions)
+    fn visit(&mut self, _: &Expr) {}
+}
+
+impl<'a> Visit<PropName> for DestructuringFinder<'a> {
+    /// No-op (we don't care about expressions)
+    fn visit(&mut self, _: &PropName) {}
+}
+
+impl<'a> Visit<Ident> for DestructuringFinder<'a> {
+    fn visit(&mut self, i: &Ident) {
+        self.found.push((i.sym.clone(), i.span));
+    }
+}

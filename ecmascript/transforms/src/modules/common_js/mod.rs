@@ -2,7 +2,7 @@ use super::util::{define_property, local_name_for_src, make_require_call};
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{undefined, ExprFactory, State},
+    util::{undefined, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
 use fxhash::{FxHashMap, FxHashSet};
@@ -334,32 +334,33 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 to: &mut self.scope.value.declared_vars,
                             });
 
+                            let mut found = vec![];
                             for decl in var.decls {
-                                let ident = match decl.name {
-                                    Pat::Ident(i) => i,
-                                    _ => unimplemented!("exporting variable with destructuring"),
-                                };
+                                let mut v = DestructuringFinder { found: &mut found };
+                                decl.visit_with(&mut v);
 
-                                self.scope
-                                    .exported_vars
-                                    .entry((ident.sym.clone(), ident.span.ctxt()))
-                                    .or_default()
-                                    .push((ident.sym.clone(), ident.span.ctxt()));
-                                init_export!(ident.sym);
+                                for ident in found.drain(..).map(|v| Ident::new(v.0, v.1)) {
+                                    self.scope
+                                        .exported_vars
+                                        .entry((ident.sym.clone(), ident.span.ctxt()))
+                                        .or_default()
+                                        .push((ident.sym.clone(), ident.span.ctxt()));
+                                    init_export!(ident.sym);
 
-                                extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
+                                        box Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            obj: quote_ident!("exports").as_obj(),
-                                            computed: false,
-                                            prop: box Expr::Ident(ident.clone()),
-                                        })),
-                                        op: op!("="),
-                                        right: box ident.into(),
-                                    },
-                                ))));
+                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: quote_ident!("exports").as_obj(),
+                                                computed: false,
+                                                prop: box Expr::Ident(ident.clone()),
+                                            })),
+                                            op: op!("="),
+                                            right: box ident.into(),
+                                        }),
+                                    )));
+                                }
                             }
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..)) => {
@@ -912,10 +913,8 @@ impl Fold<Expr> for CommonJs {
                         }
                     }
                     _ => {
-                        let mut v = DestructuringFinder {
-                            exported_vars: &self.scope.value.exported_vars,
-                            found: vec![],
-                        };
+                        let mut found = vec![];
+                        let mut v = DestructuringFinder { found: &mut found };
                         expr.left.visit_with(&mut v);
                         if v.found.is_empty() {
                             return Expr::Assign(AssignExpr {
@@ -926,14 +925,13 @@ impl Fold<Expr> for CommonJs {
 
                         let mut exprs = iter::once(box Expr::Assign(expr))
                             .chain(
-                                v.found
+                                found
                                     .into_iter()
                                     .map(|var| Ident::new(var.0, var.1))
                                     .filter_map(|i| {
                                         let entry = match entry!(i) {
                                             Entry::Occupied(entry) => entry,
                                             _ => {
-                                                // TODO: Unreachable!
                                                 return None;
                                             }
                                         };
@@ -974,28 +972,6 @@ impl Fold<VarDecl> for CommonJs {
         VarDecl {
             decls: var.decls.fold_with(self),
             ..var
-        }
-    }
-}
-
-struct DestructuringFinder<'a> {
-    pub exported_vars: &'a FxHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
-    pub found: Vec<(JsWord, Span)>,
-}
-
-impl<'a> Visit<Pat> for DestructuringFinder<'a> {}
-impl<'a> Visit<Expr> for DestructuringFinder<'a> {
-    /// No-op (we don't care about expressions)
-    fn visit(&mut self, _: &Expr) {}
-}
-
-impl<'a> Visit<Ident> for DestructuringFinder<'a> {
-    fn visit(&mut self, i: &Ident) {
-        if self
-            .exported_vars
-            .contains_key(&(i.sym.clone(), i.span.ctxt()))
-        {
-            self.found.push((i.sym.clone(), i.span));
         }
     }
 }

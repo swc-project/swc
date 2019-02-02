@@ -719,8 +719,8 @@ const {
     bar: [baz, qux]
   }
 } = {};
-exports.qux = qux;
 exports.baz = baz;
+exports.qux = qux;
 
 "#
 );
@@ -891,8 +891,8 @@ export const [foo, bar] = [];
 
 exports.bar = exports.foo = void 0;
 const [foo, bar] = [];
-exports.bar = bar;
 exports.foo = foo;
+exports.bar = bar;
 
 "#
 );
@@ -1056,8 +1056,8 @@ const {
   foo,
   bar = 1
 } = {};
-exports.bar = bar;
 exports.foo = foo;
+exports.bar = bar;
 
 "#
 );
@@ -2330,8 +2330,8 @@ const {
   foo: bar,
   baz
 } = {};
-exports.baz = baz;
 exports.bar = bar;
+exports.baz = baz;
 
 "#
 );
@@ -2430,8 +2430,8 @@ const {
   foo,
   ...bar
 } = {};
-exports.bar = bar;
 exports.foo = foo;
+exports.bar = bar;
 
 "#
 );
@@ -3253,8 +3253,8 @@ export const [foo, bar = 2] = [];
 
 exports.bar = exports.foo = void 0;
 const [foo, bar = 2] = [];
-exports.bar = bar;
 exports.foo = foo;
+exports.bar = bar;
 
 "#
 );
@@ -3607,9 +3607,9 @@ export const [foo, bar, ...baz] = [];
 
 exports.baz = exports.bar = exports.foo = void 0;
 const [foo, bar, ...baz] = [];
-exports.baz = baz;
-exports.bar = bar;
 exports.foo = foo;
+exports.bar = bar;
+exports.baz = baz;
 
 "#
 );
