@@ -1,5 +1,5 @@
 use super::{common_js, Config};
-use crate::helpers::Helpers;
+use crate::{compat::es2015::resolver, helpers::Helpers};
 use ast::*;
 use std::sync::Arc;
 use swc_common::Fold;
@@ -9,7 +9,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr(helpers: Arc<Helpers>, config: Config) -> impl Fold<Module> {
-    common_js(helpers)
+    chain!(resolver(), common_js(helpers))
 }
 
 // strict_export_2
@@ -583,9 +583,9 @@ exports.test = test = 5;
 exports.test = test = test + 1;
 
 (function () {
-  var test = 2;
-  test = 3;
-  test++;
+  var test1 = 2;
+  test1 = 3;
+  test1++;
 })();
 
 var a = 2;
@@ -595,7 +595,8 @@ var b = 2;
 exports.c = b;
 exports.c = b = 3;
 var d = 3;
-exports.f = exports.e = d;
+exports.e = d;
+exports.f = d;
 exports.f = exports.e = d = 4;
 
 "#

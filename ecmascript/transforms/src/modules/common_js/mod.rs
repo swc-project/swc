@@ -7,7 +7,7 @@ use crate::{
 use ast::*;
 use fxhash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
-use std::{iter, sync::Arc};
+use std::{collections::hash_map::Entry, iter, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Span, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
@@ -74,11 +74,11 @@ struct Scope {
     ///
     /// e.g.
     ///  - `export { a }`
-    ///   -> `{ a: a }`
+    ///   -> `{ a: [a] }`
     ///
     ///  - `export { a as b }`
-    ///   -> `{ a: b }`
-    exported_vars: FxHashMap<(JsWord, SyntaxContext), (JsWord, SyntaxContext)>,
+    ///   -> `{ a: [b] }`
+    exported_vars: FxHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
 }
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
@@ -313,12 +313,21 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::Var(var))) => {
                             extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var.clone()))));
 
+                            var.decls.visit_with(&mut VarCollector {
+                                to: &mut self.scope.value.declared_vars,
+                            });
+
                             for decl in var.decls {
                                 let ident = match decl.name {
                                     Pat::Ident(i) => i,
                                     _ => unimplemented!("exporting variable with destructuring"),
                                 };
 
+                                self.scope
+                                    .exported_vars
+                                    .entry((ident.sym.clone(), ident.span.ctxt()))
+                                    .or_default()
+                                    .push((ident.sym.clone(), ident.span.ctxt()));
                                 init_export!(ident.sym);
 
                                 extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
@@ -432,6 +441,18 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             for ExportSpecifier { orig, exported, .. } in export.specifiers {
                                 let is_import_default = orig.sym == js_word!("default");
 
+                                let key = (orig.sym.clone(), orig.span.ctxt());
+                                if self.scope.value.declared_vars.contains(&key) {
+                                    self.scope.exported_vars.entry(key).or_default().push(
+                                        exported
+                                            .clone()
+                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                            .unwrap_or_else(|| {
+                                                (orig.sym.clone(), orig.span.ctxt())
+                                            }),
+                                    );
+                                }
+
                                 if let Some(ref src) = export.src {
                                     if is_import_default {
                                         self.scope
@@ -449,7 +470,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     }),
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
-                                //
+                                // True if we are exporting our own stuff.
                                 let is_value_ident = match *value {
                                     Expr::Ident(..) => true,
                                     _ => false,
@@ -734,6 +755,15 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
 impl Fold<Expr> for CommonJs {
     fn fold(&mut self, expr: Expr) -> Expr {
+        macro_rules! entry {
+            ($i:expr) => {
+                self.scope
+                    .value
+                    .exported_vars
+                    .entry(($i.sym.clone(), $i.span.ctxt()))
+            };
+        }
+
         match expr {
             Expr::Ident(i) => {
                 let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
@@ -770,6 +800,111 @@ impl Fold<Expr> for CommonJs {
                         obj: e.obj.fold_with(self),
                         ..e
                     })
+                }
+            }
+
+            Expr::Update(UpdateExpr {
+                span,
+                arg: box Expr::Ident(arg),
+                op,
+                prefix,
+            }) => {
+                let entry = entry!(arg);
+
+                match entry {
+                    Entry::Occupied(entry) => {
+                        let mut e = box Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
+                            op: op!("="),
+                            right: box Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                left: box Expr::Ident(arg),
+                                op: match op {
+                                    op!("++") => op!(bin, "+"),
+                                    op!("--") => op!(bin, "-"),
+                                },
+                                right: box Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: 1.0,
+                                })),
+                            }),
+                        });
+
+                        for i in entry.get() {
+                            e = box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: quote_ident!("exports").as_obj(),
+                                    computed: false,
+                                    prop: box Expr::Ident(Ident::new(
+                                        i.0.clone(),
+                                        DUMMY_SP.with_ctxt(i.1),
+                                    )),
+                                })),
+                                op: op!("="),
+                                right: e,
+                            });
+                        }
+
+                        *e
+                    }
+                    _ => {
+                        return Expr::Update(UpdateExpr {
+                            span,
+                            arg: box Expr::Ident(arg),
+                            op,
+                            prefix,
+                        });
+                    }
+                }
+            }
+
+            Expr::Assign(expr) => {
+                //
+
+                match expr.left {
+                    PatOrExpr::Pat(box Pat::Ident(ref i)) => {
+                        let entry = entry!(i);
+
+                        match entry {
+                            Entry::Occupied(entry) => {
+                                let mut e = box Expr::Assign(expr);
+
+                                for i in entry.get() {
+                                    e = box Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: quote_ident!("exports").as_obj(),
+                                            computed: false,
+                                            prop: box Expr::Ident(Ident::new(
+                                                i.0.clone(),
+                                                DUMMY_SP.with_ctxt(i.1),
+                                            )),
+                                        })),
+                                        op: op!("="),
+                                        right: e,
+                                    });
+                                }
+
+                                *e
+                            }
+                            _ => {
+                                return Expr::Assign(AssignExpr {
+                                    left: expr.left,
+                                    ..expr
+                                });
+                            }
+                        }
+                    }
+                    _ => {
+                        return Expr::Assign(AssignExpr {
+                            left: expr.left,
+                            ..expr
+                        });
+                    }
                 }
             }
             _ => expr.fold_children(self),
