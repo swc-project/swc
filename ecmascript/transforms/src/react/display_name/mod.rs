@@ -208,13 +208,13 @@ fn add_display_name(mut call: CallExpr, name: Box<Expr>) -> CallExpr {
 fn is_key_display_name(prop: &PropOrSpread) -> bool {
     match *prop {
         PropOrSpread::Prop(ref prop) => match **prop {
-            Prop::Shorthand(ref i) => &*i.sym == "displayName",
+            Prop::Shorthand(ref i) => i.sym == js_word!("displayName"),
             Prop::Method(MethodProp { ref key, .. })
             | Prop::Getter(GetterProp { ref key, .. })
             | Prop::Setter(SetterProp { ref key, .. })
             | Prop::KeyValue(KeyValueProp { ref key, .. }) => match *key {
-                PropName::Ident(ref i) => &*i.sym == "displayName",
-                PropName::Str(ref s) => &*s.value == "displayName",
+                PropName::Ident(ref i) => i.sym == js_word!("displayName"),
+                PropName::Str(ref s) => s.value == js_word!("displayName"),
                 PropName::Num(..) => false,
                 PropName::Computed(..) => false,
             },

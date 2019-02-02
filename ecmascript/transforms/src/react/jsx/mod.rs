@@ -262,7 +262,7 @@ fn jsx_name(name: JSXElementName) -> Box<Expr> {
             // If it starts with lowercase digit
             let c = i.sym.chars().next().unwrap();
 
-            if &*i.sym == "this" {
+            if i.sym == js_word!("this") {
                 return box Expr::This(ThisExpr { span });
             }
 
@@ -289,7 +289,7 @@ fn jsx_name(name: JSXElementName) -> Box<Expr> {
 
                 match obj {
                     JSXObject::Ident(i) => {
-                        if &*i.sym == "this" {
+                        if i.sym == js_word!("this") {
                             return ExprOrSuper::Expr(box Expr::This(ThisExpr { span }));
                         }
                         i.as_obj()

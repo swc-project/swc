@@ -270,9 +270,9 @@ pub trait ExprExt {
                 Lit::Str(Str { ref value, .. }) => return num_from_str(value),
                 _ => return Unknown,
             },
-            Expr::Ident(Ident { ref sym, .. }) => match &**sym {
-                "undefined" | "NaN" => NAN,
-                "Infinity" => INFINITY,
+            Expr::Ident(Ident { ref sym, .. }) => match *sym {
+                js_word!("undefined") | js_word!("NaN") => NAN,
+                js_word!("Infinity") => INFINITY,
                 _ => return Unknown,
             },
             Expr::Unary(UnaryExpr {
@@ -336,8 +336,10 @@ pub trait ExprExt {
                 // Only convert a template literal if all its expressions can be converted.
                 unimplemented!("TplLit.as_string()")
             }
-            Expr::Ident(Ident { ref sym, .. }) => match &**sym {
-                "undefined" | "Infinity" | "NaN" => Known(Cow::Borrowed(&**sym)),
+            Expr::Ident(Ident { ref sym, .. }) => match *sym {
+                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN") => {
+                    Known(Cow::Borrowed(&**sym))
+                }
                 _ => Unknown,
             },
             Expr::Unary(UnaryExpr {
