@@ -287,16 +287,23 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Class(..)))
                         | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Fn(..))) => {
-                            let ident = match decl {
-                                Decl::Class(ref c) => c.ident.clone(),
-                                Decl::Fn(ref f) => f.ident.clone(),
+                            let (ident, is_class) = match decl {
+                                Decl::Class(ref c) => (c.ident.clone(), true),
+                                Decl::Fn(ref f) => (f.ident.clone(), false),
                                 _ => unreachable!(),
                             };
 
                             //
                             extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(decl)));
 
-                            extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
+                            let append_to: &mut Vec<_> = if is_class {
+                                &mut extra_stmts
+                            } else {
+                                // Function declaration cannot throw
+                                &mut stmts
+                            };
+
+                            append_to.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
