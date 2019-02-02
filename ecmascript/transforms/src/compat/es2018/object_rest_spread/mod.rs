@@ -78,8 +78,6 @@ macro_rules! impl_for_for_stmt {
                         // **prepend** decls to self.vars
                         decls.append(&mut self.vars);
                         mem::swap(&mut self.vars, &mut decls);
-                        dbg!(&self.vars);
-                        dbg!(&left);
                         left
                     }
                     VarDeclOrPat::Pat(pat) => {
