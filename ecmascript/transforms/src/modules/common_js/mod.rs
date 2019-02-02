@@ -294,7 +294,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             };
 
                             //
-                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(decl)));
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(decl.fold_with(self))));
 
                             let append_to: &mut Vec<_> = if is_class {
                                 &mut extra_stmts
@@ -387,11 +387,14 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
-                                extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                    ident: ident.clone(),
-                                    function,
-                                    declare: false,
-                                }))));
+                                extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
+                                    FnDecl {
+                                        ident: ident.clone(),
+                                        function,
+                                        declare: false,
+                                    }
+                                    .fold_with(self),
+                                ))));
 
                                 extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
                                     AssignExpr {
@@ -771,6 +774,26 @@ impl Fold<Expr> for CommonJs {
             };
         }
 
+        macro_rules! chain_assign {
+            ($entry:expr, $e:expr) => {{
+                let mut e = $e;
+                for i in $entry.get() {
+                    e = box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: quote_ident!("exports").as_obj(),
+                            computed: false,
+                            prop: box Expr::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
+                        })),
+                        op: op!("="),
+                        right: e,
+                    });
+                }
+                e
+            }};
+        }
+
         match expr {
             Expr::Ident(i) => {
                 let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
@@ -820,40 +843,26 @@ impl Fold<Expr> for CommonJs {
 
                 match entry {
                     Entry::Occupied(entry) => {
-                        let mut e = box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
-                            op: op!("="),
-                            right: box Expr::Bin(BinExpr {
+                        let e = chain_assign!(
+                            entry,
+                            box Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: box Expr::Ident(arg),
-                                op: match op {
-                                    op!("++") => op!(bin, "+"),
-                                    op!("--") => op!(bin, "-"),
-                                },
-                                right: box Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: 1.0,
-                                })),
-                            }),
-                        });
-
-                        for i in entry.get() {
-                            e = box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: quote_ident!("exports").as_obj(),
-                                    computed: false,
-                                    prop: box Expr::Ident(Ident::new(
-                                        i.0.clone(),
-                                        DUMMY_SP.with_ctxt(i.1),
-                                    )),
-                                })),
+                                left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
                                 op: op!("="),
-                                right: e,
-                            });
-                        }
+                                right: box Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left: box Expr::Ident(arg),
+                                    op: match op {
+                                        op!("++") => op!(bin, "+"),
+                                        op!("--") => op!(bin, "-"),
+                                    },
+                                    right: box Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: 1.0,
+                                    })),
+                                }),
+                            })
+                        );
 
                         *e
                     }
@@ -877,24 +886,7 @@ impl Fold<Expr> for CommonJs {
 
                         match entry {
                             Entry::Occupied(entry) => {
-                                let mut e = box Expr::Assign(expr);
-
-                                for i in entry.get() {
-                                    e = box Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: quote_ident!("exports").as_obj(),
-                                            computed: false,
-                                            prop: box Expr::Ident(Ident::new(
-                                                i.0.clone(),
-                                                DUMMY_SP.with_ctxt(i.1),
-                                            )),
-                                        })),
-                                        op: op!("="),
-                                        right: e,
-                                    });
-                                }
+                                let e = chain_assign!(entry, box Expr::Assign(expr));
 
                                 *e
                             }
@@ -907,10 +899,46 @@ impl Fold<Expr> for CommonJs {
                         }
                     }
                     _ => {
-                        return Expr::Assign(AssignExpr {
-                            left: expr.left,
-                            ..expr
-                        });
+                        let mut v = DestructuringFinder {
+                            exported_vars: &self.scope.value.exported_vars,
+                            found: vec![],
+                        };
+                        expr.left.visit_with(&mut v);
+                        if v.found.is_empty() {
+                            return Expr::Assign(AssignExpr {
+                                left: expr.left,
+                                ..expr
+                            });
+                        }
+
+                        let mut exprs = iter::once(box Expr::Assign(expr))
+                            .chain(
+                                v.found
+                                    .into_iter()
+                                    .map(|var| Ident::new(var.0, var.1))
+                                    .filter_map(|i| {
+                                        let entry = match entry!(i) {
+                                            Entry::Occupied(entry) => entry,
+                                            _ => {
+                                                // TODO: Unreachable!
+                                                return None;
+                                            }
+                                        };
+                                        let e = chain_assign!(entry, box Expr::Ident(i));
+
+                                        // exports.name = x
+                                        Some(e)
+                                    }),
+                            )
+                            .collect::<Vec<_>>();
+                        if exprs.len() == 1 {
+                            return *exprs.pop().unwrap();
+                        }
+
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })
                     }
                 }
             }
@@ -932,6 +960,28 @@ impl Fold<VarDecl> for CommonJs {
         });
 
         var
+    }
+}
+
+struct DestructuringFinder<'a> {
+    pub exported_vars: &'a FxHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+    pub found: Vec<(JsWord, Span)>,
+}
+
+impl<'a> Visit<Pat> for DestructuringFinder<'a> {}
+impl<'a> Visit<Expr> for DestructuringFinder<'a> {
+    /// No-op (we don't care about expressions)
+    fn visit(&mut self, _: &Expr) {}
+}
+
+impl<'a> Visit<Ident> for DestructuringFinder<'a> {
+    fn visit(&mut self, i: &Ident) {
+        if self
+            .exported_vars
+            .contains_key(&(i.sym.clone(), i.span.ctxt()))
+        {
+            self.found.push((i.sym.clone(), i.span));
+        }
     }
 }
 

@@ -845,8 +845,7 @@ function f1() {
     x
   } = {
     x: 1
-  });
-  exports.x = x;
+  }), exports.x = x;
 }
 
 function f2() {
@@ -856,18 +855,15 @@ function f2() {
   } = {
     x: 2,
     y: 3
-  });
-  exports.x = x, exports.y = y;
+  }), exports.x = x, exports.y = y;
 }
 
 function f3() {
-  [x, y, z] = [3, 4, 5];
-  exports.x = x, exports.y = y;
+  [x, y, z] = [3, 4, 5], exports.x = x, exports.y = y;
 }
 
 function f4() {
-  [x,, y] = [3, 4, 5];
-  exports.x = x, exports.y = y;
+  [x,, y] = [3, 4, 5], exports.x = x, exports.y = y;
 }
 
 "#
