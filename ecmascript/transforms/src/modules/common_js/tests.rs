@@ -12,6 +12,35 @@ fn tr(helpers: Arc<Helpers>, config: Config) -> impl Fold<Module> {
     chain!(resolver(), common_js(helpers))
 }
 
+test!(
+    syntax(),
+    tr(
+        Default::default(),
+        Config {
+            ..Default::default()
+        }
+    ),
+    custom_01,
+    r#"
+var foo = 1;
+export var foo = 2;
+foo = 3;
+"#,
+    r#"
+"use strict";
+Object.defineProperty(exports, '__esModule', {
+     value: true 
+});
+
+exports.foo = void 0;
+var foo = 1;
+var foo = 2;
+exports.foo = foo;
+exports.foo = foo = 3;
+
+"#
+);
+
 // strict_export_2
 test!(
     syntax(),
