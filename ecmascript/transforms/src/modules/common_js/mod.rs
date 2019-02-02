@@ -110,13 +110,15 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         } else {
                             None
                         }
-                    })
-                    .as_ref()
-                    .unwrap();
+                    });
+                if $init {
+                    let entry = entry.as_ref().unwrap();
+                    let ident = Ident::new(entry.0.clone(), entry.1);
 
-                let ident = Ident::new(entry.0.clone(), entry.1);
-
-                ident
+                    Some(ident)
+                } else {
+                    None
+                }
             }};
         }
 
@@ -488,7 +490,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 let value = match imported {
                                     Some(ref imported) => box Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
-                                        obj: imported.clone().as_obj(),
+                                        // unwrap is safe because `exports.specifiers.len() != 0`
+                                        obj: imported.clone().unwrap().as_obj(),
                                         computed: false,
                                         prop: box Expr::Ident(orig.clone()),
                                     }),
@@ -588,7 +591,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         };
 
         for export in export_alls {
-            let imported = import!(export.src, true);
+            let imported = import!(export.src, true).unwrap();
             // Object.keys(_foo).forEach(function (key) {
             //   if (key === "default" || key === "__esModule") return;
             //   Object.defineProperty(exports, key, {
