@@ -245,10 +245,6 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
             _ => false,
         };
 
-        if !is_class_like {
-            dbg!(&decl.init);
-        }
-
         let old_def = self.cur_defining.take();
         self.cur_defining = if is_class_like { cur_name } else { None };
 
