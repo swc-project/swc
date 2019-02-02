@@ -318,7 +318,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             ))));
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::Var(var))) => {
-                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var.clone()))));
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                                var.clone().fold_with(self),
+                            ))));
 
                             var.decls.visit_with(&mut VarCollector {
                                 to: &mut self.scope.value.declared_vars,
@@ -952,14 +954,16 @@ impl Fold<VarDecl> for CommonJs {
     /// - No-op for const variables.
     /// - collects all declared variables for let and var.
     fn fold(&mut self, var: VarDecl) -> VarDecl {
-        if var.kind == VarDeclKind::Const {
-            return var;
+        if var.kind != VarDeclKind::Const {
+            var.decls.visit_with(&mut VarCollector {
+                to: &mut self.scope.value.declared_vars,
+            });
         }
-        var.decls.visit_with(&mut VarCollector {
-            to: &mut self.scope.value.declared_vars,
-        });
 
-        var
+        VarDecl {
+            decls: var.decls.fold_with(self),
+            ..var
+        }
     }
 }
 
