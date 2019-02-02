@@ -320,8 +320,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.foo8 = foo8;
-exports.foo9 = exports.foo7 = exports.foo6 = exports.foo5 = exports.foo4
-   = exports.foo3 = exports.bar = exports.foo2 = exports.foo = void 0;
+exports.foo3 = exports.foo4 = exports.foo2 = exports.foo7 = exports.bar =
+    exports.foo = exports.foo5 = exports.foo6 = void 0;
+
 var foo = 1;
 exports.foo = foo;
 var foo2 = 1,
