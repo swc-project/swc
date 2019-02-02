@@ -9,7 +9,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr(helpers: Arc<Helpers>, config: Config) -> impl Fold<Module> {
-    chain!(resolver(), common_js(helpers))
+    chain!(resolver(), common_js(helpers, config))
 }
 
 test!(
@@ -47,6 +47,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -700,6 +701,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -875,6 +877,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -956,6 +959,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -1035,6 +1039,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -1213,6 +1218,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -1349,6 +1355,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -2171,6 +2178,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -2194,7 +2202,7 @@ var foo4 = _interopRequireWildcard(require("foo"));
 foo4.default;
 foo4.default;
 foo4.foo3;
-(0, foo4.foo3)();
+foo4.foo3();
 
 "#
 );
@@ -2305,6 +2313,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -2404,6 +2413,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -3229,6 +3239,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -3297,6 +3308,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: true,
             ..Default::default()
         }
     ),
@@ -3486,6 +3498,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),
@@ -3580,6 +3593,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            strict: true,
             ..Default::default()
         }
     ),

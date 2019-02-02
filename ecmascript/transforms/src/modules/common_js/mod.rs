@@ -20,12 +20,15 @@ mod tests;
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
+    pub strict: bool,
+    #[serde(default)]
     pub lazy: bool,
 }
 
-pub fn common_js(helpers: Arc<Helpers>) -> impl Pass + Clone {
+pub fn common_js(helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {
     CommonJs {
         helpers,
+        config,
         scope: Default::default(),
     }
 }
@@ -33,6 +36,7 @@ pub fn common_js(helpers: Arc<Helpers>) -> impl Pass + Clone {
 #[derive(Clone)]
 struct CommonJs {
     helpers: Arc<Helpers>,
+    config: Config,
     scope: State<Scope>,
 }
 
@@ -85,14 +89,14 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         /// Import src to export fomr it.
         macro_rules! import {
-            ($src:expr) => {{
+            ($src:expr, $init:expr) => {{
                 let entry = self
                     .scope
                     .value
                     .imports
                     .entry($src.value.clone())
                     .and_modify(|v| {
-                        if v.is_none() {
+                        if $init && v.is_none() {
                             *v = {
                                 let ident = private_ident!(local_name_for_src(&$src));
                                 Some((ident.sym, ident.span))
@@ -100,8 +104,12 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         }
                     })
                     .or_insert_with(|| {
-                        let ident = private_ident!(local_name_for_src(&$src));
-                        Some((ident.sym, ident.span))
+                        if $init {
+                            let ident = private_ident!(local_name_for_src(&$src));
+                            Some((ident.sym, ident.span))
+                        } else {
+                            None
+                        }
                     })
                     .as_ref()
                     .unwrap();
@@ -223,7 +231,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(..)) => {
-                    if !emitted_esmodule {
+                    if !self.config.strict && !emitted_esmodule {
                         emitted_esmodule = true;
                         //  Object.defineProperty(exports, '__esModule', {
                         //       value: true
@@ -446,7 +454,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                         // export { foo } from 'foo';
                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
-                            let imported = export.src.clone().map(|src| import!(src));
+                            let imported = export
+                                .src
+                                .clone()
+                                .map(|src| import!(src, !export.specifiers.is_empty()));
 
                             stmts.reserve(export.specifiers.len());
 
@@ -576,7 +587,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         };
 
         for export in export_alls {
-            let imported = import!(export.src);
+            let imported = import!(export.src, true);
             // Object.keys(_foo).forEach(function (key) {
             //   if (key === "default" || key === "__esModule") return;
             //   Object.defineProperty(exports, key, {
