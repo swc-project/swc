@@ -868,7 +868,11 @@ impl Fold<Expr> for CommonJs {
                                 op: op!("="),
                                 right: box Expr::Bin(BinExpr {
                                     span: DUMMY_SP,
-                                    left: box Expr::Ident(arg),
+                                    left: box Expr::Unary(UnaryExpr {
+                                        span: DUMMY_SP,
+                                        op: op!(unary, "+"),
+                                        arg: box Expr::Ident(arg)
+                                    }),
                                     op: match op {
                                         op!("++") => op!(bin, "+"),
                                         op!("--") => op!(bin, "-"),
