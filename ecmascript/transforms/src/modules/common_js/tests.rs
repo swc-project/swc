@@ -348,6 +348,7 @@ export class foo9 {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.foo8 = foo8;
 exports.foo3 = exports.foo4 = exports.foo2 = exports.foo7 = exports.bar =
     exports.foo = exports.foo5 = exports.foo6 = void 0;
 
@@ -370,7 +371,6 @@ const foo7 = 3;
 exports.foo7 = foo7;
 
 function foo8() {}
-exports.foo8 = foo8;
 
 class foo9 {}
 exports.foo9 = foo9;
