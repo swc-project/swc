@@ -1,4 +1,8 @@
-
+<p align="center">
+  <a href="https://swc-project.github.io/">
+    <img alt="babel" src="https://raw.githubusercontent.com/swc-project/logo/master/swc.png" width="546">
+  </a>
+</p>
 
 <p align="center">
    Make the web (development) faster.
