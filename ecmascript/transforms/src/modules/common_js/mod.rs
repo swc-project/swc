@@ -16,15 +16,28 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, fxhash::FxBuildHasher>;
 #[cfg(test)]
 mod tests;
 
-#[derive(Default, Clone, Copy, Serialize, Deserialize)]
+#[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
     pub strict: bool,
     #[serde(default)]
-    pub lazy: bool,
+    pub lazy: Lazy,
     #[serde(default)]
     pub no_interop: bool,
+}
+
+#[derive(Clone, Serialize, Deserialize)]
+#[serde(untagged, deny_unknown_fields, rename_all = "camelCase")]
+pub enum Lazy {
+    Bool(bool),
+    List(Vec<JsWord>),
+}
+
+impl Default for Lazy {
+    fn default() -> Self {
+        Lazy::Bool(false)
+    }
 }
 
 pub fn common_js(helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {

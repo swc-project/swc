@@ -1,4 +1,4 @@
-use super::{common_js, Config};
+use super::{common_js, Config, Lazy};
 use crate::{compat::es2015::resolver, helpers::Helpers};
 use ast::*;
 use std::sync::Arc;
@@ -204,8 +204,6 @@ Object.defineProperty(exports, "baz", {
 });
 
 var _moduleWithGetter = _interopRequireDefault(require("./moduleWithGetter"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 "#
 );
@@ -417,6 +415,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -450,6 +449,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -466,7 +466,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.namespace = void 0;
-var namespace = _interopRequireDefault(require("./foo"));
+var namespace = _interopRequireWildcard(require("./foo"));
 exports.namespace = namespace;
 
 "#
@@ -640,6 +640,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -680,6 +681,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -732,6 +734,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -1070,6 +1073,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -1122,6 +1126,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -1156,6 +1161,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -1245,6 +1251,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -1443,8 +1450,6 @@ var Bar = _interopRequireDefault(require("bar"));
 
 var _baz = require("baz");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 _foo.default = (42, function () {
   throw new Error('"' + "Foo" + '" is read-only.');
 }());
@@ -1486,6 +1491,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -1512,6 +1518,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -1598,6 +1605,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -1869,6 +1877,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -1939,6 +1948,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -1952,7 +1962,7 @@ console.log(foo);
     r#"
 "use strict";
 
-var foo = _interopRequireDefault(require("./foo"));
+var foo = _interopRequireWildcard(require("./foo"));
 console.log(foo);
 
 "#
@@ -1994,6 +2004,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -2244,6 +2255,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -2444,6 +2456,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -2469,6 +2482,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -2574,6 +2588,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -3311,7 +3326,7 @@ test!(
     tr(
         Default::default(),
         Config {
-            lazy: true,
+            lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
         }
     ),
@@ -3353,6 +3368,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -3387,6 +3403,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -3529,6 +3546,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
@@ -3563,6 +3581,7 @@ test!(
     tr(
         Default::default(),
         Config {
+            lazy: Lazy::Bool(true),
             ..Default::default()
         }
     ),
