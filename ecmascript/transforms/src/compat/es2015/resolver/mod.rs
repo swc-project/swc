@@ -1,4 +1,4 @@
-use crate::scope::ScopeKind;
+use crate::{scope::ScopeKind, util::State};
 use ast::*;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
@@ -29,6 +29,12 @@ struct Scope<'a> {
     declared_symbols: FxHashSet<JsWord>,
 }
 
+impl<'a> Default for Scope<'a> {
+    fn default() -> Self {
+        Scope::new(ScopeKind::Fn, None)
+    }
+}
+
 impl<'a> Scope<'a> {
     pub fn new(kind: ScopeKind, parent: Option<&'a Scope<'a>>) -> Self {
         Scope {
@@ -41,25 +47,25 @@ impl<'a> Scope<'a> {
 
 #[derive(Clone)]
 pub struct Resolver<'a> {
-    mark: Mark,
-    current: Scope<'a>,
-    cur_defining: Option<(JsWord, Mark)>,
-    in_var_decl: bool,
+    mark: State<Mark>,
+    current: State<Scope<'a>>,
+    cur_defining: State<Option<(JsWord, Mark)>>,
+    in_var_decl: State<bool>,
 }
 
 impl<'a> Resolver<'a> {
     fn new(mark: Mark, current: Scope<'a>, cur_defining: Option<(JsWord, Mark)>) -> Self {
         Resolver {
-            mark,
-            current,
-            cur_defining,
-            in_var_decl: false,
+            mark: mark.into(),
+            current: current.into(),
+            cur_defining: cur_defining.into(),
+            in_var_decl: false.into(),
         }
     }
 
     fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
-        let mut mark = self.mark;
-        let mut scope = Some(&self.current);
+        let mut mark = self.mark.value;
+        let mut scope = Some(&self.current.value);
 
         while let Some(cur) = scope {
             if cur.declared_symbols.contains(sym) {
@@ -84,14 +90,15 @@ impl<'a> Resolver<'a> {
             return ident;
         }
 
-        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
+        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining.value
+        {
             if *cur != ident.sym {
-                (true, self.mark)
+                (true, self.mark.value)
             } else {
                 (false, override_mark)
             }
         } else {
-            (true, self.mark)
+            (true, self.mark.value)
         };
 
         if should_insert {
@@ -115,7 +122,7 @@ impl<'a> Resolver<'a> {
 
 impl<'a> Fold<Function> for Resolver<'a> {
     fn fold(&mut self, mut f: Function) -> Function {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(self.mark.value);
 
         // Child folder
         let mut folder = Resolver::new(
@@ -124,10 +131,10 @@ impl<'a> Fold<Function> for Resolver<'a> {
             self.cur_defining.take(),
         );
 
-        folder.in_var_decl = true;
+        folder.in_var_decl = true.into();
         f.params = f.params.fold_with(&mut folder);
 
-        folder.in_var_decl = false;
+        folder.in_var_decl = false.into();
         f.body = f.body.map(|stmt| stmt.fold_children(&mut folder));
 
         self.cur_defining = folder.cur_defining;
@@ -138,7 +145,7 @@ impl<'a> Fold<Function> for Resolver<'a> {
 
 impl<'a> Fold<BlockStmt> for Resolver<'a> {
     fn fold(&mut self, block: BlockStmt) -> BlockStmt {
-        let child_mark = Mark::fresh(self.mark);
+        let child_mark = Mark::fresh(*self.mark);
 
         let mut child_folder = Resolver::new(
             child_mark,
@@ -183,7 +190,7 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
 impl<'a> Fold<Expr> for Resolver<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
         let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = false;
+        self.in_var_decl = false.into();
         let expr = match expr {
             // Leftmost one of a member expression shoukld be resolved.
             Expr::Member(me) => {
@@ -213,12 +220,12 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
         // order is important
 
         let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
+        self.in_var_decl = true.into();
         let name = decl.name.fold_with(self);
         self.in_var_decl = old_in_var_decl;
 
         let cur_name = match name {
-            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
+            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), *self.mark)),
             _ => None,
         };
 
@@ -246,11 +253,11 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
         };
 
         let old_def = self.cur_defining.take();
-        self.cur_defining = if is_class_like { cur_name } else { None };
+        self.cur_defining = if is_class_like { cur_name } else { None }.into();
 
         let init = decl.init.fold_children(self);
 
-        self.cur_defining = old_def;
+        self.cur_defining = old_def.into();
 
         VarDeclarator { name, init, ..decl }
     }
@@ -258,7 +265,7 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
 
 impl<'a> Fold<Ident> for Resolver<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
-        if self.in_var_decl {
+        if self.in_var_decl.value {
             self.fold_binding_ident(i)
         } else {
             let Ident { span, sym, .. } = i;
@@ -293,7 +300,7 @@ track_ident!(Resolver);
 impl<'a> Fold<ArrowExpr> for Resolver<'a> {
     fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
         let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
+        self.in_var_decl = true.into();
         let params = e.params.fold_with(self);
         self.in_var_decl = old_in_var_decl;
 

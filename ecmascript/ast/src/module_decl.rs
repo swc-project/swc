@@ -1,5 +1,5 @@
 use crate::{
-    decl::{Decl, VarDecl},
+    decl::Decl,
     expr::{ClassExpr, Expr, FnExpr},
     ident::Ident,
     lit::Str,

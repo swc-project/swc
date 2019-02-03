@@ -1,5 +1,5 @@
 use self::ops::{Operator, ScopeOp};
-use crate::{pass::Pass, scope::ScopeKind};
+use crate::{pass::Pass, scope::ScopeKind, util::State};
 use ast::*;
 use fxhash::FxHashMap;
 use std::cell::RefCell;
@@ -11,6 +11,12 @@ mod ops;
 mod tests;
 
 const LOG: bool = false;
+
+#[derive(Clone)]
+struct Hygiene<'a> {
+    current: State<Scope<'a>>,
+    in_var_decl: State<bool>,
+}
 
 impl<'a> Hygiene<'a> {
     fn add_declared_ref(&mut self, ident: Ident) {
@@ -106,7 +112,8 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-pub fn hygiene() -> impl Pass + Clone + Copy {
+pub fn hygiene() -> impl Pass + Clone + 'static {
+    #[derive(Clone, Copy)]
     struct MarkClearer;
     impl Fold<Span> for MarkClearer {
         fn fold(&mut self, span: Span) -> Span {
@@ -114,33 +121,17 @@ pub fn hygiene() -> impl Pass + Clone + Copy {
         }
     }
 
-    #[derive(Clone, Copy)]
-    struct Folder;
-    impl Fold<Module> for Folder {
-        fn fold(&mut self, module: Module) -> Module {
-            module
-                .fold_with(&mut Hygiene::new())
-                .fold_with(&mut MarkClearer)
-        }
-    }
-
-    Folder
-}
-
-#[doc(hidden)]
-struct Hygiene<'a> {
-    current: Scope<'a>,
-    in_var_decl: bool,
+    chain_at!(
+        Module,
+        Hygiene {
+            current: Default::default(),
+            in_var_decl: Default::default(),
+        },
+        MarkClearer
+    )
 }
 
 impl<'a> Hygiene<'a> {
-    pub fn new() -> Self {
-        Hygiene {
-            current: Scope::new(ScopeKind::Fn, None),
-            in_var_decl: false,
-        }
-    }
-
     fn apply_ops<N>(&mut self, node: N) -> N
     where
         for<'o> N: FoldWith<Operator<'o>>,
@@ -176,8 +167,8 @@ impl<'a> Fold<TryStmt> for Hygiene<'a> {
 impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Block, Some(&self.current)),
-            in_var_decl: false,
+            current: Scope::new(ScopeKind::Block, Some(&self.current)).into(),
+            in_var_decl: false.into(),
         };
         let node = node.fold_children(&mut folder);
 
@@ -195,14 +186,14 @@ impl<'a> Hygiene<'a> {
         }
 
         let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
-            in_var_decl: false,
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)).into(),
+            in_var_decl: false.into(),
         };
 
-        folder.in_var_decl = true;
+        folder.in_var_decl = true.into();
         node.params = node.params.fold_with(&mut folder);
 
-        folder.in_var_decl = false;
+        folder.in_var_decl = false.into();
         node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
 
         folder.apply_ops(node)
@@ -212,7 +203,7 @@ impl<'a> Hygiene<'a> {
 impl<'a> Fold<VarDeclarator> for Hygiene<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true;
+        self.in_var_decl = true.into();
         let name = decl.name.fold_with(self);
         self.in_var_decl = old_in_var_decl;
 
@@ -240,7 +231,7 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
 impl<'a> Fold<Ident> for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold(&mut self, i: Ident) -> Ident {
-        if self.in_var_decl {
+        if self.in_var_decl.value {
             self.add_declared_ref(i.clone())
         } else {
             self.add_used_ref(i.clone());
@@ -253,7 +244,7 @@ impl<'a> Fold<Ident> for Hygiene<'a> {
 impl<'a> Fold<Expr> for Hygiene<'a> {
     fn fold(&mut self, node: Expr) -> Expr {
         let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = false;
+        self.in_var_decl = false.into();
         let node = match node {
             Expr::Ident(..) => node.fold_children(self),
             Expr::Member(e) => {
@@ -294,6 +285,12 @@ struct Scope<'a> {
     pub declared_symbols: RefCell<FxHashMap<JsWord, Vec<SyntaxContext>>>,
 
     pub(crate) ops: RefCell<Vec<ScopeOp>>,
+}
+
+impl<'a> Default for Scope<'a> {
+    fn default() -> Self {
+        Scope::new(ScopeKind::Fn, None)
+    }
 }
 
 impl<'a> Scope<'a> {
@@ -415,7 +412,7 @@ macro_rules! track_ident {
         impl<'a> Fold<ExportSpecifier> for $T<'a> {
             fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
                 let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = false;
+                self.in_var_decl = false.into();
 
                 let s = s.fold_children(self);
 
@@ -428,7 +425,7 @@ macro_rules! track_ident {
         impl<'a> Fold<ImportSpecifier> for $T<'a> {
             fn fold(&mut self, s: ImportSpecifier) -> ImportSpecifier {
                 let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true;
+                self.in_var_decl = true.into();
 
                 let s = match s {
                     ImportSpecifier::Specific(ImportSpecific { imported: None, .. })
@@ -449,7 +446,7 @@ macro_rules! track_ident {
         impl<'a> Fold<Constructor> for $T<'a> {
             fn fold(&mut self, c: Constructor) -> Constructor {
                 let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true;
+                self.in_var_decl = true.into();
                 let params = c.params.fold_with(self);
                 self.in_var_decl = old_in_var_decl;
 
@@ -468,7 +465,7 @@ macro_rules! track_ident {
         impl<'a> Fold<CatchClause> for $T<'a> {
             fn fold(&mut self, c: CatchClause) -> CatchClause {
                 let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true;
+                self.in_var_decl = true.into();
                 let param = c.param.fold_with(self);
                 self.in_var_decl = old_in_var_decl;
 
@@ -485,14 +482,14 @@ track_ident!(Hygiene);
 impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
     fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
         let mut folder = Hygiene {
-            current: Scope::new(ScopeKind::Fn, Some(&self.current)),
-            in_var_decl: false,
+            current: Scope::new(ScopeKind::Fn, Some(&self.current)).into(),
+            in_var_decl: false.into(),
         };
 
-        folder.in_var_decl = true;
+        folder.in_var_decl = true.into();
         node.params = node.params.fold_with(&mut folder);
 
-        folder.in_var_decl = false;
+        folder.in_var_decl = false.into();
         node.body = node.body.fold_with(&mut folder);
 
         folder.apply_ops(node)

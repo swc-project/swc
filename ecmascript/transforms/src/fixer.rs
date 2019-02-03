@@ -1,4 +1,7 @@
-use crate::{pass::Pass, util::ExprFactory};
+use crate::{
+    pass::Pass,
+    util::{ExprFactory, State},
+};
 use ast::*;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
@@ -7,13 +10,13 @@ use swc_common::{
 
 pub fn fixer() -> impl Pass + Clone {
     Fixer {
-        ctx: Context::Default,
+        ctx: Default::default(),
     }
 }
 
 #[derive(Clone, Copy)]
 struct Fixer {
-    ctx: Context,
+    ctx: State<Context>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -29,11 +32,16 @@ enum Context {
         is_var_decl: bool,
     },
 }
+impl Default for Context {
+    fn default() -> Self {
+        Context::Default
+    }
+}
 
 impl Fold<KeyValuePatProp> for Fixer {
     fn fold(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
         let key = node.key.fold_with(self);
         self.ctx = old;
 
@@ -48,7 +56,7 @@ impl Fold<AssignPatProp> for Fixer {
         let key = node.key.fold_children(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
         let value = node.value.fold_with(self);
         self.ctx = old;
 
@@ -61,7 +69,7 @@ impl Fold<VarDeclarator> for Fixer {
         let name = node.name.fold_children(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true };
+        self.ctx = Context::ForcedExpr { is_var_decl: true }.into();
         let init = node.init.fold_with(self);
         self.ctx = old;
 
@@ -74,7 +82,7 @@ impl Fold<Stmt> for Fixer {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
                 let old = self.ctx;
-                self.ctx = Context::Default;
+                self.ctx = Context::Default.into();
                 let expr = expr.fold_with(self);
                 self.ctx = old;
                 Stmt::Expr(expr)
@@ -147,7 +155,7 @@ macro_rules! context_fn_args {
                 } = node;
 
                 let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false };
+                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
                 let args = args.fold_with(self);
                 self.ctx = old;
 
@@ -169,7 +177,7 @@ macro_rules! array {
         impl Fold<$T> for Fixer {
             fn fold(&mut self, e: $T) -> $T {
                 let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false };
+                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
                 let elems = e.elems.fold_with(self);
                 self.ctx = old;
 
@@ -266,7 +274,7 @@ impl Fold<Expr> for Fixer {
                     Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
-                match self.ctx {
+                match self.ctx.value {
                     Context::ForcedExpr { .. } => Expr::Paren(ParenExpr {
                         span,
                         expr: box expr,
@@ -336,7 +344,7 @@ impl Fold<Expr> for Fixer {
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
                 type_args,
-            }) => match self.ctx {
+            }) => match self.ctx.value {
                 Context::ForcedExpr { .. } => Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),
