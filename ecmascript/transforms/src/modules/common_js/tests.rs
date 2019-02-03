@@ -1889,30 +1889,38 @@ test!(
     r#"
 import { foo1 } from "white";
 
-console.log(foo1);
+function use1() {
+  console.log(foo1);
+}
 
 import { foo2 } from "black";
 
-console.log(foo2);
+function use2() {
+  console.log(foo2);
+}
 
 "#,
     r#"
 "use strict";
 
-var _white = require("white");
+function _white() {
+  const data = require("white");
 
-function _black() {
-  const data = require("black");
-
-  _black = function () {
+  _white = function () {
     return data;
   };
 
   return data;
 }
 
-console.log(_white.foo1);
-console.log(_black().foo2);
+var _black = require("black");
+
+function use1() {
+  console.log(_white().foo1);
+}
+function use2() {
+  console.log(_black.foo2);
+}
 
 "#
 );
