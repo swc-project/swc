@@ -2498,10 +2498,15 @@ export { namespace };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.namespace = void 0;
+Object.defineProperty(exports, "namespace", {
+  enumerable: true,
+  get: function () {
+    return namespace();
+  }
+});
 
 function namespace() {
-  const data = _interopRequireDefault(require("foo"));
+  const data = _interopRequireWildcard(require("foo"));
 
   namespace = function () {
     return data;
@@ -2510,12 +2515,7 @@ function namespace() {
   return data;
 }
 
-Object.defineProperty(exports, "namespace", {
-  enumerable: true,
-  get: function () {
-    return namespace();
-  }
-});
+
 
 "#
 );
@@ -3419,7 +3419,7 @@ export { foo as default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.la(exports, "default", {
+Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
     return _foo().default;

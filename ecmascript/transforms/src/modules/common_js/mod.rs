@@ -107,6 +107,10 @@ struct Scope {
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
     exported_vars: FxHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+
+    /// This is required to handle
+    /// `export * from 'foo';`
+    lazy_blacklist: Vec<JsWord>,
 }
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
@@ -322,6 +326,11 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                            self.scope
+                                .value
+                                .lazy_blacklist
+                                .push(export.src.value.clone());
+
                             export_alls.push(export);
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Class(..)))
@@ -757,7 +766,12 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         }
 
         for (src, import) in self.scope.value.imports.drain(..) {
-            let lazy = self.config.lazy.is_lazy(&src);
+            let lazy = if self.scope.value.lazy_blacklist.contains(&src) {
+                false
+            } else {
+                self.config.lazy.is_lazy(&src)
+            };
+
             let require = make_require_call(src.clone());
 
             match import {
@@ -912,7 +926,11 @@ impl Fold<Expr> for CommonJs {
                 match v {
                     None => return Expr::Ident(i),
                     Some((src, prop)) => {
-                        let lazy = self.config.lazy.is_lazy(&src);
+                        let lazy = if self.scope.value.lazy_blacklist.contains(&src) {
+                            false
+                        } else {
+                            self.config.lazy.is_lazy(&src)
+                        };
 
                         let (ident, span) = self
                             .scope
