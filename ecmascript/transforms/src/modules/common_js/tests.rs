@@ -3339,30 +3339,37 @@ test!(
     r#"
 import * as foo1 from "white";
 
-console.log(foo1);
+function use1(){
+  console.log(foo1);
+}
 
 import * as foo2 from "black";
 
-console.log(foo2);
+function use2(){
+  console.log(foo2);
+}
 
 "#,
     r#"
 "use strict";
 
-var foo1 = _interopRequireDefault(require("white"));
+function foo1() {
+  const data = _interopRequireWildcard(require("white"));
 
-function foo2() {
-  const data = _interopRequireDefault(require("black"));
-
-  foo2 = function () {
+  foo1 = function () {
     return data;
   };
 
   return data;
 }
+var foo2 = _interopRequireWildcard(require("black"));
 
-console.log(foo1);
-console.log(foo2());
+function use1() {
+  console.log(foo1());
+}
+function use2() {
+  console.log(foo2);
+}
 
 "#
 );
