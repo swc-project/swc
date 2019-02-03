@@ -4,8 +4,8 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
-    umd()
+fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+    umd(helpers)
 }
 
 // exports_variable

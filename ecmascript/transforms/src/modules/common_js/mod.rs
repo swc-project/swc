@@ -1,17 +1,17 @@
-use super::util::{define_property, local_name_for_src, make_require_call};
+use super::util::{
+    define_es_module, define_property, local_name_for_src, make_require_call, use_strict, Scope,
+};
 use crate::{
     helpers::Helpers,
     pass::Pass,
     util::{undefined, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
-use fxhash::{FxHashMap, FxHashSet};
+use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{collections::hash_map::Entry, iter, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Span, SyntaxContext, Visit, VisitWith, DUMMY_SP};
-
-type IndexMap<K, V> = indexmap::IndexMap<K, V, fxhash::FxBuildHasher>;
+use swc_common::{Fold, FoldWith, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -66,55 +66,6 @@ struct CommonJs {
     in_top_level: State<bool>,
 }
 
-#[derive(Clone, Default)]
-struct Scope {
-    /// Map from source file to ident
-    ///
-    /// e.g.
-    ///
-    ///  - `import 'foo'`
-    ///   -> `{'foo': None}`
-    ///
-    ///  - `import { foo } from 'bar';`
-    ///   -> `{'bar': Some(_bar)}`
-    ///
-    ///  - `import * as bar1 from 'bar';`
-    ///   -> `{'bar': Some(bar1)}`
-    imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
-    ///
-    /// - `true` is wildcard (`_interopRequireWildcard`)
-    /// - `false` is default (`_interopRequireDefault`)
-    import_types: FxHashMap<JsWord, bool>,
-
-    /// Map from imported ident to (source file, property name).
-    ///
-    /// e.g.
-    ///  - `import { foo } from 'bar';`
-    ///   -> `{foo: ('bar', foo)}`
-    ///
-    ///  - `import foo from 'bar';`
-    ///   -> `{foo: ('bar', default)}`
-    idents: FxHashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
-
-    /// Declared variables except const.
-    declared_vars: Vec<(JsWord, SyntaxContext)>,
-
-    /// Maps of exported variables.
-    ///
-    ///
-    /// e.g.
-    ///  - `export { a }`
-    ///   -> `{ a: [a] }`
-    ///
-    ///  - `export { a as b }`
-    ///   -> `{ a: [b] }`
-    exported_vars: FxHashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
-
-    /// This is required to handle
-    /// `export * from 'foo';`
-    lazy_blacklist: FxHashSet<JsWord>,
-}
-
 impl Fold<Vec<ModuleItem>> for CommonJs {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         /// Import src to export fomr it.
@@ -156,9 +107,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
-        stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Lit(Lit::Str(
-            quote_str!("use strict"),
-        )))));
+        stmts.push(ModuleItem::Stmt(use_strict()));
 
         let mut exports = vec![];
         let mut initialized = FxHashSet::default();
@@ -168,101 +117,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
             self.in_top_level = true.into();
 
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
-                    if import.specifiers.is_empty() {
-                        // import 'foo';
-                        //   -> require('foo');
-                        self.scope
-                            .imports
-                            .entry(import.src.value.clone())
-                            .or_insert(None);
-                    } else if import.specifiers.len() == 1
-                        && match import.specifiers[0] {
-                            ImportSpecifier::Namespace(..) => true,
-                            _ => false,
-                        }
-                    {
-                        // import * as foo from 'src';
-                        let specifier = match import.specifiers.pop().unwrap() {
-                            ImportSpecifier::Namespace(ns) => ns,
-                            _ => unreachable!(),
-                        };
-
-                        self.scope.value.idents.insert(
-                            (specifier.local.sym.clone(), specifier.local.span.ctxt()),
-                            (import.src.value.clone(), "".into()),
-                        );
-
-                        // Override symbol if one exists
-                        self.scope
-                            .value
-                            .imports
-                            .entry(import.src.value.clone())
-                            .and_modify(|v| match *v {
-                                Some(ref mut v) => v.0 = specifier.local.sym.clone(),
-                                None => {
-                                    *v = Some((specifier.local.sym.clone(), specifier.local.span))
-                                }
-                            })
-                            .or_insert_with(|| {
-                                Some((specifier.local.sym.clone(), specifier.local.span))
-                            });
-
-                        self.scope.import_types.insert(import.src.value, true);
-                    } else {
-                        self.scope
-                            .value
-                            .imports
-                            .entry(import.src.value.clone())
-                            .or_insert_with(|| {
-                                Some((local_name_for_src(&import.src), import.src.span))
-                            });
-
-                        for s in import.specifiers {
-                            match s {
-                                ImportSpecifier::Namespace(..) => unreachable!(
-                                    "import * as foo cannot be used with other type of import \
-                                     specifiers"
-                                ),
-                                ImportSpecifier::Default(i) => {
-                                    self.scope.idents.insert(
-                                        (i.local.sym.clone(), i.local.span.ctxt()),
-                                        (import.src.value.clone(), js_word!("default")),
-                                    );
-                                    self.scope
-                                        .import_types
-                                        .entry(import.src.value.clone())
-                                        .or_insert(false);
-                                }
-                                ImportSpecifier::Specific(i) => {
-                                    let ImportSpecific {
-                                        local, imported, ..
-                                    } = i;
-                                    let name = imported
-                                        .map(|i| i.sym)
-                                        .unwrap_or_else(|| local.sym.clone());
-                                    let is_default = name == js_word!("default");
-
-                                    self.scope.idents.insert(
-                                        (local.sym.clone(), local.span.ctxt()),
-                                        (import.src.value.clone(), name),
-                                    );
-
-                                    if is_default {
-                                        self.scope
-                                            .import_types
-                                            .entry(import.src.value.clone())
-                                            .or_insert(false);
-                                    } else {
-                                        self.scope
-                                            .import_types
-                                            .entry(import.src.value.clone())
-                                            .and_modify(|v| *v = true);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    self.scope.insert_import(import)
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..))
@@ -271,25 +127,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(..)) => {
                     if !self.config.strict && !emitted_esmodule {
                         emitted_esmodule = true;
-                        //  Object.defineProperty(exports, '__esModule', {
-                        //       value: true
-                        //  });
-                        stmts.push(ModuleItem::Stmt(Stmt::Expr(box define_property(vec![
-                            quote_ident!("exports").as_arg(),
-                            Lit::Str(quote_str!("__esModule")).as_arg(),
-                            ObjectLit {
-                                span: DUMMY_SP,
-                                props: vec![PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                                    key: PropName::Ident(quote_ident!("value")),
-                                    value: box Lit::Bool(Bool {
-                                        span: DUMMY_SP,
-                                        value: true,
-                                    })
-                                    .into(),
-                                }))],
-                            }
-                            .as_arg(),
-                        ]))));
+
+                        stmts.push(ModuleItem::Stmt(define_es_module(quote_ident!("exports"))));
                     }
 
                     macro_rules! init_export {
