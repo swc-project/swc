@@ -1092,6 +1092,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _white = require("white");
+var _black = require("black");
 
 Object.keys(_white).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -1102,8 +1103,6 @@ Object.keys(_white).forEach(function (key) {
     }
   });
 });
-
-var _black = require("black");
 
 Object.keys(_black).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -1539,7 +1538,7 @@ export { namespace2 };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.namespace2 = exports.namespace1 = void 0;
+exports.namespace1 = exports.namespace2 = void 0;
 var namespace1 = _interopRequireDefault(require("white"));
 exports.namespace1 = namespace1;
 
@@ -2038,27 +2037,28 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "named1", {
   enumerable: true,
   get: function () {
-    return _white.named1;
+    return _white().named1;
   }
 });
 Object.defineProperty(exports, "named2", {
   enumerable: true,
   get: function () {
-    return _black().named2;
+    return _black.named2;
   }
 });
 
-var _white = require("white");
+function _white() {
+  const data = require("white");
 
-function _black() {
-  const data = require("black");
-
-  _black = function () {
+  _white = function () {
     return data;
   };
 
   return data;
 }
+
+var _black = require("black");
+
 
 "#
 );
