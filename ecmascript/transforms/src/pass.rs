@@ -2,6 +2,20 @@ use ast::*;
 use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
 
+pub fn noop() -> impl Pass + Clone + Copy {
+    #[derive(Clone, Copy)]
+    struct Noop;
+    impl<T> Fold<T> for Noop
+    where
+        T: FoldWith<Self>,
+    {
+        fn fold(&mut self, n: T) -> T {
+            n
+        }
+    }
+    Noop
+}
+
 macro_rules! mk_impl {
     ($T:ty) => {
         // impl<A: Pass, B: Pass> Fold<$T> for JoinedPass<A, B, $T> {
