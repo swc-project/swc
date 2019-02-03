@@ -1141,7 +1141,7 @@ console.log(foo);
 "use strict";
 
 function foo() {
-  const data = _interopRequireDefault(require("foo"));
+  const data = _interopRequireWildcard(require("foo"));
 
   foo = function () {
     return data;

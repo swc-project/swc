@@ -34,6 +34,15 @@ pub enum Lazy {
     List(Vec<JsWord>),
 }
 
+impl Lazy {
+    fn is_lazy(&self, src: &JsWord) -> bool {
+        match *self {
+            Lazy::Bool(b) => b,
+            Lazy::List(ref srcs) => srcs.contains(&src),
+        }
+    }
+}
+
 impl Default for Lazy {
     fn default() -> Self {
         Lazy::Bool(false)
@@ -170,6 +179,11 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             ImportSpecifier::Namespace(ns) => ns,
                             _ => unreachable!(),
                         };
+
+                        self.scope.value.idents.insert(
+                            (specifier.local.sym.clone(), specifier.local.span.ctxt()),
+                            (import.src.value.clone(), "".into()),
+                        );
 
                         // Override symbol if one exists
                         self.scope
@@ -743,6 +757,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         }
 
         for (src, import) in self.scope.value.imports.drain(..) {
+            let lazy = self.config.lazy.is_lazy(&src);
             let require = make_require_call(src.clone());
 
             match import {
@@ -771,17 +786,82 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                         _ => box require,
                     };
 
-                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: import.1,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
+                    let ident = Ident::new(import.0, import.1);
+
+                    if lazy {
+                        let return_data = Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            name: Pat::Ident(Ident::new(import.0, import.1)),
-                            init: Some(rhs),
-                            definite: false,
-                        }],
-                        declare: false,
-                    }))));
+                            arg: Some(box quote_ident!("data").into()),
+                        });
+
+                        stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                            ident: ident.clone(),
+                            function: Function {
+                                span: DUMMY_SP,
+                                is_async: false,
+                                is_generator: false,
+                                decorators: Default::default(),
+                                body: Some(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![
+                                        // const data = require();
+                                        Stmt::Decl(Decl::Var(VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Const,
+                                            decls: vec![VarDeclarator {
+                                                span: DUMMY_SP,
+                                                name: Pat::Ident(quote_ident!("data")),
+                                                init: Some(rhs),
+                                                definite: false,
+                                            }],
+                                            declare: false,
+                                        })),
+                                        // foo = function() { return data; };
+                                        Stmt::Expr(box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Pat(box Pat::Ident(ident)),
+                                            op: op!("="),
+                                            right: box FnExpr {
+                                                ident: None,
+                                                function: Function {
+                                                    span: DUMMY_SP,
+                                                    is_async: false,
+                                                    is_generator: false,
+                                                    decorators: Default::default(),
+                                                    body: Some(BlockStmt {
+                                                        span: DUMMY_SP,
+                                                        stmts: vec![return_data.clone()],
+                                                    }),
+                                                    params: vec![],
+                                                    type_params: Default::default(),
+                                                    return_type: Default::default(),
+                                                },
+                                            }
+                                            .into(),
+                                        })),
+                                        // return data
+                                        return_data,
+                                    ],
+                                }),
+                                params: vec![],
+                                type_params: Default::default(),
+                                return_type: Default::default(),
+                            },
+                            declare: false,
+                        }))));
+                    } else {
+                        stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: import.1,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident),
+                                init: Some(rhs),
+                                definite: false,
+                            }],
+                            declare: false,
+                        }))));
+                    }
                 }
                 None => {
                     stmts.push(ModuleItem::Stmt(Stmt::Expr(box require)));
@@ -832,6 +912,8 @@ impl Fold<Expr> for CommonJs {
                 match v {
                     None => return Expr::Ident(i),
                     Some((src, prop)) => {
+                        let lazy = self.config.lazy.is_lazy(&src);
+
                         let (ident, span) = self
                             .scope
                             .value
@@ -841,12 +923,33 @@ impl Fold<Expr> for CommonJs {
                             .unwrap()
                             .as_ref()
                             .unwrap();
-                        Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: Ident::new(ident.clone(), *span).as_obj(),
-                            prop: box Expr::Ident(Ident::new(prop.clone(), DUMMY_SP)),
-                            computed: false,
-                        })
+
+                        let obj = {
+                            let ident = Ident::new(ident.clone(), *span);
+
+                            if lazy {
+                                Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: ident.as_callee(),
+                                    args: vec![],
+                                    type_args: Default::default(),
+                                })
+                            } else {
+                                Expr::Ident(ident)
+                            }
+                        };
+
+                        if *prop == js_word!("") {
+                            // import * as foo from 'foo';
+                            obj
+                        } else {
+                            Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: obj.as_obj(),
+                                prop: box Expr::Ident(Ident::new(prop.clone(), DUMMY_SP)),
+                                computed: false,
+                            })
+                        }
                     }
                 }
             }
