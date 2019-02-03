@@ -1538,26 +1538,27 @@ export { namespace2 };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.namespace1 = exports.namespace2 = void 0;
-var namespace1 = _interopRequireDefault(require("white"));
-exports.namespace1 = namespace1;
+Object.defineProperty(exports, "namespace1", {
+  enumerable: true,
+  get: function () {
+    return namespace1();
+  }
+});
 
-function namespace2() {
-  const data = _interopRequireDefault(require("black"));
+exports.namespace2 = void 0;
+function namespace1() {
+  const data = _interopRequireWildcard(require("white"));
 
-  namespace2 = function () {
+  namespace1 = function () {
     return data;
   };
 
   return data;
 }
 
-Object.defineProperty(exports, "namespace2", {
-  enumerable: true,
-  get: function () {
-    return namespace2();
-  }
-});
+
+var namespace2 = _interopRequireWildcard(require("black"));
+exports.namespace2 = namespace2;
 
 "#
 );

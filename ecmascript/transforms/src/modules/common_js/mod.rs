@@ -533,14 +533,46 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     }
                                 }
 
+                                let lazy = if let Some(ref src) = export.src {
+                                    if self.scope.value.lazy_blacklist.contains(&src.value) {
+                                        false
+                                    } else {
+                                        self.config.lazy.is_lazy(&src.value)
+                                    }
+                                } else {
+                                    match self
+                                        .scope
+                                        .value
+                                        .idents
+                                        .get(&(orig.sym.clone(), orig.span.ctxt()))
+                                    {
+                                        Some((ref src, _)) => {
+                                            if self.scope.value.lazy_blacklist.contains(src) {
+                                                false
+                                            } else {
+                                                self.config.lazy.is_lazy(src)
+                                            }
+                                        }
+                                        None => false,
+                                    }
+                                };
+
+                                let is_reexport = export.src.is_some()
+                                    || self
+                                        .scope
+                                        .value
+                                        .idents
+                                        .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
+
                                 let old = self.in_top_level;
+
                                 // When we are in top level we make import not lazy.
-                                let is_top_level = self
-                                    .scope
-                                    .value
-                                    .idents
-                                    .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
+                                let is_top_level = if lazy { !is_reexport } else { is_reexport };
                                 self.in_top_level = is_top_level.into();
+
+                                if is_top_level {
+                                    eprintln!("is_top_level");
+                                }
 
                                 let value = match imported {
                                     Some(ref imported) => box Expr::Member(MemberExpr {
@@ -558,6 +590,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     Expr::Ident(..) => true,
                                     _ => false,
                                 };
+                                if is_value_ident {
+                                    eprintln!("is_value_ident");
+                                }
 
                                 self.in_top_level = old;
 
