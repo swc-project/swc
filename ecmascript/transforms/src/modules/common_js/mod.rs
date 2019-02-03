@@ -976,6 +976,7 @@ impl Fold<Expr> for CommonJs {
         }
 
         match expr {
+            Expr::This(ThisExpr { span }) if self.in_top_level.value => *undefined(span),
             Expr::Ident(i) => {
                 let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
                 match v {
