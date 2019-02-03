@@ -54,6 +54,7 @@ pub fn common_js(helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {
         helpers,
         config,
         scope: Default::default(),
+        in_top_level: Default::default(),
     }
 }
 
@@ -62,6 +63,7 @@ struct CommonJs {
     helpers: Arc<Helpers>,
     config: Config,
     scope: State<Scope>,
+    in_top_level: State<bool>,
 }
 
 #[derive(Clone, Default)]
@@ -110,7 +112,7 @@ struct Scope {
 
     /// This is required to handle
     /// `export * from 'foo';`
-    lazy_blacklist: Vec<JsWord>,
+    lazy_blacklist: FxHashSet<JsWord>,
 }
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
@@ -163,6 +165,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut export_alls = vec![];
 
         for item in items {
+            self.in_top_level = true.into();
+
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
                     if import.specifiers.is_empty() {
@@ -221,7 +225,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                      specifiers"
                                 ),
                                 ImportSpecifier::Default(i) => {
-                                    eprintln!("{} -> !", i.local.sym);
                                     self.scope.idents.insert(
                                         (i.local.sym.clone(), i.local.span.ctxt()),
                                         (import.src.value.clone(), js_word!("default")),
@@ -329,7 +332,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             self.scope
                                 .value
                                 .lazy_blacklist
-                                .push(export.src.value.clone());
+                                .insert(export.src.value.clone());
 
                             export_alls.push(export);
                         }
@@ -507,14 +510,18 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
                                 if self.scope.value.declared_vars.contains(&key) {
-                                    self.scope.exported_vars.entry(key).or_default().push(
-                                        exported
-                                            .clone()
-                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                            .unwrap_or_else(|| {
-                                                (orig.sym.clone(), orig.span.ctxt())
-                                            }),
-                                    );
+                                    self.scope
+                                        .exported_vars
+                                        .entry(key.clone())
+                                        .or_default()
+                                        .push(
+                                            exported
+                                                .clone()
+                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                .unwrap_or_else(|| {
+                                                    (orig.sym.clone(), orig.span.ctxt())
+                                                }),
+                                        );
                                 }
 
                                 if let Some(ref src) = export.src {
@@ -525,6 +532,16 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                             .or_insert(false);
                                     }
                                 }
+
+                                let old = self.in_top_level;
+                                // When we are in top level we make import not lazy.
+                                let is_top_level = self
+                                    .scope
+                                    .value
+                                    .idents
+                                    .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
+                                self.in_top_level = is_top_level.into();
+
                                 let value = match imported {
                                     Some(ref imported) => box Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
@@ -535,11 +552,14 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     }),
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
+
                                 // True if we are exporting our own stuff.
                                 let is_value_ident = match *value {
                                     Expr::Ident(..) => true,
                                     _ => false,
                                 };
+
+                                self.in_top_level = old;
 
                                 if is_value_ident {
                                     let exported_symbol = exported
@@ -926,6 +946,10 @@ impl Fold<Expr> for CommonJs {
                 match v {
                     None => return Expr::Ident(i),
                     Some((src, prop)) => {
+                        if self.in_top_level.value {
+                            self.scope.value.lazy_blacklist.insert(src.clone());
+                        }
+
                         let lazy = if self.scope.value.lazy_blacklist.contains(&src) {
                             false
                         } else {
@@ -1103,7 +1127,6 @@ impl Fold<Expr> for CommonJs {
 
 impl Fold<VarDecl> for CommonJs {
     ///
-    /// - No-op for const variables.
     /// - collects all declared variables for let and var.
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
@@ -1118,6 +1141,35 @@ impl Fold<VarDecl> for CommonJs {
         }
     }
 }
+
+macro_rules! mark_as_nested {
+    ($T:tt) => {
+        impl Fold<$T> for CommonJs {
+            fn fold(&mut self, f: $T) -> $T {
+                let old = self.in_top_level;
+                self.in_top_level = false.into();
+                let f = f.fold_children(self);
+                self.in_top_level = old;
+
+                f
+            }
+        }
+    };
+}
+mark_as_nested!(Function);
+mark_as_nested!(Constructor);
+
+macro_rules! noop {
+    ($T:tt) => {
+        impl Fold<$T> for CommonJs {
+            fn fold(&mut self, n: $T) -> $T {
+                n
+            }
+        }
+    };
+}
+
+noop!(Pat);
 
 struct VarCollector<'a> {
     pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
