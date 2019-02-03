@@ -8,11 +8,11 @@ fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
     system_js()
 }
 
-// systemjs_export_named_7
+// export_named_7
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named_7,
+    export_named_7,
     r#"
 export function foo2(bar) {}
 
@@ -34,13 +34,13 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_get_module_name_option
+// get_module_name_option
 
-// systemjs_export_const_destructuring_deep
+// export_const_destructuring_deep
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_const_destructuring_deep,
+    export_const_destructuring_deep,
     r#"
 export const { foo: { bar: [baz, qux] } } = {};
 
@@ -65,11 +65,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_2
+// export_default_2
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_2,
+    export_default_2,
     r#"
 export default {};
 
@@ -89,11 +89,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_const_destructuring_array
+// export_const_destructuring_array
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_const_destructuring_array,
+    export_const_destructuring_array,
     r#"
 export const [foo, bar] = [];
 
@@ -114,11 +114,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_const_destructuring_array_rest
+// export_const_destructuring_array_rest
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_const_destructuring_array_rest,
+    export_const_destructuring_array_rest,
     r#"
 export const [foo, bar, ...baz] = [];
 
@@ -139,11 +139,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_7
+// export_default_7
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_7,
+    export_default_7,
     r#"
 export default function foo () {}
 
@@ -165,11 +165,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_from_5
+// export_from_5
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_from_5,
+    export_from_5,
     r#"
 export {foo as default} from "foo";
 
@@ -189,11 +189,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_export_const_destructuring_array_default_params
+// export_const_destructuring_array_default_params
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_const_destructuring_array_default_params,
+    export_const_destructuring_array_default_params,
     r#"
 export const [foo, bar = 2] = [];
 
@@ -214,11 +214,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_const_destructuring_object_default_params
+// export_const_destructuring_object_default_params
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_const_destructuring_object_default_params,
+    export_const_destructuring_object_default_params,
     r#"
 export const { foo, bar = 1 } = {};
 
@@ -242,11 +242,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_named
+// export_named
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named,
+    export_named,
     r#"
 export {foo};
 
@@ -266,11 +266,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_named_5
+// export_named_5
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named_5,
+    export_named_5,
     r#"
 export {foo as default, bar};
 
@@ -292,11 +292,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_4
+// export_default_4
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_4,
+    export_default_4,
     r#"
 export default foo;
 
@@ -318,11 +318,11 @@ System.register([], function (_export, _context) {
 
 // dynamic_import
 
-// systemjs_hoist_function_exports
+// hoist_function_exports
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_hoist_function_exports,
+    hoist_function_exports,
     r#"
 import { isEven } from "./evens";
 
@@ -380,11 +380,11 @@ System.register(["./evens"], function (_export, _context) {
 "#
 );
 
-// systemjs_export_fn_decl
+// export_fn_decl
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_fn_decl,
+    export_fn_decl,
     r#"
 var testProp = 'test property';
 
@@ -420,11 +420,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_9
+// export_default_9
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_9,
+    export_default_9,
     r#"
 export default (function(){return "foo"})();
 
@@ -446,11 +446,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_named_3
+// export_named_3
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named_3,
+    export_named_3,
     r#"
 export {foo as bar};
 
@@ -470,11 +470,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_named_2
+// export_named_2
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named_2,
+    export_named_2,
     r#"
 export {foo, bar};
 
@@ -496,11 +496,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_hoisting_bindings
+// hoisting_bindings
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_hoisting_bindings,
+    hoisting_bindings,
     r#"
 export function a() {
   alert("a");
@@ -546,11 +546,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_5
+// export_default_5
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_5,
+    export_default_5,
     r#"
 export default function () {}
 
@@ -570,11 +570,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default
+// export_default
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default,
+    export_default,
     r#"
 export default 42;
 
@@ -594,11 +594,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_3
+// export_default_3
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_3,
+    export_default_3,
     r#"
 export default [];
 
@@ -676,11 +676,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_default_8
+// export_default_8
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_8,
+    export_default_8,
     r#"
 export default class Foo {}
 
@@ -702,11 +702,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_named_4
+// export_named_4
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named_4,
+    export_named_4,
     r#"
 export {foo as default};
 
@@ -726,11 +726,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_uninitialized
+// export_uninitialized
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_uninitialized,
+    export_uninitialized,
     r#"
 export var m;
 "#,
@@ -751,11 +751,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_module_name
+// module_name
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_module_name,
+    module_name,
     r#"
 export var name = __moduleName;
 "#,
@@ -775,11 +775,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_const_destructuring_object
+// export_const_destructuring_object
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_const_destructuring_object,
+    export_const_destructuring_object,
     r#"
 export const { foo: bar, baz } = {};
 
@@ -803,11 +803,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_from_2
+// export_from_2
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_from_2,
+    export_from_2,
     r#"
 export {foo} from "foo";
 
@@ -827,11 +827,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_imports_mixing
+// imports_mixing
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_imports_mixing,
+    imports_mixing,
     r#"
 import foo, {baz as xyz} from "foo";
 
@@ -853,11 +853,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_remap
+// remap
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_remap,
+    remap,
     r#"
 export var test = 2;
 test = 5;
@@ -920,11 +920,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_imports_default
+// imports_default
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_imports_default,
+    imports_default,
     r#"
 import foo from "foo";
 import {default as foo2} from "foo";
@@ -947,11 +947,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_export_from_6
+// export_from_6
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_from_6,
+    export_from_6,
     r#"
 export {foo as default, bar} from "foo";
 
@@ -974,11 +974,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_imports_numbered
+// imports_numbered
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_imports_numbered,
+    imports_numbered,
     r#"
 import "2";
 import "1";
@@ -997,11 +997,11 @@ System.register(["2", "1"], function (_export, _context) {
 "#
 );
 
-// systemjs_imports_glob
+// imports_glob
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_imports_glob,
+    imports_glob,
     r#"
 import * as foo from "foo";
 
@@ -1022,11 +1022,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_imports
+// imports
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_imports,
+    imports,
     r#"
 import "foo";
 import "foo-bar";
@@ -1046,11 +1046,11 @@ System.register(["foo", "foo-bar", "./directory/foo-bar"], function (_export, _c
 "#
 );
 
-// systemjs_export_from_3
+// export_from_3
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_from_3,
+    export_from_3,
     r#"
 export {foo, bar} from "foo";
 
@@ -1073,11 +1073,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_exports_variable
+// exports_variable
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_exports_variable,
+    exports_variable,
     r#"
 export var foo = 1;
 export var foo2 = function () {};
@@ -1128,11 +1128,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_imports_named
+// imports_named
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_imports_named,
+    imports_named,
     r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
@@ -1161,11 +1161,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_export_named_6
+// export_named_6
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_named_6,
+    export_named_6,
     r#"
 export function foo() {}
 
@@ -1187,11 +1187,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_from
+// export_from
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_from,
+    export_from,
     r#"
 export * from "foo";
 
@@ -1217,13 +1217,13 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_export_const_destructuring_object_rest
+// export_const_destructuring_object_rest
 
-// systemjs_export_default_6
+// export_default_6
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_default_6,
+    export_default_6,
     r#"
 export default class {}
 
@@ -1243,11 +1243,11 @@ System.register([], function (_export, _context) {
 "#
 );
 
-// systemjs_export_from_4
+// export_from_4
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_export_from_4,
+    export_from_4,
     r#"
 export {foo as bar} from "foo";
 
@@ -1267,11 +1267,11 @@ System.register(["foo"], function (_export, _context) {
 "#
 );
 
-// systemjs_overview
+// overview
 test!(
     syntax(),
     tr(Default::default()),
-    systemjs_overview,
+    overview,
     r#"
 import "foo";
 import "foo-bar";

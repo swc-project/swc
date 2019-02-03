@@ -8,8 +8,8 @@ fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
     umd()
 }
 
-// umd_exports_variable
-test!(syntax(),tr( Default::default()), umd_exports_variable, r#"
+// exports_variable
+test!(syntax(),tr( Default::default()), exports_variable, r#"
 export var foo = 1;
 export var foo2 = 1, bar = 2;
 export var foo3 = function () {};
@@ -69,11 +69,11 @@ export class foo9 {}
 
 "#);
 
-// umd_export_named
+// export_named
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_named,
+    export_named,
     r#"
 var foo;
 export {foo};
@@ -106,11 +106,11 @@ export {foo};
 "#
 );
 
-// umd_export_default_11
+// export_default_11
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_11,
+    export_default_11,
     r#"
 export default new Cachier()
 
@@ -149,13 +149,13 @@ export function Cachier(databaseName) {}
 "#
 );
 
-// umd_module_id_with_overridden_global
+// module_id_with_overridden_global
 
-// umd_export_from_4
+// export_from_4
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_from_4,
+    export_from_4,
     r#"
 export {foo as bar} from "foo";
 
@@ -190,13 +190,13 @@ export {foo as bar} from "foo";
 "#
 );
 
-// umd_override_import_name
+// override_import_name
 
-// umd_export_default_3
+// export_default_3
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_3,
+    export_default_3,
     r#"
 export default [];
 
@@ -228,15 +228,15 @@ export default [];
 "#
 );
 
-// umd_imports_exact_globals_false_with_overrides
+// imports_exact_globals_false_with_overrides
 
-// umd_imports_exact_globals_true_with_overrides
+// imports_exact_globals_true_with_overrides
 
-// umd_imports_default
+// imports_default
 test!(
     syntax(),
     tr(Default::default()),
-    umd_imports_default,
+    imports_default,
     r#"
 import foo from "foo";
 import {default as foo2} from "foo";
@@ -269,11 +269,11 @@ foo2;
 "#
 );
 
-// umd_export_named_3
+// export_named_3
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_named_3,
+    export_named_3,
     r#"
 var foo, bar;
 export {foo as default, bar};
@@ -307,11 +307,11 @@ export {foo as default, bar};
 "#
 );
 
-// umd_imports_glob
+// imports_glob
 test!(
     syntax(),
     tr(Default::default()),
-    umd_imports_glob,
+    imports_glob,
     r#"
 import * as foo from "foo";
 
@@ -341,11 +341,11 @@ foo;
 "#
 );
 
-// umd_export_default_6
+// export_default_6
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_6,
+    export_default_6,
     r#"
 export default class {}
 
@@ -379,11 +379,11 @@ export default class {}
 "#
 );
 
-// umd_export_default_5
+// export_default_5
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_5,
+    export_default_5,
     r#"
 export default function () {}
 
@@ -415,11 +415,11 @@ export default function () {}
 "#
 );
 
-// umd_hoist_function_exports
+// hoist_function_exports
 test!(
     syntax(),
     tr(Default::default()),
-    umd_hoist_function_exports,
+    hoist_function_exports,
     r#"
 import { isEven } from "./evens";
 
@@ -472,11 +472,11 @@ export var isOdd = (function (isEven) {
 "#
 );
 
-// umd_export_from_2
+// export_from_2
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_from_2,
+    export_from_2,
     r#"
 export {foo as default} from "foo";
 
@@ -511,13 +511,13 @@ export {foo as default} from "foo";
 "#
 );
 
-// umd_imports_exact_globals_true
+// imports_exact_globals_true
 
-// umd_export_default_8
+// export_default_8
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_8,
+    export_default_8,
     r#"
 export default class Foo {}
 
@@ -551,15 +551,15 @@ export default class Foo {}
 "#
 );
 
-// umd_module_name
+// module_name
 
-// umd_module_id
+// module_id
 
-// umd_export_named_5
+// export_named_5
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_named_5,
+    export_named_5,
     r#"
 var foo, bar;
 export {foo, bar};
@@ -593,11 +593,11 @@ export {foo, bar};
 "#
 );
 
-// umd_imports_exact_globals_false
+// imports_exact_globals_false
 test!(
     syntax(),
     tr(Default::default()),
-    umd_imports_exact_globals_false,
+    imports_exact_globals_false,
     r#"
 import fooBar1 from "foo-bar";
 import fooBar2 from "./mylib/foo-bar";
@@ -628,15 +628,15 @@ import fizzBuzz from "fizzbuzz";
 "#
 );
 
-// umd_module_id_with_overridden_global_in_namespace
+// module_id_with_overridden_global_in_namespace
 
 // regression_4192
 
-// umd_export_default_10
+// export_default_10
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_10,
+    export_default_10,
     r#"
 export default (function(){return "foo"})();
 
@@ -672,11 +672,11 @@ export default (function(){return "foo"})();
 "#
 );
 
-// umd_export_from
+// export_from
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_from,
+    export_from,
     r#"
 export {foo} from "foo";
 
@@ -711,11 +711,11 @@ export {foo} from "foo";
 "#
 );
 
-// umd_export_from_5
+// export_from_5
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_from_5,
+    export_from_5,
     r#"
 export {foo, bar} from "foo";
 
@@ -756,13 +756,13 @@ export {foo, bar} from "foo";
 "#
 );
 
-// umd_module_name_with_overridden_global
+// module_name_with_overridden_global
 
-// umd_export_default_2
+// export_default_2
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_2,
+    export_default_2,
     r#"
 export default {};
 
@@ -794,11 +794,11 @@ export default {};
 "#
 );
 
-// umd_imports_named
+// imports_named
 test!(
     syntax(),
     tr(Default::default()),
-    umd_imports_named,
+    imports_named,
     r#"
 import {bar} from "foo";
 import {bar2, baz} from "foo";
@@ -840,11 +840,11 @@ xyz;
 "#
 );
 
-// umd_imports_mixing
+// imports_mixing
 test!(
     syntax(),
     tr(Default::default()),
-    umd_imports_mixing,
+    imports_mixing,
     r#"
 import foo, {baz as xyz} from "foo";
 xyz;
@@ -873,11 +873,11 @@ xyz;
 "#
 );
 
-// umd_remap
+// remap
 test!(
     syntax(),
     tr(Default::default()),
-    umd_remap,
+    remap,
     r#"
 export var test = 2;
 test = 5;
@@ -947,13 +947,13 @@ d = 4;
 "#
 );
 
-// umd_get_module_name_option
+// get_module_name_option
 
-// umd_export_named_2
+// export_named_2
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_named_2,
+    export_named_2,
     r#"
 var foo;
 export {foo as default};
@@ -986,11 +986,11 @@ export {foo as default};
 "#
 );
 
-// umd_export_default_7
+// export_default_7
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_7,
+    export_default_7,
     r#"
 export default function foo () {}
 
@@ -1022,13 +1022,13 @@ export default function foo () {}
 "#
 );
 
-// umd_override_export_name
+// override_export_name
 
-// umd_non_default_imports
+// non_default_imports
 test!(
     syntax(),
     tr(Default::default()),
-    umd_non_default_imports,
+    non_default_imports,
     r#"
 import { render } from "./lib/render";
 
@@ -1053,11 +1053,11 @@ import { render } from "./lib/render";
 "#
 );
 
-// umd_imports
+// imports
 test!(
     syntax(),
     tr(Default::default()),
-    umd_imports,
+    imports,
     r#"
 import "foo";
 import "foo-bar";
@@ -1084,11 +1084,11 @@ import "./directory/foo-bar";
 "#
 );
 
-// umd_export_default
+// export_default
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default,
+    export_default,
     r#"
 export default 42;
 
@@ -1120,11 +1120,11 @@ export default 42;
 "#
 );
 
-// umd_export_default_4
+// export_default_4
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_4,
+    export_default_4,
     r#"
 export default foo;
 
@@ -1156,11 +1156,11 @@ export default foo;
 "#
 );
 
-// umd_export_from_3
+// export_from_3
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_from_3,
+    export_from_3,
     r#"
 export {foo as default, bar} from "foo";
 
@@ -1201,11 +1201,11 @@ export {foo as default, bar} from "foo";
 "#
 );
 
-// umd_export_default_9
+// export_default_9
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_default_9,
+    export_default_9,
     r#"
 var foo;
 export { foo as default };
@@ -1239,11 +1239,11 @@ export { foo as default };
 "#
 );
 
-// umd_overview
+// overview
 test!(
     syntax(),
     tr(Default::default()),
-    umd_overview,
+    overview,
     r#"
 import "foo";
 import "foo-bar";
@@ -1297,13 +1297,13 @@ bar2;
 "#
 );
 
-// umd_module_id_with_overridden_global_in_very_nested_namespace
+// module_id_with_overridden_global_in_very_nested_namespace
 
-// umd_export_named_4
+// export_named_4
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_named_4,
+    export_named_4,
     r#"
 var foo;
 export {foo as bar};
@@ -1336,11 +1336,11 @@ export {foo as bar};
 "#
 );
 
-// umd_export_from_6
+// export_from_6
 test!(
     syntax(),
     tr(Default::default()),
-    umd_export_from_6,
+    export_from_6,
     r#"
 export * from "foo";
 
