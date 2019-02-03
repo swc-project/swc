@@ -1122,6 +1122,8 @@ Object.keys(_black).forEach(function (key) {
 
 // lazy_dep_import_namespace
 test!(
+    // Same option as lazy_local_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -1601,6 +1603,8 @@ var _foo = require("foo");
 
 // lazy_dep_reexport_named
 test!(
+    // Same option as lazy_local_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -2274,19 +2278,10 @@ console.log(foo2);
 "use strict";
 
 var _white = _interopRequireDefault(require("white"));
-
-function _black() {
-  const data = _interopRequireDefault(require("black"));
-
-  _black = function () {
-    return data;
-  };
-
-  return data;
-}
+var _black = _interopRequireDefault(require('black'));
 
 console.log(_white.default);
-console.log(_black().default);
+console.log(_black.default);
 
 "#
 );
@@ -2478,6 +2473,8 @@ require("black");
 
 // lazy_dep_reexport_namespace
 test!(
+    // Same option as lazy_local_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -3364,6 +3361,8 @@ console.log(foo2());
 
 // lazy_dep_import_named
 test!(
+    // Same option as lazy_local_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -3399,6 +3398,8 @@ console.log(_foo().foo);
 
 // lazy_dep_reexport_default
 test!(
+    // Same option as lazy_local_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -3542,6 +3543,8 @@ foo.baz();
 
 // lazy_dep_import_default
 test!(
+    // Same option as lazy_local_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
