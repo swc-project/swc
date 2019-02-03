@@ -567,7 +567,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 let old = self.in_top_level;
 
                                 // When we are in top level we make import not lazy.
-                                let is_top_level = if lazy { !is_reexport } else { is_reexport };
+                                let is_top_level = if lazy { !is_reexport } else { true };
                                 self.in_top_level = is_top_level.into();
 
                                 if is_top_level {

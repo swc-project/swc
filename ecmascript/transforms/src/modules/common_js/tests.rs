@@ -411,6 +411,8 @@ var _foo = require("foo");
 
 // lazy_local_reexport_default
 test!(
+    // Same option as lazy_deps_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -445,6 +447,8 @@ var _foo = _interopRequireDefault(require("./foo"));
 
 // lazy_local_reexport_namespace
 test!(
+    // Same option as lazy_deps_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -1181,11 +1185,18 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
-    return _white.default;
+    return _white().default;
   }
 });
 
-var _white = _interopRequireDefault(require("white"));
+function _white() {
+    const data = _interopRequireDefault(require("white"));
+    _white = function() {
+        return data;
+    };
+    return data;
+}
+
 
 "#
 );
@@ -1603,8 +1614,6 @@ var _foo = require("foo");
 
 // lazy_dep_reexport_named
 test!(
-    // Same option as lazy_local_*, but different result
-    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -2482,8 +2491,6 @@ require("black");
 
 // lazy_dep_reexport_namespace
 test!(
-    // Same option as lazy_local_*, but different result
-    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -3414,8 +3421,6 @@ console.log(_foo().foo);
 
 // lazy_dep_reexport_default
 test!(
-    // Same option as lazy_local_*, but different result
-    ignore,
     syntax(),
     tr(
         Default::default(),
@@ -3596,6 +3601,8 @@ console.log(_foo().default);
 
 // lazy_local_reexport_named
 test!(
+    // Same option as lazy_deps_*, but different result
+    ignore,
     syntax(),
     tr(
         Default::default(),
