@@ -167,13 +167,13 @@ macro_rules! test_transform {
 
         crate::tests::Tester::run(|tester: &mut crate::tests::Tester| {
             let expected =
-                tester.apply_transform(::testing::DropSpan, "expected.js", $syntax, $expected)?;
+                tester.apply_transform(::testing::DropSpan, "output.js", $syntax, $expected)?;
 
             eprintln!("----- Actual -----");
             let helpers = Arc::new(Helpers::default());
             let tr = (crate::tests::assert_type($tr))(tester, helpers.clone());
             let actual = tester
-                .apply_transform(tr, "actual.js", $syntax, $input)?
+                .apply_transform(tr, "input.js", $syntax, $input)?
                 .fold_with(&mut crate::hygiene::hygiene())
                 .fold_with(&mut crate::fixer::fixer());
 
