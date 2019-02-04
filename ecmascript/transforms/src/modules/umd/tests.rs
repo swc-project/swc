@@ -1,4 +1,5 @@
 use super::*;
+use crate::compat::es2015::resolver;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
@@ -9,7 +10,7 @@ fn tr(
     helpers: Arc<Helpers>,
     config: Config,
 ) -> impl Fold<Module> {
-    umd(tester.cm.clone(), helpers, config)
+    chain!(resolver(), umd(tester.cm.clone(), helpers, config))
 }
 
 // exports_variable
@@ -55,14 +56,14 @@ export class foo9 {}
     value: true
   });
   _exports.foo8 = foo8;
-  _exports.foo9 = _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 =
-      _exports.foo3 = _exports.bar = _exports.foo2 = _exports.foo = void 0;
-  var foo = 1;
+  _exports.foo3 = _exports.foo4 = _exports.foo2 = _exports.foo7 = _exports.bar =
+      _exports.foo = _exports.foo5 = _exports.foo6 = void 0;
+ var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,
       bar = 2;
-  _exports.bar = bar;
   _exports.foo2 = foo2;
+  _exports.bar = bar;
 
   var foo3 = function () {};
 
@@ -533,7 +534,7 @@ export var isOdd = (function (isEven) {
   _exports.isOdd = void 0;
 
   function nextOdd(n) {
-    return (0, _evens.isEven)(n) ? n + 1 : n + 2;
+    return _evens.isEven(n) ? n + 1 : n + 2;
   }
 
   var isOdd = function (isEven) {
@@ -1063,16 +1064,16 @@ d = 4;
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
+  _exports.test = _exports.f = _exports.e = _exports.c = _exports.a = void 0;
   var test = 2;
   _exports.test = test;
   _exports.test = test = 5;
-  _exports.test = test = test + 1;
+  _exports.test = test = +test + 1;
 
   (function () {
-    var test = 2;
-    test = 3;
-    test++;
+    var test1 = 2;
+    test1 = 3;
+    test1++;
   })();
 
   var a = 2;
@@ -1474,12 +1475,11 @@ bar2;
   }
 })(this, function (_exports, foo2, _fooBar, _fooBar1) {
   "use strict";
-
+  foo2 = _interopRequireWildcard(foo2);
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.test2 = _exports.test = void 0;
-  foo2 = _interopRequireWildcard(foo2);
+  _exports.test = _exports.default = _exports.test2 = void 0;
   var test;
   _exports.test = test;
   var test2 = 5;
