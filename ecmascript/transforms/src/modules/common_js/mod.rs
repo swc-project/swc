@@ -1,6 +1,6 @@
 use super::util::{
     define_es_module, define_property, initialize_to_undefined, make_descriptor, make_require_call,
-    use_strict, Scope,
+    use_strict, Scope, VarCollector,
 };
 use crate::{
     helpers::Helpers,
@@ -12,7 +12,7 @@ use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{collections::hash_map::Entry, iter, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, SyntaxContext, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -375,10 +375,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 let is_top_level = if lazy { !is_reexport } else { true };
                                 self.in_top_level = is_top_level.into();
 
-                                if is_top_level {
-                                    eprintln!("is_top_level");
-                                }
-
                                 let value = match imported {
                                     Some(ref imported) => box Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
@@ -395,9 +391,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     Expr::Ident(..) => true,
                                     _ => false,
                                 };
-                                if is_value_ident {
-                                    eprintln!("is_value_ident");
-                                }
 
                                 self.in_top_level = old;
 
@@ -893,19 +886,3 @@ macro_rules! noop {
 }
 
 noop!(Pat);
-
-struct VarCollector<'a> {
-    pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
-}
-
-impl<'a> Visit<VarDeclarator> for VarCollector<'a> {
-    fn visit(&mut self, node: &VarDeclarator) {
-        node.name.visit_with(self);
-    }
-}
-
-impl<'a> Visit<Ident> for VarCollector<'a> {
-    fn visit(&mut self, i: &Ident) {
-        self.to.push((i.sym.clone(), i.span.ctxt()))
-    }
-}

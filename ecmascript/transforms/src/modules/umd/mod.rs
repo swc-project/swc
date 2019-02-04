@@ -1,12 +1,16 @@
 use self::config::BuiltConfig;
 pub use self::config::Config;
-use super::util::{define_es_module, local_name_for_src, make_require_call, use_strict, Scope};
+use super::util::{
+    define_es_module, define_property, initialize_to_undefined, local_name_for_src,
+    make_descriptor, make_require_call, use_strict, Scope, VarCollector,
+};
 use crate::{
     helpers::Helpers,
     pass::Pass,
     util::{prepend_stmts, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
+use fxhash::FxHashSet;
 use std::{collections::hash_map::Entry, iter, sync::Arc};
 use swc_common::{sync::Lrc, Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
@@ -47,11 +51,16 @@ impl Fold<Module> for Umd {
 
         let items = module.body;
 
+        // Inserted after initializing exported names to undefined.
+        let mut extra_stmts = vec![];
         let mut stmts = Vec::with_capacity(items.len() + 2);
         stmts.push(use_strict());
 
+        let mut exports = vec![];
+        let mut initialized = FxHashSet::default();
+        let mut export_alls = vec![];
         let mut emitted_esmodule = false;
-        let exports = self.exports.value.0.clone();
+        let exports_ident = self.exports.value.0.clone();
 
         // Process items
         for item in items {
@@ -73,7 +82,311 @@ impl Fold<Module> for Umd {
                 | ModuleDecl::ExportNamed(..) => {
                     if !emitted_esmodule {
                         emitted_esmodule = true;
-                        stmts.push(define_es_module(exports.clone()));
+                        stmts.push(define_es_module(exports_ident.clone()));
+                    }
+
+                    macro_rules! init_export {
+                        ("default") => {{
+                            init_export!(js_word!("default"))
+                        }};
+                        ($name:expr) => {{
+                            exports.push($name.clone());
+                            initialized.insert($name.clone());
+                        }};
+                    }
+                    match decl {
+                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Fn(..)) => {
+                            // initialized.insert(js_word!("default"));
+                        }
+
+                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::TsInterfaceDecl(..)) => {}
+
+                        ModuleDecl::ExportAll(ref export) => {
+                            self.scope
+                                .value
+                                .import_types
+                                .entry(export.src.value.clone())
+                                .and_modify(|v| *v = true);
+                        }
+
+                        ModuleDecl::ExportDefaultDecl(..) | ModuleDecl::ExportDefaultExpr(..) => {
+                            init_export!("default")
+                        }
+                        _ => {}
+                    }
+
+                    match decl {
+                        ModuleDecl::ExportAll(export) => export_alls.push(export),
+                        ModuleDecl::ExportDecl(decl @ Decl::Class(..))
+                        | ModuleDecl::ExportDecl(decl @ Decl::Fn(..)) => {
+                            let (ident, is_class) = match decl {
+                                Decl::Class(ref c) => (c.ident.clone(), true),
+                                Decl::Fn(ref f) => (f.ident.clone(), false),
+                                _ => unreachable!(),
+                            };
+
+                            //
+                            extra_stmts.push(Stmt::Decl(decl.fold_with(self)));
+
+                            let append_to: &mut Vec<_> = if is_class {
+                                &mut extra_stmts
+                            } else {
+                                // Function declaration cannot throw
+                                &mut stmts
+                            };
+
+                            append_to.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: exports_ident.clone().as_obj(),
+                                    computed: false,
+                                    prop: box Expr::Ident(ident.clone()),
+                                })),
+                                op: op!("="),
+                                right: box ident.into(),
+                            })));
+                        }
+                        ModuleDecl::ExportDecl(Decl::Var(var)) => {
+                            extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
+
+                            var.decls.visit_with(&mut VarCollector {
+                                to: &mut self.scope.value.declared_vars,
+                            });
+
+                            let mut found = vec![];
+                            for decl in var.decls {
+                                let mut v = DestructuringFinder { found: &mut found };
+                                decl.visit_with(&mut v);
+
+                                for ident in found.drain(..).map(|v| Ident::new(v.0, v.1)) {
+                                    self.scope
+                                        .exported_vars
+                                        .entry((ident.sym.clone(), ident.span.ctxt()))
+                                        .or_default()
+                                        .push((ident.sym.clone(), ident.span.ctxt()));
+                                    init_export!(ident.sym);
+
+                                    extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: exports_ident.clone().as_obj(),
+                                            computed: false,
+                                            prop: box Expr::Ident(ident.clone()),
+                                        })),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    })));
+                                }
+                            }
+                        }
+                        ModuleDecl::ExportDefaultDecl(decl) => match decl {
+                            ExportDefaultDecl::Class(ClassExpr { ident, class }) => {
+                                init_export!("default");
+
+                                let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
+                                extra_stmts.push(Stmt::Decl(Decl::Class(ClassDecl {
+                                    ident: ident.clone(),
+                                    class,
+                                    declare: false,
+                                })));
+
+                                extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                    op: op!("="),
+                                    right: box ident.into(),
+                                })));
+                            }
+                            ExportDefaultDecl::Fn(FnExpr { ident, function }) => {
+                                // init_export!("default");
+
+                                let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
+                                extra_stmts.push(Stmt::Decl(Decl::Fn(
+                                    FnDecl {
+                                        ident: ident.clone(),
+                                        function,
+                                        declare: false,
+                                    }
+                                    .fold_with(self),
+                                )));
+
+                                extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                    op: op!("="),
+                                    right: box ident.into(),
+                                })));
+                            }
+                            _ => {}
+                        },
+
+                        ModuleDecl::ExportDefaultExpr(expr) => {
+                            let ident = private_ident!("_default");
+
+                            // TODO: Optimization (when expr cannot throw, `exports.default =
+                            // void 0` is not required)
+
+                            // We use extra statements because of the initialzation
+                            extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(ident.clone()),
+                                    init: Some(expr.fold_with(self)),
+                                    definite: false,
+                                }],
+                                declare: false,
+                            })));
+                            extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                op: op!("="),
+                                right: box ident.into(),
+                            })));
+                        }
+
+                        // export { foo } from 'foo';
+                        ModuleDecl::ExportNamed(export) => {
+                            let imported = export.src.clone().map(|src| {
+                                self.scope
+                                    .import_to_export(&src, !export.specifiers.is_empty())
+                            });
+
+                            stmts.reserve(export.specifiers.len());
+
+                            for ExportSpecifier { orig, exported, .. } in export.specifiers {
+                                let is_import_default = orig.sym == js_word!("default");
+
+                                let key = (orig.sym.clone(), orig.span.ctxt());
+                                if self.scope.value.declared_vars.contains(&key) {
+                                    self.scope
+                                        .exported_vars
+                                        .entry(key.clone())
+                                        .or_default()
+                                        .push(
+                                            exported
+                                                .clone()
+                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                .unwrap_or_else(|| {
+                                                    (orig.sym.clone(), orig.span.ctxt())
+                                                }),
+                                        );
+                                }
+
+                                if let Some(ref src) = export.src {
+                                    if is_import_default {
+                                        self.scope
+                                            .import_types
+                                            .entry(src.value.clone())
+                                            .or_insert(false);
+                                    }
+                                }
+
+                                let lazy = false;
+
+                                let is_reexport = export.src.is_some()
+                                    || self
+                                        .scope
+                                        .value
+                                        .idents
+                                        .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
+
+                                let value = match imported {
+                                    Some(ref imported) => box Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        // unwrap is safe because `exports.specifiers.len() != 0`
+                                        obj: imported.clone().unwrap().as_obj(),
+                                        computed: false,
+                                        prop: box Expr::Ident(orig.clone()),
+                                    }),
+                                    None => box Expr::Ident(orig.clone()).fold_with(self),
+                                };
+
+                                // True if we are exporting our own stuff.
+                                let is_value_ident = match *value {
+                                    Expr::Ident(..) => true,
+                                    _ => false,
+                                };
+                                if is_value_ident {
+                                    eprintln!("is_value_ident");
+                                }
+
+                                if is_value_ident {
+                                    let exported_symbol = exported
+                                        .as_ref()
+                                        .map(|e| e.sym.clone())
+                                        .unwrap_or_else(|| orig.sym.clone());
+                                    init_export!(exported_symbol);
+
+                                    extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: exports_ident.clone().as_callee(),
+                                            computed: false,
+                                            prop: box Expr::Ident(exported.unwrap_or(orig)),
+                                        })),
+                                        op: op!("="),
+                                        right: value,
+                                    })));
+                                } else {
+                                    stmts.push(Stmt::Expr(box define_property(vec![
+                                        exports_ident.clone().as_arg(),
+                                        {
+                                            // export { foo }
+                                            //  -> 'foo'
+
+                                            // export { foo as bar }
+                                            //  -> 'bar'
+                                            let i = exported.unwrap_or_else(|| orig);
+                                            Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                        },
+                                        make_descriptor(value).as_arg(),
+                                    ])));
+                                }
+                            }
+                        }
+                        ModuleDecl::ExportDecl(Decl::Var(var)) => {
+                            extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
+
+                            var.decls.visit_with(&mut VarCollector {
+                                to: &mut self.scope.value.declared_vars,
+                            });
+
+                            let mut found = vec![];
+                            for decl in var.decls {
+                                let mut v = DestructuringFinder { found: &mut found };
+                                decl.visit_with(&mut v);
+
+                                for ident in found.drain(..).map(|v| Ident::new(v.0, v.1)) {
+                                    self.scope
+                                        .exported_vars
+                                        .entry((ident.sym.clone(), ident.span.ctxt()))
+                                        .or_default()
+                                        .push((ident.sym.clone(), ident.span.ctxt()));
+                                    init_export!(ident.sym);
+
+                                    extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: exports_ident.clone().as_obj(),
+                                            computed: false,
+                                            prop: box Expr::Ident(ident.clone()),
+                                        })),
+                                        op: op!("="),
+                                        right: box ident.into(),
+                                    })));
+                                }
+                            }
+                        }
+
+                        _ => {}
                     }
                 }
 
@@ -89,10 +402,12 @@ impl Fold<Module> for Umd {
 
         // Prepended to statements.
         let mut import_stmts = vec![];
+        let mut initialized = FxHashSet::default();
         let mut define_deps_arg = ArrayLit {
             span: DUMMY_SP,
             elems: vec![],
         };
+
         let mut factory_params = Vec::with_capacity(self.scope.imports.len() + 1);
         let mut factory_args = Vec::with_capacity(factory_params.capacity());
         let mut global_factory_args = Vec::with_capacity(factory_params.capacity());
@@ -100,9 +415,64 @@ impl Fold<Module> for Umd {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
-            factory_params.push(Pat::Ident(exports.clone()));
+            factory_params.push(Pat::Ident(exports_ident.clone()));
             factory_args.push(quote_ident!("exports").as_arg());
             global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());
+        }
+
+        // Used only if export * exists
+        let exported_names = {
+            if !export_alls.is_empty() && !exports.is_empty() {
+                let exported_names = private_ident!("_exportNames");
+                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(exported_names.clone()),
+                        init: Some(box Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: exports
+                                .into_iter()
+                                .filter_map(|export| {
+                                    if export == js_word!("default") {
+                                        return None;
+                                    }
+
+                                    Some(PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(Ident::new(export, DUMMY_SP)),
+                                        value: box Expr::Lit(Lit::Bool(Bool {
+                                            span: DUMMY_SP,
+                                            value: true,
+                                        })),
+                                    })))
+                                })
+                                .collect(),
+                        })),
+                        definite: false,
+                    }],
+                    declare: false,
+                })));
+
+                Some(exported_names)
+            } else {
+                None
+            }
+        };
+
+        for export in export_alls {
+            stmts.push(self.scope.handle_export_all(
+                exports_ident.clone(),
+                exported_names.clone(),
+                export,
+            ));
+        }
+
+        if !initialized.is_empty() {
+            stmts.push(Stmt::Expr(initialize_to_undefined(
+                exports_ident.clone(),
+                initialized,
+            )));
         }
 
         for (src, import) in self.scope.value.imports.drain(..) {
@@ -165,6 +535,7 @@ impl Fold<Module> for Umd {
         }
 
         prepend_stmts(&mut stmts, import_stmts.into_iter());
+        stmts.append(&mut extra_stmts);
 
         // ====================
         //  Emit
@@ -328,6 +699,8 @@ impl Fold<Module> for Umd {
 
 impl Fold<Expr> for Umd {
     fn fold(&mut self, expr: Expr) -> Expr {
+        let exports_ident = self.exports.value.0.clone();
+
         macro_rules! entry {
             ($i:expr) => {
                 self.scope
@@ -345,7 +718,7 @@ impl Fold<Expr> for Umd {
                         span: DUMMY_SP,
                         left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
                             span: DUMMY_SP,
-                            obj: quote_ident!("exports").as_obj(),
+                            obj: exports_ident.clone().as_obj(),
                             computed: false,
                             prop: box Expr::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
                         })),

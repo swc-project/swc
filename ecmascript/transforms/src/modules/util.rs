@@ -4,7 +4,7 @@ use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use inflector::Inflector;
 use std::iter;
 use swc_atoms::JsWord;
-use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, Span, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
 #[derive(Clone, Default)]
 pub(super) struct Scope {
@@ -422,4 +422,23 @@ pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
             })),
         ],
     }
+}
+
+pub(super) struct VarCollector<'a> {
+    pub to: &'a mut Vec<(JsWord, SyntaxContext)>,
+}
+
+impl<'a> Visit<VarDeclarator> for VarCollector<'a> {
+    fn visit(&mut self, node: &VarDeclarator) {
+        node.name.visit_with(self);
+    }
+}
+
+impl<'a> Visit<Ident> for VarCollector<'a> {
+    fn visit(&mut self, i: &Ident) {
+        self.to.push((i.sym.clone(), i.span.ctxt()))
+    }
+}
+impl<'a> Visit<Expr> for VarCollector<'a> {
+    fn visit(&mut self, _: &Expr) {}
 }

@@ -1473,7 +1473,7 @@ bar2;
     factory(mod.exports, global.foo, global.fooBar, global.fooBar);
     global.input = mod.exports;
   }
-})(this, function (_exports, foo2, _fooBar, _fooBar2) {
+})(this, function (_exports, foo2, _fooBar, _fooBar1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
