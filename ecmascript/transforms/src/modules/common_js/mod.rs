@@ -1,5 +1,6 @@
 use super::util::{
-    define_es_module, define_property, local_name_for_src, make_require_call, use_strict, Scope,
+    define_es_module, define_property, initialize_to_undefined, make_descriptor, make_require_call,
+    use_strict, Scope,
 };
 use crate::{
     helpers::Helpers,
@@ -68,41 +69,6 @@ struct CommonJs {
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        /// Import src to export fomr it.
-        macro_rules! import {
-            ($src:expr, $init:expr) => {{
-                let entry = self
-                    .scope
-                    .value
-                    .imports
-                    .entry($src.value.clone())
-                    .and_modify(|v| {
-                        if $init && v.is_none() {
-                            *v = {
-                                let ident = private_ident!(local_name_for_src(&$src.value));
-                                Some((ident.sym, ident.span))
-                            }
-                        }
-                    })
-                    .or_insert_with(|| {
-                        if $init {
-                            let ident = private_ident!(local_name_for_src(&$src.value));
-                            Some((ident.sym, ident.span))
-                        } else {
-                            None
-                        }
-                    });
-                if $init {
-                    let entry = entry.as_ref().unwrap();
-                    let ident = Ident::new(entry.0.clone(), entry.1);
-
-                    Some(ident)
-                } else {
-                    None
-                }
-            }};
-        }
-
         let mut emitted_esmodule = false;
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
@@ -337,10 +303,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                         // export { foo } from 'foo';
                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
-                            let imported = export
-                                .src
-                                .clone()
-                                .map(|src| import!(src, !export.specifiers.is_empty()));
+                            let imported = export.src.clone().map(|src| {
+                                self.scope
+                                    .import_to_export(&src, !export.specifiers.is_empty())
+                            });
 
                             stmts.reserve(export.specifiers.len());
 
@@ -485,15 +451,15 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let has_export = !exports.is_empty();
 
         // Used only if export * exists
-        let export_names = {
-            let export_names = private_ident!("_exportNames");
+        let exported_names = {
             if !export_alls.is_empty() && has_export {
+                let exported_names = private_ident!("_exportNames");
                 stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(export_names.clone()),
+                        name: Pat::Ident(exported_names.clone()),
                         init: Some(box Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: exports
@@ -517,146 +483,28 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     }],
                     declare: false,
                 }))));
-            }
 
-            export_names
+                Some(exported_names)
+            } else {
+                None
+            }
         };
 
         for export in export_alls {
-            let imported = import!(export.src, true).unwrap();
-            // Object.keys(_foo).forEach(function (key) {
-            //   if (key === "default" || key === "__esModule") return;
-            //   Object.defineProperty(exports, key, {
-            //     enumerable: true,
-            //     get: function () {
-            //       return _foo[key];
-            //     }
-            //   });
-            // })
-
-            let key_ident = private_ident!("key");
-
-            let function = Function {
-                span: DUMMY_SP,
-                is_async: false,
-                is_generator: false,
-                decorators: Default::default(),
-                params: vec![Pat::Ident(key_ident.clone())],
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: iter::once(Stmt::If(IfStmt {
-                        span: DUMMY_SP,
-                        // key === "default" || key === "__esModule"
-                        test: box key_ident
-                            .clone()
-                            .make_eq(Lit::Str(quote_str!("default")))
-                            .make_bin(
-                                op!("||"),
-                                key_ident
-                                    .clone()
-                                    .make_eq(Lit::Str(quote_str!("__esModule"))),
-                            ),
-                        cons: box Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: None,
-                        }),
-                        alt: None,
-                    }))
-                    .chain({
-                        // We should skip if the file explicitly exports
-                        if has_export {
-                            // `if (Object.prototype.hasOwnProperty.call(_exportNames, key))
-                            //      return;`
-                            Some(Stmt::If(IfStmt {
-                                span: DUMMY_SP,
-                                test: box CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: member_expr!(
-                                        DUMMY_SP,
-                                        Object.prototype.hasOwnProperty.call
-                                    )
-                                    .as_callee(),
-                                    args: vec![
-                                        export_names.clone().as_arg(),
-                                        key_ident.clone().as_arg(),
-                                    ],
-                                    type_args: Default::default(),
-                                }
-                                .into(),
-                                cons: box Stmt::Return(ReturnStmt {
-                                    span: DUMMY_SP,
-                                    arg: None,
-                                }),
-                                alt: None,
-                            }))
-                        } else {
-                            None
-                        }
-                    })
-                    .chain(iter::once(Stmt::Expr(box define_property(vec![
-                        quote_ident!("exports").as_arg(),
-                        key_ident.clone().as_arg(),
-                        make_descriptor(box Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: imported.clone().as_obj(),
-                            prop: box key_ident.into(),
-                            computed: true,
-                        }))
-                        .as_arg(),
-                    ]))))
-                    .collect(),
-                }),
-                return_type: Default::default(),
-                type_params: Default::default(),
-            };
-
             // We use extra_stmts because it should be placed *after* import
             // statements.
-            extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                // Object.keys(_foo).forEach
-                callee: MemberExpr {
-                    span: DUMMY_SP,
-                    obj: CallExpr {
-                        span: DUMMY_SP,
-                        callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
-                        args: vec![imported.as_arg()],
-                        type_args: Default::default(),
-                    }
-                    .as_obj(),
-                    computed: false,
-                    prop: box Expr::Ident(quote_ident!("forEach")),
-                }
-                .as_callee(),
-                args: vec![FnExpr {
-                    ident: None,
-                    function,
-                }
-                .as_arg()],
-                type_args: Default::default(),
-            }))));
+            extra_stmts.push(ModuleItem::Stmt(self.scope.handle_export_all(
+                quote_ident!("exports"),
+                exported_names.clone(),
+                export,
+            )));
         }
 
         if !initialized.is_empty() {
-            // Inject `exports.default = exports.foo = void 0`;
-
-            let mut rhs = undefined(DUMMY_SP);
-
-            for name in initialized.into_iter() {
-                rhs = box Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                        span: DUMMY_SP,
-                        obj: quote_ident!("exports").as_callee(),
-                        computed: false,
-                        prop: box Expr::Ident(Ident::new(name, DUMMY_SP)),
-                    })),
-                    op: op!("="),
-                    right: rhs,
-                });
-            }
-
-            stmts.push(ModuleItem::Stmt(Stmt::Expr(rhs)));
+            stmts.push(ModuleItem::Stmt(Stmt::Expr(initialize_to_undefined(
+                quote_ident!("exports"),
+                initialized,
+            ))));
         }
 
         for (src, import) in self.scope.value.imports.drain(..) {
@@ -1059,46 +907,5 @@ impl<'a> Visit<VarDeclarator> for VarCollector<'a> {
 impl<'a> Visit<Ident> for VarCollector<'a> {
     fn visit(&mut self, i: &Ident) {
         self.to.push((i.sym.clone(), i.span.ctxt()))
-    }
-}
-
-fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
-    let get_fn_body = Some(BlockStmt {
-        span: DUMMY_SP,
-        stmts: vec![Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(get_expr),
-        })],
-    });
-
-    ObjectLit {
-        span: DUMMY_SP,
-        props: vec![
-            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!("enumerable")),
-                value: box Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                })
-                .into(),
-            })),
-            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!("get")),
-                value: box FnExpr {
-                    ident: None,
-                    function: Function {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        decorators: Default::default(),
-                        params: vec![],
-                        body: get_fn_body,
-                        return_type: Default::default(),
-                        type_params: Default::default(),
-                    },
-                }
-                .into(),
-            })),
-        ],
     }
 }

@@ -1,7 +1,8 @@
-use crate::util::ExprFactory;
+use crate::util::{undefined, ExprFactory};
 use ast::*;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use inflector::Inflector;
+use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 
@@ -55,6 +56,158 @@ pub(super) struct Scope {
 }
 
 impl Scope {
+    ///
+    /// ```js
+    /// Object.keys(_foo).forEach(function (key) {
+    ///   if (key === "default" || key === "__esModule") return;
+    ///   Object.defineProperty(exports, key, {
+    ///     enumerable: true,
+    ///     get: function () {
+    ///       return _foo[key];
+    ///     }
+    ///   });
+    /// })
+    /// ```
+    ///
+    /// # Parameters
+    /// - `exported_names` Ident of the object literal.
+    pub fn handle_export_all(
+        &mut self,
+        exports: Ident,
+        exported_names: Option<Ident>,
+        export: ExportAll,
+    ) -> Stmt {
+        let imported = self.import_to_export(&export.src, true).unwrap();
+
+        let key_ident = private_ident!("key");
+
+        let function = Function {
+            span: DUMMY_SP,
+            is_async: false,
+            is_generator: false,
+            decorators: Default::default(),
+            params: vec![Pat::Ident(key_ident.clone())],
+            body: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: iter::once(Stmt::If(IfStmt {
+                    span: DUMMY_SP,
+                    // key === "default" || key === "__esModule"
+                    test: box key_ident
+                        .clone()
+                        .make_eq(Lit::Str(quote_str!("default")))
+                        .make_bin(
+                            op!("||"),
+                            key_ident
+                                .clone()
+                                .make_eq(Lit::Str(quote_str!("__esModule"))),
+                        ),
+                    cons: box Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: None,
+                    }),
+                    alt: None,
+                }))
+                .chain({
+                    // We should skip if the file explicitly exports
+                    if let Some(exported_names) = exported_names {
+                        // `if (Object.prototype.hasOwnProperty.call(_exportNames, key))
+                        //      return;`
+                        Some(Stmt::If(IfStmt {
+                            span: DUMMY_SP,
+                            test: box CallExpr {
+                                span: DUMMY_SP,
+                                callee: member_expr!(
+                                    DUMMY_SP,
+                                    Object.prototype.hasOwnProperty.call
+                                )
+                                .as_callee(),
+                                args: vec![exported_names.as_arg(), key_ident.clone().as_arg()],
+                                type_args: Default::default(),
+                            }
+                            .into(),
+                            cons: box Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: None,
+                            }),
+                            alt: None,
+                        }))
+                    } else {
+                        None
+                    }
+                })
+                .chain(iter::once(Stmt::Expr(box define_property(vec![
+                    exports.as_arg(),
+                    key_ident.clone().as_arg(),
+                    make_descriptor(box Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: imported.clone().as_obj(),
+                        prop: box key_ident.into(),
+                        computed: true,
+                    }))
+                    .as_arg(),
+                ]))))
+                .collect(),
+            }),
+            return_type: Default::default(),
+            type_params: Default::default(),
+        };
+
+        Stmt::Expr(box Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            // Object.keys(_foo).forEach
+            callee: MemberExpr {
+                span: DUMMY_SP,
+                obj: CallExpr {
+                    span: DUMMY_SP,
+                    callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
+                    args: vec![imported.as_arg()],
+                    type_args: Default::default(),
+                }
+                .as_obj(),
+                computed: false,
+                prop: box Expr::Ident(quote_ident!("forEach")),
+            }
+            .as_callee(),
+            args: vec![FnExpr {
+                ident: None,
+                function,
+            }
+            .as_arg()],
+            type_args: Default::default(),
+        }))
+    }
+
+    /// Import src to export fomr it.
+    pub fn import_to_export(&mut self, src: &Str, init: bool) -> Option<Ident> {
+        let entry = self
+            .imports
+            .entry(src.value.clone())
+            .and_modify(|v| {
+                if init && v.is_none() {
+                    *v = {
+                        let ident = private_ident!(local_name_for_src(&src.value));
+                        Some((ident.sym, ident.span))
+                    }
+                }
+            })
+            .or_insert_with(|| {
+                if init {
+                    let ident = private_ident!(local_name_for_src(&src.value));
+                    Some((ident.sym, ident.span))
+                } else {
+                    None
+                }
+            });
+        if init {
+            let entry = entry.as_ref().unwrap();
+            let ident = Ident::new(entry.0.clone(), entry.1);
+
+            Some(ident)
+        } else {
+            None
+        }
+    }
+
     pub fn insert_import(&mut self, mut import: ImportDecl) {
         if import.specifiers.is_empty() {
             // import 'foo';
@@ -203,4 +356,70 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
 
 pub(super) fn use_strict() -> Stmt {
     Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!("use strict"))))
+}
+
+/// Creates
+///
+/// ```js
+/// exports.default = exports.foo = void 0;
+/// ```
+pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsWord>) -> Box<Expr> {
+    let mut rhs = undefined(DUMMY_SP);
+
+    for name in initialized.into_iter() {
+        rhs = box Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: exports.clone().as_callee(),
+                computed: false,
+                prop: box Expr::Ident(Ident::new(name, DUMMY_SP)),
+            })),
+            op: op!("="),
+            right: rhs,
+        });
+    }
+
+    rhs
+}
+
+pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
+    let get_fn_body = Some(BlockStmt {
+        span: DUMMY_SP,
+        stmts: vec![Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(get_expr),
+        })],
+    });
+
+    ObjectLit {
+        span: DUMMY_SP,
+        props: vec![
+            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("enumerable")),
+                value: box Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                })
+                .into(),
+            })),
+            PropOrSpread::Prop(box Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("get")),
+                value: box FnExpr {
+                    ident: None,
+                    function: Function {
+                        span: DUMMY_SP,
+                        is_async: false,
+                        is_generator: false,
+                        decorators: Default::default(),
+                        params: vec![],
+                        body: get_fn_body,
+                        return_type: Default::default(),
+                        type_params: Default::default(),
+                    },
+                }
+                .into(),
+            })),
+        ],
+    }
 }
