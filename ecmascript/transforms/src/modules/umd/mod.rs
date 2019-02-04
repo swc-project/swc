@@ -822,3 +822,20 @@ impl Fold<Expr> for Umd {
         }
     }
 }
+
+impl Fold<VarDecl> for Umd {
+    ///
+    /// - collects all declared variables for let and var.
+    fn fold(&mut self, var: VarDecl) -> VarDecl {
+        if var.kind != VarDeclKind::Const {
+            var.decls.visit_with(&mut VarCollector {
+                to: &mut self.scope.value.declared_vars,
+            });
+        }
+
+        VarDecl {
+            decls: var.decls.fold_with(self),
+            ..var
+        }
+    }
+}

@@ -1083,7 +1083,8 @@ d = 4;
   _exports.c = b;
   _exports.c = b = 3;
   var d = 3;
-  _exports.f = _exports.e = d;
+  _exports.e = d;
+  _exports.f = d;
   _exports.f = _exports.e = d = 4;
 });
 
