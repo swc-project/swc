@@ -3,7 +3,7 @@ use crate::{
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-    lit::{Lit, Str},
+    lit::{Bool, Lit, Number, Str},
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
@@ -15,7 +15,7 @@ use crate::{
 };
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::{ast_node, Span, Spanned};
+use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 pub enum Expr {
@@ -314,4 +314,40 @@ pub enum BlockStmtOrExpr {
 pub enum PatOrExpr {
     Pat(Box<Pat>),
     Expr(Box<Expr>),
+}
+
+impl From<bool> for Expr {
+    fn from(value: bool) -> Self {
+        Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value,
+        }))
+    }
+}
+
+impl From<f64> for Expr {
+    fn from(value: f64) -> Self {
+        Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value,
+        }))
+    }
+}
+
+impl From<Bool> for Expr {
+    fn from(v: Bool) -> Self {
+        Expr::Lit(Lit::Bool(v))
+    }
+}
+
+impl From<Number> for Expr {
+    fn from(v: Number) -> Self {
+        Expr::Lit(Lit::Num(v))
+    }
+}
+
+impl From<Str> for Expr {
+    fn from(v: Str) -> Self {
+        Expr::Lit(Lit::Str(v))
+    }
 }
