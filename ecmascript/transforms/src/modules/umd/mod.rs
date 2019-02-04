@@ -66,7 +66,7 @@ impl Fold<Module> for Umd {
         for item in items {
             let decl = match item {
                 ModuleItem::Stmt(stmt) => {
-                    stmts.push(stmt.fold_with(self));
+                    extra_stmts.push(stmt.fold_with(self));
                     continue;
                 }
                 ModuleItem::ModuleDecl(decl) => decl,
@@ -95,6 +95,7 @@ impl Fold<Module> for Umd {
                         }};
                     }
                     match decl {
+                        // Function declaration cannot throw an error.
                         ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Fn(..)) => {
                             // initialized.insert(js_word!("default"));
                         }
@@ -110,6 +111,8 @@ impl Fold<Module> for Umd {
                         }
 
                         ModuleDecl::ExportDefaultDecl(..) | ModuleDecl::ExportDefaultExpr(..) => {
+                            // TODO: Optimization (when expr cannot throw, `exports.default =
+                            // void 0` is not required)
                             init_export!("default")
                         }
                         _ => {}
@@ -183,8 +186,6 @@ impl Fold<Module> for Umd {
                         }
                         ModuleDecl::ExportDefaultDecl(decl) => match decl {
                             ExportDefaultDecl::Class(ClassExpr { ident, class }) => {
-                                init_export!("default");
-
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                 extra_stmts.push(Stmt::Decl(Decl::Class(ClassDecl {
@@ -195,14 +196,17 @@ impl Fold<Module> for Umd {
 
                                 extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: exports_ident.clone().as_obj(),
+                                        computed: false,
+                                        prop: box Expr::Ident(quote_ident!("default")),
+                                    })),
                                     op: op!("="),
                                     right: box ident.into(),
                                 })));
                             }
                             ExportDefaultDecl::Fn(FnExpr { ident, function }) => {
-                                // init_export!("default");
-
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                 extra_stmts.push(Stmt::Decl(Decl::Fn(
@@ -216,7 +220,15 @@ impl Fold<Module> for Umd {
 
                                 extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                    left: PatOrExpr::Expr(
+                                        box MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: exports_ident.clone().as_obj(),
+                                            computed: false,
+                                            prop: box quote_ident!("default").into(),
+                                        }
+                                        .into(),
+                                    ),
                                     op: op!("="),
                                     right: box ident.into(),
                                 })));
@@ -226,9 +238,6 @@ impl Fold<Module> for Umd {
 
                         ModuleDecl::ExportDefaultExpr(expr) => {
                             let ident = private_ident!("_default");
-
-                            // TODO: Optimization (when expr cannot throw, `exports.default =
-                            // void 0` is not required)
 
                             // We use extra statements because of the initialzation
                             extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -244,7 +253,12 @@ impl Fold<Module> for Umd {
                             })));
                             extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Expr(member_expr!(DUMMY_SP, exports.default)),
+                                left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: exports_ident.clone().as_callee(),
+                                    computed: false,
+                                    prop: box Expr::Ident(quote_ident!("default")),
+                                })),
                                 op: op!("="),
                                 right: box ident.into(),
                             })));
@@ -287,15 +301,6 @@ impl Fold<Module> for Umd {
                                     }
                                 }
 
-                                let lazy = false;
-
-                                let is_reexport = export.src.is_some()
-                                    || self
-                                        .scope
-                                        .value
-                                        .idents
-                                        .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
-
                                 let value = match imported {
                                     Some(ref imported) => box Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
@@ -312,9 +317,6 @@ impl Fold<Module> for Umd {
                                     Expr::Ident(..) => true,
                                     _ => false,
                                 };
-                                if is_value_ident {
-                                    eprintln!("is_value_ident");
-                                }
 
                                 if is_value_ident {
                                     let exported_symbol = exported
@@ -351,40 +353,6 @@ impl Fold<Module> for Umd {
                                 }
                             }
                         }
-                        ModuleDecl::ExportDecl(Decl::Var(var)) => {
-                            extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
-
-                            var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.value.declared_vars,
-                            });
-
-                            let mut found = vec![];
-                            for decl in var.decls {
-                                let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&mut v);
-
-                                for ident in found.drain(..).map(|v| Ident::new(v.0, v.1)) {
-                                    self.scope
-                                        .exported_vars
-                                        .entry((ident.sym.clone(), ident.span.ctxt()))
-                                        .or_default()
-                                        .push((ident.sym.clone(), ident.span.ctxt()));
-                                    init_export!(ident.sym);
-
-                                    extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: exports_ident.clone().as_obj(),
-                                            computed: false,
-                                            prop: box Expr::Ident(ident.clone()),
-                                        })),
-                                        op: op!("="),
-                                        right: box ident.into(),
-                                    })));
-                                }
-                            }
-                        }
 
                         _ => {}
                     }
@@ -402,7 +370,6 @@ impl Fold<Module> for Umd {
 
         // Prepended to statements.
         let mut import_stmts = vec![];
-        let mut initialized = FxHashSet::default();
         let mut define_deps_arg = ArrayLit {
             span: DUMMY_SP,
             elems: vec![],

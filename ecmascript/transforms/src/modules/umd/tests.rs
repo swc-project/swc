@@ -351,10 +351,10 @@ export {foo as default, bar};
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.bar = _exports.default = void 0;
+  _exports.default = _exports.bar = void 0;
   var foo, bar;
-  _exports.bar = bar;
   _exports.default = foo;
+  _exports.bar = bar;
 });
 
 "#
@@ -478,9 +478,8 @@ export default function () {}
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _default;
-
   function _default() {}
+  _exports.default = _default;
 });
 
 "#
@@ -681,8 +680,8 @@ export {foo, bar};
   });
   _exports.bar = _exports.foo = void 0;
   var foo, bar;
-  _exports.bar = bar;
   _exports.foo = foo;
+  _exports.bar = bar;
 });
 
 "#
@@ -1169,9 +1168,9 @@ export default function foo () {}
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  function foo() {}
   _exports.default = foo;
 
-  function foo() {}
 });
 
 "#
