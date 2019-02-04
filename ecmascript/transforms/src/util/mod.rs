@@ -895,7 +895,8 @@ pub(crate) fn prepend_stmts(
 
     buf.extend(to.drain(..idx));
     buf.extend(stmts);
-    buf.extend(to.drain(idx..));
+    buf.extend(to.drain(..));
+    debug_assert!(to.is_empty());
 
     *to = buf
 }
