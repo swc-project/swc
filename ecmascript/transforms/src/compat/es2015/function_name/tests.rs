@@ -11,7 +11,7 @@ fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     basic,
     r#"var number = function (x) {
   return x;
@@ -23,7 +23,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     assign,
     r#"number = function (x) {
   return x;
@@ -35,7 +35,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     let_complex,
     r#"
 let TestClass = {
@@ -65,7 +65,7 @@ var TestClass = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     class_simple,
     r#"
 var Foo = function() {

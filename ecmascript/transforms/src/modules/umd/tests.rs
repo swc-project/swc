@@ -4,12 +4,16 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    umd(helpers)
+fn tr(tester: &mut crate::tests::Tester, helpers: Arc<Helpers>) -> impl Fold<Module> {
+    umd(tester.cm.clone(), helpers)
 }
 
 // exports_variable
-test!(syntax(),tr( Default::default()), exports_variable, r#"
+test!(
+    syntax(),
+    |tester, helpers| tr(tester, helpers),
+    exports_variable,
+    r#"
 export var foo = 1;
 export var foo2 = 1, bar = 2;
 export var foo3 = function () {};
@@ -20,7 +24,8 @@ export const foo7 = 3;
 export function foo8 () {}
 export class foo9 {}
 
-"#, r#"
+"#,
+    r#"
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
     define(["exports"], factory);
@@ -40,7 +45,8 @@ export class foo9 {}
     value: true
   });
   _exports.foo8 = foo8;
-  _exports.foo9 = _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 = _exports.foo3 = _exports.bar = _exports.foo2 = _exports.foo = void 0;
+  _exports.foo9 = _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 =
+      _exports.foo3 = _exports.bar = _exports.foo2 = _exports.foo = void 0;
   var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,
@@ -67,12 +73,13 @@ export class foo9 {}
   _exports.foo9 = foo9;
 });
 
-"#);
+"#
+);
 
 // export_named
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_named,
     r#"
 var foo;
@@ -109,7 +116,7 @@ export {foo};
 // export_default_11
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_11,
     r#"
 export default new Cachier()
@@ -154,7 +161,7 @@ export function Cachier(databaseName) {}
 // export_from_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_from_4,
     r#"
 export {foo as bar} from "foo";
@@ -195,7 +202,7 @@ export {foo as bar} from "foo";
 // export_default_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_3,
     r#"
 export default [];
@@ -235,7 +242,7 @@ export default [];
 // imports_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     imports_default,
     r#"
 import foo from "foo";
@@ -261,7 +268,7 @@ foo2;
 })(this, function (_foo) {
   "use strict";
 
-  _foo = babelHelpers.interopRequireDefault(_foo);
+  _foo = _interopRequireDefault(_foo);
   _foo.default;
   _foo.default;
 });
@@ -272,7 +279,7 @@ foo2;
 // export_named_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_named_3,
     r#"
 var foo, bar;
@@ -310,7 +317,7 @@ export {foo as default, bar};
 // imports_glob
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     imports_glob,
     r#"
 import * as foo from "foo";
@@ -334,7 +341,7 @@ foo;
 })(this, function (foo) {
   "use strict";
 
-  foo = babelHelpers.interopRequireWildcard(foo);
+  foo = _interopRequireWildcard(foo);
   foo;
 });
 
@@ -344,7 +351,7 @@ foo;
 // export_default_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_6,
     r#"
 export default class {}
@@ -382,7 +389,7 @@ export default class {}
 // export_default_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_5,
     r#"
 export default function () {}
@@ -418,7 +425,7 @@ export default function () {}
 // hoist_function_exports
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     hoist_function_exports,
     r#"
 import { isEven } from "./evens";
@@ -475,7 +482,7 @@ export var isOdd = (function (isEven) {
 // export_from_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_from_2,
     r#"
 export {foo as default} from "foo";
@@ -516,7 +523,7 @@ export {foo as default} from "foo";
 // export_default_8
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_8,
     r#"
 export default class Foo {}
@@ -558,7 +565,7 @@ export default class Foo {}
 // export_named_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_named_5,
     r#"
 var foo, bar;
@@ -596,7 +603,7 @@ export {foo, bar};
 // imports_exact_globals_false
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     imports_exact_globals_false,
     r#"
 import fooBar1 from "foo-bar";
@@ -620,9 +627,9 @@ import fizzBuzz from "fizzbuzz";
 })(this, function (_fooBar, _fooBar2, _fizzbuzz) {
   "use strict";
 
-  _fooBar = babelHelpers.interopRequireDefault(_fooBar);
-  _fooBar2 = babelHelpers.interopRequireDefault(_fooBar2);
-  _fizzbuzz = babelHelpers.interopRequireDefault(_fizzbuzz);
+  _fooBar = _interopRequireDefault(_fooBar);
+  _fooBar2 = _interopRequireDefault(_fooBar2);
+  _fizzbuzz = _interopRequireDefault(_fizzbuzz);
 });
 
 "#
@@ -635,7 +642,7 @@ import fizzBuzz from "fizzbuzz";
 // export_default_10
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_10,
     r#"
 export default (function(){return "foo"})();
@@ -675,7 +682,7 @@ export default (function(){return "foo"})();
 // export_from
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_from,
     r#"
 export {foo} from "foo";
@@ -714,7 +721,7 @@ export {foo} from "foo";
 // export_from_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_from_5,
     r#"
 export {foo, bar} from "foo";
@@ -761,7 +768,7 @@ export {foo, bar} from "foo";
 // export_default_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_2,
     r#"
 export default {};
@@ -797,7 +804,7 @@ export default {};
 // imports_named
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     imports_named,
     r#"
 import {bar} from "foo";
@@ -843,7 +850,7 @@ xyz;
 // imports_mixing
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     imports_mixing,
     r#"
 import foo, {baz as xyz} from "foo";
@@ -866,7 +873,7 @@ xyz;
 })(this, function (_foo) {
   "use strict";
 
-  _foo = babelHelpers.interopRequireWildcard(_foo);
+  _foo = _interopRequireWildcard(_foo);
   _foo.baz;
 });
 
@@ -876,7 +883,7 @@ xyz;
 // remap
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     remap,
     r#"
 export var test = 2;
@@ -952,7 +959,7 @@ d = 4;
 // export_named_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_named_2,
     r#"
 var foo;
@@ -989,7 +996,7 @@ export {foo as default};
 // export_default_7
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_7,
     r#"
 export default function foo () {}
@@ -1027,7 +1034,7 @@ export default function foo () {}
 // non_default_imports
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     non_default_imports,
     r#"
 import { render } from "./lib/render";
@@ -1056,7 +1063,7 @@ import { render } from "./lib/render";
 // imports
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     imports,
     r#"
 import "foo";
@@ -1087,7 +1094,7 @@ import "./directory/foo-bar";
 // export_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default,
     r#"
 export default 42;
@@ -1123,7 +1130,7 @@ export default 42;
 // export_default_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_4,
     r#"
 export default foo;
@@ -1159,7 +1166,7 @@ export default foo;
 // export_from_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_from_3,
     r#"
 export {foo as default, bar} from "foo";
@@ -1204,7 +1211,7 @@ export {foo as default, bar} from "foo";
 // export_default_9
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_default_9,
     r#"
 var foo;
@@ -1242,7 +1249,7 @@ export { foo as default };
 // overview
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     overview,
     r#"
 import "foo";
@@ -1283,7 +1290,7 @@ bar2;
     value: true
   });
   _exports.default = _exports.test2 = _exports.test = void 0;
-  foo2 = babelHelpers.interopRequireWildcard(foo2);
+  foo2 = _interopRequireWildcard(foo2);
   var test;
   _exports.test = test;
   var test2 = 5;
@@ -1302,7 +1309,7 @@ bar2;
 // export_named_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_named_4,
     r#"
 var foo;
@@ -1339,7 +1346,7 @@ export {foo as bar};
 // export_from_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |tester, helpers| tr(tester, helpers),
     export_from_6,
     r#"
 export * from "foo";

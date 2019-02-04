@@ -193,7 +193,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         call,
         "ca(a, b, c, ...d, e)",
         "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
@@ -201,7 +201,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         call_multi_spread,
         "ca(a, b, ...d, e, f, ...h)",
         "ca.apply(undefined, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
@@ -209,7 +209,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         call_noop,
         "ca(a, b, c, d, e)",
         "ca(a, b, c, d, e);"
@@ -217,7 +217,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         array,
         "[a, b, c, ...d, e]",
         "[a, b, c].concat(_toConsumableArray(d), [e])"
@@ -225,7 +225,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         array_empty,
         "[a,, b, c, ...d,,, e]",
         "[a,, b, c].concat(_toConsumableArray(d), [,, e])"
@@ -233,7 +233,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         new,
         "new C(a, b, c, ...d, e)",
         "new Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
@@ -243,7 +243,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Spread::default(),
+        |_, helpers| Spread { helpers },
         new_noop,
         "new C(a, b, c, c, d, e)",
         "new C(a, b, c, c, d, e);"

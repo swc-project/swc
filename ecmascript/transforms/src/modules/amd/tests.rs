@@ -11,7 +11,7 @@ fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
 // export_default_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_4,
     r#"
 export default foo;
@@ -35,7 +35,7 @@ define(["exports"], function (_exports) {
 // export_from_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_2,
     r#"
 export {foo} from "foo";
@@ -62,7 +62,7 @@ define(["exports", "foo"], function (_exports, _foo) {
 // export_named_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_2,
     r#"
 var foo, bar;
@@ -88,7 +88,7 @@ define(["exports"], function (_exports) {
 // imports_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_default,
     r#"
 import foo from "foo";
@@ -113,7 +113,7 @@ define(["foo"], function (_foo) {
 // imports_mixing
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_mixing,
     r#"
 import foo, {baz as xyz} from "foo";
@@ -137,7 +137,7 @@ define(["foo"], function (_foo) {
 // export_default_9
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_9,
     r#"
 var foo;
@@ -166,7 +166,7 @@ define(["exports"], function (_exports) {
 // export_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default,
     r#"
 export default 42;
@@ -190,7 +190,7 @@ define(["exports"], function (_exports) {
 // export_default_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_2,
     r#"
 export default {};
@@ -214,7 +214,7 @@ define(["exports"], function (_exports) {
 // export_from_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_4,
     r#"
 export {foo as bar} from "foo";
@@ -241,7 +241,7 @@ define(["exports", "foo"], function (_exports, _foo) {
 // export_named
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named,
     r#"
 var foo;
@@ -268,7 +268,7 @@ define(["exports"], function (_exports) {
 // export_from
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from,
     r#"
 export * from "foo";
@@ -298,7 +298,7 @@ define(["exports", "foo"], function (_exports, _foo) {
 // export_default_7
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_7,
     r#"
 export default function foo () {}
@@ -322,7 +322,7 @@ define(["exports"], function (_exports) {
 // export_named_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_4,
     r#"
 var foo;
@@ -347,7 +347,7 @@ define(["exports"], function (_exports) {
 // imports_glob
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_glob,
     r#"
 import * as foo from "foo";
@@ -369,7 +369,7 @@ define(["foo"], function (foo) {
 // remap
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     remap,
     r#"
 export var test = 2;
@@ -433,7 +433,7 @@ define(["exports"], function (_exports) {
 // imports
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports,
     r#"
 import "foo";
@@ -452,7 +452,7 @@ define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooB
 // export_from_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_3,
     r#"
 export {foo, bar} from "foo";
@@ -485,7 +485,7 @@ define(["exports", "foo"], function (_exports, _foo) {
 // export_default_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_5,
     r#"
 export default function () {}
@@ -509,7 +509,7 @@ define(["exports"], function (_exports) {
 // export_default_10
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_10,
     r#"
 export default (function(){return "foo"})();
@@ -537,7 +537,7 @@ define(["exports"], function (_exports) {
 // export_named_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_3,
     r#"
 var foo;
@@ -560,7 +560,7 @@ define(["exports"], function (_exports) {
 );
 
 // overview
-test!(syntax(),tr( Default::default()), overview, r#"
+test!(syntax(),|_,helpers| tr(helpers), overview, r#"
 import "foo";
 import "foo-bar";
 import "./directory/foo-bar";
@@ -606,7 +606,7 @@ define(["exports", "foo", "foo-bar", "./directory/foo-bar"], function (_exports,
 // export_from_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_6,
     r#"
 export {foo as default, bar} from "foo";
@@ -639,7 +639,7 @@ define(["exports", "foo"], function (_exports, _foo) {
 // hoist_function_exports
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     hoist_function_exports,
     r#"
 import { isEven } from "./evens";
@@ -684,7 +684,7 @@ define(["exports", "./evens"], function (_exports, _evens) {
 // export_default_8
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_8,
     r#"
 export default class Foo {}
@@ -710,7 +710,7 @@ define(["exports"], function (_exports) {
 // export_from_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_5,
     r#"
 export {foo as default} from "foo";
@@ -737,7 +737,7 @@ define(["exports", "foo"], function (_exports, _foo) {
 // export_default_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_3,
     r#"
 export default [];
@@ -761,7 +761,7 @@ define(["exports"], function (_exports) {
 // import_order
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     import_order,
     r#"
 import './foo';
@@ -783,7 +783,7 @@ define(["./foo", "./bar", "./derp", "./qux"], function (_foo, _bar, _derp, _qux)
 // export_specifier_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_specifier_default,
     r#"
 var a = 1;
@@ -806,7 +806,11 @@ define(["exports"], function (_exports) {
 );
 
 // exports_variable
-test!(syntax(),tr( Default::default()), exports_variable, r#"
+test!(
+    syntax(),
+    |_, helpers| tr(helpers),
+    exports_variable,
+    r#"
 export var foo = 1;
 export var foo2 = 1, bar = 2;
 export var foo3 = function () {};
@@ -817,7 +821,8 @@ export const foo7 = 3;
 export function foo8 () {}
 export class foo9 {}
 
-"#, r#"
+"#,
+    r#"
 define(["exports"], function (_exports) {
   "use strict";
 
@@ -825,7 +830,8 @@ define(["exports"], function (_exports) {
     value: true
   });
   _exports.foo8 = foo8;
-  _exports.foo9 = _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 = _exports.foo3 = _exports.bar = _exports.foo2 = _exports.foo = void 0;
+  _exports.foo9 = _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 =
+      _exports.foo3 = _exports.bar = _exports.foo2 = _exports.foo = void 0;
   var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,
@@ -852,12 +858,13 @@ define(["exports"], function (_exports) {
   _exports.foo9 = foo9;
 });
 
-"#);
+"#
+);
 
 // imports_named
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_named,
     r#"
 import {bar} from "foo";
@@ -891,7 +898,7 @@ define(["foo"], function (_foo) {
 // export_default_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_6,
     r#"
 export default class {}
@@ -921,7 +928,7 @@ define(["exports"], function (_exports) {
 // export_named_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_5,
     r#"
 var foo, bar;

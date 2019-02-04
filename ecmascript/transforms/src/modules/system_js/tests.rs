@@ -11,7 +11,7 @@ fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
 // export_named_7
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_7,
     r#"
 export function foo2(bar) {}
@@ -39,7 +39,7 @@ System.register([], function (_export, _context) {
 // export_const_destructuring_deep
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_const_destructuring_deep,
     r#"
 export const { foo: { bar: [baz, qux] } } = {};
@@ -68,7 +68,7 @@ System.register([], function (_export, _context) {
 // export_default_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_2,
     r#"
 export default {};
@@ -92,7 +92,7 @@ System.register([], function (_export, _context) {
 // export_const_destructuring_array
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_const_destructuring_array,
     r#"
 export const [foo, bar] = [];
@@ -117,7 +117,7 @@ System.register([], function (_export, _context) {
 // export_const_destructuring_array_rest
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_const_destructuring_array_rest,
     r#"
 export const [foo, bar, ...baz] = [];
@@ -142,7 +142,7 @@ System.register([], function (_export, _context) {
 // export_default_7
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_7,
     r#"
 export default function foo () {}
@@ -168,7 +168,7 @@ System.register([], function (_export, _context) {
 // export_from_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_5,
     r#"
 export {foo as default} from "foo";
@@ -192,7 +192,7 @@ System.register(["foo"], function (_export, _context) {
 // export_const_destructuring_array_default_params
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_const_destructuring_array_default_params,
     r#"
 export const [foo, bar = 2] = [];
@@ -217,7 +217,7 @@ System.register([], function (_export, _context) {
 // export_const_destructuring_object_default_params
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_const_destructuring_object_default_params,
     r#"
 export const { foo, bar = 1 } = {};
@@ -245,7 +245,7 @@ System.register([], function (_export, _context) {
 // export_named
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named,
     r#"
 export {foo};
@@ -269,7 +269,7 @@ System.register([], function (_export, _context) {
 // export_named_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_5,
     r#"
 export {foo as default, bar};
@@ -295,7 +295,7 @@ System.register([], function (_export, _context) {
 // export_default_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_4,
     r#"
 export default foo;
@@ -321,7 +321,7 @@ System.register([], function (_export, _context) {
 // hoist_function_exports
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     hoist_function_exports,
     r#"
 import { isEven } from "./evens";
@@ -383,7 +383,7 @@ System.register(["./evens"], function (_export, _context) {
 // export_fn_decl
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_fn_decl,
     r#"
 var testProp = 'test property';
@@ -423,7 +423,7 @@ System.register([], function (_export, _context) {
 // export_default_9
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_9,
     r#"
 export default (function(){return "foo"})();
@@ -449,7 +449,7 @@ System.register([], function (_export, _context) {
 // export_named_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_3,
     r#"
 export {foo as bar};
@@ -473,7 +473,7 @@ System.register([], function (_export, _context) {
 // export_named_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_2,
     r#"
 export {foo, bar};
@@ -499,7 +499,7 @@ System.register([], function (_export, _context) {
 // hoisting_bindings
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     hoisting_bindings,
     r#"
 export function a() {
@@ -549,7 +549,7 @@ System.register([], function (_export, _context) {
 // export_default_5
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_5,
     r#"
 export default function () {}
@@ -573,7 +573,7 @@ System.register([], function (_export, _context) {
 // export_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default,
     r#"
 export default 42;
@@ -597,7 +597,7 @@ System.register([], function (_export, _context) {
 // export_default_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_3,
     r#"
 export default [];
@@ -621,7 +621,7 @@ System.register([], function (_export, _context) {
 // dynamic_import_import_meta
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     dynamic_import_import_meta,
     r#"
 console.log(import.meta.url);
@@ -644,7 +644,7 @@ System.register([], function (_export, _context) {
 // dynamic_import_dynamic_import
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     dynamic_import_dynamic_import,
     r#"
 export function lazyLoadOperation () {
@@ -679,7 +679,7 @@ System.register([], function (_export, _context) {
 // export_default_8
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_8,
     r#"
 export default class Foo {}
@@ -705,7 +705,7 @@ System.register([], function (_export, _context) {
 // export_named_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_4,
     r#"
 export {foo as default};
@@ -729,7 +729,7 @@ System.register([], function (_export, _context) {
 // export_uninitialized
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_uninitialized,
     r#"
 export var m;
@@ -754,7 +754,7 @@ System.register([], function (_export, _context) {
 // module_name
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     module_name,
     r#"
 export var name = __moduleName;
@@ -778,7 +778,7 @@ System.register([], function (_export, _context) {
 // export_const_destructuring_object
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_const_destructuring_object,
     r#"
 export const { foo: bar, baz } = {};
@@ -806,7 +806,7 @@ System.register([], function (_export, _context) {
 // export_from_2
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_2,
     r#"
 export {foo} from "foo";
@@ -830,7 +830,7 @@ System.register(["foo"], function (_export, _context) {
 // imports_mixing
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_mixing,
     r#"
 import foo, {baz as xyz} from "foo";
@@ -856,7 +856,7 @@ System.register(["foo"], function (_export, _context) {
 // remap
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     remap,
     r#"
 export var test = 2;
@@ -923,7 +923,7 @@ System.register([], function (_export, _context) {
 // imports_default
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_default,
     r#"
 import foo from "foo";
@@ -950,7 +950,7 @@ System.register(["foo"], function (_export, _context) {
 // export_from_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_6,
     r#"
 export {foo as default, bar} from "foo";
@@ -977,7 +977,7 @@ System.register(["foo"], function (_export, _context) {
 // imports_numbered
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_numbered,
     r#"
 import "2";
@@ -1000,7 +1000,7 @@ System.register(["2", "1"], function (_export, _context) {
 // imports_glob
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_glob,
     r#"
 import * as foo from "foo";
@@ -1025,7 +1025,7 @@ System.register(["foo"], function (_export, _context) {
 // imports
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports,
     r#"
 import "foo";
@@ -1049,7 +1049,7 @@ System.register(["foo", "foo-bar", "./directory/foo-bar"], function (_export, _c
 // export_from_3
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_3,
     r#"
 export {foo, bar} from "foo";
@@ -1076,7 +1076,7 @@ System.register(["foo"], function (_export, _context) {
 // exports_variable
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     exports_variable,
     r#"
 export var foo = 1;
@@ -1131,7 +1131,7 @@ System.register([], function (_export, _context) {
 // imports_named
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     imports_named,
     r#"
 import {bar} from "foo";
@@ -1164,7 +1164,7 @@ System.register(["foo"], function (_export, _context) {
 // export_named_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_named_6,
     r#"
 export function foo() {}
@@ -1190,7 +1190,7 @@ System.register([], function (_export, _context) {
 // export_from
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from,
     r#"
 export * from "foo";
@@ -1222,7 +1222,7 @@ System.register(["foo"], function (_export, _context) {
 // export_default_6
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_default_6,
     r#"
 export default class {}
@@ -1246,7 +1246,7 @@ System.register([], function (_export, _context) {
 // export_from_4
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     export_from_4,
     r#"
 export {foo as bar} from "foo";
@@ -1270,7 +1270,7 @@ System.register(["foo"], function (_export, _context) {
 // overview
 test!(
     syntax(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     overview,
     r#"
 import "foo";

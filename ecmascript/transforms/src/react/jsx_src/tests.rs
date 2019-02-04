@@ -12,7 +12,7 @@ test_exec!(
         jsx: true,
         ..Default::default()
     }),
-    |_| tr(),
+    |_, _| tr(),
     basic_sample,
     r#"
 var actual = transform(
@@ -37,7 +37,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr(),
+    |_, _| tr(),
     no_jsx,
     r#"var x = 42;"#,
     r#"var x = 42;"#
@@ -49,7 +49,7 @@ test_exec!(
         jsx: true,
         ..Default::default()
     }),
-    |_| tr(),
+    |_, _| tr(),
     with_source,
     r#"
 var actual = transform(

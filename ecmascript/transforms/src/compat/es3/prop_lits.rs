@@ -72,7 +72,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        PropertyLiteral,
+        |_, _| PropertyLiteral,
         babel_basic,
         r#"var foo = {
   // changed

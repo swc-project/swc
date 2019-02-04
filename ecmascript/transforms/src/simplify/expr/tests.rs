@@ -3,7 +3,7 @@ use super::SimplifyExpr;
 fn test_expr(src: &str, expected: &str) {
     test_transform!(
         ::swc_ecma_parser::Syntax::default(),
-        SimplifyExpr,
+        |_, _| SimplifyExpr,
         src,
         expected,
         true

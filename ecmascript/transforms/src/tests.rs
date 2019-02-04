@@ -1,3 +1,4 @@
+use crate::helpers::Helpers;
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -145,6 +146,14 @@ impl<'a> Tester<'a> {
     }
 }
 
+pub(crate) fn assert_type<F, P>(v: F) -> F
+where
+    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+    P: Fold<Module>,
+{
+    v
+}
+
 #[cfg(test)]
 macro_rules! test_transform {
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr) => {
@@ -152,6 +161,8 @@ macro_rules! test_transform {
     };
 
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
+        use crate::helpers::Helpers;
+        use std::sync::Arc;
         use swc_common::FoldWith;
 
         crate::tests::Tester::run(|tester: &mut crate::tests::Tester| {
@@ -160,9 +171,9 @@ macro_rules! test_transform {
 
             eprintln!("----- Actual -----");
             let helpers = Arc::new(Helpers::default());
-            let tr = $tr(tester, helpers);
+            let tr = (crate::tests::assert_type($tr))(tester, helpers.clone());
             let actual = tester
-                .apply_transform($tr, "actual.js", $syntax, $input)?
+                .apply_transform(tr, "actual.js", $syntax, $input)?
                 .fold_with(&mut crate::hygiene::hygiene())
                 .fold_with(&mut crate::fixer::fixer());
 
@@ -246,7 +257,7 @@ macro_rules! exec_tr {
 
         crate::tests::Tester::run(|tester| {
             let helpers = Arc::new(Helpers::default());
-            let tr = $tr(tester, helpers.clone());
+            let tr = (crate::tests::assert_type($tr))(tester, helpers.clone());
 
             let module = tester.apply_transform(
                 tr,

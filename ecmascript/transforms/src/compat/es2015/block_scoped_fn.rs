@@ -34,7 +34,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        BlockScopedFns,
+        |_, _| BlockScopedFns,
         basic,
         r#"{
   function name (n) {

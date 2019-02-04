@@ -14,8 +14,8 @@ fn tr(helpers: Arc<Helpers>, config: Config) -> impl Fold<Module> {
 
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -44,8 +44,8 @@ exports.foo = foo = 3;
 // strict_export_2
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -70,8 +70,8 @@ exports.default = foo;
 // interop_hoist_function_exports
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -122,8 +122,8 @@ exports.isOdd = isOdd;
 // misc_undefined_this_root_declaration
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -144,8 +144,8 @@ var self = void 0;
 // interop_export_default_3
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -171,8 +171,8 @@ exports.default = _default;
 // misc_copy_getters_setters
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -219,8 +219,8 @@ var _moduleWithGetter = _interopRequireDefault(require("./moduleWithGetter"));
 // update_expression_positive_suffix
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -259,8 +259,8 @@ function diff() {
 // interop_export_default_11
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -293,8 +293,8 @@ function Cachier(databaseName) {}
 // interop_export_named_5
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -322,8 +322,8 @@ exports.bar = bar;
 // interop_exports_variable
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -380,8 +380,8 @@ exports.foo9 = foo9;
 // interop_export_from_2
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -414,8 +414,8 @@ test!(
     // Same option as lazy_deps_*, but different result
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -450,8 +450,8 @@ test!(
     // Same option as lazy_deps_*, but different result
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -483,8 +483,8 @@ exports.namespace = namespace;
 // interop_export_default_6
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -512,8 +512,8 @@ exports.default = _default;
 // no_interop_import_default_only
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             no_interop: true,
             ..Default::default()
@@ -541,8 +541,8 @@ _foo.default();
 // interop_export_from_7
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -573,8 +573,8 @@ var _foo = _interopRequireDefault(require("foo"));
 // interop_remap
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -641,8 +641,8 @@ exports.f = exports.e = d = 4;
 // lazy_dep_reexport_all
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -682,8 +682,8 @@ Object.keys(_foo).forEach(function (key) {
 // lazy_local_sideeffect
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -705,8 +705,8 @@ require("./a");
 // strict_export_const_destructuring_deep
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -735,8 +735,8 @@ exports.qux = qux;
 // lazy_local_reexport_all
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -774,8 +774,8 @@ Object.keys(_foo).forEach(function (key) {
 // interop_export_from_4
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -806,8 +806,8 @@ var _foo = require("foo");
 // interop_export_destructured
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -882,8 +882,8 @@ function f4() {
 // strict_export_const_destructuring_array
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -908,8 +908,8 @@ exports.bar = bar;
 // interop_export_named_3
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -938,8 +938,8 @@ exports.bar = foo;
 // interop_imports_glob
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -964,8 +964,8 @@ var foo = _interopRequireWildcard(require("foo"));
 // strict_export
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -989,8 +989,8 @@ function foo() {}
 // no_interop_import_wildcard
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             no_interop: true,
             ..Default::default()
@@ -1018,8 +1018,8 @@ foo.baz();
 // interop_export_default_5
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1045,8 +1045,8 @@ exports.default = _default;
 // strict_export_const_destructuring_object_default_params
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -1074,8 +1074,8 @@ exports.bar = bar;
 // lazy_whitelist_reexport_all
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -1128,8 +1128,8 @@ test!(
     // Same option as lazy_local_*, but different result
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -1163,8 +1163,8 @@ console.log(foo());
 // lazy_whitelist_reexport_default
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -1206,8 +1206,8 @@ function _white() {
 // interop_export_default_8
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1235,8 +1235,8 @@ exports.default = Foo;
 // strict_export_1
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -1260,8 +1260,8 @@ exports.default = _default;
 // lazy_local_import_named
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -1287,8 +1287,8 @@ console.log(_foo.foo);
 // interop_export_default_2
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1314,8 +1314,8 @@ exports.default = _default;
 // interop_export_named
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1342,8 +1342,8 @@ exports.foo = foo;
 // interop_imports_ordering
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1373,8 +1373,8 @@ var _qux = require("./qux");
 // strict_export_3
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -1398,8 +1398,8 @@ require("foo");
 // interop_export_named_4
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1426,8 +1426,8 @@ exports.default = foo;
 // misc_import_const_throw
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1500,8 +1500,8 @@ _baz.Baz = (44, function () {
 // lazy_local_import_default
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -1527,8 +1527,8 @@ console.log(_foo.default);
 // lazy_whitelist_reexport_namespace
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -1577,8 +1577,8 @@ exports.namespace2 = namespace2;
 // interop_export_from_3
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1615,8 +1615,8 @@ var _foo = require("foo");
 // lazy_dep_reexport_named
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -1659,8 +1659,8 @@ test!(
     // Comment is not supported yet
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1805,8 +1805,8 @@ default
 // interop_imports_default
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1834,8 +1834,8 @@ _foo.default;
 // misc_undefined_this_root_reference
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1858,8 +1858,8 @@ void 0;
 // interop_export_default_10
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1889,8 +1889,8 @@ exports.default = _default;
 // lazy_whitelist_import_named
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -1939,8 +1939,8 @@ function use2() {
 // interop_export_default
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -1968,8 +1968,8 @@ exports.default = _default;
 // lazy_local_import_namespace
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -1996,8 +1996,8 @@ console.log(foo);
 // interop_export_default_7
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2024,8 +2024,8 @@ exports.default = foo;
 // lazy_whitelist_reexport_named
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -2080,8 +2080,8 @@ var _black = require("black");
 // interop_export_from
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2116,8 +2116,8 @@ Object.keys(_foo).forEach(function (key) {
 // disable_strict_mode_strict_mode_false
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2142,8 +2142,8 @@ require("./directory/foo-bar");
 // interop_export_from_6
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2180,8 +2180,8 @@ var _foo = require("foo");
 // interop_export_from_5
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2212,8 +2212,8 @@ var _foo = require("foo");
 // strict_import
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -2247,8 +2247,8 @@ foo4.foo3();
 // interop_export_named_2
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2276,8 +2276,8 @@ exports.bar = bar;
 // lazy_whitelist_import_default
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -2309,8 +2309,8 @@ console.log(_black.default);
 // interop_imports
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2339,8 +2339,8 @@ require("./directory/foo-bar");
 // strict_export_const_destructuring_object
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -2370,8 +2370,8 @@ exports.baz = baz;
 // update_expression_negative_suffix
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2410,8 +2410,8 @@ function diff() {
 // interop_module_shadow
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2439,8 +2439,8 @@ function _module() {}
 // strict_export_const_destructuring_object_rest
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -2468,8 +2468,8 @@ exports.bar = bar;
 // lazy_whitelist_sideeffect
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -2494,8 +2494,8 @@ require("black");
 // lazy_dep_reexport_namespace
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -2538,8 +2538,8 @@ function namespace() {
 // interop_export_default_4
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -2565,8 +2565,8 @@ exports.default = _default;
 // no_interop_export_from
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             no_interop: true,
             ..Default::default()
@@ -2600,8 +2600,8 @@ var _foo = require("foo");
 // lazy_dep_sideeffect
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -2623,8 +2623,8 @@ require("foo");
 // interop_export_from_8
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3269,8 +3269,8 @@ var _foo = require("foo");
 // strict_export_const_destructuring_array_default_params
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -3295,8 +3295,8 @@ exports.bar = bar;
 // interop_imports_named
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3338,8 +3338,8 @@ _foo.xyz;
 // lazy_whitelist_import_namespace
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::List(vec!["white".into()]),
             ..Default::default()
@@ -3389,8 +3389,8 @@ test!(
     // Same option as lazy_local_*, but different result
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -3424,8 +3424,8 @@ console.log(_foo().foo);
 // lazy_dep_reexport_default
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -3466,8 +3466,8 @@ function _foo() {
 // interop_export_default_9
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3495,8 +3495,8 @@ exports.default = foo;
 // misc_undefined_this_arrow_function
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3517,8 +3517,8 @@ var foo = () => void 0;
 // misc_undefined_this_root_call
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3539,8 +3539,8 @@ this.foo();
 // strict_import_wildcard
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -3569,8 +3569,8 @@ test!(
     // Same option as lazy_local_*, but different result
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -3606,8 +3606,8 @@ test!(
     // Same option as lazy_deps_*, but different result
     ignore,
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             lazy: Lazy::Bool(true),
             ..Default::default()
@@ -3640,8 +3640,8 @@ var _foo = require("./foo");
 // strict_export_const_destructuring_array_rest
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             strict: true,
             ..Default::default()
@@ -3673,8 +3673,8 @@ exports.baz = baz;
 // interop_imports_mixing
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3701,8 +3701,8 @@ _foo.baz;
 // interop_overview
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3764,8 +3764,8 @@ _foo2.default;
 // interop_export_all
 test!(
     syntax(),
-    tr(
-        Default::default(),
+    |_, helpers| tr(
+        helpers,
         Config {
             ..Default::default()
         }
@@ -3821,7 +3821,7 @@ test_exec!(
     // We cannot inject transform at this time.
     ignore,
     syntax(),
-    |helpers| tr(helpers, Default::default()),
+    |_, helpers| tr(helpers, Default::default()),
     source_map_exec,
     r#"
 var tests = [

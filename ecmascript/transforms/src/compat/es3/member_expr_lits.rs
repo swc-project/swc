@@ -61,7 +61,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        MemberExprLit,
+        |_, _| MemberExprLit,
         basic,
         r#"obj["foo"] = "isValid";
 

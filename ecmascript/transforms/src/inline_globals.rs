@@ -67,51 +67,56 @@ impl Fold<Expr> for InlineGlobals {
 mod tests {
     use super::*;
 
-    fn mk_map(values: &[(&str, &str)], is_env: bool) -> HashMap<JsWord, Expr> {
+    fn mk_map(
+        tester: &mut crate::tests::Tester,
+        values: &[(&str, &str)],
+        is_env: bool,
+    ) -> HashMap<JsWord, Expr> {
         let mut m = HashMap::new();
 
-        crate::tests::Tester::run(|tester| {
-            for (k, v) in values {
-                let v = if is_env {
-                    format!("'{}'", v)
-                } else {
-                    (*v).into()
-                };
+        for (k, v) in values {
+            let v = if is_env {
+                format!("'{}'", v)
+            } else {
+                (*v).into()
+            };
 
-                let mut v = tester.apply_transform(
+            let mut v = tester
+                .apply_transform(
                     ::testing::DropSpan,
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     &v,
-                )?;
-                assert_eq!(v.body.len(), 1);
-                let v = match v.body.pop().unwrap() {
-                    ModuleItem::Stmt(Stmt::Expr(box expr)) => expr,
-                    _ => unreachable!(),
-                };
+                )
+                .unwrap();
+            assert_eq!(v.body.len(), 1);
+            let v = match v.body.pop().unwrap() {
+                ModuleItem::Stmt(Stmt::Expr(box expr)) => expr,
+                _ => unreachable!(),
+            };
 
-                m.insert((*k).into(), v);
-            }
-
-            Ok(())
-        });
+            m.insert((*k).into(), v);
+        }
 
         m
     }
 
-    fn envs(values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
-        mk_map(values, true)
+    fn envs(tester: &mut crate::tests::Tester, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
+        mk_map(tester, values, true)
     }
 
-    fn globals(values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
-        mk_map(values, false)
+    fn globals(
+        tester: &mut crate::tests::Tester,
+        values: &[(&str, &str)],
+    ) -> HashMap<JsWord, Expr> {
+        mk_map(tester, values, false)
     }
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        InlineGlobals {
-            envs: envs(&[("NODE_ENV", "development")]),
-            globals: globals(&[]),
+        |tester, _| InlineGlobals {
+            envs: envs(tester, &[("NODE_ENV", "development")]),
+            globals: globals(tester, &[]),
         },
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#,
@@ -120,9 +125,9 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        InlineGlobals {
-            envs: envs(&[]),
-            globals: globals(&[("__DEBUG__", "true")]),
+        |tester, _| InlineGlobals {
+            envs: envs(tester, &[]),
+            globals: globals(tester, &[("__DEBUG__", "true")]),
         },
         inline_globals,
         r#"if (__DEBUG__) {}"#,
@@ -131,9 +136,9 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        InlineGlobals {
-            envs: envs(&[]),
-            globals: globals(&[("debug", "true")]),
+        |tester, _| InlineGlobals {
+            envs: envs(tester, &[]),
+            globals: globals(tester, &[("debug", "true")]),
         },
         non_global,
         r#"if (foo.debug) {}"#,
