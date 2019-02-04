@@ -17,6 +17,7 @@ extern crate swc_atoms;
 extern crate swc_common;
 extern crate fxhash;
 extern crate indexmap;
+extern crate inflector;
 extern crate ordered_float;
 extern crate swc_ecma_ast as ast;
 #[cfg(test)]

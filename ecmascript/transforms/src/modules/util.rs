@@ -1,6 +1,7 @@
 use crate::util::ExprFactory;
 use ast::*;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
+use inflector::Inflector;
 use swc_atoms::JsWord;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 
@@ -150,12 +151,16 @@ pub(super) fn make_require_call(src: JsWord) -> Expr {
     })
 }
 
-pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
+pub(super) fn global_name_for_src(src: &JsWord) -> JsWord {
     if !src.contains("/") {
-        return format!("_{}", src).into();
+        return src.to_camel_case().into();
     }
 
-    return format!("_{}", src.split("/").last().unwrap()).into();
+    return src.split("/").last().unwrap().to_camel_case().into();
+}
+
+pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
+    format!("_{}", global_name_for_src(&src)).into()
 }
 
 pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {

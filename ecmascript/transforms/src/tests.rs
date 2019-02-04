@@ -159,7 +159,8 @@ macro_rules! test_transform {
                 tester.apply_transform(::testing::DropSpan, "expected.js", $syntax, $expected)?;
 
             eprintln!("----- Actual -----");
-
+            let helpers = Arc::new(Helpers::default());
+            let tr = $tr(tester, helpers);
             let actual = tester
                 .apply_transform($tr, "actual.js", $syntax, $input)?
                 .fold_with(&mut crate::hygiene::hygiene())
@@ -245,7 +246,7 @@ macro_rules! exec_tr {
 
         crate::tests::Tester::run(|tester| {
             let helpers = Arc::new(Helpers::default());
-            let tr = $tr(helpers.clone());
+            let tr = $tr(tester, helpers.clone());
 
             let module = tester.apply_transform(
                 tr,

@@ -1,4 +1,6 @@
-use super::util::{define_es_module, local_name_for_src, make_require_call, use_strict, Scope};
+use super::util::{
+    define_es_module, global_name_for_src, local_name_for_src, make_require_call, use_strict, Scope,
+};
 use crate::{
     helpers::Helpers,
     pass::Pass,
@@ -6,13 +8,14 @@ use crate::{
 };
 use ast::*;
 use std::{collections::hash_map::Entry, iter, sync::Arc};
-use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
+use swc_common::{sync::Lrc, Fold, FoldWith, SourceMap, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
 
-pub fn umd(helpers: Arc<Helpers>) -> impl Pass + Clone {
+pub fn umd(cm: Lrc<SourceMap>, helpers: Arc<Helpers>) -> impl Pass + Clone {
     Umd {
+        cm,
         helpers,
         scope: Default::default(),
         exports: Default::default(),
@@ -21,6 +24,7 @@ pub fn umd(helpers: Arc<Helpers>) -> impl Pass + Clone {
 
 #[derive(Clone)]
 struct Umd {
+    cm: Lrc<SourceMap>,
     helpers: Arc<Helpers>,
     scope: State<Scope>,
     exports: State<Exports>,
@@ -34,8 +38,12 @@ impl Default for Exports {
     }
 }
 
-impl Fold<Vec<ModuleItem>> for Umd {
-    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold<Module> for Umd {
+    fn fold(&mut self, module: Module) -> Module {
+        let filename = self.cm.span_to_filename(module.span);
+
+        let items = module.body;
+
         let mut stmts = Vec::with_capacity(items.len() + 2);
         stmts.push(use_strict());
 
@@ -84,15 +92,18 @@ impl Fold<Vec<ModuleItem>> for Umd {
         };
         let mut factory_params = Vec::with_capacity(self.scope.imports.len() + 1);
         let mut factory_args = Vec::with_capacity(factory_params.capacity());
+        let mut global_factory_args = Vec::with_capacity(factory_params.capacity());
         if emitted_esmodule {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
             factory_params.push(Pat::Ident(exports.clone()));
             factory_args.push(quote_ident!("exports").as_arg());
+            global_factory_args.push(member_expr!(DUMMY_SP, mod.exports).as_arg());
         }
 
         for (src, import) in self.scope.value.imports.drain(..) {
+            let global_ident = Ident::new(global_name_for_src(&src), DUMMY_SP);
             let import = import.unwrap_or_else(|| (local_name_for_src(&src), DUMMY_SP));
             let ident = Ident::new(import.0.clone(), import.1);
 
@@ -101,34 +112,48 @@ impl Fold<Vec<ModuleItem>> for Umd {
                 .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
             factory_params.push(Pat::Ident(ident.clone()));
             factory_args.push(make_require_call(src.clone()).as_arg());
+            global_factory_args.push(
+                MemberExpr {
+                    span: DUMMY_SP,
+                    obj: quote_ident!("global").as_obj(),
+                    computed: false,
+                    prop: box Expr::Ident(global_ident),
+                }
+                .as_arg(),
+            );
 
-            import_stmts.push(Stmt::Expr({
+            {
                 // handle interop
                 let ty = self.scope.value.import_types.get(&src);
-                let var = Expr::Ident(ident);
 
                 match ty {
-                    Some(true) => {
-                        self.helpers.interop_require_wildcard();
-                        box Expr::Call(CallExpr {
+                    Some(&wildcard) => {
+                        if wildcard {
+                            self.helpers.interop_require_wildcard();
+                        } else {
+                            self.helpers.interop_require_default();
+                        }
+                        let right = box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: quote_ident!("_interopRequireWildcard").as_callee(),
-                            args: vec![var.as_arg()],
+                            callee: if wildcard {
+                                quote_ident!("_interopRequireWildcard").as_callee()
+                            } else {
+                                quote_ident!("_interopRequireDefault").as_callee()
+                            },
+                            args: vec![ident.clone().as_arg()],
                             type_args: Default::default(),
-                        })
-                    }
-                    Some(false) => {
-                        self.helpers.interop_require_default();
-                        box Expr::Call(CallExpr {
+                        });
+
+                        import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            callee: quote_ident!("_interopRequireDefault").as_callee(),
-                            args: vec![var.as_arg()],
-                            type_args: Default::default(),
-                        })
+                            left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                            op: op!("="),
+                            right,
+                        })));
                     }
-                    _ => box var,
-                }
-            }));
+                    _ => {}
+                };
+            }
         }
 
         prepend_stmts(&mut stmts, import_stmts.into_iter());
@@ -200,7 +225,38 @@ impl Fold<Vec<ModuleItem>> for Umd {
                             }),
                             alt: Some(box Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
-                                stmts: vec![],
+                                stmts: vec![
+                                    Stmt::Decl(Decl::Var(VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls: vec![VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(quote_ident!("mod")),
+                                            init: Some(box Expr::Object(ObjectLit {
+                                                span: DUMMY_SP,
+                                                props: vec![PropOrSpread::Prop(
+                                                    box Prop::KeyValue(KeyValueProp {
+                                                        key: PropName::Ident(quote_ident!(
+                                                            "exports"
+                                                        )),
+                                                        value: box Expr::Object(ObjectLit {
+                                                            span: DUMMY_SP,
+                                                            props: vec![],
+                                                        }),
+                                                    }),
+                                                )],
+                                            })),
+                                            definite: false,
+                                        }],
+                                        declare: false,
+                                    })),
+                                    Stmt::Expr(box Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: quote_ident!("factory").as_callee(),
+                                        args: global_factory_args,
+                                        type_args: Default::default(),
+                                    })),
+                                ],
                             })),
                         })),
                     })]
@@ -230,16 +286,19 @@ impl Fold<Vec<ModuleItem>> for Umd {
         }
         .as_arg();
 
-        vec![ModuleItem::Stmt(Stmt::Expr(box Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: FnExpr {
-                ident: None,
-                function: helper_fn,
-            }
-            .as_callee(),
-            args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), factory_arg],
-            type_args: Default::default(),
-        })))]
+        Module {
+            body: vec![ModuleItem::Stmt(Stmt::Expr(box Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: FnExpr {
+                    ident: None,
+                    function: helper_fn,
+                }
+                .as_callee(),
+                args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), factory_arg],
+                type_args: Default::default(),
+            })))],
+            ..module
+        }
     }
 }
 
