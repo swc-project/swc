@@ -888,7 +888,7 @@ pub(crate) fn prepend_stmts(
             Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
             _ => true,
         })
-        .unwrap_or(0);
+        .unwrap_or(to.len());
 
     let mut buf = Vec::with_capacity(to.len() + stmts.len());
     // TODO: Optimze (maybe unsafe)

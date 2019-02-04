@@ -3,7 +3,7 @@ use ast::*;
 use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use inflector::Inflector;
 use swc_atoms::JsWord;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 
 #[derive(Clone, Default)]
 pub(super) struct Scope {
@@ -90,7 +90,12 @@ impl Scope {
         } else {
             self.imports
                 .entry(import.src.value.clone())
-                .or_insert_with(|| Some((local_name_for_src(&import.src.value), import.src.span)));
+                .or_insert_with(|| {
+                    Some((
+                        local_name_for_src(&import.src.value),
+                        import.src.span.apply_mark(Mark::fresh(Mark::root())),
+                    ))
+                });
 
             for s in import.specifiers {
                 match s {
@@ -151,16 +156,12 @@ pub(super) fn make_require_call(src: JsWord) -> Expr {
     })
 }
 
-pub(super) fn global_name_for_src(src: &JsWord) -> JsWord {
+pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
     if !src.contains("/") {
-        return src.to_camel_case().into();
+        return format!("_{}", src.to_camel_case()).into();
     }
 
-    return src.split("/").last().unwrap().to_camel_case().into();
-}
-
-pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
-    format!("_{}", global_name_for_src(&src)).into()
+    return format!("_{}", src.split("/").last().unwrap().to_camel_case()).into();
 }
 
 pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {

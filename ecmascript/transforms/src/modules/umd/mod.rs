@@ -1,6 +1,6 @@
-use super::util::{
-    define_es_module, global_name_for_src, local_name_for_src, make_require_call, use_strict, Scope,
-};
+use self::config::BuiltConfig;
+pub use self::config::Config;
+use super::util::{define_es_module, local_name_for_src, make_require_call, use_strict, Scope};
 use crate::{
     helpers::Helpers,
     pass::Pass,
@@ -8,13 +8,15 @@ use crate::{
 };
 use ast::*;
 use std::{collections::hash_map::Entry, iter, sync::Arc};
-use swc_common::{sync::Lrc, Fold, FoldWith, SourceMap, VisitWith, DUMMY_SP};
+use swc_common::{sync::Lrc, Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
+mod config;
 #[cfg(test)]
 mod tests;
 
-pub fn umd(cm: Lrc<SourceMap>, helpers: Arc<Helpers>) -> impl Pass + Clone {
+pub fn umd(cm: Lrc<SourceMap>, helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {
     Umd {
+        config: config.build(cm.clone()),
         cm,
         helpers,
         scope: Default::default(),
@@ -25,6 +27,7 @@ pub fn umd(cm: Lrc<SourceMap>, helpers: Arc<Helpers>) -> impl Pass + Clone {
 #[derive(Clone)]
 struct Umd {
     cm: Lrc<SourceMap>,
+    config: BuiltConfig,
     helpers: Arc<Helpers>,
     scope: State<Scope>,
     exports: State<Exports>,
@@ -103,8 +106,13 @@ impl Fold<Module> for Umd {
         }
 
         for (src, import) in self.scope.value.imports.drain(..) {
-            let global_ident = Ident::new(global_name_for_src(&src), DUMMY_SP);
-            let import = import.unwrap_or_else(|| (local_name_for_src(&src), DUMMY_SP));
+            let global_ident = Ident::new(self.config.global_name(&src), DUMMY_SP);
+            let import = import.unwrap_or_else(|| {
+                (
+                    local_name_for_src(&src),
+                    DUMMY_SP.apply_mark(Mark::fresh(Mark::root())),
+                )
+            });
             let ident = Ident::new(import.0.clone(), import.1);
 
             define_deps_arg
@@ -256,6 +264,22 @@ impl Fold<Module> for Umd {
                                         args: global_factory_args,
                                         type_args: Default::default(),
                                     })),
+                                    {
+                                        let exported_name =
+                                            self.config.determine_export_name(filename);
+
+                                        Stmt::Expr(box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: quote_ident!("global").as_obj(),
+                                                computed: false,
+                                                prop: exported_name,
+                                            })),
+                                            op: op!("="),
+                                            right: member_expr!(DUMMY_SP,mod.exports),
+                                        }))
+                                    },
                                 ],
                             })),
                         })),

@@ -62,8 +62,8 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
     let session = Session { handler: &handler };
-    let parse = |name, s| {
-        let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), s);
+    let parse = |_name, s| {
+        let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", s)), s);
 
         Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
             .parse_expr()
