@@ -79,14 +79,14 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     .and_modify(|v| {
                         if $init && v.is_none() {
                             *v = {
-                                let ident = private_ident!(local_name_for_src(&$src));
+                                let ident = private_ident!(local_name_for_src(&$src.value));
                                 Some((ident.sym, ident.span))
                             }
                         }
                     })
                     .or_insert_with(|| {
                         if $init {
-                            let ident = private_ident!(local_name_for_src(&$src));
+                            let ident = private_ident!(local_name_for_src(&$src.value));
                             Some((ident.sym, ident.span))
                         } else {
                             None

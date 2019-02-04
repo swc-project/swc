@@ -1,4 +1,4 @@
-use super::util::{define_es_module, use_strict, Scope};
+use super::util::{define_es_module, local_name_for_src, make_require_call, use_strict, Scope};
 use crate::{
     helpers::Helpers,
     pass::Pass,
@@ -80,7 +80,21 @@ impl Fold<Vec<ModuleItem>> for Umd {
             factory_args.push(quote_ident!("exports").as_arg());
         }
 
-        for import in self.scope.value.imports.drain(..) {}
+        for (src, import) in self.scope.value.imports.iter_mut() {
+            if import.is_none() {
+                *import = Some((local_name_for_src(src), DUMMY_SP));
+            }
+        }
+
+        for (src, import) in self.scope.value.imports.drain(..) {
+            let import = import.unwrap();
+
+            define_deps_arg
+                .elems
+                .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
+            factory_params.push(Pat::Ident(Ident::new(import.0.clone(), import.1)));
+            factory_args.push(make_require_call(src).as_arg());
+        }
 
         // ====================
         //  Emit
@@ -119,14 +133,33 @@ impl Fold<Vec<ModuleItem>> for Umd {
                         test: is_amd,
                         cons: box Stmt::Block(BlockStmt {
                             span: DUMMY_SP,
-                            stmts: vec![],
+                            stmts: vec![
+                                // define(['foo'], factory)
+                                Stmt::Expr(box Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: quote_ident!("define").as_callee(),
+                                    args: vec![
+                                        define_deps_arg.as_arg(),
+                                        quote_ident!("factory").as_arg(),
+                                    ],
+                                    type_args: Default::default(),
+                                })),
+                            ],
                         }),
                         alt: Some(box Stmt::If(IfStmt {
                             span: DUMMY_SP,
                             test: is_common_js,
                             cons: box Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
-                                stmts: vec![],
+                                stmts: vec![
+                                    // factory(require('foo'))
+                                    Stmt::Expr(box Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: quote_ident!("factory").as_callee(),
+                                        args: factory_args,
+                                        type_args: Default::default(),
+                                    })),
+                                ],
                             }),
                             alt: Some(box Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,

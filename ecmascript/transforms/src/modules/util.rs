@@ -89,7 +89,7 @@ impl Scope {
         } else {
             self.imports
                 .entry(import.src.value.clone())
-                .or_insert_with(|| Some((local_name_for_src(&import.src), import.src.span)));
+                .or_insert_with(|| Some((local_name_for_src(&import.src.value), import.src.span)));
 
             for s in import.specifiers {
                 match s {
@@ -150,12 +150,12 @@ pub(super) fn make_require_call(src: JsWord) -> Expr {
     })
 }
 
-pub(super) fn local_name_for_src(src: &Str) -> JsWord {
-    if !src.value.contains("/") {
-        return format!("_{}", src.value).into();
+pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
+    if !src.contains("/") {
+        return format!("_{}", src).into();
     }
 
-    return format!("_{}", src.value.split("/").last().unwrap()).into();
+    return format!("_{}", src.split("/").last().unwrap()).into();
 }
 
 pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
