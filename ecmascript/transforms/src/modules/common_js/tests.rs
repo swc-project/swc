@@ -2119,6 +2119,7 @@ test!(
     |_, helpers| tr(
         helpers,
         Config {
+            strict_mode: false,
             ..Default::default()
         }
     ),

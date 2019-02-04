@@ -22,10 +22,16 @@ mod tests;
 pub struct Config {
     #[serde(default)]
     pub strict: bool,
+    #[serde(default = "default_strict_mode")]
+    pub strict_mode: bool,
     #[serde(default)]
     pub lazy: Lazy,
     #[serde(default)]
     pub no_interop: bool,
+}
+
+const fn default_strict_mode() -> bool {
+    true
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -73,7 +79,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut stmts = Vec::with_capacity(items.len() + 4);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
-        stmts.push(ModuleItem::Stmt(use_strict()));
+        if self.config.strict_mode {
+            stmts.push(ModuleItem::Stmt(use_strict()));
+        }
 
         let mut exports = vec![];
         let mut initialized = FxHashSet::default();
