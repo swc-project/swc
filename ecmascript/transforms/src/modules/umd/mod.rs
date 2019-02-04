@@ -2,11 +2,11 @@ use super::util::{define_es_module, local_name_for_src, make_require_call, use_s
 use crate::{
     helpers::Helpers,
     pass::Pass,
-    util::{ExprFactory, State},
+    util::{prepend_stmts, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
-use std::sync::Arc;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use std::{collections::hash_map::Entry, iter, sync::Arc};
+use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -15,6 +15,7 @@ pub fn umd(helpers: Arc<Helpers>) -> impl Pass + Clone {
     Umd {
         helpers,
         scope: Default::default(),
+        exports: Default::default(),
     }
 }
 
@@ -22,6 +23,15 @@ pub fn umd(helpers: Arc<Helpers>) -> impl Pass + Clone {
 struct Umd {
     helpers: Arc<Helpers>,
     scope: State<Scope>,
+    exports: State<Exports>,
+}
+
+struct Exports(Ident);
+
+impl Default for Exports {
+    fn default() -> Self {
+        Exports(private_ident!("_exports"))
+    }
 }
 
 impl Fold<Vec<ModuleItem>> for Umd {
@@ -30,7 +40,7 @@ impl Fold<Vec<ModuleItem>> for Umd {
         stmts.push(use_strict());
 
         let mut emitted_esmodule = false;
-        let exports = private_ident!("_exports");
+        let exports = self.exports.value.0.clone();
 
         // Process items
         for item in items {
@@ -66,6 +76,8 @@ impl Fold<Vec<ModuleItem>> for Umd {
         //  Handle imports
         // ====================
 
+        // Prepended to statements.
+        let mut import_stmts = vec![];
         let mut define_deps_arg = ArrayLit {
             span: DUMMY_SP,
             elems: vec![],
@@ -80,21 +92,46 @@ impl Fold<Vec<ModuleItem>> for Umd {
             factory_args.push(quote_ident!("exports").as_arg());
         }
 
-        for (src, import) in self.scope.value.imports.iter_mut() {
-            if import.is_none() {
-                *import = Some((local_name_for_src(src), DUMMY_SP));
-            }
-        }
-
         for (src, import) in self.scope.value.imports.drain(..) {
-            let import = import.unwrap();
+            let import = import.unwrap_or_else(|| (local_name_for_src(&src), DUMMY_SP));
+            let ident = Ident::new(import.0.clone(), import.1);
 
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
-            factory_params.push(Pat::Ident(Ident::new(import.0.clone(), import.1)));
-            factory_args.push(make_require_call(src).as_arg());
+            factory_params.push(Pat::Ident(ident.clone()));
+            factory_args.push(make_require_call(src.clone()).as_arg());
+
+            import_stmts.push(Stmt::Expr({
+                // handle interop
+                let ty = self.scope.value.import_types.get(&src);
+                let var = Expr::Ident(ident);
+
+                match ty {
+                    Some(true) => {
+                        self.helpers.interop_require_wildcard();
+                        box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_ident!("_interopRequireWildcard").as_callee(),
+                            args: vec![var.as_arg()],
+                            type_args: Default::default(),
+                        })
+                    }
+                    Some(false) => {
+                        self.helpers.interop_require_default();
+                        box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_ident!("_interopRequireDefault").as_callee(),
+                            args: vec![var.as_arg()],
+                            type_args: Default::default(),
+                        })
+                    }
+                    _ => box var,
+                }
+            }));
         }
+
+        prepend_stmts(&mut stmts, import_stmts.into_iter());
 
         // ====================
         //  Emit
@@ -203,5 +240,202 @@ impl Fold<Vec<ModuleItem>> for Umd {
             args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), factory_arg],
             type_args: Default::default(),
         })))]
+    }
+}
+
+impl Fold<Expr> for Umd {
+    fn fold(&mut self, expr: Expr) -> Expr {
+        macro_rules! entry {
+            ($i:expr) => {
+                self.scope
+                    .value
+                    .exported_vars
+                    .entry(($i.sym.clone(), $i.span.ctxt()))
+            };
+        }
+
+        macro_rules! chain_assign {
+            ($entry:expr, $e:expr) => {{
+                let mut e = $e;
+                for i in $entry.get() {
+                    e = box Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: quote_ident!("exports").as_obj(),
+                            computed: false,
+                            prop: box Expr::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
+                        })),
+                        op: op!("="),
+                        right: e,
+                    });
+                }
+                e
+            }};
+        }
+
+        match expr {
+            Expr::Ident(i) => {
+                let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
+                match v {
+                    None => return Expr::Ident(i),
+                    Some((src, prop)) => {
+                        let (ident, span) = self
+                            .scope
+                            .value
+                            .imports
+                            .get(src)
+                            .as_ref()
+                            .unwrap()
+                            .as_ref()
+                            .unwrap();
+
+                        let obj = {
+                            let ident = Ident::new(ident.clone(), *span);
+
+                            Expr::Ident(ident)
+                        };
+
+                        if *prop == js_word!("") {
+                            // import * as foo from 'foo';
+                            obj
+                        } else {
+                            Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: obj.as_obj(),
+                                prop: box Expr::Ident(Ident::new(prop.clone(), DUMMY_SP)),
+                                computed: false,
+                            })
+                        }
+                    }
+                }
+            }
+            Expr::Member(e) => {
+                if e.computed {
+                    Expr::Member(MemberExpr {
+                        obj: e.obj.fold_with(self),
+                        prop: e.prop.fold_with(self),
+                        ..e
+                    })
+                } else {
+                    Expr::Member(MemberExpr {
+                        obj: e.obj.fold_with(self),
+                        ..e
+                    })
+                }
+            }
+
+            Expr::Update(UpdateExpr {
+                span,
+                arg: box Expr::Ident(arg),
+                op,
+                prefix,
+            }) => {
+                let entry = entry!(arg);
+
+                match entry {
+                    Entry::Occupied(entry) => {
+                        let e = chain_assign!(
+                            entry,
+                            box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
+                                op: op!("="),
+                                right: box Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left: box Expr::Unary(UnaryExpr {
+                                        span: DUMMY_SP,
+                                        op: op!(unary, "+"),
+                                        arg: box Expr::Ident(arg)
+                                    }),
+                                    op: match op {
+                                        op!("++") => op!(bin, "+"),
+                                        op!("--") => op!(bin, "-"),
+                                    },
+                                    right: box Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: 1.0,
+                                    })),
+                                }),
+                            })
+                        );
+
+                        *e
+                    }
+                    _ => {
+                        return Expr::Update(UpdateExpr {
+                            span,
+                            arg: box Expr::Ident(arg),
+                            op,
+                            prefix,
+                        });
+                    }
+                }
+            }
+
+            Expr::Assign(expr) => {
+                //
+
+                match expr.left {
+                    PatOrExpr::Pat(box Pat::Ident(ref i)) => {
+                        let entry = entry!(i);
+
+                        match entry {
+                            Entry::Occupied(entry) => {
+                                let e = chain_assign!(entry, box Expr::Assign(expr));
+
+                                *e
+                            }
+                            _ => {
+                                return Expr::Assign(AssignExpr {
+                                    left: expr.left,
+                                    ..expr
+                                });
+                            }
+                        }
+                    }
+                    _ => {
+                        let mut found = vec![];
+                        let mut v = DestructuringFinder { found: &mut found };
+                        expr.left.visit_with(&mut v);
+                        if v.found.is_empty() {
+                            return Expr::Assign(AssignExpr {
+                                left: expr.left,
+                                ..expr
+                            });
+                        }
+
+                        let mut exprs = iter::once(box Expr::Assign(expr))
+                            .chain(
+                                found
+                                    .into_iter()
+                                    .map(|var| Ident::new(var.0, var.1))
+                                    .filter_map(|i| {
+                                        let entry = match entry!(i) {
+                                            Entry::Occupied(entry) => entry,
+                                            _ => {
+                                                return None;
+                                            }
+                                        };
+                                        let e = chain_assign!(entry, box Expr::Ident(i));
+
+                                        // exports.name = x
+                                        Some(e)
+                                    }),
+                            )
+                            .collect::<Vec<_>>();
+                        if exprs.len() == 1 {
+                            return *exprs.pop().unwrap();
+                        }
+
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })
+                    }
+                }
+            }
+            _ => expr.fold_children(self),
+        }
     }
 }
