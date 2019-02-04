@@ -170,7 +170,7 @@ impl Fold<Module> for Umd {
                                     extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Expr(
-                                            box exports_ident.member(ident.clone()),
+                                            box exports_ident.clone().member(ident.clone()),
                                         ),
                                         op: op!("="),
                                         right: box ident.into(),

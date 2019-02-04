@@ -138,7 +138,7 @@ impl Scope {
                 .chain(iter::once(Stmt::Expr(box define_property(vec![
                     exports.as_arg(),
                     key_ident.clone().as_arg(),
-                    make_descriptor(box imported.computed_member(key_ident)).as_arg(),
+                    make_descriptor(box imported.clone().computed_member(key_ident)).as_arg(),
                 ]))))
                 .collect(),
             }),
