@@ -140,12 +140,9 @@ impl Fold<Module> for Umd {
 
                             append_to.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: exports_ident.clone().as_obj(),
-                                    computed: false,
-                                    prop: box Expr::Ident(ident.clone()),
-                                })),
+                                left: PatOrExpr::Expr(
+                                    box exports_ident.clone().member(ident.clone()),
+                                ),
                                 op: op!("="),
                                 right: box ident.into(),
                             })));
@@ -172,12 +169,9 @@ impl Fold<Module> for Umd {
 
                                     extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: exports_ident.clone().as_obj(),
-                                            computed: false,
-                                            prop: box Expr::Ident(ident.clone()),
-                                        })),
+                                        left: PatOrExpr::Expr(
+                                            box exports_ident.member(ident.clone()),
+                                        ),
                                         op: op!("="),
                                         right: box ident.into(),
                                     })));
@@ -196,12 +190,9 @@ impl Fold<Module> for Umd {
 
                                 extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: exports_ident.clone().as_obj(),
-                                        computed: false,
-                                        prop: box Expr::Ident(quote_ident!("default")),
-                                    })),
+                                    left: PatOrExpr::Expr(
+                                        box exports_ident.clone().member(quote_ident!("default")),
+                                    ),
                                     op: op!("="),
                                     right: box ident.into(),
                                 })));
@@ -221,13 +212,7 @@ impl Fold<Module> for Umd {
                                 extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(
-                                        box MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: exports_ident.clone().as_obj(),
-                                            computed: false,
-                                            prop: box quote_ident!("default").into(),
-                                        }
-                                        .into(),
+                                        box exports_ident.clone().member(quote_ident!("default")),
                                     ),
                                     op: op!("="),
                                     right: box ident.into(),
@@ -253,12 +238,9 @@ impl Fold<Module> for Umd {
                             })));
                             extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: exports_ident.clone().as_callee(),
-                                    computed: false,
-                                    prop: box Expr::Ident(quote_ident!("default")),
-                                })),
+                                left: PatOrExpr::Expr(
+                                    box exports_ident.clone().member(quote_ident!("default")),
+                                ),
                                 op: op!("="),
                                 right: box ident.into(),
                             })));
@@ -302,13 +284,7 @@ impl Fold<Module> for Umd {
                                 }
 
                                 let value = match imported {
-                                    Some(ref imported) => box Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        // unwrap is safe because `exports.specifiers.len() != 0`
-                                        obj: imported.clone().unwrap().as_obj(),
-                                        computed: false,
-                                        prop: box Expr::Ident(orig.clone()),
-                                    }),
+                                    Some(ref imported) => box imported.clone().member(orig.clone()),
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
 
@@ -327,12 +303,11 @@ impl Fold<Module> for Umd {
 
                                     extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: exports_ident.clone().as_callee(),
-                                            computed: false,
-                                            prop: box Expr::Ident(exported.unwrap_or(orig)),
-                                        })),
+                                        left: PatOrExpr::Expr(
+                                            box exports_ident
+                                                .clone()
+                                                .member(exported.unwrap_or(orig)),
+                                        ),
                                         op: op!("="),
                                         right: value,
                                     })));
@@ -457,15 +432,7 @@ impl Fold<Module> for Umd {
                 .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
             factory_params.push(Pat::Ident(ident.clone()));
             factory_args.push(make_require_call(src.clone()).as_arg());
-            global_factory_args.push(
-                MemberExpr {
-                    span: DUMMY_SP,
-                    obj: quote_ident!("global").as_obj(),
-                    computed: false,
-                    prop: box Expr::Ident(global_ident),
-                }
-                .as_arg(),
-            );
+            global_factory_args.push(quote_ident!("global").member(global_ident).as_arg());
 
             {
                 // handle interop
@@ -608,12 +575,9 @@ impl Fold<Module> for Umd {
 
                                         Stmt::Expr(box Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: quote_ident!("global").as_obj(),
-                                                computed: false,
-                                                prop: exported_name,
-                                            })),
+                                            left: PatOrExpr::Expr(
+                                                box quote_ident!("global").member(exported_name),
+                                            ),
                                             op: op!("="),
                                             right: member_expr!(DUMMY_SP,mod.exports),
                                         }))
@@ -683,12 +647,11 @@ impl Fold<Expr> for Umd {
                 for i in $entry.get() {
                     e = box Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: exports_ident.clone().as_obj(),
-                            computed: false,
-                            prop: box Expr::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
-                        })),
+                        left: PatOrExpr::Expr(
+                            box exports_ident
+                                .clone()
+                                .member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
+                        ),
                         op: op!("="),
                         right: e,
                     });
@@ -723,12 +686,7 @@ impl Fold<Expr> for Umd {
                             // import * as foo from 'foo';
                             obj
                         } else {
-                            Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj: obj.as_obj(),
-                                prop: box Expr::Ident(Ident::new(prop.clone(), DUMMY_SP)),
-                                computed: false,
-                            })
+                            obj.member(Ident::new(prop.clone(), DUMMY_SP))
                         }
                     }
                 }

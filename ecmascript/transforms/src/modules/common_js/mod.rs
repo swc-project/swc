@@ -162,12 +162,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             append_to.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: quote_ident!("exports").as_obj(),
-                                        computed: false,
-                                        prop: box Expr::Ident(ident.clone()),
-                                    })),
+                                    left: PatOrExpr::Expr(
+                                        box quote_ident!("exports").member(ident.clone()),
+                                    ),
                                     op: op!("="),
                                     right: box ident.into(),
                                 },
@@ -198,12 +195,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
                                         box Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: quote_ident!("exports").as_obj(),
-                                                computed: false,
-                                                prop: box Expr::Ident(ident.clone()),
-                                            })),
+                                            left: PatOrExpr::Expr(
+                                                box quote_ident!("exports").member(ident.clone()),
+                                            ),
                                             op: op!("="),
                                             right: box ident.into(),
                                         }),
@@ -376,13 +370,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 self.in_top_level = is_top_level.into();
 
                                 let value = match imported {
-                                    Some(ref imported) => box Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        // unwrap is safe because `exports.specifiers.len() != 0`
-                                        obj: imported.clone().unwrap().as_obj(),
-                                        computed: false,
-                                        prop: box Expr::Ident(orig.clone()),
-                                    }),
+                                    Some(ref imported) => {
+                                        box imported.clone().unwrap().member(orig.clone())
+                                    }
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
 
@@ -404,12 +394,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
                                         box Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: quote_ident!("exports").as_callee(),
-                                                computed: false,
-                                                prop: box Expr::Ident(exported.unwrap_or(orig)),
-                                            })),
+                                            left: PatOrExpr::Expr(
+                                                box quote_ident!("exports")
+                                                    .member(exported.unwrap_or(orig)),
+                                            ),
                                             op: op!("="),
                                             right: value,
                                         }),
@@ -641,12 +629,10 @@ impl Fold<Expr> for CommonJs {
                 for i in $entry.get() {
                     e = box Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: quote_ident!("exports").as_obj(),
-                            computed: false,
-                            prop: box Expr::Ident(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
-                        })),
+                        left: PatOrExpr::Expr(
+                            box quote_ident!("exports")
+                                .member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
+                        ),
                         op: op!("="),
                         right: e,
                     });
@@ -701,12 +687,7 @@ impl Fold<Expr> for CommonJs {
                             // import * as foo from 'foo';
                             obj
                         } else {
-                            Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj: obj.as_obj(),
-                                prop: box Expr::Ident(Ident::new(prop.clone(), DUMMY_SP)),
-                                computed: false,
-                            })
+                            obj.member(Ident::new(prop.clone(), DUMMY_SP))
                         }
                     }
                 }

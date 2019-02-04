@@ -380,13 +380,7 @@ impl ClassProperties {
                     } else {
                         constructor_exprs.push(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: ident.clone().as_obj(),
-                                prop: box Expr::Ident(quote_ident!("set")),
-                                computed: false,
-                            }
-                            .as_callee(),
+                            callee: ident.clone().member(quote_ident!("set")).as_callee(),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 ObjectLit {

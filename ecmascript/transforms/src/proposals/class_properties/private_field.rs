@@ -288,13 +288,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 if let Some(this) = this {
                     Expr::Call(CallExpr {
                         span,
-                        callee: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: e.as_obj(),
-                            prop: member_expr!(DUMMY_SP, call),
-                            computed: false,
-                        }
-                        .as_callee(),
+                        callee: e.member(quote_ident!("call")).as_callee(),
                         args: iter::once(this.as_arg()).chain(args).collect(),
                         type_args,
                     })

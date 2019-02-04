@@ -161,13 +161,10 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                 name: arg,
                                 init: Some(box Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: MemberExpr {
-                                        span: dot3_token,
-                                        obj: ExprOrSuper::Expr(box Expr::Ident(ref_ident.clone())),
-                                        computed: false,
-                                        prop: box Expr::Ident(quote_ident!("slice")),
-                                    }
-                                    .as_callee(),
+                                    callee: ref_ident
+                                        .clone()
+                                        .member(quote_ident!("slice"))
+                                        .as_callee(),
                                     args: vec![Lit::Num(Number {
                                         value: i as f64,
                                         span: dot3_token,
@@ -595,16 +592,7 @@ where
 }
 
 fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
-    Expr::Member(MemberExpr {
-        span: DUMMY_SP,
-        obj: ExprOrSuper::Expr(box ref_ident.clone().into()),
-        // Use `[]`
-        computed: true,
-        prop: box Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: i as f64,
-        })),
-    })
+    ref_ident.clone().member(i as f64)
 }
 
 fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {

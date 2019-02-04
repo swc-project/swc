@@ -180,13 +180,7 @@ impl Params {
                                 Stmt::Expr(box Expr::Assign(AssignExpr {
                                     span,
                                     left: PatOrExpr::Expr(
-                                        box MemberExpr {
-                                            span,
-                                            obj: ExprOrSuper::Expr(box Expr::Ident(arg)),
-                                            computed: true,
-                                            prop: box make_minus_i(&idx_ident, false),
-                                        }
-                                        .into(),
+                                        box arg.computed_member(make_minus_i(&idx_ident, false)),
                                     ),
                                     op: op!("="),
                                     right: box MemberExpr {

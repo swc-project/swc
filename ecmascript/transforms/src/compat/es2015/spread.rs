@@ -164,11 +164,9 @@ fn concat_args(
         // TODO
         span,
 
-        callee: MemberExpr {
-            // TODO: Mark
-            span,
-            prop: box Expr::Ident(Ident::new(js_word!("concat"), span)),
-            obj: ExprOrSuper::Expr(box first_arr.take().unwrap_or_else(|| {
+        callee: first_arr
+            .take()
+            .unwrap_or_else(|| {
                 // No arg
 
                 // assert!(args.is_empty());
@@ -177,10 +175,9 @@ fn concat_args(
                     span,
                     elems: vec![],
                 })
-            })),
-            computed: false,
-        }
-        .as_callee(),
+            })
+            .member(Ident::new(js_word!("concat"), span))
+            .as_callee(),
 
         args: buf,
         type_args: Default::default(),

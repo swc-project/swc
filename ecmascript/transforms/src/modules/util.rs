@@ -138,13 +138,7 @@ impl Scope {
                 .chain(iter::once(Stmt::Expr(box define_property(vec![
                     exports.as_arg(),
                     key_ident.clone().as_arg(),
-                    make_descriptor(box Expr::Member(MemberExpr {
-                        span: DUMMY_SP,
-                        obj: imported.clone().as_obj(),
-                        prop: box key_ident.into(),
-                        computed: true,
-                    }))
-                    .as_arg(),
+                    make_descriptor(box imported.computed_member(key_ident)).as_arg(),
                 ]))))
                 .collect(),
             }),
@@ -155,18 +149,13 @@ impl Scope {
         Stmt::Expr(box Expr::Call(CallExpr {
             span: DUMMY_SP,
             // Object.keys(_foo).forEach
-            callee: MemberExpr {
+            callee: CallExpr {
                 span: DUMMY_SP,
-                obj: CallExpr {
-                    span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
-                    args: vec![imported.as_arg()],
-                    type_args: Default::default(),
-                }
-                .as_obj(),
-                computed: false,
-                prop: box Expr::Ident(quote_ident!("forEach")),
+                callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
+                args: vec![imported.as_arg()],
+                type_args: Default::default(),
             }
+            .member(quote_ident!("forEach"))
             .as_callee(),
             args: vec![FnExpr {
                 ident: None,
@@ -369,12 +358,7 @@ pub(super) fn initialize_to_undefined(exports: Ident, initialized: FxHashSet<JsW
     for name in initialized.into_iter() {
         rhs = box Expr::Assign(AssignExpr {
             span: DUMMY_SP,
-            left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                span: DUMMY_SP,
-                obj: exports.clone().as_callee(),
-                computed: false,
-                prop: box Expr::Ident(Ident::new(name, DUMMY_SP)),
-            })),
+            left: PatOrExpr::Expr(box exports.clone().member(Ident::new(name, DUMMY_SP))),
             op: op!("="),
             right: rhs,
         });

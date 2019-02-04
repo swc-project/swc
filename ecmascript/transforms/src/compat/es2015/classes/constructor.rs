@@ -365,16 +365,9 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
                     let apply = box Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: ExprOrSuper::Expr(box get_prototype_of(
-                                helpers,
-                                &Expr::Ident(class_name),
-                            )),
-                            computed: false,
-                            prop: box Expr::Ident(fn_name),
-                        }
-                        .as_callee(),
+                        callee: get_prototype_of(helpers, &Expr::Ident(class_name))
+                            .member(fn_name)
+                            .as_callee(),
 
                         // super(foo, bar) => possibleReturnCheck(this, foo, bar)
                         args,

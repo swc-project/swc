@@ -22,14 +22,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = Expr::Member(MemberExpr {
-            // TODO
-            span,
-
-            obj: ExprOrSuper::Expr(box self.into()),
-            prop: box Expr::Ident(Ident::new(js_word!("apply"), span)),
-            computed: false,
-        });
+        let apply = self.member(Ident::new(js_word!("apply"), span));
 
         Expr::Call(CallExpr {
             span,
@@ -65,6 +58,30 @@ pub trait ExprFactory: Into<Expr> {
             left: box self.into(),
             op,
             right,
+        })
+    }
+
+    fn member<T>(self, prop: T) -> Expr
+    where
+        T: Into<Expr>,
+    {
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(box self.into()),
+            span: DUMMY_SP,
+            computed: false,
+            prop: box prop.into(),
+        })
+    }
+
+    fn computed_member<T>(self, prop: T) -> Expr
+    where
+        T: Into<Expr>,
+    {
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(box self.into()),
+            span: DUMMY_SP,
+            computed: true,
+            prop: box prop.into(),
         })
     }
 }

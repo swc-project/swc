@@ -631,13 +631,7 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
     let expr = if contains_this {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: MemberExpr {
-                span: DUMMY_SP,
-                computed: false,
-                obj: expr.as_obj(),
-                prop: box Expr::Ident(quote_ident!("bind")),
-            }
-            .as_callee(),
+            callee: expr.member(quote_ident!("bind")).as_callee(),
             args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
             type_args: Default::default(),
         })

@@ -86,12 +86,7 @@ impl Actual {
         };
 
         let step = quote_ident!(var_span, "_step");
-        let step_value = box Expr::Member(MemberExpr {
-            span: DUMMY_SP,
-            obj: ExprOrSuper::Expr(box Expr::Ident(step.clone())),
-            computed: false,
-            prop: box Expr::Ident(quote_ident!("value")),
-        });
+        let step_value = box step.clone().member(quote_ident!("value"));
         body.stmts.insert(
             0,
             match left {
@@ -118,12 +113,7 @@ impl Actual {
 
         let iterator = quote_ident!(var_span, "_iterator");
         // `_iterator.return`
-        let iterator_return = box Expr::Member(MemberExpr {
-            span: DUMMY_SP,
-            obj: ExprOrSuper::Expr(box Expr::Ident(iterator.clone())),
-            computed: false,
-            prop: box Expr::Ident(quote_ident!("return")),
-        });
+        let iterator_return = box iterator.clone().member(quote_ident!("return"));
 
         let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
@@ -165,13 +155,9 @@ impl Actual {
                         name: Pat::Ident(iterator.clone()),
                         init: Some(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: ExprOrSuper::Expr(right),
-                                computed: true,
-                                prop: member_expr!(DUMMY_SP, Symbol.iterator),
-                            }
-                            .as_callee(),
+                            callee: right
+                                .computed_member(*member_expr!(DUMMY_SP, Symbol.iterator))
+                                .as_callee(),
                             args: vec![],
                             type_args: Default::default(),
                         })),
@@ -198,13 +184,7 @@ impl Actual {
                         right: box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             // `_iterator.next`
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                computed: false,
-                                obj: ExprOrSuper::Expr(box Expr::Ident(iterator.clone())),
-                                prop: member_expr!(DUMMY_SP, next),
-                            }
-                            .as_callee(),
+                            callee: iterator.clone().member(quote_ident!("next")).as_callee(),
                             args: vec![],
                             type_args: Default::default(),
                         }),
@@ -214,12 +194,7 @@ impl Actual {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(box Pat::Ident(normal_completion_ident.clone())),
                         op: op!("="),
-                        right: box Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: step_expr.as_obj(),
-                            computed: false,
-                            prop: box Expr::Ident(quote_ident!("done")),
-                        }),
+                        right: box step_expr.member(quote_ident!("done")),
                     });
 
                     iteration_normal_completion
