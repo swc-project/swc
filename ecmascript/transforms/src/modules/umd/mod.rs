@@ -284,7 +284,9 @@ impl Fold<Module> for Umd {
                                 }
 
                                 let value = match imported {
-                                    Some(ref imported) => box imported.clone().member(orig.clone()),
+                                    Some(ref imported) => {
+                                        box imported.clone().unwrap().member(orig.clone())
+                                    }
                                     None => box Expr::Ident(orig.clone()).fold_with(self),
                                 };
 

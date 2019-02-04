@@ -58,7 +58,7 @@ impl BuiltConfig {
 
         return src.split("/").last().unwrap().to_camel_case().into();
     }
-    pub fn determine_export_name(&self, filename: FileName) -> Box<Expr> {
+    pub fn determine_export_name(&self, filename: FileName) -> Expr {
         match filename {
             FileName::Real(ref path) => {
                 let s = match path.file_stem() {
@@ -66,7 +66,7 @@ impl BuiltConfig {
                     None => self.global_name(&path.display().to_string().into()),
                 };
 
-                box Expr::Ident(quote_ident!(s))
+                Expr::Ident(quote_ident!(s))
             }
             _ => unimplemented!("determine_export_name({:?})", filename),
         }
