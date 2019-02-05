@@ -585,6 +585,7 @@ debugger
 declare
 default
 delete
+displayName
 do
 else
 enum
@@ -633,6 +634,7 @@ super
 switch
 symbol
 target
+this
 this
 throw
 true

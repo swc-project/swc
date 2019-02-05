@@ -1,5 +1,5 @@
 use crate::{
-    decl::{Decl, VarDecl},
+    decl::Decl,
     expr::{ClassExpr, Expr, FnExpr},
     ident::Ident,
     lit::Str,
@@ -52,8 +52,6 @@ pub enum ExportDefaultDecl {
     Class(ClassExpr),
 
     Fn(FnExpr),
-
-    Var(VarDecl),
 
     TsInterfaceDecl(TsInterfaceDecl),
 }

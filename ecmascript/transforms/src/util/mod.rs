@@ -1,3 +1,4 @@
+pub(crate) use self::state::State;
 pub use self::{
     factory::ExprFactory,
     value::{
@@ -21,6 +22,7 @@ use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 
 pub(crate) mod constructor;
 mod factory;
+mod state;
 mod value;
 
 pub(crate) struct ThisVisitor {
@@ -270,9 +272,9 @@ pub trait ExprExt {
                 Lit::Str(Str { ref value, .. }) => return num_from_str(value),
                 _ => return Unknown,
             },
-            Expr::Ident(Ident { ref sym, .. }) => match &**sym {
-                "undefined" | "NaN" => NAN,
-                "Infinity" => INFINITY,
+            Expr::Ident(Ident { ref sym, .. }) => match *sym {
+                js_word!("undefined") | js_word!("NaN") => NAN,
+                js_word!("Infinity") => INFINITY,
                 _ => return Unknown,
             },
             Expr::Unary(UnaryExpr {
@@ -336,8 +338,10 @@ pub trait ExprExt {
                 // Only convert a template literal if all its expressions can be converted.
                 unimplemented!("TplLit.as_string()")
             }
-            Expr::Ident(Ident { ref sym, .. }) => match &**sym {
-                "undefined" | "Infinity" | "NaN" => Known(Cow::Borrowed(&**sym)),
+            Expr::Ident(Ident { ref sym, .. }) => match *sym {
+                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN") => {
+                    Known(Cow::Borrowed(&**sym))
+                }
                 _ => Unknown,
             },
             Expr::Unary(UnaryExpr {
@@ -884,14 +888,15 @@ pub(crate) fn prepend_stmts(
             Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
             _ => true,
         })
-        .unwrap_or(0);
+        .unwrap_or(to.len());
 
     let mut buf = Vec::with_capacity(to.len() + stmts.len());
     // TODO: Optimze (maybe unsafe)
 
     buf.extend(to.drain(..idx));
     buf.extend(stmts);
-    buf.extend(to.drain(idx..));
+    buf.extend(to.drain(..));
+    debug_assert!(to.is_empty());
 
     *to = buf
 }
@@ -906,3 +911,24 @@ pub trait IdentExt: Into<Ident> {
 }
 
 impl<T> IdentExt for T where T: Into<Ident> {}
+
+/// Finds all idents of variable
+pub(crate) struct DestructuringFinder<'a> {
+    pub found: &'a mut Vec<(JsWord, Span)>,
+}
+
+impl<'a> Visit<Expr> for DestructuringFinder<'a> {
+    /// No-op (we don't care about expressions)
+    fn visit(&mut self, _: &Expr) {}
+}
+
+impl<'a> Visit<PropName> for DestructuringFinder<'a> {
+    /// No-op (we don't care about expressions)
+    fn visit(&mut self, _: &PropName) {}
+}
+
+impl<'a> Visit<Ident> for DestructuringFinder<'a> {
+    fn visit(&mut self, i: &Ident) {
+        self.found.push((i.sym.clone(), i.span));
+    }
+}

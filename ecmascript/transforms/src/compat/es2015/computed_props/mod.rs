@@ -149,12 +149,8 @@ impl Fold<Expr> for ObjectLitFolder {
                                 };
 
                                 // mutator[f]
-                                let mutator_elem = Expr::Member(MemberExpr {
-                                    span,
-                                    obj: ExprOrSuper::Expr(box Expr::Ident(mutator_map.clone())),
-                                    computed: true,
-                                    prop: box prop_name_to_expr(key),
-                                });
+                                let mutator_elem =
+                                    mutator_map.clone().computed_member(prop_name_to_expr(key));
 
                                 // mutator[f] = mutator[f] || {}
                                 exprs.push(box Expr::Assign(AssignExpr {
@@ -175,12 +171,10 @@ impl Fold<Expr> for ObjectLitFolder {
                                 // mutator[f].get = function(){}
                                 exprs.push(box Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                                        span,
-                                        obj: ExprOrSuper::Expr(box mutator_elem),
-                                        computed: false,
-                                        prop: box Expr::Ident(quote_ident!(gs_prop_name.unwrap())),
-                                    })),
+                                    left: PatOrExpr::Expr(
+                                        box mutator_elem
+                                            .member(quote_ident!(gs_prop_name.unwrap())),
+                                    ),
                                     op: op!("="),
                                     right: box Expr::Fn(FnExpr {
                                         ident: None,

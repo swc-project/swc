@@ -522,3 +522,9 @@ pub struct ExpnInfo {
     /// resolution.
     pub def_site: Option<Span>,
 }
+
+impl Default for Mark {
+    fn default() -> Self {
+        Mark::root()
+    }
+}

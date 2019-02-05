@@ -63,3 +63,48 @@ impl<'a> Fold<Ident> for Operator<'a> {
         }
     }
 }
+
+impl<'a> Fold<ExportSpecifier> for Operator<'a> {
+    fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
+        if s.exported.is_some() {
+            return ExportSpecifier {
+                orig: s.orig.fold_with(self),
+                ..s
+            };
+        }
+
+        let exported = s.orig.clone();
+
+        match self.rename_ident(s.orig) {
+            Ok(orig) => ExportSpecifier {
+                exported: Some(exported),
+                orig,
+                ..s
+            },
+            Err(orig) => ExportSpecifier { orig, ..s },
+        }
+    }
+}
+
+impl<'a> Fold<ImportSpecific> for Operator<'a> {
+    fn fold(&mut self, s: ImportSpecific) -> ImportSpecific {
+        if s.imported.is_some() {
+            return ImportSpecific {
+                local: s.local.fold_with(self),
+                ..s
+            };
+        }
+
+        let imported = s.local.clone();
+        let local = self.rename_ident(s.local);
+
+        match local {
+            Ok(local) => ImportSpecific {
+                imported: Some(imported),
+                local,
+                ..s
+            },
+            Err(local) => ImportSpecific { local, ..s },
+        }
+    }
+}

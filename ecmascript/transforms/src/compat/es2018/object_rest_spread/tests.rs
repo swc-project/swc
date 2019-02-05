@@ -10,7 +10,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_function_array,
     r#"
 function foo([{...bar}]) {
@@ -26,7 +26,7 @@ function foo([_param]) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_var_basic,
     r#"
 var { a , ...b } = _ref;
@@ -38,7 +38,7 @@ var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_assignment_exec,
     r#"
 let foo = {
@@ -54,7 +54,7 @@ expect(c).toEqual({b: 2});
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_catch_exec,
     r#"
 try {
@@ -76,7 +76,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_assignment_expression,
     r#"({ a1 } = c1);
 ({ a2, ...b2 } = c2);
@@ -93,7 +93,7 @@ console.log(( _c3 = c3, b3 = _objectWithoutProperties(_c3, ['a3']), { a3  } = _c
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_catch_clause,
     r#"
 try {} catch({ ...a34 }) {}
@@ -135,7 +135,7 @@ try{
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_export,
     r#"
 // ExportNamedDeclaration
@@ -162,10 +162,10 @@ export var [dd, ee] = ads;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    chain!(
-        tr(Default::default()),
+    |_, helpers| chain!(
+        tr(helpers.clone()),
         Spread {
-            helpers: Default::default()
+            helpers: helpers.clone()
         }
     ),
     rest_for_x,
@@ -243,7 +243,7 @@ async function a() {
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_impure_computed_exec,
     r#"
 var key, x, y, z;
@@ -273,7 +273,7 @@ expect(z).toBe("zee");
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_impure_computed,
     r#"
 var key, x, y, z;
@@ -354,7 +354,7 @@ expect(z).toBe("zee");"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_nested_2,
     r#"
 const test = {
@@ -403,7 +403,7 @@ const {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_nested_computed_key,
     r#"
 const {
@@ -430,7 +430,7 @@ const _ref = {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_nested_default_value_exec,
     r#"
 const {
@@ -448,7 +448,7 @@ expect(d).toEqual({})
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_nested_default_value,
     r#"
 const {
@@ -475,7 +475,7 @@ const _ref = {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_nested_order_exec,
     r#"
 var result = "";
@@ -503,7 +503,7 @@ expect(result).toBe("barbazfoo");
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_,helpers|tr(helpers),
   rest_nested_order,
   r#"
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
@@ -515,7 +515,7 @@ const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo = _objectWithout
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_nested_1,
     r#"
 const defunct = {
@@ -552,7 +552,7 @@ const {
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_non_string_computed_exec,
     r#"
 const a = {
@@ -615,7 +615,7 @@ expect(dy).toBe("sy");
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_non_string_computed,
     r#"
 const a = {
@@ -729,7 +729,7 @@ expect(dy).toBe("sy");"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_parameters,
     r#"
 function a({ ...a34 }) {}
@@ -824,7 +824,7 @@ function b3({
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_symbol_exec,
     r#"
 const sym = Symbol("test");
@@ -852,7 +852,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_symbol,
     r#"
 let {
@@ -893,7 +893,7 @@ if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_variable_destructuring_1,
     r#"
 var z = {};
@@ -948,7 +948,7 @@ const {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_variable_destructuring_2,
     r#"
 let {
@@ -972,7 +972,7 @@ let {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_variable_destructuring_3,
     r#"
 let { x4: { ...y4 } } = z;
@@ -984,7 +984,7 @@ let y4 = _extends({}, z.x4);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_with_array_rest_exec,
     r#"
 let [{ a, ...foo}, ...bar] = [{ a: 1, b:2 }, 2, 3, 4];
@@ -996,7 +996,7 @@ expect(bar).toEqual([2, 3, 4]);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_with_array_rest_exec_2,
     r#"
 let {
@@ -1016,7 +1016,7 @@ expect(objectRest).toEqual({d: 'oyez'})
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_with_array_rest,
     r#"
 let {
@@ -1038,7 +1038,7 @@ let _ref = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     spread_assignment,
     r#"
 z = { x, ...y };
@@ -1058,7 +1058,7 @@ z = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     spread_expression,
     r#"
 ({ x, ...y, a, ...b, c });
@@ -1094,7 +1094,7 @@ _objectSpread({}, {
 );
 
 test_exec!(::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_,helpers|tr(helpers),
     spread_no_object_assign_exec,
     r#"
 Object.defineProperty(Object.prototype, 'NOSET', {
@@ -1142,7 +1142,7 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     spread_variable_declaration,
     r#"var z = { ...x };"#,
     r#"var z = _objectSpread({}, x);"#

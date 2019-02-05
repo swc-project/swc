@@ -172,7 +172,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Exponentation,
+        |_, _| Exponentation,
         babel_binary,
         "2 ** 2",
         "Math.pow(2, 2)"
@@ -181,7 +181,7 @@ mod tests {
     test_exec!(
         ignore,
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_, _| Exponentation,
         babel_comprehensive,
         r#"expect(2 ** 3).toBe(8);
 expect(3 * 2 ** 3).toBe(24);
@@ -210,7 +210,7 @@ expect(2 ** 3 ** 2).toBe(512);"#
         // FIXME
         ignore,
         ::swc_ecma_parser::Syntax::default(),
-        |_| Exponentation,
+        |_, _| Exponentation,
         babel_memoize_object,
         r#"var counters = 0;
 Object.defineProperty(global, "reader", {
@@ -226,7 +226,7 @@ expect(counters).toBe(1);"#
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        Exponentation,
+        |_, _| Exponentation,
         assign,
         r#"x **= 3"#,
         r#"x = Math.pow(x, 3)"#,
@@ -234,7 +234,7 @@ expect(counters).toBe(1);"#
     );
 
     //     test!(::swc_ecma_parser::Syntax::default(),
-    //         Exponentation,
+    //         |_, _| Exponentation,
     //         babel_4403,
     //         "var a, b;
     // a[`${b++}`] **= 1;",

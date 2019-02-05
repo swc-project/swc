@@ -12,7 +12,7 @@ use crate::{
     },
 };
 use ast::*;
-use fnv::FnvHashSet;
+use fxhash::FxHashSet;
 use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
@@ -258,7 +258,7 @@ impl ClassProperties {
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
         let mut used_names = vec![];
-        let mut statics = FnvHashSet::default();
+        let mut statics = FxHashSet::default();
 
         for member in class.body {
             match member {
@@ -309,7 +309,7 @@ impl ClassProperties {
 
                         _ => {
                             let mut ident = alias_ident_for(&prop.key, "_ref");
-                            ident.span = ident.span.apply_mark(Mark::fresh(self.mark));
+                            ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
                             // Handle computed property
                             vars.push(VarDeclarator {
                                 span: DUMMY_SP,
@@ -380,13 +380,7 @@ impl ClassProperties {
                     } else {
                         constructor_exprs.push(box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: MemberExpr {
-                                span: DUMMY_SP,
-                                obj: ident.clone().as_obj(),
-                                prop: box Expr::Ident(quote_ident!("set")),
-                                computed: false,
-                            }
-                            .as_callee(),
+                            callee: ident.clone().member(quote_ident!("set")).as_callee(),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 ObjectLit {

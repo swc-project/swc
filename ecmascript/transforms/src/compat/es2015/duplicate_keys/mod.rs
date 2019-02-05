@@ -1,6 +1,6 @@
 use crate::pass::Pass;
 use ast::*;
-use fnv::FnvHashSet;
+use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 
@@ -35,8 +35,8 @@ impl Fold<Expr> for DuplicateKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: FnvHashSet<JsWord>,
-    setter_props: FnvHashSet<JsWord>,
+    getter_props: FxHashSet<JsWord>,
+    setter_props: FxHashSet<JsWord>,
 }
 
 impl Fold<Prop> for PropFolder {
@@ -79,7 +79,7 @@ impl Fold<Prop> for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut FnvHashSet<JsWord>,
+    props: &'a mut FxHashSet<JsWord>,
 }
 
 impl<'a> Fold<PropName> for PropNameFolder<'a> {

@@ -951,7 +951,7 @@ where
                 callee: box Expr::Ident(Ident { ref sym, .. }),
                 ref args,
                 ..
-            }) if &*sym == "Date" && args.is_empty() => {}
+            }) if *sym == js_word!("Date") && args.is_empty() => {}
             Expr::New(_) => v.push(box expr),
             Expr::Member(_) => v.push(box expr),
 

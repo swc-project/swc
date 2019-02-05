@@ -14,12 +14,13 @@ swc_common = { path ="../../common" }
 swc_ecma_ast = { path ="../ast" }
 swc_ecma_parser = { path ="../parser", features = ["verify"] }
 either = "1.5"
-fnv = "1"
+fxhash = "0.2"
 lazy_static = "1"
 objekt = "0.1"
 serde = { version = "1", features = ["derive"] }
 indexmap = "1"
 ordered-float = "1.0.1"
+Inflector = { version = "0.11.4", default-features = false }
 
 [dev-dependencies]
 testing = { path ="../../testing" }

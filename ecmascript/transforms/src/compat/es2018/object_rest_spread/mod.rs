@@ -665,15 +665,7 @@ impl RestFolder {
                         Some(elem) => Some(self.fold_rest(
                             elem,
                             if use_member_for_array {
-                                box Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: obj.clone().as_obj(),
-                                    computed: true,
-                                    prop: box Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: i as _,
-                                    })),
-                                })
+                                box obj.clone().computed_member(i as f64)
                             } else {
                                 obj.clone()
                             },

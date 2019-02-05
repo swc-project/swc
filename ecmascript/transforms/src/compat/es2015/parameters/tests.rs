@@ -13,7 +13,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     babel_6057_simple,
     r#"const a = 'bar';
 function foo(...a) {
@@ -30,7 +30,7 @@ function foo() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     default_before_last,
     r#"function foo(a = "foo", b) {}"#,
     r#"function foo(param, b) {
@@ -40,7 +40,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     default_destructuring,
     r#"function required(msg) {
   throw new Error(msg);
@@ -65,7 +65,7 @@ expect(sum({arr:[1,2]})).toBe(3);"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     default_earlier_params,
     r#"function f(a, b = a, c = b) { return c; }
 
@@ -75,7 +75,7 @@ expect(3).toBe(f(3));"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     default_eval,
     r#"let x = "outside";
 function outer(a = () => eval("x")) {
@@ -100,7 +100,7 @@ outer();"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     default_iife_1128,
     r#"const bar = true;
 
@@ -115,7 +115,12 @@ foo(1, 2, 3);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    chain!(Classes::default(), tr(Default::default())),
+    |_, helpers| chain!(
+        Classes {
+            helpers: helpers.clone()
+        },
+        tr(helpers)
+    ),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -135,7 +140,7 @@ test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
     // Stage0
-    tr,
+    |_, helpers| tr(helpers),
     default_iife_4253_exec,
     r#"class Ref {
   static nextId = 0
@@ -150,7 +155,12 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    chain!(Classes::default(), tr(Default::default())),
+    |_, helpers| chain!(
+        Classes {
+            helpers: helpers.clone()
+        },
+        tr(helpers)
+    ),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -178,7 +188,7 @@ var X = function X(param) {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     default_iife_self_exec,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -190,7 +200,7 @@ expect(new Ref().ref).toBe(Ref);"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   default_multiple,
   r#"var t = function (e = "foo", f = 5) {
   return e + " bar " + f;
@@ -211,7 +221,7 @@ var a = function(e, param) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     default_rest_mix,
     r#"function fn(
   a1,
@@ -229,7 +239,7 @@ test!(
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   default_rest_1,
   r#"const a = 1;
 function rest(b = a, ...a) {
@@ -248,7 +258,7 @@ rest(undefined, 2);"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   default_rest_2,
   r#"const a = 1;
   function rest2(b = a, ...a) {
@@ -267,7 +277,7 @@ rest2(undefined, 2);"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   default_rest_3,
   r#"const a = 1;
     function rest3(b = a, ...a) {
@@ -287,7 +297,7 @@ rest3(undefined, 2);"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     default_rest_exec,
     r#"const a = 1;
 function rest(b = a, ...a) {
@@ -308,7 +318,7 @@ rest3(undefined, 2)"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     default_setter_noexec,
     r#"const obj = {
   set field(num = 1) {
@@ -326,7 +336,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     default_setter_exec,
     r#"const defaultValue = 1;
 const obj = {
@@ -341,7 +351,7 @@ expect(obj.num).toBe(defaultValue);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     default_single,
     r#"var t = function (f = "foo") {
   return f + " bar";
@@ -354,7 +364,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     destructuring_rest,
     r#"// #3861
 function t(x = "default", { a, b }, ...args) {
@@ -374,7 +384,7 @@ function t(param, param1) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     regression_4333,
     r#"const args = 'bar';
 function foo(...args) {
@@ -392,7 +402,7 @@ function foo() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     regression_4348,
     r#"function first(...values) {
   var index = 0;
@@ -411,7 +421,7 @@ test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
     // type
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     regression_4634,
     r#"let oneOf = (...nodes) => {
   if (nodes.length === 1) {
@@ -434,7 +444,7 @@ let oneOf = function () {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   regression_5787,
   r#"function f(a, ...rest) {
   let b = rest[rest.length - 3];
@@ -465,7 +475,7 @@ function f(a) {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     regression_5787_exec,
     r#"function f1(a, ...rest) {
   let b = rest[rest.length - 3];
@@ -483,7 +493,7 @@ expect(f2(1, 2)).toBeUndefined();"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_args_deoptimiazation,
     r#"function x (...rest) {
   arguments;
@@ -502,7 +512,7 @@ test!(
     // Stage 0
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_arrow_fn,
     r#"var concat = (...arrs) => {
   var x = arrs[0];
@@ -604,7 +614,7 @@ var innerclassproperties = function () {
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_async_arrow_fn,
     r#"var concat = async (...arrs) => {
   var x = arrs[0];
@@ -649,7 +659,7 @@ function () {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    chain!(crate::compat::es2015::arrow(), tr(Default::default())),
+    |_, helpers| chain!(crate::compat::es2015::arrow(), tr(helpers)),
     rest_binding_deoptimisation,
     r#"const deepAssign = (...args) => args = [];
 "#,
@@ -666,7 +676,7 @@ test!(
   // optimiation is not implemented
   ignore,
   ::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   rest_deepest_common_ancestor_earliest_child,
   r#"// single reference
 function r(...rest){
@@ -861,7 +871,7 @@ function r() {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   rest_length,
   r#"var t = function (f, ...items) {
   items[0];
@@ -892,7 +902,7 @@ function t(f) {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_length_exec,
     r#"var length = function (a, b, ...items) {
   return items.length;
@@ -908,7 +918,7 @@ test!(
     // optimisation is not implemented
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_member_expression_deoptimisation,
     r#"var t = function (...items) {
   var x = items[0];
@@ -966,7 +976,7 @@ test!(
     // optimisation is not implemented
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_member_expression_optimisation,
     r#"var t = function (...items) {
   var x = items[0];
@@ -1021,7 +1031,7 @@ function t() {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  tr(Default::default()),
+  |_, helpers| tr(helpers),
   rest_multiple,
   r#"var t = function (f, ...items) {
     var x = f;
@@ -1074,7 +1084,7 @@ test!(
     // optimisation is not implemented
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_nested_5656,
     r#"function a(...args) {
   const foo = (...list) => bar(...list);
@@ -1135,7 +1145,8 @@ function d(thing) {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    chain!(Classes::default(), tr(Default::default()), crate::compat::es2015::Spread::default()),
+    |_, helpers|chain!(Classes{helpers:helpers.clone()},  tr(helpers),
+    crate::compat::es2015::Spread::default()),
   rest_nested_iife,
   r#"function broken(x, ...foo) {
   if (true) {
@@ -1144,7 +1155,8 @@ test!(::swc_ecma_parser::Syntax::default(),
   }
 }"#,
   r#"function broken(x) {
-    for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+    for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0),
+        _key = 1; _key < _len; _key++){
         foo[_key - 1] = arguments[_key];
     }
     if (true) {
@@ -1163,7 +1175,7 @@ test!(::swc_ecma_parser::Syntax::default(),
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_patterns,
     r#"function foo(...[a]) {}"#,
     r#"function foo() {
@@ -1176,7 +1188,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    tr,
+    |_, helpers| tr(helpers),
     rest_patterns_exec,
     r#"
 function foo(...{ length }) {
@@ -1190,7 +1202,7 @@ test!(
     // optimisation is not implemented
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    tr(Default::default()),
+    |_, helpers| tr(helpers),
     rest_spread_optimisation,
     r#"// optimisation
 

@@ -2,6 +2,20 @@ use ast::*;
 use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
 
+pub fn noop() -> impl Pass + Clone + Copy {
+    #[derive(Clone, Copy)]
+    struct Noop;
+    impl<T> Fold<T> for Noop
+    where
+        T: FoldWith<Self>,
+    {
+        fn fold(&mut self, n: T) -> T {
+            n
+        }
+    }
+    Noop
+}
+
 macro_rules! mk_impl {
     ($T:ty) => {
         // impl<A: Pass, B: Pass> Fold<$T> for JoinedPass<A, B, $T> {
@@ -15,6 +29,8 @@ macro_rules! mk_impl {
 macro_rules! mk_trait {
     ($($T:ty,)*) => {
         /// Crazy trait to make traversal fast again.
+        ///
+        /// Note that pass.clone() should create a fresh pass.
         pub trait Pass: objekt::Clone + $( ::swc_common::Fold<$T> + )* {}
         impl<P> Pass for P
             where P: ?Sized + objekt::Clone + $( ::swc_common::Fold<$T> +)*{

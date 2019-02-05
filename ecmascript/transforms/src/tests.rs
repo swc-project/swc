@@ -1,13 +1,18 @@
+use crate::helpers::{Helpers, InjectHelpers};
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
     fmt,
+    fs::{create_dir_all, OpenOptions},
     io::{self, Write},
+    path::Path,
+    process::Command,
     sync::{Arc, RwLock},
 };
 use swc_common::{errors::Handler, sync::Lrc, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
+use tempfile::tempdir_in;
 
 struct MyHandlers;
 
@@ -51,6 +56,15 @@ impl<'a> Tester<'a> {
 
         let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
         op(&mut p)
+    }
+
+    pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Module, ()> {
+        self.with_parser(file_name, Syntax::default(), src, |p| {
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        })
     }
 
     pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
@@ -136,55 +150,70 @@ impl<'a> Tester<'a> {
     }
 }
 
+fn make_tr<F, P>(op: F, tester: &mut Tester, helpers: Arc<Helpers>) -> P
+where
+    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+    P: Fold<Module>,
+{
+    op(tester, helpers)
+}
+
 #[cfg(test)]
 macro_rules! test_transform {
     ($syntax:expr, $tr:expr, $input:expr, $expected:expr) => {
         test_transform!($syntax, $tr, $input, $expected, false)
     };
 
-    ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_src_eq:expr) => {{
-        use swc_common::FoldWith;
+    ($syntax:expr, $tr:expr, $input:expr, $expected:expr, $ok_if_code_eq:expr) => {{
+        crate::tests::test_transform($syntax, $tr, $input, $expected, $ok_if_code_eq);
+    }};
+}
 
-        crate::tests::Tester::run(|tester: &mut crate::tests::Tester| {
-            let expected =
-                tester.apply_transform(::testing::DropSpan, "expected.js", $syntax, $expected)?;
+pub(crate) fn test_transform<F, P>(
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    expected: &str,
+    ok_if_code_eq: bool,
+) where
+    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+{
+    crate::tests::Tester::run(|tester| {
+        let expected =
+            tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
 
-            eprintln!("----- Actual -----");
+        eprintln!("----- Actual -----");
+        let helpers = Arc::new(Helpers::default());
+        let tr = crate::tests::make_tr(tr, tester, helpers.clone());
+        let actual = tester
+            .apply_transform(tr, "input.js", syntax, input)?
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer());
 
-            let actual = tester
-                .apply_transform($tr, "actual.js", $syntax, $input)?
-                .fold_with(&mut crate::hygiene::hygiene())
-                .fold_with(&mut crate::fixer::fixer());
+        if actual == expected {
+            return Ok(());
+        }
 
-            if actual == expected {
+        let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+        if actual_src == expected_src {
+            if ok_if_code_eq {
                 return Ok(());
             }
-
-            let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
-
-            if actual_src == expected_src {
-                if $ok_if_src_eq {
-                    return Ok(());
-                }
-                // Diff it
-                println!(">>>>> Code <<<<<\n{}", actual_src);
-                assert_eq!(actual, expected, "different ast was detected");
-                unreachable!()
-            }
-
-            println!(">>>>> Orig <<<<<\n{}", $input);
+            // Diff it
             println!(">>>>> Code <<<<<\n{}", actual_src);
-            assert_eq!(
-                crate::tests::DebugUsingDisplay(&actual_src),
-                crate::tests::DebugUsingDisplay(&expected_src)
-            );
-            unreachable!()
-            // panic!(
-            //     "\n\t>>>>> Code <<<<<\n{}\n\t>>>>> Actual <<<<<\n{}\n\t>>>>> Expected
-            // <<<<<\n{}",     $input, actual_src, expected_src
-            // );
-        });
-    }};
+            assert_eq!(actual, expected, "different ast was detected");
+            return Err(());
+        }
+
+        println!(">>>>> Orig <<<<<\n{}", input);
+        println!(">>>>> Code <<<<<\n{}", actual_src);
+        assert_eq!(
+            crate::tests::DebugUsingDisplay(&actual_src),
+            crate::tests::DebugUsingDisplay(&expected_src)
+        );
+        return Err(());
+    });
 }
 
 #[derive(PartialEq, Eq)]
@@ -223,80 +252,73 @@ macro_rules! test {
 
 macro_rules! exec_tr {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {{
-        use crate::helpers::{Helpers, InjectHelpers};
-        use std::{
-            fs::{create_dir_all, OpenOptions},
-            io::Write,
-            path::Path,
-            process::Command,
-            sync::Arc,
-        };
-        use swc_common::FoldWith;
-        use tempfile::tempdir_in;
+        crate::tests::exec_tr(stringify!($test_name), $syntax, $tr, $input);
+    }};
+}
 
-        crate::tests::Tester::run(|tester| {
-            let helpers = Arc::new(Helpers::default());
-            let tr = $tr(helpers.clone());
+pub(crate) fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
+    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+{
+    Tester::run(|tester| {
+        let helpers = Arc::new(Helpers::default());
+        let tr = make_tr(tr, tester, helpers.clone());
 
-            let module = tester.apply_transform(
-                tr,
-                "input.js",
-                $syntax,
-                &format!(
-                    "it('should work', function () {{
+        let module = tester.apply_transform(
+            tr,
+            "input.js",
+            syntax,
+            &format!(
+                "it('should work', function () {{
                     {}
                 }})",
-                    $input
-                ),
-            )?;
-            let module = module
-                .fold_with(&mut crate::hygiene::hygiene())
-                .fold_with(&mut crate::fixer::fixer());
+                input
+            ),
+        )?;
+        let module = module
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer());
 
-            let src_without_helpers = tester.print(&module);
-            let module = module.fold_with(&mut InjectHelpers {
-                cm: tester.cm.clone(),
-                helpers: helpers.clone(),
-            });
-
-            let src = tester.print(&module);
-            let root = Path::new(env!("CARGO_MANIFEST_DIR"))
-                .join("target")
-                .join("testing")
-                .join(stringify!($test_name));
-            create_dir_all(&root).unwrap();
-
-            let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
-            create_dir_all(&tmp_dir).unwrap();
-
-            let path = tmp_dir
-                .path()
-                .join(format!("{}.test.js", stringify!($test_name)));
-
-            let mut tmp = OpenOptions::new()
-                .create(true)
-                .write(true)
-                .open(&path)
-                .expect("failed to create a temp file");
-            write!(tmp, "{}", src).expect("failed to write to temp file");
-            tmp.flush().unwrap();
-
-            println!(
-                "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
-                $input, src_without_helpers
-            );
-
-            let status = Command::new("jest")
-                .args(&["--testMatch", &format!("{}", path.display())])
-                .current_dir(root)
-                .status()
-                .expect("failed to run jest");
-            if status.success() {
-                return Ok(());
-            }
-            panic!("Execution failed")
+        let src_without_helpers = tester.print(&module);
+        let module = module.fold_with(&mut InjectHelpers {
+            cm: tester.cm.clone(),
+            helpers: helpers.clone(),
         });
-    }};
+
+        let src = tester.print(&module);
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("target")
+            .join("testing")
+            .join(test_name);
+
+        let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
+        create_dir_all(&tmp_dir).unwrap();
+
+        let path = tmp_dir.path().join(format!("{}.test.js", test_name));
+
+        let mut tmp = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .open(&path)
+            .expect("failed to create a temp file");
+        write!(tmp, "{}", src).expect("failed to write to temp file");
+        tmp.flush().unwrap();
+
+        println!(
+            "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
+            input, src_without_helpers
+        );
+
+        let status = Command::new("jest")
+            .args(&["--testMatch", &format!("{}", path.display())])
+            .current_dir(root)
+            .status()
+            .expect("failed to run jest");
+        if status.success() {
+            return Ok(());
+        }
+        panic!("Execution failed")
+    })
 }
 
 /// Test transformation.

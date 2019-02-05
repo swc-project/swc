@@ -1,16 +1,22 @@
-use crate::{pass::Pass, util::ExprFactory};
+use crate::{
+    pass::Pass,
+    util::{ExprFactory, State},
+};
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use swc_common::{
+    util::{map::Map, move_map::MoveMap},
+    Fold, FoldWith,
+};
 
 pub fn fixer() -> impl Pass + Clone {
     Fixer {
-        ctx: Context::Default,
+        ctx: Default::default(),
     }
 }
 
 #[derive(Clone, Copy)]
 struct Fixer {
-    ctx: Context,
+    ctx: State<Context>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -26,11 +32,16 @@ enum Context {
         is_var_decl: bool,
     },
 }
+impl Default for Context {
+    fn default() -> Self {
+        Context::Default
+    }
+}
 
 impl Fold<KeyValuePatProp> for Fixer {
     fn fold(&mut self, node: KeyValuePatProp) -> KeyValuePatProp {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
         let key = node.key.fold_with(self);
         self.ctx = old;
 
@@ -45,7 +56,7 @@ impl Fold<AssignPatProp> for Fixer {
         let key = node.key.fold_children(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
         let value = node.value.fold_with(self);
         self.ctx = old;
 
@@ -58,7 +69,7 @@ impl Fold<VarDeclarator> for Fixer {
         let name = node.name.fold_children(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true };
+        self.ctx = Context::ForcedExpr { is_var_decl: true }.into();
         let init = node.init.fold_with(self);
         self.ctx = old;
 
@@ -71,7 +82,7 @@ impl Fold<Stmt> for Fixer {
         let stmt = match stmt {
             Stmt::Expr(expr) => {
                 let old = self.ctx;
-                self.ctx = Context::Default;
+                self.ctx = Context::Default.into();
                 let expr = expr.fold_with(self);
                 self.ctx = old;
                 Stmt::Expr(expr)
@@ -79,31 +90,51 @@ impl Fold<Stmt> for Fixer {
             _ => stmt.fold_children(self),
         };
 
-        let stmt = match stmt {
-            Stmt::Expr(expr) => {
-                match *expr {
-                    // It's important for arrow pass to work properly.
-                    Expr::Object(..) | Expr::Fn(..) => Stmt::Expr(box expr.wrap_with_paren()),
+        fn handle_expr_stmt(expr: Expr) -> Expr {
+            match expr {
+                // It's important for arrow pass to work properly.
+                Expr::Object(..) | Expr::Fn(..) => expr.wrap_with_paren(),
 
-                    // ({ a } = foo)
-                    Expr::Assign(AssignExpr {
-                        span,
-                        left: PatOrExpr::Pat(left @ box Pat::Object(..)),
-                        op,
-                        right,
-                    }) => Stmt::Expr(
-                        box AssignExpr {
-                            span,
-                            left: PatOrExpr::Pat(left),
-                            op,
-                            right,
-                        }
-                        .wrap_with_paren(),
-                    ),
-
-                    _ => Stmt::Expr(expr),
+                // ({ a } = foo)
+                Expr::Assign(AssignExpr {
+                    span,
+                    left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+                    op,
+                    right,
+                }) => AssignExpr {
+                    span,
+                    left: PatOrExpr::Pat(left),
+                    op,
+                    right,
                 }
+                .wrap_with_paren(),
+
+                Expr::Seq(SeqExpr { span, exprs }) => {
+                    debug_assert!(
+                        exprs.len() != 1,
+                        "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
+                    );
+
+                    let mut first = true;
+                    Expr::Seq(SeqExpr {
+                        span,
+                        exprs: exprs.move_map(|expr| {
+                            if first {
+                                first = false;
+                                expr.map(handle_expr_stmt)
+                            } else {
+                                expr
+                            }
+                        }),
+                    })
+                }
+
+                _ => expr,
             }
+        }
+
+        let stmt = match stmt {
+            Stmt::Expr(expr) => Stmt::Expr(expr.map(handle_expr_stmt)),
 
             _ => stmt,
         };
@@ -124,7 +155,7 @@ macro_rules! context_fn_args {
                 } = node;
 
                 let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false };
+                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
                 let args = args.fold_with(self);
                 self.ctx = old;
 
@@ -146,7 +177,7 @@ macro_rules! array {
         impl Fold<$T> for Fixer {
             fn fold(&mut self, e: $T) -> $T {
                 let old = self.ctx;
-                self.ctx = Context::ForcedExpr { is_var_decl: false };
+                self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
                 let elems = e.elems.fold_with(self);
                 self.ctx = old;
 
@@ -196,6 +227,12 @@ impl Fold<Expr> for Fixer {
                 computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Update(..)),
                 prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Unary(..)),
+                prop,
             }) => MemberExpr {
                 span,
                 computed,
@@ -237,7 +274,7 @@ impl Fold<Expr> for Fixer {
                     Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
-                match self.ctx {
+                match self.ctx.value {
                     Context::ForcedExpr { .. } => Expr::Paren(ParenExpr {
                         span,
                         expr: box expr,
@@ -293,8 +330,8 @@ impl Fold<Expr> for Fixer {
                         ..
                     }) => expr.right,
 
-                    // Handle `foo = (bar = init(), baz)
-                    Expr::Assign(right) => box right.wrap_with_paren(),
+                    // Handle `foo = bar = init()
+                    Expr::Seq(right) => box right.wrap_with_paren(),
                     _ => expr.right,
                 };
 
@@ -307,7 +344,7 @@ impl Fold<Expr> for Fixer {
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
                 type_args,
-            }) => match self.ctx {
+            }) => match self.ctx.value {
                 Context::ForcedExpr { .. } => Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),
@@ -334,7 +371,7 @@ mod tests {
     macro_rules! test_fixer {
         ($name:ident, $from:literal, $to:literal) => {
             // We use noop because fixer is invoked by tests::apply_transform.
-            test!(Default::default(), Noop, $name, $from, $to);
+            test!(Default::default(), |_, _| Noop, $name, $from, $to);
         };
     }
 
@@ -353,30 +390,30 @@ mod tests {
     identical!(paren_seq_arg, "foo(( _temp = _this = init(), _temp));");
 
     identical!(
-        regression_1,
+        regression_01,
         "_set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = \
          +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;"
     );
 
     identical!(
-        regression_2,
+        regression_02,
         "var obj = (_obj = {}, _defineProperty(_obj, 'first', 'first'), _defineProperty(_obj, \
          'second', 'second'), _obj);"
     );
 
     identical!(
-        regression_3,
+        regression_03,
         "_iteratorNormalCompletion = (_step = _iterator.next()).done"
     );
 
     identical!(
-        regression_4,
+        regression_04,
         "var _tmp;
 const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(
-        regression_5,
+        regression_05,
         "for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step \
          = _iterator.next()).done); _iteratorNormalCompletion = true) {
     i = _step.value;
@@ -384,7 +421,7 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(
-        regression_6,
+        regression_06,
         "
         var _tmp;
         const { [( _tmp = {}, d = _extends({}, _tmp), _tmp)]: c  } = _ref;
@@ -392,7 +429,15 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(
-        regression_7,
+        regression_07,
         "( _temp = super(), _initialize(this), _temp).method();"
     );
+
+    identical!(regression_08, "exports.bar = exports.default = void 0;");
+
+    identical!(regression_09, "({x} = { x: 1 });");
+
+    identical!(regression_10, "({x} = { x: 1 }), exports.x = x;");
+
+    identical!(regression_11, "(void 0).foo();");
 }

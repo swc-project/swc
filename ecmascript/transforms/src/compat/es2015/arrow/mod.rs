@@ -113,13 +113,7 @@ impl Fold<Expr> for Arrow {
 
                 Expr::Call(CallExpr {
                     span,
-                    callee: Expr::Member(MemberExpr {
-                        span,
-                        obj: ExprOrSuper::Expr(box fn_expr),
-                        prop: box quote_ident!("bind").into(),
-                        computed: false,
-                    })
-                    .as_callee(),
+                    callee: fn_expr.member(quote_ident!("bind")).as_callee(),
                     args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                     type_args: Default::default(),
                 })
