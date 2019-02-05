@@ -592,7 +592,7 @@ where
 }
 
 fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
-    ref_ident.clone().member(i as f64)
+    ref_ident.clone().computed_member(i as f64)
 }
 
 fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Ident {
