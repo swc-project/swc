@@ -54,7 +54,14 @@ pub enum Lazy {
 impl Lazy {
     fn is_lazy(&self, src: &JsWord) -> bool {
         match *self {
-            Lazy::Bool(b) => b,
+            Lazy::Bool(false) => false,
+            Lazy::Bool(true) => {
+                if src.starts_with(".") {
+                    false
+                } else {
+                    true
+                }
+            }
             Lazy::List(ref srcs) => srcs.contains(&src),
         }
     }

@@ -377,8 +377,6 @@ var _foo = require("foo");
 
 // lazy_local_reexport_default
 test!(
-    // Same option as lazy_deps_*, but different result
-    ignore,
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Bool(true),
@@ -410,8 +408,6 @@ var _foo = _interopRequireDefault(require("./foo"));
 
 // lazy_local_reexport_namespace
 test!(
-    // Same option as lazy_deps_*, but different result
-    ignore,
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Bool(true),
@@ -1031,8 +1027,6 @@ Object.keys(_black).forEach(function (key) {
 
 // lazy_dep_import_namespace
 test!(
-    // Same option as lazy_local_*, but different result
-    ignore,
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Bool(true),
@@ -1042,8 +1036,9 @@ test!(
     r#"
 import * as foo from "foo";
 
-console.log(foo);
-
+function use() {
+  console.log(foo);
+}
 "#,
     r#"
 "use strict";
@@ -1058,7 +1053,9 @@ function foo() {
   return data;
 }
 
-console.log(foo());
+function use() {
+  console.log(foo());
+}
 
 "#
 );
@@ -3163,8 +3160,6 @@ function use2() {
 
 // lazy_dep_import_named
 test!(
-    // Same option as lazy_local_*, but different result
-    ignore,
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Bool(true),
@@ -3174,7 +3169,9 @@ test!(
     r#"
 import { foo } from "foo";
 
-console.log(foo);
+function use() {
+  console.log(foo);
+}
 
 "#,
     r#"
@@ -3190,7 +3187,9 @@ function _foo() {
   return data;
 }
 
-console.log(_foo().foo);
+function use() {
+  console.log(_foo().foo);
+}
 
 "#
 );
@@ -3325,8 +3324,6 @@ foo.baz();
 
 // lazy_dep_import_default
 test!(
-    // Same option as lazy_local_*, but different result
-    ignore,
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Bool(true),
@@ -3336,8 +3333,9 @@ test!(
     r#"
 import foo from "foo";
 
-console.log(foo);
-
+function use() {
+  console.log(foo);
+}
 "#,
     r#"
 "use strict";
@@ -3352,15 +3350,14 @@ function _foo() {
   return data;
 }
 
-console.log(_foo().default);
-
+function use() {
+  console.log(_foo().default);
+}
 "#
 );
 
 // lazy_local_reexport_named
 test!(
-    // Same option as lazy_deps_*, but different result
-    ignore,
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Bool(true),
