@@ -42,6 +42,7 @@ macro_rules! mk_trait {
         )*
     };
 }
+objekt::clone_trait_object!(Pass);
 
 mk_trait!(
     ArrayLit,
@@ -146,11 +147,21 @@ mk_trait!(
     VarDeclOrPat,
 );
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Copy)]
 pub struct JoinedPass<A, B, N> {
     pub first: A,
     pub second: B,
     pub ty: PhantomData<N>,
+}
+
+impl<A: Pass, B: Pass, N> Clone for JoinedPass<A, B, N> {
+    fn clone(&self) -> Self {
+        JoinedPass {
+            first: objekt::clone(&self.first),
+            second: objekt::clone(&self.second),
+            ty: self.ty,
+        }
+    }
 }
 
 // fn type_name<T>() -> String {
