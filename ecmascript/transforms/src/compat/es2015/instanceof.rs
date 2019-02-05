@@ -1,6 +1,5 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
-use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-instanceof`
@@ -29,9 +28,7 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith};
 /// _instanceof(foo, Bar);
 /// ```
 #[derive(Clone)]
-pub struct InstanceOf {
-    pub helpers: Arc<Helpers>,
-}
+pub struct InstanceOf;
 
 impl Fold<Expr> for InstanceOf {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -64,7 +61,7 @@ impl Fold<Expr> for InstanceOf {
                 op: op!("instanceof"),
                 right,
             }) => {
-                self.helpers.instanceof();
+                helper!(instanceof);
 
                 Expr::Call(CallExpr {
                     span,

@@ -1,8 +1,6 @@
 use ast::*;
-use std::sync::{
-    atomic::{AtomicBool, Ordering},
-    Arc,
-};
+use scoped_tls::scoped_thread_local;
+use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
@@ -17,8 +15,15 @@ lazy_static! {
     static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
 }
 
+#[macro_export]
+macro_rules! helper {
+    ($i:ident) => {{
+        $crate::helpers::HELPERS.with(|helpers| helpers.$i());
+    }};
+}
+
 macro_rules! add_to {
-    ($buf:expr, $name:tt, $b:expr) => {{
+    ($buf:expr, $name:ident, $b:expr) => {{
         lazy_static! {
             static ref STMTS: Vec<Stmt> = {
                 let code = include_str!(concat!("_", stringify!($name), ".js"));
@@ -44,22 +49,30 @@ macro_rules! add_to {
     }};
 }
 
+scoped_thread_local!(pub static HELPERS: Helpers);
+
+/// Tracks used helper methods. (e.g. __extends)
+#[derive(Default)]
+pub struct Helpers {
+    inner: Inner,
+}
+
 macro_rules! define_helpers {
     (
         Helpers {
             $( $name:ident : ( $( $dep:ident ),* ), )*
         }
     ) => {
-        /// Tracks used helper methods. (e.g. __extends)
         #[derive(Default)]
-        pub struct Helpers {
+        struct Inner {
             $( $name: AtomicBool, )*
         }
 
         impl Helpers {
             $(
                 pub fn $name(&self) {
-                    self.$name.store(true, Ordering::Relaxed);
+                    self.inner.$name.store(true, Ordering::Relaxed);
+
                     $(
                         self.$dep();
                     )*
@@ -71,32 +84,16 @@ macro_rules! define_helpers {
             fn mk_helpers(&self) -> Vec<Stmt>{
                 let mut buf = vec![];
 
-                $(
-                    add_to!(buf, $name, self.helpers.$name);
-                )*
-
+                HELPERS.with(|helpers|{
+                    $(
+                        add_to!(buf, $name, helpers.inner.$name);
+                    )*
+                });
 
                 buf
             }
         }
-
-        impl Fold<Module> for HelperResetter {
-            fn fold(&mut self, module:Module)->Module{
-                $(
-                    self.helpers.$name.store(false, Ordering::Relaxed);
-                )*
-
-                module
-            }
-        }
     };
-}
-
-/// Disables all helpers.
-/// Used to reset list of injected helpers.
-#[derive(Clone)]
-pub struct HelperResetter {
-    pub helpers: Arc<Helpers>,
 }
 
 define_helpers!(Helpers {
@@ -181,7 +178,6 @@ define_helpers!(Helpers {
 #[derive(Clone)]
 pub struct InjectHelpers {
     pub cm: Lrc<SourceMap>,
-    pub helpers: Arc<Helpers>,
 }
 
 impl Fold<Module> for InjectHelpers {

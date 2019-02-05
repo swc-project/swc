@@ -1,10 +1,9 @@
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{prop_name_to_expr, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{iter, sync::Arc};
+use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
@@ -32,14 +31,12 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring(helpers: Arc<Helpers>) -> impl Pass + Clone {
-    Destructuring { helpers }
+pub fn destructuring() -> impl Pass + Clone + Copy {
+    Destructuring
 }
 
-#[derive(Clone)]
-struct Destructuring {
-    helpers: Arc<Helpers>,
-}
+#[derive(Clone, Copy)]
+struct Destructuring;
 
 macro_rules! impl_for_for_stmt {
     ($T:tt) => {
@@ -195,7 +192,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     let ref_ident = if can_be_null {
-                        self.helpers.throw();
+                        helper!(throw);
                         make_ref_ident(
                             &mut decls,
                             Some(box Expr::Cond(CondExpr {
@@ -377,7 +374,6 @@ impl Fold<Function> for Destructuring {
 
 #[derive(Default)]
 struct AssignFolder {
-    helpers: Arc<Helpers>,
     vars: Vec<VarDeclarator>,
 }
 
@@ -385,10 +381,7 @@ impl Fold<Expr> for AssignFolder {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             // Handle iife
-            Expr::Fn(..) | Expr::Object(..) => Destructuring {
-                helpers: self.helpers.clone(),
-            }
-            .fold(expr),
+            Expr::Fn(..) | Expr::Object(..) => Destructuring.fold(expr),
             _ => expr.fold_children(self),
         };
 

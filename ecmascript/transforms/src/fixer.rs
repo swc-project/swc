@@ -371,7 +371,7 @@ mod tests {
     macro_rules! test_fixer {
         ($name:ident, $from:literal, $to:literal) => {
             // We use noop because fixer is invoked by tests::apply_transform.
-            test!(Default::default(), |_, _| Noop, $name, $from, $to);
+            test!(Default::default(), |_| Noop, $name, $from, $to);
         };
     }
 

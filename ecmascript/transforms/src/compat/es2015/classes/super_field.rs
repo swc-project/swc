@@ -1,8 +1,5 @@
 use super::get_prototype_of;
-use crate::{
-    helpers::Helpers,
-    util::{alias_ident_for, is_rest_arguments, ExprFactory},
-};
+use crate::util::{alias_ident_for, is_rest_arguments, ExprFactory};
 use ast::*;
 use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
@@ -22,7 +19,7 @@ use swc_common::{Fold, FoldWith, Mark, Span, Spanned, DUMMY_SP};
 /// 'foo', this).call(this, a);
 pub(super) struct SuperFieldAccessFolder<'a> {
     pub class_name: &'a Ident,
-    pub helpers: &'a Helpers,
+
     pub vars: &'a mut Vec<VarDeclarator>,
     /// Mark for the `_this`. Used only when folding constructor.
     pub constructor_this_mark: Option<Mark>,
@@ -41,7 +38,6 @@ pub(super) struct SuperFieldAccessFolder<'a> {
 }
 
 struct SuperCalleeFolder<'a> {
-    helpers: &'a Helpers,
     vars: &'a mut Vec<VarDeclarator>,
     class_name: &'a Ident,
     /// True if we should inject get and
@@ -179,16 +175,13 @@ impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, computed: bool) -> Expr {
         self.inject_get = true;
 
-        let proto_arg = get_prototype_of(
-            self.helpers,
-            &if self.is_static {
-                // Foo
-                Expr::Ident(self.class_name.clone())
-            } else {
-                // Foo.prototype
-                self.class_name.clone().member(quote_ident!("prototype"))
-            },
-        )
+        let proto_arg = get_prototype_of(&if self.is_static {
+            // Foo
+            Expr::Ident(self.class_name.clone())
+        } else {
+            // Foo.prototype
+            self.class_name.clone().member(quote_ident!("prototype"))
+        })
         .as_arg();
 
         let prop_arg = match *prop {
@@ -209,7 +202,7 @@ impl<'a> SuperCalleeFolder<'a> {
             Some(mark) => {
                 let this = quote_ident!(super_token.apply_mark(mark), "_this");
 
-                self.helpers.assert_this_initialized();
+                helper!(assert_this_initialized);
                 CallExpr {
                     span: DUMMY_SP,
                     callee: quote_ident!("_assertThisInitialized").as_callee(),
@@ -264,11 +257,8 @@ impl<'a> SuperCalleeFolder<'a> {
             }
         }
 
-        let proto_arg = get_prototype_of(
-            self.helpers,
-            &self.class_name.clone().member(quote_ident!("prototype")),
-        )
-        .as_arg();
+        let proto_arg =
+            get_prototype_of(&self.class_name.clone().member(quote_ident!("prototype"))).as_arg();
 
         let prop_arg = match *prop {
             Expr::Ident(Ident {
@@ -401,7 +391,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
             class_name: self.class_name,
             inject_get: false,
             inject_set: false,
-            helpers: self.helpers,
             vars: self.vars,
             constructor_this_mark: self.constructor_this_mark,
             is_static: self.is_static,
@@ -427,7 +416,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
         }
 
         if callee_folder.inject_get {
-            self.helpers.get();
+            helper!(get);
 
             if should_invoke_call {
                 match n {
@@ -482,7 +471,7 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
         }
 
         if callee_folder.inject_set {
-            self.helpers.set();
+            helper!(set);
         }
 
         n.fold_children(self)

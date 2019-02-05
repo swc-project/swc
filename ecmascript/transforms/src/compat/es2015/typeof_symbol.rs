@@ -1,6 +1,5 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
-use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 /// `@babel/plugin-transform-typeof-symbol`
@@ -21,9 +20,7 @@ use swc_common::{Fold, FoldWith, Visit, VisitWith};
 /// _typeof(Symbol()) === "symbol";
 /// ```
 #[derive(Clone)]
-pub struct TypeOfSymbol {
-    pub helpers: Arc<Helpers>,
-}
+pub struct TypeOfSymbol;
 
 impl Fold<Expr> for TypeOfSymbol {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -55,7 +52,7 @@ impl Fold<Expr> for TypeOfSymbol {
                 op: op!("typeof"),
                 arg,
             }) => {
-                self.helpers.type_of();
+                helper!(type_of);
                 return Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!(span, "_typeof").as_callee(),

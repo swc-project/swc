@@ -3,14 +3,13 @@ use super::util::{
     use_strict, Scope, VarCollector,
 };
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{undefined, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use std::{collections::hash_map::Entry, iter, sync::Arc};
+use std::{collections::hash_map::Entry, iter};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
@@ -67,9 +66,8 @@ impl Default for Lazy {
     }
 }
 
-pub fn common_js(helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {
+pub fn common_js(config: Config) -> impl Pass + Clone {
     CommonJs {
-        helpers,
         config,
         scope: Default::default(),
         in_top_level: Default::default(),
@@ -78,7 +76,6 @@ pub fn common_js(helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {
 
 #[derive(Clone)]
 struct CommonJs {
-    helpers: Arc<Helpers>,
     config: Config,
     scope: State<Scope>,
     in_top_level: State<bool>,
@@ -522,7 +519,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                     let rhs = match ty {
                         Some(true) if !self.config.no_interop => {
-                            self.helpers.interop_require_wildcard();
+                            helper!(interop_require_wildcard);
                             box Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: quote_ident!("_interopRequireWildcard").as_callee(),
@@ -531,7 +528,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             })
                         }
                         Some(false) if !self.config.no_interop => {
-                            self.helpers.interop_require_default();
+                            helper!(interop_require_default);
                             box Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: quote_ident!("_interopRequireDefault").as_callee(),

@@ -7,16 +7,13 @@ use self::{
     prop_name::HashKey,
     super_field::SuperFieldAccessFolder,
 };
-use crate::{
-    helpers::Helpers,
-    util::{
-        alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory,
-        ModuleItemLike, StmtLike,
-    },
+use crate::util::{
+    alias_ident_for, default_constructor, prepend, prop_name_to_expr, ExprFactory, ModuleItemLike,
+    StmtLike,
 };
 use ast::*;
 use indexmap::IndexMap;
-use std::{iter, sync::Arc};
+use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[macro_use]
@@ -59,10 +56,8 @@ mod tests;
 ///   return Test;
 /// }();
 /// ```
-#[derive(Default, Clone)]
-pub struct Classes {
-    pub helpers: Arc<Helpers>,
-}
+#[derive(Default, Clone, Copy)]
+pub struct Classes;
 
 struct Data {
     key_prop: Box<Prop>,
@@ -231,7 +226,7 @@ impl Classes {
                 _ => false,
             };
             if is_super_native {
-                self.helpers.wrap_native_super();
+                helper!(wrap_native_super);
                 (
                     params,
                     vec![CallExpr {
@@ -348,8 +343,8 @@ impl Classes {
 
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
-            self.helpers.inherits();
-            self.helpers.possible_constructor_return();
+            helper!(inherits);
+            helper!(possible_constructor_return);
 
             stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
@@ -392,7 +387,7 @@ impl Classes {
             }
 
             // inject _classCallCheck(this, Bar);
-            self.helpers.class_call_check();
+            helper!(class_call_check);
             inject_class_call_check(&mut constructor, class_name.clone());
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
@@ -418,7 +413,6 @@ impl Classes {
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
-                    helpers: &self.helpers,
                     class_name: &class_name,
                     mode,
                     mark,
@@ -456,10 +450,11 @@ impl Classes {
                             arg: Some(box Expr::Ident(this)),
                         }));
                     } else {
-                        let possible_return_value = box make_possible_return_value(
-                            &self.helpers,
-                            ReturningMode::Returning { mark, arg: None },
-                        );
+                        let possible_return_value =
+                            box make_possible_return_value(ReturningMode::Returning {
+                                mark,
+                                arg: None,
+                            });
                         body.push(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(possible_return_value),
@@ -520,7 +515,6 @@ impl Classes {
         let mut vars = vec![];
         let mut folder = SuperFieldAccessFolder {
             class_name,
-            helpers: &self.helpers,
             vars: &mut vars,
             constructor_this_mark: this_mark,
             // constructor cannot be static
@@ -665,7 +659,6 @@ impl Classes {
             let mut vars = vec![];
             let mut folder = SuperFieldAccessFolder {
                 class_name: &class_name,
-                helpers: &self.helpers,
                 vars: &mut vars,
                 constructor_this_mark: None,
                 is_static: m.is_static,
@@ -736,7 +729,7 @@ impl Classes {
         if props.is_empty() && static_props.is_empty() {
             return vec![];
         }
-        self.helpers.create_class();
+        helper!(create_class);
         vec![mk_create_class_call(
             class_name,
             mk_arg_obj_for_create_class(props),
@@ -754,8 +747,8 @@ impl Classes {
 /// ```js
 /// Child.__proto__ || Object.getPrototypeOf(Child)
 /// ```
-fn get_prototype_of(helpers: &Helpers, obj: &Expr) -> Expr {
-    helpers.get_prototype_of();
+fn get_prototype_of(obj: &Expr) -> Expr {
+    helper!(get_prototype_of);
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,

@@ -1,7 +1,4 @@
-use crate::{
-    helpers::Helpers,
-    util::{alias_ident_for, prepend, ExprFactory},
-};
+use crate::util::{alias_ident_for, prepend, ExprFactory};
 use ast::*;
 use fxhash::FxHashSet;
 use std::{iter, mem};
@@ -13,7 +10,6 @@ pub(super) struct FieldAccessFolder<'a> {
     pub class_name: &'a Ident,
     pub vars: Vec<VarDeclarator>,
     pub statics: &'a FxHashSet<JsWord>,
-    pub helpers: &'a Helpers,
 }
 
 impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
@@ -123,7 +119,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                self.helpers.class_private_field_set();
+                helper!(class_private_field_set);
                 let set = quote_ident!("_classPrivateFieldSet").as_callee();
 
                 let expr = Expr::Call(CallExpr {
@@ -248,7 +244,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 };
 
                 if is_static {
-                    self.helpers.class_static_private_field_spec_set();
+                    helper!(class_static_private_field_spec_set);
                     let set = quote_ident!("_classStaticPrivateFieldSpecSet").as_callee();
 
                     Expr::Call(CallExpr {
@@ -264,7 +260,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                         type_args: Default::default(),
                     })
                 } else {
-                    self.helpers.class_private_field_set();
+                    helper!(class_private_field_set);
                     let set = quote_ident!("_classPrivateFieldSet").as_callee();
 
                     Expr::Call(CallExpr {
@@ -345,7 +341,7 @@ impl<'a> FieldAccessFolder<'a> {
         );
 
         if is_static {
-            self.helpers.class_static_private_field_spec_get();
+            helper!(class_static_private_field_spec_get);
             let get = quote_ident!("_classStaticPrivateFieldSpecGet").as_callee();
 
             (
@@ -362,7 +358,7 @@ impl<'a> FieldAccessFolder<'a> {
                 Some(Expr::Ident(self.class_name.clone())),
             )
         } else {
-            self.helpers.class_private_field_get();
+            helper!(class_private_field_get);
             let get = quote_ident!("_classPrivateFieldGet").as_callee();
 
             match *obj {

@@ -2,7 +2,7 @@ use super::*;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_identifier,
     r#"for (i of arr) {
 }"#,
@@ -32,7 +32,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_ignore_cases,
     r#"for (var i of foo) {
   switch (i) {
@@ -71,7 +71,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_let,
     r#"for (let i of arr) {
 
@@ -103,7 +103,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_member_expr,
     r#"for (obj.prop of arr) {
 
@@ -134,7 +134,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_multiple,
     r#"for (var i of arr) {
 
@@ -192,7 +192,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_nested_label_for_of,
     r#"b: for (let c of d()) {
   for (let e of f()) {
@@ -247,7 +247,7 @@ try {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| ForOf,
+    |_| ForOf,
     spec_var,
     r#"for (var i of arr) {
 

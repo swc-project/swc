@@ -1,4 +1,4 @@
-use crate::helpers::{Helpers, InjectHelpers};
+use crate::helpers::{InjectHelpers, HELPERS};
 use ast::*;
 use sourcemap::SourceMapBuilder;
 use std::{
@@ -28,7 +28,9 @@ impl<'a> Tester<'a> {
     where
         F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
-        let out = ::testing::run_test(false, |cm, handler| op(&mut Tester { cm, handler }));
+        let out = ::testing::run_test(false, |cm, handler| {
+            HELPERS.set(&Default::default(), || op(&mut Tester { cm, handler }))
+        });
 
         match out {
             Ok(()) => {}
@@ -150,12 +152,12 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(op: F, tester: &mut Tester, helpers: Arc<Helpers>) -> P
+fn make_tr<F, P>(op: F, tester: &mut Tester) -> P
 where
-    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+    F: FnOnce(&mut Tester) -> P,
     P: Fold<Module>,
 {
-    op(tester, helpers)
+    op(tester)
 }
 
 #[cfg(test)]
@@ -176,15 +178,15 @@ pub(crate) fn test_transform<F, P>(
     expected: &str,
     ok_if_code_eq: bool,
 ) where
-    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+    F: FnOnce(&mut Tester) -> P,
 {
     crate::tests::Tester::run(|tester| {
         let expected =
             tester.apply_transform(::testing::DropSpan, "output.js", syntax, expected)?;
 
         eprintln!("----- Actual -----");
-        let helpers = Arc::new(Helpers::default());
-        let tr = crate::tests::make_tr(tr, tester, helpers.clone());
+
+        let tr = crate::tests::make_tr(tr, tester);
         let actual = tester
             .apply_transform(tr, "input.js", syntax, input)?
             .fold_with(&mut crate::hygiene::hygiene())
@@ -258,11 +260,10 @@ macro_rules! exec_tr {
 
 pub(crate) fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
-    F: FnOnce(&mut Tester, Arc<Helpers>) -> P,
+    F: FnOnce(&mut Tester) -> P,
 {
     Tester::run(|tester| {
-        let helpers = Arc::new(Helpers::default());
-        let tr = make_tr(tr, tester, helpers.clone());
+        let tr = make_tr(tr, tester);
 
         let module = tester.apply_transform(
             tr,
@@ -282,7 +283,6 @@ where
         let src_without_helpers = tester.print(&module);
         let module = module.fold_with(&mut InjectHelpers {
             cm: tester.cm.clone(),
-            helpers: helpers.clone(),
         });
 
         let src = tester.print(&module);

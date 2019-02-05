@@ -59,7 +59,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| StickyRegex,
+        |_| StickyRegex,
         babel_basic,
         "var re = /o+/y;",
         "var re = new RegExp('o+', 'y');"
@@ -67,7 +67,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| StickyRegex,
+        |_| StickyRegex,
         babel_ignore_non_sticky,
         "var re = /o+/;",
         "var re = /o+/;"

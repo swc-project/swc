@@ -1,10 +1,8 @@
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{ExprFactory, StmtLike},
 };
 use ast::*;
-use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -41,14 +39,12 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
-    ComputedProps { helpers }
+pub fn computed_properties() -> impl Pass + Clone + Copy {
+    ComputedProps
 }
 
-#[derive(Default, Clone)]
-struct ComputedProps {
-    helpers: Arc<Helpers>,
-}
+#[derive(Default, Clone, Copy)]
+struct ComputedProps;
 
 #[derive(Default)]
 struct ObjectLitFolder {
@@ -300,7 +296,7 @@ where
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        self.helpers.define_property();
+                        helper!(define_property);
                         buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
@@ -309,7 +305,7 @@ where
                         }))));
                     }
                     if folder.used_define_enum_props {
-                        self.helpers.define_enumerable_properties();
+                        helper!(define_enumerable_properties);
                     }
 
                     buf.push(T::from_stmt(stmt));

@@ -1,5 +1,5 @@
 use super::get_prototype_of;
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
 use std::iter;
 use swc_atoms::JsWord;
@@ -129,7 +129,6 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
 /// _this = ...;
 /// ```
 pub(super) struct ConstructorFolder<'a> {
-    pub helpers: &'a Helpers,
     pub class_name: &'a Ident,
     pub mode: Option<SuperFoldingMode>,
     /// Mark for `_this`
@@ -158,14 +157,11 @@ impl<'a> Fold<Stmt> for ConstructorFolder<'a> {
                 args,
                 ..
             })) => {
-                let expr = make_possible_return_value(
-                    self.helpers,
-                    ReturningMode::Prototype {
-                        is_constructor_default: self.is_constructor_default,
-                        class_name: self.class_name.clone(),
-                        args: Some(args),
-                    },
-                );
+                let expr = make_possible_return_value(ReturningMode::Prototype {
+                    is_constructor_default: self.is_constructor_default,
+                    class_name: self.class_name.clone(),
+                    args: Some(args),
+                });
 
                 match self.mode {
                     Some(SuperFoldingMode::Assign) => Stmt::Expr(box Expr::Assign(AssignExpr {
@@ -207,13 +203,10 @@ impl<'a> Fold<ReturnStmt> for ConstructorFolder<'a> {
 
         let arg = stmt.arg.fold_with(self);
 
-        let arg = Some(box make_possible_return_value(
-            self.helpers,
-            ReturningMode::Returning {
-                mark: self.mark,
-                arg,
-            },
-        ));
+        let arg = Some(box make_possible_return_value(ReturningMode::Returning {
+            mark: self.mark,
+            arg,
+        }));
 
         ReturnStmt { arg, ..stmt }
     }
@@ -256,14 +249,11 @@ impl<'a> Fold<Expr> for ConstructorFolder<'a> {
                 args,
                 ..
             }) => {
-                let right = box make_possible_return_value(
-                    self.helpers,
-                    ReturningMode::Prototype {
-                        class_name: self.class_name.clone(),
-                        args: Some(args),
-                        is_constructor_default: self.is_constructor_default,
-                    },
-                );
+                let right = box make_possible_return_value(ReturningMode::Prototype {
+                    class_name: self.class_name.clone(),
+                    args: Some(args),
+                    is_constructor_default: self.is_constructor_default,
+                });
 
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -300,8 +290,8 @@ pub(super) enum ReturningMode {
     },
 }
 
-pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode) -> Expr {
-    helpers.possible_constructor_return();
+pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
+    helper!(possible_constructor_return);
     let callee = quote_ident!("_possibleConstructorReturn").as_callee();
 
     Expr::Call(CallExpr {
@@ -365,7 +355,7 @@ pub(super) fn make_possible_return_value(helpers: &Helpers, mode: ReturningMode)
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
                     let apply = box Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: get_prototype_of(helpers, &Expr::Ident(class_name))
+                        callee: get_prototype_of(&Expr::Ident(class_name))
                             .member(fn_name)
                             .as_callee(),
 
@@ -404,10 +394,9 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                     self.found = true;
                     let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
 
-                    // TODO:
-                    // self.helpers.assert_this_initialized();
-
                     if self.wrap_with_assertiion {
+                        helper!(assert_this_initialized);
+
                         Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: quote_ident!("_assertThisInitialized").as_callee(),

@@ -12,7 +12,6 @@ extern crate swc_ecma_transforms;
 extern crate test;
 extern crate testing;
 
-use std::sync::Arc;
 use swc_common::{FileName, FoldWith};
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::{compat, helpers};
@@ -109,81 +108,82 @@ macro_rules! tr {
                     ()
                 })
                 .unwrap();
-            let helpers = Arc::new(helpers::Helpers::default());
-            let mut tr = $tr(helpers);
+            helpers::HELPERS.set(&Default::default(), || {
+                let mut tr = $tr();
 
-            $b.iter(|| {
-                let module = module.clone();
-                test::black_box(module.fold_with(&mut tr))
-            });
-            Ok(())
+                $b.iter(|| {
+                    let module = module.clone();
+                    test::black_box(module.fold_with(&mut tr))
+                });
+                Ok(())
+            })
         });
     };
 }
 
 #[bench]
 fn all(b: &mut Bencher) {
-    tr!(b, |helpers| chain!(
-        compat::es2017(&helpers),
+    tr!(b, || chain!(
+        compat::es2017(),
         compat::es2016(),
-        compat::es2015(&helpers),
+        compat::es2015(),
         compat::es3(),
     ));
 }
 
 #[bench]
 fn es2018(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2018(&helpers));
+    tr!(b, || compat::es2018());
 }
 
 #[bench]
 fn es2018_object_rest_spread(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2018::object_rest_spread(helpers));
+    tr!(b, || compat::es2018::object_rest_spread());
 }
 
 #[bench]
 fn es2017(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2017(&helpers));
+    tr!(b, || compat::es2017());
 }
 
 #[bench]
 fn es2017_async_to_generator(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2017::async_to_generator(helpers));
+    tr!(b, || compat::es2017::async_to_generator());
 }
 
 #[bench]
 fn es2016(b: &mut Bencher) {
-    tr!(b, |_| compat::es2016());
+    tr!(b, || compat::es2016());
 }
 
 #[bench]
 fn es2016_exponentation(b: &mut Bencher) {
-    tr!(b, |_| compat::es2016::exponentation());
+    tr!(b, || compat::es2016::exponentation());
 }
 
 #[bench]
 fn es2015(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015(&helpers));
+    tr!(b, || compat::es2015());
 }
 
 #[bench]
 fn es2015_arrow(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::arrow());
+    tr!(b, || compat::es2015::arrow());
 }
 
 #[bench]
 fn es2015_block_scoped_fn(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::BlockScopedFns);
+    tr!(b, || compat::es2015::BlockScopedFns);
 }
 
 #[bench]
 fn es2015_block_scoping(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::block_scoping());
+    tr!(b, || compat::es2015::block_scoping());
 }
 
 #[bench]
 fn es2015_classes(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015::Classes { helpers });
+    tr!(b, || compat::es2015::Classes);
 }
 
 #[bench]
@@ -198,50 +198,50 @@ fn es2015_destructuring(b: &mut Bencher) {
 
 #[bench]
 fn es2015_duplicate_keys(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::duplicate_keys());
+    tr!(b, || compat::es2015::duplicate_keys());
 }
 
 #[bench]
 fn es2015_parameters(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::parameters());
+    tr!(b, || compat::es2015::parameters());
 }
 
 #[bench]
 fn es2015_fn_name(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::function_name());
+    tr!(b, || compat::es2015::function_name());
 }
 
 #[bench]
 fn es2015_for_of(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::for_of());
+    tr!(b, || compat::es2015::for_of());
 }
 
 #[bench]
 fn es2015_instanceof(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015::InstanceOf { helpers });
+    tr!(b, || compat::es2015::InstanceOf);
 }
 
 #[bench]
 fn es2015_shorthand_property(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::Shorthand);
+    tr!(b, || compat::es2015::Shorthand);
 }
 
 #[bench]
 fn es2015_spread(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015::Spread { helpers });
+    tr!(b, || compat::es2015::Spread);
 }
 
 #[bench]
 fn es2015_sticky_regex(b: &mut Bencher) {
-    tr!(b, |_| compat::es2015::StickyRegex);
+    tr!(b, || compat::es2015::StickyRegex);
 }
 
 #[bench]
 fn es2015_typeof_symbol(b: &mut Bencher) {
-    tr!(b, |helpers| compat::es2015::TypeOfSymbol { helpers });
+    tr!(b, || compat::es2015::TypeOfSymbol);
 }
 
 #[bench]
 fn es3(b: &mut Bencher) {
-    tr!(b, |_| compat::es3());
+    tr!(b, || compat::es3());
 }

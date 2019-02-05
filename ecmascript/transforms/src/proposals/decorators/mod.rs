@@ -1,5 +1,4 @@
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{
         alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
@@ -7,7 +6,7 @@ use crate::{
     },
 };
 use ast::*;
-use std::{iter, sync::Arc};
+use std::iter;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -53,16 +52,14 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn decorators(helpers: Arc<Helpers>) -> impl Pass + Clone {
+pub fn decorators() -> impl Pass + Clone {
     Decorators {
-        helpers,
         is_in_strict: false,
     }
 }
 
 #[derive(Clone)]
 struct Decorators {
-    helpers: Arc<Helpers>,
     is_in_strict: bool,
 }
 
@@ -465,7 +462,7 @@ impl Decorators {
             .map(Some)
             .collect();
 
-        self.helpers.decorate();
+        helper!(decorate);
         let decorate_call = Expr::Call(make_decorate_call(
             class.decorators,
             iter::once({

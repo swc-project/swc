@@ -1,12 +1,12 @@
 use super::*;
 
-fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
-    Destructuring { helpers }
+fn tr() -> impl Fold<Module> {
+    Destructuring
 }
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
     r#"let ref = foo ? foo : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
@@ -15,7 +15,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     obj_assign_expr,
     r#"let a;
 [{ a = 1 }] = foo"#,
@@ -26,7 +26,7 @@ ref = foo, ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref;"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1], 
@@ -35,7 +35,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
     r#"var ref, ref1, ref2;
@@ -46,7 +46,7 @@ ref = ['hello', [', ', 'junk'], ['world']], a = ref[0], ref1 = ref[1],
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     assign_expr_completion_record,
     r#"var x, y;
 [x, y] = [1, 2];"#,
@@ -56,7 +56,7 @@ ref = [1, 2], x = ref[0], y = ref[1], ref;"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     assign_expr_pat,
     r#"var z = {};
 var { x: { y } = {} } = z;"#,
@@ -69,7 +69,7 @@ var ref = z ? z : _throw(new TypeError("Cannot destructure 'undefined' or 'null'
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     assign_expr,
     r#"console.log([x] = [123]);"#,
     r#"var ref;
@@ -78,7 +78,7 @@ console.log((ref = [123], x = ref[0], ref));"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| Destructuring { helpers },
+    |_| Destructuring,
     chained,
     r#"var a, b, c, d;
 ({ a, b } = ({ c, d } = { a: 1, b: 2, c: 3, d: 4}));
@@ -90,7 +90,7 @@ expect(d).toBe(4);"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| Destructuring { helpers },
+    |_| Destructuring,
     empty_obj_pat_1,
     r#"expect(function () {
   var {} = null;
@@ -98,7 +98,7 @@ test_exec!(
 );
 
 // test!(::swc_ecma_parser::Syntax::default(),
-//     |_, helpers| tr(helpers),
+//     |_| tr(),
 //     empty_obj_pat_2,
 //     r#"var {} = null;"#,
 //     r#"var _ref = null;
@@ -107,7 +107,7 @@ test_exec!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
     r#"var ref = ['foo', 'hello', [', ', 'junk'], ['world']], a = ref[1], ref1 = ref[2],
@@ -118,7 +118,7 @@ test!(
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     es7_object_rest_builtins,
     r#"var z = {};
 var { ...x } = z;
@@ -152,7 +152,7 @@ _o;"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     es7_object_rest,
     r#"var z = {};
 var { ...x } = z;
@@ -186,7 +186,7 @@ _o;"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     export_variable,
     r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#,
     r#"
@@ -202,7 +202,7 @@ export { a, b, d, f };"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     for_in,
     r#"for (var [name, value] in obj) {
   print("Name: " + name + ", Value: " + value);
@@ -216,7 +216,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     for_let,
     r#"for (let [ i, n ] = range; ; ) {}"#,
     r#"for(let i = range[0], n = range[1];;){}"#
@@ -224,7 +224,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     for_of,
     r#"for (var [ name, before, after ] of test.expectation.registers) {
 
@@ -237,7 +237,7 @@ test!(
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| Destructuring { helpers },
+    |_| Destructuring,
     fn_key_with_obj_rest_spread,
     r#"const { [(() => 1)()]: a, ...rest } = { 1: "a" };
 
@@ -246,7 +246,7 @@ expect(rest).toEqual({});"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     babel_issue_3081,
     r#"let list = [1, 2, 3, 4];
 for (let i = 0, { length } = list; i < length; i++) {
@@ -262,7 +262,7 @@ for(let i = 0, ref = list ? list : _throw(new TypeError("Cannot destructure 'und
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| Destructuring { helpers },
+    |_| Destructuring,
     babel_issue_5090,
     r#"const assign = function([...arr], index, value) {
   arr[index] = value;
@@ -277,7 +277,7 @@ expect(arr).toEqual([1, 2, 3]);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     babel_issue_5628,
     r#"
 (function () {
@@ -297,7 +297,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     babel_issue_5744,
     r#"if (true) [a, b] = [b, a];"#,
     r#"var ref;
@@ -307,7 +307,7 @@ if (true) ref = [b, a], a = ref[0], b = ref[1], ref;"#
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     babel_issue_6373,
     r#"import { NestedObjects } from "./some-module"
 
@@ -322,7 +322,7 @@ const Foo = _someModule.NestedObjects.Foo,
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     known_array,
     r#"var z = [];
 var [x, ...y] = z;"#,
@@ -333,7 +333,7 @@ var x = z[0],
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     member_expr,
     r#"[foo.foo, foo.bar] = [1, 2];"#,
     r#"var ref;
@@ -342,7 +342,7 @@ ref = [1, 2], foo.foo = ref[0], foo.bar = ref[1], ref;"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     mixed,
     r#"var rect = {};
 var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;"#,
@@ -354,7 +354,7 @@ var ref = rect ? rect : _throw(new TypeError("Cannot destructure 'undefined' or 
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     multiple,
     r#"var coords = [1, 2];
 var { x, y } = coords,
@@ -367,7 +367,7 @@ var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined'
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| Destructuring { helpers },
+    |_| Destructuring,
     number_key_with_object_spread,
     r#"const foo = {
   1: "a",
@@ -383,7 +383,7 @@ expect(rest).toEqual({ 2: "b", 3: "c" });"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     object_advanced,
     r#"var rect = {};
 var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
@@ -399,7 +399,7 @@ var ref3 = [0, 1, 2, 3, 4, 5, 6], foo = ref3[3], bar = ref3[5];"#
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     object_basic,
     r#"var coords = [1, 2];
 var { x, y } = coords;"#,
@@ -410,7 +410,7 @@ var ref = coords ? coords : _throw(new TypeError("Cannot destructure 'undefined'
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| Destructuring { helpers },
+    |_| Destructuring,
     spread_generator,
     r#"function* f() {
   for (var i = 0; i < 3; i++) {
@@ -423,7 +423,7 @@ expect(xs).toEqual([0, 1, 2]);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     spread,
     r#"function isSorted([x, y, ...wow]) {
   if (!zs.length) return true

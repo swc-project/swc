@@ -15,23 +15,21 @@ impl Fold<Expr> for ParenRemover {
     }
 }
 
-fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+fn tr() -> impl Fold<Module> {
     chain!(
         ParenRemover,
         arrow(),
         parameters(),
-        destructuring(helpers.clone()),
+        destructuring(),
         function_name(),
-        AsyncToGenerator {
-            helpers: helpers.clone()
-        },
+        AsyncToGenerator {},
         fixer()
     )
 }
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     async_arrow_in_method,
     r#"
 let TestClass = {
@@ -64,7 +62,7 @@ let TestClass = {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  |_,helpers|tr(helpers),
+  |_|tr(),
   async_default_arguments,
   r#"
 function mandatory(paramName) {
@@ -94,7 +92,7 @@ function foo(param) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     async_iife,
     r#"
 (async function() { await 'ok' })();
@@ -133,7 +131,7 @@ _asyncToGenerator(function*() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     async,
     r#"
 class Foo {
@@ -155,7 +153,7 @@ class Foo {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  |_,helpers|tr(helpers),
+  |_|tr(),
   deeply_nested_asyncs,
   r#"
 async function s(x, ...args) {
@@ -217,7 +215,7 @@ function s(x) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     expression,
     r#"
 var foo = async function () {
@@ -263,7 +261,7 @@ var foo2 = function () {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  |_,helpers|tr(helpers),
+  |_|tr(),
   function_arity,
   r#"
 async function one(a, b = 1) {}
@@ -339,7 +337,7 @@ function six(a, param) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     named_expression,
     r#"
 var foo = async function bar() {
@@ -360,7 +358,7 @@ var foo = function() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     no_parameters_and_no_id,
     r#"
 foo(async function () {
@@ -378,7 +376,7 @@ foo(function() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     object_method_with_arrows,
     r#"
 class Class {
@@ -453,7 +451,7 @@ class Class{
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-  |_,helpers|tr(helpers),
+  |_|tr(),
   object_method_with_super,
   r#"class Foo extends class {} {
   async method() {
@@ -480,7 +478,7 @@ class Foo extends class{
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     class_method_this,
     r#"
 class Foo {
@@ -499,7 +497,7 @@ return foo.foo().then(cur => {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     class_method_super,
     r#"
 class Foo {
@@ -523,7 +521,7 @@ return bar.bar().then(cur => {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     class_getter_super,
     r#"
 let called = false;
@@ -549,7 +547,7 @@ return bar.bar().then(foo => {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     class_setter_super,
     r#"
 let called = false;
@@ -576,7 +574,7 @@ return bar.bar().then(bar => {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     class_method_this_complex,
     r#"
 class Class {
@@ -609,7 +607,7 @@ return c.method();
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     object_method,
     r#"
 let obj = {
@@ -633,7 +631,7 @@ let obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     babel_parameters,
     r#"
 async function foo(bar) {
@@ -653,7 +651,7 @@ function foo(bar) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     statement,
     r#"
 async function foo() {

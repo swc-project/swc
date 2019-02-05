@@ -4,7 +4,6 @@ use self::{
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{
         alias_ident_for, constructor::inject_after_super, default_constructor, undefined,
@@ -13,7 +12,6 @@ use crate::{
 };
 use ast::*;
 use fxhash::FxHashSet;
-use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Mark, Spanned, VisitWith, DUMMY_SP};
 
@@ -30,16 +28,12 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export defaul class
-pub fn class_properties(helpers: Arc<Helpers>) -> impl Pass + Clone {
-    ClassProperties {
-        helpers,
-        mark: Mark::root(),
-    }
+pub fn class_properties() -> impl Pass + Clone {
+    ClassProperties { mark: Mark::root() }
 }
 
 #[derive(Clone)]
 struct ClassProperties {
-    helpers: Arc<Helpers>,
     mark: Mark,
 }
 
@@ -270,10 +264,8 @@ impl ClassProperties {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
                         PropName::Computed(expr) => {
-                            let expr = expr.fold_with(&mut ClassNameTdzFolder {
-                                helpers: &self.helpers,
-                                class_name: &ident,
-                            });
+                            let expr =
+                                expr.fold_with(&mut ClassNameTdzFolder { class_name: &ident });
                             let ident = private_ident!("tmp");
                             // Handle computed property
                             vars.push(VarDeclarator {
@@ -293,10 +285,9 @@ impl ClassProperties {
 
                 ClassMember::ClassProp(mut prop) => {
                     let prop_span = prop.span();
-                    prop.key = prop.key.fold_with(&mut ClassNameTdzFolder {
-                        helpers: &self.helpers,
-                        class_name: &ident,
-                    });
+                    prop.key = prop
+                        .key
+                        .fold_with(&mut ClassNameTdzFolder { class_name: &ident });
 
                     let key = match *prop.key {
                         Expr::Ident(ref i) if !prop.computed => Lit::Str(Str {
@@ -325,7 +316,7 @@ impl ClassProperties {
                     });
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
 
-                    self.helpers.define_property();
+                    helper!(define_property);
                     let callee = quote_ident!(DUMMY_SP, "_defineProperty").as_callee();
 
                     if prop.is_static {
@@ -440,7 +431,6 @@ impl ClassProperties {
             statics: &statics,
             vars: vec![],
             class_name: &ident,
-            helpers: &self.helpers,
         });
 
         (

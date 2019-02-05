@@ -91,7 +91,7 @@ mod tests {
         ($name:ident, $src:literal) => {
             test!(
                 ::swc_ecma_parser::Syntax::default(),
-                |_, _| ReservedWord,
+                |_| ReservedWord,
                 $name,
                 $src,
                 $src
@@ -101,7 +101,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| ReservedWord,
+        |_| ReservedWord,
         babel_issue_6477,
         r#"
 function utf8CheckByte(byte) {
