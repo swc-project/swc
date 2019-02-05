@@ -150,7 +150,7 @@ impl Fold<Expr> for ObjectLitFolder {
 
                                 // mutator[f]
                                 let mutator_elem =
-                                    mutator_map.clone().member(prop_name_to_expr(key));
+                                    mutator_map.clone().computed_member(prop_name_to_expr(key));
 
                                 // mutator[f] = mutator[f] || {}
                                 exprs.push(box Expr::Assign(AssignExpr {
