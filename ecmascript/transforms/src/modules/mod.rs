@@ -1,5 +1,3 @@
-pub use self::{common_js::common_js, umd::umd};
-
-mod common_js;
-mod umd;
+pub mod common_js;
+pub mod umd;
 mod util;
