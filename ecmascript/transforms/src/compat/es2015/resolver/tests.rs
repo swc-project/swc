@@ -9,7 +9,7 @@ macro_rules! identical {
     ($name:ident, $src:literal) => {
         test!(
             ::swc_ecma_parser::Syntax::default(),
-            |_, _| tr(),
+            |_| tr(),
             $name,
             $src,
             $src
@@ -57,7 +57,7 @@ fn test_mark_for() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     basic_no_usage,
     "
         let foo;
@@ -75,7 +75,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     class_nested_var,
     "
         var ConstructorScoping = function ConstructorScoping() {
@@ -99,7 +99,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     basic,
     r#"
         {
@@ -125,7 +125,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     general_assignment_patterns,
     r#"const foo = "foo";
 
@@ -147,7 +147,7 @@ function foobar() {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     general_function,
     r#"function test() {
   let foo = "bar";
@@ -160,7 +160,7 @@ test!(
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     babel_issue_1051,
     r#"foo.func1 = function() {
   if (cond1) {
@@ -202,7 +202,7 @@ test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
     // TODO(kdy1): WTF is this (again)?
-    |_, _| tr(),
+    |_| tr(),
     babel_issue_2174,
     r#"if (true) {
   function foo() {}
@@ -226,7 +226,7 @@ if (true) {
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     babel_issue_4363,
     r#"function WithoutCurlyBraces() {
   if (true)
@@ -295,7 +295,7 @@ test!(
     // Cannot represent function expression without parens (in result code)
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     babel_issue_4946,
     r#"(function foo() {
   let foo = true;
@@ -309,7 +309,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     babel_issue_973,
     r#"let arr = [];
 for(let i = 0; i < 10; i++) {
@@ -328,7 +328,7 @@ for(var i = 0; i < 10; i++){
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     pass_assignment,
     r#"let a = 1;
 a = 2;
@@ -337,7 +337,7 @@ expect(a).toBe(2);"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     pass_call,
     r#"let a = 1;
 
@@ -350,7 +350,7 @@ expect(b()).toBe(2);"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     pass_update,
     r#"let a = 1;
 a++;
@@ -359,7 +359,7 @@ expect(a).toBe(2);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     fn_param,
     r#"let a = 'foo';
     function foo(a) {
@@ -373,7 +373,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     fn_body,
     r#"let a = 'foo';
     function foo() {
@@ -389,7 +389,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     shorthand,
     r#"let a = 'foo';
     function foo() {
@@ -405,7 +405,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     same_level,
     r#"
         var a = 'foo';
@@ -419,7 +419,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     class_block,
     r#"
     var Foo = function(_Bar) {
@@ -441,7 +441,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, _| tr(),
+    |_| tr(),
     class_block_2,
     r#"
     var Foo = (function(_Bar) {
@@ -463,7 +463,7 @@ test!(
 
 test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _|  tr(),
+        |_|  tr(),
         class_nested,
         r#"
 var Outer = function(_Hello) {

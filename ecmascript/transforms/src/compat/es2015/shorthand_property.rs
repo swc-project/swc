@@ -65,7 +65,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| Shorthand,
+        |_| Shorthand,
         babel_method_plain,
         "var obj = {
   method() {
@@ -81,7 +81,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| Shorthand,
+        |_| Shorthand,
         babel_comments,
         "var A = 'a';
 var o = {
@@ -96,7 +96,7 @@ var o = {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| Shorthand,
+        |_| Shorthand,
         babel_mixed,
         "var coords = { x, y, foo: 'bar' };",
         "var coords = {
@@ -108,7 +108,7 @@ var o = {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| Shorthand,
+        |_| Shorthand,
         babel_multiple,
         "var coords = { x, y };",
         "var coords = {
@@ -119,7 +119,7 @@ var o = {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, _| Shorthand,
+        |_| Shorthand,
         babel_single,
         "var coords = { x };",
         "var coords = {

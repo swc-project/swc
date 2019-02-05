@@ -1,14 +1,12 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
-use std::{iter, sync::Arc};
+use std::iter;
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
 #[derive(Default, Clone)]
-pub struct TemplateLiteral {
-    pub helpers: Arc<Helpers>,
-}
+pub struct TemplateLiteral;
 
 impl Fold<Expr> for TemplateLiteral {
     fn fold(&mut self, e: Expr) -> Expr {
@@ -68,7 +66,7 @@ impl Fold<Expr> for TemplateLiteral {
                 tag, exprs, quasis, ..
             }) => {
                 assert!(quasis.len() == exprs.len() + 1);
-                self.helpers.tagged_template_literal();
+                helper!(tagged_template_literal);
 
                 let fn_ident = private_ident!("_templateObject");
 

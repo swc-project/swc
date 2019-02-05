@@ -1,7 +1,7 @@
-use crate::{helpers::Helpers, pass::Pass, util::ExprFactory};
+use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
 use serde::{Deserialize, Serialize};
-use std::{iter, mem, sync::Arc};
+use std::{iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -58,7 +58,7 @@ fn default_throw_if_namespace() -> bool {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl Pass + Clone {
+pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Pass + Clone {
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
     let session = Session { handler: &handler };
@@ -81,7 +81,6 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options, helpers: Arc<Helpers>) -> impl 
             expr: parse("pragma_frag", options.pragma_frag),
         },
         use_builtins: options.use_builtins,
-        helpers,
     }
 }
 
@@ -90,7 +89,6 @@ struct Jsx {
     pragma: ExprOrSuper,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
-    helpers: Arc<Helpers>,
 }
 
 impl Jsx {
@@ -212,7 +210,7 @@ impl Jsx {
                     if self.use_builtins {
                         member_expr!(DUMMY_SP, Object.assign).as_callee()
                     } else {
-                        self.helpers.extends();
+                        helper!(extends);
                         quote_ident!("_extends").as_callee()
                     }
                 },

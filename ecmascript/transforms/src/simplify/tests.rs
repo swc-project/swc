@@ -5,7 +5,7 @@ macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
         test_transform!(
             ::swc_ecma_parser::Syntax::default(),
-            |_, _| Simplifier { enable: true },
+            |_| Simplifier { enable: true },
             $l,
             $r
         )

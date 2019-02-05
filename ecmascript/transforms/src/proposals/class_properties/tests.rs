@@ -1,12 +1,8 @@
 use super::*;
-use crate::{
-    compat::{
-        es2015::{block_scoping, function_name, resolver, Classes},
-        es3::ReservedWord,
-    },
-    helpers::Helpers,
+use crate::compat::{
+    es2015::{block_scoping, function_name, resolver, Classes},
+    es3::ReservedWord,
 };
-use std::sync::Arc;
 use swc_ecma_parser::{EsConfig, Syntax};
 
 fn syntax() -> Syntax {
@@ -17,12 +13,12 @@ fn syntax() -> Syntax {
     })
 }
 
-fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
+fn tr() -> impl Fold<Module> {
     chain!(
         resolver(),
         function_name(),
-        class_properties(helpers.clone()),
-        Classes { helpers },
+        class_properties(),
+        Classes,
         block_scoping(),
         ReservedWord,
     )
@@ -30,7 +26,7 @@ fn tr(helpers: Arc<Helpers>) -> impl Fold<Module> {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static_infer_name,
     r#"
 var Foo = class {
@@ -51,7 +47,7 @@ var Foo = function() {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_call_exec,
     r#"
 class Foo {
@@ -75,7 +71,7 @@ expect(test[1]).toBe(o);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_instance_computed,
     r#"
 function test(x) {
@@ -117,7 +113,7 @@ test('foo');
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_super_statement,
     r#"
 class Foo extends Bar {
@@ -154,7 +150,7 @@ function (_Bar) {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_foobar,
     r#"
 class Child extends Parent {
@@ -202,7 +198,7 @@ var _scopedFunctionWithThis = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_call_exec,
     r#"
 class Foo {
@@ -226,7 +222,7 @@ expect(test[1]).toBe(o);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_derived_multiple_supers,
     r#"
 class Foo extends Bar {
@@ -274,7 +270,7 @@ function (_Bar) {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_static_call_exec,
     r#"
 class Foo {
@@ -296,7 +292,7 @@ expect(f.test("bar")).toBe("bar");
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_instance_undefined_exec,
     r#"
 class Foo {
@@ -314,7 +310,7 @@ expect(new Foo().test()).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_instance_exec,
     r#"
 class Foo {
@@ -358,7 +354,7 @@ expect(f.test()).toBe(4);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -404,7 +400,7 @@ function withContext(ComposedComponent) {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_super_with_collision,
     r#"
 class A {
@@ -429,7 +425,7 @@ var A = function A(force1) {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_call,
     r#"
 class Foo {
@@ -472,7 +468,7 @@ function () {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_instance_computed_exec,
     r#"
 function test(x) {
@@ -494,7 +490,7 @@ test('foo');
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_declaration_order,
     r#"
 class C {
@@ -531,7 +527,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     nested_class_super_call_in_key,
     r#"
 
@@ -599,7 +595,7 @@ expect(new Outer().hello).toBe('hello');
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_instance_undefined,
     r#"
 class Foo {
@@ -620,7 +616,7 @@ var Foo = function Foo() {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_derived_multiple_supers,
     r#"
 class Foo extends Bar {
@@ -678,7 +674,7 @@ var _bar = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_native_classes_exec,
     r#"
 class Foo {
@@ -705,7 +701,7 @@ expect(f.test()).toBe("bar")
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_regression_t2983,
     r#"
 call(class {
@@ -735,7 +731,7 @@ export { _class as default }
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static,
     r#"
 class Foo {
@@ -757,7 +753,7 @@ _defineProperty(Foo, "bar", "foo");
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_instance_undefined,
     r#"
 class Foo {
@@ -784,7 +780,7 @@ var _bar = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_declaration_order_exec,
     r#"
 class C {
@@ -801,7 +797,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_update,
     r#"
 class Foo {
@@ -842,7 +838,7 @@ function () {
 "#
 );
 
-test!(syntax(), |_, helpers| tr(helpers), public_super_call, r#"
+test!(syntax(), |_| tr(), public_super_call, r#"
 class A {
   foo() {
     return "bar";
@@ -895,7 +891,7 @@ function (_A) {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_constructor_collision,
     r#"
 var foo = "bar";
@@ -932,7 +928,7 @@ var _bar = new WeakMap();
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_constructor_collision,
     r#"
 var foo = "bar";
@@ -967,7 +963,7 @@ _defineProperty(Foo, "bar", baz);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_computed,
     r#"
 const foo = "foo";
@@ -1051,7 +1047,7 @@ _defineProperty(MyClass, _ref3, '247');
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_assignment,
     r#"
 class Foo {
@@ -1098,7 +1094,7 @@ function () {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static_exec,
     r#"
 class Foo {
@@ -1119,7 +1115,7 @@ test_exec!(
     // TODO(kdy1): unignore
     ignore,
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     regression_7371_exec,
     r#"
 
@@ -1227,7 +1223,7 @@ new ComputedField();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_static_inherited_exec,
     r#"
 class Base {
@@ -1305,7 +1301,7 @@ expect(Sub2.getClass()).toBe(7);
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     nested_class_super_property_in_key_exec,
     r#"
 
@@ -1333,7 +1329,7 @@ expect(new Outer().hello).toBe('hello');
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_super_statement,
     r#"
 class Foo extends Bar {
@@ -1377,7 +1373,7 @@ var _bar = new WeakMap();
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_private_in_derived,
     r#"
 class Outer {
@@ -1421,7 +1417,7 @@ var _outer = new WeakMap();
 "#
 );
 
-test!(syntax(), |_, helpers| tr(helpers), private_update, r#"
+test!(syntax(), |_| tr(), private_update, r#"
 class Foo {
   #foo = 0;
 
@@ -1466,7 +1462,7 @@ var _foo = new WeakMap();
 
 "#);
 
-test!(syntax(), |_, helpers| tr(helpers), public_super_expression, r#"
+test!(syntax(), |_| tr(), public_super_expression, r#"
 class Foo extends Bar {
   bar = "foo";
 
@@ -1497,7 +1493,7 @@ var Foo = function (_Bar) {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_computed_initialization_order_exec,
     r#"
 const actualOrder = [];
@@ -1544,7 +1540,7 @@ expect(inst[9]).toBe(15);
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     nested_class_super_call_in_key_exec,
     r#"
 
@@ -1575,7 +1571,7 @@ expect(new Outer().hello).toBe('hello');
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_update_exec,
     r#"
 class Foo {
@@ -1611,7 +1607,7 @@ expect(results[7]).toBe(4);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_extracted_this,
     r#"
 var foo = "bar";
@@ -1641,7 +1637,7 @@ var Foo = function Foo(foo1) {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_derived,
     r#"
 class Foo {
@@ -1698,7 +1694,7 @@ var _prop2 = new WeakMap();
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_super_call,
     r#"
 class A {
@@ -1760,7 +1756,7 @@ var _foo = new WeakMap();
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_reference_in_other_property,
     r#"
 class Foo {
@@ -1806,7 +1802,7 @@ var _four = new WeakMap();
 "#
 );
 
-test!(syntax(), |_, helpers| tr(helpers), nested_class_super_property_in_key, r#"
+test!(syntax(), |_| tr(), nested_class_super_property_in_key, r#"
 
 class Hello {
   toString() {
@@ -1870,7 +1866,7 @@ expect(new Outer().hello).toBe('hello');
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_reevaluated_exec,
     r#"
 function classFactory() {
@@ -1930,7 +1926,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_numeric,
     r#"
 class Foo {
@@ -1953,7 +1949,7 @@ var Foo = function Foo() {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_assignment,
     r#"
 class Foo {
@@ -2004,7 +2000,7 @@ var _foo = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_constructor_collision_exec,
     r#"
 var foo = "bar";
@@ -2030,7 +2026,7 @@ expect("bar" in f).toBe(false);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static_export,
     r#"
 export class MyClass {
@@ -2060,7 +2056,7 @@ export { MyClass2 as default };
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_multiple,
     r#"
 class Foo {
@@ -2095,7 +2091,7 @@ var _y = new WeakMap();
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_derived,
     r#"
 class Foo extends Bar {
@@ -2128,7 +2124,7 @@ function (_Bar) {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static_undefined_exec,
     r#"
 class Foo {
@@ -2143,7 +2139,7 @@ expect(Foo.num).toBeUndefined();
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_instance,
     r#"
 class Foo {
@@ -2164,7 +2160,7 @@ var Foo = function Foo() {
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     static_property_tdz_edgest_case_exec,
     r#"
 expect(() => {
@@ -2178,7 +2174,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_non_block_arrow_func,
     r#"
 export default param =>
@@ -2218,7 +2214,7 @@ export default (param)=>{
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static_undefined,
     r#"
 class Foo {
@@ -2240,7 +2236,7 @@ _defineProperty(Foo, "bar", void 0);
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_static_infer_name_exec,
     r#"
 var Foo = class {
@@ -2256,7 +2252,7 @@ expect(Foo.name).toBe("Foo");
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     static_property_tdz_general_exec,
     r#"
 expect(() => {
@@ -2270,7 +2266,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_call,
     r#"
 class Foo {
@@ -2320,7 +2316,7 @@ var _foo = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_derived_exec,
     r#"
 class Foo {
@@ -2351,7 +2347,7 @@ expect(b.bar()).toBe("bar");
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_extracted_this,
     r#"
 var foo = "bar";
@@ -2393,7 +2389,7 @@ var _baz = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_canonical_exec,
     r#"
 class Point {
@@ -2475,7 +2471,7 @@ expect(p3.toString()).toBe("Point<0,0>")
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_static_undefined_exec,
     r#"
 class Foo {
@@ -2499,7 +2495,7 @@ expect(Foo.test()).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     public_update_exec,
     r#"
 class Foo {
@@ -2535,7 +2531,7 @@ expect(results[7]).toBe(4);
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_static_call,
     r#"
 class Foo {
@@ -2581,7 +2577,7 @@ var _foo = {
 
 test!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_super_expression,
     r#"
 class Foo extends Bar {
@@ -2624,7 +2620,7 @@ var _bar = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_native_classes_exec,
     r#"
 class Foo {
@@ -2651,7 +2647,7 @@ expect(f.test()).toBe("bar")
 
 test_exec!(
     syntax(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     private_multiple_exec,
     r#"
 class Foo {

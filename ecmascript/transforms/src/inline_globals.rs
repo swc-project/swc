@@ -114,7 +114,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester, _| InlineGlobals {
+        |tester| InlineGlobals {
             envs: envs(tester, &[("NODE_ENV", "development")]),
             globals: globals(tester, &[]),
         },
@@ -125,7 +125,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester, _| InlineGlobals {
+        |tester| InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("__DEBUG__", "true")]),
         },
@@ -136,7 +136,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester, _| InlineGlobals {
+        |tester| InlineGlobals {
             envs: envs(tester, &[]),
             globals: globals(tester, &[("debug", "true")]),
         },

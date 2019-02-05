@@ -6,9 +6,8 @@ pub use self::{
     shorthand_property::Shorthand, spread::Spread, sticky_regex::StickyRegex,
     template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
-use crate::{helpers::Helpers, pass::Pass};
+use crate::pass::Pass;
 use ast::{Expr, Module, Stmt};
-use std::sync::Arc;
 
 mod arrow;
 mod block_scoped_fn;
@@ -29,49 +28,33 @@ mod template_literal;
 mod typeof_symbol;
 
 /// Compiles es2015 to es5.
-pub fn es2015(helpers: &Arc<Helpers>) -> impl Pass + Clone {
-    fn exprs(helpers: &Arc<Helpers>) -> impl Pass + Clone {
+pub fn es2015() -> impl Pass + Clone {
+    fn exprs() -> impl Pass + Clone {
         chain_at!(
             Expr,
             arrow(),
             duplicate_keys(),
-            Spread {
-                helpers: helpers.clone(),
-            },
+            Spread,
             StickyRegex,
-            InstanceOf {
-                helpers: helpers.clone(),
-            },
-            TypeOfSymbol {
-                helpers: helpers.clone(),
-            },
-            TemplateLiteral {
-                helpers: helpers.clone(),
-            },
+            InstanceOf,
+            TypeOfSymbol,
+            TemplateLiteral,
             Shorthand,
         )
     }
 
-    fn stmts(helpers: &Arc<Helpers>) -> impl Pass + Clone {
-        chain_at!(
-            Stmt,
-            function_name(),
-            exprs(helpers),
-            BlockScopedFns,
-            parameters(),
-        )
+    fn stmts() -> impl Pass + Clone {
+        chain_at!(Stmt, function_name(), exprs(), BlockScopedFns, parameters(),)
     }
 
     chain_at!(
         Module,
         resolver(),
-        Classes {
-            helpers: helpers.clone(),
-        },
-        stmts(helpers),
+        Classes,
+        stmts(),
         for_of(),
-        computed_properties(helpers.clone()),
-        destructuring(helpers.clone()),
+        computed_properties(),
+        destructuring(),
         block_scoping(),
     )
 }

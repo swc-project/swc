@@ -5,20 +5,15 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr(
-    tester: &mut crate::tests::Tester,
-    helpers: Arc<Helpers>,
-    config: Config,
-) -> impl Fold<Module> {
-    chain!(resolver(), umd(tester.cm.clone(), helpers, config))
+fn tr(tester: &mut crate::tests::Tester, config: Config) -> impl Fold<Module> {
+    chain!(resolver(), umd(tester.cm.clone(), config))
 }
 
 // exports_variable
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -90,9 +85,8 @@ export class foo9 {}
 // export_named
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -133,9 +127,8 @@ export {foo};
 // export_default_11
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -184,9 +177,8 @@ export function Cachier(databaseName) {}
 // export_from_4
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -231,9 +223,8 @@ export {foo as bar} from "foo";
 // export_default_3
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -277,9 +268,8 @@ export default [];
 // imports_default
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -320,9 +310,8 @@ foo2;
 // export_named_3
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -364,9 +353,8 @@ export {foo as default, bar};
 // imports_glob
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -404,9 +392,8 @@ foo;
 // export_default_6
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -448,9 +435,8 @@ export default class {}
 // export_default_5
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -489,9 +475,8 @@ export default function () {}
 // hoist_function_exports
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -552,9 +537,8 @@ export var isOdd = (function (isEven) {
 // export_from_2
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -599,9 +583,8 @@ export {foo as default} from "foo";
 // export_default_8
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -647,9 +630,8 @@ export default class Foo {}
 // export_named_5
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -691,9 +673,8 @@ export {foo, bar};
 // imports_exact_globals_false
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -736,9 +717,8 @@ import fizzBuzz from "fizzbuzz";
 // export_default_10
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -782,9 +762,8 @@ export default (function(){return "foo"})();
 // export_from
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -827,9 +806,8 @@ export {foo} from "foo";
 // export_from_5
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -880,9 +858,8 @@ export {foo, bar} from "foo";
 // export_default_2
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -922,9 +899,8 @@ export default {};
 // imports_named
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -974,9 +950,8 @@ xyz;
 // imports_mixing
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1013,9 +988,8 @@ xyz;
 // remap
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1096,9 +1070,8 @@ d = 4;
 // export_named_2
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1139,9 +1112,8 @@ export {foo as default};
 // export_default_7
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1183,9 +1155,8 @@ export default function foo () {}
 // non_default_imports
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1218,9 +1189,8 @@ import { render } from "./lib/render";
 // imports
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1255,9 +1225,8 @@ import "./directory/foo-bar";
 // export_default
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1297,9 +1266,8 @@ export default 42;
 // export_default_4
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1339,9 +1307,8 @@ export default foo;
 // export_from_3
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1390,9 +1357,8 @@ export {foo as default, bar} from "foo";
 // export_default_9
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1434,9 +1400,8 @@ export { foo as default };
 // overview
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1499,9 +1464,8 @@ bar2;
 // export_named_4
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }
@@ -1542,9 +1506,8 @@ export {foo as bar};
 // export_from_6
 test!(
     syntax(),
-    |tester, helpers| tr(
+    |tester| tr(
         tester,
-        helpers,
         Config {
             ..Default::default()
         }

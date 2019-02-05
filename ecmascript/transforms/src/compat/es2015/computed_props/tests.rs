@@ -2,7 +2,7 @@ use super::*;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     accessors,
     r#"var obj = {
   get [foobar]() {
@@ -39,7 +39,7 @@ var obj = ( _obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     argument,
     r#"foo({
   [bar]: "foobar"
@@ -50,7 +50,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     assignment,
     r#"foo = {
   [bar]: "foobar"
@@ -60,7 +60,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     method,
     r#"var obj = {
   [foobar]() {
@@ -80,7 +80,7 @@ var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps{helpers},
+    |_| ComputedProps,
     mixed,
     r#"var obj = {
   ["x" + foo]: "heh",
@@ -96,7 +96,7 @@ var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     multiple,
     r#"var obj = {
   ["x" + foo]: "heh",
@@ -110,7 +110,7 @@ _defineProperty(_obj, "y" + bar, "noo"), _obj);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     single,
     r#"var obj = {
   ["x" + foo]: "heh"
@@ -120,7 +120,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     symbol,
     r#"var k = Symbol();
 var foo = {
@@ -142,7 +142,7 @@ var foo = ( _obj = {
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     symbol_exec,
     r#"
 var k = Symbol();
@@ -159,7 +159,7 @@ expect(foo[k]).toBe(k)"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     this,
     r#"var obj = {
   ["x" + foo.bar]: "heh"
@@ -169,7 +169,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     two,
     r#"var obj = {
   first: "first",
@@ -182,7 +182,7 @@ var obj = ( _obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| ComputedProps { helpers },
+    |_| ComputedProps,
     variable,
     r#"var foo = {
   [bar]: "foobar"

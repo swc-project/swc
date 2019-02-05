@@ -1,10 +1,9 @@
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{alias_ident_for, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{iter, mem, sync::Arc};
+use std::{iter, mem};
 use swc_common::{
     util::move_map::MoveMap, Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP,
 };
@@ -13,22 +12,14 @@ use swc_common::{
 mod tests;
 
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread(helpers: Arc<Helpers>) -> impl Pass + Clone {
-    chain!(
-        ObjectRest {
-            helpers: helpers.clone(),
-        },
-        ObjectSpread { helpers }
-    )
+pub fn object_rest_spread() -> impl Pass + Clone {
+    chain!(ObjectRest, ObjectSpread)
 }
 
 #[derive(Clone)]
-struct ObjectRest {
-    helpers: Arc<Helpers>,
-}
+struct ObjectRest;
 
 struct RestFolder {
-    helpers: Arc<Helpers>,
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
     /// Variables which should ceclaraed using `var`
@@ -376,7 +367,6 @@ where
 
         for stmt in stmts {
             let mut folder = RestFolder {
-                helpers: self.helpers.clone(),
                 vars: vec![],
                 mutable_vars: vec![],
                 exprs: vec![],
@@ -761,18 +751,14 @@ impl RestFolder {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
-                right: box object_without_properties(&self.helpers, obj.clone(), excluded_props),
+                right: box object_without_properties(obj.clone(), excluded_props),
             }));
         } else {
             // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
-                init: Some(box object_without_properties(
-                    &self.helpers,
-                    obj.clone(),
-                    excluded_props,
-                )),
+                init: Some(box object_without_properties(obj.clone(), excluded_props)),
                 definite: false,
             });
         }
@@ -785,13 +771,9 @@ impl RestFolder {
     }
 }
 
-fn object_without_properties(
-    helpers: &Helpers,
-    obj: Box<Expr>,
-    excluded_props: Vec<Option<ExprOrSpread>>,
-) -> Expr {
+fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSpread>>) -> Expr {
     if excluded_props.is_empty() {
-        helpers.extends();
+        helper!(extends);
 
         return Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -808,7 +790,7 @@ fn object_without_properties(
         });
     }
 
-    helpers.object_without_properties();
+    helper!(object_without_properties);
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,
@@ -888,9 +870,7 @@ fn simplify_pat(pat: Pat) -> Pat {
 }
 
 #[derive(Clone)]
-struct ObjectSpread {
-    helpers: Arc<Helpers>,
-}
+struct ObjectSpread;
 
 impl Fold<Expr> for ObjectSpread {
     fn fold(&mut self, expr: Expr) -> Expr {
@@ -952,8 +932,8 @@ impl Fold<Expr> for ObjectSpread {
                     buf
                 };
 
-                self.helpers.define_property();
-                self.helpers.object_spread();
+                helper!(define_property);
+                helper!(object_spread);
                 Expr::Call(CallExpr {
                     span,
                     callee: quote_ident!("_objectSpread").as_callee(),

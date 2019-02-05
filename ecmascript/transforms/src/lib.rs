@@ -18,6 +18,7 @@ extern crate fxhash;
 extern crate indexmap;
 extern crate inflector;
 extern crate ordered_float;
+extern crate scoped_tls;
 extern crate swc_ecma_ast as ast;
 #[cfg(test)]
 extern crate swc_ecma_codegen;
@@ -46,6 +47,8 @@ pub use self::{
 #[macro_use]
 mod tests;
 #[macro_use]
+pub mod helpers;
+#[macro_use]
 mod quote;
 #[macro_use]
 mod macros;
@@ -53,7 +56,6 @@ mod macros;
 mod hygiene;
 pub mod compat;
 mod fixer;
-pub mod helpers;
 mod inline_globals;
 pub mod modules;
 pub mod pass;

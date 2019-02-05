@@ -1,17 +1,13 @@
 use super::*;
-use crate::{
-    compat::es2015::{block_scoping, resolver},
-    helpers::Helpers,
-};
-use std::sync::Arc;
+use crate::compat::es2015::{block_scoping, resolver};
 
-fn tr(_helpers: Arc<Helpers>) -> impl Fold<Module> {
+fn tr() -> impl Fold<Module> {
     chain!(resolver(), function_name(), block_scoping())
 }
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     basic,
     r#"var number = function (x) {
   return x;
@@ -23,7 +19,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     assign,
     r#"number = function (x) {
   return x;
@@ -35,7 +31,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     let_complex,
     r#"
 let TestClass = {
@@ -65,7 +61,7 @@ var TestClass = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_, helpers| tr(helpers),
+    |_| tr(),
     class_simple,
     r#"
 var Foo = function() {

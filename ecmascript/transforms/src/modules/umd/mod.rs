@@ -5,24 +5,23 @@ use super::util::{
     make_descriptor, make_require_call, use_strict, Scope, VarCollector,
 };
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{prepend_stmts, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
 use fxhash::FxHashSet;
-use std::{collections::hash_map::Entry, iter, sync::Arc};
+use std::{collections::hash_map::Entry, iter};
 use swc_common::{sync::Lrc, Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
 mod config;
 #[cfg(test)]
 mod tests;
 
-pub fn umd(cm: Lrc<SourceMap>, helpers: Arc<Helpers>, config: Config) -> impl Pass + Clone {
+pub fn umd(cm: Lrc<SourceMap>, config: Config) -> impl Pass + Clone {
     Umd {
         config: config.build(cm.clone()),
         cm,
-        helpers,
+
         scope: Default::default(),
         exports: Default::default(),
     }
@@ -32,7 +31,6 @@ pub fn umd(cm: Lrc<SourceMap>, helpers: Arc<Helpers>, config: Config) -> impl Pa
 struct Umd {
     cm: Lrc<SourceMap>,
     config: BuiltConfig,
-    helpers: Arc<Helpers>,
     scope: State<Scope>,
     exports: State<Exports>,
 }
@@ -443,9 +441,9 @@ impl Fold<Module> for Umd {
                 match ty {
                     Some(&wildcard) => {
                         if wildcard {
-                            self.helpers.interop_require_wildcard();
+                            helper!(interop_require_wildcard);
                         } else {
-                            self.helpers.interop_require_default();
+                            helper!(interop_require_default);
                         }
                         let right = box Expr::Call(CallExpr {
                             span: DUMMY_SP,

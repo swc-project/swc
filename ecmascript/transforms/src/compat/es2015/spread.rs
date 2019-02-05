@@ -1,13 +1,11 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
-use std::{iter, mem, sync::Arc};
+use std::{iter, mem};
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 
 /// es2015 - `SpreadElement`
 #[derive(Default, Clone)]
-pub struct Spread {
-    pub helpers: Arc<Helpers>,
-}
+pub struct Spread;
 
 impl Fold<Expr> for Spread {
     fn fold(&mut self, e: Expr) -> Expr {
@@ -24,7 +22,7 @@ impl Fold<Expr> for Spread {
                     return Expr::Array(ArrayLit { span, elems });
                 }
 
-                let args_array = concat_args(&self.helpers, span, elems.into_iter());
+                let args_array = concat_args(span, elems.into_iter());
 
                 return args_array;
             }
@@ -45,7 +43,7 @@ impl Fold<Expr> for Spread {
                         type_args,
                     });
                 }
-                let args_array = concat_args(&self.helpers, span, args.into_iter().map(Some));
+                let args_array = concat_args(span, args.into_iter().map(Some));
                 //
                 // f.apply(undefined, args)
                 //
@@ -74,7 +72,6 @@ impl Fold<Expr> for Spread {
                 }
 
                 let args = concat_args(
-                    &self.helpers,
                     span,
                     iter::once(quote_expr!(span, null).as_arg())
                         .chain(args)
@@ -101,11 +98,7 @@ impl Fold<Expr> for Spread {
     }
 }
 
-fn concat_args(
-    helpers: &Helpers,
-    span: Span,
-    args: impl Iterator<Item = Option<ExprOrSpread>>,
-) -> Expr {
+fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> Expr {
     //
     // []
     //
@@ -140,7 +133,7 @@ fn concat_args(
                     //
                     make_arr!();
 
-                    helpers.to_consumable_array();
+                    helper!(to_consumable_array);
 
                     buf.push(
                         Expr::Call(CallExpr {
@@ -190,7 +183,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         call,
         "ca(a, b, c, ...d, e)",
         "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
@@ -198,7 +191,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         call_multi_spread,
         "ca(a, b, ...d, e, f, ...h)",
         "ca.apply(undefined, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
@@ -206,7 +199,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         call_noop,
         "ca(a, b, c, d, e)",
         "ca(a, b, c, d, e);"
@@ -214,7 +207,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         array,
         "[a, b, c, ...d, e]",
         "[a, b, c].concat(_toConsumableArray(d), [e])"
@@ -222,7 +215,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         array_empty,
         "[a,, b, c, ...d,,, e]",
         "[a,, b, c].concat(_toConsumableArray(d), [,, e])"
@@ -230,7 +223,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         new,
         "new C(a, b, c, ...d, e)",
         "new Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
@@ -240,7 +233,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_, helpers| Spread { helpers },
+        |_| Spread,
         new_noop,
         "new C(a, b, c, c, d, e)",
         "new C(a, b, c, c, d, e);"

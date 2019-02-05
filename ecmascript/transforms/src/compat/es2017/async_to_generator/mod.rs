@@ -1,10 +1,9 @@
 use crate::{
-    helpers::Helpers,
     pass::Pass,
     util::{contains_this_expr, ExprFactory, StmtLike},
 };
 use ast::*;
-use std::{iter, sync::Arc};
+use std::iter;
 use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -30,16 +29,13 @@ mod tests;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator(helpers: Arc<Helpers>) -> impl Pass + Clone {
-    AsyncToGenerator { helpers }
+pub fn async_to_generator() -> impl Pass + Clone {
+    AsyncToGenerator
 }
 
 #[derive(Default, Clone)]
-struct AsyncToGenerator {
-    helpers: Arc<Helpers>,
-}
+struct AsyncToGenerator;
 struct Actual {
-    helpers: Arc<Helpers>,
     extra_stmts: Vec<Stmt>,
 }
 
@@ -61,7 +57,6 @@ where
                 Err(module_item) => buf.push(module_item),
                 Ok(stmt) => {
                     let mut actual = Actual {
-                        helpers: self.helpers.clone(),
                         extra_stmts: vec![],
                     };
                     let stmt = stmt.fold_with(&mut actual);
@@ -84,16 +79,13 @@ impl Fold<MethodProp> for Actual {
         }
         let params = prop.function.params;
 
-        let fn_ref = make_fn_ref(
-            &self.helpers,
-            FnExpr {
-                ident: None,
-                function: Function {
-                    params: vec![],
-                    ..prop.function
-                },
+        let fn_ref = make_fn_ref(FnExpr {
+            ident: None,
+            function: Function {
+                params: vec![],
+                ..prop.function
             },
-        );
+        });
         let fn_ref = Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: fn_ref.as_callee(),
@@ -348,13 +340,10 @@ impl Fold<Method> for Actual {
 
         let mut folder = MethodFolder { vars: vec![] };
         let function = m.function.fold_children(&mut folder);
-        let expr = make_fn_ref(
-            &self.helpers,
-            FnExpr {
-                ident: None,
-                function,
-            },
-        );
+        let expr = make_fn_ref(FnExpr {
+            ident: None,
+            function,
+        });
 
         let hoisted_super = if folder.vars.is_empty() {
             None
@@ -416,7 +405,7 @@ impl Fold<Expr> for Actual {
                     });
                 }
 
-                return make_fn_ref(&self.helpers, fn_expr);
+                return make_fn_ref(fn_expr);
             }
             _ => {}
         }
@@ -488,13 +477,10 @@ impl Actual {
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
         let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));
-        let right = make_fn_ref(
-            &self.helpers,
-            FnExpr {
-                ident: None,
-                function: f,
-            },
-        );
+        let right = make_fn_ref(FnExpr {
+            ident: None,
+            function: f,
+        });
 
         if is_decl {
             let real_fn = FnDecl {
@@ -593,7 +579,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
+fn make_fn_ref(mut expr: FnExpr) -> Expr {
     struct AwaitToYield;
 
     impl Fold<Function> for AwaitToYield {
@@ -625,7 +611,7 @@ fn make_fn_ref(helpers: &Helpers, mut expr: FnExpr) -> Expr {
     expr.function.is_generator = true;
 
     let span = expr.span();
-    helpers.async_to_generator();
+    helper!(async_to_generator);
 
     let contains_this = contains_this_expr(&expr.function.body);
     let expr = if contains_this {

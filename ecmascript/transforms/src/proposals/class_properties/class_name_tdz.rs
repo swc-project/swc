@@ -1,9 +1,8 @@
-use crate::{helpers::Helpers, util::ExprFactory};
+use crate::util::ExprFactory;
 use ast::*;
 use swc_common::{Fold, FoldWith, DUMMY_SP};
 
 pub(super) struct ClassNameTdzFolder<'a> {
-    pub helpers: &'a Helpers,
     pub class_name: &'a Ident,
 }
 
@@ -14,7 +13,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                 //
 
                 if i.sym == self.class_name.sym {
-                    self.helpers.class_name_tdz_error();
+                    helper!(class_name_tdz_error);
 
                     return Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
