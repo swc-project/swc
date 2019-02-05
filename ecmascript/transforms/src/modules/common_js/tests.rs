@@ -203,7 +203,7 @@ Object.defineProperty(exports, "baz", {
   }
 });
 
-var _moduleWithGetter = _interopRequireDefault(require("./moduleWithGetter"));
+var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
 
 "#
 );
@@ -1458,41 +1458,44 @@ Baz = 44;
 
 var _foo = _interopRequireDefault(require("foo"));
 
-var Bar = _interopRequireDefault(require("bar"));
+var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-_foo.default = (42, function () {
-  throw new Error('"' + "Foo" + '" is read-only.');
-}());
-Bar = (43, function () {
-  throw new Error('"' + "Bar" + '" is read-only.');
-}());
-_baz.Baz = (44, function () {
-  throw new Error('"' + "Baz" + '" is read-only.');
-}());
-({
-  Foo: _foo.default
-} = {});
-({
-  Bar
-} = ({}, function () {
-  throw new Error('"' + "Bar" + '" is read-only.');
-}()));
-({
-  Baz: _baz.Baz
-} = {});
-({
-  prop: _foo.default
-} = {});
-({
-  prop: Bar
-} = ({}, function () {
-  throw new Error('"' + "Bar" + '" is read-only.');
-}()));
-({
-  prop: _baz.Baz
-} = {});
+Foo = ( 42, (function() {
+    throw new Error('"' + 'Foo' + '" is read-only.');
+})());
+Bar = ( 43, (function() {
+    throw new Error('"' + 'Bar' + '" is read-only.');
+})());
+Baz = ( 44, (function() {
+    throw new Error('"' + 'Baz' + '" is read-only.');
+})());
+({ Foo  } = ( {
+}, (function() {
+    throw new Error('"' + 'Foo' + '" is read-only.');
+})()));
+({ Bar  } = ( {
+}, (function() {
+    throw new Error('"' + 'Bar' + '" is read-only.');
+})()));
+({ Baz  } = ( {
+}, (function() {
+    throw new Error('"' + 'Baz' + '" is read-only.');
+})()));
+({ prop: Foo  } = ( {
+}, (function() {
+    throw new Error('"' + 'Foo' + '" is read-only.');
+})()));
+({ prop: Bar  } = ( {
+}, (function() {
+    throw new Error('"' + 'Bar' + '" is read-only.');
+})()));
+({ prop: Baz  } = ( {
+}, (function() {
+    throw new Error('"' + 'Baz' + '" is read-only.');
+})()));
+
 
 "#
 );
@@ -2410,6 +2413,8 @@ function diff() {
 
 // interop_module_shadow
 test!(
+    // TODO(kdy1): Uningnore this
+    ignore,
     syntax(),
     |_, helpers| tr(
         helpers,

@@ -190,7 +190,7 @@ macro_rules! test_transform {
                 // Diff it
                 println!(">>>>> Code <<<<<\n{}", actual_src);
                 assert_eq!(actual, expected, "different ast was detected");
-                unreachable!()
+                return Err(());
             }
 
             println!(">>>>> Orig <<<<<\n{}", $input);
@@ -199,11 +199,7 @@ macro_rules! test_transform {
                 crate::tests::DebugUsingDisplay(&actual_src),
                 crate::tests::DebugUsingDisplay(&expected_src)
             );
-            unreachable!()
-            // panic!(
-            //     "\n\t>>>>> Code <<<<<\n{}\n\t>>>>> Actual <<<<<\n{}\n\t>>>>> Expected
-            // <<<<<\n{}",     $input, actual_src, expected_src
-            // );
+            return Err(());
         });
     }};
 }

@@ -17,7 +17,7 @@ use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
@@ -28,6 +28,17 @@ pub struct Config {
     pub lazy: Lazy,
     #[serde(default)]
     pub no_interop: bool,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Config {
+            strict: false,
+            strict_mode: default_strict_mode(),
+            lazy: Lazy::default(),
+            no_interop: false,
+        }
+    }
 }
 
 const fn default_strict_mode() -> bool {
@@ -764,7 +775,77 @@ impl Fold<Expr> for CommonJs {
             }
 
             Expr::Assign(expr) => {
-                //
+                let mut found = vec![];
+                let mut v = DestructuringFinder { found: &mut found };
+                expr.left.visit_with(&mut v);
+                if v.found.is_empty() {
+                    return Expr::Assign(AssignExpr {
+                        left: expr.left,
+                        ..expr
+                    });
+                }
+
+                // imports are read-only
+                for i in &found {
+                    let i = Ident::new(i.0.clone(), i.1);
+                    if self
+                        .scope
+                        .value
+                        .idents
+                        .get(&(i.sym.clone(), i.span.ctxt()))
+                        .is_some()
+                    {
+                        let throw = Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: FnExpr {
+                                ident: None,
+                                function: Function {
+                                    span: DUMMY_SP,
+                                    is_async: false,
+                                    is_generator: false,
+                                    decorators: Default::default(),
+                                    params: vec![],
+                                    body: Some(BlockStmt {
+                                        span: DUMMY_SP,
+                                        stmts: vec![
+                                            // throw new Error('"' + "Foo" + '" is read-only.')
+                                            Stmt::Throw(ThrowStmt {
+                                                span: DUMMY_SP,
+                                                arg: box Expr::New(NewExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: box Expr::Ident(quote_ident!("Error")),
+                                                    args: Some(vec![quote_str!("\"")
+                                                        .make_bin(
+                                                            op!(bin, "+"),
+                                                            quote_str!(i.span, i.sym.clone()),
+                                                        )
+                                                        .make_bin(
+                                                            op!(bin, "+"),
+                                                            quote_str!("\" is read-only."),
+                                                        )
+                                                        .as_arg()]),
+                                                    type_args: Default::default(),
+                                                }),
+                                            }),
+                                        ],
+                                    }),
+                                    return_type: Default::default(),
+                                    type_params: Default::default(),
+                                },
+                            }
+                            .as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        });
+                        return Expr::Assign(AssignExpr {
+                            right: box Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![expr.right, box throw],
+                            }),
+                            ..expr
+                        });
+                    }
+                }
 
                 match expr.left {
                     PatOrExpr::Pat(box Pat::Ident(ref i)) => {
@@ -785,16 +866,6 @@ impl Fold<Expr> for CommonJs {
                         }
                     }
                     _ => {
-                        let mut found = vec![];
-                        let mut v = DestructuringFinder { found: &mut found };
-                        expr.left.visit_with(&mut v);
-                        if v.found.is_empty() {
-                            return Expr::Assign(AssignExpr {
-                                left: expr.left,
-                                ..expr
-                            });
-                        }
-
                         let mut exprs = iter::once(box Expr::Assign(expr))
                             .chain(
                                 found
