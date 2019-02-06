@@ -10,6 +10,7 @@ impl<'a> Emitter<'a> {
         if !self.cfg.enable_comments {
             return Ok(());
         }
+
         // debug_assert!(self.file.contains(pos));
         let span = Span::new(pos, pos, SyntaxContext::empty());
         let ext_sp = self.cm.span_through_char(span, '/');

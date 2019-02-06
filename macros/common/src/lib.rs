@@ -75,19 +75,6 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
     }
 
     match *attr {
-        Attribute {
-            is_sugared_doc: true,
-            ..
-        } => {
-            // Remove '///'.
-            let mut s = parse_tts(attr);
-            Some(if s.starts_with("///") {
-                s.split_off(3)
-            } else {
-                s
-            })
-        }
-
         Attribute { .. } => {
             if !is_attr_name(attr, "doc") {
                 return None;

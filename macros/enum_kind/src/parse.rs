@@ -1,7 +1,7 @@
 use input::*;
-use std::{fmt::Display, ops::AddAssign};
+use std::{fmt::Display, ops::AddAssign, result::Result as StdResult};
 use swc_macros_common::prelude::*;
-use syn::synom::Synom;
+use syn::parse::{Parse, ParseStream};
 use util::is_bool;
 
 impl From<DeriveInput> for Input {
@@ -29,25 +29,23 @@ impl From<DeriveInput> for Input {
     }
 }
 
-impl Synom for EnumAttrs {
-    named!(parse -> Self, do_parse!(
-        _function: syn!(Ident) >>
-        fns: parens!(
-            call!(Punctuated::parse_terminated)
-        ) >>
-        ({
-            let fns: Punctuated<_, token::Comma> = fns.1;
-            // TODO: Verify `functions`.
-            EnumAttrs {
-                fns: fns.into_iter().collect(),
-                extras: Default::default(),
-            }
+impl Parse for EnumAttrs {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let _function: Ident = input.parse()?;
+
+        let fns;
+        let _paren_token = parenthesized!(fns in input);
+
+        let fns: Punctuated<FnDef, Token![,]> = fns.parse_terminated(FnDef::parse)?;
+        Ok(EnumAttrs {
+            fns: fns.into_iter().collect(),
+            extras: Default::default(),
         })
-    ));
+    }
 }
 
-impl AddAssign<Result<Self, Attribute>> for EnumAttrs {
-    fn add_assign(&mut self, rhs: Result<Self, Attribute>) {
+impl AddAssign<StdResult<Self, Attribute>> for EnumAttrs {
+    fn add_assign(&mut self, rhs: StdResult<Self, Attribute>) {
         match rhs {
             Ok(attr) => {
                 self.fns.extend(attr.fns);
@@ -74,24 +72,23 @@ impl FnDef {
     }
 }
 
-impl Synom for FnDef {
-    named!(parse -> Self, do_parse!(
-        name: syn!(Ident) >>
-        syn!(token::Eq) >>
-        return_type: syn!(LitStr) >>
-        ({
-            if name == "delegate" {
-                panic!("function name cannot be `delegate`")
-            }
+impl Parse for FnDef {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let name: Ident = input.parse()?;
+        let _: Token!(=) = input.parse()?;
+        let return_type: LitStr = input.parse()?;
 
-            let return_type = parse_str_as_tokens(return_type);
-            FnDef {
-                default_value: FnDef::def_value_for_type(&return_type),
-                name,
-                return_type,
-            }
+        if name == "delegate" {
+            panic!("function name cannot be `delegate`")
+        }
+
+        let return_type = parse_str_as_tokens(return_type);
+        Ok(FnDef {
+            default_value: FnDef::def_value_for_type(&return_type),
+            name,
+            return_type,
         })
-    ));
+    }
 }
 
 impl From<Variant> for EnumVar {
@@ -111,25 +108,22 @@ impl From<Variant> for EnumVar {
     }
 }
 
-impl Synom for VariantAttrs {
-    named!(parse -> Self, do_parse!(
-        fn_values: call!(Punctuated::parse_terminated)
-        >>
-        ({
-            let fn_values: Punctuated<_, token::Comma> = fn_values;
-            let has_delegate = fn_values.iter()
-                    .any(|f: &VariantAttr| f.fn_name == "delegate");
-            VariantAttrs {
-                fn_values: fn_values.into_iter().collect(),
-                extras: Default::default(),
-                has_delegate,
-            }
+impl Parse for VariantAttrs {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let fn_values: Punctuated<_, token::Comma> = Punctuated::parse_terminated(input)?;
+        let has_delegate = fn_values
+            .iter()
+            .any(|f: &VariantAttr| f.fn_name == "delegate");
+        Ok(VariantAttrs {
+            fn_values: fn_values.into_iter().collect(),
+            extras: Default::default(),
+            has_delegate,
         })
-    ));
+    }
 }
 
-impl AddAssign<Result<Self, Attribute>> for VariantAttrs {
-    fn add_assign(&mut self, rhs: Result<Self, Attribute>) {
+impl AddAssign<StdResult<Self, Attribute>> for VariantAttrs {
+    fn add_assign(&mut self, rhs: StdResult<Self, Attribute>) {
         match rhs {
             Ok(attr) => {
                 self.fn_values.extend(attr.fn_values);
@@ -141,27 +135,26 @@ impl AddAssign<Result<Self, Attribute>> for VariantAttrs {
     }
 }
 
-impl Synom for VariantAttr {
-    named!(parse -> Self, do_parse!(
-            fn_name: syn!(Ident) >>
-            value: option!(
-                do_parse!(
-                    syn!(token::Eq) >>
-                    p: syn!(LitStr) >>
-                    ({
-                        parse_str_as_tokens(p)
-                    })
-                )
-            ) >>
-            (VariantAttr{ fn_name, value, })
-        )
-    );
+impl Parse for VariantAttr {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let fn_name: Ident = input.parse()?;
+
+        let lookahead = input.lookahead1();
+        let value = if lookahead.peek(Token![=]) {
+            let _: Token![=] = input.parse()?;
+            Some(input.parse().map(parse_str_as_tokens)?)
+        } else {
+            None
+        };
+
+        Ok(VariantAttr { fn_name, value })
+    }
 }
 
 /// Parse kind attr as MetaItem.
 fn parse_attrs<T>(attrs: Vec<Attribute>) -> T
 where
-    T: Default + Synom + AddAssign<Result<T, Attribute>>,
+    T: Default + Parse + AddAssign<StdResult<T, Attribute>>,
 {
     /// returns `tokens` where `tts` = `vec![Group(Paren, tokens)]`
     fn unwrap_paren<I>(tts: I) -> TokenStream
@@ -190,7 +183,7 @@ where
 
     let mut res = Default::default();
     for attr in attrs {
-        if attr.is_sugared_doc {
+        if is_attr_name(&attr, "doc") {
             continue;
         }
 
@@ -211,7 +204,7 @@ where
 /// Parse content of string literal.
 fn parse_str_as_tokens<T>(lit: LitStr) -> T
 where
-    T: Synom,
+    T: Parse,
 {
     let span = lit.span();
     // WTF? Literal does not provide a way to get string...

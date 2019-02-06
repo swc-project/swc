@@ -8,10 +8,10 @@ documentation = "https://swc-project.github.io/rustdoc/swc_macros_common/"
 description = "Common utilities for swc macros."
 
 [dependencies]
-pmutil = "0.2"
-proc-macro2 = "0.4.4"
-quote = "0.6.3"
+pmutil = "0.3"
+proc-macro2 = "0.4.27"
+quote = "0.6.11"
 
 [dependencies.syn]
-version = "0.14.1"
+version = "0.15.26"
 features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
