@@ -7,7 +7,7 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, LexResult, Lexer};
 use crate::error::{ErrorToDiag, SyntaxError};
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, SyntaxContext};
 use unicode_xid::UnicodeXID;
 
 pub(super) struct Raw(pub Option<String>);
@@ -140,6 +140,16 @@ impl<'a, I: Input> Lexer<'a, I> {
         for _ in 0..start_skip {
             self.bump();
         }
+        let slice_start = self.cur_pos();
+
+        // foo // comment for foo
+        // bar
+        //
+        // foo
+        // // comment for bar
+        // bar
+        //
+        let is_for_next = !self.state.had_line_break;
 
         while let Some(c) = self.cur() {
             self.bump();
@@ -153,7 +163,19 @@ impl<'a, I: Input> Lexer<'a, I> {
                 _ => {}
             }
         }
-        // TODO: push comment
+
+        let pos = self.cur_pos();
+        match self.comments {
+            Some(ref comments) => {
+                let s = self.input.slice(slice_start, pos);
+                comments.add_line(
+                    Span::new(start, pos, SyntaxContext::empty()),
+                    is_for_next,
+                    s.into(),
+                );
+            }
+            None => {}
+        }
     }
 
     /// Expects current char to be '/' and next char to be '*'.
@@ -166,10 +188,33 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
         self.bump();
 
-        let mut was_star = false;
+        // jsdoc
+        let mut was_star = if self.cur() == Some('*') {
+            self.bump();
+            true
+        } else {
+            false
+        };
+
+        let is_for_next = !self.state.had_line_break;
+
+        let slice_start = self.cur_pos();
 
         while let Some(c) = self.cur() {
             if was_star && self.eat('/') {
+                let pos = self.cur_pos();
+                match self.comments {
+                    Some(ref comments) => {
+                        let s = self.input.slice(slice_start, pos);
+                        comments.add_block(
+                            Span::new(start, pos, SyntaxContext::empty()),
+                            is_for_next,
+                            s.into(),
+                        );
+                    }
+                    None => {}
+                }
+
                 // TODO: push comment
                 return Ok(());
             }

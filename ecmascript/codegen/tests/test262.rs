@@ -166,6 +166,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             &mut wr,
                             &mut src_map_builder,
                         ),
+                        comments: parser.take_comments(),
                         handlers,
                         pos_of_leading_comments: Default::default(),
                     };

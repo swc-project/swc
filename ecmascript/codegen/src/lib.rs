@@ -18,7 +18,9 @@ use self::{
 };
 use std::{collections::HashSet, io};
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -59,6 +61,7 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Lrc<SourceMap>,
+    pub comments: Option<Comments>,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
     pub pos_of_leading_comments: HashSet<BytePos>,

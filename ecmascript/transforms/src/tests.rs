@@ -138,6 +138,7 @@ impl<'a> Tester<'a> {
                     &mut wr,
                     &mut src_map_builder,
                 ),
+                comments: None,
                 handlers,
                 pos_of_leading_comments: Default::default(),
             };

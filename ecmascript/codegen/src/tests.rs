@@ -12,7 +12,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{FileName, FilePathMapping, SourceMap};
+use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 
 struct Noop;
 impl Handlers for Noop {}
@@ -20,6 +20,7 @@ impl Handlers for Noop {}
 struct Builder {
     cfg: Config,
     cm: Lrc<SourceMap>,
+    comments: Comments,
 }
 
 fn test() -> Builder {
@@ -28,6 +29,7 @@ fn test() -> Builder {
     Builder {
         cfg: Default::default(),
         cm: Lrc::new(src),
+        comments: Default::default(),
     }
 }
 
@@ -46,6 +48,7 @@ impl Builder {
                 s,
                 &mut src_map_builder,
             )),
+            comments: Some(self.comments),
             handlers: Box::new(Noop),
             pos_of_leading_comments: Default::default(),
         };
