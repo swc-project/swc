@@ -87,6 +87,7 @@ fn test_from_to(from: &str, to: &str) {
                 Session { handler: &handler },
                 Syntax::default(),
                 (&*src).into(),
+                Some(Default::default()),
             ))
             .map_err(|mut e| {
                 e.emit();

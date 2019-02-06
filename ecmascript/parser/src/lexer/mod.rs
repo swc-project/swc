@@ -15,7 +15,7 @@ use crate::{
 use ast::Str;
 use std::char;
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
+use swc_common::{comments::Comments, BytePos, Span};
 
 pub mod input;
 mod jsx;
@@ -30,6 +30,7 @@ pub(crate) type LexResult<T> = Result<T, Error>;
 #[derive(Clone)]
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
+    comments: Option<Comments>,
     pub ctx: Context,
     input: I,
     state: State,
@@ -37,14 +38,19 @@ pub(crate) struct Lexer<'a, I: Input> {
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub fn new(session: Session<'a>, syntax: Syntax, input: I) -> Self {
+    pub fn new(session: Session<'a>, syntax: Syntax, input: I, comments: Option<Comments>) -> Self {
         Lexer {
             session,
+            comments,
             input,
             state: State::new(syntax),
             ctx: Default::default(),
             syntax,
         }
+    }
+
+    pub fn take_comments(&mut self) -> Option<Comments> {
+        self.comments.take()
     }
 
     /// babel: `getTokenFromCode`

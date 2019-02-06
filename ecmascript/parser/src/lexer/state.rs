@@ -545,7 +545,7 @@ where
     F: FnOnce(&mut Lexer<crate::lexer::input::SourceFileInput>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |sess, fm| {
-        let mut l = Lexer::new(sess, syntax, fm);
+        let mut l = Lexer::new(sess, syntax, fm, None);
         let res = f(&mut l);
 
         let c: SmallVec<[TokenContext; 32]> = smallvec![TokenContext::BraceStmt];

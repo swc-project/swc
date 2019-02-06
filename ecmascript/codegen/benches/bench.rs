@@ -93,7 +93,12 @@ fn emit_colors(b: &mut Bencher) {
     let _ = ::testing::run_test(true, |cm, handler| {
         let session = Session { handler: &handler };
         let fm = cm.new_source_file(FileName::Anon(0), SOURCE.into());
-        let mut parser = Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm));
+        let mut parser = Parser::new(
+            session,
+            Syntax::default(),
+            SourceFileInput::from(&*fm),
+            None,
+        );
         let module = parser
             .parse_module()
             .map_err(|mut e| {

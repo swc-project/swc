@@ -58,11 +58,15 @@ fn bench_module(b: &mut Bencher, src: &'static str) {
         let fm = cm.new_source_file(FileName::Anon(0), src.into());
 
         b.iter(|| {
-            test::black_box({
-                let mut parser =
-                    Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm));
-                let _ = parser.parse_module();
-            })
+            let _ = test::black_box({
+                let mut parser = Parser::new(
+                    session,
+                    Syntax::default(),
+                    SourceFileInput::from(&*fm),
+                    None,
+                );
+                parser.parse_module()
+            });
         });
         Ok(())
     });
