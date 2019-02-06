@@ -43,6 +43,7 @@ macro_rules! mk_trait {
     };
 }
 objekt::clone_trait_object!(Pass);
+objekt::clone_trait_object!(Pass + Send + Sync);
 
 mk_trait!(
     ArrayLit,

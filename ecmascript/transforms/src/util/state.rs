@@ -32,3 +32,8 @@ impl<T: Default> Clone for State<T> {
         }
     }
 }
+
+/// Safe iff cloned.
+unsafe impl<T: Default> Send for State<T> {}
+/// Safe iff cloned.
+unsafe impl<T: Default> Sync for State<T> {}
