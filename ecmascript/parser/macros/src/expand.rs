@@ -1,7 +1,9 @@
 use swc_macros_common::prelude::*;
 use syn::{
     fold::{self, Fold},
-    synom::Synom,
+    parse::{Parse, Parser},
+    spanned::Spanned,
+    token::Token,
 };
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {
@@ -49,13 +51,11 @@ fn get_joinned_span(t: &ToTokens) -> Span {
 
 fn parse_args<T, P>(t: TokenStream) -> Punctuated<T, P>
 where
-    T: Synom,
-    P: Synom,
+    T: Parse,
+    P: Parse + Token,
 {
-    let buf = ::syn::buffer::TokenBuffer::new(t.into());
-    Punctuated::parse_separated(buf.begin())
-        .expect("failed parse args")
-        .0
+    let parser = Punctuated::parse_separated_nonempty;
+    parser.parse2(t).expect("failed parse args")
 }
 
 impl Fold for InjectSelf {
@@ -109,7 +109,7 @@ impl Fold for InjectSelf {
                     ..
                 })
                 | FnArg::SelfValue(ArgSelf { self_token, .. }) => {
-                    Some(Ident::new("self", self_token.0))
+                    Some(Ident::new("self", self_token.span()))
                 }
                 _ => None,
             });

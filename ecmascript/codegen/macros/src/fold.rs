@@ -1,5 +1,10 @@
 use swc_macros_common::prelude::*;
-use syn::{fold::Fold, synom::Synom};
+use syn::{
+    fold::Fold,
+    parse::{Parse, Parser},
+    spanned::Spanned,
+    token::Token,
+};
 
 pub(crate) struct InjectSelf {
     pub parser: Option<Ident>,
@@ -38,15 +43,13 @@ fn get_joinned_span(t: &ToTokens) -> Span {
     first.unwrap_or(cs)
 }
 
-fn parse_args<T, P>(t: TokenStream) -> Punctuated<T, P>
+fn parse_args<T, P>(tokens: TokenStream) -> Punctuated<T, P>
 where
-    T: Synom,
-    P: Synom,
+    T: Parse,
+    P: Parse + Token,
 {
-    let buf = ::syn::buffer::TokenBuffer::new(t.into());
-    Punctuated::parse_separated(buf.begin())
-        .expect("failed parse args")
-        .0
+    let parser = Punctuated::parse_separated_nonempty;
+    parser.parse2(tokens).expect("failed parse args")
 }
 
 impl Fold for InjectSelf {
@@ -64,7 +67,7 @@ impl Fold for InjectSelf {
                     ..
                 })
                 | FnArg::SelfValue(ArgSelf { self_token, .. }) => {
-                    Some(Ident::new("self", self_token.0))
+                    Some(Ident::new("self", self_token.span()))
                 }
                 _ => None,
             });

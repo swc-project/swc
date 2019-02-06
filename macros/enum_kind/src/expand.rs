@@ -173,6 +173,7 @@ impl FnDef {
 
         ImplItemMethod {
             sig: MethodSig {
+                asyncness: None,
                 constness: None,
                 unsafety: None,
                 abi: None,

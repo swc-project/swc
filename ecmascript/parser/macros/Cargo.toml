@@ -12,12 +12,12 @@ proc-macro = true
 
 [dependencies]
 swc_macros_common = { version = "0.1", path ="../../../macros/common" }
-proc-macro2 = "0.4.24"
+proc-macro2 = "0.4"
 
 [dependencies.syn]
-version = "0.14.1"
-features = ["fold"]
+version = "0.15"
+features = ["fold", "parsing"]
 
 
 [dependencies.quote]
-version = "0.6.3"
+version = "0.6"

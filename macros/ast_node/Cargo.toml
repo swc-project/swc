@@ -17,13 +17,13 @@ fold = []
 
 [dependencies]
 swc_macros_common = { version = "0.1", path = "../common" }
-pmutil = "0.2"
-proc-macro2 = { version = "0.4.4", features = ["nightly"] }
-quote = "0.6"
-darling = "0.7"
+pmutil = "0.3"
+proc-macro2 = "0.4.27"
+quote = "0.6.11"
+darling = "0.8.5"
 
 [dependencies.syn]
-version = "0.14.1"
+version = "0.15.26"
 features = ["derive", "fold", "parsing", "printing"]
 
 
