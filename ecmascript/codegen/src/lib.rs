@@ -307,13 +307,6 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_num_lit(&mut self, num: &Number) -> Result {
-        // FIXME: Emitter might de-optimize
-
-        // if let Some(text) = get_text_of_node(&self.cm, num, false) {
-        //     self.wr.write_str_lit(num.span, &s)?;
-        //     return Ok(());
-        // }
-
         // Handle infinity
         if num.value.is_infinite() {
             if num.value.is_sign_negative() {
@@ -694,6 +687,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
         if node.function.is_async {
             keyword!("async");
             space!()
@@ -998,8 +993,6 @@ impl<'a> Emitter<'a> {
             //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
             // false).as_bytes())?;
         }
-
-        //TODO
 
         // Call emitList directly since it could be an array of
         // TypeParameterDeclarations _or_ type arguments
@@ -1385,6 +1378,8 @@ impl<'a> Emitter<'a> {
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
+        self.emit_trailing_comments_of_pos(node.span().hi(), true)?;
+
         if !self.cfg.minify {
             self.wr.write_line()?;
         }
@@ -1404,18 +1399,12 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         punct!(";");
-        if !self.cfg.minify {
-            self.wr.write_line()?;
-        }
     }
 
     #[emitter]
     pub fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
         keyword!("debugger");
         semi!();
-        if !self.cfg.minify {
-            self.wr.write_line()?;
-        }
     }
 
     #[emitter]

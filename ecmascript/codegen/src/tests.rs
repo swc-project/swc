@@ -101,12 +101,12 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
 fn test_from_to(from: &str, to: &str) {
     let out = parse_then_emit(from, Default::default());
 
-    assert_eq!(DebugUsingDisplay(&out), DebugUsingDisplay(to),);
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
 
 #[test]
 fn empty_stmt() {
-    test_from_to(";", ";\n");
+    test_from_to(";", ";");
 }
 
 #[test]
@@ -115,8 +115,7 @@ fn comment_1() {
         "// foo
 a",
         "// foo
-a;
-",
+a;",
     );
 }
 
@@ -147,8 +146,7 @@ fn comment_4() {
         "/** foo */
 a",
         "/** foo */
-a;
-",
+a;",
     );
 }
 
@@ -160,8 +158,7 @@ fn comment_5() {
 a",
         "// foo
 // bar
-a;
-",
+a;",
     );
 }
 
