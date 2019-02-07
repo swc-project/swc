@@ -790,13 +790,23 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_unary_expr(&mut self, node: &UnaryExpr) -> Result {
-        //TODO: Operator vs Keyword
-        keyword!(node.op.as_str());
+        let need_formatting_space = match node.op {
+            op!("typeof") | op!("void") | op!("delete") => {
+                keyword!(node.op.as_str());
+                true
+            }
+            op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
+                punct!(node.op.as_str());
+                false
+            }
+        };
+
         if should_emit_whitespace_before_operand(node) {
             space!();
         } else {
-            // TODO:
-            // formatting_space!();
+            if need_formatting_space {
+                formatting_space!();
+            }
         }
 
         emit!(node.arg);
