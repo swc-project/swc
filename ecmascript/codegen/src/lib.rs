@@ -881,7 +881,7 @@ impl<'a> Emitter<'a> {
         punct!("{");
         if !self.cfg.minify {
             self.wr.write_line()?;
-            self.wr.increase_indent()?;
+            // self.wr.increase_indent()?;
         }
         self.emit_list(
             node.span(),
@@ -890,7 +890,7 @@ impl<'a> Emitter<'a> {
         )?;
         if !self.cfg.minify {
             self.wr.write_line()?;
-            self.wr.decrease_indent()?;
+            // self.wr.decrease_indent()?;
         }
         punct!("}");
     }
@@ -1113,6 +1113,7 @@ impl<'a> Emitter<'a> {
                     {
                         self.emit_leading_comments_of_pos(previous_sibling.span().hi())?;
                     }
+
                     self.write_delim(format)?;
 
                     // Write either a line terminator or whitespace to separate the elements.
@@ -1131,7 +1132,9 @@ impl<'a> Emitter<'a> {
                             should_decrease_indent_after_emit = true;
                         }
 
-                        self.wr.write_line()?;
+                        if !self.cfg.minify {
+                            self.wr.write_line()?;
+                        }
                         should_emit_intervening_comments = false;
                     } else if format.contains(ListFormat::SpaceBetweenSiblings) {
                         formatting_space!(self);

@@ -100,7 +100,14 @@ add_bitflags!(
             | CommaDelimited
             | SpaceBetweenSiblings
             | NoSpaceIfEmpty,
-        ObjectLiteralExpressionProperties: PreserveLines
+        // ObjectLiteralExpressionProperties: PreserveLines
+        //     | CommaDelimited
+        //     | SpaceBetweenSiblings
+        //     | SpaceBetweenBraces
+        //     | Indented
+        //     | Braces
+        //     | NoSpaceIfEmpty,
+        ObjectLiteralExpressionProperties: MultiLine
             | CommaDelimited
             | SpaceBetweenSiblings
             | SpaceBetweenBraces
