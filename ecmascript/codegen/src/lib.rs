@@ -442,11 +442,17 @@ impl<'a> Emitter<'a> {
         match *expr {
             ExprOrSuper::Expr(ref expr) => {
                 match **expr {
-                    Expr::Lit(Lit::Num(Number { span, .. })) => {
+                    Expr::Lit(Lit::Num(Number { span, value })) => {
+                        if value.fract() == 0.0 {
+                            return true;
+                        }
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
-                            return text.contains(".");
+                            if text.contains(".") {
+                                return false;
+                            }
+                            return text.starts_with("0") || text.ends_with(" ");
                         } else {
                             true
                         }

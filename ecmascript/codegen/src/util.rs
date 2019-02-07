@@ -213,7 +213,12 @@ impl StartsWithAlphaNum for Expr {
 
 impl StartsWithAlphaNum for Pat {
     fn starts_with_alpha_num(&self) -> bool {
-        unimplemented!("starts_with_alpha_num for Pat")
+        match *self {
+            Pat::Ident(..) => true,
+            Pat::Assign(AssignPat { ref left, .. }) => left.starts_with_alpha_num(),
+            Pat::Object(..) | Pat::Array(..) | Pat::Rest(..) => false,
+            Pat::Expr(ref expr) => expr.starts_with_alpha_num(),
+        }
     }
 }
 
