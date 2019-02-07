@@ -247,3 +247,41 @@ impl StartsWithAlphaNum for ExprOrSuper {
         }
     }
 }
+impl StartsWithAlphaNum for Stmt {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            Stmt::Expr(ref expr) => expr.starts_with_alpha_num(),
+            Stmt::Decl(ref decl) => decl.starts_with_alpha_num(),
+            Stmt::Debugger(..)
+            | Stmt::With(..)
+            | Stmt::While(..)
+            | Stmt::DoWhile(..)
+            | Stmt::Return(..)
+            | Stmt::Labeled(..)
+            | Stmt::Break(..)
+            | Stmt::Continue(..)
+            | Stmt::Switch(..)
+            | Stmt::Throw(..)
+            | Stmt::Try(..)
+            | Stmt::For(..)
+            | Stmt::ForIn(..)
+            | Stmt::ForOf(..)
+            | Stmt::If(..) => true,
+            Stmt::Block(..) | Stmt::Empty(..) => false,
+        }
+    }
+}
+
+impl StartsWithAlphaNum for Decl {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            Decl::Class(..)
+            | Decl::Fn(..)
+            | Decl::Var(..)
+            | Decl::TsEnum(..)
+            | Decl::TsInterface(..)
+            | Decl::TsModule(..)
+            | Decl::TsTypeAlias(..) => true,
+        }
+    }
+}

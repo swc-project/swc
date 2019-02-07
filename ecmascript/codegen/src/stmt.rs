@@ -43,12 +43,12 @@ mod tests {
     fn if_statement() {
         assert_min("if (true) foo;", "if(true)foo;");
         assert_min("if (true) { foo; }", "if(true){foo;}");
-        assert_min("if (true) foo; else bar;", "if(true)foo; else bar;");
+        assert_min("if (true) foo; else bar;", "if(true)foo;else bar;");
         assert_min(
             "if (true) { foo; } else { bar; }",
             "if(true){foo;}else{bar;}",
         );
-        assert_min("if (true) foo; else { bar; }", "if(true)foo; else{bar;}");
+        assert_min("if (true) foo; else { bar; }", "if(true)foo;else{bar;}");
         assert_min("if (true) { foo; } else bar;", "if(true){foo;}else bar;");
     }
 

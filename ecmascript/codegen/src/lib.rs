@@ -446,7 +446,7 @@ impl<'a> Emitter<'a> {
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
-                            return !text.contains(".");
+                            return text.contains(".");
                         } else {
                             true
                         }
@@ -511,11 +511,35 @@ impl<'a> Emitter<'a> {
     pub fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
         // let indent_before_op = needs_indention(node, &node.left, node.op);
         // let indent_after_op = needs_indention(node, node.op, &node.right);
+        let need_space = match node.op {
+            op!("in") | op!("instanceof") => true,
+            _ => false,
+        };
+        let need_pre_space = need_space
+            || match *node.left {
+                Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                _ => false,
+            };
 
         emit!(node.left);
-        formatting_space!();
+        if need_pre_space {
+            space!();
+        } else {
+            formatting_space!();
+        }
         operator!(node.op.as_str());
-        formatting_space!();
+
+        let need_post_space = need_space
+            || match *node.right {
+                Expr::Update(UpdateExpr { prefix: true, .. }) => true,
+                _ => false,
+            };
+
+        if need_post_space {
+            space!();
+        } else {
+            formatting_space!();
+        }
         emit!(node.right);
     }
 
@@ -838,15 +862,19 @@ impl<'a> Emitter<'a> {
         // allowTrailingComma | preferNewLine);
 
         punct!("{");
-        self.wr.write_line()?;
-        self.wr.increase_indent()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+            self.wr.increase_indent()?;
+        }
         self.emit_list(
             node.span(),
             Some(&node.props),
             ListFormat::ObjectLiteralExpressionProperties,
         )?;
-        self.wr.write_line()?;
-        self.wr.decrease_indent()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+            self.wr.decrease_indent()?;
+        }
         punct!("}");
     }
 
@@ -910,7 +938,7 @@ impl<'a> Emitter<'a> {
         }
 
         emit!(node.key);
-        space!();
+        formatting_space!();
         // TODO
         self.emit_fn_trailing(&node.function)?;
     }
@@ -1014,11 +1042,15 @@ impl<'a> Emitter<'a> {
             // Write a line terminator if the parent node was multi-line
 
             if format.contains(ListFormat::MultiLine) {
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             } else if format.contains(ListFormat::SpaceBetweenBraces)
                 && !(format.contains(ListFormat::NoSpaceIfEmpty))
             {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
             }
         } else {
             let children = children.unwrap();
@@ -1031,10 +1063,14 @@ impl<'a> Emitter<'a> {
                 .cm
                 .should_write_leading_line_terminator(parent_node, children, format)
             {
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
                 should_emit_intervening_comments = false;
             } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
             }
 
             // Increase the indent, if requested.
@@ -1083,7 +1119,7 @@ impl<'a> Emitter<'a> {
                         self.wr.write_line()?;
                         should_emit_intervening_comments = false;
                     } else if format.contains(ListFormat::SpaceBetweenSiblings) {
-                        self.wr.write_space()?;
+                        formatting_space!(self);
                     }
                 }
 
@@ -1150,9 +1186,13 @@ impl<'a> Emitter<'a> {
                 .cm
                 .should_write_closing_line_terminator(parent_node, children, format)
             {
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
             }
         }
 
@@ -1323,7 +1363,9 @@ impl<'a> Emitter<'a> {
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
-        self.wr.write_line()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
@@ -1340,14 +1382,18 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         punct!(";");
-        self.wr.write_line()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
     pub fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
         keyword!("debugger");
         semi!();
-        self.wr.write_line()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
@@ -1378,7 +1424,7 @@ impl<'a> Emitter<'a> {
 
         // TODO: Comment
         punct!(":");
-        space!();
+        formatting_space!();
 
         emit!(node.body);
     }
@@ -1401,24 +1447,21 @@ impl<'a> Emitter<'a> {
     pub fn emit_if_stmt(&mut self, node: &IfStmt) -> Result {
         keyword!("if");
 
-        space!();
+        formatting_space!();
         punct!("(");
         emit!(node.test);
         punct!(")");
-        space!();
+        formatting_space!();
 
-        let is_block_stmt = match *node.cons {
-            Stmt::Block(_) => true,
-            _ => false,
-        };
         emit!(node.cons);
 
         if let Some(ref alt) = node.alt {
-            if is_block_stmt {
-                space!();
-            }
             keyword!("else");
-            space!();
+            if alt.starts_with_alpha_num() {
+                space!();
+            } else {
+                formatting_space!();
+            }
             emit!(alt);
         }
     }
@@ -1491,7 +1534,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_try_stmt(&mut self, node: &TryStmt) -> Result {
         keyword!("try");
-        // space!();
+        formatting_space!();
         emit!(node.block);
 
         if let Some(ref catch) = node.handler {
@@ -1521,11 +1564,19 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
         keyword!("do");
-        space!();
+        if node.body.starts_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!()
+        }
         emit!(node.body);
 
         keyword!("while");
-        space!();
+        if node.test.starts_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!()
+        }
         emit!(node.test);
     }
 
