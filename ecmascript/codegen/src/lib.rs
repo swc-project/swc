@@ -694,7 +694,10 @@ impl<'a> Emitter<'a> {
         if node.function.is_generator {
             punct!("*");
         }
-        opt_leading_space!(node.ident);
+        if let Some(ref i) = node.ident {
+            space!();
+            emit!(i);
+        }
 
         self.emit_fn_trailing(&node.function)?;
     }
