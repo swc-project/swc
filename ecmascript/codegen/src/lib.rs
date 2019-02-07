@@ -33,8 +33,10 @@ pub mod macros;
 mod comments;
 mod config;
 mod decl;
+mod expr;
 mod jsx;
 pub mod list;
+mod stmt;
 #[cfg(test)]
 mod tests;
 pub mod text_writer;

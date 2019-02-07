@@ -8,7 +8,7 @@ use std::{
     io::Write,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
+use swc_common::{comments::Comments, FileName, SourceMap};
 
 struct Noop;
 impl Handlers for Noop {}
@@ -17,16 +17,6 @@ struct Builder {
     cfg: Config,
     cm: Lrc<SourceMap>,
     comments: Comments,
-}
-
-fn test(cm: Lrc<SourceMap>, comments: Comments) -> Builder {
-    let src = SourceMap::new(FilePathMapping::empty());
-
-    Builder {
-        cfg: Default::default(),
-        cm,
-        comments,
-    }
 }
 
 impl Builder {
@@ -66,11 +56,11 @@ impl Builder {
     }
 }
 
-fn test_from_to(from: &str, to: &str) {
+fn parse_then_emit(from: &str, cfg: Config) -> String {
     ::testing::run_test(false, |cm, handler| {
         let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
         println!(
-            "Source: \n{}\nPos: {:?} ~ {:?}",
+            "--------------------\nSource: \n{}\nPos: {:?} ~ {:?}\n",
             from, src.start_pos, src.end_pos
         );
 
@@ -85,13 +75,33 @@ fn test_from_to(from: &str, to: &str) {
             ()
         })?;
 
-        let out = test(cm.clone(), parser.take_comments().unwrap())
-            .text(from, |e| e.emit_module(&res).unwrap());
-        assert_eq!(DebugUsingDisplay(&out), DebugUsingDisplay(to),);
-
-        Ok(())
+        let out = Builder {
+            cfg,
+            cm: cm.clone(),
+            comments: parser.take_comments().unwrap(),
+        }
+        .text(from, |e| e.emit_module(&res).unwrap());
+        Ok(out)
     })
-    .unwrap();
+    .unwrap()
+}
+
+pub(crate) fn assert_min(from: &str, to: &str) {
+    let out = parse_then_emit(from, Config { minify: true });
+
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
+}
+
+pub(crate) fn assert_pretty(from: &str, to: &str) {
+    let out = parse_then_emit(from, Config { minify: false });
+
+    assert_eq!(DebugUsingDisplay(&out), DebugUsingDisplay(to),);
+}
+
+fn test_from_to(from: &str, to: &str) {
+    let out = parse_then_emit(from, Default::default());
+
+    assert_eq!(DebugUsingDisplay(&out), DebugUsingDisplay(to),);
 }
 
 #[test]
