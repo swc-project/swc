@@ -1459,9 +1459,17 @@ impl<'a> Emitter<'a> {
         punct!(")");
         formatting_space!();
 
+        let is_cons_block = match *node.cons {
+            Stmt::Block(..) => true,
+            _ => false,
+        };
+
         emit!(node.cons);
 
         if let Some(ref alt) = node.alt {
+            if is_cons_block {
+                formatting_space!();
+            }
             keyword!("else");
             if alt.starts_with_alpha_num() {
                 space!();
@@ -1488,7 +1496,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_catch_clause(&mut self, node: &CatchClause) -> Result {
         keyword!("catch");
-        space!();
+        formatting_space!();
 
         punct!("(");
         emit!(node.param);
@@ -1544,12 +1552,12 @@ impl<'a> Emitter<'a> {
         emit!(node.block);
 
         if let Some(ref catch) = node.handler {
-            // self.write_line_or_space(node.span())?;
+            formatting_space!();
             emit!(catch);
         }
 
         if let Some(ref finally) = node.finalizer {
-            // self.write_line_or_space(node.span())?;
+            formatting_space!();
             keyword!("finally");
             // space!();
             emit!(finally);

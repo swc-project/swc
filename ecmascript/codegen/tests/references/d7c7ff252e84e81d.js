@@ -1,7 +1,7 @@
-try{
+try {
     a();
-}catch (b) {
+} catch (b) {
     c(b);
-}finally{
+} finally{
     d(e);
 }

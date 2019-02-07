@@ -1,6 +1,6 @@
 while(a){
-    try{
-    }catch (b) {
+    try {
+    } catch (b) {
     }
     (function() {
         c('d');

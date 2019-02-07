@@ -1,7 +1,7 @@
 if (a) {
-    try{
+    try {
         b('try');
-    }catch (c) {
+    } catch (c) {
     }
     (function() {
         b('d');

@@ -95,7 +95,7 @@ pub(crate) fn assert_min(from: &str, to: &str) {
 pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(from, Config { minify: false });
 
-    assert_eq!(DebugUsingDisplay(&out), DebugUsingDisplay(to),);
+    assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
 }
 
 fn test_from_to(from: &str, to: &str) {

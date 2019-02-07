@@ -2,8 +2,8 @@ if (a) {
     (function() {
         b('c');
     }());
-    try{
+    try {
         b('d');
-    }catch (e) {
+    } catch (e) {
     }
 }
