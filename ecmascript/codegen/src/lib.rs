@@ -8,6 +8,7 @@ extern crate swc_atoms;
 extern crate swc_ecma_codegen_macros;
 #[macro_use]
 extern crate swc_common;
+extern crate fxhash;
 extern crate swc_ecma_ast;
 
 pub use self::config::Config;
@@ -16,6 +17,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
+use fxhash::FxHashSet;
 use std::{collections::HashSet, io};
 use swc_atoms::JsWord;
 use swc_common::{
@@ -64,7 +66,7 @@ pub struct Emitter<'a> {
     pub comments: Option<Comments>,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
-    pub pos_of_leading_comments: HashSet<BytePos>,
+    pub pos_of_leading_comments: FxHashSet<BytePos>,
 }
 
 impl<'a> Emitter<'a> {
