@@ -1,15 +1,11 @@
 extern crate swc_ecma_parser;
-use self::{
-    swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax},
-    testing::NormalizedOutput,
-};
+use self::swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use super::*;
 use crate::config::Config;
 use sourcemap::SourceMapBuilder;
 use std::{
     fmt::{self, Debug, Display, Formatter},
     io::Write,
-    path::Path,
     sync::{Arc, RwLock},
 };
 use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
@@ -71,7 +67,7 @@ impl Builder {
 }
 
 fn test_from_to(from: &str, to: &str) {
-    ::testing::run_test(true, |cm, handler| {
+    ::testing::run_test(false, |cm, handler| {
         let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
         println!(
             "Source: \n{}\nPos: {:?} ~ {:?}",
@@ -84,13 +80,10 @@ fn test_from_to(from: &str, to: &str) {
             SourceFileInput::from(&*src),
             Some(Default::default()),
         );
-        let res = parser
-            .parse_module()
-            .map_err(|mut e| {
-                e.emit();
-                ()
-            })
-            .unwrap();
+        let res = parser.parse_module().map_err(|mut e| {
+            e.emit();
+            ()
+        })?;
 
         let out = test(cm.clone(), parser.take_comments().unwrap())
             .text(from, |e| e.emit_module(&res).unwrap());
@@ -129,31 +122,36 @@ fn comment_3() {
 // bar
 a
 // foo
-b
-// bar",
+b // bar",
         "// foo
 // bar
 a
 // foo
-b
-// bar",
+b // bar",
     );
 }
 
 #[test]
 fn comment_4() {
-    test_from_to("/** foo */ a", "/** foo */  a;");
+    test_from_to(
+        "/** foo */
+a",
+        "/** foo */
+a;
+",
+    );
 }
 
 #[test]
 fn comment_5() {
     test_from_to(
         "// foo
-        // bar
-        a",
+// bar
+a",
         "// foo
-        // bar
-        a;",
+// bar
+a;
+",
     );
 }
 

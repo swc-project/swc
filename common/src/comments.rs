@@ -21,14 +21,11 @@ impl Comments {
 
     pub fn trailing_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
         let mut cs = self.trailing.borrow_mut();
-        eprintln!("Trailing of BytePos: {:?}", pos);
         cs.remove_entry(&pos).map(|v| v.1)
     }
 
     pub fn leading_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
         let mut cs = self.leading.borrow_mut();
-
-        eprintln!("Leading of BytePos: {:?}\n{:?}", pos, cs);
         cs.remove_entry(&pos).map(|v| v.1)
     }
 }

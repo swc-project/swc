@@ -177,7 +177,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     text: s.into(),
                 };
                 if is_for_next {
-                    eprintln!("Leading!!!");
                     self.leading_comments_buffer.as_mut().unwrap().push(cmt);
                 } else {
                     comments.add_trailing(self.state.prev_hi, cmt);
@@ -198,6 +197,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump();
 
         // jsdoc
+        let slice_start = self.cur_pos();
         let mut was_star = if self.cur() == Some('*') {
             self.bump();
             true
@@ -207,14 +207,16 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let is_for_next = self.state.had_line_break;
 
-        let slice_start = self.cur_pos();
-
         while let Some(c) = self.cur() {
-            if was_star && self.eat('/') {
+            if was_star && c == '/' {
+                assert_eq!(self.cur(), Some('/'));
+                self.bump(); // '/'
+
                 let pos = self.cur_pos();
                 match self.comments {
                     Some(ref comments) => {
-                        let s = self.input.slice(slice_start, pos);
+                        let src = self.input.slice(slice_start, pos);
+                        let s = &src[..src.len() - 2];
                         let cmt = Comment {
                             kind: CommentKind::Block,
                             span: Span::new(start, pos, SyntaxContext::empty()),
@@ -228,7 +230,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                     None => {}
                 }
-
                 // TODO: push comment
                 return Ok(());
             }
@@ -236,7 +237,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.state.had_line_break = true;
             }
 
-            was_star = self.is('*');
+            was_star = c == '*';
             self.bump();
         }
 

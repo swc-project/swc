@@ -1,5 +1,5 @@
 use super::*;
-use swc_common::comments::{Comment, CommentKind};
+use swc_common::comments::CommentKind;
 
 macro_rules! write_comments {
     ($e:expr, $cmts:expr) => {{
@@ -18,6 +18,7 @@ macro_rules! write_comments {
                     $e.wr.write_comment(cmt.span, "/*")?;
                     $e.wr.write_comment(cmt.span, &cmt.text)?;
                     $e.wr.write_comment(cmt.span, "*/")?;
+                    $e.wr.write_line()?;
                 }
             }
         }
