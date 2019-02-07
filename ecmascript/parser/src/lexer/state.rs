@@ -2,6 +2,7 @@ use super::{Input, Lexer};
 use crate::{lexer::util::CharExt, token::*, Syntax};
 use enum_kind::Kind;
 use smallvec::SmallVec;
+use std::mem;
 use swc_common::BytePos;
 
 /// State of lexer.
@@ -18,6 +19,7 @@ pub(super) struct State {
     pub start: BytePos,
     pub cur_line: usize,
     pub line_start: BytePos,
+    pub prev_hi: BytePos,
 
     context: TokenContexts,
     syntax: Syntax,
@@ -195,8 +197,18 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             Err(e) => e,
         };
 
+        let span = self.span(start);
         if let Some(ref token) = token {
-            self.state.update(start, &token)
+            if self.leading_comments_buffer.is_some()
+                && !self.leading_comments_buffer.as_ref().unwrap().is_empty()
+            {
+                self.comments.as_ref().unwrap().add_leading(
+                    start,
+                    mem::replace(&mut self.leading_comments_buffer.as_mut().unwrap(), vec![]),
+                );
+            }
+            self.state.update(start, &token);
+            self.state.prev_hi = span.hi();
         }
 
         token.map(|token| {
@@ -204,7 +216,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             TokenAndSpan {
                 token,
                 had_line_break: self.had_line_break_before_last(),
-                span: self.span(start),
+                span,
             }
         })
     }
@@ -217,6 +229,7 @@ impl State {
             octal_pos: None,
             is_first: true,
             had_line_break: false,
+            prev_hi: BytePos(0),
             context: TokenContexts(smallvec![TokenContext::BraceStmt]),
             token_type: None,
             start: BytePos(0),

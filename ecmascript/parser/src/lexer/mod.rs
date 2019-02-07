@@ -15,7 +15,10 @@ use crate::{
 use ast::Str;
 use std::char;
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, BytePos, Span};
+use swc_common::{
+    comments::{Comment, Comments},
+    BytePos, Span,
+};
 
 pub mod input;
 mod jsx;
@@ -31,6 +34,7 @@ pub(crate) type LexResult<T> = Result<T, Error>;
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
     comments: Option<Comments>,
+    leading_comments_buffer: Option<Vec<Comment>>,
     pub ctx: Context,
     input: I,
     state: State,
@@ -41,6 +45,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub fn new(session: Session<'a>, syntax: Syntax, input: I, comments: Option<Comments>) -> Self {
         Lexer {
             session,
+            leading_comments_buffer: if comments.is_some() {
+                Some(Default::default())
+            } else {
+                None
+            },
             comments,
             input,
             state: State::new(syntax),

@@ -1,32 +1,35 @@
 use crate::{BytePos, Span};
+use fxhash::FxHashMap;
 use std::{cell::RefCell, rc::Rc};
+
+type CommentMap = FxHashMap<BytePos, Vec<Comment>>;
 
 #[derive(Debug, Clone, Default)]
 pub struct Comments {
-    comments: Rc<RefCell<Vec<Comment>>>,
+    leading: Rc<RefCell<CommentMap>>,
+    trailing: Rc<RefCell<CommentMap>>,
 }
 
 impl Comments {
-    fn add(&self, cmt: Comment) {
-        self.comments.borrow_mut().push(cmt);
+    pub fn add_leading(&self, pos: BytePos, cmt: Vec<Comment>) {
+        self.leading.borrow_mut().insert(pos, cmt);
     }
 
-    pub fn add_line(&self, span: Span, is_for_next: bool, text: String) {
-        self.add(Comment {
-            kind: CommentKind::Line,
-            span,
-            is_for_next,
-            text,
-        });
+    pub fn add_trailing(&self, pos: BytePos, cmt: Comment) {
+        self.trailing.borrow_mut().entry(pos).or_default().push(cmt);
     }
 
-    pub fn add_block(&self, span: Span, is_for_next: bool, text: String) {
-        self.add(Comment {
-            kind: CommentKind::Block,
-            span,
-            is_for_next,
-            text,
-        });
+    pub fn trailing_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        let mut cs = self.trailing.borrow_mut();
+        eprintln!("Trailing of BytePos: {:?}", pos);
+        cs.remove_entry(&pos).map(|v| v.1)
+    }
+
+    pub fn leading_comments(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        let mut cs = self.leading.borrow_mut();
+
+        eprintln!("Leading of BytePos: {:?}\n{:?}", pos, cs);
+        cs.remove_entry(&pos).map(|v| v.1)
     }
 }
 
@@ -34,7 +37,6 @@ impl Comments {
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
-    pub is_for_next: bool,
     pub text: String,
 }
 

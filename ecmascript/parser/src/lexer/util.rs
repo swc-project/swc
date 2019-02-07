@@ -7,7 +7,10 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use super::{input::Input, LexResult, Lexer};
 use crate::error::{ErrorToDiag, SyntaxError};
-use swc_common::{BytePos, Span, SyntaxContext};
+use swc_common::{
+    comments::{Comment, CommentKind},
+    BytePos, Span, SyntaxContext,
+};
 use unicode_xid::UnicodeXID;
 
 pub(super) struct Raw(pub Option<String>);
@@ -149,7 +152,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // // comment for bar
         // bar
         //
-        let is_for_next = !self.state.had_line_break;
+        let is_for_next = self.state.had_line_break;
 
         while let Some(c) = self.cur() {
             self.bump();
@@ -168,11 +171,17 @@ impl<'a, I: Input> Lexer<'a, I> {
         match self.comments {
             Some(ref comments) => {
                 let s = self.input.slice(slice_start, pos);
-                comments.add_line(
-                    Span::new(start, pos, SyntaxContext::empty()),
-                    is_for_next,
-                    s.into(),
-                );
+                let cmt = Comment {
+                    kind: CommentKind::Line,
+                    span: Span::new(start, pos, SyntaxContext::empty()),
+                    text: s.into(),
+                };
+                if is_for_next {
+                    eprintln!("Leading!!!");
+                    self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+                } else {
+                    comments.add_trailing(self.state.prev_hi, cmt);
+                }
             }
             None => {}
         }
@@ -196,7 +205,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             false
         };
 
-        let is_for_next = !self.state.had_line_break;
+        let is_for_next = self.state.had_line_break;
 
         let slice_start = self.cur_pos();
 
@@ -206,11 +215,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                 match self.comments {
                     Some(ref comments) => {
                         let s = self.input.slice(slice_start, pos);
-                        comments.add_block(
-                            Span::new(start, pos, SyntaxContext::empty()),
-                            is_for_next,
-                            s.into(),
-                        );
+                        let cmt = Comment {
+                            kind: CommentKind::Block,
+                            span: Span::new(start, pos, SyntaxContext::empty()),
+                            text: s.into(),
+                        };
+                        if is_for_next {
+                            self.leading_comments_buffer.as_mut().unwrap().push(cmt);
+                        } else {
+                            comments.add_trailing(self.state.prev_hi, cmt);
+                        }
                     }
                     None => {}
                 }

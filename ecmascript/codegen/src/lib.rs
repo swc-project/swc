@@ -10,6 +10,8 @@ extern crate swc_ecma_codegen_macros;
 extern crate swc_common;
 extern crate fxhash;
 extern crate swc_ecma_ast;
+#[cfg(test)]
+extern crate testing;
 
 pub use self::config::Config;
 use self::{
@@ -18,7 +20,7 @@ use self::{
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use fxhash::FxHashSet;
-use std::{collections::HashSet, io};
+use std::io;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,

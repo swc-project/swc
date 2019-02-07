@@ -1,5 +1,4 @@
 extern crate swc_ecma_parser;
-extern crate testing;
 use self::{
     swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax},
     testing::NormalizedOutput,
@@ -8,6 +7,7 @@ use super::*;
 use crate::config::Config;
 use sourcemap::SourceMapBuilder;
 use std::{
+    fmt::{self, Debug, Display, Formatter},
     io::Write,
     path::Path,
     sync::{Arc, RwLock},
@@ -23,13 +23,13 @@ struct Builder {
     comments: Comments,
 }
 
-fn test() -> Builder {
+fn test(cm: Lrc<SourceMap>, comments: Comments) -> Builder {
     let src = SourceMap::new(FilePathMapping::empty());
 
     Builder {
         cfg: Default::default(),
-        cm: Lrc::new(src),
-        comments: Default::default(),
+        cm,
+        comments,
     }
 }
 
@@ -71,38 +71,34 @@ impl Builder {
 }
 
 fn test_from_to(from: &str, to: &str) {
-    fn with_parser<F, Ret>(
-        file_name: &Path,
-        s: &str,
-        f: F,
-    ) -> std::result::Result<Ret, NormalizedOutput>
-    where
-        F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
-    {
-        self::testing::run_test(true, |cm, handler| {
-            let src = cm.new_source_file(FileName::Real(file_name.into()), s.to_string());
-            println!(
-                "Source: \n{}\nPos: {:?} ~ {:?}",
-                s, src.start_pos, src.end_pos
-            );
+    ::testing::run_test(true, |cm, handler| {
+        let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
+        println!(
+            "Source: \n{}\nPos: {:?} ~ {:?}",
+            from, src.start_pos, src.end_pos
+        );
 
-            let res = f(&mut Parser::new(
-                Session { handler: &handler },
-                Syntax::default(),
-                (&*src).into(),
-                Some(Default::default()),
-            ))
+        let mut parser = Parser::new(
+            Session { handler: &handler },
+            Syntax::default(),
+            SourceFileInput::from(&*src),
+            Some(Default::default()),
+        );
+        let res = parser
+            .parse_module()
             .map_err(|mut e| {
                 e.emit();
                 ()
-            });
+            })
+            .unwrap();
 
-            res
-        })
-    }
-    let res = with_parser(Path::new("test.js"), from, |p| p.parse_module()).unwrap();
+        let out = test(cm.clone(), parser.take_comments().unwrap())
+            .text(from, |e| e.emit_module(&res).unwrap());
+        assert_eq!(DebugUsingDisplay(&out), DebugUsingDisplay(to),);
 
-    assert_eq!(test().text(from, |e| e.emit_module(&res).unwrap()), to,);
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[test]
@@ -111,67 +107,45 @@ fn empty_stmt() {
 }
 
 #[test]
-#[ignore]
-fn simple_if_else_stmt() {
-    test_from_to("if(true);else;", "if (true) ; else ;\n");
-}
-
-#[test]
-#[ignore]
-fn arrow() {
-    test_from_to("()=>void a", "()=>void a;");
-}
-
-#[test]
-#[ignore]
-fn array() {
-    test_from_to("[a, 'b', \"c\"]", "[a, 'b', 'c'];");
-}
-
-#[test]
-#[ignore]
 fn comment_1() {
     test_from_to(
         "// foo
 a",
         "// foo
-a;",
+a;
+",
     );
 }
 
 #[test]
-#[ignore]
 fn comment_2() {
     test_from_to("a // foo", "a; // foo");
 }
 
 #[test]
-#[ignore]
 fn comment_3() {
     test_from_to(
         "// foo
-        // bar
-        a
-        // foo
-        b
-        // bar",
+// bar
+a
+// foo
+b
+// bar",
         "// foo
-        // bar
-        a
-        // foo
-        b
-        // bar",
+// bar
+a
+// foo
+b
+// bar",
     );
 }
 
 #[test]
-#[ignore]
 fn comment_4() {
     test_from_to("/** foo */ a", "/** foo */  a;");
 }
 
 #[test]
-#[ignore]
 fn comment_5() {
     test_from_to(
         "// foo
@@ -192,5 +166,14 @@ impl Write for Buf {
 
     fn flush(&mut self) -> io::Result<()> {
         self.0.write().unwrap().flush()
+    }
+}
+
+#[derive(PartialEq, Eq)]
+struct DebugUsingDisplay<'a>(&'a str);
+
+impl<'a> Debug for DebugUsingDisplay<'a> {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Display::fmt(self.0, f)
     }
 }
