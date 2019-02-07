@@ -1,3 +1,3 @@
 function a() {
-    return ( a, void 1);
+    return (a, void 1);
 }

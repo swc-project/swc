@@ -497,8 +497,8 @@ impl<'a> Emitter<'a> {
                 first = false
             } else {
                 punct!(",");
+                formatting_space!();
             }
-            formatting_space!();
 
             emit!(e);
         }

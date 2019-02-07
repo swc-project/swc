@@ -1,3 +1,3 @@
 (function() {
-    null != ( a, 1);
+    null != (a, 1);
 }());

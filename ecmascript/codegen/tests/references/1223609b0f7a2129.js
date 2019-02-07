@@ -1,4 +1,4 @@
- !function() {
+!function() {
     a();
 }(), !function() {
     b();
