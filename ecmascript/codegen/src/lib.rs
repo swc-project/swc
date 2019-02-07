@@ -1636,11 +1636,15 @@ impl<'a> Emitter<'a> {
             ListFormat::None => {}
             ListFormat::CommaDelimited => self.wr.write_punct(",")?,
             ListFormat::BarDelimited => {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
                 self.wr.write_punct("|")?;
             }
             ListFormat::AmpersandDelimited => {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
                 self.wr.write_punct("&")?;
             }
             _ => unreachable!(),
