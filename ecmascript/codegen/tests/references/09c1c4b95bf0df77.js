@@ -1,3 +1,4 @@
 ({
-     __proto__, __proto__: 1 
+    __proto__,
+    __proto__: 1
 });

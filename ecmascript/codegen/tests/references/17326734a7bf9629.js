@@ -18,7 +18,7 @@ function a(b, c, d) {
         return +e(+j(k, l) / +((l - k) | 14));
     }
     return {
-         p: p 
+        p: p
     };
 }
 function q(b, c, d) {
@@ -40,6 +40,6 @@ function q(b, c, d) {
         return +e(+j(k, l) / +((l - k) | 28));
     }
     return {
-         p: p 
+        p: p
     };
 }

@@ -1,7 +1,7 @@
 function* a() {
     ({
-         set b (c){
-                yield;
-            } 
+        set b (c){
+            yield;
+        }
     });
 }

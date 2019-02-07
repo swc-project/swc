@@ -1,5 +1,5 @@
 a = {
-     get b () {
-            return c;
-        } 
+    get b () {
+        return c;
+    }
 };

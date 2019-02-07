@@ -1,5 +1,5 @@
 ({
-     set null (a){
-            a;
-        } 
+    set null (a){
+        a;
+    }
 });

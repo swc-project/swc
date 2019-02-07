@@ -1,6 +1,6 @@
 function* a() {
     ({
-         set b (yield){
-            } 
+        set b (yield){
+        }
     });
 }

@@ -1,7 +1,7 @@
 function* a() {
     ({
-         get b () {
-                yield;
-            } 
+        get b () {
+            yield;
+        }
     });
 }

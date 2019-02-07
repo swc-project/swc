@@ -1,7 +1,7 @@
 class a extends b{
     constructor(){
         ({
-             c: super() 
+            c: super()
         });
     }
 }

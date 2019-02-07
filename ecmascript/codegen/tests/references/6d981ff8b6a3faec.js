@@ -1,5 +1,5 @@
 var a = {
-     *b () {
-            yield* c;
-        } 
+    *b () {
+        yield* c;
+    }
 };
