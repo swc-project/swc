@@ -11,6 +11,10 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
 
+        if pos == BytePos(0) {
+            return Ok(());
+        }
+
         // debug_assert!(self.file.contains(pos));
         let span = Span::new(pos, pos, SyntaxContext::empty());
         let ext_sp = self.cm.span_through_char(span, '/');
@@ -33,6 +37,10 @@ impl<'a> Emitter<'a> {
         if self.comments.is_none() {
             return Ok(());
         }
+        if pos == BytePos(0) {
+            return Ok(());
+        }
+
         // debug_assert!(self.file.contains(pos));
         if self.pos_of_leading_comments.contains(&pos) {
             return Ok(());
