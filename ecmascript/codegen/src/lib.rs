@@ -558,7 +558,10 @@ impl<'a> Emitter<'a> {
 
         keyword!("class");
 
-        opt_leading_space!(node.ident);
+        if let Some(ref i) = node.ident {
+            space!();
+            emit!(i);
+        }
 
         self.emit_class_trailing(&node.class)?;
     }
