@@ -134,9 +134,9 @@ a
 b // bar",
         "// foo
 // bar
-a
+a;
 // foo
-b // bar",
+b; // bar",
     );
 }
 

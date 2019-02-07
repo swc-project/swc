@@ -2,7 +2,7 @@ use super::*;
 use swc_common::comments::CommentKind;
 
 macro_rules! write_comments {
-    ($e:expr, $cmts:expr) => {{
+    ($e:expr, $prefix_space:expr, $cmts:expr) => {{
         let cmts = match $cmts {
             Some(v) => v,
             None => return Ok(()),
@@ -11,10 +11,16 @@ macro_rules! write_comments {
         for cmt in cmts {
             match cmt.kind {
                 CommentKind::Line => {
+                    if $prefix_space {
+                        $e.wr.write_comment(cmt.span, " ")?;
+                    }
                     $e.wr.write_comment(cmt.span, "//")?;
                     $e.wr.write_comment(cmt.span, &cmt.text)?;
                 }
                 CommentKind::Block => {
+                    if $prefix_space {
+                        $e.wr.write_comment(cmt.span, " ")?;
+                    }
                     $e.wr.write_comment(cmt.span, "/*")?;
                     $e.wr.write_comment(cmt.span, &cmt.text)?;
                     $e.wr.write_comment(cmt.span, "*/")?;
@@ -44,7 +50,7 @@ impl<'a> Emitter<'a> {
 
         let cmts = comments.trailing_comments(pos);
 
-        write_comments!(self, &cmts)
+        write_comments!(self, prefix_space, &cmts)
     }
 
     pub(super) fn emit_leading_comments_of_pos(&mut self, pos: BytePos) -> Result {
@@ -62,6 +68,6 @@ impl<'a> Emitter<'a> {
         }
         self.pos_of_leading_comments.insert(pos);
 
-        write_comments!(self, comments.leading_comments(pos))
+        write_comments!(self, false, comments.leading_comments(pos))
     }
 }
