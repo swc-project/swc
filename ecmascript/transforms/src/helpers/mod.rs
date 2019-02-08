@@ -30,14 +30,19 @@ macro_rules! add_to {
                 let fm =
                     CM.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
 
-                let stmts = Parser::new(*SESSION, Syntax::default(), SourceFileInput::from(&*fm))
-                    .parse_script()
-                    .map(|stmts| stmts.fold_with(&mut DropSpan))
-                    .map_err(|mut e| {
-                        e.emit();
-                        ()
-                    })
-                    .unwrap();
+                let stmts = Parser::new(
+                    *SESSION,
+                    Syntax::default(),
+                    SourceFileInput::from(&*fm),
+                    None,
+                )
+                .parse_script()
+                .map(|stmts| stmts.fold_with(&mut DropSpan))
+                .map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+                .unwrap();
                 stmts
             };
         }

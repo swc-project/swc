@@ -1,4 +1,4 @@
 ({
-     get true () {
-        } 
+    get true () {
+    }
 });

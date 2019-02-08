@@ -1,3 +1,3 @@
-try{
-}catch ({ a =1  }) {
+try {
+} catch ({ a =1  }) {
 }

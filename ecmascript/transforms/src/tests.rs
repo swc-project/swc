@@ -56,7 +56,7 @@ impl<'a> Tester<'a> {
             handler: &self.handler,
         };
 
-        let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
+        let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
         op(&mut p)
     }
 
@@ -104,7 +104,7 @@ impl<'a> Tester<'a> {
             };
 
             let module = {
-                let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm));
+                let mut p = Parser::new(sess, syntax, SourceFileInput::from(&*fm), None);
                 p.parse_module().map_err(|mut e| {
                     e.emit();
                     ()
@@ -138,6 +138,7 @@ impl<'a> Tester<'a> {
                     &mut wr,
                     &mut src_map_builder,
                 ),
+                comments: None,
                 handlers,
                 pos_of_leading_comments: Default::default(),
             };

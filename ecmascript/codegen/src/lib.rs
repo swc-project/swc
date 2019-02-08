@@ -8,7 +8,10 @@ extern crate swc_atoms;
 extern crate swc_ecma_codegen_macros;
 #[macro_use]
 extern crate swc_common;
+extern crate fxhash;
 extern crate swc_ecma_ast;
+#[cfg(test)]
+extern crate testing;
 
 pub use self::config::Config;
 use self::{
@@ -16,9 +19,12 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{collections::HashSet, io};
+use fxhash::FxHashSet;
+use std::io;
 use swc_atoms::JsWord;
-use swc_common::{sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -27,8 +33,10 @@ pub mod macros;
 mod comments;
 mod config;
 mod decl;
+mod expr;
 mod jsx;
 pub mod list;
+mod stmt;
 #[cfg(test)]
 mod tests;
 pub mod text_writer;
@@ -59,9 +67,10 @@ impl<'a, N: Node> Node for &'a N {
 pub struct Emitter<'a> {
     pub cfg: config::Config,
     pub cm: Lrc<SourceMap>,
+    pub comments: Option<Comments>,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
-    pub pos_of_leading_comments: HashSet<BytePos>,
+    pub pos_of_leading_comments: FxHashSet<BytePos>,
 }
 
 impl<'a> Emitter<'a> {
@@ -450,11 +459,17 @@ impl<'a> Emitter<'a> {
         match *expr {
             ExprOrSuper::Expr(ref expr) => {
                 match **expr {
-                    Expr::Lit(Lit::Num(Number { span, .. })) => {
+                    Expr::Lit(Lit::Num(Number { span, value })) => {
+                        if value.fract() == 0.0 {
+                            return true;
+                        }
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
-                            return !text.contains(".");
+                            if text.contains(".") {
+                                return false;
+                            }
+                            return text.starts_with("0") || text.ends_with(" ");
                         } else {
                             true
                         }
@@ -505,8 +520,8 @@ impl<'a> Emitter<'a> {
                 first = false
             } else {
                 punct!(",");
+                formatting_space!();
             }
-            formatting_space!();
 
             emit!(e);
         }
@@ -529,11 +544,35 @@ impl<'a> Emitter<'a> {
 
         // let indent_before_op = needs_indention(node, &node.left, node.op);
         // let indent_after_op = needs_indention(node, node.op, &node.right);
+        let need_space = match node.op {
+            op!("in") | op!("instanceof") => true,
+            _ => false,
+        };
+        let need_pre_space = need_space
+            || match *node.left {
+                Expr::Update(UpdateExpr { prefix: false, .. }) => true,
+                _ => false,
+            };
 
         emit!(node.left);
-        formatting_space!();
+        if need_pre_space {
+            space!();
+        } else {
+            formatting_space!();
+        }
         operator!(node.op.as_str());
-        formatting_space!();
+
+        let need_post_space = need_space
+            || match *node.right {
+                Expr::Update(UpdateExpr { prefix: true, .. }) => true,
+                _ => false,
+            };
+
+        if need_post_space {
+            space!();
+        } else {
+            formatting_space!();
+        }
         emit!(node.right);
     }
 
@@ -556,7 +595,10 @@ impl<'a> Emitter<'a> {
 
         keyword!("class");
 
-        opt_leading_space!(node.ident);
+        if let Some(ref i) = node.ident {
+            space!();
+            emit!(i);
+        }
 
         self.emit_class_trailing(&node.class)?;
     }
@@ -689,6 +731,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_expr(&mut self, node: &FnExpr) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
         if node.function.is_async {
             keyword!("async");
             space!()
@@ -698,7 +742,10 @@ impl<'a> Emitter<'a> {
         if node.function.is_generator {
             punct!("*");
         }
-        opt_leading_space!(node.ident);
+        if let Some(ref i) = node.ident {
+            space!();
+            emit!(i);
+        }
 
         self.emit_fn_trailing(&node.function)?;
     }
@@ -804,8 +851,9 @@ impl<'a> Emitter<'a> {
         if should_emit_whitespace_before_operand(node) {
             space!();
         } else {
-            // TODO:
-            // formatting_space!();
+            if need_formatting_space {
+                formatting_space!();
+            }
         }
 
         emit!(node.arg);
@@ -885,15 +933,17 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         punct!("{");
-        self.wr.write_line()?;
-        self.wr.increase_indent()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
         self.emit_list(
             node.span(),
             Some(&node.props),
             ListFormat::ObjectLiteralExpressionProperties,
         )?;
-        self.wr.write_line()?;
-        self.wr.decrease_indent()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
         punct!("}");
     }
 
@@ -967,7 +1017,7 @@ impl<'a> Emitter<'a> {
         }
 
         emit!(node.key);
-        space!();
+        formatting_space!();
         // TODO
         self.emit_fn_trailing(&node.function)?;
     }
@@ -1009,8 +1059,6 @@ impl<'a> Emitter<'a> {
             //     .write(get_text_of_node(&self.cm, &ident, /* includeTrivia */
             // false).as_bytes())?;
         }
-
-        //TODO
 
         // Call emitList directly since it could be an array of
         // TypeParameterDeclarations _or_ type arguments
@@ -1075,11 +1123,15 @@ impl<'a> Emitter<'a> {
             // Write a line terminator if the parent node was multi-line
 
             if format.contains(ListFormat::MultiLine) {
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             } else if format.contains(ListFormat::SpaceBetweenBraces)
                 && !(format.contains(ListFormat::NoSpaceIfEmpty))
             {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
             }
         } else {
             let children = children.unwrap();
@@ -1092,15 +1144,21 @@ impl<'a> Emitter<'a> {
                 .cm
                 .should_write_leading_line_terminator(parent_node, children, format)
             {
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
                 should_emit_intervening_comments = false;
             } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
             }
 
             // Increase the indent, if requested.
             if format.contains(ListFormat::Indented) {
-                self.wr.increase_indent()?;
+                if !self.cfg.minify {
+                    self.wr.increase_indent()?;
+                }
             }
 
             // Emit each child.
@@ -1123,6 +1181,7 @@ impl<'a> Emitter<'a> {
                     {
                         self.emit_leading_comments_of_pos(previous_sibling.span().hi())?;
                     }
+
                     self.write_delim(format)?;
 
                     // Write either a line terminator or whitespace to separate the elements.
@@ -1137,14 +1196,18 @@ impl<'a> Emitter<'a> {
                         if (format & (ListFormat::LinesMask | ListFormat::Indented))
                             == ListFormat::SingleLine
                         {
-                            self.wr.increase_indent()?;
-                            should_decrease_indent_after_emit = true;
+                            if !self.cfg.minify {
+                                self.wr.increase_indent()?;
+                                should_decrease_indent_after_emit = true;
+                            }
                         }
 
-                        self.wr.write_line()?;
+                        if !self.cfg.minify {
+                            self.wr.write_line()?;
+                        }
                         should_emit_intervening_comments = false;
                     } else if format.contains(ListFormat::SpaceBetweenSiblings) {
-                        self.wr.write_space()?;
+                        formatting_space!(self);
                     }
                 }
 
@@ -1168,11 +1231,20 @@ impl<'a> Emitter<'a> {
 
             // Write a trailing comma, if requested.
             let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
-                // children.hasTrailingComma
-                false
+                match self.cm.span_to_snippet(parent_node) {
+                    Ok(snippet) => {
+                        if snippet.len() < 3 {
+                            false
+                        } else {
+                            snippet[..snippet.len() - 1].trim().ends_with(",")
+                        }
+                    }
+                    _ => false,
+                }
             };
             if format.contains(ListFormat::CommaDelimited) && has_trailing_comma {
                 self.wr.write_punct(",")?;
+                formatting_space!(self);
             }
 
             {
@@ -1203,7 +1275,9 @@ impl<'a> Emitter<'a> {
 
             // Decrease the indent, if requested.
             if format.contains(ListFormat::Indented) {
-                self.wr.decrease_indent()?;
+                if !self.cfg.minify {
+                    self.wr.decrease_indent()?;
+                }
             }
 
             // Write the closing line terminator or closing whitespace.
@@ -1211,9 +1285,13 @@ impl<'a> Emitter<'a> {
                 .cm
                 .should_write_closing_line_terminator(parent_node, children, format)
             {
-                self.wr.write_line()?;
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
             } else if format.contains(ListFormat::SpaceBetweenBraces) {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
             }
         }
 
@@ -1398,7 +1476,11 @@ impl<'a> Emitter<'a> {
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(ref e) => emit!(e),
         }
-        self.wr.write_line()?;
+        self.emit_trailing_comments_of_pos(node.span().hi(), true)?;
+
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
@@ -1419,7 +1501,6 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         punct!(";");
-        self.wr.write_line()?;
     }
 
     #[emitter]
@@ -1428,7 +1509,6 @@ impl<'a> Emitter<'a> {
 
         keyword!("debugger");
         semi!();
-        self.wr.write_line()?;
     }
 
     #[emitter]
@@ -1459,7 +1539,7 @@ impl<'a> Emitter<'a> {
 
         // TODO: Comment
         punct!(":");
-        space!();
+        formatting_space!();
 
         emit!(node.body);
     }
@@ -1484,24 +1564,29 @@ impl<'a> Emitter<'a> {
 
         keyword!("if");
 
-        space!();
+        formatting_space!();
         punct!("(");
         emit!(node.test);
         punct!(")");
-        space!();
+        formatting_space!();
 
-        let is_block_stmt = match *node.cons {
-            Stmt::Block(_) => true,
+        let is_cons_block = match *node.cons {
+            Stmt::Block(..) => true,
             _ => false,
         };
+
         emit!(node.cons);
 
         if let Some(ref alt) = node.alt {
-            if is_block_stmt {
-                space!();
+            if is_cons_block {
+                formatting_space!();
             }
             keyword!("else");
-            space!();
+            if alt.starts_with_alpha_num() {
+                space!();
+            } else {
+                formatting_space!();
+            }
             emit!(alt);
         }
     }
@@ -1526,7 +1611,7 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         keyword!("catch");
-        space!();
+        formatting_space!();
 
         punct!("(");
         emit!(node.param);
@@ -1584,16 +1669,16 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         keyword!("try");
-        // space!();
+        formatting_space!();
         emit!(node.block);
 
         if let Some(ref catch) = node.handler {
-            // self.write_line_or_space(node.span())?;
+            formatting_space!();
             emit!(catch);
         }
 
         if let Some(ref finally) = node.finalizer {
-            // self.write_line_or_space(node.span())?;
+            formatting_space!();
             keyword!("finally");
             // space!();
             emit!(finally);
@@ -1618,11 +1703,19 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         keyword!("do");
-        space!();
+        if node.body.starts_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!()
+        }
         emit!(node.body);
 
         keyword!("while");
-        space!();
+        if node.test.starts_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!()
+        }
         emit!(node.test);
     }
 
@@ -1685,11 +1778,15 @@ impl<'a> Emitter<'a> {
             ListFormat::None => {}
             ListFormat::CommaDelimited => self.wr.write_punct(",")?,
             ListFormat::BarDelimited => {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
                 self.wr.write_punct("|")?;
             }
             ListFormat::AmpersandDelimited => {
-                self.wr.write_space()?;
+                if !self.cfg.minify {
+                    self.wr.write_space()?;
+                }
                 self.wr.write_punct("&")?;
             }
             _ => unreachable!(),

@@ -1,13 +1,13 @@
 if (a) {
-    try{
-    }catch (b) {
+    try {
+    } catch (b) {
     }
     (function() {
         c('d');
     }());
 } else {
-    try{
-    }catch (b) {
+    try {
+    } catch (b) {
     }
     (function() {
         c('d');

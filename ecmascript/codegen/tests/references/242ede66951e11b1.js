@@ -1,6 +1,6 @@
 (function() {
     a('b');
 }());
-try{
-}catch (c) {
+try {
+} catch (c) {
 }

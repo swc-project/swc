@@ -1,7 +1,7 @@
 macro_rules! opt_leading_space {
     ($emitter:expr, $e:expr) => {
         if let Some(ref e) = $e {
-            space!($emitter);
+            formatting_space!($emitter);
             emit!($emitter, e);
         }
     };
@@ -59,7 +59,9 @@ macro_rules! space {
 
 macro_rules! formatting_space {
     ($emitter:expr) => {
-        $emitter.wr.write_space()?;
+        if !$emitter.cfg.minify {
+            $emitter.wr.write_space()?;
+        }
     };
     ($emitter:expr,) => {
         formatting_space!($emitter)

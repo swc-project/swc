@@ -1,7 +1,7 @@
 (function() {
-    try{
+    try {
         throw 'a';
-    }finally{
+    } finally{
         b();
     }
     c();

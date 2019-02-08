@@ -1,5 +1,5 @@
 ({
-     set true (a){
-            a;
-        } 
+    set true (a){
+        a;
+    }
 });

@@ -1,6 +1,6 @@
 (function() {
     var a;
     with (b){
-        a.c = ( d(), e());
+        a.c = (d(), e());
     }
 }());

@@ -16,7 +16,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::sync::Lrc;
+use swc_common::{comments::Comments, sync::Lrc};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
@@ -151,6 +151,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     Session { handler: &handler },
                     Syntax::default(),
                     (&*src).into(),
+                    Some(Comments::default()),
                 );
 
                 let s: Lrc<String> = src.src.clone();
@@ -165,6 +166,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             &mut wr,
                             &mut src_map_builder,
                         ),
+                        comments: parser.take_comments(),
                         handlers,
                         pos_of_leading_comments: Default::default(),
                     };

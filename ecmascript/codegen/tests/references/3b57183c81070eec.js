@@ -1,5 +1,5 @@
 a = {
-     set null (b){
-            c = b;
-        } 
+    set null (b){
+        c = b;
+    }
 };

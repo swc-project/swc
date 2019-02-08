@@ -11,7 +11,7 @@ use crate::{
 use ast::*;
 use std::ops::{Deref, DerefMut};
 use swc_atoms::JsWord;
-use swc_common::{errors::DiagnosticBuilder, BytePos, Span};
+use swc_common::{comments::Comments, errors::DiagnosticBuilder, BytePos, Span};
 
 #[macro_use]
 mod macros;
@@ -46,12 +46,16 @@ struct State {
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub fn new(session: Session<'a>, syntax: Syntax, input: I) -> Self {
+    pub fn new(session: Session<'a>, syntax: Syntax, input: I, comments: Option<Comments>) -> Self {
         Parser {
             session,
-            input: ParserInput::new(Lexer::new(session, syntax, input)),
+            input: ParserInput::new(Lexer::new(session, syntax, input, comments)),
             state: Default::default(),
         }
+    }
+
+    pub fn take_comments(&mut self) -> Option<Comments> {
+        self.input.take_comments()
     }
 
     pub fn parse_script(&mut self) -> PResult<'a, (Vec<Stmt>)> {
@@ -91,6 +95,8 @@ pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
     F: for<'a> FnOnce(&'a mut Parser<'a, ::SourceFileInput>) -> Result<Ret, ()>,
 {
-    crate::with_test_sess(s, |sess, input| f(&mut Parser::new(sess, syntax, input)))
-        .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
+    crate::with_test_sess(s, |sess, input| {
+        f(&mut Parser::new(sess, syntax, input, None))
+    })
+    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }

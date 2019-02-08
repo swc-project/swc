@@ -1,7 +1,8 @@
 a = {
-     get b () {
-            return c;
-        }, set b (b){
-            c = b;
-        } 
+    get b () {
+        return c;
+    },
+    set b (b){
+        c = b;
+    }
 };

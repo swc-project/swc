@@ -31,13 +31,18 @@ impl Config {
                         let fm = cm
                             .new_source_file(FileName::Custom(format!("<umd-config-{}.js>", s)), s);
 
-                        Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
-                            .parse_expr()
-                            .map_err(|mut e| {
-                                e.emit();
-                                ()
-                            })
-                            .unwrap()
+                        Parser::new(
+                            session,
+                            Syntax::default(),
+                            SourceFileInput::from(&*fm),
+                            None,
+                        )
+                        .parse_expr()
+                        .map_err(|mut e| {
+                            e.emit();
+                            ()
+                        })
+                        .unwrap()
                     };
                     (k, parse(v))
                 })

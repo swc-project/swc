@@ -1,4 +1,5 @@
 ({
-     '__proto__': null, set __proto__ (a){
-        } 
+    '__proto__': null,
+    set __proto__ (a){
+    }
 });

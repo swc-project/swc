@@ -1,5 +1,5 @@
 ({
-     *a () {
-            yield super.a();
-        } 
+    *a () {
+        yield super.a();
+    }
 });
