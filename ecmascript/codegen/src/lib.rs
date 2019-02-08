@@ -881,7 +881,6 @@ impl<'a> Emitter<'a> {
         punct!("{");
         if !self.cfg.minify {
             self.wr.write_line()?;
-            // self.wr.increase_indent()?;
         }
         self.emit_list(
             node.span(),
@@ -890,7 +889,6 @@ impl<'a> Emitter<'a> {
         )?;
         if !self.cfg.minify {
             self.wr.write_line()?;
-            // self.wr.decrease_indent()?;
         }
         punct!("}");
     }
@@ -1090,7 +1088,9 @@ impl<'a> Emitter<'a> {
 
             // Increase the indent, if requested.
             if format.contains(ListFormat::Indented) {
-                self.wr.increase_indent()?;
+                if !self.cfg.minify {
+                    self.wr.increase_indent()?;
+                }
             }
 
             // Emit each child.
@@ -1128,8 +1128,10 @@ impl<'a> Emitter<'a> {
                         if (format & (ListFormat::LinesMask | ListFormat::Indented))
                             == ListFormat::SingleLine
                         {
-                            self.wr.increase_indent()?;
-                            should_decrease_indent_after_emit = true;
+                            if !self.cfg.minify {
+                                self.wr.increase_indent()?;
+                                should_decrease_indent_after_emit = true;
+                            }
                         }
 
                         if !self.cfg.minify {
@@ -1161,11 +1163,20 @@ impl<'a> Emitter<'a> {
 
             // Write a trailing comma, if requested.
             let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
-                // children.hasTrailingComma
-                false
+                match self.cm.span_to_snippet(parent_node) {
+                    Ok(snippet) => {
+                        if snippet.len() < 3 {
+                            false
+                        } else {
+                            snippet[..snippet.len() - 1].trim().ends_with(",")
+                        }
+                    }
+                    _ => false,
+                }
             };
             if format.contains(ListFormat::CommaDelimited) && has_trailing_comma {
                 self.wr.write_punct(",")?;
+                formatting_space!(self);
             }
 
             {
@@ -1196,7 +1207,9 @@ impl<'a> Emitter<'a> {
 
             // Decrease the indent, if requested.
             if format.contains(ListFormat::Indented) {
-                self.wr.decrease_indent()?;
+                if !self.cfg.minify {
+                    self.wr.decrease_indent()?;
+                }
             }
 
             // Write the closing line terminator or closing whitespace.
