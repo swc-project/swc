@@ -66,16 +66,14 @@ pub enum FileName {
 
 impl std::fmt::Display for FileName {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
-        use self::FileName::*;
         match *self {
-            Real(ref path) => write!(fmt, "{}", path.display()),
-            Macros(ref name) => write!(fmt, "<{} macros>", name),
-            QuoteExpansion => write!(fmt, "<quote expansion>"),
-            MacroExpansion => write!(fmt, "<macro expansion>"),
-            Anon => write!(fmt, "<anon>"),
-            ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
-            CliCrateAttr => write!(fmt, "<crate attribute>"),
-            Custom(ref s) => write!(fmt, "<{}>", s),
+            FileName::Real(ref path) => write!(fmt, "{}", path.display()),
+            FileName::Macros(ref name) => write!(fmt, "<{} macros>", name),
+            FileName::QuoteExpansion => write!(fmt, "<quote expansion>"),
+            FileName::MacroExpansion => write!(fmt, "<macro expansion>"),
+            FileName::Anon => write!(fmt, "<anon>"),
+            FileName::ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
+            FileName::Custom(ref s) => write!(fmt, "<{}>", s),
         }
     }
 }
@@ -148,15 +146,6 @@ impl SpanData {
         Span::new(self.lo, self.hi, ctxt)
     }
 }
-
-// The interner is pointed to by a thread local value which is only set on the
-// main thread with parallelization is disabled. So we don't allow Span to
-// transfer between threads to avoid panics and other errors, even though it
-// would be memory safe to do so.
-#[cfg(not(parallel_queries))]
-impl !Send for Span {}
-#[cfg(not(parallel_queries))]
-impl !Sync for Span {}
 
 impl PartialOrd for Span {
     fn partial_cmp(&self, rhs: &Self) -> Option<Ordering> {
@@ -703,7 +692,7 @@ pub struct SourceFile {
     /// Indicates which crate this SourceFile was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
-    pub src: Option<Lrc<String>>,
+    pub src: Lrc<String>,
     /// The source code's hash
     pub src_hash: u128,
     /// The start position of this source in the SourceMap
@@ -756,7 +745,7 @@ impl SourceFile {
             name_was_remapped,
             unmapped_path: Some(unmapped_path),
             crate_of_origin: 0,
-            src: Some(Lrc::new(src)),
+            src: Lrc::new(src),
             src_hash,
             start_pos,
             end_pos: Pos::from_usize(end_pos),
@@ -797,19 +786,11 @@ impl SourceFile {
             begin.to_usize()
         };
 
-        if let Some(ref src) = self.src {
-            Some(Cow::from(get_until_newline(src, begin)))
-        } else {
-            None
-        }
+        Some(Cow::from(get_until_newline(&self.src, begin)))
     }
 
     pub fn is_real_file(&self) -> bool {
         self.name.is_real()
-    }
-
-    pub fn is_imported(&self) -> bool {
-        self.src.is_none()
     }
 
     pub fn byte_length(&self) -> u32 {

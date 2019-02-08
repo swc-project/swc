@@ -561,3 +561,9 @@ pub struct ExpnInfo {
     /// for a given macro.
     pub local_inner_macros: bool,
 }
+
+impl Default for Mark {
+    fn default() -> Self {
+        Mark::root()
+    }
+}

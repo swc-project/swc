@@ -226,10 +226,10 @@ pub struct FatalError;
 
 pub struct FatalErrorMarker;
 
-// Don't implement Send on FatalError. This makes it impossible to
-// panic!(FatalError). We don't want to invoke the panic handler and print a
-// backtrace for fatal errors.
-impl !Send for FatalError {}
+// // Don't implement Send on FatalError. This makes it impossible to
+// // panic!(FatalError). We don't want to invoke the panic handler and print a
+// // backtrace for fatal errors.
+// impl !Send for FatalError {}
 
 impl FatalError {
     pub fn raise(self) -> ! {

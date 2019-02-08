@@ -28,37 +28,6 @@ use std::{
     path::{Path, PathBuf},
 };
 
-/// Return the span itself if it doesn't come from a macro expansion,
-/// otherwise return the call site span up to the `enclosing_sp` by
-/// following the `expn_info` chain.
-pub fn original_sp(sp: Span, enclosing_sp: Span) -> Span {
-    let call_site1 = sp.ctxt().outer().expn_info().map(|ei| ei.call_site);
-    let call_site2 = enclosing_sp
-        .ctxt()
-        .outer()
-        .expn_info()
-        .map(|ei| ei.call_site);
-    match (call_site1, call_site2) {
-        (None, _) => sp,
-        (Some(call_site1), Some(call_site2)) if call_site1 == call_site2 => sp,
-        (Some(call_site1), _) => original_sp(call_site1, enclosing_sp),
-    }
-}
-
-#[derive(Clone, PartialEq, Eq, Hash, Debug, Copy)]
-pub struct Spanned<T> {
-    pub node: T,
-    pub span: Span,
-}
-
-pub fn respan<T>(sp: Span, t: T) -> Spanned<T> {
-    Spanned { node: t, span: sp }
-}
-
-pub fn dummy_spanned<T>(t: T) -> Spanned<T> {
-    respan(DUMMY_SP, t)
-}
-
 // _____________________________________________________________________________
 // SourceFile, MultiByteChar, FileName, FileLines
 //
@@ -234,64 +203,6 @@ impl SourceMap {
             src,
             Pos::from_usize(start_pos),
         ));
-
-        let mut files = self.files.borrow_mut();
-
-        files.source_files.push(source_file.clone());
-        files
-            .stable_id_to_source_file
-            .insert(StableSourceFileId::new(&source_file), source_file.clone());
-
-        source_file
-    }
-
-    /// Allocates a new SourceFile representing a source file from an external
-    /// crate. The source code of such an "imported source_file" is not
-    /// available, but we still know enough to generate accurate debuginfo
-    /// location information for things inlined from other crates.
-    pub fn new_imported_source_file(
-        &self,
-        filename: FileName,
-        name_was_remapped: bool,
-        crate_of_origin: u32,
-        src_hash: u128,
-        name_hash: u128,
-        source_len: usize,
-        mut file_local_lines: Vec<BytePos>,
-        mut file_local_multibyte_chars: Vec<MultiByteChar>,
-        mut file_local_non_narrow_chars: Vec<NonNarrowChar>,
-    ) -> Lrc<SourceFile> {
-        let start_pos = self.next_start_pos();
-
-        let end_pos = Pos::from_usize(start_pos + source_len);
-        let start_pos = Pos::from_usize(start_pos);
-
-        for pos in &mut file_local_lines {
-            *pos = *pos + start_pos;
-        }
-
-        for mbc in &mut file_local_multibyte_chars {
-            mbc.pos = mbc.pos + start_pos;
-        }
-
-        for swc in &mut file_local_non_narrow_chars {
-            *swc = *swc + start_pos;
-        }
-
-        let source_file = Lrc::new(SourceFile {
-            name: filename,
-            name_was_remapped,
-            unmapped_path: None,
-            crate_of_origin,
-            src: None,
-            src_hash,
-            start_pos,
-            end_pos,
-            lines: file_local_lines,
-            multibyte_chars: file_local_multibyte_chars,
-            non_narrow_chars: file_local_non_narrow_chars,
-            name_hash,
-        });
 
         let mut files = self.files.borrow_mut();
 
@@ -577,13 +488,8 @@ impl SourceMap {
                 ));
             }
 
-            if let Some(ref src) = local_begin.sf.src {
-                return Ok(extract_source(src, start_index, end_index));
-            } else {
-                return Err(SpanSnippetError::SourceNotAvailable {
-                    filename: local_begin.sf.name.clone(),
-                });
-            }
+            let ref src = local_begin.sf.src;
+            return Ok(extract_source(src, start_index, end_index));
         }
     }
 
@@ -808,11 +714,10 @@ impl SourceMap {
         // We need to extend the snippet to the end of the src rather than to end_index
         // so when searching forwards for boundaries we've got somewhere to
         // search.
-        let snippet = if let Some(ref src) = local_begin.sf.src {
+        let ref src = local_begin.sf.src;
+        let snippet = {
             let len = src.len();
             (&src[start_index..len])
-        } else {
-            return 1;
         };
         debug!("find_width_of_character_at_span: snippet=`{:?}`", snippet);
 
