@@ -23,6 +23,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
         for dec in &node.class.decorators {
             emit!(dec);
         }
@@ -35,6 +37,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
         if node.function.is_async {
             keyword!("async");
             space!();
@@ -53,6 +57,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
+        self.emit_leading_comments_of_pos(node.span.lo())?;
+
         keyword!(node.kind.as_str());
         space!();
 
@@ -65,6 +71,8 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_var_declator(&mut self, node: &VarDeclarator) -> Result {
+        self.emit_leading_comments_of_pos(node.span().lo())?;
+
         emit!(node.name);
 
         if let Some(ref init) = node.init {
