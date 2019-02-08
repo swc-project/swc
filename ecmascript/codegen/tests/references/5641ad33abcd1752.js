@@ -1,4 +1,4 @@
 a = {
-     get true () {
-        } 
+    get true () {
+    }
 };

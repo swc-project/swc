@@ -1,12 +1,12 @@
 a = {
-        b (c, d) {
-            return a;
-        }
+    b (c, d) {
+        return a;
+    }
 };
 e = {
-        b ([{ c  }]) {
-            return c;
-        },
-        f () {
-        }
+    b ([{ c  }]) {
+        return c;
+    },
+    f () {
+    }
 };

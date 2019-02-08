@@ -1,3 +1,3 @@
-try{
-}catch (eval) {
+try {
+} catch (eval) {
 }

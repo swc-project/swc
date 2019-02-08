@@ -1,5 +1,5 @@
 function a() {
-     b, c, d;
+    b, c, d;
     if (e) {
         throw 'f';
     }

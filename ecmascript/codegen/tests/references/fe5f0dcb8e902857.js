@@ -1,7 +1,7 @@
 while(a)(function() {
     b('c');
 }());
-try{
-}catch (d) {
+try {
+} catch (d) {
     b('e');
 }

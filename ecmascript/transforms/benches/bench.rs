@@ -100,6 +100,7 @@ macro_rules! tr {
                 Session { handler: &handler },
                 Syntax::default(),
                 SourceFileInput::from(&*fm),
+                None,
             );
             let module = parser
                 .parse_module()

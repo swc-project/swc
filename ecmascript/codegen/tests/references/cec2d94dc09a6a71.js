@@ -1,6 +1,6 @@
 a = {
-        catch () {
-        },
-        throw () {
-        }
+    catch () {
+    },
+    throw () {
+    }
 };

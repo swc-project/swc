@@ -1,5 +1,5 @@
 a = {
-     set true (b){
-            c = b;
-        } 
+    set true (b){
+        c = b;
+    }
 };

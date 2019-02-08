@@ -1,5 +1,5 @@
 a = {
-     set if (b){
-            c = b;
-        } 
+    set if (b){
+        c = b;
+    }
 };

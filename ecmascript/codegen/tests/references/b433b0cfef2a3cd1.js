@@ -1,4 +1,4 @@
 ({
-     [a]: function() {
-        } 
+    [a]: function() {
+    }
 });

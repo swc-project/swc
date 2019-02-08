@@ -1,18 +1,14 @@
 extern crate swc_ecma_parser;
-extern crate testing;
-use self::{
-    swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax},
-    testing::NormalizedOutput,
-};
+use self::swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use super::*;
 use crate::config::Config;
 use sourcemap::SourceMapBuilder;
 use std::{
+    fmt::{self, Debug, Display, Formatter},
     io::Write,
-    path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{FileName, FilePathMapping, SourceMap};
+use swc_common::{comments::Comments, FileName, SourceMap};
 
 struct Noop;
 impl Handlers for Noop {}
@@ -20,15 +16,7 @@ impl Handlers for Noop {}
 struct Builder {
     cfg: Config,
     cm: Lrc<SourceMap>,
-}
-
-fn test() -> Builder {
-    let src = SourceMap::new(FilePathMapping::empty());
-
-    Builder {
-        cfg: Default::default(),
-        cm: Lrc::new(src),
-    }
+    comments: Comments,
 }
 
 impl Builder {
@@ -46,6 +34,7 @@ impl Builder {
                 s,
                 &mut src_map_builder,
             )),
+            comments: Some(self.comments),
             handlers: Box::new(Noop),
             pos_of_leading_comments: Default::default(),
         };
@@ -67,65 +56,60 @@ impl Builder {
     }
 }
 
+fn parse_then_emit(from: &str, cfg: Config) -> String {
+    ::testing::run_test(false, |cm, handler| {
+        let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
+        println!(
+            "--------------------\nSource: \n{}\nPos: {:?} ~ {:?}\n",
+            from, src.start_pos, src.end_pos
+        );
+
+        let mut parser = Parser::new(
+            Session { handler: &handler },
+            Syntax::default(),
+            SourceFileInput::from(&*src),
+            Some(Default::default()),
+        );
+        let res = parser.parse_module().map_err(|mut e| {
+            e.emit();
+            ()
+        })?;
+
+        let out = Builder {
+            cfg,
+            cm: cm.clone(),
+            comments: parser.take_comments().unwrap(),
+        }
+        .text(from, |e| e.emit_module(&res).unwrap());
+        Ok(out)
+    })
+    .unwrap()
+}
+
+pub(crate) fn assert_min(from: &str, to: &str) {
+    let out = parse_then_emit(from, Config { minify: true });
+
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
+}
+
+pub(crate) fn assert_pretty(from: &str, to: &str) {
+    let out = parse_then_emit(from, Config { minify: false });
+
+    assert_eq!(DebugUsingDisplay(&out.trim()), DebugUsingDisplay(to),);
+}
+
 fn test_from_to(from: &str, to: &str) {
-    fn with_parser<F, Ret>(
-        file_name: &Path,
-        s: &str,
-        f: F,
-    ) -> std::result::Result<Ret, NormalizedOutput>
-    where
-        F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
-    {
-        self::testing::run_test(true, |cm, handler| {
-            let src = cm.new_source_file(FileName::Real(file_name.into()), s.to_string());
-            println!(
-                "Source: \n{}\nPos: {:?} ~ {:?}",
-                s, src.start_pos, src.end_pos
-            );
+    let out = parse_then_emit(from, Default::default());
 
-            let res = f(&mut Parser::new(
-                Session { handler: &handler },
-                Syntax::default(),
-                (&*src).into(),
-            ))
-            .map_err(|mut e| {
-                e.emit();
-                ()
-            });
-
-            res
-        })
-    }
-    let res = with_parser(Path::new("test.js"), from, |p| p.parse_module()).unwrap();
-
-    assert_eq!(test().text(from, |e| e.emit_module(&res).unwrap()), to,);
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
 
 #[test]
 fn empty_stmt() {
-    test_from_to(";", ";\n");
+    test_from_to(";", ";");
 }
 
 #[test]
-#[ignore]
-fn simple_if_else_stmt() {
-    test_from_to("if(true);else;", "if (true) ; else ;\n");
-}
-
-#[test]
-#[ignore]
-fn arrow() {
-    test_from_to("()=>void a", "()=>void a;");
-}
-
-#[test]
-#[ignore]
-fn array() {
-    test_from_to("[a, 'b', \"c\"]", "[a, 'b', 'c'];");
-}
-
-#[test]
-#[ignore]
 fn comment_1() {
     test_from_to(
         "// foo
@@ -136,46 +120,45 @@ a;",
 }
 
 #[test]
-#[ignore]
 fn comment_2() {
     test_from_to("a // foo", "a; // foo");
 }
 
 #[test]
-#[ignore]
 fn comment_3() {
     test_from_to(
         "// foo
-        // bar
-        a
-        // foo
-        b
-        // bar",
+// bar
+a
+// foo
+b // bar",
         "// foo
-        // bar
-        a
-        // foo
-        b
-        // bar",
+// bar
+a;
+// foo
+b; // bar",
     );
 }
 
 #[test]
-#[ignore]
 fn comment_4() {
-    test_from_to("/** foo */ a", "/** foo */  a;");
+    test_from_to(
+        "/** foo */
+a",
+        "/** foo */
+a;",
+    );
 }
 
 #[test]
-#[ignore]
 fn comment_5() {
     test_from_to(
         "// foo
-        // bar
-        a",
+// bar
+a",
         "// foo
-        // bar
-        a;",
+// bar
+a;",
     );
 }
 
@@ -188,5 +171,14 @@ impl Write for Buf {
 
     fn flush(&mut self) -> io::Result<()> {
         self.0.write().unwrap().flush()
+    }
+}
+
+#[derive(PartialEq, Eq)]
+struct DebugUsingDisplay<'a>(&'a str);
+
+impl<'a> Debug for DebugUsingDisplay<'a> {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Display::fmt(self.0, f)
     }
 }

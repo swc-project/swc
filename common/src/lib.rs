@@ -32,6 +32,7 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned {}
 
 impl<N: Debug + PartialEq + Clone + Spanned> AstNode for N {}
 
+pub mod comments;
 pub mod errors;
 #[cfg(feature = "fold")]
 pub mod fold;

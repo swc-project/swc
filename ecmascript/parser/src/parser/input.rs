@@ -3,7 +3,7 @@ use crate::{
     token::*,
     Context, Syntax,
 };
-use swc_common::{BytePos, Span, DUMMY_SP};
+use swc_common::{comments::Comments, BytePos, Span, DUMMY_SP};
 
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
@@ -185,5 +185,8 @@ impl<'a, I: Input> ParserInput<'a, I> {
     }
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
+    }
+    pub(crate) fn take_comments(&mut self) -> Option<Comments> {
+        self.iter.take_comments()
     }
 }

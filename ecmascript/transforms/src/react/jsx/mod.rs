@@ -65,13 +65,18 @@ pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Pass + Clone {
     let parse = |_name, s| {
         let fm = cm.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", s)), s);
 
-        Parser::new(session, Syntax::default(), SourceFileInput::from(&*fm))
-            .parse_expr()
-            .map_err(|mut e| {
-                e.emit();
-                ()
-            })
-            .unwrap()
+        Parser::new(
+            session,
+            Syntax::default(),
+            SourceFileInput::from(&*fm),
+            None,
+        )
+        .parse_expr()
+        .map_err(|mut e| {
+            e.emit();
+            ()
+        })
+        .unwrap()
     };
 
     Jsx {

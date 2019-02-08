@@ -1,4 +1,4 @@
 function a() {
-    with (( a(), void 1)){
+    with ((a(), void 1)){
     }
 }

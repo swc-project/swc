@@ -1,7 +1,8 @@
 ({
-     get a () {
-            return a;
-        }, set a (a){
-            return a;
-        } 
+    get a () {
+        return a;
+    },
+    set a (a){
+        return a;
+    }
 });

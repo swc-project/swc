@@ -1,3 +1,3 @@
 a = {
-     false: 1 
+    false: 1
 };

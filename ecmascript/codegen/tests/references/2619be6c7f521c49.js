@@ -1,7 +1,7 @@
 function a() {
     b = {
-            c () {
-                return 1;
-            }
+        c () {
+            return 1;
+        }
     };
 }
