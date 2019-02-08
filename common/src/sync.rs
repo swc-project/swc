@@ -1,3 +1,13 @@
+// Copyright 2017 The Rust Project Developers. See the COPYRIGHT
+// file at the top-level directory of this distribution and at
+// http://rust-lang.org/COPYRIGHT.
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 //! This module defines types which are thread safe if cfg!(parallel_queries) is
 //! true.
 //!
@@ -11,6 +21,10 @@
 //! It internally uses `parking_lot::RwLock` if cfg!(parallel_queries) is true,
 //! `RefCell` otherwise.
 //!
+//! `LockCell` is a thread safe version of `Cell`, with `set` and `get`
+//! operations. It can never deadlock. It uses `Cell` when
+//! cfg!(parallel_queries) is false, otherwise it is a `Lock`.
+//!
 //! `MTLock` is a mutex which disappears if cfg!(parallel_queries) is false.
 //!
 //! `MTRef` is a immutable reference if cfg!(parallel_queries), and an mutable
@@ -20,11 +34,26 @@
 //! Sync depending on the value of cfg!(parallel_queries).
 
 use owning_ref::{Erased, OwningRef};
+pub use parking_lot::{
+    MappedMutexGuard as MappedLockGuard, MappedRwLockReadGuard as MappedReadGuard,
+    MappedRwLockWriteGuard as MappedWriteGuard, MutexGuard as LockGuard,
+    RwLockReadGuard as ReadGuard, RwLockWriteGuard as WriteGuard,
+};
+use parking_lot::{Mutex as InnerLock, RwLock as InnerRwLock};
+use rayon::iter::IntoParallelIterator;
+pub use rayon::{iter::ParallelIterator, join, scope};
 use std::{
+    cmp::Ordering,
     collections::HashMap,
+    fmt::{self, Debug, Formatter},
     hash::{BuildHasher, Hash},
     marker::PhantomData,
     ops::{Deref, DerefMut},
+    thread,
+};
+pub use std::{
+    marker::{Send, Sync},
+    sync::{Arc as Lrc, Weak},
 };
 
 pub fn serial_join<A, B, RA, RB>(oper_a: A, oper_b: B) -> (RA, RB)
@@ -52,21 +81,6 @@ where
 {
     f(&SerialScope)
 }
-
-pub use std::sync::atomic::Ordering::{self, SeqCst};
-
-pub use std::marker::{Send, Sync};
-
-pub use parking_lot::{
-    MappedRwLockReadGuard as MappedReadGuard, MappedRwLockWriteGuard as MappedWriteGuard,
-    RwLockReadGuard as ReadGuard, RwLockWriteGuard as WriteGuard,
-};
-
-pub use parking_lot::{MappedMutexGuard as MappedLockGuard, MutexGuard as LockGuard};
-
-pub use std::sync::atomic::{AtomicBool, AtomicUsize};
-
-pub use std::sync::{Arc as Lrc, Weak};
 
 pub type MTRef<'a, T> = &'a T;
 
@@ -100,14 +114,6 @@ impl<T> MTLock<T> {
     }
 }
 
-use parking_lot::{Mutex as InnerLock, RwLock as InnerRwLock};
-
-pub use rayon::{join, scope};
-use std::{self, thread};
-
-use rayon::iter::IntoParallelIterator;
-pub use rayon::iter::ParallelIterator;
-
 pub fn par_iter<T: IntoParallelIterator>(t: T) -> T::Iter {
     t.into_par_iter()
 }
@@ -122,13 +128,59 @@ const ERROR_CHECKING: bool = false;
 macro_rules! rustc_erase_owner {
     ($v:expr) => {{
         let v = $v;
-        ::data_structures::sync::assert_send_val(&v);
+        ::rustc_data_structures::sync::assert_send_val(&v);
         v.erase_send_sync_owner()
     }};
 }
 
+pub struct LockCell<T>(Lock<T>);
+
+impl<T> LockCell<T> {
+    #[inline(always)]
+    pub fn new(inner: T) -> Self {
+        LockCell(Lock::new(inner))
+    }
+
+    #[inline(always)]
+    pub fn into_inner(self) -> T {
+        self.0.into_inner()
+    }
+
+    #[inline(always)]
+    pub fn set(&self, new_inner: T) {
+        *self.0.lock() = new_inner;
+    }
+
+    #[inline(always)]
+    pub fn get(&self) -> T
+    where
+        T: Copy,
+    {
+        *self.0.lock()
+    }
+
+    #[inline(always)]
+    pub fn set_mut(&mut self, new_inner: T) {
+        *self.0.get_mut() = new_inner;
+    }
+
+    #[inline(always)]
+    pub fn get_mut(&mut self) -> T
+    where
+        T: Copy,
+    {
+        *self.0.get_mut()
+    }
+}
+
+impl<T> LockCell<Option<T>> {
+    #[inline(always)]
+    pub fn take(&self) -> Option<T> {
+        self.0.lock().take()
+    }
+}
+
 pub fn assert_sync<T: ?Sized + Sync>() {}
-pub fn assert_send<T: ?Sized + Send>() {}
 pub fn assert_send_val<T: ?Sized + Send>(_t: &T) {}
 pub fn assert_send_sync_val<T: ?Sized + Sync + Send>(_t: &T) {}
 
@@ -291,6 +343,65 @@ impl<T> Once<T> {
     }
 }
 
+impl<T: Copy + Debug> Debug for LockCell<T> {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        f.debug_struct("LockCell")
+            .field("value", &self.get())
+            .finish()
+    }
+}
+
+impl<T: Default> Default for LockCell<T> {
+    /// Creates a `LockCell<T>`, with the `Default` value for T.
+    #[inline]
+    fn default() -> LockCell<T> {
+        LockCell::new(Default::default())
+    }
+}
+
+impl<T: PartialEq + Copy> PartialEq for LockCell<T> {
+    #[inline]
+    fn eq(&self, other: &LockCell<T>) -> bool {
+        self.get() == other.get()
+    }
+}
+
+impl<T: Eq + Copy> Eq for LockCell<T> {}
+
+impl<T: PartialOrd + Copy> PartialOrd for LockCell<T> {
+    #[inline]
+    fn partial_cmp(&self, other: &LockCell<T>) -> Option<Ordering> {
+        self.get().partial_cmp(&other.get())
+    }
+
+    #[inline]
+    fn lt(&self, other: &LockCell<T>) -> bool {
+        self.get() < other.get()
+    }
+
+    #[inline]
+    fn le(&self, other: &LockCell<T>) -> bool {
+        self.get() <= other.get()
+    }
+
+    #[inline]
+    fn gt(&self, other: &LockCell<T>) -> bool {
+        self.get() > other.get()
+    }
+
+    #[inline]
+    fn ge(&self, other: &LockCell<T>) -> bool {
+        self.get() >= other.get()
+    }
+}
+
+impl<T: Ord + Copy> Ord for LockCell<T> {
+    #[inline]
+    fn cmp(&self, other: &LockCell<T>) -> Ordering {
+        self.get().cmp(&other.get())
+    }
+}
+
 #[derive(Debug)]
 pub struct Lock<T>(InnerLock<T>);
 
@@ -435,7 +546,6 @@ pub struct OneThread<T> {
 }
 
 unsafe impl<T> std::marker::Sync for OneThread<T> {}
-
 unsafe impl<T> std::marker::Send for OneThread<T> {}
 
 impl<T> OneThread<T> {

@@ -1,19 +1,33 @@
+// Copyright 2012-2015 The Rust Project Developers. See the COPYRIGHT
+// file at the top-level directory of this distribution and at
+// http://rust-lang.org/COPYRIGHT.
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
-    emitter::{ColorConfig, EmitterWriter},
+    emitter::ColorConfig,
 };
-use self::{emitter::Emitter, Level::*};
-use crate::sync::{self, AtomicUsize, Lock, Lrc};
-use fxhash::FxHashSet;
-use rustc_data_structures::stable_hasher::StableHasher;
+use self::{
+    emitter::{Emitter, EmitterWriter},
+    Level::*,
+};
+use crate::{
+    rustc_data_structures::{fx::FxHashSet, stable_hasher::StableHasher},
+    sync::{self, Lock, LockCell, Lrc},
+    syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
+};
 use std::{
     borrow::Cow,
     cell::Cell,
     error, fmt, panic,
-    sync::atomic::{AtomicBool, Ordering::SeqCst},
+    sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
-use syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION};
 use termcolor::{Color, ColorSpec};
 
 mod diagnostic;
@@ -40,7 +54,7 @@ pub struct CodeSuggestion {
     /// `foo.bar` might be replaced with `a.b` or `x.y` by replacing
     /// `foo` and `bar` on their own:
     ///
-    /// ```ignore
+    /// ```
     /// vec![
     ///     Substitution {
     ///         parts: vec![(0..3, "a"), (4..7, "b")],
@@ -53,7 +67,7 @@ pub struct CodeSuggestion {
     ///
     /// or by replacing the entire span:
     ///
-    /// ```ignore
+    /// ```
     /// vec![
     ///     Substitution {
     ///         parts: vec![(0..7, "a.b")],
@@ -95,7 +109,7 @@ pub trait SourceMapper {
     fn span_to_filename(&self, sp: Span) -> FileName;
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span>;
     fn call_span_if_macro(&self, sp: Span) -> Span;
-    fn doctest_offset_line(&self, file: &FileName, line: usize) -> usize;
+    fn doctest_offset_line(&self, line: usize) -> usize;
 }
 
 impl CodeSuggestion {
@@ -212,6 +226,11 @@ pub struct FatalError;
 
 pub struct FatalErrorMarker;
 
+// Don't implement Send on FatalError. This makes it impossible to
+// panic!(FatalError). We don't want to invoke the panic handler and print a
+// backtrace for fatal errors.
+impl !Send for FatalError {}
+
 impl FatalError {
     pub fn raise(self) -> ! {
         panic::resume_unwind(Box::new(FatalErrorMarker))
@@ -255,7 +274,7 @@ pub struct Handler {
 
     err_count: AtomicUsize,
     emitter: Lock<Box<dyn Emitter + sync::Send>>,
-    continue_after_error: AtomicBool,
+    continue_after_error: LockCell<bool>,
     delayed_span_bugs: Lock<Vec<Diagnostic>>,
 
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
@@ -361,7 +380,7 @@ impl Handler {
             flags,
             err_count: AtomicUsize::new(0),
             emitter: Lock::new(e),
-            continue_after_error: AtomicBool::new(true),
+            continue_after_error: LockCell::new(true),
             delayed_span_bugs: Lock::new(Vec::new()),
             taught_diagnostics: Default::default(),
             emitted_diagnostic_codes: Default::default(),
@@ -370,8 +389,7 @@ impl Handler {
     }
 
     pub fn set_continue_after_error(&self, continue_after_error: bool) {
-        self.continue_after_error
-            .store(continue_after_error, SeqCst);
+        self.continue_after_error.set(continue_after_error);
     }
 
     /// Resets the diagnostic error count as well as the cached emitted
@@ -667,7 +685,7 @@ impl Handler {
         let mut db = DiagnosticBuilder::new(self, lvl, msg);
         db.set_span(msp.clone());
         db.emit();
-        if !self.continue_after_error.load(SeqCst) {
+        if !self.continue_after_error.get() {
             self.abort_if_errors();
         }
     }
@@ -678,7 +696,7 @@ impl Handler {
         let mut db = DiagnosticBuilder::new_with_code(self, lvl, Some(code), msg);
         db.set_span(msp.clone());
         db.emit();
-        if !self.continue_after_error.load(SeqCst) {
+        if !self.continue_after_error.get() {
             self.abort_if_errors();
         }
     }

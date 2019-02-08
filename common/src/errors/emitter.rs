@@ -1,12 +1,21 @@
+// Copyright 2012-2015 The Rust Project Developers. See the COPYRIGHT
+// file at the top-level directory of this distribution and at
+// http://rust-lang.org/COPYRIGHT.
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use self::Destination::*;
 use super::{
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
     CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
-use crate::sync::Lrc;
 use atty;
-use fxhash::FxHashMap;
+use rustc_data_structures::{fx::FxHashMap, sync::Lrc};
 use std::{
     borrow::Cow,
     cmp::{min, Reverse},
@@ -547,7 +556,7 @@ impl EmitterWriter {
         // 3 |
         // 4 |   }
         //   |
-        for pos in 0..=line_len {
+        for pos in 0..line_len + 1 {
             draw_col_separator(buffer, line_offset + pos + 1, width_offset - 2);
             buffer.putc(
                 line_offset + pos + 1,
@@ -621,7 +630,7 @@ impl EmitterWriter {
             let pos = pos + 1;
 
             if pos > 1 && (annotation.has_label() || annotation.takes_space()) {
-                for p in line_offset + 1..=line_offset + pos {
+                for p in line_offset + 1..line_offset + pos + 1 {
                     buffer.putc(p, code_offset + annotation.start_col, '|', style);
                 }
             }
@@ -632,7 +641,7 @@ impl EmitterWriter {
                     }
                 }
                 AnnotationType::MultilineEnd(depth) => {
-                    for p in line_offset..=line_offset + pos {
+                    for p in line_offset..line_offset + pos + 1 {
                         buffer.putc(p, width_offset + depth - 1, '|', style);
                     }
                 }
@@ -786,12 +795,6 @@ impl EmitterWriter {
                 if sp_label.span.is_dummy() {
                     continue;
                 }
-                // if sm.span_to_filename(sp_label.span.clone()).is_macros() &&
-                // !always_backtrace {     let v =
-                // sp_label.span.macro_backtrace();     if let Some(use_site) =
-                // v.last() {         before_after.push((sp_label.span.clone(),
-                // use_site.call_site.clone()));     }
-                // }
             }
             // After we have them, make sure we replace these 'bad' def sites with their use
             // sites
@@ -987,11 +990,6 @@ impl EmitterWriter {
 
         // Print out the annotate source lines that correspond with the error
         for annotated_file in annotated_files {
-            // // we can't annotate anything if the source is unavailable.
-            // if !sm.ensure_source_file_source_present(annotated_file.file.clone()) {
-            //     continue;
-            // }
-
             // print out the span location and spacer before we print the annotated source
             // to do this, we need to know if this span will be primary
             let is_primary = primary_lo.file.name == annotated_file.file.name;
@@ -1007,7 +1005,7 @@ impl EmitterWriter {
                         &format!(
                             "{}:{}:{}",
                             loc.file.name,
-                            sm.doctest_offset_line(&loc.file.name, loc.line),
+                            sm.doctest_offset_line(loc.line),
                             loc.col.0 + 1
                         ),
                         Style::LineAndColumn,
@@ -1021,7 +1019,7 @@ impl EmitterWriter {
                         &format!(
                             "{}:{}:{}: ",
                             loc.file.name,
-                            sm.doctest_offset_line(&loc.file.name, loc.line),
+                            sm.doctest_offset_line(loc.line),
                             loc.col.0 + 1
                         ),
                         Style::LineAndColumn,
@@ -1045,7 +1043,7 @@ impl EmitterWriter {
                     format!(
                         "{}:{}{}",
                         annotated_file.file.name,
-                        sm.doctest_offset_line(&annotated_file.file.name, first_line.line_index),
+                        sm.doctest_offset_line(first_line.line_index),
                         col
                     )
                 } else {
