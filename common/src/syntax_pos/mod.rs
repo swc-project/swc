@@ -647,36 +647,6 @@ impl Sub<BytePos> for NonNarrowChar {
     }
 }
 
-/// The state of the lazy external source loading mechanism of a SourceFile.
-#[derive(PartialEq, Eq, Clone)]
-pub enum ExternalSource {
-    /// The external source has been loaded already.
-    Present(String),
-    /// No attempt has been made to load the external source.
-    AbsentOk,
-    /// A failed attempt has been made to load the external source.
-    AbsentErr,
-    /// No external source has to be loaded, since the SourceFile represents a
-    /// local crate.
-    Unneeded,
-}
-
-impl ExternalSource {
-    pub fn is_absent(&self) -> bool {
-        match *self {
-            ExternalSource::Present(_) => false,
-            _ => true,
-        }
-    }
-
-    pub fn get_source(&self) -> Option<&str> {
-        match *self {
-            ExternalSource::Present(ref src) => Some(src),
-            _ => None,
-        }
-    }
-}
-
 /// A single source in the SourceMap.
 #[derive(Clone)]
 pub struct SourceFile {
@@ -1008,18 +978,6 @@ pub struct FileLines {
 
 thread_local!(pub static SPAN_DEBUG: Cell<fn(Span, &mut fmt::Formatter) -> fmt::Result> =
                 Cell::new(default_span_debug));
-
-#[derive(Debug)]
-pub struct MacroBacktrace {
-    /// span where macro was applied to generate this code
-    pub call_site: Span,
-
-    /// name of macro that was applied (e.g., "foo!" or "#[derive(Eq)]")
-    pub macro_decl_name: String,
-
-    /// span where macro was defined (if known)
-    pub def_site_span: Option<Span>,
-}
 
 // _____________________________________________________________________________
 // SpanLinesError, SpanSnippetError, DistinctSources,
