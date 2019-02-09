@@ -193,6 +193,7 @@ impl Fold<Expr> for ObjectLitFolder {
                     };
 
                     if props_cnt == 1 {
+                        helper!(define_property);
                         return Expr::Call(CallExpr {
                             span,
                             callee: quote_ident!("_defineProperty").as_callee(),
@@ -208,6 +209,7 @@ impl Fold<Expr> for ObjectLitFolder {
                             type_args: Default::default(),
                         });
                     }
+                    helper!(define_property);
                     exprs.push(box Expr::Call(CallExpr {
                         span,
                         callee: quote_ident!("_defineProperty").as_callee(),
@@ -232,6 +234,7 @@ impl Fold<Expr> for ObjectLitFolder {
                         })),
                         definite: false,
                     });
+                    helper!(define_enumerable_properties);
                     exprs.push(box Expr::Call(CallExpr {
                         span,
                         callee: quote_ident!("_defineEnumerableProperties").as_callee(),

@@ -174,6 +174,7 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, computed: bool) -> Expr {
         self.inject_get = true;
+        helper!(get);
 
         let proto_arg = get_prototype_of(&if self.is_static {
             // Foo
@@ -231,6 +232,7 @@ impl<'a> SuperCalleeFolder<'a> {
         rhs: Box<Expr>,
     ) -> Expr {
         self.inject_set = true;
+        helper!(set);
 
         let mut ref_ident = alias_ident_for(&rhs, "_ref");
         ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
@@ -416,8 +418,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
         }
 
         if callee_folder.inject_get {
-            helper!(get);
-
             if should_invoke_call {
                 match n {
                     Expr::Call(CallExpr {
@@ -468,10 +468,6 @@ impl<'a> Fold<Expr> for SuperFieldAccessFolder<'a> {
                     _ => unreachable!(),
                 }
             }
-        }
-
-        if callee_folder.inject_set {
-            helper!(set);
         }
 
         n.fold_children(self)

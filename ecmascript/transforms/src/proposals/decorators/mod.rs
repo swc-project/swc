@@ -462,7 +462,6 @@ impl Decorators {
             .map(Some)
             .collect();
 
-        helper!(decorate);
         let decorate_call = Expr::Call(make_decorate_call(
             class.decorators,
             iter::once({
@@ -539,6 +538,8 @@ fn make_decorate_call(
     decorators: Vec<Decorator>,
     args: impl Iterator<Item = ExprOrSpread>,
 ) -> CallExpr {
+    helper!(decorate);
+
     CallExpr {
         span: DUMMY_SP,
         callee: quote_ident!("_decorate").as_callee(),

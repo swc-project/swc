@@ -387,7 +387,6 @@ impl Classes {
             }
 
             // inject _classCallCheck(this, Bar);
-            helper!(class_call_check);
             inject_class_call_check(&mut constructor, class_name.clone());
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
@@ -628,6 +627,7 @@ impl Classes {
             methods: ExprOrSpread,
             static_methods: Option<ExprOrSpread>,
         ) -> Stmt {
+            helper!(create_class);
             Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!("_createClass").as_callee(),
@@ -729,7 +729,6 @@ impl Classes {
         if props.is_empty() && static_props.is_empty() {
             return vec![];
         }
-        helper!(create_class);
         vec![mk_create_class_call(
             class_name,
             mk_arg_obj_for_create_class(props),
@@ -759,6 +758,7 @@ fn get_prototype_of(obj: &Expr) -> Expr {
 }
 
 fn inject_class_call_check(c: &mut Constructor, name: Ident) {
+    helper!(class_call_check);
     let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),

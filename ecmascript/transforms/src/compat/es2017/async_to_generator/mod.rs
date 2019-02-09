@@ -611,7 +611,6 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     expr.function.is_generator = true;
 
     let span = expr.span();
-    helper!(async_to_generator);
 
     let contains_this = contains_this_expr(&expr.function.body);
     let expr = if contains_this {
@@ -625,6 +624,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
         Expr::Fn(expr)
     };
 
+    helper!(async_to_generator);
     Expr::Call(CallExpr {
         span,
         callee: quote_ident!("_asyncToGenerator").as_callee(),

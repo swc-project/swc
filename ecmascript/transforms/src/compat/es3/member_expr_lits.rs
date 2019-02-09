@@ -30,7 +30,7 @@ impl Fold<MemberExpr> for MemberExprLit {
                 value: sym, span, ..
             }))
             | Expr::Ident(Ident { sym, span, .. }) => {
-                if sym.is_reserved_for_es3() {
+                if sym.is_reserved_for_es3() || sym.contains("-") || sym.contains(".") {
                     return MemberExpr {
                         computed: true,
                         prop: box Expr::Lit(Lit::Str(Str {

@@ -39,7 +39,7 @@ impl Fold<PropName> for PropertyLiteral {
             PropName::Str(Str {
                 value: sym, span, ..
             }) => {
-                if sym.is_reserved_for_es3() || sym.contains('-') {
+                if sym.is_reserved_for_es3() || sym.contains('-') || sym.contains('.') {
                     return PropName::Str(Str {
                         span,
                         value: sym,
@@ -51,7 +51,7 @@ impl Fold<PropName> for PropertyLiteral {
             }
             PropName::Ident(i) => {
                 let Ident { sym, span, .. } = i;
-                if sym.is_reserved_for_es3() || sym.contains('-') {
+                if sym.is_reserved_for_es3() || sym.contains('-') || sym.contains('.') {
                     return PropName::Str(Str {
                         span,
                         value: sym,
@@ -91,6 +91,21 @@ mod tests {
   "default": 1,
   [a]: 2,
   foo: 1
+};"#,
+        ok_if_code_eq
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| PropertyLiteral,
+        str_lit,
+        r#"'use strict';
+var x = {
+    'foo.bar': true
+};"#,
+        r#"'use strict';
+var x = {
+    'foo.bar': true
 };"#,
         ok_if_code_eq
     );

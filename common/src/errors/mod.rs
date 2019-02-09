@@ -13,8 +13,8 @@ pub use self::{
     diagnostic_builder::DiagnosticBuilder,
     emitter::ColorConfig,
 };
+pub use self::emitter::{Emitter,EmitterWriter};
 use self::{
-    emitter::{Emitter, EmitterWriter},
     Level::*,
 };
 use crate::{

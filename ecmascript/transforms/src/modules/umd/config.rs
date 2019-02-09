@@ -13,6 +13,7 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 #[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
     pub globals: FxHashMap<String, String>,
 }
 
