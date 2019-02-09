@@ -13,9 +13,9 @@ extern crate termcolor;
 extern crate unicode_width;
 #[macro_use]
 extern crate log;
-extern crate scoped_tls;
 #[macro_use]
 extern crate cfg_if;
+extern crate scoped_tls;
 
 #[cfg(feature = "fold")]
 pub use self::fold::{Fold, FoldWith, Visit, VisitWith};

@@ -52,37 +52,28 @@ pub enum FileName {
     /// A macro.  This includes the full name of the macro, so that there are no
     /// clashes.
     Macros(String),
-    /// Call to `quote!`.
-    QuoteExpansion(u64),
-    /// Command line.
-    Anon(u64),
-    /// Hack in `src/libsyntax/parse.rs`.
-    // FIXME(jseyfried)
-    MacroExpansion(u64),
-    ProcMacroSourceCode(u64),
-    /// Strings provided as `--cfg [cfgspec]` stored in a `crate_cfg`.
-    CfgSpec(u64),
-    /// Strings provided as crate attributes in the CLI.
-    CliCrateAttr(u64),
-    /// Custom sources for explicit parser calls from plugins and drivers.
+    /// call to `quote!`
+    QuoteExpansion,
+    /// Command line
+    Anon,
+    /// Hack in src/libsyntax/parse.rs
+    /// FIXME(jseyfried)
+    MacroExpansion,
+    ProcMacroSourceCode,
+    /// Custom sources for explicit parser calls from plugins and drivers
     Custom(String),
-    DocTest(PathBuf, isize),
 }
 
 impl std::fmt::Display for FileName {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
-        use self::FileName::*;
         match *self {
-            Real(ref path) => write!(fmt, "{}", path.display()),
-            Macros(ref name) => write!(fmt, "<{} macros>", name),
-            QuoteExpansion(_) => write!(fmt, "<quote expansion>"),
-            MacroExpansion(_) => write!(fmt, "<macro expansion>"),
-            Anon(_) => write!(fmt, "<anon>"),
-            ProcMacroSourceCode(_) => write!(fmt, "<proc-macro source code>"),
-            CfgSpec(_) => write!(fmt, "<cfgspec>"),
-            CliCrateAttr(_) => write!(fmt, "<crate attribute>"),
-            Custom(ref s) => write!(fmt, "<{}>", s),
-            DocTest(ref path, _) => write!(fmt, "{}", path.display()),
+            FileName::Real(ref path) => write!(fmt, "{}", path.display()),
+            FileName::Macros(ref name) => write!(fmt, "<{} macros>", name),
+            FileName::QuoteExpansion => write!(fmt, "<quote expansion>"),
+            FileName::MacroExpansion => write!(fmt, "<macro expansion>"),
+            FileName::Anon => write!(fmt, "<anon>"),
+            FileName::ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
+            FileName::Custom(ref s) => write!(fmt, "<{}>", s),
         }
     }
 }
@@ -96,86 +87,38 @@ impl From<PathBuf> for FileName {
 
 impl FileName {
     pub fn is_real(&self) -> bool {
-        use self::FileName::*;
         match *self {
-            Real(_) => true,
-            Macros(_)
-            | Anon(_)
-            | MacroExpansion(_)
-            | ProcMacroSourceCode(_)
-            | CfgSpec(_)
-            | CliCrateAttr(_)
-            | Custom(_)
-            | QuoteExpansion(_)
-            | DocTest(_, _) => false,
+            FileName::Real(_) => true,
+            FileName::Macros(_)
+            | FileName::Anon
+            | FileName::MacroExpansion
+            | FileName::ProcMacroSourceCode
+            | FileName::Custom(_)
+            | FileName::QuoteExpansion => false,
         }
     }
 
     pub fn is_macros(&self) -> bool {
-        use self::FileName::*;
         match *self {
-            Real(_)
-            | Anon(_)
-            | MacroExpansion(_)
-            | ProcMacroSourceCode(_)
-            | CfgSpec(_)
-            | CliCrateAttr(_)
-            | Custom(_)
-            | QuoteExpansion(_)
-            | DocTest(_, _) => false,
-            Macros(_) => true,
+            FileName::Real(_)
+            | FileName::Anon
+            | FileName::MacroExpansion
+            | FileName::ProcMacroSourceCode
+            | FileName::Custom(_)
+            | FileName::QuoteExpansion => false,
+            FileName::Macros(_) => true,
         }
-    }
-
-    pub fn quote_expansion_source_code(src: &str) -> FileName {
-        let mut hasher = StableHasher::new();
-        src.hash(&mut hasher);
-        FileName::QuoteExpansion(hasher.finish())
-    }
-
-    pub fn macro_expansion_source_code(src: &str) -> FileName {
-        let mut hasher = StableHasher::new();
-        src.hash(&mut hasher);
-        FileName::MacroExpansion(hasher.finish())
-    }
-
-    pub fn anon_source_code(src: &str) -> FileName {
-        let mut hasher = StableHasher::new();
-        src.hash(&mut hasher);
-        FileName::Anon(hasher.finish())
-    }
-
-    pub fn proc_macro_source_code(src: &str) -> FileName {
-        let mut hasher = StableHasher::new();
-        src.hash(&mut hasher);
-        FileName::ProcMacroSourceCode(hasher.finish())
-    }
-
-    pub fn cfg_spec_source_code(src: &str) -> FileName {
-        let mut hasher = StableHasher::new();
-        src.hash(&mut hasher);
-        FileName::QuoteExpansion(hasher.finish())
-    }
-
-    pub fn cli_crate_attr_source_code(src: &str) -> FileName {
-        let mut hasher = StableHasher::new();
-        src.hash(&mut hasher);
-        FileName::CliCrateAttr(hasher.finish())
-    }
-
-    pub fn doc_test_source_code(path: PathBuf, line: isize) -> FileName {
-        FileName::DocTest(path, line)
     }
 }
 
 /// Spans represent a region of code, used for error reporting. Positions in
 /// spans are *absolute* positions from the beginning of the source_map, not
-/// positions relative to `SourceFile`s. Methods on the `SourceMap` can be used
-/// to relate spans back to the original source.
+/// positions relative to SourceFiles. Methods on the SourceMap can be used to
+/// relate spans back to the original source.
 /// You must be careful if the span crosses more than one file - you will not be
 /// able to use many of the functions on spans in source_map and you cannot
-/// assume that the length of the `span = hi - lo`; there may be space in the
-/// `BytePos` range between files.
+/// assume that the length of the span = hi - lo; there may be space in the
+/// BytePos range between files.
 ///
 /// `SpanData` is public because `Span` uses a thread-local interner and can't
 /// be sent to other threads, but some pieces of performance infra run in a
@@ -217,9 +160,9 @@ impl Ord for Span {
 
 /// A collection of spans. Spans have two orthogonal attributes:
 ///
-/// - They can be *primary spans*. In this case they are the locus of the error,
+/// - they can be *primary spans*. In this case they are the locus of the error,
 ///   and would be rendered with `^^^`.
-/// - They can have a *label*. In this case, the label is written next to the
+/// - they can have a *label*. In this case, the label is written next to the
 ///   mark in the snippet when we render.
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct MultiSpan {
@@ -267,7 +210,7 @@ impl Span {
         let span = self.data();
         span.with_hi(span.lo)
     }
-    /// Returns a new span representing an empty span at the end of this span.
+    /// Returns a new span representing an empty span at the end of this span
     #[inline]
     pub fn shrink_to_hi(self) -> Span {
         let span = self.data();
@@ -283,18 +226,11 @@ impl Span {
         }
     }
 
-    /// Return `true` if `self` fully encloses `other`.
+    /// Return true if `self` fully encloses `other`.
     pub fn contains(self, other: Span) -> bool {
         let span = self.data();
         let other = other.data();
         span.lo <= other.lo && other.hi <= span.hi
-    }
-
-    /// Return `true` if `self` touches `other`.
-    pub fn overlaps(self, other: Span) -> bool {
-        let span = self.data();
-        let other = other.data();
-        span.lo < other.hi && other.lo < span.hi
     }
 
     /// Return true if the spans are equal with regards to the source text.
@@ -307,7 +243,7 @@ impl Span {
         span.lo == other.lo && span.hi == other.hi
     }
 
-    /// Returns `Some(span)`, where the start is trimmed by the end of `other`.
+    /// Returns `Some(span)`, where the start is trimmed by the end of `other`
     pub fn trim_start(self, other: Span) -> Option<Span> {
         let span = self.data();
         let other = other.data();
@@ -318,18 +254,52 @@ impl Span {
         }
     }
 
+    /// Return the source span - this is either the supplied span, or the span
+    /// for the macro callsite that expanded to it.
+    pub fn source_callsite(self) -> Span {
+        self.ctxt()
+            .outer()
+            .expn_info()
+            .map(|info| info.call_site.source_callsite())
+            .unwrap_or(self)
+    }
+
     /// The `Span` for the tokens in the previous macro expansion from which
-    /// `self` was generated, if any.
+    /// `self` was generated, if any
     pub fn parent(self) -> Option<Span> {
         self.ctxt().outer().expn_info().map(|i| i.call_site)
     }
 
+    /// Return the source callee.
+    ///
+    /// Returns `None` if the supplied span has no expansion trace,
+    /// else returns the `ExpnInfo` for the macro definition
+    /// corresponding to the source callsite.
+    pub fn source_callee(self) -> Option<ExpnInfo> {
+        fn source_callee(info: ExpnInfo) -> ExpnInfo {
+            match info.call_site.ctxt().outer().expn_info() {
+                Some(info) => source_callee(info),
+                None => info,
+            }
+        }
+        self.ctxt().outer().expn_info().map(source_callee)
+    }
+
+    /// Check if a span is "internal" to a macro in which #[unstable]
+    /// items can be used (that is, a macro marked with
+    /// `#[allow_internal_unstable]`).
+    pub fn allows_unstable(&self) -> bool {
+        match self.ctxt().outer().expn_info() {
+            Some(info) => info.allow_internal_unstable,
+            None => false,
+        }
+    }
     /// Return a `Span` that would enclose both `self` and `end`.
     pub fn to(self, end: Span) -> Span {
         let span_data = self.data();
         let end_data = end.data();
-        // FIXME(jseyfried): `self.ctxt` should always equal `end.ctxt` here (cf. issue
-        // #23480). Return the macro span on its own to avoid weird diagnostic
+        // FIXME(jseyfried): self.ctxt should always equal end.ctxt here (c.f. issue
+        // #23480) Return the macro span on its own to avoid weird diagnostic
         // output. It is preferable to have an incomplete span than a completely
         // nonsensical one.
         if span_data.ctxt != end_data.ctxt {
@@ -338,8 +308,8 @@ impl Span {
             } else if end_data.ctxt == SyntaxContext::empty() {
                 return self;
             }
-            // Both spans fall within a macro.
-            // FIXME(estebank): check if it is the *same* macro.
+            // both span fall within a macro
+            // FIXME(estebank) check if it is the *same* macro
         }
         Span::new(
             cmp::min(span_data.lo, end_data.lo),
@@ -405,6 +375,50 @@ impl Span {
         *self = Span::new(span.lo, span.hi, span.ctxt);
         mark
     }
+
+    #[inline]
+    pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
+        let mut span = self.data();
+        let mark = span.ctxt.adjust(expansion);
+        *self = Span::new(span.lo, span.hi, span.ctxt);
+        mark
+    }
+
+    #[inline]
+    pub fn glob_adjust(
+        &mut self,
+        expansion: Mark,
+        glob_ctxt: SyntaxContext,
+    ) -> Option<Option<Mark>> {
+        let mut span = self.data();
+        let mark = span.ctxt.glob_adjust(expansion, glob_ctxt);
+        *self = Span::new(span.lo, span.hi, span.ctxt);
+        mark
+    }
+
+    #[inline]
+    pub fn reverse_glob_adjust(
+        &mut self,
+        expansion: Mark,
+        glob_ctxt: SyntaxContext,
+    ) -> Option<Option<Mark>> {
+        let mut span = self.data();
+        let mark = span.ctxt.reverse_glob_adjust(expansion, glob_ctxt);
+        *self = Span::new(span.lo, span.hi, span.ctxt);
+        mark
+    }
+
+    #[inline]
+    pub fn modern(self) -> Span {
+        let span = self.data();
+        span.with_ctxt(span.ctxt.modern())
+    }
+
+    #[inline]
+    pub fn modern_and_legacy(self) -> Span {
+        let span = self.data();
+        span.with_ctxt(span.ctxt.modern_and_legacy())
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -426,7 +440,7 @@ impl Default for Span {
     }
 }
 
-pub fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
+fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
     f.debug_struct("Span")
         .field("lo", &span.lo())
         .field("hi", &span.hi())
@@ -473,7 +487,7 @@ impl MultiSpan {
         self.span_labels.push((span, label));
     }
 
-    /// Selects the first primary span (if any).
+    /// Selects the first primary span (if any)
     pub fn primary_span(&self) -> Option<Span> {
         self.primary_spans.first().cloned()
     }
@@ -495,8 +509,8 @@ impl MultiSpan {
         is_dummy
     }
 
-    /// Replaces all occurrences of one Span with another. Used to move `Span`s
-    /// in areas that don't display well (like std macros). Returns true if
+    /// Replaces all occurrences of one Span with another. Used to move Spans in
+    /// areas that don't display well (like std macros). Returns true if
     /// replacements occurred.
     pub fn replace(&mut self, before: Span, after: Span) -> bool {
         let mut replacements_occurred = false;
@@ -517,7 +531,7 @@ impl MultiSpan {
 
     /// Returns the strings to highlight. We always ensure that there
     /// is an entry for each of the primary spans -- for each primary
-    /// span `P`, if there is at least one label with span `P`, we return
+    /// span P, if there is at least one label with span P, we return
     /// those labels (marked as primary). But otherwise we return
     /// `SpanLabel` instances with empty labels.
     pub fn span_labels(&self) -> Vec<SpanLabel> {
@@ -561,24 +575,24 @@ impl From<Vec<Span>> for MultiSpan {
 
 pub const NO_EXPANSION: SyntaxContext = SyntaxContext::empty();
 
-/// Identifies an offset of a multi-byte character in a `SourceFile`.
+/// Identifies an offset of a multi-byte character in a SourceFile
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub struct MultiByteChar {
-    /// The absolute offset of the character in the `SourceMap`.
+    /// The absolute offset of the character in the SourceMap
     pub pos: BytePos,
-    /// The number of bytes, `>= 2`.
+    /// The number of bytes, >=2
     pub bytes: u8,
 }
 
-/// Identifies an offset of a non-narrow character in a `SourceFile`.
+/// Identifies an offset of a non-narrow character in a SourceFile
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum NonNarrowChar {
-    /// Represents a zero-width character.
+    /// Represents a zero-width character
     ZeroWidth(BytePos),
-    /// Represents a wide (full-width) character.
+    /// Represents a wide (fullwidth) character
     Wide(BytePos),
     /// Represents a tab character, represented visually with a width of 4
-    /// characters.
+    /// characters
     Tab(BytePos),
 }
 
@@ -592,14 +606,14 @@ impl NonNarrowChar {
         }
     }
 
-    /// Returns the absolute offset of the character in the `SourceMap`.
+    /// Returns the absolute offset of the character in the SourceMap
     pub fn pos(&self) -> BytePos {
         match *self {
             NonNarrowChar::ZeroWidth(p) | NonNarrowChar::Wide(p) | NonNarrowChar::Tab(p) => p,
         }
     }
 
-    /// Returns the width of the character, 0 (zero-width) or 2 (wide).
+    /// Returns the width of the character, 0 (zero-width) or 2 (wide)
     pub fn width(&self) -> usize {
         match *self {
             NonNarrowChar::ZeroWidth(_) => 0,
@@ -633,38 +647,35 @@ impl Sub<BytePos> for NonNarrowChar {
     }
 }
 
-/// A single source in the `SourceMap`.
+/// A single source in the SourceMap.
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from, source that doesn't
-    /// originate from files has names between angle brackets by convention
-    /// (e.g., `<anon>`).
+    /// originate from files has names between angle brackets by convention,
+    /// e.g. `<anon>`
     pub name: FileName,
-    /// True if the `name` field above has been modified by
-    /// `--remap-path-prefix`.
+    /// True if the `name` field above has been modified by --remap-path-prefix
     pub name_was_remapped: bool,
     /// The unmapped path of the file that the source came from.
-    /// Set to `None` if the `SourceFile` was imported from an external crate.
+    /// Set to `None` if the SourceFile was imported from an external crate.
     pub unmapped_path: Option<FileName>,
-    /// Indicates which crate this `SourceFile` was imported from.
+    /// Indicates which crate this SourceFile was imported from.
     pub crate_of_origin: u32,
-    /// The complete source code.
+    /// The complete source code
     pub src: Lrc<String>,
-    /// The source code's hash.
+    /// The source code's hash
     pub src_hash: u128,
-
-    /// The start position of this source in the `SourceMap`.
+    /// The start position of this source in the SourceMap
     pub start_pos: BytePos,
-    /// The end position of this source in the `SourceMap`.
+    /// The end position of this source in the SourceMap
     pub end_pos: BytePos,
-    /// Locations of lines beginnings in the source code.
+    /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
-    /// Locations of multi-byte characters in the source code.
+    /// Locations of multi-byte characters in the source code
     pub multibyte_chars: Vec<MultiByteChar>,
-    /// Width of characters that are not narrow in the source code.
+    /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
-    /// A hash of the filename, used for speeding up hashing in incremental
-    /// compilation.
+    /// A hash of the filename, used for speeding up the incr. comp. hashing.
     pub name_hash: u128,
 }
 
@@ -715,7 +726,7 @@ impl SourceFile {
         }
     }
 
-    /// Return the `BytePos` of the beginning of the current line.
+    /// Return the BytePos of the beginning of the current line.
     pub fn line_begin_pos(&self, pos: BytePos) -> BytePos {
         let line_index = self.lookup_line(pos).unwrap();
         self.lines[line_index]
@@ -760,9 +771,9 @@ impl SourceFile {
     }
 
     /// Find the line containing the given position. The return value is the
-    /// index into the `lines` array of this `SourceFile`, not the 1-based line
+    /// index into the `lines` array of this SourceFile, not the 1-based line
     /// number. If the source_file is empty or the position is located before
-    /// the first line, `None` is returned.
+    /// the first line, None is returned.
     pub fn lookup_line(&self, pos: BytePos) -> Option<usize> {
         if self.lines.len() == 0 {
             return None;
@@ -819,14 +830,14 @@ pub trait Pos {
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct BytePos(pub u32);
 
-/// A character offset. Because of multibyte UTF-8 characters, a byte offset
-/// is not equivalent to a character offset. The `SourceMap` will convert
-/// `BytePos` values to `CharPos` values as necessary.
+/// A character offset. Because of multibyte utf8 characters, a byte offset
+/// is not equivalent to a character offset. The SourceMap will convert BytePos
+/// values to CharPos values as necessary.
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct CharPos(pub usize);
 
-// FIXME: lots of boilerplate in these impls, but so far my attempts to fix
-// have been unsuccessful.
+// FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
+// have been unsuccessful
 
 impl Pos for BytePos {
     #[inline(always)]
@@ -912,20 +923,20 @@ impl Sub for CharPos {
 // Loc, LocWithOpt, SourceFileAndLine, SourceFileAndBytePos
 //
 
-/// A source code location used for error reporting.
+/// A source code location used for error reporting
 #[derive(Debug, Clone)]
 pub struct Loc {
-    /// Information about the original source.
+    /// Information about the original source
     pub file: Lrc<SourceFile>,
-    /// The (1-based) line number.
+    /// The (1-based) line number
     pub line: usize,
-    /// The (0-based) column offset.
+    /// The (0-based) column offset
     pub col: CharPos,
-    /// The (0-based) column offset when displayed.
+    /// The (0-based) column offset when displayed
     pub col_display: usize,
 }
 
-/// A source code location used as the result of `lookup_char_pos_adj`.
+/// A source code location used as the result of lookup_char_pos_adj
 // Actually, *none* of the clients use the filename *or* file field;
 // perhaps they should just be removed.
 #[derive(Debug)]
@@ -936,7 +947,7 @@ pub struct LocWithOpt {
     pub file: Option<Lrc<SourceFile>>,
 }
 
-// Used to be structural records.
+// used to be structural records. Better names, anyone?
 #[derive(Debug)]
 pub struct SourceFileAndLine {
     pub sf: Lrc<SourceFile>,

@@ -1,3 +1,13 @@
+// Copyright 2012-2014 The Rust Project Developers. See the COPYRIGHT
+// file at the top-level directory of this distribution and at
+// http://rust-lang.org/COPYRIGHT.
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 //! Machinery for hygienic macros, inspired by the `MTWT[1]` paper.
 //!
 //! `[1]` Matthew Flatt, Ryan Culpepper, David Darais, and Robert Bruce Findler.
@@ -5,10 +15,9 @@
 //! and definition contexts*. J. Funct. Program. 22, 2 (March 2012), 181-216.
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
+use super::{Span, GLOBALS};
 use rustc_data_structures::fx::{FxHashMap, FxHashSet};
 use std::fmt;
-use Span;
-use GLOBALS;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -34,6 +43,7 @@ pub struct Mark(u32);
 struct MarkData {
     parent: Mark,
     default_transparency: Transparency,
+    is_builtin: bool,
     expn_info: Option<ExpnInfo>,
 }
 
@@ -65,6 +75,7 @@ impl Mark {
                 parent,
                 // By default expansions behave like `macro_rules`.
                 default_transparency: Transparency::SemiTransparent,
+                is_builtin: false,
                 expn_info: None,
             });
             Mark(data.marks.len() as u32 - 1)
@@ -109,6 +120,18 @@ impl Mark {
         HygieneData::with(|data| data.marks[self.0 as usize].default_transparency = transparency)
     }
 
+    #[inline]
+    pub fn is_builtin(self) -> bool {
+        assert_ne!(self, Mark::root());
+        HygieneData::with(|data| data.marks[self.0 as usize].is_builtin)
+    }
+
+    #[inline]
+    pub fn set_is_builtin(self, is_builtin: bool) {
+        assert_ne!(self, Mark::root());
+        HygieneData::with(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
+    }
+
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
         HygieneData::with(|data| {
             while self != ancestor {
@@ -124,7 +147,7 @@ impl Mark {
     /// Computes a mark such that both input marks are descendants of (or equal
     /// to) the returned mark. That is, the following holds:
     ///
-    /// ```rust,ignore
+    /// ```rust
     /// let la = least_ancestor(a, b);
     /// assert!(a.is_descendant_of(la))
     /// assert!(b.is_descendant_of(la))
@@ -149,20 +172,21 @@ impl Mark {
 }
 
 #[derive(Debug)]
-pub(in crate::syntax_pos) struct HygieneData {
+pub(crate) struct HygieneData {
     marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
     markings: FxHashMap<(SyntaxContext, Mark, Transparency), SyntaxContext>,
 }
 
 impl HygieneData {
-    pub(in crate::syntax_pos) fn new() -> Self {
+    pub(crate) fn new() -> Self {
         HygieneData {
             marks: vec![MarkData {
                 parent: Mark::root(),
                 // If the root is opaque, then loops searching for an opaque mark
                 // will automatically stop after reaching it.
                 default_transparency: Transparency::Opaque,
+                is_builtin: true,
                 expn_info: None,
             }],
             syntax_contexts: vec![SyntaxContextData {
@@ -181,16 +205,20 @@ impl HygieneData {
     }
 }
 
+// pub fn clear_markings() {
+//     HygieneData::with(|data| data.markings = FxHashMap::default());
+// }
+
 impl SyntaxContext {
     pub const fn empty() -> Self {
         SyntaxContext(0)
     }
 
-    pub(in crate::syntax_pos) fn as_u32(self) -> u32 {
+    pub(crate) fn as_u32(self) -> u32 {
         self.0
     }
 
-    pub(in crate::syntax_pos) fn from_u32(raw: u32) -> SyntaxContext {
+    pub(crate) fn from_u32(raw: u32) -> SyntaxContext {
         SyntaxContext(raw)
     }
 
@@ -205,6 +233,7 @@ impl SyntaxContext {
             data.marks.push(MarkData {
                 parent: Mark::root(),
                 default_transparency: Transparency::SemiTransparent,
+                is_builtin: false,
                 expn_info: Some(expansion_info),
             });
 
@@ -256,12 +285,12 @@ impl SyntaxContext {
         }
 
         // Otherwise, `mark` is a macros 1.0 definition and the call site is in a
-        // macros 2.0 expansion, i.e., a macros 1.0 invocation is in a macros 2.0
+        // macros 2.0 expansion, i.e. a macros 1.0 invocation is in a macros 2.0
         // definition.
         //
         // In this case, the tokens from the macros 1.0 definition inherit the hygiene
         // at their invocation. That is, we pretend that the macros 1.0 definition
-        // was defined at its invocation (i.e., inside the macros 2.0 definition)
+        // was defined at its invocation (i.e. inside the macros 2.0 definition)
         // so that the macros 2.0 definition remains hygienic.
         //
         // See the example at `test/run-pass/hygiene/legacy_interaction.rs`.
@@ -339,7 +368,7 @@ impl SyntaxContext {
     /// the context up one macro definition level. That is, if we have a
     /// nested macro definition as follows:
     ///
-    /// ```rust,ignore
+    /// ```rust
     /// macro_rules! f {
     ///    macro_rules! g {
     ///        ...
@@ -376,7 +405,7 @@ impl SyntaxContext {
     /// expansion. For example, consider the following three resolutions of
     /// `f`:
     ///
-    /// ```rust,ignore
+    /// ```rust
     /// mod foo {
     ///     pub fn f() {}
     /// } // `f`'s `SyntaxContext` is empty.
@@ -398,7 +427,7 @@ impl SyntaxContext {
     /// }
     /// ```
     /// This returns the expansion whose definition scope we use to privacy
-    /// check the resolution, or `None` if we privacy check as usual (i.e.,
+    /// check the resolution, or `None` if we privacy check as usual (i.e.
     /// not w.r.t. a macro definition scope).
     pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
         let mut scope = None;
@@ -412,7 +441,7 @@ impl SyntaxContext {
     /// expansion via a glob import with the given `SyntaxContext`.
     /// For example:
     ///
-    /// ```rust,ignore
+    /// ```rust
     /// m!(f);
     /// macro m($i:ident) {
     ///     mod foo {
@@ -454,7 +483,7 @@ impl SyntaxContext {
 
     /// Undo `glob_adjust` if possible:
     ///
-    /// ```rust,ignore
+    /// ```rust
     /// if let Some(privacy_checking_scope) = self.reverse_glob_adjust(expansion, glob_ctxt) {
     ///     assert!(self.glob_adjust(expansion, glob_ctxt) == Some(privacy_checking_scope));
     /// }
@@ -508,7 +537,7 @@ pub struct ExpnInfo {
     /// The location of the actual macro invocation or syntax sugar , e.g.
     /// `let x = foo!();` or `if let Some(y) = x {}`
     ///
-    /// This may recursively refer to other macro invocations, e.g., if
+    /// This may recursively refer to other macro invocations, e.g. if
     /// `foo!()` invoked `bar!()` internally, and there was an
     /// expression inside `bar!`; the call_site of the expression in
     /// the expansion would point to the `bar!` invocation; that
@@ -516,11 +545,21 @@ pub struct ExpnInfo {
     /// pointing to the `foo!` invocation.
     pub call_site: Span,
     /// The span of the macro definition itself. The macro may not
-    /// have a sensible definition span (e.g., something defined
+    /// have a sensible definition span (e.g. something defined
     /// completely inside libsyntax) in which case this is None.
     /// This span serves only informational purpose and is not used for
     /// resolution.
     pub def_site: Option<Span>,
+    /// Whether the macro is allowed to use #[unstable]/feature-gated
+    /// features internally without forcing the whole crate to opt-in
+    /// to them.
+    pub allow_internal_unstable: bool,
+    /// Whether the macro is allowed to use `unsafe` internally
+    /// even if the user crate has `#![forbid(unsafe_code)]`.
+    pub allow_internal_unsafe: bool,
+    /// Enables the macro helper hack (`ident!(...)` -> `$crate::ident!(...)`)
+    /// for a given macro.
+    pub local_inner_macros: bool,
 }
 
 impl Default for Mark {
