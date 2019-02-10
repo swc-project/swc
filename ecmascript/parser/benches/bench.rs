@@ -55,7 +55,7 @@ fn bench_module(b: &mut Bencher, src: &'static str) {
 
     let _ = ::testing::run_test(false, |cm, handler| {
         let session = Session { handler: &handler };
-        let fm = cm.new_source_file(FileName::Anon(0), src.into());
+        let fm = cm.new_source_file(FileName::Anon, src.into());
 
         b.iter(|| {
             let _ = test::black_box({
