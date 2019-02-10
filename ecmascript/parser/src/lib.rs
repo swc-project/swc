@@ -31,7 +31,7 @@
 //!
 //! fn main() {
 //!     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
-//!         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+//!         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 //!         let handler =
 //!             Handler::with_tty_emitter(ColorConfig::Auto, true, false, Some(cm.clone()));
 //!

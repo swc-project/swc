@@ -3,14 +3,11 @@ use std::{
     io::{self, Write},
     sync::{Arc, RwLock},
 };
-use swc_common::{
-    errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
-    sync::Lrc,
-};
+use swc_common::errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn};
 
 /// Creates a new handler for testing.
 pub(crate) fn new_handler(
-    cm: Lrc<SourceMapperDyn>,
+    cm: Arc<SourceMapperDyn>,
     treat_err_as_bug: bool,
 ) -> (Handler, BufferedError) {
     let buf: BufferedError = Default::default();

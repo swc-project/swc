@@ -17,11 +17,10 @@ use std::{
     fs::{create_dir_all, File},
     io::Write,
     path::Path,
+    sync::Arc,
     thread,
 };
-use swc_common::{
-    errors::Handler, sync::Lrc, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
-};
+use swc_common::{errors::Handler, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP};
 
 #[macro_use]
 mod macros;
@@ -31,9 +30,9 @@ mod paths;
 
 pub fn run_test<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
 where
-    F: FnOnce(Lrc<SourceMap>, &Handler) -> Result<Ret, ()>,
+    F: FnOnce(Arc<SourceMap>, &Handler) -> Result<Ret, ()>,
 {
-    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::errors::new_handler(cm.clone(), treat_err_as_bug);
     let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
 

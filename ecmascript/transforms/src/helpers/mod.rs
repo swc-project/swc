@@ -1,15 +1,17 @@
 use ast::*;
 use scoped_tls::scoped_thread_local;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc,
+};
 use swc_common::{
     errors::{ColorConfig, Handler},
-    sync::Lrc,
     FileName, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
 lazy_static! {
-    static ref CM: Lrc<SourceMap> = { Lrc::new(SourceMap::new(FilePathMapping::empty())) };
+    static ref CM: Arc<SourceMap> = { Arc::new(SourceMap::new(FilePathMapping::empty())) };
     static ref HANDLER: Handler =
         { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
     static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
@@ -182,7 +184,7 @@ define_helpers!(Helpers {
 
 #[derive(Clone)]
 pub struct InjectHelpers {
-    pub cm: Lrc<SourceMap>,
+    pub cm: Arc<SourceMap>,
 }
 
 impl Fold<Module> for InjectHelpers {

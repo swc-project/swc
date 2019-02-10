@@ -17,15 +17,17 @@
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
 
-use crate::sync::{Lock, LockGuard, Lrc, MappedLockGuard};
+use crate::sync::{Lock, LockGuard, MappedLockGuard};
 pub use crate::syntax_pos::{hygiene::ExpnInfo, *};
 use errors::SourceMapper;
-use rustc_data_structures::{fx::FxHashMap, stable_hasher::StableHasher};
+use fxhash::FxHashMap;
+use rustc_data_structures::stable_hasher::StableHasher;
 use std::{
     cmp, env, fs,
     hash::Hash,
     io::{self, Read},
     path::{Path, PathBuf},
+    sync::Arc,
 };
 
 // _____________________________________________________________________________
@@ -91,8 +93,8 @@ impl StableSourceFileId {
 
 #[derive(Default)]
 pub(super) struct SourceMapFiles {
-    pub(super) source_files: Vec<Lrc<SourceFile>>,
-    stable_id_to_source_file: FxHashMap<StableSourceFileId, Lrc<SourceFile>>,
+    pub(super) source_files: Vec<Arc<SourceFile>>,
+    stable_id_to_source_file: FxHashMap<StableSourceFileId, Arc<SourceFile>>,
 }
 
 pub struct SourceMap {
@@ -143,7 +145,7 @@ impl SourceMap {
         self.file_loader.file_exists(path)
     }
 
-    pub fn load_file(&self, path: &Path) -> io::Result<Lrc<SourceFile>> {
+    pub fn load_file(&self, path: &Path) -> io::Result<Arc<SourceFile>> {
         let src = self.file_loader.read_file(path)?;
         let filename = if let Some((ref name, _)) = self.doctest_offset {
             name.clone()
@@ -153,14 +155,14 @@ impl SourceMap {
         Ok(self.new_source_file(filename, src))
     }
 
-    pub fn files(&self) -> MappedLockGuard<Vec<Lrc<SourceFile>>> {
+    pub fn files(&self) -> MappedLockGuard<Vec<Arc<SourceFile>>> {
         LockGuard::map(self.files.borrow(), |files| &mut files.source_files)
     }
 
     pub fn source_file_by_stable_id(
         &self,
         stable_id: StableSourceFileId,
-    ) -> Option<Lrc<SourceFile>> {
+    ) -> Option<Arc<SourceFile>> {
         self.files
             .borrow()
             .stable_id_to_source_file
@@ -179,7 +181,7 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: FileName, src: String) -> Lrc<SourceFile> {
+    pub fn new_source_file(&self, filename: FileName, src: String) -> Arc<SourceFile> {
         let start_pos = self.next_start_pos();
 
         // The path is used to determine the directory for loading submodules and
@@ -196,7 +198,7 @@ impl SourceMap {
             }
             other => (other, false),
         };
-        let source_file = Lrc::new(SourceFile::new(
+        let source_file = Arc::new(SourceFile::new(
             filename,
             was_remapped,
             unmapped_path,
@@ -302,7 +304,7 @@ impl SourceMap {
     }
 
     // If the relevant source_file is empty, we don't return a line number.
-    pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Lrc<SourceFile>> {
+    pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Arc<SourceFile>> {
         let idx = self.lookup_source_file_idx(pos);
 
         let f = (*self.files.borrow().source_files)[idx].clone();
@@ -756,7 +758,7 @@ impl SourceMap {
         }
     }
 
-    pub fn get_source_file(&self, filename: &FileName) -> Option<Lrc<SourceFile>> {
+    pub fn get_source_file(&self, filename: &FileName) -> Option<Arc<SourceFile>> {
         for sf in self.files.borrow().source_files.iter() {
             if *filename == sf.name {
                 return Some(sf.clone());
@@ -979,7 +981,7 @@ impl FilePathMapping {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rustc_data_structures::sync::Lrc;
+    use std::sync::Arc;
 
     fn init_source_map() -> SourceMap {
         let sm = SourceMap::new(FilePathMapping::empty());
@@ -1177,7 +1179,7 @@ mod tests {
     trait SourceMapExtension {
         fn span_substr(
             &self,
-            file: &Lrc<SourceFile>,
+            file: &Arc<SourceFile>,
             source_text: &str,
             substring: &str,
             n: usize,
@@ -1187,7 +1189,7 @@ mod tests {
     impl SourceMapExtension for SourceMap {
         fn span_substr(
             &self,
-            file: &Lrc<SourceFile>,
+            file: &Arc<SourceFile>,
             source_text: &str,
             substring: &str,
             n: usize,

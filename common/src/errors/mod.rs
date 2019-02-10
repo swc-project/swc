@@ -15,15 +15,19 @@ pub use self::{
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 use crate::{
-    rustc_data_structures::{fx::FxHashSet, stable_hasher::StableHasher},
-    sync::{self, Lock, LockCell, Lrc},
+    rustc_data_structures::stable_hasher::StableHasher,
+    sync::{Lock, LockCell},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
+use fxhash::FxHashSet;
 use std::{
     borrow::Cow,
     cell::Cell,
     error, fmt, panic,
-    sync::atomic::{AtomicUsize, Ordering::SeqCst},
+    sync::{
+        atomic::{AtomicUsize, Ordering::SeqCst},
+        Arc,
+    },
 };
 use termcolor::{Color, ColorSpec};
 
@@ -31,7 +35,6 @@ mod diagnostic;
 mod diagnostic_builder;
 pub mod emitter;
 mod lock;
-pub mod registry;
 mod snippet;
 mod styled_buffer;
 
@@ -97,7 +100,7 @@ pub struct SubstitutionPart {
     pub snippet: String,
 }
 
-pub type SourceMapperDyn = dyn SourceMapper + sync::Send + sync::Sync;
+pub type SourceMapperDyn = dyn SourceMapper + Send + Sync;
 
 pub trait SourceMapper {
     fn lookup_char_pos(&self, pos: BytePos) -> Loc;
@@ -270,7 +273,7 @@ pub struct Handler {
     pub flags: HandlerFlags,
 
     err_count: AtomicUsize,
-    emitter: Lock<Box<dyn Emitter + sync::Send>>,
+    emitter: Lock<Box<dyn Emitter + Send>>,
     continue_after_error: LockCell<bool>,
     delayed_span_bugs: Lock<Vec<Diagnostic>>,
 
@@ -332,7 +335,7 @@ impl Handler {
         color_config: ColorConfig,
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        cm: Option<Lrc<SourceMapperDyn>>,
+        cm: Option<Arc<SourceMapperDyn>>,
     ) -> Handler {
         Handler::with_tty_emitter_and_flags(
             color_config,
@@ -347,7 +350,7 @@ impl Handler {
 
     pub fn with_tty_emitter_and_flags(
         color_config: ColorConfig,
-        cm: Option<Lrc<SourceMapperDyn>>,
+        cm: Option<Arc<SourceMapperDyn>>,
         flags: HandlerFlags,
     ) -> Handler {
         let emitter = Box::new(EmitterWriter::stderr(color_config, cm, false, false));
@@ -357,7 +360,7 @@ impl Handler {
     pub fn with_emitter(
         can_emit_warnings: bool,
         treat_err_as_bug: bool,
-        e: Box<dyn Emitter + sync::Send>,
+        e: Box<dyn Emitter + Send>,
     ) -> Handler {
         Handler::with_emitter_and_flags(
             e,
@@ -369,10 +372,7 @@ impl Handler {
         )
     }
 
-    pub fn with_emitter_and_flags(
-        e: Box<dyn Emitter + sync::Send>,
-        flags: HandlerFlags,
-    ) -> Handler {
+    pub fn with_emitter_and_flags(e: Box<dyn Emitter + Send>, flags: HandlerFlags) -> Handler {
         Handler {
             flags,
             err_count: AtomicUsize::new(0),

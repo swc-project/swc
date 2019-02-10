@@ -2,10 +2,10 @@ use ast::Expr;
 use fxhash::FxHashMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},
-    sync::Lrc,
     FileName, SourceMap,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
@@ -18,7 +18,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub(super) fn build(self, cm: Lrc<SourceMap>) -> BuiltConfig {
+    pub(super) fn build(self, cm: Arc<SourceMap>) -> BuiltConfig {
         let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
         let session = Session { handler: &handler };

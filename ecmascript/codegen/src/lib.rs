@@ -20,11 +20,9 @@ use self::{
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use fxhash::FxHashSet;
-use std::io;
+use std::{io, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{
-    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{comments::Comments, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -66,7 +64,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Lrc<SourceMap>,
+    pub cm: Arc<SourceMap>,
     pub comments: Option<Comments>,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
@@ -1806,7 +1804,7 @@ impl<'a> Emitter<'a> {
 
 #[allow(dead_code)]
 fn get_text_of_node<T: Spanned>(
-    cm: &Lrc<SourceMap>,
+    cm: &Arc<SourceMap>,
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {

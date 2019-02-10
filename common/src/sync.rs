@@ -51,10 +51,6 @@ use std::{
     ops::{Deref, DerefMut},
     thread,
 };
-pub use std::{
-    marker::{Send, Sync},
-    sync::{Arc as Lrc, Weak},
-};
 
 pub fn serial_join<A, B, RA, RB>(oper_a: A, oper_b: B) -> (RA, RB)
 where
