@@ -135,6 +135,7 @@ where
             Syntax::Typescript(TsConfig {
                 tsx: fname.contains("tsx"),
                 decorators: true,
+                ..Default::default()
             }),
             (&*fm).into(),
             None,
