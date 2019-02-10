@@ -154,6 +154,7 @@ fn module_legacy_comment_2() {
 #[test]
 fn test262_lexer_error_0001() {
     assert_eq!(
+        lex(Syntax::default(), "123..a(1)"),
         vec![
             123f64.span(0..4).lb(),
             Dot.span(4..5),
@@ -162,13 +163,13 @@ fn test262_lexer_error_0001() {
             1.span(7..8),
             RParen.span(8..9),
         ],
-        lex(Syntax::default(), "123..a(1)")
     )
 }
 
 #[test]
 fn test262_lexer_error_0002() {
     assert_eq!(
+        lex(Syntax::default(), r#"'use\x20strict';"#),
         vec![
             Token::Str {
                 value: "use strict".into(),
@@ -177,45 +178,44 @@ fn test262_lexer_error_0002() {
             .span(0..15)
             .lb(),
             Semi.span(15..16),
-        ],
-        lex(Syntax::default(), r#"'use\x20strict';"#)
+        ]
     );
 }
 
 #[test]
 fn test262_lexer_error_0003() {
     assert_eq!(
-        vec!["a".span(0..6).lb()],
-        lex(Syntax::default(), r#"\u0061"#)
+        lex(Syntax::default(), r#"\u0061"#),
+        vec!["a".span(0..6).lb()]
     );
 }
 
 #[test]
 fn test262_lexer_error_0004() {
     assert_eq!(
-        vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), 1.into_token()],
-        lex_tokens(Syntax::default(), "+{} / 1")
+        lex_tokens(Syntax::default(), "+{} / 1"),
+        vec![tok!('+'), tok!('{'), tok!('}'), tok!('/'), 1.into_token()]
     );
 }
 
 #[test]
 fn ident_escape_unicode() {
     assert_eq!(
-        vec!["aa".span(0..7).lb()],
-        lex(Syntax::default(), r#"a\u0061"#)
+        lex(Syntax::default(), r#"a\u0061"#),
+        vec!["aa".span(0..7).lb()]
     );
 }
 
 #[test]
 fn ident_escape_unicode_2() {
     assert_eq!(
-        vec!["℘℘".span(0..6).lb()],
-        lex(Syntax::default(), "℘℘")
+        lex(Syntax::default(), "℘℘"),
+        vec!["℘℘".span(0..6).lb()]
     );
 
     assert_eq!(
-        vec!["℘℘".span(0..9).lb()],
-        lex(Syntax::default(), r#"℘\u2118"#)
+        lex(Syntax::default(), r#"℘\u2118"#),
+        vec!["℘℘".span(0..9).lb()]
     );
 }
 
@@ -372,30 +372,30 @@ fn non_regexp_unary_plus() {
 #[test]
 fn paren_semi() {
     assert_eq!(
-        vec![LParen.span(0).lb(), RParen.span(1), Semi.span(2)],
-        lex(Syntax::default(), "();")
+        lex(Syntax::default(), "();"),
+        vec![LParen.span(0).lb(), RParen.span(1), Semi.span(2)]
     );
 }
 
 #[test]
 fn ident_paren() {
     assert_eq!(
+        lex(Syntax::default(), "a(bc);"),
         vec![
             "a".span(0).lb(),
             LParen.span(1),
             "bc".span(2..4),
             RParen.span(4),
             Semi.span(5),
-        ],
-        lex(Syntax::default(), "a(bc);")
+        ]
     );
 }
 
 #[test]
 fn read_word() {
     assert_eq!(
-        vec!["a".span(0).lb(), "b".span(2), "c".span(4)],
         lex(Syntax::default(), "a b c"),
+        vec!["a".span(0).lb(), "b".span(2), "c".span(4)]
     )
 }
 
@@ -440,6 +440,7 @@ fn simple_regex() {
 #[test]
 fn complex_regex() {
     assert_eq_ignore_span!(
+        lex_tokens(Syntax::default(), "f(); function foo() {} /42/i"),
         vec![
             Word(Word::Ident("f".into())),
             LParen,
@@ -463,22 +464,22 @@ fn complex_regex() {
                     has_escape: false,
                 }),
             ),
-        ],
-        lex_tokens(Syntax::default(), "f(); function foo() {} /42/i")
+        ]
     )
 }
 
 #[test]
 fn simple_div() {
     assert_eq!(
+        lex(Syntax::default(), "a / b"),
         vec!["a".span(0).lb(), Div.span(2), "b".span(4)],
-        lex(Syntax::default(), "a / b")
     );
 }
 
 #[test]
 fn complex_divide() {
     assert_eq!(
+        lex_tokens(Syntax::default(), "x = function foo() {} /a/i"),
         vec![
             Word(Word::Ident("x".into())),
             AssignOp(Assign),
@@ -493,7 +494,6 @@ fn complex_divide() {
             BinOp(Div),
             Word(Word::Ident("i".into())),
         ],
-        lex_tokens(Syntax::default(), "x = function foo() {} /a/i"),
         "/ should be parsed as div operator"
     )
 }
@@ -524,16 +524,16 @@ fn spec_001() {
     ];
 
     assert_eq!(
-        expected,
         lex_tokens(
             Syntax::default(),
             "a = b
 /hi/g.exec(c).map(d);"
-        )
+        ),
+        expected
     );
     assert_eq!(
-        expected,
-        lex_tokens(Syntax::default(), "a = b / hi / g.exec(c).map(d);")
+        lex_tokens(Syntax::default(), "a = b / hi / g.exec(c).map(d);"),
+        expected
     );
 }
 
@@ -603,6 +603,7 @@ fn empty() {
 #[test]
 fn migrated_0002() {
     assert_eq!(
+        lex(Syntax::default(), "tokenize(/42/)"),
         vec![
             "tokenize".span(0..8).lb(),
             LParen.span(8),
@@ -617,13 +618,13 @@ fn migrated_0002() {
             .span(9..13),
             RParen.span(13),
         ],
-        lex(Syntax::default(), "tokenize(/42/)")
     )
 }
 
 #[test]
 fn migrated_0003() {
     assert_eq!(
+        lex(Syntax::default(), "(false) /42/"),
         vec![
             LParen.span(0).lb(),
             Word::False.span(1..6),
@@ -632,13 +633,13 @@ fn migrated_0003() {
             42.span(9..11),
             Div.span(11),
         ],
-        lex(Syntax::default(), "(false) /42/"),
     )
 }
 
 #[test]
 fn migrated_0004() {
     assert_eq!(
+        lex(Syntax::default(), "function f(){} /42/"),
         vec![
             Function.span(0..8).lb(),
             "f".span(9),
@@ -655,8 +656,7 @@ fn migrated_0004() {
                 None,
             )
             .span(15..19),
-        ],
-        lex(Syntax::default(), "function f(){} /42/")
+        ]
     );
 }
 
@@ -687,6 +687,7 @@ fn migrated_0006() {
     // )
 
     assert_eq!(
+        lex(Syntax::default(), "{} /42/"),
         vec![
             LBrace.span(0).lb(),
             RBrace.span(1),
@@ -700,25 +701,24 @@ fn migrated_0006() {
             )
             .span(3..7),
         ],
-        lex(Syntax::default(), "{} /42/")
     )
 }
 
 #[test]
 fn str_lit() {
     assert_eq!(
+        lex_tokens(Syntax::default(), "'abcde'"),
         vec![Token::Str {
             value: "abcde".into(),
             has_escape: false,
         }],
-        lex_tokens(Syntax::default(), "'abcde'")
     );
     assert_eq_ignore_span!(
+        lex_tokens(Syntax::default(), "'\\\nabc'"),
         vec![Token::Str {
             value: "abc".into(),
             has_escape: true,
-        }],
-        lex_tokens(Syntax::default(), "'\\\nabc'")
+        }]
     );
 }
 
