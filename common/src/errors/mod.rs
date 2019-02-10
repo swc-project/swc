@@ -8,14 +8,11 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use self::Level::*;
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
-    emitter::ColorConfig,
-};
-pub use self::emitter::{Emitter,EmitterWriter};
-use self::{
-    Level::*,
+    emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 use crate::{
     rustc_data_structures::{fx::FxHashSet, stable_hasher::StableHasher},

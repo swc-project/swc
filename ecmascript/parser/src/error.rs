@@ -152,6 +152,9 @@ pub(crate) enum SyntaxError {
     ClassProperty,
     ReadOnlyMethod,
     TsBindingPatCannotBeOptional,
+
+    TrailingCommaInsideImport,
+    DynamicImport,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -280,11 +283,18 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
             }
-            ClassProperty => "Class property requires `esnext.classProperty` to be true".into(),
+            ClassProperty => "Class property requires `jsc.classProperty` to be true".into(),
             ReadOnlyMethod => "A method cannot be readonly".into(),
             TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be optional in an \
                                              implementation signature."
                 .into(),
+
+            TrailingCommaInsideImport => {
+                "Trailing comma is disallowed inside import(...) arguments".into()
+            }
+            DynamicImport => {
+                "import(...) expressions requires jsc.dynamicImports to be true".into()
+            }
         };
 
         let mut db = e.handler.struct_err(&msg);

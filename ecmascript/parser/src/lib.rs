@@ -136,6 +136,20 @@ impl Syntax {
         }
     }
 
+    pub fn dynamic_import(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                dynamic_import: true,
+                ..
+            })
+            | Syntax::Typescript(TsConfig {
+                dynamic_import: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
+
     pub fn fn_bind(self) -> bool {
         match self {
             Syntax::Es(EsConfig { fn_bind: true, .. }) => true,
@@ -214,17 +228,20 @@ impl Syntax {
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
 
     #[serde(default)]
     pub decorators: bool,
+
+    #[serde(default)]
+    pub dynamic_import: bool,
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
@@ -260,6 +277,9 @@ pub struct EsConfig {
     #[serde(rename = "decoratorsBeforeExport")]
     #[serde(default)]
     pub decorators_before_export: bool,
+
+    #[serde(default)]
+    pub dynamic_import: bool,
 }
 
 /// Syntatic context.

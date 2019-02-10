@@ -192,7 +192,7 @@ impl<'a, I: Input> Parser<'a, I> {
             return Ok(expr);
         }
 
-        let args = self.parse_args()?;
+        let args = self.parse_args(false)?;
         Ok(Box::new(Expr::Call(CallExpr {
             span: span!(expr.span().lo()),
             callee: ExprOrSuper::Expr(expr),

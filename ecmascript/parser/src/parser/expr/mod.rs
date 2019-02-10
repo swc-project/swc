@@ -180,6 +180,21 @@ impl<'a, I: Input> Parser<'a, I> {
             return Ok(Box::new(Expr::This(ThisExpr { span: span!(start) })));
         }
 
+        if eat!("import") {
+            if !self.input.syntax().dynamic_import() {
+                syntax_error!(span!(start), SyntaxError::DynamicImport);
+            }
+            if !is!('(') {
+                unexpected!();
+            }
+            return Ok(Box::new(Expr::Ident(Ident {
+                span: span!(start),
+                sym: js_word!("import"),
+                type_ann: None,
+                optional: false,
+            })));
+        }
+
         if is!("async") {
             if peeked_is!("function") && !self.input.has_linebreak_between_cur_and_peeked() {
                 // handle `async function` expression
@@ -370,7 +385,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             if !is_new_expr || is!('(') {
                 // Parsed with 'MemberExpression' production.
-                let args = self.parse_args().map(Some)?;
+                let args = self.parse_args(false).map(Some)?;
 
                 let new_expr = ExprOrSuper::Expr(Box::new(Expr::New(NewExpr {
                     span: span!(start),
@@ -411,7 +426,11 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse `Arguments[Yield, Await]`
-    pub(super) fn parse_args(&mut self) -> PResult<'a, (Vec<ExprOrSpread>)> {
+    pub(super) fn parse_args(
+        &mut self,
+        is_dynamic_import: bool,
+    ) -> PResult<'a, (Vec<ExprOrSpread>)> {
+        let start = cur_pos!();
         expect!('(');
 
         let mut first = true;
@@ -424,6 +443,10 @@ impl<'a, I: Input> Parser<'a, I> {
                 expect!(',');
                 // Handle trailing comma.
                 if is!(')') {
+                    if is_dynamic_import {
+                        syntax_error!(span!(start), SyntaxError::TrailingCommaInsideImport)
+                    }
+
                     break;
                 }
             }
@@ -752,7 +775,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     if !no_call && is!('(') {
                         // possibleAsync always false here, because we would have handled it
                         // above. (won't be any undefined arguments)
-                        let args = p.parse_args()?;
+                        let args = p.parse_args(is_import(&obj))?;
 
                         return Ok(Some((
                             Box::new(Expr::Call(CallExpr {
@@ -819,7 +842,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if !no_call && is!('(') {
-            let args = self.parse_args()?;
+            let args = self.parse_args(is_import(&obj))?;
             return Ok((
                 Box::new(Expr::Call(CallExpr {
                     span: span!(start),
@@ -931,12 +954,13 @@ impl<'a, I: Input> Parser<'a, I> {
         if is!('(') {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
-            let args = self.parse_args()?;
+            let callee = ExprOrSuper::Expr(callee);
+            let args = self.parse_args(is_import(&callee))?;
 
             let call_expr = Box::new(Expr::Call(CallExpr {
                 span: span!(start),
 
-                callee: ExprOrSuper::Expr(callee),
+                callee,
                 args,
                 type_args,
             }));
@@ -1170,5 +1194,18 @@ impl<'a, I: Input> Parser<'a, I> {
             _ => unreachable!("parse_lit should not be called"),
         };
         Ok(v)
+    }
+}
+
+fn is_import(obj: &ExprOrSuper) -> bool {
+    match *obj {
+        ExprOrSuper::Expr(ref expr) => match **expr {
+            Expr::Ident(Ident {
+                sym: js_word!("import"),
+                ..
+            }) => true,
+            _ => false,
+        },
+        _ => false,
     }
 }
