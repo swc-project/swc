@@ -54,7 +54,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 # Documentation
 
-Check out the documentation [in the website](https://swc-project.github.io/docs/introduction).
+Check out the documentation [in the website](https://swc-project.github.io/docs/installation).
 
 
 # Installation
@@ -64,7 +64,7 @@ Currently this requires nightly version of [rust][].
 ```sh
 npm i -D swc
 ```
-or 
+or
 ```sh
 yarn add --dev swc
 ```
@@ -124,7 +124,7 @@ New generation javascript to old-days javascript.
       - [ ] Using symbol as a key
     - [ ] optional-catch-binding
     - [ ] unicode-property-regex
- 
+
   - react
     - [x] jsx
 
