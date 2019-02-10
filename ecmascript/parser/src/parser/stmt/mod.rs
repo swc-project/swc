@@ -793,6 +793,9 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
 #[parser]
 impl<'a, I: Input> StmtLikeParser<'a, Stmt> for Parser<'a, I> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<'a, Stmt> {
+        if self.input.syntax().dynamic_import() && is!("import") {
+            return self.parse_primary_expr().map(Stmt::Expr);
+        }
         syntax_error!(SyntaxError::ImportExportInScript);
     }
 }

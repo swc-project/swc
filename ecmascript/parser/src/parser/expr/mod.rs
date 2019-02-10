@@ -166,7 +166,7 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     /// Parse a primary expression or arrow function
-    fn parse_primary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
+    pub(super) fn parse_primary_expr(&mut self) -> PResult<'a, (Box<Expr>)> {
         let _ = cur!(false);
         let start = cur_pos!();
 
