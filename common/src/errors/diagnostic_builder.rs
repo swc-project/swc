@@ -9,6 +9,7 @@
 // except according to those terms.
 
 use super::{Applicability, Diagnostic, DiagnosticId, DiagnosticStyledString, Handler, Level};
+use log::debug;
 use std::{
     fmt::{self, Debug},
     ops::{Deref, DerefMut},

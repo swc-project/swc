@@ -16,11 +16,11 @@
 //! `spans` and used pervasively in the compiler. They are absolute positions
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
-
 use crate::sync::{Lock, LockGuard, MappedLockGuard};
 pub use crate::syntax_pos::{hygiene::ExpnInfo, *};
 use errors::SourceMapper;
 use fxhash::FxHashMap;
+use log::debug;
 use rustc_data_structures::stable_hasher::StableHasher;
 use std::{
     cmp, env, fs,
