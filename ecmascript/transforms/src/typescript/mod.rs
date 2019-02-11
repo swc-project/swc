@@ -17,8 +17,6 @@ impl Fold<Constructor> for Strip {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let c = c.fold_children(self);
 
-        eprintln!("HERE");
-
         let mut stmts = vec![];
 
         let params = c.params.move_map(|param| match param {
