@@ -9,7 +9,6 @@
  */
 function red( color )
 {
-    let foo = 3.14;
     return color >> 16;
 }
 /**
