@@ -54,7 +54,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 # Documentation
 
-Check out the documentation [in the website](https://swc-project.github.io/docs/introduction).
+Check out the documentation [in the website](https://swc-project.github.io/docs/installation).
 
 
 # Installation
