@@ -426,3 +426,12 @@ impl<'a> Visit<Ident> for VarCollector<'a> {
 impl<'a> Visit<Expr> for VarCollector<'a> {
     fn visit(&mut self, _: &Expr) {}
 }
+
+/// Private `_exports` ident.
+pub(super) struct Exports(pub Ident);
+
+impl Default for Exports {
+    fn default() -> Self {
+        Exports(private_ident!("_exports"))
+    }
+}

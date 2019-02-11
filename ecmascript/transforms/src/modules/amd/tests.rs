@@ -11,6 +11,32 @@ fn tr(config: Config) -> impl Fold<Module> {
     amd(config)
 }
 
+test!(
+    syntax(),
+    |_| tr(Config {
+        module_id: Some("moduleId".into()),
+        ..Default::default()
+    }),
+    custom_named_define,
+    r#"
+import {foo} from 'src';
+export {foo};  
+  "#,
+    r#"define('moduleId', ['exports', 'src'], function(_exports, _src) {
+    'use strict';
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    Object.defineProperty(_exports, 'foo', {
+        enumerable: true,
+        get: function() {
+            return _src.foo;
+        }
+    });
+});
+"#
+);
+
 // export_default_4
 test!(
     syntax(),
@@ -81,8 +107,8 @@ define(["exports"], function (_exports) {
   });
   _exports.bar = _exports.foo = void 0;
   var foo, bar;
-  _exports.bar = bar;
   _exports.foo = foo;
+  _exports.bar = bar;
 });
 
 "#
@@ -676,7 +702,7 @@ define(["exports", "./evens"], function (_exports, _evens) {
   _exports.isOdd = void 0;
 
   function nextOdd(n) {
-    return (0, _evens.isEven)(n) ? n + 1 : n + 2;
+    return _evens.isEven(n) ? n + 1 : n + 2;
   }
 
   var isOdd = function (isEven) {
@@ -840,14 +866,14 @@ define(["exports"], function (_exports) {
     value: true
   });
   _exports.foo8 = foo8;
-  _exports.foo9 = _exports.foo7 = _exports.foo6 = _exports.foo5 = _exports.foo4 = _exports.foo3
-    = _exports.bar = _exports.foo2 = _exports.foo = void 0;
-  var foo = 1;
+  _exports.foo3 = _exports.foo4 = _exports.foo2 = _exports.foo7 = _exports.bar =
+      _exports.foo = _exports.foo5 = _exports.foo6 = void 0;
+ var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,
       bar = 2;
-  _exports.bar = bar;
   _exports.foo2 = foo2;
+  _exports.bar = bar;
 
   var foo3 = function () {};
 
@@ -952,10 +978,10 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.bar = _exports.default = void 0;
+  _exports.default = _exports.bar = void 0;
   var foo, bar;
-  _exports.bar = bar;
   _exports.default = foo;
+  _exports.bar = bar;
 });
 
 "#
