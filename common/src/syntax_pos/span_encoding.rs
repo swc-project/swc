@@ -14,13 +14,12 @@
 // The encoding format for inline spans were obtained by optimizing over crates
 // in rustc/libstd. See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
 
-use hygiene::SyntaxContext;
+use super::hygiene::SyntaxContext;
+use fxhash::FxHashMap;
+use std::hash::{Hash, Hasher};
 use BytePos;
 use SpanData;
 use GLOBALS;
-
-use rustc_data_structures::fx::FxHashMap;
-use std::hash::{Hash, Hasher};
 
 /// A compressed span.
 /// Contains either fields of `SpanData` inline if they are small, or index into

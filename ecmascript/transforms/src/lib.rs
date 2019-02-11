@@ -38,6 +38,7 @@ extern crate testing;
 extern crate either;
 extern crate objekt;
 extern crate serde;
+extern crate unicode_xid;
 
 pub use self::{
     fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier,

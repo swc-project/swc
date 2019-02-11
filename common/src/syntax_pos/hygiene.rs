@@ -16,7 +16,7 @@
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
 use super::{Span, GLOBALS};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
+use fxhash::{FxHashMap, FxHashSet};
 use std::fmt;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by

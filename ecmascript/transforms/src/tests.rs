@@ -9,7 +9,7 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, sync::Lrc, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use tempfile::tempdir_in;
@@ -19,7 +19,7 @@ struct MyHandlers;
 impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 pub(crate) struct Tester<'a> {
-    pub cm: Lrc<SourceMap>,
+    pub cm: Arc<SourceMap>,
     pub handler: &'a Handler,
 }
 

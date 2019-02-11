@@ -5,7 +5,8 @@ pub use self::{
     jsx_src::jsx_src,
 };
 use crate::pass::Pass;
-use swc_common::{sync::Lrc, SourceMap};
+use std::sync::Arc;
+use swc_common::SourceMap;
 
 mod display_name;
 mod jsx;
@@ -15,7 +16,7 @@ mod jsx_src;
 /// `@babel/preset-react`
 ///
 /// Preset for all React plugins.
-pub fn react(cm: Lrc<SourceMap>, options: Options) -> impl Pass + Clone {
+pub fn react(cm: Arc<SourceMap>, options: Options) -> impl Pass + Clone {
     let Options { development, .. } = options;
 
     chain!(

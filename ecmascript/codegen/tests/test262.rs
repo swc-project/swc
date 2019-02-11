@@ -16,7 +16,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::{comments::Comments, sync::Lrc};
+use swc_common::comments::Comments;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
@@ -154,7 +154,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     Some(Comments::default()),
                 );
 
-                let s: Lrc<String> = src.src.clone();
+                let s: Arc<String> = src.src.clone();
                 let mut src_map_builder = SourceMapBuilder::new(Some(&s));
                 {
                     let mut emitter = Emitter {

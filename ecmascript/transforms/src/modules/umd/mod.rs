@@ -10,14 +10,14 @@ use crate::{
 };
 use ast::*;
 use fxhash::FxHashSet;
-use std::{collections::hash_map::Entry, iter};
-use swc_common::{sync::Lrc, Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
+use std::{collections::hash_map::Entry, iter, sync::Arc};
+use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
 mod config;
 #[cfg(test)]
 mod tests;
 
-pub fn umd(cm: Lrc<SourceMap>, config: Config) -> impl Pass + Clone {
+pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass + Clone {
     Umd {
         config: config.build(cm.clone()),
         cm,
@@ -29,7 +29,7 @@ pub fn umd(cm: Lrc<SourceMap>, config: Config) -> impl Pass + Clone {
 
 #[derive(Clone)]
 struct Umd {
-    cm: Lrc<SourceMap>,
+    cm: Arc<SourceMap>,
     config: BuiltConfig,
     scope: State<Scope>,
     exports: State<Exports>,

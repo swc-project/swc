@@ -20,11 +20,9 @@ use self::{
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use fxhash::FxHashSet;
-use std::io;
+use std::{io, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{
-    comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{comments::Comments, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -66,7 +64,7 @@ impl<'a, N: Node> Node for &'a N {
 
 pub struct Emitter<'a> {
     pub cfg: config::Config,
-    pub cm: Lrc<SourceMap>,
+    pub cm: Arc<SourceMap>,
     pub comments: Option<Comments>,
     pub wr: Box<('a + WriteJs)>,
     pub handlers: Box<('a + Handlers)>,
@@ -159,6 +157,7 @@ impl<'a> Emitter<'a> {
         space!();
 
         let mut specifiers = vec![];
+        let mut emitted_default = false;
         for specifier in &node.specifiers {
             match specifier {
                 ImportSpecifier::Specific(ref s) => {
@@ -166,7 +165,7 @@ impl<'a> Emitter<'a> {
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
-                    space!();
+                    emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
                     assert!(node.specifiers.len() <= 2);
@@ -180,7 +179,14 @@ impl<'a> Emitter<'a> {
             }
         }
 
-        if !specifiers.is_empty() {
+        if specifiers.is_empty() {
+            space!();
+        } else if !specifiers.is_empty() {
+            if emitted_default {
+                punct!(",");
+                formatting_space!();
+            }
+
             punct!("{");
             self.emit_list(
                 node.span(),
@@ -188,10 +194,11 @@ impl<'a> Emitter<'a> {
                 ListFormat::NamedImportsOrExportsElements,
             )?;
             punct!("}");
+            formatting_space!();
         }
 
         keyword!("from");
-        space!();
+        formatting_space!();
         emit!(node.src);
         semi!();
     }
@@ -1806,7 +1813,7 @@ impl<'a> Emitter<'a> {
 
 #[allow(dead_code)]
 fn get_text_of_node<T: Spanned>(
-    cm: &Lrc<SourceMap>,
+    cm: &Arc<SourceMap>,
     node: &T,
     _include_travia: bool,
 ) -> Option<String> {

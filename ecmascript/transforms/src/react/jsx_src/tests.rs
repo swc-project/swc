@@ -2,7 +2,7 @@ use super::*;
 use swc_common::FilePathMapping;
 
 fn tr() -> impl Fold<Module> {
-    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     jsx_src(true, cm)
 }
 

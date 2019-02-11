@@ -15,7 +15,7 @@ impl Handlers for Noop {}
 
 struct Builder {
     cfg: Config,
-    cm: Lrc<SourceMap>,
+    cm: Arc<SourceMap>,
     comments: Comments,
 }
 

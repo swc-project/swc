@@ -7,8 +7,8 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-
 use super::*;
+use cfg_if::cfg_if;
 use unicode_width::UnicodeWidthChar;
 
 /// Find all newlines, multi-byte characters, and non-narrow characters in a

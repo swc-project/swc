@@ -1,0 +1,78 @@
+Module {
+    span: Span {
+        lo: BytePos(
+            0
+        ),
+        hi: BytePos(
+            11
+        ),
+        ctxt: #0
+    },
+    body: [
+        Stmt(
+            Expr(
+                Cond(
+                    CondExpr {
+                        span: Span {
+                            lo: BytePos(
+                                0
+                            ),
+                            hi: BytePos(
+                                11
+                            ),
+                            ctxt: #0
+                        },
+                        test: Ident(
+                            Ident {
+                                sym: foo,
+                                span: Span {
+                                    lo: BytePos(
+                                        0
+                                    ),
+                                    hi: BytePos(
+                                        3
+                                    ),
+                                    ctxt: #0
+                                },
+                                type_ann: None,
+                                optional: false
+                            }
+                        ),
+                        cons: Lit(
+                            Num(
+                                Number {
+                                    span: Span {
+                                        lo: BytePos(
+                                            6
+                                        ),
+                                        hi: BytePos(
+                                            7
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    value: 1.0
+                                }
+                            )
+                        ),
+                        alt: Lit(
+                            Num(
+                                Number {
+                                    span: Span {
+                                        lo: BytePos(
+                                            10
+                                        ),
+                                        hi: BytePos(
+                                            11
+                                        ),
+                                        ctxt: #0
+                                    },
+                                    value: 2.0
+                                }
+                            )
+                        )
+                    }
+                )
+            )
+        )
+    ]
+}

@@ -7,7 +7,7 @@ use crate::{
     react::display_name,
 };
 
-fn tr(cm: Lrc<SourceMap>, options: Options) -> impl Fold<Module> {
+fn tr(cm: Arc<SourceMap>, options: Options) -> impl Fold<Module> {
     chain!(jsx(cm.clone(), options), display_name(), Classes, arrow(),)
 }
 

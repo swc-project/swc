@@ -15,12 +15,13 @@ use super::{
     CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
 use atty;
-use rustc_data_structures::{fx::FxHashMap, sync::Lrc};
+use fxhash::FxHashMap;
 use std::{
     borrow::Cow,
     cmp::{min, Reverse},
     io::{self, prelude::*},
     ops::Range,
+    sync::Arc,
 };
 use syntax_pos::{MultiSpan, SourceFile, Span};
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
@@ -128,14 +129,14 @@ impl ColorConfig {
 
 pub struct EmitterWriter {
     dst: Destination,
-    sm: Option<Lrc<SourceMapperDyn>>,
+    sm: Option<Arc<SourceMapperDyn>>,
     short_message: bool,
     teach: bool,
     ui_testing: bool,
 }
 
 struct FileWithAnnotatedLines {
-    file: Lrc<SourceFile>,
+    file: Arc<SourceFile>,
     lines: Vec<Line>,
     multiline_depth: usize,
 }
@@ -143,7 +144,7 @@ struct FileWithAnnotatedLines {
 impl EmitterWriter {
     pub fn stderr(
         color_config: ColorConfig,
-        source_map: Option<Lrc<SourceMapperDyn>>,
+        source_map: Option<Arc<SourceMapperDyn>>,
         short_message: bool,
         teach: bool,
     ) -> EmitterWriter {
@@ -159,7 +160,7 @@ impl EmitterWriter {
 
     pub fn new(
         dst: Box<dyn Write + Send>,
-        source_map: Option<Lrc<SourceMapperDyn>>,
+        source_map: Option<Arc<SourceMapperDyn>>,
         short_message: bool,
         teach: bool,
     ) -> EmitterWriter {
@@ -188,7 +189,7 @@ impl EmitterWriter {
     fn preprocess_annotations(&mut self, msp: &MultiSpan) -> Vec<FileWithAnnotatedLines> {
         fn add_annotation_to_file(
             file_vec: &mut Vec<FileWithAnnotatedLines>,
-            file: Lrc<SourceFile>,
+            file: Arc<SourceFile>,
             line_index: usize,
             ann: Annotation,
         ) {
@@ -316,7 +317,7 @@ impl EmitterWriter {
     fn render_source_line(
         &self,
         buffer: &mut StyledBuffer,
-        file: Lrc<SourceFile>,
+        file: Arc<SourceFile>,
         line: &Line,
         width_offset: usize,
         code_offset: usize,

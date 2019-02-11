@@ -1,11 +1,10 @@
 use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
 use serde::{Deserialize, Serialize};
-use std::{iter, mem};
+use std::{iter, mem, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{ColorConfig, Handler},
-    sync::Lrc,
     FileName, Fold, FoldWith, SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
@@ -58,7 +57,7 @@ fn default_throw_if_namespace() -> bool {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(cm: Lrc<SourceMap>, options: Options) -> impl Pass + Clone {
+pub fn jsx(cm: Arc<SourceMap>, options: Options) -> impl Pass + Clone {
     let handler = Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(cm.clone()));
 
     let session = Session { handler: &handler };

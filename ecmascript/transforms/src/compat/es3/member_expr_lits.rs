@@ -1,3 +1,4 @@
+use crate::util::is_valid_ident;
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
@@ -30,7 +31,7 @@ impl Fold<MemberExpr> for MemberExprLit {
                 value: sym, span, ..
             }))
             | Expr::Ident(Ident { sym, span, .. }) => {
-                if sym.is_reserved_for_es3() || sym.contains("-") || sym.contains(".") {
+                if sym.is_reserved_for_es3() || !is_valid_ident(&sym) {
                     return MemberExpr {
                         computed: true,
                         prop: box Expr::Lit(Lit::Str(Str {
