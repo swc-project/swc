@@ -26,7 +26,7 @@ mod stmt;
 mod typescript;
 mod util;
 
-/// When error ocurred, error is emiited and parser returnes Err(()).
+/// When error occurs, error is emitted and parser returns Err(()).
 pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 
 /// EcmaScript parser.
@@ -69,13 +69,13 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
-        //TOOD: parse() -> PResult<'a, Program>
+        //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
             strict: true,
             ..self.ctx()
         };
-        // module code is always in strict mode
+        // Module code is always in strict mode
         self.set_ctx(ctx);
 
         let start = cur_pos!();
