@@ -3,7 +3,7 @@
 /// [ratel]:https://github.com/ratel-rust/ratel-core
 #[cfg(test)]
 mod tests {
-    use crate::tests::assert_min;
+    use crate::tests::{assert_min, assert_pretty};
 
     #[test]
     fn block_statement() {
@@ -78,8 +78,12 @@ mod tests {
     #[test]
     fn import() {
         assert_min(
-            "import colors, { color } from 'patterns/colors'",
-            "import colors,{color}from'patterns/colors'",
+            "import colors, { color } from 'patterns/colors';",
+            "import colors,{color}from'patterns/colors';",
+        );
+        assert_pretty(
+            "import colors, { color } from 'patterns/colors';",
+            "import colors, { color } from 'patterns/colors';",
         );
     }
 }

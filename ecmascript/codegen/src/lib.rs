@@ -165,7 +165,6 @@ impl<'a> Emitter<'a> {
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
-                    formatting_space!();
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -181,12 +180,11 @@ impl<'a> Emitter<'a> {
         }
 
         if specifiers.is_empty() {
-            if !self.cfg.minify {
-                space!()
-            }
+            space!();
         } else if !specifiers.is_empty() {
             if emitted_default {
-                punct!(",")
+                punct!(",");
+                formatting_space!();
             }
 
             punct!("{");
@@ -196,6 +194,7 @@ impl<'a> Emitter<'a> {
                 ListFormat::NamedImportsOrExportsElements,
             )?;
             punct!("}");
+            formatting_space!();
         }
 
         keyword!("from");
