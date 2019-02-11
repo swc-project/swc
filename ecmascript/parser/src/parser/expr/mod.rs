@@ -1001,8 +1001,9 @@ impl<'a, I: Input> Parser<'a, I> {
                     break;
                 }
             }
+            let start = cur_pos!();
 
-            let arg = {
+            let mut arg = {
                 if self.input.syntax().typescript()
                     && (is!(IdentRef) || (is!("...") && peeked_is!(IdentRef)))
                 {
@@ -1026,12 +1027,43 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             };
             let optional = if self.input.syntax().typescript() {
-                if eat!('?') {
-                    match *arg.expr {
-                        Expr::Ident(..) => {}
-                        _ => syntax_error!(arg.span(), SyntaxError::TsBindingPatCannotBeOptional),
+                if is!('?') {
+                    if peeked_is!(',') || peeked_is!(':') || peeked_is!(')') || peeked_is!('=') {
+                        bump!();
+                        let _ = cur!(false);
+                        match *arg.expr {
+                            Expr::Ident(..) => {}
+                            _ => {
+                                syntax_error!(arg.span(), SyntaxError::TsBindingPatCannotBeOptional)
+                            }
+                        }
+                        true
+                    } else if match arg {
+                        ExprOrSpread { spread: None, .. } => true,
+                        _ => false,
+                    } {
+                        expect!('?');
+
+                        let test = arg.expr;
+                        let cons = self.include_in_expr(true).parse_assignment_expr()?;
+                        expect!(':');
+                        let alt = self.parse_assignment_expr()?;
+
+                        arg = ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Cond(CondExpr {
+                                span: span!(start),
+
+                                test,
+                                cons,
+                                alt,
+                            })),
+                        };
+
+                        false
+                    } else {
+                        false
                     }
-                    true
                 } else {
                     false
                 }
