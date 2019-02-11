@@ -19,6 +19,7 @@ use std::{
 };
 use swc_atoms::JsWord;
 use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use unicode_xid::UnicodeXID;
 
 pub(crate) mod constructor;
 mod factory;
@@ -931,4 +932,12 @@ impl<'a> Visit<Ident> for DestructuringFinder<'a> {
     fn visit(&mut self, i: &Ident) {
         self.found.push((i.sym.clone(), i.span));
     }
+}
+
+pub(crate) fn is_valid_ident(s: &JsWord) -> bool {
+    if s.len() == 0 {
+        return false;
+    }
+    let first = s.chars().next().unwrap();
+    UnicodeXID::is_xid_start(first) && s.chars().skip(1).all(UnicodeXID::is_xid_continue)
 }
