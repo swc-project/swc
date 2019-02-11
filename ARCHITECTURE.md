@@ -1,4 +1,4 @@
-# swc Archtecture
+# swc Architecture
 
 This document gives a high level overview of swc internals. You may find it useful if you want to contribute to swc or if you are interested in the inner workings of swc.
 
