@@ -157,6 +157,7 @@ impl<'a> Emitter<'a> {
         space!();
 
         let mut specifiers = vec![];
+        let mut emitted_default = false;
         for specifier in &node.specifiers {
             match specifier {
                 ImportSpecifier::Specific(ref s) => {
@@ -164,7 +165,8 @@ impl<'a> Emitter<'a> {
                 }
                 ImportSpecifier::Default(ref s) => {
                     emit!(s.local);
-                    space!();
+                    formatting_space!();
+                    emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
                     assert!(node.specifiers.len() <= 2);
@@ -178,7 +180,15 @@ impl<'a> Emitter<'a> {
             }
         }
 
-        if !specifiers.is_empty() {
+        if specifiers.is_empty() {
+            if !self.cfg.minify {
+                space!()
+            }
+        } else if !specifiers.is_empty() {
+            if emitted_default {
+                punct!(",")
+            }
+
             punct!("{");
             self.emit_list(
                 node.span(),
@@ -189,7 +199,7 @@ impl<'a> Emitter<'a> {
         }
 
         keyword!("from");
-        space!();
+        formatting_space!();
         emit!(node.src);
         semi!();
     }

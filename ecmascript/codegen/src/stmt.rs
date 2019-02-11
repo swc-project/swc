@@ -74,4 +74,12 @@ mod tests {
         assert_min("for (foo of bar){}", "for(foo of bar){}");
         assert_min("for (let foo of bar){}", "for(let foo of bar){}");
     }
+
+    #[test]
+    fn import() {
+        assert_min(
+            "import colors, { color } from 'patterns/colors'",
+            "import colors,{color}from'patterns/colors'",
+        );
+    }
 }
