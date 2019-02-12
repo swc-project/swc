@@ -903,6 +903,12 @@ pub(crate) fn prepend_stmts(
 }
 
 pub trait IdentExt: Into<Ident> {
+    fn prefix(self, prefix: &str) -> Ident {
+        let mut i = self.into();
+
+        Ident::new(format!("{}{}", prefix, i.sym).into(), i.span)
+    }
+
     fn private(self) -> Ident {
         let mut i = self.into();
         i.span = i.span.apply_mark(Mark::fresh(Mark::root()));
