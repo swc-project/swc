@@ -150,7 +150,12 @@ impl<'a, I: Input> Parser<'a, I> {
         return_if_arrow!(test);
 
         if eat!('?') {
-            let cons = self.include_in_expr(true).parse_assignment_expr()?;
+            let ctx = Context {
+                in_cond_expr: true,
+                include_in_expr: true,
+                ..self.ctx()
+            };
+            let cons = self.with_ctx(ctx).parse_assignment_expr()?;
             expect!(':');
             let alt = self.parse_assignment_expr()?;
 
@@ -493,12 +498,13 @@ impl<'a, I: Input> Parser<'a, I> {
             _ => false,
         });
 
-        let return_type = if self.input.syntax().typescript() && is!(':') {
-            let start = cur_pos!();
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
-        } else {
-            None
-        };
+        let return_type =
+            if !self.ctx().in_cond_expr && self.input.syntax().typescript() && is!(':') {
+                let start = cur_pos!();
+                Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            } else {
+                None
+            };
 
         // we parse arrow function at here, to handle it efficiently.
         if has_pattern || return_type.is_some() || is!("=>") {
@@ -1116,8 +1122,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
 
                 if eat!('=') {
-                    //TODO: is parse_expr correct?
-                    let right = self.parse_expr()?;
+                    let right = self.parse_assignment_expr()?;
                     pat = Pat::Assign(AssignPat {
                         span: span!(start),
                         left: Box::new(pat),

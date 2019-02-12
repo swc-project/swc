@@ -314,6 +314,9 @@ pub(crate) struct Context {
     /// Typescript extension.
     in_declare: bool,
 
+    /// If true, `:` should not be treated as a type annotation.
+    in_cond_expr: bool,
+
     in_function: bool,
 
     in_parameters: bool,
