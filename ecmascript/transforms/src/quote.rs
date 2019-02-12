@@ -11,6 +11,17 @@ macro_rules! private_ident {
     }};
 }
 
+macro_rules! quote_helper {
+    ($field_name:ident, $s:literal) => {{
+        quote_helper!(::swc_common::DUMMY_SP, $field_name, $s)
+    }};
+
+    ($span:expr, $field_name:ident, $s:literal) => {{
+        helper!($field_name);
+        quote_ident!($s)
+    }};
+}
+
 #[macro_export]
 macro_rules! quote_ident {
     ($s:expr) => {

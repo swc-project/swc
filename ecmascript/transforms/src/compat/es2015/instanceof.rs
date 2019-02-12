@@ -60,16 +60,12 @@ impl Fold<Expr> for InstanceOf {
                 left,
                 op: op!("instanceof"),
                 right,
-            }) => {
-                helper!(instanceof);
-
-                Expr::Call(CallExpr {
-                    span,
-                    callee: quote_ident!(span, "_instanceof").as_callee(),
-                    args: vec![left.as_arg(), right.as_arg()],
-                    type_args: Default::default(),
-                })
-            }
+            }) => Expr::Call(CallExpr {
+                span,
+                callee: quote_helper!(span, instanceof, "_instanceof").as_callee(),
+                args: vec![left.as_arg(), right.as_arg()],
+                type_args: Default::default(),
+            }),
             _ => expr,
         }
     }

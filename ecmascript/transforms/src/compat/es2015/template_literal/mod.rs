@@ -66,7 +66,6 @@ impl Fold<Expr> for TemplateLiteral {
                 tag, exprs, quasis, ..
             }) => {
                 assert!(quasis.len() == exprs.len() + 1);
-                helper!(tagged_template_literal);
 
                 let fn_ident = private_ident!("_templateObject");
 
@@ -90,8 +89,11 @@ impl Fold<Expr> for TemplateLiteral {
                                         definite: false,
                                         init: Some(box Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            callee: quote_ident!("_taggedTemplateLiteral")
-                                                .as_callee(),
+                                            callee: quote_helper!(
+                                                tagged_template_literal,
+                                                "_taggedTemplateLiteral"
+                                            )
+                                            .as_callee(),
                                             args: {
                                                 let has_escape = quasis.iter().any(|s| {
                                                     s.cooked

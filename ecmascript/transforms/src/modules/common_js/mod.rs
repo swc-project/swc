@@ -533,24 +533,26 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     let ty = self.scope.value.import_types.get(&src);
 
                     let rhs = match ty {
-                        Some(true) if !self.config.no_interop => {
-                            helper!(interop_require_wildcard);
-                            box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: quote_ident!("_interopRequireWildcard").as_callee(),
-                                args: vec![require.as_arg()],
-                                type_args: Default::default(),
-                            })
-                        }
-                        Some(false) if !self.config.no_interop => {
-                            helper!(interop_require_default);
-                            box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: quote_ident!("_interopRequireDefault").as_callee(),
-                                args: vec![require.as_arg()],
-                                type_args: Default::default(),
-                            })
-                        }
+                        Some(true) if !self.config.no_interop => box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_helper!(
+                                interop_require_wildcard,
+                                "_interopRequireWildcard"
+                            )
+                            .as_callee(),
+                            args: vec![require.as_arg()],
+                            type_args: Default::default(),
+                        }),
+                        Some(false) if !self.config.no_interop => box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_helper!(
+                                interop_require_default,
+                                "_interopRequireDefault"
+                            )
+                            .as_callee(),
+                            args: vec![require.as_arg()],
+                            type_args: Default::default(),
+                        }),
                         _ => box require,
                     };
 

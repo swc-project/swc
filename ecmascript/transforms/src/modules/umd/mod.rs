@@ -443,11 +443,11 @@ impl Fold<Module> for Umd {
                         let right = box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: if wildcard {
-                                helper!(interop_require_wildcard);
-                                quote_ident!("_interopRequireWildcard").as_callee()
+                                quote_helper!(interop_require_wildcard, "_interopRequireWildcard")
+                                    .as_callee()
                             } else {
-                                helper!(interop_require_default);
-                                quote_ident!("_interopRequireDefault").as_callee()
+                                quote_helper!(interop_require_default, "_interopRequireDefault")
+                                    .as_callee()
                             },
                             args: vec![ident.clone().as_arg()],
                             type_args: Default::default(),

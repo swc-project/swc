@@ -174,7 +174,6 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 impl<'a> SuperCalleeFolder<'a> {
     fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, computed: bool) -> Expr {
         self.inject_get = true;
-        helper!(get);
 
         let proto_arg = get_prototype_of(&if self.is_static {
             // Foo
@@ -203,10 +202,10 @@ impl<'a> SuperCalleeFolder<'a> {
             Some(mark) => {
                 let this = quote_ident!(super_token.apply_mark(mark), "_this");
 
-                helper!(assert_this_initialized);
                 CallExpr {
                     span: DUMMY_SP,
-                    callee: quote_ident!("_assertThisInitialized").as_callee(),
+                    callee: quote_helper!(assert_this_initialized, "_assertThisInitialized")
+                        .as_callee(),
                     args: vec![this.as_arg()],
                     type_args: Default::default(),
                 }
@@ -217,7 +216,7 @@ impl<'a> SuperCalleeFolder<'a> {
 
         Expr::Call(CallExpr {
             span: super_token,
-            callee: quote_ident!("_get").as_callee(),
+            callee: quote_helper!(get, "_get").as_callee(),
             args: vec![proto_arg, prop_arg, this_arg],
             type_args: Default::default(),
         })
@@ -232,7 +231,6 @@ impl<'a> SuperCalleeFolder<'a> {
         rhs: Box<Expr>,
     ) -> Expr {
         self.inject_set = true;
-        helper!(set);
 
         let mut ref_ident = alias_ident_for(&rhs, "_ref");
         ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
@@ -338,7 +336,7 @@ impl<'a> SuperCalleeFolder<'a> {
 
         let expr = Expr::Call(CallExpr {
             span: super_token,
-            callee: quote_ident!("_set").as_callee(),
+            callee: quote_helper!(set, "_set").as_callee(),
             args: vec![
                 proto_arg,
                 prop_arg,

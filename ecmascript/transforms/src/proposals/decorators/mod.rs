@@ -539,11 +539,9 @@ fn make_decorate_call(
     decorators: Vec<Decorator>,
     args: impl Iterator<Item = ExprOrSpread>,
 ) -> CallExpr {
-    helper!(decorate);
-
     CallExpr {
         span: DUMMY_SP,
-        callee: quote_ident!("_decorate").as_callee(),
+        callee: quote_helper!(decorate, "_decorate").as_callee(),
         args: iter::once(
             ArrayLit {
                 span: DUMMY_SP,
