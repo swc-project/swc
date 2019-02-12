@@ -1,3 +1,4 @@
+use crate::util::prepend_stmts;
 use ast::*;
 use scoped_tls::scoped_thread_local;
 use std::sync::{
@@ -205,15 +206,11 @@ pub struct InjectHelpers {
 }
 
 impl Fold<Module> for InjectHelpers {
-    fn fold(&mut self, module: Module) -> Module {
-        let body = self
-            .mk_helpers()
-            .into_iter()
-            .map(ModuleItem::Stmt)
-            .chain(module.body)
-            .collect();
+    fn fold(&mut self, mut module: Module) -> Module {
+        let helpers = self.mk_helpers().into_iter().map(ModuleItem::Stmt);
 
-        Module { body, ..module }
+        prepend_stmts(&mut module.body, helpers.into_iter());
+        module
     }
 }
 
@@ -228,5 +225,29 @@ struct Marker(Mark);
 impl Fold<Span> for Marker {
     fn fold(&mut self, sp: Span) -> Span {
         sp.apply_mark(self.0)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::InjectHelpers;
+
+    #[test]
+    fn use_strict_before_helper() {
+        ::tests::test_transform(
+            Default::default(),
+            |tester| {
+                helper!(throw);
+                InjectHelpers {
+                    cm: tester.cm.clone(),
+                }
+            },
+            "",
+            "function _throw(e) {
+    throw e;
+}
+",
+            false,
+        )
     }
 }
