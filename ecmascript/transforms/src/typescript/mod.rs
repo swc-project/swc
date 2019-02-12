@@ -77,20 +77,12 @@ impl Fold<Vec<ModuleItem>> for Strip {
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                 ExportDefaultDecl::TsInterfaceDecl(..),
             ))
+            | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..))
             | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => None,
 
             ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => Some(
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export.expr).fold_with(self)),
             ),
-
-            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..)) => Some(ModuleItem::ModuleDecl(
-                ModuleDecl::ExportNamed(NamedExport {
-                    span: DUMMY_SP,
-                    specifiers: vec![],
-                    src: None,
-                })
-                .fold_with(self),
-            )),
 
             _ => Some(item.fold_with(self)),
         })
