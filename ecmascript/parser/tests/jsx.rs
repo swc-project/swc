@@ -14,11 +14,13 @@ use std::{
     fs::File,
     io::{self, Read},
     path::Path,
+    sync::Arc,
 };
+use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
-use testing::{NormalizedOutput, StdErr};
+use testing::{run_test, StdErr};
 use walkdir::WalkDir;
 
 fn add_test<F: FnOnce() + Send + 'static>(
@@ -81,8 +83,18 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             );
 
             let path = dir.join(&file_name);
-            // Parse source
-            let err = parse_module(&path).expect_err("should fail, but parsed as");
+            let err = run_test(false, |cm, handler| {
+                if false {
+                    // Type annotation
+                    return Ok(());
+                }
+
+                // Parse source
+                let err = parse_module(cm, handler, &path).expect_err("should fail, but parsed as");
+
+                Err(err)
+            })
+            .expect_err("should fail, but parsed as");
 
             if err
                 .compare_to_file(format!("{}.stderr", path.display()))
@@ -133,58 +145,63 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let dir = dir.clone();
         let name = format!("jsx::reference::{}", file_name);
         add_test(tests, name, ignore, move || {
-            eprintln!(
-                "\n\n========== Running reference test {}\nSource:\n{}\n",
-                file_name, input
-            );
+            run_test(false, |cm, handler| {
+                eprintln!(
+                    "\n\n========== Running reference test {}\nSource:\n{}\n",
+                    file_name, input
+                );
 
-            let path = dir.join(&file_name);
-            // Parse source
-            let module = parse_module(&path).expect("should be parsed");
+                let path = dir.join(&file_name);
+                // Parse source
+                let module = parse_module(cm, handler, &path).expect("should be parsed");
 
-            if StdErr::from(format!("{:#?}", module))
-                .compare_to_file(format!("{}.stdout", path.display()))
-                .is_err()
-            {
-                panic!()
-            }
+                if StdErr::from(format!("{:#?}", module))
+                    .compare_to_file(format!("{}.stdout", path.display()))
+                    .is_err()
+                {
+                    panic!()
+                }
+                Ok(())
+            })
+            .unwrap();
         });
     }
 
     Ok(())
 }
 
-fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
-    with_parser(file_name, |p| p.parse_module())
+fn parse_module<'a>(cm: Arc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
+    with_parser(cm, handler, file_name, |p| p.parse_module())
 }
 
-fn with_parser<F, Ret>(file_name: &Path, f: F) -> Result<Ret, StdErr>
+fn with_parser<F, Ret>(
+    cm: Arc<SourceMap>,
+    handler: &Handler,
+    file_name: &Path,
+    f: F,
+) -> Result<Ret, ()>
 where
     F: for<'a> FnOnce(&mut Parser<'a, SourceFileInput>) -> PResult<'a, Ret>,
 {
-    let output = ::testing::run_test(false, |cm, handler| {
-        let fm = cm
-            .load_file(file_name)
-            .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
+    let fm = cm
+        .load_file(file_name)
+        .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        let res = f(&mut Parser::new(
-            Session { handler: &handler },
-            ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-                jsx: true,
-                ..Default::default()
-            }),
-            (&*fm).into(),
-            None,
-        ))
-        .map_err(|mut e| {
-            e.emit();
-            ()
-        });
-
-        res
+    let res = f(&mut Parser::new(
+        Session { handler: &handler },
+        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        (&*fm).into(),
+        None,
+    ))
+    .map_err(|mut e| {
+        e.emit();
+        ()
     });
 
-    output
+    res
 }
 
 #[test]

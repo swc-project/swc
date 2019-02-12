@@ -296,7 +296,7 @@ pub struct EsConfig {
 }
 
 /// Syntatic context.
-#[derive(Clone, Copy, Default)]
+#[derive(Debug, Clone, Copy, Default)]
 pub(crate) struct Context {
     /// Is in module code?
     module: bool,
