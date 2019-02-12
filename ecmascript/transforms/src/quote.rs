@@ -17,8 +17,8 @@ macro_rules! quote_helper {
     }};
 
     ($span:expr, $field_name:ident, $s:literal) => {{
-        helper!($field_name);
-        quote_ident!($s)
+        let mark = helper!($field_name).0;
+        quote_ident!($span.apply_mark(mark), $s)
     }};
 }
 

@@ -6,7 +6,7 @@ use std::sync::{
 };
 use swc_common::{
     errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, Fold, FoldWith, SourceMap, Span, DUMMY_SP,
+    FileName, FilePathMapping, Fold, FoldWith, Mark, SourceMap, Span, DUMMY_SP,
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
@@ -20,12 +20,15 @@ lazy_static! {
 #[macro_export]
 macro_rules! helper {
     ($i:ident) => {{
-        $crate::helpers::HELPERS.with(|helpers| helpers.$i());
+        $crate::helpers::HELPERS.with(|helpers| {
+            helpers.$i();
+            helpers.mark
+        })
     }};
 }
 
 macro_rules! add_to {
-    ($buf:expr, $name:ident, $b:expr) => {{
+    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         lazy_static! {
             static ref STMTS: Vec<Stmt> = {
                 let code = include_str!(concat!("_", stringify!($name), ".js"));
@@ -51,7 +54,12 @@ macro_rules! add_to {
 
         let enable = $b.load(Ordering::Relaxed);
         if enable {
-            $buf.extend_from_slice(&STMTS)
+            $buf.extend(
+                STMTS
+                    .iter()
+                    .cloned()
+                    .map(|stmt| stmt.fold_with(&mut Marker($mark))),
+            )
         }
     }};
 }
@@ -61,7 +69,16 @@ scoped_thread_local!(pub static HELPERS: Helpers);
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Default)]
 pub struct Helpers {
+    pub mark: HelperMark,
     inner: Inner,
+}
+
+#[derive(Clone, Copy)]
+pub struct HelperMark(pub Mark);
+impl Default for HelperMark {
+    fn default() -> Self {
+        HelperMark(Mark::fresh(Mark::root()))
+    }
 }
 
 macro_rules! define_helpers {
@@ -93,7 +110,7 @@ macro_rules! define_helpers {
 
                 HELPERS.with(|helpers|{
                     $(
-                        add_to!(buf, $name, helpers.inner.$name);
+                        add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -204,5 +221,12 @@ struct DropSpan;
 impl Fold<Span> for DropSpan {
     fn fold(&mut self, _: Span) -> Span {
         DUMMY_SP
+    }
+}
+
+struct Marker(Mark);
+impl Fold<Span> for Marker {
+    fn fold(&mut self, sp: Span) -> Span {
+        sp.apply_mark(self.0)
     }
 }
