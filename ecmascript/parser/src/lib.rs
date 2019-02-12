@@ -22,9 +22,9 @@
 //! #[macro_use]
 //! extern crate swc_common;
 //! extern crate swc_ecma_parser;
+//! use std::sync::Arc;
 //! use swc_common::{
 //!     errors::{ColorConfig, Handler},
-//!     sync::Lrc,
 //!     FileName, FilePathMapping, SourceMap,
 //! };
 //! use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
@@ -51,6 +51,7 @@
 //!             session,
 //!             Syntax::Es(Default::default()),
 //!             SourceFileInput::from(&*fm),
+//!             None, // Disable comments
 //!         );
 //!
 //!         let _module = parser
