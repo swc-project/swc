@@ -333,9 +333,9 @@ impl Fold<Module> for Umd {
                     }
                 }
 
-                ModuleDecl::TsImportEqualsDecl(..)
+                ModuleDecl::TsImportEquals(..)
                 | ModuleDecl::TsExportAssignment(..)
-                | ModuleDecl::TsNamespaceExportDecl(..) => {}
+                | ModuleDecl::TsNamespaceExport(..) => {}
             }
         }
 

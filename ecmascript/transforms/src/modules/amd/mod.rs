@@ -332,9 +332,9 @@ impl Fold<Module> for Amd {
                     }
                 }
 
-                ModuleDecl::TsImportEqualsDecl(..)
+                ModuleDecl::TsImportEquals(..)
                 | ModuleDecl::TsExportAssignment(..)
-                | ModuleDecl::TsNamespaceExportDecl(..) => {}
+                | ModuleDecl::TsNamespaceExport(..) => {}
             }
         }
 
