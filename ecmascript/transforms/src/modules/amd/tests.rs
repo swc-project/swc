@@ -1,4 +1,5 @@
 use super::{amd, Config};
+use crate::compat::es2015::resolver;
 use ast::Module;
 use swc_common::Fold;
 use swc_ecma_parser::Syntax;
@@ -8,7 +9,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr(config: Config) -> impl Fold<Module> {
-    amd(config)
+    chain_at!(Module, resolver(), amd(config))
 }
 
 test!(
@@ -131,7 +132,7 @@ foo2;
 define(["foo"], function (_foo) {
   "use strict";
 
-  _foo = babelHelpers.interopRequireDefault(_foo);
+  _foo = _interopRequireDefault(_foo);
   _foo.default;
   _foo.default;
 });
@@ -155,7 +156,7 @@ xyz;
 define(["foo"], function (_foo) {
   "use strict";
 
-  _foo = babelHelpers.interopRequireWildcard(_foo);
+  _foo = _interopRequireWildcard(_foo);
   _foo.default;
   _foo.baz;
 });
@@ -388,14 +389,14 @@ foo;
 define(["foo"], function (foo) {
   "use strict";
 
-  foo = babelHelpers.interopRequireWildcard(foo);
+  foo = _interopRequireWildcard(foo);
   foo;
 });
 
 "#
 );
 
-// remap
+// ㅁap
 test!(
     syntax(),
     |_| tr(Default::default()),
@@ -431,16 +432,16 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
+  _exports.test = _exports.f = _exports.e = _exports.c = _exports.a = void 0;
   var test = 2;
   _exports.test = test;
   _exports.test = test = 5;
-  _exports.test = test = test + 1;
+  _exports.test = test = +test + 1;
 
   (function () {
-    var test = 2;
-    test = 3;
-    test++;
+    var test1 = 2;
+    test1 = 3;
+    test1++;
   })();
 
   var a = 2;
@@ -450,7 +451,8 @@ define(["exports"], function (_exports) {
   _exports.c = b;
   _exports.c = b = 3;
   var d = 3;
-  _exports.f = _exports.e = d;
+  _exports.e = d;
+  _exports.f = d;
   _exports.f = _exports.e = d = 4;
 });
 
@@ -471,7 +473,7 @@ import "./directory/foo-bar";
 
 "#,
     r#"
-define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooBar2) {
+define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooBar1) {
   "use strict";
 });
 
@@ -616,14 +618,14 @@ bar2;
 "#,
     r#"
 define(["exports", "foo", "foo-bar", "./directory/foo-bar"], 
-function (_exports, foo2, _fooBar, _fooBar2) {
+function (_exports, foo2, _fooBar, _fooBar1) {
   "use strict";
 
+  foo2 = _interopRequireWildcard(foo2);
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.test2 = _exports.test = void 0;
-  foo2 = babelHelpers.interopRequireWildcard(foo2);
+  _exports.test = _exports.default = _exports.test2 = void 0;
   var test;
   _exports.test = test;
   var test2 = 5;
@@ -810,7 +812,7 @@ import { qux } from './qux';
 define(["./foo", "./bar", "./derp", "./qux"], function (_foo, _bar, _derp, _qux) {
   "use strict";
 
-  _bar = babelHelpers.interopRequireDefault(_bar);
+  _bar = _interopRequireDefault(_bar);
 });
 
 "#
