@@ -250,4 +250,19 @@ mod tests {
             false,
         )
     }
+
+    #[test]
+    fn use_strict_abort() {
+        ::tests::test_transform(
+            Default::default(),
+            |_| {},
+            "'use strict'
+
+let x = 4;",
+            "'use strict'
+
+let x = 4;",
+            false,
+        );
+    }
 }

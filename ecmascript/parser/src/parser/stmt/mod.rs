@@ -32,7 +32,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     };
                     self.set_ctx(ctx);
 
-                    if self.input.knows_cur() && !is_one_of!('}') {
+                    if self.input.knows_cur() && !is!(';') {
                         unreachable!(
                             "'use strict'; directive requires parser.input.cur to be empty or \
                              '}}', but current token was: {:?}",
