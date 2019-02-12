@@ -16,7 +16,7 @@ use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
@@ -44,7 +44,7 @@ const fn default_strict_mode() -> bool {
     true
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 #[serde(untagged, deny_unknown_fields, rename_all = "camelCase")]
 pub enum Lazy {
     Bool(bool),

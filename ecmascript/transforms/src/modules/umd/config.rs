@@ -10,7 +10,7 @@ use swc_common::{
 };
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
