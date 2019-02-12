@@ -442,4 +442,6 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     identical!(regression_11, "(void 0).foo();");
 
     identical!(regression_12, "(function(){})()");
+
+    identical!(regression_13, "a || (a = 1);");
 }
