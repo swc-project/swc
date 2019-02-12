@@ -1122,8 +1122,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
 
                 if eat!('=') {
-                    //TODO: is parse_expr correct?
-                    let right = self.parse_expr()?;
+                    let right = self.parse_assignment_expr()?;
                     pat = Pat::Assign(AssignPat {
                         span: span!(start),
                         left: Box::new(pat),
