@@ -36,7 +36,7 @@ pub use self::{
     module::{Module, ModuleItem},
     module_decl::{
         ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
-        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport,
+        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{

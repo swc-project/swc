@@ -244,7 +244,15 @@ impl Fold<Module> for Amd {
 
                             stmts.reserve(export.specifiers.len());
 
-                            for ExportSpecifier { orig, exported, .. } in export.specifiers {
+                            for NamedExportSpecifier { orig, exported, .. } in
+                                export.specifiers.into_iter().map(|e| match e {
+                                    ExportSpecifier::Named(e) => e,
+                                    _ => unreachable!(
+                                        "export default from 'foo'; should be removed by previous \
+                                         pass"
+                                    ),
+                                })
+                            {
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());

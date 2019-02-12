@@ -86,7 +86,13 @@ pub struct ImportSpecific {
 }
 
 #[ast_node]
-pub struct ExportSpecifier {
+pub enum ExportSpecifier {
+    Default(Ident),
+    Named(NamedExportSpecifier),
+}
+
+#[ast_node]
+pub struct NamedExportSpecifier {
     pub span: Span,
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,

@@ -271,8 +271,33 @@ impl<'a, I: Input> Parser<'a, I> {
             // export {};
             // export {} from '';
 
+            let default = if self.input.syntax().export_default_from() && is!(IdentRef) {
+                Some(self.parse_ident(false, false)?)
+            } else {
+                None
+            };
+
+            if is!("from") {
+                if let Some(default) = default {
+                    let src = self.parse_from_clause_and_semi().map(Some)?;
+                    return Ok(ModuleDecl::ExportNamed(NamedExport {
+                        span: span!(start),
+                        specifiers: vec![ExportSpecifier::Default(default)],
+                        src,
+                    }));
+                }
+            }
+
+            let has_default = default.is_some();
+            if has_default {
+                expect!(',')
+            }
+
             expect!('{');
             let mut specifiers = vec![];
+            if let Some(default) = default {
+                specifiers.push(ExportSpecifier::Default(default))
+            }
             let mut first = true;
             while is_one_of!(',', IdentName) {
                 if first {
@@ -285,13 +310,19 @@ impl<'a, I: Input> Parser<'a, I> {
                     }
                 }
 
-                specifiers.push(self.parse_export_specifier()?);
+                specifiers.push(
+                    self.parse_named_export_specifier()
+                        .map(ExportSpecifier::Named)?,
+                );
             }
             expect!('}');
 
             let src = if is!("from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
+                if has_default {
+                    syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
+                }
                 None
             };
             eat!(';');
@@ -305,7 +336,7 @@ impl<'a, I: Input> Parser<'a, I> {
         return Ok(ModuleDecl::ExportDecl(decl));
     }
 
-    fn parse_export_specifier(&mut self) -> PResult<'a, ExportSpecifier> {
+    fn parse_named_export_specifier(&mut self) -> PResult<'a, NamedExportSpecifier> {
         let start = cur_pos!();
 
         let orig = self.parse_ident_name()?;
@@ -316,7 +347,7 @@ impl<'a, I: Input> Parser<'a, I> {
             None
         };
 
-        Ok(ExportSpecifier {
+        Ok(NamedExportSpecifier {
             span: span!(start),
             orig,
             exported,

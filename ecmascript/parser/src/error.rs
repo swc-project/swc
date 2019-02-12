@@ -155,6 +155,8 @@ pub(crate) enum SyntaxError {
 
     TrailingCommaInsideImport,
     DynamicImport,
+
+    ExportDefaultWithOutFrom,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -295,6 +297,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             DynamicImport => {
                 "import(...) expressions requires `jsc.parser.dynamicImport` to be true".into()
             }
+            ExportDefaultWithOutFrom => "export default statements required from '...';".into(),
         };
 
         let mut db = e.handler.struct_err(&msg);

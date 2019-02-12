@@ -101,11 +101,12 @@ impl Fold<Vec<ModuleItem>> for Decorators {
                         // export { Foo as default }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                             span: DUMMY_SP,
-                            specifiers: vec![ExportSpecifier {
+                            specifiers: vec![NamedExportSpecifier {
                                 span: DUMMY_SP,
                                 orig: ident,
                                 exported: Some(quote_ident!("default")),
-                            }],
+                            }
+                            .into()],
                             src: None,
                         }))
                     }))

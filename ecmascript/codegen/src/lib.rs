@@ -217,6 +217,16 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
+        match node {
+            ExportSpecifier::Default(ref node) => {
+                unimplemented!("codegen of `export de   fault from 'foo';`")
+            }
+            ExportSpecifier::Named(ref node) => emit!(node),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_named_export_specifier(&mut self, node: &NamedExportSpecifier) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         if let Some(ref exported) = node.exported {

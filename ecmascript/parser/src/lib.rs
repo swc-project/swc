@@ -225,6 +225,16 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn export_default_from(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
@@ -277,6 +287,9 @@ pub struct EsConfig {
     #[serde(rename = "decoratorsBeforeExport")]
     #[serde(default)]
     pub decorators_before_export: bool,
+
+    #[serde(default)]
+    pub export_default_from: bool,
 
     #[serde(default)]
     pub dynamic_import: bool,

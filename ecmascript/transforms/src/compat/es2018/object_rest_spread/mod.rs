@@ -310,11 +310,12 @@ impl Fold<ModuleDecl> for RestFolder {
                     finder
                         .names
                         .into_iter()
-                        .map(|orig| ExportSpecifier {
+                        .map(|orig| NamedExportSpecifier {
                             span: orig.span,
                             orig,
                             exported: None,
                         })
+                        .map(ExportSpecifier::Named)
                         .collect()
                 };
 
