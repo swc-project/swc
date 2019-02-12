@@ -1,6 +1,6 @@
 use super::util::{
-    define_es_module, define_property, initialize_to_undefined, make_descriptor, make_require_call,
-    use_strict, Scope, VarCollector,
+    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
+    make_require_call, use_strict, Scope, VarCollector,
 };
 use crate::{
     pass::Pass,
@@ -95,7 +95,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         if self.config.strict_mode {
-            stmts.push(ModuleItem::Stmt(use_strict()));
+            if !has_use_strict(&items) {
+                stmts.push(ModuleItem::Stmt(use_strict()));
+            }
         }
 
         let mut exports = vec![];
@@ -533,24 +535,26 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     let ty = self.scope.value.import_types.get(&src);
 
                     let rhs = match ty {
-                        Some(true) if !self.config.no_interop => {
-                            helper!(interop_require_wildcard);
-                            box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: quote_ident!("_interopRequireWildcard").as_callee(),
-                                args: vec![require.as_arg()],
-                                type_args: Default::default(),
-                            })
-                        }
-                        Some(false) if !self.config.no_interop => {
-                            helper!(interop_require_default);
-                            box Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: quote_ident!("_interopRequireDefault").as_callee(),
-                                args: vec![require.as_arg()],
-                                type_args: Default::default(),
-                            })
-                        }
+                        Some(true) if !self.config.no_interop => box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_helper!(
+                                interop_require_wildcard,
+                                "_interopRequireWildcard"
+                            )
+                            .as_callee(),
+                            args: vec![require.as_arg()],
+                            type_args: Default::default(),
+                        }),
+                        Some(false) if !self.config.no_interop => box Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_helper!(
+                                interop_require_default,
+                                "_interopRequireDefault"
+                            )
+                            .as_callee(),
+                            args: vec![require.as_arg()],
+                            type_args: Default::default(),
+                        }),
                         _ => box require,
                     };
 

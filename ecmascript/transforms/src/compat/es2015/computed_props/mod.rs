@@ -193,10 +193,9 @@ impl Fold<Expr> for ObjectLitFolder {
                     };
 
                     if props_cnt == 1 {
-                        helper!(define_property);
                         return Expr::Call(CallExpr {
                             span,
-                            callee: quote_ident!("_defineProperty").as_callee(),
+                            callee: quote_helper!(define_property, "_defineProperty").as_callee(),
                             args: vec![
                                 ObjectLit {
                                     span,
@@ -209,10 +208,9 @@ impl Fold<Expr> for ObjectLitFolder {
                             type_args: Default::default(),
                         });
                     }
-                    helper!(define_property);
                     exprs.push(box Expr::Call(CallExpr {
                         span,
-                        callee: quote_ident!("_defineProperty").as_callee(),
+                        callee: quote_helper!(define_property, "_defineProperty").as_callee(),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
                     }));
@@ -234,10 +232,13 @@ impl Fold<Expr> for ObjectLitFolder {
                         })),
                         definite: false,
                     });
-                    helper!(define_enumerable_properties);
                     exprs.push(box Expr::Call(CallExpr {
                         span,
-                        callee: quote_ident!("_defineEnumerableProperties").as_callee(),
+                        callee: quote_helper!(
+                            define_enumerable_properties,
+                            "_defineEnumerableProperties"
+                        )
+                        .as_callee(),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                         type_args: Default::default(),
                     }));
@@ -299,16 +300,12 @@ where
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        helper!(define_property);
                         buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             decls: folder.vars,
                             declare: false,
                         }))));
-                    }
-                    if folder.used_define_enum_props {
-                        helper!(define_enumerable_properties);
                     }
 
                     buf.push(T::from_stmt(stmt));

@@ -192,7 +192,6 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     let ref_ident = make_ref_ident(&mut decls, decl.init);
 
                     let ref_ident = if can_be_null {
-                        helper!(throw);
                         make_ref_ident(
                             &mut decls,
                             Some(box Expr::Cond(CondExpr {
@@ -202,7 +201,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                 // _throw(new TypeError())
                                 alt: box Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: quote_ident!("_throw").as_callee(),
+                                    callee: quote_helper!(throw, "_throw").as_callee(),
                                     // new TypeError()
                                     args: vec![NewExpr {
                                         span: DUMMY_SP,

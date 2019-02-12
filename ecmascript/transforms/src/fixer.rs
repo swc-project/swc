@@ -305,7 +305,13 @@ impl Fold<Expr> for Fixer {
                         left: box left.wrap_with_paren(),
                         ..expr
                     }),
-                    _ => Expr::Bin(expr),
+                    _ => match *expr.right {
+                        e @ Expr::Assign(..) => Expr::Bin(BinExpr {
+                            right: box e.wrap_with_paren(),
+                            ..expr
+                        }),
+                        _ => Expr::Bin(expr),
+                    },
                 }
             }
 
@@ -442,4 +448,6 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     identical!(regression_11, "(void 0).foo();");
 
     identical!(regression_12, "(function(){})()");
+
+    identical!(regression_13, "a || (a = 1);");
 }

@@ -64,6 +64,23 @@ exports.good = good;
 "#
 );
 
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_176,
+    r#"
+"use strict";
+
+let x = 4;"#,
+    r#"
+"use strict";
+
+let x = 4;
+"#
+);
+
 // strict_export_2
 test!(
     syntax(),

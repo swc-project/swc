@@ -74,13 +74,15 @@ impl Fold<Vec<ModuleItem>> for Strip {
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsEnum(..)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsInterface(..)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsModule(..)))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsTypeAlias(..)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                 ExportDefaultDecl::TsInterfaceDecl(..),
             ))
-            | ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(..))
-            | ModuleItem::ModuleDecl(ModuleDecl::TsImportEqualsDecl(..))
-            | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExportDecl(..)) => None,
+            | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..))
+            | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => None,
+
+            ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => Some(
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export.expr).fold_with(self)),
+            ),
 
             _ => Some(item.fold_with(self)),
         })
@@ -188,4 +190,8 @@ mod tests {
     }
 }"
     );
+
+    // to!(export_import, "export import A = B", "export { B as A }");
+
+    to!(export_equals, "export = Foo", "export default Foo");
 }

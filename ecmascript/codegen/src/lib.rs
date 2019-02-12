@@ -127,8 +127,8 @@ impl<'a> Emitter<'a> {
             }
             ModuleDecl::ExportAll(ref d) => emit!(d),
             ModuleDecl::TsExportAssignment(ref n) => emit!(n),
-            ModuleDecl::TsImportEqualsDecl(ref n) => emit!(n),
-            ModuleDecl::TsNamespaceExportDecl(ref n) => emit!(n),
+            ModuleDecl::TsImportEquals(ref n) => emit!(n),
+            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
         }
         self.wr.write_line()?;
     }
@@ -183,7 +183,7 @@ impl<'a> Emitter<'a> {
 
         if specifiers.is_empty() {
             space!();
-            if emitted_ns {
+            if emitted_ns || emitted_default {
                 keyword!("from");
             }
         } else {

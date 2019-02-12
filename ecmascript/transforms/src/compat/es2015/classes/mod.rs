@@ -227,12 +227,11 @@ impl Classes {
                 _ => false,
             };
             if is_super_native {
-                helper!(wrap_native_super);
                 (
                     params,
                     vec![CallExpr {
                         span: DUMMY_SP,
-                        callee: quote_ident!("_wrapNativeSuper").as_callee(),
+                        callee: quote_helper!(wrap_native_super, "_wrapNativeSuper").as_callee(),
                         args: vec![super_class.as_arg()],
                         type_args: Default::default(),
                     }
@@ -344,12 +343,10 @@ impl Classes {
 
         if let Some(ref super_class_ident) = super_class_ident {
             // inject helper methods
-            helper!(inherits);
-            helper!(possible_constructor_return);
 
             stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_ident!("_inherits").as_callee(),
+                callee: quote_helper!(inherits, "_inherits").as_callee(),
                 args: vec![
                     class_name.clone().as_arg(),
                     super_class_ident.clone().as_arg(),
@@ -628,10 +625,9 @@ impl Classes {
             methods: ExprOrSpread,
             static_methods: Option<ExprOrSpread>,
         ) -> Stmt {
-            helper!(create_class);
             Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_ident!("_createClass").as_callee(),
+                callee: quote_helper!(create_class, "_createClass").as_callee(),
                 args: iter::once(class_name.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
@@ -748,21 +744,18 @@ impl Classes {
 /// Child.__proto__ || Object.getPrototypeOf(Child)
 /// ```
 fn get_prototype_of(obj: &Expr) -> Expr {
-    helper!(get_prototype_of);
-
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: member_expr!(DUMMY_SP, _getPrototypeOf).as_callee(),
+        callee: quote_helper!(get_prototype_of, "_getPrototypeOf").as_callee(),
         args: vec![obj.clone().as_arg()],
         type_args: Default::default(),
     })
 }
 
 fn inject_class_call_check(c: &mut Constructor, name: Ident) {
-    helper!(class_call_check);
     let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: Expr::Ident(quote_ident!("_classCallCheck")).as_callee(),
+        callee: Expr::Ident(quote_helper!(class_call_check, "_classCallCheck")).as_callee(),
         args: vec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             Expr::Ident(name).as_arg(),

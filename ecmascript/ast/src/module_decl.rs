@@ -17,9 +17,9 @@ pub enum ModuleDecl {
 
     ExportDefaultExpr(Box<Expr>),
     ExportAll(ExportAll),
-    TsImportEqualsDecl(TsImportEqualsDecl),
+    TsImportEquals(TsImportEqualsDecl),
     TsExportAssignment(TsExportAssignment),
-    TsNamespaceExportDecl(TsNamespaceExportDecl),
+    TsNamespaceExport(TsNamespaceExportDecl),
 }
 
 #[ast_node]
