@@ -183,7 +183,7 @@ impl<'a> Emitter<'a> {
 
         if specifiers.is_empty() {
             space!();
-            if emitted_ns {
+            if emitted_ns || emitted_default {
                 keyword!("from");
             }
         } else {
