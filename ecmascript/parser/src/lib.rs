@@ -22,9 +22,9 @@
 //! #[macro_use]
 //! extern crate swc_common;
 //! extern crate swc_ecma_parser;
+//! use std::sync::Arc;
 //! use swc_common::{
 //!     errors::{ColorConfig, Handler},
-//!     sync::Lrc,
 //!     FileName, FilePathMapping, SourceMap,
 //! };
 //! use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
@@ -51,6 +51,7 @@
 //!             session,
 //!             Syntax::Es(Default::default()),
 //!             SourceFileInput::from(&*fm),
+//!             None, // Disable comments
 //!         );
 //!
 //!         let _module = parser
@@ -225,6 +226,16 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn export_default_from(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
@@ -279,11 +290,14 @@ pub struct EsConfig {
     pub decorators_before_export: bool,
 
     #[serde(default)]
+    pub export_default_from: bool,
+
+    #[serde(default)]
     pub dynamic_import: bool,
 }
 
 /// Syntatic context.
-#[derive(Clone, Copy, Default)]
+#[derive(Debug, Clone, Copy, Default)]
 pub(crate) struct Context {
     /// Is in module code?
     module: bool,

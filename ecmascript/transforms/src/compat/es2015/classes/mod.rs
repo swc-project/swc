@@ -91,11 +91,12 @@ where
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
                                         NamedExport {
                                             span: DUMMY_SP,
-                                            specifiers: vec![ExportSpecifier {
+                                            specifiers: vec![NamedExportSpecifier {
                                                 span: DUMMY_SP,
                                                 orig: ident,
                                                 exported: Some(quote_ident!("default")),
-                                            }],
+                                            }
+                                            .into()],
                                             src: None,
                                         },
                                     )) {

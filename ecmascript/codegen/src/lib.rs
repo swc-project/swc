@@ -158,6 +158,7 @@ impl<'a> Emitter<'a> {
 
         let mut specifiers = vec![];
         let mut emitted_default = false;
+        let mut emitted_ns = false;
         for specifier in &node.specifiers {
             match specifier {
                 ImportSpecifier::Specific(ref s) => {
@@ -168,20 +169,24 @@ impl<'a> Emitter<'a> {
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
+                    emitted_ns = true;
+
                     assert!(node.specifiers.len() <= 2);
                     punct!("*");
                     space!();
                     keyword!("as");
                     space!();
                     emit!(ns.local);
-                    space!();
                 }
             }
         }
 
         if specifiers.is_empty() {
             space!();
-        } else if !specifiers.is_empty() {
+            if emitted_ns {
+                keyword!("from");
+            }
+        } else {
             if emitted_default {
                 punct!(",");
                 formatting_space!();
@@ -195,9 +200,10 @@ impl<'a> Emitter<'a> {
             )?;
             punct!("}");
             formatting_space!();
+
+            keyword!("from");
         }
 
-        keyword!("from");
         formatting_space!();
         emit!(node.src);
         semi!();
@@ -217,6 +223,16 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
+        match node {
+            ExportSpecifier::Default(ref node) => {
+                unimplemented!("codegen of `export de   fault from 'foo';`")
+            }
+            ExportSpecifier::Named(ref node) => emit!(node),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_named_export_specifier(&mut self, node: &NamedExportSpecifier) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
         if let Some(ref exported) = node.exported {

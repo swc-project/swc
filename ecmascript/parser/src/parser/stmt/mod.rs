@@ -1024,4 +1024,41 @@ export default App"#;
             },
         );
     }
+
+    #[test]
+    fn export_default() {
+        let src = "export v, { x, y as w } from 'mod';";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn export_default_2() {
+        let src = "export foo from 'bar';";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
 }

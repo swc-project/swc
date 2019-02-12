@@ -1,1 +1,1 @@
-import a from 'a';
+import a  'a';

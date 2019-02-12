@@ -64,10 +64,10 @@ impl<'a> Fold<Ident> for Operator<'a> {
     }
 }
 
-impl<'a> Fold<ExportSpecifier> for Operator<'a> {
-    fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
+impl<'a> Fold<NamedExportSpecifier> for Operator<'a> {
+    fn fold(&mut self, s: NamedExportSpecifier) -> NamedExportSpecifier {
         if s.exported.is_some() {
-            return ExportSpecifier {
+            return NamedExportSpecifier {
                 orig: s.orig.fold_with(self),
                 ..s
             };
@@ -76,12 +76,12 @@ impl<'a> Fold<ExportSpecifier> for Operator<'a> {
         let exported = s.orig.clone();
 
         match self.rename_ident(s.orig) {
-            Ok(orig) => ExportSpecifier {
+            Ok(orig) => NamedExportSpecifier {
                 exported: Some(exported),
                 orig,
                 ..s
             },
-            Err(orig) => ExportSpecifier { orig, ..s },
+            Err(orig) => NamedExportSpecifier { orig, ..s },
         }
     }
 }

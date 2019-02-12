@@ -58,7 +58,10 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
 
     for entry in WalkDir::new(&dir).into_iter() {
         let entry = entry?;
-        if entry.file_type().is_dir() || !entry.file_name().to_string_lossy().ends_with(".ts") {
+        if entry.file_type().is_dir()
+            || !(entry.file_name().to_string_lossy().ends_with(".ts")
+                || entry.file_name().to_string_lossy().ends_with(".tsx"))
+        {
             continue;
         }
         let file_name = entry
