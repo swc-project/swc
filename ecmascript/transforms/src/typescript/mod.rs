@@ -188,4 +188,8 @@ mod tests {
     }
 }"
     );
+
+    to!(export_import, "export import A = B", "export { B as A }");
+
+    to!(export_equals, "export = Foo", "export default Foo");
 }
