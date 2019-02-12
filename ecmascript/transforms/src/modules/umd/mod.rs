@@ -1,7 +1,7 @@
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
-    define_es_module, define_property, initialize_to_undefined, local_name_for_src,
+    define_es_module, define_property, has_use_strict, initialize_to_undefined, local_name_for_src,
     make_descriptor, make_require_call, use_strict, Exports, Scope, VarCollector,
 };
 use crate::{
@@ -44,7 +44,9 @@ impl Fold<Module> for Umd {
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
         let mut stmts = Vec::with_capacity(items.len() + 2);
-        stmts.push(use_strict());
+        if !has_use_strict(&items) {
+            stmts.push(use_strict());
+        }
 
         let mut exports = vec![];
         let mut initialized = FxHashSet::default();

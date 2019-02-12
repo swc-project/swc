@@ -343,6 +343,18 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     ]))
 }
 
+pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
+    if stmts.is_empty() {
+        return false;
+    }
+    match *stmts.first().unwrap() {
+        ModuleItem::Stmt(Stmt::Expr(box Expr::Lit(Lit::Str(Str { ref value, .. })))) => {
+            &*value == "use strict"
+        }
+        _ => false,
+    }
+}
+
 pub(super) fn use_strict() -> Stmt {
     Stmt::Expr(box Expr::Lit(Lit::Str(quote_str!("use strict"))))
 }

@@ -1,6 +1,6 @@
 use super::util::{
-    define_es_module, define_property, initialize_to_undefined, make_descriptor, make_require_call,
-    use_strict, Scope, VarCollector,
+    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
+    make_require_call, use_strict, Scope, VarCollector,
 };
 use crate::{
     pass::Pass,
@@ -95,7 +95,9 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         if self.config.strict_mode {
-            stmts.push(ModuleItem::Stmt(use_strict()));
+            if !has_use_strict(&items) {
+                stmts.push(ModuleItem::Stmt(use_strict()));
+            }
         }
 
         let mut exports = vec![];
