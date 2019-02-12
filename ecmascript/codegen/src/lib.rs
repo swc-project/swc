@@ -195,9 +195,10 @@ impl<'a> Emitter<'a> {
             )?;
             punct!("}");
             formatting_space!();
+
+            keyword!("from");
         }
 
-        keyword!("from");
         formatting_space!();
         emit!(node.src);
         semi!();
