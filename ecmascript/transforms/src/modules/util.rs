@@ -423,9 +423,19 @@ impl<'a> Visit<Ident> for VarCollector<'a> {
         self.to.push((i.sym.clone(), i.span.ctxt()))
     }
 }
-impl<'a> Visit<Expr> for VarCollector<'a> {
-    fn visit(&mut self, _: &Expr) {}
+
+macro_rules! var_noop {
+    ($T:path) => {
+        impl<'a> Visit<$T> for VarCollector<'a> {
+            fn visit(&mut self, _: &$T) {}
+        }
+    };
 }
+
+var_noop!(Expr);
+var_noop!(ArrowExpr);
+var_noop!(Function);
+var_noop!(Constructor);
 
 /// Private `_exports` ident.
 pub(super) struct Exports(pub Ident);

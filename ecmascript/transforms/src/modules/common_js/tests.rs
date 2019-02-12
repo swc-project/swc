@@ -36,6 +36,33 @@ exports.foo = foo = 3;
 
 "#
 );
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    custom_02,
+    r#"
+export const good = {
+  a(bad1) {
+    (...bad2) => { };
+  }
+};"#,
+    r#"
+'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.good = void 0;
+const good = {
+  a (bad1) {
+    (...bad2)=>{};
+  }
+};
+exports.good = good;
+
+"#
+);
 
 // strict_export_2
 test!(
