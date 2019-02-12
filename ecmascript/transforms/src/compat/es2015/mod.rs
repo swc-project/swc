@@ -58,3 +58,38 @@ pub fn es2015() -> impl Pass + Clone {
         block_scoping(),
     )
 }
+
+#[cfg(test)]
+mod tests {
+    use super::es2015;
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_169,
+        r#"
+class Foo {
+	func(a, b = Date.now()) {
+		return {a};
+	}
+}
+"#,
+        r#"
+var Foo = function() {
+    var Foo = function Foo() {
+        _classCallCheck(this, Foo);
+    };
+    _createClass(Foo, [{
+            key: 'func',
+            value: function func(a, param) {
+                var tmp = param, b = tmp === void 0 ? Date.now() : tmp;
+                return {
+                    a: a
+                };
+            }
+        }]);
+    return Foo;
+}();
+"#
+    );
+}

@@ -13,6 +13,28 @@ fn tr() -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
+    issue_169,
+    r#"
+class Foo {
+	func(a, b = Date.now()) {
+		return {a};
+	}
+}
+"#,
+    r#"
+class Foo{
+     func(a, param) {
+        var tmp = param, b = tmp === void 0 ? Date.now() : tmp;
+        return {
+            a
+        };
+    }
+}"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
     babel_6057_simple,
     r#"const a = 'bar';
 function foo(...a) {
