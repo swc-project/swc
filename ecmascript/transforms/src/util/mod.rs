@@ -66,6 +66,7 @@ pub trait ModuleItemLike: StmtLike {
 
 pub trait StmtLike: Sized {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
+    fn as_stmt(&self) -> Option<&Stmt>;
     fn from_stmt(stmt: Stmt) -> Self;
 }
 
@@ -74,6 +75,9 @@ impl ModuleItemLike for Stmt {}
 impl StmtLike for Stmt {
     fn try_into_stmt(self) -> Result<Stmt, Self> {
         Ok(self)
+    }
+    fn as_stmt(&self) -> Option<&Stmt> {
+        Some(&self)
     }
     fn from_stmt(stmt: Stmt) -> Self {
         stmt
@@ -96,6 +100,12 @@ impl StmtLike for ModuleItem {
         match self {
             ModuleItem::Stmt(stmt) => Ok(stmt),
             _ => Err(self),
+        }
+    }
+    fn as_stmt(&self) -> Option<&Stmt> {
+        match *self {
+            ModuleItem::Stmt(ref stmt) => Some(stmt),
+            _ => None,
         }
     }
     fn from_stmt(stmt: Stmt) -> Self {
@@ -879,14 +889,14 @@ pub(crate) fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
 }
 
 /// inject `stmts` after directives
-pub(crate) fn prepend_stmts(
-    to: &mut Vec<Stmt>,
-    stmts: impl Iterator + ExactSizeIterator<Item = Stmt>,
+pub(crate) fn prepend_stmts<T: StmtLike>(
+    to: &mut Vec<T>,
+    stmts: impl Iterator + ExactSizeIterator<Item = T>,
 ) {
     let idx = to
         .iter()
-        .position(|item| match item {
-            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+        .position(|item| match item.as_stmt() {
+            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(..)))) => false,
             _ => true,
         })
         .unwrap_or(to.len());
