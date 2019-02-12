@@ -305,7 +305,13 @@ impl Fold<Expr> for Fixer {
                         left: box left.wrap_with_paren(),
                         ..expr
                     }),
-                    _ => Expr::Bin(expr),
+                    _ => match *expr.right {
+                        e @ Expr::Assign(..) => Expr::Bin(BinExpr {
+                            right: box e.wrap_with_paren(),
+                            ..expr
+                        }),
+                        _ => Expr::Bin(expr),
+                    },
                 }
             }
 
