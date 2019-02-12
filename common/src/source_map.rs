@@ -1194,10 +1194,6 @@ mod tests {
             substring: &str,
             n: usize,
         ) -> Span {
-            println!(
-                "span_substr(file={:?}/{:?}, substring={:?}, n={})",
-                file.name, file.start_pos, substring, n
-            );
             let mut i = 0;
             let mut hi = 0;
             loop {
