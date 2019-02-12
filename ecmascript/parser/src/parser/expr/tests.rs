@@ -304,3 +304,16 @@ fn max_integer() {
         }))
     )
 }
+
+#[test]
+fn iife() {
+    assert_eq_ignore_span!(
+        box Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(expr("(function(){})")),
+            args: vec![],
+            type_args: Default::default(),
+        }),
+        expr("(function(){})()")
+    )
+}
