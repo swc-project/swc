@@ -51,6 +51,17 @@ swc is a community-driven project, and is maintained by a group of [volunteers](
 
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/swc#sponsor)]
 
+<h2 align="center">Gold Sponsors</h2>
+
+<h2 align="center">Silver Sponsors</h2>
+
+<h2 align="center">Bronze Sponsors</h2>
+
+<h2 align="center">Backers</h2>
+[Become a backer](https://opencollective.com/webpack#backer) and get your image on our README on Github with a link to your site.
+
+<a href="https://opencollective.com/webpack/backer/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/webpack/backer/0/avatar.svg?requireActive=false"></a>
+
 
 # Documentation
 
