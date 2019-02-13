@@ -341,8 +341,13 @@ impl<'a> Emitter<'a> {
         let value = node
             .value
             .replace("\\", "\\\\")
+            .replace('\u{0008}', "\\b")
+            .replace('\u{000C}', "\\f")
+            .replace("\n", "\\n")
             .replace("\r", "\\r")
-            .replace("\n", "\\n");
+            .replace("\t", "\\t")
+            .replace('\u{000B}', "\\v")
+            .replace("\0", "\\0");
         // let value = node.value.replace("\n", "\\n");
 
         if !node.value.contains("'") {
