@@ -58,6 +58,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <h2 align="center">Bronze Sponsors</h2>
 
 <h2 align="center">Backers</h2>
+
 [Become a backer](https://opencollective.com/webpack#backer) and get your image on our README on Github with a link to your site.
 
 <a href="https://opencollective.com/webpack/backer/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/webpack/backer/0/avatar.svg?requireActive=false"></a>
