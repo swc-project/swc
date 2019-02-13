@@ -15,6 +15,25 @@ fn tr(config: Config) -> impl Fold<Module> {
 test!(
     syntax(),
     |_| tr(Config {
+        ..Default::default()
+    }),
+    custom_usage,
+    r#"
+import React from 'react'
+window.React = React;
+  "#,
+    r#"
+define(['react'], function(_react) {
+    'use strict';
+    _react = _interopRequireDefault(_react);
+    window.React = _react.default;
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
         module_id: Some("moduleId".into()),
         ..Default::default()
     }),
