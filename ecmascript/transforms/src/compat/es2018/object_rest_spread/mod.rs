@@ -410,7 +410,10 @@ impl Fold<ArrowExpr> for RestFolder {
             f.params,
             match f.body {
                 BlockStmtOrExpr::BlockStmt(block) => block.stmts,
-                BlockStmtOrExpr::Expr(expr) => vec![Stmt::Expr(expr)],
+                BlockStmtOrExpr::Expr(expr) => vec![Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(expr),
+                })],
             },
         );
         ArrowExpr {
