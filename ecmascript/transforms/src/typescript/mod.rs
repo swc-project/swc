@@ -215,4 +215,26 @@ mod tests {
     to!(export_import, "export import A = B", "export { B as A }");
 
     to!(export_equals, "export = Foo", "export default Foo");
+
+    to!(
+        issue_196_01,
+        "export type Link = { key: string; text: string };",
+        ""
+    );
+
+    to!(
+        issue_196_02,
+        "type Link = { key: string; text: string };
+export { Link };",
+        ""
+    );
+
+    to!(
+        issue_196_03,
+        "type Link = { key: string; text: string };
+const Link = 'Boo';
+export { Link };",
+        "const Link = 'Boo';
+export { Link };"
+    );
 }
