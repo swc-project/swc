@@ -242,8 +242,9 @@ mod tests {
                     cm: tester.cm.clone(),
                 }
             },
-            "",
-            "function _throw(e) {
+            "'use strict'",
+            "'use strict'
+function _throw(e) {
     throw e;
 }
 ",
@@ -251,6 +252,25 @@ mod tests {
         )
     }
 
+    #[test]
+    fn name_conflict() {
+        ::tests::test_transform(
+            Default::default(),
+            |tester| {
+                helper!(throw);
+                InjectHelpers {
+                    cm: tester.cm.clone(),
+                }
+            },
+            "let _throw = null",
+            "function _throw(e) {
+    throw e;
+}
+let _throw1 = null;
+",
+            false,
+        )
+    }
     #[test]
     fn use_strict_abort() {
         ::tests::test_transform(
