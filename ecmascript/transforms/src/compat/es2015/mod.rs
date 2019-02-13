@@ -92,4 +92,23 @@ var Foo = function() {
 }();
 "#
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_189,
+        r#"
+class HomePage extends React.Component {}
+"#,
+        r#"
+let HomePage = function(_Component) {
+    _inherits(HomePage, _Component);
+    function HomePage() {
+        _classCallCheck(this, HomePage);
+        return _possibleConstructorReturn(this, _getPrototypeOf(HomePage).apply(this, arguments));
+    }
+    return HomePage;
+}(React.Component);
+"#
+    );
 }
