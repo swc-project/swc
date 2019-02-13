@@ -7,6 +7,26 @@ fn tr() -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
+    issue_169,
+    "export class Foo {
+	func(a, b = Date.now()) {
+		return {a};
+	}
+}",
+    "export class Foo{
+     func(a, ref) {
+        let tmp = ref, b = tmp === void 0 ? Date.now() : tmp;
+        return {
+            a
+        };
+    }
+}
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
     r#"let ref = foo ? foo : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),

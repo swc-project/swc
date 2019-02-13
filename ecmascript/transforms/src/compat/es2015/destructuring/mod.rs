@@ -545,6 +545,7 @@ impl Fold<Expr> for AssignFolder {
 impl<T: StmtLike + VisitWith<DestructuringVisitor>> Fold<Vec<T>> for Destructuring
 where
     Vec<T>: FoldWith<Self>,
+    T: FoldWith<AssignFolder>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         // fast path
@@ -557,10 +558,26 @@ where
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
+            let mut folder = AssignFolder::default();
+
             match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
+                Err(item) => {
+                    let item = item.fold_with(&mut folder);
+
+                    // Add variable declaration
+                    // e.g. var ref
+                    if !folder.vars.is_empty() {
+                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: folder.vars,
+                            declare: false,
+                        }))));
+                    }
+
+                    buf.push(item)
+                }
                 Ok(stmt) => {
-                    let mut folder = AssignFolder::default();
                     let stmt = stmt.fold_with(&mut folder);
 
                     // Add variable declaration

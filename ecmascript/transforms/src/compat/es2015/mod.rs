@@ -68,17 +68,18 @@ mod tests {
         |_| es2015(),
         issue_169,
         r#"
-class Foo {
+export class Foo {
 	func(a, b = Date.now()) {
 		return {a};
 	}
 }
 "#,
         r#"
-var Foo = function() {
-    var Foo = function Foo() {
+export var Foo = function() {
+    function Foo() {
         _classCallCheck(this, Foo);
-    };
+    }
+
     _createClass(Foo, [{
             key: 'func',
             value: function func(a, param) {
