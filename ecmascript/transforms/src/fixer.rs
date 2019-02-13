@@ -189,6 +189,20 @@ macro_rules! array {
 array!(ArrayLit);
 // array!(ArrayPat);
 
+impl Fold<KeyValueProp> for Fixer {
+    fn fold(&mut self, prop: KeyValueProp) -> KeyValueProp {
+        let prop = prop.fold_children(self);
+
+        match *prop.value {
+            Expr::Seq(..) => KeyValueProp {
+                value: box (*prop.value).wrap_with_paren(),
+                ..prop
+            },
+            _ => return prop,
+        }
+    }
+}
+
 impl Fold<Expr> for Fixer {
     fn fold(&mut self, expr: Expr) -> Expr {
         fn unwrap_expr(mut e: Expr) -> Expr {
@@ -459,4 +473,12 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     identical!(issue_192, "a === true && (a = true)");
 
     identical!(issue_199, "(i - 1).toString()");
+
+    identical!(
+        issue_201_01,
+        "outer = {
+    inner: (_obj = {}, _defineProperty(_obj, ns.EXPORT1, true), _defineProperty(_obj, ns.EXPORT2, \
+         true), _obj)
+};"
+    );
 }
