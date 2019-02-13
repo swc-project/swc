@@ -86,4 +86,15 @@ mod tests {
             "import colors, { color } from 'patterns/colors';",
         );
     }
+
+    #[test]
+    fn issue_204_01() {
+        assert_min(r#"'\r\n';"#, r#"'\r\n';"#);
+    }
+
+    #[test]
+    fn issue_204_02() {
+        assert_min(r#"const a = fn() + '\r\n';"#, r#"const a=fn()+'\r\n';"#);
+    }
+
 }

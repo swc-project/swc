@@ -338,7 +338,11 @@ impl<'a> Emitter<'a> {
         //     self.wr.write_str_lit(node.span, &s)?;
         //     return Ok(());
         // }
-        let value = node.value.replace("\\", "\\\\").replace("\n", "\\n");
+        let value = node
+            .value
+            .replace("\\", "\\\\")
+            .replace("\r", "\\r")
+            .replace("\n", "\\n");
         // let value = node.value.replace("\n", "\\n");
 
         if !node.value.contains("'") {
