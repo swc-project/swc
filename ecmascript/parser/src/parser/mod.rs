@@ -58,17 +58,28 @@ impl<'a, I: Input> Parser<'a, I> {
         self.input.take_comments()
     }
 
-    pub fn parse_script(&mut self) -> PResult<'a, (Vec<Stmt>)> {
+    pub fn parse_script(&mut self) -> PResult<'a, Script> {
+        let start = cur_pos!();
+
+        let shebang = self.parse_shebang()?;
+
         let ctx = Context {
             module: false,
             ..self.ctx()
         };
         self.set_ctx(ctx);
 
-        self.parse_block_body(true, true, None)
+        self.parse_block_body(true, true, None).map(|body| Script {
+            span: span!(start),
+            body,
+            shebang,
+        })
     }
 
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
+        let start = cur_pos!();
+
+        let shebang = self.parse_shebang()?;
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
@@ -78,11 +89,21 @@ impl<'a, I: Input> Parser<'a, I> {
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
-        let start = cur_pos!();
         self.parse_block_body(true, true, None).map(|body| Module {
             span: span!(start),
             body,
+            shebang,
         })
+    }
+
+    fn parse_shebang(&mut self) -> PResult<'a, Option<JsWord>> {
+        match *cur!(false)? {
+            Token::Shebang(..) => match bump!() {
+                Token::Shebang(v) => Ok(Some(v)),
+                _ => unreachable!(),
+            },
+            _ => Ok(None),
+        }
     }
 
     fn ctx(&self) -> Context {

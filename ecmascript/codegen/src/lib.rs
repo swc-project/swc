@@ -72,7 +72,7 @@ pub struct Emitter<'a> {
 }
 
 impl<'a> Emitter<'a> {
-    pub fn emit_script(&mut self, stmts: &[Stmt]) -> Result {
+    pub fn emit_stmts(&mut self, stmts: &[Stmt]) -> Result {
         let span = if stmts.is_empty() {
             DUMMY_SP
         } else {
@@ -91,6 +91,21 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_module(&mut self, node: &Module) -> Result {
+        if let Some(ref shebang) = node.shebang {
+            punct!("#!");
+            self.wr.write_lit(DUMMY_SP, &*shebang)?;
+        }
+        for stmt in &node.body {
+            emit!(stmt);
+        }
+    }
+
+    #[emitter]
+    pub fn emit_script(&mut self, node: &Script) -> Result {
+        if let Some(ref shebang) = node.shebang {
+            punct!("#!");
+            self.wr.write_lit(DUMMY_SP, &*shebang)?;
+        }
         for stmt in &node.body {
             emit!(stmt);
         }
@@ -1462,14 +1477,6 @@ impl<'a> Emitter<'a> {
 
 /// Statements
 impl<'a> Emitter<'a> {
-    pub fn emit_stmts(&mut self, stmts: &[Stmt]) -> Result {
-        for stmt in stmts {
-            self.emit_stmt(stmt)?;
-        }
-
-        Ok(())
-    }
-
     #[emitter]
     pub fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match *node {

@@ -99,43 +99,41 @@ impl<'a, I: Input> Lexer<'a, I> {
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
-        self.state.had_line_break = self.state.is_first;
-        self.state.is_first = false;
-
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            let start = self.cur_pos();
-
-            match self.skip_space() {
-                Err(err) => {
-                    return Some(Token::Error(err)).map(|token| {
-                        // Attatch span to token.
-                        TokenAndSpan {
-                            token,
-                            had_line_break: self.had_line_break_before_last(),
-                            span: self.span(start),
-                        }
-                    });
-                }
-                _ => {}
-            }
-        };
-
-        let c = match self.input.cur() {
-            Some(c) => c,
-            None => return None,
-        };
-
-        // println!(
-        //     "\tContext: ({:?}) {:?}",
-        //     self.input.cur().unwrap(),
-        //     self.state.context.0
-        // );
-
         let start = self.cur_pos();
-        self.state.start = start;
 
         let res = (|| -> Result<Option<_>, _> {
+            if self.state.is_first {
+                if let Some(shebang) = self.read_shebang()? {
+                    return Ok(Some(Token::Shebang(shebang)));
+                }
+            }
+
+            self.state.had_line_break = self.state.is_first;
+            self.state.is_first = false;
+
+            // skip spaces before getting next character, if we are allowed to.
+            if self.state.can_skip_space() {
+                match self.skip_space() {
+                    Err(err) => {
+                        return Err(err);
+                    }
+                    _ => {}
+                }
+            };
+
+            let c = match self.input.cur() {
+                Some(c) => c,
+                None => return Ok(None),
+            };
+
+            // println!(
+            //     "\tContext: ({:?}) {:?}",
+            //     self.input.cur().unwrap(),
+            //     self.state.context.0
+            // );
+
+            self.state.start = start;
+
             if self.syntax.typescript() && self.ctx.in_type {
                 if c == '<' {
                     self.input.bump();

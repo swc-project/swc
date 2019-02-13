@@ -758,6 +758,16 @@ impl<'a, I: Input> Lexer<'a, I> {
         ))
     }
 
+    fn read_shebang(&mut self) -> LexResult<Option<JsWord>> {
+        if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
+            return Ok(None);
+        }
+        self.input.bump();
+        self.input.bump();
+        let s = self.input.uncons_while(|c| !c.is_line_break());
+        Ok(Some(s.into()))
+    }
+
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
         let start = self.cur_pos();
 

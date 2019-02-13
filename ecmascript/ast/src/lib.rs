@@ -33,7 +33,7 @@ pub use self::{
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
-    module::{Module, ModuleItem},
+    module::{Module, ModuleItem, Script},
     module_decl::{
         ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
         ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
