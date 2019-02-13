@@ -1,10 +1,10 @@
 use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, local_name_for_src,
-    make_descriptor, use_strict, Exports, Scope, VarCollector,
+    make_descriptor, use_strict, Exports, Scope,
 };
 use crate::{
     pass::Pass,
-    util::{prepend_stmts, DestructuringFinder, ExprFactory, State},
+    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
 use fxhash::FxHashSet;

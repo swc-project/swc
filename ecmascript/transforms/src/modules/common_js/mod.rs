@@ -1,10 +1,10 @@
 use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, Scope, VarCollector,
+    make_require_call, use_strict, Scope,
 };
 use crate::{
     pass::Pass,
-    util::{undefined, DestructuringFinder, ExprFactory, State},
+    util::{undefined, var::VarCollector, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
 use fxhash::FxHashSet;

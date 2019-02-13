@@ -25,6 +25,7 @@ pub(crate) mod constructor;
 mod factory;
 mod state;
 mod value;
+pub(crate) mod var;
 
 pub(crate) struct ThisVisitor {
     found: bool,
