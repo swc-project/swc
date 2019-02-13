@@ -121,5 +121,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

@@ -202,5 +202,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

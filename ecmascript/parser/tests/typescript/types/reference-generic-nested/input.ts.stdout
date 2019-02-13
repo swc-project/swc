@@ -173,5 +173,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

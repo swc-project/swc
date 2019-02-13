@@ -10,7 +10,7 @@ Module {
     },
     body: [
         ModuleDecl(
-            TsNamespaceExportDecl(
+            TsNamespaceExport(
                 TsNamespaceExportDecl {
                     span: Span {
                         lo: BytePos(
@@ -38,5 +38,6 @@ Module {
                 }
             )
         )
-    ]
+    ],
+    shebang: None
 }

@@ -98,5 +98,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

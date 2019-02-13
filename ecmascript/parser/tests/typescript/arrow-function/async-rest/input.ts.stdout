@@ -141,5 +141,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }
