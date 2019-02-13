@@ -233,6 +233,12 @@ impl Fold<Expr> for Fixer {
                 computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Unary(..)),
                 prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Bin(..)),
+                prop,
             }) => MemberExpr {
                 span,
                 computed,
@@ -451,4 +457,6 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     identical!(regression_13, "a || (a = 1);");
 
     identical!(issue_192, "a === true && (a = true)");
+
+    identical!(issue_199, "(i - 1).toString()");
 }
