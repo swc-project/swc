@@ -9,6 +9,41 @@ fn tr(tester: &mut crate::tests::Tester, config: Config) -> impl Fold<Module> {
     chain!(resolver(), umd(tester.cm.clone(), config))
 }
 
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            ..Default::default()
+        }
+    ),
+    custom_usage,
+    r#"
+import React from 'react'
+window.React = React;
+  "#,
+    r#"
+(function(global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['react'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(require('react'));
+    } else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(global.react);
+        global.input = mod.exports;
+    }
+})(this, function(_react) {
+    'use strict';
+    _react = _interopRequireDefault(_react);
+    window.React = _react.default;
+});
+"#
+);
+
 // exports_variable
 test!(
     syntax(),

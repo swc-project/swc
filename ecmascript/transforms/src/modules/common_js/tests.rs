@@ -16,6 +16,22 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    custom_usage,
+    r#"
+import React from 'react'
+window.React = React;
+  "#,
+    r#"
+var _react = _interopRequireDefault(require('react'));
+window.React = _react.default;
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     custom_01,
     r#"
 var foo = 1;
