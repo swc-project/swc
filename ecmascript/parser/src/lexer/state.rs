@@ -99,7 +99,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
-        let start = self.cur_pos();
+        let mut start = self.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {
             if self.state.is_first {
@@ -119,6 +119,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     }
                     _ => {}
                 }
+                start = self.input.cur_pos();
             };
 
             let c = match self.input.cur() {
