@@ -10,6 +10,21 @@ fn tr() -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
+    issue_181,
+    r#"
+const fn = ({ a, ...otherProps }) => otherProps;
+"#,
+    r#"
+const _ref = (_param)=>{
+  var { a  } = _param, otherProps = _objectWithoutProperties(_param, ['a']);
+  return otherProps;
+}, fn = _ref;
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
     rest_function_array,
     r#"
 function foo([{...bar}]) {
