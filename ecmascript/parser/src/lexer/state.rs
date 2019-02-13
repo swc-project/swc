@@ -312,7 +312,10 @@ impl State {
 
                     // ${} in template
                     if out == TokenContext::TplQuasi {
-                        return false;
+                        match context.current() {
+                            Some(TokenContext::Tpl { .. }) => return false,
+                            _ => return true,
+                        }
                     }
 
                     // expression cannot follow expression
