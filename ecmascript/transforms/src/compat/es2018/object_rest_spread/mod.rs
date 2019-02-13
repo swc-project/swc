@@ -72,8 +72,7 @@ macro_rules! impl_for_for_stmt {
                         left
                     }
                     VarDeclOrPat::Pat(pat) => {
-                        let var_ident =
-                            quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(Mark::root())), "_ref");
+                        let var_ident = private_ident!("_ref");
                         let index = self.vars.len();
                         let pat =
                             self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false, true);
@@ -161,7 +160,10 @@ impl Fold<Vec<VarDeclarator>> for RestFolder {
 
             let var_ident = match decl.init {
                 Some(box Expr::Ident(ref ident)) => ident.clone(),
-                _ => quote_ident!(DUMMY_SP.apply_mark(Mark::fresh(Mark::root())), "_ref"),
+                _ => match decl.name {
+                    Pat::Ident(ref i) => i.clone(),
+                    _ => private_ident!("_ref"),
+                },
             };
 
             let has_init = decl.init.is_some();
@@ -483,8 +485,19 @@ impl Fold<CatchClause> for RestFolder {
 }
 
 impl RestFolder {
-    #[inline(always)]
     fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
+        match decl.init {
+            Some(box Expr::Ident(ref i1)) => match decl.name {
+                Pat::Ident(ref i2) => {
+                    if *i1 == *i2 {
+                        return;
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
                 if props.len() == 0 {
@@ -496,8 +509,19 @@ impl RestFolder {
         self.vars.insert(idx, decl)
     }
 
-    #[inline(always)]
     fn push_var_if_not_empty(&mut self, decl: VarDeclarator) {
+        match decl.init {
+            Some(box Expr::Ident(ref i1)) => match decl.name {
+                Pat::Ident(ref i2) => {
+                    if *i1 == *i2 {
+                        return;
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
         match decl.name {
             Pat::Object(ObjectPat { ref props, .. }) => {
                 if props.len() == 0 {

@@ -15,10 +15,10 @@ test!(
 const fn = ({ a, ...otherProps }) => otherProps;
 "#,
     r#"
-const _ref = (_param)=>{
+const fn = (_param)=>{
   var { a  } = _param, otherProps = _objectWithoutProperties(_param, ['a']);
   return otherProps;
-}, fn = _ref;
+};
 "#
 );
 
