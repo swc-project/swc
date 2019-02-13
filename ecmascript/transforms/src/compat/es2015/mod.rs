@@ -27,26 +27,26 @@ mod sticky_regex;
 mod template_literal;
 mod typeof_symbol;
 
+fn exprs() -> impl Pass + Clone {
+    chain_at!(
+        Expr,
+        arrow(),
+        duplicate_keys(),
+        Spread,
+        StickyRegex,
+        InstanceOf,
+        TypeOfSymbol,
+        TemplateLiteral,
+        Shorthand,
+    )
+}
+
+fn stmts() -> impl Pass + Clone {
+    chain_at!(Stmt, function_name(), exprs(), BlockScopedFns, parameters(),)
+}
+
 /// Compiles es2015 to es5.
 pub fn es2015() -> impl Pass + Clone {
-    fn exprs() -> impl Pass + Clone {
-        chain_at!(
-            Expr,
-            arrow(),
-            duplicate_keys(),
-            Spread,
-            StickyRegex,
-            InstanceOf,
-            TypeOfSymbol,
-            TemplateLiteral,
-            Shorthand,
-        )
-    }
-
-    fn stmts() -> impl Pass + Clone {
-        chain_at!(Stmt, function_name(), exprs(), BlockScopedFns, parameters(),)
-    }
-
     chain_at!(
         Module,
         resolver(),
@@ -61,24 +61,25 @@ pub fn es2015() -> impl Pass + Clone {
 
 #[cfg(test)]
 mod tests {
-    use super::es2015;
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| es2015(),
         issue_169,
         r#"
-class Foo {
+export class Foo {
 	func(a, b = Date.now()) {
 		return {a};
 	}
 }
 "#,
         r#"
-var Foo = function() {
-    var Foo = function Foo() {
+export var Foo = function() {
+    function Foo() {
         _classCallCheck(this, Foo);
-    };
+    }
+
     _createClass(Foo, [{
             key: 'func',
             value: function func(a, param) {
@@ -90,6 +91,25 @@ var Foo = function() {
         }]);
     return Foo;
 }();
+"#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_189,
+        r#"
+class HomePage extends React.Component {}
+"#,
+        r#"
+var HomePage = function(_Component) {
+    _inherits(HomePage, _Component);
+    function HomePage() {
+        _classCallCheck(this, HomePage);
+        return _possibleConstructorReturn(this, _getPrototypeOf(HomePage).apply(this, arguments));
+    }
+    return HomePage;
+}(React.Component);
 "#
     );
 }

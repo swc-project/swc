@@ -10,7 +10,7 @@ Module {
     },
     body: [
         ModuleDecl(
-            TsImportEqualsDecl(
+            TsImportEquals(
                 TsImportEqualsDecl {
                     span: Span {
                         lo: BytePos(
@@ -76,5 +76,6 @@ Module {
                 }
             )
         )
-    ]
+    ],
+    shebang: None
 }

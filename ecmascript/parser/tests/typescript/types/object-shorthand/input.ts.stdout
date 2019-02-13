@@ -306,5 +306,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

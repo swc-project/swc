@@ -245,5 +245,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

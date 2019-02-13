@@ -442,5 +442,6 @@ Module {
                 )
             )
         )
-    ]
+    ],
+    shebang: None
 }

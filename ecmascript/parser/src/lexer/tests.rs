@@ -904,6 +904,36 @@ fn empty() {
     assert_eq!(lex_tokens(::Syntax::default(), "",), vec![]);
 }
 
+#[test]
+fn issue_191() {
+    assert_eq!(
+        lex_tokens(
+            ::Syntax::Es(::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            "`${foo}<bar>`"
+        ),
+        vec![
+            tok!('`'),
+            Token::Template {
+                raw: "".into(),
+                cooked: "".into(),
+                has_escape: false,
+            },
+            tok!("${"),
+            Token::Word(Word::Ident("foo".into())),
+            tok!('}'),
+            Token::Template {
+                raw: "<bar>".into(),
+                cooked: "<bar>".into(),
+                has_escape: false,
+            },
+            tok!('`')
+        ]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
