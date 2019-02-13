@@ -19,7 +19,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let mut stmts = vec![];
         while {
-            let b = cur!(false).ok() != end;
+            let c = cur!(false).ok();
+            let b = c != end;
             b
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
@@ -1066,6 +1067,22 @@ export default App"#;
         let src = "#!/usr/bin/env node";
         test_parser(
             src,
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn empty() {
+        test_parser(
+            "",
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),

@@ -16,8 +16,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Handle import 'mod.js'
         let str_start = cur_pos!();
-        match *cur!(false)? {
-            Token::Str { .. } => match bump!() {
+        match cur!(false) {
+            Ok(&Token::Str { .. }) => match bump!() {
                 Token::Str { value, has_escape } => {
                     expect!(';');
                     return Ok(ModuleDecl::Import(ImportDecl {
@@ -89,8 +89,8 @@ impl<'a, I: Input> Parser<'a, I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self) -> PResult<'a, ImportSpecifier> {
         let start = cur_pos!();
-        match *cur!(false)? {
-            Word(..) => {
+        match cur!(false) {
+            Ok(&Word(..)) => {
                 let orig_name = self.parse_ident_name()?;
 
                 if eat!("as") {

@@ -78,8 +78,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
         let start = cur_pos!();
-
         let shebang = self.parse_shebang()?;
+
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
@@ -97,8 +97,8 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     fn parse_shebang(&mut self) -> PResult<'a, Option<JsWord>> {
-        match *cur!(false)? {
-            Token::Shebang(..) => match bump!() {
+        match cur!(false) {
+            Ok(&Token::Shebang(..)) => match bump!() {
                 Token::Shebang(v) => Ok(Some(v)),
                 _ => unreachable!(),
             },

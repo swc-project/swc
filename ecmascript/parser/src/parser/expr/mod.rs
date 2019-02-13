@@ -242,12 +242,12 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Literals
         if {
-            match *cur!(false)? {
-                tok!("null")
-                | tok!("true")
-                | tok!("false")
-                | Token::Num(..)
-                | Token::Str { .. } => true,
+            match cur!(false) {
+                Ok(&tok!("null"))
+                | Ok(&tok!("true"))
+                | Ok(&tok!("false"))
+                | Ok(&Token::Num(..))
+                | Ok(Token::Str { .. }) => true,
                 _ => false,
             }
         } {
@@ -256,8 +256,8 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // Regexp
         if {
-            match *cur!(false)? {
-                Token::Regex(..) => true,
+            match cur!(false) {
+                Ok(&Token::Regex(..)) => true,
                 _ => false,
             }
         } {

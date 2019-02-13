@@ -147,8 +147,6 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
             if self.syntax.jsx() && !self.ctx.in_property_name {
                 //jsx
                 if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                    let start = self.cur_pos();
-
                     return self.read_jsx_token();
                 }
 

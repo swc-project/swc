@@ -568,11 +568,6 @@ fn after_if() {
     )
 }
 
-#[test]
-fn empty() {
-    assert_eq!(lex(Syntax::default(), ""), vec![]);
-}
-
 // #[test]
 // #[ignore]
 // fn leading_comment() {
@@ -902,6 +897,11 @@ fn shebang() {
         lex_tokens(::Syntax::default(), "#!/usr/bin/env node",),
         vec![Token::Shebang("/usr/bin/env node".into())]
     );
+}
+
+#[test]
+fn empty() {
+    assert_eq!(lex_tokens(::Syntax::default(), "",), vec![]);
 }
 
 #[bench]
