@@ -283,7 +283,12 @@ impl Fold<Expr> for Fixer {
                 }
             }
 
-            Expr::Bin(expr) => {
+            Expr::Bin(mut expr) => {
+                expr.right = match *expr.right {
+                    e @ Expr::Assign(..) => box e.wrap_with_paren(),
+                    _ => expr.right,
+                };
+
                 match *expr.left {
                     // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
                     // But it should be `(1 + x) * Nan`
@@ -305,13 +310,7 @@ impl Fold<Expr> for Fixer {
                         left: box left.wrap_with_paren(),
                         ..expr
                     }),
-                    _ => match *expr.right {
-                        e @ Expr::Assign(..) => Expr::Bin(BinExpr {
-                            right: box e.wrap_with_paren(),
-                            ..expr
-                        }),
-                        _ => Expr::Bin(expr),
-                    },
+                    _ => Expr::Bin(expr),
                 }
             }
 
@@ -450,4 +449,6 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     identical!(regression_12, "(function(){})()");
 
     identical!(regression_13, "a || (a = 1);");
+
+    identical!(issue_192, "a === true && (a = true)");
 }
