@@ -3,7 +3,6 @@ function a() {
 }
 a();
 {
-}
-function a() {
+}function a() {
     b.c('e');
 }
