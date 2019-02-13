@@ -442,12 +442,16 @@ macro_rules! var_noop {
             fn visit(&mut self, _: &$T) {}
         }
     };
+
+    ($T:path, $($rest:tt)*) => {
+        var_noop!($T);
+        var_noop!($($rest)*);
+    };
 }
 
-var_noop!(Expr);
-var_noop!(ArrowExpr);
-var_noop!(Function);
-var_noop!(Constructor);
+var_noop!(Expr, ArrowExpr, Function, Constructor);
+
+var_noop!(TsType, TsTypeAnn, TsTypeParam);
 
 /// Private `_exports` ident.
 pub(super) struct Exports(pub Ident);
