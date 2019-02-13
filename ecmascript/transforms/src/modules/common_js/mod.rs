@@ -790,7 +790,9 @@ impl Fold<Expr> for CommonJs {
                 }
             }
 
-            Expr::Assign(expr) => {
+            Expr::Assign(mut expr) => {
+                expr.right = expr.right.fold_with(self);
+
                 let mut found = vec![];
                 let mut v = DestructuringFinder { found: &mut found };
                 expr.left.visit_with(&mut v);

@@ -22,6 +22,7 @@ import React from 'react'
 window.React = React;
   "#,
     r#"
+'use strict';
 var _react = _interopRequireDefault(require('react'));
 window.React = _react.default;
 "#

@@ -630,8 +630,9 @@ impl Fold<Expr> for Amd {
                 }
             }
 
-            Expr::Assign(expr) => {
+            Expr::Assign(mut expr) => {
                 //
+                expr.right = expr.right.fold_with(self);
 
                 match expr.left {
                     PatOrExpr::Pat(box Pat::Ident(ref i)) => {
