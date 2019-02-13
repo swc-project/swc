@@ -77,8 +77,29 @@ impl Fold<Vec<ModuleItem>> for Strip {
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                 ExportDefaultDecl::TsInterfaceDecl(..),
             ))
-            | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..))
             | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => None,
+
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                if !import.is_export {
+                    return None;
+                }
+
+                Some(ModuleItem::ModuleDecl(
+                    ModuleDecl::ExportNamed(NamedExport {
+                        span: DUMMY_SP,
+                        specifiers: vec![ExportSpecifier::Named(NamedExportSpecifier {
+                            span: DUMMY_SP,
+                            exported: Some(import.id),
+                            orig: match import.module_ref {
+                                TsModuleRef::TsEntityName(TsEntityName::Ident(i)) => i,
+                                _ => unimplemented!("export import A = B where B != Ident"),
+                            },
+                        })],
+                        src: None,
+                    })
+                    .fold_with(self),
+                ))
+            }
 
             ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => Some(
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export.expr).fold_with(self)),
@@ -191,7 +212,7 @@ mod tests {
 }"
     );
 
-    // to!(export_import, "export import A = B", "export { B as A }");
+    to!(export_import, "export import A = B", "export { B as A }");
 
     to!(export_equals, "export = Foo", "export default Foo");
 }
