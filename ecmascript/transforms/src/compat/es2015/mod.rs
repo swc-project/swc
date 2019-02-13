@@ -27,26 +27,26 @@ mod sticky_regex;
 mod template_literal;
 mod typeof_symbol;
 
+fn exprs() -> impl Pass + Clone {
+    chain_at!(
+        Expr,
+        arrow(),
+        duplicate_keys(),
+        Spread,
+        StickyRegex,
+        InstanceOf,
+        TypeOfSymbol,
+        TemplateLiteral,
+        Shorthand,
+    )
+}
+
+fn stmts() -> impl Pass + Clone {
+    chain_at!(Stmt, function_name(), exprs(), BlockScopedFns, parameters(),)
+}
+
 /// Compiles es2015 to es5.
 pub fn es2015() -> impl Pass + Clone {
-    fn exprs() -> impl Pass + Clone {
-        chain_at!(
-            Expr,
-            arrow(),
-            duplicate_keys(),
-            Spread,
-            StickyRegex,
-            InstanceOf,
-            TypeOfSymbol,
-            TemplateLiteral,
-            Shorthand,
-        )
-    }
-
-    fn stmts() -> impl Pass + Clone {
-        chain_at!(Stmt, function_name(), exprs(), BlockScopedFns, parameters(),)
-    }
-
     chain_at!(
         Module,
         resolver(),
@@ -61,7 +61,7 @@ pub fn es2015() -> impl Pass + Clone {
 
 #[cfg(test)]
 mod tests {
-    use super::es2015;
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -101,7 +101,7 @@ var Foo = function() {
 class HomePage extends React.Component {}
 "#,
         r#"
-let HomePage = function(_Component) {
+var HomePage = function(_Component) {
     _inherits(HomePage, _Component);
     function HomePage() {
         _classCallCheck(this, HomePage);

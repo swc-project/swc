@@ -1,11 +1,16 @@
 use ast::*;
-use swc_common::{Fold, FoldWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 
 #[derive(Clone, Copy)]
 pub struct BlockScopedFns;
 
 impl Fold<Stmt> for BlockScopedFns {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
+        // This is to preserve function Class()
+        if stmt.span().is_dummy() {
+            return stmt;
+        }
+
         match stmt {
             Stmt::Decl(Decl::Fn(decl)) => {
                 return Stmt::Decl(Decl::Var(VarDecl {
