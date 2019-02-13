@@ -43,7 +43,7 @@ macro_rules! add_to {
                     None,
                 )
                 .parse_script()
-                .map(|stmts| stmts.fold_with(&mut DropSpan))
+                .map(|script| script.body.fold_with(&mut DropSpan))
                 .map_err(|mut e| {
                     e.emit();
                     ()

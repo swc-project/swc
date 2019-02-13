@@ -467,7 +467,6 @@ impl Fold<Module> for Amd {
         // ====================
 
         Module {
-            span: module.span,
             body: vec![ModuleItem::Stmt(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!("define").as_callee(),
@@ -500,6 +499,7 @@ impl Fold<Module> for Amd {
                     .collect(),
                 type_args: Default::default(),
             })))],
+            ..module
         }
     }
 }

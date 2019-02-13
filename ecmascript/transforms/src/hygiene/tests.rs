@@ -57,6 +57,7 @@ where
             Ok(Module {
                 span: DUMMY_SP,
                 body: op(tester)?.into_iter().map(ModuleItem::Stmt).collect(),
+                shebang: None,
             })
         },
         expected,

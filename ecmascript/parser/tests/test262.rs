@@ -262,7 +262,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     Ok(())
 }
 
-fn parse_script(file_name: &Path) -> Result<Vec<Stmt>, NormalizedOutput> {
+fn parse_script(file_name: &Path) -> Result<Script, NormalizedOutput> {
     with_parser(file_name, |p| p.parse_script())
 }
 fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {

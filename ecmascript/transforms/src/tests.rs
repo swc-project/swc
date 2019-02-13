@@ -71,10 +71,12 @@ impl<'a> Tester<'a> {
 
     pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
         let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
-            p.parse_script().map_err(|mut e| {
-                e.emit();
-                ()
-            })
+            p.parse_script()
+                .map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+                .map(|script| script.body)
         })?;
 
         Ok(stmts)

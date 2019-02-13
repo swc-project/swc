@@ -131,6 +131,7 @@ pub(crate) enum Token {
     JSXTagStart,
     JSXTagEnd,
 
+    Shebang(JsWord),
     Error(#[cfg_attr(feature = "fold", fold(ignore))] Error),
 }
 

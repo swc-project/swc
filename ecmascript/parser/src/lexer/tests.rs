@@ -896,6 +896,14 @@ fn max_integer() {
     lex_tokens(::Syntax::default(), "1.7976931348623157e+308");
 }
 
+#[test]
+fn shebang() {
+    assert_eq!(
+        lex_tokens(::Syntax::default(), "#!/usr/bin/env node",),
+        vec![Token::Shebang("/usr/bin/env node".into())]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
