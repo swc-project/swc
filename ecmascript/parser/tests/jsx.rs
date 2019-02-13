@@ -153,7 +153,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let path = dir.join(&file_name);
                 // Parse source
-                let module = parse_module(cm, handler, &path).expect("should be parsed");
+                let module = parse_module(cm, handler, &path)?;
 
                 if StdErr::from(format!("{:#?}", module))
                     .compare_to_file(format!("{}.stdout", path.display()))
