@@ -74,6 +74,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsEnum(..)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsInterface(..)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsModule(..)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsTypeAlias(..)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                 ExportDefaultDecl::TsInterfaceDecl(..),
             ))
