@@ -97,4 +97,14 @@ mod tests {
         assert_min(r#"const a = fn() + '\r\n';"#, r#"const a=fn()+'\r\n';"#);
     }
 
+    #[test]
+    fn issue_177() {
+        assert_min(
+            "#!/usr/bin/env node
+let x = 4;",
+            "#!/usr/bin/env node
+let x=4;",
+        );
+    }
+
 }
