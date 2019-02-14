@@ -104,49 +104,6 @@ impl Fold<Stmt> for Fixer {
             _ => stmt.fold_children(self),
         };
 
-        fn handle_expr_stmt(expr: Expr) -> Expr {
-            match expr {
-                // It's important for arrow pass to work properly.
-                Expr::Object(..) | Expr::Fn(..) => expr.wrap_with_paren(),
-
-                // ({ a } = foo)
-                Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(left @ box Pat::Object(..)),
-                    op,
-                    right,
-                }) => AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(left),
-                    op,
-                    right,
-                }
-                .wrap_with_paren(),
-
-                Expr::Seq(SeqExpr { span, exprs }) => {
-                    debug_assert!(
-                        exprs.len() != 1,
-                        "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
-                    );
-
-                    let mut first = true;
-                    Expr::Seq(SeqExpr {
-                        span,
-                        exprs: exprs.move_map(|expr| {
-                            if first {
-                                first = false;
-                                expr.map(handle_expr_stmt)
-                            } else {
-                                expr
-                            }
-                        }),
-                    })
-                }
-
-                _ => expr,
-            }
-        }
-
         let stmt = match stmt {
             Stmt::Expr(expr) => Stmt::Expr(expr.map(handle_expr_stmt)),
 
@@ -402,6 +359,49 @@ impl Fold<Expr> for Fixer {
             },
             _ => expr,
         }
+    }
+}
+
+fn handle_expr_stmt(expr: Expr) -> Expr {
+    match expr {
+        // It's important for arrow pass to work properly.
+        Expr::Object(..) | Expr::Fn(..) => expr.wrap_with_paren(),
+
+        // ({ a } = foo)
+        Expr::Assign(AssignExpr {
+            span,
+            left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+            op,
+            right,
+        }) => AssignExpr {
+            span,
+            left: PatOrExpr::Pat(left),
+            op,
+            right,
+        }
+        .wrap_with_paren(),
+
+        Expr::Seq(SeqExpr { span, exprs }) => {
+            debug_assert!(
+                exprs.len() != 1,
+                "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
+            );
+
+            let mut first = true;
+            Expr::Seq(SeqExpr {
+                span,
+                exprs: exprs.move_map(|expr| {
+                    if first {
+                        first = false;
+                        expr.map(handle_expr_stmt)
+                    } else {
+                        expr
+                    }
+                }),
+            })
+        }
+
+        _ => expr,
     }
 }
 
