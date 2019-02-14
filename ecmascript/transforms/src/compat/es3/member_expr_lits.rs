@@ -26,6 +26,10 @@ impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
         let mut e = e.fold_children(self);
 
+        if e.computed {
+            return e;
+        }
+
         e.prop = match *e.prop {
             Expr::Lit(Lit::Str(Str {
                 value: sym, span, ..
