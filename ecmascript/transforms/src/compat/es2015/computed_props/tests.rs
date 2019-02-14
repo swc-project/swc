@@ -3,6 +3,20 @@ use super::*;
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| ComputedProps,
+    issue_210,
+    "
+const b = {[a]: 1}
+export const c = {[a]: 1}
+",
+    "const b = _defineProperty({
+}, a, 1);
+export const c = _defineProperty({
+}, a, 1);"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| ComputedProps,
     accessors,
     r#"var obj = {
   get [foobar]() {

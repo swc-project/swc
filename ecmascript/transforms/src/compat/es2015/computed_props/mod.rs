@@ -278,7 +278,7 @@ fn is_complex(props: &[PropOrSpread]) -> bool {
 
 impl<T: StmtLike + VisitWith<ShouldWork>> Fold<Vec<T>> for ComputedProps
 where
-    Vec<T>: FoldWith<Self>,
+    T: FoldWith<Self> + FoldWith<ObjectLitFolder>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         // Fast path when there's no computed properties.
@@ -291,26 +291,21 @@ where
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
-            match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
-                Ok(stmt) => {
-                    let mut folder = ObjectLitFolder::default();
-                    let stmt = stmt.fold_with(&mut folder);
+            let mut folder = ObjectLitFolder::default();
+            let stmt = stmt.fold_with(&mut folder);
 
-                    // Add variable declaration
-                    // e.g. var ref
-                    if !folder.vars.is_empty() {
-                        buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                            declare: false,
-                        }))));
-                    }
-
-                    buf.push(T::from_stmt(stmt));
-                }
+            // Add variable declaration
+            // e.g. var ref
+            if !folder.vars.is_empty() {
+                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: folder.vars,
+                    declare: false,
+                }))));
             }
+
+            buf.push(stmt);
         }
 
         buf
