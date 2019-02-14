@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{alias_ident_for, ExprFactory, StmtLike},
+    util::{alias_ident_for, var::VarCollector, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{iter, mem};
@@ -271,29 +271,6 @@ impl Fold<Expr> for RestFolder {
     }
 }
 
-/// Removes rest pattern from object pattern.
-///
-/// Used **only** for handling `export var {b, ...c};`
-struct ExporedtNameFinder {
-    names: Vec<Ident>,
-}
-impl Visit<Pat> for ExporedtNameFinder {
-    fn visit(&mut self, node: &Pat) {
-        match *node {
-            Pat::Ident(ref i) => self.names.push(i.clone()),
-            _ => node.visit_children(self),
-        }
-    }
-}
-impl Visit<ObjectPatProp> for ExporedtNameFinder {
-    fn visit(&mut self, node: &ObjectPatProp) {
-        match *node {
-            ObjectPatProp::Assign(AssignPatProp { ref key, .. }) => self.names.push(key.clone()),
-            _ => node.visit_children(self),
-        }
-    }
-}
-
 /// export var { b, ...c } = asdf2;
 impl Fold<ModuleDecl> for RestFolder {
     fn fold(&mut self, decl: ModuleDecl) -> ModuleDecl {
@@ -307,14 +284,14 @@ impl Fold<ModuleDecl> for RestFolder {
         match decl {
             ModuleDecl::ExportDecl(Decl::Var(var_decl)) => {
                 let specifiers = {
-                    let mut finder = ExporedtNameFinder { names: vec![] };
+                    let mut found = vec![];
+                    let mut finder = VarCollector { to: &mut found };
                     var_decl.visit_with(&mut finder);
-                    finder
-                        .names
+                    found
                         .into_iter()
-                        .map(|orig| NamedExportSpecifier {
-                            span: orig.span,
-                            orig,
+                        .map(|(sym, ctxt)| NamedExportSpecifier {
+                            span: DUMMY_SP,
+                            orig: Ident::new(sym, DUMMY_SP.with_ctxt(ctxt)),
                             exported: None,
                         })
                         .map(ExportSpecifier::Named)
