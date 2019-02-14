@@ -107,4 +107,14 @@ let x=4;",
         );
     }
 
+    #[test]
+    fn issue_197() {
+        assert_pretty(
+            "// type Foo = 'Oops';
+const Link = 'Boo';",
+            "// type Foo = 'Oops';
+const Link = 'Boo';",
+        );
+    }
+
 }
