@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
 extern crate sourcemap;
@@ -17,7 +18,8 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
-use swc_common::FoldWith;
+use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::fixer;
@@ -137,6 +139,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     file_name, input
                 );
                 let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+                let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
 
                 ::testing::run_test(false, |cm, handler| {
                     let src = cm.load_file(&entry.path()).expect("failed to load file");
@@ -146,8 +149,10 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     let s: Arc<String> = src.src.clone();
                     let mut src_map_builder = SourceMapBuilder::new(Some(&s));
+                    let mut src_map_builder2 = SourceMapBuilder::new(Some(&s));
                     {
                         let handlers = box MyHandlers;
+                        let handlers2 = box MyHandlers;
                         let mut parser: Parser<SourceFileInput> = Parser::new(
                             Session { handler: &handler },
                             Syntax::default(),
@@ -168,6 +173,19 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             handlers,
                             pos_of_leading_comments: Default::default(),
                         };
+                        let mut expected_emitter = Emitter {
+                            cfg: swc_ecma_codegen::Config { minify: false },
+                            cm: cm.clone(),
+                            wr: box swc_ecma_codegen::text_writer::JsWriter::new(
+                                cm.clone(),
+                                "\n",
+                                &mut wr2,
+                                &mut src_map_builder2,
+                            ),
+                            comments: None,
+                            handlers: handlers2,
+                            pos_of_leading_comments: Default::default(),
+                        };
 
                         // Parse source
 
@@ -181,54 +199,57 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         if module {
                             let module = parser
                                 .parse_module()
-                                .map(::testing::drop_span)
+                                .map(normalize)
                                 .map(|p| p.fold_with(&mut fixer()))
                                 .map_err(|mut e| {
                                     e.emit();
                                     ()
                                 })?;
-                            if module
-                                == e_parser
-                                    .parse_module()
-                                    .map(::testing::drop_span)
-                                    .map_err(|mut e| {
-                                        e.emit();
-                                        ()
-                                    })
-                                    .expect("failed to parse reference file")
-                            {
+                            let module2 = e_parser
+                                .parse_module()
+                                .map(normalize)
+                                .map_err(|mut e| {
+                                    e.emit();
+                                    ()
+                                })
+                                .expect("failed to parse reference file");
+                            if module == module2 {
                                 return Ok(());
                             }
-                            emitter.emit_module(&module).unwrap()
+                            emitter.emit_module(&module).unwrap();
+                            expected_emitter.emit_module(&module2).unwrap();
                         } else {
                             let script = parser
                                 .parse_script()
-                                .map(::testing::drop_span)
+                                .map(normalize)
+                                .map(|p| p.fold_with(&mut fixer()))
+                                .map_err(|mut e| {
+                                    e.emit();
+                                    ()
+                                })?;
+                            let script2 = e_parser
+                                .parse_script()
+                                .map(normalize)
                                 .map(|p| p.fold_with(&mut fixer()))
                                 .map_err(|mut e| {
                                     e.emit();
                                     ()
                                 })?;
 
-                            if script
-                                == e_parser
-                                    .parse_script()
-                                    .map(::testing::drop_span)
-                                    .map_err(|mut e| {
-                                        e.emit();
-                                        ()
-                                    })
-                                    .expect("failed to parse reference file")
-                            {
+                            if script == script2 {
                                 return Ok(());
                             }
-                            emitter.emit_script(&script).unwrap()
+                            emitter.emit_script(&script).unwrap();
+                            expected_emitter.emit_script(&script2).unwrap();
                         }
                     }
 
-                    let output = wr.0.read().unwrap();
-                    let output = String::from_utf8_lossy(&*output).to_string();
-                    println!("Wrong output:\n{}\n-----\n{}", output, expected.src);
+                    let output = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
+                    let expected = String::from_utf8_lossy(&*wr2.0.read().unwrap()).to_string();
+                    if output == expected {
+                        return Ok(());
+                    }
+                    eprintln!("Wrong output:\n{}\n-----\n{}", output, expected);
 
                     Err(())
                 })
@@ -258,4 +279,38 @@ impl Write for Buf {
     fn flush(&mut self) -> io::Result<()> {
         self.0.write().unwrap().flush()
     }
+}
+
+struct Normalizer;
+impl Fold<Stmt> for Normalizer {
+    fn fold(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children(self);
+
+        match stmt {
+            Stmt::Expr(box Expr::Paren(ParenExpr { expr, .. })) => Stmt::Expr(expr),
+            _ => stmt,
+        }
+    }
+}
+
+impl Fold<PropName> for Normalizer {
+    fn fold(&mut self, name: PropName) -> PropName {
+        let name = name.fold_children(self);
+
+        match name {
+            PropName::Ident(i) => PropName::Str(Str {
+                value: i.sym,
+                span: i.span,
+                has_escape: false,
+            }),
+            _ => name,
+        }
+    }
+}
+fn normalize<T>(node: T) -> T
+where
+    T: FoldWith<Normalizer> + FoldWith<::testing::DropSpan>,
+{
+    node.fold_with(&mut Normalizer)
+        .fold_with(&mut ::testing::DropSpan)
 }
