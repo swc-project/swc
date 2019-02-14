@@ -1063,8 +1063,26 @@ export default App"#;
     }
 
     #[test]
-    fn shebang() {
+    fn shebang_01() {
         let src = "#!/usr/bin/env node";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn shebang_02() {
+        let src = "#!/usr/bin/env node
+let x = 4";
         test_parser(
             src,
             Syntax::Es(EsConfig {

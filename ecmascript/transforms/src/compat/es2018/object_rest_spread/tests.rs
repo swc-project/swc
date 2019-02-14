@@ -10,6 +10,28 @@ fn tr() -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
+    issue_162,
+    r#"
+export const good = {
+  a(bad1) {
+    (...bad2) => { };
+  }
+};
+"#,
+    r#"
+var good = {
+    a (bad1) {
+        (...bad2)=>{
+        };
+    }
+};
+export { good }
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
     issue_181,
     r#"
 const fn = ({ a, ...otherProps }) => otherProps;
