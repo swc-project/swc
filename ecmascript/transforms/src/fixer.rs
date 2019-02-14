@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{ExprExt, ExprFactory, State},
+    util::{ExprFactory, State},
 };
 use ast::*;
 use swc_common::{

@@ -89,4 +89,13 @@ obj["var"] = "isKeyword";"#
         "const number = foo[bar1][baz1]",
         "const number = foo[bar1][baz1]"
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| MemberExprLit,
+        issue_211,
+        "_query[idx]=$this.attr('data-ref');",
+        "_query[idx]=$this.attr('data-ref');"
+    );
+
 }
