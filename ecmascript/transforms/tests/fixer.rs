@@ -307,6 +307,20 @@ impl Fold<PropName> for Normalizer {
         }
     }
 }
+
+impl Fold<NewExpr> for Normalizer {
+    fn fold(&mut self, expr: NewExpr) -> NewExpr {
+        let mut expr = expr.fold_children(self);
+
+        expr.args = match expr.args {
+            Some(..) => expr.args,
+            None => Some(vec![]),
+        };
+
+        expr
+    }
+}
+
 fn normalize<T>(node: T) -> T
 where
     T: FoldWith<Normalizer> + FoldWith<::testing::DropSpan>,
