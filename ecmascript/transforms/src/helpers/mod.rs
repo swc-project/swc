@@ -187,7 +187,7 @@ define_helpers!(Helpers {
     // temporal_undefined: (),
     throw: (),
     to_array: (array_with_holes, iterable_to_array, non_iterable_rest),
-    to_consumable_array: (array_with_holes, iterable_to_array, non_iterable_spread),
+    to_consumable_array: (array_without_holes, iterable_to_array, non_iterable_spread),
     to_primitive: (type_of),
     to_property_key: (type_of, to_primitive),
     type_of: (),
