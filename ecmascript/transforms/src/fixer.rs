@@ -179,7 +179,7 @@ impl Fold<Expr> for Fixer {
         fn unwrap_expr(mut e: Expr) -> Expr {
             match e {
                 Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
-                    *exprs.pop().unwrap()
+                    unwrap_expr(*exprs.pop().unwrap())
                 }
                 Expr::Paren(ParenExpr { expr, .. }) => unwrap_expr(*expr),
                 _ => e,
@@ -244,6 +244,21 @@ impl Fold<Expr> for Fixer {
 
                 let exprs_len = exprs.len();
                 let expr = if len == exprs_len {
+                    let mut exprs = exprs
+                        .into_iter()
+                        .enumerate()
+                        .filter_map(|(i, e)| {
+                            let is_last = i + 1 == exprs_len;
+                            if is_last {
+                                Some(e)
+                            } else {
+                                ignore_return_value(e)
+                            }
+                        })
+                        .collect::<Vec<_>>();
+                    if exprs.len() == 1 {
+                        return *exprs.pop().unwrap();
+                    }
                     Expr::Seq(SeqExpr { span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
@@ -251,24 +266,20 @@ impl Fold<Expr> for Fixer {
                         let is_last = i + 1 == exprs_len;
 
                         match *expr {
-                            Expr::Seq(SeqExpr { mut exprs, .. }) => {
+                            Expr::Seq(SeqExpr { exprs, .. }) => {
                                 if !is_last {
-                                    // Remove useless items
-                                    while match exprs.last() {
-                                        Some(box Expr::Ident(..)) => true,
-                                        Some(box Expr::Unary(UnaryExpr {
-                                            op: op!("void"),
-                                            ref arg,
-                                            ..
-                                        })) => !arg.may_have_side_effects(),
-
-                                        _ => false,
-                                    } {
-                                        let _ = exprs.pop();
+                                    buf.extend(exprs.into_iter().filter_map(ignore_return_value));
+                                } else {
+                                    let exprs_len = exprs.len();
+                                    for (i, expr) in exprs.into_iter().enumerate() {
+                                        let is_last = i + 1 == exprs_len;
+                                        if is_last {
+                                            buf.push(expr);
+                                        } else {
+                                            buf.extend(ignore_return_value(expr));
+                                        }
                                     }
                                 }
-
-                                buf.append(&mut exprs)
                             }
                             _ => buf.push(expr),
                         }
@@ -379,6 +390,18 @@ impl Fold<Expr> for Fixer {
             },
             _ => expr,
         }
+    }
+}
+
+fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
+    match *expr {
+        Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
+        Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            arg,
+            ..
+        }) => ignore_return_value(arg),
+        _ => Some(expr),
     }
 }
 
@@ -578,5 +601,5 @@ function a() {
 
     test_fixer!(fixer_12, "(((a, b), c), d) + e;", "d + e;");
 
-    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete (2)");
+    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete 2");
 }
