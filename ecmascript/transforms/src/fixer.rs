@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{ExprFactory, State},
+    util::{ExprExt, ExprFactory, State},
 };
 use ast::*;
 use swc_common::{
@@ -242,28 +242,48 @@ impl Fold<Expr> for Fixer {
                     })
                     .sum();
 
-                let expr = if len == exprs.len() {
+                let exprs_len = exprs.len();
+                let expr = if len == exprs_len {
                     Expr::Seq(SeqExpr { span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
-                    for expr in exprs {
+                    for (i, expr) in exprs.into_iter().enumerate() {
+                        let is_last = i + 1 == exprs_len;
+
                         match *expr {
                             Expr::Seq(SeqExpr { mut exprs, .. }) => {
-                                // Remove useless items
-                                while let Some(box Expr::Ident(..)) = exprs.last() {
-                                    let _ = exprs.pop();
+                                if !is_last {
+                                    // Remove useless items
+                                    while match exprs.last() {
+                                        Some(box Expr::Ident(..)) => true,
+                                        Some(box Expr::Unary(UnaryExpr {
+                                            op: op!("void"),
+                                            ref arg,
+                                            ..
+                                        })) => !arg.may_have_side_effects(),
+
+                                        _ => false,
+                                    } {
+                                        let _ = exprs.pop();
+                                    }
                                 }
 
                                 buf.append(&mut exprs)
                             }
                             _ => buf.push(expr),
                         }
+
+                        if is_last {
+
+                        } else {
+
+                        }
                     }
 
-                    buf.shrink_to_fit();
                     if buf.len() == 1 {
                         return *buf.pop().unwrap();
                     }
+                    buf.shrink_to_fit();
                     Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
@@ -365,7 +385,7 @@ impl Fold<Expr> for Fixer {
 fn handle_expr_stmt(expr: Expr) -> Expr {
     match expr {
         // It's important for arrow pass to work properly.
-        Expr::Object(..) | Expr::Fn(..) => expr.wrap_with_paren(),
+        Expr::Object(..) | Expr::Class(..) | Expr::Fn(..) => expr.wrap_with_paren(),
 
         // ({ a } = foo)
         Expr::Assign(AssignExpr {
@@ -387,12 +407,15 @@ fn handle_expr_stmt(expr: Expr) -> Expr {
                 "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
             );
 
-            let mut first = true;
+            let mut i = 0;
+            let len = exprs.len();
             Expr::Seq(SeqExpr {
                 span,
                 exprs: exprs.move_map(|expr| {
-                    if first {
-                        first = false;
+                    i += 1;
+                    let is_last = len == i;
+
+                    if !is_last {
                         expr.map(handle_expr_stmt)
                     } else {
                         expr

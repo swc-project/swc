@@ -26,10 +26,9 @@ use swc_ecma_transforms::fixer;
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 
 const IGNORED_PASS_TESTS: &[&str] = &[
-    // Temporalily ignored
-    "431ecef8c85d4d24.js",
-    "8386fbff927a9e0e.js",
-    "5654d4106d7025c2.js",
+    // Generated code is better than it from `pass`
+    "aec65a9745669870.js",
+    "d57a361bc638f38c.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
@@ -301,6 +300,11 @@ impl Fold<PropName> for Normalizer {
             PropName::Ident(i) => PropName::Str(Str {
                 value: i.sym,
                 span: i.span,
+                has_escape: false,
+            }),
+            PropName::Num(n) => PropName::Str(Str {
+                value: format!("{}", n.value).into(),
+                span: n.span,
                 has_escape: false,
             }),
             _ => name,
