@@ -298,7 +298,7 @@ impl Fold<Expr> for Fixer {
 
             Expr::Bin(mut expr) => {
                 expr.right = match *expr.right {
-                    e @ Expr::Assign(..) => box e.wrap_with_paren(),
+                    e @ Expr::Assign(..) | e @ Expr::Seq(..) => box e.wrap_with_paren(),
                     _ => expr.right,
                 };
 
@@ -522,4 +522,61 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(issue_207, "a => ({x: 'xxx', y: {a}});");
+
+    test_fixer!(
+        fixer_01,
+        "var a, b, c, d, e, f;
+((a, b), (c())) + ((d, e), (f()));
+",
+        "var a, b, c, d, e, f;
+c() + f()"
+    );
+
+    test_fixer!(fixer_02, "(b, c), d;", "d;");
+
+    test_fixer!(fixer_03, "((a, b), (c && d)) && e;", "c && d && e;");
+
+    test_fixer!(fixer_04, "for ((a, b), c;;) ;", "for(c;;);");
+
+    test_fixer!(
+        fixer_05,
+        "var a, b, c = (1), d, e, f = (2);
+((a, b), c) + ((d, e), f);",
+        "var a, b, c = 1, d, e, f = 2;
+c + f;"
+    );
+
+    test_fixer!(
+        fixer_06,
+        "var a, b, c, d;
+a = ((b, c), d);",
+        "var a, b, c, d;
+a = d;"
+    );
+
+    test_fixer!(fixer_07, "a => ((b, c) => ((a, b), c));", "(a)=>(b, c)=>c;");
+
+    test_fixer!(fixer_08, "typeof (((1), a), (2));", "typeof 2");
+
+    test_fixer!(fixer_09, "(((a, b), c), d) ? e : f;", "d ? e : f;");
+
+    test_fixer!(
+        fixer_10,
+        "
+function a() {
+  return (((void (1)), (void (2))), a), (void (3));
+}
+",
+        "
+function a() {
+  return void 3;
+}
+"
+    );
+
+    test_fixer!(fixer_11, "c && ((((2), (3)), d), b);", "c && b");
+
+    test_fixer!(fixer_12, "(((a, b), c), d) + e;", "d + e;");
+
+    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete (2)");
 }
