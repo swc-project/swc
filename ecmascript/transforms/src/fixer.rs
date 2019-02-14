@@ -77,6 +77,20 @@ impl Fold<VarDeclarator> for Fixer {
     }
 }
 
+impl Fold<BlockStmtOrExpr> for Fixer {
+    fn fold(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let body = body.fold_children(self);
+
+        match body {
+            BlockStmtOrExpr::Expr(box expr @ Expr::Object(..)) => {
+                BlockStmtOrExpr::Expr(box expr.wrap_with_paren())
+            }
+
+            _ => body,
+        }
+    }
+}
+
 impl Fold<Stmt> for Fixer {
     fn fold(&mut self, stmt: Stmt) -> Stmt {
         let stmt = match stmt {
@@ -481,4 +495,6 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
          true), _obj)
 };"
     );
+
+    identical!(issue_207, "a => ({x: 'xxx', y: {a}});");
 }
