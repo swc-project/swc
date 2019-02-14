@@ -59,15 +59,15 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub fn parse_script(&mut self) -> PResult<'a, Script> {
-        let start = cur_pos!();
-
-        let shebang = self.parse_shebang()?;
-
         let ctx = Context {
             module: false,
             ..self.ctx()
         };
         self.set_ctx(ctx);
+
+        let start = cur_pos!();
+
+        let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Script {
             span: span!(start),
@@ -77,9 +77,6 @@ impl<'a, I: Input> Parser<'a, I> {
     }
 
     pub fn parse_module(&mut self) -> PResult<'a, Module> {
-        let start = cur_pos!();
-        let shebang = self.parse_shebang()?;
-
         //TODO: parse() -> PResult<'a, Program>
         let ctx = Context {
             module: true,
@@ -88,6 +85,9 @@ impl<'a, I: Input> Parser<'a, I> {
         };
         // Module code is always in strict mode
         self.set_ctx(ctx);
+
+        let start = cur_pos!();
+        let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {
             span: span!(start),
