@@ -304,7 +304,9 @@ impl Fold<Expr> for Fixer {
                     }
 
                     buf.shrink_to_fit();
-
+                    if buf.len() == 1 {
+                        return *buf.pop().unwrap();
+                    }
                     Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
