@@ -1,6 +1,38 @@
 use super::*;
 
 test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| DuplicateKeys,
+    issue_203,
+    r#"
+const obj = {};
+
+obj.prop = {
+  alpha: {
+    charlie: true
+  },
+  beta: {
+    charlie: true,
+    delta: true
+  }
+};
+"#,
+    r#"
+const obj = {};
+
+obj.prop = {
+  alpha: {
+    charlie: true
+  },
+  beta: {
+    charlie: true,
+    delta: true
+  }
+};
+"#
+);
+
+test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
     |_| DuplicateKeys,

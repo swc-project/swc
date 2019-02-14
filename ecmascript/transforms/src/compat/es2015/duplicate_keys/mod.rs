@@ -39,6 +39,12 @@ struct PropFolder {
     setter_props: FxHashSet<JsWord>,
 }
 
+impl Fold<Expr> for PropFolder {
+    fn fold(&mut self, node: Expr) -> Expr {
+        node
+    }
+}
+
 impl Fold<Prop> for PropFolder {
     fn fold(&mut self, prop: Prop) -> Prop {
         match prop {
@@ -80,6 +86,11 @@ impl Fold<Prop> for PropFolder {
 
 struct PropNameFolder<'a> {
     props: &'a mut FxHashSet<JsWord>,
+}
+impl<'a> Fold<Expr> for PropNameFolder<'a> {
+    fn fold(&mut self, node: Expr) -> Expr {
+        node
+    }
 }
 
 impl<'a> Fold<PropName> for PropNameFolder<'a> {

@@ -26,17 +26,14 @@ impl Fold<MemberExpr> for MemberExprLit {
     fn fold(&mut self, e: MemberExpr) -> MemberExpr {
         let mut e = e.fold_children(self);
 
-        e.prop = match *e.prop {
-            Expr::Lit(Lit::Str(Str {
-                value: sym, span, ..
-            }))
-            | Expr::Ident(Ident { sym, span, .. }) => {
-                if sym.is_reserved_for_es3() || !is_valid_ident(&sym) {
+        macro_rules! handle {
+            ($sym:expr, $span:expr) => {
+                if $sym.is_reserved_for_es3() || !is_valid_ident(&$sym) {
                     return MemberExpr {
                         computed: true,
                         prop: box Expr::Lit(Lit::Str(Str {
-                            span,
-                            value: sym,
+                            span: $span,
+                            value: $sym,
                             has_escape: false,
                         })),
                         ..e
@@ -44,9 +41,20 @@ impl Fold<MemberExpr> for MemberExprLit {
                 } else {
                     return MemberExpr {
                         computed: false,
-                        prop: box Expr::Ident(quote_ident!(span, sym)),
+                        prop: box Expr::Ident(quote_ident!($span, $sym)),
                         ..e
                     };
+                }
+            };
+        }
+
+        e.prop = match *e.prop {
+            Expr::Lit(Lit::Str(Str { value, span, .. })) => handle!(value, span),
+            Expr::Ident(i) => {
+                if e.computed {
+                    box Expr::Ident(i)
+                } else {
+                    handle!(i.sym, i.span)
                 }
             }
             _ => e.prop,
@@ -74,4 +82,11 @@ obj["const"] = "isKeyword";
 obj["var"] = "isKeyword";"#
     );
 
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| MemberExprLit,
+        issue_206,
+        "const number = foo[bar1][baz1]",
+        "const number = foo[bar1][baz1]"
+    );
 }
