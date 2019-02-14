@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{ExprFactory, State},
+    util::{ExprExt, ExprFactory, State},
 };
 use ast::*;
 use swc_common::{
@@ -104,49 +104,6 @@ impl Fold<Stmt> for Fixer {
             _ => stmt.fold_children(self),
         };
 
-        fn handle_expr_stmt(expr: Expr) -> Expr {
-            match expr {
-                // It's important for arrow pass to work properly.
-                Expr::Object(..) | Expr::Fn(..) => expr.wrap_with_paren(),
-
-                // ({ a } = foo)
-                Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(left @ box Pat::Object(..)),
-                    op,
-                    right,
-                }) => AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(left),
-                    op,
-                    right,
-                }
-                .wrap_with_paren(),
-
-                Expr::Seq(SeqExpr { span, exprs }) => {
-                    debug_assert!(
-                        exprs.len() != 1,
-                        "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
-                    );
-
-                    let mut first = true;
-                    Expr::Seq(SeqExpr {
-                        span,
-                        exprs: exprs.move_map(|expr| {
-                            if first {
-                                first = false;
-                                expr.map(handle_expr_stmt)
-                            } else {
-                                expr
-                            }
-                        }),
-                    })
-                }
-
-                _ => expr,
-            }
-        }
-
         let stmt = match stmt {
             Stmt::Expr(expr) => Stmt::Expr(expr.map(handle_expr_stmt)),
 
@@ -222,7 +179,7 @@ impl Fold<Expr> for Fixer {
         fn unwrap_expr(mut e: Expr) -> Expr {
             match e {
                 Expr::Seq(SeqExpr { ref mut exprs, .. }) if exprs.len() == 1 => {
-                    *exprs.pop().unwrap()
+                    unwrap_expr(*exprs.pop().unwrap())
                 }
                 Expr::Paren(ParenExpr { expr, .. }) => unwrap_expr(*expr),
                 _ => e,
@@ -285,26 +242,59 @@ impl Fold<Expr> for Fixer {
                     })
                     .sum();
 
-                let expr = if len == exprs.len() {
+                let exprs_len = exprs.len();
+                let expr = if len == exprs_len {
+                    let mut exprs = exprs
+                        .into_iter()
+                        .enumerate()
+                        .filter_map(|(i, e)| {
+                            let is_last = i + 1 == exprs_len;
+                            if is_last {
+                                Some(e)
+                            } else {
+                                ignore_return_value(e)
+                            }
+                        })
+                        .collect::<Vec<_>>();
+                    if exprs.len() == 1 {
+                        return *exprs.pop().unwrap();
+                    }
                     Expr::Seq(SeqExpr { span, exprs })
                 } else {
                     let mut buf = Vec::with_capacity(len);
-                    for expr in exprs {
-                        match *expr {
-                            Expr::Seq(SeqExpr { mut exprs, .. }) => {
-                                // Remove useless items
-                                while let Some(box Expr::Ident(..)) = exprs.last() {
-                                    let _ = exprs.pop();
-                                }
+                    for (i, expr) in exprs.into_iter().enumerate() {
+                        let is_last = i + 1 == exprs_len;
 
-                                buf.append(&mut exprs)
+                        match *expr {
+                            Expr::Seq(SeqExpr { exprs, .. }) => {
+                                if !is_last {
+                                    buf.extend(exprs.into_iter().filter_map(ignore_return_value));
+                                } else {
+                                    let exprs_len = exprs.len();
+                                    for (i, expr) in exprs.into_iter().enumerate() {
+                                        let is_last = i + 1 == exprs_len;
+                                        if is_last {
+                                            buf.push(expr);
+                                        } else {
+                                            buf.extend(ignore_return_value(expr));
+                                        }
+                                    }
+                                }
                             }
                             _ => buf.push(expr),
                         }
+
+                        if is_last {
+
+                        } else {
+
+                        }
                     }
 
+                    if buf.len() == 1 {
+                        return *buf.pop().unwrap();
+                    }
                     buf.shrink_to_fit();
-
                     Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
@@ -319,7 +309,7 @@ impl Fold<Expr> for Fixer {
 
             Expr::Bin(mut expr) => {
                 expr.right = match *expr.right {
-                    e @ Expr::Assign(..) => box e.wrap_with_paren(),
+                    e @ Expr::Assign(..) | e @ Expr::Seq(..) => box e.wrap_with_paren(),
                     _ => expr.right,
                 };
 
@@ -400,6 +390,64 @@ impl Fold<Expr> for Fixer {
             },
             _ => expr,
         }
+    }
+}
+
+fn ignore_return_value(expr: Box<Expr>) -> Option<Box<Expr>> {
+    match *expr {
+        Expr::Ident(..) | Expr::Fn(..) | Expr::Lit(..) => None,
+        Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            arg,
+            ..
+        }) => ignore_return_value(arg),
+        _ => Some(expr),
+    }
+}
+
+fn handle_expr_stmt(expr: Expr) -> Expr {
+    match expr {
+        // It's important for arrow pass to work properly.
+        Expr::Object(..) | Expr::Class(..) | Expr::Fn(..) => expr.wrap_with_paren(),
+
+        // ({ a } = foo)
+        Expr::Assign(AssignExpr {
+            span,
+            left: PatOrExpr::Pat(left @ box Pat::Object(..)),
+            op,
+            right,
+        }) => AssignExpr {
+            span,
+            left: PatOrExpr::Pat(left),
+            op,
+            right,
+        }
+        .wrap_with_paren(),
+
+        Expr::Seq(SeqExpr { span, exprs }) => {
+            debug_assert!(
+                exprs.len() != 1,
+                "SeqExpr should be unwrapped if exprs.len() == 1, but length is 1"
+            );
+
+            let mut i = 0;
+            let len = exprs.len();
+            Expr::Seq(SeqExpr {
+                span,
+                exprs: exprs.move_map(|expr| {
+                    i += 1;
+                    let is_last = len == i;
+
+                    if !is_last {
+                        expr.map(handle_expr_stmt)
+                    } else {
+                        expr
+                    }
+                }),
+            })
+        }
+
+        _ => expr,
     }
 }
 
@@ -497,4 +545,61 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     );
 
     identical!(issue_207, "a => ({x: 'xxx', y: {a}});");
+
+    test_fixer!(
+        fixer_01,
+        "var a, b, c, d, e, f;
+((a, b), (c())) + ((d, e), (f()));
+",
+        "var a, b, c, d, e, f;
+c() + f()"
+    );
+
+    test_fixer!(fixer_02, "(b, c), d;", "d;");
+
+    test_fixer!(fixer_03, "((a, b), (c && d)) && e;", "c && d && e;");
+
+    test_fixer!(fixer_04, "for ((a, b), c;;) ;", "for(c;;);");
+
+    test_fixer!(
+        fixer_05,
+        "var a, b, c = (1), d, e, f = (2);
+((a, b), c) + ((d, e), f);",
+        "var a, b, c = 1, d, e, f = 2;
+c + f;"
+    );
+
+    test_fixer!(
+        fixer_06,
+        "var a, b, c, d;
+a = ((b, c), d);",
+        "var a, b, c, d;
+a = d;"
+    );
+
+    test_fixer!(fixer_07, "a => ((b, c) => ((a, b), c));", "(a)=>(b, c)=>c;");
+
+    test_fixer!(fixer_08, "typeof (((1), a), (2));", "typeof 2");
+
+    test_fixer!(fixer_09, "(((a, b), c), d) ? e : f;", "d ? e : f;");
+
+    test_fixer!(
+        fixer_10,
+        "
+function a() {
+  return (((void (1)), (void (2))), a), (void (3));
+}
+",
+        "
+function a() {
+  return void 3;
+}
+"
+    );
+
+    test_fixer!(fixer_11, "c && ((((2), (3)), d), b);", "c && b");
+
+    test_fixer!(fixer_12, "(((a, b), c), d) + e;", "d + e;");
+
+    test_fixer!(fixer_13, "delete (((1), a), (2));", "delete 2");
 }
