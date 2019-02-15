@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-   <a href="https://www.npmjs.com/package/swc">
+   <a href="https://www.npmjs.com/package/@swc/core">
       <img alt="npm Downloads" src="https://img.shields.io/npm/dm/swc.svg?maxAge=43200&label=npm%20downloads">
    </a>
     <a href="https://crates.io/crates/swc_ecma_parser">
@@ -68,19 +68,6 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 Check out the documentation [in the website](https://swc-project.github.io/docs/installation).
 
-
-# Installation
-
-Currently this requires nightly version of [rust][].
-
-```sh
-npm i -D swc
-```
-or 
-```sh
-yarn add --dev swc
-```
-
 # Features
 
 ## Parsers
@@ -103,7 +90,6 @@ New generation javascript to old-days javascript.
     - [x] arrow-functions
     - [x] block-scoped-functions
     - [x] block-scoping
-      - Note: this might be buggy (at this time)
     - [x] classes
     - [x] computed-properties
     - [x] destructuring
