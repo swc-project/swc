@@ -309,7 +309,9 @@ impl Fold<Expr> for Fixer {
 
             Expr::Bin(mut expr) => {
                 expr.right = match *expr.right {
-                    e @ Expr::Assign(..) | e @ Expr::Seq(..) => box e.wrap_with_paren(),
+                    e @ Expr::Assign(..) | e @ Expr::Seq(..) | e @ Expr::Yield(..) => {
+                        box e.wrap_with_paren()
+                    }
                     _ => expr.right,
                 };
 
