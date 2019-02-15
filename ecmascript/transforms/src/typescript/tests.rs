@@ -71,7 +71,8 @@ to!(
     issue_179_01,
     "import {Types} from 'other';
 const a: Types.foo = {};",
-    ""
+    "import 'other';
+const a = {};"
 );
 
 to!(

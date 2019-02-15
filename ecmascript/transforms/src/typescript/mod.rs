@@ -6,7 +6,7 @@ use ast::*;
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
-    util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, VisitWith, DUMMY_SP,
+    util::move_map::MoveMap, Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP,
 };
 
 #[cfg(test)]
@@ -21,6 +21,37 @@ pub fn strip() -> impl Pass + Clone {
 struct Strip {
     non_top_level: State<bool>,
     scope: State<Scope>,
+    phase: State<Phase>,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum Phase {
+    ///
+    ///  - analyze ident usages
+    ///  - remove type annotations
+    Analysis,
+    ///
+    ///  - remove type-only imports
+    DropImports,
+}
+impl Default for Phase {
+    fn default() -> Self {
+        Phase::Analysis
+    }
+}
+
+#[derive(Default)]
+struct Scope {
+    decls: FxHashMap<(JsWord, SyntaxContext), DeclInfo>,
+    imported_idents: FxHashMap<(JsWord, SyntaxContext), DeclInfo>,
+}
+
+#[derive(Debug, Default)]
+struct DeclInfo {
+    /// interface / type alias
+    has_type: bool,
+    /// Var, Fn, Class
+    has_concrete: bool,
 }
 
 impl Strip {
@@ -81,19 +112,6 @@ impl Strip {
     }
 }
 
-#[derive(Default)]
-struct Scope {
-    decls: FxHashMap<(JsWord, SyntaxContext), DeclInfo>,
-}
-
-#[derive(Debug, Default)]
-struct DeclInfo {
-    /// interface / type alias
-    has_type: bool,
-    /// Var, Fn, Class
-    has_concrete: bool,
-}
-
 impl Fold<Constructor> for Strip {
     fn fold(&mut self, c: Constructor) -> Constructor {
         let c = c.fold_children(self);
@@ -146,9 +164,14 @@ impl Fold<Constructor> for Strip {
 
 impl Fold<Vec<ModuleItem>> for Strip {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        // First pass
         let items = items.fold_children(self);
 
-        items.move_flat_map(|item| match item {
+        let old = self.phase;
+        self.phase = Phase::DropImports.into();
+
+        // Second pass
+        let items = items.move_flat_map(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => None,
 
             ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(..)))
@@ -217,7 +240,89 @@ impl Fold<Vec<ModuleItem>> for Strip {
             }
 
             _ => Some(item.fold_with(self)),
-        })
+        });
+        self.phase = old;
+
+        items
+    }
+}
+
+impl Fold<ImportDecl> for Strip {
+    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
+        match self.phase.value {
+            Phase::Analysis => {
+                macro_rules! store {
+                    ($i:expr) => {{
+                        self.scope
+                            .value
+                            .imported_idents
+                            .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
+                    }};
+                }
+                for s in &import.specifiers {
+                    match *s {
+                        ImportSpecifier::Default(ref import) => store!(import.local),
+                        ImportSpecifier::Specific(ref import) => store!(import.local),
+                        ImportSpecifier::Namespace(..) => {}
+                    }
+                }
+
+                import
+            }
+            Phase::DropImports => {
+                import.specifiers.retain(|s| match *s {
+                    ImportSpecifier::Default(ImportDefault { ref local, .. })
+                    | ImportSpecifier::Specific(ImportSpecific { ref local, .. }) => {
+                        let entry = self
+                            .scope
+                            .value
+                            .imported_idents
+                            .get(&(local.sym.clone(), local.span.ctxt()));
+                        match entry {
+                            Some(&DeclInfo {
+                                has_type: true,
+                                has_concrete: false,
+                            }) => false,
+                            _ => true,
+                        }
+                    }
+                    _ => true,
+                });
+
+                import
+            }
+        }
+    }
+}
+
+impl Fold<Ident> for Strip {
+    fn fold(&mut self, i: Ident) -> Ident {
+        self.scope
+            .value
+            .imported_idents
+            .entry((i.sym.clone(), i.span.ctxt()))
+            .and_modify(|v| v.has_concrete = true);
+        i.fold_children(self)
+    }
+}
+
+impl Visit<TsEntityName> for Strip {
+    fn visit(&mut self, name: &TsEntityName) {
+        assert!(match self.phase.value {
+            Phase::Analysis => true,
+            _ => false,
+        });
+
+        match *name {
+            TsEntityName::Ident(ref i) => {
+                self.scope
+                    .value
+                    .imported_idents
+                    .entry((i.sym.clone(), i.span.ctxt()))
+                    .and_modify(|v| v.has_type = true);
+            }
+            TsEntityName::TsQualifiedName(..) => name.visit_children(self),
+        }
     }
 }
 
@@ -253,34 +358,49 @@ impl Fold<Stmt> for Strip {
     }
 }
 
-macro_rules! to_none {
+macro_rules! type_to_none {
     ($T:ty) => {
         impl Fold<Option<$T>> for Strip {
-            fn fold(&mut self, _: Option<$T>) -> Option<$T> {
+            fn fold(&mut self, node: Option<$T>) -> Option<$T> {
+                node.visit_with(self);
+
                 None
             }
         }
     };
     ($T:ty,) => {
-        to_none!($T);
+        type_to_none!($T);
     };
     ($T:ty, $($rest:tt)+) => {
-        to_none!($T);
-        to_none!($($rest)*);
+        type_to_none!($T);
+        type_to_none!($($rest)*);
     };
 }
 
-to_none!(
-    Accessibility,
-    TsType,
-    TsTypeAnn,
-    TsTypeParamDecl,
-    TsTypeParamInstantiation
-);
+impl Fold<Option<Accessibility>> for Strip {
+    fn fold(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
+        None
+    }
+}
+
+type_to_none!(TsType, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation);
 
 impl Fold<Expr> for Strip {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children(self);
+        let expr = match expr {
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop,
+                computed,
+            }) => Expr::Member(MemberExpr {
+                span,
+                obj: obj.fold_with(self),
+                prop: if computed { prop.fold_with(self) } else { prop },
+                computed,
+            }),
+            _ => expr.fold_children(self),
+        };
 
         match expr {
             Expr::TsAs(TsAsExpr { expr, .. }) => *expr,
