@@ -33,28 +33,39 @@ impl Fold<Expr> for InlineGlobals {
                         obj:
                             ExprOrSuper::Expr(box Expr::Ident(Ident {
                                 sym: js_word!("process"),
+                                span: process_span,
                                 ..
                             })),
                         prop:
                             box Expr::Ident(Ident {
                                 sym: js_word!("env"),
+                                span: env_span,
                                 ..
                             }),
-                        span: _,
-                        computed: _,
+                        span: obj_span,
+                        computed: obj_computed,
                     })),
                 prop,
-                computed: _,
+                computed,
             }) => match *prop {
                 Expr::Ident(Ident { ref sym, .. }) => {
                     if let Some(env) = self.envs.get(sym) {
                         return env.clone();
                     }
-                    return Expr::Lit(Lit::Str(Str {
-                        value: js_word!(""),
+                    return Expr::Member(MemberExpr {
                         span,
-                        has_escape: false,
-                    }));
+                        obj: ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                            obj: ExprOrSuper::Expr(box Expr::Ident(Ident::new(
+                                js_word!("process"),
+                                process_span,
+                            ))),
+                            prop: box Expr::Ident(Ident::new(js_word!("env"), env_span)),
+                            span: obj_span,
+                            computed: obj_computed,
+                        })),
+                        prop,
+                        computed,
+                    });
                 }
                 _ => unimplemented!("node.env.NONE-IDENT"),
             },
@@ -111,6 +122,17 @@ mod tests {
     ) -> HashMap<JsWord, Expr> {
         mk_map(tester, values, false)
     }
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |tester| InlineGlobals {
+            envs: envs(tester, &[]),
+            globals: globals(tester, &[]),
+        },
+        issue_215,
+        r#"if (process.env.x === 'development') {}"#,
+        r#"if (process.env.x === 'development') {}"#
+    );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
