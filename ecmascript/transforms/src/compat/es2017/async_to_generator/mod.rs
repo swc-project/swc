@@ -582,12 +582,19 @@ impl Actual {
 fn make_fn_ref(mut expr: FnExpr) -> Expr {
     struct AwaitToYield;
 
-    impl Fold<Function> for AwaitToYield {
-        /// Don't recurse into function.
-        fn fold(&mut self, f: Function) -> Function {
-            f
-        }
+    macro_rules! noop {
+        ($T:path) => {
+            impl Fold<$T> for AwaitToYield {
+                /// Don't recurse into function.
+                fn fold(&mut self, f: $T) -> $T {
+                    f
+                }
+            }
+        };
     }
+    noop!(Function);
+    noop!(Constructor);
+    noop!(ArrowExpr);
 
     impl Fold<Expr> for AwaitToYield {
         fn fold(&mut self, expr: Expr) -> Expr {

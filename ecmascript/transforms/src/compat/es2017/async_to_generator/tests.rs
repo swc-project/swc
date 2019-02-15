@@ -30,6 +30,28 @@ fn tr() -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
+    issue_216,
+    r#"
+async function foo(bar) {
+  bar && await bar();
+}
+"#,
+    r#"
+function _foo() {
+    _foo = _asyncToGenerator(function*(bar) {
+        bar && (yield bar());
+    });
+    return _foo.apply(this, arguments);
+}
+function foo(bar) {
+    return _foo.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
     async_arrow_in_method,
     r#"
 let TestClass = {
