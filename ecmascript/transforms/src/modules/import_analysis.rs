@@ -1,16 +1,28 @@
 use super::util::Scope;
-use crate::util::State;
+use crate::{pass::Pass, util::State};
 use ast::*;
 use swc_common::{Fold, Visit, VisitWith};
 
+pub fn import_analyzer(enabled: bool) -> impl Pass + Clone {
+    ImportAnalyzer {
+        enabled,
+        scope: Default::default(),
+    }
+}
+
 /// Inject required helpers methods **for** module transform passes.
-#[derive(Default, Clone)]
-pub struct ImportAnalyzer {
+#[derive(Clone)]
+struct ImportAnalyzer {
+    enabled: bool,
     scope: State<Scope>,
 }
 
 impl Fold<Module> for ImportAnalyzer {
     fn fold(&mut self, module: Module) -> Module {
+        if !self.enabled {
+            return module;
+        }
+
         module.visit_with(self);
 
         for (_, ty) in self.scope.value.import_types.drain() {
@@ -42,7 +54,6 @@ impl Visit<NamedExport> for ImportAnalyzer {
     fn visit(&mut self, export: &NamedExport) {
         for &NamedExportSpecifier {
             ref orig,
-            ref exported,
             ..
         } in export.specifiers.iter().map(|e| match *e {
             ExportSpecifier::Named(ref e) => e,
@@ -79,7 +90,7 @@ impl Visit<ImportDecl> for ImportAnalyzer {
                     ImportSpecifier::Namespace(..) => unreachable!(
                         "import * as foo cannot be used with other type of import specifiers"
                     ),
-                    ImportSpecifier::Default(ref i) => {
+                    ImportSpecifier::Default(_) => {
                         self.scope
                             .import_types
                             .entry(import.src.value.clone())
