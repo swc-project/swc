@@ -19,7 +19,7 @@ lazy_static! {
 }
 
 #[macro_export]
-macro_rules! helper {
+macro_rules! enable_helper {
     ($i:ident) => {{
         $crate::helpers::HELPERS.with(|helpers| {
             helpers.$i();
@@ -237,7 +237,7 @@ mod tests {
         ::tests::test_transform(
             Default::default(),
             |tester| {
-                helper!(throw);
+                enable_helper!(throw);
                 InjectHelpers {
                     cm: tester.cm.clone(),
                 }
@@ -257,7 +257,7 @@ function _throw(e) {
         ::tests::test_transform(
             Default::default(),
             |tester| {
-                helper!(throw);
+                enable_helper!(throw);
                 InjectHelpers {
                     cm: tester.cm.clone(),
                 }

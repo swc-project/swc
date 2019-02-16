@@ -28,10 +28,10 @@ impl Fold<Module> for ImportAnalyzer {
         for (_, ty) in self.scope.value.import_types.drain() {
             match ty {
                 true => {
-                    helper!(interop_require_wildcard);
+                    enable_helper!(interop_require_wildcard);
                 }
                 false => {
-                    helper!(interop_require_default);
+                    enable_helper!(interop_require_default);
                 }
             }
         }
