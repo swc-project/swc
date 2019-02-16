@@ -17,9 +17,12 @@ macro_rules! helper {
     }};
 
     ($span:expr, $field_name:ident, $s:literal) => {{
-        debug_assert!(!$s.starts_with("_"), "helper! macro should not invoked with '_' prefix");
+        debug_assert!(
+            !$s.starts_with("_"),
+            "helper! macro should not invoked with '_' prefix"
+        );
 
-        let mark = enable_helper!($field_name).0;
+        let mark = enable_helper!($field_name);
         quote_ident!($span.apply_mark(mark), concat!('_', $s)).as_callee()
     }};
 }

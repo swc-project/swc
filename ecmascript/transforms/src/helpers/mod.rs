@@ -23,7 +23,7 @@ macro_rules! enable_helper {
     ($i:ident) => {{
         $crate::helpers::HELPERS.with(|helpers| {
             helpers.$i();
-            helpers.mark
+            helpers.mark()
         })
     }};
 }
@@ -70,12 +70,18 @@ scoped_thread_local!(pub static HELPERS: Helpers);
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Default)]
 pub struct Helpers {
-    pub mark: HelperMark,
+    mark: HelperMark,
     inner: Inner,
 }
 
+impl Helpers {
+    pub const fn mark(&self) -> Mark {
+        self.mark.0
+    }
+}
+
 #[derive(Clone, Copy)]
-pub struct HelperMark(pub Mark);
+struct HelperMark(Mark);
 impl Default for HelperMark {
     fn default() -> Self {
         HelperMark(Mark::fresh(Mark::root()))
