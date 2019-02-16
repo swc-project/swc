@@ -294,6 +294,8 @@ where
             .join("testing")
             .join(test_name);
 
+        create_dir_all(&root).expect("failed to create parent directory for temp directory");
+
         let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
         create_dir_all(&tmp_dir).unwrap();
 

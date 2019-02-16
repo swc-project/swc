@@ -44,7 +44,7 @@ fn cond_simple() {
 #[test]
 fn cond_side_effect() {
     test_expr("new UnknownClass() ? 3 : 6", "new UnknownClass(), 3");
-    test_expr("(void fn()) ? 3 : 6", "void fn(), 6");
+    test_expr("(void fn()) ? 3 : 6", "fn(), 6");
 }
 
 #[test]

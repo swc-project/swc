@@ -5277,7 +5277,7 @@ test_exec!(
     r#"
 var called = false;
 
-Array: function Array() {
+function Array() {
   called = true;
 }
 
