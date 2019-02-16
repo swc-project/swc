@@ -537,18 +537,18 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     let rhs = match ty {
                         Some(true) if !self.config.no_interop => box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: quote_helper!(
+                            callee: helper!(
                                 interop_require_wildcard,
-                                "_interopRequireWildcard"
+                                "interopRequireWildcard"
                             ),
                             args: vec![require.as_arg()],
                             type_args: Default::default(),
                         }),
                         Some(false) if !self.config.no_interop => box Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: quote_helper!(
+                            callee: helper!(
                                 interop_require_default,
-                                "_interopRequireDefault"
+                                "interopRequireDefault"
                             ),
                             args: vec![require.as_arg()],
                             type_args: Default::default(),

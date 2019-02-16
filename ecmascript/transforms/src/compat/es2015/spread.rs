@@ -136,7 +136,7 @@ fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> 
                     buf.push(
                         Expr::Call(CallExpr {
                             span,
-                            callee: quote_helper!(to_consumable_array, "_toConsumableArray"),
+                            callee: helper!(to_consumable_array, "toConsumableArray"),
                             args: vec![expr.as_arg()],
                             type_args: Default::default(),
                         })

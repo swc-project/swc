@@ -214,7 +214,7 @@ impl Jsx {
                     if self.use_builtins {
                         member_expr!(DUMMY_SP, Object.assign).as_callee()
                     } else {
-                        quote_helper!(extends, "_extends")
+                        helper!(extends, "extends")
                     }
                 },
                 args,

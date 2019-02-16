@@ -89,9 +89,9 @@ impl Fold<Expr> for TemplateLiteral {
                                         definite: false,
                                         init: Some(box Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            callee: quote_helper!(
+                                            callee: helper!(
                                                 tagged_template_literal,
-                                                "_taggedTemplateLiteral"
+                                                "taggedTemplateLiteral"
                                             ),
                                             args: {
                                                 let has_escape = quasis.iter().any(|s| {

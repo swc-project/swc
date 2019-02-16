@@ -437,9 +437,9 @@ impl Fold<Module> for Amd {
                         let right = box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: if wildcard {
-                                quote_helper!(interop_require_wildcard, "_interopRequireWildcard")
+                                helper!(interop_require_wildcard, "interopRequireWildcard")
                             } else {
-                                quote_helper!(interop_require_default, "_interopRequireDefault")
+                                helper!(interop_require_default, "interopRequireDefault")
                             },
                             args: vec![ident.clone().as_arg()],
                             type_args: Default::default(),

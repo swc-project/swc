@@ -11,14 +11,16 @@ macro_rules! private_ident {
     }};
 }
 
-macro_rules! quote_helper {
+macro_rules! helper {
     ($field_name:ident, $s:literal) => {{
-        quote_helper!(::swc_common::DUMMY_SP, $field_name, $s)
+        helper!(::swc_common::DUMMY_SP, $field_name, $s)
     }};
 
     ($span:expr, $field_name:ident, $s:literal) => {{
+        debug_assert!(!$s.starts_with("_"), "helper! macro should not invoked with '_' prefix");
+
         let mark = enable_helper!($field_name).0;
-        quote_ident!($span.apply_mark(mark), $s).as_callee()
+        quote_ident!($span.apply_mark(mark), concat!('_', $s)).as_callee()
     }};
 }
 

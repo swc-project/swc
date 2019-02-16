@@ -18,7 +18,7 @@ impl<'a> Fold<Expr> for ClassNameTdzFolder<'a> {
                         exprs: vec![
                             box Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                callee: quote_helper!(class_name_tdz_error, "_classNameTDZError"),
+                                callee: helper!(class_name_tdz_error, "classNameTDZError"),
                                 args: vec![Lit::Str(Str {
                                     span: i.span,
                                     value: i.sym.clone(),

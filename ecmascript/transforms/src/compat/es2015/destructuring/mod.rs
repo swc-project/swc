@@ -201,7 +201,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                 // _throw(new TypeError())
                                 alt: box Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: quote_helper!(throw, "_throw"),
+                                    callee: helper!(throw, "throw"),
                                     // new TypeError()
                                     args: vec![NewExpr {
                                         span: DUMMY_SP,

@@ -119,7 +119,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                let set = quote_helper!(class_private_field_set, "_classPrivateFieldSet");
+                let set = helper!(class_private_field_set, "classPrivateFieldSet");
 
                 let expr = Expr::Call(CallExpr {
                     span: DUMMY_SP,
@@ -243,9 +243,9 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 };
 
                 if is_static {
-                    let set = quote_helper!(
+                    let set = helper!(
                         class_static_private_field_spec_set,
-                        "_classStaticPrivateFieldSpecSet"
+                        "classStaticPrivateFieldSpecSet"
                     );
 
                     Expr::Call(CallExpr {
@@ -261,7 +261,7 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                         type_args: Default::default(),
                     })
                 } else {
-                    let set = quote_helper!(class_private_field_set, "_classPrivateFieldSet");
+                    let set = helper!(class_private_field_set, "classPrivateFieldSet");
 
                     Expr::Call(CallExpr {
                         span: DUMMY_SP,
@@ -341,9 +341,9 @@ impl<'a> FieldAccessFolder<'a> {
         );
 
         if is_static {
-            let get = quote_helper!(
+            let get = helper!(
                 class_static_private_field_spec_get,
-                "_classStaticPrivateFieldSpecGet"
+                "classStaticPrivateFieldSpecGet"
             );
 
             (
@@ -360,7 +360,7 @@ impl<'a> FieldAccessFolder<'a> {
                 Some(Expr::Ident(self.class_name.clone())),
             )
         } else {
-            let get = quote_helper!(class_private_field_get, "_classPrivateFieldGet");
+            let get = helper!(class_private_field_get, "classPrivateFieldGet");
 
             match *obj {
                 Expr::This(this) => (
