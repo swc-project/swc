@@ -291,8 +291,7 @@ pub(super) enum ReturningMode {
 }
 
 pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
-    let callee =
-        quote_helper!(possible_constructor_return, "_possibleConstructorReturn").as_callee();
+    let callee = quote_helper!(possible_constructor_return, "_possibleConstructorReturn");
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,
@@ -400,8 +399,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                             callee: quote_helper!(
                                 assert_this_initialized,
                                 "_assertThisInitialized"
-                            )
-                            .as_callee(),
+                            ),
                             args: vec![this.as_arg()],
                             type_args: Default::default(),
                         })

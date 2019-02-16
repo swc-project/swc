@@ -92,8 +92,7 @@ impl Fold<Expr> for TemplateLiteral {
                                             callee: quote_helper!(
                                                 tagged_template_literal,
                                                 "_taggedTemplateLiteral"
-                                            )
-                                            .as_callee(),
+                                            ),
                                             args: {
                                                 let has_escape = quasis.iter().any(|s| {
                                                     s.cooked

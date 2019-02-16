@@ -54,7 +54,7 @@ impl Fold<Expr> for TypeOfSymbol {
             }) => {
                 return Expr::Call(CallExpr {
                     span,
-                    callee: quote_helper!(span, type_of, "_typeof").as_callee(),
+                    callee: quote_helper!(span, type_of, "_typeof"),
                     args: vec![arg.as_arg()],
 
                     type_args: Default::default(),

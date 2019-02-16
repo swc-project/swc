@@ -540,8 +540,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             callee: quote_helper!(
                                 interop_require_wildcard,
                                 "_interopRequireWildcard"
-                            )
-                            .as_callee(),
+                            ),
                             args: vec![require.as_arg()],
                             type_args: Default::default(),
                         }),
@@ -550,8 +549,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             callee: quote_helper!(
                                 interop_require_default,
                                 "_interopRequireDefault"
-                            )
-                            .as_callee(),
+                            ),
                             args: vec![require.as_arg()],
                             type_args: Default::default(),
                         }),

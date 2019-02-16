@@ -231,7 +231,7 @@ impl Classes {
                     params,
                     vec![CallExpr {
                         span: DUMMY_SP,
-                        callee: quote_helper!(wrap_native_super, "_wrapNativeSuper").as_callee(),
+                        callee: quote_helper!(wrap_native_super, "_wrapNativeSuper"),
                         args: vec![super_class.as_arg()],
                         type_args: Default::default(),
                     }
@@ -346,7 +346,7 @@ impl Classes {
 
             stmts.push(Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_helper!(inherits, "_inherits").as_callee(),
+                callee: quote_helper!(inherits, "_inherits"),
                 args: vec![
                     class_name.clone().as_arg(),
                     super_class_ident.clone().as_arg(),
@@ -627,7 +627,7 @@ impl Classes {
         ) -> Stmt {
             Stmt::Expr(box Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: quote_helper!(create_class, "_createClass").as_callee(),
+                callee: quote_helper!(create_class, "_createClass"),
                 args: iter::once(class_name.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
@@ -746,7 +746,7 @@ impl Classes {
 fn get_prototype_of(obj: &Expr) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: quote_helper!(get_prototype_of, "_getPrototypeOf").as_callee(),
+        callee: quote_helper!(get_prototype_of, "_getPrototypeOf"),
         args: vec![obj.clone().as_arg()],
         type_args: Default::default(),
     })
@@ -755,7 +755,7 @@ fn get_prototype_of(obj: &Expr) -> Expr {
 fn inject_class_call_check(c: &mut Constructor, name: Ident) {
     let class_call_check = Stmt::Expr(box Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: Expr::Ident(quote_helper!(class_call_check, "_classCallCheck")).as_callee(),
+        callee: quote_helper!(class_call_check, "_classCallCheck"),
         args: vec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             Expr::Ident(name).as_arg(),

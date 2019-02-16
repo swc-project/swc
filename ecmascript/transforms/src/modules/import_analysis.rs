@@ -52,10 +52,7 @@ impl Visit<ExportAll> for ImportAnalyzer {
 
 impl Visit<NamedExport> for ImportAnalyzer {
     fn visit(&mut self, export: &NamedExport) {
-        for &NamedExportSpecifier {
-            ref orig,
-            ..
-        } in export.specifiers.iter().map(|e| match *e {
+        for &NamedExportSpecifier { ref orig, .. } in export.specifiers.iter().map(|e| match *e {
             ExportSpecifier::Named(ref e) => e,
             _ => unreachable!("export default from 'foo'; should be removed by previous pass"),
         }) {

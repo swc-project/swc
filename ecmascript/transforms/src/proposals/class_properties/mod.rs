@@ -317,7 +317,7 @@ impl ClassProperties {
                     });
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span)).as_arg();
 
-                    let callee = quote_helper!(define_property, "_defineProperty").as_callee();
+                    let callee = quote_helper!(define_property, "_defineProperty");
 
                     if prop.is_static {
                         extra_stmts.push(Stmt::Expr(box Expr::Call(CallExpr {

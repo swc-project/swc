@@ -633,7 +633,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
 
     Expr::Call(CallExpr {
         span,
-        callee: quote_helper!(async_to_generator, "_asyncToGenerator").as_callee(),
+        callee: quote_helper!(async_to_generator, "_asyncToGenerator"),
         args: vec![expr.as_arg()],
         type_args: Default::default(),
     })
