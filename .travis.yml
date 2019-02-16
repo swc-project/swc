@@ -26,13 +26,13 @@ before_install:
     - git submodule update --init --recursive
 
 install:
-    - npm i -g jest
     - cargo test --no-run --color always --all --all-features
     - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then rm -rf ~/.nvm ; fi
     - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then git clone https://github.com/creationix/nvm.git ~/.nvm ; fi
     - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then source ~/.nvm/nvm.sh ; fi
     - nvm install 11.6.0
     - nvm use 11.6.0
+    - npm i -g jest
 
 script:
     - RUST_BACKTRACE=full cargo test --color always --all --all-features
