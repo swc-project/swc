@@ -1063,6 +1063,42 @@ export default App"#;
     }
 
     #[test]
+    fn export_default_3() {
+        let src = "export default from 'bar';";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn export_default_4() {
+        let src = "export default, {foo} from 'bar';";
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
     fn shebang_01() {
         let src = "#!/usr/bin/env node";
         test_parser(

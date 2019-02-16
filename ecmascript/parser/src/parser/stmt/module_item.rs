@@ -200,6 +200,9 @@ impl<'a, I: Input> Parser<'a, I> {
             }));
         }
 
+        // Some("default") if default is exported from 'src'
+        let mut export_default = None;
+
         if eat!("default") {
             if self.input.syntax().typescript() {
                 if is!("abstract") && peeked_is!("class") {
@@ -221,22 +224,27 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             }
 
-            let decl = if is!("class") {
-                self.parse_default_class(decorators)?
+            if is!("class") {
+                let decl = self.parse_default_class(decorators)?;
+                return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!("async")
                 && peeked_is!("function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                self.parse_default_async_fn(decorators)?
+                let decl = self.parse_default_async_fn(decorators)?;
+                return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!("function") {
-                self.parse_default_fn(decorators)?
+                let decl = self.parse_default_fn(decorators)?;
+                return Ok(ModuleDecl::ExportDefaultDecl(decl));
+            } else if self.input.syntax().export_default_from()
+                && (is!("from") || (is!(',') && peeked_is!('{')))
+            {
+                export_default = Some(Ident::new("default".into(), self.input.prev_span()))
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');
                 return Ok(ModuleDecl::ExportDefaultExpr(expr));
-            };
-
-            return Ok(ModuleDecl::ExportDefaultDecl(decl));
+            }
         }
 
         let decl = if is!("class") {
@@ -271,10 +279,15 @@ impl<'a, I: Input> Parser<'a, I> {
             // export {};
             // export {} from '';
 
-            let default = if self.input.syntax().export_default_from() && is!(IdentRef) {
-                Some(self.parse_ident(false, false)?)
-            } else {
-                None
+            let default = match export_default {
+                Some(default) => Some(default),
+                None => {
+                    if self.input.syntax().export_default_from() && is!(IdentName) {
+                        Some(self.parse_ident(false, false)?)
+                    } else {
+                        None
+                    }
+                }
             };
 
             if is!("from") {
