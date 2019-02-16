@@ -48,9 +48,9 @@ pub use self::{
 #[macro_use]
 mod tests;
 #[macro_use]
-pub mod helpers;
-#[macro_use]
 mod quote;
+#[macro_use]
+pub mod helpers;
 #[macro_use]
 mod macros;
 #[macro_use]

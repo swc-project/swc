@@ -59,7 +59,8 @@ macro_rules! add_to {
                 STMTS
                     .iter()
                     .cloned()
-                    .map(|stmt| stmt.fold_with(&mut Marker($mark))),
+                    .map(|stmt| stmt.fold_with(&mut Marker($mark)))
+                    .map(ModuleItem::Stmt),
             )
         }
     }};
@@ -70,13 +71,24 @@ scoped_thread_local!(pub static HELPERS: Helpers);
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Default)]
 pub struct Helpers {
+    external: bool,
     mark: HelperMark,
     inner: Inner,
 }
 
 impl Helpers {
-    pub const fn mark(&self) -> Mark {
+    pub fn new(external: bool) -> Self {
+        Helpers {
+            external,
+            mark: Default::default(),
+            inner: Default::default(),
+        }
+    }
+    pub(crate) const fn mark(&self) -> Mark {
         self.mark.0
+    }
+    pub(crate) const fn external(&self) -> bool {
+        self.external
     }
 }
 
@@ -112,12 +124,13 @@ macro_rules! define_helpers {
         }
 
         impl InjectHelpers {
-            fn mk_helpers(&self) -> Vec<Stmt>{
+            fn build_helpers(&self) -> Vec<ModuleItem> {
                 let mut buf = vec![];
 
                 HELPERS.with(|helpers|{
+                    debug_assert!(!helpers.external);
                     $(
-                        add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                            add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -210,10 +223,27 @@ define_helpers!(Helpers {
 pub struct InjectHelpers {
     pub cm: Arc<SourceMap>,
 }
+impl InjectHelpers {
+    fn mk_helpers(&self) -> Vec<ModuleItem> {
+        let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+        if external {
+            vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                span: DUMMY_SP,
+                specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {
+                    span: DUMMY_SP,
+                    local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
+                })],
+                src: quote_str!("@swc/helpers"),
+            }))]
+        } else {
+            self.build_helpers()
+        }
+    }
+}
 
 impl Fold<Module> for InjectHelpers {
     fn fold(&mut self, mut module: Module) -> Module {
-        let helpers = self.mk_helpers().into_iter().map(ModuleItem::Stmt);
+        let helpers = self.mk_helpers();
 
         prepend_stmts(&mut module.body, helpers.into_iter());
         module
