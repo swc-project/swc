@@ -266,7 +266,54 @@ impl Fold<Span> for Marker {
 
 #[cfg(test)]
 mod tests {
-    use super::InjectHelpers;
+    use super::*;
+
+    #[test]
+    fn external_helper() {
+        let input = "_throw()
+swcHelpers._throw()";
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let expected = tester.apply_transform(
+                    ::testing::DropSpan,
+                    "output.js",
+                    Default::default(),
+                    "import * as swcHelpers1 from '@swc/helpers';
+_throw();
+swcHelpers._throw();",
+                )?;
+                enable_helper!(throw);
+
+                eprintln!("----- Actual -----");
+
+                let tr = InjectHelpers {
+                    cm: tester.cm.clone(),
+                };
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .fold_with(&mut crate::hygiene::hygiene())
+                    .fold_with(&mut crate::fixer::fixer());
+
+                if actual == expected {
+                    return Ok(());
+                }
+
+                let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+                if actual_src == expected_src {
+                    return Ok(());
+                }
+
+                println!(">>>>> Orig <<<<<\n{}", input);
+                println!(">>>>> Code <<<<<\n{}", actual_src);
+                assert_eq!(
+                    crate::tests::DebugUsingDisplay(&actual_src),
+                    crate::tests::DebugUsingDisplay(&expected_src)
+                );
+                return Err(());
+            })
+        });
+    }
 
     #[test]
     fn use_strict_before_helper() {
