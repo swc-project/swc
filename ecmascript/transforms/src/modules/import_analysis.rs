@@ -3,9 +3,8 @@ use crate::{pass::Pass, util::State};
 use ast::*;
 use swc_common::{Fold, Visit, VisitWith};
 
-pub fn import_analyzer(enabled: bool) -> impl Pass + Clone {
+pub fn import_analyzer() -> impl Pass + Clone {
     ImportAnalyzer {
-        enabled,
         scope: Default::default(),
     }
 }
@@ -13,16 +12,11 @@ pub fn import_analyzer(enabled: bool) -> impl Pass + Clone {
 /// Inject required helpers methods **for** module transform passes.
 #[derive(Clone)]
 struct ImportAnalyzer {
-    enabled: bool,
     scope: State<Scope>,
 }
 
 impl Fold<Module> for ImportAnalyzer {
     fn fold(&mut self, module: Module) -> Module {
-        if !self.enabled {
-            return module;
-        }
-
         module.visit_with(self);
 
         for (_, ty) in self.scope.value.import_types.drain() {

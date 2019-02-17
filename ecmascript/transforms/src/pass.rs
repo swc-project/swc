@@ -16,6 +16,33 @@ pub fn noop() -> impl Pass + Clone + Copy {
     Noop
 }
 
+#[derive(Debug, Clone, Copy)]
+pub struct Optional<P: Pass> {
+    enabled: bool,
+    pass: P,
+}
+
+impl<T, P> Fold<T> for Optional<P>
+where
+    T: FoldWith<Self>,
+    P: Pass + Fold<T>,
+{
+    fn fold(&mut self, n: T) -> T {
+        if self.enabled {
+            self.pass.fold(n)
+        } else {
+            n
+        }
+    }
+}
+
+impl<P: Pass> Optional<P> {
+    #[inline(always)]
+    pub fn new(pass: P, enabled: bool) -> Self {
+        Optional { enabled, pass }
+    }
+}
+
 macro_rules! mk_impl {
     ($T:ty) => {
         // impl<A: Pass, B: Pass> Fold<$T> for JoinedPass<A, B, $T> {

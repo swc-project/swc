@@ -8,24 +8,18 @@ mod expr;
 #[cfg(test)]
 mod tests;
 
-pub fn simplifier(enable: bool) -> impl Pass + Clone + Copy + 'static {
-    Simplifier { enable }
+pub fn simplifier() -> impl Pass + Clone + Copy + 'static {
+    Simplifier
 }
 
 #[derive(Default, Clone, Copy)]
-struct Simplifier {
-    enable: bool,
-}
+struct Simplifier;
 
 impl<T: StmtLike> Fold<Vec<T>> for Simplifier
 where
     Self: Fold<T>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
-        if !self.enable {
-            return stmts;
-        }
-
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt_like in stmts {
