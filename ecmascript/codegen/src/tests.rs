@@ -2,7 +2,6 @@ extern crate swc_ecma_parser;
 use self::swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use super::*;
 use crate::config::Config;
-use sourcemap::SourceMapBuilder;
 use std::{
     fmt::{self, Debug, Display, Formatter},
     io::Write,
@@ -24,16 +23,10 @@ impl Builder {
     where
         F: FnOnce(&mut Emitter) -> Ret,
     {
-        let mut src_map_builder = SourceMapBuilder::new(Some(src));
         let mut e = Emitter {
             cfg: self.cfg,
             cm: self.cm.clone(),
-            wr: Box::new(text_writer::JsWriter::new(
-                self.cm.clone(),
-                "\n",
-                s,
-                &mut src_map_builder,
-            )),
+            wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
             comments: Some(self.comments),
             handlers: Box::new(Noop),
             pos_of_leading_comments: Default::default(),

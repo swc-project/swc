@@ -138,7 +138,7 @@ impl<'a> Tester<'a> {
                     self.cm.clone(),
                     "\n",
                     &mut wr,
-                    &mut src_map_builder,
+                    Some(&mut src_map_builder),
                 ),
                 comments: None,
                 handlers,

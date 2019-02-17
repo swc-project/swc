@@ -19,7 +19,7 @@ pub struct JsWriter<'a, W: Write> {
     line_count: usize,
     line_pos: usize,
     new_line: &'a str,
-    srcmap: &'a mut SourceMapBuilder,
+    srcmap: Option<&'a mut SourceMapBuilder>,
     wr: W,
     written_bytes: usize,
 }
@@ -29,7 +29,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         cm: Arc<SourceMap>,
         new_line: &'a str,
         wr: W,
-        srcmap: &'a mut SourceMapBuilder,
+        srcmap: Option<&'a mut SourceMapBuilder>,
     ) -> Self {
         JsWriter {
             cm,
@@ -67,16 +67,20 @@ impl<'a, W: Write> JsWriter<'a, W> {
         if data.len() > 0 {
             if let Some(span) = span {
                 if !span.is_dummy() {
-                    let loc = self.cm.lookup_char_pos(span.lo());
-
-                    self.srcmap.add(
-                        self.line_count as _,
-                        self.line_pos as _,
-                        loc.line as _,
-                        loc.col.0 as _,
-                        None,
-                        None,
-                    );
+                    match self.srcmap {
+                        Some(ref mut srcmap) => {
+                            let loc = self.cm.lookup_char_pos(span.lo());
+                            srcmap.add(
+                                self.line_count as _,
+                                self.line_pos as _,
+                                loc.line as _,
+                                loc.col.0 as _,
+                                None,
+                                None,
+                            );
+                        }
+                        _ => {}
+                    }
                 }
             }
 
@@ -88,16 +92,20 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
             if let Some(span) = span {
                 if !span.is_dummy() {
-                    let loc = self.cm.lookup_char_pos(span.hi());
-
-                    self.srcmap.add(
-                        self.line_count as _,
-                        self.line_pos as _,
-                        loc.line as _,
-                        loc.col.0 as _,
-                        None,
-                        None,
-                    );
+                    match self.srcmap {
+                        Some(ref mut srcmap) => {
+                            let loc = self.cm.lookup_char_pos(span.hi());
+                            srcmap.add(
+                                self.line_count as _,
+                                self.line_pos as _,
+                                loc.line as _,
+                                loc.col.0 as _,
+                                None,
+                                None,
+                            );
+                        }
+                        None => {}
+                    }
                 }
             }
         }

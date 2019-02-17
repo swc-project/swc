@@ -155,7 +155,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 );
 
                 let s: Arc<String> = src.src.clone();
-                let mut src_map_builder = SourceMapBuilder::new(Some(&s));
                 {
                     let mut emitter = Emitter {
                         cfg: Default::default(),
@@ -164,7 +163,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             cm.clone(),
                             "\n",
                             &mut wr,
-                            &mut src_map_builder,
+                            None,
                         ),
                         comments: parser.take_comments(),
                         handlers,

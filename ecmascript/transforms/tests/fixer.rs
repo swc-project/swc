@@ -167,8 +167,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         .expect("failed to load reference file");
 
                     let s: Arc<String> = src.src.clone();
-                    let mut src_map_builder = SourceMapBuilder::new(Some(&s));
-                    let mut src_map_builder2 = SourceMapBuilder::new(Some(&s));
                     {
                         let handlers = box MyHandlers;
                         let handlers2 = box MyHandlers;
@@ -186,7 +184,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 cm.clone(),
                                 "\n",
                                 &mut wr,
-                                &mut src_map_builder,
+                                None,
                             ),
                             comments: None,
                             handlers,
@@ -199,7 +197,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                                 cm.clone(),
                                 "\n",
                                 &mut wr2,
-                                &mut src_map_builder2,
+                                None,
                             ),
                             comments: None,
                             handlers: handlers2,

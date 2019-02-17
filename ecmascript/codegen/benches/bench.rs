@@ -122,7 +122,7 @@ fn emit_colors(b: &mut Bencher) {
                         cm.clone(),
                         "\n",
                         buf,
-                        &mut src_map_builder,
+                        Some(&mut src_map_builder),
                     ),
                     handlers,
                     pos_of_leading_comments: Default::default(),
