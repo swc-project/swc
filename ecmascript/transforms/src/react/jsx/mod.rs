@@ -3,8 +3,9 @@ use crate::{
     util::{drop_span, ExprFactory, CM, SESSION},
 };
 use ast::*;
+use chashmap::CHashMap;
 use serde::{Deserialize, Serialize};
-use std::{iter, mem};
+use std::{iter, mem, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{FileName, Fold, FoldWith, Spanned, DUMMY_SP};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
@@ -55,9 +56,16 @@ fn default_throw_if_namespace() -> bool {
 }
 
 fn parse_option(name: &str, src: String) -> Box<Expr> {
-    let fm = CM.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
+    lazy_static! {
+        static ref CACHE: CHashMap<Arc<String>, Box<Expr>> = CHashMap::with_capacity(2);
+    }
 
-    Parser::new(
+    let fm = CM.new_source_file(FileName::Custom(format!("<jsx-config-{}.js>", name)), src);
+    if let Some(expr) = CACHE.get(&fm.src) {
+        return expr.clone();
+    }
+
+    let expr = Parser::new(
         *SESSION,
         Syntax::default(),
         SourceFileInput::from(&*fm),
@@ -74,7 +82,11 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
             "faield to parse jsx option {}: '{}' is not an expression",
             name, fm.src,
         )
-    })
+    });
+
+    CACHE.insert(fm.src.clone(), expr.clone());
+
+    expr
 }
 
 /// `@babel/plugin-transform-react-jsx`

@@ -14,6 +14,7 @@ extern crate lazy_static;
 extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
+extern crate chashmap;
 extern crate fxhash;
 extern crate indexmap;
 extern crate inflector;
