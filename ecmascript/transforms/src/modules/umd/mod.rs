@@ -445,11 +445,9 @@ impl Fold<Module> for Umd {
                         let right = box Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: if wildcard {
-                                quote_helper!(interop_require_wildcard, "_interopRequireWildcard")
-                                    .as_callee()
+                                helper!(interop_require_wildcard, "interopRequireWildcard")
                             } else {
-                                quote_helper!(interop_require_default, "_interopRequireDefault")
-                                    .as_callee()
+                                helper!(interop_require_default, "interopRequireDefault")
                             },
                             args: vec![ident.clone().as_arg()],
                             type_args: Default::default(),

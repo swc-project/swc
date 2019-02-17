@@ -195,7 +195,7 @@ impl Fold<Expr> for ObjectLitFolder {
                     if props_cnt == 1 {
                         return Expr::Call(CallExpr {
                             span,
-                            callee: quote_helper!(define_property, "_defineProperty").as_callee(),
+                            callee: helper!(define_property, "defineProperty"),
                             args: vec![
                                 ObjectLit {
                                     span,
@@ -210,7 +210,7 @@ impl Fold<Expr> for ObjectLitFolder {
                     }
                     exprs.push(box Expr::Call(CallExpr {
                         span,
-                        callee: quote_helper!(define_property, "_defineProperty").as_callee(),
+                        callee: helper!(define_property, "defineProperty"),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
                     }));
@@ -234,11 +234,7 @@ impl Fold<Expr> for ObjectLitFolder {
                     });
                     exprs.push(box Expr::Call(CallExpr {
                         span,
-                        callee: quote_helper!(
-                            define_enumerable_properties,
-                            "_defineEnumerableProperties"
-                        )
-                        .as_callee(),
+                        callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                         type_args: Default::default(),
                     }));

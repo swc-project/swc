@@ -19,11 +19,11 @@ lazy_static! {
 }
 
 #[macro_export]
-macro_rules! helper {
+macro_rules! enable_helper {
     ($i:ident) => {{
         $crate::helpers::HELPERS.with(|helpers| {
             helpers.$i();
-            helpers.mark
+            helpers.mark()
         })
     }};
 }
@@ -59,7 +59,8 @@ macro_rules! add_to {
                 STMTS
                     .iter()
                     .cloned()
-                    .map(|stmt| stmt.fold_with(&mut Marker($mark))),
+                    .map(|stmt| stmt.fold_with(&mut Marker($mark)))
+                    .map(ModuleItem::Stmt),
             )
         }
     }};
@@ -70,12 +71,29 @@ scoped_thread_local!(pub static HELPERS: Helpers);
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Default)]
 pub struct Helpers {
-    pub mark: HelperMark,
+    external: bool,
+    mark: HelperMark,
     inner: Inner,
 }
 
+impl Helpers {
+    pub fn new(external: bool) -> Self {
+        Helpers {
+            external,
+            mark: Default::default(),
+            inner: Default::default(),
+        }
+    }
+    pub(crate) const fn mark(&self) -> Mark {
+        self.mark.0
+    }
+    pub(crate) const fn external(&self) -> bool {
+        self.external
+    }
+}
+
 #[derive(Clone, Copy)]
-pub struct HelperMark(pub Mark);
+struct HelperMark(Mark);
 impl Default for HelperMark {
     fn default() -> Self {
         HelperMark(Mark::fresh(Mark::root()))
@@ -106,12 +124,13 @@ macro_rules! define_helpers {
         }
 
         impl InjectHelpers {
-            fn mk_helpers(&self) -> Vec<Stmt>{
+            fn build_helpers(&self) -> Vec<ModuleItem> {
                 let mut buf = vec![];
 
                 HELPERS.with(|helpers|{
+                    debug_assert!(!helpers.external);
                     $(
-                        add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                            add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -204,10 +223,27 @@ define_helpers!(Helpers {
 pub struct InjectHelpers {
     pub cm: Arc<SourceMap>,
 }
+impl InjectHelpers {
+    fn mk_helpers(&self) -> Vec<ModuleItem> {
+        let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+        if external {
+            vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                span: DUMMY_SP,
+                specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {
+                    span: DUMMY_SP,
+                    local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
+                })],
+                src: quote_str!("@swc/helpers"),
+            }))]
+        } else {
+            self.build_helpers()
+        }
+    }
+}
 
 impl Fold<Module> for InjectHelpers {
     fn fold(&mut self, mut module: Module) -> Module {
-        let helpers = self.mk_helpers().into_iter().map(ModuleItem::Stmt);
+        let helpers = self.mk_helpers();
 
         prepend_stmts(&mut module.body, helpers.into_iter());
         module
@@ -230,14 +266,61 @@ impl Fold<Span> for Marker {
 
 #[cfg(test)]
 mod tests {
-    use super::InjectHelpers;
+    use super::*;
+
+    #[test]
+    fn external_helper() {
+        let input = "_throw()
+swcHelpers._throw()";
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let expected = tester.apply_transform(
+                    ::testing::DropSpan,
+                    "output.js",
+                    Default::default(),
+                    "import * as swcHelpers1 from '@swc/helpers';
+_throw();
+swcHelpers._throw();",
+                )?;
+                enable_helper!(throw);
+
+                eprintln!("----- Actual -----");
+
+                let tr = InjectHelpers {
+                    cm: tester.cm.clone(),
+                };
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .fold_with(&mut crate::hygiene::hygiene())
+                    .fold_with(&mut crate::fixer::fixer());
+
+                if actual == expected {
+                    return Ok(());
+                }
+
+                let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+                if actual_src == expected_src {
+                    return Ok(());
+                }
+
+                println!(">>>>> Orig <<<<<\n{}", input);
+                println!(">>>>> Code <<<<<\n{}", actual_src);
+                assert_eq!(
+                    crate::tests::DebugUsingDisplay(&actual_src),
+                    crate::tests::DebugUsingDisplay(&expected_src)
+                );
+                return Err(());
+            })
+        });
+    }
 
     #[test]
     fn use_strict_before_helper() {
         ::tests::test_transform(
             Default::default(),
             |tester| {
-                helper!(throw);
+                enable_helper!(throw);
                 InjectHelpers {
                     cm: tester.cm.clone(),
                 }
@@ -257,7 +340,7 @@ function _throw(e) {
         ::tests::test_transform(
             Default::default(),
             |tester| {
-                helper!(throw);
+                enable_helper!(throw);
                 InjectHelpers {
                     cm: tester.cm.clone(),
                 }

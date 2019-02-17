@@ -204,8 +204,7 @@ impl<'a> SuperCalleeFolder<'a> {
 
                 CallExpr {
                     span: DUMMY_SP,
-                    callee: quote_helper!(assert_this_initialized, "_assertThisInitialized")
-                        .as_callee(),
+                    callee: helper!(assert_this_initialized, "assertThisInitialized"),
                     args: vec![this.as_arg()],
                     type_args: Default::default(),
                 }
@@ -216,7 +215,7 @@ impl<'a> SuperCalleeFolder<'a> {
 
         Expr::Call(CallExpr {
             span: super_token,
-            callee: quote_helper!(get, "_get").as_callee(),
+            callee: helper!(get, "get"),
             args: vec![proto_arg, prop_arg, this_arg],
             type_args: Default::default(),
         })
@@ -336,7 +335,7 @@ impl<'a> SuperCalleeFolder<'a> {
 
         let expr = Expr::Call(CallExpr {
             span: super_token,
-            callee: quote_helper!(set, "_set").as_callee(),
+            callee: helper!(set, "set"),
             args: vec![
                 proto_arg,
                 prop_arg,

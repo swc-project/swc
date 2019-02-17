@@ -11,14 +11,42 @@ macro_rules! private_ident {
     }};
 }
 
-macro_rules! quote_helper {
-    ($field_name:ident, $s:literal) => {{
-        quote_helper!(::swc_common::DUMMY_SP, $field_name, $s)
+macro_rules! external_name {
+    ("typeof") => {
+        "_typeof"
+    };
+    ("instanceof") => {
+        "_instanceof"
+    };
+    ("throw") => {
+        "_throw"
+    };
+    ($s:literal) => {
+        $s
+    };
+}
+
+macro_rules! helper {
+    ($field_name:ident, $s:tt) => {{
+        helper!(::swc_common::DUMMY_SP, $field_name, $s)
     }};
 
-    ($span:expr, $field_name:ident, $s:literal) => {{
-        let mark = helper!($field_name).0;
-        quote_ident!($span.apply_mark(mark), $s)
+    ($span:expr, $field_name:ident, $s:tt) => {{
+        debug_assert!(
+            !$s.starts_with("_"),
+            "helper! macro should not invoked with '_' prefix"
+        );
+        let mark = enable_helper!($field_name);
+        let span = $span.apply_mark(mark);
+        let external = crate::helpers::HELPERS.with(|helper| helper.external());
+
+        if external {
+            quote_ident!(span, "swcHelpers")
+                .member(quote_ident!($span, external_name!($s)))
+                .as_callee()
+        } else {
+            quote_ident!(span, concat!('_', $s)).as_callee()
+        }
     }};
 }
 

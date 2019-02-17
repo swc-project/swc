@@ -780,7 +780,7 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
     if excluded_props.is_empty() {
         return Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: quote_helper!(extends, "_extends").as_callee(),
+            callee: helper!(extends, "extends"),
             args: vec![
                 ObjectLit {
                     span: DUMMY_SP,
@@ -795,7 +795,7 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: quote_helper!(object_without_properties, "_objectWithoutProperties").as_callee(),
+        callee: helper!(object_without_properties, "objectWithoutProperties"),
         args: vec![
             obj.as_arg(),
             ArrayLit {
@@ -935,7 +935,7 @@ impl Fold<Expr> for ObjectSpread {
 
                 Expr::Call(CallExpr {
                     span,
-                    callee: quote_helper!(object_spread, "_objectSpread").as_callee(),
+                    callee: helper!(object_spread, "objectSpread"),
                     args,
                     type_args: Default::default(),
                 })
