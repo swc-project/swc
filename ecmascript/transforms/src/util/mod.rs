@@ -16,9 +16,14 @@ use std::{
     f64::{INFINITY, NAN},
     num::FpCategory,
     ops::Add,
+    sync::Arc,
 };
 use swc_atoms::JsWord;
-use swc_common::{Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{
+    errors::{ColorConfig, Handler},
+    FilePathMapping, Fold, FoldWith, Mark, SourceMap, Span, Spanned, Visit, VisitWith, DUMMY_SP,
+};
+use swc_ecma_parser::Session;
 use unicode_xid::UnicodeXID;
 
 pub(crate) mod constructor;
@@ -957,4 +962,26 @@ pub(crate) fn is_valid_ident(s: &JsWord) -> bool {
     }
     let first = s.chars().next().unwrap();
     UnicodeXID::is_xid_start(first) && s.chars().skip(1).all(UnicodeXID::is_xid_continue)
+}
+
+pub(crate) fn drop_span<T>(t: T) -> T
+where
+    T: FoldWith<DropSpan>,
+{
+    t.fold_with(&mut DropSpan)
+}
+
+pub(crate) struct DropSpan;
+impl Fold<Span> for DropSpan {
+    fn fold(&mut self, _: Span) -> Span {
+        DUMMY_SP
+    }
+}
+
+lazy_static! {
+    pub(crate) static ref CM: Arc<SourceMap> =
+        { Arc::new(SourceMap::new(FilePathMapping::empty())) };
+    pub(crate) static ref HANDLER: Handler =
+        { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
+    pub(crate) static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
 }

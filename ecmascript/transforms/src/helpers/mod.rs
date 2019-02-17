@@ -1,22 +1,12 @@
-use crate::util::prepend_stmts;
+use crate::util::{prepend_stmts, DropSpan, CM, SESSION};
 use ast::*;
 use scoped_tls::scoped_thread_local;
 use std::sync::{
     atomic::{AtomicBool, Ordering},
     Arc,
 };
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, Fold, FoldWith, Mark, SourceMap, Span, DUMMY_SP,
-};
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
-
-lazy_static! {
-    static ref CM: Arc<SourceMap> = { Arc::new(SourceMap::new(FilePathMapping::empty())) };
-    static ref HANDLER: Handler =
-        { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
-    static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
-}
+use swc_common::{FileName, Fold, FoldWith, Mark, SourceMap, Span, DUMMY_SP};
+use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -247,13 +237,6 @@ impl Fold<Module> for InjectHelpers {
 
         prepend_stmts(&mut module.body, helpers.into_iter());
         module
-    }
-}
-
-struct DropSpan;
-impl Fold<Span> for DropSpan {
-    fn fold(&mut self, _: Span) -> Span {
-        DUMMY_SP
     }
 }
 

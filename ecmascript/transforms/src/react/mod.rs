@@ -20,7 +20,7 @@ pub fn react(cm: Arc<SourceMap>, options: Options) -> impl Pass + Clone {
     let Options { development, .. } = options;
 
     chain!(
-        jsx(cm.clone(), options),
+        jsx(options),
         display_name(),
         jsx_src(development, cm),
         jsx_self(development)
