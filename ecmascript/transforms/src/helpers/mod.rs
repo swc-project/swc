@@ -1,11 +1,8 @@
 use crate::util::{prepend_stmts, DropSpan, CM, SESSION};
 use ast::*;
 use scoped_tls::scoped_thread_local;
-use std::sync::{
-    atomic::{AtomicBool, Ordering},
-    Arc,
-};
-use swc_common::{FileName, Fold, FoldWith, Mark, SourceMap, Span, DUMMY_SP};
+use std::sync::atomic::{AtomicBool, Ordering};
+use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
 #[macro_export]
@@ -210,9 +207,7 @@ define_helpers!(Helpers {
 });
 
 #[derive(Clone)]
-pub struct InjectHelpers {
-    pub cm: Arc<SourceMap>,
-}
+pub struct InjectHelpers;
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
@@ -269,9 +264,7 @@ swcHelpers._throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = InjectHelpers {
-                    cm: tester.cm.clone(),
-                };
+                let tr = InjectHelpers;
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .fold_with(&mut crate::hygiene::hygiene())
@@ -302,11 +295,9 @@ swcHelpers._throw();",
     fn use_strict_before_helper() {
         ::tests::test_transform(
             Default::default(),
-            |tester| {
+            |_| {
                 enable_helper!(throw);
-                InjectHelpers {
-                    cm: tester.cm.clone(),
-                }
+                InjectHelpers
             },
             "'use strict'",
             "'use strict'
@@ -322,11 +313,9 @@ function _throw(e) {
     fn name_conflict() {
         ::tests::test_transform(
             Default::default(),
-            |tester| {
+            |_| {
                 enable_helper!(throw);
-                InjectHelpers {
-                    cm: tester.cm.clone(),
-                }
+                InjectHelpers
             },
             "let _throw = null",
             "function _throw(e) {

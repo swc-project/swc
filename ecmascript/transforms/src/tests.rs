@@ -284,9 +284,7 @@ where
             .fold_with(&mut crate::fixer::fixer());
 
         let src_without_helpers = tester.print(&module);
-        let module = module.fold_with(&mut InjectHelpers {
-            cm: tester.cm.clone(),
-        });
+        let module = module.fold_with(&mut InjectHelpers {});
 
         let src = tester.print(&module);
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))
