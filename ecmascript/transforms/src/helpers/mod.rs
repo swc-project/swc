@@ -1,22 +1,9 @@
-use crate::util::prepend_stmts;
+use crate::util::{prepend_stmts, DropSpan, CM, SESSION};
 use ast::*;
 use scoped_tls::scoped_thread_local;
-use std::sync::{
-    atomic::{AtomicBool, Ordering},
-    Arc,
-};
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, Fold, FoldWith, Mark, SourceMap, Span, DUMMY_SP,
-};
-use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
-
-lazy_static! {
-    static ref CM: Arc<SourceMap> = { Arc::new(SourceMap::new(FilePathMapping::empty())) };
-    static ref HANDLER: Handler =
-        { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
-    static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
-}
+use std::sync::atomic::{AtomicBool, Ordering};
+use swc_common::{FileName, Fold, FoldWith, Mark, Span, DUMMY_SP};
+use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -220,9 +207,7 @@ define_helpers!(Helpers {
 });
 
 #[derive(Clone)]
-pub struct InjectHelpers {
-    pub cm: Arc<SourceMap>,
-}
+pub struct InjectHelpers;
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
@@ -247,13 +232,6 @@ impl Fold<Module> for InjectHelpers {
 
         prepend_stmts(&mut module.body, helpers.into_iter());
         module
-    }
-}
-
-struct DropSpan;
-impl Fold<Span> for DropSpan {
-    fn fold(&mut self, _: Span) -> Span {
-        DUMMY_SP
     }
 }
 
@@ -286,9 +264,7 @@ swcHelpers._throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = InjectHelpers {
-                    cm: tester.cm.clone(),
-                };
+                let tr = InjectHelpers;
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .fold_with(&mut crate::hygiene::hygiene())
@@ -319,11 +295,9 @@ swcHelpers._throw();",
     fn use_strict_before_helper() {
         ::tests::test_transform(
             Default::default(),
-            |tester| {
+            |_| {
                 enable_helper!(throw);
-                InjectHelpers {
-                    cm: tester.cm.clone(),
-                }
+                InjectHelpers
             },
             "'use strict'",
             "'use strict'
@@ -339,11 +313,9 @@ function _throw(e) {
     fn name_conflict() {
         ::tests::test_transform(
             Default::default(),
-            |tester| {
+            |_| {
                 enable_helper!(throw);
-                InjectHelpers {
-                    cm: tester.cm.clone(),
-                }
+                InjectHelpers
             },
             "let _throw = null",
             "function _throw(e) {

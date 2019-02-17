@@ -7,8 +7,8 @@ use crate::{
     react::display_name,
 };
 
-fn tr(cm: Arc<SourceMap>, options: Options) -> impl Fold<Module> {
-    chain!(jsx(cm.clone(), options), display_name(), Classes, arrow(),)
+fn tr(options: Options) -> impl Fold<Module> {
+    chain!(jsx(options), display_name(), Classes, arrow(),)
 }
 
 test!(
@@ -16,7 +16,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_add_appropriate_newlines,
     r#"
 <Component
@@ -35,7 +35,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_arrow_functions,
     r#"
 var foo = function () {
@@ -65,7 +65,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_concatenates_adjacent_string_literals,
     r#"
 var x =
@@ -93,7 +93,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_display_name_assignment_expression,
     r#"var Component;
 Component = React.createClass({
@@ -116,7 +116,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_display_name_export_default,
     r#"
 export default React.createClass({
@@ -140,7 +140,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_display_name_if_missing,
     r#"
 var Whateva = React.createClass({
@@ -178,7 +178,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_display_name_object_declaration,
     r#"
 exports = {
@@ -204,7 +204,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_display_name_property_assignment,
     r#"
 exports.Component = React.createClass({
@@ -228,7 +228,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_display_name_variable_declaration,
     r#"
 var Component = React.createClass({
@@ -249,7 +249,7 @@ var Component = React.createClass({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig{jsx:true,..Default::default()}),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_dont_coerce_expression_containers,
     r#"
 <Text>
@@ -266,7 +266,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_honor_custom_jsx_comment_if_jsx_pragma_option_set,
     r#"/** @jsx dom */
 
@@ -291,7 +291,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_honor_custom_jsx_comment,
     r#"
 /** @jsx dom */
@@ -318,13 +318,10 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(
-        tester.cm.clone(),
-        Options {
-            pragma: "dom".into(),
-            ..Default::default()
-        }
-    ),
+    |_| tr(Options {
+        pragma: "dom".into(),
+        ..Default::default()
+    }),
     react_honor_custom_jsx_pragma_option,
     r#"
 
@@ -347,7 +344,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_jsx_with_retainlines_option,
     r#"var div = <div>test</div>;"#,
     r#"var div = React.createElement("div", null, "test");"#
@@ -358,7 +355,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_jsx_without_retainlines_option,
     r#"var div = <div>test</div>;"#,
     r#"var div = React.createElement("div", null, "test");"#
@@ -371,7 +368,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_optimisation_react_constant_elements,
     r#"
 class App extends React.Component {
@@ -435,7 +432,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| chain!(tr(tester.cm.clone(), Default::default()), PropertyLiteral),
+    |_| chain!(tr(Default::default()), PropertyLiteral),
     react_should_add_quotes_es3,
     r#"var es3 = <F aaa new const var default foo-bar/>;"#,
     r#"
@@ -455,7 +452,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_constructor_as_prop,
     r#"<Component constructor="foo" />;"#,
     r#"
@@ -470,7 +467,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_deeper_js_namespacing,
     r#"<Namespace.DeepNamespace.Component />;"#,
     r#"React.createElement(Namespace.DeepNamespace.Component, null);"#
@@ -481,7 +478,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_elements_as_attributes,
     r#"<div attr=<div /> />"#,
     r#"
@@ -495,7 +492,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_js_namespacing,
     r#"<Namespace.Component />;"#,
     r#"React.createElement(Namespace.Component, null);"#
@@ -506,7 +503,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_nested_fragments,
     r#"
 <div>
@@ -542,7 +539,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_no_pragmafrag_if_frag_unused,
     r#"
 /** @jsx dom */
@@ -561,7 +558,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_allow_pragmafrag_and_frag,
     r#"
 /** @jsx dom */
@@ -582,7 +579,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_avoid_wrapping_in_extra_parens_if_not_needed,
     r#"
 var x = <div>
@@ -614,7 +611,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_convert_simple_tags,
     r#"var x = <div></div>;"#,
     r#"var x = React.createElement("div", null);"#
@@ -625,7 +622,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_convert_simple_text,
     r#"var x = <div>text</div>;"#,
     r#"var x = React.createElement("div", null, "text");"#
@@ -636,7 +633,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_escape_xhtml_jsxattribute,
     r#"
 <div id="wôw" />;
@@ -662,7 +659,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_escape_xhtml_jsxtext_1,
     r#"
 <div>wow</div>;
@@ -693,7 +690,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_escape_xhtml_jsxtext_2,
     r#"
 <div>this should not parse as unicode: \u00a0</div>;
@@ -711,7 +708,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_escape_xhtml_jsxtext_3,
     r#"
 <div>this should parse as nbsp:   </div>;
@@ -726,7 +723,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_handle_attributed_elements,
     r#"
 var HelloMessage = React.createClass({
@@ -759,7 +756,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_handle_has_own_property_correctly,
     r#"<hasOwnProperty>testing</hasOwnProperty>;"#,
     r#"React.createElement("hasOwnProperty", null, "testing");"#
@@ -770,7 +767,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_have_correct_comma_in_nested_children,
     r#"
 var x = <div>
@@ -794,7 +791,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_insert_commas_after_expressions_before_whitespace,
     r#"
 var x =
@@ -829,7 +826,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_not_add_quotes_to_identifier_names,
     r#"var e = <F aaa new const var default foo-bar/>;"#,
     r#"
@@ -849,7 +846,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_not_mangle_expressioncontainer_attribute_values,
     r#"<button data-value={"a value\n  with\nnewlines\n   and spaces"}>Button</button>;"#,
     r#"
@@ -864,7 +861,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
     r#"<div>&nbsp; </div>;"#,
     r#"React.createElement("div", null, "\xA0 ");"#,
@@ -876,7 +873,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_not_strip_tags_with_a_single_child_of_nbsp,
     r#"<div>&nbsp;</div>;"#,
     r#"React.createElement("div", null, "\xA0");"#,
@@ -890,7 +887,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_properly_handle_comments_between_props,
     r#"
 var x = (
@@ -921,7 +918,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_quote_jsx_attributes,
     r#"<button data-value='a value'>Button</button>;"#,
     r#"
@@ -936,14 +933,11 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(
-        tester.cm.clone(),
-        Options {
-            pragma: "h".into(),
-            throw_if_namespace: false,
-            ..Default::default()
-        },
-    ),
+    |_| tr(Options {
+        pragma: "h".into(),
+        throw_if_namespace: false,
+        ..Default::default()
+    },),
     react_should_support_xml_namespaces_if_flag,
     r#"<f:image n:attr />;"#,
     r#"h("f:image", {
@@ -956,7 +950,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_should_transform_known_hyphenated_tags,
     r#"<font-face />;"#,
     r#"React.createElement("font-face", null);"#
@@ -967,7 +961,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_wraps_props_in_react_spread_for_first_spread_attributes,
     r#"
 <Component { ... x } y
@@ -986,7 +980,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_wraps_props_in_react_spread_for_last_spread_attributes,
     r#"<Component y={2} z { ... x } />"#,
     r#"
@@ -1002,7 +996,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(tester.cm.clone(), Default::default()),
+    |_| tr(Default::default()),
     react_wraps_props_in_react_spread_for_middle_spread_attributes,
     r#"<Component y={2} { ... x } z />"#,
     r#"
@@ -1018,13 +1012,10 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| tr(
-        tester.cm.clone(),
-        Options {
-            use_builtins: true,
-            ..Default::default()
-        },
-    ),
+    |_| tr(Options {
+        use_builtins: true,
+        ..Default::default()
+    },),
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#,
     r#"
