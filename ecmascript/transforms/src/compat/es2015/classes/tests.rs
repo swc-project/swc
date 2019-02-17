@@ -2328,7 +2328,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |tester| chain!(tr(), jsx(tester.cm.clone(), Default::default())),
+    |tester| chain!(tr(), jsx(Default::default())),
     regression_2775,
     r#"
 import React, {Component} from 'react';
