@@ -330,7 +330,7 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             }
 
-            if has_star {
+            if has_star && export_ns.is_none() {
                 // improve error message for `export * from foo`
                 let src = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
