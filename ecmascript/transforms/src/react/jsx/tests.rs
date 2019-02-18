@@ -1024,3 +1024,19 @@ var div = React.createElement(Component, Object.assign({}, props, {
 }));
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |_| tr(Options {
+        use_builtins: true,
+        ..Default::default()
+    },),
+    issue_229,
+    "const a = <>test</>
+const b = <div>test</div>",
+    "const a = React.createElement(React.Fragment, null, 'test');
+const b = React.createElement('div', null, 'test');"
+);

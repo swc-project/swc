@@ -266,6 +266,14 @@ impl Fold<Expr> for Jsx {
                 // <div></div> => React.createElement('div', null);
                 self.jsx_elem_to_expr(el)
             }
+            Expr::Paren(ParenExpr {
+                expr: box Expr::JSXFragment(frag),
+                ..
+            })
+            | Expr::JSXFragment(frag) => {
+                // <></> => React.createElement(React.Fragment, null);
+                self.jsx_frag_to_expr(frag)
+            }
             _ => expr,
         }
     }
