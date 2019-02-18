@@ -66,7 +66,10 @@ impl Params {
                     let len_ident = quote_ident!(span.apply_mark(mark), "_len");
 
                     let arg = match *arg {
-                        Pat::Ident(ident) => ident,
+                        Pat::Ident(ident) => {
+                            params.push(Pat::Ident(ident.clone()));
+                            ident
+                        }
                         arg => {
                             let tmp_ident = quote_ident!(span.apply_mark(mark), "_tmp");
                             decls_after_unpack.push(VarDeclarator {
