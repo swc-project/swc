@@ -143,7 +143,6 @@ impl<'a> Emitter<'a> {
                 semi!();
             }
             ModuleDecl::ExportAll(ref d) => emit!(d),
-            ModuleDecl::ExportAllAs(ref d) => emit!(d),
             ModuleDecl::TsExportAssignment(ref n) => emit!(n),
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
@@ -243,7 +242,10 @@ impl<'a> Emitter<'a> {
     pub fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
         match node {
             ExportSpecifier::Default(ref node) => {
-                unimplemented!("codegen of `export de   fault from 'foo';`")
+                unimplemented!("codegen of `export default from 'foo';`")
+            }
+            ExportSpecifier::Namespace(ref node) => {
+                unimplemented!("codegen of `export foo as Foo from 'foo';`")
             }
             ExportSpecifier::Named(ref node) => emit!(node),
         }
@@ -294,24 +296,6 @@ impl<'a> Emitter<'a> {
         space!();
         punct!("*");
         formatting_space!();
-        keyword!("from");
-        space!();
-        emit!(node.src);
-        semi!();
-    }
-
-    #[emitter]
-    pub fn emit_export_all_as(&mut self, node: &ExportAllAs) -> Result {
-        self.emit_leading_comments_of_pos(node.span().lo())?;
-
-        keyword!("export");
-        space!();
-        punct!("*");
-        formatting_space!();
-        keyword!("as");
-        space!();
-        emit!(node.name);
-        space!();
         keyword!("from");
         space!();
         emit!(node.src);

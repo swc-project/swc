@@ -192,7 +192,16 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
 
+        let mut export_star = None;
+
         if eat!('*') {
+            if is!("from") {
+                let src = self.parse_from_clause_and_semi()?;
+                return Ok(ModuleDecl::ExportAll(ExportAll {
+                    span: span!(start),
+                    src,
+                }));
+            }
             if is!("as") {
                 if !self.input.syntax().export_namespace_from() {
                     syntax_error!(span!(start), SyntaxError::ExportNamespaceFrom)
@@ -201,19 +210,11 @@ impl<'a, I: Input> Parser<'a, I> {
                 let _ = cur!(false);
 
                 let name = self.parse_ident_name()?;
-                let src = self.parse_from_clause_and_semi()?;
-                return Ok(ModuleDecl::ExportAllAs(ExportAllAs {
+                export_star = Some(ExportSpecifier::Namespace(NamespaceExportSpecifier {
                     span: span!(start),
                     name,
-                    src,
                 }));
             }
-
-            let src = self.parse_from_clause_and_semi()?;
-            return Ok(ModuleDecl::ExportAll(ExportAll {
-                span: span!(start),
-                src,
-            }));
         }
 
         // Some("default") if default is exported from 'src'
@@ -307,6 +308,15 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             if is!("from") {
+                if let Some(s) = export_star {
+                    let src = self.parse_from_clause_and_semi().map(Some)?;
+                    return Ok(ModuleDecl::ExportNamed(NamedExport {
+                        span: span!(start),
+                        specifiers: vec![s],
+                        src,
+                    }));
+                }
+
                 if let Some(default) = default {
                     let src = self.parse_from_clause_and_semi().map(Some)?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
@@ -317,13 +327,17 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             }
 
+            let has_ns = export_star.is_some();
             let has_default = default.is_some();
-            if has_default {
+            if has_ns || has_default {
                 expect!(',')
             }
 
             expect!('{');
             let mut specifiers = vec![];
+            if let Some(s) = export_star {
+                specifiers.push(s)
+            }
             if let Some(default) = default {
                 specifiers.push(ExportSpecifier::Default(default))
             }
@@ -349,7 +363,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let src = if is!("from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
-                if has_default {
+                if has_default || has_ns {
                     syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
                 }
                 None

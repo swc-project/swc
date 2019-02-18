@@ -65,9 +65,6 @@ impl Fold<Module> for Umd {
             };
 
             match decl {
-                ModuleDecl::ExportAllAs(..) => {
-                    unreachable!("export * as Foo from 'foo'; should be removed by previous pass")
-                }
                 ModuleDecl::Import(import) => self.scope.insert_import(import),
 
                 ModuleDecl::ExportAll(..)
@@ -253,9 +250,13 @@ impl Fold<Module> for Umd {
                             for NamedExportSpecifier { orig, exported, .. } in
                                 export.specifiers.into_iter().map(|e| match e {
                                     ExportSpecifier::Named(e) => e,
-                                    _ => unreachable!(
+                                    ExportSpecifier::Default(..) => unreachable!(
                                         "export default from 'foo'; should be removed by previous \
                                          pass"
+                                    ),
+                                    ExportSpecifier::Namespace(..) => unreachable!(
+                                        "export * as Foo from 'foo'; should be removed by \
+                                         previous pass"
                                     ),
                                 })
                             {
