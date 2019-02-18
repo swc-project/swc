@@ -1,5 +1,14 @@
 use super::*;
 
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| TemplateLiteral,
+    issue_231,
+    "const truthy = 'a=b';
+const foo = `http://example.com/foo/bar${truthy && '?'}${truthy}`;
+console.log(foo);"
+);
+
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| TemplateLiteral,

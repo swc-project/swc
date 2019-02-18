@@ -312,6 +312,13 @@ impl Fold<Expr> for Fixer {
                     e @ Expr::Assign(..) | e @ Expr::Seq(..) | e @ Expr::Yield(..) => {
                         box e.wrap_with_paren()
                     }
+                    Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
+                        if op_of_rhs.precedence() < expr.op.precedence() {
+                            box expr.right.wrap_with_paren()
+                        } else {
+                            expr.right
+                        }
+                    }
                     _ => expr.right,
                 };
 
@@ -604,4 +611,6 @@ function a() {
     test_fixer!(fixer_12, "(((a, b), c), d) + e;", "d + e;");
 
     test_fixer!(fixer_13, "delete (((1), a), (2));", "delete 2");
+
+    identical!(issue_231, "'' + (truthy && '?') + truthy;");
 }
