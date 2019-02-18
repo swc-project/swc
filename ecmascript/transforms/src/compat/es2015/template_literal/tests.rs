@@ -6,7 +6,7 @@ test_exec!(
     issue_231,
     "const truthy = 'a=b';
 const foo = `http://example.com/foo/bar${truthy && '?'}${truthy}`;
-console.log(foo);"
+expect(foo).toBe('http://example.com/foo/bar?a=b');"
 );
 
 test!(
