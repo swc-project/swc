@@ -1149,4 +1149,22 @@ let x = 4";
         );
     }
 
+    #[test]
+    fn issue_226() {
+        test_parser(
+            "export * as Foo from 'bar';",
+            Syntax::Es(EsConfig {
+                export_default_from: true,
+                export_namespace_from: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
 }

@@ -131,7 +131,7 @@ impl Fold for InjectSelf {
         match &*name {
             "smallvec" | "vec" | "unreachable" | "tok" | "op" | "js_word" => return i,
             "println" | "print" | "format" | "assert" | "assert_eq" | "assert_ne"
-            | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" => {
+            | "debug_assert" | "debug_assert_eq" | "debug_assert_ne" | "dbg" => {
                 let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
                 args = args
                     .into_pairs()

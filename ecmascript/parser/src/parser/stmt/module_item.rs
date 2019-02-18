@@ -215,15 +215,13 @@ impl<'a, I: Input> Parser<'a, I> {
                     span: span!(start),
                     name,
                 }));
-            } else {
-
             }
         }
 
         // Some("default") if default is exported from 'src'
         let mut export_default = None;
 
-        if eat!("default") {
+        if export_ns.is_none() && eat!("default") {
             if self.input.syntax().typescript() {
                 if is!("abstract") && peeked_is!("class") {
                     let start = cur_pos!();
@@ -299,6 +297,17 @@ impl<'a, I: Input> Parser<'a, I> {
             // export {};
             // export {} from '';
 
+            if is!("from") {
+                if let Some(s) = export_ns {
+                    let src = self.parse_from_clause_and_semi().map(Some)?;
+                    return Ok(ModuleDecl::ExportNamed(NamedExport {
+                        span: span!(start),
+                        specifiers: vec![s],
+                        src,
+                    }));
+                }
+            }
+
             let default = match export_default {
                 Some(default) => Some(default),
                 None => {
@@ -311,15 +320,6 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             if is!("from") {
-                if let Some(s) = export_ns {
-                    let src = self.parse_from_clause_and_semi().map(Some)?;
-                    return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: span!(start),
-                        specifiers: vec![s],
-                        src,
-                    }));
-                }
-
                 if let Some(default) = default {
                     let src = self.parse_from_clause_and_semi().map(Some)?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
@@ -341,6 +341,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let has_ns = export_ns.is_some();
             let has_default = default.is_some();
+            dbg!((has_ns, has_default));
             if has_ns || has_default {
                 expect!(',')
             }
