@@ -36,11 +36,12 @@ impl Fold<Module> for ImportAnalyzer {
 
 impl Visit<ExportAll> for ImportAnalyzer {
     fn visit(&mut self, export: &ExportAll) {
-        self.scope
+        *self
+            .scope
             .value
             .import_types
             .entry(export.src.value.clone())
-            .and_modify(|v| *v = true);
+            .or_default() = true
     }
 }
 
@@ -58,6 +59,11 @@ impl Visit<NamedExport> for ImportAnalyzer {
                         .import_types
                         .entry(src.value.clone())
                         .or_insert(false);
+                } else {
+                    self.scope
+                        .import_types
+                        .entry(src.value.clone())
+                        .and_modify(|v| *v = true);
                 }
             }
         }
@@ -75,6 +81,9 @@ impl Visit<ImportDecl> for ImportAnalyzer {
                 _ => false,
             }
         {
+            self.scope
+                .import_types
+                .insert(import.src.value.clone(), true);
         } else {
             for s in &import.specifiers {
                 match *s {
