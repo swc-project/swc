@@ -87,8 +87,16 @@ pub struct ImportSpecific {
 
 #[ast_node]
 pub enum ExportSpecifier {
+    Namespace(NamespaceExportSpecifier),
     Default(Ident),
     Named(NamedExportSpecifier),
+}
+
+/// `export * as foo from 'src';`
+#[ast_node]
+pub struct NamespaceExportSpecifier {
+    pub span: Span,
+    pub name: Ident,
 }
 
 #[ast_node]

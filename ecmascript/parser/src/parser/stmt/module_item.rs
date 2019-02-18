@@ -192,12 +192,32 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
 
+        let mut has_star = false;
+        let mut export_ns = None;
+
         if eat!('*') {
-            let src = self.parse_from_clause_and_semi()?;
-            return Ok(ModuleDecl::ExportAll(ExportAll {
-                span: span!(start),
-                src,
-            }));
+            has_star = true;
+            if is!("from") {
+                let src = self.parse_from_clause_and_semi()?;
+                return Ok(ModuleDecl::ExportAll(ExportAll {
+                    span: span!(start),
+                    src,
+                }));
+            }
+            if eat!("as") {
+                if !self.input.syntax().export_namespace_from() {
+                    syntax_error!(span!(start), SyntaxError::ExportNamespaceFrom)
+                }
+                let _ = cur!(false);
+
+                let name = self.parse_ident_name()?;
+                export_ns = Some(ExportSpecifier::Namespace(NamespaceExportSpecifier {
+                    span: span!(start),
+                    name,
+                }));
+            } else {
+
+            }
         }
 
         // Some("default") if default is exported from 'src'
@@ -291,6 +311,15 @@ impl<'a, I: Input> Parser<'a, I> {
             };
 
             if is!("from") {
+                if let Some(s) = export_ns {
+                    let src = self.parse_from_clause_and_semi().map(Some)?;
+                    return Ok(ModuleDecl::ExportNamed(NamedExport {
+                        span: span!(start),
+                        specifiers: vec![s],
+                        src,
+                    }));
+                }
+
                 if let Some(default) = default {
                     let src = self.parse_from_clause_and_semi().map(Some)?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
@@ -301,13 +330,26 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
             }
 
+            if has_star && export_ns.is_none() {
+                // improve error message for `export * from foo`
+                let src = self.parse_from_clause_and_semi()?;
+                return Ok(ModuleDecl::ExportAll(ExportAll {
+                    span: span!(start),
+                    src,
+                }));
+            }
+
+            let has_ns = export_ns.is_some();
             let has_default = default.is_some();
-            if has_default {
+            if has_ns || has_default {
                 expect!(',')
             }
 
             expect!('{');
             let mut specifiers = vec![];
+            if let Some(s) = export_ns {
+                specifiers.push(s)
+            }
             if let Some(default) = default {
                 specifiers.push(ExportSpecifier::Default(default))
             }
@@ -333,7 +375,7 @@ impl<'a, I: Input> Parser<'a, I> {
             let src = if is!("from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
-                if has_default {
+                if has_default || has_ns {
                     syntax_error!(span!(start), SyntaxError::ExportDefaultWithOutFrom);
                 }
                 None

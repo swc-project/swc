@@ -242,7 +242,10 @@ impl<'a> Emitter<'a> {
     pub fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
         match node {
             ExportSpecifier::Default(ref node) => {
-                unimplemented!("codegen of `export de   fault from 'foo';`")
+                unimplemented!("codegen of `export default from 'foo';`")
+            }
+            ExportSpecifier::Namespace(ref node) => {
+                unimplemented!("codegen of `export foo as Foo from 'foo';`")
             }
             ExportSpecifier::Named(ref node) => emit!(node),
         }
