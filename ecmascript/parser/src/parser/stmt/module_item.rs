@@ -192,7 +192,7 @@ impl<'a, I: Input> Parser<'a, I> {
             }
         }
 
-let mut has_star=false;
+        let mut has_star = false;
         let mut export_ns = None;
 
         if eat!('*') {
@@ -215,7 +215,7 @@ let mut has_star=false;
                     span: span!(start),
                     name,
                 }));
-            }else{
+            } else {
 
             }
         }
@@ -310,8 +310,6 @@ let mut has_star=false;
                 }
             };
 
-            
-
             if is!("from") {
                 if let Some(s) = export_ns {
                     let src = self.parse_from_clause_and_semi().map(Some)?;
@@ -332,13 +330,13 @@ let mut has_star=false;
                 }
             }
 
-            if has_star{
+            if has_star {
                 // improve error message for `export * from foo`
-                   let src = self.parse_from_clause_and_semi()?;
-                    return Ok(ModuleDecl::ExportAll(ExportAll {
-                        span: span!(start),
-                        src,
-                    }));    
+                let src = self.parse_from_clause_and_semi()?;
+                return Ok(ModuleDecl::ExportAll(ExportAll {
+                    span: span!(start),
+                    src,
+                }));
             }
 
             let has_ns = export_ns.is_some();

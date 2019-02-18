@@ -213,11 +213,10 @@ pub(crate) fn test_transform<F, P>(
 
         println!(">>>>> Orig <<<<<\n{}", input);
         println!(">>>>> Code <<<<<\n{}", actual_src);
-        // assert_eq!(
-        //     crate::tests::DebugUsingDisplay(&actual_src),
-        //     crate::tests::DebugUsingDisplay(&expected_src)
-        // );
-        assert_eq!(&actual_src, &expected_src);
+        assert_eq!(
+            crate::tests::DebugUsingDisplay(&actual_src),
+            crate::tests::DebugUsingDisplay(&expected_src)
+        );
         return Err(());
     });
 }
