@@ -35,8 +35,9 @@ pub use self::{
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem, Script},
     module_decl::{
-        ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
-        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
+        ExportAll, ExportAllAs, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault,
+        ImportSpecific, ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport,
+        NamedExportSpecifier,
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{

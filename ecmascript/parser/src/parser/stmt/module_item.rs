@@ -193,6 +193,22 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if eat!('*') {
+            if is!("as") {
+                if !self.input.syntax().export_namespace_from() {
+                    syntax_error!(span!(start), SyntaxError::ExportNamespaceFrom)
+                }
+                bump!();
+                let _ = cur!(false);
+
+                let name = self.parse_ident_name()?;
+                let src = self.parse_from_clause_and_semi()?;
+                return Ok(ModuleDecl::ExportAllAs(ExportAllAs {
+                    span: span!(start),
+                    name,
+                    src,
+                }));
+            }
+
             let src = self.parse_from_clause_and_semi()?;
             return Ok(ModuleDecl::ExportAll(ExportAll {
                 span: span!(start),

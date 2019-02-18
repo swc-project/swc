@@ -236,6 +236,16 @@ impl Syntax {
             _ => false,
         }
     }
+
+    pub fn export_namespace_from(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                export_namespace_from: true,
+                ..
+            }) => true,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Default, Serialize, Deserialize)]
@@ -291,6 +301,9 @@ pub struct EsConfig {
 
     #[serde(default)]
     pub export_default_from: bool,
+
+    #[serde(default)]
+    pub export_namespace_from: bool,
 
     #[serde(default)]
     pub dynamic_import: bool,

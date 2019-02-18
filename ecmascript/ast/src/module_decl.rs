@@ -17,6 +17,7 @@ pub enum ModuleDecl {
 
     ExportDefaultExpr(Box<Expr>),
     ExportAll(ExportAll),
+    ExportAllAs(ExportAllAs),
     TsImportEquals(TsImportEqualsDecl),
     TsExportAssignment(TsExportAssignment),
     TsNamespaceExport(TsNamespaceExportDecl),
@@ -34,6 +35,14 @@ pub struct ImportDecl {
 #[ast_node]
 pub struct ExportAll {
     pub span: Span,
+    pub src: Str,
+}
+
+/// `export * as Foo from 'mod'`
+#[ast_node]
+pub struct ExportAllAs {
+    pub span: Span,
+    pub name: Ident,
     pub src: Str,
 }
 

@@ -157,6 +157,7 @@ pub(crate) enum SyntaxError {
     DynamicImport,
 
     ExportDefaultWithOutFrom,
+    ExportNamespaceFrom,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -298,6 +299,9 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
                 "import(...) expressions requires `jsc.parser.dynamicImport` to be true".into()
             }
             ExportDefaultWithOutFrom => "export default statements required from '...';".into(),
+            ExportNamespaceFrom => "export * as Foo from 'foo'; requires \
+                                    `jsc.parser.exportNamespaceFrom` to be true"
+                .into(),
         };
 
         let mut db = e.handler.struct_err(&msg);

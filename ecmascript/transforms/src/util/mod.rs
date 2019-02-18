@@ -918,22 +918,23 @@ pub(crate) fn prepend_stmts<T: StmtLike>(
     *to = buf
 }
 
-pub trait IdentExt: Into<Ident> {
-    fn prefix(self, prefix: &str) -> Ident {
-        let i = self.into();
+pub trait IdentExt {
+    fn prefix(&self, prefix: &str) -> Ident;
 
-        Ident::new(format!("{}{}", prefix, i.sym).into(), i.span)
+    fn private(self) -> Ident;
+}
+
+impl IdentExt for Ident {
+    fn prefix(&self, prefix: &str) -> Ident {
+        Ident::new(format!("{}{}", prefix, self.sym).into(), self.span)
     }
 
     fn private(self) -> Ident {
-        let mut i = self.into();
-        i.span = i.span.apply_mark(Mark::fresh(Mark::root()));
+        let span = self.span.apply_mark(Mark::fresh(Mark::root()));
 
-        i
+        Ident::new(self.sym, span)
     }
 }
-
-impl<T> IdentExt for T where T: Into<Ident> {}
 
 /// Finds all idents of variable
 pub(crate) struct DestructuringFinder<'a> {

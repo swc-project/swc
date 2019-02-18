@@ -65,6 +65,9 @@ impl Fold<Module> for Umd {
             };
 
             match decl {
+                ModuleDecl::ExportAllAs(..) => {
+                    unreachable!("export * as Foo from 'foo'; should be removed by previous pass")
+                }
                 ModuleDecl::Import(import) => self.scope.insert_import(import),
 
                 ModuleDecl::ExportAll(..)
