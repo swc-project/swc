@@ -7,6 +7,20 @@ fn tr() -> impl Fold<Module> {
     object_rest_spread()
 }
 
+// object rest spread pass should not touch rest in parameters and spread in
+// args.
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_227,
+    "export default function fn1(...args) {
+  fn2(...args);
+}",
+    r#"export default function fn1(...args) {
+  fn2(...args);
+}"#
+);
+
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),

@@ -42,7 +42,7 @@ fn exprs() -> impl Pass + Clone {
 }
 
 fn stmts() -> impl Pass + Clone {
-    chain_at!(Stmt, function_name(), exprs(), BlockScopedFns, parameters(),)
+    chain_at!(Stmt, function_name(), exprs(), BlockScopedFns,)
 }
 
 /// Compiles es2015 to es5.
@@ -52,6 +52,7 @@ pub fn es2015() -> impl Pass + Clone {
         resolver(),
         Classes,
         stmts(),
+        parameters(),
         for_of(),
         computed_properties(),
         destructuring(),
@@ -111,5 +112,22 @@ var HomePage = function(_Component) {
     return HomePage;
 }(React.Component);
 "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| es2015(),
+        issue_227,
+        "export default function fn1(...args) {
+  fn2(...args);
+}",
+        "
+export default function fn1() {
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        args[_key] = arguments[_key];
+    }
+    fn2.apply(undefined, [].concat(_toConsumableArray(args)));
+}
+"
     );
 }

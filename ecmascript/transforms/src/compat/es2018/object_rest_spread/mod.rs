@@ -318,9 +318,12 @@ struct RestVisitor {
     found: bool,
 }
 
-impl Visit<RestPat> for RestVisitor {
-    fn visit(&mut self, _: &RestPat) {
-        self.found = true;
+impl Visit<ObjectPatProp> for RestVisitor {
+    fn visit(&mut self, prop: &ObjectPatProp) {
+        match *prop {
+            ObjectPatProp::Rest(..) => self.found = true,
+            _ => {}
+        }
     }
 }
 

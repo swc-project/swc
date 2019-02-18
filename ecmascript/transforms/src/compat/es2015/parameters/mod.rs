@@ -67,7 +67,7 @@ impl Params {
 
                     let arg = match *arg {
                         Pat::Ident(ident) => {
-                            params.push(Pat::Ident(ident.clone()));
+                            // params.push(Pat::Ident(ident.clone()));
                             ident
                         }
                         arg => {
