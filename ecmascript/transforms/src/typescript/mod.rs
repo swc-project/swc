@@ -162,6 +162,20 @@ impl Fold<Constructor> for Strip {
     }
 }
 
+impl Fold<Vec<ClassMember>> for Strip {
+    fn fold(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
+        let members = members.fold_children(self);
+
+        members.move_flat_map(|member| match member {
+            ClassMember::Constructor(Constructor { body: None, .. }) => None,
+            ClassMember::Method(Method {
+                is_abstract: true, ..
+            }) => None,
+            _ => Some(member),
+        })
+    }
+}
+
 impl Fold<Vec<Pat>> for Strip {
     fn fold(&mut self, pats: Vec<Pat>) -> Vec<Pat> {
         let mut pats = pats.fold_children(self);
