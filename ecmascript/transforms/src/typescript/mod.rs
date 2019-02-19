@@ -162,6 +162,23 @@ impl Fold<Constructor> for Strip {
     }
 }
 
+impl Fold<Vec<Pat>> for Strip {
+    fn fold(&mut self, pats: Vec<Pat>) -> Vec<Pat> {
+        let mut pats = pats.fold_children(self);
+
+        // Remove this from parameter list
+        pats.retain(|pat| match *pat {
+            Pat::Ident(Ident {
+                sym: js_word!("this"),
+                ..
+            }) => false,
+            _ => true,
+        });
+
+        pats
+    }
+}
+
 impl Fold<Vec<ModuleItem>> for Strip {
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         // First pass

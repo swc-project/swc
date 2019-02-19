@@ -82,3 +82,9 @@ const a: Types = Types.foo;",
     "import {Types} from 'other';
 const a = Types.foo;"
 );
+
+to!(
+    issue_236,
+    "function foo(this: any, $scope: angular.IScope){}",
+    "function foo($scope){}"
+);
