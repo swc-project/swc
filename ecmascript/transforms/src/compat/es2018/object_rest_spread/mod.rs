@@ -385,121 +385,86 @@ where
     }
 }
 
-impl Fold<Constructor> for RestFolder {
-    fn fold(&mut self, f: Constructor) -> Constructor {
-        if f.body.is_none() {
-            // Typescript extension.
-            return f;
-        }
+impl_fold_fn!(RestFolder);
 
-        let body = f.body.fold_with(self);
+// impl Fold<ArrowExpr> for RestFolder {
+//     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+//         let body_span = f.body.span();
+//         let (params, stmts) = self.fold_fn_like(
+//             f.params,
+//             match f.body {
+//                 BlockStmtOrExpr::BlockStmt(block) => block.stmts,
+//                 BlockStmtOrExpr::Expr(expr) => vec![Stmt::Return(ReturnStmt {
+//                     span: DUMMY_SP,
+//                     arg: Some(expr),
+//                 })],
+//             },
+//         );
+//         ArrowExpr {
+//             params,
+//             body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+//                 span: body_span,
+//                 stmts,
+//             }),
+//             ..f
+//         }
+//     }
+// }
 
-        let body_span = body.span();
-        let (params, stmts) = self.fold_fn_like(
-            f.params
-                .into_iter()
-                .map(|pat| match pat {
-                    PatOrTsParamProp::Pat(pat) => pat,
-                    _ => unreachable!(
-                        "TsParameterProperty should be removed by typescript::strip() pass"
-                    ),
-                })
-                .collect(),
-            body.unwrap().stmts,
-        );
-        Constructor {
-            params: params.into_iter().map(PatOrTsParamProp::Pat).collect(),
-            body: Some(BlockStmt {
-                span: body_span,
-                stmts,
-            }),
-            ..f
-        }
-    }
-}
+// impl Fold<Function> for RestFolder {
+//     fn fold(&mut self, f: Function) -> Function {
+//         if f.body.is_none() {
+//             return f;
+//         }
+//         let body = f.body.unwrap();
 
-impl Fold<ArrowExpr> for RestFolder {
-    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-        let body = f.body.fold_with(self);
+//         let (params, stmts) = self.fold_fn_like(f.params, body.stmts);
+//         Function {
+//             params,
+//             body: Some(BlockStmt { stmts, ..body }),
+//             ..f
+//         }
+//     }
+// }
 
-        let body_span = body.span();
-        let (params, stmts) = self.fold_fn_like(
-            f.params,
-            match body {
-                BlockStmtOrExpr::BlockStmt(block) => block.stmts,
-                BlockStmtOrExpr::Expr(expr) => vec![Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(expr),
-                })],
-            },
-        );
-        ArrowExpr {
-            params,
-            body: BlockStmtOrExpr::BlockStmt(BlockStmt {
-                span: body_span,
-                stmts,
-            }),
-            ..f
-        }
-    }
-}
+// impl Fold<CatchClause> for RestFolder {
+//     fn fold(&mut self, mut c: CatchClause) -> CatchClause {
+//         if !contains_rest(&c.param) {
+//             // fast path
+//             return c;
+//         }
 
-impl Fold<Function> for RestFolder {
-    fn fold(&mut self, f: Function) -> Function {
-        if f.body.is_none() {
-            // typescript extension
-            return f;
-        }
+//         let pat = match c.param {
+//             Some(pat) => pat,
+//             _ => return c,
+//         };
 
-        let body = f.body.unwrap();
+//         ;
+//         let var_ident = private_ident!("_err");
+//         let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()),
+// false, true);         // initialize (or destructure)
+//         self.push_var_if_not_empty(VarDeclarator {
+//             span: DUMMY_SP,
+//             name: param,
+//             init: Some(box Expr::Ident(var_ident.clone())),
+//             definite: false,
+//         });
+//         c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
+//             span: DUMMY_SP,
+//             kind: VarDeclKind::Let,
+//             decls: mem::replace(&mut self.vars, vec![]),
+//             declare: false,
+//         })))
+//         .chain(c.body.stmts)
+//         .collect();
 
-        let (params, stmts) = self.fold_fn_like(f.params, body.stmts);
-        Function {
-            params,
-            body: Some(BlockStmt { stmts, ..body }),
-            ..f
-        }
-    }
-}
-
-impl Fold<CatchClause> for RestFolder {
-    fn fold(&mut self, mut c: CatchClause) -> CatchClause {
-        if !contains_rest(&c.param) {
-            // fast path
-            return c;
-        }
-
-        let pat = match c.param {
-            Some(pat) => pat,
-            _ => return c,
-        };
-
-        ;
-        let var_ident = private_ident!("_err");
-        let param = self.fold_rest(pat, box Expr::Ident(var_ident.clone()), false, true);
-        // initialize (or destructure)
-        self.push_var_if_not_empty(VarDeclarator {
-            span: DUMMY_SP,
-            name: param,
-            init: Some(box Expr::Ident(var_ident.clone())),
-            definite: false,
-        });
-        c.body.stmts = iter::once(Stmt::Decl(Decl::Var(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Let,
-            decls: mem::replace(&mut self.vars, vec![]),
-            declare: false,
-        })))
-        .chain(c.body.stmts)
-        .collect();
-
-        CatchClause {
-            // catch (_err) {}
-            param: Some(Pat::Ident(var_ident)),
-            ..c
-        }
-    }
-}
+//         CatchClause {
+//             // catch (_err) {}
+//             param: Some(Pat::Ident(var_ident)),
+//             ..c
+//         }
+//     }
+// }
 
 impl RestFolder {
     fn insert_var_if_not_empty(&mut self, idx: usize, decl: VarDeclarator) {
@@ -550,7 +515,7 @@ impl RestFolder {
         self.vars.push(decl)
     }
 
-    fn fold_fn_like(&mut self, params: Vec<Pat>, body: Vec<Stmt>) -> (Vec<Pat>, Vec<Stmt>) {
+    fn fold_fn_like(&mut self, params: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
         if !contains_rest(&params) {
             // fast-path
             return (params, body);
@@ -640,19 +605,22 @@ impl RestFolder {
 
         (
             params,
-            if self.vars.is_empty() {
-                None
-            } else {
-                Some(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars, vec![]),
-                    declare: false,
-                })))
-            }
-            .into_iter()
-            .chain(body)
-            .collect(),
+            BlockStmt {
+                stmts: if self.vars.is_empty() {
+                    None
+                } else {
+                    Some(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: mem::replace(&mut self.vars, vec![]),
+                        declare: false,
+                    })))
+                }
+                .into_iter()
+                .chain(body.stmts)
+                .collect(),
+                ..body
+            },
         )
     }
 
