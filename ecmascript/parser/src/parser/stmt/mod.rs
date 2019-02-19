@@ -533,8 +533,9 @@ impl<'a, I: Input> Parser<'a, I> {
 
         let body = self.parse_stmt(false).map(Box::new)?;
         expect!("while");
+        expect!('(');
         let test = self.include_in_expr(true).parse_expr()?;
-
+        expect!(')');
         // We *may* eat semicolon.
         let _ = eat!(';');
 
