@@ -9,6 +9,7 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
+use serde::{Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span};
@@ -73,7 +74,7 @@ pub struct ClassProperty<K> {
 pub type Method = ClassMethod<PropName>;
 pub type PrivateMethod = ClassMethod<PrivateName>;
 
-#[ast_node]
+#[ast_node("Constructor")]
 pub struct Constructor {
     pub span: Span,
     pub key: PropName,
@@ -85,6 +86,7 @@ pub struct Constructor {
 
 #[ast_node]
 pub struct ClassMethod<K> {
+    #[serde(flatten)]
     pub span: Span,
     #[cfg_attr(feature = "fold", fold(bound))]
     pub key: K,
@@ -103,17 +105,20 @@ pub struct ClassMethod<K> {
     pub is_optional: bool,
 }
 
-#[ast_node]
+#[ast_node("Decorator")]
 pub struct Decorator {
     pub span: Span,
 
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum MethodKind {
+    #[serde(rename = "method")]
     Method,
+    #[serde(rename = "getter")]
     Getter,
+    #[serde(rename = "setter")]
     Setter,
 }

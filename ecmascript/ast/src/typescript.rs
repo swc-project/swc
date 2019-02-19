@@ -1,4 +1,5 @@
 #![allow(missing_copy_implementations)]
+use serde::{Deserialize, Serialize};
 
 use crate::{
     class::Decorator,
@@ -12,15 +13,19 @@ use crate::{
 use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
-#[ast_node]
+#[ast_node("TsTypeAnnotation")]
 pub struct TsTypeAnn {
+    #[serde(flatten)]
     pub span: Span,
+    #[serde(rename = "type_annotation")]
     pub type_ann: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeParameterDeclaration")]
 pub struct TsTypeParamDecl {
+    #[serde(flatten)]
     pub span: Span,
+    #[serde(rename = "parameters")]
     pub params: Vec<TsTypeParam>,
 }
 
@@ -211,20 +216,43 @@ pub struct TsKeywordType {
     pub kind: TsKeywordTypeKind,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsKeywordTypeKind {
+    #[serde(rename = "any")]
     TsAnyKeyword,
+
+    #[serde(rename = "unknown")]
     TsUnknownKeyword,
+
+    #[serde(rename = "number")]
     TsNumberKeyword,
+
+    #[serde(rename = "object")]
     TsObjectKeyword,
+
+    #[serde(rename = "boolean")]
     TsBooleanKeyword,
+
+    #[serde(rename = "bigint")]
     TsBigIntKeyword,
+
+    #[serde(rename = "string")]
     TsStringKeyword,
+
+    #[serde(rename = "symbol")]
     TsSymbolKeyword,
+
+    #[serde(rename = "void")]
     TsVoidKeyword,
+
+    #[serde(rename = "undefined")]
     TsUndefinedKeyword,
+
+    #[serde(rename = "null")]
     TsNullKeyword,
+
+    #[serde(rename = "never")]
     TsNeverKeyword,
 }
 
@@ -361,10 +389,12 @@ pub struct TsTypeOperator {
     pub type_ann: Box<TsType>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(StringEnum, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum TsTypeOperatorOp {
+    /// `keyof`
     KeyOf,
+    /// `unique`
     Unique,
 }
 
@@ -381,6 +411,19 @@ pub enum TruePlusMinus {
     True,
     Plus,
     Minus,
+}
+
+impl Serialize for TruePlusMinus {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        match *self {
+            TruePlusMinus::True => serializer.serialize_bool(true),
+            TruePlusMinus::Plus => serializer.serialize_str("+"),
+            TruePlusMinus::Minus => serializer.serialize_str("-"),
+        }
+    }
 }
 
 #[ast_node]
@@ -563,10 +606,13 @@ pub struct TsNonNullExpr {
     pub expr: Box<Expr>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub enum Accessibility {
+    #[serde(rename = "public")]
     Public,
+    #[serde(rename = "protected")]
     Protected,
+    #[serde(rename = "private")]
     Private,
 }

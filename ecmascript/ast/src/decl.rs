@@ -6,6 +6,7 @@ use crate::{
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
+use serde::{Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span};
@@ -29,19 +30,22 @@ pub struct FnDecl {
     pub function: Function,
 }
 
-#[ast_node]
+#[ast_node("ClassDeclaration")]
 pub struct ClassDecl {
     pub ident: Ident,
     pub declare: bool,
+    #[serde(flatten)]
     #[span]
     pub class: Class,
 }
 
-#[ast_node]
+#[ast_node("VariableDeclaration")]
 pub struct VarDecl {
+    #[serde(flatten)]
     pub span: Span,
     pub kind: VarDeclKind,
     pub declare: bool,
+    #[serde(rename = "declarations")]
     pub decls: Vec<VarDeclarator>,
 }
 

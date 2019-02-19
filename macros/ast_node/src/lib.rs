@@ -9,6 +9,7 @@ extern crate syn;
 
 use swc_macros_common::prelude::*;
 
+mod ast_node_macro;
 mod fold;
 mod from_variant;
 mod spanned;
@@ -86,25 +87,45 @@ pub fn ast_node(
     args: proc_macro::TokenStream,
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    if !args.is_empty() {
-        panic!("#[ast_node] takes no arguments");
-    }
-
     let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
 
     // we should use call_site
     let mut item = Quote::new(Span::call_site());
     item = match input.data {
-        Data::Enum(..) => item.quote_with(smart_quote!(Vars { input }, {
-            #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
-            #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
-            input
-        })),
-        _ => item.quote_with(smart_quote!(Vars { input }, {
-            #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-            #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
-            input
-        })),
+        Data::Enum(..) => {
+            if !args.is_empty() {
+                panic!("#[ast_node] on enum does not accept any argument")
+            }
+            item.quote_with(smart_quote!(Vars { input }, {
+                #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
+                #[derive(::serde::Serialize)]
+                #[serde(tag = "type")]
+                #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
+                input
+            }))
+        }
+        _ => {
+            let mut ast_node_impl = if args.is_empty() {
+                None
+            } else {
+                Some(ast_node_macro::expand(args.into(), input.clone()))
+            };
+
+            let mut quote = item.quote_with(smart_quote!(Vars { input }, {
+                #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+                #[derive(::serde::Serialize)]
+                #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
+                input
+            }));
+
+            if let Some(items) = ast_node_impl {
+                for item in items {
+                    quote = quote.quote_with(smart_quote!(Vars { item }, { item }))
+                }
+            }
+
+            quote
+        }
     };
 
     print("ast_node", item)

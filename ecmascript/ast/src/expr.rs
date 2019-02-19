@@ -13,6 +13,7 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
+use serde::Serialize;
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
@@ -93,23 +94,28 @@ pub enum Expr {
     PrivateName(PrivateName),
 }
 
-#[ast_node]
+#[ast_node("ThisExpression")]
 #[derive(Copy)]
 pub struct ThisExpr {
+    #[serde(flatten)]
     pub span: Span,
 }
 
 /// Array literal.
-#[ast_node]
+#[ast_node("ArrayExpression")]
 pub struct ArrayLit {
+    #[serde(flatten)]
     pub span: Span,
+    #[serde(rename = "elements")]
     pub elems: Vec<(Option<ExprOrSpread>)>,
 }
 
 /// Object literal.
-#[ast_node]
+#[ast_node("ObjectExpression")]
 pub struct ObjectLit {
+    #[serde(flatten)]
     pub span: Span,
+    #[serde(rename = "properties")]
     pub props: Vec<PropOrSpread>,
 }
 
@@ -120,7 +126,7 @@ pub enum PropOrSpread {
     Spread(SpreadElement),
 }
 
-#[ast_node]
+#[ast_node("SpreadElement")]
 pub struct SpreadElement {
     #[span(lo)]
     pub dot3_token: Span,
@@ -128,26 +134,37 @@ pub struct SpreadElement {
     pub expr: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("UnaryExpression")]
 pub struct UnaryExpr {
+    #[serde(flatten)]
     pub span: Span,
+
+    #[serde(rename = "operator")]
     pub op: UnaryOp,
 
+    #[serde(rename = "argument")]
     pub arg: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("UpdateExpression")]
 pub struct UpdateExpr {
+    #[serde(flatten)]
     pub span: Span,
+
+    #[serde(rename = "operator")]
     pub op: UpdateOp,
     pub prefix: bool,
 
+    #[serde(rename = "argument")]
     pub arg: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("BinaryExpression")]
 pub struct BinExpr {
+    #[serde(flatten)]
     pub span: Span,
+
+    #[serde(rename = "operator")]
     pub op: BinaryOp,
 
     pub left: Box<Expr>,
@@ -156,9 +173,10 @@ pub struct BinExpr {
 }
 
 /// Function expression.
-#[ast_node]
+#[ast_node("FunctionExpression")]
 pub struct FnExpr {
     pub ident: Option<Ident>,
+    #[serde(flatten)]
     #[span]
     pub function: Function,
 }
@@ -220,7 +238,7 @@ pub struct SeqExpr {
     pub exprs: Vec<(Box<Expr>)>,
 }
 
-#[ast_node]
+#[ast_node("ArrowFunctionExpression")]
 pub struct ArrowExpr {
     pub span: Span,
     pub params: Vec<Pat>,
@@ -287,7 +305,7 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     pub spread: Option<Span>,

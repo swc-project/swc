@@ -1,4 +1,5 @@
 use crate::typescript::TsTypeAnn;
+use serde::{Deserialize, Serialize};
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 #[cfg(feature = "fold")]
@@ -6,12 +7,15 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned};
 
 /// Ident with span.
-#[derive(Spanned, Clone, PartialEq)]
+#[derive(Spanned, Clone, PartialEq, Serialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct Ident {
+    #[serde(flatten)]
     pub span: Span,
+    #[serde(rename = "value")]
     #[cfg_attr(feature = "fold", fold(ignore))]
     pub sym: JsWord,
+    #[serde(rename = "type_annotation")]
     pub type_ann: Option<TsTypeAnn>,
     /// TypeScript only. Used in case of an optional parameter.
     pub optional: bool,
@@ -28,8 +32,9 @@ impl Debug for Ident {
     }
 }
 
-#[ast_node]
+#[ast_node("PrivateName")]
 pub struct PrivateName {
+    #[serde(flatten)]
     pub span: Span,
     pub id: Ident,
 }

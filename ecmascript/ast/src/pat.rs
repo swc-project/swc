@@ -17,21 +17,29 @@ pub enum Pat {
     Expr(Box<Expr>),
 }
 
-#[ast_node]
+#[ast_node("ArrayPattern")]
 pub struct ArrayPat {
+    #[serde(flatten)]
     pub span: Span,
+
+    #[serde(rename = "elements")]
     pub elems: Vec<(Option<Pat>)>,
+
+    #[serde(rename = "type_annotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
-#[ast_node]
+#[ast_node("ObjectPattern")]
 pub struct ObjectPat {
+    #[serde(flatten)]
     pub span: Span,
+    #[serde(rename = "properties")]
     pub props: Vec<ObjectPatProp>,
+    #[serde(rename = "type_annotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
-#[ast_node]
+#[ast_node("AssignmentPattern")]
 pub struct AssignPat {
     pub span: Span,
     pub left: Box<Pat>,
@@ -40,12 +48,14 @@ pub struct AssignPat {
 }
 
 /// EsTree `RestElement`
-#[ast_node]
+#[ast_node("RestElement")]
 pub struct RestPat {
     #[span(lo)]
     pub dot3_token: Span,
+    #[serde(rename = "argument")]
     #[span(hi)]
     pub arg: Box<Pat>,
+    #[serde(rename = "type_annotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
