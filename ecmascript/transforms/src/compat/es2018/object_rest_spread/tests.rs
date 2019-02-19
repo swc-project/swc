@@ -7,6 +7,19 @@ fn tr() -> impl Fold<Module> {
     object_rest_spread()
 }
 
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_233,
+    "const foo = () => ({ x, ...y }) => y",
+    "const foo = ()=>{
+    return (_param)=>{
+        var { x } = _param, y = _objectWithoutProperties(_param, ['x']);
+        return y;
+    };
+};"
+);
+
 // object rest spread pass should not touch rest in parameters and spread in
 // args.
 test!(

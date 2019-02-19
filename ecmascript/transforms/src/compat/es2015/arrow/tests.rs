@@ -3,6 +3,18 @@ use super::*;
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| Arrow,
+    issue_233,
+    "const foo = () => ({ x, ...y }) => y",
+    "const foo = function() {
+    return function({ x , ...y }) {
+        return y;
+    };
+};"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| Arrow,
     destructuring,
     r#"let foo = ({bar}) => undefined;"#,
     r#"let foo = function ({bar}) {

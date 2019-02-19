@@ -270,7 +270,10 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                     }
                                 }
                             }
-                            ObjectPatProp::Rest(_) => unimplemented!(),
+                            ObjectPatProp::Rest(..) => unreachable!(
+                                "Object rest pattern should be removed by \
+                                 es2018::object_rest_spread pass"
+                            ),
                         }
                     }
                 }
