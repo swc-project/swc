@@ -106,9 +106,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 with_parser(is_backtrace_enabled(), &path, |p| {
                     let module = p.parse_module()?;
 
-                    if StdErr::from(format!("{:#?}", module))
-                        .compare_to_file(format!("{}.stdout", path.display()))
-                        .is_err()
+                    if StdErr::from(
+                        serde_json::to_string_pretty(&module)
+                            .expect("failed to serialize module as json"),
+                    )
+                    .compare_to_file(format!("{}.json", path.display()))
+                    .is_err()
                     {
                         panic!()
                     }
