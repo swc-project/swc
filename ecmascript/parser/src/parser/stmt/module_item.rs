@@ -341,7 +341,6 @@ impl<'a, I: Input> Parser<'a, I> {
 
             let has_ns = export_ns.is_some();
             let has_default = default.is_some();
-            dbg!((has_ns, has_default));
             if has_ns || has_default {
                 expect!(',')
             }
