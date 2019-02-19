@@ -4,8 +4,9 @@ use syn::{
     parse::{Parse, ParseStream},
     parse2, Token,
 };
-struct Args {
-    ty: Literal,
+#[derive(Clone)]
+pub struct Args {
+    pub ty: Literal,
 }
 
 impl Parse for Args {
@@ -14,12 +15,7 @@ impl Parse for Args {
     }
 }
 
-pub fn expand(args: TokenStream, i: DeriveInput) -> Vec<Item> {
-    if args.is_empty() {
-        return vec![];
-    }
-    let args: Args = parse2(args).expect("failed to parse args of #[ast_node]");
-
+pub fn expand(args: Args, i: DeriveInput) -> Vec<Item> {
     let mut items = vec![];
 
     items.push(

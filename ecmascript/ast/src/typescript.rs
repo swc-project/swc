@@ -398,7 +398,7 @@ pub enum TsTypeOperatorOp {
     Unique,
 }
 
-#[ast_node]
+#[ast_node("TsIndexedAccessType")]
 pub struct TsIndexedAccessType {
     pub span: Span,
     pub obj_type: Box<TsType>,
