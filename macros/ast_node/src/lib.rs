@@ -99,7 +99,7 @@ pub fn ast_node(
             item.quote_with(smart_quote!(Vars { input }, {
                 #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
                 #[derive(::serde::Serialize)]
-                #[serde(tag = "type")]
+                #[serde(untagged)]
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
             }))
