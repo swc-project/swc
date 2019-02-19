@@ -20,6 +20,21 @@ test!(
 };"
 );
 
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_239,
+    "class Foo {
+  constructor ({ ...bar }) {}
+}",
+    "const foo = ()=>{
+    return (_param)=>{
+        var { x } = _param, y = _objectWithoutProperties(_param, ['x']);
+        return y;
+    };
+};"
+);
+
 // object rest spread pass should not touch rest in parameters and spread in
 // args.
 test!(
