@@ -46,13 +46,12 @@ export const good = {
 };
 "#,
     r#"
-var good = {
+export const good = {
     a (bad1) {
         (...bad2)=>{
         };
     }
 };
-export { good }
 "#
 );
 

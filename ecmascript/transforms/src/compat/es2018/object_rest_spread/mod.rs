@@ -322,7 +322,7 @@ impl Visit<ObjectPatProp> for RestVisitor {
     fn visit(&mut self, prop: &ObjectPatProp) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
-            _ => {}
+            _ => prop.visit_children(self),
         }
     }
 }
