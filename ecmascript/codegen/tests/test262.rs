@@ -8,7 +8,6 @@ extern crate swc_ecma_codegen;
 extern crate swc_ecma_parser;
 extern crate test;
 extern crate testing;
-use sourcemap::SourceMapBuilder;
 use std::{
     env,
     fs::{read_dir, File},
@@ -154,7 +153,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     Some(Comments::default()),
                 );
 
-                let s: Arc<String> = src.src.clone();
                 {
                     let mut emitter = Emitter {
                         cfg: Default::default(),

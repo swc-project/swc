@@ -385,6 +385,39 @@ where
     }
 }
 
+impl Fold<Constructor> for RestFolder {
+    fn fold(&mut self, f: Constructor) -> Constructor {
+        if f.body.is_none() {
+            // Typescript extension.
+            return f;
+        }
+
+        let body = f.body.fold_with(self);
+
+        let body_span = body.span();
+        let (params, stmts) = self.fold_fn_like(
+            f.params
+                .into_iter()
+                .map(|pat| match pat {
+                    PatOrTsParamProp::Pat(pat) => pat,
+                    _ => unreachable!(
+                        "TsParameterProperty should be removed by typescript::strip() pass"
+                    ),
+                })
+                .collect(),
+            body.unwrap().stmts,
+        );
+        Constructor {
+            params: params.into_iter().map(PatOrTsParamProp::Pat).collect(),
+            body: Some(BlockStmt {
+                span: body_span,
+                stmts,
+            }),
+            ..f
+        }
+    }
+}
+
 impl Fold<ArrowExpr> for RestFolder {
     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
         let body = f.body.fold_with(self);
@@ -414,8 +447,10 @@ impl Fold<ArrowExpr> for RestFolder {
 impl Fold<Function> for RestFolder {
     fn fold(&mut self, f: Function) -> Function {
         if f.body.is_none() {
+            // typescript extension
             return f;
         }
+
         let body = f.body.unwrap();
 
         let (params, stmts) = self.fold_fn_like(f.params, body.stmts);

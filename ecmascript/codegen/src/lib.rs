@@ -1755,12 +1755,12 @@ impl<'a> Emitter<'a> {
         emit!(node.body);
 
         keyword!("while");
-        if node.test.starts_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!()
-        }
+
+        formatting_space!();
+
+        punct!("(");
         emit!(node.test);
+        punct!(")");
     }
 
     #[emitter]
