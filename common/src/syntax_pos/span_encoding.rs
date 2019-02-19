@@ -13,9 +13,13 @@
 // another contains index into an out-of-line span interner.
 // The encoding format for inline spans were obtained by optimizing over crates
 // in rustc/libstd. See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
-
 use super::hygiene::SyntaxContext;
 use fxhash::FxHashMap;
+use serde::{
+    de::Deserializer,
+    ser::{SerializeStruct, Serializer},
+    Deserialize, Serialize,
+};
 use std::hash::{Hash, Hasher};
 use BytePos;
 use SpanData;
@@ -29,6 +33,29 @@ use GLOBALS;
 /// decoded representation.
 #[repr(packed)]
 pub struct Span(u32);
+
+impl Serialize for Span {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let data = self.data();
+        let mut s = serializer.serialize_struct("Span", 3)?;
+        s.serialize_field("start", &data.lo.0)?;
+        s.serialize_field("end", &data.hi.0)?;
+        s.serialize_field("ctxt", &data.ctxt)?;
+        s.end()
+    }
+}
+impl<'de> Deserialize<'de> for Span {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let data = SpanData::deserialize(deserializer)?;
+        Ok(Span::new(data.lo, data.hi, data.ctxt))
+    }
+}
 
 impl Copy for Span {}
 impl Clone for Span {

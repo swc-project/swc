@@ -21,12 +21,13 @@ pub use self::{
     source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
 };
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use std::fmt::Debug;
 
 /// A trait for ast nodes.
-pub trait AstNode: Debug + PartialEq + Clone + Spanned {
+pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
     /// Used when serialized
-    const TYPE: &'static str;
+    fn types() -> &'static [&'static str];
 }
 
 pub mod comments;

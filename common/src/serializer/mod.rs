@@ -1,11 +1,15 @@
 use crate::AstNode;
-use serde::{Deserialize, Serialize};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use std::borrow::Cow;
 
 /// struct to add `type` field to json.
 #[derive(Serialize, Deserialize)]
-pub struct Node<T: AstNode> {
+pub struct Node<T>
+where
+    T: AstNode,
+{
     #[serde(rename = "type")]
-    ty: &'static str,
+    ty: Cow<'static, str>,
     #[serde(flatten)]
     pub node: T,
 }
@@ -16,7 +20,11 @@ where
 {
     #[inline(always)]
     fn from(node: T) -> Self {
-        Node { ty: T::TYPE, node }
+        assert_eq!(T::types().len(), 1);
+        Node {
+            ty: Cow::Borrowed(T::types()[0]),
+            node,
+        }
     }
 }
 
@@ -27,4 +35,3 @@ pub struct Type {
     #[serde(rename = "type")]
     pub ty: String,
 }
-
