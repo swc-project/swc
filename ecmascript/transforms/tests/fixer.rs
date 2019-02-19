@@ -166,7 +166,6 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         .load_file(&normal.join(file_name))
                         .expect("failed to load reference file");
 
-                    let s: Arc<String> = src.src.clone();
                     {
                         let handlers = box MyHandlers;
                         let handlers2 = box MyHandlers;

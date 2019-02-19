@@ -322,7 +322,7 @@ impl Visit<ObjectPatProp> for RestVisitor {
     fn visit(&mut self, prop: &ObjectPatProp) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
-            _ => {}
+            _ => prop.visit_children(self),
         }
     }
 }
@@ -387,10 +387,12 @@ where
 
 impl Fold<ArrowExpr> for RestFolder {
     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-        let body_span = f.body.span();
+        let body = f.body.fold_with(self);
+
+        let body_span = body.span();
         let (params, stmts) = self.fold_fn_like(
             f.params,
-            match f.body {
+            match body {
                 BlockStmtOrExpr::BlockStmt(block) => block.stmts,
                 BlockStmtOrExpr::Expr(expr) => vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
