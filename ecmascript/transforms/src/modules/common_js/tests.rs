@@ -16,6 +16,27 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_235,
+    "import {Foo as Bar} from 'something';
+export const fn = ({a = new Bar()}) => a;",
+    "
+'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.fn = void 0;
+var _something = require('something');
+const fn = ({ a =new _something.Foo()  })=>a
+;
+exports.fn = fn;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     custom_usage,
     r#"
 import React from 'react'

@@ -945,14 +945,14 @@ macro_rules! mark_as_nested {
 mark_as_nested!(Function);
 mark_as_nested!(Constructor);
 
-macro_rules! noop {
-    ($T:tt) => {
-        impl Fold<$T> for CommonJs {
-            fn fold(&mut self, n: $T) -> $T {
-                n
-            }
-        }
-    };
-}
+// macro_rules! noop {
+//     ($T:tt) => {
+//         impl Fold<$T> for CommonJs {
+//             fn fold(&mut self, n: $T) -> $T {
+//                 n
+//             }
+//         }
+//     };
+// }
 
-noop!(Pat);
+// noop!(Pat);
