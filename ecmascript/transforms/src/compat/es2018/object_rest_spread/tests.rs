@@ -27,12 +27,12 @@ test!(
     "class Foo {
   constructor ({ ...bar }) {}
 }",
-    "const foo = ()=>{
-    return (_param)=>{
-        var { x } = _param, y = _objectWithoutProperties(_param, ['x']);
-        return y;
-    };
-};"
+    "class Foo{
+    constructor(_param){
+        var bar = _extends({
+        }, _param);
+    }
+}"
 );
 
 // object rest spread pass should not touch rest in parameters and spread in
