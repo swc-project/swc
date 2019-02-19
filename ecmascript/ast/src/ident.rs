@@ -1,5 +1,5 @@
 use crate::typescript::TsTypeAnn;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 #[cfg(feature = "fold")]

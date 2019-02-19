@@ -1,5 +1,5 @@
 use crate::AstNode;
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 
 /// struct to add `type` field to json.

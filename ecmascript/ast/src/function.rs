@@ -4,7 +4,6 @@ use crate::{
     stmt::BlockStmt,
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
-use serde::Serialize;
 use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.

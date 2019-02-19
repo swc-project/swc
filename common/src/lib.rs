@@ -21,7 +21,7 @@ pub use self::{
     source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
 };
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::Serialize;
 use std::fmt::Debug;
 
 /// A trait for ast nodes.

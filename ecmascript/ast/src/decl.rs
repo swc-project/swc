@@ -6,7 +6,6 @@ use crate::{
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
-use serde::{Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span};
