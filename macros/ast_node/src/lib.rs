@@ -111,6 +111,16 @@ pub fn ast_node(
                 Some(parse(args).expect("failed to parse args of #[ast_node]"))
             };
 
+            let serde_tag = match input.data {
+                Data::Struct(DataStruct {
+                    fields: Fields::Named(..),
+                    ..
+                }) => Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
+                    #[serde(tag = "type")]
+                }))),
+                _ => None,
+            };
+
             let serde_rename = args.as_ref().map(|args| {
                 Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty },{
                     #[serde(rename = name)]
@@ -122,15 +132,16 @@ pub fn ast_node(
                 None => None,
             };
 
-            let mut quote = item.quote_with(smart_quote!(Vars { input, serde_rename }, {
-                #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                #[derive(::serde::Serialize)]
-                #[serde(tag = "type")]
-                #[serde(rename_all = "camelCase")]
-                serde_rename
-                #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
-                input
-            }));
+            let mut quote =
+                item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+                    #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+                    #[derive(::serde::Serialize)]
+                    serde_tag
+                    #[serde(rename_all = "camelCase")]
+                    serde_rename
+                    #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
+                    input
+                }));
 
             if let Some(items) = ast_node_impl {
                 for item in items {
