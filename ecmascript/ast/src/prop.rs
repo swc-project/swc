@@ -22,7 +22,7 @@ pub enum Prop {
     Method(MethodProp),
 }
 
-#[ast_node]
+#[ast_node("KeyValueProperty")]
 pub struct KeyValueProp {
     #[span(lo)]
     pub key: PropName,
@@ -31,30 +31,32 @@ pub struct KeyValueProp {
     pub value: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("AssignmentProperty")]
 pub struct AssignProp {
     #[span(lo)]
     pub key: Ident,
     #[span(hi)]
     pub value: Box<Expr>,
 }
-#[ast_node]
+#[ast_node("GetterProperty")]
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
     pub body: Option<BlockStmt>,
 }
-#[ast_node]
+#[ast_node("SetterProperty")]
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
     pub param: Pat,
     pub body: Option<BlockStmt>,
 }
-#[ast_node]
+#[ast_node("MethodProperty")]
 pub struct MethodProp {
     #[span(lo)]
     pub key: PropName,
+
+    #[serde(flatten)]
     #[span(hi)]
     pub function: Function,
 }

@@ -1,0 +1,124 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "ident": {
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "type": "Class",
+      "span": {
+        "start": 0,
+        "end": 44,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 7,
+          "end": 41,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParam",
+            "span": {
+              "start": 8,
+              "end": 40,
+              "ctxt": 0
+            },
+            "name": {
+              "span": {
+                "start": 8,
+                "end": 9,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 18,
+                "end": 24,
+                "ctxt": 0
+              },
+              "kind": "object"
+            },
+            "default": {
+              "type": "TsTypeLit",
+              "span": {
+                "start": 27,
+                "end": 40,
+                "ctxt": 0
+              },
+              "members": [
+                {
+                  "type": "TsPropertySignature",
+                  "span": {
+                    "start": 29,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "readonly": false,
+                  "key": {
+                    "span": {
+                      "start": 29,
+                      "end": 30,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnn": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 30,
+                      "end": 38,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 32,
+                        "end": 38,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "shebang": null
+}

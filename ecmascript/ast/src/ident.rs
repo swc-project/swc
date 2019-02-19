@@ -10,12 +10,11 @@ use swc_common::{ast_node, Span, Spanned};
 #[derive(Spanned, Clone, PartialEq, Serialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct Ident {
-    #[serde(flatten)]
     pub span: Span,
     #[serde(rename = "value")]
     #[cfg_attr(feature = "fold", fold(ignore))]
     pub sym: JsWord,
-    #[serde(rename = "type_annotation")]
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
     /// TypeScript only. Used in case of an optional parameter.
     pub optional: bool,
@@ -34,7 +33,6 @@ impl Debug for Ident {
 
 #[ast_node("PrivateName")]
 pub struct PrivateName {
-    #[serde(flatten)]
     pub span: Span,
     pub id: Ident,
 }

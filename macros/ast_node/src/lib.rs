@@ -126,6 +126,7 @@ pub fn ast_node(
                 #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
                 #[derive(::serde::Serialize)]
                 #[serde(tag = "type")]
+                #[serde(rename_all = "camelCase")]
                 serde_rename
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input

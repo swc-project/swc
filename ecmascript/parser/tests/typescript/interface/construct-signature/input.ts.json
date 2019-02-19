@@ -1,0 +1,96 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 42,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDecl",
+      "span": {
+        "start": 10,
+        "end": 42,
+        "ctxt": 0
+      },
+      "id": {
+        "span": {
+          "start": 10,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "I",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 12,
+          "end": 42,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsConstructSignatureDecl",
+            "span": {
+              "start": 18,
+              "end": 40,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "span": {
+                  "start": 23,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 24,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "type_annotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 26,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                },
+                "optional": false
+              }
+            ],
+            "typeAnn": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 33,
+                "end": 39,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 35,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    }
+  ],
+  "shebang": null
+}

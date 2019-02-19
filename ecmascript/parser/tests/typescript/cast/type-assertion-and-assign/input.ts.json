@@ -1,0 +1,64 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 18,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "AssignmentExpression",
+      "span": {
+        "start": 0,
+        "end": 17,
+        "ctxt": 0
+      },
+      "operator": "+=",
+      "left": {
+        "type": "ParenExpr",
+        "span": {
+          "start": 0,
+          "end": 12,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "TsTypeAssertion",
+          "span": {
+            "start": 2,
+            "end": 11,
+            "ctxt": 0
+          },
+          "expr": {
+            "span": {
+              "start": 10,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeAnn": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 2,
+              "end": 8,
+              "ctxt": 0
+            },
+            "kind": "number"
+          }
+        }
+      },
+      "right": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 16,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": 1.0
+      }
+    }
+  ],
+  "shebang": null
+}

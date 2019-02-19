@@ -13,7 +13,7 @@ pub enum Lit {
     JSXText(JSXText),
 }
 
-#[ast_node]
+#[ast_node("StringLiteral")]
 pub struct Str {
     pub span: Span,
     pub value: JsWord,
@@ -27,29 +27,30 @@ impl Str {
     }
 }
 
-#[ast_node]
+#[ast_node("BooleanLiteral")]
 #[derive(Copy)]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
 }
 
-#[ast_node]
+#[ast_node("NullLiteral")]
 #[derive(Copy)]
 pub struct Null {
     pub span: Span,
 }
 
-#[ast_node]
+#[ast_node("RegExpLiteral")]
 pub struct Regex {
     pub span: Span,
+    #[serde(rename = "flags")]
     pub exp: Str,
     pub flags: Option<RegexFlags>,
 }
 
 pub type RegexFlags = Str;
 
-#[ast_node]
+#[ast_node("NumericLiteral")]
 #[derive(Copy)]
 pub struct Number {
     pub span: Span,

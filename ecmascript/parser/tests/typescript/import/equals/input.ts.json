@@ -1,0 +1,54 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 15,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDecl",
+      "span": {
+        "start": 0,
+        "end": 15,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "A",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsQualifiedName",
+        "left": {
+          "span": {
+            "start": 11,
+            "end": 12,
+            "ctxt": 0
+          },
+          "value": "B",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "right": {
+          "span": {
+            "start": 13,
+            "end": 14,
+            "ctxt": 0
+          },
+          "value": "C",
+          "typeAnnotation": null,
+          "optional": false
+        }
+      }
+    }
+  ],
+  "shebang": null
+}

@@ -1,0 +1,41 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 22,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDecl",
+      "span": {
+        "start": 18,
+        "end": 22,
+        "ctxt": 0
+      },
+      "id": {
+        "span": {
+          "start": 18,
+          "end": 19,
+          "ctxt": 0
+        },
+        "value": "I",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": true,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 20,
+          "end": 22,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    }
+  ],
+  "shebang": null
+}

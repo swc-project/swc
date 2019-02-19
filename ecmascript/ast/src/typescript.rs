@@ -15,7 +15,6 @@ use swc_common::{ast_node, Span};
 
 #[ast_node("TsTypeAnnotation")]
 pub struct TsTypeAnn {
-    #[serde(flatten)]
     pub span: Span,
     #[serde(rename = "type_annotation")]
     pub type_ann: Box<TsType>,
@@ -23,7 +22,6 @@ pub struct TsTypeAnn {
 
 #[ast_node("TsTypeParameterDeclaration")]
 pub struct TsTypeParamDecl {
-    #[serde(flatten)]
     pub span: Span,
     #[serde(rename = "parameters")]
     pub params: Vec<TsTypeParam>,

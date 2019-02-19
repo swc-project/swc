@@ -1,0 +1,100 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 11,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "NewExpression",
+      "span": {
+        "start": 0,
+        "end": 11,
+        "ctxt": 0
+      },
+      "callee": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 9,
+          "end": 11,
+          "ctxt": 0
+        },
+        "tag": {
+          "span": {
+            "start": 4,
+            "end": 5,
+            "ctxt": 0
+          },
+          "value": "C",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 10,
+              "end": 10,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 10,
+                "end": 10,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false
+            },
+            "raw": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 10,
+                "end": 10,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false
+            }
+          }
+        ],
+        "typeParameters": {
+          "type": "TsTypeParamInstantiation",
+          "span": {
+            "start": 5,
+            "end": 8,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "TsTypeRef",
+              "span": {
+                "start": 6,
+                "end": 7,
+                "ctxt": 0
+              },
+              "typeName": {
+                "span": {
+                  "start": 6,
+                  "end": 7,
+                  "ctxt": 0
+                },
+                "value": "T",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      },
+      "arguments": null,
+      "typeArguments": null
+    }
+  ],
+  "shebang": null
+}

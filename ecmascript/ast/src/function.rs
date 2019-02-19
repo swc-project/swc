@@ -13,15 +13,20 @@ pub struct Function {
     pub params: Vec<Pat>,
 
     pub decorators: Vec<Decorator>,
+
     pub span: Span,
 
     pub body: Option<BlockStmt>,
 
     /// if it's a generator.
+    #[serde(rename = "generator")]
     pub is_generator: bool,
 
     /// if it's an async function.
+    #[serde(rename = "async")]
     pub is_async: bool,
+
+    #[serde(rename = "typeParameters")]
     pub type_params: Option<TsTypeParamDecl>,
     pub return_type: Option<TsTypeAnn>,
 }

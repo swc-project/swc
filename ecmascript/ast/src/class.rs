@@ -86,7 +86,6 @@ pub struct Constructor {
 
 #[ast_node]
 pub struct ClassMethod<K> {
-    #[serde(flatten)]
     pub span: Span,
     #[cfg_attr(feature = "fold", fold(bound))]
     pub key: K,

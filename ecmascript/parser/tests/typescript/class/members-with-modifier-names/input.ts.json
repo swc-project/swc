@@ -1,0 +1,265 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 98,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "ident": {
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "type": "Class",
+      "span": {
+        "start": 0,
+        "end": 98,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 14,
+            "end": 29,
+            "ctxt": 0
+          },
+          "key": {
+            "span": {
+              "start": 14,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "public",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "type": "Function",
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 14,
+              "end": 29,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 22,
+                "end": 28,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 24,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 34,
+            "end": 56,
+            "ctxt": 0
+          },
+          "key": {
+            "span": {
+              "start": 41,
+              "end": 47,
+              "ctxt": 0
+            },
+            "value": "static",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "type": "Function",
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 34,
+              "end": 56,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 49,
+                "end": 55,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 51,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": "public",
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 61,
+            "end": 74,
+            "ctxt": 0
+          },
+          "key": {
+            "span": {
+              "start": 61,
+              "end": 69,
+              "ctxt": 0
+            },
+            "value": "readonly",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 72,
+              "end": 73,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "typeAnn": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 79,
+            "end": 96,
+            "ctxt": 0
+          },
+          "key": {
+            "span": {
+              "start": 79,
+              "end": 84,
+              "ctxt": 0
+            },
+            "value": "async",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "type": "Function",
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 79,
+              "end": 96,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 84,
+                "end": 87,
+                "ctxt": 0
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParam",
+                  "span": {
+                    "start": 85,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "span": {
+                      "start": 85,
+                      "end": 86,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "constraint": null,
+                  "default": null
+                }
+              ]
+            },
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 89,
+                "end": 95,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 91,
+                  "end": 95,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "shebang": null
+}

@@ -1,0 +1,193 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 106,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsAsExpr",
+      "span": {
+        "start": 0,
+        "end": 1,
+        "ctxt": 0
+      },
+      "expr": {
+        "span": {
+          "start": 0,
+          "end": 1,
+          "ctxt": 0
+        },
+        "value": "x",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeAnn": {
+        "type": "TsTypeRef",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "typeName": {
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
+          },
+          "value": "T",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeParams": null
+      }
+    },
+    {
+      "type": "TsAsExpr",
+      "span": {
+        "start": 8,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expr": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 8,
+          "end": 13,
+          "ctxt": 0
+        },
+        "operator": "<",
+        "left": {
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "right": {
+          "span": {
+            "start": 12,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": "y",
+          "typeAnnotation": null,
+          "optional": false
+        }
+      },
+      "typeAnn": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 17,
+          "end": 24,
+          "ctxt": 0
+        },
+        "kind": "boolean"
+      }
+    },
+    {
+      "type": "BinaryExpression",
+      "span": {
+        "start": 49,
+        "end": 66,
+        "ctxt": 0
+      },
+      "operator": "===",
+      "left": {
+        "span": {
+          "start": 49,
+          "end": 50,
+          "ctxt": 0
+        },
+        "value": "x",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "right": {
+        "type": "TsAsExpr",
+        "span": {
+          "start": 55,
+          "end": 56,
+          "ctxt": 0
+        },
+        "expr": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 55,
+            "end": 56,
+            "ctxt": 0
+          },
+          "value": 1.0
+        },
+        "typeAnn": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 60,
+            "end": 66,
+            "ctxt": 0
+          },
+          "kind": "number"
+        }
+      }
+    },
+    {
+      "type": "TsAsExpr",
+      "span": {
+        "start": 92,
+        "end": 100,
+        "ctxt": 0
+      },
+      "expr": {
+        "type": "TsAsExpr",
+        "span": {
+          "start": 92,
+          "end": 93,
+          "ctxt": 0
+        },
+        "expr": {
+          "span": {
+            "start": 92,
+            "end": 93,
+            "ctxt": 0
+          },
+          "value": "x",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeAnn": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 97,
+            "end": 100,
+            "ctxt": 0
+          },
+          "kind": "any"
+        }
+      },
+      "typeAnn": {
+        "type": "TsTypeRef",
+        "span": {
+          "start": 104,
+          "end": 105,
+          "ctxt": 0
+        },
+        "typeName": {
+          "span": {
+            "start": 104,
+            "end": 105,
+            "ctxt": 0
+          },
+          "value": "T",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeParams": null
+      }
+    }
+  ],
+  "shebang": null
+}

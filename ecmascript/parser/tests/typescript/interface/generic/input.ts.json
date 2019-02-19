@@ -1,0 +1,128 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 48,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDecl",
+      "span": {
+        "start": 10,
+        "end": 48,
+        "ctxt": 0
+      },
+      "id": {
+        "span": {
+          "start": 10,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "I",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 11,
+          "end": 45,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParam",
+            "span": {
+              "start": 12,
+              "end": 44,
+              "ctxt": 0
+            },
+            "name": {
+              "span": {
+                "start": 12,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 22,
+                "end": 28,
+                "ctxt": 0
+              },
+              "kind": "object"
+            },
+            "default": {
+              "type": "TsTypeLit",
+              "span": {
+                "start": 31,
+                "end": 44,
+                "ctxt": 0
+              },
+              "members": [
+                {
+                  "type": "TsPropertySignature",
+                  "span": {
+                    "start": 33,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "readonly": false,
+                  "key": {
+                    "span": {
+                      "start": 33,
+                      "end": 34,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnn": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 34,
+                      "end": 42,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 36,
+                        "end": 42,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 46,
+          "end": 48,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    }
+  ],
+  "shebang": null
+}

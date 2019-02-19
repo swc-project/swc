@@ -1,0 +1,121 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 66,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 7,
+        "end": 19,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 13,
+            "end": 18,
+            "ctxt": 0
+          },
+          "name": {
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 17,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": 0.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDecl",
+      "span": {
+        "start": 27,
+        "end": 66,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "span": {
+          "start": 37,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "N",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 39,
+          "end": 66,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 52,
+              "end": 64,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 58,
+                  "end": 63,
+                  "ctxt": 0
+                },
+                "name": {
+                  "span": {
+                    "start": 58,
+                    "end": 59,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 62,
+                    "end": 63,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "shebang": null
+}

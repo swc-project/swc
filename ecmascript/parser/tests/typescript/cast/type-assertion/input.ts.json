@@ -1,0 +1,37 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 11,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAssertion",
+      "span": {
+        "start": 1,
+        "end": 10,
+        "ctxt": 0
+      },
+      "expr": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 9,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": 1.0
+      },
+      "typeAnn": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 1,
+          "end": 7,
+          "ctxt": 0
+        },
+        "kind": "number"
+      }
+    }
+  ],
+  "shebang": null
+}

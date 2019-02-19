@@ -1,0 +1,66 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 34,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "ident": {
+        "span": {
+          "start": 27,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "Test",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "type": "Class",
+      "span": {
+        "start": 21,
+        "end": 34,
+        "ctxt": 0
+      },
+      "decorators": [
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 0,
+            "end": 20,
+            "ctxt": 0
+          },
+          "expr": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1,
+              "end": 20,
+              "ctxt": 0
+            },
+            "callee": {
+              "span": {
+                "start": 1,
+                "end": 10,
+                "ctxt": 0
+              },
+              "value": "decorator",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          }
+        }
+      ],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "shebang": null
+}

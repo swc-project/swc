@@ -15,31 +15,36 @@ pub enum JSXObject {
     Ident(Ident),
 }
 
-#[ast_node]
+#[ast_node("JSXMemberExpression")]
 pub struct JSXMemberExpr {
+    #[serde(rename = "object")]
     #[span(lo)]
     pub obj: JSXObject,
+
+    #[serde(rename = "property")]
     #[span(hi)]
     pub prop: Ident,
 }
 
 /// XML-based namespace syntax:
-#[ast_node]
+#[ast_node("JSXNamespacedName")]
 pub struct JSXNamespacedName {
+    #[serde(rename = "namespace")]
     #[span(lo)]
     pub ns: Ident,
     #[span(hi)]
     pub name: Ident,
 }
 
-#[ast_node]
+#[ast_node("JSXEmptyExpression")]
 #[derive(Copy)]
 pub struct JSXEmptyExpr {
     pub span: Span,
 }
 
-#[ast_node]
+#[ast_node("JSXExpressionContainer")]
 pub struct JSXExprContainer {
+    #[serde(rename = "expression")]
     #[span]
     pub expr: JSXExpr,
 }
@@ -51,8 +56,9 @@ pub enum JSXExpr {
     JSXEmptyExpr(JSXEmptyExpr),
 }
 
-#[ast_node]
+#[ast_node("JSXSpreadChild")]
 pub struct JSXSpreadChild {
+    #[serde(rename = "expression")]
     #[span]
     pub expr: Box<Expr>,
 }
@@ -64,13 +70,20 @@ pub enum JSXElementName {
     JSXNamespacedName(JSXNamespacedName),
 }
 
-#[ast_node]
+#[ast_node("JSXOpeningElement")]
 pub struct JSXOpeningElement {
     pub name: JSXElementName,
 
     pub span: Span,
+
+    #[serde(rename = "attributes")]
     pub attrs: Vec<JSXAttrOrSpread>,
+
     pub self_closing: bool,
+
+    /// Note: This field's name is differrent from one from babel because it is
+    /// misleading
+    #[serde(rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
 }
 
@@ -81,13 +94,13 @@ pub enum JSXAttrOrSpread {
     SpreadElement(SpreadElement),
 }
 
-#[ast_node]
+#[ast_node("JSXClosingElement")]
 pub struct JSXClosingElement {
     pub span: Span,
     pub name: JSXElementName,
 }
 
-#[ast_node]
+#[ast_node("JSXAttribute")]
 pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
@@ -109,14 +122,14 @@ pub enum JSXAttrValue {
     JSXFragment(JSXFragment),
 }
 
-#[ast_node]
+#[ast_node("JSXText")]
 pub struct JSXText {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
 }
 
-#[ast_node]
+#[ast_node("JSXElement")]
 pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
@@ -133,7 +146,7 @@ pub enum JSXElementChild {
     JSXFragment(JSXFragment),
 }
 
-#[ast_node]
+#[ast_node("JSXFragment")]
 pub struct JSXFragment {
     pub span: Span,
     pub opening: JSXOpeningFragment,
@@ -141,13 +154,13 @@ pub struct JSXFragment {
     pub closing: JSXClosingFragment,
 }
 
-#[ast_node]
+#[ast_node("JSXOpeningFragment")]
 #[derive(Copy)]
 pub struct JSXOpeningFragment {
     pub span: Span,
 }
 
-#[ast_node]
+#[ast_node("JSXClosingFragment")]
 #[derive(Copy)]
 pub struct JSXClosingFragment {
     pub span: Span,

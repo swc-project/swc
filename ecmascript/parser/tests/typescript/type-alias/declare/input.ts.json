@@ -1,0 +1,40 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 24,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDecl",
+      "span": {
+        "start": 0,
+        "end": 24,
+        "ctxt": 0
+      },
+      "declare": true,
+      "id": {
+        "span": {
+          "start": 13,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "T",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnn": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 17,
+          "end": 23,
+          "ctxt": 0
+        },
+        "kind": "number"
+      }
+    }
+  ],
+  "shebang": null
+}
