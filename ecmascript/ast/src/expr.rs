@@ -13,7 +13,7 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
@@ -363,7 +363,7 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     pub spread: Option<Span>,
