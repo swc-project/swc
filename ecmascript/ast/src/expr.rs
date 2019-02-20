@@ -97,12 +97,14 @@ pub enum Expr {
 #[ast_node("ThisExpression")]
 #[derive(Copy)]
 pub struct ThisExpr {
+    #[serde(default)]
     pub span: Span,
 }
 
 /// Array literal.
 #[ast_node("ArrayExpression")]
 pub struct ArrayLit {
+    #[serde(default)]
     pub span: Span,
     #[serde(rename = "elements")]
     pub elems: Vec<(Option<ExprOrSpread>)>,
@@ -111,6 +113,7 @@ pub struct ArrayLit {
 /// Object literal.
 #[ast_node("ObjectExpression")]
 pub struct ObjectLit {
+    #[serde(default)]
     pub span: Span,
     #[serde(rename = "properties")]
     pub props: Vec<PropOrSpread>,
@@ -135,6 +138,7 @@ pub struct SpreadElement {
 
 #[ast_node("UnaryExpression")]
 pub struct UnaryExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "operator")]
@@ -146,6 +150,7 @@ pub struct UnaryExpr {
 
 #[ast_node("UpdateExpression")]
 pub struct UpdateExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "operator")]
@@ -158,6 +163,7 @@ pub struct UpdateExpr {
 
 #[ast_node("BinaryExpression")]
 pub struct BinExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "operator")]
@@ -190,6 +196,7 @@ pub struct ClassExpr {
 
 #[ast_node("AssignmentExpression")]
 pub struct AssignExpr {
+    #[serde(default)]
     pub span: Span,
     #[serde(rename = "operator")]
     pub op: AssignOp,
@@ -199,6 +206,7 @@ pub struct AssignExpr {
 
 #[ast_node("MemberExpression")]
 pub struct MemberExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "object")]
@@ -212,6 +220,7 @@ pub struct MemberExpr {
 
 #[ast_node("ConditionalExpression")]
 pub struct CondExpr {
+    #[serde(default)]
     pub span: Span,
 
     pub test: Box<Expr>,
@@ -225,6 +234,7 @@ pub struct CondExpr {
 
 #[ast_node("CallExpression")]
 pub struct CallExpr {
+    #[serde(default)]
     pub span: Span,
 
     pub callee: ExprOrSuper,
@@ -239,6 +249,7 @@ pub struct CallExpr {
 
 #[ast_node("NewExpression")]
 pub struct NewExpr {
+    #[serde(default)]
     pub span: Span,
     pub callee: Box<Expr>,
 
@@ -252,6 +263,7 @@ pub struct NewExpr {
 
 #[ast_node("SequenceExpression")]
 pub struct SeqExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "expressions")]
@@ -260,6 +272,7 @@ pub struct SeqExpr {
 
 #[ast_node("ArrowFunctionExpression")]
 pub struct ArrowExpr {
+    #[serde(default)]
     pub span: Span,
     pub params: Vec<Pat>,
     pub body: BlockStmtOrExpr,
@@ -275,6 +288,7 @@ pub struct ArrowExpr {
 
 #[ast_node("YieldExpression")]
 pub struct YieldExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "argument")]
@@ -293,6 +307,7 @@ pub struct MetaPropExpr {
 
 #[ast_node("AwaitExpression")]
 pub struct AwaitExpr {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "argument")]
@@ -301,6 +316,7 @@ pub struct AwaitExpr {
 
 #[ast_node("TemplateLiteral")]
 pub struct Tpl {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "expressions")]
@@ -311,6 +327,7 @@ pub struct Tpl {
 
 #[ast_node("TaggedTemplateExpression")]
 pub struct TaggedTpl {
+    #[serde(default)]
     pub span: Span,
 
     pub tag: Box<Expr>,
@@ -325,6 +342,7 @@ pub struct TaggedTpl {
 
 #[ast_node("TemplateElement")]
 pub struct TplElement {
+    #[serde(default)]
     pub span: Span,
     pub tail: bool,
     pub cooked: Option<Str>,
@@ -333,6 +351,7 @@ pub struct TplElement {
 
 #[ast_node]
 pub struct ParenExpr {
+    #[serde(default)]
     pub span: Span,
     pub expr: Box<Expr>,
 }

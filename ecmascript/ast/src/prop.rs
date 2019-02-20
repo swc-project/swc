@@ -40,12 +40,14 @@ pub struct AssignProp {
 }
 #[ast_node("GetterProperty")]
 pub struct GetterProp {
+    #[serde(default)]
     pub span: Span,
     pub key: PropName,
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
 pub struct SetterProp {
+    #[serde(default)]
     pub span: Span,
     pub key: PropName,
     pub param: Pat,

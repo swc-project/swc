@@ -4,6 +4,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node("Module")]
 pub struct Module {
+    #[serde(default)]
     pub span: Span,
     pub body: Vec<ModuleItem>,
     pub shebang: Option<JsWord>,
@@ -11,6 +12,7 @@ pub struct Module {
 
 #[ast_node("Script")]
 pub struct Script {
+    #[serde(default)]
     pub span: Span,
     pub body: Vec<Stmt>,
     pub shebang: Option<JsWord>,

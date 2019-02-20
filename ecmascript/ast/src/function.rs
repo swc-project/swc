@@ -11,8 +11,10 @@ use swc_common::{ast_node, Span};
 pub struct Function {
     pub params: Vec<Pat>,
 
+    #[serde(default)]
     pub decorators: Vec<Decorator>,
 
+    #[serde(default)]
     pub span: Span,
 
     pub body: Option<BlockStmt>,

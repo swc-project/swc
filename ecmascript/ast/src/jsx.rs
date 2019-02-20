@@ -39,6 +39,7 @@ pub struct JSXNamespacedName {
 #[ast_node("JSXEmptyExpression")]
 #[derive(Copy)]
 pub struct JSXEmptyExpr {
+    #[serde(default)]
     pub span: Span,
 }
 
@@ -74,6 +75,7 @@ pub enum JSXElementName {
 pub struct JSXOpeningElement {
     pub name: JSXElementName,
 
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "attributes")]
@@ -96,12 +98,14 @@ pub enum JSXAttrOrSpread {
 
 #[ast_node("JSXClosingElement")]
 pub struct JSXClosingElement {
+    #[serde(default)]
     pub span: Span,
     pub name: JSXElementName,
 }
 
 #[ast_node("JSXAttribute")]
 pub struct JSXAttr {
+    #[serde(default)]
     pub span: Span,
     pub name: JSXAttrName,
     /// Babel uses Expr instead of JSXAttrValue
@@ -124,6 +128,7 @@ pub enum JSXAttrValue {
 
 #[ast_node("JSXText")]
 pub struct JSXText {
+    #[serde(default)]
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
@@ -131,6 +136,7 @@ pub struct JSXText {
 
 #[ast_node("JSXElement")]
 pub struct JSXElement {
+    #[serde(default)]
     pub span: Span,
     pub opening: JSXOpeningElement,
     pub children: Vec<JSXElementChild>,
@@ -148,6 +154,7 @@ pub enum JSXElementChild {
 
 #[ast_node("JSXFragment")]
 pub struct JSXFragment {
+    #[serde(default)]
     pub span: Span,
     pub opening: JSXOpeningFragment,
     pub children: Vec<JSXElementChild>,
@@ -157,11 +164,13 @@ pub struct JSXFragment {
 #[ast_node("JSXOpeningFragment")]
 #[derive(Copy)]
 pub struct JSXOpeningFragment {
+    #[serde(default)]
     pub span: Span,
 }
 
 #[ast_node("JSXClosingFragment")]
 #[derive(Copy)]
 pub struct JSXClosingFragment {
+    #[serde(default)]
     pub span: Span,
 }

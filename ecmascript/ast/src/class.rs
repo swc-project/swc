@@ -16,16 +16,23 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub struct Class {
+    #[serde(default)]
     pub span: Span,
 
+    #[serde(default)]
     pub decorators: Vec<Decorator>,
 
     pub body: Vec<ClassMember>,
+
+    #[serde(default)]
     pub super_class: Option<Box<Expr>>,
 
     pub is_abstract: bool,
 
+    #[serde(default)]
     pub type_params: Option<TsTypeParamDecl>,
+
+    #[serde(default)]
     pub super_type_params: Option<TsTypeParamInstantiation>,
 
     /// Typescript extension.
@@ -49,6 +56,7 @@ pub type PrivateProp = ClassProperty<PrivateName>;
 
 #[ast_node]
 pub struct ClassProperty<K> {
+    #[serde(default)]
     pub span: Span,
 
     #[cfg_attr(feature = "fold", fold(bound))]
@@ -58,6 +66,7 @@ pub struct ClassProperty<K> {
     pub type_ann: Option<TsTypeAnn>,
 
     pub is_static: bool,
+    #[serde(default)]
     pub decorators: Vec<Decorator>,
     pub computed: bool,
 
@@ -76,6 +85,7 @@ pub type PrivateMethod = ClassMethod<PrivateName>;
 
 #[ast_node("Constructor")]
 pub struct Constructor {
+    #[serde(default)]
     pub span: Span,
     pub key: PropName,
     pub params: Vec<PatOrTsParamProp>,
@@ -86,6 +96,7 @@ pub struct Constructor {
 
 #[ast_node]
 pub struct ClassMethod<K> {
+    #[serde(default)]
     pub span: Span,
     #[cfg_attr(feature = "fold", fold(bound))]
     pub key: K,
@@ -106,6 +117,7 @@ pub struct ClassMethod<K> {
 
 #[ast_node("Decorator")]
 pub struct Decorator {
+    #[serde(default)]
     pub span: Span,
 
     pub expr: Box<Expr>,

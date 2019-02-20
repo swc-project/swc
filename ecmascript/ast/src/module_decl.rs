@@ -24,6 +24,7 @@ pub enum ModuleDecl {
 
 #[ast_node("ImportDeclaration")]
 pub struct ImportDecl {
+    #[serde(default)]
     pub span: Span,
     pub specifiers: Vec<ImportSpecifier>,
     #[serde(rename = "source")]
@@ -33,6 +34,7 @@ pub struct ImportDecl {
 /// `export * from 'mod'`
 #[ast_node("ExportAllDeclaration")]
 pub struct ExportAll {
+    #[serde(default)]
     pub span: Span,
     #[serde(rename = "source")]
     pub src: Str,
@@ -42,6 +44,7 @@ pub struct ExportAll {
 /// `export { foo as bar } from 'mod'`
 #[ast_node("ExportNamedDeclaration")]
 pub struct NamedExport {
+    #[serde(default)]
     pub span: Span,
     pub specifiers: Vec<ExportSpecifier>,
 
@@ -68,12 +71,14 @@ pub enum ImportSpecifier {
 /// e.g. `import foo from 'mod.js'`
 #[ast_node]
 pub struct ImportDefault {
+    #[serde(default)]
     pub span: Span,
     pub local: Ident,
 }
 /// e.g. `import * as foo from 'mod.js'`.
 #[ast_node]
 pub struct ImportStarAs {
+    #[serde(default)]
     pub span: Span,
     pub local: Ident,
 }
@@ -82,6 +87,7 @@ pub struct ImportStarAs {
 /// 'mod.js'`
 #[ast_node]
 pub struct ImportSpecific {
+    #[serde(default)]
     pub span: Span,
     pub local: Ident,
     pub imported: Option<Ident>,
@@ -97,6 +103,7 @@ pub enum ExportSpecifier {
 /// `export * as foo from 'src';`
 #[ast_node("ExportNamespaceSpecifer")]
 pub struct NamespaceExportSpecifier {
+    #[serde(default)]
     pub span: Span,
     pub name: Ident,
 }
@@ -109,6 +116,7 @@ pub struct DefaultExportSpecifier {
 
 #[ast_node("ExportSpecifier")]
 pub struct NamedExportSpecifier {
+    #[serde(default)]
     pub span: Span,
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,

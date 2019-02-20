@@ -19,6 +19,7 @@ pub enum Pat {
 
 #[ast_node("ArrayPattern")]
 pub struct ArrayPat {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "elements")]
@@ -30,6 +31,7 @@ pub struct ArrayPat {
 
 #[ast_node("ObjectPattern")]
 pub struct ObjectPat {
+    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "properties")]
@@ -41,6 +43,7 @@ pub struct ObjectPat {
 
 #[ast_node("AssignmentPattern")]
 pub struct AssignPat {
+    #[serde(default)]
     pub span: Span,
 
     pub left: Box<Pat>,
@@ -84,6 +87,7 @@ pub struct KeyValuePatProp {
 /// `{key}` or `{key = value}`
 #[ast_node("AssignPatternProperty")]
 pub struct AssignPatProp {
+    #[serde(default)]
     pub span: Span,
     pub key: Ident,
 

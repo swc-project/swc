@@ -15,6 +15,7 @@ pub enum Lit {
 
 #[ast_node("StringLiteral")]
 pub struct Str {
+    #[serde(default)]
     pub span: Span,
     pub value: JsWord,
     /// This includes line escape.
@@ -30,6 +31,7 @@ impl Str {
 #[ast_node("BooleanLiteral")]
 #[derive(Copy)]
 pub struct Bool {
+    #[serde(default)]
     pub span: Span,
     pub value: bool,
 }
@@ -37,11 +39,13 @@ pub struct Bool {
 #[ast_node("NullLiteral")]
 #[derive(Copy)]
 pub struct Null {
+    #[serde(default)]
     pub span: Span,
 }
 
 #[ast_node("RegExpLiteral")]
 pub struct Regex {
+    #[serde(default)]
     pub span: Span,
     #[serde(rename = "flags")]
     pub exp: Str,
@@ -53,6 +57,7 @@ pub type RegexFlags = Str;
 #[ast_node("NumericLiteral")]
 #[derive(Copy)]
 pub struct Number {
+    #[serde(default)]
     pub span: Span,
     pub value: f64,
 }
