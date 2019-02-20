@@ -32,6 +32,9 @@ use swc_macros_common::prelude::*;
 ///# Output
 ///
 ///  - `pub fn as_str(&self) -> &'static str`
+///  - `impl serde::Serilaize`
+///  - `impl serde::Deserilaize`
+///  - `impl FromStr`
 ///  - `impl Debug`
 ///  - `impl Display`
 ///
@@ -41,21 +44,19 @@ use swc_macros_common::prelude::*;
 ///```
 /// #[macro_use]
 /// extern crate string_enum;
-///
+/// extern crate serde;
+/// 
 /// #[derive(StringEnum)]
 /// pub enum Tokens {
 ///     /// `a`
 ///     A,
-///     ///`struct-like`
-///     StructLike {},
-///     /// `tuple-like`
-///     TupleLike(u8),
+///     /// `bar`
+///     B
 /// }
 /// # fn main() {
 ///
 /// assert_eq!(Tokens::A.as_str(), "a");
-/// assert_eq!(Tokens::StructLike {}.as_str(), "struct-like");
-/// assert_eq!(Tokens::TupleLike(13).as_str(), "tuple-like");
+/// assert_eq!(Tokens::B.as_str(), "bar");
 ///
 /// assert_eq!(Tokens::A.to_string(), "a");
 /// assert_eq!(format!("{:?}", Tokens::A), format!("{:?}", "a"));
