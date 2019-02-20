@@ -228,7 +228,9 @@ impl Scope {
                 })
                 .or_insert_with(|| Some((specifier.local.sym.clone(), specifier.local.span)));
 
-            self.import_types.insert(import.src.value, true);
+            if &*import.src.value != "@swc/helpers" {
+                self.import_types.insert(import.src.value, true);
+            }
         } else {
             self.imports
                 .entry(import.src.value.clone())

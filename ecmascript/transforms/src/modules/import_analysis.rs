@@ -81,9 +81,11 @@ impl Visit<ImportDecl> for ImportAnalyzer {
                 _ => false,
             }
         {
-            self.scope
-                .import_types
-                .insert(import.src.value.clone(), true);
+            if &*import.src.value != "@swc/helpers" {
+                self.scope
+                    .import_types
+                    .insert(import.src.value.clone(), true);
+            }
         } else {
             for s in &import.specifiers {
                 match *s {
