@@ -1,6 +1,4 @@
 #![allow(missing_copy_implementations)]
-use serde::{Deserialize, Serialize};
-
 use crate::{
     class::Decorator,
     expr::Expr,
@@ -9,6 +7,11 @@ use crate::{
     module::ModuleItem,
     pat::{AssignPat, ObjectPat, RestPat},
 };
+use serde::{
+    de::{self, Unexpected, Visitor},
+    Deserialize, Deserializer, Serialize,
+};
+use std::fmt;
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span};
@@ -452,6 +455,47 @@ impl Serialize for TruePlusMinus {
             TruePlusMinus::Plus => serializer.serialize_str("+"),
             TruePlusMinus::Minus => serializer.serialize_str("-"),
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for TruePlusMinus {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct TruePlusMinusVisitor;
+
+        impl<'de> Visitor<'de> for TruePlusMinusVisitor {
+            type Value = TruePlusMinus;
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("one of '+', '-', true")
+            }
+
+            fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+            where
+                E: de::Error,
+            {
+                match value {
+                    "+" => Ok(TruePlusMinus::Plus),
+                    "-" => Ok(TruePlusMinus::Minus),
+                    "true" => Ok(TruePlusMinus::True),
+                    _ => Err(de::Error::invalid_value(Unexpected::Str(value), &self)),
+                }
+            }
+
+            fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E>
+            where
+                E: de::Error,
+            {
+                if value {
+                    Ok(TruePlusMinus::True)
+                } else {
+                    Err(de::Error::invalid_value(Unexpected::Bool(value), &self))
+                }
+            }
+        }
+
+        deserializer.deserialize_any(TruePlusMinusVisitor)
     }
 }
 
