@@ -10,7 +10,8 @@ pub enum Tokens {
     ///`a`
     A,
     /// `b`
-B,}
+    B,
+}
 
 impl Assert for Tokens {}
 
