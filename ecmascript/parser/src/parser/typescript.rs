@@ -1437,6 +1437,8 @@ impl<'a, I: Input> Parser<'a, I> {
                     Some(TsKeywordTypeKind::TsSymbolKeyword)
                 } else if is!("unknown") {
                     Some(TsKeywordTypeKind::TsUnknownKeyword)
+                } else if is!("undefined") {
+                    Some(TsKeywordTypeKind::TsUndefinedKeyword)
                 } else {
                     None
                 };

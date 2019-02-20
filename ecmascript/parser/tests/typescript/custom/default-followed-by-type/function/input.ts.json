@@ -1,0 +1,253 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 99,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "ident": {
+        "span": {
+          "start": 9,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "func",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "type": "Function",
+      "params": [
+        {
+          "type": "AssignmentPattern",
+          "span": {
+            "start": 14,
+            "end": 40,
+            "ctxt": 0
+          },
+          "left": {
+            "span": {
+              "start": 14,
+              "end": 22,
+              "ctxt": 0
+            },
+            "value": "greeting",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 22,
+                "end": 30,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 24,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            },
+            "optional": false
+          },
+          "right": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 33,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "Hello",
+            "hasEscape": false
+          },
+          "typeAnnotation": null
+        },
+        {
+          "span": {
+            "start": 42,
+            "end": 48,
+            "ctxt": 0
+          },
+          "value": "target",
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 48,
+              "end": 56,
+              "ctxt": 0
+            },
+            "type_annotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 50,
+                "end": 56,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          },
+          "optional": false
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 98,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 58,
+          "end": 98,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 64,
+              "end": 96,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 71,
+                "end": 95,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "span": {
+                    "start": 74,
+                    "end": 82,
+                    "ctxt": 0
+                  },
+                  "value": "greeting",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                {
+                  "span": {
+                    "start": 86,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": "target",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              ],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 72,
+                    "end": 72,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 72,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 72,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "value": "",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 83,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 83,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "value": " ",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 83,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "value": " ",
+                    "hasEscape": false
+                  }
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 93,
+                    "end": 94,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 93,
+                      "end": 94,
+                      "ctxt": 0
+                    },
+                    "value": "!",
+                    "hasEscape": false
+                  },
+                  "raw": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 93,
+                      "end": 94,
+                      "ctxt": 0
+                    },
+                    "value": "!",
+                    "hasEscape": false
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 98,
+        "end": 99,
+        "ctxt": 0
+      }
+    }
+  ],
+  "shebang": null
+}

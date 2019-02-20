@@ -21,27 +21,33 @@ pub enum Decl {
     TsModule(TsModuleDecl),
 }
 
-#[ast_node]
+#[ast_node("FunctionDeclaration")]
 pub struct FnDecl {
     pub ident: Ident,
     pub declare: bool,
+
+    #[serde(flatten)]
     #[span]
     pub function: Function,
 }
 
-#[ast_node]
+#[ast_node("ClassDeclaration")]
 pub struct ClassDecl {
     pub ident: Ident,
     pub declare: bool,
+
+    #[serde(flatten)]
     #[span]
     pub class: Class,
 }
 
-#[ast_node]
+#[ast_node("VariableDeclaration")]
 pub struct VarDecl {
+    #[serde(default)]
     pub span: Span,
     pub kind: VarDeclKind,
     pub declare: bool,
+    #[serde(rename = "declarations")]
     pub decls: Vec<VarDeclarator>,
 }
 
@@ -56,8 +62,9 @@ pub enum VarDeclKind {
     Const,
 }
 
-#[ast_node]
+#[ast_node("VariableDeclarator")]
 pub struct VarDeclarator {
+    #[serde(default)]
     pub span: Span,
 
     pub name: Pat,

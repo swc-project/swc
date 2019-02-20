@@ -1,0 +1,201 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 87,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 87,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 86,
+            "ctxt": 0
+          },
+          "name": {
+            "span": {
+              "start": 6,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "table",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 14,
+              "end": 86,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "key": {
+                  "span": {
+                    "start": 18,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "put",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "type": "Function",
+                "params": [
+                  {
+                    "span": {
+                      "start": 48,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "value": "value",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 53,
+                        "end": 56,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "type": "TsTypeRef",
+                        "span": {
+                          "start": 55,
+                          "end": 56,
+                          "ctxt": 0
+                        },
+                        "typeName": {
+                          "span": {
+                            "start": 55,
+                            "end": 56,
+                            "ctxt": 0
+                          },
+                          "value": "T",
+                          "typeAnnotation": null,
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    },
+                    "optional": false
+                  }
+                ],
+                "decorators": [],
+                "span": {
+                  "start": 18,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 58,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": {
+                  "type": "TsTypeParameterDeclaration",
+                  "span": {
+                    "start": 21,
+                    "end": 47,
+                    "ctxt": 0
+                  },
+                  "parameters": [
+                    {
+                      "type": "TsTypeParam",
+                      "span": {
+                        "start": 22,
+                        "end": 46,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "span": {
+                          "start": 22,
+                          "end": 23,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "typeAnnotation": null,
+                        "optional": false
+                      },
+                      "constraint": {
+                        "type": "TsTypeLit",
+                        "span": {
+                          "start": 32,
+                          "end": 46,
+                          "ctxt": 0
+                        },
+                        "members": [
+                          {
+                            "type": "TsPropertySignature",
+                            "span": {
+                              "start": 34,
+                              "end": 44,
+                              "ctxt": 0
+                            },
+                            "readonly": false,
+                            "key": {
+                              "span": {
+                                "start": 34,
+                                "end": 36,
+                                "ctxt": 0
+                              },
+                              "value": "id",
+                              "typeAnnotation": null,
+                              "optional": false
+                            },
+                            "computed": false,
+                            "optional": false,
+                            "init": null,
+                            "params": [],
+                            "typeAnn": {
+                              "type": "TsTypeAnnotation",
+                              "span": {
+                                "start": 36,
+                                "end": 44,
+                                "ctxt": 0
+                              },
+                              "type_annotation": {
+                                "type": "TsKeywordType",
+                                "span": {
+                                  "start": 38,
+                                  "end": 44,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
+                            },
+                            "typeParams": null
+                          }
+                        ]
+                      },
+                      "default": null
+                    }
+                  ]
+                },
+                "returnType": null
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "shebang": null
+}

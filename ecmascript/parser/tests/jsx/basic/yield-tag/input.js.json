@@ -1,0 +1,103 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "ident": {
+        "span": {
+          "start": 9,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "it",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "type": "Function",
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 35,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 13,
+          "end": 35,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "YieldExpression",
+            "span": {
+              "start": 19,
+              "end": 32,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "JSXElement",
+              "span": {
+                "start": 25,
+                "end": 32,
+                "ctxt": 0
+              },
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "span": {
+                    "start": 26,
+                    "end": 27,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "span": {
+                  "start": 26,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "attributes": [],
+                "selfClosing": false,
+                "typeArguments": null
+              },
+              "children": [],
+              "closing": {
+                "type": "JSXClosingElement",
+                "span": {
+                  "start": 30,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "name": {
+                  "span": {
+                    "start": 30,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "typeAnnotation": null,
+                  "optional": false
+                }
+              }
+            },
+            "delegate": false
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "shebang": null
+}

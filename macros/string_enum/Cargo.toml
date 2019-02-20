@@ -20,4 +20,6 @@ quote = "0.6.11"
 version = "0.15.26"
 features = ["full", "parsing", "printing", "extra-traits"]
 
+[dev-dependencies]
+serde = "1"
 

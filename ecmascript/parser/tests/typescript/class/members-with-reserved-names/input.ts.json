@@ -1,0 +1,92 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "ident": {
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "declare": false,
+      "type": "Class",
+      "span": {
+        "start": 0,
+        "end": 38,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 21,
+            "end": 36,
+            "ctxt": 0
+          },
+          "key": {
+            "span": {
+              "start": 21,
+              "end": 27,
+              "ctxt": 0
+            },
+            "value": "delete",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "function": {
+            "type": "Function",
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 21,
+              "end": 36,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 29,
+                "end": 35,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 31,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": "public",
+          "isAbstract": false,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "shebang": null
+}

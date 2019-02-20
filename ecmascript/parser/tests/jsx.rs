@@ -2,6 +2,7 @@
 #![feature(specialization)]
 #![feature(test)]
 
+extern crate serde_json;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
@@ -155,9 +156,12 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 // Parse source
                 let module = parse_module(cm, handler, &path)?;
 
-                if StdErr::from(format!("{:#?}", module))
-                    .compare_to_file(format!("{}.stdout", path.display()))
-                    .is_err()
+                if StdErr::from(
+                    serde_json::to_string_pretty(&module)
+                        .expect("failed to serialize module as json"),
+                )
+                .compare_to_file(format!("{}.json", path.display()))
+                .is_err()
                 {
                     panic!()
                 }

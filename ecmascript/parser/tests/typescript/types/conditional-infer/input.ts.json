@@ -1,0 +1,169 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 48,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDecl",
+      "span": {
+        "start": 0,
+        "end": 48,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "span": {
+          "start": 5,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "Element",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 12,
+          "end": 15,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParam",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "name": {
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "T",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "typeAnn": {
+        "type": "TsConditionalType",
+        "span": {
+          "start": 18,
+          "end": 47,
+          "ctxt": 0
+        },
+        "checkType": {
+          "type": "TsTypeRef",
+          "span": {
+            "start": 18,
+            "end": 19,
+            "ctxt": 0
+          },
+          "typeName": {
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
+            },
+            "value": "T",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        },
+        "extendsType": {
+          "type": "TsArrayType",
+          "span": {
+            "start": 28,
+            "end": 39,
+            "ctxt": 0
+          },
+          "elemType": {
+            "type": "TsParenthesizedType",
+            "span": {
+              "start": 28,
+              "end": 37,
+              "ctxt": 0
+            },
+            "typeAnn": {
+              "type": "TsInferType",
+              "span": {
+                "start": 29,
+                "end": 36,
+                "ctxt": 0
+              },
+              "typeParam": {
+                "type": "TsTypeParam",
+                "span": {
+                  "start": 35,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "name": {
+                  "span": {
+                    "start": 35,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "value": "U",
+                  "typeAnnotation": null,
+                  "optional": false
+                },
+                "constraint": null,
+                "default": null
+              }
+            }
+          }
+        },
+        "trueType": {
+          "type": "TsTypeRef",
+          "span": {
+            "start": 42,
+            "end": 43,
+            "ctxt": 0
+          },
+          "typeName": {
+            "span": {
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "U",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        },
+        "falseType": {
+          "type": "TsTypeRef",
+          "span": {
+            "start": 46,
+            "end": 47,
+            "ctxt": 0
+          },
+          "typeName": {
+            "span": {
+              "start": 46,
+              "end": 47,
+              "ctxt": 0
+            },
+            "value": "T",
+            "typeAnnotation": null,
+            "optional": false
+          },
+          "typeParams": null
+        }
+      }
+    }
+  ],
+  "shebang": null
+}

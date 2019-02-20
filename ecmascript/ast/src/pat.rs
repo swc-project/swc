@@ -17,35 +17,54 @@ pub enum Pat {
     Expr(Box<Expr>),
 }
 
-#[ast_node]
+#[ast_node("ArrayPattern")]
 pub struct ArrayPat {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "elements")]
     pub elems: Vec<(Option<Pat>)>,
+
+    #[serde(rename = "type_annotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
-#[ast_node]
+#[ast_node("ObjectPattern")]
 pub struct ObjectPat {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "properties")]
     pub props: Vec<ObjectPatProp>,
+
+    #[serde(rename = "type_annotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
-#[ast_node]
+#[ast_node("AssignmentPattern")]
 pub struct AssignPat {
+    #[serde(default)]
     pub span: Span,
+
     pub left: Box<Pat>,
+
     pub right: Box<Expr>,
+
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
 /// EsTree `RestElement`
-#[ast_node]
+#[ast_node("RestElement")]
 pub struct RestPat {
     #[span(lo)]
     pub dot3_token: Span,
+
+    #[serde(rename = "argument")]
     #[span(hi)]
     pub arg: Box<Pat>,
+
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -57,16 +76,18 @@ pub enum ObjectPatProp {
 }
 
 /// `{key: value}`
-#[ast_node]
+#[ast_node("KeyValuePatternProperty")]
 pub struct KeyValuePatProp {
     #[span(lo)]
     pub key: PropName,
+
     #[span(hi)]
     pub value: Box<Pat>,
 }
 /// `{key}` or `{key = value}`
-#[ast_node]
+#[ast_node("AssignPatternProperty")]
 pub struct AssignPatProp {
+    #[serde(default)]
     pub span: Span,
     pub key: Ident,
 

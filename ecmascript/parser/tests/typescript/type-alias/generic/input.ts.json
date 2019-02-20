@@ -1,0 +1,79 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 14,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDecl",
+      "span": {
+        "start": 0,
+        "end": 14,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "T",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 6,
+          "end": 9,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParam",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "name": {
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "value": "U",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "typeAnn": {
+        "type": "TsTypeRef",
+        "span": {
+          "start": 12,
+          "end": 13,
+          "ctxt": 0
+        },
+        "typeName": {
+          "span": {
+            "start": 12,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": "U",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeParams": null
+      }
+    }
+  ],
+  "shebang": null
+}

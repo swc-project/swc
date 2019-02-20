@@ -1,0 +1,56 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 19,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "AssignmentExpression",
+      "span": {
+        "start": 0,
+        "end": 18,
+        "ctxt": 0
+      },
+      "operator": "=",
+      "left": {
+        "type": "TsAsExpr",
+        "span": {
+          "start": 1,
+          "end": 2,
+          "ctxt": 0
+        },
+        "expr": {
+          "span": {
+            "start": 1,
+            "end": 2,
+            "ctxt": 0
+          },
+          "value": "a",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeAnn": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 6,
+            "end": 12,
+            "ctxt": 0
+          },
+          "kind": "number"
+        }
+      },
+      "right": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 16,
+          "end": 18,
+          "ctxt": 0
+        },
+        "value": 42.0
+      }
+    }
+  ],
+  "shebang": null
+}

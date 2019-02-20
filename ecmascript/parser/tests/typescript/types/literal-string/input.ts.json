@@ -1,0 +1,68 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 12,
+            "ctxt": 0
+          },
+          "name": {
+            "span": {
+              "start": 4,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5,
+                "end": 12,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsLitType",
+                "span": {
+                  "start": 7,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "lit": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 7,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "hasEscape": false
+                }
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "shebang": null
+}

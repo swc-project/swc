@@ -4,6 +4,7 @@ pub use self::{
 };
 use crate::sync::Lock;
 use rustc_data_structures::stable_hasher::StableHasher;
+use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
     cell::Cell,
@@ -122,7 +123,7 @@ impl FileName {
 /// `SpanData` is public because `Span` uses a thread-local interner and can't
 /// be sent to other threads, but some pieces of performance infra run in a
 /// separate thread. Using `Span` is generally preferred.
-#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd)]
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Deserialize)]
 pub struct SpanData {
     pub lo: BytePos,
     pub hi: BytePos,
@@ -440,10 +441,11 @@ impl Default for Span {
 }
 
 fn default_span_debug(span: Span, f: &mut fmt::Formatter) -> fmt::Result {
+    let span = span.data();
     f.debug_struct("Span")
-        .field("lo", &span.lo())
-        .field("hi", &span.hi())
-        .field("ctxt", &span.ctxt())
+        .field("lo", &span.lo)
+        .field("hi", &span.hi)
+        .field("ctxt", &span.ctxt)
         .finish()
 }
 
@@ -826,7 +828,7 @@ pub trait Pos {
 
 /// A byte offset. Keep this small (currently 32-bits), as AST contains
 /// a lot of them.
-#[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 pub struct BytePos(pub u32);
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset

@@ -13,8 +13,9 @@ pub enum Lit {
     JSXText(JSXText),
 }
 
-#[ast_node]
+#[ast_node("StringLiteral")]
 pub struct Str {
+    #[serde(default)]
     pub span: Span,
     pub value: JsWord,
     /// This includes line escape.
@@ -27,31 +28,36 @@ impl Str {
     }
 }
 
-#[ast_node]
+#[ast_node("BooleanLiteral")]
 #[derive(Copy)]
 pub struct Bool {
+    #[serde(default)]
     pub span: Span,
     pub value: bool,
 }
 
-#[ast_node]
+#[ast_node("NullLiteral")]
 #[derive(Copy)]
 pub struct Null {
+    #[serde(default)]
     pub span: Span,
 }
 
-#[ast_node]
+#[ast_node("RegExpLiteral")]
 pub struct Regex {
+    #[serde(default)]
     pub span: Span,
+    #[serde(rename = "flags")]
     pub exp: Str,
     pub flags: Option<RegexFlags>,
 }
 
 pub type RegexFlags = Str;
 
-#[ast_node]
+#[ast_node("NumericLiteral")]
 #[derive(Copy)]
 pub struct Number {
+    #[serde(default)]
     pub span: Span,
     pub value: f64,
 }

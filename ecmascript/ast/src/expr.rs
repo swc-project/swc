@@ -13,6 +13,7 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
+use serde::Serialize;
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
@@ -93,23 +94,28 @@ pub enum Expr {
     PrivateName(PrivateName),
 }
 
-#[ast_node]
+#[ast_node("ThisExpression")]
 #[derive(Copy)]
 pub struct ThisExpr {
+    #[serde(default)]
     pub span: Span,
 }
 
 /// Array literal.
-#[ast_node]
+#[ast_node("ArrayExpression")]
 pub struct ArrayLit {
+    #[serde(default)]
     pub span: Span,
+    #[serde(rename = "elements")]
     pub elems: Vec<(Option<ExprOrSpread>)>,
 }
 
 /// Object literal.
-#[ast_node]
+#[ast_node("ObjectExpression")]
 pub struct ObjectLit {
+    #[serde(default)]
     pub span: Span,
+    #[serde(rename = "properties")]
     pub props: Vec<PropOrSpread>,
 }
 
@@ -120,34 +126,47 @@ pub enum PropOrSpread {
     Spread(SpreadElement),
 }
 
-#[ast_node]
+#[ast_node("SpreadElement")]
 pub struct SpreadElement {
+    #[serde(rename = "spread")]
     #[span(lo)]
     pub dot3_token: Span,
+    #[serde(rename = "arguments")]
     #[span(hi)]
     pub expr: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("UnaryExpression")]
 pub struct UnaryExpr {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "operator")]
     pub op: UnaryOp,
 
+    #[serde(rename = "argument")]
     pub arg: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("UpdateExpression")]
 pub struct UpdateExpr {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "operator")]
     pub op: UpdateOp,
     pub prefix: bool,
 
+    #[serde(rename = "argument")]
     pub arg: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("BinaryExpression")]
 pub struct BinExpr {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "operator")]
     pub op: BinaryOp,
 
     pub left: Box<Expr>,
@@ -156,118 +175,174 @@ pub struct BinExpr {
 }
 
 /// Function expression.
-#[ast_node]
+#[ast_node("FunctionExpression")]
 pub struct FnExpr {
     pub ident: Option<Ident>,
+
+    #[serde(flatten)]
     #[span]
     pub function: Function,
 }
 
 /// Class expression.
-#[ast_node]
+#[ast_node("ClassExpression")]
 pub struct ClassExpr {
     pub ident: Option<Ident>,
+
+    #[serde(flatten)]
     #[span]
     pub class: Class,
 }
 
-#[ast_node]
+#[ast_node("AssignmentExpression")]
 pub struct AssignExpr {
+    #[serde(default)]
     pub span: Span,
+    #[serde(rename = "operator")]
     pub op: AssignOp,
     pub left: PatOrExpr,
     pub right: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("MemberExpression")]
 pub struct MemberExpr {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "object")]
     pub obj: ExprOrSuper,
+
+    #[serde(rename = "property")]
     pub prop: Box<Expr>,
+
     pub computed: bool,
 }
 
-#[ast_node]
+#[ast_node("ConditionalExpression")]
 pub struct CondExpr {
+    #[serde(default)]
     pub span: Span,
+
     pub test: Box<Expr>,
+
+    #[serde(rename = "consequent")]
     pub cons: Box<Expr>,
+
+    #[serde(rename = "alternate")]
     pub alt: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("CallExpression")]
 pub struct CallExpr {
+    #[serde(default)]
     pub span: Span,
+
     pub callee: ExprOrSuper,
+
+    #[serde(rename = "arguments")]
     pub args: Vec<ExprOrSpread>,
+
+    #[serde(rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-#[ast_node]
+#[ast_node("NewExpression")]
 pub struct NewExpr {
+    #[serde(default)]
     pub span: Span,
     pub callee: Box<Expr>,
+
+    #[serde(rename = "arguments")]
     pub args: Option<(Vec<ExprOrSpread>)>,
+
+    #[serde(rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-#[ast_node]
+#[ast_node("SequenceExpression")]
 pub struct SeqExpr {
-    /// TODO: Calculate
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "expressions")]
     pub exprs: Vec<(Box<Expr>)>,
 }
 
-#[ast_node]
+#[ast_node("ArrowFunctionExpression")]
 pub struct ArrowExpr {
+    #[serde(default)]
     pub span: Span,
     pub params: Vec<Pat>,
     pub body: BlockStmtOrExpr,
+    #[serde(rename = "async")]
     pub is_async: bool,
+    #[serde(rename = "generator")]
     pub is_generator: bool,
+
+    #[serde(rename = "typeParameters")]
     pub type_params: Option<TsTypeParamDecl>,
     pub return_type: Option<TsTypeAnn>,
 }
 
-#[ast_node]
+#[ast_node("YieldExpression")]
 pub struct YieldExpr {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "argument")]
     pub arg: Option<(Box<Expr>)>,
+
     pub delegate: bool,
 }
-#[ast_node]
+#[ast_node("MetaProperty")]
 pub struct MetaPropExpr {
     #[span(lo)]
     pub meta: Ident,
+    #[serde(rename = "property")]
     #[span(hi)]
     pub prop: Ident,
 }
-#[ast_node]
+
+#[ast_node("AwaitExpression")]
 pub struct AwaitExpr {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "argument")]
     pub arg: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("TemplateLiteral")]
 pub struct Tpl {
+    #[serde(default)]
     pub span: Span,
+
+    #[serde(rename = "expressions")]
     pub exprs: Vec<(Box<Expr>)>,
+
     pub quasis: Vec<TplElement>,
 }
 
-#[ast_node]
+#[ast_node("TaggedTemplateExpression")]
 pub struct TaggedTpl {
+    #[serde(default)]
     pub span: Span,
+
     pub tag: Box<Expr>,
+
+    #[serde(rename = "expressions")]
     pub exprs: Vec<(Box<Expr>)>,
     pub quasis: Vec<TplElement>,
+
+    #[serde(rename = "typeParameters")]
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-#[ast_node]
+#[ast_node("TemplateElement")]
 pub struct TplElement {
+    #[serde(default)]
     pub span: Span,
     pub tail: bool,
     pub cooked: Option<Str>,
@@ -276,6 +351,7 @@ pub struct TplElement {
 
 #[ast_node]
 pub struct ParenExpr {
+    #[serde(default)]
     pub span: Span,
     pub expr: Box<Expr>,
 }
@@ -287,7 +363,7 @@ pub enum ExprOrSuper {
     Expr(Box<Expr>),
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
     pub spread: Option<Span>,

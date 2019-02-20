@@ -7,6 +7,7 @@
 #![deny(variant_size_differences)]
 
 extern crate enum_kind;
+extern crate serde;
 #[macro_use]
 extern crate string_enum;
 extern crate swc_atoms;
@@ -35,9 +36,9 @@ pub use self::{
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem, Script},
     module_decl::{
-        ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
-        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
-        NamespaceExportSpecifier,
+        DefaultExportSpecifier, ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl,
+        ImportDefault, ImportSpecific, ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport,
+        NamedExportSpecifier, NamespaceExportSpecifier,
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{

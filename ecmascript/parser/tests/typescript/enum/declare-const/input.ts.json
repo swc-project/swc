@@ -1,0 +1,32 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 23,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDecl",
+      "span": {
+        "start": 0,
+        "end": 23,
+        "ctxt": 0
+      },
+      "declare": true,
+      "isConst": true,
+      "id": {
+        "span": {
+          "start": 19,
+          "end": 20,
+          "ctxt": 0
+        },
+        "value": "E",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "members": []
+    }
+  ],
+  "shebang": null
+}

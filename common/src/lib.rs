@@ -8,6 +8,7 @@ extern crate fxhash;
 extern crate log;
 extern crate parking_lot;
 extern crate scoped_tls;
+extern crate serde;
 extern crate string_cache;
 extern crate termcolor;
 extern crate unicode_width;
@@ -20,12 +21,14 @@ pub use self::{
     source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
 };
 pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
+use serde::Serialize;
 use std::fmt::Debug;
 
-/// A marker trait for ast nodes.
-pub trait AstNode: Debug + PartialEq + Clone + Spanned {}
-
-impl<N: Debug + PartialEq + Clone + Spanned> AstNode for N {}
+/// A trait for ast nodes.
+pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
+    /// Used when serialized
+    fn types() -> &'static [&'static str];
+}
 
 pub mod comments;
 pub mod errors;
@@ -34,6 +37,7 @@ pub mod fold;
 pub mod macros;
 mod pos;
 mod rustc_data_structures;
+pub mod serializer;
 mod source_map;
 mod sync;
 mod syntax_pos;

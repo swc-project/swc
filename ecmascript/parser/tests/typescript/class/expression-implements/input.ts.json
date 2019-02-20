@@ -1,0 +1,190 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 61,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ParenExpr",
+      "span": {
+        "start": 0,
+        "end": 28,
+        "ctxt": 0
+      },
+      "expr": {
+        "ident": null,
+        "type": "Class",
+        "span": {
+          "start": 1,
+          "end": 27,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": [
+          {
+            "type": "TsExprWithTypeArgs",
+            "span": {
+              "start": 18,
+              "end": 24,
+              "ctxt": 0
+            },
+            "expr": {
+              "type": "TsQualifiedName",
+              "left": {
+                "span": {
+                  "start": 18,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "X",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "right": {
+                "span": {
+                  "start": 20,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "value": "Y",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            },
+            "typeParams": {
+              "type": "TsTypeParamInstantiation",
+              "span": {
+                "start": 21,
+                "end": 24,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "TsTypeRef",
+                  "span": {
+                    "start": 22,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "span": {
+                      "start": 22,
+                      "end": 23,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ParenExpr",
+      "span": {
+        "start": 30,
+        "end": 60,
+        "ctxt": 0
+      },
+      "expr": {
+        "ident": {
+          "span": {
+            "start": 37,
+            "end": 38,
+            "ctxt": 0
+          },
+          "value": "C",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "type": "Class",
+        "span": {
+          "start": 31,
+          "end": 59,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": [
+          {
+            "type": "TsExprWithTypeArgs",
+            "span": {
+              "start": 50,
+              "end": 56,
+              "ctxt": 0
+            },
+            "expr": {
+              "type": "TsQualifiedName",
+              "left": {
+                "span": {
+                  "start": 50,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "value": "X",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "right": {
+                "span": {
+                  "start": 52,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "value": "Y",
+                "typeAnnotation": null,
+                "optional": false
+              }
+            },
+            "typeParams": {
+              "type": "TsTypeParamInstantiation",
+              "span": {
+                "start": 53,
+                "end": 56,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "TsTypeRef",
+                  "span": {
+                    "start": 54,
+                    "end": 55,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "span": {
+                      "start": 54,
+                      "end": 55,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "shebang": null
+}

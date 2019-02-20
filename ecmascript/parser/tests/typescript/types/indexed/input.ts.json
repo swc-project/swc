@@ -1,0 +1,96 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 12,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 12,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 11,
+            "ctxt": 0
+          },
+          "name": {
+            "span": {
+              "start": 4,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5,
+                "end": 11,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsIndexedAccessType",
+                "span": {
+                  "start": 7,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "objType": {
+                  "type": "TsTypeRef",
+                  "span": {
+                    "start": 7,
+                    "end": 8,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "span": {
+                      "start": 7,
+                      "end": 8,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                },
+                "indexType": {
+                  "type": "TsTypeRef",
+                  "span": {
+                    "start": 9,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "span": {
+                      "start": 9,
+                      "end": 10,
+                      "ctxt": 0
+                    },
+                    "value": "K",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            },
+            "optional": false
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "shebang": null
+}

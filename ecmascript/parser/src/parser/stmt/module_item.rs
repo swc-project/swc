@@ -324,7 +324,9 @@ impl<'a, I: Input> Parser<'a, I> {
                     let src = self.parse_from_clause_and_semi().map(Some)?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
                         span: span!(start),
-                        specifiers: vec![ExportSpecifier::Default(default)],
+                        specifiers: vec![ExportSpecifier::Default(DefaultExportSpecifier {
+                            exported: default,
+                        })],
                         src,
                     }));
                 }
@@ -351,7 +353,9 @@ impl<'a, I: Input> Parser<'a, I> {
                 specifiers.push(s)
             }
             if let Some(default) = default {
-                specifiers.push(ExportSpecifier::Default(default))
+                specifiers.push(ExportSpecifier::Default(DefaultExportSpecifier {
+                    exported: default,
+                }))
             }
             let mut first = true;
             while is_one_of!(',', IdentName) {

@@ -1,0 +1,59 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 23,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "JSXElement",
+      "span": {
+        "start": 0,
+        "end": 23,
+        "ctxt": 0
+      },
+      "opening": {
+        "type": "JSXOpeningElement",
+        "name": {
+          "span": {
+            "start": 1,
+            "end": 10,
+            "ctxt": 0
+          },
+          "value": "日本語",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "span": {
+          "start": 1,
+          "end": 11,
+          "ctxt": 0
+        },
+        "attributes": [],
+        "selfClosing": false,
+        "typeArguments": null
+      },
+      "children": [],
+      "closing": {
+        "type": "JSXClosingElement",
+        "span": {
+          "start": 13,
+          "end": 23,
+          "ctxt": 0
+        },
+        "name": {
+          "span": {
+            "start": 13,
+            "end": 22,
+            "ctxt": 0
+          },
+          "value": "日本語",
+          "typeAnnotation": null,
+          "optional": false
+        }
+      }
+    }
+  ],
+  "shebang": null
+}

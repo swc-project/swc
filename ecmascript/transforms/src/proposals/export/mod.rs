@@ -34,7 +34,7 @@ impl Fold<Vec<ModuleItem>> for ExportDefaultFrom {
                     }
 
                     match export.specifiers.remove(0) {
-                        ExportSpecifier::Default(default) => {
+                        ExportSpecifier::Default(DefaultExportSpecifier { exported: default }) => {
                             let local = default.prefix("_").private();
 
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {

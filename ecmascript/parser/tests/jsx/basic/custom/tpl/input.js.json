@@ -1,0 +1,91 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TemplateLiteral",
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expressions": [
+        {
+          "span": {
+            "start": 3,
+            "end": 6,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "typeAnnotation": null,
+          "optional": false
+        }
+      ],
+      "quasis": [
+        {
+          "type": "TemplateElement",
+          "span": {
+            "start": 1,
+            "end": 1,
+            "ctxt": 0
+          },
+          "tail": false,
+          "cooked": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 1,
+              "end": 1,
+              "ctxt": 0
+            },
+            "value": "",
+            "hasEscape": false
+          },
+          "raw": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 1,
+              "end": 1,
+              "ctxt": 0
+            },
+            "value": "",
+            "hasEscape": false
+          }
+        },
+        {
+          "type": "TemplateElement",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "tail": true,
+          "cooked": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 7,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "<bar>",
+            "hasEscape": false
+          },
+          "raw": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 7,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "<bar>",
+            "hasEscape": false
+          }
+        }
+      ]
+    }
+  ],
+  "shebang": null
+}

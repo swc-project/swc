@@ -183,30 +183,29 @@ try {} catch(a) {}
 try {} catch({ b }) {}
 "#,
     r#"
-try{
-}catch (_err) {
-    let a34 = _extends({
-    }, _err);
+try {
+} catch (_param) {
+    var a34 = _extends({
+    }, _param);
 }
-try{
-}catch (_err1) {
-    let b1 = _objectWithoutProperties(_err1, ['a1']), { a1  } = _err1;
+try {
+} catch (_param1) {
+    var { a1  } = _param1, b1 = _objectWithoutProperties(_param1, ['a1']);
 }
-try{
-}catch (_err2) {
-    let c2 = _objectWithoutProperties(_err2, ['a2', 'b2']), { a2 , b2  } = _err2;
+try {
+} catch (_param2) {
+    var { a2 , b2  } = _param2, c2 = _objectWithoutProperties(_param2, ['a2', 'b2']);
 }
-try{
-}catch (_err3) {
-    let c4 = _objectWithoutProperties(_err3.c2, ['c3']), { a2 , b2 , c2: { c3  }  } = _err3;
+try {
+} catch (_param3) {
+    var { a2 , b2 , c2: { c3  }  } = _param3, c4 = _objectWithoutProperties(_param3.c2, ['c3']);
 }
-try{
-}catch (a) {
+try {
+} catch (a) {
 }
-try{
-}catch ({ b  }) {
+try {
+} catch ({ b  }) {
 }
-
 "#
 );
 

@@ -1,0 +1,165 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 52,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDecl",
+      "span": {
+        "start": 0,
+        "end": 52,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "T",
+        "typeAnnotation": null,
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 6,
+          "end": 40,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParam",
+            "span": {
+              "start": 7,
+              "end": 39,
+              "ctxt": 0
+            },
+            "name": {
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "value": "U",
+              "typeAnnotation": null,
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 17,
+                "end": 23,
+                "ctxt": 0
+              },
+              "kind": "object"
+            },
+            "default": {
+              "type": "TsTypeLit",
+              "span": {
+                "start": 26,
+                "end": 39,
+                "ctxt": 0
+              },
+              "members": [
+                {
+                  "type": "TsPropertySignature",
+                  "span": {
+                    "start": 28,
+                    "end": 37,
+                    "ctxt": 0
+                  },
+                  "readonly": false,
+                  "key": {
+                    "span": {
+                      "start": 28,
+                      "end": 29,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": null,
+                    "optional": false
+                  },
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnn": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 29,
+                      "end": 37,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 31,
+                        "end": 37,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "typeAnn": {
+        "type": "TsTypeRef",
+        "span": {
+          "start": 43,
+          "end": 51,
+          "ctxt": 0
+        },
+        "typeName": {
+          "span": {
+            "start": 43,
+            "end": 48,
+            "ctxt": 0
+          },
+          "value": "Array",
+          "typeAnnotation": null,
+          "optional": false
+        },
+        "typeParams": {
+          "type": "TsTypeParamInstantiation",
+          "span": {
+            "start": 48,
+            "end": 51,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "TsTypeRef",
+              "span": {
+                "start": 49,
+                "end": 50,
+                "ctxt": 0
+              },
+              "typeName": {
+                "span": {
+                  "start": 49,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "value": "U",
+                "typeAnnotation": null,
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "shebang": null
+}

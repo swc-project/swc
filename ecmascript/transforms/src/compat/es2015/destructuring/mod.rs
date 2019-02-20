@@ -316,19 +316,14 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
     }
 }
 
-impl Fold<Function> for Destructuring {
-    fn fold(&mut self, f: Function) -> Function {
-        if f.body.is_none() {
-            return f;
-        }
+impl_fold_fn!(Destructuring);
 
-        let f = f.fold_children(self);
-        let body = f.body.unwrap();
-
-        let mut params = Vec::with_capacity(f.params.len());
+impl Destructuring {
+    fn fold_fn_like(&mut self, ps: Vec<Pat>, body: BlockStmt) -> (Vec<Pat>, BlockStmt) {
+        let mut params = vec![];
         let mut decls = vec![];
 
-        for pat in f.params {
+        for pat in ps {
             let span = pat.span();
             match pat {
                 Pat::Ident(..) => params.push(pat),
@@ -363,14 +358,7 @@ impl Fold<Function> for Destructuring {
             .collect()
         };
 
-        Function {
-            params,
-            body: Some(BlockStmt {
-                span: body.span,
-                stmts,
-            }),
-            ..f
-        }
+        (params, BlockStmt { stmts, ..body })
     }
 }
 

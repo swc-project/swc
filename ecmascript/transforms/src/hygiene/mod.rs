@@ -462,6 +462,27 @@ macro_rules! track_ident {
             }
         }
 
+        impl<'a> Fold<SetterProp> for $T<'a> {
+            fn fold(&mut self, f: SetterProp) -> SetterProp {
+                let old_in_var_decl = self.in_var_decl;
+                self.in_var_decl = true.into();
+                let param = f.param.fold_with(self);
+                self.in_var_decl = old_in_var_decl;
+
+                let body = f.body.fold_with(self);
+
+                SetterProp { param, body, ..f }
+            }
+        }
+
+        // impl<'a> Fold<GetterProp> for $T<'a> {
+        //     fn fold(&mut self, f: GetterProp) -> GetterProp {
+        //         let body = f.body.fold_with(self);
+
+        //         GetterProp { body, ..c }
+        //     }
+        // }
+
         impl<'a> Fold<CatchClause> for $T<'a> {
             fn fold(&mut self, c: CatchClause) -> CatchClause {
                 let old_in_var_decl = self.in_var_decl;
