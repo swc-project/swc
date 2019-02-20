@@ -98,7 +98,7 @@ pub fn ast_node(
             }
             item.quote_with(smart_quote!(Vars { input }, {
                 #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
-                #[derive(::serde::Serialize)]
+                #[derive(::serde::Serialize, ::serde::Deserialize)]
                 #[serde(untagged)]
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
@@ -135,7 +135,7 @@ pub fn ast_node(
             let mut quote =
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[derive(::serde::Serialize)]
+                    #[derive(::serde::Serialize, ::serde::Deserialize)]
                     serde_tag
                     #[serde(rename_all = "camelCase")]
                     serde_rename

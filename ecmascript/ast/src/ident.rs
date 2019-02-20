@@ -1,5 +1,5 @@
 use crate::typescript::TsTypeAnn;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
 #[cfg(feature = "fold")]
@@ -7,7 +7,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned};
 
 /// Ident with span.
-#[derive(Spanned, Clone, PartialEq, Serialize)]
+#[derive(Spanned, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct Ident {
     #[serde(default)]
