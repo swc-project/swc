@@ -13,7 +13,7 @@ test!(
     issue_233,
     "const foo = () => ({ x, ...y }) => y",
     "const foo = ()=>(_param)=>{
-        var { x  } = _param, y = _objectWithoutProperties(_param, ['x']);
+        var { x } = _param, y = _objectWithoutProperties(_param, ['x']);
         return y;
     };"
 );
