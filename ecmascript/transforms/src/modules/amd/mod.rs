@@ -39,7 +39,7 @@ pub struct Config {
     pub module_id: Option<String>,
 
     #[serde(flatten, default)]
-    config: util::Config,
+    pub config: util::Config,
 }
 
 impl Fold<Module> for Amd {

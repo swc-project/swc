@@ -1,6 +1,7 @@
+pub use super::util::Config;
 use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, Config, ModulePass, Scope,
+    make_require_call, use_strict, ModulePass, Scope,
 };
 use crate::{
     pass::Pass,
