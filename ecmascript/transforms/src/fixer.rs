@@ -349,7 +349,7 @@ impl Fold<Expr> for Fixer {
 
             Expr::Unary(expr) => {
                 let arg = match *expr.arg {
-                    Expr::Assign(..) => box expr.arg.wrap_with_paren(),
+                    Expr::Assign(..) | Expr::Bin(..) => box expr.arg.wrap_with_paren(),
                     _ => expr.arg,
                 };
 
@@ -613,4 +613,6 @@ function a() {
     test_fixer!(fixer_13, "delete (((1), a), (2));", "delete 2");
 
     identical!(issue_231, "'' + (truthy && '?') + truthy;");
+
+    identical!(issue_252, "!!(a && b);");
 }
