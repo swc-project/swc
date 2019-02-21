@@ -1,4 +1,4 @@
-use super::{amd, Config};
+use super::{super::util, amd, Config};
 use crate::compat::es2015::resolver;
 use ast::Module;
 use swc_common::Fold;
@@ -11,6 +11,67 @@ fn syntax() -> Syntax {
 fn tr(config: Config) -> impl Fold<Module> {
     chain_at!(Module, resolver(), amd(config))
 }
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            strict: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    custom_strict,
+    r#"export function foo(){}"#,
+    r#"
+define(['exports'], function(_exports) {
+    'use strict';
+    _exports.foo = foo;
+    function foo(){}
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            strict_mode: false,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    custom_non_strict_mode,
+    r#"export function foo(){}"#,
+    r#"
+define(['exports'], function(_exports) {
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    _exports.foo = foo;
+    function foo(){}
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            no_interop: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    custom_no_interop,
+    r#"import * as foo from 'foo';
+    import bar from 'bar';"#,
+    r#"
+define(['foo', 'bar'], function(foo, _bar) {
+    'use strict';
+});
+"#
+);
 
 test!(
     syntax(),
