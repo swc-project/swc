@@ -111,6 +111,14 @@ impl<'a, I: Input> Parser<'a, I> {
             _ => {}
         }
 
+        self.finish_assignment_expr(start, cond)
+    }
+
+    fn finish_assignment_expr(
+        &mut self,
+        start: BytePos,
+        cond: Box<Expr>,
+    ) -> PResult<'a, Box<Expr>> {
         match cur!(false) {
             Ok(&Token::AssignOp(op)) => {
                 let left = if op == AssignOpToken::Assign {
@@ -1024,7 +1032,16 @@ impl<'a, I: Input> Parser<'a, I> {
                     let expr = if spread.is_some() {
                         self.include_in_expr(true).parse_bin_expr()?
                     } else {
-                        self.parse_bin_expr()?
+                        let mut expr = self.parse_bin_expr()?;
+
+                        match cur!(false) {
+                            Ok(&Token::AssignOp(..)) => {
+                                expr = self.finish_assignment_expr(start, expr)?
+                            }
+                            _ => {}
+                        }
+
+                        expr
                     };
 
                     ExprOrSpread { spread, expr }

@@ -438,13 +438,24 @@ impl<'a, I: Input> Parser<'a, I> {
             tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
+        let should_include_in = kind == VarDeclKind::Var;
+
         let mut decls = vec![];
         let mut first = true;
         while first || eat!(',') {
             if first {
                 first = false;
             }
-            decls.push(self.parse_var_declarator(for_loop)?);
+
+            let ctx = if should_include_in {
+                Context {
+                    include_in_expr: true,
+                    ..self.ctx()
+                }
+            } else {
+                self.ctx()
+            };
+            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop)?);
         }
         if !for_loop {
             expect!(';');
@@ -1168,4 +1179,37 @@ let x = 4";
         );
     }
 
+    #[test]
+    fn issue_257_var() {
+        test_parser(
+            "
+export default function waitUntil(callback, options = {}) {
+  var timeout = 'timeout' in options ? options.timeout : 1000;
+}",
+            Default::default(),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn issue_257_let() {
+        test_parser(
+            "
+export default function waitUntil(callback, options = {}) {
+  let timeout = 'timeout' in options ? options.timeout : 1000;
+}",
+            Default::default(),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
 }

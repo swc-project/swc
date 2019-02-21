@@ -1,3 +1,4 @@
+use super::super::util;
 use ast::Expr;
 use fxhash::FxHashMap;
 use inflector::Inflector;
@@ -15,6 +16,9 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 pub struct Config {
     #[serde(default)]
     pub globals: FxHashMap<String, String>,
+
+    #[serde(flatten, default)]
+    pub config: util::Config,
 }
 
 impl Config {
@@ -24,6 +28,7 @@ impl Config {
         let session = Session { handler: &handler };
 
         BuiltConfig {
+            config: self.config,
             globals: self
                 .globals
                 .into_iter()
@@ -54,6 +59,7 @@ impl Config {
 #[derive(Clone)]
 pub(super) struct BuiltConfig {
     pub globals: FxHashMap<String, Box<Expr>>,
+    pub config: util::Config,
 }
 
 impl BuiltConfig {

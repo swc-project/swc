@@ -1,8 +1,8 @@
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
-    define_es_module, define_property, has_use_strict, initialize_to_undefined, local_name_for_src,
-    make_descriptor, make_require_call, use_strict, Exports, Scope,
+    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
+    local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
 use crate::{
     pass::Pass,
@@ -10,7 +10,7 @@ use crate::{
 };
 use ast::*;
 use fxhash::FxHashSet;
-use std::{collections::hash_map::Entry, iter, sync::Arc};
+use std::sync::Arc;
 use swc_common::{Fold, FoldWith, Mark, SourceMap, VisitWith, DUMMY_SP};
 
 mod config;
@@ -22,6 +22,7 @@ pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass + Clone {
         config: config.build(cm.clone()),
         cm,
 
+        in_top_level: Default::default(),
         scope: Default::default(),
         exports: Default::default(),
     }
@@ -30,6 +31,7 @@ pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass + Clone {
 #[derive(Clone)]
 struct Umd {
     cm: Arc<SourceMap>,
+    in_top_level: State<bool>,
     config: BuiltConfig,
     scope: State<Scope>,
     exports: State<Exports>,
@@ -37,6 +39,8 @@ struct Umd {
 
 impl Fold<Module> for Umd {
     fn fold(&mut self, module: Module) -> Module {
+        self.in_top_level = true.into();
+
         let filename = self.cm.span_to_filename(module.span);
 
         let items = module.body;
@@ -44,7 +48,7 @@ impl Fold<Module> for Umd {
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
         let mut stmts = Vec::with_capacity(items.len() + 2);
-        if !has_use_strict(&items) {
+        if self.config.config.strict_mode && !has_use_strict(&items) {
             stmts.push(use_strict());
         }
 
@@ -52,6 +56,7 @@ impl Fold<Module> for Umd {
         let mut initialized = FxHashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
+        let mut has_export = false;
         let exports_ident = self.exports.value.0.clone();
 
         // Process items
@@ -72,7 +77,8 @@ impl Fold<Module> for Umd {
                 | ModuleDecl::ExportDefaultDecl(..)
                 | ModuleDecl::ExportDefaultExpr(..)
                 | ModuleDecl::ExportNamed(..) => {
-                    if !emitted_esmodule {
+                    has_export = true;
+                    if !self.config.config.strict && !emitted_esmodule {
                         emitted_esmodule = true;
                         stmts.push(define_es_module(exports_ident.clone()));
                     }
@@ -359,7 +365,7 @@ impl Fold<Module> for Umd {
         let mut factory_params = Vec::with_capacity(self.scope.imports.len() + 1);
         let mut factory_args = Vec::with_capacity(factory_params.capacity());
         let mut global_factory_args = Vec::with_capacity(factory_params.capacity());
-        if emitted_esmodule {
+        if has_export {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
@@ -446,23 +452,27 @@ impl Fold<Module> for Umd {
 
                 match ty {
                     Some(&wildcard) => {
-                        let right = box Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: if wildcard {
-                                helper!(interop_require_wildcard, "interopRequireWildcard")
-                            } else {
-                                helper!(interop_require_default, "interopRequireDefault")
-                            },
-                            args: vec![ident.clone().as_arg()],
-                            type_args: Default::default(),
-                        });
+                        let imported = ident.clone();
 
-                        import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
-                            op: op!("="),
-                            right,
-                        })));
+                        if !self.config.config.no_interop {
+                            let right = box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: if wildcard {
+                                    helper!(interop_require_wildcard, "interopRequireWildcard")
+                                } else {
+                                    helper!(interop_require_default, "interopRequireDefault")
+                                },
+                                args: vec![imported.as_arg()],
+                                type_args: Default::default(),
+                            });
+
+                            import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                                op: op!("="),
+                                right,
+                            })));
+                        }
                     }
                     _ => {}
                 };
@@ -632,195 +642,10 @@ impl Fold<Module> for Umd {
 
 impl Fold<Expr> for Umd {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let exports_ident = self.exports.value.0.clone();
+        let exports = self.exports.value.0.clone();
+        let top_level = self.in_top_level.value;
 
-        macro_rules! entry {
-            ($i:expr) => {
-                self.scope
-                    .value
-                    .exported_vars
-                    .entry(($i.sym.clone(), $i.span.ctxt()))
-            };
-        }
-
-        macro_rules! chain_assign {
-            ($entry:expr, $e:expr) => {{
-                let mut e = $e;
-                for i in $entry.get() {
-                    e = box Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(
-                            box exports_ident
-                                .clone()
-                                .member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
-                        ),
-                        op: op!("="),
-                        right: e,
-                    });
-                }
-                e
-            }};
-        }
-
-        match expr {
-            Expr::Ident(i) => {
-                let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
-                match v {
-                    None => return Expr::Ident(i),
-                    Some((src, prop)) => {
-                        let (ident, span) = self
-                            .scope
-                            .value
-                            .imports
-                            .get(src)
-                            .as_ref()
-                            .unwrap()
-                            .as_ref()
-                            .unwrap();
-
-                        let obj = {
-                            let ident = Ident::new(ident.clone(), *span);
-
-                            Expr::Ident(ident)
-                        };
-
-                        if *prop == js_word!("") {
-                            // import * as foo from 'foo';
-                            obj
-                        } else {
-                            obj.member(Ident::new(prop.clone(), DUMMY_SP))
-                        }
-                    }
-                }
-            }
-            Expr::Member(e) => {
-                if e.computed {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        prop: e.prop.fold_with(self),
-                        ..e
-                    })
-                } else {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        ..e
-                    })
-                }
-            }
-
-            Expr::Update(UpdateExpr {
-                span,
-                arg: box Expr::Ident(arg),
-                op,
-                prefix,
-            }) => {
-                let entry = entry!(arg);
-
-                match entry {
-                    Entry::Occupied(entry) => {
-                        let e = chain_assign!(
-                            entry,
-                            box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
-                                op: op!("="),
-                                right: box Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    left: box Expr::Unary(UnaryExpr {
-                                        span: DUMMY_SP,
-                                        op: op!(unary, "+"),
-                                        arg: box Expr::Ident(arg)
-                                    }),
-                                    op: match op {
-                                        op!("++") => op!(bin, "+"),
-                                        op!("--") => op!(bin, "-"),
-                                    },
-                                    right: box Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: 1.0,
-                                    })),
-                                }),
-                            })
-                        );
-
-                        *e
-                    }
-                    _ => {
-                        return Expr::Update(UpdateExpr {
-                            span,
-                            arg: box Expr::Ident(arg),
-                            op,
-                            prefix,
-                        });
-                    }
-                }
-            }
-
-            Expr::Assign(mut expr) => {
-                //
-                expr.right = expr.right.fold_with(self);
-
-                match expr.left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i)) => {
-                        let entry = entry!(i);
-
-                        match entry {
-                            Entry::Occupied(entry) => {
-                                let e = chain_assign!(entry, box Expr::Assign(expr));
-
-                                *e
-                            }
-                            _ => {
-                                return Expr::Assign(AssignExpr {
-                                    left: expr.left,
-                                    ..expr
-                                });
-                            }
-                        }
-                    }
-                    _ => {
-                        let mut found = vec![];
-                        let mut v = DestructuringFinder { found: &mut found };
-                        expr.left.visit_with(&mut v);
-                        if v.found.is_empty() {
-                            return Expr::Assign(AssignExpr {
-                                left: expr.left,
-                                ..expr
-                            });
-                        }
-
-                        let mut exprs = iter::once(box Expr::Assign(expr))
-                            .chain(
-                                found
-                                    .into_iter()
-                                    .map(|var| Ident::new(var.0, var.1))
-                                    .filter_map(|i| {
-                                        let entry = match entry!(i) {
-                                            Entry::Occupied(entry) => entry,
-                                            _ => {
-                                                return None;
-                                            }
-                                        };
-                                        let e = chain_assign!(entry, box Expr::Ident(i));
-
-                                        // exports.name = x
-                                        Some(e)
-                                    }),
-                            )
-                            .collect::<Vec<_>>();
-                        if exprs.len() == 1 {
-                            return *exprs.pop().unwrap();
-                        }
-
-                        Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        })
-                    }
-                }
-            }
-            _ => expr.fold_children(self),
-        }
+        Scope::fold_expr(self, exports, top_level, expr)
     }
 }
 
@@ -840,3 +665,18 @@ impl Fold<VarDecl> for Umd {
         }
     }
 }
+
+impl ModulePass for Umd {
+    fn config(&self) -> &util::Config {
+        &self.config.config
+    }
+
+    fn scope(&self) -> &Scope {
+        &self.scope.value
+    }
+
+    fn scope_mut(&mut self) -> &mut Scope {
+        &mut self.scope.value
+    }
+}
+mark_as_nested!(Umd);

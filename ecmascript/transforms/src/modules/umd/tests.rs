@@ -14,6 +14,119 @@ test!(
     |tester| tr(
         tester,
         Config {
+            config: util::Config {
+                strict: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        }
+    ),
+    custom_strict,
+    r#"export function foo(){}"#,
+    r#"
+(function(global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['exports'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports);
+    } else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(mod.exports);
+        global.input = mod.exports;
+    }
+})(this, function(_exports) {
+    'use strict';
+    _exports.foo = foo;
+    function foo() {
+    }
+});
+
+"#
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            config: util::Config {
+                strict_mode: false,
+                ..Default::default()
+            },
+            ..Default::default()
+        }
+    ),
+    custom_non_strict_mode,
+    r#"export function foo(){}"#,
+    r#"
+(function(global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['exports'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports);
+    } else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(mod.exports);
+        global.input = mod.exports;
+    }
+})(this, function(_exports) {
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    _exports.foo = foo;
+    function foo() {
+    }
+});
+
+"#
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            config: util::Config {
+                no_interop: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        }
+    ),
+    custom_no_interop,
+    r#"import * as foo from 'foo';
+    import bar from 'bar';"#,
+    r#"
+(function(global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['foo', 'bar'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(require('foo'), require('bar'));
+    } else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(global.foo, global.bar);
+        global.input = mod.exports;
+    }
+})(this, function(foo, _bar) {
+    'use strict';
+});
+"#
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
             ..Default::default()
         }
     ),

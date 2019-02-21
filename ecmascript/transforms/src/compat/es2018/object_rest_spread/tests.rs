@@ -12,12 +12,10 @@ test!(
     |_| tr(),
     issue_233,
     "const foo = () => ({ x, ...y }) => y",
-    "const foo = ()=>{
-    return (_param)=>{
-        var { x } = _param, y = _objectWithoutProperties(_param, ['x']);
+    "const foo = ()=>(_param)=>{
+        var { x  } = _param, y = _objectWithoutProperties(_param, ['x']);
         return y;
-    };
-};"
+    };"
 );
 
 test!(

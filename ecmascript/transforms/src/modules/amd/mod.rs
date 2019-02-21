@@ -1,6 +1,6 @@
 use super::util::{
-    define_es_module, define_property, has_use_strict, initialize_to_undefined, local_name_for_src,
-    make_descriptor, use_strict, Exports, Scope,
+    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
+    local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
 use crate::{
     pass::Pass,
@@ -18,6 +18,7 @@ mod tests;
 pub fn amd(config: Config) -> impl Pass + Clone {
     Amd {
         config,
+        in_top_level: Default::default(),
         scope: Default::default(),
         exports: Default::default(),
     }
@@ -26,6 +27,7 @@ pub fn amd(config: Config) -> impl Pass + Clone {
 #[derive(Clone)]
 struct Amd {
     config: Config,
+    in_top_level: State<bool>,
     scope: State<Scope>,
     exports: State<Exports>,
 }
@@ -33,17 +35,22 @@ struct Amd {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
     pub module_id: Option<String>,
+
+    #[serde(flatten, default)]
+    config: util::Config,
 }
 
 impl Fold<Module> for Amd {
     fn fold(&mut self, module: Module) -> Module {
         let items = module.body;
+        self.in_top_level = true.into();
 
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
         let mut stmts = Vec::with_capacity(items.len() + 2);
-        if !has_use_strict(&items) {
+        if self.config.config.strict_mode && !has_use_strict(&items) {
             stmts.push(use_strict());
         }
 
@@ -51,6 +58,7 @@ impl Fold<Module> for Amd {
         let mut initialized = FxHashSet::default();
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
+        let mut has_export = false;
         let exports_ident = self.exports.value.0.clone();
 
         // Process items
@@ -71,7 +79,8 @@ impl Fold<Module> for Amd {
                 | ModuleDecl::ExportDefaultDecl(..)
                 | ModuleDecl::ExportDefaultExpr(..)
                 | ModuleDecl::ExportNamed(..) => {
-                    if !emitted_esmodule {
+                    has_export = true;
+                    if !self.config.config.strict && !emitted_esmodule {
                         emitted_esmodule = true;
                         stmts.push(define_es_module(exports_ident.clone()));
                     }
@@ -356,7 +365,7 @@ impl Fold<Module> for Amd {
         };
 
         let mut factory_params = Vec::with_capacity(self.scope.imports.len() + 1);
-        if emitted_esmodule {
+        if has_export {
             define_deps_arg
                 .elems
                 .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
@@ -438,23 +447,26 @@ impl Fold<Module> for Amd {
 
                 match ty {
                     Some(&wildcard) => {
-                        let right = box Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: if wildcard {
-                                helper!(interop_require_wildcard, "interopRequireWildcard")
-                            } else {
-                                helper!(interop_require_default, "interopRequireDefault")
-                            },
-                            args: vec![ident.clone().as_arg()],
-                            type_args: Default::default(),
-                        });
+                        let imported = ident.clone();
 
-                        import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
-                            op: op!("="),
-                            right,
-                        })));
+                        if !self.config.config.no_interop {
+                            let right = box Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: if wildcard {
+                                    helper!(interop_require_wildcard, "interopRequireWildcard")
+                                } else {
+                                    helper!(interop_require_default, "interopRequireDefault")
+                                },
+                                args: vec![imported.as_arg()],
+                                type_args: Default::default(),
+                            });
+                            import_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(box Pat::Ident(ident.clone())),
+                                op: op!("="),
+                                right,
+                            })));
+                        }
                     }
                     _ => {}
                 };
@@ -716,3 +728,18 @@ impl Fold<VarDecl> for Amd {
         }
     }
 }
+
+impl ModulePass for Amd {
+    fn config(&self) -> &util::Config {
+        &self.config.config
+    }
+
+    fn scope(&self) -> &Scope {
+        &self.scope.value
+    }
+
+    fn scope_mut(&mut self) -> &mut Scope {
+        &mut self.scope.value
+    }
+}
+mark_as_nested!(Amd);

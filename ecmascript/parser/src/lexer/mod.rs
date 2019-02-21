@@ -624,15 +624,18 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    #[allow(unsafe_code)]
     fn read_hex_char(&mut self, start: BytePos, count: u8, mut raw: &mut Raw) -> LexResult<char> {
         debug_assert!(count == 2 || count == 4);
 
         let pos = self.cur_pos();
         match self.read_int_u32(16, count, raw)? {
-            Some(val) => match char::from_u32(val) {
-                Some(c) => Ok(c),
-                None => self.error(start, SyntaxError::NonUtf8Char { val })?,
-            },
+            Some(val) => Ok(unsafe {
+                // Non-utf8 character is valid in javsacript
+                // See https://github.com/swc-project/swc/issues/261
+
+                char::from_u32_unchecked(val)
+            }),
             None => self.error(start, SyntaxError::ExpectedHexChars { count })?,
         }
     }

@@ -296,7 +296,7 @@ async function six(a, {b} = {}){}
   r#"
 function _one() {
   _one = _asyncToGenerator(function*(a, param) {
-    let tmp = param, b = tmp === void 0 ? 1 : tmp;
+    let b = param === void 0 ? 1 : param;
   });
   return _one.apply(this, arguments);
 }
@@ -316,7 +316,7 @@ function two(a, b) {
 }
 function _three() {
   _three = _asyncToGenerator(function*(a, param, c, param1) {
-    let tmp = param, b = tmp === void 0 ? 1 : tmp, tmp1 = param1, d = tmp1 === void 0 ? 3 : tmp1;
+    let b = param === void 0 ? 1 : param, d = param1 === void 0 ? 3 : param1;
   });
   return _three.apply(this, arguments);
 }
@@ -325,7 +325,7 @@ function three(a, param, c, param1) {
 }
 function _four() {
   _four = _asyncToGenerator(function*(a, param, c) {
-    let tmp = param, b = tmp === void 0 ? 1 : tmp;
+    let b = param === void 0 ? 1 : param;
     for(let _len = arguments.length, d = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++){
       d[_key - 3] = arguments[_key];
     }
@@ -346,8 +346,11 @@ function five(a, param) {
 }
 function _six() {
   _six = _asyncToGenerator(function*(a, param) {
-    let tmp = param, ref = tmp === void 0 ? {
-    } : tmp, ref1 = ref ? ref : _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), b = ref1.b;
+    let ref = param === void 0 ? {
+      } : param, ref1 = ref ? ref : _throw(
+          new TypeError("Cannot destructure 'undefined' or 'null'")
+          ), b = ref1.b;
+
   });
   return _six.apply(this, arguments);
 }

@@ -1,77 +1,17 @@
 use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, Scope,
+    make_require_call, use_strict, Config, ModulePass, Scope,
 };
 use crate::{
     pass::Pass,
-    util::{undefined, var::VarCollector, DestructuringFinder, ExprFactory, State},
+    util::{var::VarCollector, DestructuringFinder, ExprFactory, State},
 };
 use ast::*;
 use fxhash::FxHashSet;
-use serde::{Deserialize, Serialize};
-use std::{collections::hash_map::Entry, iter};
-use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct Config {
-    #[serde(default)]
-    pub strict: bool,
-    #[serde(default = "default_strict_mode")]
-    pub strict_mode: bool,
-    #[serde(default)]
-    pub lazy: Lazy,
-    #[serde(default)]
-    pub no_interop: bool,
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Config {
-            strict: false,
-            strict_mode: default_strict_mode(),
-            lazy: Lazy::default(),
-            no_interop: false,
-        }
-    }
-}
-
-const fn default_strict_mode() -> bool {
-    true
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged, deny_unknown_fields, rename_all = "camelCase")]
-pub enum Lazy {
-    Bool(bool),
-    List(Vec<JsWord>),
-}
-
-impl Lazy {
-    fn is_lazy(&self, src: &JsWord) -> bool {
-        match *self {
-            Lazy::Bool(false) => false,
-            Lazy::Bool(true) => {
-                if src.starts_with(".") {
-                    false
-                } else {
-                    true
-                }
-            }
-            Lazy::List(ref srcs) => srcs.contains(&src),
-        }
-    }
-}
-
-impl Default for Lazy {
-    fn default() -> Self {
-        Lazy::Bool(false)
-    }
-}
 
 pub fn common_js(config: Config) -> impl Pass + Clone {
     CommonJs {
@@ -641,273 +581,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
 impl Fold<Expr> for CommonJs {
     fn fold(&mut self, expr: Expr) -> Expr {
-        macro_rules! entry {
-            ($i:expr) => {
-                self.scope
-                    .value
-                    .exported_vars
-                    .entry(($i.sym.clone(), $i.span.ctxt()))
-            };
-        }
-
-        macro_rules! chain_assign {
-            ($entry:expr, $e:expr) => {{
-                let mut e = $e;
-                for i in $entry.get() {
-                    e = box Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Expr(
-                            box quote_ident!("exports")
-                                .member(Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(i.1))),
-                        ),
-                        op: op!("="),
-                        right: e,
-                    });
-                }
-                e
-            }};
-        }
-
-        match expr {
-            Expr::This(ThisExpr { span }) if self.in_top_level.value => *undefined(span),
-            Expr::Ident(i) => {
-                let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
-                match v {
-                    None => return Expr::Ident(i),
-                    Some((src, prop)) => {
-                        if self.in_top_level.value {
-                            self.scope.value.lazy_blacklist.insert(src.clone());
-                        }
-
-                        let lazy = if self.scope.value.lazy_blacklist.contains(&src) {
-                            false
-                        } else {
-                            self.config.lazy.is_lazy(&src)
-                        };
-
-                        let (ident, span) = self
-                            .scope
-                            .value
-                            .imports
-                            .get(src)
-                            .as_ref()
-                            .unwrap()
-                            .as_ref()
-                            .unwrap();
-
-                        let obj = {
-                            let ident = Ident::new(ident.clone(), *span);
-
-                            if lazy {
-                                Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: ident.as_callee(),
-                                    args: vec![],
-                                    type_args: Default::default(),
-                                })
-                            } else {
-                                Expr::Ident(ident)
-                            }
-                        };
-
-                        if *prop == js_word!("") {
-                            // import * as foo from 'foo';
-                            obj
-                        } else {
-                            obj.member(Ident::new(prop.clone(), DUMMY_SP))
-                        }
-                    }
-                }
-            }
-            Expr::Member(e) => {
-                if e.computed {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        prop: e.prop.fold_with(self),
-                        ..e
-                    })
-                } else {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(self),
-                        ..e
-                    })
-                }
-            }
-
-            Expr::Update(UpdateExpr {
-                span,
-                arg: box Expr::Ident(arg),
-                op,
-                prefix,
-            }) => {
-                let entry = entry!(arg);
-
-                match entry {
-                    Entry::Occupied(entry) => {
-                        let e = chain_assign!(
-                            entry,
-                            box Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(box Pat::Ident(arg.clone())),
-                                op: op!("="),
-                                right: box Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    left: box Expr::Unary(UnaryExpr {
-                                        span: DUMMY_SP,
-                                        op: op!(unary, "+"),
-                                        arg: box Expr::Ident(arg)
-                                    }),
-                                    op: match op {
-                                        op!("++") => op!(bin, "+"),
-                                        op!("--") => op!(bin, "-"),
-                                    },
-                                    right: box Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: 1.0,
-                                    })),
-                                }),
-                            })
-                        );
-
-                        *e
-                    }
-                    _ => {
-                        return Expr::Update(UpdateExpr {
-                            span,
-                            arg: box Expr::Ident(arg),
-                            op,
-                            prefix,
-                        });
-                    }
-                }
-            }
-
-            Expr::Assign(mut expr) => {
-                expr.right = expr.right.fold_with(self);
-
-                let mut found = vec![];
-                let mut v = DestructuringFinder { found: &mut found };
-                expr.left.visit_with(&mut v);
-                if v.found.is_empty() {
-                    return Expr::Assign(AssignExpr {
-                        left: expr.left,
-                        ..expr
-                    });
-                }
-
-                // imports are read-only
-                for i in &found {
-                    let i = Ident::new(i.0.clone(), i.1);
-                    if self
-                        .scope
-                        .value
-                        .idents
-                        .get(&(i.sym.clone(), i.span.ctxt()))
-                        .is_some()
-                    {
-                        let throw = Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: FnExpr {
-                                ident: None,
-                                function: Function {
-                                    span: DUMMY_SP,
-                                    is_async: false,
-                                    is_generator: false,
-                                    decorators: Default::default(),
-                                    params: vec![],
-                                    body: Some(BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![
-                                            // throw new Error('"' + "Foo" + '" is read-only.')
-                                            Stmt::Throw(ThrowStmt {
-                                                span: DUMMY_SP,
-                                                arg: box Expr::New(NewExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: box Expr::Ident(quote_ident!("Error")),
-                                                    args: Some(vec![quote_str!("\"")
-                                                        .make_bin(
-                                                            op!(bin, "+"),
-                                                            quote_str!(i.span, i.sym.clone()),
-                                                        )
-                                                        .make_bin(
-                                                            op!(bin, "+"),
-                                                            quote_str!("\" is read-only."),
-                                                        )
-                                                        .as_arg()]),
-                                                    type_args: Default::default(),
-                                                }),
-                                            }),
-                                        ],
-                                    }),
-                                    return_type: Default::default(),
-                                    type_params: Default::default(),
-                                },
-                            }
-                            .as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
-                        });
-                        return Expr::Assign(AssignExpr {
-                            right: box Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: vec![expr.right, box throw],
-                            }),
-                            ..expr
-                        });
-                    }
-                }
-
-                match expr.left {
-                    PatOrExpr::Pat(box Pat::Ident(ref i)) => {
-                        let entry = entry!(i);
-
-                        match entry {
-                            Entry::Occupied(entry) => {
-                                let e = chain_assign!(entry, box Expr::Assign(expr));
-
-                                *e
-                            }
-                            _ => {
-                                return Expr::Assign(AssignExpr {
-                                    left: expr.left,
-                                    ..expr
-                                });
-                            }
-                        }
-                    }
-                    _ => {
-                        let mut exprs = iter::once(box Expr::Assign(expr))
-                            .chain(
-                                found
-                                    .into_iter()
-                                    .map(|var| Ident::new(var.0, var.1))
-                                    .filter_map(|i| {
-                                        let entry = match entry!(i) {
-                                            Entry::Occupied(entry) => entry,
-                                            _ => {
-                                                return None;
-                                            }
-                                        };
-                                        let e = chain_assign!(entry, box Expr::Ident(i));
-
-                                        // exports.name = x
-                                        Some(e)
-                                    }),
-                            )
-                            .collect::<Vec<_>>();
-                        if exprs.len() == 1 {
-                            return *exprs.pop().unwrap();
-                        }
-
-                        Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        })
-                    }
-                }
-            }
-            _ => expr.fold_children(self),
-        }
+        let top_level = self.in_top_level.value;
+        Scope::fold_expr(self, quote_ident!("exports"), top_level, expr)
     }
 }
 
@@ -928,31 +603,18 @@ impl Fold<VarDecl> for CommonJs {
     }
 }
 
-macro_rules! mark_as_nested {
-    ($T:tt) => {
-        impl Fold<$T> for CommonJs {
-            fn fold(&mut self, f: $T) -> $T {
-                let old = self.in_top_level;
-                self.in_top_level = false.into();
-                let f = f.fold_children(self);
-                self.in_top_level = old;
+impl ModulePass for CommonJs {
+    fn config(&self) -> &Config {
+        &self.config
+    }
 
-                f
-            }
-        }
-    };
+    fn scope(&self) -> &Scope {
+        &self.scope.value
+    }
+
+    fn scope_mut(&mut self) -> &mut Scope {
+        &mut self.scope.value
+    }
 }
-mark_as_nested!(Function);
-mark_as_nested!(Constructor);
 
-// macro_rules! noop {
-//     ($T:tt) => {
-//         impl Fold<$T> for CommonJs {
-//             fn fold(&mut self, n: $T) -> $T {
-//                 n
-//             }
-//         }
-//     };
-// }
-
-// noop!(Pat);
+mark_as_nested!(CommonJs);

@@ -1,4 +1,4 @@
-use super::{common_js, Config, Lazy};
+use super::{super::util::Lazy, common_js, Config};
 use crate::compat::es2015::resolver;
 use ast::*;
 use swc_common::Fold;
