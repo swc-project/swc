@@ -47,9 +47,6 @@ pub(crate) enum SyntaxError {
     LegacyDecimal,
     LegacyOctal,
     InvalidIdentChar,
-    NonUtf8Char {
-        val: u32,
-    },
     ExpectedDigit {
         radix: u8,
     },
@@ -177,7 +174,6 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             LegacyDecimal => "Legacy decimal escape is not permitted in strict mode".into(),
             LegacyOctal => "Legacy octal escape is not permitted in strict mode".into(),
             InvalidIdentChar => "Invalid character in identifier".into(),
-            NonUtf8Char { val } => format!("Not an utf-8 character: {}", val).into(),
             ExpectedDigit { radix } => format!(
                 "Expected {} digit",
                 match radix {
