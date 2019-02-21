@@ -84,7 +84,7 @@ export var Foo = function() {
     _createClass(Foo, [{
             key: 'func',
             value: function func(a, param) {
-                var tmp = param, b = tmp === void 0 ? Date.now() : tmp;
+                var b = param === void 0 ? Date.now() : param;
                 return {
                     a: a
                 };

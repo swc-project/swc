@@ -15,12 +15,13 @@ test!(
 }",
     "export class Foo{
      func(a, ref) {
-        let tmp = ref, b = tmp === void 0 ? Date.now() : tmp;
+        let b = ref === void 0 ? Date.now() : ref;
         return {
             a
         };
     }
 }
+
 "
 );
 
@@ -311,7 +312,7 @@ test!(
     let w;
     let e;
     var ref;
-    if (true)  ref = [1, 2, 3].map(()=>123), q = ref[0], w = ref[1], e = ref[2], ref;
+    if (true)  ref = [1, 2, 3].map(()=>123), q = ref[0], w = ref[1], e = ref[2], ref;    
 })();"#
 );
 

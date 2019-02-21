@@ -5,7 +5,7 @@ use crate::{
 use ast::*;
 use std::iter;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Mark, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Spanned, SyntaxContext, Visit, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -120,6 +120,8 @@ fn make_ref_ident_for_for_stmt() -> Ident {
 
 impl Fold<Vec<VarDeclarator>> for Destructuring {
     fn fold(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+        let declarators = declarators.fold_children(self);
+
         let is_complex = declarators.iter().any(|d| match d.name {
             Pat::Ident(..) => false,
             _ => true,
@@ -127,7 +129,6 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
         if !is_complex {
             return declarators;
         }
-
         let mut decls = vec![];
 
         for decl in declarators {
@@ -288,15 +289,22 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                         "desturcturing pattern binding requires initializer"
                     );
 
-                    let tmp_mark = Mark::fresh(Mark::root());
-                    let tmp_ident = quote_ident!(span.apply_mark(tmp_mark), "tmp");
+                    let tmp_ident = match decl.init {
+                        Some(box Expr::Ident(ref i)) if i.span.ctxt() != SyntaxContext::empty() => {
+                            i.clone()
+                        }
+                        _ => {
+                            let tmp_ident = private_ident!(span, "tmp");
+                            decls.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(tmp_ident.clone()),
+                                init: decl.init,
+                                definite: false,
+                            });
 
-                    decls.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(tmp_ident.clone()),
-                        init: decl.init,
-                        definite: false,
-                    });
+                            tmp_ident
+                        }
+                    };
 
                     let var_decl = VarDeclarator {
                         span,

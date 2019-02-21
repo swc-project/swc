@@ -13,6 +13,18 @@ fn tr() -> impl Fold<Module> {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
+    issue_254,
+    "export const someFunction = (update = false, action = {}) => {}",
+    "
+export var someFunction = (param, param1)=>{
+    var update = param === void 0 ? false : param, action = param1 === void 0 ? {} : param1;
+};
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
     issue_227,
     "export default function fn1(...args) {
   fn2(...args);
@@ -41,7 +53,7 @@ class Foo {
     r#"
 class Foo{
      func(a, param) {
-        var tmp = param, b = tmp === void 0 ? Date.now() : tmp;
+        var b = param === void 0 ? Date.now() : param
         return {
             a
         };
@@ -72,7 +84,7 @@ test!(
     default_before_last,
     r#"function foo(a = "foo", b) {}"#,
     r#"function foo(param, b) {
-    var tmp = param, a = tmp === void 0 ? 'foo' : tmp;
+    var a = param === void 0 ? 'foo' : param;
 }"#
 );
 
@@ -162,7 +174,7 @@ test!(
 }
 Ref.nextID = 0"#,
     r#"var Ref = function Ref(param) {
-        var tmp = param, id = tmp === void 0 ? ++Ref.nextID : tmp;
+        var id = param === void 0 ? ++Ref.nextID : param;
         _classCallCheck(this, Ref);
         this.id = id;
     };
@@ -202,12 +214,12 @@ class X {
   }
 }"#,
     r#"var Ref = function Ref(param) {
-        var tmp = param, ref = tmp === void 0 ? Ref : tmp;
+        var ref = param === void 0 ? Ref : param;
         _classCallCheck(this, Ref);
         this.ref = ref;
     }
 var X = function X(param) {
-        var tmp = param, x = tmp === void 0 ? foo : tmp;
+        var x = param === void 0 ? foo : param;
         _classCallCheck(this, X);
         this.x = x;
     };
@@ -227,24 +239,26 @@ test_exec!(
 expect(new Ref().ref).toBe(Ref);"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-  |_| tr(),
-  default_multiple,
-  r#"var t = function (e = "foo", f = 5) {
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    default_multiple,
+    r#"var t = function (e = "foo", f = 5) {
   return e + " bar " + f;
 };
 
 var a = function (e, f = 5) {
   return e + " bar " + f;
 };"#,
-  r#"var t = function(param, param1) {
-    var tmp = param, e = tmp === void 0 ? 'foo' : tmp, tmp1 = param1, f = tmp1 === void 0 ? 5 : tmp1;
+    "var t = function(param, param1) {
+    var e = param === void 0 ? 'foo' : param, f = param1 === void 0 ? 5 : param1;
     return e + ' bar ' + f;
 };
 var a = function(e, param) {
-    var tmp = param, f = tmp === void 0 ? 5 : tmp;
+    var f = param === void 0 ? 5 : param;
     return e + ' bar ' + f;
-};"#
+};
+"
 );
 
 test!(
@@ -257,13 +271,14 @@ test!(
   {a3, a4},
   a5,
   {a6, a7} = {}) {}"#,
-    r#"function fn(a1, param, param1, a5, param2) {
-    var tmp = param, a2 = tmp === void 0 ? 4 : tmp, ref = param1 ? param1 :
-      _throw(new TypeError("Cannot destructure 'undefined' or 'null'")),
-      a3 = ref.a3, a4 = ref.a4, tmp1 = param2, ref1 = tmp1 === void 0 ? {
-    } : tmp1, ref2 = ref1 ? ref1 :
-    _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a6 = ref2.a6, a7 = ref2.a7;
-}"#
+    "function fn(a1, param, param1, a5, param2) {
+    var a2 = param === void 0 ? 4 : param, ref = param1 ? param1 : _throw(new TypeError(\"Cannot \
+     destructure 'undefined' or 'null'\")), a3 = ref.a3, a4 = ref.a4, ref1 = param2 === void 0 ? \
+     {
+    } : param2, ref2 = ref1 ? ref1 : _throw(new TypeError(\"Cannot destructure 'undefined' or \
+     'null'\")), a6 = ref2.a6, a7 = ref2.a7;
+}
+"
 );
 
 test!(::swc_ecma_parser::Syntax::default(),
@@ -276,7 +291,7 @@ function rest(b = a, ...a) {
 rest(undefined, 2)"#,
   r#"var a = 1;
 function rest(param) {
-    var tmp = param, b = tmp === void 0 ? a : tmp;
+    var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
@@ -295,7 +310,7 @@ test!(::swc_ecma_parser::Syntax::default(),
 rest2(undefined, 2);"#,
   r#"var a = 1;
 function rest2(param) {
-    var tmp = param, b = tmp === void 0 ? a : tmp;
+    var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
@@ -314,7 +329,7 @@ test!(::swc_ecma_parser::Syntax::default(),
 rest3(undefined, 2)"#,
   r#"var a = 1;
 function rest3(param) {
-    var tmp = param, b = tmp === void 0 ? a : tmp;
+    var b = param === void 0 ? a : param;
     for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         a1[_key - 1] = arguments[_key];
     }
@@ -353,13 +368,13 @@ test!(
     this.num = num;
   }
 };"#,
-    r#"var obj = {
-     set field (param){
-        var tmp = param, num = tmp === void 0 ? 1 : tmp;
+    "var obj = {
+    set field (param){
+        var num = param === void 0 ? 1 : param;
         this.num = num;
-      } 
-    };
-"#
+    }
+};
+"
 );
 
 test_exec!(
@@ -385,7 +400,7 @@ test!(
   return f + " bar";
 };"#,
     r#"var t = function(param) {
-    var tmp = param, f = tmp === void 0 ? 'foo' : tmp;
+    var f = param === void 0 ? 'foo' : param;
     return f + ' bar';
 };"#
 );
@@ -398,16 +413,17 @@ test!(
 function t(x = "default", { a, b }, ...args) {
   console.log(x, a, b, args);
 }"#,
-    r#"// #3861
+    "// #3861
 function t(param, param1) {
-    var tmp = param, x = tmp === void 0 ? 'default' : tmp, ref = param1 ? param1 :
-      _throw(new TypeError("Cannot destructure 'undefined' or 'null'")), a = ref.a, b = ref.b;
-    for(var _len = arguments.length, args = new Array(
-      _len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+    var x = param === void 0 ? 'default' : param, ref = param1 ? param1 : _throw(new \
+     TypeError(\"Cannot destructure 'undefined' or 'null'\")), a = ref.a, b = ref.b;
+    for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < \
+     _len; _key++){
         args[_key - 2] = arguments[_key];
     }
     console.log(x, a, b, args);
-}"#
+}
+"
 );
 
 test!(

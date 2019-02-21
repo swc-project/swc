@@ -24,8 +24,12 @@ macro_rules! impl_fold_fn {
 
                 let f = f.fold_children(self);
 
+                let was_expr = match f.body {
+                    BlockStmtOrExpr::Expr(..) => true,
+                    _ => false,
+                };
                 let body_span = f.body.span();
-                let (params, body) = self.fold_fn_like(
+                let (params, mut body) = self.fold_fn_like(
                     f.params,
                     match f.body {
                         BlockStmtOrExpr::BlockStmt(block) => block,
@@ -38,11 +42,24 @@ macro_rules! impl_fold_fn {
                         },
                     },
                 );
-                ArrowExpr {
-                    params,
-                    body: BlockStmtOrExpr::BlockStmt(body),
-                    ..f
-                }
+
+                let body = if was_expr
+                    && body.stmts.len() == 1
+                    && match body.stmts[0] {
+                        Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
+                        _ => false,
+                    } {
+                    match body.stmts.pop().unwrap() {
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                            BlockStmtOrExpr::Expr(arg)
+                        }
+                        _ => unreachable!(),
+                    }
+                } else {
+                    BlockStmtOrExpr::BlockStmt(body)
+                };
+
+                ArrowExpr { params, body, ..f }
             }
         }
 
