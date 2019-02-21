@@ -897,7 +897,7 @@ impl<'a, I: Input> FnBodyParser<'a, Option<BlockStmt>> for Parser<'a, I> {
         if self.input.syntax().typescript() && !is!('{') && eat!(';') {
             return Ok(None);
         }
-        self.parse_block(true).map(Some)
+        self.include_in_expr(true).parse_block(true).map(Some)
     }
 }
 
