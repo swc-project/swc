@@ -569,7 +569,7 @@ impl Fold<Expr> for AssignFolder {
                             exprs,
                         })
                     }
-                    Pat::Assign(pat) => unimplemented!("assignment pattern"),
+                    Pat::Assign(pat) => unimplemented!("assignment pattern {:?}", pat),
                     Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
                 },
                 _ => {
