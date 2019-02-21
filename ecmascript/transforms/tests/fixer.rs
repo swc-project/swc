@@ -10,7 +10,6 @@ extern crate swc_ecma_parser;
 extern crate swc_ecma_transforms;
 extern crate test;
 extern crate testing;
-use sourcemap::SourceMapBuilder;
 use std::{
     env,
     fs::{read_dir, File},

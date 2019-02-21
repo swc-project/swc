@@ -1,4 +1,4 @@
-error: Not an utf-8 character: 55355
+error: Invalid character in identifier
  --> $DIR/tests/test262-parser/fail/abc46381e4e6bcca.js:1:5
   |
 1 | var \uD83B\uDE00
