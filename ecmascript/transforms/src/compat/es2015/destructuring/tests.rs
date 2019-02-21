@@ -21,8 +21,34 @@ test!(
         };
     }
 }
-
 "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_260_01,
+    "[code = 1] = []",
+    "var ref, ref1;
+ref = [], ref1 = ref[0], code = ref1 === void 0 ? 1 : ref1, ref;"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_260_02,
+    "[code = 1, ...rest] = []",
+    "var ref, ref1;
+ref = [], ref1 = ref[0], code = ref1 === void 0 ? 1 : ref1, rest = ref.slice(1), ref;"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    object_pat_assign_prop,
+    "({code = 1} = {})",
+    "var ref, ref1;
+ref = {}, ref1 = ref.code, code = ref1 === void 0 ? 1 : ref1, ref;"
 );
 
 test!(

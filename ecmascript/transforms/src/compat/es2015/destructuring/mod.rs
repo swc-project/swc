@@ -391,6 +391,13 @@ impl Fold<Expr> for AssignFolder {
                 right,
             }) => match left {
                 PatOrExpr::Pat(pat) => match *pat {
+                    Pat::Expr(expr) => Expr::Assign(AssignExpr {
+                        span,
+                        left: PatOrExpr::Expr(expr),
+                        op: op!("="),
+                        right,
+                    }),
+
                     Pat::Ident(..) => {
                         return Expr::Assign(AssignExpr {
                             span,
@@ -416,16 +423,60 @@ impl Fold<Expr> for AssignFolder {
                                 Some(elem) => elem,
                                 None => continue,
                             };
+                            let elem_span = elem.span();
 
-                            exprs.push(
-                                box Expr::Assign(AssignExpr {
-                                    span: elem.span(),
-                                    op: op!("="),
-                                    left: PatOrExpr::Pat(box elem),
-                                    right: box make_ref_idx_expr(&ref_ident, i),
-                                })
-                                .fold_with(self),
-                            );
+                            match elem {
+                                Pat::Assign(AssignPat {
+                                    span, left, right, ..
+                                }) => {
+                                    // initialized by sequence expression.
+                                    let assign_ref_ident = make_ref_ident(&mut self.vars, None);
+                                    exprs.push(box Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        left: PatOrExpr::Pat(box Pat::Ident(
+                                            assign_ref_ident.clone(),
+                                        )),
+                                        op: op!("="),
+                                        right: box ref_ident.clone().computed_member(i as f64),
+                                    }));
+
+                                    exprs.push(
+                                        box Expr::Assign(AssignExpr {
+                                            span,
+                                            left: PatOrExpr::Pat(left),
+                                            op: op!("="),
+                                            right: box make_cond_expr(assign_ref_ident, right),
+                                        })
+                                        .fold_with(self),
+                                    );
+                                }
+                                Pat::Rest(RestPat { arg, .. }) => exprs.push(
+                                    box Expr::Assign(AssignExpr {
+                                        span: elem_span,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(arg),
+                                        right: box Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: ref_ident
+                                                .clone()
+                                                .member(quote_ident!("slice"))
+                                                .as_callee(),
+                                            args: vec![(i as f64).as_arg()],
+                                            type_args: Default::default(),
+                                        }),
+                                    })
+                                    .fold_with(self),
+                                ),
+                                _ => exprs.push(
+                                    box Expr::Assign(AssignExpr {
+                                        span: elem_span,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(box elem),
+                                        right: box make_ref_idx_expr(&ref_ident, i),
+                                    })
+                                    .fold_with(self),
+                                ),
+                            }
                         }
 
                         // last one should be `ref`
@@ -436,11 +487,7 @@ impl Fold<Expr> for AssignFolder {
                             exprs,
                         })
                     }
-                    Pat::Object(ObjectPat {
-                        span,
-                        props,
-                        type_ann: None,
-                    }) => {
+                    Pat::Object(ObjectPat { span, props, .. }) => {
                         let ref_ident = make_ref_ident(&mut self.vars, None);
 
                         let mut exprs = vec![];
@@ -507,7 +554,10 @@ impl Fold<Expr> for AssignFolder {
                                         }
                                     }
                                 }
-                                ObjectPatProp::Rest(_) => unimplemented!(),
+                                ObjectPatProp::Rest(_) => unreachable!(
+                                    "object rest pattern should be removed by \
+                                     es2018::object_rest_spread pass"
+                                ),
                             }
                         }
 
@@ -519,13 +569,8 @@ impl Fold<Expr> for AssignFolder {
                             exprs,
                         })
                     }
-                    Pat::Expr(box expr) => Expr::Assign(AssignExpr {
-                        span,
-                        left: PatOrExpr::Pat(box Pat::Expr(box expr)),
-                        op: op!("="),
-                        right,
-                    }),
-                    _ => unimplemented!("assignment pattern {:?}", pat),
+                    Pat::Assign(pat) => unimplemented!("assignment pattern"),
+                    Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
                 },
                 _ => {
                     return Expr::Assign(AssignExpr {
