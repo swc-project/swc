@@ -1,0 +1,1 @@
+router.on('routeWillChange', () => (routerTransitionsPending = true));
