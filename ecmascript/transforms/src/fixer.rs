@@ -347,6 +347,20 @@ impl Fold<Expr> for Fixer {
                 }
             }
 
+            Expr::Cond(expr) => {
+                let cons = match *expr.cons {
+                    cons @ Expr::Seq(..) | cons @ Expr::Assign(..) => box cons.wrap_with_paren(),
+                    _ => expr.cons,
+                };
+
+                let alt = match *expr.alt {
+                    alt @ Expr::Seq(..) | alt @ Expr::Assign(..) => box alt.wrap_with_paren(),
+                    _ => expr.alt,
+                };
+
+                Expr::Cond(CondExpr { cons, alt, ..expr })
+            }
+
             Expr::Unary(expr) => {
                 let arg = match *expr.arg {
                     Expr::Assign(..) | Expr::Bin(..) => box expr.arg.wrap_with_paren(),
@@ -615,4 +629,6 @@ function a() {
     identical!(issue_231, "'' + (truthy && '?') + truthy;");
 
     identical!(issue_252, "!!(a && b);");
+
+    identical!(issue_266, "b < 0 ? (t = b, b = 1) : (t = -b, b = 0);");
 }
