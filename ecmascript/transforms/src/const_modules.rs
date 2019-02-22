@@ -103,7 +103,7 @@ mod tests {
         let mut m = FxHashMap::default();
 
         for (src, values) in sources {
-            let mut values = values
+            let values = values
                 .iter()
                 .map(|(k, v)| {
                     let mut v = tester
