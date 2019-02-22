@@ -630,5 +630,16 @@ function a() {
 
     identical!(issue_252, "!!(a && b);");
 
-    identical!(issue_266, "b < 0 ? (t = b, b = 1) : (t = -b, b = 0);");
+    identical!(issue_255, "b < 0 ? (t = b, b = 1) : (t = -b, b = 0);");
+
+    identical!(
+        issue_266_1,
+        "'Q' + +x1 + ',' + +y1 + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);"
+    );
+
+    test_fixer!(
+        issue_266_2,
+        "'Q' + (+x1) + ',' + (+y1) + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);",
+        "'Q' + +x1 + ',' + +y1 + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);"
+    );
 }

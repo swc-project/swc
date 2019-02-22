@@ -117,4 +117,12 @@ const Link = 'Boo';",
         );
     }
 
+    #[test]
+    fn issue_266() {
+        assert_min(
+            "'Q' + +x1 + ',' + +y1 + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);",
+            "'Q'+ +x1+','+ +y1+','+(this._x1=+x)+','+(this._y1=+y);",
+        );
+    }
+
 }
