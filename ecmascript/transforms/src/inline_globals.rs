@@ -1,19 +1,31 @@
 use ast::*;
-use std::collections::HashMap;
+use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
 
 #[derive(Clone)]
 pub struct InlineGlobals {
-    pub envs: HashMap<JsWord, Expr>,
-    pub globals: HashMap<JsWord, Expr>,
+    pub envs: FxHashMap<JsWord, Expr>,
+    pub globals: FxHashMap<JsWord, Expr>,
 }
 
 impl Fold<Expr> for InlineGlobals {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
-            // Don't recurese into member expression.
-            Expr::Member(..) => expr,
+            Expr::Member(expr) => {
+                if expr.computed {
+                    Expr::Member(MemberExpr {
+                        obj: expr.obj.fold_with(self),
+                        prop: expr.prop.fold_with(self),
+                        ..expr
+                    })
+                } else {
+                    Expr::Member(MemberExpr {
+                        obj: expr.obj.fold_with(self),
+                        ..expr
+                    })
+                }
+            }
             _ => expr.fold_children(self),
         };
 
@@ -21,7 +33,7 @@ impl Fold<Expr> for InlineGlobals {
             Expr::Ident(Ident { ref sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
-                    return value.clone();
+                    return value.clone().fold_with(self);
                 } else {
                     expr
                 }
@@ -82,8 +94,8 @@ mod tests {
         tester: &mut crate::tests::Tester,
         values: &[(&str, &str)],
         is_env: bool,
-    ) -> HashMap<JsWord, Expr> {
-        let mut m = HashMap::new();
+    ) -> FxHashMap<JsWord, Expr> {
+        let mut m = FxHashMap::default();
 
         for (k, v) in values {
             let v = if is_env {
@@ -112,14 +124,14 @@ mod tests {
         m
     }
 
-    fn envs(tester: &mut crate::tests::Tester, values: &[(&str, &str)]) -> HashMap<JsWord, Expr> {
+    fn envs(tester: &mut crate::tests::Tester, values: &[(&str, &str)]) -> FxHashMap<JsWord, Expr> {
         mk_map(tester, values, true)
     }
 
     fn globals(
         tester: &mut crate::tests::Tester,
         values: &[(&str, &str)],
-    ) -> HashMap<JsWord, Expr> {
+    ) -> FxHashMap<JsWord, Expr> {
         mk_map(tester, values, false)
     }
 
