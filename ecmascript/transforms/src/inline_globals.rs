@@ -1,6 +1,5 @@
 use ast::*;
 use fxhash::FxHashMap;
-use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith};
 
@@ -13,8 +12,20 @@ pub struct InlineGlobals {
 impl Fold<Expr> for InlineGlobals {
     fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
-            // Don't recurese into member expression.
-            Expr::Member(..) => expr,
+            Expr::Member(expr) => {
+                if expr.computed {
+                    Expr::Member(MemberExpr {
+                        obj: expr.obj.fold_with(self),
+                        prop: expr.prop.fold_with(self),
+                        ..expr
+                    })
+                } else {
+                    Expr::Member(MemberExpr {
+                        obj: expr.obj.fold_with(self),
+                        ..expr
+                    })
+                }
+            }
             _ => expr.fold_children(self),
         };
 
