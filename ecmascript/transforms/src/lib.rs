@@ -42,7 +42,8 @@ extern crate serde;
 extern crate unicode_xid;
 
 pub use self::{
-    fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals, simplify::simplifier,
+    const_modules::const_modules, fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals,
+    simplify::simplifier,
 };
 
 #[cfg(test)]
@@ -57,6 +58,7 @@ mod macros;
 #[macro_use]
 mod hygiene;
 pub mod compat;
+mod const_modules;
 mod fixer;
 mod inline_globals;
 pub mod modules;
