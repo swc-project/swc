@@ -1212,4 +1212,18 @@ export default function waitUntil(callback, options = {}) {
             },
         );
     }
+
+    #[test]
+    fn issue_269() {
+        test_parser(
+            ";(function() {})(window, window.lib || (window.lib = {}))",
+            Default::default(),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
 }
