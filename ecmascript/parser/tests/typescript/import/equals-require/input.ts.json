@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 24,
@@ -7,41 +6,43 @@
   },
   "body": [
     {
-      "type": "TsImportEqualsDecl",
-      "span": {
-        "start": 0,
-        "end": 24,
-        "ctxt": 0
-      },
-      "declare": false,
-      "isExport": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "a",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "moduleRef": {
-        "type": "TsExternalModuleRef",
-        "span": {
-          "start": 11,
-          "end": 23,
-          "ctxt": 0
-        },
-        "expr": {
-          "type": "StringLiteral",
+      "ModuleDecl": {
+        "TsImportEquals": {
           "span": {
-            "start": 19,
-            "end": 22,
+            "start": 0,
+            "end": 24,
             "ctxt": 0
           },
-          "value": "a",
-          "hasEscape": false
+          "declare": false,
+          "isExport": false,
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "moduleRef": {
+            "TsExternalModuleRef": {
+              "span": {
+                "start": 11,
+                "end": 23,
+                "ctxt": 0
+              },
+              "expr": {
+                "span": {
+                  "start": 19,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "hasEscape": false
+              }
+            }
+          }
         }
       }
     }

@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 91,
@@ -7,165 +6,183 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 6,
-          "end": 9,
-          "ctxt": 0
-        },
-        "value": "Foo",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 0,
-        "end": 91,
-        "ctxt": 0
-      },
-      "body": [
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 14,
-            "end": 43,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 14,
-              "end": 25,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "params": [
-            {
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 26,
-                "end": 29,
+                "start": 6,
+                "end": 9,
                 "ctxt": 0
               },
-              "value": "set",
-              "typeAnnotation": null,
+              "value": "Foo",
               "optional": false
             },
-            {
-              "type": "Identifier",
-              "span": {
-                "start": 31,
-                "end": 39,
-                "ctxt": 0
-              },
-              "value": "readonly",
-              "typeAnnotation": null,
-              "optional": false
-            }
-          ],
-          "body": {
-            "type": "BlockStatement",
+            "declare": false,
             "span": {
-              "start": 41,
-              "end": 43,
+              "start": 0,
+              "end": 91,
               "ctxt": 0
             },
-            "stmts": []
-          },
-          "isOptional": false
-        },
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 46,
-            "end": 89,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 46,
-              "end": 57,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "params": [
-            {
-              "type": "Identifier",
-              "span": {
-                "start": 58,
-                "end": 61,
-                "ctxt": 0
-              },
-              "value": "set",
-              "typeAnnotation": {
-                "type": "TsTypeAnnotation",
+            "body": [
+              {
+                "type": "Constructor",
                 "span": {
-                  "start": 61,
-                  "end": 66,
+                  "start": 14,
+                  "end": 43,
                   "ctxt": 0
                 },
-                "type_annotation": {
-                  "type": "TsKeywordType",
+                "key": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 14,
+                      "end": 25,
+                      "ctxt": 0
+                    },
+                    "value": "constructor",
+                    "optional": false
+                  }
+                },
+                "params": [
+                  {
+                    "Pat": {
+                      "Ident": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 26,
+                          "end": 29,
+                          "ctxt": 0
+                        },
+                        "value": "set",
+                        "optional": false
+                      }
+                    }
+                  },
+                  {
+                    "Pat": {
+                      "Ident": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 31,
+                          "end": 39,
+                          "ctxt": 0
+                        },
+                        "value": "readonly",
+                        "optional": false
+                      }
+                    }
+                  }
+                ],
+                "body": {
                   "span": {
-                    "start": 63,
-                    "end": 66,
+                    "start": 41,
+                    "end": 43,
                     "ctxt": 0
                   },
-                  "kind": "any"
-                }
+                  "stmts": []
+                },
+                "isOptional": false
               },
-              "optional": false
-            },
-            {
-              "type": "Identifier",
-              "span": {
-                "start": 68,
-                "end": 76,
-                "ctxt": 0
-              },
-              "value": "readonly",
-              "typeAnnotation": {
-                "type": "TsTypeAnnotation",
+              {
+                "type": "Constructor",
                 "span": {
-                  "start": 76,
-                  "end": 85,
+                  "start": 46,
+                  "end": 89,
                   "ctxt": 0
                 },
-                "type_annotation": {
-                  "type": "TsKeywordType",
+                "key": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 46,
+                      "end": 57,
+                      "ctxt": 0
+                    },
+                    "value": "constructor",
+                    "optional": false
+                  }
+                },
+                "params": [
+                  {
+                    "Pat": {
+                      "Ident": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 58,
+                          "end": 61,
+                          "ctxt": 0
+                        },
+                        "value": "set",
+                        "typeAnnotation": {
+                          "span": {
+                            "start": 61,
+                            "end": 66,
+                            "ctxt": 0
+                          },
+                          "type_annotation": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 63,
+                                "end": 66,
+                                "ctxt": 0
+                              },
+                              "kind": "any"
+                            }
+                          }
+                        },
+                        "optional": false
+                      }
+                    }
+                  },
+                  {
+                    "Pat": {
+                      "Ident": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 68,
+                          "end": 76,
+                          "ctxt": 0
+                        },
+                        "value": "readonly",
+                        "typeAnnotation": {
+                          "span": {
+                            "start": 76,
+                            "end": 85,
+                            "ctxt": 0
+                          },
+                          "type_annotation": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 78,
+                                "end": 85,
+                                "ctxt": 0
+                              },
+                              "kind": "boolean"
+                            }
+                          }
+                        },
+                        "optional": false
+                      }
+                    }
+                  }
+                ],
+                "body": {
                   "span": {
-                    "start": 78,
-                    "end": 85,
+                    "start": 87,
+                    "end": 89,
                     "ctxt": 0
                   },
-                  "kind": "boolean"
-                }
-              },
-              "optional": false
-            }
-          ],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 87,
-              "end": 89,
-              "ctxt": 0
-            },
-            "stmts": []
-          },
-          "isOptional": false
+                  "stmts": []
+                },
+                "isOptional": false
+              }
+            ],
+            "isAbstract": false
+          }
         }
-      ],
-      "isAbstract": false
+      }
     }
   ]
 }

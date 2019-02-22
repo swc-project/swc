@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 42,
@@ -7,84 +6,98 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
-      "span": {
-        "start": 7,
-        "end": 23,
-        "ctxt": 0
-      },
-      "declare": false,
-      "global": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 17,
-          "end": 18,
-          "ctxt": 0
-        },
-        "value": "X",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "body": {
-        "type": "TsNamespaceDecl",
-        "span": {
-          "start": 19,
-          "end": 23,
-          "ctxt": 0
-        },
-        "declare": false,
-        "global": false,
-        "id": {
-          "type": "Identifier",
-          "span": {
-            "start": 19,
-            "end": 20,
-            "ctxt": 0
-          },
-          "value": "Y",
-          "typeAnnotation": null,
-          "optional": false
-        },
-        "body": {
-          "type": "TsModuleBlock",
-          "span": {
-            "start": 21,
-            "end": 23,
-            "ctxt": 0
-          },
-          "body": []
+      "ModuleDecl": {
+        "ExportDecl": {
+          "TsModuleDeclaration": {
+            "span": {
+              "start": 7,
+              "end": 23,
+              "ctxt": 0
+            },
+            "declare": false,
+            "global": false,
+            "id": {
+              "Ident": {
+                "type": "Identifier",
+                "span": {
+                  "start": 17,
+                  "end": 18,
+                  "ctxt": 0
+                },
+                "value": "X",
+                "optional": false
+              }
+            },
+            "body": {
+              "TsNamespaceDecl": {
+                "span": {
+                  "start": 19,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "declare": false,
+                "global": false,
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 19,
+                    "end": 20,
+                    "ctxt": 0
+                  },
+                  "value": "Y",
+                  "optional": false
+                },
+                "body": {
+                  "TsModuleBlock": {
+                    "span": {
+                      "start": 21,
+                      "end": 23,
+                      "ctxt": 0
+                    },
+                    "body": []
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     {
-      "type": "TsModuleDecl",
-      "span": {
-        "start": 31,
-        "end": 42,
-        "ctxt": 0
-      },
-      "declare": false,
-      "global": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 38,
-          "end": 39,
-          "ctxt": 0
-        },
-        "value": "X",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "body": {
-        "type": "TsModuleBlock",
-        "span": {
-          "start": 40,
-          "end": 42,
-          "ctxt": 0
-        },
-        "body": []
+      "ModuleDecl": {
+        "ExportDecl": {
+          "TsModuleDeclaration": {
+            "span": {
+              "start": 31,
+              "end": 42,
+              "ctxt": 0
+            },
+            "declare": false,
+            "global": false,
+            "id": {
+              "Ident": {
+                "type": "Identifier",
+                "span": {
+                  "start": 38,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "value": "X",
+                "optional": false
+              }
+            },
+            "body": {
+              "TsModuleBlock": {
+                "span": {
+                  "start": 40,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "body": []
+              }
+            }
+          }
+        }
       }
     }
   ]

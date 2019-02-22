@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 78,
@@ -7,159 +6,170 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
-      "span": {
-        "start": 10,
-        "end": 78,
-        "ctxt": 0
-      },
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "I",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "typeParams": null,
-      "extends": [],
-      "body": {
-        "type": "TsInterfaceBody",
-        "span": {
-          "start": 12,
-          "end": 78,
-          "ctxt": 0
-        },
-        "body": [
-          {
-            "type": "TsPropertySignature",
+      "Stmt": {
+        "Decl": {
+          "TsInterfaceDeclaration": {
             "span": {
-              "start": 18,
-              "end": 44,
+              "start": 10,
+              "end": 78,
               "ctxt": 0
             },
-            "readonly": false,
-            "key": {
-              "type": "MemberExpression",
+            "id": {
+              "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 34,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
-              "object": {
-                "type": "Identifier",
-                "span": {
-                  "start": 19,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "value": "Symbol",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 26,
-                  "end": 34,
-                  "ctxt": 0
-                },
-                "value": "iterator",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "computed": false
+              "value": "I",
+              "optional": false
             },
-            "computed": true,
-            "optional": false,
-            "init": null,
-            "params": [],
-            "typeAnn": {
-              "type": "TsTypeAnnotation",
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
               "span": {
-                "start": 35,
-                "end": 43,
+                "start": 12,
+                "end": 78,
                 "ctxt": 0
               },
-              "type_annotation": {
-                "type": "TsKeywordType",
-                "span": {
-                  "start": 37,
-                  "end": 43,
-                  "ctxt": 0
+              "body": [
+                {
+                  "TsPropertySignature": {
+                    "span": {
+                      "start": 18,
+                      "end": 44,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "MemberExpression": {
+                        "span": {
+                          "start": 25,
+                          "end": 34,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "Identifier": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 19,
+                              "end": 25,
+                              "ctxt": 0
+                            },
+                            "value": "Symbol",
+                            "optional": false
+                          }
+                        },
+                        "property": {
+                          "Identifier": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 26,
+                              "end": 34,
+                              "ctxt": 0
+                            },
+                            "value": "iterator",
+                            "optional": false
+                          }
+                        },
+                        "computed": false
+                      }
+                    },
+                    "computed": true,
+                    "optional": false,
+                    "init": null,
+                    "params": [],
+                    "typeAnn": {
+                      "span": {
+                        "start": 35,
+                        "end": 43,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 37,
+                            "end": 43,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    },
+                    "typeParams": null
+                  }
                 },
-                "kind": "number"
-              }
-            },
-            "typeParams": null
-          },
-          {
-            "type": "TsPropertySignature",
-            "span": {
-              "start": 49,
-              "end": 76,
-              "ctxt": 0
-            },
-            "readonly": false,
-            "key": {
-              "type": "MemberExpression",
-              "span": {
-                "start": 56,
-                "end": 65,
-                "ctxt": 0
-              },
-              "object": {
-                "type": "Identifier",
-                "span": {
-                  "start": 50,
-                  "end": 56,
-                  "ctxt": 0
-                },
-                "value": "Symbol",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 57,
-                  "end": 65,
-                  "ctxt": 0
-                },
-                "value": "iterator",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "computed": false
-            },
-            "computed": true,
-            "optional": true,
-            "init": null,
-            "params": [],
-            "typeAnn": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 67,
-                "end": 75,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
-                "span": {
-                  "start": 69,
-                  "end": 75,
-                  "ctxt": 0
-                },
-                "kind": "number"
-              }
-            },
-            "typeParams": null
+                {
+                  "TsPropertySignature": {
+                    "span": {
+                      "start": 49,
+                      "end": 76,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "MemberExpression": {
+                        "span": {
+                          "start": 56,
+                          "end": 65,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "Identifier": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 50,
+                              "end": 56,
+                              "ctxt": 0
+                            },
+                            "value": "Symbol",
+                            "optional": false
+                          }
+                        },
+                        "property": {
+                          "Identifier": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 57,
+                              "end": 65,
+                              "ctxt": 0
+                            },
+                            "value": "iterator",
+                            "optional": false
+                          }
+                        },
+                        "computed": false
+                      }
+                    },
+                    "computed": true,
+                    "optional": true,
+                    "init": null,
+                    "params": [],
+                    "typeAnn": {
+                      "span": {
+                        "start": 67,
+                        "end": 75,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 69,
+                            "end": 75,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    },
+                    "typeParams": null
+                  }
+                }
+              ]
+            }
           }
-        ]
+        }
       }
     }
   ]

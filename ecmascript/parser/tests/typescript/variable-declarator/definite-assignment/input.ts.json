@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 15,
@@ -7,52 +6,58 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 15,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 14,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 15,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 6,
-                "end": 14,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 8,
+                  "start": 4,
                   "end": 14,
                   "ctxt": 0
                 },
-                "kind": "number"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 6,
+                        "end": 14,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 8,
+                            "end": 14,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": true
               }
-            },
-            "optional": false
-          },
-          "definite": true
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

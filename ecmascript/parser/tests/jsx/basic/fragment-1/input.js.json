@@ -21,7 +21,6 @@
           "ctxt": 0
         }
       },
-      "children": [],
       "closing": {
         "type": "JSXClosingFragment",
         "span": {

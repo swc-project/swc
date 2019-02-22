@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 28,
@@ -7,87 +6,97 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 28,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 28,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 28,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 28,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsTupleType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 28,
                   "ctxt": 0
                 },
-                "elemTypes": [
-                  {
-                    "type": "TsKeywordType",
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
                     "span": {
-                      "start": 8,
-                      "end": 14,
+                      "start": 4,
+                      "end": 5,
                       "ctxt": 0
                     },
-                    "kind": "string"
-                  },
-                  {
-                    "type": "TsRestType",
-                    "span": {
-                      "start": 16,
-                      "end": 27,
-                      "ctxt": 0
-                    },
-                    "typeAnn": {
-                      "type": "TsArrayType",
+                    "value": "x",
+                    "typeAnnotation": {
                       "span": {
-                        "start": 19,
-                        "end": 27,
+                        "start": 5,
+                        "end": 28,
                         "ctxt": 0
                       },
-                      "elemType": {
-                        "type": "TsKeywordType",
-                        "span": {
-                          "start": 19,
-                          "end": 25,
-                          "ctxt": 0
-                        },
-                        "kind": "number"
+                      "type_annotation": {
+                        "TsTupleType": {
+                          "span": {
+                            "start": 7,
+                            "end": 28,
+                            "ctxt": 0
+                          },
+                          "elemTypes": [
+                            {
+                              "TsKeywordType": {
+                                "span": {
+                                  "start": 8,
+                                  "end": 14,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
+                            },
+                            {
+                              "TsRestType": {
+                                "span": {
+                                  "start": 16,
+                                  "end": 27,
+                                  "ctxt": 0
+                                },
+                                "typeAnn": {
+                                  "TsArrayType": {
+                                    "span": {
+                                      "start": 19,
+                                      "end": 27,
+                                      "ctxt": 0
+                                    },
+                                    "elemType": {
+                                      "TsKeywordType": {
+                                        "span": {
+                                          "start": 19,
+                                          "end": 25,
+                                          "ctxt": 0
+                                        },
+                                        "kind": "number"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
                       }
-                    }
+                    },
+                    "optional": false
                   }
-                ]
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

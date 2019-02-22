@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 34,
@@ -7,85 +6,93 @@
   },
   "body": [
     {
-      "type": "ArrowFunctionExpression",
-      "span": {
-        "start": 5,
-        "end": 34,
-        "ctxt": 0
-      },
-      "params": [
-        {
-          "type": "RestElement",
-          "dot3Token": {
-            "start": 6,
-            "end": 9,
-            "ctxt": 0
-          },
-          "argument": {
-            "type": "Identifier",
+      "Stmt": {
+        "Expr": {
+          "ArrowFunctionExpression": {
             "span": {
-              "start": 9,
-              "end": 13,
+              "start": 5,
+              "end": 34,
               "ctxt": 0
             },
-            "value": "args",
-            "typeAnnotation": null,
-            "optional": true
-          },
-          "typeAnnotation": {
-            "type": "TsTypeAnnotation",
-            "span": {
-              "start": 14,
-              "end": 21,
-              "ctxt": 0
-            },
-            "type_annotation": {
-              "type": "TsArrayType",
-              "span": {
-                "start": 16,
-                "end": 21,
-                "ctxt": 0
-              },
-              "elemType": {
-                "type": "TsKeywordType",
+            "params": [
+              {
+                "Rest": {
+                  "dot3Token": {
+                    "start": 6,
+                    "end": 9,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "Ident": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 9,
+                        "end": 13,
+                        "ctxt": 0
+                      },
+                      "value": "args",
+                      "optional": true
+                    }
+                  },
+                  "typeAnnotation": {
+                    "span": {
+                      "start": 14,
+                      "end": 21,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsArrayType": {
+                        "span": {
+                          "start": 16,
+                          "end": 21,
+                          "ctxt": 0
+                        },
+                        "elemType": {
+                          "TsKeywordType": {
+                            "span": {
+                              "start": 16,
+                              "end": 19,
+                              "ctxt": 0
+                            },
+                            "kind": "any"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "body": {
+              "BlockStmt": {
                 "span": {
-                  "start": 16,
-                  "end": 19,
+                  "start": 32,
+                  "end": 34,
                   "ctxt": 0
                 },
-                "kind": "any"
+                "stmts": []
+              }
+            },
+            "async": true,
+            "generator": false,
+            "returnType": {
+              "span": {
+                "start": 23,
+                "end": 28,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "TsKeywordType": {
+                  "span": {
+                    "start": 25,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "kind": "any"
+                }
               }
             }
           }
-        }
-      ],
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 32,
-          "end": 34,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "async": true,
-      "generator": false,
-      "typeParameters": null,
-      "returnType": {
-        "type": "TsTypeAnnotation",
-        "span": {
-          "start": 23,
-          "end": 28,
-          "ctxt": 0
-        },
-        "type_annotation": {
-          "type": "TsKeywordType",
-          "span": {
-            "start": 25,
-            "end": 28,
-            "ctxt": 0
-          },
-          "kind": "any"
         }
       }
     }

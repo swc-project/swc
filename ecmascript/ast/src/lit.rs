@@ -6,10 +6,15 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum Lit {
     Str(Str),
+
     Bool(Bool),
+
     Null(Null),
+
     Num(Number),
+
     Regex(Regex),
+
     JSXText(JSXText),
 }
 
@@ -17,8 +22,11 @@ pub enum Lit {
 pub struct Str {
     #[serde(default)]
     pub span: Span,
+
     pub value: JsWord,
+
     /// This includes line escape.
+    #[serde(default)]
     pub has_escape: bool,
 }
 impl Str {
@@ -47,8 +55,11 @@ pub struct Null {
 pub struct Regex {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename = "flags")]
+
+    #[serde(rename = "pattern")]
     pub exp: Str,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub flags: Option<RegexFlags>,
 }
 

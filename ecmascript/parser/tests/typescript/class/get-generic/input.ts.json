@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 39,
@@ -7,111 +6,112 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 14,
-          "end": 15,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": true,
-      "type": "Class",
-      "span": {
-        "start": 8,
-        "end": 39,
-        "ctxt": 0
-      },
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 22,
-            "end": 37,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 22,
-              "end": 25,
-              "ctxt": 0
-            },
-            "value": "get",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "function": {
-            "type": "Function",
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 22,
-              "end": 37,
-              "ctxt": 0
-            },
-            "body": null,
-            "generator": false,
-            "async": false,
-            "typeParameters": {
-              "type": "TsTypeParameterDeclaration",
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
+              "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 28,
+                "start": 14,
+                "end": 15,
                 "ctxt": 0
               },
-              "parameters": [
-                {
-                  "type": "TsTypeParam",
-                  "span": {
-                    "start": 26,
-                    "end": 27,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 26,
-                      "end": 27,
-                      "ctxt": 0
-                    },
-                    "value": "T",
-                    "typeAnnotation": null,
-                    "optional": false
-                  },
-                  "constraint": null,
-                  "default": null
-                }
-              ]
+              "value": "C",
+              "optional": false
             },
-            "returnType": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 30,
-                "end": 36,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "declare": true,
+            "span": {
+              "start": 8,
+              "end": 39,
+              "ctxt": 0
+            },
+            "body": [
+              {
+                "type": "Method",
                 "span": {
-                  "start": 32,
-                  "end": 36,
+                  "start": 22,
+                  "end": 37,
                   "ctxt": 0
                 },
-                "kind": "void"
+                "key": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 22,
+                      "end": 25,
+                      "ctxt": 0
+                    },
+                    "value": "get",
+                    "optional": false
+                  }
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 22,
+                    "end": 37,
+                    "ctxt": 0
+                  },
+                  "body": null,
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": {
+                    "span": {
+                      "start": 25,
+                      "end": 28,
+                      "ctxt": 0
+                    },
+                    "parameters": [
+                      {
+                        "span": {
+                          "start": 26,
+                          "end": 27,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 26,
+                            "end": 27,
+                            "ctxt": 0
+                          },
+                          "value": "T",
+                          "optional": false
+                        },
+                        "constraint": null,
+                        "default": null
+                      }
+                    ]
+                  },
+                  "returnType": {
+                    "span": {
+                      "start": 30,
+                      "end": 36,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 32,
+                          "end": 36,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  }
+                },
+                "kind": "method",
+                "isStatic": false,
+                "isAbstract": false,
+                "isOptional": false
               }
-            }
-          },
-          "kind": "method",
-          "isStatic": false,
-          "isAbstract": false,
-          "isOptional": false
+            ],
+            "isAbstract": false
+          }
         }
-      ],
-      "isAbstract": false
+      }
     }
   ]
 }

@@ -32,7 +32,7 @@ pub struct TsTypeParamDecl {
     pub params: Vec<TsTypeParam>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeParameter")]
 pub struct TsTypeParam {
     #[serde(default)]
     pub span: Span,
@@ -41,14 +41,14 @@ pub struct TsTypeParam {
     pub default: Option<Box<TsType>>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeParameterInstantiation")]
 pub struct TsTypeParamInstantiation {
     #[serde(default)]
     pub span: Span,
     pub params: Vec<Box<TsType>>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeCastExpression")]
 pub struct TsTypeCastExpr {
     #[serde(default)]
     pub span: Span,
@@ -56,7 +56,7 @@ pub struct TsTypeCastExpr {
     pub type_ann: TsTypeAnn,
 }
 
-#[ast_node]
+#[ast_node("TsParameterProperty")]
 pub struct TsParamProp {
     #[serde(default)]
     pub span: Span,
@@ -74,7 +74,7 @@ pub enum TsParamPropParam {
     Assign(AssignPat),
 }
 
-#[ast_node]
+#[ast_node("TsQualifiedName")]
 pub struct TsQualifiedName {
     #[span(lo)]
     pub left: TsEntityName,
@@ -111,7 +111,7 @@ pub enum TsTypeElement {
     TsIndexSignature(TsIndexSignature),
 }
 
-#[ast_node]
+#[ast_node("TsCallSignatureDeclaration")]
 pub struct TsCallSignatureDecl {
     #[serde(default)]
     pub span: Span,
@@ -120,7 +120,7 @@ pub struct TsCallSignatureDecl {
     pub type_params: Option<TsTypeParamDecl>,
 }
 
-#[ast_node]
+#[ast_node("TsConstructSignatureDeclaration")]
 pub struct TsConstructSignatureDecl {
     #[serde(default)]
     pub span: Span,
@@ -129,7 +129,7 @@ pub struct TsConstructSignatureDecl {
     pub type_params: Option<TsTypeParamDecl>,
 }
 
-#[ast_node]
+#[ast_node("TsPropertySignature")]
 pub struct TsPropertySignature {
     #[serde(default)]
     pub span: Span,
@@ -143,7 +143,7 @@ pub struct TsPropertySignature {
     pub type_params: Option<TsTypeParamDecl>,
 }
 
-#[ast_node]
+#[ast_node("TsMethodSignature")]
 pub struct TsMethodSignature {
     #[serde(default)]
     pub span: Span,
@@ -156,7 +156,7 @@ pub struct TsMethodSignature {
     pub type_params: Option<TsTypeParamDecl>,
 }
 
-#[ast_node]
+#[ast_node("TsIndexSignature")]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     pub type_ann: Option<TsTypeAnn>,
@@ -223,7 +223,7 @@ impl From<TsIntersectionType> for TsType {
     }
 }
 
-#[ast_node]
+#[ast_node("TsKeywordType")]
 pub struct TsKeywordType {
     #[serde(default)]
     pub span: Span,
@@ -270,7 +270,7 @@ pub enum TsKeywordTypeKind {
     TsNeverKeyword,
 }
 
-#[ast_node]
+#[ast_node("TsThisType")]
 pub struct TsThisType {
     #[serde(default)]
     pub span: Span,
@@ -283,7 +283,7 @@ pub enum TsFnParam {
     Object(ObjectPat),
 }
 
-#[ast_node]
+#[ast_node("TsFunctionType")]
 pub struct TsFnType {
     #[serde(default)]
     pub span: Span,
@@ -293,7 +293,7 @@ pub struct TsFnType {
     pub type_ann: TsTypeAnn,
 }
 
-#[ast_node]
+#[ast_node("TsConstructorType")]
 pub struct TsConstructorType {
     #[serde(default)]
     pub span: Span,
@@ -302,7 +302,7 @@ pub struct TsConstructorType {
     pub type_ann: TsTypeAnn,
 }
 
-#[ast_node]
+#[ast_node("TsTypeReference")]
 pub struct TsTypeRef {
     #[serde(default)]
     pub span: Span,
@@ -310,7 +310,7 @@ pub struct TsTypeRef {
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-#[ast_node]
+#[ast_node("TsTypePredicate")]
 pub struct TsTypePredicate {
     #[serde(default)]
     pub span: Span,
@@ -326,42 +326,42 @@ pub enum TsThisTypeOrIdent {
 }
 
 /// `typeof` operator
-#[ast_node]
+#[ast_node("TsTypeQuery")]
 pub struct TsTypeQuery {
     #[serde(default)]
     pub span: Span,
     pub expr_name: TsEntityName,
 }
 
-#[ast_node]
+#[ast_node("TsTypeLiteral")]
 pub struct TsTypeLit {
     #[serde(default)]
     pub span: Span,
     pub members: Vec<TsTypeElement>,
 }
 
-#[ast_node]
+#[ast_node("TsArrayType")]
 pub struct TsArrayType {
     #[serde(default)]
     pub span: Span,
     pub elem_type: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsTupleType")]
 pub struct TsTupleType {
     #[serde(default)]
     pub span: Span,
     pub elem_types: Vec<Box<TsType>>,
 }
 
-#[ast_node]
+#[ast_node("TsOptionalType")]
 pub struct TsOptionalType {
     #[serde(default)]
     pub span: Span,
     pub type_ann: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsRestType")]
 pub struct TsRestType {
     #[serde(default)]
     pub span: Span,
@@ -374,21 +374,21 @@ pub enum TsUnionOrIntersectionType {
     TsIntersectionType(TsIntersectionType),
 }
 
-#[ast_node]
+#[ast_node("TsUnionType")]
 pub struct TsUnionType {
     #[serde(default)]
     pub span: Span,
     pub types: Vec<Box<TsType>>,
 }
 
-#[ast_node]
+#[ast_node("TsIntersectionType")]
 pub struct TsIntersectionType {
     #[serde(default)]
     pub span: Span,
     pub types: Vec<Box<TsType>>,
 }
 
-#[ast_node]
+#[ast_node("TsConditionalType")]
 pub struct TsConditionalType {
     #[serde(default)]
     pub span: Span,
@@ -398,21 +398,21 @@ pub struct TsConditionalType {
     pub false_type: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsInferType")]
 pub struct TsInferType {
     #[serde(default)]
     pub span: Span,
     pub type_param: TsTypeParam,
 }
 
-#[ast_node]
+#[ast_node("TsParenthesizedType")]
 pub struct TsParenthesizedType {
     #[serde(default)]
     pub span: Span,
     pub type_ann: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeOperator")]
 pub struct TsTypeOperator {
     #[serde(default)]
     pub span: Span,
@@ -499,7 +499,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
     }
 }
 
-#[ast_node]
+#[ast_node("TsMappedType")]
 pub struct TsMappedType {
     #[serde(default)]
     pub span: Span,
@@ -509,7 +509,7 @@ pub struct TsMappedType {
     pub type_ann: Option<Box<TsType>>,
 }
 
-#[ast_node]
+#[ast_node("TsLiteralType")]
 pub struct TsLitType {
     #[serde(default)]
     pub span: Span,
@@ -527,7 +527,7 @@ pub enum TsLit {
 // // TypeScript declarations
 // // ================
 
-#[ast_node]
+#[ast_node("TsInterfaceDeclaration")]
 pub struct TsInterfaceDecl {
     #[serde(default)]
     pub span: Span,
@@ -538,14 +538,14 @@ pub struct TsInterfaceDecl {
     pub body: TsInterfaceBody,
 }
 
-#[ast_node]
+#[ast_node("TsInterfaceBody")]
 pub struct TsInterfaceBody {
     #[serde(default)]
     pub span: Span,
     pub body: Vec<TsTypeElement>,
 }
 
-#[ast_node]
+#[ast_node("TsExpressionWithTypeArguments")]
 pub struct TsExprWithTypeArgs {
     #[serde(default)]
     pub span: Span,
@@ -553,7 +553,7 @@ pub struct TsExprWithTypeArgs {
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeAliasDeclaration")]
 pub struct TsTypeAliasDecl {
     #[serde(default)]
     pub span: Span,
@@ -563,7 +563,7 @@ pub struct TsTypeAliasDecl {
     pub type_ann: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsEnumDeclaration")]
 pub struct TsEnumDecl {
     #[serde(default)]
     pub span: Span,
@@ -573,7 +573,7 @@ pub struct TsEnumDecl {
     pub members: Vec<TsEnumMember>,
 }
 
-#[ast_node]
+#[ast_node("TsEnumMember")]
 pub struct TsEnumMember {
     #[serde(default)]
     pub span: Span,
@@ -587,7 +587,7 @@ pub enum TsEnumMemberId {
     Str(Str),
 }
 
-#[ast_node]
+#[ast_node("TsModuleDeclaration")]
 pub struct TsModuleDecl {
     #[serde(default)]
     pub span: Span,
@@ -606,14 +606,14 @@ pub enum TsNamespaceBody {
     TsNamespaceDecl(TsNamespaceDecl),
 }
 
-#[ast_node]
+#[ast_node("TsModuleBlock")]
 pub struct TsModuleBlock {
     #[serde(default)]
     pub span: Span,
     pub body: Vec<ModuleItem>,
 }
 
-#[ast_node]
+#[ast_node("TsNamespaceDeclaration")]
 pub struct TsNamespaceDecl {
     #[serde(default)]
     pub span: Span,
@@ -630,7 +630,7 @@ pub enum TsModuleName {
     Str(Str),
 }
 
-#[ast_node]
+#[ast_node("TsImportEqualsDeclaration")]
 pub struct TsImportEqualsDecl {
     #[serde(default)]
     pub span: Span,
@@ -646,7 +646,7 @@ pub enum TsModuleRef {
     TsExternalModuleRef(TsExternalModuleRef),
 }
 
-#[ast_node]
+#[ast_node("TsExternalModuleReference")]
 pub struct TsExternalModuleRef {
     #[serde(default)]
     pub span: Span,
@@ -656,14 +656,14 @@ pub struct TsExternalModuleRef {
 /// TypeScript's own parser uses ExportAssignment for both `export default` and
 /// `export =`. But for @babel/parser, `export default` is an ExportDefaultDecl,
 /// so a TsExportAssignment is always `export =`.
-#[ast_node]
+#[ast_node("TsExportAssignment")]
 pub struct TsExportAssignment {
     #[serde(default)]
     pub span: Span,
     pub expr: Box<Expr>,
 }
 
-#[ast_node]
+#[ast_node("TsNamespaceExportDeclaration")]
 pub struct TsNamespaceExportDecl {
     #[serde(default)]
     pub span: Span,
@@ -674,7 +674,7 @@ pub struct TsNamespaceExportDecl {
 // // TypeScript exprs
 // // ================
 
-#[ast_node]
+#[ast_node("TsAsExpression")]
 pub struct TsAsExpr {
     #[serde(default)]
     pub span: Span,
@@ -682,7 +682,7 @@ pub struct TsAsExpr {
     pub type_ann: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsTypeAssertion")]
 pub struct TsTypeAssertion {
     #[serde(default)]
     pub span: Span,
@@ -690,7 +690,7 @@ pub struct TsTypeAssertion {
     pub type_ann: Box<TsType>,
 }
 
-#[ast_node]
+#[ast_node("TsNonNullExpression")]
 pub struct TsNonNullExpr {
     #[serde(default)]
     pub span: Span,

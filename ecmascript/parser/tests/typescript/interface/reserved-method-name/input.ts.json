@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 34,
@@ -7,76 +6,81 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
-      "span": {
-        "start": 10,
-        "end": 34,
-        "ctxt": 0
-      },
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "I",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "typeParams": null,
-      "extends": [],
-      "body": {
-        "type": "TsInterfaceBody",
-        "span": {
-          "start": 12,
-          "end": 34,
-          "ctxt": 0
-        },
-        "body": [
-          {
-            "type": "TsMethodSignature",
+      "Stmt": {
+        "Decl": {
+          "TsInterfaceDeclaration": {
             "span": {
-              "start": 18,
-              "end": 32,
+              "start": 10,
+              "end": 34,
               "ctxt": 0
             },
-            "readonly": false,
-            "key": {
+            "id": {
               "type": "Identifier",
               "span": {
-                "start": 18,
-                "end": 23,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
-              "value": "catch",
-              "typeAnnotation": null,
+              "value": "I",
               "optional": false
             },
-            "computed": false,
-            "optional": false,
-            "params": [],
-            "typeAnn": {
-              "type": "TsTypeAnnotation",
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
               "span": {
-                "start": 25,
-                "end": 31,
+                "start": 12,
+                "end": 34,
                 "ctxt": 0
               },
-              "type_annotation": {
-                "type": "TsKeywordType",
-                "span": {
-                  "start": 27,
-                  "end": 31,
-                  "ctxt": 0
-                },
-                "kind": "void"
-              }
-            },
-            "typeParams": null
+              "body": [
+                {
+                  "TsMethodSignature": {
+                    "span": {
+                      "start": 18,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "Identifier": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 18,
+                          "end": 23,
+                          "ctxt": 0
+                        },
+                        "value": "catch",
+                        "optional": false
+                      }
+                    },
+                    "computed": false,
+                    "optional": false,
+                    "params": [],
+                    "typeAnn": {
+                      "span": {
+                        "start": 25,
+                        "end": 31,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 27,
+                            "end": 31,
+                            "ctxt": 0
+                          },
+                          "kind": "void"
+                        }
+                      }
+                    },
+                    "typeParams": null
+                  }
+                }
+              ]
+            }
           }
-        ]
+        }
       }
     }
   ]

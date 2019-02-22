@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 184,
@@ -7,580 +6,652 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 11,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 10,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 11,
               "ctxt": 0
             },
-            "value": "a",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 10,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 10,
                   "ctxt": 0
                 },
-                "kind": "any"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 5,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 7,
+                            "end": 10,
+                            "ctxt": 0
+                          },
+                          "kind": "any"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 12,
-        "end": 28,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 16,
-            "end": 27,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 16,
-              "end": 18,
+              "start": 12,
+              "end": 28,
               "ctxt": 0
             },
-            "value": "un",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 18,
-                "end": 27,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 20,
+                  "start": 16,
                   "end": 27,
                   "ctxt": 0
                 },
-                "kind": "unknown"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 16,
+                      "end": 18,
+                      "ctxt": 0
+                    },
+                    "value": "un",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 18,
+                        "end": 27,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 20,
+                            "end": 27,
+                            "ctxt": 0
+                          },
+                          "kind": "unknown"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 29,
-        "end": 44,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 33,
-            "end": 43,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 33,
-              "end": 34,
+              "start": 29,
+              "end": 44,
               "ctxt": 0
             },
-            "value": "b",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 34,
-                "end": 43,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 36,
+                  "start": 33,
                   "end": 43,
                   "ctxt": 0
                 },
-                "kind": "boolean"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 33,
+                      "end": 34,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 34,
+                        "end": 43,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 36,
+                            "end": 43,
+                            "ctxt": 0
+                          },
+                          "kind": "boolean"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 45,
-        "end": 59,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 49,
-            "end": 58,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 49,
-              "end": 51,
+              "start": 45,
+              "end": 59,
               "ctxt": 0
             },
-            "value": "ne",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 51,
-                "end": 58,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 53,
+                  "start": 49,
                   "end": 58,
                   "ctxt": 0
                 },
-                "kind": "never"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 49,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "value": "ne",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 51,
+                        "end": 58,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 53,
+                            "end": 58,
+                            "ctxt": 0
+                          },
+                          "kind": "never"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 60,
-        "end": 74,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 64,
-            "end": 73,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 64,
-              "end": 67,
+              "start": 60,
+              "end": 74,
               "ctxt": 0
             },
-            "value": "nul",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 67,
-                "end": 73,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 69,
+                  "start": 64,
                   "end": 73,
                   "ctxt": 0
                 },
-                "kind": "null"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 64,
+                      "end": 67,
+                      "ctxt": 0
+                    },
+                    "value": "nul",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 67,
+                        "end": 73,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 69,
+                            "end": 73,
+                            "ctxt": 0
+                          },
+                          "kind": "null"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 75,
-        "end": 91,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 79,
-            "end": 90,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 79,
-              "end": 82,
+              "start": 75,
+              "end": 91,
               "ctxt": 0
             },
-            "value": "num",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 82,
-                "end": 90,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 84,
+                  "start": 79,
                   "end": 90,
                   "ctxt": 0
                 },
-                "kind": "number"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 79,
+                      "end": 82,
+                      "ctxt": 0
+                    },
+                    "value": "num",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 82,
+                        "end": 90,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 84,
+                            "end": 90,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 92,
-        "end": 106,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 96,
-            "end": 105,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 96,
-              "end": 97,
+              "start": 92,
+              "end": 106,
               "ctxt": 0
             },
-            "value": "o",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 97,
-                "end": 105,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 99,
+                  "start": 96,
                   "end": 105,
                   "ctxt": 0
                 },
-                "kind": "object"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 96,
+                      "end": 97,
+                      "ctxt": 0
+                    },
+                    "value": "o",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 97,
+                        "end": 105,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 99,
+                            "end": 105,
+                            "ctxt": 0
+                          },
+                          "kind": "object"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 107,
-        "end": 122,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 111,
-            "end": 121,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 111,
-              "end": 113,
+              "start": 107,
+              "end": 122,
               "ctxt": 0
             },
-            "value": "st",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 113,
-                "end": 121,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 115,
+                  "start": 111,
                   "end": 121,
                   "ctxt": 0
                 },
-                "kind": "string"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 111,
+                      "end": 113,
+                      "ctxt": 0
+                    },
+                    "value": "st",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 113,
+                        "end": 121,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 115,
+                            "end": 121,
+                            "ctxt": 0
+                          },
+                          "kind": "string"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 123,
-        "end": 138,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 127,
-            "end": 137,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 127,
-              "end": 129,
+              "start": 123,
+              "end": 138,
               "ctxt": 0
             },
-            "value": "sy",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 129,
-                "end": 137,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 131,
+                  "start": 127,
                   "end": 137,
                   "ctxt": 0
                 },
-                "kind": "symbol"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 127,
+                      "end": 129,
+                      "ctxt": 0
+                    },
+                    "value": "sy",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 129,
+                        "end": 137,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 131,
+                            "end": 137,
+                            "ctxt": 0
+                          },
+                          "kind": "symbol"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 139,
-        "end": 156,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 143,
-            "end": 155,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 143,
-              "end": 144,
+              "start": 139,
+              "end": 156,
               "ctxt": 0
             },
-            "value": "u",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 144,
-                "end": 155,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 146,
+                  "start": 143,
                   "end": 155,
                   "ctxt": 0
                 },
-                "kind": "undefined"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 143,
+                      "end": 144,
+                      "ctxt": 0
+                    },
+                    "value": "u",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 144,
+                        "end": 155,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 146,
+                            "end": 155,
+                            "ctxt": 0
+                          },
+                          "kind": "undefined"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 157,
-        "end": 169,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 161,
-            "end": 168,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 161,
-              "end": 162,
+              "start": 157,
+              "end": 169,
               "ctxt": 0
             },
-            "value": "v",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 162,
-                "end": 168,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 164,
+                  "start": 161,
                   "end": 168,
                   "ctxt": 0
                 },
-                "kind": "void"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 161,
+                      "end": 162,
+                      "ctxt": 0
+                    },
+                    "value": "v",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 162,
+                        "end": 168,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 164,
+                            "end": 168,
+                            "ctxt": 0
+                          },
+                          "kind": "void"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 170,
-        "end": 184,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 174,
-            "end": 183,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 174,
-              "end": 175,
+              "start": 170,
+              "end": 184,
               "ctxt": 0
             },
-            "value": "n",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 175,
-                "end": 183,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 177,
+                  "start": 174,
                   "end": 183,
                   "ctxt": 0
                 },
-                "kind": "bigint"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 174,
+                      "end": 175,
+                      "ctxt": 0
+                    },
+                    "value": "n",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 175,
+                        "end": 183,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 177,
+                            "end": 183,
+                            "ctxt": 0
+                          },
+                          "kind": "bigint"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

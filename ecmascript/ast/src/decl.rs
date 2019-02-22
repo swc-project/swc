@@ -81,7 +81,7 @@ pub struct VarDeclarator {
 
     /// Initialization expresion.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub init: Option<(Box<Expr>)>,
+    pub init: Option<Box<Expr>>,
 
     /// Typescript only
     #[serde(default)]

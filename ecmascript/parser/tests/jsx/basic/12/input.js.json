@@ -16,14 +16,12 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 4,
             "ctxt": 0
           },
           "value": "div",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -31,9 +29,7 @@
           "end": 5,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
+        "selfClosing": false
       },
       "children": [
         {
@@ -46,14 +42,12 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 6,
                 "end": 8,
                 "ctxt": 0
               },
               "value": "br",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -61,9 +55,7 @@
               "end": 11,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": true,
-            "typeArguments": null
+            "selfClosing": true
           },
           "children": [],
           "closing": null
@@ -87,14 +79,12 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 37,
             "end": 40,
             "ctxt": 0
           },
           "value": "div",
-          "typeAnnotation": null,
           "optional": false
         }
       }

@@ -18,25 +18,21 @@
         "name": {
           "type": "JSXMemberExpression",
           "object": {
-            "type": "Identifier",
             "span": {
               "start": 1,
               "end": 2,
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
-            "type": "Identifier",
             "span": {
               "start": 3,
               "end": 4,
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -45,9 +41,7 @@
           "end": 5,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
+        "selfClosing": false
       },
       "children": [],
       "closing": {
@@ -60,25 +54,21 @@
         "name": {
           "type": "JSXMemberExpression",
           "object": {
-            "type": "Identifier",
             "span": {
               "start": 7,
               "end": 8,
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "property": {
-            "type": "Identifier",
             "span": {
               "start": 9,
               "end": 10,
               "ctxt": 0
             },
             "value": "b",
-            "typeAnnotation": null,
             "optional": false
           }
         }

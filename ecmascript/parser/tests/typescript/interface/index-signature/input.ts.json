@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 40,
@@ -7,90 +6,96 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
-      "span": {
-        "start": 10,
-        "end": 40,
-        "ctxt": 0
-      },
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "I",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "typeParams": null,
-      "extends": [],
-      "body": {
-        "type": "TsInterfaceBody",
-        "span": {
-          "start": 12,
-          "end": 40,
-          "ctxt": 0
-        },
-        "body": [
-          {
-            "type": "TsIndexSignature",
-            "params": [
-              {
-                "type": "Identifier",
-                "span": {
-                  "start": 19,
-                  "end": 20,
-                  "ctxt": 0
-                },
-                "value": "s",
-                "typeAnnotation": {
-                  "type": "TsTypeAnnotation",
-                  "span": {
-                    "start": 22,
-                    "end": 28,
-                    "ctxt": 0
-                  },
-                  "type_annotation": {
-                    "type": "TsKeywordType",
-                    "span": {
-                      "start": 22,
-                      "end": 28,
-                      "ctxt": 0
-                    },
-                    "kind": "string"
-                  }
-                },
-                "optional": false
-              }
-            ],
-            "typeAnn": {
-              "type": "TsTypeAnnotation",
+      "Stmt": {
+        "Decl": {
+          "TsInterfaceDeclaration": {
+            "span": {
+              "start": 10,
+              "end": 40,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
               "span": {
-                "start": 29,
-                "end": 37,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
-              "type_annotation": {
-                "type": "TsKeywordType",
-                "span": {
-                  "start": 31,
-                  "end": 37,
-                  "ctxt": 0
-                },
-                "kind": "number"
-              }
+              "value": "I",
+              "optional": false
             },
-            "readonly": false,
-            "span": {
-              "start": 18,
-              "end": 38,
-              "ctxt": 0
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "span": {
+                "start": 12,
+                "end": 40,
+                "ctxt": 0
+              },
+              "body": [
+                {
+                  "TsIndexSignature": {
+                    "params": [
+                      {
+                        "Ident": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 19,
+                            "end": 20,
+                            "ctxt": 0
+                          },
+                          "value": "s",
+                          "typeAnnotation": {
+                            "span": {
+                              "start": 22,
+                              "end": 28,
+                              "ctxt": 0
+                            },
+                            "type_annotation": {
+                              "TsKeywordType": {
+                                "span": {
+                                  "start": 22,
+                                  "end": 28,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
+                            }
+                          },
+                          "optional": false
+                        }
+                      }
+                    ],
+                    "typeAnn": {
+                      "span": {
+                        "start": 29,
+                        "end": 37,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 31,
+                            "end": 37,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    },
+                    "readonly": false,
+                    "span": {
+                      "start": 18,
+                      "end": 38,
+                      "ctxt": 0
+                    }
+                  }
+                }
+              ]
             }
           }
-        ]
+        }
       }
     }
   ]

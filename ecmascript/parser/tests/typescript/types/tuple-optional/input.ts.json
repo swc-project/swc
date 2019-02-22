@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 44,
@@ -7,123 +6,139 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 44,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 44,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 44,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 44,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsTupleType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 44,
                   "ctxt": 0
                 },
-                "elemTypes": [
-                  {
-                    "type": "TsKeywordType",
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
                     "span": {
-                      "start": 8,
-                      "end": 14,
+                      "start": 4,
+                      "end": 5,
                       "ctxt": 0
                     },
-                    "kind": "string"
-                  },
-                  {
-                    "type": "TsOptionalType",
-                    "span": {
-                      "start": 16,
-                      "end": 23,
-                      "ctxt": 0
-                    },
-                    "typeAnn": {
-                      "type": "TsKeywordType",
+                    "value": "x",
+                    "typeAnnotation": {
                       "span": {
-                        "start": 16,
-                        "end": 22,
+                        "start": 5,
+                        "end": 44,
                         "ctxt": 0
                       },
-                      "kind": "number"
-                    }
-                  },
-                  {
-                    "type": "TsOptionalType",
-                    "span": {
-                      "start": 25,
-                      "end": 43,
-                      "ctxt": 0
-                    },
-                    "typeAnn": {
-                      "type": "TsParenthesizedType",
-                      "span": {
-                        "start": 25,
-                        "end": 42,
-                        "ctxt": 0
-                      },
-                      "typeAnn": {
-                        "type": "TsUnionType",
-                        "span": {
-                          "start": 26,
-                          "end": 41,
-                          "ctxt": 0
-                        },
-                        "types": [
-                          {
-                            "type": "TsKeywordType",
-                            "span": {
-                              "start": 26,
-                              "end": 32,
-                              "ctxt": 0
-                            },
-                            "kind": "string"
+                      "type_annotation": {
+                        "TsTupleType": {
+                          "span": {
+                            "start": 7,
+                            "end": 44,
+                            "ctxt": 0
                           },
-                          {
-                            "type": "TsKeywordType",
-                            "span": {
-                              "start": 35,
-                              "end": 41,
-                              "ctxt": 0
+                          "elemTypes": [
+                            {
+                              "TsKeywordType": {
+                                "span": {
+                                  "start": 8,
+                                  "end": 14,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
                             },
-                            "kind": "number"
-                          }
-                        ]
+                            {
+                              "TsOptionalType": {
+                                "span": {
+                                  "start": 16,
+                                  "end": 23,
+                                  "ctxt": 0
+                                },
+                                "typeAnn": {
+                                  "TsKeywordType": {
+                                    "span": {
+                                      "start": 16,
+                                      "end": 22,
+                                      "ctxt": 0
+                                    },
+                                    "kind": "number"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "TsOptionalType": {
+                                "span": {
+                                  "start": 25,
+                                  "end": 43,
+                                  "ctxt": 0
+                                },
+                                "typeAnn": {
+                                  "TsParenthesizedType": {
+                                    "span": {
+                                      "start": 25,
+                                      "end": 42,
+                                      "ctxt": 0
+                                    },
+                                    "typeAnn": {
+                                      "TsUnionOrIntersectionType": {
+                                        "TsUnionType": {
+                                          "span": {
+                                            "start": 26,
+                                            "end": 41,
+                                            "ctxt": 0
+                                          },
+                                          "types": [
+                                            {
+                                              "TsKeywordType": {
+                                                "span": {
+                                                  "start": 26,
+                                                  "end": 32,
+                                                  "ctxt": 0
+                                                },
+                                                "kind": "string"
+                                              }
+                                            },
+                                            {
+                                              "TsKeywordType": {
+                                                "span": {
+                                                  "start": 35,
+                                                  "end": 41,
+                                                  "ctxt": 0
+                                                },
+                                                "kind": "number"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
                       }
-                    }
+                    },
+                    "optional": false
                   }
-                ]
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

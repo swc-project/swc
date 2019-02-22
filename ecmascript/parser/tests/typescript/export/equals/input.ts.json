@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 11,
@@ -7,22 +6,26 @@
   },
   "body": [
     {
-      "type": "TsExportAssignment",
-      "span": {
-        "start": 0,
-        "end": 11,
-        "ctxt": 0
-      },
-      "expr": {
-        "type": "Identifier",
-        "span": {
-          "start": 9,
-          "end": 10,
-          "ctxt": 0
-        },
-        "value": "f",
-        "typeAnnotation": null,
-        "optional": false
+      "ModuleDecl": {
+        "TsExportAssignment": {
+          "span": {
+            "start": 0,
+            "end": 11,
+            "ctxt": 0
+          },
+          "expr": {
+            "Identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 9,
+                "end": 10,
+                "ctxt": 0
+              },
+              "value": "f",
+              "optional": false
+            }
+          }
+        }
       }
     }
   ]

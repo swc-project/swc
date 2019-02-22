@@ -16,14 +16,12 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -42,25 +40,21 @@
             "name": {
               "type": "JSXNamespacedName",
               "namespace": {
-                "type": "Identifier",
                 "span": {
                   "start": 3,
                   "end": 4,
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "name": {
-                "type": "Identifier",
                 "span": {
                   "start": 5,
                   "end": 8,
                   "ctxt": 0
                 },
                 "value": "foo",
-                "typeAnnotation": null,
                 "optional": false
               }
             },
@@ -76,8 +70,7 @@
             }
           }
         ],
-        "selfClosing": false,
-        "typeArguments": null
+        "selfClosing": false
       },
       "children": [
         {
@@ -93,14 +86,12 @@
         {
           "type": "JSXExpressionContainer",
           "expression": {
-            "type": "Identifier",
             "span": {
               "start": 17,
               "end": 22,
               "ctxt": 0
             },
             "value": "value",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -124,14 +115,12 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 25,
                 "end": 26,
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -139,9 +128,7 @@
               "end": 27,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
+            "selfClosing": false
           },
           "children": [
             {
@@ -154,14 +141,12 @@
               "opening": {
                 "type": "JSXOpeningElement",
                 "name": {
-                  "type": "Identifier",
                   "span": {
                     "start": 28,
                     "end": 29,
                     "ctxt": 0
                   },
                   "value": "c",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "span": {
@@ -169,9 +154,7 @@
                   "end": 32,
                   "ctxt": 0
                 },
-                "attributes": [],
-                "selfClosing": true,
-                "typeArguments": null
+                "selfClosing": true
               },
               "children": [],
               "closing": null
@@ -185,14 +168,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 34,
                 "end": 35,
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -206,14 +187,12 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 38,
             "end": 39,
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         }
       }

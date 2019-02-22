@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 37,
@@ -7,97 +6,104 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDecl",
-      "span": {
-        "start": 0,
-        "end": 37,
-        "ctxt": 0
-      },
-      "declare": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 5,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "MyType",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "typeParams": null,
-      "typeAnn": {
-        "type": "TsFnType",
-        "span": {
-          "start": 14,
-          "end": 37,
-          "ctxt": 0
-        },
-        "params": [
-          {
-            "type": "ObjectPattern",
+      "Stmt": {
+        "Decl": {
+          "TsTypeAliasDeclaration": {
             "span": {
-              "start": 15,
-              "end": 24,
-              "ctxt": 0
-            },
-            "properties": [
-              {
-                "type": "AssignPatternProperty",
-                "span": {
-                  "start": 17,
-                  "end": 22,
-                  "ctxt": 0
-                },
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 17,
-                    "end": 22,
-                    "ctxt": 0
-                  },
-                  "value": "theme",
-                  "typeAnnotation": null,
-                  "optional": false
-                },
-                "value": null
-              }
-            ],
-            "type_annotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 24,
-                "end": 29,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
-                "span": {
-                  "start": 26,
-                  "end": 29,
-                  "ctxt": 0
-                },
-                "kind": "any"
-              }
-            }
-          }
-        ],
-        "typeParams": null,
-        "typeAnn": {
-          "type": "TsTypeAnnotation",
-          "span": {
-            "start": 31,
-            "end": 37,
-            "ctxt": 0
-          },
-          "type_annotation": {
-            "type": "TsKeywordType",
-            "span": {
-              "start": 34,
+              "start": 0,
               "end": 37,
               "ctxt": 0
             },
-            "kind": "any"
+            "declare": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 11,
+                "ctxt": 0
+              },
+              "value": "MyType",
+              "optional": false
+            },
+            "typeParams": null,
+            "typeAnn": {
+              "TsFnOrConstructorType": {
+                "TsFnType": {
+                  "span": {
+                    "start": 14,
+                    "end": 37,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "Object": {
+                        "span": {
+                          "start": 15,
+                          "end": 24,
+                          "ctxt": 0
+                        },
+                        "properties": [
+                          {
+                            "Assign": {
+                              "span": {
+                                "start": 17,
+                                "end": 22,
+                                "ctxt": 0
+                              },
+                              "key": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 17,
+                                  "end": 22,
+                                  "ctxt": 0
+                                },
+                                "value": "theme",
+                                "optional": false
+                              }
+                            }
+                          }
+                        ],
+                        "typeAnnotation": {
+                          "span": {
+                            "start": 24,
+                            "end": 29,
+                            "ctxt": 0
+                          },
+                          "type_annotation": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 26,
+                                "end": 29,
+                                "ctxt": 0
+                              },
+                              "kind": "any"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "typeParams": null,
+                  "typeAnn": {
+                    "span": {
+                      "start": 31,
+                      "end": 37,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 34,
+                          "end": 37,
+                          "ctxt": 0
+                        },
+                        "kind": "any"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

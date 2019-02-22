@@ -16,14 +16,12 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -40,14 +38,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 3,
                 "end": 4,
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -69,14 +65,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 12,
                 "ctxt": 0
               },
               "value": "c",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -98,14 +92,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 17,
                 "end": 18,
                 "ctxt": 0
               },
               "value": "d",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -127,14 +119,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 27,
                 "end": 28,
                 "ctxt": 0
               },
               "value": "e",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -149,8 +139,7 @@
             }
           }
         ],
-        "selfClosing": true,
-        "typeArguments": null
+        "selfClosing": true
       },
       "children": [],
       "closing": null

@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 32,
@@ -7,75 +6,90 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
-      "span": {
-        "start": 0,
-        "end": 32,
-        "ctxt": 0
-      },
-      "declare": false,
-      "global": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "N",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "body": {
-        "type": "TsModuleBlock",
-        "span": {
-          "start": 12,
-          "end": 32,
-          "ctxt": 0
-        },
-        "body": [
-          {
-            "type": "VariableDeclaration",
+      "Stmt": {
+        "Decl": {
+          "TsModuleDeclaration": {
             "span": {
-              "start": 18,
-              "end": 30,
+              "start": 0,
+              "end": 32,
               "ctxt": 0
             },
-            "kind": "const",
             "declare": false,
-            "declarations": [
-              {
-                "type": "VariableDeclarator",
+            "global": false,
+            "id": {
+              "Ident": {
+                "type": "Identifier",
                 "span": {
-                  "start": 24,
-                  "end": 29,
+                  "start": 10,
+                  "end": 11,
                   "ctxt": 0
                 },
-                "id": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 24,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "value": "x",
-                  "typeAnnotation": null,
-                  "optional": false
-                },
-                "init": {
-                  "type": "NumericLiteral",
-                  "span": {
-                    "start": 28,
-                    "end": 29,
-                    "ctxt": 0
-                  },
-                  "value": 0.0
-                },
-                "definite": false
+                "value": "N",
+                "optional": false
               }
-            ]
+            },
+            "body": {
+              "TsModuleBlock": {
+                "span": {
+                  "start": 12,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "Stmt": {
+                      "Decl": {
+                        "VariableDeclaration": {
+                          "span": {
+                            "start": 18,
+                            "end": 30,
+                            "ctxt": 0
+                          },
+                          "kind": "const",
+                          "declare": false,
+                          "declarations": [
+                            {
+                              "span": {
+                                "start": 24,
+                                "end": 29,
+                                "ctxt": 0
+                              },
+                              "id": {
+                                "Ident": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 24,
+                                    "end": 25,
+                                    "ctxt": 0
+                                  },
+                                  "value": "x",
+                                  "optional": false
+                                }
+                              },
+                              "init": {
+                                "Literal": {
+                                  "Num": {
+                                    "span": {
+                                      "start": 28,
+                                      "end": 29,
+                                      "ctxt": 0
+                                    },
+                                    "value": 0.0
+                                  }
+                                }
+                              },
+                              "definite": false
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
           }
-        ]
+        }
       }
     }
   ]

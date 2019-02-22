@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 25,
@@ -7,75 +6,82 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 6,
-          "end": 7,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 0,
-        "end": 25,
-        "ctxt": 0
-      },
-      "superClass": {
-        "type": "CallExpression",
-        "span": {
-          "start": 16,
-          "end": 19,
-          "ctxt": 0
-        },
-        "callee": {
-          "type": "Identifier",
-          "span": {
-            "start": 16,
-            "end": 17,
-            "ctxt": 0
-          },
-          "value": "f",
-          "typeAnnotation": null,
-          "optional": false
-        },
-        "arguments": [],
-        "typeArguments": null
-      },
-      "isAbstract": false,
-      "superTypeParams": {
-        "type": "TsTypeParamInstantiation",
-        "span": {
-          "start": 19,
-          "end": 22,
-          "ctxt": 0
-        },
-        "params": [
-          {
-            "type": "TsTypeRef",
-            "span": {
-              "start": 20,
-              "end": 21,
-              "ctxt": 0
-            },
-            "typeName": {
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 20,
-                "end": 21,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
-              "value": "T",
-              "typeAnnotation": null,
+              "value": "C",
               "optional": false
             },
-            "typeParams": null
+            "declare": false,
+            "span": {
+              "start": 0,
+              "end": 25,
+              "ctxt": 0
+            },
+            "superClass": {
+              "CallExpression": {
+                "span": {
+                  "start": 16,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "Identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 16,
+                      "end": 17,
+                      "ctxt": 0
+                    },
+                    "value": "f",
+                    "optional": false
+                  }
+                },
+                "arguments": [],
+                "typeArguments": null
+              }
+            },
+            "isAbstract": false,
+            "superTypeParams": {
+              "span": {
+                "start": 19,
+                "end": 22,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "TsTypeRef": {
+                    "span": {
+                      "start": 20,
+                      "end": 21,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "Ident": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 20,
+                          "end": 21,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "optional": false
+                      }
+                    },
+                    "typeParams": null
+                  }
+                }
+              ]
+            }
           }
-        ]
+        }
       }
     }
   ]

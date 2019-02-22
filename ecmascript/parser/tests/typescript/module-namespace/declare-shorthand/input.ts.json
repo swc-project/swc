@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 19,
@@ -7,25 +6,31 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
-      "span": {
-        "start": 0,
-        "end": 19,
-        "ctxt": 0
-      },
-      "declare": true,
-      "global": false,
-      "id": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 15,
-          "end": 18,
-          "ctxt": 0
-        },
-        "value": "m",
-        "hasEscape": false
-      },
-      "body": null
+      "Stmt": {
+        "Decl": {
+          "TsModuleDeclaration": {
+            "span": {
+              "start": 0,
+              "end": 19,
+              "ctxt": 0
+            },
+            "declare": true,
+            "global": false,
+            "id": {
+              "Str": {
+                "span": {
+                  "start": 15,
+                  "end": 18,
+                  "ctxt": 0
+                },
+                "value": "m",
+                "hasEscape": false
+              }
+            },
+            "body": null
+          }
+        }
+      }
     }
   ]
 }

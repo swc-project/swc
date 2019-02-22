@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 28,
@@ -7,90 +6,95 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 6,
-          "end": 7,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 0,
-        "end": 28,
-        "ctxt": 0
-      },
-      "isAbstract": false,
-      "implements": [
-        {
-          "type": "TsExprWithTypeArgs",
-          "span": {
-            "start": 19,
-            "end": 25,
-            "ctxt": 0
-          },
-          "expr": {
-            "type": "TsQualifiedName",
-            "left": {
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 19,
-                "end": 20,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
-              "value": "X",
-              "typeAnnotation": null,
+              "value": "C",
               "optional": false
             },
-            "right": {
-              "type": "Identifier",
-              "span": {
-                "start": 21,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": "Y",
-              "typeAnnotation": null,
-              "optional": false
-            }
-          },
-          "typeParams": {
-            "type": "TsTypeParamInstantiation",
+            "declare": false,
             "span": {
-              "start": 22,
-              "end": 25,
+              "start": 0,
+              "end": 28,
               "ctxt": 0
             },
-            "params": [
+            "isAbstract": false,
+            "implements": [
               {
-                "type": "TsTypeRef",
                 "span": {
-                  "start": 23,
-                  "end": 24,
+                  "start": 19,
+                  "end": 25,
                   "ctxt": 0
                 },
-                "typeName": {
-                  "type": "Identifier",
+                "expr": {
+                  "TsQualifiedName": {
+                    "left": {
+                      "Ident": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 19,
+                          "end": 20,
+                          "ctxt": 0
+                        },
+                        "value": "X",
+                        "optional": false
+                      }
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 21,
+                        "end": 22,
+                        "ctxt": 0
+                      },
+                      "value": "Y",
+                      "optional": false
+                    }
+                  }
+                },
+                "typeParams": {
                   "span": {
-                    "start": 23,
-                    "end": 24,
+                    "start": 22,
+                    "end": 25,
                     "ctxt": 0
                   },
-                  "value": "T",
-                  "typeAnnotation": null,
-                  "optional": false
-                },
-                "typeParams": null
+                  "params": [
+                    {
+                      "TsTypeRef": {
+                        "span": {
+                          "start": 23,
+                          "end": 24,
+                          "ctxt": 0
+                        },
+                        "typeName": {
+                          "Ident": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 23,
+                              "end": 24,
+                              "ctxt": 0
+                            },
+                            "value": "T",
+                            "optional": false
+                          }
+                        },
+                        "typeParams": null
+                      }
+                    }
+                  ]
+                }
               }
             ]
           }
         }
-      ]
+      }
     }
   ]
 }

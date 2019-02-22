@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 34,
@@ -7,84 +6,95 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 8,
-        "end": 14,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": true,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 12,
-            "end": 13,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 12,
-              "end": 13,
+              "start": 8,
+              "end": 14,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "definite": false
+            "kind": "var",
+            "declare": true,
+            "declarations": [
+              {
+                "span": {
+                  "start": 12,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 12,
+                      "end": 13,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 23,
-        "end": 34,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": true,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 27,
-            "end": 33,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 27,
-              "end": 28,
+              "start": 23,
+              "end": 34,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 28,
-                "end": 33,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "var",
+            "declare": true,
+            "declarations": [
+              {
                 "span": {
-                  "start": 30,
+                  "start": 27,
                   "end": 33,
                   "ctxt": 0
                 },
-                "kind": "any"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 27,
+                      "end": 28,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 28,
+                        "end": 33,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 30,
+                            "end": 33,
+                            "ctxt": 0
+                          },
+                          "kind": "any"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

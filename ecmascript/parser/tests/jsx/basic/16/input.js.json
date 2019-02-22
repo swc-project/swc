@@ -15,7 +15,7 @@
       },
       "operator": "<",
       "left": {
-        "type": "ParenExpr",
+        "type": "ParenthesisExpression",
         "span": {
           "start": 0,
           "end": 9,
@@ -31,14 +31,12 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 2,
                 "end": 5,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -46,23 +44,19 @@
               "end": 8,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": true,
-            "typeArguments": null
+            "selfClosing": true
           },
           "children": [],
           "closing": null
         }
       },
       "right": {
-        "type": "Identifier",
         "span": {
           "start": 12,
           "end": 13,
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       }
     }

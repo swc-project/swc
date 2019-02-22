@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 35,
@@ -7,88 +6,95 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 8,
-        "end": 35,
-        "ctxt": 0
-      },
-      "kind": "const",
-      "declare": true,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 14,
-            "end": 23,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 14,
-              "end": 15,
+              "start": 8,
+              "end": 35,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 15,
-                "end": 23,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "kind": "const",
+            "declare": true,
+            "declarations": [
+              {
                 "span": {
-                  "start": 17,
+                  "start": 14,
                   "end": 23,
                   "ctxt": 0
                 },
-                "kind": "number"
-              }
-            },
-            "optional": false
-          },
-          "definite": false
-        },
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 25,
-            "end": 34,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 25,
-              "end": 26,
-              "ctxt": 0
-            },
-            "value": "y",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 26,
-                "end": 34,
-                "ctxt": 0
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 14,
+                      "end": 15,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 15,
+                        "end": 23,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 17,
+                            "end": 23,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               },
-              "type_annotation": {
-                "type": "TsKeywordType",
+              {
                 "span": {
-                  "start": 28,
+                  "start": 25,
                   "end": 34,
                   "ctxt": 0
                 },
-                "kind": "string"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 25,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "value": "y",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 26,
+                        "end": 34,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 28,
+                            "end": 34,
+                            "ctxt": 0
+                          },
+                          "kind": "string"
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

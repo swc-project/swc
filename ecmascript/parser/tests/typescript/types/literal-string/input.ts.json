@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 13,
@@ -7,61 +6,68 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 13,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 12,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 13,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 12,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsLitType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 12,
                   "ctxt": 0
                 },
-                "lit": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 7,
-                    "end": 12,
-                    "ctxt": 0
-                  },
-                  "value": "foo",
-                  "hasEscape": false
-                }
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 5,
+                        "end": 12,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsLitType": {
+                          "span": {
+                            "start": 7,
+                            "end": 12,
+                            "ctxt": 0
+                          },
+                          "lit": {
+                            "Str": {
+                              "span": {
+                                "start": 7,
+                                "end": 12,
+                                "ctxt": 0
+                              },
+                              "value": "foo",
+                              "hasEscape": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

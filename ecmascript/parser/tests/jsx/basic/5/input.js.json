@@ -16,14 +16,12 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -31,9 +29,7 @@
           "end": 5,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": true,
-        "typeArguments": null
+        "selfClosing": true
       },
       "children": [],
       "closing": null

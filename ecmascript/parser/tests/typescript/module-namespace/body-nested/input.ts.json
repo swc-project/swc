@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 39,
@@ -7,64 +6,78 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
-      "span": {
-        "start": 0,
-        "end": 39,
-        "ctxt": 0
-      },
-      "declare": false,
-      "global": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "A",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "body": {
-        "type": "TsModuleBlock",
-        "span": {
-          "start": 12,
-          "end": 39,
-          "ctxt": 0
-        },
-        "body": [
-          {
-            "type": "TsModuleDecl",
+      "Stmt": {
+        "Decl": {
+          "TsModuleDeclaration": {
             "span": {
-              "start": 18,
-              "end": 37,
+              "start": 0,
+              "end": 39,
               "ctxt": 0
             },
             "declare": false,
             "global": false,
             "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 28,
-                "end": 29,
-                "ctxt": 0
-              },
-              "value": "B",
-              "typeAnnotation": null,
-              "optional": false
+              "Ident": {
+                "type": "Identifier",
+                "span": {
+                  "start": 10,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "value": "A",
+                "optional": false
+              }
             },
             "body": {
-              "type": "TsModuleBlock",
-              "span": {
-                "start": 30,
-                "end": 37,
-                "ctxt": 0
-              },
-              "body": []
+              "TsModuleBlock": {
+                "span": {
+                  "start": 12,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "Stmt": {
+                      "Decl": {
+                        "TsModuleDeclaration": {
+                          "span": {
+                            "start": 18,
+                            "end": 37,
+                            "ctxt": 0
+                          },
+                          "declare": false,
+                          "global": false,
+                          "id": {
+                            "Ident": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 28,
+                                "end": 29,
+                                "ctxt": 0
+                              },
+                              "value": "B",
+                              "optional": false
+                            }
+                          },
+                          "body": {
+                            "TsModuleBlock": {
+                              "span": {
+                                "start": 30,
+                                "end": 37,
+                                "ctxt": 0
+                              },
+                              "body": []
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
             }
           }
-        ]
+        }
       }
     }
   ]

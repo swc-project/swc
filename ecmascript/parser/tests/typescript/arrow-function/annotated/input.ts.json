@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 25,
@@ -7,70 +6,79 @@
   },
   "body": [
     {
-      "type": "ArrowFunctionExpression",
-      "span": {
-        "start": 0,
-        "end": 24,
-        "ctxt": 0
-      },
-      "params": [
-        {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
-          },
-          "value": "x",
-          "typeAnnotation": {
-            "type": "TsTypeAnnotation",
+      "Stmt": {
+        "Expr": {
+          "ArrowFunctionExpression": {
             "span": {
-              "start": 2,
-              "end": 10,
+              "start": 0,
+              "end": 24,
               "ctxt": 0
             },
-            "type_annotation": {
-              "type": "TsKeywordType",
+            "params": [
+              {
+                "Ident": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1,
+                    "end": 2,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": {
+                    "span": {
+                      "start": 2,
+                      "end": 10,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 4,
+                          "end": 10,
+                          "ctxt": 0
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  },
+                  "optional": false
+                }
+              }
+            ],
+            "body": {
+              "Expr": {
+                "Identifier": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 23,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                }
+              }
+            },
+            "async": false,
+            "generator": false,
+            "returnType": {
               "span": {
-                "start": 4,
-                "end": 10,
+                "start": 11,
+                "end": 19,
                 "ctxt": 0
               },
-              "kind": "number"
+              "type_annotation": {
+                "TsKeywordType": {
+                  "span": {
+                    "start": 13,
+                    "end": 19,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              }
             }
-          },
-          "optional": false
-        }
-      ],
-      "body": {
-        "type": "Identifier",
-        "span": {
-          "start": 23,
-          "end": 24,
-          "ctxt": 0
-        },
-        "value": "x",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "async": false,
-      "generator": false,
-      "typeParameters": null,
-      "returnType": {
-        "type": "TsTypeAnnotation",
-        "span": {
-          "start": 11,
-          "end": 19,
-          "ctxt": 0
-        },
-        "type_annotation": {
-          "type": "TsKeywordType",
-          "span": {
-            "start": 13,
-            "end": 19,
-            "ctxt": 0
-          },
-          "kind": "number"
+          }
         }
       }
     }

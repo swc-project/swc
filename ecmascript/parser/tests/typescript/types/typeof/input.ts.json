@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 18,
@@ -7,76 +6,83 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 18,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 17,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 18,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 17,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsTypeQuery",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 17,
                   "ctxt": 0
                 },
-                "exprName": {
-                  "type": "TsQualifiedName",
-                  "left": {
+                "id": {
+                  "Ident": {
                     "type": "Identifier",
                     "span": {
-                      "start": 14,
-                      "end": 15,
+                      "start": 4,
+                      "end": 5,
                       "ctxt": 0
                     },
-                    "value": "y",
-                    "typeAnnotation": null,
-                    "optional": false
-                  },
-                  "right": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 16,
-                      "end": 17,
-                      "ctxt": 0
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 5,
+                        "end": 17,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsTypeQuery": {
+                          "span": {
+                            "start": 7,
+                            "end": 17,
+                            "ctxt": 0
+                          },
+                          "exprName": {
+                            "TsQualifiedName": {
+                              "left": {
+                                "Ident": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 14,
+                                    "end": 15,
+                                    "ctxt": 0
+                                  },
+                                  "value": "y",
+                                  "optional": false
+                                }
+                              },
+                              "right": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 16,
+                                  "end": 17,
+                                  "ctxt": 0
+                                },
+                                "value": "z",
+                                "optional": false
+                              }
+                            }
+                          }
+                        }
+                      }
                     },
-                    "value": "z",
-                    "typeAnnotation": null,
                     "optional": false
                   }
-                }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

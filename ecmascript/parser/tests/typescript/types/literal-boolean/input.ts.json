@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 26,
@@ -7,116 +6,130 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 12,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 11,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 12,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 11,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsLitType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 11,
                   "ctxt": 0
                 },
-                "lit": {
-                  "type": "BooleanLiteral",
-                  "span": {
-                    "start": 7,
-                    "end": 11,
-                    "ctxt": 0
-                  },
-                  "value": true
-                }
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 5,
+                        "end": 11,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsLitType": {
+                          "span": {
+                            "start": 7,
+                            "end": 11,
+                            "ctxt": 0
+                          },
+                          "lit": {
+                            "Bool": {
+                              "span": {
+                                "start": 7,
+                                "end": 11,
+                                "ctxt": 0
+                              },
+                              "value": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     },
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 13,
-        "end": 26,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 17,
-            "end": 25,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 17,
-              "end": 18,
+              "start": 13,
+              "end": 26,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 18,
-                "end": 25,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsLitType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 20,
+                  "start": 17,
                   "end": 25,
                   "ctxt": 0
                 },
-                "lit": {
-                  "type": "BooleanLiteral",
-                  "span": {
-                    "start": 20,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "value": false
-                }
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 17,
+                      "end": 18,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 18,
+                        "end": 25,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsLitType": {
+                          "span": {
+                            "start": 20,
+                            "end": 25,
+                            "ctxt": 0
+                          },
+                          "lit": {
+                            "Bool": {
+                              "span": {
+                                "start": 20,
+                                "end": 25,
+                                "ctxt": 0
+                              },
+                              "value": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

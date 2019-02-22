@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 29,
@@ -7,89 +6,91 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 6,
-          "end": 7,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 0,
-        "end": 29,
-        "ctxt": 0
-      },
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 14,
-            "end": 27,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 14,
-              "end": 15,
-              "ctxt": 0
-            },
-            "value": "m",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "function": {
-            "type": "Function",
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 14,
-              "end": 27,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
+              "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 27,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
-              "stmts": []
+              "value": "C",
+              "optional": false
             },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 18,
-                "end": 24,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "declare": false,
+            "span": {
+              "start": 0,
+              "end": 29,
+              "ctxt": 0
+            },
+            "body": [
+              {
+                "type": "Method",
                 "span": {
-                  "start": 20,
-                  "end": 24,
+                  "start": 14,
+                  "end": 27,
                   "ctxt": 0
                 },
-                "kind": "void"
+                "key": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 14,
+                      "end": 15,
+                      "ctxt": 0
+                    },
+                    "value": "m",
+                    "optional": false
+                  }
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 14,
+                    "end": 27,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "span": {
+                      "start": 25,
+                      "end": 27,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "returnType": {
+                    "span": {
+                      "start": 18,
+                      "end": 24,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 20,
+                          "end": 24,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  }
+                },
+                "kind": "method",
+                "isStatic": false,
+                "isAbstract": false,
+                "isOptional": true
               }
-            }
-          },
-          "kind": "method",
-          "isStatic": false,
-          "isAbstract": false,
-          "isOptional": true
+            ],
+            "isAbstract": false
+          }
         }
-      ],
-      "isAbstract": false
+      }
     }
   ]
 }

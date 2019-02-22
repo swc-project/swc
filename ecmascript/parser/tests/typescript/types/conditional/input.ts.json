@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 46,
@@ -7,87 +6,97 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 46,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 45,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 46,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 45,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsConditionalType",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 45,
                   "ctxt": 0
                 },
-                "checkType": {
-                  "type": "TsKeywordType",
-                  "span": {
-                    "start": 7,
-                    "end": 13,
-                    "ctxt": 0
-                  },
-                  "kind": "number"
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
+                      "span": {
+                        "start": 5,
+                        "end": 45,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "TsConditionalType": {
+                          "span": {
+                            "start": 7,
+                            "end": 45,
+                            "ctxt": 0
+                          },
+                          "checkType": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 7,
+                                "end": 13,
+                                "ctxt": 0
+                              },
+                              "kind": "number"
+                            }
+                          },
+                          "extendsType": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 22,
+                                "end": 28,
+                                "ctxt": 0
+                              },
+                              "kind": "string"
+                            }
+                          },
+                          "trueType": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 31,
+                                "end": 38,
+                                "ctxt": 0
+                              },
+                              "kind": "boolean"
+                            }
+                          },
+                          "falseType": {
+                            "TsKeywordType": {
+                              "span": {
+                                "start": 41,
+                                "end": 45,
+                                "ctxt": 0
+                              },
+                              "kind": "null"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
                 },
-                "extendsType": {
-                  "type": "TsKeywordType",
-                  "span": {
-                    "start": 22,
-                    "end": 28,
-                    "ctxt": 0
-                  },
-                  "kind": "string"
-                },
-                "trueType": {
-                  "type": "TsKeywordType",
-                  "span": {
-                    "start": 31,
-                    "end": 38,
-                    "ctxt": 0
-                  },
-                  "kind": "boolean"
-                },
-                "falseType": {
-                  "type": "TsKeywordType",
-                  "span": {
-                    "start": 41,
-                    "end": 45,
-                    "ctxt": 0
-                  },
-                  "kind": "null"
-                }
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

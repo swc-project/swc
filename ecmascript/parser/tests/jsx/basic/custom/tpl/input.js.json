@@ -15,14 +15,12 @@
       },
       "expressions": [
         {
-          "type": "Identifier",
           "span": {
             "start": 3,
             "end": 6,
             "ctxt": 0
           },
           "value": "foo",
-          "typeAnnotation": null,
           "optional": false
         }
       ],

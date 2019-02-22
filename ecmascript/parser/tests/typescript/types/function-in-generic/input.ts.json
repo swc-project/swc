@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 25,
@@ -7,99 +6,108 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 25,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 24,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 25,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 24,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsTypeRef",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 24,
                   "ctxt": 0
                 },
-                "typeName": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 7,
-                    "end": 12,
-                    "ctxt": 0
-                  },
-                  "value": "Array",
-                  "typeAnnotation": null,
-                  "optional": false
-                },
-                "typeParams": {
-                  "type": "TsTypeParamInstantiation",
-                  "span": {
-                    "start": 12,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "TsFnType",
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
                       "span": {
-                        "start": 13,
-                        "end": 23,
+                        "start": 5,
+                        "end": 24,
                         "ctxt": 0
                       },
-                      "params": [],
-                      "typeParams": null,
-                      "typeAnn": {
-                        "type": "TsTypeAnnotation",
-                        "span": {
-                          "start": 16,
-                          "end": 23,
-                          "ctxt": 0
-                        },
-                        "type_annotation": {
-                          "type": "TsKeywordType",
+                      "type_annotation": {
+                        "TsTypeRef": {
                           "span": {
-                            "start": 19,
-                            "end": 23,
+                            "start": 7,
+                            "end": 24,
                             "ctxt": 0
                           },
-                          "kind": "void"
+                          "typeName": {
+                            "Ident": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 7,
+                                "end": 12,
+                                "ctxt": 0
+                              },
+                              "value": "Array",
+                              "optional": false
+                            }
+                          },
+                          "typeParams": {
+                            "span": {
+                              "start": 12,
+                              "end": 24,
+                              "ctxt": 0
+                            },
+                            "params": [
+                              {
+                                "TsFnOrConstructorType": {
+                                  "TsFnType": {
+                                    "span": {
+                                      "start": 13,
+                                      "end": 23,
+                                      "ctxt": 0
+                                    },
+                                    "params": [],
+                                    "typeParams": null,
+                                    "typeAnn": {
+                                      "span": {
+                                        "start": 16,
+                                        "end": 23,
+                                        "ctxt": 0
+                                      },
+                                      "type_annotation": {
+                                        "TsKeywordType": {
+                                          "span": {
+                                            "start": 19,
+                                            "end": 23,
+                                            "ctxt": 0
+                                          },
+                                          "kind": "void"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
                         }
                       }
-                    }
-                  ]
-                }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

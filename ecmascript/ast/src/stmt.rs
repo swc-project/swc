@@ -87,7 +87,7 @@ pub struct ReturnStmt {
     #[serde(default)]
     pub span: Span,
     #[serde(rename = "argument")]
-    pub arg: Option<(Box<Expr>)>,
+    pub arg: Option<Box<Expr>>,
 }
 
 #[ast_node("LabeledStatement")]
@@ -171,8 +171,8 @@ pub struct ForStmt {
     #[serde(default)]
     pub span: Span,
     pub init: Option<VarDeclOrExpr>,
-    pub test: Option<(Box<Expr>)>,
-    pub update: Option<(Box<Expr>)>,
+    pub test: Option<Box<Expr>>,
+    pub update: Option<Box<Expr>>,
     pub body: Box<Stmt>,
 }
 
@@ -205,8 +205,9 @@ pub struct ForOfStmt {
 pub struct SwitchCase {
     #[serde(default)]
     pub span: Span,
+
     /// None for `default:`
-    pub test: Option<(Box<Expr>)>,
+    pub test: Option<Box<Expr>>,
 
     #[serde(rename = "consequent")]
     pub cons: Vec<Stmt>,
@@ -220,6 +221,7 @@ pub struct CatchClause {
     ///
     /// The param is null if the catch binding is omitted. E.g., try { foo() }
     /// catch { bar() }
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub param: Option<Pat>,
 
     pub body: BlockStmt,

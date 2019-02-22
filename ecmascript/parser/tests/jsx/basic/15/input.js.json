@@ -20,37 +20,31 @@
           "object": {
             "type": "JSXMemberExpression",
             "object": {
-              "type": "Identifier",
               "span": {
                 "start": 1,
                 "end": 2,
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
-              "type": "Identifier",
               "span": {
                 "start": 3,
                 "end": 4,
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           },
           "property": {
-            "type": "Identifier",
             "span": {
               "start": 5,
               "end": 6,
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -59,9 +53,7 @@
           "end": 7,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
+        "selfClosing": false
       },
       "children": [],
       "closing": {
@@ -76,37 +68,31 @@
           "object": {
             "type": "JSXMemberExpression",
             "object": {
-              "type": "Identifier",
               "span": {
                 "start": 9,
                 "end": 10,
                 "ctxt": 0
               },
               "value": "a",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
-              "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 12,
                 "ctxt": 0
               },
               "value": "b",
-              "typeAnnotation": null,
               "optional": false
             }
           },
           "property": {
-            "type": "Identifier",
             "span": {
               "start": 13,
               "end": 14,
               "ctxt": 0
             },
             "value": "c",
-            "typeAnnotation": null,
             "optional": false
           }
         }

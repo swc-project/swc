@@ -16,14 +16,12 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 10,
             "ctxt": 0
           },
           "value": "日本語",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -31,9 +29,7 @@
           "end": 11,
           "ctxt": 0
         },
-        "attributes": [],
-        "selfClosing": false,
-        "typeArguments": null
+        "selfClosing": false
       },
       "children": [],
       "closing": {
@@ -44,14 +40,12 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 13,
             "end": 22,
             "ctxt": 0
           },
           "value": "日本語",
-          "typeAnnotation": null,
           "optional": false
         }
       }

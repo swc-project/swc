@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 13,
@@ -7,47 +6,60 @@
   },
   "body": [
     {
-      "type": "ParenExpr",
-      "span": {
-        "start": 0,
-        "end": 13,
-        "ctxt": 0
-      },
-      "expr": {
-        "type": "ConditionalExpression",
-        "span": {
-          "start": 1,
-          "end": 12,
-          "ctxt": 0
-        },
-        "test": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 4,
-            "ctxt": 0
-          },
-          "value": "foo",
-          "typeAnnotation": null,
-          "optional": false
-        },
-        "consequent": {
-          "type": "NumericLiteral",
-          "span": {
-            "start": 7,
-            "end": 8,
-            "ctxt": 0
-          },
-          "value": 1.0
-        },
-        "alternate": {
-          "type": "NumericLiteral",
-          "span": {
-            "start": 11,
-            "end": 12,
-            "ctxt": 0
-          },
-          "value": 2.0
+      "Stmt": {
+        "Expr": {
+          "ParenthesizedExpression": {
+            "span": {
+              "start": 0,
+              "end": 13,
+              "ctxt": 0
+            },
+            "expr": {
+              "ConditionalExpression": {
+                "span": {
+                  "start": 1,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "test": {
+                  "Identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1,
+                      "end": 4,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "optional": false
+                  }
+                },
+                "consequent": {
+                  "Literal": {
+                    "Num": {
+                      "span": {
+                        "start": 7,
+                        "end": 8,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                "alternate": {
+                  "Literal": {
+                    "Num": {
+                      "span": {
+                        "start": 11,
+                        "end": 12,
+                        "ctxt": 0
+                      },
+                      "value": 2.0
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

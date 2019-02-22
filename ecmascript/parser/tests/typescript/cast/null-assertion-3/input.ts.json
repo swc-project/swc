@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 17,
@@ -7,65 +6,73 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 17,
-        "ctxt": 0
-      },
-      "kind": "const",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 6,
-            "end": 16,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 6,
-              "end": 7,
+              "start": 0,
+              "end": 17,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "init": {
-            "type": "TsNonNullExpr",
-            "span": {
-              "start": 15,
-              "end": 16,
-              "ctxt": 0
-            },
-            "expr": {
-              "type": "CallExpression",
-              "span": {
-                "start": 10,
-                "end": 15,
-                "ctxt": 0
-              },
-              "callee": {
-                "type": "Identifier",
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 10,
-                  "end": 13,
+                  "start": 6,
+                  "end": 16,
                   "ctxt": 0
                 },
-                "value": "foo",
-                "typeAnnotation": null,
-                "optional": false
-              },
-              "arguments": [],
-              "typeArguments": null
-            }
-          },
-          "definite": false
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 6,
+                      "end": 7,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
+                },
+                "init": {
+                  "TsNonNullExpression": {
+                    "span": {
+                      "start": 15,
+                      "end": 16,
+                      "ctxt": 0
+                    },
+                    "expr": {
+                      "CallExpression": {
+                        "span": {
+                          "start": 10,
+                          "end": 15,
+                          "ctxt": 0
+                        },
+                        "callee": {
+                          "Identifier": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 10,
+                              "end": 13,
+                              "ctxt": 0
+                            },
+                            "value": "foo",
+                            "optional": false
+                          }
+                        },
+                        "arguments": [],
+                        "typeArguments": null
+                      }
+                    }
+                  }
+                },
+                "definite": false
+              }
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

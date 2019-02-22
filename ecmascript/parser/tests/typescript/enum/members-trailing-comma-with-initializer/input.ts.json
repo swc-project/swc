@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 21,
@@ -7,55 +6,62 @@
   },
   "body": [
     {
-      "type": "TsEnumDecl",
-      "span": {
-        "start": 0,
-        "end": 21,
-        "ctxt": 0
-      },
-      "declare": false,
-      "isConst": false,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 5,
-          "end": 6,
-          "ctxt": 0
-        },
-        "value": "E",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "members": [
-        {
-          "type": "TsEnumMember",
-          "span": {
-            "start": 13,
-            "end": 18,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "TsEnumDeclaration": {
             "span": {
-              "start": 13,
-              "end": 14,
+              "start": 0,
+              "end": 21,
               "ctxt": 0
             },
-            "value": "A",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "init": {
-            "type": "NumericLiteral",
-            "span": {
-              "start": 17,
-              "end": 18,
-              "ctxt": 0
+            "declare": false,
+            "isConst": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 6,
+                "ctxt": 0
+              },
+              "value": "E",
+              "optional": false
             },
-            "value": 0.0
+            "members": [
+              {
+                "span": {
+                  "start": 13,
+                  "end": 18,
+                  "ctxt": 0
+                },
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 13,
+                      "end": 14,
+                      "ctxt": 0
+                    },
+                    "value": "A",
+                    "optional": false
+                  }
+                },
+                "init": {
+                  "Literal": {
+                    "Num": {
+                      "span": {
+                        "start": 17,
+                        "end": 18,
+                        "ctxt": 0
+                      },
+                      "value": 0.0
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
-      ]
+      }
     }
   ]
 }

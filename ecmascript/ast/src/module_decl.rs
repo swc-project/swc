@@ -26,7 +26,10 @@ pub enum ModuleDecl {
 pub struct ImportDecl {
     #[serde(default)]
     pub span: Span,
+
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub specifiers: Vec<ImportSpecifier>,
+
     #[serde(rename = "source")]
     pub src: Str,
 }
@@ -36,6 +39,7 @@ pub struct ImportDecl {
 pub struct ExportAll {
     #[serde(default)]
     pub span: Span,
+
     #[serde(rename = "source")]
     pub src: Str,
 }
@@ -46,6 +50,7 @@ pub struct ExportAll {
 pub struct NamedExport {
     #[serde(default)]
     pub span: Span,
+
     pub specifiers: Vec<ExportSpecifier>,
 
     #[serde(rename = "source")]
@@ -73,6 +78,7 @@ pub enum ImportSpecifier {
 pub struct ImportDefault {
     #[serde(default)]
     pub span: Span,
+
     pub local: Ident,
 }
 /// e.g. `import * as foo from 'mod.js'`.
@@ -80,6 +86,7 @@ pub struct ImportDefault {
 pub struct ImportStarAs {
     #[serde(default)]
     pub span: Span,
+
     pub local: Ident,
 }
 /// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
@@ -89,14 +96,19 @@ pub struct ImportStarAs {
 pub struct ImportSpecific {
     #[serde(default)]
     pub span: Span,
+
     pub local: Ident,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub imported: Option<Ident>,
 }
 
 #[ast_node]
 pub enum ExportSpecifier {
     Namespace(NamespaceExportSpecifier),
+
     Default(DefaultExportSpecifier),
+
     Named(NamedExportSpecifier),
 }
 
@@ -105,6 +117,7 @@ pub enum ExportSpecifier {
 pub struct NamespaceExportSpecifier {
     #[serde(default)]
     pub span: Span,
+
     pub name: Ident,
 }
 
@@ -121,5 +134,6 @@ pub struct NamedExportSpecifier {
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,
     /// `Some(bar)` in `export { foo as bar }`
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub exported: Option<Ident>,
 }

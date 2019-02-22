@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 18,
@@ -7,57 +6,71 @@
   },
   "body": [
     {
-      "type": "AssignmentExpression",
-      "span": {
-        "start": 0,
-        "end": 17,
-        "ctxt": 0
-      },
-      "operator": "+=",
-      "left": {
-        "type": "ParenExpr",
-        "span": {
-          "start": 0,
-          "end": 12,
-          "ctxt": 0
-        },
-        "expr": {
-          "type": "TsTypeAssertion",
-          "span": {
-            "start": 2,
-            "end": 11,
-            "ctxt": 0
-          },
-          "expr": {
-            "type": "Identifier",
+      "Stmt": {
+        "Expr": {
+          "AssignmentExpression": {
             "span": {
-              "start": 10,
-              "end": 11,
+              "start": 0,
+              "end": 17,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "typeAnn": {
-            "type": "TsKeywordType",
-            "span": {
-              "start": 2,
-              "end": 8,
-              "ctxt": 0
+            "operator": "+=",
+            "left": {
+              "Expr": {
+                "ParenthesizedExpression": {
+                  "span": {
+                    "start": 0,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "expr": {
+                    "TsTypeAssertionExpression": {
+                      "span": {
+                        "start": 2,
+                        "end": 11,
+                        "ctxt": 0
+                      },
+                      "expr": {
+                        "Identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 10,
+                            "end": 11,
+                            "ctxt": 0
+                          },
+                          "value": "x",
+                          "optional": false
+                        }
+                      },
+                      "typeAnn": {
+                        "TsKeywordType": {
+                          "span": {
+                            "start": 2,
+                            "end": 8,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
-            "kind": "number"
+            "right": {
+              "Literal": {
+                "Num": {
+                  "span": {
+                    "start": 16,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              }
+            }
           }
         }
-      },
-      "right": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 16,
-          "end": 17,
-          "ctxt": 0
-        },
-        "value": 1.0
       }
     }
   ]

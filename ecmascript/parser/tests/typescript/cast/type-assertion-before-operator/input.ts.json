@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 15,
@@ -7,47 +6,60 @@
   },
   "body": [
     {
-      "type": "BinaryExpression",
-      "span": {
-        "start": 1,
-        "end": 14,
-        "ctxt": 0
-      },
-      "operator": "+",
-      "left": {
-        "type": "TsTypeAssertion",
-        "span": {
-          "start": 1,
-          "end": 10,
-          "ctxt": 0
-        },
-        "expr": {
-          "type": "NumericLiteral",
-          "span": {
-            "start": 9,
-            "end": 10,
-            "ctxt": 0
-          },
-          "value": 1.0
-        },
-        "typeAnn": {
-          "type": "TsKeywordType",
-          "span": {
-            "start": 1,
-            "end": 7,
-            "ctxt": 0
-          },
-          "kind": "number"
+      "Stmt": {
+        "Expr": {
+          "BinaryExpression": {
+            "span": {
+              "start": 1,
+              "end": 14,
+              "ctxt": 0
+            },
+            "operator": "+",
+            "left": {
+              "TsTypeAssertionExpression": {
+                "span": {
+                  "start": 1,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "expr": {
+                  "Literal": {
+                    "Num": {
+                      "span": {
+                        "start": 9,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                "typeAnn": {
+                  "TsKeywordType": {
+                    "span": {
+                      "start": 1,
+                      "end": 7,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                }
+              }
+            },
+            "right": {
+              "Literal": {
+                "Num": {
+                  "span": {
+                    "start": 13,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              }
+            }
+          }
         }
-      },
-      "right": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 13,
-          "end": 14,
-          "ctxt": 0
-        },
-        "value": 1.0
       }
     }
   ]

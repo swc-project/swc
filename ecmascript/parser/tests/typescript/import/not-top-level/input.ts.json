@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 50,
@@ -7,72 +6,81 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
-      "span": {
-        "start": 0,
-        "end": 50,
-        "ctxt": 0
-      },
-      "declare": true,
-      "global": false,
-      "id": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 15,
-          "end": 18,
-          "ctxt": 0
-        },
-        "value": "m",
-        "hasEscape": false
-      },
-      "body": {
-        "type": "TsModuleBlock",
-        "span": {
-          "start": 19,
-          "end": 50,
-          "ctxt": 0
-        },
-        "body": [
-          {
-            "type": "ImportDeclaration",
+      "Stmt": {
+        "Decl": {
+          "TsModuleDeclaration": {
             "span": {
-              "start": 25,
-              "end": 48,
+              "start": 0,
+              "end": 50,
               "ctxt": 0
             },
-            "specifiers": [
-              {
-                "type": "ImportStarAs",
+            "declare": true,
+            "global": false,
+            "id": {
+              "Str": {
                 "span": {
-                  "start": 32,
-                  "end": 38,
+                  "start": 15,
+                  "end": 18,
                   "ctxt": 0
                 },
-                "local": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 37,
-                    "end": 38,
-                    "ctxt": 0
-                  },
-                  "value": "a",
-                  "typeAnnotation": null,
-                  "optional": false
-                }
+                "value": "m",
+                "hasEscape": false
               }
-            ],
-            "source": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 44,
-                "end": 48,
-                "ctxt": 0
-              },
-              "value": "a",
-              "hasEscape": false
+            },
+            "body": {
+              "TsModuleBlock": {
+                "span": {
+                  "start": 19,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "body": [
+                  {
+                    "ModuleDecl": {
+                      "Import": {
+                        "span": {
+                          "start": 25,
+                          "end": 48,
+                          "ctxt": 0
+                        },
+                        "specifiers": [
+                          {
+                            "Namespace": {
+                              "span": {
+                                "start": 32,
+                                "end": 38,
+                                "ctxt": 0
+                              },
+                              "local": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 37,
+                                  "end": 38,
+                                  "ctxt": 0
+                                },
+                                "value": "a",
+                                "optional": false
+                              }
+                            }
+                          }
+                        ],
+                        "source": {
+                          "span": {
+                            "start": 44,
+                            "end": 48,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "hasEscape": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
             }
           }
-        ]
+        }
       }
     }
   ]

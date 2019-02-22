@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 199,
@@ -7,97 +6,117 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 15,
-          "end": 16,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 9,
-        "end": 19,
-        "ctxt": 0
-      },
-      "isAbstract": true
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 15,
+                "end": 16,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 9,
+              "end": 19,
+              "ctxt": 0
+            },
+            "isAbstract": true
+          }
+        }
+      }
     },
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 43,
-          "end": 44,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": true,
-      "type": "Class",
-      "span": {
-        "start": 37,
-        "end": 47,
-        "ctxt": 0
-      },
-      "isAbstract": true
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 43,
+                "end": 44,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "declare": true,
+            "span": {
+              "start": 37,
+              "end": 47,
+              "ctxt": 0
+            },
+            "isAbstract": true
+          }
+        }
+      }
     },
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 70,
-          "end": 71,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 64,
-        "end": 74,
-        "ctxt": 0
-      },
-      "isAbstract": true
+      "ModuleDecl": {
+        "ExportDecl": {
+          "ClassDeclaration": {
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 70,
+                "end": 71,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 64,
+              "end": 74,
+              "ctxt": 0
+            },
+            "isAbstract": true
+          }
+        }
+      }
     },
     {
-      "ident": null,
-      "type": "Class",
-      "span": {
-        "start": 154,
-        "end": 163,
-        "ctxt": 0
-      },
-      "isAbstract": true
+      "ModuleDecl": {
+        "ExportDefaultDecl": {
+          "Class": {
+            "span": {
+              "start": 154,
+              "end": 163,
+              "ctxt": 0
+            },
+            "isAbstract": true
+          }
+        }
+      }
     },
     {
-      "ident": {
-        "type": "Identifier",
-        "span": {
-          "start": 194,
-          "end": 195,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "type": "Class",
-      "span": {
-        "start": 188,
-        "end": 199,
-        "ctxt": 0
-      },
-      "isAbstract": true
+      "ModuleDecl": {
+        "ExportDefaultDecl": {
+          "Class": {
+            "ident": {
+              "type": "Identifier",
+              "span": {
+                "start": 194,
+                "end": 195,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "span": {
+              "start": 188,
+              "end": 199,
+              "ctxt": 0
+            },
+            "isAbstract": true
+          }
+        }
+      }
     }
   ]
 }

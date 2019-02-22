@@ -32,14 +32,12 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 3,
                 "end": 6,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -47,9 +45,7 @@
               "end": 7,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
+            "selfClosing": false
           },
           "children": [
             {
@@ -71,14 +67,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 19,
                 "end": 22,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             }
           }

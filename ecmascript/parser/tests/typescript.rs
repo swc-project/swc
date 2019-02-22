@@ -15,6 +15,7 @@ use std::{
     io::{self, Read},
     path::Path,
 };
+use swc_ecma_ast::Module;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::StdErr;
@@ -106,15 +107,20 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 with_parser(is_backtrace_enabled(), &path, |p| {
                     let module = p.parse_module()?;
 
-                    if StdErr::from(
-                        serde_json::to_string_pretty(&module)
-                            .expect("failed to serialize module as json"),
-                    )
-                    .compare_to_file(format!("{}.json", path.display()))
-                    .is_err()
+                    let json = serde_json::to_string_pretty(&module)
+                        .expect("failed to serialize module as json");
+
+                    if StdErr::from(json.clone())
+                        .compare_to_file(format!("{}.json", path.display()))
+                        .is_err()
                     {
                         panic!()
                     }
+
+                    println!("{}", json);
+                    let deser: Module = serde_json::from_str(&json)
+                        .expect("failed to deserialize json back to module");
+                    assert_eq!(module, deser);
 
                     Ok(())
                 })

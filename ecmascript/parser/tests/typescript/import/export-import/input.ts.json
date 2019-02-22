@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 22,
@@ -7,48 +6,53 @@
   },
   "body": [
     {
-      "type": "TsImportEqualsDecl",
-      "span": {
-        "start": 0,
-        "end": 22,
-        "ctxt": 0
-      },
-      "declare": false,
-      "isExport": true,
-      "id": {
-        "type": "Identifier",
-        "span": {
-          "start": 14,
-          "end": 15,
-          "ctxt": 0
-        },
-        "value": "A",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "moduleRef": {
-        "type": "TsQualifiedName",
-        "left": {
-          "type": "Identifier",
+      "ModuleDecl": {
+        "TsImportEquals": {
           "span": {
-            "start": 18,
-            "end": 19,
+            "start": 0,
+            "end": 22,
             "ctxt": 0
           },
-          "value": "B",
-          "typeAnnotation": null,
-          "optional": false
-        },
-        "right": {
-          "type": "Identifier",
-          "span": {
-            "start": 20,
-            "end": 21,
-            "ctxt": 0
+          "declare": false,
+          "isExport": true,
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 15,
+              "ctxt": 0
+            },
+            "value": "A",
+            "optional": false
           },
-          "value": "C",
-          "typeAnnotation": null,
-          "optional": false
+          "moduleRef": {
+            "TsEntityName": {
+              "TsQualifiedName": {
+                "left": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 18,
+                      "end": 19,
+                      "ctxt": 0
+                    },
+                    "value": "B",
+                    "optional": false
+                  }
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 20,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "C",
+                  "optional": false
+                }
+              }
+            }
+          }
         }
       }
     }

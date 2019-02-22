@@ -16,14 +16,12 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 8,
             "ctxt": 0
           },
           "value": "AbC-def",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -40,14 +38,12 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 15,
                 "ctxt": 0
               },
               "value": "test",
-              "typeAnnotation": null,
               "optional": false
             },
             "value": {
@@ -62,8 +58,7 @@
             }
           }
         ],
-        "selfClosing": false,
-        "typeArguments": null
+        "selfClosing": false
       },
       "children": [
         {
@@ -85,14 +80,12 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Identifier",
           "span": {
             "start": 43,
             "end": 50,
             "ctxt": 0
           },
           "value": "AbC-def",
-          "typeAnnotation": null,
           "optional": false
         }
       }

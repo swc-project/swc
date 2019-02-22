@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 74,
@@ -7,175 +6,185 @@
   },
   "body": [
     {
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 6,
-          "end": 7,
-          "ctxt": 0
-        },
-        "value": "C",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "declare": false,
-      "type": "Class",
-      "span": {
-        "start": 0,
-        "end": 74,
-        "ctxt": 0
-      },
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 14,
-            "end": 40,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "MemberExpression",
-            "span": {
-              "start": 21,
-              "end": 30,
-              "ctxt": 0
-            },
-            "object": {
+      "Stmt": {
+        "Decl": {
+          "ClassDeclaration": {
+            "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 15,
-                "end": 21,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
-              "value": "Symbol",
-              "typeAnnotation": null,
+              "value": "C",
               "optional": false
             },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 22,
-                "end": 30,
-                "ctxt": 0
-              },
-              "value": "iterator",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "computed": false
-          },
-          "function": {
-            "type": "Function",
-            "params": [],
-            "decorators": [],
+            "declare": false,
             "span": {
-              "start": 14,
-              "end": 40,
+              "start": 0,
+              "end": 74,
               "ctxt": 0
             },
-            "body": null,
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 33,
-                "end": 39,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+            "body": [
+              {
+                "type": "Method",
                 "span": {
-                  "start": 35,
-                  "end": 39,
+                  "start": 14,
+                  "end": 40,
                   "ctxt": 0
                 },
-                "kind": "void"
-              }
-            }
-          },
-          "kind": "method",
-          "isStatic": false,
-          "isAbstract": false,
-          "isOptional": false
-        },
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 45,
-            "end": 72,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "MemberExpression",
-            "span": {
-              "start": 52,
-              "end": 61,
-              "ctxt": 0
-            },
-            "object": {
-              "type": "Identifier",
-              "span": {
-                "start": 46,
-                "end": 52,
-                "ctxt": 0
+                "key": {
+                  "Computed": {
+                    "MemberExpression": {
+                      "span": {
+                        "start": 21,
+                        "end": 30,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "Identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 15,
+                            "end": 21,
+                            "ctxt": 0
+                          },
+                          "value": "Symbol",
+                          "optional": false
+                        }
+                      },
+                      "property": {
+                        "Identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 22,
+                            "end": 30,
+                            "ctxt": 0
+                          },
+                          "value": "iterator",
+                          "optional": false
+                        }
+                      },
+                      "computed": false
+                    }
+                  }
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 14,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "body": null,
+                  "generator": false,
+                  "async": false,
+                  "returnType": {
+                    "span": {
+                      "start": 33,
+                      "end": 39,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 35,
+                          "end": 39,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  }
+                },
+                "kind": "method",
+                "isStatic": false,
+                "isAbstract": false,
+                "isOptional": false
               },
-              "value": "Symbol",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 53,
-                "end": 61,
-                "ctxt": 0
-              },
-              "value": "iterator",
-              "typeAnnotation": null,
-              "optional": false
-            },
-            "computed": false
-          },
-          "function": {
-            "type": "Function",
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 45,
-              "end": 72,
-              "ctxt": 0
-            },
-            "body": null,
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 65,
-                "end": 71,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsKeywordType",
+              {
+                "type": "Method",
                 "span": {
-                  "start": 67,
-                  "end": 71,
+                  "start": 45,
+                  "end": 72,
                   "ctxt": 0
                 },
-                "kind": "void"
+                "key": {
+                  "Computed": {
+                    "MemberExpression": {
+                      "span": {
+                        "start": 52,
+                        "end": 61,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "Identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 46,
+                            "end": 52,
+                            "ctxt": 0
+                          },
+                          "value": "Symbol",
+                          "optional": false
+                        }
+                      },
+                      "property": {
+                        "Identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 53,
+                            "end": 61,
+                            "ctxt": 0
+                          },
+                          "value": "iterator",
+                          "optional": false
+                        }
+                      },
+                      "computed": false
+                    }
+                  }
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 45,
+                    "end": 72,
+                    "ctxt": 0
+                  },
+                  "body": null,
+                  "generator": false,
+                  "async": false,
+                  "returnType": {
+                    "span": {
+                      "start": 65,
+                      "end": 71,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 67,
+                          "end": 71,
+                          "ctxt": 0
+                        },
+                        "kind": "void"
+                      }
+                    }
+                  }
+                },
+                "kind": "method",
+                "isStatic": false,
+                "isAbstract": false,
+                "isOptional": true
               }
-            }
-          },
-          "kind": "method",
-          "isStatic": false,
-          "isAbstract": false,
-          "isOptional": true
+            ],
+            "isAbstract": false
+          }
         }
-      ],
-      "isAbstract": false
+      }
     }
   ]
 }

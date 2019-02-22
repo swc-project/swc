@@ -21,15 +21,21 @@ pub struct Function {
     pub body: Option<BlockStmt>,
 
     /// if it's a generator.
-    #[serde(rename = "generator")]
+    #[serde(default, rename = "generator")]
     pub is_generator: bool,
 
     /// if it's an async function.
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: bool,
 
-    #[serde(rename = "typeParameters")]
+    #[serde(
+        default,
+        rename = "typeParameters",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_params: Option<TsTypeParamDecl>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub return_type: Option<TsTypeAnn>,
 }
 

@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 21,
@@ -7,81 +6,88 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 0,
-        "end": 21,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 4,
-            "end": 20,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 0,
+              "end": 21,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": {
-              "type": "TsTypeAnnotation",
-              "span": {
-                "start": 5,
-                "end": 20,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "type": "TsTypeRef",
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
                 "span": {
-                  "start": 7,
+                  "start": 4,
                   "end": 20,
                   "ctxt": 0
                 },
-                "typeName": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 7,
-                    "end": 12,
-                    "ctxt": 0
-                  },
-                  "value": "Array",
-                  "typeAnnotation": null,
-                  "optional": false
-                },
-                "typeParams": {
-                  "type": "TsTypeParamInstantiation",
-                  "span": {
-                    "start": 12,
-                    "end": 20,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "TsKeywordType",
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 4,
+                      "end": 5,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "typeAnnotation": {
                       "span": {
-                        "start": 13,
-                        "end": 19,
+                        "start": 5,
+                        "end": 20,
                         "ctxt": 0
                       },
-                      "kind": "number"
-                    }
-                  ]
-                }
+                      "type_annotation": {
+                        "TsTypeRef": {
+                          "span": {
+                            "start": 7,
+                            "end": 20,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "Ident": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 7,
+                                "end": 12,
+                                "ctxt": 0
+                              },
+                              "value": "Array",
+                              "optional": false
+                            }
+                          },
+                          "typeParams": {
+                            "span": {
+                              "start": 12,
+                              "end": 20,
+                              "ctxt": 0
+                            },
+                            "params": [
+                              {
+                                "TsKeywordType": {
+                                  "span": {
+                                    "start": 13,
+                                    "end": 19,
+                                    "ctxt": 0
+                                  },
+                                  "kind": "number"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "optional": false
+                  }
+                },
+                "definite": false
               }
-            },
-            "optional": false
-          },
-          "definite": false
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

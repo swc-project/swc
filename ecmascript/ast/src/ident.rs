@@ -9,16 +9,20 @@ use swc_common::{ast_node, Span, Spanned};
 /// Ident with span.
 #[derive(Spanned, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
-#[serde(tag = "type", rename = "Identifier")]
 pub struct Ident {
     #[serde(default)]
     pub span: Span,
     #[serde(rename = "value")]
     #[cfg_attr(feature = "fold", fold(ignore))]
     pub sym: JsWord,
-    #[serde(rename = "typeAnnotation")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
     /// TypeScript only. Used in case of an optional parameter.
+    #[serde(default)]
     pub optional: bool,
 }
 

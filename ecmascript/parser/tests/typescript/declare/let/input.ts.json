@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 14,
@@ -7,36 +6,41 @@
   },
   "body": [
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 8,
-        "end": 14,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": true,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 12,
-            "end": 13,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
+      "Stmt": {
+        "Decl": {
+          "VariableDeclaration": {
             "span": {
-              "start": 12,
-              "end": 13,
+              "start": 8,
+              "end": 14,
               "ctxt": 0
             },
-            "value": "x",
-            "typeAnnotation": null,
-            "optional": false
-          },
-          "definite": false
+            "kind": "let",
+            "declare": true,
+            "declarations": [
+              {
+                "span": {
+                  "start": 12,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "id": {
+                  "Ident": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 12,
+                      "end": 13,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          }
         }
-      ]
+      }
     }
   ]
 }

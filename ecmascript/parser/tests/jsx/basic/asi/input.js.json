@@ -8,14 +8,12 @@
   "body": [
     {
       "identifier": {
-        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 10,
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -53,14 +51,12 @@
                   "ctxt": 0
                 },
                 "id": {
-                  "type": "Identifier",
                   "span": {
                     "start": 21,
                     "end": 22,
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "definite": false
@@ -77,14 +73,12 @@
             "opening": {
               "type": "JSXOpeningElement",
               "name": {
-                "type": "Identifier",
                 "span": {
                   "start": 26,
                   "end": 29,
                   "ctxt": 0
                 },
                 "value": "div",
-                "typeAnnotation": null,
                 "optional": false
               },
               "span": {
@@ -92,9 +86,7 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "attributes": [],
-              "selfClosing": true,
-              "typeArguments": null
+              "selfClosing": true
             },
             "children": [],
             "closing": null
@@ -102,9 +94,7 @@
         ]
       },
       "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async": false
     }
   ]
 }

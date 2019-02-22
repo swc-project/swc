@@ -1,5 +1,4 @@
 {
-  "type": "Module",
   "span": {
     "start": 0,
     "end": 42,
@@ -7,62 +6,67 @@
   },
   "body": [
     {
-      "ident": null,
-      "type": "Function",
-      "params": [
-        {
-          "type": "Identifier",
-          "span": {
-            "start": 24,
-            "end": 25,
-            "ctxt": 0
-          },
-          "value": "x",
-          "typeAnnotation": {
-            "type": "TsTypeAnnotation",
+      "ModuleDecl": {
+        "ExportDefaultDecl": {
+          "Fn": {
+            "params": [
+              {
+                "Ident": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 24,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "typeAnnotation": {
+                    "span": {
+                      "start": 26,
+                      "end": 34,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "TsKeywordType": {
+                        "span": {
+                          "start": 28,
+                          "end": 34,
+                          "ctxt": 0
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  },
+                  "optional": true
+                }
+              }
+            ],
+            "decorators": [],
             "span": {
-              "start": 26,
-              "end": 34,
+              "start": 15,
+              "end": 42,
               "ctxt": 0
             },
-            "type_annotation": {
-              "type": "TsKeywordType",
+            "body": null,
+            "generator": false,
+            "async": false,
+            "returnType": {
               "span": {
-                "start": 28,
-                "end": 34,
+                "start": 35,
+                "end": 41,
                 "ctxt": 0
               },
-              "kind": "number"
+              "type_annotation": {
+                "TsKeywordType": {
+                  "span": {
+                    "start": 37,
+                    "end": 41,
+                    "ctxt": 0
+                  },
+                  "kind": "void"
+                }
+              }
             }
-          },
-          "optional": true
-        }
-      ],
-      "decorators": [],
-      "span": {
-        "start": 15,
-        "end": 42,
-        "ctxt": 0
-      },
-      "body": null,
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": {
-        "type": "TsTypeAnnotation",
-        "span": {
-          "start": 35,
-          "end": 41,
-          "ctxt": 0
-        },
-        "type_annotation": {
-          "type": "TsKeywordType",
-          "span": {
-            "start": 37,
-            "end": 41,
-            "ctxt": 0
-          },
-          "kind": "void"
+          }
         }
       }
     }

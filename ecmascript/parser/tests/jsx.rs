@@ -18,7 +18,7 @@ use std::{
     sync::Arc,
 };
 use swc_common::{errors::Handler, SourceMap};
-use swc_ecma_ast::*;
+use swc_ecma_ast::Module;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::{run_test, StdErr};
@@ -155,16 +155,20 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let path = dir.join(&file_name);
                 // Parse source
                 let module = parse_module(cm, handler, &path)?;
-
-                if StdErr::from(
-                    serde_json::to_string_pretty(&module)
-                        .expect("failed to serialize module as json"),
-                )
-                .compare_to_file(format!("{}.json", path.display()))
-                .is_err()
+                let json = serde_json::to_string_pretty(&module)
+                    .expect("failed to serialize module as json");
+                if StdErr::from(json.clone())
+                    .compare_to_file(format!("{}.json", path.display()))
+                    .is_err()
                 {
                     panic!()
                 }
+
+                println!("{}", json);
+                let deser: Module =
+                    serde_json::from_str(&json).expect("failed to deserialize json back to module");
+                assert_eq!(module, deser);
+
                 Ok(())
             })
             .unwrap();
