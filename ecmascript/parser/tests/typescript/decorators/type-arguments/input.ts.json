@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 27,
@@ -33,7 +33,7 @@
             "end": 20,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "CallExpression",
             "span": {
               "start": 1,
@@ -56,13 +56,7 @@
           }
         }
       ],
-      "body": [],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

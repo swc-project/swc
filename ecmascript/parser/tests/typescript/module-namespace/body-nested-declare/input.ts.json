@@ -79,7 +79,7 @@
                         "end": 63,
                         "ctxt": 0
                       },
-                      "name": {
+                      "id": {
                         "type": "Identifier",
                         "span": {
                           "start": 54,
@@ -106,7 +106,6 @@
                         },
                         "optional": false
                       },
-                      "init": null,
                       "definite": false
                     }
                   ]
@@ -117,6 +116,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

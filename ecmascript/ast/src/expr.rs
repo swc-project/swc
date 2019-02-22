@@ -106,6 +106,7 @@ pub struct ThisExpr {
 pub struct ArrayLit {
     #[serde(default)]
     pub span: Span,
+
     #[serde(rename = "elements")]
     pub elems: Vec<(Option<ExprOrSpread>)>,
 }

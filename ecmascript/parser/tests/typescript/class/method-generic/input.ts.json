@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 6,
@@ -25,7 +25,6 @@
         "end": 83,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
           "type": "ClassMethod",
@@ -259,7 +258,6 @@
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         },
@@ -383,17 +381,11 @@
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 6,
@@ -25,7 +25,6 @@
         "end": 84,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
@@ -45,12 +44,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -74,12 +69,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
           "readonly": false,
@@ -103,7 +94,6 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -122,9 +112,7 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -175,9 +163,7 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -201,12 +187,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -230,7 +212,6 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -249,21 +230,14 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
           "definite": true
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

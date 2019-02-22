@@ -23,7 +23,7 @@
             "end": 18,
             "ctxt": 0
           },
-          "name": {
+          "id": {
             "type": "Identifier",
             "span": {
               "start": 13,
@@ -92,7 +92,7 @@
                   "end": 63,
                   "ctxt": 0
                 },
-                "name": {
+                "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 58,
@@ -119,6 +119,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

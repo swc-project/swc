@@ -6,7 +6,10 @@ use swc_common::{ast_node, Span};
 pub struct Module {
     #[serde(default)]
     pub span: Span,
+
     pub body: Vec<ModuleItem>,
+
+    #[serde(rename = "interpreter", skip_serializing_if = "Option::is_none")]
     pub shebang: Option<JsWord>,
 }
 
@@ -14,7 +17,10 @@ pub struct Module {
 pub struct Script {
     #[serde(default)]
     pub span: Span,
+
     pub body: Vec<Stmt>,
+
+    #[serde(rename = "interpreter", skip_serializing_if = "Option::is_none")]
     pub shebang: Option<JsWord>,
 }
 

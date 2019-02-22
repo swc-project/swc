@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 6,
@@ -25,7 +25,6 @@
         "end": 74,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
@@ -65,7 +64,6 @@
             },
             "computed": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -84,9 +82,7 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": true,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -130,7 +126,6 @@
             },
             "computed": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -149,21 +144,14 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": true,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
           "readonly": false,
           "definite": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -21,9 +21,6 @@
           "end": 12,
           "ctxt": 0
         },
-        "decorators": [],
-        "body": [],
-        "superClass": null,
         "isAbstract": false,
         "typeParams": {
           "type": "TsTypeParameterDeclaration",
@@ -55,9 +52,7 @@
               "default": null
             }
           ]
-        },
-        "superTypeParams": null,
-        "implements": []
+        }
       }
     },
     {
@@ -85,9 +80,6 @@
           "end": 29,
           "ctxt": 0
         },
-        "decorators": [],
-        "body": [],
-        "superClass": null,
         "isAbstract": false,
         "typeParams": {
           "type": "TsTypeParameterDeclaration",
@@ -119,11 +111,8 @@
               "default": null
             }
           ]
-        },
-        "superTypeParams": null,
-        "implements": []
+        }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

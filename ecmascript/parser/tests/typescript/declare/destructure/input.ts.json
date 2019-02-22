@@ -23,7 +23,7 @@
             "end": 48,
             "ctxt": 0
           },
-          "name": {
+          "id": {
             "type": "ObjectPattern",
             "span": {
               "start": 14,
@@ -175,11 +175,9 @@
               }
             }
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

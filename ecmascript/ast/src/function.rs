@@ -17,6 +17,7 @@ pub struct Function {
     #[serde(default)]
     pub span: Span,
 
+    #[serde(default)]
     pub body: Option<BlockStmt>,
 
     /// if it's a generator.

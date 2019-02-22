@@ -21,8 +21,6 @@
           "end": 24,
           "ctxt": 0
         },
-        "decorators": [],
-        "body": [],
         "superClass": {
           "type": "CallExpression",
           "span": {
@@ -45,7 +43,6 @@
           "typeArguments": null
         },
         "isAbstract": false,
-        "typeParams": null,
         "superTypeParams": {
           "type": "TsTypeParamInstantiation",
           "span": {
@@ -75,8 +72,7 @@
               "typeParams": null
             }
           ]
-        },
-        "implements": []
+        }
       }
     },
     {
@@ -104,8 +100,6 @@
           "end": 53,
           "ctxt": 0
         },
-        "decorators": [],
-        "body": [],
         "superClass": {
           "type": "CallExpression",
           "span": {
@@ -128,7 +122,6 @@
           "typeArguments": null
         },
         "isAbstract": false,
-        "typeParams": null,
         "superTypeParams": {
           "type": "TsTypeParamInstantiation",
           "span": {
@@ -158,10 +151,8 @@
               "typeParams": null
             }
           ]
-        },
-        "implements": []
+        }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

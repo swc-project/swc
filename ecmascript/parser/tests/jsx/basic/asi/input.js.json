@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 9,
@@ -52,7 +52,7 @@
                   "end": 22,
                   "ctxt": 0
                 },
-                "name": {
+                "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 21,
@@ -63,7 +63,6 @@
                   "typeAnnotation": null,
                   "optional": false
                 },
-                "init": null,
                 "definite": false
               }
             ]
@@ -107,6 +106,5 @@
       "typeParameters": null,
       "returnType": null
     }
-  ],
-  "shebang": null
+  ]
 }

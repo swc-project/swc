@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 9,
@@ -71,6 +71,5 @@
       },
       "returnType": null
     }
-  ],
-  "shebang": null
+  ]
 }

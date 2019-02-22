@@ -23,7 +23,7 @@
             "end": 30,
             "ctxt": 0
           },
-          "name": {
+          "id": {
             "type": "Identifier",
             "span": {
               "start": 21,
@@ -50,13 +50,12 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
     },
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 56,
@@ -99,7 +98,7 @@
       }
     },
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 88,
@@ -117,13 +116,7 @@
         "end": 92,
         "ctxt": 0
       },
-      "decorators": [],
-      "body": [],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     },
     {
       "type": "TsInterfaceDecl",
@@ -246,6 +239,5 @@
         "body": []
       }
     }
-  ],
-  "shebang": null
+  ]
 }

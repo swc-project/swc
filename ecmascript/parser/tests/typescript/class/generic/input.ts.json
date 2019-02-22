@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 6,
@@ -25,9 +25,6 @@
         "end": 44,
         "ctxt": 0
       },
-      "decorators": [],
-      "body": [],
-      "superClass": null,
       "isAbstract": false,
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
@@ -118,10 +115,7 @@
             }
           }
         ]
-      },
-      "superTypeParams": null,
-      "implements": []
+      }
     }
-  ],
-  "shebang": null
+  ]
 }

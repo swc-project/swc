@@ -23,7 +23,10 @@ pub enum Decl {
 
 #[ast_node("FunctionDeclaration")]
 pub struct FnDecl {
+    #[serde(rename = "identifier")]
     pub ident: Ident,
+
+    #[serde(default)]
     pub declare: bool,
 
     #[serde(flatten)]
@@ -33,7 +36,10 @@ pub struct FnDecl {
 
 #[ast_node("ClassDeclaration")]
 pub struct ClassDecl {
+    #[serde(rename = "identifier")]
     pub ident: Ident,
+
+    #[serde(default)]
     pub declare: bool,
 
     #[serde(flatten)]
@@ -45,8 +51,12 @@ pub struct ClassDecl {
 pub struct VarDecl {
     #[serde(default)]
     pub span: Span,
+
     pub kind: VarDeclKind,
+
+    #[serde(default)]
     pub declare: bool,
+
     #[serde(rename = "declarations")]
     pub decls: Vec<VarDeclarator>,
 }
@@ -66,11 +76,14 @@ pub enum VarDeclKind {
 pub struct VarDeclarator {
     #[serde(default)]
     pub span: Span,
-
+    #[serde(rename = "id")]
     pub name: Pat,
+
     /// Initialization expresion.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub init: Option<(Box<Expr>)>,
 
-    /// Typescript onpy
+    /// Typescript only
+    #[serde(default)]
     pub definite: bool,
 }

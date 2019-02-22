@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 6,
@@ -25,8 +25,6 @@
         "end": 43,
         "ctxt": 0
       },
-      "decorators": [],
-      "body": [],
       "superClass": {
         "type": "CallExpression",
         "span": {
@@ -49,7 +47,6 @@
         "typeArguments": null
       },
       "isAbstract": false,
-      "typeParams": null,
       "superTypeParams": {
         "type": "TsTypeParamInstantiation",
         "span": {
@@ -146,6 +143,5 @@
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

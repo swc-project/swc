@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "ident": {
+      "identifier": {
         "type": "Identifier",
         "span": {
           "start": 15,
@@ -25,7 +25,6 @@
         "end": 396,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
@@ -45,12 +44,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -74,7 +69,6 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -93,9 +87,7 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
           "readonly": false,
@@ -119,12 +111,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
@@ -148,12 +136,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": true,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -177,10 +161,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -206,10 +187,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "protected",
           "isAbstract": false,
@@ -235,10 +213,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "private",
           "isAbstract": false,
@@ -264,12 +239,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
@@ -293,12 +264,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
           "readonly": false,
@@ -322,12 +289,8 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": true,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
@@ -351,10 +314,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -380,10 +340,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": true,
@@ -409,10 +366,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": true,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -438,10 +392,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": true,
@@ -467,10 +418,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": true,
@@ -496,10 +444,7 @@
             "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": true,
-          "decorators": [],
           "computed": false,
           "accessibility": "public",
           "isAbstract": false,
@@ -508,12 +453,7 @@
           "definite": false
         }
       ],
-      "superClass": null,
-      "isAbstract": true,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": true
     }
-  ],
-  "shebang": null
+  ]
 }
