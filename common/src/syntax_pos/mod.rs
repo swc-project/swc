@@ -123,9 +123,11 @@ impl FileName {
 /// `SpanData` is public because `Span` uses a thread-local interner and can't
 /// be sent to other threads, but some pieces of performance infra run in a
 /// separate thread. Using `Span` is generally preferred.
-#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Deserialize)]
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 pub struct SpanData {
+    #[serde(rename = "start")]
     pub lo: BytePos,
+    #[serde(rename = "end")]
     pub hi: BytePos,
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
