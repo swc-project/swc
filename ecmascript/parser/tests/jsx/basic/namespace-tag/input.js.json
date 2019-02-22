@@ -18,6 +18,7 @@
         "name": {
           "type": "JSXNamespacedName",
           "namespace": {
+            "type": "Identifier",
             "span": {
               "start": 1,
               "end": 4,
@@ -27,6 +28,7 @@
             "optional": false
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 5,
               "end": 8,
@@ -58,6 +60,7 @@
         "name": {
           "type": "JSXNamespacedName",
           "namespace": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 17,
@@ -67,6 +70,7 @@
             "optional": false
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 18,
               "end": 21,
@@ -94,6 +98,7 @@
         "name": {
           "type": "JSXNamespacedName",
           "namespace": {
+            "type": "Identifier",
             "span": {
               "start": 24,
               "end": 27,
@@ -103,6 +108,7 @@
             "optional": false
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 28,
               "end": 31,

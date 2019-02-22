@@ -1,3 +1,5 @@
+#![recursion_limit = "1024"]
+
 extern crate darling;
 #[macro_use]
 extern crate pmutil;
@@ -115,9 +117,15 @@ pub fn ast_node(
                 Data::Struct(DataStruct {
                     fields: Fields::Named(..),
                     ..
-                }) => Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                    #[serde(tag = "type")]
-                }))),
+                }) => {
+                    if args.is_some() {
+                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
+                            #[serde(tag = "type")]
+                        })))
+                    } else {
+                        None
+                    }
+                }
                 _ => None,
             };
 
@@ -135,7 +143,7 @@ pub fn ast_node(
             let mut quote =
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[derive(::serde::Serialize, ::serde::Deserialize)]
+                    #[derive(::serde::Serialize)]
                     serde_tag
                     #[serde(rename_all = "camelCase")]
                     serde_rename

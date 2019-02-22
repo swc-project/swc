@@ -74,7 +74,7 @@ pub enum ImportSpecifier {
 }
 
 /// e.g. `import foo from 'mod.js'`
-#[ast_node]
+#[ast_node("ImportDefaultSpecifier")]
 pub struct ImportDefault {
     #[serde(default)]
     pub span: Span,
@@ -82,7 +82,7 @@ pub struct ImportDefault {
     pub local: Ident,
 }
 /// e.g. `import * as foo from 'mod.js'`.
-#[ast_node]
+#[ast_node("ImportNamespaceSpecifier")]
 pub struct ImportStarAs {
     #[serde(default)]
     pub span: Span,
@@ -92,7 +92,7 @@ pub struct ImportStarAs {
 /// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
 /// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from
 /// 'mod.js'`
-#[ast_node]
+#[ast_node("ImportSpecifier")]
 pub struct ImportSpecific {
     #[serde(default)]
     pub span: Span,

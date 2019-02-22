@@ -18,6 +18,7 @@
         "name": {
           "type": "JSXNamespacedName",
           "namespace": {
+            "type": "Identifier",
             "span": {
               "start": 1,
               "end": 2,
@@ -27,6 +28,7 @@
             "optional": false
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 3,
               "end": 4,
@@ -52,6 +54,7 @@
             "name": {
               "type": "JSXNamespacedName",
               "namespace": {
+                "type": "Identifier",
                 "span": {
                   "start": 5,
                   "end": 6,
@@ -61,6 +64,7 @@
                 "optional": false
               },
               "name": {
+                "type": "Identifier",
                 "span": {
                   "start": 7,
                   "end": 8,

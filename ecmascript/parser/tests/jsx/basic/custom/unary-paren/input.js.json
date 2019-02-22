@@ -15,13 +15,14 @@
       },
       "specifiers": [
         {
-          "type": "ImportDefault",
+          "type": "ImportDefaultSpecifier",
           "span": {
             "start": 7,
             "end": 12,
             "ctxt": 0
           },
           "local": {
+            "type": "Identifier",
             "span": {
               "start": 7,
               "end": 12,
@@ -45,6 +46,7 @@
     },
     {
       "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 37,
           "end": 40,
@@ -54,9 +56,7 @@
         "optional": false
       },
       "declare": false,
-      "type": "Function",
       "params": [],
-      "decorators": [],
       "span": {
         "start": 28,
         "end": 279,
@@ -88,6 +88,7 @@
                   "ctxt": 0
                 },
                 "id": {
+                  "type": "Identifier",
                   "span": {
                     "start": 53,
                     "end": 62,
@@ -133,6 +134,7 @@
                 "opening": {
                   "type": "JSXOpeningElement",
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 87,
                       "end": 90,
@@ -169,6 +171,7 @@
                     "opening": {
                       "type": "JSXOpeningElement",
                       "name": {
+                        "type": "Identifier",
                         "span": {
                           "start": 99,
                           "end": 101,
@@ -204,6 +207,7 @@
                         "ctxt": 0
                       },
                       "name": {
+                        "type": "Identifier",
                         "span": {
                           "start": 110,
                           "end": 112,
@@ -234,6 +238,7 @@
                         "ctxt": 0
                       },
                       "test": {
+                        "type": "Identifier",
                         "span": {
                           "start": 130,
                           "end": 139,
@@ -259,6 +264,7 @@
                           "opening": {
                             "type": "JSXOpeningElement",
                             "name": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 155,
                                 "end": 158,
@@ -294,6 +300,7 @@
                               "ctxt": 0
                             },
                             "name": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 169,
                                 "end": 172,
@@ -322,6 +329,7 @@
                           "opening": {
                             "type": "JSXOpeningElement",
                             "name": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 201,
                                 "end": 204,
@@ -357,6 +365,7 @@
                               "ctxt": 0
                             },
                             "name": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 237,
                                 "end": 240,
@@ -389,6 +398,7 @@
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 268,
                       "end": 271,
@@ -407,6 +417,7 @@
       "async": false
     },
     {
+      "type": "Identifier",
       "span": {
         "start": 296,
         "end": 299,

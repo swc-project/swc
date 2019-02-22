@@ -16,6 +16,7 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,

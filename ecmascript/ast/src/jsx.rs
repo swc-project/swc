@@ -53,8 +53,8 @@ pub struct JSXExprContainer {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum JSXExpr {
-    Expr(Box<Expr>),
     JSXEmptyExpr(JSXEmptyExpr),
+    Expr(Box<Expr>),
 }
 
 #[ast_node("JSXSpreadChild")]
@@ -81,7 +81,6 @@ pub struct JSXOpeningElement {
     #[serde(default, rename = "attributes", skip_serializing_if = "Vec::is_empty")]
     pub attrs: Vec<JSXAttrOrSpread>,
 
-    #[serde(default)]
     pub self_closing: bool,
 
     /// Note: This field's name is differrent from one from babel because it is

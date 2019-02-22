@@ -15,6 +15,7 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct Class {
     #[serde(default)]
     pub span: Span,
@@ -58,6 +59,7 @@ pub type ClassProp = ClassProperty<Box<Expr>>;
 pub type PrivateProp = ClassProperty<PrivateName>;
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct ClassProperty<K> {
     #[serde(default)]
     pub span: Span,
@@ -121,6 +123,7 @@ pub struct Constructor {
 }
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct ClassMethod<K> {
     #[serde(default)]
     pub span: Span,

@@ -2,6 +2,7 @@
 #![feature(specialization)]
 #![feature(test)]
 
+extern crate pretty_assertions;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
@@ -9,6 +10,7 @@ extern crate test;
 extern crate testing;
 extern crate walkdir;
 
+use pretty_assertions::assert_eq;
 use std::{
     env,
     fs::File,
@@ -117,10 +119,13 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         panic!()
                     }
 
-                    println!("{}", json);
-                    let deser: Module = serde_json::from_str(&json)
-                        .expect("failed to deserialize json back to module");
-                    assert_eq!(module, deser);
+                    let deser: Module = serde_json::from_str(&json).unwrap_or_else(|err| {
+                        panic!(
+                            "failed to deserialize json back to module: {}\n{}",
+                            err, json
+                        )
+                    });
+                    assert_eq!(module, deser, "JSON:\n{}", json);
 
                     Ok(())
                 })

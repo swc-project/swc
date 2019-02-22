@@ -1,14 +1,9 @@
 use crate::typescript::TsTypeAnn;
-use serde::{Deserialize, Serialize};
-use std::fmt::{self, Debug, Display, Formatter};
 use swc_atoms::JsWord;
-#[cfg(feature = "fold")]
-use swc_common::Fold;
-use swc_common::{ast_node, Span, Spanned};
+use swc_common::{ast_node, Span};
 
 /// Ident with span.
-#[derive(Spanned, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "fold", derive(Fold))]
+#[ast_node("Identifier")]
 pub struct Ident {
     #[serde(default)]
     pub span: Span,
@@ -26,17 +21,6 @@ pub struct Ident {
     pub optional: bool,
 }
 
-impl Debug for Ident {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        f.debug_struct("Ident")
-            .field("sym", &DebugUsingDisplay(&self.sym))
-            .field("span", &self.span)
-            .field("type_ann", &self.type_ann)
-            .field("optional", &self.optional)
-            .finish()
-    }
-}
-
 #[ast_node("PrivateName")]
 pub struct PrivateName {
     #[serde(default)]
@@ -47,13 +31,6 @@ pub struct PrivateName {
 impl AsRef<str> for Ident {
     fn as_ref(&self) -> &str {
         &self.sym
-    }
-}
-
-struct DebugUsingDisplay<T: Display>(T);
-impl<T: Display> Debug for DebugUsingDisplay<T> {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        Display::fmt(&self.0, f)
     }
 }
 

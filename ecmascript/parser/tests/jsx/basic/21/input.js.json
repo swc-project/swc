@@ -16,6 +16,7 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 4,
@@ -38,6 +39,7 @@
               "ctxt": 0
             },
             "arguments": {
+              "type": "Identifier",
               "span": {
                 "start": 9,
                 "end": 10,
@@ -64,6 +66,7 @@
         {
           "type": "JSXSpreadChild",
           "expression": {
+            "type": "Identifier",
             "span": {
               "start": 17,
               "end": 25,
@@ -76,6 +79,7 @@
         {
           "type": "JSXExpressionContainer",
           "expression": {
+            "type": "Identifier",
             "span": {
               "start": 27,
               "end": 28,
@@ -88,6 +92,7 @@
         {
           "type": "JSXSpreadChild",
           "expression": {
+            "type": "Identifier",
             "span": {
               "start": 33,
               "end": 34,
@@ -106,6 +111,7 @@
           "ctxt": 0
         },
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 37,
             "end": 40,
