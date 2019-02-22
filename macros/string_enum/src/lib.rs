@@ -39,6 +39,7 @@ use swc_macros_common::prelude::*;
 ///```
 /// #[macro_use]
 /// extern crate string_enum;
+/// extern crate serde;
 ///
 /// #[derive(StringEnum)]
 /// pub enum Tokens {

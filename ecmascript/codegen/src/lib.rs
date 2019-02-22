@@ -600,13 +600,14 @@ impl<'a> Emitter<'a> {
             op!("in") | op!("instanceof") => true,
             _ => false,
         };
+
+        emit!(node.left);
+
         let need_pre_space = need_space
             || match *node.left {
                 Expr::Update(UpdateExpr { prefix: false, .. }) => true,
                 _ => false,
             };
-
-        emit!(node.left);
         if need_pre_space {
             space!();
         } else {
@@ -616,10 +617,9 @@ impl<'a> Emitter<'a> {
 
         let need_post_space = need_space
             || match *node.right {
-                Expr::Update(UpdateExpr { prefix: true, .. }) => true,
+                Expr::Unary(..) | Expr::Update(UpdateExpr { prefix: true, .. }) => true,
                 _ => false,
             };
-
         if need_post_space {
             space!();
         } else {
