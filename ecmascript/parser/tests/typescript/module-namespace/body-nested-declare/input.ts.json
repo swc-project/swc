@@ -16,6 +16,7 @@
       "declare": true,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 18,
           "end": 19,
@@ -43,6 +44,7 @@
             "declare": true,
             "global": false,
             "id": {
+              "type": "Identifier",
               "span": {
                 "start": 36,
                 "end": 37,
@@ -78,6 +80,7 @@
                         "ctxt": 0
                       },
                       "name": {
+                        "type": "Identifier",
                         "span": {
                           "start": 54,
                           "end": 55,

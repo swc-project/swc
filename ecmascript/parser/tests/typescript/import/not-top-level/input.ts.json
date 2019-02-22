@@ -49,6 +49,7 @@
                   "ctxt": 0
                 },
                 "local": {
+                  "type": "Identifier",
                   "span": {
                     "start": 37,
                     "end": 38,

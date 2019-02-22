@@ -14,6 +14,7 @@
         "ctxt": 0
       },
       "test": {
+        "type": "Identifier",
         "span": {
           "start": 0,
           "end": 3,

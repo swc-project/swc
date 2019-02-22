@@ -16,6 +16,7 @@
       "declare": false,
       "isConst": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 6,
@@ -34,6 +35,7 @@
             "ctxt": 0
           },
           "id": {
+            "type": "Identifier",
             "span": {
               "start": 13,
               "end": 14,

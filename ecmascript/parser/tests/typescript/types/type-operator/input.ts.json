@@ -24,6 +24,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -53,6 +54,7 @@
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 13,
                       "end": 14,
@@ -91,6 +93,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 20,
               "end": 21,

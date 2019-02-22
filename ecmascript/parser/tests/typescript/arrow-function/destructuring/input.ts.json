@@ -30,6 +30,7 @@
                 "ctxt": 0
               },
               "key": {
+                "type": "Identifier",
                 "span": {
                   "start": 3,
                   "end": 4,

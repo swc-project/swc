@@ -15,6 +15,7 @@
       },
       "operator": "<",
       "left": {
+        "type": "Identifier",
         "span": {
           "start": 0,
           "end": 5,
@@ -50,6 +51,7 @@
           "ctxt": 0
         },
         "callee": {
+          "type": "Identifier",
           "span": {
             "start": 11,
             "end": 16,
@@ -76,6 +78,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 17,
                   "end": 18,

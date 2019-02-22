@@ -39,6 +39,7 @@
                   "ctxt": 0
                 },
                 "key": {
+                  "type": "Identifier",
                   "span": {
                     "start": 16,
                     "end": 17,
@@ -58,6 +59,7 @@
                   "ctxt": 0
                 },
                 "key": {
+                  "type": "Identifier",
                   "span": {
                     "start": 19,
                     "end": 20,
@@ -94,6 +96,7 @@
                     },
                     "readonly": false,
                     "key": {
+                      "type": "Identifier",
                       "span": {
                         "start": 26,
                         "end": 27,
@@ -135,6 +138,7 @@
                     },
                     "readonly": false,
                     "key": {
+                      "type": "Identifier",
                       "span": {
                         "start": 37,
                         "end": 38,

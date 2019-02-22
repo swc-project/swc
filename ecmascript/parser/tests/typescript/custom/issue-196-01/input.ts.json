@@ -15,6 +15,7 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 12,
           "end": 16,
@@ -42,6 +43,7 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 21,
                 "end": 24,
@@ -83,6 +85,7 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 34,
                 "end": 38,

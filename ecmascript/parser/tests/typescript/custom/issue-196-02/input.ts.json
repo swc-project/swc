@@ -15,6 +15,7 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 9,
@@ -42,6 +43,7 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 14,
                 "end": 17,
@@ -83,6 +85,7 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 27,
                 "end": 31,
@@ -134,6 +137,7 @@
             "ctxt": 0
           },
           "orig": {
+            "type": "Identifier",
             "span": {
               "start": 52,
               "end": 56,

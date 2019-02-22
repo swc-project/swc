@@ -16,6 +16,7 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
@@ -45,6 +46,7 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 25,
           "end": 26,
@@ -64,6 +66,7 @@
         "declare": false,
         "global": false,
         "id": {
+          "type": "Identifier",
           "span": {
             "start": 27,
             "end": 28,
@@ -83,6 +86,7 @@
           "declare": false,
           "global": false,
           "id": {
+            "type": "Identifier",
             "span": {
               "start": 29,
               "end": 30,
@@ -114,6 +118,7 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 41,
           "end": 42,

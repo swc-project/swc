@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
@@ -34,6 +35,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 15,
@@ -47,6 +49,7 @@
             "type": "Function",
             "params": [
               {
+                "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 20,
@@ -68,6 +71,7 @@
                       "ctxt": 0
                     },
                     "typeName": {
+                      "type": "Identifier",
                       "span": {
                         "start": 22,
                         "end": 23,
@@ -83,6 +87,7 @@
                 "optional": false
               },
               {
+                "type": "Identifier",
                 "span": {
                   "start": 25,
                   "end": 26,
@@ -104,6 +109,7 @@
                       "ctxt": 0
                     },
                     "typeName": {
+                      "type": "Identifier",
                       "span": {
                         "start": 29,
                         "end": 30,
@@ -126,6 +132,7 @@
                   "ctxt": 0
                 },
                 "argument": {
+                  "type": "Identifier",
                   "span": {
                     "start": 35,
                     "end": 36,
@@ -157,6 +164,7 @@
                         "ctxt": 0
                       },
                       "typeName": {
+                        "type": "Identifier",
                         "span": {
                           "start": 38,
                           "end": 39,
@@ -205,6 +213,7 @@
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 16,
                       "end": 17,
@@ -234,6 +243,7 @@
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 44,
                     "end": 45,
@@ -268,6 +278,7 @@
               "ctxt": 0
             },
             "object": {
+              "type": "Identifier",
               "span": {
                 "start": 54,
                 "end": 60,
@@ -278,6 +289,7 @@
               "optional": false
             },
             "property": {
+              "type": "Identifier",
               "span": {
                 "start": 61,
                 "end": 69,
@@ -325,6 +337,7 @@
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 71,
                       "end": 72,
@@ -354,6 +367,7 @@
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 77,
                     "end": 78,

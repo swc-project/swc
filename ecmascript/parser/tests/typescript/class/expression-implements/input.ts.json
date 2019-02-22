@@ -38,6 +38,7 @@
             "expr": {
               "type": "TsQualifiedName",
               "left": {
+                "type": "Identifier",
                 "span": {
                   "start": 18,
                   "end": 19,
@@ -48,6 +49,7 @@
                 "optional": false
               },
               "right": {
+                "type": "Identifier",
                 "span": {
                   "start": 20,
                   "end": 21,
@@ -74,6 +76,7 @@
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 22,
                       "end": 23,
@@ -100,6 +103,7 @@
       },
       "expr": {
         "ident": {
+          "type": "Identifier",
           "span": {
             "start": 37,
             "end": 38,
@@ -132,6 +136,7 @@
             "expr": {
               "type": "TsQualifiedName",
               "left": {
+                "type": "Identifier",
                 "span": {
                   "start": 50,
                   "end": 51,
@@ -142,6 +147,7 @@
                 "optional": false
               },
               "right": {
+                "type": "Identifier",
                 "span": {
                   "start": 52,
                   "end": 53,
@@ -168,6 +174,7 @@
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 54,
                       "end": 55,

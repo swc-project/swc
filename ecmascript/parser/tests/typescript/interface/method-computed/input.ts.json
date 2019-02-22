@@ -14,6 +14,7 @@
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
@@ -50,6 +51,7 @@
                 "ctxt": 0
               },
               "object": {
+                "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 25,
@@ -60,6 +62,7 @@
                 "optional": false
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 26,
                   "end": 34,
@@ -109,6 +112,7 @@
                 "ctxt": 0
               },
               "object": {
+                "type": "Identifier",
                 "span": {
                   "start": 50,
                   "end": 56,
@@ -119,6 +123,7 @@
                 "optional": false
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 57,
                   "end": 65,

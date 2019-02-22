@@ -24,6 +24,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 6,
               "end": 7,
@@ -48,6 +49,7 @@
                 "ctxt": 0
               },
               "callee": {
+                "type": "Identifier",
                 "span": {
                   "start": 10,
                   "end": 13,

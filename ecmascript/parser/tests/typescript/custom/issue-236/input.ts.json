@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 16,
           "end": 51,
@@ -21,6 +22,7 @@
       "type": "Function",
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 52,
             "end": 56,
@@ -47,6 +49,7 @@
           "optional": false
         },
         {
+          "type": "Identifier",
           "span": {
             "start": 63,
             "end": 69,
@@ -70,6 +73,7 @@
               "typeName": {
                 "type": "TsQualifiedName",
                 "left": {
+                  "type": "Identifier",
                   "span": {
                     "start": 71,
                     "end": 78,
@@ -80,6 +84,7 @@
                   "optional": false
                 },
                 "right": {
+                  "type": "Identifier",
                   "span": {
                     "start": 79,
                     "end": 85,
@@ -96,6 +101,7 @@
           "optional": false
         },
         {
+          "type": "Identifier",
           "span": {
             "start": 87,
             "end": 93,
@@ -119,6 +125,7 @@
               "typeName": {
                 "type": "TsQualifiedName",
                 "left": {
+                  "type": "Identifier",
                   "span": {
                     "start": 95,
                     "end": 102,
@@ -129,6 +136,7 @@
                   "optional": false
                 },
                 "right": {
+                  "type": "Identifier",
                   "span": {
                     "start": 103,
                     "end": 114,
@@ -183,6 +191,7 @@
                 }
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 127,
                   "end": 133,
@@ -195,6 +204,7 @@
               "computed": false
             },
             "right": {
+              "type": "Identifier",
               "span": {
                 "start": 136,
                 "end": 142,
@@ -229,6 +239,7 @@
                 }
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 153,
                   "end": 159,
@@ -241,6 +252,7 @@
               "computed": false
             },
             "right": {
+              "type": "Identifier",
               "span": {
                 "start": 162,
                 "end": 168,

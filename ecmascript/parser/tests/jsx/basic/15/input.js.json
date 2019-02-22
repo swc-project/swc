@@ -20,6 +20,7 @@
           "object": {
             "type": "JSXMemberExpression",
             "object": {
+              "type": "Identifier",
               "span": {
                 "start": 1,
                 "end": 2,
@@ -30,6 +31,7 @@
               "optional": false
             },
             "property": {
+              "type": "Identifier",
               "span": {
                 "start": 3,
                 "end": 4,
@@ -41,6 +43,7 @@
             }
           },
           "property": {
+            "type": "Identifier",
             "span": {
               "start": 5,
               "end": 6,
@@ -73,6 +76,7 @@
           "object": {
             "type": "JSXMemberExpression",
             "object": {
+              "type": "Identifier",
               "span": {
                 "start": 9,
                 "end": 10,
@@ -83,6 +87,7 @@
               "optional": false
             },
             "property": {
+              "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 12,
@@ -94,6 +99,7 @@
             }
           },
           "property": {
+            "type": "Identifier",
             "span": {
               "start": 13,
               "end": 14,

@@ -14,6 +14,7 @@
         "ctxt": 0
       },
       "expr": {
+        "type": "Identifier",
         "span": {
           "start": 0,
           "end": 1,
@@ -31,6 +32,7 @@
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 5,
             "end": 6,
@@ -59,6 +61,7 @@
         },
         "operator": "<",
         "left": {
+          "type": "Identifier",
           "span": {
             "start": 8,
             "end": 9,
@@ -69,6 +72,7 @@
           "optional": false
         },
         "right": {
+          "type": "Identifier",
           "span": {
             "start": 12,
             "end": 13,
@@ -98,6 +102,7 @@
       },
       "operator": "===",
       "left": {
+        "type": "Identifier",
         "span": {
           "start": 49,
           "end": 50,
@@ -149,6 +154,7 @@
           "ctxt": 0
         },
         "expr": {
+          "type": "Identifier",
           "span": {
             "start": 92,
             "end": 93,
@@ -176,6 +182,7 @@
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 104,
             "end": 105,

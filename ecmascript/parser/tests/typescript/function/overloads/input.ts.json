@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 16,
           "end": 17,
@@ -21,6 +22,7 @@
       "type": "Function",
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 18,
             "end": 19,
@@ -77,6 +79,7 @@
     },
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 54,
           "end": 55,
@@ -90,6 +93,7 @@
       "type": "Function",
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 56,
             "end": 57,

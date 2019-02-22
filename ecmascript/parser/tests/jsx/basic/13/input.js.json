@@ -16,6 +16,7 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 10,
@@ -39,6 +40,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 15,
@@ -58,6 +60,7 @@
               "opening": {
                 "type": "JSXOpeningElement",
                 "name": {
+                  "type": "Identifier",
                   "span": {
                     "start": 17,
                     "end": 18,
@@ -88,6 +91,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 22,
                 "end": 27,
@@ -107,6 +111,7 @@
               "opening": {
                 "type": "JSXOpeningElement",
                 "name": {
+                  "type": "Identifier",
                   "span": {
                     "start": 29,
                     "end": 30,
@@ -145,6 +150,7 @@
                   "ctxt": 0
                 },
                 "name": {
+                  "type": "Identifier",
                   "span": {
                     "start": 52,
                     "end": 53,

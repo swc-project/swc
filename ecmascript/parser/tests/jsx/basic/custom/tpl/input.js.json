@@ -15,6 +15,7 @@
       },
       "expressions": [
         {
+          "type": "Identifier",
           "span": {
             "start": 3,
             "end": 6,

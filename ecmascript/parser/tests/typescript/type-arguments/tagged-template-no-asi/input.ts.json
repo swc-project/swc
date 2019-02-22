@@ -21,6 +21,7 @@
           "ctxt": 0
         },
         "tag": {
+          "type": "Identifier",
           "span": {
             "start": 4,
             "end": 5,
@@ -78,6 +79,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 6,
                   "end": 7,

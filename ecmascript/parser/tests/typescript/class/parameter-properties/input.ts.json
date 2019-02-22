@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
@@ -34,6 +35,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 25,
@@ -55,6 +57,7 @@
               "accessibility": null,
               "readonly": true,
               "param": {
+                "type": "Identifier",
                 "span": {
                   "start": 44,
                   "end": 45,
@@ -76,6 +79,7 @@
               "accessibility": "public",
               "readonly": false,
               "param": {
+                "type": "Identifier",
                 "span": {
                   "start": 62,
                   "end": 64,
@@ -113,6 +117,7 @@
               "accessibility": "protected",
               "readonly": false,
               "param": {
+                "type": "Identifier",
                 "span": {
                   "start": 92,
                   "end": 94,
@@ -134,6 +139,7 @@
               "accessibility": "private",
               "readonly": false,
               "param": {
+                "type": "Identifier",
                 "span": {
                   "start": 113,
                   "end": 115,
@@ -171,6 +177,7 @@
               "accessibility": "public",
               "readonly": true,
               "param": {
+                "type": "Identifier",
                 "span": {
                   "start": 150,
                   "end": 153,
@@ -199,6 +206,7 @@
                   "ctxt": 0
                 },
                 "left": {
+                  "type": "Identifier",
                   "span": {
                     "start": 215,
                     "end": 216,
@@ -238,6 +246,7 @@
                   "ctxt": 0
                 },
                 "left": {
+                  "type": "Identifier",
                   "span": {
                     "start": 237,
                     "end": 238,

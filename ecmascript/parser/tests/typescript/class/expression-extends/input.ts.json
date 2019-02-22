@@ -31,6 +31,7 @@
             "ctxt": 0
           },
           "callee": {
+            "type": "Identifier",
             "span": {
               "start": 15,
               "end": 16,
@@ -61,6 +62,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 20,
@@ -86,6 +88,7 @@
       },
       "expr": {
         "ident": {
+          "type": "Identifier",
           "span": {
             "start": 34,
             "end": 35,
@@ -111,6 +114,7 @@
             "ctxt": 0
           },
           "callee": {
+            "type": "Identifier",
             "span": {
               "start": 44,
               "end": 45,
@@ -141,6 +145,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 48,
                   "end": 49,

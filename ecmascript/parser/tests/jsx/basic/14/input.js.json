@@ -18,6 +18,7 @@
         "name": {
           "type": "JSXMemberExpression",
           "object": {
+            "type": "Identifier",
             "span": {
               "start": 1,
               "end": 2,
@@ -28,6 +29,7 @@
             "optional": false
           },
           "property": {
+            "type": "Identifier",
             "span": {
               "start": 3,
               "end": 4,
@@ -58,6 +60,7 @@
         "name": {
           "type": "JSXMemberExpression",
           "object": {
+            "type": "Identifier",
             "span": {
               "start": 7,
               "end": 8,
@@ -68,6 +71,7 @@
             "optional": false
           },
           "property": {
+            "type": "Identifier",
             "span": {
               "start": 9,
               "end": 10,

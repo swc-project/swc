@@ -7,6 +7,7 @@
   },
   "body": [
     {
+      "type": "Identifier",
       "span": {
         "start": 78,
         "end": 86,

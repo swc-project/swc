@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
@@ -41,6 +42,7 @@
           "expr": {
             "type": "TsQualifiedName",
             "left": {
+              "type": "Identifier",
               "span": {
                 "start": 19,
                 "end": 20,
@@ -51,6 +53,7 @@
               "optional": false
             },
             "right": {
+              "type": "Identifier",
               "span": {
                 "start": 21,
                 "end": 22,
@@ -77,6 +80,7 @@
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 23,
                     "end": 24,

@@ -16,6 +16,7 @@
       "declare": false,
       "isExport": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 7,
           "end": 8,

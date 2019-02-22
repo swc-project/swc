@@ -31,6 +31,7 @@
             "ctxt": 0
           },
           "callee": {
+            "type": "Identifier",
             "span": {
               "start": 15,
               "end": 16,
@@ -61,6 +62,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 20,
@@ -85,6 +87,7 @@
             "expr": {
               "type": "TsQualifiedName",
               "left": {
+                "type": "Identifier",
                 "span": {
                   "start": 33,
                   "end": 34,
@@ -95,6 +98,7 @@
                 "optional": false
               },
               "right": {
+                "type": "Identifier",
                 "span": {
                   "start": 35,
                   "end": 36,
@@ -121,6 +125,7 @@
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 37,
                       "end": 38,
@@ -147,6 +152,7 @@
       },
       "expr": {
         "ident": {
+          "type": "Identifier",
           "span": {
             "start": 52,
             "end": 53,
@@ -172,6 +178,7 @@
             "ctxt": 0
           },
           "callee": {
+            "type": "Identifier",
             "span": {
               "start": 62,
               "end": 63,
@@ -202,6 +209,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 66,
                   "end": 67,
@@ -226,6 +234,7 @@
             "expr": {
               "type": "TsQualifiedName",
               "left": {
+                "type": "Identifier",
                 "span": {
                   "start": 80,
                   "end": 81,
@@ -236,6 +245,7 @@
                 "optional": false
               },
               "right": {
+                "type": "Identifier",
                 "span": {
                   "start": 82,
                   "end": 83,
@@ -262,6 +272,7 @@
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 84,
                       "end": 85,

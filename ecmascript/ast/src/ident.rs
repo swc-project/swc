@@ -9,6 +9,7 @@ use swc_common::{ast_node, Span, Spanned};
 /// Ident with span.
 #[derive(Spanned, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
+#[serde(tag = "type", rename = "Identifier")]
 pub struct Ident {
     #[serde(default)]
     pub span: Span,

@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 9,
@@ -34,6 +35,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 25,
@@ -45,6 +47,7 @@
           },
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 26,
                 "end": 29,
@@ -55,6 +58,7 @@
               "optional": false
             },
             {
+              "type": "Identifier",
               "span": {
                 "start": 31,
                 "end": 39,
@@ -85,6 +89,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 46,
               "end": 57,
@@ -96,6 +101,7 @@
           },
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 58,
                 "end": 61,
@@ -122,6 +128,7 @@
               "optional": false
             },
             {
+              "type": "Identifier",
               "span": {
                 "start": 68,
                 "end": 76,

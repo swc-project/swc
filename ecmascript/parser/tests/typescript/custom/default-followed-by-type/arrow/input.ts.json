@@ -24,6 +24,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -49,6 +50,7 @@
                   "ctxt": 0
                 },
                 "left": {
+                  "type": "Identifier",
                   "span": {
                     "start": 9,
                     "end": 17,
@@ -87,6 +89,7 @@
                 "typeAnnotation": null
               },
               {
+                "type": "Identifier",
                 "span": {
                   "start": 37,
                   "end": 43,
@@ -137,6 +140,7 @@
                     },
                     "expressions": [
                       {
+                        "type": "Identifier",
                         "span": {
                           "start": 72,
                           "end": 80,
@@ -147,6 +151,7 @@
                         "optional": false
                       },
                       {
+                        "type": "Identifier",
                         "span": {
                           "start": 84,
                           "end": 90,

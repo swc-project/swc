@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 12,
@@ -28,6 +29,7 @@
             "ctxt": 0
           },
           "argument": {
+            "type": "Identifier",
             "span": {
               "start": 16,
               "end": 20,

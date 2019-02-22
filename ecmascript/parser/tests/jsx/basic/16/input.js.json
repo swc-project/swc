@@ -31,6 +31,7 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 2,
                 "end": 5,
@@ -54,6 +55,7 @@
         }
       },
       "right": {
+        "type": "Identifier",
         "span": {
           "start": 12,
           "end": 13,

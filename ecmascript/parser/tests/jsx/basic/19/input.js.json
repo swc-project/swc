@@ -16,6 +16,7 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 4,
@@ -39,6 +40,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 5,
                 "end": 8,
@@ -67,6 +69,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 19,
                 "end": 23,
@@ -95,6 +98,7 @@
               "ctxt": 0
             },
             "arguments": {
+              "type": "Identifier",
               "span": {
                 "start": 40,
                 "end": 45,
@@ -118,6 +122,7 @@
           "ctxt": 0
         },
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 49,
             "end": 52,

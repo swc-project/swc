@@ -14,6 +14,7 @@
         "ctxt": 0
       },
       "expr": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 10,

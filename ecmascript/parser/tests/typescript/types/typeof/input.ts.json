@@ -24,6 +24,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -47,6 +48,7 @@
                 "exprName": {
                   "type": "TsQualifiedName",
                   "left": {
+                    "type": "Identifier",
                     "span": {
                       "start": 14,
                       "end": 15,
@@ -57,6 +59,7 @@
                     "optional": false
                   },
                   "right": {
+                    "type": "Identifier",
                     "span": {
                       "start": 16,
                       "end": 17,

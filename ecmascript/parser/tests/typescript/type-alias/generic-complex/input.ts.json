@@ -15,6 +15,7 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 6,
@@ -40,6 +41,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
@@ -75,6 +77,7 @@
                   },
                   "readonly": false,
                   "key": {
+                    "type": "Identifier",
                     "span": {
                       "start": 28,
                       "end": 29,
@@ -120,6 +123,7 @@
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 43,
             "end": 48,
@@ -145,6 +149,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 49,
                   "end": 50,

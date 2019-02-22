@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 27,
           "end": 31,
@@ -40,6 +41,7 @@
               "ctxt": 0
             },
             "callee": {
+              "type": "Identifier",
               "span": {
                 "start": 1,
                 "end": 10,

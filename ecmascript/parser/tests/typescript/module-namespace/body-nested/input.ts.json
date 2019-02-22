@@ -16,6 +16,7 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
@@ -43,6 +44,7 @@
             "declare": false,
             "global": false,
             "id": {
+              "type": "Identifier",
               "span": {
                 "start": 28,
                 "end": 29,

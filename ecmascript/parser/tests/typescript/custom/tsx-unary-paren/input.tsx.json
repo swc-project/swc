@@ -23,6 +23,7 @@
         "opening": {
           "type": "JSXOpeningElement",
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 8,
               "end": 11,
@@ -62,6 +63,7 @@
                 "ctxt": 0
               },
               "test": {
+                "type": "Identifier",
                 "span": {
                   "start": 35,
                   "end": 44,
@@ -88,6 +90,7 @@
                   "opening": {
                     "type": "JSXOpeningElement",
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 65,
                         "end": 67,
@@ -126,6 +129,7 @@
                       "ctxt": 0
                     },
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 78,
                         "end": 80,
@@ -155,6 +159,7 @@
                   "opening": {
                     "type": "JSXOpeningElement",
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 119,
                         "end": 121,
@@ -193,6 +198,7 @@
                       "ctxt": 0
                     },
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 154,
                         "end": 156,
@@ -226,6 +232,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 176,
               "end": 179,

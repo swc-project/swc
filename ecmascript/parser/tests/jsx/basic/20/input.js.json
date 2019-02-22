@@ -16,6 +16,7 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
@@ -39,6 +40,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 3,
                 "end": 5,
@@ -63,6 +65,7 @@
                   "ctxt": 0
                 },
                 "object": {
+                  "type": "Identifier",
                   "span": {
                     "start": 7,
                     "end": 9,
@@ -73,6 +76,7 @@
                   "optional": false
                 },
                 "property": {
+                  "type": "Identifier",
                   "span": {
                     "start": 10,
                     "end": 12,
@@ -85,6 +89,7 @@
                 "computed": false
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 13,
                   "end": 15,
@@ -105,6 +110,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 17,
                 "end": 19,
@@ -129,6 +135,7 @@
                   "ctxt": 0
                 },
                 "object": {
+                  "type": "Identifier",
                   "span": {
                     "start": 21,
                     "end": 23,
@@ -139,6 +146,7 @@
                   "optional": false
                 },
                 "property": {
+                  "type": "Identifier",
                   "span": {
                     "start": 24,
                     "end": 26,
@@ -151,6 +159,7 @@
                 "computed": false
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 27,
                   "end": 29,
@@ -178,6 +187,7 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 32,
                 "end": 35,
@@ -207,6 +217,7 @@
                   "ctxt": 0
                 },
                 "object": {
+                  "type": "Identifier",
                   "span": {
                     "start": 37,
                     "end": 39,
@@ -217,6 +228,7 @@
                   "optional": false
                 },
                 "property": {
+                  "type": "Identifier",
                   "span": {
                     "start": 40,
                     "end": 41,
@@ -238,6 +250,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 44,
                 "end": 47,
@@ -258,6 +271,7 @@
           "ctxt": 0
         },
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 50,
             "end": 51,

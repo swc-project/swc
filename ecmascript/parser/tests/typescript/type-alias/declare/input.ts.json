@@ -15,6 +15,7 @@
       },
       "declare": true,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 13,
           "end": 14,

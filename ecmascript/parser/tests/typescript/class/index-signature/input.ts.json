@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
@@ -30,6 +31,7 @@
           "type": "TsIndexSignature",
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 15,
                 "end": 16,
@@ -84,6 +86,7 @@
           "type": "TsIndexSignature",
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 46,
                 "end": 47,

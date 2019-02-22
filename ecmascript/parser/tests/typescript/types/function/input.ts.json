@@ -24,6 +24,7 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -46,6 +47,7 @@
                 },
                 "params": [
                   {
+                    "type": "Identifier",
                     "span": {
                       "start": 8,
                       "end": 9,
@@ -72,6 +74,7 @@
                     "optional": false
                   },
                   {
+                    "type": "Identifier",
                     "span": {
                       "start": 19,
                       "end": 20,
@@ -105,6 +108,7 @@
                       "ctxt": 0
                     },
                     "argument": {
+                      "type": "Identifier",
                       "span": {
                         "start": 34,
                         "end": 35,

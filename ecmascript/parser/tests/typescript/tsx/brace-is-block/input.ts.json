@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 105,
           "end": 106,
@@ -27,6 +28,7 @@
       "decorators": [],
       "body": [],
       "superClass": {
+        "type": "Identifier",
         "span": {
           "start": 115,
           "end": 116,
@@ -54,6 +56,7 @@
               "ctxt": 0
             },
             "typeName": {
+              "type": "Identifier",
               "span": {
                 "start": 117,
                 "end": 118,
@@ -79,6 +82,7 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 124,
             "end": 125,

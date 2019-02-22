@@ -16,6 +16,7 @@
       "declare": true,
       "isConst": true,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 26,
           "end": 27,

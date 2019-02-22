@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 14,
           "end": 15,
@@ -30,6 +31,7 @@
           "type": "TsIndexSignature",
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 23,
                 "end": 24,
@@ -88,6 +90,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 44,
               "end": 45,
@@ -116,6 +119,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 51,
               "end": 52,
@@ -160,6 +164,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 66,
               "end": 67,
@@ -198,6 +203,7 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 75,
               "end": 76,

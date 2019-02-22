@@ -8,6 +8,7 @@
   "body": [
     {
       "ident": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 10,
@@ -21,6 +22,7 @@
       "type": "Function",
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 14,
             "end": 15,
@@ -42,6 +44,7 @@
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 18,
                   "end": 19,
@@ -90,6 +93,7 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 12,
@@ -119,6 +123,7 @@
             "ctxt": 0
           },
           "typeName": {
+            "type": "Identifier",
             "span": {
               "start": 22,
               "end": 23,

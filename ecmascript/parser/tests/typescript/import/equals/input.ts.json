@@ -16,6 +16,7 @@
       "declare": false,
       "isExport": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 7,
           "end": 8,
@@ -28,6 +29,7 @@
       "moduleRef": {
         "type": "TsQualifiedName",
         "left": {
+          "type": "Identifier",
           "span": {
             "start": 11,
             "end": 12,
@@ -38,6 +40,7 @@
           "optional": false
         },
         "right": {
+          "type": "Identifier",
           "span": {
             "start": 13,
             "end": 14,
