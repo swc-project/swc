@@ -1,13 +1,53 @@
-use crate::util::ExprFactory;
+use crate::{
+    pass::Pass,
+    util::{ExprFactory, StmtLike},
+};
 use ast::*;
 use std::{iter, mem};
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 
+pub fn spread() -> impl Pass + Clone {
+    Spread
+}
+
 /// es2015 - `SpreadElement`
 #[derive(Default, Clone)]
-pub struct Spread;
+struct Spread;
 
-impl Fold<Expr> for Spread {
+#[derive(Default)]
+struct ActualFolder {
+    vars: Vec<VarDeclarator>,
+}
+
+impl<T> Fold<Vec<T>> for Spread
+where
+    T: StmtLike + FoldWith<ActualFolder> + FoldWith<Self>,
+{
+    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+        let mut folder = ActualFolder::default();
+        items
+            .into_iter()
+            .flat_map(|item| {
+                let item = item.fold_with(&mut folder);
+
+                let var = if !folder.vars.is_empty() {
+                    Some(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: mem::replace(&mut folder.vars, vec![]),
+                    }))))
+                } else {
+                    None
+                };
+
+                var.into_iter().chain(iter::once(item))
+            })
+            .collect()
+    }
+}
+
+impl Fold<Expr> for ActualFolder {
     fn fold(&mut self, e: Expr) -> Expr {
         let e = e.fold_children(self);
 
@@ -178,6 +218,15 @@ fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| Spread,
+        issue_270,
+        "instance[name](...args);",
+        "var _instance;
+(_instance = instance)[name].apply(_instance, args);"
+    );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

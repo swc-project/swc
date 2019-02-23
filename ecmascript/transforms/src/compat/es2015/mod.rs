@@ -3,7 +3,7 @@ pub use self::{
     computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
     instanceof::InstanceOf, parameters::parameters, resolver::resolver,
-    shorthand_property::Shorthand, spread::Spread, sticky_regex::StickyRegex,
+    shorthand_property::Shorthand, spread::spread, sticky_regex::StickyRegex,
     template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
@@ -32,7 +32,6 @@ fn exprs() -> impl Pass + Clone {
         Expr,
         arrow(),
         duplicate_keys(),
-        Spread,
         StickyRegex,
         InstanceOf,
         TypeOfSymbol,
@@ -50,6 +49,7 @@ pub fn es2015() -> impl Pass + Clone {
     chain_at!(
         Module,
         resolver(),
+        spread(),
         Classes,
         stmts(),
         parameters(),

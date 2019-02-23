@@ -1,5 +1,5 @@
 use super::object_rest_spread;
-use crate::compat::es2015::Spread;
+use crate::compat::es2015::spread;
 use ast::Module;
 use swc_common::Fold;
 
@@ -236,7 +236,7 @@ export var [dd, ee] = ads;
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(tr(), Spread {}),
+    |_| chain!(tr(), spread()),
     rest_for_x,
     r#"
 // ForXStatement

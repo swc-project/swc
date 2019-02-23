@@ -1188,17 +1188,17 @@ function d(thing) {
 }"#
 );
 
-test!(::swc_ecma_parser::Syntax::default(),
-    |_|chain!(Classes,  tr(),
-    crate::compat::es2015::Spread::default()),
-  rest_nested_iife,
-  r#"function broken(x, ...foo) {
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| chain!(Classes, tr(), crate::compat::es2015::spread()),
+    rest_nested_iife,
+    r#"function broken(x, ...foo) {
   if (true) {
     class Foo extends Bar { }
     return hello(...foo)
   }
 }"#,
-  r#"function broken(x) {
+    r#"function broken(x) {
     for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0),
         _key = 1; _key < _len; _key++){
         foo[_key - 1] = arguments[_key];
@@ -1208,7 +1208,8 @@ test!(::swc_ecma_parser::Syntax::default(),
             _inherits(Foo, _Bar);
             function Foo() {
                 _classCallCheck(this, Foo);
-                return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments));
+                return _possibleConstructorReturn(this,
+                    _getPrototypeOf(Foo).apply(this, arguments));
             }
             return Foo;
         }(Bar);
