@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{undefined, ExprFactory, StmtLike},
+    util::{alias_ident_for, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{iter, mem};
@@ -94,15 +94,22 @@ impl Fold<Expr> for ActualFolder {
                     ExprOrSuper::Expr(box Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(ref expr @ box Expr::This(..)),
                         ..
-                    }))
-                    | ExprOrSuper::Expr(box Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(ref expr @ box Expr::Ident(..)),
-                        ..
                     })) => expr.clone(),
 
+                    // Injected variables can be accessed without any side effect
+                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(box Expr::Ident(ref i)),
+                        ..
+                    })) if i.span.is_dummy() => box Expr::Ident(i.clone()),
+
                     ExprOrSuper::Expr(box Expr::Ident(Ident { span, .. })) => undefined(span),
-                    _ => {
-                        let ident = private_ident!("_instance");
+
+                    ExprOrSuper::Super(..) => {
+                        unreachable!("super(...spread) should be removed by es2015::classes pass")
+                    }
+
+                    ExprOrSuper::Expr(ref expr) => {
+                        let ident = alias_ident_for(&expr, "_instance");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
@@ -243,13 +250,18 @@ fn concat_args(
                                 .as_arg()
                             }
                         }
-                        _ => Expr::Call(CallExpr {
-                            span,
-                            callee: helper!(to_consumable_array, "toConsumableArray"),
-                            args: vec![expr.as_arg()],
-                            type_args: Default::default(),
-                        })
-                        .as_arg(),
+                        _ => {
+                            let arg = Expr::Call(CallExpr {
+                                span,
+                                callee: helper!(to_consumable_array, "toConsumableArray"),
+                                args: vec![expr.as_arg()],
+                                type_args: Default::default(),
+                            });
+                            if args_len == 1 {
+                                return arg;
+                            }
+                            arg.as_arg()
+                        }
                     });
                 }
                 None => tmp_arr.push(Some(expr.as_arg())),

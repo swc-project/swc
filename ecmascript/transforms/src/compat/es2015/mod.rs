@@ -49,8 +49,8 @@ pub fn es2015() -> impl Pass + Clone {
     chain_at!(
         Module,
         resolver(),
-        spread(),
         Classes,
+        spread(),
         stmts(),
         parameters(),
         for_of(),
