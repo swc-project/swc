@@ -2679,23 +2679,30 @@ class Foo {
     }
 }
 ",
-    "class Foo {
-  constructor() {
+    "
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
+
     _x.set(this, {
       writable: true,
       value: 0
     });
   }
 
-  test() {
-    var _this$x;
+  _createClass(Foo, [{
+    key: 'test',
+    value: function test() {
+      var old;
 
-    _classPrivateFieldSet(this, _x, (_this$x = +_classPrivateFieldGet(this, _x)) + 1), _this$x;
+      _classPrivateFieldSet(this, _x, (old = +_classPrivateFieldGet(this, _x)) + 1), old;
 
-    _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
-  }
+      _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
+    }
+  }]);
 
-}
+  return Foo;
+}();
 
 var _x = new WeakMap();
 "
@@ -2715,18 +2722,27 @@ class Foo {
     }
 }
 ",
-    "class Foo {
-  test() {
-    var _Foo$x;
-
-    _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (_Foo$x = +_classStaticPrivateFieldSpecGet(Foo, \
-     Foo, _x)) + 1), _Foo$x;
-
-    _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) + \
-     1);
+    "
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
   }
 
-}
+  _createClass(Foo, [{
+    key: 'test',
+    value: function test() {
+      var old;
+
+      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (old = +_classStaticPrivateFieldSpecGet(Foo, \
+     Foo, _x)) + 1), old;
+
+      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) \
+     + 1);
+    }
+  }]);
+
+  return Foo;
+}();
 
 var _x = {
   writable: true,
