@@ -10,7 +10,7 @@ mod ops;
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 #[derive(Clone)]
 struct Hygiene<'a> {

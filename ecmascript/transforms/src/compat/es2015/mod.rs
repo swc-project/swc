@@ -41,13 +41,14 @@ fn exprs() -> impl Pass + Clone {
 }
 
 fn stmts() -> impl Pass + Clone {
-    chain_at!(Stmt, function_name(), exprs(), BlockScopedFns,)
+    chain_at!(Stmt, function_name(), exprs(),)
 }
 
 /// Compiles es2015 to es5.
 pub fn es2015() -> impl Pass + Clone {
     chain_at!(
         Module,
+        BlockScopedFns,
         resolver(),
         Classes,
         spread(),
@@ -127,6 +128,29 @@ export default function fn1() {
         args[_key] = arguments[_key];
     }
     fn2.apply(undefined, [].concat(_toConsumableArray(args)));
+}
+"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| chain!(BlockScopedFns, resolver(),),
+        issue_271,
+        "
+function foo(scope) {
+    scope.startOperation = startOperation;
+
+    function startOperation(operation) {
+        scope.agentOperation = operation;
+    }
+}
+",
+        "
+function foo(scope) {
+    let startOperation = function startOperation(operation) {
+        scope.agentOperation = operation;
+    };
+    scope.startOperation = startOperation;
 }
 "
     );

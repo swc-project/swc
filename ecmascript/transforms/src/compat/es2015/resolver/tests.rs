@@ -602,3 +602,13 @@ identical!(
 );
 
 identical!(module_01, "import { foo as foo } from 'src';");
+
+identical!(
+    issue_271,
+    "function foo(scope) {
+    var startOperation = function startOperation(operation) {
+        scope.agentOperation = operation;
+    };
+    scope.startOperation = startOperation;
+}"
+);
