@@ -17,6 +17,7 @@ impl Parse for Args {
 pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
     let mut items = vec![];
     let generics = i.generics.clone();
+    let item_ident = Ident::new(&format!("{}Struct", i.ident), i.ident.span());
 
     items.push(
         Quote::new_call_site()
@@ -112,17 +113,21 @@ pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
 
         let body = Quote::new_call_site().quote_with(smart_quote!(
             Vars {
+                Item: &item_ident,
                 convert_item_to_self
             },
             {
-                let node = ::swc_common::serializer::Node::<Item>::deserialize(deserializer)?;
+                let ty = <Self as ::swc_common::AstNode>::TYPE;
+                let node = ::swc_common::serializer::Node::<Item>::deserialize(deserializer);
+                let node = match node {
+                    Ok(node) => node,
+                    Err(err) => {
+                        println!("Failed to parse as {}: {}", ty, err);
+                        return Err(err);
+                    }
+                };
 
                 if node.ty != <Self as ::swc_common::AstNode>::TYPE {
-                    println!(
-                        "Failed to parse because type field {} does not match {}",
-                        node.ty,
-                        <Self as ::swc_common::AstNode>::TYPE
-                    );
                     return Err(D::Error::unknown_variant(
                         &node.ty,
                         &[<Self as ::swc_common::AstNode>::TYPE],
@@ -135,7 +140,7 @@ pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
 
         let item = DeriveInput {
             vis: Visibility::Inherited,
-            ident: Ident::new("Item", i.ident.span()),
+            ident: item_ident,
             attrs: vec![],
             data: item_data,
             ..cloned
