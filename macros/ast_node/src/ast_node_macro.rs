@@ -116,7 +116,13 @@ pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
             },
             {
                 let node = ::swc_common::serializer::Node::<Item>::deserialize(deserializer)?;
-                if node.ty != <Self as ::swc_common::AstNode>::TYPE  {
+
+                if node.ty != <Self as ::swc_common::AstNode>::TYPE {
+                    println!(
+                        "Failed to parse because type field {} does not match {}",
+                        node.ty,
+                        <Self as ::swc_common::AstNode>::TYPE
+                    );
                     return Err(D::Error::unknown_variant(
                         &node.ty,
                         &[<Self as ::swc_common::AstNode>::TYPE],
