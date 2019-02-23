@@ -252,11 +252,11 @@ foob.test.add(...numbers);
 
 "#,
     r#"
-var _foob, _foob$test;
+var _foob, _test;
 
 (_foob = foob).add.apply(_foob, _toConsumableArray(numbers));
 
-(_foob$test = foob.test).add.apply(_foob$test, _toConsumableArray(numbers));
+(_test = foob.test).add.apply(_test, _toConsumableArray(numbers));
 
 "#
 );
@@ -327,11 +327,11 @@ foob.test.add(foo, bar, ...numbers);
 
 "#,
     r#"
-var _foob, _foob$test;
+var _foob, _test;
 
 (_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
 
-(_foob$test = foob.test).add.apply(_foob$test, [foo, bar].concat(_toConsumableArray(numbers)));
+(_test = foob.test).add.apply(_test, [foo, bar].concat(_toConsumableArray(numbers)));
 
 "#
 );

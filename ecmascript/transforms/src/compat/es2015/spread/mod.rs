@@ -1,10 +1,10 @@
 use crate::{
     pass::Pass,
-    util::{alias_ident_for, undefined, ExprFactory, StmtLike},
+    util::{alias_ident_for, prepend, undefined, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::{iter, mem};
-use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_SP};
 
 #[cfg(test)]
 mod tests;
@@ -28,25 +28,20 @@ where
 {
     fn fold(&mut self, items: Vec<T>) -> Vec<T> {
         let mut folder = ActualFolder::default();
+        let mut items = items.move_map(|item| item.fold_with(&mut folder));
+        if !folder.vars.is_empty() {
+            prepend(
+                &mut items,
+                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: mem::replace(&mut folder.vars, vec![]),
+                }))),
+            );
+        }
+
         items
-            .into_iter()
-            .flat_map(|item| {
-                let item = item.fold_with(&mut folder);
-
-                let var = if !folder.vars.is_empty() {
-                    Some(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: mem::replace(&mut folder.vars, vec![]),
-                    }))))
-                } else {
-                    None
-                };
-
-                var.into_iter().chain(iter::once(item))
-            })
-            .collect()
     }
 }
 
@@ -69,8 +64,10 @@ impl Fold<Expr> for ActualFolder {
 
                 return args_array;
             }
+
+            // super(...spread) should be removed by es2015::classes pass
             Expr::Call(CallExpr {
-                callee,
+                callee: ExprOrSuper::Expr(callee),
                 args,
                 span,
                 type_args,
@@ -80,35 +77,37 @@ impl Fold<Expr> for ActualFolder {
                     .any(|ExprOrSpread { spread, .. }| spread.is_some());
                 if !has_spread {
                     return Expr::Call(CallExpr {
-                        callee,
+                        callee: ExprOrSuper::Expr(callee),
                         args,
                         span,
                         type_args,
                     });
                 }
-                let this = match callee {
-                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                let (this, callee) = match *callee {
+                    Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(span),
                         ..
-                    })) => box Expr::This(ThisExpr { span }),
-                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                    }) => (box Expr::This(ThisExpr { span }), callee),
+
+                    Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(ref expr @ box Expr::This(..)),
                         ..
-                    })) => expr.clone(),
+                    }) => (expr.clone(), callee),
 
                     // Injected variables can be accessed without any side effect
-                    ExprOrSuper::Expr(box Expr::Member(MemberExpr {
+                    Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(box Expr::Ident(ref i)),
                         ..
-                    })) if i.span.is_dummy() => box Expr::Ident(i.clone()),
+                    }) if i.span.is_dummy() => (box Expr::Ident(i.clone()), callee),
 
-                    ExprOrSuper::Expr(box Expr::Ident(Ident { span, .. })) => undefined(span),
+                    Expr::Ident(Ident { span, .. }) => (undefined(span), callee),
 
-                    ExprOrSuper::Super(..) => {
-                        unreachable!("super(...spread) should be removed by es2015::classes pass")
-                    }
-
-                    ExprOrSuper::Expr(ref expr) => {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(expr),
+                        prop,
+                        computed,
+                    }) => {
                         let ident = alias_ident_for(&expr, "_instance");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
@@ -118,14 +117,30 @@ impl Fold<Expr> for ActualFolder {
                             init: None,
                         });
 
-                        box Expr::Ident(ident)
+                        let this = box Expr::Ident(ident.clone());
+                        let callee = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(box Pat::Ident(ident)),
+                            op: op!("="),
+                            right: expr,
+                        });
+                        (
+                            this,
+                            box Expr::Member(MemberExpr {
+                                span,
+                                obj: callee.as_obj(),
+                                prop,
+                                computed,
+                            }),
+                        )
                     }
+                    _ => (undefined(callee.span()), callee),
                 };
 
                 let args_array = concat_args(span, args.into_iter().map(Some), false);
                 let apply = MemberExpr {
                     span: DUMMY_SP,
-                    obj: callee,
+                    obj: callee.as_callee(),
                     prop: box Ident::new(js_word!("apply"), span).into(),
                     computed: false,
                 };
