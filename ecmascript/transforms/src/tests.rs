@@ -190,8 +190,17 @@ pub(crate) fn test_transform<F, P>(
         eprintln!("----- Actual -----");
 
         let tr = crate::tests::make_tr(tr, tester);
-        let actual = tester
-            .apply_transform(tr, "input.js", syntax, input)?
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
+        let actual = actual
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::fixer::fixer());
 
@@ -361,6 +370,16 @@ impl Fold<PatOrExpr> for Normalizer {
         match n {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
             _ => n,
+        }
+    }
+}
+
+struct HygieneVisualizer;
+impl Fold<Ident> for HygieneVisualizer {
+    fn fold(&mut self, ident: Ident) -> Ident {
+        Ident {
+            sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
+            ..ident
         }
     }
 }

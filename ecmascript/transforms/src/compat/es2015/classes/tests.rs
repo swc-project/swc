@@ -1,6 +1,6 @@
 use super::*;
 use crate::{
-    compat::es2015::{arrow, block_scoping, resolver, Spread},
+    compat::es2015::{arrow, block_scoping, resolver, spread},
     react::jsx,
 };
 use swc_ecma_parser::{EsConfig, Syntax};
@@ -14,7 +14,7 @@ fn tr() -> impl Fold<Module> {
 }
 
 fn spec_tr() -> impl Fold<Module> {
-    chain!(resolver(), Classes, Spread, block_scoping(),)
+    chain!(resolver(), Classes, spread(), block_scoping(),)
 }
 
 test!(

@@ -3,7 +3,7 @@ pub use self::{
     computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
     instanceof::InstanceOf, parameters::parameters, resolver::resolver,
-    shorthand_property::Shorthand, spread::Spread, sticky_regex::StickyRegex,
+    shorthand_property::Shorthand, spread::spread, sticky_regex::StickyRegex,
     template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
@@ -32,7 +32,6 @@ fn exprs() -> impl Pass + Clone {
         Expr,
         arrow(),
         duplicate_keys(),
-        Spread,
         StickyRegex,
         InstanceOf,
         TypeOfSymbol,
@@ -42,15 +41,17 @@ fn exprs() -> impl Pass + Clone {
 }
 
 fn stmts() -> impl Pass + Clone {
-    chain_at!(Stmt, function_name(), exprs(), BlockScopedFns,)
+    chain_at!(Stmt, function_name(), exprs(),)
 }
 
 /// Compiles es2015 to es5.
 pub fn es2015() -> impl Pass + Clone {
     chain_at!(
         Module,
+        BlockScopedFns,
         resolver(),
         Classes,
+        spread(),
         stmts(),
         parameters(),
         for_of(),
@@ -126,7 +127,30 @@ export default function fn1() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }
-    fn2.apply(undefined, [].concat(_toConsumableArray(args)));
+    fn2.apply(void 0, args);
+}
+"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| chain!(BlockScopedFns, resolver(),),
+        issue_271,
+        "
+function foo(scope) {
+    scope.startOperation = startOperation;
+
+    function startOperation(operation) {
+        scope.agentOperation = operation;
+    }
+}
+",
+        "
+function foo(scope) {
+    let startOperation = function startOperation(operation) {
+        scope.agentOperation = operation;
+    };
+    scope.startOperation = startOperation;
 }
 "
     );

@@ -61,22 +61,26 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 } {
                     ThisExpr { span: DUMMY_SP }.as_arg()
                 } else {
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(var.clone()),
-                        init: None,
-                        definite: false,
-                    });
-                    AssignExpr {
-                        span: obj.span(),
-                        left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
-                        op: op!("="),
-                        right: obj,
+                    if is_static {
+                        obj.as_arg()
+                    } else {
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(var.clone()),
+                            init: None,
+                            definite: false,
+                        });
+                        AssignExpr {
+                            span: obj.span(),
+                            left: PatOrExpr::Pat(box Pat::Ident(var.clone())),
+                            op: op!("="),
+                            right: obj,
+                        }
+                        .as_arg()
                     }
-                    .as_arg()
                 };
                 // Used iff !prefix
-                let old_var = private_ident!("old");
+                let old_var = alias_ident_for(&arg.prop, "old");
                 if !prefix {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
@@ -119,15 +123,31 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                let set = helper!(class_private_field_set, "classPrivateFieldSet");
+                let expr = if is_static {
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(
+                            class_static_private_field_spec_set,
+                            "classStaticPrivateFieldSpecSet"
+                        ),
+                        args: vec![
+                            this,
+                            self.class_name.clone().as_arg(),
+                            ident.as_arg(),
+                            value,
+                        ],
 
-                let expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: set,
-                    args: vec![this, ident.as_arg(), value],
+                        type_args: Default::default(),
+                    })
+                } else {
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(class_private_field_set, "classPrivateFieldSet"),
+                        args: vec![this, ident.as_arg(), value],
 
-                    type_args: Default::default(),
-                });
+                        type_args: Default::default(),
+                    })
+                };
 
                 if prefix {
                     expr
@@ -243,14 +263,12 @@ impl<'a> Fold<Expr> for FieldAccessFolder<'a> {
                 };
 
                 if is_static {
-                    let set = helper!(
-                        class_static_private_field_spec_set,
-                        "classStaticPrivateFieldSpecSet"
-                    );
-
                     Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: set,
+                        callee: helper!(
+                            class_static_private_field_spec_set,
+                            "classStaticPrivateFieldSpecSet"
+                        ),
                         args: vec![
                             this,
                             self.class_name.clone().as_arg(),

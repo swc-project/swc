@@ -88,4 +88,28 @@ name("Steve");"#,
 name("Steve");
 "#
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| BlockScopedFns,
+        issue_271,
+        "
+function foo(scope) {
+    scope.startOperation = startOperation;
+
+    function startOperation(operation) {
+        scope.agentOperation = operation;
+    }
+}
+",
+        "
+function foo(scope) {
+    let startOperation = function startOperation(operation) {
+        scope.agentOperation = operation;
+    };
+    scope.startOperation = startOperation;
+}
+"
+    );
+
 }

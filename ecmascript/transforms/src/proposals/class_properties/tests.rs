@@ -2664,3 +2664,88 @@ expect(f.test()).toBe(1);
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    custom_instance_update,
+    "
+class Foo {
+    #x = 0;
+
+    test() {
+        this.#x++;
+        ++this.#x;
+    }
+}
+",
+    "
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
+
+    _x.set(this, {
+      writable: true,
+      value: 0
+    });
+  }
+
+  _createClass(Foo, [{
+    key: 'test',
+    value: function test() {
+      var old;
+
+      _classPrivateFieldSet(this, _x, (old = +_classPrivateFieldGet(this, _x)) + 1), old;
+
+      _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
+    }
+  }]);
+
+  return Foo;
+}();
+
+var _x = new WeakMap();
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    custom_static_update,
+    "
+class Foo {
+    static #x = 0;
+
+    test() {
+        Foo.#x++;
+        ++Foo.#x;
+    }
+}
+",
+    "
+var Foo = function () {
+  function Foo() {
+    _classCallCheck(this, Foo);
+  }
+
+  _createClass(Foo, [{
+    key: 'test',
+    value: function test() {
+      var old;
+
+      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (old = +_classStaticPrivateFieldSpecGet(Foo, \
+     Foo, _x)) + 1), old;
+
+      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) \
+     + 1);
+    }
+  }]);
+
+  return Foo;
+}();
+
+var _x = {
+  writable: true,
+  value: 0
+};"
+);

@@ -882,14 +882,14 @@ pub(crate) fn undefined(span: Span) -> Box<Expr> {
 }
 
 /// inject `stmt` after directives
-pub(crate) fn prepend(stmts: &mut Vec<Stmt>, stmt: Stmt) {
+pub(crate) fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
-        .position(|item| match item {
-            Stmt::Expr(box Expr::Lit(Lit::Str(..))) => false,
+        .position(|item| match item.as_stmt() {
+            Some(&Stmt::Expr(box Expr::Lit(Lit::Str(..)))) => false,
             _ => true,
         })
-        .unwrap_or(0);
+        .unwrap_or(stmts.len());
 
     stmts.insert(idx, stmt);
 }
