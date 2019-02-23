@@ -465,3 +465,37 @@ impl From<Str> for Expr {
         Expr::Lit(Lit::Str(v))
     }
 }
+
+test_de!(
+    jsx_element,
+    JSXElement,
+    r#"{
+      "type": "JSXElement",
+      "span": {
+        "start": 0,
+        "end": 5,
+        "ctxt": 0
+      },
+      "opening": {
+        "type": "JSXOpeningElement",
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 2,
+            "ctxt": 0
+          },
+          "value": "a",
+          "optional": false
+        },
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "selfClosing": true
+      },
+      "children": [],
+      "closing": null
+    }"#
+);

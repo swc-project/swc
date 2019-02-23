@@ -17,7 +17,7 @@ impl Parse for Args {
 pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
     let mut items = vec![];
     let generics = i.generics.clone();
-    let item_ident = Ident::new(&format!("{}Struct", i.ident), i.ident.span());
+    let item_ident = Ident::new("Item", i.ident.span());
 
     items.push(
         Quote::new_call_site()
@@ -113,7 +113,6 @@ pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
 
         let body = Quote::new_call_site().quote_with(smart_quote!(
             Vars {
-                Item: &item_ident,
                 convert_item_to_self
             },
             {
@@ -161,6 +160,7 @@ pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
                         {
                             use ::serde::de::Error;
                             #[derive(::serde::Deserialize)]
+                            #[serde(rename_all = "camelCase")]
                             item
                             body
                         }

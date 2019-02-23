@@ -81,6 +81,7 @@ pub struct JSXOpeningElement {
     #[serde(default, rename = "attributes", skip_serializing_if = "Vec::is_empty")]
     pub attrs: Vec<JSXAttrOrSpread>,
 
+    #[serde(rename = "selfClosing")]
     pub self_closing: bool,
 
     /// Note: This field's name is differrent from one from babel because it is

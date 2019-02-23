@@ -10,6 +10,8 @@ extern crate enum_kind;
 extern crate serde;
 #[macro_use]
 extern crate string_enum;
+#[cfg(test)]
+extern crate serde_json;
 extern crate swc_atoms;
 extern crate swc_common;
 
@@ -67,6 +69,8 @@ pub use self::{
     },
 };
 
+#[macro_use]
+mod macros;
 mod class;
 mod decl;
 mod expr;
@@ -74,7 +78,6 @@ mod function;
 mod ident;
 mod jsx;
 mod lit;
-mod macros;
 mod module;
 mod module_decl;
 mod operators;

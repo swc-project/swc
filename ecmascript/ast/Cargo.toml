@@ -19,3 +19,6 @@ swc_atoms = { version = "0.1", path ="../../atoms" }
 swc_common = { version = "0.2", path ="../../common" }
 enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
 string_enum = { version = "0.1", path ="../../macros/string_enum" }
+
+[dev-dependencies]
+serde_json = "1"
