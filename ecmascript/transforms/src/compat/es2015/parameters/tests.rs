@@ -1213,7 +1213,7 @@ test!(
             }
             return Foo;
         }(Bar);
-        return hello.apply(undefined, [].concat(_toConsumableArray(foo)));
+        return hello.apply(void 0, foo);
     }
 }"#
 );
