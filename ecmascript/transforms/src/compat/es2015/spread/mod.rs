@@ -65,7 +65,7 @@ impl Fold<Expr> for ActualFolder {
                     return Expr::Array(ArrayLit { span, elems });
                 }
 
-                let args_array = concat_args(span, elems.into_iter());
+                let args_array = concat_args(span, elems.into_iter(), true);
 
                 return args_array;
             }
@@ -115,7 +115,7 @@ impl Fold<Expr> for ActualFolder {
                     }
                 };
 
-                let args_array = concat_args(span, args.into_iter().map(Some));
+                let args_array = concat_args(span, args.into_iter().map(Some), false);
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee,
@@ -134,7 +134,7 @@ impl Fold<Expr> for ActualFolder {
             }
             Expr::New(NewExpr {
                 callee,
-                args: Some(args),
+                args: Some(mut args),
                 span,
                 type_args,
             }) => {
@@ -150,12 +150,10 @@ impl Fold<Expr> for ActualFolder {
                     });
                 }
 
-                let args = concat_args(
-                    span,
-                    iter::once(quote_expr!(span, null).as_arg())
-                        .chain(args)
-                        .map(Some),
-                );
+                // it's ok because n is small in O(n)
+                args.insert(0, quote_expr!(span, null).as_arg());
+
+                let args = concat_args(span, args.into_iter().map(Some), false);
 
                 //
                 // f.apply(undefined, args)
@@ -177,7 +175,11 @@ impl Fold<Expr> for ActualFolder {
     }
 }
 
-fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> Expr {
+fn concat_args(
+    span: Span,
+    args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+    need_array: bool,
+) -> Expr {
     //
     // []
     //
@@ -185,6 +187,7 @@ fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> 
 
     let mut tmp_arr = vec![];
     let mut buf = vec![];
+    let args_len = args.len();
 
     macro_rules! make_arr {
         () => {
@@ -216,13 +219,30 @@ fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> 
                         Expr::Ident(Ident {
                             sym: js_word!("arguments"),
                             ..
-                        }) => Expr::Call(CallExpr {
-                            span,
-                            callee: member_expr!(DUMMY_SP, Array.prototype.slice.call).as_callee(),
-                            args: vec![expr.as_arg()],
-                            type_args: Default::default(),
-                        })
-                        .as_arg(),
+                        }) => {
+                            if args_len == 1 {
+                                if need_array {
+                                    return Expr::Call(CallExpr {
+                                        span,
+                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                            .as_callee(),
+                                        args: vec![expr.as_arg()],
+                                        type_args: Default::default(),
+                                    });
+                                } else {
+                                    return *expr;
+                                }
+                            } else {
+                                Expr::Call(CallExpr {
+                                    span,
+                                    callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                        .as_callee(),
+                                    args: vec![expr.as_arg()],
+                                    type_args: Default::default(),
+                                })
+                                .as_arg()
+                            }
+                        }
                         _ => Expr::Call(CallExpr {
                             span,
                             callee: helper!(to_consumable_array, "toConsumableArray"),
