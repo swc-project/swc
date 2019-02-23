@@ -60,15 +60,6 @@ test!(
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
-    custom_new,
-    "new C(a, b, c, ...d, e)",
-    "new Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), [e]))();",
-    ok_if_code_eq
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
     custom_new_noop,
     "new C(a, b, c, c, d, e)",
     "new C(a, b, c, c, d, e);"
