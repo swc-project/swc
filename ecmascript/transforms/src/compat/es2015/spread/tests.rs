@@ -280,7 +280,7 @@ switch (true){
 
 "#,
     r#"
-var _obj$obj;
+var _obj;
 
 function fn() {}
 
@@ -293,7 +293,7 @@ var obj = {
 
 switch (true) {
   case true:
-    (_obj$obj = obj.obj).fn.apply(_obj$obj, args);
+    (_obj = obj.obj).fn.apply(_obj, args);
 
     break;
 }
