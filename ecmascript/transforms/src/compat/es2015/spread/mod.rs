@@ -156,7 +156,7 @@ impl Fold<Expr> for ActualFolder {
             }
             Expr::New(NewExpr {
                 callee,
-                args: Some(mut args),
+                args: Some(args),
                 span,
                 type_args,
             }) => {
@@ -172,24 +172,13 @@ impl Fold<Expr> for ActualFolder {
                     });
                 }
 
-                // it's ok because n is small in O(n)
-                args.insert(0, quote_expr!(span, null).as_arg());
+                let args = concat_args(span, args.into_iter().map(Some), true);
 
-                let args = concat_args(span, args.into_iter().map(Some), false);
-
-                //
-                // f.apply(undefined, args)
-                //
-
-                Expr::New(NewExpr {
+                Expr::Call(CallExpr {
                     span,
-                    callee: box member_expr!(span, Function.prototype.bind).apply(
-                        span,
-                        callee,
-                        vec![args.as_arg()],
-                    ),
-                    args: Some(vec![]),
-                    type_args,
+                    callee: helper!(construct, "construct"),
+                    args: vec![callee.as_arg(), args.as_arg()],
+                    type_args: Default::default(),
                 })
             }
             _ => e,
@@ -266,6 +255,9 @@ fn concat_args(
                             }
                         }
                         _ => {
+                            if args_len == 1 && !need_array {
+                                return *expr;
+                            }
                             let arg = Expr::Call(CallExpr {
                                 span,
                                 callee: helper!(to_consumable_array, "toConsumableArray"),
