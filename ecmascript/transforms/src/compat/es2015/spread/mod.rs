@@ -6,6 +6,9 @@ use ast::*;
 use std::{iter, mem};
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 
+#[cfg(test)]
+mod tests;
+
 pub fn spread() -> impl Pass + Clone {
     Spread
 }
@@ -83,15 +86,12 @@ impl Fold<Expr> for ActualFolder {
                         type_args,
                     });
                 }
+                let this = quote_expr!(DUMMY_SP, undefined);
                 let args_array = concat_args(span, args.into_iter().map(Some));
                 //
                 // f.apply(undefined, args)
                 //
-                callee.apply(
-                    span,
-                    quote_expr!(DUMMY_SP, undefined),
-                    vec![args_array.as_arg()],
-                )
+                callee.apply(span, this, vec![args_array.as_arg()])
             }
             Expr::New(NewExpr {
                 callee,
@@ -213,76 +213,4 @@ fn concat_args(span: Span, args: impl Iterator<Item = Option<ExprOrSpread>>) -> 
         args: buf,
         type_args: Default::default(),
     })
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        issue_270,
-        "instance[name](...args);",
-        "var _instance;
-(_instance = instance)[name].apply(_instance, args);"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        call,
-        "ca(a, b, c, ...d, e)",
-        "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        call_multi_spread,
-        "ca(a, b, ...d, e, f, ...h)",
-        "ca.apply(undefined, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        call_noop,
-        "ca(a, b, c, d, e)",
-        "ca(a, b, c, d, e);"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        array,
-        "[a, b, c, ...d, e]",
-        "[a, b, c].concat(_toConsumableArray(d), [e])"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        array_empty,
-        "[a,, b, c, ...d,,, e]",
-        "[a,, b, c].concat(_toConsumableArray(d), [,, e])"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        new,
-        "new C(a, b, c, ...d, e)",
-        "new Function.prototype.bind.apply(C, [null, a, b, c].concat(_toConsumableArray(d), \
-         [e]))();",
-        ok_if_code_eq
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| Spread,
-        new_noop,
-        "new C(a, b, c, c, d, e)",
-        "new C(a, b, c, c, d, e);"
-    );
 }
