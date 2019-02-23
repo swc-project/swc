@@ -22,7 +22,7 @@ test!(
     |_| tr(),
     custom_call,
     "ca(a, b, c, ...d, e)",
-    "ca.apply(undefined, [a, b, c].concat(_toConsumableArray(d), [e]));"
+    "ca.apply(void 0, [a, b, c].concat(_toConsumableArray(d), [e]));"
 );
 
 test!(
@@ -30,7 +30,7 @@ test!(
     |_| tr(),
     custom_call_multi_spread,
     "ca(a, b, ...d, e, f, ...h)",
-    "ca.apply(undefined, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
+    "ca.apply(void 0, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
 );
 
 test!(
