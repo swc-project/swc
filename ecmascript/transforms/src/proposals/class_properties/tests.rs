@@ -2664,3 +2664,72 @@ expect(f.test()).toBe(1);
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    custom_instance_update,
+    "
+class Foo {
+    #x = 0;
+
+    test() {
+        this.#x++;
+        ++this.#x;
+    }
+}
+",
+    "class Foo {
+  constructor() {
+    _x.set(this, {
+      writable: true,
+      value: 0
+    });
+  }
+
+  test() {
+    var _this$x;
+
+    _classPrivateFieldSet(this, _x, (_this$x = +_classPrivateFieldGet(this, _x)) + 1), _this$x;
+
+    _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
+  }
+
+}
+
+var _x = new WeakMap();
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    custom_static_update,
+    "
+class Foo {
+    static #x = 0;
+
+    test() {
+        Foo.#x++;
+        ++Foo.#x;
+    }
+}
+",
+    "class Foo {
+  test() {
+    var _Foo$x;
+
+    _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (_Foo$x = +_classStaticPrivateFieldSpecGet(Foo, \
+     Foo, _x)) + 1), _Foo$x;
+
+    _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) + \
+     1);
+  }
+
+}
+
+var _x = {
+  writable: true,
+  value: 0
+};"
+);
