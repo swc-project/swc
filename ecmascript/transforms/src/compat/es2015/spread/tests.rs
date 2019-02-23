@@ -5,7 +5,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr() -> impl Fold<Module> {
-    spread()
+    chain!(crate::compat::es2015::parameters(), spread())
 }
 
 test!(
@@ -106,7 +106,7 @@ class Foo {
     r#"
 class Foo {
   bar() {
-    super.bar.apply(this, _toConsumableArray(args));
+    super.bar.apply(this, args);
   }
 
 }
@@ -245,9 +245,9 @@ foob.test.add(...numbers);
     r#"
 var _foob, _test;
 
-(_foob = foob).add.apply(_foob, _toConsumableArray(numbers));
+(_foob = foob).add.apply(_foob, numbers);
 
-(_test = foob.test).add.apply(_test, _toConsumableArray(numbers));
+(_test = foob.test).add.apply(_test, numbers);
 
 "#
 );
@@ -386,8 +386,7 @@ add(...numbers, foo, bar);
 
 "#,
     r#"
-add.apply(void 0, _toConsumableArray(numbers).concat([foo, bar]));
-
+add.apply(void 0, [].concat(_toConsumableArray(numbers), [foo, bar]));
 "#
 );
 
@@ -458,7 +457,7 @@ test!(
 
 "#,
     r#"
-_toConsumableArray(foo);
+[].concat(foo);
 
 "#
 );
@@ -539,7 +538,7 @@ new Numbers(1, ...nums);
 
 "#,
     r#"
-_construct(Numbers, _toConsumableArray(nums));
+_construct(Numbers, [].concat(nums));
 _construct(Numbers, [1].concat(_toConsumableArray(nums)));
 
 "#
@@ -555,7 +554,7 @@ add(...numbers);
 
 "#,
     r#"
-add.apply(void 0, _toConsumableArray(numbers));
+add.apply(void 0, numbers);
 
 "#
 );
@@ -643,7 +642,7 @@ function foo(...bar) {
 "#,
     r#"
 function foo() {
-  for (var _len = arguments.length, bar = new Array(_len), _key = 0; _key < _len; _key++) {
+  for (let _len = arguments.length, bar = new Array(_len), _key = 0; _key < _len; _key++) {
     bar[_key] = arguments[_key];
   }
 

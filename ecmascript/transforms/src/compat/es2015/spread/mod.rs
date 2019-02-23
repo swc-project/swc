@@ -258,16 +258,28 @@ fn concat_args(
                             if args_len == 1 && !need_array {
                                 return *expr;
                             }
-                            let arg = Expr::Call(CallExpr {
+                            // [].concat(arr) is shorter than _toConsumableArray(arr)
+                            if args_len == 1 {
+                                return Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: ArrayLit {
+                                        span: DUMMY_SP,
+                                        elems: vec![],
+                                    }
+                                    .member(quote_ident!("concat"))
+                                    .as_callee(),
+                                    args: vec![expr.as_arg()],
+                                    type_args: Default::default(),
+                                });
+                            }
+
+                            Expr::Call(CallExpr {
                                 span,
                                 callee: helper!(to_consumable_array, "toConsumableArray"),
                                 args: vec![expr.as_arg()],
                                 type_args: Default::default(),
-                            });
-                            if args_len == 1 {
-                                return arg;
-                            }
-                            arg.as_arg()
+                            })
+                            .as_arg()
                         }
                     });
                 }
