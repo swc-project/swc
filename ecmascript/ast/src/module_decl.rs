@@ -80,12 +80,11 @@ pub struct ExportDefaultDecl {
     #[serde(default)]
     pub span: Span,
 
-    #[serde(rename = "data")]
-    pub kind: ExportDefaultDeclKind,
+    pub decl: DefaultDecl,
 }
 
 #[ast_node]
-pub enum ExportDefaultDeclKind {
+pub enum DefaultDecl {
     Class(ClassExpr),
 
     Fn(FnExpr),

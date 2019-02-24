@@ -848,13 +848,13 @@ impl OutputType for ExportDefaultDecl {
     fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
         ExportDefaultDecl {
             span,
-            kind: ExportDefaultDeclKind::Fn(FnExpr { ident, function }),
+            decl: DefaultDecl::Fn(FnExpr { ident, function }),
         }
     }
     fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
         ExportDefaultDecl {
             span,
-            kind: ExportDefaultDeclKind::Class(ClassExpr { ident, class }),
+            decl: DefaultDecl::Class(ClassExpr { ident, class }),
         }
     }
 }

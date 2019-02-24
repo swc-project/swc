@@ -81,7 +81,7 @@
         "end": 163,
         "ctxt": 0
       },
-      "data": {
+      "decl": {
         "type": "ClassExpression",
         "span": {
           "start": 154,
@@ -98,7 +98,7 @@
         "end": 199,
         "ctxt": 0
       },
-      "data": {
+      "decl": {
         "type": "ClassExpression",
         "ident": {
           "type": "Identifier",

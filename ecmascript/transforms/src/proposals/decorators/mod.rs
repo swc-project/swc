@@ -71,18 +71,22 @@ impl Fold<Vec<ModuleItem>> for Decorators {
         let items = items.move_flat_map(|item| {
             //
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
-                    ExportDefaultDecl::Class(ClassExpr {
-                        ident: Some(ident),
-                        class,
-                    }),
-                ))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(box Expr::Class(
-                    ClassExpr {
-                        ident: Some(ident),
-                        class,
-                    },
-                ))) => {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Class(ClassExpr {
+                            ident: Some(ident),
+                            class,
+                        }),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    expr:
+                        box Expr::Class(ClassExpr {
+                            ident: Some(ident),
+                            class,
+                        }),
+                    ..
+                })) => {
                     let decorate_call = box self.fold_class(ident.clone(), class);
 
                     Some(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -125,11 +129,18 @@ impl Fold<ModuleDecl> for Decorators {
         let decl = decl.fold_children(self);
 
         match decl {
-            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(ClassExpr { ident, class })) => {
+            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span,
+                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                ..
+            }) => {
                 let decorate_call =
                     box self.fold_class(ident.unwrap_or_else(|| quote_ident!("_class")), class);
 
-                ModuleDecl::ExportDefaultExpr(decorate_call)
+                ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
+                    expr: decorate_call,
+                })
             }
             _ => decl,
         }

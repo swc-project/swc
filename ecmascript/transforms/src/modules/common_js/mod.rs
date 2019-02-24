@@ -74,13 +74,19 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                     }
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
-                            ExportDefaultDecl::Fn(..),
+                            ExportDefaultDecl {
+                                decl: DefaultDecl::Fn(..),
+                                ..
+                            },
                         )) => {
                             // initialized.insert(js_word!("default"));
                         }
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
-                            ExportDefaultDecl::TsInterfaceDecl(..),
+                            ExportDefaultDecl {
+                                decl: DefaultDecl::TsInterfaceDecl(..),
+                                ..
+                            },
                         )) => {}
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
@@ -107,8 +113,14 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                             export_alls.push(export);
                         }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Class(..)))
-                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl @ Decl::Fn(..))) => {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            decl: decl @ Decl::Class(..),
+                            ..
+                        }))
+                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            decl: decl @ Decl::Fn(..),
+                            ..
+                        })) => {
                             let (ident, is_class) = match decl {
                                 Decl::Class(ref c) => (c.ident.clone(), true),
                                 Decl::Fn(ref f) => (f.ident.clone(), false),
@@ -136,7 +148,10 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 },
                             ))));
                         }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::Var(var))) => {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            decl: Decl::Var(var),
+                            ..
+                        })) => {
                             extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
                                 var.clone().fold_with(self),
                             ))));
@@ -175,63 +190,65 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             //
                             extra_stmts.push(item.fold_with(self));
                         }
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) => match decl {
-                            ExportDefaultDecl::Class(ClassExpr { ident, class }) => {
-                                init_export!("default");
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) => {
+                            match decl.decl {
+                                DefaultDecl::Class(ClassExpr { ident, class }) => {
+                                    init_export!("default");
 
-                                let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+                                    let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
-                                extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
-                                    ClassDecl {
-                                        ident: ident.clone(),
-                                        class,
-                                        declare: false,
-                                    },
-                                ))));
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
+                                        ClassDecl {
+                                            ident: ident.clone(),
+                                            class,
+                                            declare: false,
+                                        },
+                                    ))));
 
-                                extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(member_expr!(
-                                            DUMMY_SP,
-                                            exports.default
-                                        )),
-                                        op: op!("="),
-                                        right: box ident.into(),
-                                    },
-                                ))));
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
+                                        box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(member_expr!(
+                                                DUMMY_SP,
+                                                exports.default
+                                            )),
+                                            op: op!("="),
+                                            right: box ident.into(),
+                                        }),
+                                    )));
+                                }
+                                DefaultDecl::Fn(FnExpr { ident, function }) => {
+                                    // init_export!("default");
+
+                                    let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
+                                        FnDecl {
+                                            ident: ident.clone(),
+                                            function,
+                                            declare: false,
+                                        }
+                                        .fold_with(self),
+                                    ))));
+
+                                    extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(
+                                        box Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            left: PatOrExpr::Expr(member_expr!(
+                                                DUMMY_SP,
+                                                exports.default
+                                            )),
+                                            op: op!("="),
+                                            right: box ident.into(),
+                                        }),
+                                    )));
+                                }
+                                _ => extra_stmts.push(
+                                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl))
+                                        .fold_with(self),
+                                ),
                             }
-                            ExportDefaultDecl::Fn(FnExpr { ident, function }) => {
-                                // init_export!("default");
-
-                                let ident = ident.unwrap_or_else(|| private_ident!("_default"));
-
-                                extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
-                                    FnDecl {
-                                        ident: ident.clone(),
-                                        function,
-                                        declare: false,
-                                    }
-                                    .fold_with(self),
-                                ))));
-
-                                extra_stmts.push(ModuleItem::Stmt(Stmt::Expr(box Expr::Assign(
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(member_expr!(
-                                            DUMMY_SP,
-                                            exports.default
-                                        )),
-                                        op: op!("="),
-                                        right: box ident.into(),
-                                    },
-                                ))));
-                            }
-                            _ => extra_stmts.push(
-                                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl))
-                                    .fold_with(self),
-                            ),
-                        },
+                        }
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(expr)) => {
                             let ident = private_ident!("_default");
@@ -246,7 +263,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(ident.clone()),
-                                    init: Some(expr.fold_with(self)),
+                                    init: Some(expr.expr.fold_with(self)),
                                     definite: false,
                                 }],
                                 declare: false,

@@ -279,10 +279,12 @@ impl Fold<ModuleDecl> for RestFolder {
             return decl;
         }
 
-        let span = decl.span();
-
         match decl {
-            ModuleDecl::ExportDecl(Decl::Var(var_decl)) => {
+            ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl: Decl::Var(var_decl),
+                ..
+            }) => {
                 let specifiers = {
                     let mut found = vec![];
                     let mut finder = VarCollector { to: &mut found };

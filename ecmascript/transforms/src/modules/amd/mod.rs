@@ -96,11 +96,17 @@ impl Fold<Module> for Amd {
                     }
                     match decl {
                         // Function declaration cannot throw an error.
-                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Fn(..)) => {
+                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            decl: DefaultDecl::Fn(..),
+                            ..
+                        }) => {
                             // initialized.insert(js_word!("default"));
                         }
 
-                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::TsInterfaceDecl(..)) => {}
+                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            decl: DefaultDecl::TsInterfaceDecl(..),
+                            ..
+                        }) => {}
 
                         ModuleDecl::ExportAll(ref export) => {
                             self.scope
@@ -120,8 +126,14 @@ impl Fold<Module> for Amd {
 
                     match decl {
                         ModuleDecl::ExportAll(export) => export_alls.push(export),
-                        ModuleDecl::ExportDecl(decl @ Decl::Class(..))
-                        | ModuleDecl::ExportDecl(decl @ Decl::Fn(..)) => {
+                        ModuleDecl::ExportDecl(ExportDecl {
+                            decl: decl @ Decl::Class(..),
+                            ..
+                        })
+                        | ModuleDecl::ExportDecl(ExportDecl {
+                            decl: decl @ Decl::Fn(..),
+                            ..
+                        }) => {
                             let (ident, is_class) = match decl {
                                 Decl::Class(ref c) => (c.ident.clone(), true),
                                 Decl::Fn(ref f) => (f.ident.clone(), false),
@@ -147,7 +159,10 @@ impl Fold<Module> for Amd {
                                 right: box ident.into(),
                             })));
                         }
-                        ModuleDecl::ExportDecl(Decl::Var(var)) => {
+                        ModuleDecl::ExportDecl(ExportDecl {
+                            decl: Decl::Var(var),
+                            ..
+                        }) => {
                             extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
 
                             var.decls.visit_with(&mut VarCollector {
@@ -179,7 +194,10 @@ impl Fold<Module> for Amd {
                             }
                         }
                         ModuleDecl::ExportDefaultDecl(decl) => match decl {
-                            ExportDefaultDecl::Class(ClassExpr { ident, class }) => {
+                            ExportDefaultDecl {
+                                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                                ..
+                            } => {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                 extra_stmts.push(Stmt::Decl(Decl::Class(ClassDecl {
@@ -197,7 +215,10 @@ impl Fold<Module> for Amd {
                                     right: box ident.into(),
                                 })));
                             }
-                            ExportDefaultDecl::Fn(FnExpr { ident, function }) => {
+                            ExportDefaultDecl {
+                                decl: DefaultDecl::Fn(FnExpr { ident, function }),
+                                ..
+                            } => {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                 extra_stmts.push(Stmt::Expr(box Expr::Assign(AssignExpr {
@@ -221,7 +242,7 @@ impl Fold<Module> for Amd {
                             _ => {}
                         },
 
-                        ModuleDecl::ExportDefaultExpr(expr) => {
+                        ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { expr, .. }) => {
                             let ident = private_ident!("_default");
 
                             // We use extra statements because of the initialzation

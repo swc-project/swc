@@ -235,7 +235,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     let mut class = self.parse_default_class(decorators)?;
                     match class {
                         ExportDefaultDecl {
-                            kind: ExportDefaultDeclKind::Class(ClassExpr { ref mut class, .. }),
+                            decl: DefaultDecl::Class(ClassExpr { ref mut class, .. }),
                             ..
                         } => class.is_abstract = true,
                         _ => unreachable!(),

@@ -13,7 +13,7 @@
         "end": 42,
         "ctxt": 0
       },
-      "data": {
+      "decl": {
         "type": "FunctionExpression",
         "params": [
           {
