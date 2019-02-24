@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
 
@@ -17,7 +18,8 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_ecma_ast::Module;
+use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::StdErr;
@@ -107,7 +109,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, |p| {
-                    let module = p.parse_module()?;
+                    let module = p.parse_module()?.fold_with(&mut Normalizer);
 
                     let json = serde_json::to_string_pretty(&module)
                         .expect("failed to serialize module as json");
@@ -188,5 +190,18 @@ fn is_backtrace_enabled() -> bool {
     match ::std::env::var("RUST_BACKTRACE") {
         Ok(val) => val == "1" || val == "full",
         _ => false,
+    }
+}
+
+struct Normalizer;
+
+impl Fold<PatOrExpr> for Normalizer {
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children(self);
+
+        match node {
+            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            _ => node,
+        }
     }
 }

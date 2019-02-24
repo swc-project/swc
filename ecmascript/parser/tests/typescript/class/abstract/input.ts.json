@@ -47,24 +47,32 @@
       "isAbstract": true
     },
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 70,
-          "end": 71,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
-      },
-      "declare": false,
+      "type": "ExportDeclaration",
       "span": {
-        "start": 64,
+        "start": 48,
         "end": 74,
         "ctxt": 0
       },
-      "isAbstract": true
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 70,
+            "end": 71,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 64,
+          "end": 74,
+          "ctxt": 0
+        },
+        "isAbstract": true
+      }
     },
     {
       "type": "ClassExpression",

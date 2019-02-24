@@ -402,14 +402,22 @@
       "async": false
     },
     {
-      "type": "Identifier",
+      "type": "ExportDefaultExpression",
       "span": {
-        "start": 248,
-        "end": 251,
+        "start": 233,
+        "end": 252,
         "ctxt": 0
       },
-      "value": "App",
-      "optional": false
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 248,
+          "end": 251,
+          "ctxt": 0
+        },
+        "value": "App",
+        "optional": false
+      }
     }
   ]
 }

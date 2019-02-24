@@ -7,32 +7,40 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDeclaration",
+      "type": "ExportDeclaration",
       "span": {
-        "start": 7,
+        "start": 0,
         "end": 23,
         "ctxt": 0
       },
-      "declare": false,
-      "id": {
-        "type": "Identifier",
+      "declaration": {
+        "type": "TsTypeAliasDeclaration",
         "span": {
-          "start": 12,
-          "end": 13,
+          "start": 7,
+          "end": 23,
           "ctxt": 0
         },
-        "value": "T",
-        "optional": false
-      },
-      "typeParams": null,
-      "typeAnn": {
-        "type": "TsKeywordType",
-        "span": {
-          "start": 16,
-          "end": 22,
-          "ctxt": 0
+        "declare": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 12,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": "T",
+          "optional": false
         },
-        "kind": "number"
+        "typeParams": null,
+        "typeAnn": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 16,
+            "end": 22,
+            "ctxt": 0
+          },
+          "kind": "number"
+        }
       }
     }
   ]

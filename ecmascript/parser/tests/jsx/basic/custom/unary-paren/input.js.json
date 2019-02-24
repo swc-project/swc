@@ -418,14 +418,22 @@
       "async": false
     },
     {
-      "type": "Identifier",
+      "type": "ExportDefaultExpression",
       "span": {
-        "start": 296,
-        "end": 299,
+        "start": 281,
+        "end": 300,
         "ctxt": 0
       },
-      "value": "App",
-      "optional": false
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 296,
+          "end": 299,
+          "ctxt": 0
+        },
+        "value": "App",
+        "optional": false
+      }
     }
   ]
 }

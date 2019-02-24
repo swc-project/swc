@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
 
@@ -19,8 +20,8 @@ use std::{
     path::Path,
     sync::Arc,
 };
-use swc_common::{errors::Handler, SourceMap};
-use swc_ecma_ast::Module;
+use swc_common::{errors::Handler, Fold, FoldWith, SourceMap};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::{run_test, StdErr};
@@ -156,7 +157,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let path = dir.join(&file_name);
                 // Parse source
-                let module = parse_module(cm, handler, &path)?;
+                let module = parse_module(cm, handler, &path)?.fold_with(&mut Normalizer);
                 let json = serde_json::to_string_pretty(&module)
                     .expect("failed to serialize module as json");
                 if StdErr::from(json.clone())
@@ -231,4 +232,17 @@ fn error() {
     let mut tests = Vec::new();
     error_tests(&mut tests).unwrap();
     test_main(&args, tests, Options::new());
+}
+
+struct Normalizer;
+
+impl Fold<PatOrExpr> for Normalizer {
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children(self);
+
+        match node {
+            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            _ => node,
+        }
+    }
 }

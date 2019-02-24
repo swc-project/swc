@@ -13,10 +13,10 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
-use serde::{Deserialize, Serialize};
+use serde::{self, de::Error, Deserialize, Deserializer, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
+use swc_common::{ast_node, FromVariant, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 pub enum Expr {
@@ -426,8 +426,9 @@ pub enum BlockStmtOrExpr {
 
 #[ast_node]
 pub enum PatOrExpr {
-    Pat(Box<Pat>),
+    // order is important for proper deserialization.
     Expr(Box<Expr>),
+    Pat(Box<Pat>),
 }
 
 impl From<bool> for Expr {

@@ -10,16 +10,34 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum ModuleDecl {
     Import(ImportDecl),
-    ExportDecl(Decl),
+    ExportDecl(ExportDecl),
     ExportNamed(NamedExport),
 
     ExportDefaultDecl(ExportDefaultDecl),
 
-    ExportDefaultExpr(Box<Expr>),
+    ExportDefaultExpr(ExportDefaultExpr),
     ExportAll(ExportAll),
     TsImportEquals(TsImportEqualsDecl),
     TsExportAssignment(TsExportAssignment),
     TsNamespaceExport(TsNamespaceExportDecl),
+}
+
+#[ast_node("ExportDefaultExpression")]
+pub struct ExportDefaultExpr {
+    #[serde(default)]
+    pub span: Span,
+
+    #[serde(rename = "expression")]
+    pub expr: Box<Expr>,
+}
+
+#[ast_node("ExportDeclaration")]
+pub struct ExportDecl {
+    #[serde(default)]
+    pub span: Span,
+
+    #[serde(rename = "declaration")]
+    pub decl: Decl,
 }
 
 #[ast_node("ImportDeclaration")]
@@ -57,8 +75,17 @@ pub struct NamedExport {
     pub src: Option<Str>,
 }
 
+#[ast_node("ExportDefaultDeclaration")]
+pub struct ExportDefaultDecl {
+    #[serde(default)]
+    pub span: Span,
+
+    #[serde(rename = "data")]
+    pub kind: ExportDefaultDeclKind,
+}
+
 #[ast_node]
-pub enum ExportDefaultDecl {
+pub enum ExportDefaultDeclKind {
     Class(ClassExpr),
 
     Fn(FnExpr),
