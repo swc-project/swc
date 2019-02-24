@@ -15,6 +15,7 @@
       },
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
@@ -52,7 +53,6 @@
       },
       "async": false,
       "generator": false,
-      "typeParameters": null,
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
@@ -68,13 +68,13 @@
             "ctxt": 0
           },
           "paramName": {
+            "type": "Identifier",
             "span": {
               "start": 10,
               "end": 11,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnn": {
@@ -97,6 +97,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

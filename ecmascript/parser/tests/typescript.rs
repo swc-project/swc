@@ -1,7 +1,9 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
 
+extern crate pretty_assertions;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
@@ -9,12 +11,15 @@ extern crate test;
 extern crate testing;
 extern crate walkdir;
 
+use pretty_assertions::assert_eq;
 use std::{
     env,
     fs::File,
     io::{self, Read},
     path::Path,
 };
+use swc_common::{Fold, FoldWith};
+use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
 use testing::StdErr;
@@ -104,17 +109,27 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                 }
             } else {
                 with_parser(is_backtrace_enabled(), &path, |p| {
-                    let module = p.parse_module()?;
+                    let module = p.parse_module()?.fold_with(&mut Normalizer);
 
-                    if StdErr::from(
-                        serde_json::to_string_pretty(&module)
-                            .expect("failed to serialize module as json"),
-                    )
-                    .compare_to_file(format!("{}.json", path.display()))
-                    .is_err()
+                    let json = serde_json::to_string_pretty(&module)
+                        .expect("failed to serialize module as json");
+
+                    if StdErr::from(json.clone())
+                        .compare_to_file(format!("{}.json", path.display()))
+                        .is_err()
                     {
                         panic!()
                     }
+
+                    let deser = serde_json::from_str::<Module>(&json)
+                        .unwrap_or_else(|err| {
+                            panic!(
+                                "failed to deserialize json back to module: {}\n{}",
+                                err, json
+                            )
+                        })
+                        .fold_with(&mut Normalizer);
+                    assert_eq!(module, deser, "JSON:\n{}", json);
 
                     Ok(())
                 })
@@ -177,5 +192,19 @@ fn is_backtrace_enabled() -> bool {
     match ::std::env::var("RUST_BACKTRACE") {
         Ok(val) => val == "1" || val == "full",
         _ => false,
+    }
+}
+
+struct Normalizer;
+
+impl Fold<PatOrExpr> for Normalizer {
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children(self);
+
+        match node {
+            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
+            _ => node,
+        }
     }
 }

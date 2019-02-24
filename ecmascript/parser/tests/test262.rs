@@ -1,4 +1,5 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
 
@@ -242,6 +243,19 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let src = p(false);
                 let expected = p(true);
                 assert_eq!(src, expected);
+
+                let json =
+                    serde_json::to_string_pretty(&src).expect("failed to serialize module as json");
+
+                let deser = serde_json::from_str::<Module>(&json)
+                    .unwrap_or_else(|err| {
+                        panic!(
+                            "failed to deserialize json back to module: {}\n{}",
+                            err, json
+                        )
+                    })
+                    .fold_with(&mut Normalizer);
+                assert_eq!(src, deser, "JSON:\n{}", json);
             } else {
                 let p = |explicit| {
                     parse_script(
@@ -383,6 +397,18 @@ impl Fold<PropName> for Normalizer {
                 has_escape: false,
             }),
             _ => n,
+        }
+    }
+}
+
+impl Fold<PatOrExpr> for Normalizer {
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children(self);
+
+        match node {
+            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
+            _ => node,
         }
     }
 }

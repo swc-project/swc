@@ -22,13 +22,13 @@
             "ctxt": 0
           },
           "argument": {
+            "type": "Identifier",
             "span": {
               "start": 10,
               "end": 14,
               "ctxt": 0
             },
             "value": "args",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -69,7 +69,6 @@
       },
       "async": true,
       "generator": false,
-      "typeParameters": null,
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
@@ -88,6 +87,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

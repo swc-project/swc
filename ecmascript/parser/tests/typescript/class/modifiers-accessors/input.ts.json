@@ -7,46 +7,42 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 55,
           "end": 56,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 49,
         "end": 295,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
           "span": {
             "start": 63,
             "end": 80,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 76,
               "end": 77,
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 63,
               "end": 80,
@@ -54,37 +50,31 @@
             },
             "body": null,
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": true,
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 85,
             "end": 113,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 96,
               "end": 97,
               "ctxt": 0
             },
             "value": "s",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 85,
               "end": 113,
@@ -118,37 +108,31 @@
               ]
             },
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": true,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 125,
             "end": 144,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 138,
               "end": 141,
               "ctxt": 0
             },
             "value": "pua",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 125,
               "end": 144,
@@ -156,9 +140,7 @@
             },
             "body": null,
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": false,
@@ -167,26 +149,23 @@
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 156,
             "end": 186,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 167,
               "end": 170,
               "ctxt": 0
             },
             "value": "pus",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 156,
               "end": 186,
@@ -220,9 +199,7 @@
               ]
             },
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": true,
@@ -231,26 +208,23 @@
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 199,
             "end": 221,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 203,
               "end": 205,
               "ctxt": 0
             },
             "value": "pu",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 199,
               "end": 221,
@@ -284,9 +258,7 @@
               ]
             },
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": false,
@@ -295,26 +267,23 @@
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 236,
             "end": 258,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 240,
               "end": 242,
               "ctxt": 0
             },
             "value": "po",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 236,
               "end": 258,
@@ -348,9 +317,7 @@
               ]
             },
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": false,
@@ -359,26 +326,23 @@
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 271,
             "end": 293,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 275,
               "end": 277,
               "ctxt": 0
             },
             "value": "pi",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 271,
               "end": 293,
@@ -412,9 +376,7 @@
               ]
             },
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "getter",
           "isStatic": false,
@@ -423,12 +385,7 @@
           "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": true,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": true
     }
-  ],
-  "shebang": null
+  ]
 }

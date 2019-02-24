@@ -23,7 +23,8 @@
             "end": 10,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -49,7 +50,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -71,7 +71,8 @@
             "end": 27,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 16,
               "end": 18,
@@ -97,7 +98,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -119,7 +119,8 @@
             "end": 43,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 33,
               "end": 34,
@@ -145,7 +146,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -167,7 +167,8 @@
             "end": 58,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 49,
               "end": 51,
@@ -193,7 +194,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -215,7 +215,8 @@
             "end": 73,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 64,
               "end": 67,
@@ -241,7 +242,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -263,7 +263,8 @@
             "end": 90,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 79,
               "end": 82,
@@ -289,7 +290,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -311,7 +311,8 @@
             "end": 105,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 96,
               "end": 97,
@@ -337,7 +338,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -359,7 +359,8 @@
             "end": 121,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 111,
               "end": 113,
@@ -385,7 +386,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -407,7 +407,8 @@
             "end": 137,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 127,
               "end": 129,
@@ -433,7 +434,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -455,7 +455,8 @@
             "end": 155,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 143,
               "end": 144,
@@ -481,7 +482,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -503,7 +503,8 @@
             "end": 168,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 161,
               "end": 162,
@@ -529,7 +530,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -551,7 +551,8 @@
             "end": 183,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 174,
               "end": 175,
@@ -577,11 +578,9 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

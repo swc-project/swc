@@ -7,15 +7,22 @@
   },
   "body": [
     {
+      "type": "ExportDefaultExpression",
       "span": {
-        "start": 78,
-        "end": 86,
+        "start": 63,
+        "end": 87,
         "ctxt": 0
       },
-      "value": "abstract",
-      "typeAnnotation": null,
-      "optional": false
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 78,
+          "end": 86,
+          "ctxt": 0
+        },
+        "value": "abstract",
+        "optional": false
+      }
     }
-  ],
-  "shebang": null
+  ]
 }

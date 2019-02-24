@@ -7,20 +7,21 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 10,
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Function",
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 11,
             "end": 12,
@@ -47,7 +48,6 @@
           "optional": false
         }
       ],
-      "decorators": [],
       "span": {
         "start": 0,
         "end": 35,
@@ -64,7 +64,6 @@
       },
       "generator": false,
       "async": false,
-      "typeParameters": null,
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
@@ -80,13 +79,13 @@
             "ctxt": 0
           },
           "paramName": {
+            "type": "Identifier",
             "span": {
               "start": 20,
               "end": 21,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnn": {
@@ -110,17 +109,17 @@
       }
     },
     {
-      "type": "ParenExpr",
+      "type": "ParenthesisExpression",
       "span": {
         "start": 36,
         "end": 71,
         "ctxt": 0
       },
       "expr": {
-        "ident": null,
-        "type": "Function",
+        "type": "FunctionExpression",
         "params": [
           {
+            "type": "Identifier",
             "span": {
               "start": 46,
               "end": 47,
@@ -147,7 +146,6 @@
             "optional": false
           }
         ],
-        "decorators": [],
         "span": {
           "start": 37,
           "end": 70,
@@ -164,7 +162,6 @@
         },
         "generator": false,
         "async": false,
-        "typeParameters": null,
         "returnType": {
           "type": "TsTypeAnnotation",
           "span": {
@@ -180,13 +177,13 @@
               "ctxt": 0
             },
             "paramName": {
+              "type": "Identifier",
               "span": {
                 "start": 55,
                 "end": 56,
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeAnn": {
@@ -210,6 +207,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

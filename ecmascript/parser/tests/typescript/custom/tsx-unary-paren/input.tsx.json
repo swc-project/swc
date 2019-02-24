@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "ParenExpr",
+      "type": "ParenthesisExpression",
       "span": {
         "start": 1,
         "end": 182,
@@ -23,13 +23,13 @@
         "opening": {
           "type": "JSXOpeningElement",
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 8,
               "end": 11,
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           },
           "span": {
@@ -37,9 +37,7 @@
             "end": 12,
             "ctxt": 0
           },
-          "attributes": [],
-          "selfClosing": false,
-          "typeArguments": null
+          "selfClosing": false
         },
         "children": [
           {
@@ -62,17 +60,17 @@
                 "ctxt": 0
               },
               "test": {
+                "type": "Identifier",
                 "span": {
                   "start": 35,
                   "end": 44,
                   "ctxt": 0
                 },
                 "value": "isLoading",
-                "typeAnnotation": null,
                 "optional": false
               },
               "consequent": {
-                "type": "ParenExpr",
+                "type": "ParenthesisExpression",
                 "span": {
                   "start": 63,
                   "end": 82,
@@ -88,13 +86,13 @@
                   "opening": {
                     "type": "JSXOpeningElement",
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 65,
                         "end": 67,
                         "ctxt": 0
                       },
                       "value": "h2",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -102,9 +100,7 @@
                       "end": 68,
                       "ctxt": 0
                     },
-                    "attributes": [],
-                    "selfClosing": false,
-                    "typeArguments": null
+                    "selfClosing": false
                   },
                   "children": [
                     {
@@ -126,20 +122,20 @@
                       "ctxt": 0
                     },
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 78,
                         "end": 80,
                         "ctxt": 0
                       },
                       "value": "h2",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
                 }
               },
               "alternate": {
-                "type": "ParenExpr",
+                "type": "ParenthesisExpression",
                 "span": {
                   "start": 117,
                   "end": 158,
@@ -155,13 +151,13 @@
                   "opening": {
                     "type": "JSXOpeningElement",
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 119,
                         "end": 121,
                         "ctxt": 0
                       },
                       "value": "h3",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "span": {
@@ -169,9 +165,7 @@
                       "end": 122,
                       "ctxt": 0
                     },
-                    "attributes": [],
-                    "selfClosing": false,
-                    "typeArguments": null
+                    "selfClosing": false
                   },
                   "children": [
                     {
@@ -193,13 +187,13 @@
                       "ctxt": 0
                     },
                     "name": {
+                      "type": "Identifier",
                       "span": {
                         "start": 154,
                         "end": 156,
                         "ctxt": 0
                       },
                       "value": "h3",
-                      "typeAnnotation": null,
                       "optional": false
                     }
                   }
@@ -226,18 +220,17 @@
             "ctxt": 0
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 176,
               "end": 179,
               "ctxt": 0
             },
             "value": "div",
-            "typeAnnotation": null,
             "optional": false
           }
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

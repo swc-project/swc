@@ -99,6 +99,7 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!('}');
             let end = last_pos!();
             Ok(T::finish_class(
+                span!(start),
                 ident,
                 Class {
                     span: Span::new(start, end, Default::default()),
@@ -652,7 +653,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(ident, f))
+            Ok(T::finish_fn(span!(start), ident, f))
         })
     }
 
@@ -808,8 +809,8 @@ trait OutputType {
         false
     }
 
-    fn finish_fn(ident: Self::Ident, f: Function) -> Self;
-    fn finish_class(ident: Self::Ident, class: Class) -> Self;
+    fn finish_fn(span: Span, ident: Self::Ident, f: Function) -> Self;
+    fn finish_class(span: Span, ident: Self::Ident, class: Class) -> Self;
 }
 
 impl OutputType for Box<Expr> {
@@ -826,10 +827,10 @@ impl OutputType for Box<Expr> {
         true
     }
 
-    fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
+    fn finish_fn(_span: Span, ident: Option<Ident>, function: Function) -> Self {
         Box::new(Expr::Fn(FnExpr { ident, function }))
     }
-    fn finish_class(ident: Option<Ident>, class: Class) -> Self {
+    fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Self {
         Box::new(Expr::Class(ClassExpr { ident, class }))
     }
 }
@@ -844,11 +845,17 @@ impl OutputType for ExportDefaultDecl {
         }
     }
 
-    fn finish_fn(ident: Option<Ident>, function: Function) -> Self {
-        ExportDefaultDecl::Fn(FnExpr { ident, function })
+    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
+        ExportDefaultDecl {
+            span,
+            decl: DefaultDecl::Fn(FnExpr { ident, function }),
+        }
     }
-    fn finish_class(ident: Option<Ident>, class: Class) -> Self {
-        ExportDefaultDecl::Class(ClassExpr { ident, class })
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
+        ExportDefaultDecl {
+            span,
+            decl: DefaultDecl::Class(ClassExpr { ident, class }),
+        }
     }
 }
 
@@ -859,14 +866,14 @@ impl OutputType for Decl {
         i.sym == js_word!("constructor")
     }
 
-    fn finish_fn(ident: Ident, function: Function) -> Self {
+    fn finish_fn(span: Span, ident: Ident, function: Function) -> Self {
         Decl::Fn(FnDecl {
             declare: false,
             ident,
             function,
         })
     }
-    fn finish_class(ident: Ident, class: Class) -> Self {
+    fn finish_class(span: Span, ident: Ident, class: Class) -> Self {
         Decl::Class(ClassDecl {
             declare: false,
             ident,

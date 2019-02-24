@@ -22,6 +22,7 @@
             "ctxt": 0
           },
           "left": {
+            "type": "Identifier",
             "span": {
               "start": 1,
               "end": 2,
@@ -55,8 +56,7 @@
               "ctxt": 0
             },
             "value": 0.0
-          },
-          "typeAnnotation": null
+          }
         }
       ],
       "body": {
@@ -69,10 +69,7 @@
         "value": 0.0
       },
       "async": false,
-      "generator": false,
-      "typeParameters": null,
-      "returnType": null
+      "generator": false
     }
-  ],
-  "shebang": null
+  ]
 }

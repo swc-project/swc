@@ -7,44 +7,44 @@
   },
   "body": [
     {
-      "type": "TsAsExpr",
+      "type": "TsAsExpression",
       "span": {
         "start": 0,
         "end": 1,
         "ctxt": 0
       },
       "expr": {
+        "type": "Identifier",
         "span": {
           "start": 0,
           "end": 1,
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeAnn": {
-        "type": "TsTypeRef",
+        "type": "TsTypeReference",
         "span": {
           "start": 5,
           "end": 6,
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 5,
             "end": 6,
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null
       }
     },
     {
-      "type": "TsAsExpr",
+      "type": "TsAsExpression",
       "span": {
         "start": 8,
         "end": 13,
@@ -59,23 +59,23 @@
         },
         "operator": "<",
         "left": {
+          "type": "Identifier",
           "span": {
             "start": 8,
             "end": 9,
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "right": {
+          "type": "Identifier",
           "span": {
             "start": 12,
             "end": 13,
             "ctxt": 0
           },
           "value": "y",
-          "typeAnnotation": null,
           "optional": false
         }
       },
@@ -98,17 +98,17 @@
       },
       "operator": "===",
       "left": {
+        "type": "Identifier",
         "span": {
           "start": 49,
           "end": 50,
           "ctxt": 0
         },
         "value": "x",
-        "typeAnnotation": null,
         "optional": false
       },
       "right": {
-        "type": "TsAsExpr",
+        "type": "TsAsExpression",
         "span": {
           "start": 55,
           "end": 56,
@@ -135,27 +135,27 @@
       }
     },
     {
-      "type": "TsAsExpr",
+      "type": "TsAsExpression",
       "span": {
         "start": 92,
         "end": 100,
         "ctxt": 0
       },
       "expr": {
-        "type": "TsAsExpr",
+        "type": "TsAsExpression",
         "span": {
           "start": 92,
           "end": 93,
           "ctxt": 0
         },
         "expr": {
+          "type": "Identifier",
           "span": {
             "start": 92,
             "end": 93,
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeAnn": {
@@ -169,25 +169,24 @@
         }
       },
       "typeAnn": {
-        "type": "TsTypeRef",
+        "type": "TsTypeReference",
         "span": {
           "start": 104,
           "end": 105,
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 104,
             "end": 105,
             "ctxt": 0
           },
           "value": "T",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null
       }
     }
-  ],
-  "shebang": null
+  ]
 }

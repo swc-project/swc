@@ -23,7 +23,8 @@
             "end": 35,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 7,
@@ -46,20 +47,20 @@
                 },
                 "readonly": null,
                 "typeParam": {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 12,
                     "end": 23,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 12,
                       "end": 13,
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -87,7 +88,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -109,7 +109,8 @@
             "end": 82,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 41,
               "end": 44,
@@ -132,20 +133,20 @@
                 },
                 "readonly": true,
                 "typeParam": {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 58,
                     "end": 69,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 58,
                       "end": 59,
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -173,7 +174,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -195,7 +195,8 @@
             "end": 131,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 88,
               "end": 91,
@@ -218,20 +219,20 @@
                 },
                 "readonly": "+",
                 "typeParam": {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 106,
                     "end": 117,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 106,
                       "end": 107,
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -259,7 +260,6 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
@@ -281,7 +281,8 @@
             "end": 179,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 137,
               "end": 140,
@@ -304,20 +305,20 @@
                 },
                 "readonly": "-",
                 "typeParam": {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 155,
                     "end": 166,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 155,
                       "end": 156,
                       "ctxt": 0
                     },
                     "value": "P",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -345,11 +346,9 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

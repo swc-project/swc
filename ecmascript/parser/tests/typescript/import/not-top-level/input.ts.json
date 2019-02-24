@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
+      "type": "TsModuleDeclaration",
       "span": {
         "start": 0,
         "end": 50,
@@ -42,20 +42,20 @@
             },
             "specifiers": [
               {
-                "type": "ImportStarAs",
+                "type": "ImportNamespaceSpecifier",
                 "span": {
                   "start": 32,
                   "end": 38,
                   "ctxt": 0
                 },
                 "local": {
+                  "type": "Identifier",
                   "span": {
                     "start": 37,
                     "end": 38,
                     "ctxt": 0
                   },
                   "value": "a",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               }
@@ -74,6 +74,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

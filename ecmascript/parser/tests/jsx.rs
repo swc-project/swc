@@ -1,7 +1,9 @@
 #![feature(box_syntax)]
+#![feature(box_patterns)]
 #![feature(specialization)]
 #![feature(test)]
 
+extern crate pretty_assertions;
 extern crate serde_json;
 extern crate swc_common;
 extern crate swc_ecma_ast;
@@ -10,6 +12,7 @@ extern crate test;
 extern crate testing;
 extern crate walkdir;
 
+use pretty_assertions::assert_eq;
 use std::{
     env,
     fs::File,
@@ -17,7 +20,7 @@ use std::{
     path::Path,
     sync::Arc,
 };
-use swc_common::{errors::Handler, SourceMap};
+use swc_common::{errors::Handler, Fold, FoldWith, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
 use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
@@ -154,17 +157,26 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 let path = dir.join(&file_name);
                 // Parse source
-                let module = parse_module(cm, handler, &path)?;
-
-                if StdErr::from(
-                    serde_json::to_string_pretty(&module)
-                        .expect("failed to serialize module as json"),
-                )
-                .compare_to_file(format!("{}.json", path.display()))
-                .is_err()
+                let module = parse_module(cm, handler, &path)?.fold_with(&mut Normalizer);
+                let json = serde_json::to_string_pretty(&module)
+                    .expect("failed to serialize module as json");
+                if StdErr::from(json.clone())
+                    .compare_to_file(format!("{}.json", path.display()))
+                    .is_err()
                 {
                     panic!()
                 }
+
+                let deser = serde_json::from_str::<Module>(&json)
+                    .unwrap_or_else(|err| {
+                        panic!(
+                            "failed to deserialize json back to module: {}\n{}",
+                            err, json
+                        )
+                    })
+                    .fold_with(&mut Normalizer);
+                assert_eq!(module, deser, "JSON:\n{}", json);
+
                 Ok(())
             })
             .unwrap();
@@ -222,4 +234,18 @@ fn error() {
     let mut tests = Vec::new();
     error_tests(&mut tests).unwrap();
     test_main(&args, tests, Options::new());
+}
+
+struct Normalizer;
+
+impl Fold<PatOrExpr> for Normalizer {
+    fn fold(&mut self, node: PatOrExpr) -> PatOrExpr {
+        let node = node.fold_children(self);
+
+        match node {
+            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
+            _ => node,
+        }
+    }
 }

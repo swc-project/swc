@@ -7,18 +7,18 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 12,
           "ctxt": 0
         },
         "value": "foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Function",
       "params": [
         {
           "type": "RestElement",
@@ -28,13 +28,13 @@
             "ctxt": 0
           },
           "argument": {
+            "type": "Identifier",
             "span": {
               "start": 16,
               "end": 20,
               "ctxt": 0
             },
             "value": "args",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnnotation": {
@@ -108,7 +108,6 @@
           }
         }
       ],
-      "decorators": [],
       "span": {
         "start": 0,
         "end": 56,
@@ -124,10 +123,7 @@
         "stmts": []
       },
       "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async": false
     }
-  ],
-  "shebang": null
+  ]
 }

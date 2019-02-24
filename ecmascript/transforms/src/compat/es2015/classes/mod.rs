@@ -78,9 +78,10 @@ where
                 Err(node) => match node.try_into_module_decl() {
                     Ok(decl) => {
                         match decl {
-                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
-                                ClassExpr { ident, class },
-                            )) => {
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                                ..
+                            }) => {
                                 let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
 
                                 let decl = self.fold_class_as_var_decl(ident.clone(), class);
@@ -105,16 +106,24 @@ where
                                     },
                                 );
                             }
-                            ModuleDecl::ExportDecl(Decl::Class(ClassDecl {
-                                ident,
-                                declare: false,
-                                class,
-                            })) => {
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                span,
+                                decl:
+                                    Decl::Class(ClassDecl {
+                                        ident,
+                                        declare: false,
+                                        class,
+                                    }),
+                                ..
+                            }) => {
                                 let decl = self.fold_class_as_var_decl(ident, class);
                                 let decl = decl.fold_children(self);
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
-                                        Decl::Var(decl),
+                                        ExportDecl {
+                                            span,
+                                            decl: Decl::Var(decl),
+                                        },
                                     )) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),

@@ -16,13 +16,13 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -30,10 +30,9 @@
           "end": 11,
           "ctxt": 0
         },
-        "attributes": [],
         "selfClosing": false,
         "typeArguments": {
-          "type": "TsTypeParamInstantiation",
+          "type": "TsTypeParameterInstantiation",
           "span": {
             "start": 2,
             "end": 10,
@@ -61,13 +60,13 @@
           "ctxt": 0
         },
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 13,
             "end": 14,
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         }
       }
@@ -82,13 +81,13 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 18,
             "end": 19,
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -96,10 +95,9 @@
           "end": 29,
           "ctxt": 0
         },
-        "attributes": [],
         "selfClosing": true,
         "typeArguments": {
-          "type": "TsTypeParamInstantiation",
+          "type": "TsTypeParameterInstantiation",
           "span": {
             "start": 19,
             "end": 27,
@@ -121,6 +119,5 @@
       "children": [],
       "closing": null
     }
-  ],
-  "shebang": null
+  ]
 }

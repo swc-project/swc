@@ -21,13 +21,13 @@
           "ctxt": 0
         },
         "tag": {
+          "type": "Identifier",
           "span": {
             "start": 4,
             "end": 5,
             "ctxt": 0
           },
           "value": "C",
-          "typeAnnotation": null,
           "optional": false
         },
         "expressions": [],
@@ -63,7 +63,7 @@
           }
         ],
         "typeParameters": {
-          "type": "TsTypeParamInstantiation",
+          "type": "TsTypeParameterInstantiation",
           "span": {
             "start": 5,
             "end": 8,
@@ -71,20 +71,20 @@
           },
           "params": [
             {
-              "type": "TsTypeRef",
+              "type": "TsTypeReference",
               "span": {
                 "start": 6,
                 "end": 7,
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 6,
                   "end": 7,
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -95,6 +95,5 @@
       "arguments": null,
       "typeArguments": null
     }
-  ],
-  "shebang": null
+  ]
 }

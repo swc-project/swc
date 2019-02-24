@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "object": {
-        "type": "ParenExpr",
+        "type": "ParenthesisExpression",
         "span": {
           "start": 0,
           "end": 7,
@@ -28,30 +28,30 @@
             "ctxt": 0
           },
           "expr": {
+            "type": "Identifier",
             "span": {
               "start": 5,
               "end": 6,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnn": {
-            "type": "TsTypeRef",
+            "type": "TsTypeReference",
             "span": {
               "start": 2,
               "end": 3,
               "ctxt": 0
             },
             "typeName": {
+              "type": "Identifier",
               "span": {
                 "start": 2,
                 "end": 3,
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -59,13 +59,13 @@
         }
       },
       "property": {
+        "type": "Identifier",
         "span": {
           "start": 8,
           "end": 9,
           "ctxt": 0
         },
         "value": "y",
-        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
@@ -78,44 +78,44 @@
         "ctxt": 0
       },
       "object": {
-        "type": "ParenExpr",
+        "type": "ParenthesisExpression",
         "span": {
           "start": 11,
           "end": 19,
           "ctxt": 0
         },
         "expr": {
-          "type": "TsAsExpr",
+          "type": "TsAsExpression",
           "span": {
             "start": 12,
             "end": 13,
             "ctxt": 0
           },
           "expr": {
+            "type": "Identifier",
             "span": {
               "start": 12,
               "end": 13,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnn": {
-            "type": "TsTypeRef",
+            "type": "TsTypeReference",
             "span": {
               "start": 17,
               "end": 18,
               "ctxt": 0
             },
             "typeName": {
+              "type": "Identifier",
               "span": {
                 "start": 17,
                 "end": 18,
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -123,13 +123,13 @@
         }
       },
       "property": {
+        "type": "Identifier",
         "span": {
           "start": 20,
           "end": 21,
           "ctxt": 0
         },
         "value": "y",
-        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
@@ -142,35 +142,34 @@
         "ctxt": 0
       },
       "object": {
-        "type": "TsNonNullExpr",
+        "type": "TsNonNullExpression",
         "span": {
           "start": 24,
           "end": 25,
           "ctxt": 0
         },
         "expr": {
+          "type": "Identifier",
           "span": {
             "start": 23,
             "end": 24,
             "ctxt": 0
           },
           "value": "x",
-          "typeAnnotation": null,
           "optional": false
         }
       },
       "property": {
+        "type": "Identifier",
         "span": {
           "start": 26,
           "end": 27,
           "ctxt": 0
         },
         "value": "y",
-        "typeAnnotation": null,
         "optional": false
       },
       "computed": false
     }
-  ],
-  "shebang": null
+  ]
 }

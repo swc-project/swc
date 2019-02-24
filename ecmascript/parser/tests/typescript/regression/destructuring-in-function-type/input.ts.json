@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDecl",
+      "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 0,
         "end": 37,
@@ -15,18 +15,18 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 11,
           "ctxt": 0
         },
         "value": "MyType",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
       "typeAnn": {
-        "type": "TsFnType",
+        "type": "TsFunctionType",
         "span": {
           "start": 14,
           "end": 37,
@@ -49,19 +49,18 @@
                   "ctxt": 0
                 },
                 "key": {
+                  "type": "Identifier",
                   "span": {
                     "start": 17,
                     "end": 22,
                     "ctxt": 0
                   },
                   "value": "theme",
-                  "typeAnnotation": null,
                   "optional": false
-                },
-                "value": null
+                }
               }
             ],
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 24,
@@ -100,6 +99,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

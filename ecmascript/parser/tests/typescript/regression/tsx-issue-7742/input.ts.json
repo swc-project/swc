@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 40,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 13,
           "ctxt": 0
         },
         "value": "Foo",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -33,20 +33,20 @@
         },
         "parameters": [
           {
-            "type": "TsTypeParam",
+            "type": "TsTypeParameter",
             "span": {
               "start": 14,
               "end": 15,
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 14,
                 "end": 15,
                 "ctxt": 0
               },
               "value": "G",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -64,7 +64,7 @@
         },
         "body": [
           {
-            "type": "TsCallSignatureDecl",
+            "type": "TsCallSignatureDeclaration",
             "span": {
               "start": 23,
               "end": 38,
@@ -72,6 +72,7 @@
             },
             "params": [
               {
+                "type": "Identifier",
                 "span": {
                   "start": 27,
                   "end": 30,
@@ -86,20 +87,20 @@
                     "ctxt": 0
                   },
                   "type_annotation": {
-                    "type": "TsTypeRef",
+                    "type": "TsTypeReference",
                     "span": {
                       "start": 32,
                       "end": 33,
                       "ctxt": 0
                     },
                     "typeName": {
+                      "type": "Identifier",
                       "span": {
                         "start": 32,
                         "end": 33,
                         "ctxt": 0
                       },
                       "value": "G",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "typeParams": null
@@ -116,20 +117,20 @@
                 "ctxt": 0
               },
               "type_annotation": {
-                "type": "TsTypeRef",
+                "type": "TsTypeReference",
                 "span": {
                   "start": 36,
                   "end": 37,
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 36,
                     "end": 37,
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -144,20 +145,20 @@
               },
               "parameters": [
                 {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 24,
                     "end": 25,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 24,
                       "end": 25,
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -169,6 +170,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

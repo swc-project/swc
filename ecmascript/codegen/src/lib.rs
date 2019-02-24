@@ -127,27 +127,33 @@ impl<'a> Emitter<'a> {
 
         match *node {
             ModuleDecl::Import(ref d) => emit!(d),
-            ModuleDecl::ExportDecl(ref d) => {
-                keyword!("export");
-                space!();
-                emit!(d);
-            }
+            ModuleDecl::ExportDecl(ref d) => emit!(d),
             ModuleDecl::ExportNamed(ref d) => emit!(d),
             ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref n) => {
-                keyword!("export");
-                space!();
-                keyword!("default");
-                space!();
-                emit!(n);
-                semi!();
-            }
+            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
             ModuleDecl::ExportAll(ref d) => emit!(d),
             ModuleDecl::TsExportAssignment(ref n) => emit!(n),
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
         }
         self.wr.write_line()?;
+    }
+
+    #[emitter]
+    pub fn emit_export_decl(&mut self, node: &ExportDecl) -> Result {
+        keyword!("export");
+        space!();
+        emit!(node.decl);
+    }
+
+    #[emitter]
+    pub fn emit_export_default_expr(&mut self, node: &ExportDefaultExpr) -> Result {
+        keyword!("export");
+        space!();
+        keyword!("default");
+        space!();
+        emit!(node.expr);
+        semi!();
     }
 
     #[emitter]
@@ -158,10 +164,10 @@ impl<'a> Emitter<'a> {
         space!();
         keyword!("default");
         space!();
-        match *node {
-            ExportDefaultDecl::Class(ref n) => emit!(n),
-            ExportDefaultDecl::Fn(ref n) => emit!(n),
-            ExportDefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
+        match node.decl {
+            DefaultDecl::Class(ref n) => emit!(n),
+            DefaultDecl::Fn(ref n) => emit!(n),
+            DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
         semi!();
     }

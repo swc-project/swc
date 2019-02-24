@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 78,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -50,23 +50,23 @@
                 "ctxt": 0
               },
               "object": {
+                "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 25,
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 26,
                   "end": 34,
                   "ctxt": 0
                 },
                 "value": "iterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -110,23 +110,23 @@
                 "ctxt": 0
               },
               "object": {
+                "type": "Identifier",
                 "span": {
                   "start": 50,
                   "end": 56,
                   "ctxt": 0
                 },
                 "value": "Symbol",
-                "typeAnnotation": null,
                 "optional": false
               },
               "property": {
+                "type": "Identifier",
                 "span": {
                   "start": 57,
                   "end": 65,
                   "ctxt": 0
                 },
                 "value": "iterator",
-                "typeAnnotation": null,
                 "optional": false
               },
               "computed": false
@@ -157,6 +157,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

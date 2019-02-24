@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 34,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,13 +43,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 18,
                 "end": 23,
                 "ctxt": 0
               },
               "value": "catch",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -77,6 +77,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

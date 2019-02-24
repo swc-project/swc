@@ -10,6 +10,8 @@ extern crate enum_kind;
 extern crate serde;
 #[macro_use]
 extern crate string_enum;
+#[cfg(test)]
+extern crate serde_json;
 extern crate swc_atoms;
 extern crate swc_common;
 
@@ -36,9 +38,10 @@ pub use self::{
     lit::{Bool, Lit, Null, Number, Regex, RegexFlags, Str},
     module::{Module, ModuleItem, Script},
     module_decl::{
-        DefaultExportSpecifier, ExportAll, ExportDefaultDecl, ExportSpecifier, ImportDecl,
-        ImportDefault, ImportSpecific, ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport,
-        NamedExportSpecifier, NamespaceExportSpecifier,
+        DefaultDecl, DefaultExportSpecifier, ExportAll, ExportDecl, ExportDefaultDecl,
+        ExportDefaultExpr, ExportSpecifier, ImportDecl, ImportDefault, ImportSpecific,
+        ImportSpecifier, ImportStarAs, ModuleDecl, NamedExport, NamedExportSpecifier,
+        NamespaceExportSpecifier,
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{
@@ -67,6 +70,8 @@ pub use self::{
     },
 };
 
+#[macro_use]
+mod macros;
 mod class;
 mod decl;
 mod expr;
@@ -74,7 +79,6 @@ mod function;
 mod ident;
 mod jsx;
 mod lit;
-mod macros;
 mod module;
 mod module_decl;
 mod operators;

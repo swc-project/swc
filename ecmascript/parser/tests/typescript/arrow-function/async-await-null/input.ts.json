@@ -41,29 +41,27 @@
         },
         "parameters": [
           {
-            "type": "TsTypeParam",
+            "type": "TsTypeParameter",
             "span": {
               "start": 7,
               "end": 8,
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
             "default": null
           }
         ]
-      },
-      "returnType": null
+      }
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
+      "type": "TsModuleDeclaration",
       "span": {
         "start": 0,
         "end": 14,
@@ -16,13 +16,13 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "N",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -36,7 +36,7 @@
       }
     },
     {
-      "type": "TsModuleDecl",
+      "type": "TsModuleDeclaration",
       "span": {
         "start": 15,
         "end": 33,
@@ -45,17 +45,17 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 25,
           "end": 26,
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
-        "type": "TsNamespaceDecl",
+        "type": "TsNamespaceDeclaration",
         "span": {
           "start": 27,
           "end": 33,
@@ -64,17 +64,17 @@
         "declare": false,
         "global": false,
         "id": {
+          "type": "Identifier",
           "span": {
             "start": 27,
             "end": 28,
             "ctxt": 0
           },
           "value": "N",
-          "typeAnnotation": null,
           "optional": false
         },
         "body": {
-          "type": "TsNamespaceDecl",
+          "type": "TsNamespaceDeclaration",
           "span": {
             "start": 29,
             "end": 33,
@@ -83,13 +83,13 @@
           "declare": false,
           "global": false,
           "id": {
+            "type": "Identifier",
             "span": {
               "start": 29,
               "end": 30,
               "ctxt": 0
             },
             "value": "O",
-            "typeAnnotation": null,
             "optional": false
           },
           "body": {
@@ -105,7 +105,7 @@
       }
     },
     {
-      "type": "TsModuleDecl",
+      "type": "TsModuleDeclaration",
       "span": {
         "start": 34,
         "end": 45,
@@ -114,13 +114,13 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 41,
           "end": 42,
           "ctxt": 0
         },
         "value": "M",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -134,7 +134,7 @@
       }
     },
     {
-      "type": "TsModuleDecl",
+      "type": "TsModuleDeclaration",
       "span": {
         "start": 46,
         "end": 59,
@@ -162,6 +162,5 @@
         "body": []
       }
     }
-  ],
-  "shebang": null
+  ]
 }

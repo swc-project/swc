@@ -15,20 +15,20 @@
       },
       "operator": "=",
       "left": {
-        "type": "TsAsExpr",
+        "type": "TsAsExpression",
         "span": {
           "start": 1,
           "end": 2,
           "ctxt": 0
         },
         "expr": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 2,
             "ctxt": 0
           },
           "value": "a",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeAnn": {
@@ -51,6 +51,5 @@
         "value": 42.0
       }
     }
-  ],
-  "shebang": null
+  ]
 }

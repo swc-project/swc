@@ -7,46 +7,42 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 14,
           "end": 15,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
-      "type": "Class",
       "span": {
         "start": 8,
         "end": 39,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
           "span": {
             "start": 22,
             "end": 37,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 22,
               "end": 25,
               "ctxt": 0
             },
             "value": "get",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 22,
               "end": 37,
@@ -64,20 +60,20 @@
               },
               "parameters": [
                 {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 26,
                     "end": 27,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 26,
                       "end": 27,
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": null,
@@ -105,17 +101,11 @@
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

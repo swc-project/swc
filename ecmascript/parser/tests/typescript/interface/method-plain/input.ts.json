@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 65,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,13 +43,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 18,
                 "end": 19,
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -67,19 +67,20 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 27,
                 "end": 28,
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
             "optional": false,
             "params": [
               {
+                "type": "Identifier",
                 "span": {
                   "start": 29,
                   "end": 30,
@@ -113,13 +114,13 @@
                   "ctxt": 0
                 },
                 "argument": {
+                  "type": "Identifier",
                   "span": {
                     "start": 44,
                     "end": 45,
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeAnnotation": {
@@ -171,6 +172,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -15,7 +15,7 @@
       },
       "operator": "+=",
       "left": {
-        "type": "ParenExpr",
+        "type": "ParenthesisExpression",
         "span": {
           "start": 0,
           "end": 12,
@@ -29,13 +29,13 @@
             "ctxt": 0
           },
           "expr": {
+            "type": "Identifier",
             "span": {
               "start": 10,
               "end": 11,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeAnn": {
@@ -59,6 +59,5 @@
         "value": 1.0
       }
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 40,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -38,6 +38,7 @@
             "type": "TsIndexSignature",
             "params": [
               {
+                "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 20,
@@ -91,6 +92,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

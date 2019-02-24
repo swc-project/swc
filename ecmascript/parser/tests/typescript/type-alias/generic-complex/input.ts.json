@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDecl",
+      "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 0,
         "end": 52,
@@ -15,13 +15,13 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 6,
           "ctxt": 0
         },
         "value": "T",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -33,20 +33,20 @@
         },
         "parameters": [
           {
-            "type": "TsTypeParam",
+            "type": "TsTypeParameter",
             "span": {
               "start": 7,
               "end": 39,
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": {
@@ -59,7 +59,7 @@
               "kind": "object"
             },
             "default": {
-              "type": "TsTypeLit",
+              "type": "TsTypeLiteral",
               "span": {
                 "start": 26,
                 "end": 39,
@@ -75,13 +75,13 @@
                   },
                   "readonly": false,
                   "key": {
+                    "type": "Identifier",
                     "span": {
                       "start": 28,
                       "end": 29,
                       "ctxt": 0
                     },
                     "value": "x",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "computed": false,
@@ -113,24 +113,24 @@
         ]
       },
       "typeAnn": {
-        "type": "TsTypeRef",
+        "type": "TsTypeReference",
         "span": {
           "start": 43,
           "end": 51,
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 43,
             "end": 48,
             "ctxt": 0
           },
           "value": "Array",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": {
-          "type": "TsTypeParamInstantiation",
+          "type": "TsTypeParameterInstantiation",
           "span": {
             "start": 48,
             "end": 51,
@@ -138,20 +138,20 @@
           },
           "params": [
             {
-              "type": "TsTypeRef",
+              "type": "TsTypeReference",
               "span": {
                 "start": 49,
                 "end": 50,
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 49,
                   "end": 50,
                   "ctxt": 0
                 },
                 "value": "U",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -160,6 +160,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

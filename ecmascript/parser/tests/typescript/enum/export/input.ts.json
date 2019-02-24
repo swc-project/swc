@@ -7,26 +7,33 @@
   },
   "body": [
     {
-      "type": "TsEnumDecl",
+      "type": "ExportDeclaration",
       "span": {
-        "start": 7,
+        "start": 0,
         "end": 16,
         "ctxt": 0
       },
-      "declare": false,
-      "isConst": false,
-      "id": {
+      "declaration": {
+        "type": "TsEnumDeclaration",
         "span": {
-          "start": 12,
-          "end": 13,
+          "start": 7,
+          "end": 16,
           "ctxt": 0
         },
-        "value": "E",
-        "typeAnnotation": null,
-        "optional": false
-      },
-      "members": []
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 12,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": "E",
+          "optional": false
+        },
+        "members": []
+      }
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDecl",
+      "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 0,
         "end": 16,
@@ -15,13 +15,13 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 6,
           "ctxt": 0
         },
         "value": "T",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
@@ -35,6 +35,5 @@
         "kind": "number"
       }
     }
-  ],
-  "shebang": null
+  ]
 }

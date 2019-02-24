@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 40,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 15,
           "ctxt": 0
         },
         "value": "Comma",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,13 +43,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 18,
                 "end": 19,
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -84,13 +84,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 29,
                 "end": 30,
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -120,20 +120,20 @@
       }
     },
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 51,
         "end": 80,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 51,
           "end": 55,
           "ctxt": 0
         },
         "value": "Semi",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -156,13 +156,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 58,
                 "end": 59,
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -197,13 +197,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 69,
                 "end": 70,
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -233,20 +233,20 @@
       }
     },
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 91,
         "end": 130,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 91,
           "end": 98,
           "ctxt": 0
         },
         "value": "Newline",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -269,13 +269,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 105,
                 "end": 106,
                 "ctxt": 0
               },
               "value": "x",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -310,13 +310,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 119,
                 "end": 120,
                 "ctxt": 0
               },
               "value": "y",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -345,6 +345,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

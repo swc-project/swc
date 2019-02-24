@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsModuleDecl",
+      "type": "TsModuleDeclaration",
       "span": {
         "start": 0,
         "end": 39,
@@ -16,13 +16,13 @@
       "declare": false,
       "global": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       },
       "body": {
@@ -34,7 +34,7 @@
         },
         "body": [
           {
-            "type": "TsModuleDecl",
+            "type": "TsModuleDeclaration",
             "span": {
               "start": 18,
               "end": 37,
@@ -43,13 +43,13 @@
             "declare": false,
             "global": false,
             "id": {
+              "type": "Identifier",
               "span": {
                 "start": 28,
                 "end": 29,
                 "ctxt": 0
               },
               "value": "B",
-              "typeAnnotation": null,
               "optional": false
             },
             "body": {
@@ -65,6 +65,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

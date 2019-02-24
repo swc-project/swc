@@ -144,7 +144,10 @@ impl<'a, I: Input> Parser<'a, I> {
         if declare {
             // TODO: Remove
             if let Some(decl) = self.try_parse_ts_declare(start, decorators.clone())? {
-                return Ok(ModuleDecl::ExportDecl(decl));
+                return Ok(ModuleDecl::ExportDecl(ExportDecl {
+                    span: span!(start),
+                    decl,
+                }));
             }
         }
 
@@ -155,7 +158,10 @@ impl<'a, I: Input> Parser<'a, I> {
             };
             // TODO: remove clone
             if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym)? {
-                return Ok(ModuleDecl::ExportDecl(decl));
+                return Ok(ModuleDecl::ExportDecl(ExportDecl {
+                    span: span!(start),
+                    decl,
+                }));
             }
         }
 
@@ -228,9 +234,10 @@ impl<'a, I: Input> Parser<'a, I> {
                     assert_and_bump!("abstract");
                     let mut class = self.parse_default_class(decorators)?;
                     match class {
-                        ExportDefaultDecl::Class(ClassExpr { ref mut class, .. }) => {
-                            class.is_abstract = true
-                        }
+                        ExportDefaultDecl {
+                            decl: DefaultDecl::Class(ClassExpr { ref mut class, .. }),
+                            ..
+                        } => class.is_abstract = true,
                         _ => unreachable!(),
                     }
                     return Ok(class.into());
@@ -238,7 +245,11 @@ impl<'a, I: Input> Parser<'a, I> {
 
                 if eat!("interface") {
                     let decl = self.parse_ts_interface_decl().map(Decl::from)?;
-                    return Ok(decl.into());
+                    return Ok(ExportDecl {
+                        span: span!(start),
+                        decl,
+                    }
+                    .into());
                 }
             }
 
@@ -261,7 +272,10 @@ impl<'a, I: Input> Parser<'a, I> {
             } else {
                 let expr = self.include_in_expr(true).parse_assignment_expr()?;
                 expect!(';');
-                return Ok(ModuleDecl::ExportDefaultExpr(expr));
+                return Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span: span!(start),
+                    expr,
+                }));
             }
         }
 
@@ -281,7 +295,12 @@ impl<'a, I: Input> Parser<'a, I> {
             return self
                 .parse_ts_enum_decl(start, /* is_const */ true)
                 .map(Decl::from)
-                .map(ModuleDecl::from);
+                .map(|decl| {
+                    ModuleDecl::ExportDecl(ExportDecl {
+                        span: span!(start),
+                        decl,
+                    })
+                });
         } else if is!("var")
             || is!("const")
             || (is!("let")
@@ -392,7 +411,10 @@ impl<'a, I: Input> Parser<'a, I> {
             }));
         };
 
-        return Ok(ModuleDecl::ExportDecl(decl));
+        return Ok(ModuleDecl::ExportDecl(ExportDecl {
+            span: span!(start),
+            decl,
+        }));
     }
 
     fn parse_named_export_specifier(&mut self) -> PResult<'a, NamedExportSpecifier> {

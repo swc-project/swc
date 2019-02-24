@@ -23,14 +23,14 @@
             "end": 86,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 6,
               "end": 11,
               "ctxt": 0
             },
             "value": "table",
-            "typeAnnotation": null,
             "optional": false
           },
           "init": {
@@ -42,19 +42,20 @@
             },
             "properties": [
               {
+                "type": "MethodProperty",
                 "key": {
+                  "type": "Identifier",
                   "span": {
                     "start": 18,
                     "end": 21,
                     "ctxt": 0
                   },
                   "value": "put",
-                  "typeAnnotation": null,
                   "optional": false
                 },
-                "type": "Function",
                 "params": [
                   {
+                    "type": "Identifier",
                     "span": {
                       "start": 48,
                       "end": 53,
@@ -69,20 +70,20 @@
                         "ctxt": 0
                       },
                       "type_annotation": {
-                        "type": "TsTypeRef",
+                        "type": "TsTypeReference",
                         "span": {
                           "start": 55,
                           "end": 56,
                           "ctxt": 0
                         },
                         "typeName": {
+                          "type": "Identifier",
                           "span": {
                             "start": 55,
                             "end": 56,
                             "ctxt": 0
                           },
                           "value": "T",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "typeParams": null
@@ -91,7 +92,6 @@
                     "optional": false
                   }
                 ],
-                "decorators": [],
                 "span": {
                   "start": 18,
                   "end": 84,
@@ -117,24 +117,24 @@
                   },
                   "parameters": [
                     {
-                      "type": "TsTypeParam",
+                      "type": "TsTypeParameter",
                       "span": {
                         "start": 22,
                         "end": 46,
                         "ctxt": 0
                       },
                       "name": {
+                        "type": "Identifier",
                         "span": {
                           "start": 22,
                           "end": 23,
                           "ctxt": 0
                         },
                         "value": "T",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "constraint": {
-                        "type": "TsTypeLit",
+                        "type": "TsTypeLiteral",
                         "span": {
                           "start": 32,
                           "end": 46,
@@ -150,13 +150,13 @@
                             },
                             "readonly": false,
                             "key": {
+                              "type": "Identifier",
                               "span": {
                                 "start": 34,
                                 "end": 36,
                                 "ctxt": 0
                               },
                               "value": "id",
-                              "typeAnnotation": null,
                               "optional": false
                             },
                             "computed": false,
@@ -187,8 +187,7 @@
                       "default": null
                     }
                   ]
-                },
-                "returnType": null
+                }
               }
             ]
           },
@@ -196,6 +195,5 @@
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

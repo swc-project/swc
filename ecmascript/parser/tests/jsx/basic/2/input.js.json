@@ -18,23 +18,23 @@
         "name": {
           "type": "JSXNamespacedName",
           "namespace": {
+            "type": "Identifier",
             "span": {
               "start": 1,
               "end": 2,
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "name": {
+            "type": "Identifier",
             "span": {
               "start": 3,
               "end": 4,
               "ctxt": 0
             },
             "value": "a",
-            "typeAnnotation": null,
             "optional": false
           }
         },
@@ -54,35 +54,32 @@
             "name": {
               "type": "JSXNamespacedName",
               "namespace": {
+                "type": "Identifier",
                 "span": {
                   "start": 5,
                   "end": 6,
                   "ctxt": 0
                 },
                 "value": "n",
-                "typeAnnotation": null,
                 "optional": false
               },
               "name": {
+                "type": "Identifier",
                 "span": {
                   "start": 7,
                   "end": 8,
                   "ctxt": 0
                 },
                 "value": "v",
-                "typeAnnotation": null,
                 "optional": false
               }
-            },
-            "value": null
+            }
           }
         ],
-        "selfClosing": true,
-        "typeArguments": null
+        "selfClosing": true
       },
       "children": [],
       "closing": null
     }
-  ],
-  "shebang": null
+  ]
 }

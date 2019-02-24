@@ -1,3 +1,5 @@
+#![recursion_limit = "1024"]
+
 extern crate darling;
 #[macro_use]
 extern crate pmutil;
@@ -98,7 +100,7 @@ pub fn ast_node(
             }
             item.quote_with(smart_quote!(Vars { input }, {
                 #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
-                #[derive(::serde::Serialize)]
+                #[derive(::serde::Serialize, ::serde::Deserialize)]
                 #[serde(untagged)]
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
@@ -115,9 +117,15 @@ pub fn ast_node(
                 Data::Struct(DataStruct {
                     fields: Fields::Named(..),
                     ..
-                }) => Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                    #[serde(tag = "type")]
-                }))),
+                }) => {
+                    if args.is_some() {
+                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
+                            #[serde(tag = "type")]
+                        })))
+                    } else {
+                        None
+                    }
+                }
                 _ => None,
             };
 

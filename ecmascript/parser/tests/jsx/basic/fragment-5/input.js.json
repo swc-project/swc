@@ -42,13 +42,13 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 34,
                 "end": 37,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -56,9 +56,7 @@
               "end": 38,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
+            "selfClosing": false
           },
           "children": [],
           "closing": {
@@ -69,13 +67,13 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 40,
                 "end": 43,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -100,13 +98,13 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 48,
                 "end": 51,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -114,9 +112,7 @@
               "end": 52,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
+            "selfClosing": false
           },
           "children": [],
           "closing": {
@@ -127,13 +123,13 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 54,
                 "end": 57,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -158,6 +154,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

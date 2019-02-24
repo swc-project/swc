@@ -15,27 +15,31 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct Class {
     #[serde(default)]
     pub span: Span,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub decorators: Vec<Decorator>,
 
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub body: Vec<ClassMember>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub super_class: Option<Box<Expr>>,
 
+    #[serde(default)]
     pub is_abstract: bool,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub super_type_params: Option<TsTypeParamInstantiation>,
 
     /// Typescript extension.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub implements: Vec<TsExprWithTypeArgs>,
 }
 
@@ -55,28 +59,44 @@ pub type ClassProp = ClassProperty<Box<Expr>>;
 pub type PrivateProp = ClassProperty<PrivateName>;
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct ClassProperty<K> {
     #[serde(default)]
     pub span: Span,
 
     #[cfg_attr(feature = "fold", fold(bound))]
     pub key: K,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub value: Option<Box<Expr>>,
 
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_ann: Option<TsTypeAnn>,
 
-    pub is_static: bool,
     #[serde(default)]
+    pub is_static: bool,
+
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub decorators: Vec<Decorator>,
+
+    #[serde(default)]
     pub computed: bool,
 
     /// Typescript extension.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub accessibility: Option<Accessibility>,
+
     /// Typescript extension.
+    #[serde(default)]
     pub is_abstract: bool,
+
+    #[serde(default)]
     pub is_optional: bool,
 
+    #[serde(default)]
     pub readonly: bool,
+
+    #[serde(default)]
     pub definite: bool,
 }
 
@@ -87,14 +107,23 @@ pub type PrivateMethod = ClassMethod<PrivateName>;
 pub struct Constructor {
     #[serde(default)]
     pub span: Span,
+
     pub key: PropName,
+
     pub params: Vec<PatOrTsParamProp>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub body: Option<BlockStmt>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub accessibility: Option<Accessibility>,
+
+    #[serde(default)]
     pub is_optional: bool,
 }
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct ClassMethod<K> {
     #[serde(default)]
     pub span: Span,
@@ -106,12 +135,18 @@ pub struct ClassMethod<K> {
     #[cfg_attr(feature = "fold", fold(ignore))]
     pub kind: MethodKind,
 
+    #[serde(default)]
     pub is_static: bool,
 
     /// Typescript extension.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub accessibility: Option<Accessibility>,
+
     /// Typescript extension.
+    #[serde(default)]
     pub is_abstract: bool,
+
+    #[serde(default)]
     pub is_optional: bool,
 }
 
@@ -120,6 +155,7 @@ pub struct Decorator {
     #[serde(default)]
     pub span: Span,
 
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
 

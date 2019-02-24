@@ -51,9 +51,11 @@ where
                         let decl = decl.fold_children(self);
 
                         match decl {
-                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl::Class(
-                                ClassExpr { ident, class },
-                            )) => {
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                span,
+                                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                                ..
+                            }) => {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
 
                                 let (vars, decl, stmts) =
@@ -71,7 +73,7 @@ where
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
                                         NamedExport {
-                                            span: DUMMY_SP,
+                                            span,
                                             specifiers: vec![NamedExportSpecifier {
                                                 span: DUMMY_SP,
                                                 orig: ident,
@@ -86,11 +88,16 @@ where
                                     },
                                 );
                             }
-                            ModuleDecl::ExportDecl(Decl::Class(ClassDecl {
-                                ident,
-                                declare: false,
-                                class,
-                            })) => {
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                span,
+                                decl:
+                                    Decl::Class(ClassDecl {
+                                        ident,
+                                        declare: false,
+                                        class,
+                                    }),
+                                ..
+                            }) => {
                                 let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
                                 if !vars.is_empty() {
                                     buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -101,7 +108,9 @@ where
                                     }))));
                                 }
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(decl)) {
+                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                        ExportDecl { span, decl },
+                                    )) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },

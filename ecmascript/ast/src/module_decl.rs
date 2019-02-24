@@ -10,23 +10,44 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum ModuleDecl {
     Import(ImportDecl),
-    ExportDecl(Decl),
+    ExportDecl(ExportDecl),
     ExportNamed(NamedExport),
 
     ExportDefaultDecl(ExportDefaultDecl),
 
-    ExportDefaultExpr(Box<Expr>),
+    ExportDefaultExpr(ExportDefaultExpr),
     ExportAll(ExportAll),
     TsImportEquals(TsImportEqualsDecl),
     TsExportAssignment(TsExportAssignment),
     TsNamespaceExport(TsNamespaceExportDecl),
 }
 
+#[ast_node("ExportDefaultExpression")]
+pub struct ExportDefaultExpr {
+    #[serde(default)]
+    pub span: Span,
+
+    #[serde(rename = "expression")]
+    pub expr: Box<Expr>,
+}
+
+#[ast_node("ExportDeclaration")]
+pub struct ExportDecl {
+    #[serde(default)]
+    pub span: Span,
+
+    #[serde(rename = "declaration")]
+    pub decl: Decl,
+}
+
 #[ast_node("ImportDeclaration")]
 pub struct ImportDecl {
     #[serde(default)]
     pub span: Span,
+
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub specifiers: Vec<ImportSpecifier>,
+
     #[serde(rename = "source")]
     pub src: Str,
 }
@@ -36,6 +57,7 @@ pub struct ImportDecl {
 pub struct ExportAll {
     #[serde(default)]
     pub span: Span,
+
     #[serde(rename = "source")]
     pub src: Str,
 }
@@ -46,14 +68,23 @@ pub struct ExportAll {
 pub struct NamedExport {
     #[serde(default)]
     pub span: Span,
+
     pub specifiers: Vec<ExportSpecifier>,
 
     #[serde(rename = "source")]
     pub src: Option<Str>,
 }
 
+#[ast_node("ExportDefaultDeclaration")]
+pub struct ExportDefaultDecl {
+    #[serde(default)]
+    pub span: Span,
+
+    pub decl: DefaultDecl,
+}
+
 #[ast_node]
-pub enum ExportDefaultDecl {
+pub enum DefaultDecl {
     Class(ClassExpr),
 
     Fn(FnExpr),
@@ -69,34 +100,41 @@ pub enum ImportSpecifier {
 }
 
 /// e.g. `import foo from 'mod.js'`
-#[ast_node]
+#[ast_node("ImportDefaultSpecifier")]
 pub struct ImportDefault {
     #[serde(default)]
     pub span: Span,
+
     pub local: Ident,
 }
 /// e.g. `import * as foo from 'mod.js'`.
-#[ast_node]
+#[ast_node("ImportNamespaceSpecifier")]
 pub struct ImportStarAs {
     #[serde(default)]
     pub span: Span,
+
     pub local: Ident,
 }
 /// e.g. local = foo, imported = None `import { foo } from 'mod.js'`
 /// e.g. local = bar, imported = Some(foo) for `import { foo as bar } from
 /// 'mod.js'`
-#[ast_node]
+#[ast_node("ImportSpecifier")]
 pub struct ImportSpecific {
     #[serde(default)]
     pub span: Span,
+
     pub local: Ident,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub imported: Option<Ident>,
 }
 
 #[ast_node]
 pub enum ExportSpecifier {
     Namespace(NamespaceExportSpecifier),
+
     Default(DefaultExportSpecifier),
+
     Named(NamedExportSpecifier),
 }
 
@@ -105,6 +143,7 @@ pub enum ExportSpecifier {
 pub struct NamespaceExportSpecifier {
     #[serde(default)]
     pub span: Span,
+
     pub name: Ident,
 }
 
@@ -121,5 +160,6 @@ pub struct NamedExportSpecifier {
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,
     /// `Some(bar)` in `export { foo as bar }`
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub exported: Option<Ident>,
 }

@@ -42,13 +42,13 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 11,
                 "ctxt": 0
               },
               "value": "span",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -56,9 +56,7 @@
               "end": 12,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
+            "selfClosing": false
           },
           "children": [
             {
@@ -80,13 +78,13 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 24,
                 "end": 28,
                 "ctxt": 0
               },
               "value": "span",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -111,13 +109,13 @@
           "opening": {
             "type": "JSXOpeningElement",
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 33,
                 "end": 36,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             },
             "span": {
@@ -125,9 +123,7 @@
               "end": 37,
               "ctxt": 0
             },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
+            "selfClosing": false
           },
           "children": [
             {
@@ -149,13 +145,13 @@
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 42,
                 "end": 45,
                 "ctxt": 0
               },
               "value": "div",
-              "typeAnnotation": null,
               "optional": false
             }
           }
@@ -180,6 +176,5 @@
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

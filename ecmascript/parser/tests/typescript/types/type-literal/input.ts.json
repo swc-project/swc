@@ -23,7 +23,8 @@
             "end": 22,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 7,
@@ -38,7 +39,7 @@
                 "ctxt": 0
               },
               "type_annotation": {
-                "type": "TsTypeLit",
+                "type": "TsTypeLiteral",
                 "span": {
                   "start": 9,
                   "end": 22,
@@ -54,13 +55,13 @@
                     },
                     "readonly": false,
                     "key": {
+                      "type": "Identifier",
                       "span": {
                         "start": 11,
                         "end": 12,
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -91,11 +92,9 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

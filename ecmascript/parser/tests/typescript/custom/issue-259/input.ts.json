@@ -21,30 +21,29 @@
           "ctxt": 0
         },
         "object": {
+          "type": "Identifier",
           "span": {
             "start": 0,
             "end": 6,
             "ctxt": 0
           },
           "value": "router",
-          "typeAnnotation": null,
           "optional": false
         },
         "property": {
+          "type": "Identifier",
           "span": {
             "start": 7,
             "end": 9,
             "ctxt": 0
           },
           "value": "on",
-          "typeAnnotation": null,
           "optional": false
         },
         "computed": false
       },
       "arguments": [
         {
-          "spread": null,
           "expr": {
             "type": "StringLiteral",
             "span": {
@@ -57,7 +56,6 @@
           }
         },
         {
-          "spread": null,
           "expr": {
             "type": "ArrowFunctionExpression",
             "span": {
@@ -67,7 +65,7 @@
             },
             "params": [],
             "body": {
-              "type": "ParenExpr",
+              "type": "ParenthesisExpression",
               "span": {
                 "start": 35,
                 "end": 68,
@@ -82,13 +80,13 @@
                 },
                 "operator": "=",
                 "left": {
+                  "type": "Identifier",
                   "span": {
                     "start": 36,
                     "end": 60,
                     "ctxt": 0
                   },
                   "value": "routerTransitionsPending",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "right": {
@@ -103,14 +101,11 @@
               }
             },
             "async": false,
-            "generator": false,
-            "typeParameters": null,
-            "returnType": null
+            "generator": false
           }
         }
       ],
       "typeArguments": null
     }
-  ],
-  "shebang": null
+  ]
 }

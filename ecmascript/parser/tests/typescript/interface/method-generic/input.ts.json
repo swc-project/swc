@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 61,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -43,13 +43,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 18,
                 "end": 19,
                 "ctxt": 0
               },
               "value": "m",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -63,20 +63,20 @@
                 "ctxt": 0
               },
               "type_annotation": {
-                "type": "TsTypeRef",
+                "type": "TsTypeReference",
                 "span": {
                   "start": 57,
                   "end": 58,
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 57,
                     "end": 58,
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -91,20 +91,20 @@
               },
               "parameters": [
                 {
-                  "type": "TsTypeParam",
+                  "type": "TsTypeParameter",
                   "span": {
                     "start": 20,
                     "end": 52,
                     "ctxt": 0
                   },
                   "name": {
+                    "type": "Identifier",
                     "span": {
                       "start": 20,
                       "end": 21,
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "constraint": {
@@ -117,7 +117,7 @@
                     "kind": "object"
                   },
                   "default": {
-                    "type": "TsTypeLit",
+                    "type": "TsTypeLiteral",
                     "span": {
                       "start": 39,
                       "end": 52,
@@ -133,13 +133,13 @@
                         },
                         "readonly": false,
                         "key": {
+                          "type": "Identifier",
                           "span": {
                             "start": 41,
                             "end": 42,
                             "ctxt": 0
                           },
                           "value": "x",
-                          "typeAnnotation": null,
                           "optional": false
                         },
                         "computed": false,
@@ -174,6 +174,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

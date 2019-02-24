@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 10,
         "end": 42,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
@@ -35,7 +35,7 @@
         },
         "body": [
           {
-            "type": "TsConstructSignatureDecl",
+            "type": "TsConstructSignatureDeclaration",
             "span": {
               "start": 18,
               "end": 40,
@@ -43,6 +43,7 @@
             },
             "params": [
               {
+                "type": "Identifier",
                 "span": {
                   "start": 23,
                   "end": 24,
@@ -91,6 +92,5 @@
         ]
       }
     }
-  ],
-  "shebang": null
+  ]
 }

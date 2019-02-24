@@ -7,20 +7,19 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 17,
           "end": 18,
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
-      "type": "Function",
       "params": [],
-      "decorators": [],
       "span": {
         "start": 8,
         "end": 27,
@@ -29,7 +28,6 @@
       "body": null,
       "generator": false,
       "async": false,
-      "typeParameters": null,
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
@@ -49,20 +47,19 @@
       }
     },
     {
-      "ident": {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 45,
           "end": 46,
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
-      "type": "Function",
       "params": [],
-      "decorators": [],
       "span": {
         "start": 36,
         "end": 55,
@@ -80,20 +77,20 @@
         },
         "parameters": [
           {
-            "type": "TsTypeParam",
+            "type": "TsTypeParameter",
             "span": {
               "start": 47,
               "end": 48,
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 47,
                 "end": 48,
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -109,26 +106,25 @@
           "ctxt": 0
         },
         "type_annotation": {
-          "type": "TsTypeRef",
+          "type": "TsTypeReference",
           "span": {
             "start": 53,
             "end": 54,
             "ctxt": 0
           },
           "typeName": {
+            "type": "Identifier",
             "span": {
               "start": 53,
               "end": 54,
               "ctxt": 0
             },
             "value": "T",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

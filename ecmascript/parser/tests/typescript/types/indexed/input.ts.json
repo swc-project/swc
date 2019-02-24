@@ -23,7 +23,8 @@
             "end": 11,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -45,39 +46,39 @@
                   "ctxt": 0
                 },
                 "objType": {
-                  "type": "TsTypeRef",
+                  "type": "TsTypeReference",
                   "span": {
                     "start": 7,
                     "end": 8,
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 7,
                       "end": 8,
                       "ctxt": 0
                     },
                     "value": "T",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
                 },
                 "indexType": {
-                  "type": "TsTypeRef",
+                  "type": "TsTypeReference",
                   "span": {
                     "start": 9,
                     "end": 10,
                     "ctxt": 0
                   },
                   "typeName": {
+                    "type": "Identifier",
                     "span": {
                       "start": 9,
                       "end": 10,
                       "ctxt": 0
                     },
                     "value": "K",
-                    "typeAnnotation": null,
                     "optional": false
                   },
                   "typeParams": null
@@ -86,11 +87,9 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

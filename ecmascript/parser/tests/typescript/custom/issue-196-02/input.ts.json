@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDecl",
+      "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 0,
         "end": 42,
@@ -15,18 +15,18 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 9,
           "ctxt": 0
         },
         "value": "Link",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": null,
       "typeAnn": {
-        "type": "TsTypeLit",
+        "type": "TsTypeLiteral",
         "span": {
           "start": 12,
           "end": 41,
@@ -42,13 +42,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 14,
                 "end": 17,
                 "ctxt": 0
               },
               "value": "key",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -83,13 +83,13 @@
             },
             "readonly": false,
             "key": {
+              "type": "Identifier",
               "span": {
                 "start": 27,
                 "end": 31,
                 "ctxt": 0
               },
               "value": "text",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false,
@@ -134,20 +134,18 @@
             "ctxt": 0
           },
           "orig": {
+            "type": "Identifier",
             "span": {
               "start": 52,
               "end": 56,
               "ctxt": 0
             },
             "value": "Link",
-            "typeAnnotation": null,
             "optional": false
-          },
-          "exported": null
+          }
         }
       ],
       "source": null
     }
-  ],
-  "shebang": null
+  ]
 }

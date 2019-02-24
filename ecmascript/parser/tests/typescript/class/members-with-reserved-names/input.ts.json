@@ -7,46 +7,42 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 38,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
           "span": {
             "start": 21,
             "end": 36,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 21,
               "end": 27,
               "ctxt": 0
             },
             "value": "delete",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 21,
               "end": 36,
@@ -55,7 +51,6 @@
             "body": null,
             "generator": false,
             "async": false,
-            "typeParameters": null,
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -81,12 +76,7 @@
           "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

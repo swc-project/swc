@@ -7,32 +7,27 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 28,
         "ctxt": 0
       },
-      "decorators": [],
-      "body": [],
-      "superClass": null,
       "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
       "implements": [
         {
-          "type": "TsExprWithTypeArgs",
+          "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 19,
             "end": 25,
@@ -41,28 +36,28 @@
           "expr": {
             "type": "TsQualifiedName",
             "left": {
+              "type": "Identifier",
               "span": {
                 "start": 19,
                 "end": 20,
                 "ctxt": 0
               },
               "value": "X",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
+              "type": "Identifier",
               "span": {
                 "start": 21,
                 "end": 22,
                 "ctxt": 0
               },
               "value": "Y",
-              "typeAnnotation": null,
               "optional": false
             }
           },
           "typeParams": {
-            "type": "TsTypeParamInstantiation",
+            "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 22,
               "end": 25,
@@ -70,20 +65,20 @@
             },
             "params": [
               {
-                "type": "TsTypeRef",
+                "type": "TsTypeReference",
                 "span": {
                   "start": 23,
                   "end": 24,
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 23,
                     "end": 24,
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -93,6 +88,5 @@
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

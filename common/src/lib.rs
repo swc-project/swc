@@ -26,8 +26,7 @@ use std::fmt::Debug;
 
 /// A trait for ast nodes.
 pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
-    /// Used when serialized
-    fn types() -> &'static [&'static str];
+    const TYPE: &'static str;
 }
 
 pub mod comments;

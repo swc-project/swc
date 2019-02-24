@@ -7,25 +7,23 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 43,
         "ctxt": 0
       },
-      "decorators": [],
-      "body": [],
       "superClass": {
         "type": "CallExpression",
         "span": {
@@ -34,22 +32,21 @@
           "ctxt": 0
         },
         "callee": {
+          "type": "Identifier",
           "span": {
             "start": 16,
             "end": 17,
             "ctxt": 0
           },
           "value": "f",
-          "typeAnnotation": null,
           "optional": false
         },
         "arguments": [],
         "typeArguments": null
       },
       "isAbstract": false,
-      "typeParams": null,
       "superTypeParams": {
-        "type": "TsTypeParamInstantiation",
+        "type": "TsTypeParameterInstantiation",
         "span": {
           "start": 19,
           "end": 22,
@@ -57,20 +54,20 @@
         },
         "params": [
           {
-            "type": "TsTypeRef",
+            "type": "TsTypeReference",
             "span": {
               "start": 20,
               "end": 21,
               "ctxt": 0
             },
             "typeName": {
+              "type": "Identifier",
               "span": {
                 "start": 20,
                 "end": 21,
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "typeParams": null
@@ -79,7 +76,7 @@
       },
       "implements": [
         {
-          "type": "TsExprWithTypeArgs",
+          "type": "TsExpressionWithTypeArguments",
           "span": {
             "start": 34,
             "end": 40,
@@ -88,28 +85,28 @@
           "expr": {
             "type": "TsQualifiedName",
             "left": {
+              "type": "Identifier",
               "span": {
                 "start": 34,
                 "end": 35,
                 "ctxt": 0
               },
               "value": "X",
-              "typeAnnotation": null,
               "optional": false
             },
             "right": {
+              "type": "Identifier",
               "span": {
                 "start": 36,
                 "end": 37,
                 "ctxt": 0
               },
               "value": "Y",
-              "typeAnnotation": null,
               "optional": false
             }
           },
           "typeParams": {
-            "type": "TsTypeParamInstantiation",
+            "type": "TsTypeParameterInstantiation",
             "span": {
               "start": 37,
               "end": 40,
@@ -117,20 +114,20 @@
             },
             "params": [
               {
-                "type": "TsTypeRef",
+                "type": "TsTypeReference",
                 "span": {
                   "start": 38,
                   "end": 39,
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 38,
                     "end": 39,
                     "ctxt": 0
                   },
                   "value": "T",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": null
@@ -140,6 +137,5 @@
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -7,46 +7,42 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 27,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
           "span": {
             "start": 14,
             "end": 17,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 15,
               "ctxt": 0
             },
             "value": "m",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 14,
               "end": 17,
@@ -54,37 +50,31 @@
             },
             "body": null,
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 22,
             "end": 25,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 22,
               "end": 23,
               "ctxt": 0
             },
             "value": "n",
-            "typeAnnotation": null,
             "optional": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 22,
               "end": 25,
@@ -92,23 +82,15 @@
             },
             "body": null,
             "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
+            "async": false
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

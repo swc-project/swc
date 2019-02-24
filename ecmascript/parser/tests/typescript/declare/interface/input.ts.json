@@ -7,20 +7,20 @@
   },
   "body": [
     {
-      "type": "TsInterfaceDecl",
+      "type": "TsInterfaceDeclaration",
       "span": {
         "start": 18,
         "end": 22,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 18,
           "end": 19,
           "ctxt": 0
         },
         "value": "I",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": true,
@@ -36,6 +36,5 @@
         "body": []
       }
     }
-  ],
-  "shebang": null
+  ]
 }

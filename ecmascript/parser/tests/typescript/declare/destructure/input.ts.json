@@ -23,7 +23,7 @@
             "end": 48,
             "ctxt": 0
           },
-          "name": {
+          "id": {
             "type": "ObjectPattern",
             "span": {
               "start": 14,
@@ -39,16 +39,15 @@
                   "ctxt": 0
                 },
                 "key": {
+                  "type": "Identifier",
                   "span": {
                     "start": 16,
                     "end": 17,
                     "ctxt": 0
                   },
                   "value": "x",
-                  "typeAnnotation": null,
                   "optional": false
-                },
-                "value": null
+                }
               },
               {
                 "type": "AssignPatternProperty",
@@ -58,19 +57,18 @@
                   "ctxt": 0
                 },
                 "key": {
+                  "type": "Identifier",
                   "span": {
                     "start": 19,
                     "end": 20,
                     "ctxt": 0
                   },
                   "value": "y",
-                  "typeAnnotation": null,
                   "optional": false
-                },
-                "value": null
+                }
               }
             ],
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 22,
@@ -78,7 +76,7 @@
                 "ctxt": 0
               },
               "type_annotation": {
-                "type": "TsTypeLit",
+                "type": "TsTypeLiteral",
                 "span": {
                   "start": 24,
                   "end": 48,
@@ -94,13 +92,13 @@
                     },
                     "readonly": false,
                     "key": {
+                      "type": "Identifier",
                       "span": {
                         "start": 26,
                         "end": 27,
                         "ctxt": 0
                       },
                       "value": "x",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -135,13 +133,13 @@
                     },
                     "readonly": false,
                     "key": {
+                      "type": "Identifier",
                       "span": {
                         "start": 37,
                         "end": 38,
                         "ctxt": 0
                       },
                       "value": "y",
-                      "typeAnnotation": null,
                       "optional": false
                     },
                     "computed": false,
@@ -171,11 +169,9 @@
               }
             }
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

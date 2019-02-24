@@ -7,99 +7,86 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 84,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
-          "type": "ClassProperty",
           "span": {
             "start": 14,
             "end": 16,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 15,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
           "definite": false
         },
         {
-          "type": "ClassProperty",
           "span": {
             "start": 21,
             "end": 24,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 21,
               "end": 22,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
           "readonly": false,
           "definite": false
         },
         {
-          "type": "ClassProperty",
           "span": {
             "start": 29,
             "end": 39,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 29,
               "end": 30,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -118,29 +105,26 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
           "definite": false
         },
         {
-          "type": "ClassProperty",
           "span": {
             "start": 44,
             "end": 58,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 44,
               "end": 45,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
           "value": {
@@ -170,60 +154,51 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
           "definite": false
         },
         {
-          "type": "ClassProperty",
           "span": {
             "start": 63,
             "end": 66,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 63,
               "end": 64,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
-          "typeAnn": null,
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
           "definite": true
         },
         {
-          "type": "ClassProperty",
           "span": {
             "start": 71,
             "end": 82,
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 71,
               "end": 72,
               "ctxt": 0
             },
             "value": "x",
-            "typeAnnotation": null,
             "optional": false
           },
-          "value": null,
           "typeAnn": {
             "type": "TsTypeAnnotation",
             "span": {
@@ -242,21 +217,14 @@
             }
           },
           "isStatic": false,
-          "decorators": [],
           "computed": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
           "readonly": false,
           "definite": true
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

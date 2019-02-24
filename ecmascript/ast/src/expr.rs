@@ -13,7 +13,7 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
-use serde::Serialize;
+use serde::{self, Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
 use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
@@ -81,14 +81,21 @@ pub enum Expr {
     Paren(ParenExpr),
 
     JSXMebmer(JSXMemberExpr),
+
     JSXNamespacedName(JSXNamespacedName),
+
     JSXEmpty(JSXEmptyExpr),
+
     JSXElement(JSXElement),
+
     JSXFragment(JSXFragment),
 
     TsTypeAssertion(TsTypeAssertion),
+
     TsNonNull(TsNonNullExpr),
+
     TsTypeCast(TsTypeCastExpr),
+
     TsAs(TsAsExpr),
 
     PrivateName(PrivateName),
@@ -106,7 +113,8 @@ pub struct ThisExpr {
 pub struct ArrayLit {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename = "elements")]
+
+    #[serde(default, rename = "elements", skip_serializing_if = "Vec::is_empty")]
     pub elems: Vec<(Option<ExprOrSpread>)>,
 }
 
@@ -115,7 +123,8 @@ pub struct ArrayLit {
 pub struct ObjectLit {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename = "properties")]
+
+    #[serde(default, rename = "properties", skip_serializing_if = "Vec::is_empty")]
     pub props: Vec<PropOrSpread>,
 }
 
@@ -131,6 +140,7 @@ pub struct SpreadElement {
     #[serde(rename = "spread")]
     #[span(lo)]
     pub dot3_token: Span,
+
     #[serde(rename = "arguments")]
     #[span(hi)]
     pub expr: Box<Expr>,
@@ -155,6 +165,7 @@ pub struct UpdateExpr {
 
     #[serde(rename = "operator")]
     pub op: UpdateOp,
+
     pub prefix: bool,
 
     #[serde(rename = "argument")]
@@ -177,6 +188,7 @@ pub struct BinExpr {
 /// Function expression.
 #[ast_node("FunctionExpression")]
 pub struct FnExpr {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub ident: Option<Ident>,
 
     #[serde(flatten)]
@@ -187,6 +199,7 @@ pub struct FnExpr {
 /// Class expression.
 #[ast_node("ClassExpression")]
 pub struct ClassExpr {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub ident: Option<Ident>,
 
     #[serde(flatten)]
@@ -198,9 +211,12 @@ pub struct ClassExpr {
 pub struct AssignExpr {
     #[serde(default)]
     pub span: Span,
+
     #[serde(rename = "operator")]
     pub op: AssignOp,
+
     pub left: PatOrExpr,
+
     pub right: Box<Expr>,
 }
 
@@ -239,10 +255,10 @@ pub struct CallExpr {
 
     pub callee: ExprOrSuper,
 
-    #[serde(rename = "arguments")]
+    #[serde(default, rename = "arguments")]
     pub args: Vec<ExprOrSpread>,
 
-    #[serde(rename = "typeArguments")]
+    #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -251,12 +267,13 @@ pub struct CallExpr {
 pub struct NewExpr {
     #[serde(default)]
     pub span: Span,
+
     pub callee: Box<Expr>,
 
-    #[serde(rename = "arguments")]
+    #[serde(default, rename = "arguments")]
     pub args: Option<(Vec<ExprOrSpread>)>,
 
-    #[serde(rename = "typeArguments")]
+    #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -267,22 +284,32 @@ pub struct SeqExpr {
     pub span: Span,
 
     #[serde(rename = "expressions")]
-    pub exprs: Vec<(Box<Expr>)>,
+    pub exprs: Vec<Box<Expr>>,
 }
 
 #[ast_node("ArrowFunctionExpression")]
 pub struct ArrowExpr {
     #[serde(default)]
     pub span: Span,
+
     pub params: Vec<Pat>,
+
     pub body: BlockStmtOrExpr,
+
     #[serde(rename = "async")]
     pub is_async: bool,
+
     #[serde(rename = "generator")]
     pub is_generator: bool,
 
-    #[serde(rename = "typeParameters")]
+    #[serde(
+        default,
+        rename = "typeParameters",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_params: Option<TsTypeParamDecl>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub return_type: Option<TsTypeAnn>,
 }
 
@@ -291,15 +318,18 @@ pub struct YieldExpr {
     #[serde(default)]
     pub span: Span,
 
-    #[serde(rename = "argument")]
-    pub arg: Option<(Box<Expr>)>,
+    #[serde(default, rename = "argument", skip_serializing_if = "Option::is_none")]
+    pub arg: Option<Box<Expr>>,
 
+    #[serde(default)]
     pub delegate: bool,
 }
+
 #[ast_node("MetaProperty")]
 pub struct MetaPropExpr {
     #[span(lo)]
     pub meta: Ident,
+
     #[serde(rename = "property")]
     #[span(hi)]
     pub prop: Ident,
@@ -320,7 +350,7 @@ pub struct Tpl {
     pub span: Span,
 
     #[serde(rename = "expressions")]
-    pub exprs: Vec<(Box<Expr>)>,
+    pub exprs: Vec<Box<Expr>>,
 
     pub quasis: Vec<TplElement>,
 }
@@ -333,10 +363,14 @@ pub struct TaggedTpl {
     pub tag: Box<Expr>,
 
     #[serde(rename = "expressions")]
-    pub exprs: Vec<(Box<Expr>)>,
+    pub exprs: Vec<Box<Expr>>,
     pub quasis: Vec<TplElement>,
 
-    #[serde(rename = "typeParameters")]
+    #[serde(
+        default,
+        rename = "typeParameters",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -349,26 +383,30 @@ pub struct TplElement {
     pub raw: Str,
 }
 
-#[ast_node]
+#[ast_node("ParenthesisExpression")]
 pub struct ParenExpr {
     #[serde(default)]
     pub span: Span,
+
     pub expr: Box<Expr>,
 }
 
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum ExprOrSuper {
-    Super(Span),
     Expr(Box<Expr>),
+    Super(Span),
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "fold", derive(Fold))]
 pub struct ExprOrSpread {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub spread: Option<Span>,
+
     pub expr: Box<Expr>,
 }
+
 impl Spanned for ExprOrSpread {
     fn span(&self) -> Span {
         let expr = self.expr.span();
@@ -388,8 +426,9 @@ pub enum BlockStmtOrExpr {
 
 #[ast_node]
 pub enum PatOrExpr {
-    Pat(Box<Pat>),
+    // order is important for proper deserialization.
     Expr(Box<Expr>),
+    Pat(Box<Pat>),
 }
 
 impl From<bool> for Expr {
@@ -427,3 +466,37 @@ impl From<Str> for Expr {
         Expr::Lit(Lit::Str(v))
     }
 }
+
+test_de!(
+    jsx_element,
+    JSXElement,
+    r#"{
+      "type": "JSXElement",
+      "span": {
+        "start": 0,
+        "end": 5,
+        "ctxt": 0
+      },
+      "opening": {
+        "type": "JSXOpeningElement",
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 2,
+            "ctxt": 0
+          },
+          "value": "a",
+          "optional": false
+        },
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "selfClosing": true
+      },
+      "children": [],
+      "closing": null
+    }"#
+);

@@ -7,24 +7,23 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 124,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
           "type": "Constructor",
@@ -34,17 +33,18 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 25,
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 26,
                 "end": 27,
@@ -71,6 +71,7 @@
               "optional": false
             },
             {
+              "type": "Identifier",
               "span": {
                 "start": 37,
                 "end": 38,
@@ -97,8 +98,6 @@
               "optional": false
             }
           ],
-          "body": null,
-          "accessibility": null,
           "isOptional": false
         },
         {
@@ -109,17 +108,18 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 53,
               "end": 64,
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 65,
                 "end": 66,
@@ -146,6 +146,7 @@
               "optional": false
             },
             {
+              "type": "Identifier",
               "span": {
                 "start": 76,
                 "end": 77,
@@ -172,8 +173,6 @@
               "optional": false
             }
           ],
-          "body": null,
-          "accessibility": null,
           "isOptional": false
         },
         {
@@ -184,17 +183,18 @@
             "ctxt": 0
           },
           "key": {
+            "type": "Identifier",
             "span": {
               "start": 92,
               "end": 103,
               "ctxt": 0
             },
             "value": "constructor",
-            "typeAnnotation": null,
             "optional": false
           },
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 104,
                 "end": 105,
@@ -221,6 +221,7 @@
               "optional": false
             },
             {
+              "type": "Identifier",
               "span": {
                 "start": 112,
                 "end": 113,
@@ -256,16 +257,10 @@
             },
             "stmts": []
           },
-          "accessibility": null,
           "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

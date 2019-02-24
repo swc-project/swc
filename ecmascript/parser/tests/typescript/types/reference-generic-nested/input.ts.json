@@ -23,7 +23,8 @@
             "end": 27,
             "ctxt": 0
           },
-          "name": {
+          "id": {
+            "type": "Identifier",
             "span": {
               "start": 4,
               "end": 5,
@@ -38,24 +39,24 @@
                 "ctxt": 0
               },
               "type_annotation": {
-                "type": "TsTypeRef",
+                "type": "TsTypeReference",
                 "span": {
                   "start": 7,
                   "end": 27,
                   "ctxt": 0
                 },
                 "typeName": {
+                  "type": "Identifier",
                   "span": {
                     "start": 7,
                     "end": 12,
                     "ctxt": 0
                   },
                   "value": "Array",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 "typeParams": {
-                  "type": "TsTypeParamInstantiation",
+                  "type": "TsTypeParameterInstantiation",
                   "span": {
                     "start": 12,
                     "end": 27,
@@ -63,24 +64,24 @@
                   },
                   "params": [
                     {
-                      "type": "TsTypeRef",
+                      "type": "TsTypeReference",
                       "span": {
                         "start": 13,
                         "end": 26,
                         "ctxt": 0
                       },
                       "typeName": {
+                        "type": "Identifier",
                         "span": {
                           "start": 13,
                           "end": 18,
                           "ctxt": 0
                         },
                         "value": "Array",
-                        "typeAnnotation": null,
                         "optional": false
                       },
                       "typeParams": {
-                        "type": "TsTypeParamInstantiation",
+                        "type": "TsTypeParameterInstantiation",
                         "span": {
                           "start": 18,
                           "end": 26,
@@ -105,11 +106,9 @@
             },
             "optional": false
           },
-          "init": null,
           "definite": false
         }
       ]
     }
-  ],
-  "shebang": null
+  ]
 }

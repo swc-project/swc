@@ -14,16 +14,15 @@
         "ctxt": 0
       },
       "expr": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 10,
           "ctxt": 0
         },
         "value": "f",
-        "typeAnnotation": null,
         "optional": false
       }
     }
-  ],
-  "shebang": null
+  ]
 }

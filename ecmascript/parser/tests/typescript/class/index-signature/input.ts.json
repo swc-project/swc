@@ -7,29 +7,29 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 64,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
           "type": "TsIndexSignature",
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 15,
                 "end": 16,
@@ -84,6 +84,7 @@
           "type": "TsIndexSignature",
           "params": [
             {
+              "type": "Identifier",
               "span": {
                 "start": 46,
                 "end": 47,
@@ -135,12 +136,7 @@
           }
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

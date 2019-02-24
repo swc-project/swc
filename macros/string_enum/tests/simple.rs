@@ -9,10 +9,8 @@ pub trait Assert: Debug + Display {}
 pub enum Tokens {
     ///`a`
     A,
-    ///`struct-like`
-    StructLike {},
-    /// `tuple-like`
-    TupleLike(u8),
+    /// `b`
+    B,
 }
 
 impl Assert for Tokens {}
@@ -20,8 +18,7 @@ impl Assert for Tokens {}
 #[test]
 fn as_str() {
     assert_eq!(Tokens::A.as_str(), "a");
-    assert_eq!(Tokens::StructLike {}.as_str(), "struct-like");
-    assert_eq!(Tokens::TupleLike(13).as_str(), "tuple-like");
+    assert_eq!(Tokens::B.as_str(), "b");
 }
 
 #[test]

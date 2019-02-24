@@ -15,6 +15,7 @@
       },
       "params": [
         {
+          "type": "Identifier",
           "span": {
             "start": 10,
             "end": 11,
@@ -29,20 +30,20 @@
               "ctxt": 0
             },
             "type_annotation": {
-              "type": "TsTypeRef",
+              "type": "TsTypeReference",
               "span": {
                 "start": 13,
                 "end": 14,
                 "ctxt": 0
               },
               "typeName": {
+                "type": "Identifier",
                 "span": {
                   "start": 13,
                   "end": 14,
                   "ctxt": 0
                 },
                 "value": "T",
-                "typeAnnotation": null,
                 "optional": false
               },
               "typeParams": null
@@ -52,13 +53,13 @@
         }
       ],
       "body": {
+        "type": "Identifier",
         "span": {
           "start": 22,
           "end": 23,
           "ctxt": 0
         },
         "value": "a",
-        "typeAnnotation": null,
         "optional": false
       },
       "async": true,
@@ -72,20 +73,20 @@
         },
         "parameters": [
           {
-            "type": "TsTypeParam",
+            "type": "TsTypeParameter",
             "span": {
               "start": 7,
               "end": 8,
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
               "value": "T",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -101,26 +102,25 @@
           "ctxt": 0
         },
         "type_annotation": {
-          "type": "TsTypeRef",
+          "type": "TsTypeReference",
           "span": {
             "start": 17,
             "end": 18,
             "ctxt": 0
           },
           "typeName": {
+            "type": "Identifier",
             "span": {
               "start": 17,
               "end": 18,
               "ctxt": 0
             },
             "value": "T",
-            "typeAnnotation": null,
             "optional": false
           },
           "typeParams": null
         }
       }
     }
-  ],
-  "shebang": null
+  ]
 }

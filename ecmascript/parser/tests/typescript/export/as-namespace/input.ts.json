@@ -7,23 +7,22 @@
   },
   "body": [
     {
-      "type": "TsNamespaceExportDecl",
+      "type": "TsNamespaceExportDeclaration",
       "span": {
         "start": 0,
         "end": 22,
         "ctxt": 0
       },
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 20,
           "end": 21,
           "ctxt": 0
         },
         "value": "A",
-        "typeAnnotation": null,
         "optional": false
       }
     }
-  ],
-  "shebang": null
+  ]
 }

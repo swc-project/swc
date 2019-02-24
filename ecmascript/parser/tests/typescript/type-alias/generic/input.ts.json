@@ -7,7 +7,7 @@
   },
   "body": [
     {
-      "type": "TsTypeAliasDecl",
+      "type": "TsTypeAliasDeclaration",
       "span": {
         "start": 0,
         "end": 14,
@@ -15,13 +15,13 @@
       },
       "declare": false,
       "id": {
+        "type": "Identifier",
         "span": {
           "start": 5,
           "end": 6,
           "ctxt": 0
         },
         "value": "T",
-        "typeAnnotation": null,
         "optional": false
       },
       "typeParams": {
@@ -33,20 +33,20 @@
         },
         "parameters": [
           {
-            "type": "TsTypeParam",
+            "type": "TsTypeParameter",
             "span": {
               "start": 7,
               "end": 8,
               "ctxt": 0
             },
             "name": {
+              "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
               "value": "U",
-              "typeAnnotation": null,
               "optional": false
             },
             "constraint": null,
@@ -55,25 +55,24 @@
         ]
       },
       "typeAnn": {
-        "type": "TsTypeRef",
+        "type": "TsTypeReference",
         "span": {
           "start": 12,
           "end": 13,
           "ctxt": 0
         },
         "typeName": {
+          "type": "Identifier",
           "span": {
             "start": 12,
             "end": 13,
             "ctxt": 0
           },
           "value": "U",
-          "typeAnnotation": null,
           "optional": false
         },
         "typeParams": null
       }
     }
-  ],
-  "shebang": null
+  ]
 }

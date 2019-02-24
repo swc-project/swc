@@ -25,7 +25,11 @@ pub struct ArrayPat {
     #[serde(rename = "elements")]
     pub elems: Vec<(Option<Pat>)>,
 
-    #[serde(rename = "type_annotation")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -37,7 +41,11 @@ pub struct ObjectPat {
     #[serde(rename = "properties")]
     pub props: Vec<ObjectPatProp>,
 
-    #[serde(rename = "type_annotation")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -50,7 +58,11 @@ pub struct AssignPat {
 
     pub right: Box<Expr>,
 
-    #[serde(rename = "typeAnnotation")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -64,7 +76,11 @@ pub struct RestPat {
     #[span(hi)]
     pub arg: Box<Pat>,
 
-    #[serde(rename = "typeAnnotation")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -91,5 +107,6 @@ pub struct AssignPatProp {
     pub span: Span,
     pub key: Ident,
 
-    pub value: Option<(Box<Expr>)>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub value: Option<Box<Expr>>,
 }

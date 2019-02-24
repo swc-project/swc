@@ -209,13 +209,26 @@ impl Fold<Vec<ModuleItem>> for Strip {
             | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
             | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
             | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsEnum(..)))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsInterface(..)))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsModule(..)))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(Decl::TsTypeAlias(..)))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
-                ExportDefaultDecl::TsInterfaceDecl(..),
-            ))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::TsEnum(..),
+                ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::TsInterface(..),
+                ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::TsModule(..),
+                ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::TsTypeAlias(..),
+                ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                decl: DefaultDecl::TsInterfaceDecl(..),
+                ..
+            }))
             | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..)) => None,
 
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
@@ -240,9 +253,15 @@ impl Fold<Vec<ModuleItem>> for Strip {
                 ))
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => Some(
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export.expr).fold_with(self)),
-            ),
+            ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
+                Some(ModuleItem::ModuleDecl(
+                    ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                        span: export.span(),
+                        expr: export.expr,
+                    })
+                    .fold_with(self),
+                ))
+            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                 // if specifier become empty, we remove export statement.
 

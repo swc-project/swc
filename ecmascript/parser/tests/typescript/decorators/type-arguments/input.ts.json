@@ -7,18 +7,18 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 27,
           "end": 31,
           "ctxt": 0
         },
         "value": "Test",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 21,
         "end": 34,
@@ -32,7 +32,7 @@
             "end": 20,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "CallExpression",
             "span": {
               "start": 1,
@@ -40,13 +40,13 @@
               "ctxt": 0
             },
             "callee": {
+              "type": "Identifier",
               "span": {
                 "start": 1,
                 "end": 10,
                 "ctxt": 0
               },
               "value": "decorator",
-              "typeAnnotation": null,
               "optional": false
             },
             "arguments": [],
@@ -54,13 +54,7 @@
           }
         }
       ],
-      "body": [],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }

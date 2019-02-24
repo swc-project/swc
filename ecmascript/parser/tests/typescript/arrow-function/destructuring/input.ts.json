@@ -30,13 +30,13 @@
                 "ctxt": 0
               },
               "key": {
+                "type": "Identifier",
                 "span": {
                   "start": 3,
                   "end": 4,
                   "ctxt": 0
                 },
                 "value": "a",
-                "typeAnnotation": null,
                 "optional": false
               },
               "value": {
@@ -49,8 +49,7 @@
                 "value": 0.0
               }
             }
-          ],
-          "type_annotation": null
+          ]
         }
       ],
       "body": {
@@ -63,10 +62,7 @@
         "value": 0.0
       },
       "async": false,
-      "generator": false,
-      "typeParameters": null,
-      "returnType": null
+      "generator": false
     }
-  ],
-  "shebang": null
+  ]
 }

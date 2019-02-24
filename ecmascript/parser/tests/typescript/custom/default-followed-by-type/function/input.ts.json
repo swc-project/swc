@@ -7,18 +7,18 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 9,
           "end": 13,
           "ctxt": 0
         },
         "value": "func",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Function",
       "params": [
         {
           "type": "AssignmentPattern",
@@ -28,6 +28,7 @@
             "ctxt": 0
           },
           "left": {
+            "type": "Identifier",
             "span": {
               "start": 14,
               "end": 22,
@@ -62,10 +63,10 @@
             },
             "value": "Hello",
             "hasEscape": false
-          },
-          "typeAnnotation": null
+          }
         },
         {
+          "type": "Identifier",
           "span": {
             "start": 42,
             "end": 48,
@@ -92,7 +93,6 @@
           "optional": false
         }
       ],
-      "decorators": [],
       "span": {
         "start": 0,
         "end": 98,
@@ -122,23 +122,23 @@
               },
               "expressions": [
                 {
+                  "type": "Identifier",
                   "span": {
                     "start": 74,
                     "end": 82,
                     "ctxt": 0
                   },
                   "value": "greeting",
-                  "typeAnnotation": null,
                   "optional": false
                 },
                 {
+                  "type": "Identifier",
                   "span": {
                     "start": 86,
                     "end": 92,
                     "ctxt": 0
                   },
                   "value": "target",
-                  "typeAnnotation": null,
                   "optional": false
                 }
               ],
@@ -236,9 +236,7 @@
         ]
       },
       "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async": false
     },
     {
       "type": "EmptyStatement",
@@ -248,6 +246,5 @@
         "ctxt": 0
       }
     }
-  ],
-  "shebang": null
+  ]
 }

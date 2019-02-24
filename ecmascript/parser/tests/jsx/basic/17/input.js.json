@@ -16,13 +16,13 @@
       "opening": {
         "type": "JSXOpeningElement",
         "name": {
+          "type": "Identifier",
           "span": {
             "start": 1,
             "end": 4,
             "ctxt": 0
           },
           "value": "div",
-          "typeAnnotation": null,
           "optional": false
         },
         "span": {
@@ -39,23 +39,21 @@
               "ctxt": 0
             },
             "arguments": {
+              "type": "Identifier",
               "span": {
                 "start": 9,
                 "end": 14,
                 "ctxt": 0
               },
               "value": "props",
-              "typeAnnotation": null,
               "optional": false
             }
           }
         ],
-        "selfClosing": true,
-        "typeArguments": null
+        "selfClosing": true
       },
       "children": [],
       "closing": null
     }
-  ],
-  "shebang": null
+  ]
 }

@@ -7,27 +7,25 @@
   },
   "body": [
     {
-      "ident": {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
         "span": {
           "start": 6,
           "end": 7,
           "ctxt": 0
         },
         "value": "C",
-        "typeAnnotation": null,
         "optional": false
       },
       "declare": false,
-      "type": "Class",
       "span": {
         "start": 0,
         "end": 74,
         "ctxt": 0
       },
-      "decorators": [],
       "body": [
         {
-          "type": "ClassMethod",
           "span": {
             "start": 14,
             "end": 40,
@@ -41,31 +39,29 @@
               "ctxt": 0
             },
             "object": {
+              "type": "Identifier",
               "span": {
                 "start": 15,
                 "end": 21,
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
+              "type": "Identifier",
               "span": {
                 "start": 22,
                 "end": 30,
                 "ctxt": 0
               },
               "value": "iterator",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 14,
               "end": 40,
@@ -74,7 +70,6 @@
             "body": null,
             "generator": false,
             "async": false,
-            "typeParameters": null,
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -95,12 +90,10 @@
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": false
         },
         {
-          "type": "ClassMethod",
           "span": {
             "start": 45,
             "end": 72,
@@ -114,31 +107,29 @@
               "ctxt": 0
             },
             "object": {
+              "type": "Identifier",
               "span": {
                 "start": 46,
                 "end": 52,
                 "ctxt": 0
               },
               "value": "Symbol",
-              "typeAnnotation": null,
               "optional": false
             },
             "property": {
+              "type": "Identifier",
               "span": {
                 "start": 53,
                 "end": 61,
                 "ctxt": 0
               },
               "value": "iterator",
-              "typeAnnotation": null,
               "optional": false
             },
             "computed": false
           },
           "function": {
-            "type": "Function",
             "params": [],
-            "decorators": [],
             "span": {
               "start": 45,
               "end": 72,
@@ -147,7 +138,6 @@
             "body": null,
             "generator": false,
             "async": false,
-            "typeParameters": null,
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -168,17 +158,11 @@
           },
           "kind": "method",
           "isStatic": false,
-          "accessibility": null,
           "isAbstract": false,
           "isOptional": true
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "isAbstract": false
     }
-  ],
-  "shebang": null
+  ]
 }
