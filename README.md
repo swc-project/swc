@@ -62,7 +62,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 [Become a backer](https://opencollective.com/swc#backer) and get your image on our README on Github with a link to your site.
 
 <a href="https://opencollective.com/webpack/backer/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/webpack/backer/0/avatar.svg?requireActive=false"></a>
-
+<a href="https://opencollective.com/webpack/backer/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/webpack/backer/1/avatar.svg?requireActive=false"></a>
 
 # Documentation
 
