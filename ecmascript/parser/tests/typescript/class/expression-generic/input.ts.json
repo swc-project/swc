@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 31,
@@ -6,114 +7,106 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Expr": {
-          "ParenthesizedExpression": {
-            "span": {
-              "start": 0,
-              "end": 13,
-              "ctxt": 0
-            },
-            "expr": {
-              "ClassExpression": {
+      "type": "ParenthesisExpression",
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expr": {
+        "type": "ClassExpression",
+        "span": {
+          "start": 1,
+          "end": 12,
+          "ctxt": 0
+        },
+        "isAbstract": false,
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 6,
+            "end": 9,
+            "ctxt": 0
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
                 "span": {
-                  "start": 1,
-                  "end": 12,
+                  "start": 7,
+                  "end": 8,
                   "ctxt": 0
                 },
-                "isAbstract": false,
-                "typeParams": {
-                  "span": {
-                    "start": 6,
-                    "end": 9,
-                    "ctxt": 0
-                  },
-                  "parameters": [
-                    {
-                      "span": {
-                        "start": 7,
-                        "end": 8,
-                        "ctxt": 0
-                      },
-                      "name": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 7,
-                          "end": 8,
-                          "ctxt": 0
-                        },
-                        "value": "T",
-                        "optional": false
-                      },
-                      "constraint": null,
-                      "default": null
-                    }
-                  ]
-                }
-              }
+                "value": "T",
+                "optional": false
+              },
+              "constraint": null,
+              "default": null
             }
-          }
+          ]
         }
       }
     },
     {
-      "Stmt": {
-        "Expr": {
-          "ParenthesizedExpression": {
-            "span": {
-              "start": 15,
-              "end": 30,
-              "ctxt": 0
-            },
-            "expr": {
-              "ClassExpression": {
-                "ident": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 22,
-                    "end": 23,
-                    "ctxt": 0
-                  },
-                  "value": "C",
-                  "optional": false
-                },
+      "type": "ParenthesisExpression",
+      "span": {
+        "start": 15,
+        "end": 30,
+        "ctxt": 0
+      },
+      "expr": {
+        "type": "ClassExpression",
+        "ident": {
+          "type": "Identifier",
+          "span": {
+            "start": 22,
+            "end": 23,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        },
+        "span": {
+          "start": 16,
+          "end": 29,
+          "ctxt": 0
+        },
+        "isAbstract": false,
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 23,
+            "end": 26,
+            "ctxt": 0
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 24,
+                "end": 25,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
                 "span": {
-                  "start": 16,
-                  "end": 29,
+                  "start": 24,
+                  "end": 25,
                   "ctxt": 0
                 },
-                "isAbstract": false,
-                "typeParams": {
-                  "span": {
-                    "start": 23,
-                    "end": 26,
-                    "ctxt": 0
-                  },
-                  "parameters": [
-                    {
-                      "span": {
-                        "start": 24,
-                        "end": 25,
-                        "ctxt": 0
-                      },
-                      "name": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 24,
-                          "end": 25,
-                          "ctxt": 0
-                        },
-                        "value": "T",
-                        "optional": false
-                      },
-                      "constraint": null,
-                      "default": null
-                    }
-                  ]
-                }
-              }
+                "value": "T",
+                "optional": false
+              },
+              "constraint": null,
+              "default": null
             }
-          }
+          ]
         }
       }
     }

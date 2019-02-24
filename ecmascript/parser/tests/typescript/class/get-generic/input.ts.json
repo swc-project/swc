@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 39,
@@ -6,112 +7,105 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 14,
-                "end": 15,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": true,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 14,
+          "end": 15,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 8,
+        "end": 39,
+        "ctxt": 0
+      },
+      "body": [
+        {
+          "span": {
+            "start": 22,
+            "end": 37,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 39,
+              "start": 22,
+              "end": 25,
               "ctxt": 0
             },
-            "body": [
-              {
-                "type": "Method",
-                "span": {
-                  "start": 22,
-                  "end": 37,
-                  "ctxt": 0
-                },
-                "key": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 22,
-                      "end": 25,
-                      "ctxt": 0
-                    },
-                    "value": "get",
-                    "optional": false
-                  }
-                },
-                "function": {
-                  "params": [],
-                  "decorators": [],
+            "value": "get",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "span": {
+              "start": 22,
+              "end": 37,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 25,
+                "end": 28,
+                "ctxt": 0
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParameter",
                   "span": {
-                    "start": 22,
-                    "end": 37,
+                    "start": 26,
+                    "end": 27,
                     "ctxt": 0
                   },
-                  "body": null,
-                  "generator": false,
-                  "async": false,
-                  "typeParameters": {
+                  "name": {
+                    "type": "Identifier",
                     "span": {
-                      "start": 25,
-                      "end": 28,
+                      "start": 26,
+                      "end": 27,
                       "ctxt": 0
                     },
-                    "parameters": [
-                      {
-                        "span": {
-                          "start": 26,
-                          "end": 27,
-                          "ctxt": 0
-                        },
-                        "name": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 26,
-                            "end": 27,
-                            "ctxt": 0
-                          },
-                          "value": "T",
-                          "optional": false
-                        },
-                        "constraint": null,
-                        "default": null
-                      }
-                    ]
+                    "value": "T",
+                    "optional": false
                   },
-                  "returnType": {
-                    "span": {
-                      "start": 30,
-                      "end": 36,
-                      "ctxt": 0
-                    },
-                    "type_annotation": {
-                      "TsKeywordType": {
-                        "span": {
-                          "start": 32,
-                          "end": 36,
-                          "ctxt": 0
-                        },
-                        "kind": "void"
-                      }
-                    }
-                  }
+                  "constraint": null,
+                  "default": null
+                }
+              ]
+            },
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 30,
+                "end": 36,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 32,
+                  "end": 36,
+                  "ctxt": 0
                 },
-                "kind": "method",
-                "isStatic": false,
-                "isAbstract": false,
-                "isOptional": false
+                "kind": "void"
               }
-            ],
-            "isAbstract": false
-          }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "isAbstract": false,
+          "isOptional": false
         }
-      }
+      ],
+      "isAbstract": false
     }
   ]
 }

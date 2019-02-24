@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 171,
@@ -6,299 +7,256 @@
   },
   "body": [
     {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "FunctionDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 16,
-                "end": 51,
-                "ctxt": 0
-              },
-              "value": "DirectiveIserviceIdPrefixController",
-              "optional": false
-            },
-            "declare": false,
-            "params": [
-              {
-                "Ident": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 52,
-                    "end": 56,
-                    "ctxt": 0
-                  },
-                  "value": "this",
-                  "typeAnnotation": {
-                    "span": {
-                      "start": 56,
-                      "end": 61,
-                      "ctxt": 0
-                    },
-                    "type_annotation": {
-                      "TsKeywordType": {
-                        "span": {
-                          "start": 58,
-                          "end": 61,
-                          "ctxt": 0
-                        },
-                        "kind": "any"
-                      }
-                    }
-                  },
-                  "optional": false
-                }
-              },
-              {
-                "Ident": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 63,
-                    "end": 69,
-                    "ctxt": 0
-                  },
-                  "value": "$scope",
-                  "typeAnnotation": {
-                    "span": {
-                      "start": 69,
-                      "end": 85,
-                      "ctxt": 0
-                    },
-                    "type_annotation": {
-                      "TsTypeRef": {
-                        "span": {
-                          "start": 71,
-                          "end": 85,
-                          "ctxt": 0
-                        },
-                        "typeName": {
-                          "TsQualifiedName": {
-                            "left": {
-                              "Ident": {
-                                "type": "Identifier",
-                                "span": {
-                                  "start": 71,
-                                  "end": 78,
-                                  "ctxt": 0
-                                },
-                                "value": "angular",
-                                "optional": false
-                              }
-                            },
-                            "right": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 79,
-                                "end": 85,
-                                "ctxt": 0
-                              },
-                              "value": "IScope",
-                              "optional": false
-                            }
-                          }
-                        },
-                        "typeParams": null
-                      }
-                    }
-                  },
-                  "optional": false
-                }
-              },
-              {
-                "Ident": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 87,
-                    "end": 93,
-                    "ctxt": 0
-                  },
-                  "value": "$attrs",
-                  "typeAnnotation": {
-                    "span": {
-                      "start": 93,
-                      "end": 114,
-                      "ctxt": 0
-                    },
-                    "type_annotation": {
-                      "TsTypeRef": {
-                        "span": {
-                          "start": 95,
-                          "end": 114,
-                          "ctxt": 0
-                        },
-                        "typeName": {
-                          "TsQualifiedName": {
-                            "left": {
-                              "Ident": {
-                                "type": "Identifier",
-                                "span": {
-                                  "start": 95,
-                                  "end": 102,
-                                  "ctxt": 0
-                                },
-                                "value": "angular",
-                                "optional": false
-                              }
-                            },
-                            "right": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 103,
-                                "end": 114,
-                                "ctxt": 0
-                              },
-                              "value": "IAttributes",
-                              "optional": false
-                            }
-                          }
-                        },
-                        "typeParams": null
-                      }
-                    }
-                  },
-                  "optional": false
-                }
-              }
-            ],
-            "decorators": [],
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": "DirectiveIserviceIdPrefixController",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Identifier",
+          "span": {
+            "start": 52,
+            "end": 56,
+            "ctxt": 0
+          },
+          "value": "this",
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
             "span": {
-              "start": 7,
-              "end": 171,
+              "start": 56,
+              "end": 61,
               "ctxt": 0
             },
-            "body": {
+            "type_annotation": {
+              "type": "TsKeywordType",
               "span": {
-                "start": 116,
-                "end": 171,
+                "start": 58,
+                "end": 61,
                 "ctxt": 0
               },
-              "stmts": [
-                {
-                  "Expr": {
-                    "AssignmentExpression": {
-                      "span": {
-                        "start": 122,
-                        "end": 142,
-                        "ctxt": 0
-                      },
-                      "operator": "=",
-                      "left": {
-                        "Pat": {
-                          "Expr": {
-                            "MemberExpression": {
-                              "span": {
-                                "start": 126,
-                                "end": 133,
-                                "ctxt": 0
-                              },
-                              "object": {
-                                "ThisExpression": {
-                                  "span": {
-                                    "start": 122,
-                                    "end": 126,
-                                    "ctxt": 0
-                                  }
-                                }
-                              },
-                              "property": {
-                                "Identifier": {
-                                  "type": "Identifier",
-                                  "span": {
-                                    "start": 127,
-                                    "end": 133,
-                                    "ctxt": 0
-                                  },
-                                  "value": "$scope",
-                                  "optional": false
-                                }
-                              },
-                              "computed": false
-                            }
-                          }
-                        }
-                      },
-                      "right": {
-                        "Identifier": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 136,
-                            "end": 142,
-                            "ctxt": 0
-                          },
-                          "value": "$scope",
-                          "optional": false
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "Expr": {
-                    "AssignmentExpression": {
-                      "span": {
-                        "start": 148,
-                        "end": 168,
-                        "ctxt": 0
-                      },
-                      "operator": "=",
-                      "left": {
-                        "Pat": {
-                          "Expr": {
-                            "MemberExpression": {
-                              "span": {
-                                "start": 152,
-                                "end": 159,
-                                "ctxt": 0
-                              },
-                              "object": {
-                                "ThisExpression": {
-                                  "span": {
-                                    "start": 148,
-                                    "end": 152,
-                                    "ctxt": 0
-                                  }
-                                }
-                              },
-                              "property": {
-                                "Identifier": {
-                                  "type": "Identifier",
-                                  "span": {
-                                    "start": 153,
-                                    "end": 159,
-                                    "ctxt": 0
-                                  },
-                                  "value": "$attrs",
-                                  "optional": false
-                                }
-                              },
-                              "computed": false
-                            }
-                          }
-                        }
-                      },
-                      "right": {
-                        "Identifier": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 162,
-                            "end": 168,
-                            "ctxt": 0
-                          },
-                          "value": "$attrs",
-                          "optional": false
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
+              "kind": "any"
+            }
+          },
+          "optional": false
+        },
+        {
+          "type": "Identifier",
+          "span": {
+            "start": 63,
+            "end": 69,
+            "ctxt": 0
+          },
+          "value": "$scope",
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 69,
+              "end": 85,
+              "ctxt": 0
             },
-            "generator": false,
-            "async": false
-          }
+            "type_annotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 71,
+                "end": 85,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "TsQualifiedName",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 71,
+                    "end": 78,
+                    "ctxt": 0
+                  },
+                  "value": "angular",
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 79,
+                    "end": 85,
+                    "ctxt": 0
+                  },
+                  "value": "IScope",
+                  "optional": false
+                }
+              },
+              "typeParams": null
+            }
+          },
+          "optional": false
+        },
+        {
+          "type": "Identifier",
+          "span": {
+            "start": 87,
+            "end": 93,
+            "ctxt": 0
+          },
+          "value": "$attrs",
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 93,
+              "end": 114,
+              "ctxt": 0
+            },
+            "type_annotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 95,
+                "end": 114,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "TsQualifiedName",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 95,
+                    "end": 102,
+                    "ctxt": 0
+                  },
+                  "value": "angular",
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 103,
+                    "end": 114,
+                    "ctxt": 0
+                  },
+                  "value": "IAttributes",
+                  "optional": false
+                }
+              },
+              "typeParams": null
+            }
+          },
+          "optional": false
         }
-      }
+      ],
+      "span": {
+        "start": 7,
+        "end": 171,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 116,
+          "end": 171,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 122,
+              "end": 142,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 126,
+                "end": 133,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "ThisExpression",
+                "span": {
+                  "start": 122,
+                  "end": 126,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 127,
+                  "end": 133,
+                  "ctxt": 0
+                },
+                "value": "$scope",
+                "optional": false
+              },
+              "computed": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 136,
+                "end": 142,
+                "ctxt": 0
+              },
+              "value": "$scope",
+              "optional": false
+            }
+          },
+          {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 148,
+              "end": 168,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 152,
+                "end": 159,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "ThisExpression",
+                "span": {
+                  "start": 148,
+                  "end": 152,
+                  "ctxt": 0
+                }
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 153,
+                  "end": 159,
+                  "ctxt": 0
+                },
+                "value": "$attrs",
+                "optional": false
+              },
+              "computed": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 162,
+                "end": 168,
+                "ctxt": 0
+              },
+              "value": "$attrs",
+              "optional": false
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false
     }
   ]
 }

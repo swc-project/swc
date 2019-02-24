@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 64,
@@ -6,132 +7,111 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "TsModuleDeclaration": {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 0,
+        "end": 64,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 15,
+          "end": 18,
+          "ctxt": 0
+        },
+        "value": "m",
+        "hasEscape": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 19,
+          "end": 64,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsModuleDeclaration",
             "span": {
-              "start": 0,
-              "end": 64,
+              "start": 25,
+              "end": 62,
               "ctxt": 0
             },
             "declare": true,
-            "global": false,
+            "global": true,
             "id": {
-              "Str": {
-                "span": {
-                  "start": 15,
-                  "end": 18,
-                  "ctxt": 0
-                },
-                "value": "m",
-                "hasEscape": false
-              }
+              "type": "Identifier",
+              "span": {
+                "start": 25,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": "global",
+              "optional": false
             },
             "body": {
-              "TsModuleBlock": {
-                "span": {
-                  "start": 19,
-                  "end": 64,
-                  "ctxt": 0
-                },
-                "body": [
-                  {
-                    "Stmt": {
-                      "Decl": {
-                        "TsModuleDeclaration": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 32,
+                "end": 62,
+                "ctxt": 0
+              },
+              "body": [
+                {
+                  "type": "VariableDeclaration",
+                  "span": {
+                    "start": 42,
+                    "end": 56,
+                    "ctxt": 0
+                  },
+                  "kind": "var",
+                  "declare": true,
+                  "declarations": [
+                    {
+                      "type": "VariableDeclarator",
+                      "span": {
+                        "start": 46,
+                        "end": 55,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 46,
+                          "end": 47,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "typeAnnotation": {
+                          "type": "TsTypeAnnotation",
                           "span": {
-                            "start": 25,
-                            "end": 62,
+                            "start": 47,
+                            "end": 55,
                             "ctxt": 0
                           },
-                          "declare": true,
-                          "global": true,
-                          "id": {
-                            "Ident": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 25,
-                                "end": 31,
-                                "ctxt": 0
-                              },
-                              "value": "global",
-                              "optional": false
-                            }
-                          },
-                          "body": {
-                            "TsModuleBlock": {
-                              "span": {
-                                "start": 32,
-                                "end": 62,
-                                "ctxt": 0
-                              },
-                              "body": [
-                                {
-                                  "Stmt": {
-                                    "Decl": {
-                                      "VariableDeclaration": {
-                                        "span": {
-                                          "start": 42,
-                                          "end": 56,
-                                          "ctxt": 0
-                                        },
-                                        "kind": "var",
-                                        "declare": true,
-                                        "declarations": [
-                                          {
-                                            "span": {
-                                              "start": 46,
-                                              "end": 55,
-                                              "ctxt": 0
-                                            },
-                                            "id": {
-                                              "Ident": {
-                                                "type": "Identifier",
-                                                "span": {
-                                                  "start": 46,
-                                                  "end": 47,
-                                                  "ctxt": 0
-                                                },
-                                                "value": "x",
-                                                "typeAnnotation": {
-                                                  "span": {
-                                                    "start": 47,
-                                                    "end": 55,
-                                                    "ctxt": 0
-                                                  },
-                                                  "type_annotation": {
-                                                    "TsKeywordType": {
-                                                      "span": {
-                                                        "start": 49,
-                                                        "end": 55,
-                                                        "ctxt": 0
-                                                      },
-                                                      "kind": "number"
-                                                    }
-                                                  }
-                                                },
-                                                "optional": false
-                                              }
-                                            },
-                                            "definite": false
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  }
-                                }
-                              ]
-                            }
+                          "type_annotation": {
+                            "type": "TsKeywordType",
+                            "span": {
+                              "start": 49,
+                              "end": 55,
+                              "ctxt": 0
+                            },
+                            "kind": "number"
                           }
-                        }
-                      }
+                        },
+                        "optional": false
+                      },
+                      "definite": false
                     }
-                  }
-                ]
-              }
+                  ]
+                }
+              ]
             }
           }
-        }
+        ]
       }
     }
   ]

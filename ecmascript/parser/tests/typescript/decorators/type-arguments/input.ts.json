@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 34,
@@ -6,61 +7,54 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 27,
-                "end": 31,
-                "ctxt": 0
-              },
-              "value": "Test",
-              "optional": false
-            },
-            "declare": false,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "Test",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 21,
+        "end": 34,
+        "ctxt": 0
+      },
+      "decorators": [
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 0,
+            "end": 20,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "CallExpression",
             "span": {
-              "start": 21,
-              "end": 34,
+              "start": 1,
+              "end": 20,
               "ctxt": 0
             },
-            "decorators": [
-              {
-                "span": {
-                  "start": 0,
-                  "end": 20,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "CallExpression": {
-                    "span": {
-                      "start": 1,
-                      "end": 20,
-                      "ctxt": 0
-                    },
-                    "callee": {
-                      "Identifier": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 1,
-                          "end": 10,
-                          "ctxt": 0
-                        },
-                        "value": "decorator",
-                        "optional": false
-                      }
-                    },
-                    "arguments": [],
-                    "typeArguments": null
-                  }
-                }
-              }
-            ],
-            "isAbstract": false
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 1,
+                "end": 10,
+                "ctxt": 0
+              },
+              "value": "decorator",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
           }
         }
-      }
+      ],
+      "isAbstract": false
     }
   ]
 }

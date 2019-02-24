@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 160,
@@ -6,368 +7,319 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 37,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 36,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 37,
+              "start": 4,
+              "end": 9,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "union",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 9,
+                "end": 36,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsUnionType",
                 "span": {
-                  "start": 4,
+                  "start": 11,
                   "end": 36,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
+                "types": [
+                  {
+                    "type": "TsKeywordType",
                     "span": {
-                      "start": 4,
-                      "end": 9,
+                      "start": 11,
+                      "end": 17,
                       "ctxt": 0
                     },
-                    "value": "union",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 9,
-                        "end": 36,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsUnionOrIntersectionType": {
-                          "TsUnionType": {
-                            "span": {
-                              "start": 11,
-                              "end": 36,
-                              "ctxt": 0
-                            },
-                            "types": [
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 11,
-                                    "end": 17,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "number"
-                                }
-                              },
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 20,
-                                    "end": 24,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "null"
-                                }
-                              },
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 27,
-                                    "end": 36,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "undefined"
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
+                    "kind": "number"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 20,
+                      "end": 24,
+                      "ctxt": 0
                     },
-                    "optional": false
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 27,
+                      "end": 36,
+                      "ctxt": 0
+                    },
+                    "kind": "undefined"
                   }
-                },
-                "definite": false
+                ]
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     },
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 38,
+        "end": 72,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 42,
+            "end": 71,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 38,
-              "end": 72,
+              "start": 42,
+              "end": 54,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "intersection",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 54,
+                "end": 71,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsIntersectionType",
                 "span": {
-                  "start": 42,
+                  "start": 56,
                   "end": 71,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
+                "types": [
+                  {
+                    "type": "TsKeywordType",
                     "span": {
-                      "start": 42,
-                      "end": 54,
+                      "start": 56,
+                      "end": 62,
                       "ctxt": 0
                     },
-                    "value": "intersection",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 54,
-                        "end": 71,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsUnionOrIntersectionType": {
-                          "TsIntersectionType": {
-                            "span": {
-                              "start": 56,
-                              "end": 71,
-                              "ctxt": 0
-                            },
-                            "types": [
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 56,
-                                    "end": 62,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "number"
-                                }
-                              },
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 65,
-                                    "end": 71,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "string"
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
+                    "kind": "number"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 65,
+                      "end": 71,
+                      "ctxt": 0
                     },
-                    "optional": false
+                    "kind": "string"
                   }
-                },
-                "definite": false
+                ]
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     },
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 73,
+        "end": 116,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 77,
+            "end": 115,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 73,
-              "end": 116,
+              "start": 77,
+              "end": 88,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "precedence1",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 88,
+                "end": 115,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsUnionType",
                 "span": {
-                  "start": 77,
+                  "start": 90,
                   "end": 115,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
+                "types": [
+                  {
+                    "type": "TsKeywordType",
                     "span": {
-                      "start": 77,
-                      "end": 88,
+                      "start": 90,
+                      "end": 96,
                       "ctxt": 0
                     },
-                    "value": "precedence1",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 88,
-                        "end": 115,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsUnionOrIntersectionType": {
-                          "TsUnionType": {
-                            "span": {
-                              "start": 90,
-                              "end": 115,
-                              "ctxt": 0
-                            },
-                            "types": [
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 90,
-                                    "end": 96,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "number"
-                                }
-                              },
-                              {
-                                "TsUnionOrIntersectionType": {
-                                  "TsIntersectionType": {
-                                    "span": {
-                                      "start": 99,
-                                      "end": 115,
-                                      "ctxt": 0
-                                    },
-                                    "types": [
-                                      {
-                                        "TsKeywordType": {
-                                          "span": {
-                                            "start": 99,
-                                            "end": 105,
-                                            "ctxt": 0
-                                          },
-                                          "kind": "string"
-                                        }
-                                      },
-                                      {
-                                        "TsKeywordType": {
-                                          "span": {
-                                            "start": 108,
-                                            "end": 115,
-                                            "ctxt": 0
-                                          },
-                                          "kind": "boolean"
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
+                    "kind": "number"
+                  },
+                  {
+                    "type": "TsIntersectionType",
+                    "span": {
+                      "start": 99,
+                      "end": 115,
+                      "ctxt": 0
                     },
-                    "optional": false
+                    "types": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 99,
+                          "end": 105,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 108,
+                          "end": 115,
+                          "ctxt": 0
+                        },
+                        "kind": "boolean"
+                      }
+                    ]
                   }
-                },
-                "definite": false
+                ]
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     },
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 117,
+        "end": 160,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 121,
+            "end": 159,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 117,
-              "end": 160,
+              "start": 121,
+              "end": 132,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "precedence2",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 132,
+                "end": 159,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsUnionType",
                 "span": {
-                  "start": 121,
+                  "start": 134,
                   "end": 159,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
+                "types": [
+                  {
+                    "type": "TsIntersectionType",
                     "span": {
-                      "start": 121,
-                      "end": 132,
+                      "start": 134,
+                      "end": 149,
                       "ctxt": 0
                     },
-                    "value": "precedence2",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 132,
-                        "end": 159,
-                        "ctxt": 0
+                    "types": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 134,
+                          "end": 140,
+                          "ctxt": 0
+                        },
+                        "kind": "number"
                       },
-                      "type_annotation": {
-                        "TsUnionOrIntersectionType": {
-                          "TsUnionType": {
-                            "span": {
-                              "start": 134,
-                              "end": 159,
-                              "ctxt": 0
-                            },
-                            "types": [
-                              {
-                                "TsUnionOrIntersectionType": {
-                                  "TsIntersectionType": {
-                                    "span": {
-                                      "start": 134,
-                                      "end": 149,
-                                      "ctxt": 0
-                                    },
-                                    "types": [
-                                      {
-                                        "TsKeywordType": {
-                                          "span": {
-                                            "start": 134,
-                                            "end": 140,
-                                            "ctxt": 0
-                                          },
-                                          "kind": "number"
-                                        }
-                                      },
-                                      {
-                                        "TsKeywordType": {
-                                          "span": {
-                                            "start": 143,
-                                            "end": 149,
-                                            "ctxt": 0
-                                          },
-                                          "kind": "string"
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 152,
-                                    "end": 159,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "boolean"
-                                }
-                              }
-                            ]
-                          }
-                        }
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 143,
+                          "end": 149,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
                       }
+                    ]
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 152,
+                      "end": 159,
+                      "ctxt": 0
                     },
-                    "optional": false
+                    "kind": "boolean"
                   }
-                },
-                "definite": false
+                ]
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 65,
@@ -6,185 +7,169 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "TsInterfaceDeclaration": {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 10,
+        "end": 65,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "I",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 12,
+          "end": 65,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsMethodSignature",
             "span": {
-              "start": 10,
-              "end": 65,
+              "start": 18,
+              "end": 22,
               "ctxt": 0
             },
-            "id": {
+            "readonly": false,
+            "key": {
               "type": "Identifier",
               "span": {
-                "start": 10,
-                "end": 11,
+                "start": 18,
+                "end": 19,
                 "ctxt": 0
               },
-              "value": "I",
+              "value": "m",
               "optional": false
             },
-            "declare": false,
-            "typeParams": null,
-            "extends": [],
-            "body": {
+            "computed": false,
+            "optional": false,
+            "params": [],
+            "typeAnn": null,
+            "typeParams": null
+          },
+          {
+            "type": "TsMethodSignature",
+            "span": {
+              "start": 27,
+              "end": 63,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
               "span": {
-                "start": 12,
-                "end": 65,
+                "start": 27,
+                "end": 28,
                 "ctxt": 0
               },
-              "body": [
-                {
-                  "TsMethodSignature": {
+              "value": "m",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 29,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 31,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "type_annotation": {
+                    "type": "TsKeywordType",
                     "span": {
-                      "start": 18,
-                      "end": 22,
+                      "start": 33,
+                      "end": 39,
                       "ctxt": 0
                     },
-                    "readonly": false,
-                    "key": {
-                      "Identifier": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 18,
-                          "end": 19,
-                          "ctxt": 0
-                        },
-                        "value": "m",
-                        "optional": false
-                      }
-                    },
-                    "computed": false,
-                    "optional": false,
-                    "params": [],
-                    "typeAnn": null,
-                    "typeParams": null
+                    "kind": "number"
                   }
                 },
-                {
-                  "TsMethodSignature": {
+                "optional": true
+              },
+              {
+                "type": "RestElement",
+                "dot3Token": {
+                  "start": 41,
+                  "end": 44,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 44,
+                    "end": 45,
+                    "ctxt": 0
+                  },
+                  "value": "y",
+                  "optional": false
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 45,
+                    "end": 55,
+                    "ctxt": 0
+                  },
+                  "type_annotation": {
+                    "type": "TsArrayType",
                     "span": {
-                      "start": 27,
-                      "end": 63,
+                      "start": 47,
+                      "end": 55,
                       "ctxt": 0
                     },
-                    "readonly": false,
-                    "key": {
-                      "Identifier": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 27,
-                          "end": 28,
-                          "ctxt": 0
-                        },
-                        "value": "m",
-                        "optional": false
-                      }
-                    },
-                    "computed": false,
-                    "optional": false,
-                    "params": [
-                      {
-                        "Ident": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 29,
-                            "end": 30,
-                            "ctxt": 0
-                          },
-                          "value": "x",
-                          "typeAnnotation": {
-                            "span": {
-                              "start": 31,
-                              "end": 39,
-                              "ctxt": 0
-                            },
-                            "type_annotation": {
-                              "TsKeywordType": {
-                                "span": {
-                                  "start": 33,
-                                  "end": 39,
-                                  "ctxt": 0
-                                },
-                                "kind": "number"
-                              }
-                            }
-                          },
-                          "optional": true
-                        }
-                      },
-                      {
-                        "Rest": {
-                          "dot3Token": {
-                            "start": 41,
-                            "end": 44,
-                            "ctxt": 0
-                          },
-                          "argument": {
-                            "Ident": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 44,
-                                "end": 45,
-                                "ctxt": 0
-                              },
-                              "value": "y",
-                              "optional": false
-                            }
-                          },
-                          "typeAnnotation": {
-                            "span": {
-                              "start": 45,
-                              "end": 55,
-                              "ctxt": 0
-                            },
-                            "type_annotation": {
-                              "TsArrayType": {
-                                "span": {
-                                  "start": 47,
-                                  "end": 55,
-                                  "ctxt": 0
-                                },
-                                "elemType": {
-                                  "TsKeywordType": {
-                                    "span": {
-                                      "start": 47,
-                                      "end": 53,
-                                      "ctxt": 0
-                                    },
-                                    "kind": "number"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "typeAnn": {
+                    "elemType": {
+                      "type": "TsKeywordType",
                       "span": {
-                        "start": 56,
-                        "end": 62,
+                        "start": 47,
+                        "end": 53,
                         "ctxt": 0
                       },
-                      "type_annotation": {
-                        "TsKeywordType": {
-                          "span": {
-                            "start": 58,
-                            "end": 62,
-                            "ctxt": 0
-                          },
-                          "kind": "void"
-                        }
-                      }
-                    },
-                    "typeParams": null
+                      "kind": "number"
+                    }
                   }
                 }
-              ]
-            }
+              }
+            ],
+            "typeAnn": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 56,
+                "end": 62,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 58,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            },
+            "typeParams": null
           }
-        }
+        ]
       }
     }
   ]

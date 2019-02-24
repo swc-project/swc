@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 20,
@@ -6,76 +7,68 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 20,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 19,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 20,
+              "start": 4,
+              "end": 7,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "arr",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 7,
+                "end": 19,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsArrayType",
                 "span": {
-                  "start": 4,
+                  "start": 9,
                   "end": 19,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
+                "elemType": {
+                  "type": "TsArrayType",
+                  "span": {
+                    "start": 9,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "elemType": {
+                    "type": "TsKeywordType",
                     "span": {
-                      "start": 4,
-                      "end": 7,
+                      "start": 9,
+                      "end": 15,
                       "ctxt": 0
                     },
-                    "value": "arr",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 7,
-                        "end": 19,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsArrayType": {
-                          "span": {
-                            "start": 9,
-                            "end": 19,
-                            "ctxt": 0
-                          },
-                          "elemType": {
-                            "TsArrayType": {
-                              "span": {
-                                "start": 9,
-                                "end": 17,
-                                "ctxt": 0
-                              },
-                              "elemType": {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 9,
-                                    "end": 15,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "number"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "optional": false
+                    "kind": "number"
                   }
-                },
-                "definite": false
+                }
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     }
   ]
 }

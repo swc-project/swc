@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 18,
@@ -6,139 +7,118 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Expr": {
-          "CallExpression": {
+      "type": "CallExpression",
+      "span": {
+        "start": 0,
+        "end": 6,
+        "ctxt": 0
+      },
+      "callee": {
+        "type": "Identifier",
+        "span": {
+          "start": 0,
+          "end": 1,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "arguments": [],
+      "typeArguments": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 1,
+          "end": 4,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsTypeReference",
             "span": {
-              "start": 0,
-              "end": 6,
+              "start": 2,
+              "end": 3,
               "ctxt": 0
             },
-            "callee": {
-              "Identifier": {
-                "type": "Identifier",
-                "span": {
-                  "start": 0,
-                  "end": 1,
-                  "ctxt": 0
-                },
-                "value": "f",
-                "optional": false
-              }
-            },
-            "arguments": [],
-            "typeArguments": {
+            "typeName": {
+              "type": "Identifier",
               "span": {
-                "start": 1,
-                "end": 4,
+                "start": 2,
+                "end": 3,
                 "ctxt": 0
               },
-              "params": [
-                {
-                  "TsTypeRef": {
-                    "span": {
-                      "start": 2,
-                      "end": 3,
-                      "ctxt": 0
-                    },
-                    "typeName": {
-                      "Ident": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 2,
-                          "end": 3,
-                          "ctxt": 0
-                        },
-                        "value": "T",
-                        "optional": false
-                      }
-                    },
-                    "typeParams": null
-                  }
-                }
-              ]
-            }
+              "value": "T",
+              "optional": false
+            },
+            "typeParams": null
           }
-        }
+        ]
       }
     },
     {
-      "Stmt": {
-        "Expr": {
-          "CallExpression": {
+      "type": "CallExpression",
+      "span": {
+        "start": 8,
+        "end": 17,
+        "ctxt": 0
+      },
+      "callee": {
+        "type": "Identifier",
+        "span": {
+          "start": 8,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "arguments": [],
+      "typeArguments": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 9,
+          "end": 15,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsTypeReference",
             "span": {
-              "start": 8,
-              "end": 17,
+              "start": 10,
+              "end": 11,
               "ctxt": 0
             },
-            "callee": {
-              "Identifier": {
-                "type": "Identifier",
-                "span": {
-                  "start": 8,
-                  "end": 9,
-                  "ctxt": 0
-                },
-                "value": "f",
-                "optional": false
-              }
-            },
-            "arguments": [],
-            "typeArguments": {
+            "typeName": {
+              "type": "Identifier",
               "span": {
-                "start": 9,
-                "end": 15,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
-              "params": [
-                {
-                  "TsTypeRef": {
-                    "span": {
-                      "start": 10,
-                      "end": 11,
-                      "ctxt": 0
-                    },
-                    "typeName": {
-                      "Ident": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 10,
-                          "end": 11,
-                          "ctxt": 0
-                        },
-                        "value": "T",
-                        "optional": false
-                      }
-                    },
-                    "typeParams": null
-                  }
-                },
-                {
-                  "TsTypeRef": {
-                    "span": {
-                      "start": 13,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "typeName": {
-                      "Ident": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 13,
-                          "end": 14,
-                          "ctxt": 0
-                        },
-                        "value": "U",
-                        "optional": false
-                      }
-                    },
-                    "typeParams": null
-                  }
-                }
-              ]
-            }
+              "value": "T",
+              "optional": false
+            },
+            "typeParams": null
+          },
+          {
+            "type": "TsTypeReference",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "typeName": {
+              "type": "Identifier",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "U",
+              "optional": false
+            },
+            "typeParams": null
           }
-        }
+        ]
       }
     }
   ]

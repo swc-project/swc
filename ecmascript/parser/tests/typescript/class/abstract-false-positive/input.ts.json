@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 63,
     "end": 87,
@@ -6,20 +7,14 @@
   },
   "body": [
     {
-      "ModuleDecl": {
-        "ExportDefaultExpr": {
-          "Identifier": {
-            "type": "Identifier",
-            "span": {
-              "start": 78,
-              "end": 86,
-              "ctxt": 0
-            },
-            "value": "abstract",
-            "optional": false
-          }
-        }
-      }
+      "type": "Identifier",
+      "span": {
+        "start": 78,
+        "end": 86,
+        "ctxt": 0
+      },
+      "value": "abstract",
+      "optional": false
     }
   ]
 }

@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 16,
@@ -6,38 +7,32 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "TsTypeAliasDeclaration": {
-            "span": {
-              "start": 0,
-              "end": 16,
-              "ctxt": 0
-            },
-            "declare": false,
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 5,
-                "end": 6,
-                "ctxt": 0
-              },
-              "value": "T",
-              "optional": false
-            },
-            "typeParams": null,
-            "typeAnn": {
-              "TsKeywordType": {
-                "span": {
-                  "start": 9,
-                  "end": 15,
-                  "ctxt": 0
-                },
-                "kind": "number"
-              }
-            }
-          }
-        }
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 16,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "T",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnn": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 9,
+          "end": 15,
+          "ctxt": 0
+        },
+        "kind": "number"
       }
     }
   ]

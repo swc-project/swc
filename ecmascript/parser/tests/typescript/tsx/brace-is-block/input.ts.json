@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 99,
     "end": 127,
@@ -6,107 +7,92 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 105,
-                "end": 106,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": false,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 105,
+          "end": 106,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 99,
+        "end": 122,
+        "ctxt": 0
+      },
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 115,
+          "end": 116,
+          "ctxt": 0
+        },
+        "value": "D",
+        "optional": false
+      },
+      "isAbstract": false,
+      "superTypeParams": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 116,
+          "end": 119,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsTypeReference",
             "span": {
-              "start": 99,
-              "end": 122,
+              "start": 117,
+              "end": 118,
               "ctxt": 0
             },
-            "superClass": {
-              "Identifier": {
-                "type": "Identifier",
-                "span": {
-                  "start": 115,
-                  "end": 116,
-                  "ctxt": 0
-                },
-                "value": "D",
-                "optional": false
-              }
-            },
-            "isAbstract": false,
-            "superTypeParams": {
+            "typeName": {
+              "type": "Identifier",
               "span": {
-                "start": 116,
-                "end": 119,
+                "start": 117,
+                "end": 118,
                 "ctxt": 0
               },
-              "params": [
-                {
-                  "TsTypeRef": {
-                    "span": {
-                      "start": 117,
-                      "end": 118,
-                      "ctxt": 0
-                    },
-                    "typeName": {
-                      "Ident": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 117,
-                          "end": 118,
-                          "ctxt": 0
-                        },
-                        "value": "T",
-                        "optional": false
-                      }
-                    },
-                    "typeParams": null
-                  }
-                }
-              ]
-            }
+              "value": "T",
+              "optional": false
+            },
+            "typeParams": null
           }
-        }
+        ]
       }
     },
     {
-      "Stmt": {
-        "Expr": {
-          "JSXElement": {
-            "span": {
-              "start": 123,
-              "end": 127,
-              "ctxt": 0
-            },
-            "opening": {
-              "name": {
-                "Ident": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 124,
-                    "end": 125,
-                    "ctxt": 0
-                  },
-                  "value": "C",
-                  "optional": false
-                }
-              },
-              "span": {
-                "start": 124,
-                "end": 127,
-                "ctxt": 0
-              },
-              "selfClosing": true
-            },
-            "children": [],
-            "closing": null
-          }
-        }
-      }
+      "type": "JSXElement",
+      "span": {
+        "start": 123,
+        "end": 127,
+        "ctxt": 0
+      },
+      "opening": {
+        "type": "JSXOpeningElement",
+        "name": {
+          "type": "Identifier",
+          "span": {
+            "start": 124,
+            "end": 125,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        },
+        "span": {
+          "start": 124,
+          "end": 127,
+          "ctxt": 0
+        },
+        "selfClosing": true
+      },
+      "children": [],
+      "closing": null
     }
   ]
 }

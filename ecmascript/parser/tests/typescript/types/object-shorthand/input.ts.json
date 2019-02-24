@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 87,
@@ -6,209 +7,193 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 87,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 86,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 87,
+              "start": 6,
+              "end": 11,
               "ctxt": 0
             },
-            "kind": "const",
-            "declare": false,
-            "declarations": [
+            "value": "table",
+            "optional": false
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 14,
+              "end": 86,
+              "ctxt": 0
+            },
+            "properties": [
               {
-                "span": {
-                  "start": 6,
-                  "end": 86,
-                  "ctxt": 0
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "put",
+                  "optional": false
                 },
-                "id": {
-                  "Ident": {
+                "params": [
+                  {
                     "type": "Identifier",
                     "span": {
-                      "start": 6,
-                      "end": 11,
+                      "start": 48,
+                      "end": 53,
                       "ctxt": 0
                     },
-                    "value": "table",
-                    "optional": false
-                  }
-                },
-                "init": {
-                  "ObjectExpression": {
-                    "span": {
-                      "start": 14,
-                      "end": 86,
-                      "ctxt": 0
-                    },
-                    "properties": [
-                      {
-                        "Method": {
-                          "key": {
-                            "Ident": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 18,
-                                "end": 21,
-                                "ctxt": 0
-                              },
-                              "value": "put",
-                              "optional": false
-                            }
-                          },
-                          "params": [
-                            {
-                              "Ident": {
-                                "type": "Identifier",
-                                "span": {
-                                  "start": 48,
-                                  "end": 53,
-                                  "ctxt": 0
-                                },
-                                "value": "value",
-                                "typeAnnotation": {
-                                  "span": {
-                                    "start": 53,
-                                    "end": 56,
-                                    "ctxt": 0
-                                  },
-                                  "type_annotation": {
-                                    "TsTypeRef": {
-                                      "span": {
-                                        "start": 55,
-                                        "end": 56,
-                                        "ctxt": 0
-                                      },
-                                      "typeName": {
-                                        "Ident": {
-                                          "type": "Identifier",
-                                          "span": {
-                                            "start": 55,
-                                            "end": 56,
-                                            "ctxt": 0
-                                          },
-                                          "value": "T",
-                                          "optional": false
-                                        }
-                                      },
-                                      "typeParams": null
-                                    }
-                                  }
-                                },
-                                "optional": false
-                              }
-                            }
-                          ],
-                          "decorators": [],
+                    "value": "value",
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 53,
+                        "end": 56,
+                        "ctxt": 0
+                      },
+                      "type_annotation": {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 55,
+                          "end": 56,
+                          "ctxt": 0
+                        },
+                        "typeName": {
+                          "type": "Identifier",
                           "span": {
-                            "start": 18,
-                            "end": 84,
+                            "start": 55,
+                            "end": 56,
                             "ctxt": 0
                           },
-                          "body": {
+                          "value": "T",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    },
+                    "optional": false
+                  }
+                ],
+                "span": {
+                  "start": 18,
+                  "end": 84,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 58,
+                    "end": 84,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": {
+                  "type": "TsTypeParameterDeclaration",
+                  "span": {
+                    "start": 21,
+                    "end": 47,
+                    "ctxt": 0
+                  },
+                  "parameters": [
+                    {
+                      "type": "TsTypeParameter",
+                      "span": {
+                        "start": 22,
+                        "end": 46,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 22,
+                          "end": 23,
+                          "ctxt": 0
+                        },
+                        "value": "T",
+                        "optional": false
+                      },
+                      "constraint": {
+                        "type": "TsTypeLiteral",
+                        "span": {
+                          "start": 32,
+                          "end": 46,
+                          "ctxt": 0
+                        },
+                        "members": [
+                          {
+                            "type": "TsPropertySignature",
                             "span": {
-                              "start": 58,
-                              "end": 84,
+                              "start": 34,
+                              "end": 44,
                               "ctxt": 0
                             },
-                            "stmts": []
-                          },
-                          "generator": false,
-                          "async": false,
-                          "typeParameters": {
-                            "span": {
-                              "start": 21,
-                              "end": 47,
-                              "ctxt": 0
+                            "readonly": false,
+                            "key": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 34,
+                                "end": 36,
+                                "ctxt": 0
+                              },
+                              "value": "id",
+                              "optional": false
                             },
-                            "parameters": [
-                              {
+                            "computed": false,
+                            "optional": false,
+                            "init": null,
+                            "params": [],
+                            "typeAnn": {
+                              "type": "TsTypeAnnotation",
+                              "span": {
+                                "start": 36,
+                                "end": 44,
+                                "ctxt": 0
+                              },
+                              "type_annotation": {
+                                "type": "TsKeywordType",
                                 "span": {
-                                  "start": 22,
-                                  "end": 46,
+                                  "start": 38,
+                                  "end": 44,
                                   "ctxt": 0
                                 },
-                                "name": {
-                                  "type": "Identifier",
-                                  "span": {
-                                    "start": 22,
-                                    "end": 23,
-                                    "ctxt": 0
-                                  },
-                                  "value": "T",
-                                  "optional": false
-                                },
-                                "constraint": {
-                                  "TsTypeLit": {
-                                    "span": {
-                                      "start": 32,
-                                      "end": 46,
-                                      "ctxt": 0
-                                    },
-                                    "members": [
-                                      {
-                                        "TsPropertySignature": {
-                                          "span": {
-                                            "start": 34,
-                                            "end": 44,
-                                            "ctxt": 0
-                                          },
-                                          "readonly": false,
-                                          "key": {
-                                            "Identifier": {
-                                              "type": "Identifier",
-                                              "span": {
-                                                "start": 34,
-                                                "end": 36,
-                                                "ctxt": 0
-                                              },
-                                              "value": "id",
-                                              "optional": false
-                                            }
-                                          },
-                                          "computed": false,
-                                          "optional": false,
-                                          "init": null,
-                                          "params": [],
-                                          "typeAnn": {
-                                            "span": {
-                                              "start": 36,
-                                              "end": 44,
-                                              "ctxt": 0
-                                            },
-                                            "type_annotation": {
-                                              "TsKeywordType": {
-                                                "span": {
-                                                  "start": 38,
-                                                  "end": 44,
-                                                  "ctxt": 0
-                                                },
-                                                "kind": "string"
-                                              }
-                                            }
-                                          },
-                                          "typeParams": null
-                                        }
-                                      }
-                                    ]
-                                  }
-                                },
-                                "default": null
+                                "kind": "string"
                               }
-                            ]
+                            },
+                            "typeParams": null
                           }
-                        }
-                      }
-                    ]
-                  }
-                },
-                "definite": false
+                        ]
+                      },
+                      "default": null
+                    }
+                  ]
+                }
               }
             ]
-          }
+          },
+          "definite": false
         }
-      }
+      ]
     }
   ]
 }

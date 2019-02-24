@@ -45,6 +45,7 @@
       }
     },
     {
+      "type": "FunctionDeclaration",
       "identifier": {
         "type": "Identifier",
         "span": {

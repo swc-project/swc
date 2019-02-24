@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 52,
@@ -6,169 +7,156 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "TsTypeAliasDeclaration": {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 52,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "T",
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 6,
+          "end": 40,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
             "span": {
-              "start": 0,
-              "end": 52,
+              "start": 7,
+              "end": 39,
               "ctxt": 0
             },
-            "declare": false,
-            "id": {
+            "name": {
               "type": "Identifier",
               "span": {
-                "start": 5,
-                "end": 6,
+                "start": 7,
+                "end": 8,
                 "ctxt": 0
               },
-              "value": "T",
+              "value": "U",
               "optional": false
             },
-            "typeParams": {
+            "constraint": {
+              "type": "TsKeywordType",
               "span": {
-                "start": 6,
-                "end": 40,
+                "start": 17,
+                "end": 23,
                 "ctxt": 0
               },
-              "parameters": [
+              "kind": "object"
+            },
+            "default": {
+              "type": "TsTypeLiteral",
+              "span": {
+                "start": 26,
+                "end": 39,
+                "ctxt": 0
+              },
+              "members": [
                 {
+                  "type": "TsPropertySignature",
                   "span": {
-                    "start": 7,
-                    "end": 39,
+                    "start": 28,
+                    "end": 37,
                     "ctxt": 0
                   },
-                  "name": {
+                  "readonly": false,
+                  "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 7,
-                      "end": 8,
+                      "start": 28,
+                      "end": 29,
                       "ctxt": 0
                     },
-                    "value": "U",
+                    "value": "x",
                     "optional": false
                   },
-                  "constraint": {
-                    "TsKeywordType": {
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnn": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 29,
+                      "end": 37,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "type": "TsKeywordType",
                       "span": {
-                        "start": 17,
-                        "end": 23,
+                        "start": 31,
+                        "end": 37,
                         "ctxt": 0
                       },
-                      "kind": "object"
+                      "kind": "number"
                     }
                   },
-                  "default": {
-                    "TsTypeLit": {
-                      "span": {
-                        "start": 26,
-                        "end": 39,
-                        "ctxt": 0
-                      },
-                      "members": [
-                        {
-                          "TsPropertySignature": {
-                            "span": {
-                              "start": 28,
-                              "end": 37,
-                              "ctxt": 0
-                            },
-                            "readonly": false,
-                            "key": {
-                              "Identifier": {
-                                "type": "Identifier",
-                                "span": {
-                                  "start": 28,
-                                  "end": 29,
-                                  "ctxt": 0
-                                },
-                                "value": "x",
-                                "optional": false
-                              }
-                            },
-                            "computed": false,
-                            "optional": false,
-                            "init": null,
-                            "params": [],
-                            "typeAnn": {
-                              "span": {
-                                "start": 29,
-                                "end": 37,
-                                "ctxt": 0
-                              },
-                              "type_annotation": {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 31,
-                                    "end": 37,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "number"
-                                }
-                              }
-                            },
-                            "typeParams": null
-                          }
-                        }
-                      ]
-                    }
-                  }
+                  "typeParams": null
                 }
               ]
-            },
-            "typeAnn": {
-              "TsTypeRef": {
-                "span": {
-                  "start": 43,
-                  "end": 51,
-                  "ctxt": 0
-                },
-                "typeName": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 43,
-                      "end": 48,
-                      "ctxt": 0
-                    },
-                    "value": "Array",
-                    "optional": false
-                  }
-                },
-                "typeParams": {
-                  "span": {
-                    "start": 48,
-                    "end": 51,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "TsTypeRef": {
-                        "span": {
-                          "start": 49,
-                          "end": 50,
-                          "ctxt": 0
-                        },
-                        "typeName": {
-                          "Ident": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 49,
-                              "end": 50,
-                              "ctxt": 0
-                            },
-                            "value": "U",
-                            "optional": false
-                          }
-                        },
-                        "typeParams": null
-                      }
-                    }
-                  ]
-                }
-              }
             }
           }
+        ]
+      },
+      "typeAnn": {
+        "type": "TsTypeReference",
+        "span": {
+          "start": 43,
+          "end": 51,
+          "ctxt": 0
+        },
+        "typeName": {
+          "type": "Identifier",
+          "span": {
+            "start": 43,
+            "end": 48,
+            "ctxt": 0
+          },
+          "value": "Array",
+          "optional": false
+        },
+        "typeParams": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 48,
+            "end": 51,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 49,
+                "end": 50,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 49,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "value": "U",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
         }
       }
     }

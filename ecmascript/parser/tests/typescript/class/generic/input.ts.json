@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 44,
@@ -6,119 +7,111 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": false,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 44,
+        "ctxt": 0
+      },
+      "isAbstract": false,
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 7,
+          "end": 41,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
             "span": {
-              "start": 0,
-              "end": 44,
+              "start": 8,
+              "end": 40,
               "ctxt": 0
             },
-            "isAbstract": false,
-            "typeParams": {
+            "name": {
+              "type": "Identifier",
               "span": {
-                "start": 7,
-                "end": 41,
+                "start": 8,
+                "end": 9,
                 "ctxt": 0
               },
-              "parameters": [
+              "value": "T",
+              "optional": false
+            },
+            "constraint": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 18,
+                "end": 24,
+                "ctxt": 0
+              },
+              "kind": "object"
+            },
+            "default": {
+              "type": "TsTypeLiteral",
+              "span": {
+                "start": 27,
+                "end": 40,
+                "ctxt": 0
+              },
+              "members": [
                 {
+                  "type": "TsPropertySignature",
                   "span": {
-                    "start": 8,
-                    "end": 40,
+                    "start": 29,
+                    "end": 38,
                     "ctxt": 0
                   },
-                  "name": {
+                  "readonly": false,
+                  "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 8,
-                      "end": 9,
+                      "start": 29,
+                      "end": 30,
                       "ctxt": 0
                     },
-                    "value": "T",
+                    "value": "x",
                     "optional": false
                   },
-                  "constraint": {
-                    "TsKeywordType": {
+                  "computed": false,
+                  "optional": false,
+                  "init": null,
+                  "params": [],
+                  "typeAnn": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 30,
+                      "end": 38,
+                      "ctxt": 0
+                    },
+                    "type_annotation": {
+                      "type": "TsKeywordType",
                       "span": {
-                        "start": 18,
-                        "end": 24,
+                        "start": 32,
+                        "end": 38,
                         "ctxt": 0
                       },
-                      "kind": "object"
+                      "kind": "number"
                     }
                   },
-                  "default": {
-                    "TsTypeLit": {
-                      "span": {
-                        "start": 27,
-                        "end": 40,
-                        "ctxt": 0
-                      },
-                      "members": [
-                        {
-                          "TsPropertySignature": {
-                            "span": {
-                              "start": 29,
-                              "end": 38,
-                              "ctxt": 0
-                            },
-                            "readonly": false,
-                            "key": {
-                              "Identifier": {
-                                "type": "Identifier",
-                                "span": {
-                                  "start": 29,
-                                  "end": 30,
-                                  "ctxt": 0
-                                },
-                                "value": "x",
-                                "optional": false
-                              }
-                            },
-                            "computed": false,
-                            "optional": false,
-                            "init": null,
-                            "params": [],
-                            "typeAnn": {
-                              "span": {
-                                "start": 30,
-                                "end": 38,
-                                "ctxt": 0
-                              },
-                              "type_annotation": {
-                                "TsKeywordType": {
-                                  "span": {
-                                    "start": 32,
-                                    "end": 38,
-                                    "ctxt": 0
-                                  },
-                                  "kind": "number"
-                                }
-                              }
-                            },
-                            "typeParams": null
-                          }
-                        }
-                      ]
-                    }
-                  }
+                  "typeParams": null
                 }
               ]
             }
           }
-        }
+        ]
       }
     }
   ]

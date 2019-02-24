@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 55,
@@ -6,134 +7,122 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "FunctionDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 17,
-                "end": 18,
-                "ctxt": 0
-              },
-              "value": "f",
-              "optional": false
-            },
-            "declare": true,
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 8,
-              "end": 27,
-              "ctxt": 0
-            },
-            "body": null,
-            "generator": false,
-            "async": false,
-            "returnType": {
-              "span": {
-                "start": 20,
-                "end": 26,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "TsKeywordType": {
-                  "span": {
-                    "start": 22,
-                    "end": 26,
-                    "ctxt": 0
-                  },
-                  "kind": "void"
-                }
-              }
-            }
-          }
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 17,
+          "end": 18,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": true,
+      "params": [],
+      "span": {
+        "start": 8,
+        "end": 27,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 20,
+          "end": 26,
+          "ctxt": 0
+        },
+        "type_annotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 22,
+            "end": 26,
+            "ctxt": 0
+          },
+          "kind": "void"
         }
       }
     },
     {
-      "Stmt": {
-        "Decl": {
-          "FunctionDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 45,
-                "end": 46,
-                "ctxt": 0
-              },
-              "value": "f",
-              "optional": false
-            },
-            "declare": true,
-            "params": [],
-            "decorators": [],
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 45,
+          "end": 46,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": true,
+      "params": [],
+      "span": {
+        "start": 36,
+        "end": 55,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 46,
+          "end": 49,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
             "span": {
-              "start": 36,
-              "end": 55,
+              "start": 47,
+              "end": 48,
               "ctxt": 0
             },
-            "body": null,
-            "generator": false,
-            "async": false,
-            "typeParameters": {
+            "name": {
+              "type": "Identifier",
               "span": {
-                "start": 46,
-                "end": 49,
+                "start": 47,
+                "end": 48,
                 "ctxt": 0
               },
-              "parameters": [
-                {
-                  "span": {
-                    "start": 47,
-                    "end": 48,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 47,
-                      "end": 48,
-                      "ctxt": 0
-                    },
-                    "value": "T",
-                    "optional": false
-                  },
-                  "constraint": null,
-                  "default": null
-                }
-              ]
+              "value": "T",
+              "optional": false
             },
-            "returnType": {
-              "span": {
-                "start": 51,
-                "end": 54,
-                "ctxt": 0
-              },
-              "type_annotation": {
-                "TsTypeRef": {
-                  "span": {
-                    "start": 53,
-                    "end": 54,
-                    "ctxt": 0
-                  },
-                  "typeName": {
-                    "Ident": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 53,
-                        "end": 54,
-                        "ctxt": 0
-                      },
-                      "value": "T",
-                      "optional": false
-                    }
-                  },
-                  "typeParams": null
-                }
-              }
-            }
+            "constraint": null,
+            "default": null
           }
+        ]
+      },
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 51,
+          "end": 54,
+          "ctxt": 0
+        },
+        "type_annotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 53,
+            "end": 54,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 53,
+              "end": 54,
+              "ctxt": 0
+            },
+            "value": "T",
+            "optional": false
+          },
+          "typeParams": null
         }
       }
     }

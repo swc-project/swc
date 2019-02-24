@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 7,
@@ -6,88 +7,82 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Expr": {
-          "TaggedTemplateExpression": {
+      "type": "TaggedTemplateExpression",
+      "span": {
+        "start": 4,
+        "end": 6,
+        "ctxt": 0
+      },
+      "tag": {
+        "type": "Identifier",
+        "span": {
+          "start": 0,
+          "end": 1,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "expressions": [],
+      "quasis": [
+        {
+          "type": "TemplateElement",
+          "span": {
+            "start": 5,
+            "end": 5,
+            "ctxt": 0
+          },
+          "tail": true,
+          "cooked": {
+            "type": "StringLiteral",
             "span": {
-              "start": 4,
-              "end": 6,
+              "start": 5,
+              "end": 5,
               "ctxt": 0
             },
-            "tag": {
-              "Identifier": {
-                "type": "Identifier",
-                "span": {
-                  "start": 0,
-                  "end": 1,
-                  "ctxt": 0
-                },
-                "value": "f",
-                "optional": false
-              }
+            "value": "",
+            "hasEscape": false
+          },
+          "raw": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 5,
+              "end": 5,
+              "ctxt": 0
             },
-            "expressions": [],
-            "quasis": [
-              {
-                "span": {
-                  "start": 5,
-                  "end": 5,
-                  "ctxt": 0
-                },
-                "tail": true,
-                "cooked": {
-                  "span": {
-                    "start": 5,
-                    "end": 5,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "hasEscape": false
-                },
-                "raw": {
-                  "span": {
-                    "start": 5,
-                    "end": 5,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "hasEscape": false
-                }
-              }
-            ],
-            "typeParameters": {
-              "span": {
-                "start": 1,
-                "end": 4,
-                "ctxt": 0
-              },
-              "params": [
-                {
-                  "TsTypeRef": {
-                    "span": {
-                      "start": 2,
-                      "end": 3,
-                      "ctxt": 0
-                    },
-                    "typeName": {
-                      "Ident": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 2,
-                          "end": 3,
-                          "ctxt": 0
-                        },
-                        "value": "T",
-                        "optional": false
-                      }
-                    },
-                    "typeParams": null
-                  }
-                }
-              ]
-            }
+            "value": "",
+            "hasEscape": false
           }
         }
+      ],
+      "typeParameters": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 1,
+          "end": 4,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsTypeReference",
+            "span": {
+              "start": 2,
+              "end": 3,
+              "ctxt": 0
+            },
+            "typeName": {
+              "type": "Identifier",
+              "span": {
+                "start": 2,
+                "end": 3,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "typeParams": null
+          }
+        ]
       }
     }
   ]

@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 14,
@@ -6,46 +7,39 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "TsTypeAliasDeclaration": {
-            "span": {
-              "start": 0,
-              "end": 14,
-              "ctxt": 0
-            },
-            "declare": false,
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 5,
-                "end": 6,
-                "ctxt": 0
-              },
-              "value": "T",
-              "optional": false
-            },
-            "typeParams": null,
-            "typeAnn": {
-              "TsParenthesizedType": {
-                "span": {
-                  "start": 9,
-                  "end": 13,
-                  "ctxt": 0
-                },
-                "typeAnn": {
-                  "TsTypeLit": {
-                    "span": {
-                      "start": 10,
-                      "end": 12,
-                      "ctxt": 0
-                    },
-                    "members": []
-                  }
-                }
-              }
-            }
-          }
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 0,
+        "end": 14,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 5,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "T",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnn": {
+        "type": "TsParenthesizedType",
+        "span": {
+          "start": 9,
+          "end": 13,
+          "ctxt": 0
+        },
+        "typeAnn": {
+          "type": "TsTypeLiteral",
+          "span": {
+            "start": 10,
+            "end": 12,
+            "ctxt": 0
+          },
+          "members": []
         }
       }
     }

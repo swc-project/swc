@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 38,
@@ -6,85 +7,76 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": false,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 38,
+        "ctxt": 0
+      },
+      "body": [
+        {
+          "span": {
+            "start": 21,
+            "end": 36,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 38,
+              "start": 21,
+              "end": 27,
               "ctxt": 0
             },
-            "body": [
-              {
-                "type": "Method",
+            "value": "delete",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "span": {
+              "start": 21,
+              "end": 36,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 29,
+                "end": 35,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsKeywordType",
                 "span": {
-                  "start": 21,
-                  "end": 36,
+                  "start": 31,
+                  "end": 35,
                   "ctxt": 0
                 },
-                "key": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 21,
-                      "end": 27,
-                      "ctxt": 0
-                    },
-                    "value": "delete",
-                    "optional": false
-                  }
-                },
-                "function": {
-                  "params": [],
-                  "decorators": [],
-                  "span": {
-                    "start": 21,
-                    "end": 36,
-                    "ctxt": 0
-                  },
-                  "body": null,
-                  "generator": false,
-                  "async": false,
-                  "returnType": {
-                    "span": {
-                      "start": 29,
-                      "end": 35,
-                      "ctxt": 0
-                    },
-                    "type_annotation": {
-                      "TsKeywordType": {
-                        "span": {
-                          "start": 31,
-                          "end": 35,
-                          "ctxt": 0
-                        },
-                        "kind": "void"
-                      }
-                    }
-                  }
-                },
-                "kind": "method",
-                "isStatic": false,
-                "accessibility": "public",
-                "isAbstract": false,
-                "isOptional": false
+                "kind": "void"
               }
-            ],
-            "isAbstract": false
-          }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": "public",
+          "isAbstract": false,
+          "isOptional": false
         }
-      }
+      ],
+      "isAbstract": false
     }
   ]
 }

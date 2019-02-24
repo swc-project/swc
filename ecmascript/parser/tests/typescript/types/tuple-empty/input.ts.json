@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 10,
@@ -6,58 +7,52 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 10,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 9,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 10,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5,
+                "end": 9,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsTupleType",
                 "span": {
-                  "start": 4,
+                  "start": 7,
                   "end": 9,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 4,
-                      "end": 5,
-                      "ctxt": 0
-                    },
-                    "value": "x",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 5,
-                        "end": 9,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsTupleType": {
-                          "span": {
-                            "start": 7,
-                            "end": 9,
-                            "ctxt": 0
-                          },
-                          "elemTypes": []
-                        }
-                      }
-                    },
-                    "optional": false
-                  }
-                },
-                "definite": false
+                "elemTypes": []
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     }
   ]
 }

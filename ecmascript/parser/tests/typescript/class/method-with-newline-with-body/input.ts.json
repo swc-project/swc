@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 31,
@@ -6,74 +7,66 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": false,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 31,
+        "ctxt": 0
+      },
+      "body": [
+        {
+          "span": {
+            "start": 14,
+            "end": 29,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 31,
+              "start": 14,
+              "end": 15,
               "ctxt": 0
             },
-            "body": [
-              {
-                "type": "Method",
-                "span": {
-                  "start": 14,
-                  "end": 29,
-                  "ctxt": 0
-                },
-                "key": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 14,
-                      "end": 15,
-                      "ctxt": 0
-                    },
-                    "value": "m",
-                    "optional": false
-                  }
-                },
-                "function": {
-                  "params": [],
-                  "decorators": [],
-                  "span": {
-                    "start": 14,
-                    "end": 29,
-                    "ctxt": 0
-                  },
-                  "body": {
-                    "span": {
-                      "start": 22,
-                      "end": 29,
-                      "ctxt": 0
-                    },
-                    "stmts": []
-                  },
-                  "generator": false,
-                  "async": false
-                },
-                "kind": "method",
-                "isStatic": false,
-                "isAbstract": false,
-                "isOptional": false
-              }
-            ],
-            "isAbstract": false
-          }
+            "value": "m",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "span": {
+              "start": 14,
+              "end": 29,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 22,
+                "end": 29,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false
+          },
+          "kind": "method",
+          "isStatic": false,
+          "isAbstract": false,
+          "isOptional": false
         }
-      }
+      ],
+      "isAbstract": false
     }
   ]
 }

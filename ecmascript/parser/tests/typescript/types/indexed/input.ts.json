@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 12,
@@ -6,101 +7,89 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 12,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 11,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 12,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5,
+                "end": 11,
+                "ctxt": 0
+              },
+              "type_annotation": {
+                "type": "TsIndexedAccessType",
                 "span": {
-                  "start": 4,
+                  "start": 7,
                   "end": 11,
                   "ctxt": 0
                 },
-                "id": {
-                  "Ident": {
+                "objType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 7,
+                    "end": 8,
+                    "ctxt": 0
+                  },
+                  "typeName": {
                     "type": "Identifier",
                     "span": {
-                      "start": 4,
-                      "end": 5,
+                      "start": 7,
+                      "end": 8,
                       "ctxt": 0
                     },
-                    "value": "x",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 5,
-                        "end": 11,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsIndexedAccessType": {
-                          "span": {
-                            "start": 7,
-                            "end": 11,
-                            "ctxt": 0
-                          },
-                          "objType": {
-                            "TsTypeRef": {
-                              "span": {
-                                "start": 7,
-                                "end": 8,
-                                "ctxt": 0
-                              },
-                              "typeName": {
-                                "Ident": {
-                                  "type": "Identifier",
-                                  "span": {
-                                    "start": 7,
-                                    "end": 8,
-                                    "ctxt": 0
-                                  },
-                                  "value": "T",
-                                  "optional": false
-                                }
-                              },
-                              "typeParams": null
-                            }
-                          },
-                          "indexType": {
-                            "TsTypeRef": {
-                              "span": {
-                                "start": 9,
-                                "end": 10,
-                                "ctxt": 0
-                              },
-                              "typeName": {
-                                "Ident": {
-                                  "type": "Identifier",
-                                  "span": {
-                                    "start": 9,
-                                    "end": 10,
-                                    "ctxt": 0
-                                  },
-                                  "value": "K",
-                                  "optional": false
-                                }
-                              },
-                              "typeParams": null
-                            }
-                          }
-                        }
-                      }
-                    },
+                    "value": "T",
                     "optional": false
-                  }
+                  },
+                  "typeParams": null
                 },
-                "definite": false
+                "indexType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 9,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 9,
+                      "end": 10,
+                      "ctxt": 0
+                    },
+                    "value": "K",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
               }
-            ]
-          }
+            },
+            "optional": false
+          },
+          "definite": false
         }
-      }
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 211,
@@ -6,271 +7,228 @@
   },
   "body": [
     {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "VariableDeclaration": {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 31,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 21,
+            "end": 30,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 15,
-              "end": 31,
+              "start": 21,
+              "end": 22,
               "ctxt": 0
             },
-            "kind": "const",
-            "declare": true,
-            "declarations": [
-              {
-                "span": {
-                  "start": 21,
-                  "end": 30,
-                  "ctxt": 0
-                },
-                "id": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 21,
-                      "end": 22,
-                      "ctxt": 0
-                    },
-                    "value": "x",
-                    "typeAnnotation": {
-                      "span": {
-                        "start": 22,
-                        "end": 30,
-                        "ctxt": 0
-                      },
-                      "type_annotation": {
-                        "TsKeywordType": {
-                          "span": {
-                            "start": 24,
-                            "end": 30,
-                            "ctxt": 0
-                          },
-                          "kind": "number"
-                        }
-                      }
-                    },
-                    "optional": false
-                  }
-                },
-                "definite": false
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "FunctionDeclaration": {
-            "identifier": {
-              "type": "Identifier",
+            "value": "x",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
               "span": {
-                "start": 56,
-                "end": 57,
-                "ctxt": 0
-              },
-              "value": "f",
-              "optional": false
-            },
-            "declare": false,
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 47,
-              "end": 66,
-              "ctxt": 0
-            },
-            "body": null,
-            "generator": false,
-            "async": false,
-            "returnType": {
-              "span": {
-                "start": 59,
-                "end": 65,
+                "start": 22,
+                "end": 30,
                 "ctxt": 0
               },
               "type_annotation": {
-                "TsKeywordType": {
-                  "span": {
-                    "start": 61,
-                    "end": 65,
-                    "ctxt": 0
-                  },
-                  "kind": "void"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 88,
-                "end": 89,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": false,
-            "span": {
-              "start": 82,
-              "end": 92,
-              "ctxt": 0
-            },
-            "isAbstract": false
-          }
-        }
-      }
-    },
-    {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "TsInterfaceDeclaration": {
-            "span": {
-              "start": 118,
-              "end": 122,
-              "ctxt": 0
-            },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 118,
-                "end": 119,
-                "ctxt": 0
-              },
-              "value": "I",
-              "optional": false
-            },
-            "declare": true,
-            "typeParams": null,
-            "extends": [],
-            "body": {
-              "span": {
-                "start": 120,
-                "end": 122,
-                "ctxt": 0
-              },
-              "body": []
-            }
-          }
-        }
-      }
-    },
-    {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "TsTypeAliasDeclaration": {
-            "span": {
-              "start": 123,
-              "end": 154,
-              "ctxt": 0
-            },
-            "declare": true,
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 143,
-                "end": 144,
-                "ctxt": 0
-              },
-              "value": "T",
-              "optional": false
-            },
-            "typeParams": null,
-            "typeAnn": {
-              "TsKeywordType": {
+                "type": "TsKeywordType",
                 "span": {
-                  "start": 147,
-                  "end": 153,
+                  "start": 24,
+                  "end": 30,
                   "ctxt": 0
                 },
                 "kind": "number"
               }
-            }
-          }
+            },
+            "optional": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 56,
+          "end": 57,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "span": {
+        "start": 47,
+        "end": 66,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 59,
+          "end": 65,
+          "ctxt": 0
+        },
+        "type_annotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 61,
+            "end": 65,
+            "ctxt": 0
+          },
+          "kind": "void"
         }
       }
     },
     {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "TsModuleDeclaration": {
-            "span": {
-              "start": 155,
-              "end": 181,
-              "ctxt": 0
-            },
-            "declare": true,
-            "global": false,
-            "id": {
-              "Ident": {
-                "type": "Identifier",
-                "span": {
-                  "start": 177,
-                  "end": 178,
-                  "ctxt": 0
-                },
-                "value": "M",
-                "optional": false
-              }
-            },
-            "body": {
-              "TsModuleBlock": {
-                "span": {
-                  "start": 179,
-                  "end": 181,
-                  "ctxt": 0
-                },
-                "body": []
-              }
-            }
-          }
-        }
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 88,
+          "end": 89,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 82,
+        "end": 92,
+        "ctxt": 0
+      },
+      "isAbstract": false
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 118,
+        "end": 122,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 118,
+          "end": 119,
+          "ctxt": 0
+        },
+        "value": "I",
+        "optional": false
+      },
+      "declare": true,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 120,
+          "end": 122,
+          "ctxt": 0
+        },
+        "body": []
       }
     },
     {
-      "ModuleDecl": {
-        "ExportDecl": {
-          "TsModuleDeclaration": {
-            "span": {
-              "start": 182,
-              "end": 211,
-              "ctxt": 0
-            },
-            "declare": true,
-            "global": false,
-            "id": {
-              "Ident": {
-                "type": "Identifier",
-                "span": {
-                  "start": 207,
-                  "end": 208,
-                  "ctxt": 0
-                },
-                "value": "N",
-                "optional": false
-              }
-            },
-            "body": {
-              "TsModuleBlock": {
-                "span": {
-                  "start": 209,
-                  "end": 211,
-                  "ctxt": 0
-                },
-                "body": []
-              }
-            }
-          }
-        }
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 123,
+        "end": 154,
+        "ctxt": 0
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 143,
+          "end": 144,
+          "ctxt": 0
+        },
+        "value": "T",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnn": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 147,
+          "end": 153,
+          "ctxt": 0
+        },
+        "kind": "number"
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 155,
+        "end": 181,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 177,
+          "end": 178,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 179,
+          "end": 181,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 182,
+        "end": 211,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 207,
+          "end": 208,
+          "ctxt": 0
+        },
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 209,
+          "end": 211,
+          "ctxt": 0
+        },
+        "body": []
       }
     }
   ]

@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 27,
@@ -6,103 +7,90 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Decl": {
-          "ClassDeclaration": {
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "value": "C",
-              "optional": false
-            },
-            "declare": false,
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 27,
+        "ctxt": 0
+      },
+      "body": [
+        {
+          "span": {
+            "start": 14,
+            "end": 17,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
             "span": {
-              "start": 0,
-              "end": 27,
+              "start": 14,
+              "end": 15,
               "ctxt": 0
             },
-            "body": [
-              {
-                "type": "Method",
-                "span": {
-                  "start": 14,
-                  "end": 17,
-                  "ctxt": 0
-                },
-                "key": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 14,
-                      "end": 15,
-                      "ctxt": 0
-                    },
-                    "value": "m",
-                    "optional": false
-                  }
-                },
-                "function": {
-                  "params": [],
-                  "decorators": [],
-                  "span": {
-                    "start": 14,
-                    "end": 17,
-                    "ctxt": 0
-                  },
-                  "body": null,
-                  "generator": false,
-                  "async": false
-                },
-                "kind": "method",
-                "isStatic": false,
-                "isAbstract": false,
-                "isOptional": false
-              },
-              {
-                "type": "Method",
-                "span": {
-                  "start": 22,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "key": {
-                  "Ident": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 22,
-                      "end": 23,
-                      "ctxt": 0
-                    },
-                    "value": "n",
-                    "optional": false
-                  }
-                },
-                "function": {
-                  "params": [],
-                  "decorators": [],
-                  "span": {
-                    "start": 22,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "body": null,
-                  "generator": false,
-                  "async": false
-                },
-                "kind": "method",
-                "isStatic": false,
-                "isAbstract": false,
-                "isOptional": false
-              }
-            ],
-            "isAbstract": false
-          }
+            "value": "m",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "span": {
+              "start": 14,
+              "end": 17,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false
+          },
+          "kind": "method",
+          "isStatic": false,
+          "isAbstract": false,
+          "isOptional": false
+        },
+        {
+          "span": {
+            "start": 22,
+            "end": 25,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "n",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "span": {
+              "start": 22,
+              "end": 25,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": false,
+            "async": false
+          },
+          "kind": "method",
+          "isStatic": false,
+          "isAbstract": false,
+          "isOptional": false
         }
-      }
+      ],
+      "isAbstract": false
     }
   ]
 }

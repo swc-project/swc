@@ -1,4 +1,5 @@
 {
+  "type": "Module",
   "span": {
     "start": 0,
     "end": 70,
@@ -6,132 +7,105 @@
   },
   "body": [
     {
-      "Stmt": {
-        "Expr": {
-          "CallExpression": {
+      "type": "CallExpression",
+      "span": {
+        "start": 0,
+        "end": 69,
+        "ctxt": 0
+      },
+      "callee": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 6,
+          "end": 9,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 0,
+            "end": 6,
+            "ctxt": 0
+          },
+          "value": "router",
+          "optional": false
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 7,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": "on",
+          "optional": false
+        },
+        "computed": false
+      },
+      "arguments": [
+        {
+          "expr": {
+            "type": "StringLiteral",
             "span": {
-              "start": 0,
-              "end": 69,
+              "start": 10,
+              "end": 27,
               "ctxt": 0
             },
-            "callee": {
-              "MemberExpression": {
+            "value": "routeWillChange",
+            "hasEscape": false
+          }
+        },
+        {
+          "expr": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 29,
+              "end": 68,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 35,
+                "end": 68,
+                "ctxt": 0
+              },
+              "expr": {
+                "type": "AssignmentExpression",
                 "span": {
-                  "start": 6,
-                  "end": 9,
+                  "start": 36,
+                  "end": 67,
                   "ctxt": 0
                 },
-                "object": {
-                  "Identifier": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 0,
-                      "end": 6,
-                      "ctxt": 0
-                    },
-                    "value": "router",
-                    "optional": false
-                  }
+                "operator": "=",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 36,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "value": "routerTransitionsPending",
+                  "optional": false
                 },
-                "property": {
-                  "Identifier": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 7,
-                      "end": 9,
-                      "ctxt": 0
-                    },
-                    "value": "on",
-                    "optional": false
-                  }
-                },
-                "computed": false
+                "right": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 63,
+                    "end": 67,
+                    "ctxt": 0
+                  },
+                  "value": true
+                }
               }
             },
-            "arguments": [
-              {
-                "type": "ExpressionOrSpread",
-                "expr": {
-                  "Literal": {
-                    "Str": {
-                      "span": {
-                        "start": 10,
-                        "end": 27,
-                        "ctxt": 0
-                      },
-                      "value": "routeWillChange",
-                      "hasEscape": false
-                    }
-                  }
-                }
-              },
-              {
-                "type": "ExpressionOrSpread",
-                "expr": {
-                  "ArrowFunctionExpression": {
-                    "span": {
-                      "start": 29,
-                      "end": 68,
-                      "ctxt": 0
-                    },
-                    "params": [],
-                    "body": {
-                      "Expr": {
-                        "ParenthesizedExpression": {
-                          "span": {
-                            "start": 35,
-                            "end": 68,
-                            "ctxt": 0
-                          },
-                          "expr": {
-                            "AssignmentExpression": {
-                              "span": {
-                                "start": 36,
-                                "end": 67,
-                                "ctxt": 0
-                              },
-                              "operator": "=",
-                              "left": {
-                                "Pat": {
-                                  "Ident": {
-                                    "type": "Identifier",
-                                    "span": {
-                                      "start": 36,
-                                      "end": 60,
-                                      "ctxt": 0
-                                    },
-                                    "value": "routerTransitionsPending",
-                                    "optional": false
-                                  }
-                                }
-                              },
-                              "right": {
-                                "Literal": {
-                                  "Bool": {
-                                    "span": {
-                                      "start": 63,
-                                      "end": 67,
-                                      "ctxt": 0
-                                    },
-                                    "value": true
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "async": false,
-                    "generator": false
-                  }
-                }
-              }
-            ],
-            "typeArguments": null
+            "async": false,
+            "generator": false
           }
         }
-      }
+      ],
+      "typeArguments": null
     }
   ]
 }
