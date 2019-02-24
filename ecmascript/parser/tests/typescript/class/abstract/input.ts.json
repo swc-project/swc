@@ -75,32 +75,48 @@
       }
     },
     {
-      "type": "ClassExpression",
+      "type": "ExportDefaultDeclaration",
       "span": {
         "start": 154,
         "end": 163,
         "ctxt": 0
       },
-      "isAbstract": true
-    },
-    {
-      "type": "ClassExpression",
-      "ident": {
-        "type": "Identifier",
+      "data": {
+        "type": "ClassExpression",
         "span": {
-          "start": 194,
-          "end": 195,
+          "start": 154,
+          "end": 163,
           "ctxt": 0
         },
-        "value": "C",
-        "optional": false
-      },
+        "isAbstract": true
+      }
+    },
+    {
+      "type": "ExportDefaultDeclaration",
       "span": {
         "start": 188,
         "end": 199,
         "ctxt": 0
       },
-      "isAbstract": true
+      "data": {
+        "type": "ClassExpression",
+        "ident": {
+          "type": "Identifier",
+          "span": {
+            "start": 194,
+            "end": 195,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        },
+        "span": {
+          "start": 188,
+          "end": 199,
+          "ctxt": 0
+        },
+        "isAbstract": true
+      }
     }
   ]
 }

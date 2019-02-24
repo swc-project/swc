@@ -116,15 +116,7 @@ pub fn expand(args: Args, i: DeriveInput) -> Vec<ItemImpl> {
                 convert_item_to_self
             },
             {
-                let ty = <Self as ::swc_common::AstNode>::TYPE;
-                let node = ::swc_common::serializer::Node::<Item>::deserialize(deserializer);
-                let node = match node {
-                    Ok(node) => node,
-                    Err(err) => {
-                        println!("Failed to parse as {}: {}", ty, err);
-                        return Err(err);
-                    }
-                };
+                let node = ::swc_common::serializer::Node::<Item>::deserialize(deserializer)?;
 
                 if node.ty != <Self as ::swc_common::AstNode>::TYPE {
                     return Err(D::Error::unknown_variant(

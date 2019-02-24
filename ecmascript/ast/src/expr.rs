@@ -13,10 +13,10 @@ use crate::{
         TsTypeParamInstantiation,
     },
 };
-use serde::{self, de::Error, Deserialize, Deserializer, Serialize};
+use serde::{self, Deserialize, Serialize};
 #[cfg(feature = "fold")]
 use swc_common::Fold;
-use swc_common::{ast_node, FromVariant, Span, Spanned, DUMMY_SP};
+use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 pub enum Expr {

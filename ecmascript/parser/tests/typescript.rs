@@ -121,12 +121,14 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         panic!()
                     }
 
-                    let deser: Module = serde_json::from_str(&json).unwrap_or_else(|err| {
-                        panic!(
-                            "failed to deserialize json back to module: {}\n{}",
-                            err, json
-                        )
-                    });
+                    let deser = serde_json::from_str::<Module>(&json)
+                        .unwrap_or_else(|err| {
+                            panic!(
+                                "failed to deserialize json back to module: {}\n{}",
+                                err, json
+                            )
+                        })
+                        .fold_with(&mut Normalizer);
                     assert_eq!(module, deser, "JSON:\n{}", json);
 
                     Ok(())
@@ -201,6 +203,7 @@ impl Fold<PatOrExpr> for Normalizer {
 
         match node {
             PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
+            PatOrExpr::Expr(box Expr::Ident(i)) => PatOrExpr::Pat(box Pat::Ident(i)),
             _ => node,
         }
     }

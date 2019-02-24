@@ -234,9 +234,10 @@ impl<'a, I: Input> Parser<'a, I> {
                     assert_and_bump!("abstract");
                     let mut class = self.parse_default_class(decorators)?;
                     match class {
-                        ExportDefaultDecl::Class(ClassExpr { ref mut class, .. }) => {
-                            class.is_abstract = true
-                        }
+                        ExportDefaultDecl {
+                            kind: ExportDefaultDeclKind::Class(ClassExpr { ref mut class, .. }),
+                            ..
+                        } => class.is_abstract = true,
                         _ => unreachable!(),
                     }
                     return Ok(class.into());
