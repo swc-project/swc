@@ -70,7 +70,11 @@ pub struct ClassProperty<K> {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub value: Option<Box<Expr>>,
 
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
 
     #[serde(default)]

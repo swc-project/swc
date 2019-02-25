@@ -86,7 +86,7 @@ pub struct WithStmt {
 pub struct ReturnStmt {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename = "argument")]
+    #[serde(default, rename = "argument", skip_serializing_if = "Option::is_none")]
     pub arg: Option<Box<Expr>>,
 }
 
@@ -102,6 +102,7 @@ pub struct LabeledStmt {
 pub struct BreakStmt {
     #[serde(default)]
     pub span: Span,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub label: Option<Ident>,
 }
 
@@ -109,6 +110,7 @@ pub struct BreakStmt {
 pub struct ContinueStmt {
     #[serde(default)]
     pub span: Span,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub label: Option<Ident>,
 }
 
@@ -121,7 +123,7 @@ pub struct IfStmt {
     #[serde(rename = "consequent")]
     pub cons: Box<Stmt>,
 
-    #[serde(rename = "alternate")]
+    #[serde(default, rename = "alternate", skip_serializing_if = "Option::is_none")]
     pub alt: Option<(Box<Stmt>)>,
 }
 
@@ -145,8 +147,13 @@ pub struct ThrowStmt {
 pub struct TryStmt {
     #[serde(default)]
     pub span: Span,
+
     pub block: BlockStmt,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handler: Option<CatchClause>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub finalizer: Option<BlockStmt>,
 }
 
@@ -170,9 +177,16 @@ pub struct DoWhileStmt {
 pub struct ForStmt {
     #[serde(default)]
     pub span: Span,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub init: Option<VarDeclOrExpr>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub test: Option<Box<Expr>>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub update: Option<Box<Expr>>,
+
     pub body: Box<Stmt>,
 }
 
@@ -194,7 +208,7 @@ pub struct ForOfStmt {
     /// es2018
     ///
     /// for-await-of statements, e.g., `for await (const x of xs) {`
-    #[serde(rename = "await")]
+    #[serde(default, rename = "await", skip_serializing_if = "Option::is_none")]
     pub await_token: Option<Span>,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
@@ -207,6 +221,7 @@ pub struct SwitchCase {
     pub span: Span,
 
     /// None for `default:`
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub test: Option<Box<Expr>>,
 
     #[serde(rename = "consequent")]

@@ -188,7 +188,11 @@ pub struct BinExpr {
 /// Function expression.
 #[ast_node("FunctionExpression")]
 pub struct FnExpr {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        rename = "identifier",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub ident: Option<Ident>,
 
     #[serde(flatten)]
@@ -199,7 +203,11 @@ pub struct FnExpr {
 /// Class expression.
 #[ast_node("ClassExpression")]
 pub struct ClassExpr {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        rename = "identifier",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub ident: Option<Ident>,
 
     #[serde(flatten)]
@@ -296,10 +304,10 @@ pub struct ArrowExpr {
 
     pub body: BlockStmtOrExpr,
 
-    #[serde(rename = "async")]
+    #[serde(default, rename = "async")]
     pub is_async: bool,
 
-    #[serde(rename = "generator")]
+    #[serde(default, rename = "generator")]
     pub is_generator: bool,
 
     #[serde(
@@ -388,6 +396,7 @@ pub struct ParenExpr {
     #[serde(default)]
     pub span: Span,
 
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
 

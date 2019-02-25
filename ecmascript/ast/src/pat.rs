@@ -69,6 +69,7 @@ pub struct AssignPat {
 /// EsTree `RestElement`
 #[ast_node("RestElement")]
 pub struct RestPat {
+    #[serde(rename = "rest")]
     #[span(lo)]
     pub dot3_token: Span,
 
@@ -101,7 +102,7 @@ pub struct KeyValuePatProp {
     pub value: Box<Pat>,
 }
 /// `{key}` or `{key = value}`
-#[ast_node("AssignPatternProperty")]
+#[ast_node("AssignmentPatternProperty")]
 pub struct AssignPatProp {
     #[serde(default)]
     pub span: Span,

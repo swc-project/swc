@@ -20,7 +20,7 @@ use swc_common::{ast_node, Span};
 pub struct TsTypeAnn {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename = "type_annotation")]
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -37,7 +37,11 @@ pub struct TsTypeParam {
     #[serde(default)]
     pub span: Span,
     pub name: Ident,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub constraint: Option<Box<TsType>>,
+
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub default: Option<Box<TsType>>,
 }
 
@@ -52,7 +56,9 @@ pub struct TsTypeParamInstantiation {
 pub struct TsTypeCastExpr {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
 }
 
@@ -60,9 +66,10 @@ pub struct TsTypeCastExpr {
 pub struct TsParamProp {
     #[serde(default)]
     pub span: Span,
-    #[serde(default)]
+    #[serde(default,skip_serializing_if="Vec::is_empty")]
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub accessibility: Option<Accessibility>,
     pub readonly: bool,
     pub param: TsParamPropParam,
@@ -116,7 +123,13 @@ pub struct TsCallSignatureDecl {
     #[serde(default)]
     pub span: Span,
     pub params: Vec<TsFnParam>,
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
 }
 
@@ -125,7 +138,13 @@ pub struct TsConstructSignatureDecl {
     #[serde(default)]
     pub span: Span,
     pub params: Vec<TsFnParam>,
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
 }
 
@@ -137,9 +156,16 @@ pub struct TsPropertySignature {
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub init: Option<Box<Expr>>,
     pub params: Vec<TsFnParam>,
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
 }
 
@@ -152,13 +178,20 @@ pub struct TsMethodSignature {
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<TsFnParam>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_ann: Option<TsTypeAnn>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
 }
 
 #[ast_node("TsIndexSignature")]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<TsTypeAnn>,
 
     pub readonly: bool,
@@ -289,7 +322,9 @@ pub struct TsFnType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
 
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
 }
 
@@ -298,7 +333,9 @@ pub struct TsConstructorType {
     #[serde(default)]
     pub span: Span,
     pub params: Vec<TsFnParam>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
 }
 
@@ -307,6 +344,7 @@ pub struct TsTypeRef {
     #[serde(default)]
     pub span: Span,
     pub type_name: TsEntityName,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -315,6 +353,7 @@ pub struct TsTypePredicate {
     #[serde(default)]
     pub span: Span,
     pub param_name: TsThisTypeOrIdent,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
 }
 
@@ -358,6 +397,7 @@ pub struct TsTupleType {
 pub struct TsOptionalType {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -365,6 +405,7 @@ pub struct TsOptionalType {
 pub struct TsRestType {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -409,6 +450,7 @@ pub struct TsInferType {
 pub struct TsParenthesizedType {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -417,6 +459,7 @@ pub struct TsTypeOperator {
     #[serde(default)]
     pub span: Span,
     pub op: TsTypeOperatorOp,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -433,6 +476,7 @@ pub enum TsTypeOperatorOp {
 pub struct TsIndexedAccessType {
     #[serde(default)]
     pub span: Span,
+    $[serde(rename="objectType")]
     pub obj_type: Box<TsType>,
     pub index_type: Box<TsType>,
 }
@@ -503,9 +547,12 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 pub struct TsMappedType {
     #[serde(default)]
     pub span: Span,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub readonly: Option<TruePlusMinus>,
     pub type_param: TsTypeParam,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub optional: Option<TruePlusMinus>,
+    #[serde(default,rename="typeAnnotation", skip_serializing_if = "Option::is_none")]
     pub type_ann: Option<Box<TsType>>,
 }
 
@@ -513,6 +560,7 @@ pub struct TsMappedType {
 pub struct TsLitType {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename="literal")]
     pub lit: TsLit,
 }
 
@@ -533,6 +581,7 @@ pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
     pub declare: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
@@ -549,7 +598,9 @@ pub struct TsInterfaceBody {
 pub struct TsExprWithTypeArgs {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: TsEntityName,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -559,7 +610,9 @@ pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
     pub id: Ident,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub type_params: Option<TsTypeParamDecl>,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -578,6 +631,7 @@ pub struct TsEnumMember {
     #[serde(default)]
     pub span: Span,
     pub id: TsEnumMemberId,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub init: Option<Box<Expr>>,
 }
 
@@ -595,6 +649,7 @@ pub struct TsModuleDecl {
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
     pub id: TsModuleName,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub body: Option<TsNamespaceBody>,
 }
 
@@ -650,6 +705,7 @@ pub enum TsModuleRef {
 pub struct TsExternalModuleRef {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Str,
 }
 
@@ -660,6 +716,7 @@ pub struct TsExternalModuleRef {
 pub struct TsExportAssignment {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
 
@@ -678,7 +735,9 @@ pub struct TsNamespaceExportDecl {
 pub struct TsAsExpr {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -686,7 +745,9 @@ pub struct TsAsExpr {
 pub struct TsTypeAssertion {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
+    #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
 
@@ -694,6 +755,7 @@ pub struct TsTypeAssertion {
 pub struct TsNonNullExpr {
     #[serde(default)]
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
 
