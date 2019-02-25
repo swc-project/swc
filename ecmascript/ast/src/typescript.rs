@@ -66,7 +66,7 @@ pub struct TsTypeCastExpr {
 pub struct TsParamProp {
     #[serde(default)]
     pub span: Span,
-    #[serde(default,skip_serializing_if="Vec::is_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -476,7 +476,7 @@ pub enum TsTypeOperatorOp {
 pub struct TsIndexedAccessType {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename="objectType")]
+    #[serde(rename = "objectType")]
     pub obj_type: Box<TsType>,
     pub index_type: Box<TsType>,
 }
@@ -552,7 +552,11 @@ pub struct TsMappedType {
     pub type_param: TsTypeParam,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub optional: Option<TruePlusMinus>,
-    #[serde(default,rename="typeAnnotation", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        rename = "typeAnnotation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub type_ann: Option<Box<TsType>>,
 }
 
@@ -560,7 +564,7 @@ pub struct TsMappedType {
 pub struct TsLitType {
     #[serde(default)]
     pub span: Span,
-    #[serde(rename="literal")]
+    #[serde(rename = "literal")]
     pub lit: TsLit,
 }
 

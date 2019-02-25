@@ -23,7 +23,7 @@
           },
           "properties": [
             {
-              "type": "AssignPatternProperty",
+              "type": "AssignmentPatternProperty",
               "span": {
                 "start": 3,
                 "end": 8,

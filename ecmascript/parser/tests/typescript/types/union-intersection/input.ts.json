@@ -38,7 +38,7 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
                   "start": 11,
@@ -114,7 +114,7 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsIntersectionType",
                 "span": {
                   "start": 56,
@@ -181,7 +181,7 @@
                 "end": 115,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
                   "start": 90,
@@ -267,7 +267,7 @@
                 "end": 159,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
                   "start": 134,

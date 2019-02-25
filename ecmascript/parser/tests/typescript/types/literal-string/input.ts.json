@@ -38,14 +38,14 @@
                 "end": 12,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsLiteralType",
                 "span": {
                   "start": 7,
                   "end": 12,
                   "ctxt": 0
                 },
-                "lit": {
+                "literal": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 7,

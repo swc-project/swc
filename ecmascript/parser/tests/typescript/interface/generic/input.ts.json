@@ -86,16 +86,15 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
                   "params": [],
-                  "typeAnn": {
+                  "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 34,
                       "end": 42,
                       "ctxt": 0
                     },
-                    "type_annotation": {
+                    "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 36,
@@ -104,8 +103,7 @@
                       },
                       "kind": "number"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }

@@ -38,14 +38,14 @@
                 "end": 11,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsIndexedAccessType",
                 "span": {
                   "start": 7,
                   "end": 11,
                   "ctxt": 0
                 },
-                "objType": {
+                "objectType": {
                   "type": "TsTypeReference",
                   "span": {
                     "start": 7,
@@ -61,8 +61,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "typeParams": null
+                  }
                 },
                 "indexType": {
                   "type": "TsTypeReference",
@@ -80,8 +79,7 @@
                     },
                     "value": "K",
                     "optional": false
-                  },
-                  "typeParams": null
+                  }
                 }
               }
             },

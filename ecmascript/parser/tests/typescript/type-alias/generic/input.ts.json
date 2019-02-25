@@ -48,13 +48,11 @@
               },
               "value": "U",
               "optional": false
-            },
-            "constraint": null,
-            "default": null
+            }
           }
         ]
       },
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsTypeReference",
         "span": {
           "start": 12,
@@ -70,8 +68,7 @@
           },
           "value": "U",
           "optional": false
-        },
-        "typeParams": null
+        }
       }
     }
   ]

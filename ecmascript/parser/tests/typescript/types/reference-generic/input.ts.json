@@ -38,7 +38,7 @@
                 "end": 20,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 7,

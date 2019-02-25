@@ -87,14 +87,14 @@
             "value": "x",
             "optional": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 30,
               "end": 38,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 32,
@@ -136,14 +136,14 @@
             },
             "value": 1.0
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 45,
               "end": 53,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 47,
@@ -199,14 +199,14 @@
             "value": "x",
             "optional": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 73,
               "end": 81,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 75,

@@ -38,7 +38,7 @@
                 "end": 54,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsFunctionType",
                 "span": {
                   "start": 7,
@@ -61,7 +61,7 @@
                         "end": 17,
                         "ctxt": 0
                       },
-                      "type_annotation": {
+                      "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 11,
@@ -88,7 +88,7 @@
                         "end": 29,
                         "ctxt": 0
                       },
-                      "type_annotation": {
+                      "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 23,
@@ -102,7 +102,7 @@
                   },
                   {
                     "type": "RestElement",
-                    "dot3Token": {
+                    "rest": {
                       "start": 31,
                       "end": 34,
                       "ctxt": 0
@@ -124,7 +124,7 @@
                         "end": 45,
                         "ctxt": 0
                       },
-                      "type_annotation": {
+                      "typeAnnotation": {
                         "type": "TsArrayType",
                         "span": {
                           "start": 37,
@@ -144,15 +144,14 @@
                     }
                   }
                 ],
-                "typeParams": null,
-                "typeAnn": {
+                "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 47,
                     "end": 54,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 50,

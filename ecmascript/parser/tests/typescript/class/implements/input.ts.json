@@ -33,7 +33,7 @@
             "end": 25,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "TsQualifiedName",
             "left": {
               "type": "Identifier",
@@ -80,8 +80,7 @@
                   },
                   "value": "T",
                   "optional": false
-                },
-                "typeParams": null
+                }
               }
             ]
           }

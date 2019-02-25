@@ -29,7 +29,7 @@
               "end": 69,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
                 "start": 68,
@@ -45,8 +45,7 @@
                 },
                 "value": "T",
                 "optional": false
-              },
-              "typeParams": null
+              }
             }
           },
           "optional": false
@@ -88,9 +87,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "constraint": null,
-            "default": null
+            }
           }
         ]
       },
@@ -101,7 +98,7 @@
           "end": 73,
           "ctxt": 0
         },
-        "type_annotation": {
+        "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
             "start": 72,
@@ -117,8 +114,7 @@
             },
             "value": "T",
             "optional": false
-          },
-          "typeParams": null
+          }
         }
       }
     }

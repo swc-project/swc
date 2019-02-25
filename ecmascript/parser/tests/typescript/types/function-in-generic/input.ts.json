@@ -38,7 +38,7 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 7,
@@ -71,15 +71,14 @@
                         "ctxt": 0
                       },
                       "params": [],
-                      "typeParams": null,
-                      "typeAnn": {
+                      "typeAnnotation": {
                         "type": "TsTypeAnnotation",
                         "span": {
                           "start": 16,
                           "end": 23,
                           "ctxt": 0
                         },
-                        "type_annotation": {
+                        "typeAnnotation": {
                           "type": "TsKeywordType",
                           "span": {
                             "start": 19,

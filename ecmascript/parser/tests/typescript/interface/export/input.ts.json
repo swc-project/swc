@@ -31,7 +31,6 @@
           "optional": false
         },
         "declare": false,
-        "typeParams": null,
         "extends": [],
         "body": {
           "type": "TsInterfaceBody",
@@ -69,7 +68,6 @@
           "optional": false
         },
         "declare": false,
-        "typeParams": null,
         "extends": [],
         "body": {
           "type": "TsInterfaceBody",

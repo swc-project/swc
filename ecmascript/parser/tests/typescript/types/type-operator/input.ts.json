@@ -38,7 +38,7 @@
                 "end": 14,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeOperator",
                 "span": {
                   "start": 7,
@@ -46,7 +46,7 @@
                   "ctxt": 0
                 },
                 "op": "keyof",
-                "typeAnn": {
+                "typeAnnotation": {
                   "type": "TsTypeReference",
                   "span": {
                     "start": 13,
@@ -62,8 +62,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "typeParams": null
+                  }
                 }
               }
             },
@@ -105,7 +104,7 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeOperator",
                 "span": {
                   "start": 23,
@@ -113,7 +112,7 @@
                   "ctxt": 0
                 },
                 "op": "unique",
-                "typeAnn": {
+                "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
                     "start": 30,

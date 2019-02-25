@@ -60,9 +60,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "constraint": null,
-            "default": null
+            }
           }
         ]
       }

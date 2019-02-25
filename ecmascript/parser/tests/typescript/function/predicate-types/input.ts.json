@@ -35,7 +35,7 @@
               "end": 17,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 14,
@@ -71,7 +71,7 @@
           "end": 32,
           "ctxt": 0
         },
-        "type_annotation": {
+        "typeAnnotation": {
           "type": "TsTypePredicate",
           "span": {
             "start": 18,
@@ -88,14 +88,14 @@
             "value": "x",
             "optional": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 25,
               "end": 32,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 25,
@@ -115,7 +115,7 @@
         "end": 71,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "FunctionExpression",
         "params": [
           {
@@ -133,7 +133,7 @@
                 "end": 52,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 49,
@@ -169,7 +169,7 @@
             "end": 67,
             "ctxt": 0
           },
-          "type_annotation": {
+          "typeAnnotation": {
             "type": "TsTypePredicate",
             "span": {
               "start": 53,
@@ -186,14 +186,14 @@
               "value": "x",
               "optional": false
             },
-            "typeAnn": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 60,
                 "end": 67,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 60,

@@ -38,7 +38,7 @@
                 "end": 19,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsArrayType",
                 "span": {
                   "start": 9,

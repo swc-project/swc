@@ -24,8 +24,7 @@
         "value": "Link",
         "optional": false
       },
-      "typeParams": null,
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsTypeLiteral",
         "span": {
           "start": 12,
@@ -53,16 +52,15 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
             "params": [],
-            "typeAnn": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 17,
                 "end": 25,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 19,
@@ -71,8 +69,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -94,16 +91,15 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
             "params": [],
-            "typeAnn": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 31,
                 "end": 39,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 33,
@@ -112,8 +108,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

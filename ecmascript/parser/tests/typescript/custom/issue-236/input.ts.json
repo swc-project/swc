@@ -42,7 +42,7 @@
                 "end": 61,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 58,
@@ -69,7 +69,7 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 71,
@@ -98,8 +98,7 @@
                     "value": "IScope",
                     "optional": false
                   }
-                },
-                "typeParams": null
+                }
               }
             },
             "optional": false
@@ -119,7 +118,7 @@
                 "end": 114,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 95,
@@ -148,8 +147,7 @@
                     "value": "IAttributes",
                     "optional": false
                   }
-                },
-                "typeParams": null
+                }
               }
             },
             "optional": false

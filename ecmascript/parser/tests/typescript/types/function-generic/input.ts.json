@@ -38,7 +38,7 @@
                 "end": 21,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsFunctionType",
                 "span": {
                   "start": 7,
@@ -61,7 +61,7 @@
                         "end": 15,
                         "ctxt": 0
                       },
-                      "type_annotation": {
+                      "typeAnnotation": {
                         "type": "TsTypeReference",
                         "span": {
                           "start": 14,
@@ -77,8 +77,7 @@
                           },
                           "value": "T",
                           "optional": false
-                        },
-                        "typeParams": null
+                        }
                       }
                     },
                     "optional": false
@@ -108,20 +107,18 @@
                         },
                         "value": "T",
                         "optional": false
-                      },
-                      "constraint": null,
-                      "default": null
+                      }
                     }
                   ]
                 },
-                "typeAnn": {
+                "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 17,
                     "end": 21,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
                       "start": 20,
@@ -137,8 +134,7 @@
                       },
                       "value": "T",
                       "optional": false
-                    },
-                    "typeParams": null
+                    }
                   }
                 }
               }

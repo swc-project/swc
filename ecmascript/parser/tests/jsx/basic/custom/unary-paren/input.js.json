@@ -125,7 +125,7 @@
                 "end": 276,
                 "ctxt": 0
               },
-              "expr": {
+              "expression": {
                 "type": "JSXElement",
                 "span": {
                   "start": 86,
@@ -255,7 +255,7 @@
                           "end": 183,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "expression": {
                           "type": "JSXElement",
                           "span": {
                             "start": 154,
@@ -320,7 +320,7 @@
                           "end": 253,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "expression": {
                           "type": "JSXElement",
                           "span": {
                             "start": 200,

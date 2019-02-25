@@ -24,7 +24,6 @@
         "optional": false
       },
       "declare": false,
-      "typeParams": null,
       "extends": [
         {
           "type": "TsExpressionWithTypeArguments",
@@ -33,7 +32,7 @@
             "end": 26,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "TsQualifiedName",
             "left": {
               "type": "Identifier",
@@ -80,8 +79,7 @@
                   },
                   "value": "Z",
                   "optional": false
-                },
-                "typeParams": null
+                }
               }
             ]
           }

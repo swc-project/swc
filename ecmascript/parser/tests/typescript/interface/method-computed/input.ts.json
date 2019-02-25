@@ -24,7 +24,6 @@
         "optional": false
       },
       "declare": false,
-      "typeParams": null,
       "extends": [],
       "body": {
         "type": "TsInterfaceBody",
@@ -81,7 +80,7 @@
                 "end": 43,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 39,
@@ -90,8 +89,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsMethodSignature",
@@ -140,7 +138,7 @@
                 "end": 77,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 71,
@@ -149,8 +147,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

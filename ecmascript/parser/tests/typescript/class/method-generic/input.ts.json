@@ -58,7 +58,7 @@
                     "end": 23,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
                       "start": 22,
@@ -74,8 +74,7 @@
                       },
                       "value": "T",
                       "optional": false
-                    },
-                    "typeParams": null
+                    }
                   }
                 },
                 "optional": false
@@ -95,7 +94,7 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
                       "start": 29,
@@ -111,15 +110,14 @@
                       },
                       "value": "T",
                       "optional": false
-                    },
-                    "typeParams": null
+                    }
                   }
                 },
                 "optional": true
               },
               {
                 "type": "RestElement",
-                "dot3Token": {
+                "rest": {
                   "start": 32,
                   "end": 35,
                   "ctxt": 0
@@ -141,7 +139,7 @@
                     "end": 41,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsArrayType",
                     "span": {
                       "start": 38,
@@ -164,8 +162,7 @@
                         },
                         "value": "T",
                         "optional": false
-                      },
-                      "typeParams": null
+                      }
                     }
                   }
                 }
@@ -211,9 +208,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "constraint": null,
-                  "default": null
+                  }
                 }
               ]
             },
@@ -224,7 +219,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 44,
@@ -240,8 +235,7 @@
                   },
                   "value": "T",
                   "optional": false
-                },
-                "typeParams": null
+                }
               }
             }
           },
@@ -327,9 +321,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "constraint": null,
-                  "default": null
+                  }
                 }
               ]
             },
@@ -340,7 +332,7 @@
                 "end": 78,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 77,
@@ -356,8 +348,7 @@
                   },
                   "value": "T",
                   "optional": false
-                },
-                "typeParams": null
+                }
               }
             }
           },

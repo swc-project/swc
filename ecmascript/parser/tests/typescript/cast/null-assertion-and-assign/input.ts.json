@@ -21,7 +21,7 @@
           "end": 2,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "Identifier",
           "span": {
             "start": 0,

@@ -24,7 +24,6 @@
         "optional": false
       },
       "declare": true,
-      "typeParams": null,
       "extends": [],
       "body": {
         "type": "TsInterfaceBody",

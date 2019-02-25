@@ -38,7 +38,7 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
                   "start": 7,
@@ -62,7 +62,7 @@
                       "end": 27,
                       "ctxt": 0
                     },
-                    "typeAnn": {
+                    "typeAnnotation": {
                       "type": "TsArrayType",
                       "span": {
                         "start": 19,

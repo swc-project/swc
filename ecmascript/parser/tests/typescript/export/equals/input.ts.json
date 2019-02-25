@@ -13,7 +13,7 @@
         "end": 11,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "Identifier",
         "span": {
           "start": 9,

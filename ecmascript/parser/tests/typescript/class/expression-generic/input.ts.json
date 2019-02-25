@@ -13,7 +13,7 @@
         "end": 13,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "ClassExpression",
         "span": {
           "start": 1,
@@ -45,9 +45,7 @@
                 },
                 "value": "T",
                 "optional": false
-              },
-              "constraint": null,
-              "default": null
+              }
             }
           ]
         }
@@ -60,9 +58,9 @@
         "end": 30,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "ClassExpression",
-        "ident": {
+        "identifier": {
           "type": "Identifier",
           "span": {
             "start": 22,
@@ -102,9 +100,7 @@
                 },
                 "value": "T",
                 "optional": false
-              },
-              "constraint": null,
-              "default": null
+              }
             }
           ]
         }

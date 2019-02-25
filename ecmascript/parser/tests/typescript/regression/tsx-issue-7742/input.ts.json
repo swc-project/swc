@@ -48,9 +48,7 @@
               },
               "value": "G",
               "optional": false
-            },
-            "constraint": null,
-            "default": null
+            }
           }
         ]
       },
@@ -86,7 +84,7 @@
                     "end": 33,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
                       "start": 32,
@@ -102,21 +100,20 @@
                       },
                       "value": "G",
                       "optional": false
-                    },
-                    "typeParams": null
+                    }
                   }
                 },
                 "optional": false
               }
             ],
-            "typeAnn": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 34,
                 "end": 37,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 36,
@@ -132,8 +129,7 @@
                   },
                   "value": "T",
                   "optional": false
-                },
-                "typeParams": null
+                }
               }
             },
             "typeParams": {
@@ -160,9 +156,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "constraint": null,
-                  "default": null
+                  }
                 }
               ]
             }

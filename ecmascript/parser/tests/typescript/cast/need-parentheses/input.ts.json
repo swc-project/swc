@@ -20,14 +20,14 @@
           "end": 7,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "TsTypeAssertion",
           "span": {
             "start": 2,
             "end": 6,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "Identifier",
             "span": {
               "start": 5,
@@ -37,7 +37,7 @@
             "value": "x",
             "optional": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeReference",
             "span": {
               "start": 2,
@@ -53,8 +53,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "typeParams": null
+            }
           }
         }
       },
@@ -84,14 +83,14 @@
           "end": 19,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "TsAsExpression",
           "span": {
             "start": 12,
             "end": 13,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "Identifier",
             "span": {
               "start": 12,
@@ -101,7 +100,7 @@
             "value": "x",
             "optional": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeReference",
             "span": {
               "start": 17,
@@ -117,8 +116,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "typeParams": null
+            }
           }
         }
       },
@@ -148,7 +146,7 @@
           "end": 25,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "Identifier",
           "span": {
             "start": 23,

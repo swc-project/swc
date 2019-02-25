@@ -48,13 +48,11 @@
               },
               "value": "T",
               "optional": false
-            },
-            "constraint": null,
-            "default": null
+            }
           }
         ]
       },
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsConditionalType",
         "span": {
           "start": 18,
@@ -77,8 +75,7 @@
             },
             "value": "T",
             "optional": false
-          },
-          "typeParams": null
+          }
         },
         "extendsType": {
           "type": "TsArrayType",
@@ -94,7 +91,7 @@
               "end": 37,
               "ctxt": 0
             },
-            "typeAnn": {
+            "typeAnnotation": {
               "type": "TsInferType",
               "span": {
                 "start": 29,
@@ -117,9 +114,7 @@
                   },
                   "value": "U",
                   "optional": false
-                },
-                "constraint": null,
-                "default": null
+                }
               }
             }
           }
@@ -140,8 +135,7 @@
             },
             "value": "U",
             "optional": false
-          },
-          "typeParams": null
+          }
         },
         "falseType": {
           "type": "TsTypeReference",
@@ -159,8 +153,7 @@
             },
             "value": "T",
             "optional": false
-          },
-          "typeParams": null
+          }
         }
       }
     }

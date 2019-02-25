@@ -24,7 +24,6 @@
         "optional": false
       },
       "declare": false,
-      "typeParams": null,
       "extends": [],
       "body": {
         "type": "TsInterfaceBody",
@@ -54,9 +53,7 @@
             },
             "computed": false,
             "optional": false,
-            "params": [],
-            "typeAnn": null,
-            "typeParams": null
+            "params": []
           },
           {
             "type": "TsMethodSignature",
@@ -94,7 +91,7 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 33,
@@ -108,7 +105,7 @@
               },
               {
                 "type": "RestElement",
-                "dot3Token": {
+                "rest": {
                   "start": 41,
                   "end": 44,
                   "ctxt": 0
@@ -130,7 +127,7 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsArrayType",
                     "span": {
                       "start": 47,
@@ -157,7 +154,7 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 58,
@@ -166,8 +163,7 @@
                 },
                 "kind": "void"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

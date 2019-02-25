@@ -32,7 +32,7 @@
           "end": 30,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "StringLiteral",
           "span": {
             "start": 26,

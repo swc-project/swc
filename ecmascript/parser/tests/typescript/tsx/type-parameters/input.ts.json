@@ -43,7 +43,7 @@
           "end": 29,
           "ctxt": 0
         },
-        "type_annotation": {
+        "typeAnnotation": {
           "type": "TsFunctionType",
           "span": {
             "start": 14,
@@ -75,20 +75,18 @@
                   },
                   "value": "T",
                   "optional": false
-                },
-                "constraint": null,
-                "default": null
+                }
               }
             ]
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 20,
               "end": 29,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 23,

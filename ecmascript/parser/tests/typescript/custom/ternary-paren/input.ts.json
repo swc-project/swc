@@ -13,7 +13,7 @@
         "end": 13,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 1,

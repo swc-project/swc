@@ -21,14 +21,14 @@
           "end": 12,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "TsTypeAssertion",
           "span": {
             "start": 2,
             "end": 11,
             "ctxt": 0
           },
-          "expr": {
+          "expression": {
             "type": "Identifier",
             "span": {
               "start": 10,
@@ -38,7 +38,7 @@
             "value": "x",
             "optional": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
               "start": 2,

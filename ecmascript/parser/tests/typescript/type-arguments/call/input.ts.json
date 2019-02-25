@@ -48,8 +48,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -96,8 +95,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsTypeReference",
@@ -115,8 +113,7 @@
               },
               "value": "U",
               "optional": false
-            },
-            "typeParams": null
+            }
           }
         ]
       }

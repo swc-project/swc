@@ -75,9 +75,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "constraint": null,
-                  "default": null
+                  }
                 }
               ]
             },
@@ -88,7 +86,7 @@
                 "end": 36,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 32,

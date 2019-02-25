@@ -13,7 +13,7 @@
         "end": 28,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "ClassExpression",
         "span": {
           "start": 1,
@@ -29,7 +29,7 @@
               "end": 24,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "TsQualifiedName",
               "left": {
                 "type": "Identifier",
@@ -76,8 +76,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
@@ -92,9 +91,9 @@
         "end": 60,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "ClassExpression",
-        "ident": {
+        "identifier": {
           "type": "Identifier",
           "span": {
             "start": 37,
@@ -118,7 +117,7 @@
               "end": 56,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "TsQualifiedName",
               "left": {
                 "type": "Identifier",
@@ -165,8 +164,7 @@
                     },
                     "value": "T",
                     "optional": false
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }

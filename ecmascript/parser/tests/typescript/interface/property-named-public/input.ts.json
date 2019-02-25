@@ -24,7 +24,6 @@
         "optional": false
       },
       "declare": false,
-      "typeParams": null,
       "extends": [],
       "body": {
         "type": "TsInterfaceBody",
@@ -54,16 +53,15 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
             "params": [],
-            "typeAnn": {
+            "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
                 "start": 21,
                 "end": 29,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 23,
@@ -72,8 +70,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

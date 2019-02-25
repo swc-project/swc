@@ -22,7 +22,7 @@
       "params": [
         {
           "type": "RestElement",
-          "dot3Token": {
+          "rest": {
             "start": 13,
             "end": 16,
             "ctxt": 0
@@ -44,7 +44,7 @@
               "end": 52,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsTupleType",
               "span": {
                 "start": 22,
@@ -68,7 +68,7 @@
                     "end": 38,
                     "ctxt": 0
                   },
-                  "typeAnn": {
+                  "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 31,
@@ -85,7 +85,7 @@
                     "end": 51,
                     "ctxt": 0
                   },
-                  "typeAnn": {
+                  "typeAnnotation": {
                     "type": "TsArrayType",
                     "span": {
                       "start": 43,

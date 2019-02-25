@@ -48,8 +48,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -96,8 +95,7 @@
               },
               "value": "T",
               "optional": false
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -120,8 +118,7 @@
         "value": "A",
         "optional": false
       },
-      "typeParams": null,
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsTypeReference",
         "span": {
           "start": 29,
@@ -162,8 +159,7 @@
                 },
                 "value": "T",
                 "optional": false
-              },
-              "typeParams": null
+              }
             }
           ]
         }

@@ -38,7 +38,7 @@
                 "end": 29,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsFunctionType",
                 "span": {
                   "start": 7,
@@ -61,7 +61,7 @@
                         "end": 20,
                         "ctxt": 0
                       },
-                      "type_annotation": {
+                      "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
                           "start": 14,
@@ -74,15 +74,14 @@
                     "optional": false
                   }
                 ],
-                "typeParams": null,
-                "typeAnn": {
+                "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
                     "start": 22,
                     "end": 29,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 25,

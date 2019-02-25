@@ -38,7 +38,7 @@
                 "end": 44,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
                   "start": 7,
@@ -62,7 +62,7 @@
                       "end": 23,
                       "ctxt": 0
                     },
-                    "typeAnn": {
+                    "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 16,
@@ -79,14 +79,14 @@
                       "end": 43,
                       "ctxt": 0
                     },
-                    "typeAnn": {
+                    "typeAnnotation": {
                       "type": "TsParenthesizedType",
                       "span": {
                         "start": 25,
                         "end": 42,
                         "ctxt": 0
                       },
-                      "typeAnn": {
+                      "typeAnnotation": {
                         "type": "TsUnionType",
                         "span": {
                           "start": 26,

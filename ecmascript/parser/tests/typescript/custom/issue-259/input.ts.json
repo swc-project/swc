@@ -71,7 +71,7 @@
                 "end": 68,
                 "ctxt": 0
               },
-              "expr": {
+              "expression": {
                 "type": "AssignmentExpression",
                 "span": {
                   "start": 36,

@@ -24,15 +24,14 @@
         "value": "T",
         "optional": false
       },
-      "typeParams": null,
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsParenthesizedType",
         "span": {
           "start": 9,
           "end": 13,
           "ctxt": 0
         },
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsTypeLiteral",
           "span": {
             "start": 10,

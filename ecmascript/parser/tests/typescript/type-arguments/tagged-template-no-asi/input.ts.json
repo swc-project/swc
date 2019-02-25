@@ -86,8 +86,7 @@
                 },
                 "value": "T",
                 "optional": false
-              },
-              "typeParams": null
+              }
             }
           ]
         }

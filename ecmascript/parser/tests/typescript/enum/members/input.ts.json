@@ -42,8 +42,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "init": null
+          }
         },
         {
           "type": "TsEnumMember",

@@ -38,7 +38,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsConditionalType",
                 "span": {
                   "start": 7,

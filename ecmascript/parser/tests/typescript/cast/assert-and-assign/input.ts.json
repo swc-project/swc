@@ -21,7 +21,7 @@
           "end": 2,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "Identifier",
           "span": {
             "start": 1,
@@ -31,7 +31,7 @@
           "value": "a",
           "optional": false
         },
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 6,

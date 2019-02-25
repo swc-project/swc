@@ -29,7 +29,7 @@
               "end": 11,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 5,
@@ -61,7 +61,7 @@
           "end": 17,
           "ctxt": 0
         },
-        "type_annotation": {
+        "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 14,

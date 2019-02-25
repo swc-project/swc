@@ -60,14 +60,14 @@
             },
             "computed": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 31,
               "end": 39,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 33,
@@ -119,14 +119,14 @@
             },
             "computed": false
           },
-          "typeAnn": {
+          "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
               "start": 63,
               "end": 71,
               "ctxt": 0
             },
-            "type_annotation": {
+            "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 65,

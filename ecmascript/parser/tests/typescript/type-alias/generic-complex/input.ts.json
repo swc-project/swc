@@ -86,16 +86,15 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
                   "params": [],
-                  "typeAnn": {
+                  "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
                       "start": 29,
                       "end": 37,
                       "ctxt": 0
                     },
-                    "type_annotation": {
+                    "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 31,
@@ -104,15 +103,14 @@
                       },
                       "kind": "number"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
           }
         ]
       },
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsTypeReference",
         "span": {
           "start": 43,
@@ -153,8 +151,7 @@
                 },
                 "value": "U",
                 "optional": false
-              },
-              "typeParams": null
+              }
             }
           ]
         }

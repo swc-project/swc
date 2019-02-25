@@ -50,8 +50,6 @@
                 "end": 43,
                 "ctxt": 0
               },
-              "decorators": [],
-              "accessibility": null,
               "readonly": true,
               "param": {
                 "type": "Identifier",
@@ -71,7 +69,6 @@
                 "end": 61,
                 "ctxt": 0
               },
-              "decorators": [],
               "accessibility": "public",
               "readonly": false,
               "param": {
@@ -89,7 +86,7 @@
                     "end": 72,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 66,
@@ -109,7 +106,6 @@
                 "end": 91,
                 "ctxt": 0
               },
-              "decorators": [],
               "accessibility": "protected",
               "readonly": false,
               "param": {
@@ -130,7 +126,6 @@
                 "end": 112,
                 "ctxt": 0
               },
-              "decorators": [],
               "accessibility": "private",
               "readonly": false,
               "param": {
@@ -148,7 +143,7 @@
                     "end": 124,
                     "ctxt": 0
                   },
-                  "type_annotation": {
+                  "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
                       "start": 118,
@@ -168,7 +163,6 @@
                 "end": 149,
                 "ctxt": 0
               },
-              "decorators": [],
               "accessibility": "public",
               "readonly": true,
               "param": {
@@ -189,8 +183,6 @@
                 "end": 214,
                 "ctxt": 0
               },
-              "decorators": [],
-              "accessibility": null,
               "readonly": true,
               "param": {
                 "type": "AssignmentPattern",
@@ -227,7 +219,6 @@
                 "end": 236,
                 "ctxt": 0
               },
-              "decorators": [],
               "accessibility": "public",
               "readonly": false,
               "param": {
@@ -252,7 +243,7 @@
                       "end": 247,
                       "ctxt": 0
                     },
-                    "type_annotation": {
+                    "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 241,

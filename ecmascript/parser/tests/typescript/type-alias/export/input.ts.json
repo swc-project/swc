@@ -31,8 +31,7 @@
           "value": "T",
           "optional": false
         },
-        "typeParams": null,
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 16,

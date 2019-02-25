@@ -100,7 +100,7 @@
       },
       "decl": {
         "type": "ClassExpression",
-        "ident": {
+        "identifier": {
           "type": "Identifier",
           "span": {
             "start": 194,

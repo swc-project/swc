@@ -13,7 +13,7 @@
         "end": 1,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "Identifier",
         "span": {
           "start": 0,
@@ -23,7 +23,7 @@
         "value": "x",
         "optional": false
       },
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsTypeReference",
         "span": {
           "start": 5,
@@ -39,8 +39,7 @@
           },
           "value": "T",
           "optional": false
-        },
-        "typeParams": null
+        }
       }
     },
     {
@@ -50,7 +49,7 @@
         "end": 13,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 8,
@@ -79,7 +78,7 @@
           "optional": false
         }
       },
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsKeywordType",
         "span": {
           "start": 17,
@@ -114,7 +113,7 @@
           "end": 56,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "NumericLiteral",
           "span": {
             "start": 55,
@@ -123,7 +122,7 @@
           },
           "value": 1.0
         },
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 60,
@@ -141,14 +140,14 @@
         "end": 100,
         "ctxt": 0
       },
-      "expr": {
+      "expression": {
         "type": "TsAsExpression",
         "span": {
           "start": 92,
           "end": 93,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "Identifier",
           "span": {
             "start": 92,
@@ -158,7 +157,7 @@
           "value": "x",
           "optional": false
         },
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 97,
@@ -168,7 +167,7 @@
           "kind": "any"
         }
       },
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsTypeReference",
         "span": {
           "start": 104,
@@ -184,8 +183,7 @@
           },
           "value": "T",
           "optional": false
-        },
-        "typeParams": null
+        }
       }
     }
   ]

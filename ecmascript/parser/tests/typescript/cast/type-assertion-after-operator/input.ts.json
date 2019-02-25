@@ -30,7 +30,7 @@
           "end": 14,
           "ctxt": 0
         },
-        "expr": {
+        "expression": {
           "type": "NumericLiteral",
           "span": {
             "start": 13,
@@ -39,7 +39,7 @@
           },
           "value": 1.0
         },
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
             "start": 5,

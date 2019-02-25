@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 35,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
@@ -10,65 +10,74 @@
       "type": "TsEnumDeclaration",
       "span": {
         "start": 0,
-        "end": 35,
+        "end": 38,
         "ctxt": 0
       },
       "declare": false,
-      "isConst": false,
+      "isConst": true,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 5,
-          "end": 6,
+          "start": 11,
+          "end": 14,
           "ctxt": 0
         },
-        "value": "E",
+        "value": "Foo",
         "optional": false
       },
       "members": [
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 13,
-            "end": 18,
+            "start": 21,
+            "end": 22,
             "ctxt": 0
           },
           "id": {
-            "type": "StringLiteral",
+            "type": "Identifier",
             "span": {
-              "start": 13,
-              "end": 18,
+              "start": 21,
+              "end": 22,
               "ctxt": 0
             },
-            "value": "foo",
-            "hasEscape": false
+            "value": "A",
+            "optional": false
           }
         },
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 24,
-            "end": 33,
+            "start": 28,
+            "end": 29,
             "ctxt": 0
           },
           "id": {
-            "type": "StringLiteral",
+            "type": "Identifier",
             "span": {
-              "start": 24,
+              "start": 28,
               "end": 29,
               "ctxt": 0
             },
-            "value": "bar",
-            "hasEscape": false
+            "value": "B",
+            "optional": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 35,
+            "end": 36,
+            "ctxt": 0
           },
-          "init": {
-            "type": "NumericLiteral",
+          "id": {
+            "type": "Identifier",
             "span": {
-              "start": 32,
-              "end": 33,
+              "start": 35,
+              "end": 36,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": "C",
+            "optional": false
           }
         }
       ]

@@ -24,8 +24,7 @@
         "value": "MyType",
         "optional": false
       },
-      "typeParams": null,
-      "typeAnn": {
+      "typeAnnotation": {
         "type": "TsFunctionType",
         "span": {
           "start": 14,
@@ -42,7 +41,7 @@
             },
             "properties": [
               {
-                "type": "AssignPatternProperty",
+                "type": "AssignmentPatternProperty",
                 "span": {
                   "start": 17,
                   "end": 22,
@@ -67,7 +66,7 @@
                 "end": 29,
                 "ctxt": 0
               },
-              "type_annotation": {
+              "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 26,
@@ -79,15 +78,14 @@
             }
           }
         ],
-        "typeParams": null,
-        "typeAnn": {
+        "typeAnnotation": {
           "type": "TsTypeAnnotation",
           "span": {
             "start": 31,
             "end": 37,
             "ctxt": 0
           },
-          "type_annotation": {
+          "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
               "start": 34,
