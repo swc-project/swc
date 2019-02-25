@@ -1,17 +1,70 @@
-use crate::{pass::Pass, util::State};
+use crate::{
+    pass::Pass,
+    util::{drop_span, State, CM, SESSION},
+};
 use ast::*;
+use chashmap::CHashMap;
 use fxhash::FxHashMap;
 use std::sync::Arc;
 use swc_atoms::JsWord;
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith};
+use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
+use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
-pub fn const_modules(
-    globals: FxHashMap<JsWord, FxHashMap<JsWord, Arc<Expr>>>,
-) -> impl Pass + Clone {
+pub fn const_modules(globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>) -> impl Pass + Clone {
     ConstModules {
-        globals,
+        globals: globals
+            .into_iter()
+            .map(|(src, map)| {
+                let map = map
+                    .into_iter()
+                    .map(|(key, value)| {
+                        let value = parse_option(&key, value);
+
+                        (key, value)
+                    })
+                    .collect();
+
+                (src, map)
+            })
+            .collect(),
         scope: Default::default(),
     }
+}
+
+fn parse_option(name: &str, src: String) -> Arc<Expr> {
+    lazy_static! {
+        static ref CACHE: CHashMap<Arc<String>, Arc<Expr>> = CHashMap::default();
+    }
+
+    let fm = CM.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
+    if let Some(expr) = CACHE.get(&fm.src) {
+        return expr.clone();
+    }
+
+    let expr = Parser::new(
+        *SESSION,
+        Syntax::default(),
+        SourceFileInput::from(&*fm),
+        None,
+    )
+    .parse_expr()
+    .map_err(|mut e| {
+        e.emit();
+        ()
+    })
+    .map(drop_span)
+    .unwrap_or_else(|()| {
+        panic!(
+            "faield to parse jsx option {}: '{}' is not an expression",
+            name, fm.src,
+        )
+    });
+
+    let expr = Arc::new(*expr);
+
+    CACHE.insert(fm.src.clone(), expr.clone());
+
+    expr
 }
 
 #[derive(Clone)]
