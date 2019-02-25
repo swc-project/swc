@@ -476,7 +476,7 @@ pub enum TsTypeOperatorOp {
 pub struct TsIndexedAccessType {
     #[serde(default)]
     pub span: Span,
-    $[serde(rename="objectType")]
+    #[serde(rename="objectType")]
     pub obj_type: Box<TsType>,
     pub index_type: Box<TsType>,
 }
