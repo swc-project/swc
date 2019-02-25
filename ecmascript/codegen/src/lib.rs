@@ -939,7 +939,15 @@ impl<'a> Emitter<'a> {
         if node.delegate {
             operator!("*");
         }
-        opt_leading_space!(node.arg);
+
+        if let Some(ref arg) = node.arg {
+            if arg.starts_with_alpha_num() {
+                space!()
+            } else {
+                formatting_space!()
+            }
+            emit!(node.arg);
+        }
     }
 
     pub fn emit_expr_or_spreads(
@@ -1597,14 +1605,20 @@ impl<'a> Emitter<'a> {
     #[emitter]
     pub fn emit_break_stmt(&mut self, node: &BreakStmt) -> Result {
         keyword!("break");
-        opt_leading_space!(node.label);
+        if let Some(ref label) = node.label {
+            space!();
+            emit!(label);
+        }
         semi!();
     }
 
     #[emitter]
     pub fn emit_continue_stmt(&mut self, node: &ContinueStmt) -> Result {
         keyword!("continue");
-        opt_leading_space!(node.label);
+        if let Some(ref label) = node.label {
+            space!();
+            emit!(label);
+        }
         semi!();
     }
 
