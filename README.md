@@ -132,11 +132,13 @@ The lower bound of the speedup compared to babel is **16**. The benchmarks were 
 
 |                          |                performance             |
 | ------------------------ |:--------------------------------------:|
-| swc (ffi)                | 1,086 ops/sec ±0.77% (84 runs sampled) |
-| swc-optimize (ffi)       | 1,060 ops/sec ±0.63% (87 runs sampled) |
-| swc (ffi, simd)          | 1,295 ops/sec ±0.87% (89 runs sampled) |
-| swc-optimize (ffi, simd) | 1,270 ops/sec ±0.24% (89 runs sampled) |
-| babel                    | 65.72 ops/sec ±6.45% (62 runs sampled) |
+| swc (es3)                | 610 ops/sec ±1.76% (82 runs sampled)   |
+| swc (es2015)             | 682 ops/sec ±0.63% (88 runs sampled)   |
+| swc (es2016)             | 1,659 ops/sec ±4.32% (79 runs sampled) |
+| swc (es2017)             | 1,384 ops/sec ±7.24% (82 runs sampled) |
+| swc (es2018)             | 1,765 ops/sec ±11.78% (82 runs sampled)|
+| swc-optimize (es3)       | 535 ops/sec ±1.01% (83 runs sampled)   |
+| babel                    | 42.12 ops/sec ±6.27% (55 runs sampled) |
 
 
 ## Contributing
