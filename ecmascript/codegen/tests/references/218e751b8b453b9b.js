@@ -1,5 +1,6 @@
 if (a) {
-    (function() {
+    // optimize it
+(function() {
         b('c');
     }());
     try {

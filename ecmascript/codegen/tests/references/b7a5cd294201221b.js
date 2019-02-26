@@ -1,1 +1,2 @@
+/* block comment */
 1;

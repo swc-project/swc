@@ -3,7 +3,8 @@ if (a) {
         b('try');
     } catch (c) {
     }
-    (function() {
+    // do not optimize it
+(function() {
         b('d');
     }());
 }

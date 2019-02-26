@@ -2,7 +2,8 @@ while(a){
     try {
     } catch (b) {
     }
-    (function() {
+    // do not optimize it
+(function() {
         c('d');
     }());
 }

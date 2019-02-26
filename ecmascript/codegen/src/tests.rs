@@ -27,7 +27,7 @@ impl Builder {
             cfg: self.cfg,
             cm: self.cm.clone(),
             wr: Box::new(text_writer::JsWriter::new(self.cm.clone(), "\n", s, None)),
-            comments: Some(self.comments),
+            comments: Some(&self.comments),
             handlers: Box::new(Noop),
             pos_of_leading_comments: Default::default(),
         };
@@ -57,21 +57,24 @@ fn parse_then_emit(from: &str, cfg: Config) -> String {
             from, src.start_pos, src.end_pos
         );
 
-        let mut parser = Parser::new(
-            Session { handler: &handler },
-            Syntax::default(),
-            SourceFileInput::from(&*src),
-            Some(Default::default()),
-        );
-        let res = parser.parse_module().map_err(|mut e| {
-            e.emit();
-            ()
-        })?;
+        let comments = Default::default();
+        let res = {
+            let mut parser = Parser::new(
+                Session { handler: &handler },
+                Syntax::default(),
+                SourceFileInput::from(&*src),
+                Some(&comments),
+            );
+            parser.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })?
+        };
 
         let out = Builder {
             cfg,
             cm: cm.clone(),
-            comments: parser.take_comments().unwrap(),
+            comments,
         }
         .text(from, |e| e.emit_module(&res).unwrap());
         Ok(out)

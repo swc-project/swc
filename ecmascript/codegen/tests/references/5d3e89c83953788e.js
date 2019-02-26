@@ -1,3 +1,4 @@
 function a() {
-    for(var b in c);
+    // Do not remove this i
+for(var b in c);
 }

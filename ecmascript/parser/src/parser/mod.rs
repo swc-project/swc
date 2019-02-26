@@ -46,16 +46,17 @@ struct State {
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    pub fn new(session: Session<'a>, syntax: Syntax, input: I, comments: Option<Comments>) -> Self {
+    pub fn new(
+        session: Session<'a>,
+        syntax: Syntax,
+        input: I,
+        comments: Option<&'a Comments>,
+    ) -> Self {
         Parser {
             session,
             input: ParserInput::new(Lexer::new(session, syntax, input, comments)),
             state: Default::default(),
         }
-    }
-
-    pub fn take_comments(&mut self) -> Option<Comments> {
-        self.input.take_comments()
     }
 
     pub fn parse_script(&mut self) -> PResult<'a, Script> {

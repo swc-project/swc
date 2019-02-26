@@ -152,28 +152,13 @@ mod tests {
     use super::*;
     use crate::tests::Tester;
 
-    fn tr(tester: &mut Tester, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
+    fn tr(_: &mut Tester, sources: &[(&str, &[(&str, &str)])]) -> impl Fold<Module> {
         let mut m = FxHashMap::default();
 
         for (src, values) in sources {
             let values = values
                 .iter()
-                .map(|(k, v)| {
-                    let mut v = tester
-                        .apply_transform(
-                            ::testing::DropSpan,
-                            "global.js",
-                            ::swc_ecma_parser::Syntax::default(),
-                            v,
-                        )
-                        .unwrap();
-                    let v = match v.body.pop().unwrap() {
-                        ModuleItem::Stmt(Stmt::Expr(box expr)) => expr,
-                        _ => unreachable!(),
-                    };
-
-                    ((*k).into(), Arc::new(v))
-                })
+                .map(|(k, v)| ((*k).into(), v.to_string()))
                 .collect();
 
             m.insert((*src).into(), values);

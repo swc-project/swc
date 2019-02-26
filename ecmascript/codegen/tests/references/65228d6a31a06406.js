@@ -1,4 +1,5 @@
 var a;
+// compress these
 a = true && b;
 a = 1 && c.d('a');
 a = 2 * 3 && 4 * b;
@@ -16,6 +17,7 @@ a = 17 * 18 - 19 && 20 - b;
 a = 21 == 22 && b / 23;
 a = !'e' && 24 % b;
 a = 25 && 26;
+// don't compress these
 a = b && true;
 a = c.d('a') && 27;
 a = 28 - b && 'e';

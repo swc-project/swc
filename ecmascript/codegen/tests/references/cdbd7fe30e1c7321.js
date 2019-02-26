@@ -1,3 +1,4 @@
 (function() {
-    var a = 1;
+    var a = 1; // should hoist to parameter
+
 }());

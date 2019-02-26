@@ -1,3 +1,4 @@
+// optimize this
 (function() {
     a('b');
 }());

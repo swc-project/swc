@@ -1,5 +1,6 @@
 function a() {
     if (false) {
-        var a = 1;
+        // because test is not referenced
+var a = 1;
     }
 }

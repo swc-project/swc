@@ -2,14 +2,16 @@ if (a) {
     try {
     } catch (b) {
     }
-    (function() {
+    // do not optimize it
+(function() {
         c('d');
     }());
 } else {
     try {
     } catch (b) {
     }
-    (function() {
+    // do not optimize it
+(function() {
         c('d');
     }());
 }

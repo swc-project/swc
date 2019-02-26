@@ -1,4 +1,5 @@
 (function() {
-    return;
+    return; /* Multiline
+Comment */
     a;
 });

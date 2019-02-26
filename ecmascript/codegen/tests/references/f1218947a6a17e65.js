@@ -1,5 +1,6 @@
 (function() {
-    var a = 1;
+    var a = 1; // hoist this, but it is very difficult.
+
     (function() {
         eval('');
     }());

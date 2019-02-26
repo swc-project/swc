@@ -1,2 +1,3 @@
 do continue;
-while (true)
+while (true) // should be empty statement
+

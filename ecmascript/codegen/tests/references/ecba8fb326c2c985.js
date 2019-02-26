@@ -1,4 +1,5 @@
 var a, b, c, d, e;
+// compress these
 if (b) {
     a = 1 + 2;
 } else {
@@ -13,6 +14,7 @@ if (b) {
 }
 a = b ? 'f' : 'g' + 'h';
 a = b ? 'f' : b ? 'f' : 'g' + 'h';
+// Compress conditions that have side effects
 if (i()) {
     a = 9 + 10;
 } else {
@@ -26,5 +28,6 @@ if (c) {
     a = 'j';
 }
 a = i() ? 'm' : 'f' + 'n';
+// don't compress these
 a = b ? d : e;
 a = b ? 'f' : 'g';

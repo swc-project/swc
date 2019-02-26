@@ -1,4 +1,5 @@
 var a;
+// compress these
 a = b ? true : false;
 a = !b ? true : false;
 a = b() ? true : false;
