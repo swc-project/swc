@@ -23,9 +23,6 @@
    <a href="https://codecov.io/gh/swc-project/swc">
       <img alt="Coverage" src="https://codecov.io/gh/swc-project/swc/branch/master/graph/badge.svg">
    </a>
-   <a href="https://gitter.im/swcproject/Lobby">
-      <img alt="Gitter" src="https://img.shields.io/gitter/room/swc-project/swc.svg">
-   </a>
 </p>
 
 
@@ -44,8 +41,8 @@
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Gitter](https://gitter.im/swcproject/Lobby) for guidance!)
-- Giving funds by becoming a sponsor (see below)!
+- Giving developer time on the project. (Message us on [Slack](https://swc-org.slack.com/) for guidance!)
+- Giving funds by becoming a sponsor (see below)! [Slackin for swc](https://swc-slackin.herokuapp.com)
 
 ## Open Collective Sponsors
 
