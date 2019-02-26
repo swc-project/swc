@@ -145,12 +145,13 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     src.count_lines()
                 );
 
+                let comments = Comments::default();
                 let handlers = box MyHandlers;
                 let mut parser: Parser<SourceFileInput> = Parser::new(
                     Session { handler: &handler },
                     Syntax::default(),
                     (&*src).into(),
-                    Some(Comments::default()),
+                    Some(&comments),
                 );
 
                 {
@@ -163,7 +164,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             &mut wr,
                             None,
                         ),
-                        comments: parser.take_comments(),
+                        comments: Some(&comments),
                         handlers,
                         pos_of_leading_comments: Default::default(),
                     };

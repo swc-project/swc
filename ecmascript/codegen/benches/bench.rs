@@ -116,7 +116,7 @@ fn emit_colors(b: &mut Bencher) {
                     cfg: swc_ecma_codegen::Config {
                         ..Default::default()
                     },
-                    comments: parser.take_comments(),
+                    comments: None,
                     cm: cm.clone(),
                     wr: box swc_ecma_codegen::text_writer::JsWriter::new(
                         cm.clone(),

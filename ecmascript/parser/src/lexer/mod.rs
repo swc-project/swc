@@ -33,7 +33,7 @@ pub(crate) type LexResult<T> = Result<T, Error>;
 #[derive(Clone)]
 pub(crate) struct Lexer<'a, I: Input> {
     session: Session<'a>,
-    comments: Option<Comments>,
+    comments: Option<&'a Comments>,
     leading_comments_buffer: Option<Vec<Comment>>,
     pub ctx: Context,
     input: I,
@@ -42,7 +42,12 @@ pub(crate) struct Lexer<'a, I: Input> {
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
-    pub fn new(session: Session<'a>, syntax: Syntax, input: I, comments: Option<Comments>) -> Self {
+    pub fn new(
+        session: Session<'a>,
+        syntax: Syntax,
+        input: I,
+        comments: Option<&'a Comments>,
+    ) -> Self {
         Lexer {
             session,
             leading_comments_buffer: if comments.is_some() {
@@ -56,10 +61,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             ctx: Default::default(),
             syntax,
         }
-    }
-
-    pub fn take_comments(&mut self) -> Option<Comments> {
-        self.comments.take()
     }
 
     /// babel: `getTokenFromCode`
