@@ -1,3 +1,4 @@
+// mangle to the same name 'a'
 c: {
     a('b');
     break c;

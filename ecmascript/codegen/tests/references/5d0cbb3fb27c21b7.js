@@ -3,6 +3,7 @@ for(;;){
         if (b) {
             continue;
         }
-        c();
+        c(); // This should not removed and translation should not occur.
+
     }
 }

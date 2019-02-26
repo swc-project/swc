@@ -1,6 +1,7 @@
 switch(a){
     case 1:
-        (function() {
+        // do not optimize it
+(function() {
             b('c');
         }());
 }

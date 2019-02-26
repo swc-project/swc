@@ -1,5 +1,7 @@
-a.b('c').d('e', function(f) {
+a.b('c').d('e', /*@ngInject*/
+function(f) {
     return f;
-}).g('h', function(i) {
+}).g('h', /*@ngInject*/
+function(i) {
     return i;
 });

@@ -1,1 +1,2 @@
-var a;
+var /* comment */
+a;

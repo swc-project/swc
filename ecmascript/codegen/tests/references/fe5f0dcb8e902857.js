@@ -1,4 +1,5 @@
-while(a)(function() {
+while(a)// optimize it
+(function() {
     b('c');
 }());
 try {

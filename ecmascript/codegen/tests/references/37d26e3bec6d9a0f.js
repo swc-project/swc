@@ -1,6 +1,7 @@
 switch(a){
     default:
-        (function() {
+        // do not optimize it
+(function() {
             b('c');
         }());
 }

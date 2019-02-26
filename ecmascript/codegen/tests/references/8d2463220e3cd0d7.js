@@ -1,8 +1,10 @@
 (function() {
-    b: {
+    // 'a'
+b: {
         if (a) break b;
         (function() {
-            b: {
+            // 'a'
+b: {
                 if (a) break b;
                 c('d');
             }
