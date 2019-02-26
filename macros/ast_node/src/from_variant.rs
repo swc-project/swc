@@ -1,4 +1,6 @@
+use pmutil::Quote;
 use swc_macros_common::prelude::*;
+use syn::*;
 
 pub fn derive(
     DeriveInput {

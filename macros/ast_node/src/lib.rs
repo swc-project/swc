@@ -9,7 +9,9 @@ extern crate quote;
 extern crate swc_macros_common;
 extern crate syn;
 
+use pmutil::{Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
+use syn::*;
 
 mod ast_node_macro;
 mod fold;

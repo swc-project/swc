@@ -1,8 +1,11 @@
+use pmutil::Quote;
 use swc_macros_common::prelude::*;
 use syn::{
     self,
     parse::{Parse, ParseStream},
+    *,
 };
+
 #[derive(Clone)]
 pub struct Args {
     pub ty: Literal,

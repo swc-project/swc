@@ -1,5 +1,7 @@
 use darling::FromField;
+use pmutil::{Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
+use syn::*;
 
 #[derive(Debug, FromField)]
 #[darling(attributes(span))]

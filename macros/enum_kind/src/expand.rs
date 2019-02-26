@@ -1,5 +1,7 @@
 use input::*;
+use pmutil::{Quote, SpanExt};
 use swc_macros_common::prelude::*;
+use syn::*;
 use util::is_bool;
 
 pub fn expand(

@@ -16,7 +16,7 @@ default = []
 fold = []
 
 [dependencies]
-swc_macros_common = { version = "0.1", path = "../common" }
+swc_macros_common = { version = "0.2", path = "../common" }
 pmutil = "0.3"
 proc-macro2 = "0.4.27"
 quote = "0.6.11"
