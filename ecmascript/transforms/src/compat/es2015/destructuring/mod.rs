@@ -31,11 +31,10 @@ mod tests;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-pub fn destructuring() -> impl Pass + Clone + Copy {
+pub fn destructuring() -> impl Pass {
     Destructuring
 }
 
-#[derive(Clone, Copy)]
 struct Destructuring;
 
 macro_rules! impl_for_for_stmt {

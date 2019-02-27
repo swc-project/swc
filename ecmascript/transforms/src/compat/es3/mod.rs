@@ -9,6 +9,6 @@ mod prop_lits;
 mod reserved_word;
 
 /// Make output es3-compatible.
-pub fn es3() -> impl Pass + Clone {
+pub fn es3() -> impl Pass {
     chain_at!(Expr, PropertyLiteral, MemberExprLit, ReservedWord)
 }

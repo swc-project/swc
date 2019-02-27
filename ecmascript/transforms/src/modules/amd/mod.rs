@@ -4,7 +4,7 @@ use super::util::{
 };
 use crate::{
     pass::Pass,
-    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory, State},
+    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
 use fxhash::FxHashSet;
@@ -15,7 +15,7 @@ use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
-pub fn amd(config: Config) -> impl Pass + Clone {
+pub fn amd(config: Config) -> impl Pass {
     Amd {
         config,
         in_top_level: Default::default(),
@@ -24,12 +24,11 @@ pub fn amd(config: Config) -> impl Pass + Clone {
     }
 }
 
-#[derive(Clone)]
 struct Amd {
     config: Config,
-    in_top_level: State<bool>,
-    scope: State<Scope>,
-    exports: State<Exports>,
+    in_top_level: bool,
+    scope: Scope,
+    exports: Exports,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -45,7 +44,7 @@ pub struct Config {
 impl Fold<Module> for Amd {
     fn fold(&mut self, module: Module) -> Module {
         let items = module.body;
-        self.in_top_level = true.into();
+        self.in_top_level = true;
 
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
@@ -59,7 +58,7 @@ impl Fold<Module> for Amd {
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;
-        let exports_ident = self.exports.value.0.clone();
+        let exports_ident = self.exports.0.clone();
 
         // Process items
         for item in items {
@@ -110,7 +109,6 @@ impl Fold<Module> for Amd {
 
                         ModuleDecl::ExportAll(ref export) => {
                             self.scope
-                                .value
                                 .import_types
                                 .entry(export.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -166,7 +164,7 @@ impl Fold<Module> for Amd {
                             extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
 
                             var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.value.declared_vars,
+                                to: &mut self.scope.declared_vars,
                             });
 
                             let mut found = vec![];
@@ -292,7 +290,7 @@ impl Fold<Module> for Amd {
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
-                                if self.scope.value.declared_vars.contains(&key) {
+                                if self.scope.declared_vars.contains(&key) {
                                     self.scope
                                         .exported_vars
                                         .entry(key.clone())
@@ -448,7 +446,7 @@ impl Fold<Module> for Amd {
             )));
         }
 
-        for (src, import) in self.scope.value.imports.drain(..) {
+        for (src, import) in self.scope.imports.drain(..) {
             let import = import.unwrap_or_else(|| {
                 (
                     local_name_for_src(&src),
@@ -464,7 +462,7 @@ impl Fold<Module> for Amd {
 
             {
                 // handle interop
-                let ty = self.scope.value.import_types.get(&src);
+                let ty = self.scope.import_types.get(&src);
 
                 match ty {
                     Some(&wildcard) => {
@@ -541,12 +539,11 @@ impl Fold<Module> for Amd {
 
 impl Fold<Expr> for Amd {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let exports_ident = self.exports.value.0.clone();
+        let exports_ident = self.exports.0.clone();
 
         macro_rules! entry {
             ($i:expr) => {
                 self.scope
-                    .value
                     .exported_vars
                     .entry(($i.sym.clone(), $i.span.ctxt()))
             };
@@ -573,13 +570,12 @@ impl Fold<Expr> for Amd {
 
         match expr {
             Expr::Ident(i) => {
-                let v = self.scope.value.idents.get(&(i.sym.clone(), i.span.ctxt()));
+                let v = self.scope.idents.get(&(i.sym.clone(), i.span.ctxt()));
                 match v {
                     None => return Expr::Ident(i),
                     Some((src, prop)) => {
                         let (ident, span) = self
                             .scope
-                            .value
                             .imports
                             .get(src)
                             .as_ref()
@@ -739,7 +735,7 @@ impl Fold<VarDecl> for Amd {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
             var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.value.declared_vars,
+                to: &mut self.scope.declared_vars,
             });
         }
 
@@ -756,11 +752,11 @@ impl ModulePass for Amd {
     }
 
     fn scope(&self) -> &Scope {
-        &self.scope.value
+        &self.scope
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope.value
+        &mut self.scope
     }
 }
 mark_as_nested!(Amd);

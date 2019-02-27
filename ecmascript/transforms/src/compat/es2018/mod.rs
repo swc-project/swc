@@ -4,6 +4,6 @@ use crate::pass::Pass;
 
 mod object_rest_spread;
 
-pub fn es2018() -> impl Pass + Clone {
+pub fn es2018() -> impl Pass {
     object_rest_spread()
 }

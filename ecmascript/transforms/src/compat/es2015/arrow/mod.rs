@@ -56,11 +56,10 @@ mod tests;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow() -> impl Pass + Clone + Copy {
+pub fn arrow() -> impl Pass {
     Arrow
 }
 
-#[derive(Clone, Copy)]
 struct Arrow;
 
 impl Fold<Expr> for Arrow {

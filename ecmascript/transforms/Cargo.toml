@@ -17,7 +17,6 @@ chashmap = "2.2.0"
 either = "1.5"
 fxhash = "0.2"
 lazy_static = "1"
-objekt = "0.1"
 serde = { version = "1", features = ["derive"] }
 indexmap = "1"
 ordered-float = "1.0.1"

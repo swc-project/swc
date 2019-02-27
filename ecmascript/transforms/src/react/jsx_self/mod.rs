@@ -8,10 +8,9 @@ mod tests;
 /// `@babel/plugin-transform-react-jsx-self`
 ///
 /// Add a __self prop to all JSX Elements
-pub fn jsx_self(dev: bool) -> impl Pass + Clone + Copy {
+pub fn jsx_self(dev: bool) -> impl Pass {
     JsxSelf { dev }
 }
-#[derive(Clone, Copy)]
 struct JsxSelf {
     dev: bool,
 }

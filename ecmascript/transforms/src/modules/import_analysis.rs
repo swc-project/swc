@@ -1,25 +1,24 @@
 use super::util::Scope;
-use crate::{pass::Pass, util::State};
+use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, Visit, VisitWith};
 
-pub fn import_analyzer() -> impl Pass + Clone {
+pub fn import_analyzer() -> impl Pass {
     ImportAnalyzer {
         scope: Default::default(),
     }
 }
 
 /// Inject required helpers methods **for** module transform passes.
-#[derive(Clone)]
 struct ImportAnalyzer {
-    scope: State<Scope>,
+    scope: Scope,
 }
 
 impl Fold<Module> for ImportAnalyzer {
     fn fold(&mut self, module: Module) -> Module {
         module.visit_with(self);
 
-        for (_, ty) in self.scope.value.import_types.drain() {
+        for (_, ty) in self.scope.import_types.drain() {
             match ty {
                 true => {
                     enable_helper!(interop_require_wildcard);
@@ -38,7 +37,6 @@ impl Visit<ExportAll> for ImportAnalyzer {
     fn visit(&mut self, export: &ExportAll) {
         *self
             .scope
-            .value
             .import_types
             .entry(export.src.value.clone())
             .or_default() = true

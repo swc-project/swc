@@ -16,7 +16,7 @@ mod jsx_src;
 /// `@babel/preset-react`
 ///
 /// Preset for all React plugins.
-pub fn react(cm: Arc<SourceMap>, options: Options) -> impl Pass + Clone {
+pub fn react(cm: Arc<SourceMap>, options: Options) -> impl Pass {
     let Options { development, .. } = options;
 
     chain!(

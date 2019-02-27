@@ -1,4 +1,3 @@
-pub(crate) use self::state::State;
 pub use self::{
     factory::ExprFactory,
     value::{
@@ -28,7 +27,6 @@ use unicode_xid::UnicodeXID;
 
 pub(crate) mod constructor;
 mod factory;
-mod state;
 mod value;
 pub(crate) mod var;
 

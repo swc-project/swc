@@ -1004,3 +1004,62 @@ fn module_03() {
         export {foo1 as foo}",
     );
 }
+
+#[test]
+fn issue_281_01() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "label: {
+                        break label
+                    }",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("label", &[mark1, mark1])])))
+        },
+        "label: {
+            break label
+        }",
+    );
+}
+
+#[test]
+fn issue_281_02() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+            let mark3 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "function foo(e) {
+                        e: {
+                            try {
+                            } catch (e) {
+                                o = null;
+                                break e
+                            }
+                        }
+                    }",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "e",
+                    &[mark1, mark2, mark3, mark2],
+                )])))
+        },
+        "function foo(e) {
+            e: {
+                try {
+                } catch (e1) {
+                    o = null;
+                    break e
+                }
+            }
+        }",
+    );
+}

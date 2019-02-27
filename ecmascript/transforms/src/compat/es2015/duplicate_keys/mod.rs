@@ -7,11 +7,10 @@ use swc_common::{Fold, FoldWith, Spanned};
 #[cfg(test)]
 mod tests;
 
-pub fn duplicate_keys() -> impl Pass + Clone + Copy {
+pub fn duplicate_keys() -> impl Pass {
     DuplicateKeys
 }
 
-#[derive(Default, Clone, Copy)]
 struct DuplicateKeys;
 
 impl Fold<Expr> for DuplicateKeys {

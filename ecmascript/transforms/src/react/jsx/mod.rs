@@ -92,7 +92,7 @@ fn parse_option(name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx(options: Options) -> impl Pass + Clone {
+pub fn jsx(options: Options) -> impl Pass {
     Jsx {
         pragma: ExprOrSuper::Expr(parse_option("pragma", options.pragma)),
         pragma_frag: ExprOrSpread {
@@ -103,7 +103,6 @@ pub fn jsx(options: Options) -> impl Pass + Clone {
     }
 }
 
-#[derive(Clone)]
 struct Jsx {
     pragma: ExprOrSuper,
     pragma_frag: ExprOrSpread,

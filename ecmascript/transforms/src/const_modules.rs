@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{drop_span, State, CM, SESSION},
+    util::{drop_span, CM, SESSION},
 };
 use ast::*;
 use chashmap::CHashMap;
@@ -10,7 +10,7 @@ use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, FileName, Fold, FoldWith};
 use swc_ecma_parser::{Parser, SourceFileInput, Syntax};
 
-pub fn const_modules(globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>) -> impl Pass + Clone {
+pub fn const_modules(globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>) -> impl Pass {
     ConstModules {
         globals: globals
             .into_iter()
@@ -67,10 +67,9 @@ fn parse_option(name: &str, src: String) -> Arc<Expr> {
     expr
 }
 
-#[derive(Clone)]
 struct ConstModules {
     globals: FxHashMap<JsWord, FxHashMap<JsWord, Arc<Expr>>>,
-    scope: State<Scope>,
+    scope: Scope,
 }
 
 #[derive(Default)]
@@ -78,7 +77,10 @@ struct Scope {
     imported: FxHashMap<JsWord, Arc<Expr>>,
 }
 
-impl Fold<Vec<ModuleItem>> for ConstModules {
+impl Fold<Vec<ModuleItem>> for ConstModules
+where
+    Vec<ModuleItem>: FoldWith<Self>,
+{
     fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         items.move_flat_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
@@ -101,7 +103,7 @@ impl Fold<Vec<ModuleItem>> for ConstModules {
                                 import.src.value, i.sym
                             )
                         });
-                        self.scope.value.imported.insert(i.sym.clone(), value);
+                        self.scope.imported.insert(i.sym.clone(), value);
                     }
 
                     None

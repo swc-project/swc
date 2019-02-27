@@ -28,7 +28,7 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export defaul class
-pub fn class_properties() -> impl Pass + Clone {
+pub fn class_properties() -> impl Pass {
     ClassProperties { mark: Mark::root() }
 }
 

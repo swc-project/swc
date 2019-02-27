@@ -42,11 +42,10 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn for_of() -> impl Pass + Clone + Copy {
+pub fn for_of() -> impl Pass {
     ForOf
 }
 
-#[derive(Clone, Copy)]
 struct ForOf;
 
 /// Real folder.

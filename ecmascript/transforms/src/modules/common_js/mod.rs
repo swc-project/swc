@@ -5,7 +5,7 @@ use super::util::{
 };
 use crate::{
     pass::Pass,
-    util::{var::VarCollector, DestructuringFinder, ExprFactory, State},
+    util::{var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
 use fxhash::FxHashSet;
@@ -14,7 +14,7 @@ use swc_common::{Fold, FoldWith, VisitWith, DUMMY_SP};
 #[cfg(test)]
 mod tests;
 
-pub fn common_js(config: Config) -> impl Pass + Clone {
+pub fn common_js(config: Config) -> impl Pass {
     CommonJs {
         config,
         scope: Default::default(),
@@ -22,11 +22,10 @@ pub fn common_js(config: Config) -> impl Pass + Clone {
     }
 }
 
-#[derive(Clone)]
 struct CommonJs {
     config: Config,
-    scope: State<Scope>,
-    in_top_level: State<bool>,
+    scope: Scope,
+    in_top_level: bool,
 }
 
 impl Fold<Vec<ModuleItem>> for CommonJs {
@@ -46,7 +45,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
         let mut export_alls = vec![];
 
         for item in items {
-            self.in_top_level = true.into();
+            self.in_top_level = true;
 
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
@@ -91,7 +90,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                             self.scope
-                                .value
                                 .import_types
                                 .entry(export.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -106,10 +104,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
-                            self.scope
-                                .value
-                                .lazy_blacklist
-                                .insert(export.src.value.clone());
+                            self.scope.lazy_blacklist.insert(export.src.value.clone());
 
                             export_alls.push(export);
                         }
@@ -157,7 +152,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                             ))));
 
                             var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.value.declared_vars,
+                                to: &mut self.scope.declared_vars,
                             });
 
                             let mut found = vec![];
@@ -299,7 +294,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
-                                if self.scope.value.declared_vars.contains(&key) {
+                                if self.scope.declared_vars.contains(&key) {
                                     self.scope
                                         .exported_vars
                                         .entry(key.clone())
@@ -324,7 +319,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 }
 
                                 let lazy = if let Some(ref src) = export.src {
-                                    if self.scope.value.lazy_blacklist.contains(&src.value) {
+                                    if self.scope.lazy_blacklist.contains(&src.value) {
                                         false
                                     } else {
                                         self.config.lazy.is_lazy(&src.value)
@@ -332,12 +327,11 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 } else {
                                     match self
                                         .scope
-                                        .value
                                         .idents
                                         .get(&(orig.sym.clone(), orig.span.ctxt()))
                                     {
                                         Some((ref src, _)) => {
-                                            if self.scope.value.lazy_blacklist.contains(src) {
+                                            if self.scope.lazy_blacklist.contains(src) {
                                                 false
                                             } else {
                                                 self.config.lazy.is_lazy(src)
@@ -350,7 +344,6 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
                                 let is_reexport = export.src.is_some()
                                     || self
                                         .scope
-                                        .value
                                         .idents
                                         .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
 
@@ -479,8 +472,8 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
             ))));
         }
 
-        for (src, import) in self.scope.value.imports.drain(..) {
-            let lazy = if self.scope.value.lazy_blacklist.contains(&src) {
+        for (src, import) in self.scope.imports.drain(..) {
+            let lazy = if self.scope.lazy_blacklist.contains(&src) {
                 false
             } else {
                 self.config.lazy.is_lazy(&src)
@@ -490,7 +483,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
             match import {
                 Some(import) => {
-                    let ty = self.scope.value.import_types.get(&src);
+                    let ty = self.scope.import_types.get(&src);
 
                     let rhs = match ty {
                         Some(true) if !self.config.no_interop => box Expr::Call(CallExpr {
@@ -599,7 +592,7 @@ impl Fold<Vec<ModuleItem>> for CommonJs {
 
 impl Fold<Expr> for CommonJs {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let top_level = self.in_top_level.value;
+        let top_level = self.in_top_level;
         Scope::fold_expr(self, quote_ident!("exports"), top_level, expr)
     }
 }
@@ -610,7 +603,7 @@ impl Fold<VarDecl> for CommonJs {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
             var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.value.declared_vars,
+                to: &mut self.scope.declared_vars,
             });
         }
 
@@ -627,11 +620,11 @@ impl ModulePass for CommonJs {
     }
 
     fn scope(&self) -> &Scope {
-        &self.scope.value
+        &self.scope
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope.value
+        &mut self.scope
     }
 }
 

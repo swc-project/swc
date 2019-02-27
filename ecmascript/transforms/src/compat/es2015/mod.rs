@@ -27,7 +27,7 @@ mod sticky_regex;
 mod template_literal;
 mod typeof_symbol;
 
-fn exprs() -> impl Pass + Clone {
+fn exprs() -> impl Pass {
     chain_at!(
         Expr,
         arrow(),
@@ -40,12 +40,12 @@ fn exprs() -> impl Pass + Clone {
     )
 }
 
-fn stmts() -> impl Pass + Clone {
+fn stmts() -> impl Pass {
     chain_at!(Stmt, function_name(), exprs(),)
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015() -> impl Pass + Clone {
+pub fn es2015() -> impl Pass {
     chain_at!(
         Module,
         BlockScopedFns,
