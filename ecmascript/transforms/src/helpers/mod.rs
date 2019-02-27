@@ -111,6 +111,18 @@ macro_rules! define_helpers {
         }
 
         impl InjectHelpers {
+            fn is_helper_used(&self) -> bool{
+                let mut value = false;
+
+                HELPERS.with(|helpers|{
+                    $(
+                        value |= helpers.inner.$name.load(Ordering::Relaxed);
+                    )*
+                });
+
+                value
+            }
+
             fn build_helpers(&self) -> Vec<ModuleItem> {
                 let mut buf = vec![];
 
@@ -211,7 +223,7 @@ pub struct InjectHelpers;
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
-        if external {
+        if external && self.is_helper_used() {
             vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
                 specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {

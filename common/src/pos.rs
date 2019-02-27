@@ -2,8 +2,8 @@
 use fold::{FoldWith, VisitWith};
 pub use syntax_pos::{
     hygiene, BytePos, CharPos, ExpnInfo, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan,
-    SourceFile, SourceFileAndBytePos, Span, SpanData, SpanLinesError, SyntaxContext, DUMMY_SP,
-    GLOBALS, NO_EXPANSION,
+    SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError,
+    SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
 };
 
 ///
