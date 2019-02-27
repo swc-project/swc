@@ -1,8 +1,9 @@
 #[cfg(feature = "fold")]
 use fold::{FoldWith, VisitWith};
 pub use syntax_pos::{
-    hygiene, BytePos, ExpnInfo, FileName, Globals, Mark, MultiSpan, SourceFile, Span, SpanData,
-    SyntaxContext, DUMMY_SP, GLOBALS, NO_EXPANSION,
+    hygiene, BytePos, CharPos, ExpnInfo, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan,
+    SourceFile, SourceFileAndBytePos, Span, SpanData, SpanLinesError, SyntaxContext, DUMMY_SP,
+    GLOBALS, NO_EXPANSION,
 };
 
 ///

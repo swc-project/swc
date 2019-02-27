@@ -4,7 +4,7 @@ use std::{
     io::{self, Write},
     sync::Arc,
 };
-use swc_common::{SourceMap, Span};
+use swc_common::{FileName, SourceMap, Span};
 
 ///
 /// -----
@@ -58,29 +58,41 @@ impl<'a, W: Write> JsWriter<'a, W> {
     fn raw_write(&mut self, data: &[u8]) -> io::Result<usize> {
         let written = self.wr.write(data)?;
         self.written_bytes += written;
+        self.line_pos += written;
         Ok(written)
     }
 
     fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<usize> {
         let mut cnt = 0;
 
+        macro_rules! srcmap {
+            ($byte_pos:expr) => {{
+                match self.srcmap {
+                    Some(ref mut srcmap) => {
+                        let loc = self.cm.lookup_char_pos($byte_pos);
+
+                        let src = match loc.file.name {
+                            FileName::Real(ref p) => Some(p.display().to_string()),
+                            _ => None,
+                        };
+                        srcmap.add(
+                            self.line_count as _,
+                            self.line_pos as _,
+                            loc.line as _,
+                            loc.col.0 as _,
+                            src.as_ref().map(|s| &**s),
+                            None,
+                        );
+                    }
+                    _ => {}
+                }
+            }};
+        }
+
         if data.len() > 0 {
             if let Some(span) = span {
                 if !span.is_dummy() {
-                    match self.srcmap {
-                        Some(ref mut srcmap) => {
-                            let loc = self.cm.lookup_char_pos(span.lo());
-                            srcmap.add(
-                                self.line_count as _,
-                                self.line_pos as _,
-                                loc.line as _,
-                                loc.col.0 as _,
-                                None,
-                                None,
-                            );
-                        }
-                        _ => {}
-                    }
+                    srcmap!(span.lo())
                 }
             }
 
@@ -92,20 +104,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
             if let Some(span) = span {
                 if !span.is_dummy() {
-                    match self.srcmap {
-                        Some(ref mut srcmap) => {
-                            let loc = self.cm.lookup_char_pos(span.hi());
-                            srcmap.add(
-                                self.line_count as _,
-                                self.line_pos as _,
-                                loc.line as _,
-                                loc.col.0 as _,
-                                None,
-                                None,
-                            );
-                        }
-                        None => {}
-                    }
+                    srcmap!(span.hi())
                 }
             }
         }
@@ -157,7 +156,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         if !self.line_start {
             self.raw_write(self.new_line.as_bytes())?;
             self.line_count += 1;
-            self.line_pos = self.written_bytes;
+            self.line_pos = 0;
             self.line_start = true;
         }
 
