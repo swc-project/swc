@@ -223,15 +223,19 @@ pub struct InjectHelpers;
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
-        if external && self.is_helper_used() {
-            vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                span: DUMMY_SP,
-                specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {
+        if external {
+            if self.is_helper_used() {
+                vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
-                    local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
-                })],
-                src: quote_str!("@swc/helpers"),
-            }))]
+                    specifiers: vec![ImportSpecifier::Namespace(ImportStarAs {
+                        span: DUMMY_SP,
+                        local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
+                    })],
+                    src: quote_str!("@swc/helpers"),
+                }))]
+            } else {
+                vec![]
+            }
         } else {
             self.build_helpers()
         }
