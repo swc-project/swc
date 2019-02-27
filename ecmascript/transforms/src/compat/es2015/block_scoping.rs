@@ -2,11 +2,10 @@ use crate::pass::Pass;
 use ast::*;
 use swc_common::{Fold, FoldWith};
 
-pub fn block_scoping() -> impl Pass + Clone + Copy {
+pub fn block_scoping() -> impl Pass {
     BlockScoping
 }
 
-#[derive(Clone, Copy)]
 struct BlockScoping;
 
 impl Fold<VarDecl> for BlockScoping {

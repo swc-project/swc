@@ -3,6 +3,6 @@ use crate::pass::Pass;
 
 mod async_to_generator;
 
-pub fn es2017() -> impl Pass + Clone {
+pub fn es2017() -> impl Pass {
     async_to_generator()
 }

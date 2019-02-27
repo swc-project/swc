@@ -1,5 +1,8 @@
 use self::ops::{Operator, ScopeOp};
-use crate::{pass::Pass, scope::ScopeKind, util::State};
+use crate::{
+    pass::Pass,
+    scope::{IdentType, ScopeKind},
+};
 use ast::*;
 use fxhash::FxHashMap;
 use std::cell::RefCell;
@@ -12,10 +15,9 @@ mod tests;
 
 const LOG: bool = false;
 
-#[derive(Clone)]
 struct Hygiene<'a> {
-    current: State<Scope<'a>>,
-    in_var_decl: State<bool>,
+    current: Scope<'a>,
+    ident_type: IdentType,
 }
 
 impl<'a> Hygiene<'a> {
@@ -112,7 +114,7 @@ impl<'a> Hygiene<'a> {
     }
 }
 
-pub fn hygiene() -> impl Pass + Clone + 'static {
+pub fn hygiene() -> impl Pass + 'static {
     #[derive(Clone, Copy)]
     struct MarkClearer;
     impl Fold<Span> for MarkClearer {
@@ -125,7 +127,7 @@ pub fn hygiene() -> impl Pass + Clone + 'static {
         Module,
         Hygiene {
             current: Default::default(),
-            in_var_decl: Default::default(),
+            ident_type: IdentType::Ref,
         },
         MarkClearer
     )
@@ -168,7 +170,7 @@ impl<'a> Fold<BlockStmt> for Hygiene<'a> {
     fn fold(&mut self, node: BlockStmt) -> BlockStmt {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Block, Some(&self.current)).into(),
-            in_var_decl: false.into(),
+            ident_type: IdentType::Ref,
         };
         let node = node.fold_children(&mut folder);
 
@@ -187,13 +189,13 @@ impl<'a> Hygiene<'a> {
 
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)).into(),
-            in_var_decl: false.into(),
+            ident_type: IdentType::Ref,
         };
 
-        folder.in_var_decl = true.into();
+        folder.ident_type = IdentType::Binding;
         node.params = node.params.fold_with(&mut folder);
 
-        folder.in_var_decl = false.into();
+        folder.ident_type = IdentType::Ref;
         node.body = node.body.map(|stmt| stmt.fold_children(&mut folder));
 
         folder.apply_ops(node)
@@ -202,10 +204,10 @@ impl<'a> Hygiene<'a> {
 
 impl<'a> Fold<VarDeclarator> for Hygiene<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true.into();
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
         let name = decl.name.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
+        self.ident_type = old;
 
         let init = decl.init.fold_with(self);
         VarDeclarator { name, init, ..decl }
@@ -231,10 +233,15 @@ impl<'a> Fold<FnDecl> for Hygiene<'a> {
 impl<'a> Fold<Ident> for Hygiene<'a> {
     /// Invoked for `IdetifierRefrence` / `BindingIdentifier`
     fn fold(&mut self, i: Ident) -> Ident {
-        if self.in_var_decl.value {
-            self.add_declared_ref(i.clone())
-        } else {
-            self.add_used_ref(i.clone());
+        match self.ident_type {
+            IdentType::Binding => self.add_declared_ref(i.clone()),
+            IdentType::Ref => {
+                self.add_used_ref(i.clone());
+            }
+            IdentType::Label => {
+                // We currently does not touch labels
+                return i;
+            }
         }
 
         i
@@ -243,8 +250,8 @@ impl<'a> Fold<Ident> for Hygiene<'a> {
 
 impl<'a> Fold<Expr> for Hygiene<'a> {
     fn fold(&mut self, node: Expr) -> Expr {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = false.into();
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
         let node = match node {
             Expr::Ident(..) => node.fold_children(self),
             Expr::Member(e) => {
@@ -267,7 +274,7 @@ impl<'a> Fold<Expr> for Hygiene<'a> {
             _ => node.fold_children(self),
         };
 
-        self.in_var_decl = old_in_var_decl;
+        self.ident_type = old;
 
         node
     }
@@ -411,12 +418,12 @@ macro_rules! track_ident {
     ($T:tt) => {
         impl<'a> Fold<ExportSpecifier> for $T<'a> {
             fn fold(&mut self, s: ExportSpecifier) -> ExportSpecifier {
-                let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = false.into();
+                let old = self.ident_type;
+                self.ident_type = IdentType::Ref;
 
                 let s = s.fold_children(self);
 
-                self.in_var_decl = old_in_var_decl;
+                self.ident_type = old;
 
                 s
             }
@@ -424,8 +431,8 @@ macro_rules! track_ident {
 
         impl<'a> Fold<ImportSpecifier> for $T<'a> {
             fn fold(&mut self, s: ImportSpecifier) -> ImportSpecifier {
-                let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true.into();
+                let old = self.ident_type;
+                self.ident_type = IdentType::Binding;
 
                 let s = match s {
                     ImportSpecifier::Specific(ImportSpecific { imported: None, .. })
@@ -437,7 +444,7 @@ macro_rules! track_ident {
                     }),
                 };
 
-                self.in_var_decl = old_in_var_decl;
+                self.ident_type = old;
 
                 s
             }
@@ -445,10 +452,10 @@ macro_rules! track_ident {
 
         impl<'a> Fold<Constructor> for $T<'a> {
             fn fold(&mut self, c: Constructor) -> Constructor {
-                let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true.into();
+                let old = self.ident_type;
+                self.ident_type = IdentType::Binding;
                 let params = c.params.fold_with(self);
-                self.in_var_decl = old_in_var_decl;
+                self.ident_type = old;
 
                 let body = c.body.fold_with(self);
                 let key = c.key.fold_with(self);
@@ -464,10 +471,10 @@ macro_rules! track_ident {
 
         impl<'a> Fold<SetterProp> for $T<'a> {
             fn fold(&mut self, f: SetterProp) -> SetterProp {
-                let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true.into();
+                let old = self.ident_type;
+                self.ident_type = IdentType::Binding;
                 let param = f.param.fold_with(self);
-                self.in_var_decl = old_in_var_decl;
+                self.ident_type = old;
 
                 let body = f.body.fold_with(self);
 
@@ -485,14 +492,49 @@ macro_rules! track_ident {
 
         impl<'a> Fold<CatchClause> for $T<'a> {
             fn fold(&mut self, c: CatchClause) -> CatchClause {
-                let old_in_var_decl = self.in_var_decl;
-                self.in_var_decl = true.into();
+                let old = self.ident_type;
+                self.ident_type = IdentType::Binding;
                 let param = c.param.fold_with(self);
-                self.in_var_decl = old_in_var_decl;
+                self.ident_type = old;
 
                 let body = c.body.fold_with(self);
 
                 CatchClause { param, body, ..c }
+            }
+        }
+
+        impl<'a> Fold<LabeledStmt> for $T<'a> {
+            fn fold(&mut self, s: LabeledStmt) -> LabeledStmt {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Label;
+                let label = s.label.fold_with(self);
+                self.ident_type = old;
+
+                let body = s.body.fold_with(self);
+
+                LabeledStmt { label, body, ..s }
+            }
+        }
+
+        impl<'a> Fold<BreakStmt> for $T<'a> {
+            fn fold(&mut self, s: BreakStmt) -> BreakStmt {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Label;
+                let label = s.label.fold_with(self);
+                self.ident_type = old;
+
+                BreakStmt { label, ..s }
+            }
+        }
+
+        impl<'a> Fold<ContinueStmt> for $T<'a> {
+            fn fold(&mut self, s: ContinueStmt) -> ContinueStmt {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Label;
+                let label = s.label.fold_with(self);
+                self.ident_type = old;
+
+                ContinueStmt { label, ..s }
             }
         }
     };
@@ -504,13 +546,13 @@ impl<'a> Fold<ArrowExpr> for Hygiene<'a> {
     fn fold(&mut self, mut node: ArrowExpr) -> ArrowExpr {
         let mut folder = Hygiene {
             current: Scope::new(ScopeKind::Fn, Some(&self.current)).into(),
-            in_var_decl: false.into(),
+            ident_type: IdentType::Ref,
         };
 
-        folder.in_var_decl = true.into();
+        folder.ident_type = IdentType::Binding;
         node.params = node.params.fold_with(&mut folder);
 
-        folder.in_var_decl = false.into();
+        folder.ident_type = IdentType::Ref;
         node.body = node.body.fold_with(&mut folder);
 
         folder.apply_ops(node)

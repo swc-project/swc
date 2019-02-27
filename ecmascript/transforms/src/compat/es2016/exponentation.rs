@@ -24,7 +24,7 @@ use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 ///
 /// x = Math.pow(x, 3);
 /// ```
-pub fn exponentation() -> impl Pass + Clone {
+pub fn exponentation() -> impl Pass {
     Exponentation
 }
 #[derive(Clone, Copy)]

@@ -1,22 +1,18 @@
-use crate::{
-    pass::Pass,
-    util::{ExprFactory, State},
-};
+use crate::{pass::Pass, util::ExprFactory};
 use ast::*;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
     Fold, FoldWith,
 };
 
-pub fn fixer() -> impl Pass + Clone {
+pub fn fixer() -> impl Pass {
     Fixer {
         ctx: Default::default(),
     }
 }
 
-#[derive(Clone, Copy)]
 struct Fixer {
-    ctx: State<Context>,
+    ctx: Context,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -298,7 +294,7 @@ impl Fold<Expr> for Fixer {
                     Expr::Seq(SeqExpr { span, exprs: buf })
                 };
 
-                match self.ctx.value {
+                match self.ctx {
                     Context::ForcedExpr { .. } => Expr::Paren(ParenExpr {
                         span,
                         expr: box expr,
@@ -406,7 +402,7 @@ impl Fold<Expr> for Fixer {
                 callee: ExprOrSuper::Expr(callee @ box Expr::Fn(_)),
                 args,
                 type_args,
-            }) => match self.ctx.value {
+            }) => match self.ctx {
                 Context::ForcedExpr { .. } => Expr::Call(CallExpr {
                     span,
                     callee: callee.as_callee(),

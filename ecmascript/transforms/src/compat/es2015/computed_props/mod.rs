@@ -39,11 +39,10 @@ mod tests;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties() -> impl Pass + Clone + Copy {
+pub fn computed_properties() -> impl Pass {
     ComputedProps
 }
 
-#[derive(Default, Clone, Copy)]
 struct ComputedProps;
 
 #[derive(Default)]

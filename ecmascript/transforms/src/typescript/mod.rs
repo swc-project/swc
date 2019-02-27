@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{prepend_stmts, var::VarCollector, ExprFactory, State},
+    util::{prepend_stmts, var::VarCollector, ExprFactory},
 };
 use ast::*;
 use fxhash::FxHashMap;
@@ -13,15 +13,15 @@ use swc_common::{
 mod tests;
 
 /// Strips type annotations out.
-pub fn strip() -> impl Pass + Clone {
+pub fn strip() -> impl Pass {
     Strip::default()
 }
 
-#[derive(Default, Clone)]
+#[derive(Default)]
 struct Strip {
-    non_top_level: State<bool>,
-    scope: State<Scope>,
-    phase: State<Phase>,
+    non_top_level: bool,
+    scope: Scope,
+    phase: Phase,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -57,18 +57,13 @@ struct DeclInfo {
 impl Strip {
     fn handle_decl(&mut self, decl: &Decl) {
         // We don't care about stuffs which cannot be exported
-        if self.non_top_level.value {
+        if self.non_top_level {
             return;
         }
 
         macro_rules! store {
             ($sym:expr, $ctxt:expr, $concrete:expr) => {{
-                let entry = self
-                    .scope
-                    .value
-                    .decls
-                    .entry(($sym.clone(), $ctxt))
-                    .or_default();
+                let entry = self.scope.decls.entry(($sym.clone(), $ctxt)).or_default();
 
                 if $concrete {
                     entry.has_concrete = true
@@ -267,11 +262,7 @@ impl Fold<Vec<ModuleItem>> for Strip {
 
                 export.specifiers.retain(|s| match *s {
                     ExportSpecifier::Named(NamedExportSpecifier { ref orig, .. }) => {
-                        if let Some(e) = self
-                            .scope
-                            .value
-                            .decls
-                            .get(&(orig.sym.clone(), orig.span.ctxt()))
+                        if let Some(e) = self.scope.decls.get(&(orig.sym.clone(), orig.span.ctxt()))
                         {
                             e.has_concrete
                         } else {
@@ -299,12 +290,11 @@ impl Fold<Vec<ModuleItem>> for Strip {
 
 impl Fold<ImportDecl> for Strip {
     fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
-        match self.phase.value {
+        match self.phase {
             Phase::Analysis => {
                 macro_rules! store {
                     ($i:expr) => {{
                         self.scope
-                            .value
                             .imported_idents
                             .insert(($i.sym.clone(), $i.span.ctxt()), Default::default());
                     }};
@@ -325,7 +315,6 @@ impl Fold<ImportDecl> for Strip {
                     | ImportSpecifier::Specific(ImportSpecific { ref local, .. }) => {
                         let entry = self
                             .scope
-                            .value
                             .imported_idents
                             .get(&(local.sym.clone(), local.span.ctxt()));
                         match entry {
@@ -348,7 +337,6 @@ impl Fold<ImportDecl> for Strip {
 impl Fold<Ident> for Strip {
     fn fold(&mut self, i: Ident) -> Ident {
         self.scope
-            .value
             .imported_idents
             .entry((i.sym.clone(), i.span.ctxt()))
             .and_modify(|v| v.has_concrete = true);
@@ -358,7 +346,7 @@ impl Fold<Ident> for Strip {
 
 impl Visit<TsEntityName> for Strip {
     fn visit(&mut self, name: &TsEntityName) {
-        assert!(match self.phase.value {
+        assert!(match self.phase {
             Phase::Analysis => true,
             _ => false,
         });
@@ -366,7 +354,6 @@ impl Visit<TsEntityName> for Strip {
         match *name {
             TsEntityName::Ident(ref i) => {
                 self.scope
-                    .value
                     .imported_idents
                     .entry((i.sym.clone(), i.span.ctxt()))
                     .and_modify(|v| v.has_type = true);

@@ -612,3 +612,23 @@ identical!(
     scope.startOperation = startOperation;
 }"
 );
+
+identical!(
+    issue_281_01,
+    "function foo(e) {
+  e: { break e; }
+}"
+);
+
+identical!(
+    issue_281_02,
+    "function foo(e) {
+  e: {
+    try {
+    } catch (e1) {
+      o = null;
+      break e
+    }
+  }
+}"
+);

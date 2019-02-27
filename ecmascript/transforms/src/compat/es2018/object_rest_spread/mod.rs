@@ -12,11 +12,10 @@ use swc_common::{
 mod tests;
 
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread() -> impl Pass + Clone {
+pub fn object_rest_spread() -> impl Pass {
     chain!(ObjectRest, ObjectSpread)
 }
 
-#[derive(Clone)]
 struct ObjectRest;
 
 struct RestFolder {
@@ -880,7 +879,6 @@ fn simplify_pat(pat: Pat) -> Pat {
     pat.fold_with(&mut PatSimplifier)
 }
 
-#[derive(Clone)]
 struct ObjectSpread;
 
 impl Fold<Expr> for ObjectSpread {

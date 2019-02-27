@@ -2,8 +2,7 @@ use ast::*;
 use std::marker::PhantomData;
 use swc_common::{Fold, FoldWith};
 
-pub fn noop() -> impl Pass + Clone + Copy {
-    #[derive(Clone, Copy)]
+pub fn noop() -> impl Pass {
     struct Noop;
     impl<T> Fold<T> for Noop
     where
@@ -58,9 +57,9 @@ macro_rules! mk_trait {
         /// Crazy trait to make traversal fast again.
         ///
         /// Note that pass.clone() should create a fresh pass.
-        pub trait Pass: objekt::Clone + $( ::swc_common::Fold<$T> + )* {}
+        pub trait Pass: $( ::swc_common::Fold<$T> + )* {}
         impl<P> Pass for P
-            where P: ?Sized + objekt::Clone + $( ::swc_common::Fold<$T> +)*{
+            where P: ?Sized + $( ::swc_common::Fold<$T> +)*{
 
         }
 
@@ -69,8 +68,6 @@ macro_rules! mk_trait {
         )*
     };
 }
-objekt::clone_trait_object!(Pass);
-objekt::clone_trait_object!(Pass + Send + Sync);
 
 mk_trait!(
     // ArrayLit,
@@ -175,21 +172,11 @@ mk_trait!(
      * VarDeclOrPat, */
 );
 
-#[derive(Debug, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct JoinedPass<A, B, N> {
     pub first: A,
     pub second: B,
     pub ty: PhantomData<N>,
-}
-
-impl<A: Pass, B: Pass, N> Clone for JoinedPass<A, B, N> {
-    fn clone(&self) -> Self {
-        JoinedPass {
-            first: objekt::clone(&self.first),
-            second: objekt::clone(&self.second),
-            ty: self.ty,
-        }
-    }
 }
 
 // fn type_name<T>() -> String {

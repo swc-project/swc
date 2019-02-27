@@ -9,7 +9,7 @@ use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned, DUMMY_S
 #[cfg(test)]
 mod tests;
 
-pub fn spread() -> impl Pass + Clone {
+pub fn spread() -> impl Pass {
     Spread
 }
 

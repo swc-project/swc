@@ -37,7 +37,6 @@ extern crate test;
 #[macro_use]
 extern crate testing;
 extern crate either;
-extern crate objekt;
 extern crate serde;
 extern crate unicode_xid;
 

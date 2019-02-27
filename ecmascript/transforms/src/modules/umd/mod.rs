@@ -6,7 +6,7 @@ use super::util::{
 };
 use crate::{
     pass::Pass,
-    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory, State},
+    util::{prepend_stmts, var::VarCollector, DestructuringFinder, ExprFactory},
 };
 use ast::*;
 use fxhash::FxHashSet;
@@ -17,7 +17,7 @@ mod config;
 #[cfg(test)]
 mod tests;
 
-pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass + Clone {
+pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass {
     Umd {
         config: config.build(cm.clone()),
         cm,
@@ -28,13 +28,12 @@ pub fn umd(cm: Arc<SourceMap>, config: Config) -> impl Pass + Clone {
     }
 }
 
-#[derive(Clone)]
 struct Umd {
     cm: Arc<SourceMap>,
-    in_top_level: State<bool>,
+    in_top_level: bool,
     config: BuiltConfig,
-    scope: State<Scope>,
-    exports: State<Exports>,
+    scope: Scope,
+    exports: Exports,
 }
 
 impl Fold<Module> for Umd {
@@ -57,7 +56,7 @@ impl Fold<Module> for Umd {
         let mut export_alls = vec![];
         let mut emitted_esmodule = false;
         let mut has_export = false;
-        let exports_ident = self.exports.value.0.clone();
+        let exports_ident = self.exports.0.clone();
 
         // Process items
         for item in items {
@@ -108,7 +107,6 @@ impl Fold<Module> for Umd {
 
                         ModuleDecl::ExportAll(ref export) => {
                             self.scope
-                                .value
                                 .import_types
                                 .entry(export.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -164,7 +162,7 @@ impl Fold<Module> for Umd {
                             extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
 
                             var.decls.visit_with(&mut VarCollector {
-                                to: &mut self.scope.value.declared_vars,
+                                to: &mut self.scope.declared_vars,
                             });
 
                             let mut found = vec![];
@@ -284,7 +282,7 @@ impl Fold<Module> for Umd {
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
-                                if self.scope.value.declared_vars.contains(&key) {
+                                if self.scope.declared_vars.contains(&key) {
                                     self.scope
                                         .exported_vars
                                         .entry(key.clone())
@@ -444,7 +442,7 @@ impl Fold<Module> for Umd {
             )));
         }
 
-        for (src, import) in self.scope.value.imports.drain(..) {
+        for (src, import) in self.scope.imports.drain(..) {
             let global_ident = Ident::new(self.config.global_name(&src), DUMMY_SP);
             let import = import.unwrap_or_else(|| {
                 (
@@ -463,7 +461,7 @@ impl Fold<Module> for Umd {
 
             {
                 // handle interop
-                let ty = self.scope.value.import_types.get(&src);
+                let ty = self.scope.import_types.get(&src);
 
                 match ty {
                     Some(&wildcard) => {
@@ -657,8 +655,8 @@ impl Fold<Module> for Umd {
 
 impl Fold<Expr> for Umd {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let exports = self.exports.value.0.clone();
-        let top_level = self.in_top_level.value;
+        let exports = self.exports.0.clone();
+        let top_level = self.in_top_level;
 
         Scope::fold_expr(self, exports, top_level, expr)
     }
@@ -670,7 +668,7 @@ impl Fold<VarDecl> for Umd {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
             var.decls.visit_with(&mut VarCollector {
-                to: &mut self.scope.value.declared_vars,
+                to: &mut self.scope.declared_vars,
             });
         }
 
@@ -687,11 +685,11 @@ impl ModulePass for Umd {
     }
 
     fn scope(&self) -> &Scope {
-        &self.scope.value
+        &self.scope
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope.value
+        &mut self.scope
     }
 }
 mark_as_nested!(Umd);

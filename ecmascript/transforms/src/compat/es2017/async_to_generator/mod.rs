@@ -29,7 +29,7 @@ mod tests;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator() -> impl Pass + Clone {
+pub fn async_to_generator() -> impl Pass {
     AsyncToGenerator
 }
 

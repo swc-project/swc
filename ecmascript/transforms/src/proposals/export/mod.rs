@@ -7,7 +7,7 @@ mod tests;
 
 /// `@babel/plugin-proposal-export-default-from` and
 /// `@babel/plugin-proposal-export-namespace-from`
-pub fn export() -> impl Pass + Clone {
+pub fn export() -> impl Pass {
     ExportDefaultFrom
 }
 

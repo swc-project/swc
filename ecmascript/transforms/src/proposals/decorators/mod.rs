@@ -52,7 +52,7 @@ mod tests;
 ///   }
 /// }
 /// ```
-pub fn decorators() -> impl Pass + Clone {
+pub fn decorators() -> impl Pass {
     Decorators {
         is_in_strict: false,
     }

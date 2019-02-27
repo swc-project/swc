@@ -7,11 +7,10 @@ use swc_common::{FileName, Fold, SourceMap, DUMMY_SP};
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Arc<SourceMap>) -> impl Pass + Clone {
+pub fn jsx_src(dev: bool, cm: Arc<SourceMap>) -> impl Pass {
     JsxSrc { cm, dev }
 }
 
-#[derive(Clone)]
 struct JsxSrc {
     cm: Arc<SourceMap>,
     dev: bool,

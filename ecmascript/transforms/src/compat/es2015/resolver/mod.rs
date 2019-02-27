@@ -1,4 +1,4 @@
-use crate::{scope::ScopeKind, util::State};
+use crate::scope::{IdentType, ScopeKind};
 use ast::*;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
@@ -45,12 +45,11 @@ impl<'a> Scope<'a> {
     }
 }
 
-#[derive(Clone)]
 pub struct Resolver<'a> {
-    mark: State<Mark>,
-    current: State<Scope<'a>>,
-    cur_defining: State<Option<(JsWord, Mark)>>,
-    in_var_decl: State<bool>,
+    mark: Mark,
+    current: Scope<'a>,
+    cur_defining: Option<(JsWord, Mark)>,
+    ident_type: IdentType,
 }
 
 impl<'a> Resolver<'a> {
@@ -59,13 +58,13 @@ impl<'a> Resolver<'a> {
             mark: mark.into(),
             current: current.into(),
             cur_defining: cur_defining.into(),
-            in_var_decl: false.into(),
+            ident_type: IdentType::Ref,
         }
     }
 
     fn mark_for(&self, sym: &JsWord) -> Option<Mark> {
-        let mut mark = self.mark.value;
-        let mut scope = Some(&self.current.value);
+        let mut mark = self.mark;
+        let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
             if cur.declared_symbols.contains(sym) {
@@ -90,15 +89,14 @@ impl<'a> Resolver<'a> {
             return ident;
         }
 
-        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining.value
-        {
+        let (should_insert, mark) = if let Some((ref cur, override_mark)) = self.cur_defining {
             if *cur != ident.sym {
-                (true, self.mark.value)
+                (true, self.mark)
             } else {
                 (false, override_mark)
             }
         } else {
-            (true, self.mark.value)
+            (true, self.mark)
         };
 
         if should_insert {
@@ -122,7 +120,7 @@ impl<'a> Resolver<'a> {
 
 impl<'a> Fold<Function> for Resolver<'a> {
     fn fold(&mut self, mut f: Function) -> Function {
-        let child_mark = Mark::fresh(self.mark.value);
+        let child_mark = Mark::fresh(self.mark);
 
         // Child folder
         let mut folder = Resolver::new(
@@ -131,10 +129,10 @@ impl<'a> Fold<Function> for Resolver<'a> {
             self.cur_defining.take(),
         );
 
-        folder.in_var_decl = true.into();
+        folder.ident_type = IdentType::Binding;
         f.params = f.params.fold_with(&mut folder);
 
-        folder.in_var_decl = false.into();
+        folder.ident_type = IdentType::Ref;
         f.body = f.body.map(|stmt| stmt.fold_children(&mut folder));
 
         self.cur_defining = folder.cur_defining;
@@ -145,7 +143,7 @@ impl<'a> Fold<Function> for Resolver<'a> {
 
 impl<'a> Fold<BlockStmt> for Resolver<'a> {
     fn fold(&mut self, block: BlockStmt) -> BlockStmt {
-        let child_mark = Mark::fresh(*self.mark);
+        let child_mark = Mark::fresh(self.mark);
 
         let mut child_folder = Resolver::new(
             child_mark,
@@ -189,8 +187,8 @@ impl<'a> Fold<FnDecl> for Resolver<'a> {
 
 impl<'a> Fold<Expr> for Resolver<'a> {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = false.into();
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
         let expr = match expr {
             // Leftmost one of a member expression shoukld be resolved.
             Expr::Member(me) => {
@@ -209,7 +207,7 @@ impl<'a> Fold<Expr> for Resolver<'a> {
             }
             _ => expr.fold_children(self),
         };
-        self.in_var_decl = old_in_var_decl;
+        self.ident_type = old;
 
         expr
     }
@@ -219,13 +217,13 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
     fn fold(&mut self, decl: VarDeclarator) -> VarDeclarator {
         // order is important
 
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true.into();
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
         let name = decl.name.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
+        self.ident_type = old;
 
         let cur_name = match name {
-            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), *self.mark)),
+            Pat::Ident(Ident { ref sym, .. }) => Some((sym.clone(), self.mark)),
             _ => None,
         };
 
@@ -265,31 +263,36 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
 
 impl<'a> Fold<Ident> for Resolver<'a> {
     fn fold(&mut self, i: Ident) -> Ident {
-        if self.in_var_decl.value {
-            self.fold_binding_ident(i)
-        } else {
-            let Ident { span, sym, .. } = i;
+        match self.ident_type {
+            IdentType::Binding => self.fold_binding_ident(i),
+            IdentType::Ref => {
+                let Ident { span, sym, .. } = i;
 
-            if cfg!(debug_assertions) && LOG {
-                eprintln!("resolver: IdentRef {}{:?}", sym, i.span.ctxt());
-            }
-
-            if span.ctxt() != SyntaxContext::empty() {
-                return Ident { sym, ..i };
-            }
-
-            if let Some(mark) = self.mark_for(&sym) {
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("\t -> {:?}", mark);
+                    eprintln!("resolver: IdentRef {}{:?}", sym, i.span.ctxt());
                 }
-                Ident {
-                    sym,
-                    span: span.apply_mark(mark),
-                    ..i
+
+                if span.ctxt() != SyntaxContext::empty() {
+                    return Ident { sym, ..i };
                 }
-            } else {
-                // Cannot resolve reference. (TODO: Report error)
-                Ident { sym, span, ..i }
+
+                if let Some(mark) = self.mark_for(&sym) {
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t -> {:?}", mark);
+                    }
+                    Ident {
+                        sym,
+                        span: span.apply_mark(mark),
+                        ..i
+                    }
+                } else {
+                    // Cannot resolve reference. (TODO: Report error)
+                    Ident { sym, span, ..i }
+                }
+            }
+            IdentType::Label => {
+                // We currently does not touch labels
+                i
             }
         }
     }
@@ -299,10 +302,10 @@ track_ident!(Resolver);
 
 impl<'a> Fold<ArrowExpr> for Resolver<'a> {
     fn fold(&mut self, e: ArrowExpr) -> ArrowExpr {
-        let old_in_var_decl = self.in_var_decl;
-        self.in_var_decl = true.into();
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
         let params = e.params.fold_with(self);
-        self.in_var_decl = old_in_var_decl;
+        self.ident_type = old;
 
         let body = e.body.fold_with(self);
 

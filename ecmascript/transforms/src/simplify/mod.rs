@@ -8,11 +8,10 @@ mod expr;
 #[cfg(test)]
 mod tests;
 
-pub fn simplifier() -> impl Pass + Clone + Copy + 'static {
+pub fn simplifier() -> impl Pass + 'static {
     Simplifier
 }
 
-#[derive(Default, Clone, Copy)]
 struct Simplifier;
 
 impl<T: StmtLike> Fold<Vec<T>> for Simplifier
