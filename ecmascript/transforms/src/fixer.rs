@@ -309,9 +309,10 @@ impl Fold<Expr> for Fixer {
 
             Expr::Bin(mut expr) => {
                 expr.right = match *expr.right {
-                    e @ Expr::Assign(..) | e @ Expr::Seq(..) | e @ Expr::Yield(..) => {
-                        box e.wrap_with_paren()
-                    }
+                    e @ Expr::Assign(..)
+                    | e @ Expr::Seq(..)
+                    | e @ Expr::Yield(..)
+                    | e @ Expr::Cond(..) => box e.wrap_with_paren(),
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                         if op_of_rhs.precedence() < expr.op.precedence() {
                             box expr.right.wrap_with_paren()
@@ -348,17 +349,26 @@ impl Fold<Expr> for Fixer {
             }
 
             Expr::Cond(expr) => {
+                let test = match *expr.test {
+                    e @ Expr::Seq(..) => box e.wrap_with_paren(),
+                    _ => expr.test,
+                };
+
                 let cons = match *expr.cons {
-                    cons @ Expr::Seq(..) | cons @ Expr::Assign(..) => box cons.wrap_with_paren(),
+                    e @ Expr::Seq(..) => box e.wrap_with_paren(),
                     _ => expr.cons,
                 };
 
                 let alt = match *expr.alt {
-                    alt @ Expr::Seq(..) | alt @ Expr::Assign(..) => box alt.wrap_with_paren(),
+                    e @ Expr::Seq(..) => box e.wrap_with_paren(),
                     _ => expr.alt,
                 };
-
-                Expr::Cond(CondExpr { cons, alt, ..expr })
+                Expr::Cond(CondExpr {
+                    test,
+                    cons,
+                    alt,
+                    ..expr
+                })
             }
 
             Expr::Unary(expr) => {
@@ -641,5 +651,11 @@ function a() {
         issue_266_2,
         "'Q' + (+x1) + ',' + (+y1) + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);",
         "'Q' + +x1 + ',' + +y1 + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);"
+    );
+
+    identical!(
+        issue_280,
+        "e.hasOwnProperty(a) && (t = e[a] ? this[a] = t(n) : 'target' === a ? this.target = r : \
+         this[a] = n[a]);"
     );
 }
