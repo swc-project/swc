@@ -7,9 +7,10 @@ extern crate quote;
 extern crate swc_macros_common;
 extern crate syn;
 
+use pmutil::{Quote, ToTokensExt};
 use proc_macro::TokenStream;
 use swc_macros_common::prelude::*;
-use syn::fold::Fold;
+use syn::{fold::Fold, *};
 
 mod fold;
 

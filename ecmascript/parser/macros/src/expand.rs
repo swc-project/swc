@@ -1,9 +1,11 @@
+use pmutil::ToTokensExt;
 use swc_macros_common::prelude::*;
 use syn::{
     fold::{self, Fold},
     parse::{Parse, Parser},
     spanned::Spanned,
     token::Token,
+    *,
 };
 
 pub fn expand(_attr: TokenStream, item: Item) -> Item {

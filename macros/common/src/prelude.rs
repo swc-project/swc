@@ -5,10 +5,6 @@ pub use super::{
     doc_str, is_attr_name, print,
     syn_ext::{ItemImplExt, PairExt},
 };
-pub use pmutil::prelude::*;
 pub use proc_macro2::{Delimiter, Group, Literal, Punct, Span, TokenStream, TokenTree};
 pub use quote::ToTokens;
-pub use syn::{
-    punctuated::{Pair as Element, Pair, Punctuated},
-    *,
-};
+pub use syn::punctuated::{Pair as Element, Pair, Punctuated};

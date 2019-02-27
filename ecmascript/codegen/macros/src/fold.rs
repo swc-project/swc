@@ -1,9 +1,11 @@
+use pmutil::ToTokensExt;
 use swc_macros_common::prelude::*;
 use syn::{
     fold::Fold,
     parse::{Parse, Parser},
     spanned::Spanned,
     token::Token,
+    *,
 };
 
 pub(crate) struct InjectSelf {

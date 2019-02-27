@@ -1,7 +1,10 @@
 use input::*;
 use std::{fmt::Display, ops::AddAssign, result::Result as StdResult};
 use swc_macros_common::prelude::*;
-use syn::parse::{Parse, ParseStream};
+use syn::{
+    parse::{Parse, ParseStream},
+    *,
+};
 use util::is_bool;
 
 impl From<DeriveInput> for Input {

@@ -9,7 +9,9 @@ extern crate quote;
 extern crate swc_macros_common;
 extern crate syn;
 
+use pmutil::prelude::Quote;
 use swc_macros_common::prelude::*;
+use syn::*;
 
 /// Creates `.as_str()` and then implements `Debug` and `Display` using it.
 ///

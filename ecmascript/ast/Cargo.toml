@@ -1,6 +1,6 @@
 [package]
 name = "swc_ecma_ast"
-version = "0.7.0"
+version = "0.8.0"
 authors = ["강동윤 <kdy1@outlook.kr>"]
 license = "Apache-2.0/MIT"
 repository = "https://github.com/swc-project/swc.git"
@@ -16,9 +16,9 @@ fold = ["swc_common/fold"]
 [dependencies]
 serde = { version = "1.0.88", features = ["derive"] }
 swc_atoms = { version = "0.1", path ="../../atoms" }
-swc_common = { version = "0.2", path ="../../common" }
+swc_common = { version = "0.3", path ="../../common" }
 enum_kind = { version = "0.1", path ="../../macros/enum_kind" }
-string_enum = { version = "0.1", path ="../../macros/string_enum" }
+string_enum = { version = "0.2", path ="../../macros/string_enum" }
 
 [dev-dependencies]
 serde_json = "1"
