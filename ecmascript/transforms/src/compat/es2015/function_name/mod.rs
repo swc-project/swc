@@ -1,5 +1,5 @@
 use ast::*;
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -74,16 +74,65 @@ impl Fold<AssignExpr> for FnName {
     }
 }
 
+struct UsageFinder<'a> {
+    ident: &'a Ident,
+    found: bool,
+}
+
+impl<'a> Visit<Ident> for UsageFinder<'a> {
+    fn visit(&mut self, i: &Ident) {
+        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
+            self.found = true;
+        }
+    }
+}
+
+impl<'a> UsageFinder<'a> {
+    fn find<N>(ident: &'a Ident, node: &N) -> bool
+    where
+        N: VisitWith<Self>,
+    {
+        let mut v = UsageFinder {
+            ident,
+            found: false,
+        };
+        node.visit_with(&mut v);
+        v.found
+    }
+}
+
 macro_rules! impl_for {
     ($T:tt) => {
         impl Fold<$T> for Renamer {
             fn fold(&mut self, node: $T) -> $T {
                 match node.ident {
                     Some(..) => return node,
-                    None => $T {
-                        ident: self.name.take(),
-                        ..node
-                    },
+                    None => {
+                        //
+                        let name = match self.name.take() {
+                            None => {
+                                return $T {
+                                    ident: None,
+                                    ..node
+                                };
+                            }
+                            Some(name) => name,
+                        };
+                        // If function's body references the name of variable, we just skip the
+                        // function
+                        if UsageFinder::find(&name, &node) {
+                            // self.name = Some(name);
+                            $T {
+                                ident: None,
+                                ..node
+                            }
+                        } else {
+                            $T {
+                                ident: Some(name),
+                                ..node
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -107,3 +156,5 @@ noop!(ObjectLit);
 noop!(ArrayLit);
 noop!(CallExpr);
 noop!(NewExpr);
+noop!(BinExpr);
+noop!(UnaryExpr);
