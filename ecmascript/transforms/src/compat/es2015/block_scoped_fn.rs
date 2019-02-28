@@ -1,3 +1,4 @@
+use crate::util::UsageFinder;
 use ast::*;
 use swc_common::{Fold, FoldWith, Spanned, DUMMY_SP};
 
@@ -15,20 +16,26 @@ impl Fold<Vec<Stmt>> for BlockScopedFns {
                 extra_stmts.push(stmt)
             } else {
                 match stmt {
-                    Stmt::Decl(Decl::Fn(decl)) => stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        decls: vec![VarDeclarator {
+                    Stmt::Decl(Decl::Fn(decl)) => {
+                        if UsageFinder::find(&decl.ident, &decl.function) {
+                            extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
+                            continue;
+                        }
+                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            name: Pat::Ident(decl.ident.clone()),
-                            init: Some(box Expr::Fn(FnExpr {
-                                ident: Some(decl.ident),
-                                function: decl.function,
-                            })),
-                            definite: false,
-                        }],
-                        declare: false,
-                    }))),
+                            kind: VarDeclKind::Let,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(decl.ident.clone()),
+                                init: Some(box Expr::Fn(FnExpr {
+                                    ident: Some(decl.ident),
+                                    function: decl.function,
+                                })),
+                                definite: false,
+                            }],
+                            declare: false,
+                        })))
+                    }
                     _ => extra_stmts.push(stmt.fold_children(self)),
                 }
             }
@@ -108,6 +115,68 @@ function foo(scope) {
         scope.agentOperation = operation;
     };
     scope.startOperation = startOperation;
+}
+"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| BlockScopedFns,
+        issue_288_1,
+        "function components_Link_extends() { components_Link_extends = Object.assign || function \
+         (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for \
+         (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { \
+         target[key] = source[key]; } } } return target; }; return \
+         components_Link_extends.apply(this, arguments); }
+
+",
+        "function components_Link_extends() { components_Link_extends = Object.assign || function \
+         (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for \
+         (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { \
+         target[key] = source[key]; } } } return target; }; return \
+         components_Link_extends.apply(this, arguments); }
+
+"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| BlockScopedFns,
+        issue_288_2,
+        "function _extends() {
+  module.exports = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+",
+        "function _extends() {
+  module.exports = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
 }
 "
     );

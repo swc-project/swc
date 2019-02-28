@@ -346,7 +346,7 @@ impl Fold<Expr> for Fixer {
 
             Expr::Cond(expr) => {
                 let test = match *expr.test {
-                    e @ Expr::Seq(..) => box e.wrap_with_paren(),
+                    e @ Expr::Seq(..) | e @ Expr::Assign(..) => box e.wrap_with_paren(),
                     _ => expr.test,
                 };
 
@@ -685,5 +685,17 @@ var store = global[SHARED] || (global[SHARED] = {});
   mode: __webpack_require__(39) ? 'pure' : 'global',
   copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
 });"
+    );
+
+    identical!(
+        issue_293_1,
+        "for (var e in a) a.hasOwnProperty(e) && ((b = a[e]) ? this[e] = b(c) : 'target' === e ? \
+         this.target = d : this[e] = c[e]);"
+    );
+
+    identical!(
+        issue_293_2,
+        "(a = rb ? zb(a, c) : Ab(a, c)) ? (b = nb.getPooled(ub.beforeInput, b, c, d), b.data = a, \
+         Ra(b)) : b = null;"
     );
 }

@@ -1,5 +1,6 @@
+use crate::util::UsageFinder;
 use ast::*;
-use swc_common::{Fold, FoldWith, Visit, VisitWith};
+use swc_common::{Fold, FoldWith};
 
 #[cfg(test)]
 mod tests;
@@ -71,33 +72,6 @@ impl Fold<AssignExpr> for FnName {
             }
             _ => expr,
         }
-    }
-}
-
-struct UsageFinder<'a> {
-    ident: &'a Ident,
-    found: bool,
-}
-
-impl<'a> Visit<Ident> for UsageFinder<'a> {
-    fn visit(&mut self, i: &Ident) {
-        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
-            self.found = true;
-        }
-    }
-}
-
-impl<'a> UsageFinder<'a> {
-    fn find<N>(ident: &'a Ident, node: &N) -> bool
-    where
-        N: VisitWith<Self>,
-    {
-        let mut v = UsageFinder {
-            ident,
-            found: false,
-        };
-        node.visit_with(&mut v);
-        v.found
     }
 }
 
