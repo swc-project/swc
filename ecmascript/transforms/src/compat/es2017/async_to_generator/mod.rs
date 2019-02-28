@@ -328,8 +328,8 @@ impl Fold<Expr> for MethodFolder {
     }
 }
 
-impl Fold<Method> for Actual {
-    fn fold(&mut self, m: Method) -> Method {
+impl Fold<ClassMethod> for Actual {
+    fn fold(&mut self, m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
         }
@@ -356,7 +356,7 @@ impl Fold<Method> for Actual {
             })))
         };
 
-        Method {
+        ClassMethod {
             function: Function {
                 span: m.span,
                 is_async: false,

@@ -290,7 +290,7 @@ impl ClassProperties {
                         }
                         _ => method.key,
                     };
-                    members.push(ClassMember::Method(Method { key, ..method }))
+                    members.push(ClassMember::Method(ClassMethod { key, ..method }))
                 }
 
                 ClassMember::ClassProp(mut prop) => {

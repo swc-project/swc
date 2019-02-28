@@ -163,7 +163,7 @@ impl Fold<Vec<ClassMember>> for Strip {
 
         members.move_flat_map(|member| match member {
             ClassMember::Constructor(Constructor { body: None, .. }) => None,
-            ClassMember::Method(Method {
+            ClassMember::Method(ClassMethod {
                 is_abstract: true, ..
             }) => None,
             _ => Some(member),

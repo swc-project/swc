@@ -3,7 +3,7 @@ macro_rules! fold_only_key {
         impl<'a> Fold<ClassMember> for $T<'a> {
             fn fold(&mut self, m: ClassMember) -> ClassMember {
                 match m {
-                    ClassMember::Method(m) => ClassMember::Method(Method {
+                    ClassMember::Method(m) => ClassMember::Method(ClassMethod {
                         key: m.key.fold_with(self),
                         ..m
                     }),

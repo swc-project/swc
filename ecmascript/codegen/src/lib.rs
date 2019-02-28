@@ -689,53 +689,82 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     pub fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        self.emit_class_method(n)?;
+        self.emit_leading_comments_of_pos(n.span().lo())?;
+
+        if n.is_static {
+            keyword!("static");
+            space!();
+        }
+        match n.kind {
+            MethodKind::Method => {
+                if n.function.is_async {
+                    keyword!("async");
+                }
+                space!();
+                if n.function.is_generator {
+                    punct!("*");
+                }
+
+                emit!(n.key);
+            }
+            MethodKind::Getter => {
+                keyword!("get");
+                space!();
+
+                emit!(n.key);
+            }
+            MethodKind::Setter => {
+                keyword!("set");
+                space!();
+
+                emit!(n.key);
+            }
+        }
+
+        self.emit_fn_trailing(&n.function)?;
     }
 
     #[emitter]
-    pub fn emit_method(&mut self, n: &Method) -> Result {
-        self.emit_class_method(n)?;
-    }
+    pub fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
+        self.emit_leading_comments_of_pos(n.span().lo())?;
 
-    fn emit_class_method<K: Node>(&mut self, node: &ClassMethod<K>) -> Result {
-        self.emit_leading_comments_of_pos(node.span().lo())?;
-
-        if node.is_static {
-            keyword!(self, "static");
-            space!(self);
+        if n.is_static {
+            keyword!("static");
+            space!();
         }
-        match node.kind {
+        match n.kind {
             MethodKind::Method => {
-                if node.function.is_async {
-                    keyword!(self, "async");
+                if n.function.is_async {
+                    keyword!("async");
                 }
-                space!(self);
-                if node.function.is_generator {
-                    punct!(self, "*");
+                space!();
+                if n.function.is_generator {
+                    punct!("*");
                 }
 
-                emit!(self, node.key);
+                emit!(n.key);
             }
             MethodKind::Getter => {
-                keyword!(self, "get");
-                space!(self);
+                keyword!("get");
+                space!();
 
-                emit!(self, node.key);
+                emit!(n.key);
             }
             MethodKind::Setter => {
-                keyword!(self, "set");
-                space!(self);
+                keyword!("set");
+                space!();
 
-                emit!(self, node.key);
+                emit!(n.key);
             }
         }
 
-        self.emit_fn_trailing(&node.function)?;
-        Ok(())
+        self.emit_fn_trailing(&n.function)?;
     }
 
     #[emitter]
     pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
+        self.emit_leading_comments_of_pos(n.span().lo())?;
+
         unimplemented!("emit_private_prop")
     }
 

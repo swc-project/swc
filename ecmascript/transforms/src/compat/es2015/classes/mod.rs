@@ -564,11 +564,7 @@ impl Classes {
         body
     }
 
-    fn fold_class_methods(
-        &mut self,
-        class_name: Ident,
-        methods: Vec<ClassMethod<PropName>>,
-    ) -> Vec<Stmt> {
+    fn fold_class_methods(&mut self, class_name: Ident, methods: Vec<ClassMethod>) -> Vec<Stmt> {
         if methods.is_empty() {
             return vec![];
         }

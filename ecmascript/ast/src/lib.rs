@@ -17,8 +17,8 @@ extern crate swc_common;
 
 pub use self::{
     class::{
-        Class, ClassMember, ClassMethod, ClassProp, ClassProperty, Constructor, Decorator, Method,
-        MethodKind, PrivateMethod, PrivateProp,
+        Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind,
+        PrivateMethod, PrivateProp,
     },
     decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{

@@ -543,7 +543,7 @@ impl<'a, I: Input> Parser<'a, I> {
             expect!(';');
 
             Ok(match key {
-                Either::Left(key) => ClassProperty {
+                Either::Left(key) => PrivateProp {
                     span: span!(start),
                     key,
                     value,
@@ -558,7 +558,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     computed: false,
                 }
                 .into(),
-                Either::Right(key) => ClassProperty {
+                Either::Right(key) => ClassProp {
                     span: span!(start),
                     computed: match key {
                         PropName::Computed(..) => true,
@@ -747,7 +747,7 @@ impl<'a, I: Input> Parser<'a, I> {
             self.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)?;
 
         match key {
-            Either::Left(key) => Ok(ClassMethod {
+            Either::Left(key) => Ok(PrivateMethod {
                 span: span!(start),
 
                 accessibility,
