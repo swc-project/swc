@@ -977,6 +977,44 @@ impl Fold<Span> for DropSpan {
     }
 }
 
+/// Finds usage of `ident`
+pub(crate) struct UsageFinder<'a> {
+    ident: &'a Ident,
+    found: bool,
+}
+
+impl<'a> Visit<MemberExpr> for UsageFinder<'a> {
+    fn visit(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
+
+        if e.computed {
+            e.prop.visit_with(self);
+        }
+    }
+}
+
+impl<'a> Visit<Ident> for UsageFinder<'a> {
+    fn visit(&mut self, i: &Ident) {
+        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
+            self.found = true;
+        }
+    }
+}
+
+impl<'a> UsageFinder<'a> {
+    pub(crate) fn find<N>(ident: &'a Ident, node: &N) -> bool
+    where
+        N: VisitWith<Self>,
+    {
+        let mut v = UsageFinder {
+            ident,
+            found: false,
+        };
+        node.visit_with(&mut v);
+        v.found
+    }
+}
+
 lazy_static! {
     pub(crate) static ref CM: Arc<SourceMap> =
         { Arc::new(SourceMap::new(FilePathMapping::empty())) };
