@@ -89,7 +89,7 @@ expect(Foo.name).toBe('Foo');
 "#,
   r#"
 var Foo = function() {
-  var Foo = function Foo() {
+  var Foo = function() {
    _classCallCheck(this, Foo);
   };
   _defineProperty(Foo, 'num', 0);
