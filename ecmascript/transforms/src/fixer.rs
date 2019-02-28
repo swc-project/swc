@@ -688,8 +688,14 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     identical!(
-        issue_293,
+        issue_293_1,
         "for (var e in a) a.hasOwnProperty(e) && ((b = a[e]) ? this[e] = b(c) : 'target' === e ? \
          this.target = d : this[e] = c[e]);"
+    );
+
+    identical!(
+        issue_293_2,
+        "(a = rb ? zb(a, c) : Ab(a, c)) ? (b = nb.getPooled(ub.beforeInput, b, c, d), b.data = a, \
+         Ra(b)) : b = null;"
     );
 }
