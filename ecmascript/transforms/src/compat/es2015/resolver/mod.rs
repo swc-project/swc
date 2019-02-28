@@ -227,31 +227,8 @@ impl<'a> Fold<VarDeclarator> for Resolver<'a> {
             _ => None,
         };
 
-        let is_class_like = match decl.init {
-            Some(box Expr::Fn(FnExpr { ref ident, .. }))
-                if cur_name.is_some()
-                    && ident.as_ref().map(|v| &v.sym) == cur_name.as_ref().map(|v| &v.0) =>
-            {
-                true
-            }
-
-            Some(box Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(box Expr::Fn(FnExpr { ident: None, .. })),
-                ..
-            }))
-            | Some(box Expr::Call(CallExpr {
-                callee:
-                    ExprOrSuper::Expr(box Expr::Paren(ParenExpr {
-                        expr: box Expr::Fn(FnExpr { ident: None, .. }),
-                        ..
-                    })),
-                ..
-            })) => true,
-            _ => false,
-        };
-
         let old_def = self.cur_defining.take();
-        self.cur_defining = if is_class_like { cur_name } else { None }.into();
+        self.cur_defining = cur_name;
 
         let init = decl.init.fold_children(self);
 
