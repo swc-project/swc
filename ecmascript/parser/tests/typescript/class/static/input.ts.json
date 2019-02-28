@@ -26,6 +26,7 @@
       },
       "body": [
         {
+          "type": "ClassMethod",
           "span": {
             "start": 14,
             "end": 25,
@@ -58,6 +59,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 37,
             "end": 48,
@@ -91,6 +93,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 63,
             "end": 74,
@@ -124,6 +127,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 87,
             "end": 98,

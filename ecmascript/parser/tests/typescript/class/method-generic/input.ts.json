@@ -26,6 +26,7 @@
       },
       "body": [
         {
+          "type": "ClassMethod",
           "span": {
             "start": 14,
             "end": 48,
@@ -245,6 +246,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 53,
             "end": 81,

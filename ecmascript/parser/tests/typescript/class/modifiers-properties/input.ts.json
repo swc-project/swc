@@ -26,6 +26,7 @@
       },
       "body": [
         {
+          "type": "ClassProperty",
           "span": {
             "start": 23,
             "end": 34,
@@ -49,6 +50,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 39,
             "end": 60,
@@ -89,6 +91,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 65,
             "end": 76,
@@ -112,6 +115,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 81,
             "end": 90,
@@ -135,6 +139,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 103,
             "end": 106,
@@ -159,6 +164,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 121,
             "end": 124,
@@ -183,6 +189,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 137,
             "end": 140,
@@ -207,6 +214,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 146,
             "end": 167,
@@ -230,6 +238,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 172,
             "end": 193,
@@ -253,6 +262,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 198,
             "end": 217,
@@ -276,6 +286,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 230,
             "end": 243,
@@ -300,6 +311,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 255,
             "end": 268,
@@ -324,6 +336,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 280,
             "end": 291,
@@ -348,6 +361,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 303,
             "end": 326,
@@ -372,6 +386,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 338,
             "end": 361,
@@ -396,6 +411,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 373,
             "end": 394,

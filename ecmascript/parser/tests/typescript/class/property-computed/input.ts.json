@@ -26,6 +26,7 @@
       },
       "body": [
         {
+          "type": "ClassProperty",
           "span": {
             "start": 14,
             "end": 40,
@@ -85,6 +86,7 @@
           "definite": false
         },
         {
+          "type": "ClassProperty",
           "span": {
             "start": 45,
             "end": 72,

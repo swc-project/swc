@@ -26,6 +26,7 @@
       },
       "body": [
         {
+          "type": "ClassMethod",
           "span": {
             "start": 63,
             "end": 80,
@@ -58,6 +59,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 85,
             "end": 113,
@@ -116,6 +118,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 125,
             "end": 144,
@@ -149,6 +152,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 156,
             "end": 186,
@@ -208,6 +212,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 199,
             "end": 221,
@@ -267,6 +272,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 236,
             "end": 258,
@@ -326,6 +332,7 @@
           "isOptional": false
         },
         {
+          "type": "ClassMethod",
           "span": {
             "start": 271,
             "end": 293,
