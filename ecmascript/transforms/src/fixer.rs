@@ -419,6 +419,17 @@ impl Fold<Expr> for Fixer {
                     type_args,
                 }),
             },
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee @ box Expr::Assign(_)),
+                args,
+                type_args,
+            }) => Expr::Call(CallExpr {
+                span,
+                callee: callee.wrap_with_paren().as_callee(),
+                args,
+                type_args,
+            }),
             _ => expr,
         }
     }
@@ -661,5 +672,18 @@ function a() {
         issue_282,
         "!(A = [], B = (function () { return classNames; }).apply(exports, A), B !== undefined && \
          (module.exports = B));"
+    );
+
+    identical!(
+        issue_286,
+        "var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__(39) ? 'pure' : 'global',
+  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+});"
     );
 }
