@@ -1,6 +1,0 @@
-error: invalid jsx identifier
- --> $DIR/tests/jsx/errors/issue-302/input.js:1:2
-  |
-1 | <$App></$App>
-  |  ^
-
