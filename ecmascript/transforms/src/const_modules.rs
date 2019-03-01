@@ -1,6 +1,9 @@
 use crate::{
     pass::Pass,
-    util::{drop_span, CM, SESSION},
+    util::{
+        drop_span,
+        options::{CM, SESSION},
+    },
 };
 use ast::*;
 use chashmap::CHashMap;
