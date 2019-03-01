@@ -394,7 +394,18 @@ impl Fold<Expr> for Fixer {
 
             Expr::Cond(expr) => {
                 let test = match *expr.test {
-                    e @ Expr::Seq(..) | e @ Expr::Assign(..) => box e.wrap_with_paren(),
+                    e @ Expr::Seq(..)
+                    | e @ Expr::Assign(..)
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Arrow(..) => box e.wrap_with_paren(),
+
+                    e @ Expr::Object(..) | e @ Expr::Fn(..) | e @ Expr::Class(..) => {
+                        if self.ctx == Context::Default {
+                            box e.wrap_with_paren()
+                        } else {
+                            box e
+                        }
+                    }
                     _ => expr.test,
                 };
 
@@ -747,4 +758,11 @@ var store = global[SHARED] || (global[SHARED] = {});
          Ra(b)) : b = null;"
     );
 
+    identical!(cond_object_1, "let foo = {} ? 1 : 2;");
+
+    identical!(cond_object_2, "({}) ? 1 : 2;");
+
+    identical!(cond_in_cond, "(foo ? 1 : 2) ? 3 : 4");
+
+    identical!(arrow_in_cond, "(() => {}) ? 3 : 4");
 }
