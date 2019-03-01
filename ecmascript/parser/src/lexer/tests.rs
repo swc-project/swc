@@ -960,6 +960,108 @@ fn jsx_05() {
     );
 }
 
+#[test]
+fn issue_299_01() {
+    assert_eq!(
+        lex_tokens(
+            ::Syntax::Es(::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            "<Page num='\\ '>ABC</Page>;"
+        ),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName {
+                name: "Page".into()
+            },
+            Token::JSXName { name: "num".into() },
+            tok!('='),
+            Token::Str {
+                value: " ".into(),
+                has_escape: true
+            },
+            Token::JSXTagEnd,
+            JSXText { raw: "ABC".into() },
+            JSXTagStart,
+            tok!('/'),
+            JSXName {
+                name: "Page".into()
+            },
+            JSXTagEnd,
+            Semi,
+        ]
+    );
+}
+
+#[test]
+fn issue_299_02() {
+    assert_eq!(
+        lex_tokens(
+            ::Syntax::Es(::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            "<Page num='\\''>ABC</Page>;"
+        ),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName {
+                name: "Page".into()
+            },
+            Token::JSXName { name: "num".into() },
+            tok!('='),
+            Token::Str {
+                value: "'".into(),
+                has_escape: true
+            },
+            Token::JSXTagEnd,
+            JSXText { raw: "ABC".into() },
+            JSXTagStart,
+            tok!('/'),
+            JSXName {
+                name: "Page".into()
+            },
+            JSXTagEnd,
+            Semi,
+        ]
+    );
+}
+
+#[test]
+fn issue_299_03() {
+    assert_eq!(
+        lex_tokens(
+            ::Syntax::Es(::EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            "<Page num='\\\\'>ABC</Page>;"
+        ),
+        vec![
+            Token::JSXTagStart,
+            Token::JSXName {
+                name: "Page".into()
+            },
+            Token::JSXName { name: "num".into() },
+            tok!('='),
+            Token::Str {
+                value: "\\".into(),
+                has_escape: true
+            },
+            Token::JSXTagEnd,
+            JSXText { raw: "ABC".into() },
+            JSXTagStart,
+            tok!('/'),
+            JSXName {
+                name: "Page".into()
+            },
+            JSXTagEnd,
+            Semi,
+        ]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
