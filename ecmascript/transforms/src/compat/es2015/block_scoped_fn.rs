@@ -11,6 +11,14 @@ impl Fold<Vec<Stmt>> for BlockScopedFns {
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         for stmt in items {
+            match stmt {
+                Stmt::Expr(box Expr::Lit(Lit::Str(..))) => {
+                    stmts.push(stmt);
+                    continue;
+                }
+                _ => {}
+            }
+
             // This is to preserve function Class()
             if stmt.span().is_dummy() {
                 extra_stmts.push(stmt)
@@ -178,6 +186,27 @@ function foo(scope) {
 
   return _extends.apply(this, arguments);
 }
+"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| BlockScopedFns,
+        hoisting_directives,
+        "function foo() {
+            'use strict';
+            function _interopRequireDefault(obj) {
+              return obj && obj.__esModule ? obj : {
+                default: obj
+              };
+            }
+        }",
+        "function foo() {
+            'use strict';
+            let _interopRequireDefault = function _interopRequireDefault(obj) {
+                return obj && obj.__esModule ? obj : { default: obj };
+            };
+        }
 "
     );
 
