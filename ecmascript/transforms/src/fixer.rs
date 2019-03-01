@@ -766,12 +766,20 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(member_arrow_expr_1, "(a => a).foo");
 
     identical!(member_arrow_expr_2, "((a) => a).foo");
-    
+
     identical!(member_class, "(class Foo{}).foo");
-    
+
     identical!(member_yield, "function* foo(){ (yield bar).baz }");
+
+    identical!(member_await, "async function foo(){ (await bar).baz }");
+
+    identical!(bin_yield_expr_1, "function* foo(){ (yield foo) && bar }");
     
-    identical!(member_yield, "async function foo(){ (await bar).baz }");
+    identical!(bin_yield_expr_2, "function* foo(){ bar && (yield foo) }");
+
+    identical!(bin_seq_expr_1, "(foo(), op) || (seq(), foo)");
+
+    test_fixer!(bin_seq_expr_2, "(foo, op) || (seq, foo)", "op || foo");
 
     identical!(cond_object_1, "let foo = {} ? 1 : 2;");
 
