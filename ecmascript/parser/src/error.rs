@@ -155,6 +155,8 @@ pub(crate) enum SyntaxError {
 
     ExportDefaultWithOutFrom,
     ExportNamespaceFrom,
+
+    InvalidJSXWord,
 }
 
 impl<'a> From<ErrorToDiag<'a>> for Error {
@@ -298,6 +300,7 @@ impl<'a> From<ErrorToDiag<'a>> for DiagnosticBuilder<'a> {
             ExportNamespaceFrom => "export * as Foo from 'foo'; requires \
                                     `jsc.parser.exportNamespaceFrom` to be true"
                 .into(),
+            InvalidJSXWord => "invalid jsx identifier".into(),
         };
 
         let mut db = e.handler.struct_err(&msg);

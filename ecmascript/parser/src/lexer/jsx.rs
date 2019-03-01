@@ -1,4 +1,5 @@
 use super::*;
+use crate::error::ErrorToDiag;
 use either::Either;
 use regex::Regex;
 
@@ -205,7 +206,25 @@ impl<'a, I: Input> Lexer<'a, I> {
         assert!(self.input.cur().unwrap().is_ident_start());
 
         let cur_pos = self.input.cur_pos();
-        let slice = self.input.uncons_while(|c| c.is_ident_part() || c == '-');
+        let mut first = true;
+        let slice = self.input.uncons_while(|c| {
+            if first {
+                first = false;
+
+                c.is_ident_start() && c.is_ascii_alphabetic()
+            } else {
+                c.is_ident_part() || c == '-'
+            }
+        });
+
+        if slice == "" {
+            let err = ErrorToDiag {
+                handler: self.session.handler,
+                span: pos_span(cur_pos),
+                error: SyntaxError::InvalidJSXWord,
+            };
+            Err(err)?
+        }
 
         Ok(Token::JSXName { name: slice.into() })
     }
