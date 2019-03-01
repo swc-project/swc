@@ -1,6 +1,10 @@
 use crate::{
     pass::Pass,
-    util::{drop_span, ExprFactory, CM, SESSION},
+    util::{
+        drop_span,
+        options::{CM, SESSION},
+        ExprFactory, HANDLER,
+    },
 };
 use ast::*;
 use chashmap::CHashMap;
@@ -100,6 +104,7 @@ pub fn jsx(options: Options) -> impl Pass {
             expr: parse_option("pragmaFrag", options.pragma_frag),
         },
         use_builtins: options.use_builtins,
+        throw_if_namespace: options.throw_if_namespace,
     }
 }
 
@@ -107,6 +112,7 @@ struct Jsx {
     pragma: ExprOrSuper,
     pragma_frag: ExprOrSpread,
     use_builtins: bool,
+    throw_if_namespace: bool,
 }
 
 impl Jsx {
@@ -133,7 +139,7 @@ impl Jsx {
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let span = el.span();
 
-        let name = jsx_name(el.opening.name);
+        let name = self.jsx_name(el.opening.name);
 
         Expr::Call(CallExpr {
             span,
@@ -278,60 +284,75 @@ impl Fold<Expr> for Jsx {
     }
 }
 
-fn jsx_name(name: JSXElementName) -> Box<Expr> {
-    let span = name.span();
-    match name {
-        JSXElementName::Ident(i) => {
-            // If it starts with lowercase digit
-            let c = i.sym.chars().next().unwrap();
+impl Jsx {
+    fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
+        let span = name.span();
+        match name {
+            JSXElementName::Ident(i) => {
+                // If it starts with lowercase digit
+                let c = i.sym.chars().next().unwrap();
 
-            if i.sym == js_word!("this") {
-                return box Expr::This(ThisExpr { span });
-            }
+                if i.sym == js_word!("this") {
+                    return box Expr::This(ThisExpr { span });
+                }
 
-            if c.is_ascii_lowercase() {
-                box Expr::Lit(Lit::Str(Str {
-                    span,
-                    value: i.sym,
-                    has_escape: false,
-                }))
-            } else {
-                box Expr::Ident(i)
-            }
-        }
-        JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
-            box Expr::Lit(Lit::Str(Str {
-                span,
-                value: format!("{}:{}", ns.sym, name.sym).into(),
-                has_escape: false,
-            }))
-        }
-        JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
-            fn convert_obj(obj: JSXObject) -> ExprOrSuper {
-                let span = obj.span();
-
-                match obj {
-                    JSXObject::Ident(i) => {
-                        if i.sym == js_word!("this") {
-                            return ExprOrSuper::Expr(box Expr::This(ThisExpr { span }));
-                        }
-                        i.as_obj()
-                    }
-                    JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
+                if c.is_ascii_lowercase() {
+                    box Expr::Lit(Lit::Str(Str {
                         span,
-                        obj: convert_obj(obj),
-                        prop: box Expr::Ident(prop),
-                        computed: false,
-                    }
-                    .as_obj(),
+                        value: i.sym,
+                        has_escape: false,
+                    }))
+                } else {
+                    box Expr::Ident(i)
                 }
             }
-            box Expr::Member(MemberExpr {
-                span,
-                obj: convert_obj(obj),
-                prop: box Expr::Ident(prop),
-                computed: false,
-            })
+            JSXElementName::JSXNamespacedName(JSXNamespacedName { ref ns, ref name }) => {
+                if self.throw_if_namespace {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                span,
+                                "JSX Namespace is disabled by default because react does not \
+                                 support it yet. You can specify \
+                                 jsc.transform.react.throwIfNamespace to false to override \
+                                 default behavior",
+                            )
+                            .emit()
+                    });
+                }
+                box Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: format!("{}:{}", ns.sym, name.sym).into(),
+                    has_escape: false,
+                }))
+            }
+            JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
+                fn convert_obj(obj: JSXObject) -> ExprOrSuper {
+                    let span = obj.span();
+
+                    match obj {
+                        JSXObject::Ident(i) => {
+                            if i.sym == js_word!("this") {
+                                return ExprOrSuper::Expr(box Expr::This(ThisExpr { span }));
+                            }
+                            i.as_obj()
+                        }
+                        JSXObject::JSXMemberExpr(box JSXMemberExpr { obj, prop }) => MemberExpr {
+                            span,
+                            obj: convert_obj(obj),
+                            prop: box Expr::Ident(prop),
+                            computed: false,
+                        }
+                        .as_obj(),
+                    }
+                }
+                box Expr::Member(MemberExpr {
+                    span,
+                    obj: convert_obj(obj),
+                    prop: box Expr::Ident(prop),
+                    computed: false,
+                })
+            }
         }
     }
 }

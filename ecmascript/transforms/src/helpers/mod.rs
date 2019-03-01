@@ -1,4 +1,7 @@
-use crate::util::{prepend_stmts, DropSpan, CM, SESSION};
+use crate::util::{
+    options::{CM, SESSION},
+    prepend_stmts, DropSpan,
+};
 use ast::*;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
