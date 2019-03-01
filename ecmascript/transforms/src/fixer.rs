@@ -428,9 +428,12 @@ impl Fold<Expr> for Fixer {
 
             Expr::Unary(expr) => {
                 let arg = match *expr.arg {
-                    Expr::Assign(..) | Expr::Bin(..) | Expr::Seq(..) => {
-                        box expr.arg.wrap_with_paren()
-                    }
+                    e @ Expr::Assign(..)
+                    | e @ Expr::Bin(..)
+                    | e @ Expr::Seq(..)
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Arrow(..)
+                    | e @ Expr::Yield(..) => box e.wrap_with_paren(),
                     _ => expr.arg,
                 };
 
@@ -765,4 +768,10 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(cond_in_cond, "(foo ? 1 : 2) ? 3 : 4");
 
     identical!(arrow_in_cond, "(() => {}) ? 3 : 4");
+
+    identical!(unary_cond_arg, "void (foo ? 1 : 2)");
+
+    identical!(unary_arrow_arg, "void ((foo) => foo)");
+
+    identical!(unary_yield_arg, "(function* foo() { void (yield foo); })()");
 }
