@@ -220,6 +220,54 @@ impl Fold<Expr> for Fixer {
                 computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Bin(..)),
                 prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Object(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Cond(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::New(NewExpr { args: None, .. })),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::TaggedTpl(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Arrow(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Class(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Yield(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Await(..)),
+                prop,
             }) => MemberExpr {
                 span,
                 computed,
@@ -698,4 +746,5 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(a = rb ? zb(a, c) : Ab(a, c)) ? (b = nb.getPooled(ub.beforeInput, b, c, d), b.data = a, \
          Ra(b)) : b = null;"
     );
+
 }
