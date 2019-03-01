@@ -664,3 +664,13 @@ identical!(
 
   __assign.apply(this, arguments);"
 );
+
+identical!(
+    issue_295,
+    "export var bar = {};
+class Foo {
+  constructor() {
+    bar;
+  }
+}"
+);

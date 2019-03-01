@@ -1063,3 +1063,63 @@ fn issue_281_02() {
         }",
     );
 }
+
+#[test]
+fn issue_295_01() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "export const bar = {};
+                    class Foo {
+
+                      constructor() {
+                            bar;
+                        }
+                    }",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark1, mark1])])))
+        },
+        "export const bar = {};
+        class Foo {
+
+            constructor() {
+                bar;
+            }
+        }",
+    );
+}
+
+#[test]
+fn issue_295_02() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "export const bar = {};
+                    class Foo {
+
+                      constructor() {
+                            bar;
+                        }
+                    }",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("bar", &[mark1, mark2])])))
+        },
+        "const bar1 = {};
+        export { bar1 as bar };
+        class Foo {
+
+            constructor() {
+                bar;
+            }
+        }",
+    );
+}
