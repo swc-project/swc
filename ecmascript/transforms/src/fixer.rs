@@ -220,6 +220,48 @@ impl Fold<Expr> for Fixer {
                 computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Bin(..)),
                 prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Object(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Cond(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::New(NewExpr { args: None, .. })),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Arrow(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Class(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Yield(..)),
+                prop,
+            })
+            | Expr::Member(MemberExpr {
+                span,
+                computed,
+                obj: ExprOrSuper::Expr(obj @ box Expr::Await(..)),
+                prop,
             }) => MemberExpr {
                 span,
                 computed,
@@ -332,12 +374,12 @@ impl Fold<Expr> for Fixer {
                             Expr::Bin(expr)
                         }
                     }
-                    Expr::Cond(cond_expr) => Expr::Bin(BinExpr {
-                        left: box cond_expr.wrap_with_paren(),
-                        ..expr
-                    }),
-                    Expr::Assign(left) => Expr::Bin(BinExpr {
-                        left: box left.wrap_with_paren(),
+
+                    e @ Expr::Seq(..)
+                    | e @ Expr::Yield(..)
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Assign(..) => Expr::Bin(BinExpr {
+                        left: box e.wrap_with_paren(),
                         ..expr
                     }),
                     _ => Expr::Bin(expr),
@@ -346,7 +388,18 @@ impl Fold<Expr> for Fixer {
 
             Expr::Cond(expr) => {
                 let test = match *expr.test {
-                    e @ Expr::Seq(..) | e @ Expr::Assign(..) => box e.wrap_with_paren(),
+                    e @ Expr::Seq(..)
+                    | e @ Expr::Assign(..)
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Arrow(..) => box e.wrap_with_paren(),
+
+                    e @ Expr::Object(..) | e @ Expr::Fn(..) | e @ Expr::Class(..) => {
+                        if self.ctx == Context::Default {
+                            box e.wrap_with_paren()
+                        } else {
+                            box e
+                        }
+                    }
                     _ => expr.test,
                 };
 
@@ -369,9 +422,12 @@ impl Fold<Expr> for Fixer {
 
             Expr::Unary(expr) => {
                 let arg = match *expr.arg {
-                    Expr::Assign(..) | Expr::Bin(..) | Expr::Seq(..) => {
-                        box expr.arg.wrap_with_paren()
-                    }
+                    e @ Expr::Assign(..)
+                    | e @ Expr::Bin(..)
+                    | e @ Expr::Seq(..)
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Arrow(..)
+                    | e @ Expr::Yield(..) => box e.wrap_with_paren(),
                     _ => expr.arg,
                 };
 
@@ -698,4 +754,44 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(a = rb ? zb(a, c) : Ab(a, c)) ? (b = nb.getPooled(ub.beforeInput, b, c, d), b.data = a, \
          Ra(b)) : b = null;"
     );
+
+    identical!(member_object_lit, "({}).foo");
+
+    identical!(member_cond_expr, "(foo ? 1 : 2).foo");
+
+    identical!(member_new_exp, "(new Foo).foo");
+
+    identical!(member_tagged_tpl, "tag``.foo");
+
+    identical!(member_arrow_expr_1, "(a => a).foo");
+
+    identical!(member_arrow_expr_2, "((a) => a).foo");
+
+    identical!(member_class, "(class Foo{}).foo");
+
+    identical!(member_yield, "function* foo(){ (yield bar).baz }");
+
+    identical!(member_await, "async function foo(){ (await bar).baz }");
+
+    identical!(bin_yield_expr_1, "function* foo(){ (yield foo) && bar }");
+    
+    identical!(bin_yield_expr_2, "function* foo(){ bar && (yield foo) }");
+
+    identical!(bin_seq_expr_1, "(foo(), op) || (seq(), foo)");
+
+    test_fixer!(bin_seq_expr_2, "(foo, op) || (seq, foo)", "op || foo");
+
+    identical!(cond_object_1, "let foo = {} ? 1 : 2;");
+
+    identical!(cond_object_2, "({}) ? 1 : 2;");
+
+    identical!(cond_in_cond, "(foo ? 1 : 2) ? 3 : 4");
+
+    identical!(arrow_in_cond, "(() => {}) ? 3 : 4");
+
+    identical!(unary_cond_arg, "void (foo ? 1 : 2)");
+
+    identical!(unary_arrow_arg, "void ((foo) => foo)");
+
+    identical!(unary_yield_arg, "(function* foo() { void (yield foo); })()");
 }
