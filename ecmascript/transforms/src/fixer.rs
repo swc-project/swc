@@ -242,12 +242,6 @@ impl Fold<Expr> for Fixer {
             | Expr::Member(MemberExpr {
                 span,
                 computed,
-                obj: ExprOrSuper::Expr(obj @ box Expr::TaggedTpl(..)),
-                prop,
-            })
-            | Expr::Member(MemberExpr {
-                span,
-                computed,
                 obj: ExprOrSuper::Expr(obj @ box Expr::Arrow(..)),
                 prop,
             })
@@ -760,6 +754,24 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(a = rb ? zb(a, c) : Ab(a, c)) ? (b = nb.getPooled(ub.beforeInput, b, c, d), b.data = a, \
          Ra(b)) : b = null;"
     );
+
+    identical!(member_object_lit, "({}).foo");
+
+    identical!(member_cond_expr, "(foo ? 1 : 2).foo");
+
+    identical!(member_new_exp, "(new Foo).foo");
+
+    identical!(member_tagged_tpl, "tag``.foo");
+
+    identical!(member_arrow_expr_1, "(a => a).foo");
+
+    identical!(member_arrow_expr_2, "((a) => a).foo");
+    
+    identical!(member_class, "(class Foo{}).foo");
+    
+    identical!(member_yield, "function* foo(){ (yield bar).baz }");
+    
+    identical!(member_yield, "async function foo(){ (await bar).baz }");
 
     identical!(cond_object_1, "let foo = {} ? 1 : 2;");
 
