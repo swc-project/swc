@@ -42,6 +42,20 @@ where
     }
 }
 
+pub fn run_test2<F, Ret>(treat_err_as_bug: bool, op: F) -> Result<Ret, StdErr>
+where
+    F: FnOnce(Arc<SourceMap>, Handler) -> Result<Ret, ()>,
+{
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+    let (handler, errors) = self::errors::new_handler(cm.clone(), treat_err_as_bug);
+    let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, handler));
+
+    match result {
+        Ok(res) => Ok(res),
+        Err(()) => Err(errors.into()),
+    }
+}
+
 /// Remove all span from `t`.
 pub fn drop_span<T>(t: T) -> T
 where

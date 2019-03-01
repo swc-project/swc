@@ -10,23 +10,22 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use ast::*;
+use scoped_tls::scoped_thread_local;
 use std::{
     borrow::Cow,
     f64::{INFINITY, NAN},
     num::FpCategory,
     ops::Add,
-    sync::Arc,
 };
 use swc_atoms::JsWord;
 use swc_common::{
-    errors::{ColorConfig, Handler},
-    FilePathMapping, Fold, FoldWith, Mark, SourceMap, Span, Spanned, Visit, VisitWith, DUMMY_SP,
+    errors::Handler, Fold, FoldWith, Mark, Span, Spanned, Visit, VisitWith, DUMMY_SP,
 };
-use swc_ecma_parser::Session;
 use unicode_xid::UnicodeXID;
 
 pub(crate) mod constructor;
 mod factory;
+pub(crate) mod options;
 mod value;
 pub(crate) mod var;
 
@@ -1015,10 +1014,4 @@ impl<'a> UsageFinder<'a> {
     }
 }
 
-lazy_static! {
-    pub(crate) static ref CM: Arc<SourceMap> =
-        { Arc::new(SourceMap::new(FilePathMapping::empty())) };
-    pub(crate) static ref HANDLER: Handler =
-        { Handler::with_tty_emitter(ColorConfig::Always, false, true, Some(CM.clone())) };
-    pub(crate) static ref SESSION: Session<'static> = { Session { handler: &*HANDLER } };
-}
+scoped_thread_local!(pub static HANDLER: Handler);

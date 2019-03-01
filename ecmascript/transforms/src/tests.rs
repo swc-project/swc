@@ -29,7 +29,9 @@ impl<'a> Tester<'a> {
         F: FnOnce(&mut Tester) -> Result<(), ()>,
     {
         let out = ::testing::run_test(false, |cm, handler| {
-            HELPERS.set(&Default::default(), || op(&mut Tester { cm, handler }))
+            crate::util::HANDLER.set(handler, || {
+                HELPERS.set(&Default::default(), || op(&mut Tester { cm, handler }))
+            })
         });
 
         match out {
