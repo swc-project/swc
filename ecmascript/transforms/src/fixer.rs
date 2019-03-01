@@ -380,12 +380,12 @@ impl Fold<Expr> for Fixer {
                             Expr::Bin(expr)
                         }
                     }
-                    Expr::Cond(cond_expr) => Expr::Bin(BinExpr {
-                        left: box cond_expr.wrap_with_paren(),
-                        ..expr
-                    }),
-                    Expr::Assign(left) => Expr::Bin(BinExpr {
-                        left: box left.wrap_with_paren(),
+
+                    e @ Expr::Seq(..)
+                    | e @ Expr::Yield(..)
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Assign(..) => Expr::Bin(BinExpr {
+                        left: box e.wrap_with_paren(),
                         ..expr
                     }),
                     _ => Expr::Bin(expr),
