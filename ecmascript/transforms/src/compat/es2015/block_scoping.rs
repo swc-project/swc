@@ -12,29 +12,121 @@ struct BlockScoping {
     in_loop_body: bool,
 }
 
-macro_rules! impl_loop {
-    ($T:path) => {
-        impl Fold<$T> for BlockScoping {
-            fn fold(&mut self, node: $T) -> $T {
-                let body = node.body.fold_with(&mut BlockScoping{
-                    in_loop_body: true
-                });
+impl Fold<DoWhileStmt> for BlockScoping {
+    fn fold(&mut self, node: DoWhileStmt) -> DoWhileStmt {
+        let body = node
+            .body
+            .fold_with(&mut BlockScoping { in_loop_body: true });
 
-                $T { body , ..node }
-            }
-        }
-    };
+        let test = node.test.fold_with(self);
 
-    ($T:path,) => {
-        impl_loop!($T);
-    };
-
-    ($T:path, $($rest:tt)*) => {
-        impl_loop!($T);
-        impl_loop!($($rest)*);
+        DoWhileStmt { body, test, ..node }
     }
 }
-impl_loop!(DoWhileStmt, WhileStmt, ForStmt, ForOfStmt, ForInStmt);
+
+impl Fold<WhileStmt> for BlockScoping {
+    fn fold(&mut self, node: WhileStmt) -> WhileStmt {
+        let body = node
+            .body
+            .fold_with(&mut BlockScoping { in_loop_body: true });
+
+        let test = node.test.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+
+        WhileStmt { body, test, ..node }
+    }
+}
+
+impl Fold<ForStmt> for BlockScoping {
+    fn fold(&mut self, node: ForStmt) -> ForStmt {
+        let body = node
+            .body
+            .fold_with(&mut BlockScoping { in_loop_body: true });
+
+        let init = node.init.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+        let test = node.test.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+        let update = node.update.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+
+        ForStmt {
+            init,
+            test,
+            update,
+            body,
+            ..node
+        }
+    }
+}
+
+impl Fold<ForOfStmt> for BlockScoping {
+    fn fold(&mut self, node: ForOfStmt) -> ForOfStmt {
+        let body = node
+            .body
+            .fold_with(&mut BlockScoping { in_loop_body: true });
+
+        let left = node.left.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+        let right = node.right.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+
+        ForOfStmt {
+            left,
+            right,
+            body,
+            ..node
+        }
+    }
+}
+
+impl Fold<ForInStmt> for BlockScoping {
+    fn fold(&mut self, node: ForInStmt) -> ForInStmt {
+        let body = node
+            .body
+            .fold_with(&mut BlockScoping { in_loop_body: true });
+
+        let left = node.left.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+        let right = node.right.fold_with(&mut BlockScoping {
+            in_loop_body: false,
+        });
+
+        ForInStmt {
+            left,
+            right,
+            body,
+            ..node
+        }
+    }
+}
+
+impl Fold<Function> for BlockScoping {
+    fn fold(&mut self, f: Function) -> Function {
+        let f = f.fold_children(&mut BlockScoping {
+            in_loop_body: false,
+        });
+
+        f
+    }
+}
+
+impl Fold<ArrowExpr> for BlockScoping {
+    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+        let f = f.fold_children(&mut BlockScoping {
+            in_loop_body: false,
+        });
+
+        f
+    }
+}
 
 impl Fold<VarDecl> for BlockScoping {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
@@ -84,7 +176,7 @@ mod tests {
 
             baz(key, qux, fog);
         }",
-        "for (const key in obj) {
+        "for (var key in obj) {
             var bar = obj[key];
 
             var qux = void 0;
