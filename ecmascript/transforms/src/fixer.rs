@@ -774,7 +774,7 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(member_await, "async function foo(){ (await bar).baz }");
 
     identical!(bin_yield_expr_1, "function* foo(){ (yield foo) && bar }");
-    
+
     identical!(bin_yield_expr_2, "function* foo(){ bar && (yield foo) }");
 
     identical!(bin_seq_expr_1, "(foo(), op) || (seq(), foo)");
