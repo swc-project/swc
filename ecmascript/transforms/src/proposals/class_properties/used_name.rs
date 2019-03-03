@@ -31,3 +31,19 @@ impl<'a> Visit<Expr> for UsedNameCollector<'a> {
         }
     }
 }
+
+macro_rules! noop {
+    ($T:path) => {
+        impl Visit<$T> for UsedNameCollector<'_> {
+            /// no-op
+            fn visit(&mut self, _: &$T) {}
+        }
+    };
+}
+
+noop!(ArrowExpr);
+noop!(Function);
+noop!(SetterProp);
+noop!(GetterProp);
+noop!(MethodProp);
+noop!(Constructor);

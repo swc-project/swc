@@ -674,3 +674,18 @@ class Foo {
   }
 }"
 );
+
+identical!(
+    issue_308,
+    "function bar(props) {
+}
+var Foo = function Foo() {
+    _classCallCheck(this, Foo);
+    super();
+    _defineProperty(this, 'onBar', ()=>{
+        bar();
+    });
+    bar();
+};
+"
+);
