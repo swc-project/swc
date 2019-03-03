@@ -2749,3 +2749,31 @@ var _x = {
   value: 0
 };"
 );
+
+test!(
+    syntax(),
+    |_| chain!(resolver(), class_properties()),
+    issue_308,
+    "function bar(props) {}
+class Foo {
+  constructor() {
+    super();
+    bar();
+  }
+  onBar = () => {
+    bar();
+  };
+}",
+    "function bar(props) {
+}
+class Foo{
+    constructor(){
+        super();
+        _defineProperty(this, 'onBar', ()=>{
+            bar();
+        });
+        bar();
+    }
+}
+"
+);
