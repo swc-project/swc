@@ -8,7 +8,6 @@ use swc_ecma_ast::Module;
 
 use test::Bencher;
 
-
 #[bench]
 fn module_1(b: &mut Bencher) {
     const SRC: &str = include_str!("module-1.json");
