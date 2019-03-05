@@ -85,7 +85,7 @@ impl Fold<Expr> for ActualFolder {
                 }
                 let (this, callee) = match *callee {
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(span),
+                        obj: ExprOrSuper::Super(Super { span, .. }),
                         ..
                     }) => (box Expr::This(ThisExpr { span }), callee),
 

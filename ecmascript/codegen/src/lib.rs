@@ -422,8 +422,12 @@ impl<'a> Emitter<'a> {
     pub fn emit_expr_or_super(&mut self, node: &ExprOrSuper) -> Result {
         match *node {
             ExprOrSuper::Expr(ref e) => emit!(e),
-            ExprOrSuper::Super(span) => keyword!(span, "super"),
+            ExprOrSuper::Super(ref n) => emit!(n),
         }
+    }
+    #[emitter]
+    pub fn emit_super(&mut self, node: &Super) -> Result {
+        keyword!(node.span, "super");
     }
 
     #[emitter]

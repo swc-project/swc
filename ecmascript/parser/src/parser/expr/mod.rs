@@ -423,7 +423,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if eat!("super") {
-            let base = ExprOrSuper::Super(Super{span:span!(start)});
+            let base = ExprOrSuper::Super(Super { span: span!(start) });
             return self.parse_subscripts(base, true);
         }
         let obj = self.parse_primary_expr()?;
@@ -925,7 +925,7 @@ impl<'a, I: Input> Parser<'a, I> {
 
         // `super()` can't be handled from parse_new_expr()
         if eat!("super") {
-            let obj = ExprOrSuper::Super(Super{span:span!(start)});
+            let obj = ExprOrSuper::Super(Super { span: span!(start) });
             return self.parse_subscripts(obj, false);
         }
 
