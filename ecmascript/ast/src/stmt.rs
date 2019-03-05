@@ -18,44 +18,69 @@ pub struct BlockStmt {
 
 #[ast_node]
 pub enum Stmt {
-    Expr(Box<Expr>),
-
+    #[tag("BlockStatement")]
     Block(BlockStmt),
 
+    #[tag("EmptyStatement")]
     Empty(EmptyStmt),
 
+    #[tag("DebuggerStatement")]
     Debugger(DebuggerStmt),
 
+    #[tag("WithStatement")]
     With(WithStmt),
 
+    #[tag("ReturnStatement")]
     Return(ReturnStmt),
 
+    #[tag("LabeledStatement")]
     Labeled(LabeledStmt),
 
+    #[tag("BreakStatement")]
     Break(BreakStmt),
 
+    #[tag("ContinueStatement")]
     Continue(ContinueStmt),
 
+    #[tag("IfStatement")]
     If(IfStmt),
 
+    #[tag("SwitchStatement")]
     Switch(SwitchStmt),
 
+    #[tag("ThrowStatement")]
     Throw(ThrowStmt),
 
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
+    #[tag("TryStatement")]
     Try(TryStmt),
 
+    #[tag("WhileStatement")]
     While(WhileStmt),
 
+    #[tag("DoWhileStatement")]
     DoWhile(DoWhileStmt),
 
+    #[tag("ForStatement")]
     For(ForStmt),
 
+    #[tag("ForInStatement")]
     ForIn(ForInStmt),
 
+    #[tag("ForOfStatement")]
     ForOf(ForOfStmt),
 
+    #[tag("ClassDeclaration")]
+    #[tag("FunctionDeclaration")]
+    #[tag("VariableDeclaration")]
+    #[tag("TsInterfaceDeclaration")]
+    #[tag("TsTypeAliasDeclaration")]
+    #[tag("TsEnumDeclaration")]
+    #[tag("TsModuleDeclaration")]
     Decl(Decl),
+
+    #[tag("*")]
+    Expr(Box<Expr>),
 }
 
 #[ast_node("EmptyStatement")]
@@ -244,13 +269,19 @@ pub struct CatchClause {
 
 #[ast_node]
 pub enum VarDeclOrPat {
+    #[tag("VariableDeclaration")]
     VarDecl(VarDecl),
+
+    #[tag("*")]
     Pat(Pat),
 }
 
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum VarDeclOrExpr {
+    #[tag("VariableDeclaration")]
     VarDecl(VarDecl),
+
+    #[tag("*")]
     Expr(Box<Expr>),
 }

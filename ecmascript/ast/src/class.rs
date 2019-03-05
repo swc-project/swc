@@ -45,13 +45,19 @@ pub struct Class {
 
 #[ast_node]
 pub enum ClassMember {
+    #[tag("Constructor")]
     Constructor(Constructor),
     /// `es2015`
+    #[tag("ClassMethod")]
     Method(ClassMethod),
+    #[tag("PrivateMethod")]
     PrivateMethod(PrivateMethod),
     /// stage 0 / Typescript
+    #[tag("ClassProperty")]
     ClassProp(ClassProp),
+    #[tag("PrivateProperty")]
     PrivateProp(PrivateProp),
+    #[tag("TsIndexSignature")]
     TsIndexSignature(TsIndexSignature),
 }
 

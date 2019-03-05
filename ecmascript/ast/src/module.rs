@@ -34,8 +34,18 @@ pub struct Script {
 
 #[ast_node]
 pub enum ModuleItem {
-    Stmt(Stmt),
+    #[tag("ImportDeclaration")]
+    #[tag("ExportDeclaration")]
+    #[tag("ExportNamedDeclaration")]
+    #[tag("ExportDefaultDeclaration")]
+    #[tag("ExportDefaultExpression")]
+    #[tag("ExportAllDeclaration")]
+    #[tag("TsImportEqualsDeclaration")]
+    #[tag("TsExportAssignment")]
+    #[tag("TsNamespaceExportDeclaration")]
     ModuleDecl(ModuleDecl),
+    #[tag("*")]
+    Stmt(Stmt),
 }
 
 // This test ensures that FnDecl can be deserialized if type field is present

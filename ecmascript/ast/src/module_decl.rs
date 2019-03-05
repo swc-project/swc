@@ -11,15 +11,29 @@ use swc_common::{ast_node, Span};
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
     Import(ImportDecl),
+
+    #[tag("ExportDeclaration")]
     ExportDecl(ExportDecl),
+
+    #[tag("ExportNamedDeclaration")]
     ExportNamed(NamedExport),
 
+    #[tag("ExportDefaultDeclaration")]
     ExportDefaultDecl(ExportDefaultDecl),
 
+    #[tag("ExportDefaultExpression")]
     ExportDefaultExpr(ExportDefaultExpr),
+
+    #[tag("ExportAllDeclaration")]
     ExportAll(ExportAll),
+
+    #[tag("TsImportEqualsDeclaration")]
     TsImportEquals(TsImportEqualsDecl),
+
+    #[tag("TsExportAssignment")]
     TsExportAssignment(TsExportAssignment),
+
+    #[tag("TsNamespaceExportDeclaration")]
     TsNamespaceExport(TsNamespaceExportDecl),
 }
 
@@ -86,17 +100,23 @@ pub struct ExportDefaultDecl {
 
 #[ast_node]
 pub enum DefaultDecl {
+    #[tag("ClassExpression")]
     Class(ClassExpr),
 
+    #[tag("FunctionExpression")]
     Fn(FnExpr),
 
+    #[tag("TsInterfaceDeclaration")]
     TsInterfaceDecl(TsInterfaceDecl),
 }
 
 #[ast_node]
 pub enum ImportSpecifier {
+    #[tag("ImportSpecifier")]
     Specific(ImportSpecific),
+    #[tag("ImportDefaultSpecifier")]
     Default(ImportDefault),
+    #[tag("ImportNamespaceSpecifier")]
     Namespace(ImportStarAs),
 }
 
@@ -132,10 +152,13 @@ pub struct ImportSpecific {
 
 #[ast_node]
 pub enum ExportSpecifier {
+    #[tag("ExportNamespaceSpecifer")]
     Namespace(NamespaceExportSpecifier),
 
+    #[tag("ExportDefaultSpecifier")]
     Default(DefaultExportSpecifier),
 
+    #[tag("ExportSpecifier")]
     Named(NamedExportSpecifier),
 }
 

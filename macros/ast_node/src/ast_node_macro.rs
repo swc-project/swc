@@ -47,41 +47,73 @@ pub fn expand_enum(
 
     let deserialize = {
         let mut all_tags: Punctuated<_, token::Comma> = Default::default();
-        let mut match_type =
-            data.variants
-                .iter()
-                .map(|variant| {
-                    let field_type = match variant.fields {
-                        Fields::Unnamed(ref fields) => {
-                            assert!(
-                                fields.unnamed.len() == 1,
-                                "#[ast_node] enum cannot contain variant with multiple fields"
-                            );
+        let mut match_type = data
+            .variants
+            .iter()
+            .map(|variant| {
+                let field_type = match variant.fields {
+                    Fields::Unnamed(ref fields) => {
+                        assert!(
+                            fields.unnamed.len() == 1,
+                            "#[ast_node] enum cannot contain variant with multiple fields"
+                        );
 
-                            fields.unnamed.last().unwrap().into_value().ty.clone()
+                        fields.unnamed.last().unwrap().into_value().ty.clone()
+                    }
+                    _ => {
+                        unreachable!("#[ast_node] enum cannot contain named fields or unit variant")
+                    }
+                };
+                let tags = variant
+                    .attrs
+                    .iter()
+                    .filter_map(|attr| -> Option<VariantAttr> {
+                        if !is_attr_name(attr, "tag") {
+                            return None;
                         }
-                        _ => unreachable!(
-                            "#[ast_node] enum cannot contain named fields or unit variant"
-                        ),
-                    };
-                    let tags = variant
-                        .attrs
-                        .iter()
-                        .filter_map(|attr| -> Option<VariantAttr> {
-                            if !is_attr_name(attr, "tag") {
-                                return None;
-                            }
-                            let tags =
-                                parse2(attr.tts.clone()).expect("failed to parse #[tag] attribute");
+                        let tags =
+                            parse2(attr.tts.clone()).expect("failed to parse #[tag] attribute");
 
-                            Some(tags)
-                        })
-                        .flat_map(|v| v.tags)
-                        .collect::<Punctuated<_, token::Comma>>();
+                        Some(tags)
+                    })
+                    .flat_map(|v| v.tags)
+                    .collect::<Punctuated<_, token::Comma>>();
+
+                assert!(
+                    tags.len() >= 1,
+                    "All #[ast_node] enum variants have one or more tag"
+                );
+                if tags.len() == 1
+                    && match tags.first().map(Pair::into_value) {
+                        Some(Lit::Str(s)) => &*s.value() == "*",
+                        _ => false,
+                    }
+                {
+                    Quote::new_call_site()
+                        .quote_with(smart_quote!(
+                            Vars {
+                                Enum: &ident,
+                                Variant: &variant.ident,
+                                VariantFieldType: &field_type,
+                            },
+                            {
+                                if let Ok(v) = std::result::Result::map(
+                                    <VariantFieldType as serde::Deserialize>::deserialize(
+                                        serde::private::de::ContentRefDeserializer::<D::Error>::new(
+                                            &content,
+                                        ),
+                                    ),
+                                    Enum::Variant,
+                                ) {
+                                    return Ok(v);
+                                }
+                            }
+                        ))
+                        .parse()
+                } else {
                     for tag in tags.iter() {
                         all_tags.push(tag.clone());
                     }
-
                     Quote::new_call_site()
                         .quote_with(smart_quote!(
                             Vars {
@@ -111,8 +143,9 @@ pub fn expand_enum(
                             }
                         ))
                         .parse()
-                })
-                .collect::<Vec<Expr>>();
+                }
+            })
+            .collect::<Vec<Expr>>();
 
         let mut match_type_expr = Quote::new_call_site();
         for expr in match_type {

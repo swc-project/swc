@@ -43,6 +43,8 @@ pub struct Function {
 
 #[ast_node]
 pub enum PatOrTsParamProp {
-    Pat(Pat),
+    #[tag("TsParameterProperty")]
     TsParamProp(TsParamProp),
+    #[tag("*")]
+    Pat(Pat),
 }

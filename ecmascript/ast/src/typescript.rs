@@ -77,7 +77,10 @@ pub struct TsParamProp {
 
 #[ast_node]
 pub enum TsParamPropParam {
+    #[tag("Identifier")]
     Ident(Ident),
+
+    #[tag("AssignmentPattern")]
     Assign(AssignPat),
 }
 
@@ -92,16 +95,28 @@ pub struct TsQualifiedName {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum TsEntityName {
+    #[tag("TsQualifiedName")]
     TsQualifiedName(Box<TsQualifiedName>),
+
+    #[tag("Identifier")]
     Ident(Ident),
 }
 
 #[ast_node]
 pub enum TsSignatureDecl {
+    #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
+
+    #[tag("TsConstructSignatureDeclaration")]
     TsConstructSignatureDecl(TsConstructSignatureDecl),
+
+    #[tag("TsMethodSignature")]
     TsMethodSignature(TsMethodSignature),
+
+    #[tag("TsFunctionType")]
     TsFnType(TsFnType),
+
+    #[tag("TsConstructorType")]
     TsConstructorType(TsConstructorType),
 }
 
@@ -111,10 +126,19 @@ pub enum TsSignatureDecl {
 
 #[ast_node]
 pub enum TsTypeElement {
+    #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
+
+    #[tag("TsConstructSignatureDeclaration")]
     TsConstructSignatureDecl(TsConstructSignatureDecl),
+
+    #[tag("TsPropertySignature")]
     TsPropertySignature(TsPropertySignature),
+
+    #[tag("TsMethodSignature")]
     TsMethodSignature(TsMethodSignature),
+
+    #[tag("TsIndexSignature")]
     TsIndexSignature(TsIndexSignature),
 }
 
@@ -205,30 +229,71 @@ pub struct TsIndexSignature {
 
 #[ast_node]
 pub enum TsType {
+    #[tag("TsKeywordType")]
     TsKeywordType(TsKeywordType),
+
+    #[tag("TsThisType")]
     TsThisType(TsThisType),
+
+    #[tag("TsFunctionType")]
+    #[tag("TsConstructorType")]
     TsFnOrConstructorType(TsFnOrConstructorType),
+
+    #[tag("TsTypeReference")]
     TsTypeRef(TsTypeRef),
+
+    #[tag("TsTypeQuery")]
     TsTypeQuery(TsTypeQuery),
+
+    #[tag("TsTypeLiteral")]
     TsTypeLit(TsTypeLit),
+
+    #[tag("TsArrayType")]
     TsArrayType(TsArrayType),
+
+    #[tag("TsTupleType")]
     TsTupleType(TsTupleType),
+
+    #[tag("TsOptionalType")]
     TsOptionalType(TsOptionalType),
+
+    #[tag("TsRestType")]
     TsRestType(TsRestType),
+
+    #[tag("TsUnionType")]
+    #[tag("TsIntersectionType")]
     TsUnionOrIntersectionType(TsUnionOrIntersectionType),
+
+    #[tag("TsConditionalType")]
     TsConditionalType(TsConditionalType),
+
+    #[tag("TsInferType")]
     TsInferType(TsInferType),
+
+    #[tag("TsParenthesizedType")]
     TsParenthesizedType(TsParenthesizedType),
+
+    #[tag("TsTypeOperator")]
     TsTypeOperator(TsTypeOperator),
+
+    #[tag("TsIndexedAccessType")]
     TsIndexedAccessType(TsIndexedAccessType),
+
+    #[tag("TsMappedType")]
     TsMappedType(TsMappedType),
+
+    #[tag("TsLiteralType")]
     TsLitType(TsLitType),
+
+    #[tag("TsTypePredicate")]
     TsTypePredicate(TsTypePredicate),
 }
 
 #[ast_node]
 pub enum TsFnOrConstructorType {
+    #[tag("TsFunctionType")]
     TsFnType(TsFnType),
+    #[tag("TsConstructorType")]
     TsConstructorType(TsConstructorType),
 }
 
@@ -311,8 +376,13 @@ pub struct TsThisType {
 
 #[ast_node]
 pub enum TsFnParam {
+    #[tag("Identifier")]
     Ident(Ident),
+
+    #[tag("RestElement")]
     Rest(RestPat),
+
+    #[tag("ObjectPattern")]
     Object(ObjectPat),
 }
 
@@ -360,7 +430,10 @@ pub struct TsTypePredicate {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum TsThisTypeOrIdent {
+    #[tag("TsThisType")]
     TsThisType(TsThisType),
+
+    #[tag("Identifier")]
     Ident(Ident),
 }
 
@@ -411,7 +484,10 @@ pub struct TsRestType {
 
 #[ast_node]
 pub enum TsUnionOrIntersectionType {
+    #[tag("TsUnionType")]
     TsUnionType(TsUnionType),
+
+    #[tag("TsIntersectionType")]
     TsIntersectionType(TsIntersectionType),
 }
 
@@ -570,8 +646,13 @@ pub struct TsLitType {
 
 #[ast_node]
 pub enum TsLit {
+    #[tag("NumericLiteral")]
     Number(Number),
+
+    #[tag("StringLiteral")]
     Str(Str),
+
+    #[tag("BooleanLiteral")]
     Bool(Bool),
 }
 
@@ -641,7 +722,10 @@ pub struct TsEnumMember {
 
 #[ast_node]
 pub enum TsEnumMemberId {
+    #[tag("Identifier")]
     Ident(Ident),
+
+    #[tag("StringLiteral")]
     Str(Str),
 }
 
@@ -661,7 +745,10 @@ pub struct TsModuleDecl {
 /// its body.
 #[ast_node]
 pub enum TsNamespaceBody {
+    #[tag("TsModuleBlock")]
     TsModuleBlock(TsModuleBlock),
+
+    #[tag("TsNamespaceDeclaration")]
     TsNamespaceDecl(TsNamespaceDecl),
 }
 
@@ -685,7 +772,10 @@ pub struct TsNamespaceDecl {
 
 #[ast_node]
 pub enum TsModuleName {
+    #[tag("Identifier")]
     Ident(Ident),
+
+    #[tag("StringLiteral")]
     Str(Str),
 }
 
@@ -701,7 +791,11 @@ pub struct TsImportEqualsDecl {
 
 #[ast_node]
 pub enum TsModuleRef {
+    #[tag("TsQualifiedName")]
+    #[tag("Identifier")]
     TsEntityName(TsEntityName),
+
+    #[tag("TsExternalModuleReference")]
     TsExternalModuleRef(TsExternalModuleRef),
 }
 

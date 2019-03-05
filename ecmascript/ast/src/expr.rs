@@ -20,21 +20,29 @@ use swc_common::{ast_node, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 pub enum Expr {
+    #[tag("ThisExpression")]
     This(ThisExpr),
 
+    #[tag("ArrayExpression")]
     Array(ArrayLit),
 
+    #[tag("ObjectExpression")]
     Object(ObjectLit),
 
+    #[tag("FunctionExpression")]
     Fn(FnExpr),
 
+    #[tag("UnaryExpression")]
     Unary(UnaryExpr),
 
     /// `++v`, `--v`, `v++`, `v--`
+    #[tag("UpdateExpression")]
     Update(UpdateExpr),
 
+    #[tag("BinaryExpression")]
     Bin(BinExpr),
 
+    #[tag("AssignmentExpression")]
     Assign(AssignExpr),
 
     //
@@ -48,56 +56,86 @@ pub enum Expr {
     /// computed (a[b]) member expression and property is an Expression. If
     /// computed is false, the node corresponds to a static (a.b) member
     /// expression and property is an Identifier.
+    #[tag("MemberExpression")]
     Member(MemberExpr),
 
     /// true ? 'a' : 'b'
+    #[tag("ConditionalExpression")]
     Cond(CondExpr),
 
+    #[tag("CallExpression")]
     Call(CallExpr),
 
     /// `new Cat()`
+    #[tag("NewExpression")]
     New(NewExpr),
 
+    #[tag("SequenceExpression")]
     Seq(SeqExpr),
 
+    #[tag("Identifier")]
     Ident(Ident),
 
+    #[tag("StringLiteral")]
+    #[tag("BooleanLiteral")]
+    #[tag("NullLiteral")]
+    #[tag("NumericLiteral")]
+    #[tag("RegExpLiteral")]
+    #[tag("JSXText")]
     Lit(Lit),
 
+    #[tag("TemplateLiteral")]
     Tpl(Tpl),
 
+    #[tag("TaggedTemplateLiteral")]
     TaggedTpl(TaggedTpl),
 
+    #[tag("ArrowFunctionExpression")]
     Arrow(ArrowExpr),
 
+    #[tag("ClassExpression")]
     Class(ClassExpr),
 
+    #[tag("YieldExpression")]
     Yield(YieldExpr),
 
+    #[tag("MetaProperty")]
     MetaProp(MetaPropExpr),
 
+    #[tag("AwaitExpression")]
     Await(AwaitExpr),
 
+    #[tag("ParenthesisExpression")]
     Paren(ParenExpr),
 
+    #[tag("JSXMemberExpression")]
     JSXMebmer(JSXMemberExpr),
 
+    #[tag("JSXNamespacedName")]
     JSXNamespacedName(JSXNamespacedName),
 
+    #[tag("JSXEmptyExpression")]
     JSXEmpty(JSXEmptyExpr),
 
+    #[tag("JSXElement")]
     JSXElement(JSXElement),
 
+    #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
 
+    #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
 
+    #[tag("TsNonNullExpression")]
     TsNonNull(TsNonNullExpr),
 
+    #[tag("TsTypeCastExpression")]
     TsTypeCast(TsTypeCastExpr),
 
+    #[tag("TsAsExpression")]
     TsAs(TsAsExpr),
 
+    #[tag("PrivateName")]
     PrivateName(PrivateName),
 }
 
@@ -130,9 +168,12 @@ pub struct ObjectLit {
 
 #[ast_node]
 pub enum PropOrSpread {
-    Prop(Box<Prop>),
     /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
+
+    #[tag("*")]
+    Prop(Box<Prop>),
 }
 
 #[ast_node("SpreadElement")]
@@ -403,8 +444,18 @@ pub struct ParenExpr {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum ExprOrSuper {
+    #[tag("Super")]
+    Super(Super),
+
+    #[tag("*")]
     Expr(Box<Expr>),
-    Super(Span),
+}
+
+#[ast_node("Super")]
+#[derive(Copy)]
+pub struct Super {
+    #[serde(default)]
+    pub span: Span,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -429,14 +480,53 @@ impl Spanned for ExprOrSpread {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum BlockStmtOrExpr {
+    #[tag("BlockStatement")]
     BlockStmt(BlockStmt),
+    #[tag("*")]
     Expr(Box<Expr>),
 }
 
 #[ast_node]
 pub enum PatOrExpr {
-    // order is important for proper deserialization.
+    #[tag("ThisExpression")]
+    #[tag("ArrayExpression")]
+    #[tag("ObjectExpression")]
+    #[tag("FunctionExpression")]
+    #[tag("UnaryExpression")]
+    #[tag("UpdateExpression")]
+    #[tag("BinaryExpression")]
+    #[tag("AssignmentExpression")]
+    #[tag("MemberExpression")]
+    #[tag("ConditionalExpression")]
+    #[tag("CallExpression")]
+    #[tag("NewExpression")]
+    #[tag("SequenceExpression")]
+    #[tag("StringLiteral")]
+    #[tag("BooleanLiteral")]
+    #[tag("NullLiteral")]
+    #[tag("NumericLiteral")]
+    #[tag("RegExpLiteral")]
+    #[tag("JSXText")]
+    #[tag("TemplateLiteral")]
+    #[tag("TaggedTemplateLiteral")]
+    #[tag("ArrowFunctionExpression")]
+    #[tag("ClassExpression")]
+    #[tag("YieldExpression")]
+    #[tag("MetaProperty")]
+    #[tag("AwaitExpression")]
+    #[tag("ParenthesisExpression")]
+    #[tag("JSXMemberExpression")]
+    #[tag("JSXNamespacedName")]
+    #[tag("JSXEmptyExpression")]
+    #[tag("JSXElement")]
+    #[tag("JSXFragment")]
+    #[tag("TsTypeAssertion")]
+    #[tag("TsNonNullExpression")]
+    #[tag("TsTypeCastExpression")]
+    #[tag("TsAsExpression")]
+    #[tag("PrivateName")]
     Expr(Box<Expr>),
+    #[tag("*")]
     Pat(Box<Pat>),
 }
 
