@@ -696,7 +696,12 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
     }
 }
 
-fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, computed: bool) -> Expr {
+fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
+    computed |= match *prop {
+        Expr::Lit(Lit::Num(..)) => true,
+        _ => false,
+    };
+
     Expr::Member(MemberExpr {
         span: DUMMY_SP,
         obj: ExprOrSuper::Expr(box ref_ident.clone().into()),
