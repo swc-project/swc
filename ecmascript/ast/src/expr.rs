@@ -87,7 +87,7 @@ pub enum Expr {
     #[tag("TemplateLiteral")]
     Tpl(Tpl),
 
-    #[tag("TaggedTemplateLiteral")]
+    #[tag("TaggedTemplateExpression")]
     TaggedTpl(TaggedTpl),
 
     #[tag("ArrowFunctionExpression")]
