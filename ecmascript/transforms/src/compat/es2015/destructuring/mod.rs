@@ -226,18 +226,26 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
 
                         match prop {
                             ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                                let computed = match key {
+                                    PropName::Computed(..) => true,
+                                    _ => false,
+                                };
+
                                 let var_decl = VarDeclarator {
                                     span: prop_span,
                                     name: *value,
                                     init: Some(box make_ref_prop_expr(
                                         &ref_ident,
                                         box prop_name_to_expr(key),
+                                        computed,
                                     )),
                                     definite: false,
                                 };
                                 decls.extend(vec![var_decl].fold_with(self));
                             }
                             ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
+                                let computed = false;
+
                                 match value {
                                     Some(value) => {
                                         let ref_ident = make_ref_ident(
@@ -245,6 +253,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                             Some(box make_ref_prop_expr(
                                                 &ref_ident,
                                                 box key.clone().into(),
+                                                computed,
                                             )),
                                         );
 
@@ -263,6 +272,7 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                                             init: Some(box make_ref_prop_expr(
                                                 &ref_ident,
                                                 box key.clone().into(),
+                                                computed,
                                             )),
                                             definite: false,
                                         };
@@ -502,6 +512,11 @@ impl Fold<Expr> for AssignFolder {
                             let span = prop.span();
                             match prop {
                                 ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                                    let computed = match key {
+                                        PropName::Computed(..) => true,
+                                        _ => false,
+                                    };
+
                                     exprs.push(box Expr::Assign(AssignExpr {
                                         span,
                                         left: PatOrExpr::Pat(value),
@@ -509,10 +524,13 @@ impl Fold<Expr> for AssignFolder {
                                         right: box make_ref_prop_expr(
                                             &ref_ident,
                                             box prop_name_to_expr(key),
+                                            computed,
                                         ),
                                     }));
                                 }
                                 ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
+                                    let computed = false;
+
                                     match value {
                                         Some(value) => {
                                             let prop_ident = make_ref_ident(&mut self.vars, None);
@@ -526,6 +544,7 @@ impl Fold<Expr> for AssignFolder {
                                                 right: box make_ref_prop_expr(
                                                     &ref_ident,
                                                     box key.clone().into(),
+                                                    computed,
                                                 ),
                                             }));
 
@@ -548,6 +567,7 @@ impl Fold<Expr> for AssignFolder {
                                                 right: box make_ref_prop_expr(
                                                     &ref_ident,
                                                     box key.clone().into(),
+                                                    computed,
                                                 ),
                                             }));
                                         }
@@ -676,14 +696,11 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
     }
 }
 
-fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>) -> Expr {
+fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, computed: bool) -> Expr {
     Expr::Member(MemberExpr {
         span: DUMMY_SP,
         obj: ExprOrSuper::Expr(box ref_ident.clone().into()),
-        computed: match *prop {
-            Expr::Ident(..) => false,
-            _ => true,
-        },
+        computed,
         prop,
     })
 }
