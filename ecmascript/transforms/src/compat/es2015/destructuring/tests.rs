@@ -484,3 +484,32 @@ test!(
     return false;
 }"#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_311,
+    "const Foo = 'foo';
+
+const bar = {
+  [Foo]: {
+    qux: 'baz'
+  }
+};
+
+const {
+  [Foo]: {
+    qux
+  }
+} = bar;",
+    "
+const Foo = 'foo';
+const bar = {
+    [Foo]: {
+        qux: 'baz'
+    }
+};
+const ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
+     _ref$Foo = ref[Foo], ref1 = _ref$Foo ? _ref$Foo : _throw(new TypeError(\"Cannot destructure \
+     'undefined' or 'null'\")), qux = ref1.qux;"
+);
