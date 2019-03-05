@@ -1,0 +1,1442 @@
+{
+    "type": "Module",
+    "span": {
+        "start": 0,
+        "end": 23,
+        "ctxt": 0
+    },
+    "body": [
+        {
+            "type": "FunctionDeclaration",
+            "identifier": {
+                "type": "Identifier",
+                "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                },
+                "value": "asyncGeneratorStep",
+                "optional": false
+            },
+            "declare": false,
+            "params": [
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "gen",
+                    "optional": false
+                },
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "resolve",
+                    "optional": false
+                },
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "reject",
+                    "optional": false
+                },
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "_next",
+                    "optional": false
+                },
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "_throw",
+                    "optional": false
+                },
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "key",
+                    "optional": false
+                },
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "arg",
+                    "optional": false
+                }
+            ],
+            "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+            },
+            "body": {
+                "type": "BlockStatement",
+                "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                },
+                "stmts": [
+                    {
+                        "type": "TryStatement",
+                        "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                        },
+                        "block": {
+                            "type": "BlockStatement",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "stmts": [
+                                {
+                                    "type": "VariableDeclaration",
+                                    "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                    },
+                                    "kind": "var",
+                                    "declare": false,
+                                    "declarations": [
+                                        {
+                                            "type": "VariableDeclarator",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "id": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "value": "info",
+                                                "optional": false
+                                            },
+                                            "init": {
+                                                "type": "CallExpression",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "callee": {
+                                                    "type": "MemberExpression",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "object": {
+                                                        "type": "Identifier",
+                                                        "span": {
+                                                            "start": 0,
+                                                            "end": 0,
+                                                            "ctxt": 0
+                                                        },
+                                                        "value": "gen",
+                                                        "optional": false
+                                                    },
+                                                    "property": {
+                                                        "type": "Identifier",
+                                                        "span": {
+                                                            "start": 0,
+                                                            "end": 0,
+                                                            "ctxt": 0
+                                                        },
+                                                        "value": "key",
+                                                        "optional": false
+                                                    },
+                                                    "computed": true
+                                                },
+                                                "arguments": [
+                                                    {
+                                                        "expr": {
+                                                            "type": "Identifier",
+                                                            "span": {
+                                                                "start": 0,
+                                                                "end": 0,
+                                                                "ctxt": 0
+                                                            },
+                                                            "value": "arg",
+                                                            "optional": false
+                                                        }
+                                                    }
+                                                ],
+                                                "typeArguments": null
+                                            },
+                                            "definite": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "VariableDeclaration",
+                                    "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                    },
+                                    "kind": "var",
+                                    "declare": false,
+                                    "declarations": [
+                                        {
+                                            "type": "VariableDeclarator",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "id": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "value": "value",
+                                                "optional": false
+                                            },
+                                            "init": {
+                                                "type": "MemberExpression",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "object": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "info",
+                                                    "optional": false
+                                                },
+                                                "property": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "value",
+                                                    "optional": false
+                                                },
+                                                "computed": false
+                                            },
+                                            "definite": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "handler": {
+                            "type": "CatchClause",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "param": {
+                                "type": "Identifier",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "value": "error",
+                                "optional": false
+                            },
+                            "body": {
+                                "type": "BlockStatement",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "stmts": [
+                                    {
+                                        "type": "CallExpression",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "callee": {
+                                            "type": "Identifier",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "value": "reject",
+                                            "optional": false
+                                        },
+                                        "arguments": [
+                                            {
+                                                "expr": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "error",
+                                                    "optional": false
+                                                }
+                                            }
+                                        ],
+                                        "typeArguments": null
+                                    },
+                                    {
+                                        "type": "ReturnStatement",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "type": "IfStatement",
+                        "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                        },
+                        "test": {
+                            "type": "MemberExpression",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "object": {
+                                "type": "Identifier",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "value": "info",
+                                "optional": false
+                            },
+                            "property": {
+                                "type": "Identifier",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "value": "done",
+                                "optional": false
+                            },
+                            "computed": false
+                        },
+                        "consequent": {
+                            "type": "BlockStatement",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "stmts": [
+                                {
+                                    "type": "CallExpression",
+                                    "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                    },
+                                    "callee": {
+                                        "type": "Identifier",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "value": "resolve",
+                                        "optional": false
+                                    },
+                                    "arguments": [
+                                        {
+                                            "expr": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "value": "value",
+                                                "optional": false
+                                            }
+                                        }
+                                    ],
+                                    "typeArguments": null
+                                }
+                            ]
+                        },
+                        "alternate": {
+                            "type": "BlockStatement",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "stmts": [
+                                {
+                                    "type": "CallExpression",
+                                    "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                    },
+                                    "callee": {
+                                        "type": "MemberExpression",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "object": {
+                                            "type": "CallExpression",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "callee": {
+                                                "type": "MemberExpression",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "object": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "Promise",
+                                                    "optional": false
+                                                },
+                                                "property": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "resolve",
+                                                    "optional": false
+                                                },
+                                                "computed": false
+                                            },
+                                            "arguments": [
+                                                {
+                                                    "expr": {
+                                                        "type": "Identifier",
+                                                        "span": {
+                                                            "start": 0,
+                                                            "end": 0,
+                                                            "ctxt": 0
+                                                        },
+                                                        "value": "value",
+                                                        "optional": false
+                                                    }
+                                                }
+                                            ],
+                                            "typeArguments": null
+                                        },
+                                        "property": {
+                                            "type": "Identifier",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "value": "then",
+                                            "optional": false
+                                        },
+                                        "computed": false
+                                    },
+                                    "arguments": [
+                                        {
+                                            "expr": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "value": "_next",
+                                                "optional": false
+                                            }
+                                        },
+                                        {
+                                            "expr": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "value": "_throw",
+                                                "optional": false
+                                            }
+                                        }
+                                    ],
+                                    "typeArguments": null
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "generator": false,
+            "async": false
+        },
+        {
+            "type": "FunctionDeclaration",
+            "identifier": {
+                "type": "Identifier",
+                "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                },
+                "value": "_asyncToGenerator",
+                "optional": false
+            },
+            "declare": false,
+            "params": [
+                {
+                    "type": "Identifier",
+                    "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                    },
+                    "value": "fn",
+                    "optional": false
+                }
+            ],
+            "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+            },
+            "body": {
+                "type": "BlockStatement",
+                "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                },
+                "stmts": [
+                    {
+                        "type": "ReturnStatement",
+                        "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                        },
+                        "argument": {
+                            "type": "FunctionExpression",
+                            "params": [],
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "body": {
+                                "type": "BlockStatement",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "stmts": [
+                                    {
+                                        "type": "VariableDeclaration",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "kind": "var",
+                                        "declare": false,
+                                        "declarations": [
+                                            {
+                                                "type": "VariableDeclarator",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "id": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "self",
+                                                    "optional": false
+                                                },
+                                                "init": {
+                                                    "type": "ThisExpression",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    }
+                                                },
+                                                "definite": false
+                                            },
+                                            {
+                                                "type": "VariableDeclarator",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "id": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "args",
+                                                    "optional": false
+                                                },
+                                                "init": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                        "start": 0,
+                                                        "end": 0,
+                                                        "ctxt": 0
+                                                    },
+                                                    "value": "arguments",
+                                                    "optional": false
+                                                },
+                                                "definite": false
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "ReturnStatement",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "argument": {
+                                            "type": "NewExpression",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "callee": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                    "start": 0,
+                                                    "end": 0,
+                                                    "ctxt": 0
+                                                },
+                                                "value": "Promise",
+                                                "optional": false
+                                            },
+                                            "arguments": [
+                                                {
+                                                    "expr": {
+                                                        "type": "FunctionExpression",
+                                                        "params": [
+                                                            {
+                                                                "type": "Identifier",
+                                                                "span": {
+                                                                    "start": 0,
+                                                                    "end": 0,
+                                                                    "ctxt": 0
+                                                                },
+                                                                "value": "resolve",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "type": "Identifier",
+                                                                "span": {
+                                                                    "start": 0,
+                                                                    "end": 0,
+                                                                    "ctxt": 0
+                                                                },
+                                                                "value": "reject",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "span": {
+                                                            "start": 0,
+                                                            "end": 0,
+                                                            "ctxt": 0
+                                                        },
+                                                        "body": {
+                                                            "type": "BlockStatement",
+                                                            "span": {
+                                                                "start": 0,
+                                                                "end": 0,
+                                                                "ctxt": 0
+                                                            },
+                                                            "stmts": [
+                                                                {
+                                                                    "type": "VariableDeclaration",
+                                                                    "span": {
+                                                                        "start": 0,
+                                                                        "end": 0,
+                                                                        "ctxt": 0
+                                                                    },
+                                                                    "kind": "var",
+                                                                    "declare": false,
+                                                                    "declarations": [
+                                                                        {
+                                                                            "type": "VariableDeclarator",
+                                                                            "span": {
+                                                                                "start": 0,
+                                                                                "end": 0,
+                                                                                "ctxt": 0
+                                                                            },
+                                                                            "id": {
+                                                                                "type": "Identifier",
+                                                                                "span": {
+                                                                                    "start": 0,
+                                                                                    "end": 0,
+                                                                                    "ctxt": 0
+                                                                                },
+                                                                                "value": "gen",
+                                                                                "optional": false
+                                                                            },
+                                                                            "init": {
+                                                                                "type": "CallExpression",
+                                                                                "span": {
+                                                                                    "start": 0,
+                                                                                    "end": 0,
+                                                                                    "ctxt": 0
+                                                                                },
+                                                                                "callee": {
+                                                                                    "type": "MemberExpression",
+                                                                                    "span": {
+                                                                                        "start": 0,
+                                                                                        "end": 0,
+                                                                                        "ctxt": 0
+                                                                                    },
+                                                                                    "object": {
+                                                                                        "type": "Identifier",
+                                                                                        "span": {
+                                                                                            "start": 0,
+                                                                                            "end": 0,
+                                                                                            "ctxt": 0
+                                                                                        },
+                                                                                        "value": "fn",
+                                                                                        "optional": false
+                                                                                    },
+                                                                                    "property": {
+                                                                                        "type": "Identifier",
+                                                                                        "span": {
+                                                                                            "start": 0,
+                                                                                            "end": 0,
+                                                                                            "ctxt": 0
+                                                                                        },
+                                                                                        "value": "apply",
+                                                                                        "optional": false
+                                                                                    },
+                                                                                    "computed": false
+                                                                                },
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "self",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "args",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "typeArguments": null
+                                                                            },
+                                                                            "definite": false
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "FunctionDeclaration",
+                                                                    "identifier": {
+                                                                        "type": "Identifier",
+                                                                        "span": {
+                                                                            "start": 0,
+                                                                            "end": 0,
+                                                                            "ctxt": 0
+                                                                        },
+                                                                        "value": "_next",
+                                                                        "optional": false
+                                                                    },
+                                                                    "declare": false,
+                                                                    "params": [
+                                                                        {
+                                                                            "type": "Identifier",
+                                                                            "span": {
+                                                                                "start": 0,
+                                                                                "end": 0,
+                                                                                "ctxt": 0
+                                                                            },
+                                                                            "value": "value",
+                                                                            "optional": false
+                                                                        }
+                                                                    ],
+                                                                    "span": {
+                                                                        "start": 0,
+                                                                        "end": 0,
+                                                                        "ctxt": 0
+                                                                    },
+                                                                    "body": {
+                                                                        "type": "BlockStatement",
+                                                                        "span": {
+                                                                            "start": 0,
+                                                                            "end": 0,
+                                                                            "ctxt": 0
+                                                                        },
+                                                                        "stmts": [
+                                                                            {
+                                                                                "type": "CallExpression",
+                                                                                "span": {
+                                                                                    "start": 0,
+                                                                                    "end": 0,
+                                                                                    "ctxt": 0
+                                                                                },
+                                                                                "callee": {
+                                                                                    "type": "Identifier",
+                                                                                    "span": {
+                                                                                        "start": 0,
+                                                                                        "end": 0,
+                                                                                        "ctxt": 0
+                                                                                    },
+                                                                                    "value": "asyncGeneratorStep",
+                                                                                    "optional": false
+                                                                                },
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "gen",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "resolve",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "reject",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "_next",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "_throw",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "StringLiteral",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "next",
+                                                                                            "hasEscape": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "value",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "typeArguments": null
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "generator": false,
+                                                                    "async": false
+                                                                },
+                                                                {
+                                                                    "type": "FunctionDeclaration",
+                                                                    "identifier": {
+                                                                        "type": "Identifier",
+                                                                        "span": {
+                                                                            "start": 0,
+                                                                            "end": 0,
+                                                                            "ctxt": 0
+                                                                        },
+                                                                        "value": "_throw",
+                                                                        "optional": false
+                                                                    },
+                                                                    "declare": false,
+                                                                    "params": [
+                                                                        {
+                                                                            "type": "Identifier",
+                                                                            "span": {
+                                                                                "start": 0,
+                                                                                "end": 0,
+                                                                                "ctxt": 0
+                                                                            },
+                                                                            "value": "err",
+                                                                            "optional": false
+                                                                        }
+                                                                    ],
+                                                                    "span": {
+                                                                        "start": 0,
+                                                                        "end": 0,
+                                                                        "ctxt": 0
+                                                                    },
+                                                                    "body": {
+                                                                        "type": "BlockStatement",
+                                                                        "span": {
+                                                                            "start": 0,
+                                                                            "end": 0,
+                                                                            "ctxt": 0
+                                                                        },
+                                                                        "stmts": [
+                                                                            {
+                                                                                "type": "CallExpression",
+                                                                                "span": {
+                                                                                    "start": 0,
+                                                                                    "end": 0,
+                                                                                    "ctxt": 0
+                                                                                },
+                                                                                "callee": {
+                                                                                    "type": "Identifier",
+                                                                                    "span": {
+                                                                                        "start": 0,
+                                                                                        "end": 0,
+                                                                                        "ctxt": 0
+                                                                                    },
+                                                                                    "value": "asyncGeneratorStep",
+                                                                                    "optional": false
+                                                                                },
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "gen",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "resolve",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "reject",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "_next",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "_throw",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "StringLiteral",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "throw",
+                                                                                            "hasEscape": false
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "expr": {
+                                                                                            "type": "Identifier",
+                                                                                            "span": {
+                                                                                                "start": 0,
+                                                                                                "end": 0,
+                                                                                                "ctxt": 0
+                                                                                            },
+                                                                                            "value": "err",
+                                                                                            "optional": false
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "typeArguments": null
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    "generator": false,
+                                                                    "async": false
+                                                                },
+                                                                {
+                                                                    "type": "CallExpression",
+                                                                    "span": {
+                                                                        "start": 0,
+                                                                        "end": 0,
+                                                                        "ctxt": 0
+                                                                    },
+                                                                    "callee": {
+                                                                        "type": "Identifier",
+                                                                        "span": {
+                                                                            "start": 0,
+                                                                            "end": 0,
+                                                                            "ctxt": 0
+                                                                        },
+                                                                        "value": "_next",
+                                                                        "optional": false
+                                                                    },
+                                                                    "arguments": [
+                                                                        {
+                                                                            "expr": {
+                                                                                "type": "Identifier",
+                                                                                "span": {
+                                                                                    "start": 0,
+                                                                                    "end": 0,
+                                                                                    "ctxt": 0
+                                                                                },
+                                                                                "value": "undefined",
+                                                                                "optional": false
+                                                                            }
+                                                                        }
+                                                                    ],
+                                                                    "typeArguments": null
+                                                                }
+                                                            ]
+                                                        },
+                                                        "generator": false,
+                                                        "async": false
+                                                    }
+                                                }
+                                            ],
+                                            "typeArguments": null
+                                        }
+                                    }
+                                ]
+                            },
+                            "generator": false,
+                            "async": false
+                        }
+                    }
+                ]
+            },
+            "generator": false,
+            "async": false
+        },
+        {
+            "type": "FunctionDeclaration",
+            "identifier": {
+                "type": "Identifier",
+                "span": {
+                    "start": 15,
+                    "end": 18,
+                    "ctxt": 0
+                },
+                "value": "_foo",
+                "optional": false
+            },
+            "declare": false,
+            "params": [],
+            "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+            },
+            "body": {
+                "type": "BlockStatement",
+                "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                },
+                "stmts": [
+                    {
+                        "type": "AssignmentExpression",
+                        "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                        },
+                        "operator": "=",
+                        "left": {
+                            "type": "Identifier",
+                            "span": {
+                                "start": 15,
+                                "end": 18,
+                                "ctxt": 0
+                            },
+                            "value": "_foo",
+                            "optional": false
+                        },
+                        "right": {
+                            "type": "CallExpression",
+                            "span": {
+                                "start": 0,
+                                "end": 23,
+                                "ctxt": 0
+                            },
+                            "callee": {
+                                "type": "Identifier",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "value": "_asyncToGenerator",
+                                "optional": false
+                            },
+                            "arguments": [
+                                {
+                                    "expr": {
+                                        "type": "FunctionExpression",
+                                        "params": [],
+                                        "span": {
+                                            "start": 0,
+                                            "end": 23,
+                                            "ctxt": 0
+                                        },
+                                        "body": {
+                                            "type": "BlockStatement",
+                                            "span": {
+                                                "start": 0,
+                                                "end": 0,
+                                                "ctxt": 0
+                                            },
+                                            "stmts": []
+                                        },
+                                        "generator": true,
+                                        "async": false
+                                    }
+                                }
+                            ],
+                            "typeArguments": null
+                        }
+                    },
+                    {
+                        "type": "ReturnStatement",
+                        "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                        },
+                        "argument": {
+                            "type": "CallExpression",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "callee": {
+                                "type": "MemberExpression",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "object": {
+                                    "type": "Identifier",
+                                    "span": {
+                                        "start": 15,
+                                        "end": 18,
+                                        "ctxt": 0
+                                    },
+                                    "value": "_foo",
+                                    "optional": false
+                                },
+                                "property": {
+                                    "type": "Identifier",
+                                    "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                    },
+                                    "value": "apply",
+                                    "optional": false
+                                },
+                                "computed": false
+                            },
+                            "arguments": [
+                                {
+                                    "expr": {
+                                        "type": "ThisExpression",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "expr": {
+                                        "type": "Identifier",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "value": "arguments",
+                                        "optional": false
+                                    }
+                                }
+                            ],
+                            "typeArguments": null
+                        }
+                    }
+                ]
+            },
+            "generator": false,
+            "async": false
+        },
+        {
+            "type": "FunctionDeclaration",
+            "identifier": {
+                "type": "Identifier",
+                "span": {
+                    "start": 15,
+                    "end": 18,
+                    "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+            },
+            "declare": false,
+            "params": [],
+            "span": {
+                "start": 0,
+                "end": 23,
+                "ctxt": 0
+            },
+            "body": {
+                "type": "BlockStatement",
+                "span": {
+                    "start": 0,
+                    "end": 0,
+                    "ctxt": 0
+                },
+                "stmts": [
+                    {
+                        "type": "ReturnStatement",
+                        "span": {
+                            "start": 0,
+                            "end": 0,
+                            "ctxt": 0
+                        },
+                        "argument": {
+                            "type": "CallExpression",
+                            "span": {
+                                "start": 0,
+                                "end": 0,
+                                "ctxt": 0
+                            },
+                            "callee": {
+                                "type": "MemberExpression",
+                                "span": {
+                                    "start": 0,
+                                    "end": 0,
+                                    "ctxt": 0
+                                },
+                                "object": {
+                                    "type": "Identifier",
+                                    "span": {
+                                        "start": 15,
+                                        "end": 18,
+                                        "ctxt": 0
+                                    },
+                                    "value": "_foo",
+                                    "optional": false
+                                },
+                                "property": {
+                                    "type": "Identifier",
+                                    "span": {
+                                        "start": 0,
+                                        "end": 0,
+                                        "ctxt": 0
+                                    },
+                                    "value": "apply",
+                                    "optional": false
+                                },
+                                "computed": false
+                            },
+                            "arguments": [
+                                {
+                                    "expr": {
+                                        "type": "ThisExpression",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "expr": {
+                                        "type": "Identifier",
+                                        "span": {
+                                            "start": 0,
+                                            "end": 0,
+                                            "ctxt": 0
+                                        },
+                                        "value": "arguments",
+                                        "optional": false
+                                    }
+                                }
+                            ],
+                            "typeArguments": null
+                        }
+                    }
+                ]
+            },
+            "generator": false,
+            "async": false
+        }
+    ]
+}
