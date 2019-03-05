@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, Fold, Span, Spanned};
 
 #[ast_node]
+#[derive(Deserialize)]
 // See https://github.com/rust-lang/rust/issues/44925
 pub struct Class {
     #[span]
@@ -14,9 +15,18 @@ pub struct Class {
 }
 
 #[ast_node]
+#[derive(Deserialize)]
 pub struct Tuple(#[span] HasSpan, #[fold(ignore)] usize, usize);
 
 #[derive(Debug, Clone, PartialEq, Fold, Spanned, Serialize, Deserialize)]
 pub struct HasSpan {
     pub span: Span,
+}
+
+#[ast_node]
+pub enum Node {
+    #[tag("Class")]
+    Class(Class),
+    #[tag("Tuple")]
+    Tuple(Tuple),
 }

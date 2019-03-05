@@ -11,14 +11,24 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 pub enum Prop {
     /// `a` in `{ a, }`
+    #[tag("Identifier")]
     Shorthand(Ident),
 
     /// `key: value` in `{ key: value, }`
+    #[tag("KeyValueProperty")]
     KeyValue(KeyValueProp),
+
     /// This is **invalid** for object literal.
+    #[tag("AssignmentProperty")]
     Assign(AssignProp),
+
+    #[tag("GetterProperty")]
     Getter(GetterProp),
+
+    #[tag("SetterProperty")]
     Setter(SetterProp),
+
+    #[tag("MethodProperty")]
     Method(MethodProp),
 }
 
@@ -67,10 +77,14 @@ pub struct MethodProp {
 
 #[ast_node]
 pub enum PropName {
+    #[tag("Identifier")]
     Ident(Ident),
     /// String literal.
+    #[tag("StringLiteral")]
     Str(Str),
     /// Numeric literal.
+    #[tag("NumericLiteral")]
     Num(Number),
+    #[tag("*")]
     Computed(Box<Expr>),
 }

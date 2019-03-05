@@ -11,7 +11,9 @@ use swc_common::{ast_node, Span};
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum JSXObject {
+    #[tag("JSXMemberExpression")]
     JSXMemberExpr(Box<JSXMemberExpr>),
+    #[tag("Identifier")]
     Ident(Ident),
 }
 
@@ -53,7 +55,9 @@ pub struct JSXExprContainer {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum JSXExpr {
+    #[tag("JSXEmptyExpression")]
     JSXEmptyExpr(JSXEmptyExpr),
+    #[tag("*")]
     Expr(Box<Expr>),
 }
 
@@ -66,8 +70,11 @@ pub struct JSXSpreadChild {
 
 #[ast_node]
 pub enum JSXElementName {
+    #[tag("Identifier")]
     Ident(Ident),
+    #[tag("JSXMemberExpression")]
     JSXMemberExpr(JSXMemberExpr),
+    #[tag("JSXNamespacedName")]
     JSXNamespacedName(JSXNamespacedName),
 }
 
@@ -97,7 +104,9 @@ pub struct JSXOpeningElement {
 #[ast_node]
 #[allow(variant_size_differences)]
 pub enum JSXAttrOrSpread {
+    #[tag("JSXAttribute")]
     JSXAttr(JSXAttr),
+    #[tag("SpreadElement")]
     SpreadElement(SpreadElement),
 }
 
@@ -120,15 +129,29 @@ pub struct JSXAttr {
 
 #[ast_node]
 pub enum JSXAttrName {
+    #[tag("Identifier")]
     Ident(Ident),
+    #[tag("JSXNamespacedName")]
     JSXNamespacedName(JSXNamespacedName),
 }
 
 #[ast_node]
 pub enum JSXAttrValue {
+    #[tag("StringLiteral")]
+    #[tag("BooleanLiteral")]
+    #[tag("NullLiteral")]
+    #[tag("NumericLiteral")]
+    #[tag("RegExpLiteral")]
+    #[tag("JSXText")]
     Lit(Lit),
+
+    #[tag("JSXExpressionContainer")]
     JSXExprContainer(JSXExprContainer),
+
+    #[tag("JSXElement")]
     JSXElement(Box<JSXElement>),
+
+    #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
 }
 
@@ -151,10 +174,19 @@ pub struct JSXElement {
 
 #[ast_node]
 pub enum JSXElementChild {
+    #[tag("JSXText")]
     JSXText(JSXText),
+
+    #[tag("JSXExpressionContainer")]
     JSXExprContainer(JSXExprContainer),
+
+    #[tag("JSXSpreadChild")]
     JSXSpreadChild(JSXSpreadChild),
+
+    #[tag("JSXElement")]
     JSXElement(Box<JSXElement>),
+
+    #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
 }
 

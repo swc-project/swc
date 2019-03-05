@@ -12,12 +12,19 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum Decl {
+    #[tag("ClassDeclaration")]
     Class(ClassDecl),
+    #[tag("FunctionDeclaration")]
     Fn(FnDecl),
+    #[tag("VariableDeclaration")]
     Var(VarDecl),
+    #[tag("TsInterfaceDeclaration")]
     TsInterface(TsInterfaceDecl),
+    #[tag("TsTypeAliasDeclaration")]
     TsTypeAlias(TsTypeAliasDecl),
+    #[tag("TsEnumDeclaration")]
     TsEnum(TsEnumDecl),
+    #[tag("TsModuleDeclaration")]
     TsModule(TsModuleDecl),
 }
 

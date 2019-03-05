@@ -3,17 +3,23 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum Pat {
+    #[tag("Identifier")]
     Ident(Ident),
 
+    #[tag("ArrayPattern")]
     Array(ArrayPat),
 
+    #[tag("RestElement")]
     Rest(RestPat),
 
+    #[tag("ObjectPattern")]
     Object(ObjectPat),
 
+    #[tag("AssignmentPattern")]
     Assign(AssignPat),
 
     /// Only for for-in / for-of loops. This is *syntatically* valid.
+    #[tag("*")]
     Expr(Box<Expr>),
 }
 
@@ -87,8 +93,13 @@ pub struct RestPat {
 
 #[ast_node]
 pub enum ObjectPatProp {
+    #[tag("KeyValuePatternProperty")]
     KeyValue(KeyValuePatProp),
+
+    #[tag("AssignmentPatternProperty")]
     Assign(AssignPatProp),
+
+    #[tag("RestElement")]
     Rest(RestPat),
 }
 

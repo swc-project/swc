@@ -5,16 +5,22 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum Lit {
+    #[tag("StringLiteral")]
     Str(Str),
 
+    #[tag("BooleanLiteral")]
     Bool(Bool),
 
+    #[tag("NullLiteral")]
     Null(Null),
 
+    #[tag("NumericLiteral")]
     Num(Number),
 
+    #[tag("RegExpLiteral")]
     Regex(Regex),
 
+    #[tag("JSXText")]
     JSXText(JSXText),
 }
 

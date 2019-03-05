@@ -7,3 +7,9 @@ pub struct Node<T> {
     #[serde(flatten)]
     pub node: T,
 }
+
+#[derive(Deserialize)]
+pub struct Type {
+    #[serde(rename = "type")]
+    pub ty: String,
+}

@@ -258,7 +258,7 @@ impl Decorators {
                             vec![
                                 Stmt::Expr(box Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: ExprOrSuper::Super(DUMMY_SP),
+                                    callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
                                     args: vec![ExprOrSpread {
                                         spread: Some(DUMMY_SP),
                                         expr: box Expr::Ident(quote_ident!("args")),

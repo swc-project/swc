@@ -103,7 +103,10 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                 prefix,
             }) => match *arg {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(super_token),
+                    obj:
+                        ExprOrSuper::Super(Super {
+                            span: super_token, ..
+                        }),
                     prop,
                     ..
                 }) => {
@@ -139,12 +142,18 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
                 right,
             }) => match left {
                 PatOrExpr::Expr(box Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(super_token),
+                    obj:
+                        ExprOrSuper::Super(Super {
+                            span: super_token, ..
+                        }),
                     prop,
                     ..
                 }))
                 | PatOrExpr::Pat(box Pat::Expr(box Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(super_token),
+                    obj:
+                        ExprOrSuper::Super(Super {
+                            span: super_token, ..
+                        }),
                     prop,
                     ..
                 }))) => self.super_to_set_call(super_token, false, prop, op, right),
@@ -160,7 +169,10 @@ impl<'a> Fold<Expr> for SuperCalleeFolder<'a> {
 
         match n {
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Super(super_token),
+                obj:
+                    ExprOrSuper::Super(Super {
+                        span: super_token, ..
+                    }),
                 prop,
                 computed,
                 ..
