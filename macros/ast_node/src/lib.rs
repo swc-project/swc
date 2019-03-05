@@ -82,6 +82,21 @@ pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenS
     print("derive(FromVariant)", item.dump())
 }
 
+#[proc_macro_derive(DeserializeEnum, attributes(tag))]
+pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let item =
+        ast_node_macro::expand_enum(input)
+            .into_iter()
+            .fold(TokenStream::new(), |mut t, item| {
+                item.to_tokens(&mut t);
+                t
+            });
+
+    print("derive(DeserializeEnum)", item.dump())
+}
+
 /// Alias for
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
@@ -100,9 +115,10 @@ pub fn ast_node(
             if !args.is_empty() {
                 panic!("#[ast_node] on enum does not accept any argument")
             }
+
             item.quote_with(smart_quote!(Vars { input }, {
                 #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
-                #[derive(::serde::Serialize, ::serde::Deserialize)]
+                #[derive(::serde::Serialize, ::swc_common::DeserializeEnum)]
                 #[serde(untagged)]
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
@@ -138,7 +154,7 @@ pub fn ast_node(
             });
 
             let ast_node_impl = match args {
-                Some(ref args) => Some(ast_node_macro::expand(args.clone(), input.clone())),
+                Some(ref args) => Some(ast_node_macro::expand_struct(args.clone(), input.clone())),
                 None => None,
             };
 

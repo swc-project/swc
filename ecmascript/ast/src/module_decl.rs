@@ -9,6 +9,7 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum ModuleDecl {
+    #[tag("ImportDeclaration")]
     Import(ImportDecl),
     ExportDecl(ExportDecl),
     ExportNamed(NamedExport),

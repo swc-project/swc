@@ -28,5 +28,5 @@ features = ["derive", "fold", "parsing", "printing"]
 
 
 [dev-dependencies]
-swc_common = { version = "0.3", path = "../../common" }
+swc_common = { version = "0.3", path = "../../common", features = ["fold"] }
 serde = { version = "1", features = ["derive"] }

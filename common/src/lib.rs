@@ -20,7 +20,7 @@ pub use self::{
     pos::*,
     source_map::{FileLines, FileLoader, FileName, FilePathMapping, SourceMap, SpanSnippetError},
 };
-pub use ast_node::{ast_node, Fold, FromVariant, Spanned};
+pub use ast_node::{ast_node, DeserializeEnum, Fold, FromVariant, Spanned};
 use serde::Serialize;
 use std::fmt::Debug;
 
