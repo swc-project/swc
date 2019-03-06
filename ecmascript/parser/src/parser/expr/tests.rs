@@ -317,3 +317,19 @@ fn iife() {
         expr("(function(){})()")
     )
 }
+
+#[test]
+fn issue_319_1() {
+    assert_eq_ignore_span!(
+        expr("obj(({ async f() { await g(); } }));"),
+        box Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(expr("obj")),
+            args: vec![ExprOrSpread {
+                spread: None,
+                expr: expr("({ async f() { await g(); } })"),
+            }],
+            type_args: Default::default(),
+        })
+    );
+}
