@@ -286,6 +286,10 @@ where
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
+            if !contains_computed_expr(&stmt) {
+                buf.push(stmt);
+                continue;
+            }
             let mut folder = ObjectLitFolder::default();
             let stmt = stmt.fold_with(&mut folder);
 
