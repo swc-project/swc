@@ -39,8 +39,9 @@ struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
-impl<T: StmtLike + VisitWith<AsyncVisitor>> Fold<Vec<T>> for AsyncToGenerator
+impl<T> Fold<Vec<T>> for AsyncToGenerator
 where
+    T: StmtLike + VisitWith<AsyncVisitor> + FoldWith<Actual>,
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
@@ -53,18 +54,18 @@ where
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
-            match stmt.try_into_stmt() {
-                Err(module_item) => buf.push(module_item),
-                Ok(stmt) => {
-                    let mut actual = Actual {
-                        extra_stmts: vec![],
-                    };
-                    let stmt = stmt.fold_with(&mut actual);
-
-                    buf.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
-                    buf.push(T::from_stmt(stmt));
-                }
+            if !contains_async(&stmt) {
+                buf.push(stmt);
+                continue;
             }
+
+            let mut actual = Actual {
+                extra_stmts: vec![],
+            };
+            let stmt = stmt.fold_with(&mut actual);
+
+            buf.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
+            buf.push(stmt);
         }
 
         buf
@@ -74,6 +75,7 @@ where
 impl Fold<MethodProp> for Actual {
     fn fold(&mut self, prop: MethodProp) -> MethodProp {
         let prop = prop.fold_children(self);
+
         if !prop.function.is_async {
             return prop;
         }
@@ -592,7 +594,8 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
             }
         };
     }
-    noop!(Function);
+    noop!(FnDecl);
+    noop!(FnExpr);
     noop!(Constructor);
     noop!(ArrowExpr);
 

@@ -696,3 +696,22 @@ function foo() {
 }
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_319,
+    "export default obj({
+    async f() {
+        await g();
+    }
+});",
+    "export default obj({
+    f () {
+        return _asyncToGenerator(function*() {
+            yield g();
+        })();
+    }
+});
+"
+);
