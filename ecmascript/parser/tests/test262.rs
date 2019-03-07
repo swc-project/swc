@@ -117,7 +117,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
     const TYPES: &[&str] = &[
         "fail", /* TODO
-                 * "early" */
+                * "early" */
     ];
 
     for err_type in TYPES {

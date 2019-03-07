@@ -118,8 +118,15 @@ pub fn ast_node(
             }
 
             item.quote_with(smart_quote!(Vars { input }, {
-                #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
-                #[derive(::serde::Serialize, ::swc_common::DeserializeEnum)]
+                #[derive(
+                    ::swc_common::FromVariant,
+                    ::swc_common::Spanned,
+                    Clone,
+                    Debug,
+                    PartialEq,
+                    ::serde::Serialize,
+                    ::swc_common::DeserializeEnum,
+                )]
                 #[serde(untagged)]
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
