@@ -4,8 +4,7 @@ extern crate swc_common;
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, Fold, Span, Spanned};
 
-#[ast_node]
-#[derive(Deserialize)]
+#[ast_node("Class")]
 // See https://github.com/rust-lang/rust/issues/44925
 pub struct Class {
     #[span]
@@ -14,8 +13,7 @@ pub struct Class {
     pub s: String,
 }
 
-#[ast_node]
-#[derive(Deserialize)]
+#[ast_node("Tuple")]
 pub struct Tuple(#[span] HasSpan, #[fold(ignore)] usize, usize);
 
 #[derive(Debug, Clone, PartialEq, Fold, Spanned, Serialize, Deserialize)]
