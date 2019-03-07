@@ -1123,3 +1123,45 @@ fn issue_295_02() {
         }",
     );
 }
+
+#[test]
+fn exported_function() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "const foo = {};
+                    export function foo(){}",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("foo", &[mark1, mark2])])))
+        },
+        "const foo = {};
+        function foo1(){}
+      export { foo1 as foo };",
+    );
+}
+
+#[test]
+fn exported_class_1() {
+    test_module(
+        |tester| {
+            let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
+
+            Ok(tester
+                .parse_module(
+                    "actual1.js",
+                    "var Foo = {};
+                    export class Foo {}",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("Foo", &[mark1, mark2])])))
+        },
+        "var Foo = {};
+        class Foo1 {}
+        export { Foo1 as Foo };",
+    );
+}

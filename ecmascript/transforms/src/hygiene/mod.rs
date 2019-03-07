@@ -537,6 +537,32 @@ macro_rules! track_ident {
                 ContinueStmt { label, ..s }
             }
         }
+
+        impl<'a> Fold<ClassDecl> for $T<'a> {
+            fn fold(&mut self, n: ClassDecl) -> ClassDecl {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Binding;
+                let ident = n.ident.fold_with(self);
+                self.ident_type = old;
+
+                let class = n.class.fold_with(self);
+
+                ClassDecl { ident, class, ..n }
+            }
+        }
+
+        impl<'a> Fold<ClassExpr> for $T<'a> {
+            fn fold(&mut self, n: ClassExpr) -> ClassExpr {
+                let old = self.ident_type;
+                self.ident_type = IdentType::Binding;
+                let ident = n.ident.fold_with(self);
+                self.ident_type = old;
+
+                let class = n.class.fold_with(self);
+
+                ClassExpr { ident, class, ..n }
+            }
+        }
     };
 }
 
