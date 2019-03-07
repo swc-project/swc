@@ -203,3 +203,107 @@ test!(
 };"#,
     r#"var foo = _defineProperty({}, bar, "foobar");"#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| ComputedProps,
+    issue_315_1,
+    "
+({
+  foo: {
+    bar: null,
+    [baz]: null
+  },
+
+  [bon]: {
+    flab: null
+  }
+});
+
+export function corge() {}
+",
+    "
+var _obj, _obj1;
+_obj1 = {
+}, _defineProperty(_obj1, 'foo', (_obj = {
+}, _defineProperty(_obj, 'bar', null), _defineProperty(_obj, baz, null), _obj)), \
+     _defineProperty(_obj1, bon, {
+    flab: null
+}), _obj1;
+export function corge() {}
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| ComputedProps,
+    issue_315_2,
+    "
+export function corge() {}
+",
+    "
+export function corge() {}
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| ComputedProps,
+    issue_315_3,
+    "
+export function corge() {}
+
+({
+  foo: {
+    bar: null,
+    [baz]: null
+  },
+
+  [bon]: {
+    flab: null
+  }
+});
+",
+    "
+export function corge() {}
+
+var _obj, _obj1;
+_obj1 = {
+}, _defineProperty(_obj1, 'foo', (_obj = {
+}, _defineProperty(_obj, 'bar', null), _defineProperty(_obj, baz, null), _obj)), \
+     _defineProperty(_obj1, bon, {
+    flab: null
+}), _obj1;
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| ComputedProps,
+    issue_315_4,
+    "
+export class Foo {}
+
+({
+  foo: {
+    bar: null,
+    [baz]: null
+  },
+
+  [bon]: {
+    flab: null
+  }
+});
+",
+    "
+export class Foo {}
+
+var _obj, _obj1;
+_obj1 = {
+}, _defineProperty(_obj1, 'foo', (_obj = {
+}, _defineProperty(_obj, 'bar', null), _defineProperty(_obj, baz, null), _obj)), \
+     _defineProperty(_obj1, bon, {
+    flab: null
+}), _obj1;
+"
+);

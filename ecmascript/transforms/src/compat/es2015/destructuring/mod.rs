@@ -117,7 +117,7 @@ fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
-impl Fold<Vec<VarDeclarator>> for Destructuring {
+impl Fold<Vec<VarDeclarator>> for AssignFolder {
     fn fold(&mut self, declarators: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
         let declarators = declarators.fold_children(self);
 
@@ -140,7 +140,14 @@ impl Fold<Vec<VarDeclarator>> for Destructuring {
                     );
 
                     // Make ref var if required
-                    let ref_ident = make_ref_ident(&mut decls, decl.init);
+                    let ref_ident = make_ref_ident(
+                        if self.exporting {
+                            &mut self.vars
+                        } else {
+                            &mut decls
+                        },
+                        decl.init,
+                    );
 
                     for (i, elem) in elems.into_iter().enumerate() {
                         let elem: Pat = match elem {
@@ -381,7 +388,18 @@ impl Destructuring {
 
 #[derive(Default)]
 struct AssignFolder {
+    exporting: bool,
     vars: Vec<VarDeclarator>,
+}
+
+impl Fold<ExportDecl> for AssignFolder {
+    fn fold(&mut self, decl: ExportDecl) -> ExportDecl {
+        let old = self.exporting;
+        self.exporting = true;
+        let decl = decl.fold_children(self);
+        self.exporting = old;
+        decl
+    }
 }
 
 impl Fold<Expr> for AssignFolder {

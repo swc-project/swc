@@ -1062,6 +1062,17 @@ fn issue_299_03() {
     );
 }
 
+#[test]
+fn issue_316() {
+    assert_eq!(
+        lex_tokens(Default::default(), "'Hi\\r\\n..'"),
+        vec![Token::Str {
+            value: "Hi\r\n..".into(),
+            has_escape: true
+        }]
+    );
+}
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;

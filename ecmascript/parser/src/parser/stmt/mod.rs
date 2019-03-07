@@ -827,6 +827,15 @@ mod tests {
             })
         })
     }
+
+    fn module_item(s: &'static str) -> ModuleItem {
+        test_parser(s, Syntax::default(), |p| {
+            p.parse_stmt_like(true, true).map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        })
+    }
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| {
             p.parse_expr().map_err(|mut e| {
@@ -1226,4 +1235,16 @@ export default function waitUntil(callback, options = {}) {
             },
         );
     }
+
+    #[test]
+    fn issue_319_2() {
+        module_item(
+            "export default obj({
+    async f() {
+        await g();
+    }
+});",
+        );
+    }
+
 }

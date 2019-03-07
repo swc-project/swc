@@ -513,3 +513,25 @@ const ref = bar ? bar : _throw(new TypeError(\"Cannot destructure 'undefined' or
      _ref$Foo = ref[Foo], ref1 = _ref$Foo ? _ref$Foo : _throw(new TypeError(\"Cannot destructure \
      'undefined' or 'null'\")), qux = ref1.qux;"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_317,
+    "export const [
+    A,
+    B,
+    C
+] = [1,2,3];
+
+export const [
+    E,
+    D,
+    F
+] = [4,5,6];",
+    "
+var ref = [1, 2, 3];
+export const A = ref[0], B = ref[1], C = ref[2];
+var ref1 = [4, 5, 6];
+export const E = ref[0], D = ref[1], F = ref[2];"
+);
