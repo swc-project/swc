@@ -37,13 +37,13 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
 
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    span,
                     decl:
                         Decl::Class(ClassDecl {
                             ident,
                             class,
                             declare,
                         }),
-                    ..
                 })) => {
                     let orig_ident = ident.clone();
                     match self.rename_ident(ident) {
@@ -56,22 +56,25 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                             export!(orig_ident, ident);
                         }
                         Err(ident) => {
-                            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
-                                ident,
-                                class,
-                                declare,
-                            }))))
+                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                span,
+                                decl: Decl::Class(ClassDecl {
+                                    ident,
+                                    class,
+                                    declare,
+                                }),
+                            })))
                         }
                     }
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    span,
                     decl:
                         Decl::Fn(FnDecl {
                             ident,
                             function,
                             declare,
                         }),
-                    ..
                 })) => {
                     let orig_ident = ident.clone();
                     match self.rename_ident(ident) {
@@ -83,11 +86,16 @@ impl<'a> Fold<Vec<ModuleItem>> for Operator<'a> {
                             }))));
                             export!(orig_ident, ident);
                         }
-                        Err(ident) => stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                            ident,
-                            function,
-                            declare,
-                        })))),
+                        Err(ident) => {
+                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                span,
+                                decl: Decl::Fn(FnDecl {
+                                    ident,
+                                    function,
+                                    declare,
+                                }),
+                            })))
+                        }
                     }
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {

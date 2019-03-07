@@ -271,9 +271,9 @@ fn is_complex(props: &[PropOrSpread]) -> bool {
     visitor.found
 }
 
-impl<T: StmtLike + VisitWith<ShouldWork>> Fold<Vec<T>> for ComputedProps
+impl<T> Fold<Vec<T>> for ComputedProps
 where
-    T: FoldWith<Self> + FoldWith<ObjectLitFolder>,
+    T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
 {
     fn fold(&mut self, stmts: Vec<T>) -> Vec<T> {
         // Fast path when there's no computed properties.
@@ -281,8 +281,7 @@ where
             return stmts;
         }
 
-        let stmts = stmts.fold_children(self);
-
+        // let stmts = stmts.fold_children(self);
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
@@ -290,6 +289,7 @@ where
                 buf.push(stmt);
                 continue;
             }
+
             let mut folder = ObjectLitFolder::default();
             let stmt = stmt.fold_with(&mut folder);
 
