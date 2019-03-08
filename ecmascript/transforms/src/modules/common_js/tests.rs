@@ -16,6 +16,22 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_326,
+    "import foo from 'foo';
+import bar from '../foo';
+foo, bar",
+    "'use strict';
+var _foo = _interopRequireDefault(require('foo'));
+var _foo1 = _interopRequireDefault(require('../foo'));
+
+_foo.default, _foo1.default"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_235,
     "import {Foo as Bar} from 'something';
 export const fn = ({a = new Bar()}) => a;",
