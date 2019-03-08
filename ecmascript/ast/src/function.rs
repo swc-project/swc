@@ -4,12 +4,10 @@ use crate::{
     stmt::BlockStmt,
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
-use serde::Deserialize;
 use swc_common::{ast_node, Span};
 
 /// Common parts of function and method.
 #[ast_node]
-#[derive(Deserialize)]
 pub struct Function {
     pub params: Vec<Pat>,
 

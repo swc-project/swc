@@ -15,7 +15,6 @@ use swc_common::Fold;
 use swc_common::{ast_node, Span};
 
 #[ast_node]
-#[derive(Deserialize)]
 pub struct Class {
     #[serde(default)]
     pub span: Span,

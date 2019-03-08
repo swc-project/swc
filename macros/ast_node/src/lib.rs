@@ -14,6 +14,7 @@ use swc_macros_common::prelude::*;
 use syn::*;
 
 mod ast_node_macro;
+mod enum_deserialize;
 mod fold;
 mod from_variant;
 mod spanned;
@@ -87,7 +88,7 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
     let item =
-        ast_node_macro::expand_enum(input)
+        enum_deserialize::expand(input)
             .into_iter()
             .fold(TokenStream::new(), |mut t, item| {
                 item.to_tokens(&mut t);
@@ -117,8 +118,15 @@ pub fn ast_node(
             }
 
             item.quote_with(smart_quote!(Vars { input }, {
-                #[derive(::swc_common::FromVariant, ::swc_common::Spanned, Clone, Debug, PartialEq)]
-                #[derive(::serde::Serialize, ::swc_common::DeserializeEnum)]
+                #[derive(
+                    ::swc_common::FromVariant,
+                    ::swc_common::Spanned,
+                    Clone,
+                    Debug,
+                    PartialEq,
+                    ::serde::Serialize,
+                    ::swc_common::DeserializeEnum,
+                )]
                 #[serde(untagged)]
                 #[cfg_attr(feature = "fold", derive(::swc_common::Fold))]
                 input
@@ -161,7 +169,7 @@ pub fn ast_node(
             let mut quote =
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[derive(::serde::Serialize)]
+                    #[derive(::serde::Serialize, ::serde::Deserialize)]
                     serde_tag
                     #[serde(rename_all = "camelCase")]
                     serde_rename
