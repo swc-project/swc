@@ -165,7 +165,11 @@ impl<'a, I: Input> Parser<'a, I> {
             };
             let cons = self.with_ctx(ctx).parse_assignment_expr()?;
             expect!(':');
-            let alt = self.parse_assignment_expr()?;
+            let ctx = Context {
+                in_cond_expr: true,
+                ..self.ctx()
+            };
+            let alt = self.with_ctx(ctx).parse_assignment_expr()?;
 
             Ok(Box::new(Expr::Cond(CondExpr {
                 test,
@@ -200,11 +204,17 @@ impl<'a, I: Input> Parser<'a, I> {
             if !is!('(') {
                 unexpected!();
             }
-            return Ok(Box::new(Expr::Ident(Ident {
+            let args = self.parse_args(true)?;
+            return Ok(Box::new(Expr::Call(CallExpr {
                 span: span!(start),
-                sym: js_word!("import"),
-                type_ann: None,
-                optional: false,
+                callee: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident {
+                    span: span!(start),
+                    sym: js_word!("import"),
+                    type_ann: None,
+                    optional: false,
+                }))),
+                args,
+                type_args: Default::default(),
             })));
         }
 
@@ -1066,11 +1076,19 @@ impl<'a, I: Input> Parser<'a, I> {
                         _ => false,
                     } {
                         expect!('?');
-
                         let test = arg.expr;
-                        let cons = self.include_in_expr(true).parse_assignment_expr()?;
+                        let ctx = Context {
+                            in_cond_expr: true,
+                            include_in_expr: true,
+                            ..self.ctx()
+                        };
+                        let cons = self.with_ctx(ctx).parse_assignment_expr()?;
                         expect!(':');
-                        let alt = self.parse_assignment_expr()?;
+                        let ctx = Context {
+                            in_cond_expr: true,
+                            ..self.ctx()
+                        };
+                        let alt = self.with_ctx(ctx).parse_assignment_expr()?;
 
                         arg = ExprOrSpread {
                             spread: None,

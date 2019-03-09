@@ -214,7 +214,8 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 decorators_before_export: true,
                 ..
-            }) => true,
+            })
+            | Syntax::Typescript(..) => true,
             _ => false,
         }
     }

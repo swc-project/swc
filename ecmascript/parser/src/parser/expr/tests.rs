@@ -1,4 +1,5 @@
 use super::*;
+use crate::EsConfig;
 use swc_common::DUMMY_SP as span;
 
 fn lhs(s: &'static str) -> Box<Expr> {
@@ -331,5 +332,37 @@ fn issue_319_1() {
             }],
             type_args: Default::default(),
         })
+    );
+}
+
+#[test]
+fn issue_328() {
+    assert_eq_ignore_span!(
+        test_parser(
+            "import('test')",
+            Syntax::Es(EsConfig {
+                dynamic_import: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_stmt(true).map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            }
+        ),
+        Stmt::Expr(box Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(box Expr::Ident(Ident::new("import".into(), span))),
+            args: vec![ExprOrSpread {
+                spread: None,
+                expr: box Expr::Lit(Lit::Str(Str {
+                    span,
+                    value: "test".into(),
+                    has_escape: false
+                }))
+            }],
+            type_args: Default::default(),
+        }))
     );
 }

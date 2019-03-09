@@ -1,0 +1,202 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 69,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 69,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 69,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "fn",
+            "optional": false
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 11,
+              "end": 69,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 12,
+                  "end": 15,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+              }
+            ],
+            "body": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 20,
+                "end": 69,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "ConditionalExpression",
+                "span": {
+                  "start": 21,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 24,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 21,
+                      "end": 24,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 25,
+                      "end": 28,
+                      "ctxt": 0
+                    },
+                    "value": "bar",
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "consequent": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 31,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "ConditionalExpression",
+                    "span": {
+                      "start": 32,
+                      "end": 59,
+                      "ctxt": 0
+                    },
+                    "test": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 39,
+                        "end": 43,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 35,
+                          "end": 39,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 32,
+                            "end": 35,
+                            "ctxt": 0
+                          },
+                          "value": "foo",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 36,
+                            "end": 39,
+                            "ctxt": 0
+                          },
+                          "value": "bar",
+                          "optional": false
+                        },
+                        "computed": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 40,
+                          "end": 43,
+                          "ctxt": 0
+                        },
+                        "value": "bas",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "consequent": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 46,
+                        "end": 51,
+                        "ctxt": 0
+                      },
+                      "value": "bas",
+                      "hasEscape": false
+                    },
+                    "alternate": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 54,
+                        "end": 59,
+                        "ctxt": 0
+                      },
+                      "value": "bar",
+                      "hasEscape": false
+                    }
+                  }
+                },
+                "alternate": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 63,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "value": "bat",
+                  "hasEscape": false
+                }
+              }
+            },
+            "async": false,
+            "generator": false
+          },
+          "definite": false
+        }
+      ]
+    }
+  ]
+}
