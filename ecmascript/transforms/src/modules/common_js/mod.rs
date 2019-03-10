@@ -597,6 +597,19 @@ impl Fold<Expr> for CommonJs {
     }
 }
 
+impl Fold<Prop> for CommonJs {
+    fn fold(&mut self, p: Prop) -> Prop {
+        match p {
+            Prop::Shorthand(ident) => {
+                let top_level = self.in_top_level;
+                Scope::fold_shorthand_prop(self, top_level, ident)
+            }
+
+            _ => p.fold_children(self),
+        }
+    }
+}
+
 impl Fold<VarDecl> for CommonJs {
     ///
     /// - collects all declared variables for let and var.

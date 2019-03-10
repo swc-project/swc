@@ -15,6 +15,31 @@ fn tr(config: Config) -> impl Fold<Module> {
 test!(
     syntax(),
     |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_332,
+    "import foo from 'foo';
+
+export const bar = { foo }",
+    "
+define(['exports', 'foo'], function(_exports, _foo) {
+    'use strict';
+    _foo = _interopRequireDefault(_foo);
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    _exports.bar = void 0;
+    const bar = {
+        foo: _foo.default
+    };
+    _exports.bar = bar;
+});
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
         config: util::Config {
             strict: true,
             ..Default::default()

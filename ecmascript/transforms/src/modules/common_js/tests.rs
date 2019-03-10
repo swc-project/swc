@@ -16,6 +16,28 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_332,
+    "import foo from 'foo';
+
+export const bar = { foo }",
+    "
+'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.bar = void 0;
+var _foo = _interopRequireDefault(require('foo'));
+const bar = {
+    foo: _foo.default
+};
+exports.bar = bar;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_326,
     "import foo from 'foo';
 import bar from '../foo';

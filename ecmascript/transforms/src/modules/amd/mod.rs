@@ -537,6 +537,19 @@ impl Fold<Module> for Amd {
     }
 }
 
+impl Fold<Prop> for Amd {
+    fn fold(&mut self, p: Prop) -> Prop {
+        match p {
+            Prop::Shorthand(ident) => {
+                let top_level = self.in_top_level;
+                Scope::fold_shorthand_prop(self, top_level, ident)
+            }
+
+            _ => p.fold_children(self),
+        }
+    }
+}
+
 impl Fold<Expr> for Amd {
     fn fold(&mut self, expr: Expr) -> Expr {
         let exports_ident = self.exports.0.clone();
