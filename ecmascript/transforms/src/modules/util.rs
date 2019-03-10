@@ -346,6 +346,74 @@ impl Scope {
         }
     }
 
+    pub(super) fn fold_shorthand_prop(
+        folder: &mut impl ModulePass,
+        top_level: bool,
+        prop: Ident,
+    ) -> Prop {
+        let key = prop.clone();
+        let value = Scope::fold_ident(folder, top_level, prop);
+        match value {
+            Ok(value) => Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(key),
+                value: box value,
+            }),
+            Err(ident) => Prop::Shorthand(ident),
+        }
+    }
+
+    fn fold_ident(folder: &mut impl ModulePass, top_level: bool, i: Ident) -> Result<Expr, Ident> {
+        let v = {
+            let v = folder.scope().idents.get(&(i.sym.clone(), i.span.ctxt()));
+            v.cloned()
+        };
+        match v {
+            None => return Err(i),
+            Some((src, prop)) => {
+                if top_level {
+                    folder.scope_mut().lazy_blacklist.insert(src.clone());
+                }
+
+                let lazy = if folder.scope().lazy_blacklist.contains(&src) {
+                    false
+                } else {
+                    folder.config().lazy.is_lazy(&src)
+                };
+
+                let (ident, span) = folder
+                    .scope()
+                    .imports
+                    .get(&src)
+                    .as_ref()
+                    .unwrap()
+                    .as_ref()
+                    .unwrap();
+
+                let obj = {
+                    let ident = Ident::new(ident.clone(), *span);
+
+                    if lazy {
+                        Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: ident.as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        })
+                    } else {
+                        Expr::Ident(ident)
+                    }
+                };
+
+                if *prop == js_word!("") {
+                    // import * as foo from 'foo';
+                    Ok(obj)
+                } else {
+                    Ok(obj.member(Ident::new(prop.clone(), DUMMY_SP)))
+                }
+            }
+        }
+    }
+
     pub(super) fn fold_expr(
         folder: &mut impl ModulePass,
         exports: Ident,
@@ -382,57 +450,10 @@ impl Scope {
 
         match expr {
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
-            Expr::Ident(i) => {
-                let v = {
-                    let v = folder.scope().idents.get(&(i.sym.clone(), i.span.ctxt()));
-                    v.cloned()
-                };
-                match v {
-                    None => return Expr::Ident(i),
-                    Some((src, prop)) => {
-                        if top_level {
-                            folder.scope_mut().lazy_blacklist.insert(src.clone());
-                        }
-
-                        let lazy = if folder.scope().lazy_blacklist.contains(&src) {
-                            false
-                        } else {
-                            folder.config().lazy.is_lazy(&src)
-                        };
-
-                        let (ident, span) = folder
-                            .scope()
-                            .imports
-                            .get(&src)
-                            .as_ref()
-                            .unwrap()
-                            .as_ref()
-                            .unwrap();
-
-                        let obj = {
-                            let ident = Ident::new(ident.clone(), *span);
-
-                            if lazy {
-                                Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: ident.as_callee(),
-                                    args: vec![],
-                                    type_args: Default::default(),
-                                })
-                            } else {
-                                Expr::Ident(ident)
-                            }
-                        };
-
-                        if *prop == js_word!("") {
-                            // import * as foo from 'foo';
-                            obj
-                        } else {
-                            obj.member(Ident::new(prop.clone(), DUMMY_SP))
-                        }
-                    }
-                }
-            }
+            Expr::Ident(i) => match Self::fold_ident(folder, top_level, i) {
+                Ok(expr) => expr,
+                Err(ident) => Expr::Ident(ident),
+            },
             Expr::Member(e) => {
                 if e.computed {
                     Expr::Member(MemberExpr {

@@ -14,6 +14,47 @@ test!(
     |tester| tr(
         tester,
         Config {
+            ..Default::default()
+        }
+    ),
+    issue_332,
+    "import foo from 'foo';
+
+export const bar = { foo }",
+    "
+  (function(global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['exports', 'foo'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('foo'));
+    } else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(mod.exports, global.foo);
+        global.input = mod.exports;
+    }
+})(this, function(_exports, _foo) {
+    'use strict';
+    _foo = _interopRequireDefault(_foo);
+    Object.defineProperty(_exports, '__esModule', {
+        value: true
+    });
+    _exports.bar = void 0;
+    const bar = {
+        foo: _foo.default
+    };
+    _exports.bar = bar;
+});
+"
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
             config: util::Config {
                 strict: true,
                 ..Default::default()
