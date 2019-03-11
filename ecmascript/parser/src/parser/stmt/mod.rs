@@ -438,7 +438,7 @@ impl<'a, I: Input> Parser<'a, I> {
             tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
-        let should_include_in = kind == VarDeclKind::Var;
+        let should_include_in = kind != VarDeclKind::Var;
 
         let mut decls = vec![];
         let mut first = true;

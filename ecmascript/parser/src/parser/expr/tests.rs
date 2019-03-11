@@ -366,3 +366,17 @@ fn issue_328() {
         }))
     );
 }
+
+#[test]
+fn issue_337() {
+    test_parser(
+        "const foo = 'bar' in bas ? 'beep' : 'boop';",
+        Default::default(),
+        |p| {
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        },
+    );
+}
