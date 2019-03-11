@@ -1,6 +1,6 @@
 use crate::{
     pass::Pass,
-    util::{is_valid_ident, prop_name_to_expr, ExprFactory, StmtLike},
+    util::{prop_name_to_expr, ExprFactory, StmtLike},
 };
 use ast::*;
 use std::iter;
