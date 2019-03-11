@@ -1,6 +1,6 @@
-error: Unexpected initializer in for in/of loop
- --> $DIR/tests/test262-parser/fail/154f02d86fce5e81.js:1:6
+error: Expected Semi, got Some(RParen)
+ --> $DIR/tests/test262-parser/fail/154f02d86fce5e81.js:1:22
   |
 1 | for (const x = 0 in y){}
-  |      ^^^^^^^^^^^
+  |                      ^
 
