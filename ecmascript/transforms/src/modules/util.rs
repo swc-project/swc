@@ -518,6 +518,7 @@ impl Scope {
             }
 
             Expr::Assign(mut expr) => {
+                expr.left = expr.left.fold_with(folder);
                 expr.right = expr.right.fold_with(folder);
 
                 let mut found = vec![];

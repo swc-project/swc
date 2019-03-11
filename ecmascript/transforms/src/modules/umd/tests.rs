@@ -17,6 +17,38 @@ test!(
             ..Default::default()
         }
     ),
+    issue_335,
+    "import bar from 'bar';
+
+obj[bar('bas')] = '123'",
+    "(function(global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['bar'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(require('bar'));
+    } else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(global.bar);
+        global.input = mod.exports;
+    }
+})(this, function(_bar) {
+    'use strict';
+    _bar = _interopRequireDefault(_bar);
+    obj[_bar.default('bas')] = '123';
+});"
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            ..Default::default()
+        }
+    ),
     issue_332,
     "import foo from 'foo';
 

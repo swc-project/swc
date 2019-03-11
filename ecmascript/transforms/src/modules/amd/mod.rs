@@ -9,7 +9,7 @@ use crate::{
 use ast::*;
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use std::{collections::hash_map::Entry, iter};
+use std::iter;
 use swc_common::{Fold, FoldWith, Mark, VisitWith, DUMMY_SP};
 
 #[cfg(test)]
@@ -552,7 +552,6 @@ impl Fold<Prop> for Amd {
 
 impl Fold<Expr> for Amd {
     fn fold(&mut self, expr: Expr) -> Expr {
-        let exports = self.exports.0.clone();
         let top_level = self.in_top_level;
 
         Scope::fold_expr(self, self.exports.0.clone(), top_level, expr)
