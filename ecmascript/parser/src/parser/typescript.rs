@@ -159,7 +159,11 @@ impl<'a, I: Input> Parser<'a, I> {
         let mut entity = TsEntityName::Ident(self.parse_ident_name()?);
         while eat!('.') {
             let left = entity;
-            let right = self.parse_ident(allow_reserved_words, allow_reserved_words)?;
+            let right = if allow_reserved_words {
+                self.parse_ident_name()?
+            } else {
+                self.parse_ident(false, false)?
+            };
             entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { left, right }));
         }
 

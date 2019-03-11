@@ -17,6 +17,22 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_335,
+    "import bar from 'bar';
+
+obj[bar('bas')] = '123'",
+    "define(['bar'], function(_bar) {
+    'use strict';
+    _bar = _interopRequireDefault(_bar);
+    obj[_bar.default('bas')] = '123';
+});"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_332,
     "import foo from 'foo';
 

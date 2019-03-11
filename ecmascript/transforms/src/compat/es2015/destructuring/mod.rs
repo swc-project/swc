@@ -716,7 +716,7 @@ fn make_ref_ident(decls: &mut Vec<VarDeclarator>, init: Option<Box<Expr>>) -> Id
 
 fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) -> Expr {
     computed |= match *prop {
-        Expr::Lit(Lit::Num(..)) => true,
+        Expr::Lit(Lit::Num(..)) | Expr::Lit(Lit::Str(..)) => true,
         _ => false,
     };
 

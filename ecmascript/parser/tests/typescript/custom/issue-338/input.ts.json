@@ -1,0 +1,90 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 37,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 37,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 37,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 9,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 12,
+              "end": 15,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 12,
+                "end": 15,
+                "ctxt": 0
+              },
+              "value": "bas",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 19,
+                "end": 37,
+                "ctxt": 0
+              },
+              "exprName": {
+                "type": "TsQualifiedName",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 26,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "value": "beep",
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 31,
+                    "end": 37,
+                    "ctxt": 0
+                  },
+                  "value": "delete",
+                  "optional": false
+                }
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ]
+}
