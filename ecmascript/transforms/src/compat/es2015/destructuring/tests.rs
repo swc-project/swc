@@ -535,3 +535,12 @@ export const A = ref[0], B = ref[1], C = ref[2];
 var ref1 = [4, 5, 6];
 export const E = ref[0], D = ref[1], F = ref[2];"
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_336,
+    "const { 'foo-bar': fooBar } = baz;",
+    "const ref = baz ? baz : _throw(new TypeError(\"Cannot destructure 'undefined' or 'null'\")), \
+     fooBar = ref['foo-bar'];"
+);
