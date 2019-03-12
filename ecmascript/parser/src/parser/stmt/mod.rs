@@ -1247,4 +1247,48 @@ export default function waitUntil(callback, options = {}) {
         );
     }
 
+    #[test]
+    fn issue_340_fn() {
+        test_parser("export default function(){};", Default::default(), |p| {
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        });
+    }
+
+    #[test]
+    fn issue_340_async_fn() {
+        test_parser(
+            "export default async function(){};",
+            Default::default(),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn issue_340_generator_fn() {
+        test_parser("export default function*(){};", Default::default(), |p| {
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        });
+    }
+
+    #[test]
+    fn issue_340_class() {
+        test_parser("export default class {};", Default::default(), |p| {
+            p.parse_module().map_err(|mut e| {
+                e.emit();
+                ()
+            })
+        });
+    }
+
 }
