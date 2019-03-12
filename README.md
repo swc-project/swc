@@ -63,6 +63,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <a href="https://opencollective.com/swc/backer/2/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/2/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/swc/backer/3/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/3/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/swc/backer/4/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/4/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/swc/backer/5/website?requireActive=false" target="_blank"><img src="https://opencollective.com/swc/backer/5/avatar.svg?requireActive=false"></a>
 
 
 # Documentation
