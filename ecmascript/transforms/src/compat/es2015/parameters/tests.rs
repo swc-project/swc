@@ -1,9 +1,9 @@
 use super::*;
-use crate::compat::es2015::Classes;
+use crate::{compat::es2015::Classes, resolver};
 
 fn tr() -> impl Fold<Module> {
     chain!(
-        crate::compat::es2015::resolver(),
+        resolver(),
         Params,
         crate::compat::es2015::destructuring(),
         crate::compat::es2015::block_scoping(),

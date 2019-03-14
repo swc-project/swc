@@ -1,5 +1,5 @@
 use super::*;
-use crate::compat::es2015::{block_scoping, resolver};
+use crate::{compat::es2015::block_scoping, resolver};
 
 fn tr() -> impl Fold<Module> {
     chain!(resolver(), function_name(), block_scoping())

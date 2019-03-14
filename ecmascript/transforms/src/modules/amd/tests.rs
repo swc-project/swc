@@ -1,5 +1,5 @@
 use super::{super::util, amd, Config};
-use crate::compat::es2015::resolver;
+use crate::resolver;
 use ast::Module;
 use swc_common::Fold;
 use swc_ecma_parser::Syntax;

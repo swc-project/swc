@@ -1,4 +1,7 @@
-use crate::scope::{IdentType, ScopeKind};
+use crate::{
+    pass::Pass,
+    scope::{IdentType, ScopeKind},
+};
 use ast::*;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
@@ -9,7 +12,7 @@ mod tests;
 
 const LOG: bool = false;
 
-pub fn resolver() -> Resolver<'static> {
+pub fn resolver() -> impl Pass + 'static {
     Resolver::new(
         Mark::fresh(Mark::root()),
         Scope::new(ScopeKind::Fn, None),

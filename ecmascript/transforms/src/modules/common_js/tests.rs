@@ -1,5 +1,5 @@
 use super::{super::util::Lazy, common_js, Config};
-use crate::compat::es2015::resolver;
+use crate::resolver;
 use ast::*;
 use swc_common::Fold;
 

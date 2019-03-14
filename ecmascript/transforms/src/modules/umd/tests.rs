@@ -1,5 +1,5 @@
 use super::*;
-use crate::compat::es2015::resolver;
+use crate::resolver;
 
 fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()

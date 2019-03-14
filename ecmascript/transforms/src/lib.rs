@@ -42,7 +42,7 @@ extern crate unicode_xid;
 
 pub use self::{
     const_modules::const_modules, fixer::fixer, hygiene::hygiene, inline_globals::InlineGlobals,
-    simplify::simplifier,
+    resolver::resolver, simplify::simplifier,
 };
 
 #[cfg(test)]
@@ -64,6 +64,7 @@ pub mod modules;
 pub mod pass;
 pub mod proposals;
 pub mod react;
+mod resolver;
 pub mod scope;
 mod simplify;
 pub mod typescript;

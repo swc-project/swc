@@ -2,9 +2,8 @@ pub use self::{
     arrow::arrow, block_scoped_fn::BlockScopedFns, block_scoping::block_scoping, classes::Classes,
     computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
-    instanceof::InstanceOf, parameters::parameters, resolver::resolver,
-    shorthand_property::Shorthand, spread::spread, sticky_regex::StickyRegex,
-    template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
+    instanceof::InstanceOf, parameters::parameters, shorthand_property::Shorthand, spread::spread,
+    sticky_regex::StickyRegex, template_literal::TemplateLiteral, typeof_symbol::TypeOfSymbol,
 };
 use crate::pass::Pass;
 use ast::{Expr, Module, Stmt};
@@ -20,7 +19,6 @@ mod for_of;
 mod function_name;
 mod instanceof;
 mod parameters;
-mod resolver;
 mod shorthand_property;
 mod spread;
 mod sticky_regex;
@@ -49,7 +47,6 @@ pub fn es2015() -> impl Pass {
     chain_at!(
         Module,
         BlockScopedFns,
-        resolver(),
         Classes,
         spread(),
         stmts(),
@@ -64,6 +61,7 @@ pub fn es2015() -> impl Pass {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::resolver;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
