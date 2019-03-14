@@ -1,7 +1,8 @@
 use super::*;
 use crate::{
-    compat::es2015::{arrow, block_scoping, resolver, spread},
+    compat::es2015::{arrow, block_scoping, spread},
     react::jsx,
+    resolver,
 };
 use swc_ecma_parser::{EsConfig, Syntax};
 

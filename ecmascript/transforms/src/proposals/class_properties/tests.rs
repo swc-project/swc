@@ -1,7 +1,10 @@
 use super::*;
-use crate::compat::{
-    es2015::{block_scoping, function_name, resolver, Classes},
-    es3::ReservedWord,
+use crate::{
+    compat::{
+        es2015::{block_scoping, es2015, function_name, Classes},
+        es3::ReservedWord,
+    },
+    resolver,
 };
 use swc_ecma_parser::{EsConfig, Syntax};
 
@@ -2776,4 +2779,27 @@ class Foo{
     }
 }
 "
+);
+
+test!(
+    syntax(),
+    |_| chain!(resolver(), class_properties(), Classes),
+    issue_342,
+    "class Foo {
+  constructor(bar) {
+    this._bar = bar;
+  }
+
+  qux = {
+    frob: (bar) => {},
+  };
+}",
+    "let Foo = function Foo(bar) {
+    _classCallCheck(this, Foo);
+    _defineProperty(this, 'qux', {
+        frob: (bar)=>{
+        }
+    });
+    this._bar = bar;
+};"
 );
