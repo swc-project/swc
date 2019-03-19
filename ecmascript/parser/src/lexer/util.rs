@@ -268,7 +268,7 @@ pub trait CharExt: Copy {
             None => return false,
         };
         // TODO: Use Unicode ID instead of XID.
-        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || UnicodeXID::is_xid_continue(c)
+        c == '$' || c == '\u{200c}' || c == '\u{200d}' || UnicodeXID::is_xid_continue(c)
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators
@@ -291,17 +291,14 @@ pub trait CharExt: Copy {
         };
         match c {
             '\u{0009}' | '\u{000b}' | '\u{000c}' | '\u{0020}' | '\u{00a0}' | '\u{feff}' => true,
-
-            '\u{1680}'
-            | '\u{180e}'
-            | '\u{2000}'...'\u{200a}'
-            | '\u{202f}'
-            | '\u{205f}'
-            | '\u{3000}' => {
-                // Any other Unicode “Space_Separator” code point
-                true
-            }
-            _ => false,
+            _ => {
+                if self.is_line_break() {
+                    // NOTE: Line terminator is not whitespace.
+                    false
+                } else {
+                    c.is_whitespace()
+                }
+            },
         }
     }
 }
