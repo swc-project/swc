@@ -21,7 +21,7 @@ use std::{
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
-use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
+use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName};
 use testing::StdErr;
 use walkdir::WalkDir;
 
@@ -41,7 +41,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: TestFn::DynTestFn(box f),
+        testfn: DynTestFn(box f),
     });
 }
 
