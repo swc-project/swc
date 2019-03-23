@@ -10,7 +10,7 @@ extern crate walkdir;
 
 use self::{
     parser::{SourceFileInput, Syntax},
-    test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName},
+    test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName},
 };
 use std::{
     env,
@@ -34,7 +34,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: TestFn::DynTestFn(box f),
+        testfn: DynTestFn(box f),
     });
 }
 

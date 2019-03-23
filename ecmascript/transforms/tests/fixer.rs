@@ -22,7 +22,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax};
 use swc_ecma_transforms::fixer;
-use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName};
+use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName};
 
 const IGNORED_PASS_TESTS: &[&str] = &[
     // TODO: uningnore
@@ -105,7 +105,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             allow_fail: false,
         },
-        testfn: TestFn::DynTestFn(box f),
+        testfn: DynTestFn(box f),
     });
 }
 
