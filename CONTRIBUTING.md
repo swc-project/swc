@@ -11,7 +11,7 @@ All contributors are expected to follow our [Code of Conduct].
 ## Bug reports
 
 We can't fix what we don't know about, so please report problems liberally. This
-includes problems with understanding the documentation, unhelpful error messages
+includes problems with understanding the documentation, unhelpful error messages,
 and unexpected behavior.
 
 Opening an issue is as easy as following [this link][new-issues] and filling out
@@ -33,7 +33,7 @@ happened instead. Please use https://gist.github.com/ if your examples run long.
 
 ## Feature requests
 
-Please feel free to open a issue or to send a pr.
+Please feel free to open an issue or to send a pr.
 
 ## Working on issues
 
@@ -125,7 +125,7 @@ adding labels to triage issues:
   an issue is **C-feature-request**, but is not **Feature accepted**,
   then it was not thoroughly discussed, and might need some additional design
   or perhaps should be implemented as an external subcommand first. Ping
-  @swc-projcet/swc if you want to send a PR for such issue.
+  @swc-projcet/swc if you want to send a PR for an such issue.
 
 * Green, **E**-prefixed labels explain the level of **experience** or
   **effort** necessary to fix the issue. [**E-mentor**][E-mentor] issues also
@@ -136,7 +136,7 @@ adding labels to triage issues:
 
 * Orange, **P**-prefixed labels indicate a bug's **priority**.
   
-* Ligth orange, **L**-prefixed labels indicate language related to the bug.
+* Light orange, **L**-prefixed labels indicate language related to the bug.
 
 
 [gist]: https://gist.github.com/
