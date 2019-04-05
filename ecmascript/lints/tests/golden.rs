@@ -10,7 +10,7 @@ extern crate walkdir;
 
 use self::{
     parser::{SourceFileInput, Syntax},
-    test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName},
+    test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName},
 };
 use std::{
     env,

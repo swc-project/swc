@@ -17,7 +17,7 @@ use std::{
 use swc_common::{Fold, FoldWith, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax};
-use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName};
+use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
 use testing::{NormalizedOutput, StdErr};
 
 const IGNORED_PASS_TESTS: &[&str] = &[

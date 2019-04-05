@@ -438,7 +438,7 @@ impl<'a, I: Input> Parser<'a, I> {
             tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
-        let should_include_in = kind != VarDeclKind::Var;
+        let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
         let mut decls = vec![];
         let mut first = true;
@@ -1289,6 +1289,20 @@ export default function waitUntil(callback, options = {}) {
                 ()
             })
         });
+    }
+
+    #[test]
+    fn issue_360() {
+        test_parser(
+            "var IS_IE11 = !global.ActiveXObject && 'ActiveXObject' in global;",
+            Default::default(),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
     }
 
 }

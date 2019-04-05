@@ -23,7 +23,7 @@ use std::{
 use swc_common::{errors::Handler, Fold, FoldWith, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput};
-use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName};
+use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
 use testing::{run_test, StdErr};
 use walkdir::WalkDir;
 

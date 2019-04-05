@@ -298,7 +298,7 @@ pub trait CharExt: Copy {
                 } else {
                     c.is_whitespace()
                 }
-            },
+            }
         }
     }
 }

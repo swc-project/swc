@@ -21,7 +21,7 @@ use std::{
 use swc_common::{Fold, FoldWith};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
-use test::{test_main, Options, ShouldPanic::No, TestDesc, TestDescAndFn, DynTestFn, TestName};
+use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
 use testing::StdErr;
 use walkdir::WalkDir;
 
