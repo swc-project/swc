@@ -1111,6 +1111,10 @@ impl<'a> Emitter<'a> {
     pub fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo())?;
 
+        if node.function.is_async {
+            keyword!("async");
+        }
+
         if node.function.is_generator {
             punct!("*");
         }
