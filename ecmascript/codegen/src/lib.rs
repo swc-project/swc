@@ -358,6 +358,16 @@ impl<'a> Emitter<'a> {
             .replace("\r", "\\r")
             .replace("\t", "\\t")
             .replace('\u{000B}', "\\v")
+            .replace("\00", "\\x000")
+            .replace("\01", "\\x001")
+            .replace("\02", "\\x002")
+            .replace("\03", "\\x003")
+            .replace("\04", "\\x004")
+            .replace("\05", "\\x005")
+            .replace("\06", "\\x006")
+            .replace("\07", "\\x007")
+            .replace("\08", "\\x008")
+            .replace("\09", "\\x009")
             .replace("\0", "\\0");
         // let value = node.value.replace("\n", "\\n");
 
