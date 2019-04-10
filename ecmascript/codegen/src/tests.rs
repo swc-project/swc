@@ -158,6 +158,20 @@ a;",
     );
 }
 
+#[test]
+fn no_octal_escape() {
+    test_from_to(
+        r#"'\x00a';
+'\x000';
+'\x001';
+'\x009'"#,
+        r#"'\0a';
+'\x000';
+'\x001';
+'\x009';"#,
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
