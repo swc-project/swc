@@ -454,6 +454,18 @@ impl Fold<Expr> for Fixer {
                 Expr::Assign(AssignExpr { right, ..expr })
             }
 
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee @ box Expr::Arrow(_)),
+                args,
+                type_args,
+            }) => Expr::Call(CallExpr {
+                span,
+                callee: callee.wrap_with_paren().as_callee(),
+                args,
+                type_args,
+            }),
+
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
                 span,
@@ -794,4 +806,11 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(unary_arrow_arg, "void ((foo) => foo)");
 
     identical!(unary_yield_arg, "(function* foo() { void (yield foo); })()");
+
+    identical!(
+        issue_365,
+        "const foo = (() => {
+  return 1
+})();"
+    );
 }
