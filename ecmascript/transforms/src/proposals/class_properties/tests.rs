@@ -1,7 +1,7 @@
 use super::*;
 use crate::{
     compat::{
-        es2015::{block_scoping, es2015, function_name, Classes},
+        es2015::{block_scoping, function_name, Classes},
         es3::ReservedWord,
     },
     resolver,
