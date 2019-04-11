@@ -88,3 +88,23 @@ to!(
     "function foo(this: any, $scope: angular.IScope){}",
     "function foo($scope){}"
 );
+
+to!(
+    issue_366_01,
+    "
+class App {
+  public enter?(): void;
+  public leave?(): void;
+  public destroy?(): void;
+}",
+    "class App {}"
+);
+
+to!(
+    issue_366_02,
+    "
+function enter(): string;
+function enter(foo: string): number;
+",
+    ""
+);

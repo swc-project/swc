@@ -165,7 +165,12 @@ impl Fold<Vec<ClassMember>> for Strip {
             ClassMember::Constructor(Constructor { body: None, .. }) => None,
             ClassMember::Method(ClassMethod {
                 is_abstract: true, ..
+            })
+            | ClassMember::Method(ClassMethod {
+                function: Function { body: None, .. },
+                ..
             }) => None,
+
             _ => Some(member),
         })
     }
@@ -200,7 +205,11 @@ impl Fold<Vec<ModuleItem>> for Strip {
         let items = items.move_flat_map(|item| match item {
             ModuleItem::Stmt(Stmt::Empty(..)) => None,
 
-            ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(..)))
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                function: Function { body: None, .. },
+                ..
+            })))
+            | ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(..)))
             | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
             | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
             | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
