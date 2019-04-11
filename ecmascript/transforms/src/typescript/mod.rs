@@ -229,6 +229,22 @@ impl Fold<Vec<ModuleItem>> for Strip {
                 decl: Decl::TsTypeAlias(..),
                 ..
             }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl:
+                    Decl::Fn(FnDecl {
+                        function: Function { body: None, .. },
+                        ..
+                    }),
+                ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                decl:
+                    DefaultDecl::Fn(FnExpr {
+                        function: Function { body: None, .. },
+                        ..
+                    }),
+                ..
+            }))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                 decl: DefaultDecl::TsInterfaceDecl(..),
                 ..
@@ -349,7 +365,11 @@ impl Fold<Ident> for Strip {
             .imported_idents
             .entry((i.sym.clone(), i.span.ctxt()))
             .and_modify(|v| v.has_concrete = true);
-        i.fold_children(self)
+
+        Ident {
+            optional: false,
+            ..i.fold_children(self)
+        }
     }
 }
 
