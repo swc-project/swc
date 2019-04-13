@@ -202,7 +202,7 @@ fn should_skip_field(field: &Field) -> bool {
 }
 
 fn normalize_type_for_bound(ty: Type) -> Type {
-    use syn::fold::{self, Fold};
+    use syn::fold::Fold;
 
     struct Norm;
     impl Fold for Norm {
