@@ -14,6 +14,7 @@
 // The encoding format for inline spans were obtained by optimizing over crates
 // in rustc/libstd. See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
 use super::hygiene::SyntaxContext;
+use crate::syntax_pos::CM;
 use fxhash::FxHashMap;
 use serde::{
     de::Deserializer,
@@ -34,6 +35,29 @@ use GLOBALS;
 #[repr(packed)]
 pub struct Span(u32);
 
+#[derive(Serialize)]
+struct Loc {
+    pub start: LineCol,
+    pub end: LineCol,
+}
+
+#[derive(Serialize)]
+struct LineCol {
+    pub line: usize,
+    pub column: usize,
+}
+
+macro_rules! ser {
+    ($cm:expr, $bp:expr) => {{
+        let loc = $cm.lookup_char_pos($bp);
+
+        LineCol {
+            line: loc.line,
+            column: loc.col_display,
+        }
+    }};
+}
+
 impl Serialize for Span {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -44,6 +68,17 @@ impl Serialize for Span {
         s.serialize_field("start", &data.lo.0)?;
         s.serialize_field("end", &data.hi.0)?;
         s.serialize_field("ctxt", &data.ctxt)?;
+
+        CM.with(|cm| {
+            s.serialize_field(
+                "loc",
+                &Loc {
+                    start: ser!(cm, data.lo),
+                    end: ser!(cm, data.hi),
+                },
+            )
+        })?;
+
         s.end()
     }
 }
