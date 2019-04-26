@@ -1123,6 +1123,7 @@ impl<'a> Emitter<'a> {
 
         if node.function.is_async {
             keyword!("async");
+            space!();
         }
 
         if node.function.is_generator {
