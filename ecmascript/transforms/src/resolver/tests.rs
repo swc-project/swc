@@ -689,3 +689,18 @@ var Foo = function Foo() {
 };
 "
 );
+
+identical!(
+    issue_369,
+    "export function input(name) {
+    return `${name}.md?render`;
+}
+
+export default function({
+    name, input: inp,
+}) {
+    inp = inp || input(name);
+    return {input: inp};
+};
+"
+);
