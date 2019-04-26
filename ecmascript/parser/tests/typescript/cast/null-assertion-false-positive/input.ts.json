@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 4,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 2,
+        "column": 2
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 1,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 1
+          }
+        }
       },
       "value": "a",
       "optional": false
@@ -21,7 +41,17 @@
       "span": {
         "start": 2,
         "end": 4,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 2
+          }
+        }
       },
       "operator": "!",
       "argument": {
@@ -29,7 +59,17 @@
         "span": {
           "start": 3,
           "end": 4,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 1
+            },
+            "end": {
+              "line": 2,
+              "column": 2
+            }
+          }
         },
         "value": "b",
         "optional": false

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 35,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 3,
+        "column": 1
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 9,
           "end": 11,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 11
+            }
+          }
         },
         "value": "it",
         "optional": false
@@ -23,14 +43,34 @@
       "span": {
         "start": 0,
         "end": 35,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 1
+          }
+        }
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 13,
           "end": 35,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 13
+            },
+            "end": {
+              "line": 3,
+              "column": 1
+            }
+          }
         },
         "stmts": [
           {
@@ -38,14 +78,34 @@
             "span": {
               "start": 19,
               "end": 32,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 4
+                },
+                "end": {
+                  "line": 2,
+                  "column": 17
+                }
+              }
             },
             "argument": {
               "type": "JSXElement",
               "span": {
                 "start": 25,
                 "end": 32,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 10
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 17
+                  }
+                }
               },
               "opening": {
                 "type": "JSXOpeningElement",
@@ -54,7 +114,17 @@
                   "span": {
                     "start": 26,
                     "end": 27,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 11
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 12
+                      }
+                    }
                   },
                   "value": "a",
                   "optional": false
@@ -62,7 +132,17 @@
                 "span": {
                   "start": 26,
                   "end": 28,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 11
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 13
+                    }
+                  }
                 },
                 "selfClosing": false
               },
@@ -72,14 +152,34 @@
                 "span": {
                   "start": 30,
                   "end": 32,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 17
+                    }
+                  }
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 30,
                     "end": 31,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 15
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 16
+                      }
+                    }
                   },
                   "value": "a",
                   "optional": false

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 51,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 2,
+        "column": 29
+      }
+    }
   },
   "body": [
     {
@@ -11,21 +21,51 @@
       "span": {
         "start": 0,
         "end": 21,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21
+          }
+        }
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 17,
           "end": 21,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 17
+            },
+            "end": {
+              "line": 1,
+              "column": 21
+            }
+          }
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 17,
             "end": 18,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 17
+              },
+              "end": {
+                "line": 1,
+                "column": 18
+              }
+            }
           },
           "value": "I",
           "optional": false
@@ -37,7 +77,17 @@
           "span": {
             "start": 19,
             "end": 21,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 19
+              },
+              "end": {
+                "line": 1,
+                "column": 21
+              }
+            }
           },
           "body": []
         }
@@ -48,21 +98,51 @@
       "span": {
         "start": 22,
         "end": 51,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 29
+          }
+        }
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
           "start": 47,
           "end": 51,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 25
+            },
+            "end": {
+              "line": 2,
+              "column": 29
+            }
+          }
         },
         "id": {
           "type": "Identifier",
           "span": {
             "start": 47,
             "end": 48,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 25
+              },
+              "end": {
+                "line": 2,
+                "column": 26
+              }
+            }
           },
           "value": "A",
           "optional": false
@@ -74,7 +154,17 @@
           "span": {
             "start": 49,
             "end": 51,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 27
+              },
+              "end": {
+                "line": 2,
+                "column": 29
+              }
+            }
           },
           "body": []
         }

@@ -18,7 +18,7 @@ use std::{
     io::{self, Read},
     path::Path,
 };
-use swc_common::{Fold, FoldWith};
+use swc_common::{Fold, FoldWith, CM};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{PResult, Parser, Session, SourceFileInput, Syntax, TsConfig};
 use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
@@ -147,26 +147,28 @@ where
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
-        let fm = cm
-            .load_file(file_name)
-            .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
+        CM.set(&cm, || {
+            let fm = cm
+                .load_file(file_name)
+                .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        let res = f(&mut Parser::new(
-            Session { handler: &handler },
-            Syntax::Typescript(TsConfig {
-                tsx: fname.contains("tsx"),
-                decorators: true,
-                ..Default::default()
-            }),
-            (&*fm).into(),
-            None,
-        ))
-        .map_err(|mut e| {
-            e.emit();
-            ()
-        });
+            let res = f(&mut Parser::new(
+                Session { handler: &handler },
+                Syntax::Typescript(TsConfig {
+                    tsx: fname.contains("tsx"),
+                    decorators: true,
+                    ..Default::default()
+                }),
+                (&*fm).into(),
+                None,
+            ))
+            .map_err(|mut e| {
+                e.emit();
+                ()
+            });
 
-        res
+            res
+        })
     });
 
     output

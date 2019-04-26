@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 199,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 6,
+        "column": 35
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 15,
           "end": 16,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 15
+            },
+            "end": {
+              "line": 1,
+              "column": 16
+            }
+          }
         },
         "value": "C",
         "optional": false
@@ -22,7 +42,17 @@
       "span": {
         "start": 9,
         "end": 19,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 9
+          },
+          "end": {
+            "line": 1,
+            "column": 19
+          }
+        }
       },
       "isAbstract": true
     },
@@ -33,7 +63,17 @@
         "span": {
           "start": 43,
           "end": 44,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 23
+            },
+            "end": {
+              "line": 2,
+              "column": 24
+            }
+          }
         },
         "value": "C",
         "optional": false
@@ -42,7 +82,17 @@
       "span": {
         "start": 37,
         "end": 47,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 17
+          },
+          "end": {
+            "line": 2,
+            "column": 27
+          }
+        }
       },
       "isAbstract": true
     },
@@ -51,7 +101,17 @@
       "span": {
         "start": 48,
         "end": 74,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 26
+          }
+        }
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -60,7 +120,17 @@
           "span": {
             "start": 70,
             "end": 71,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 22
+              },
+              "end": {
+                "line": 3,
+                "column": 23
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -69,7 +139,17 @@
         "span": {
           "start": 64,
           "end": 74,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 16
+            },
+            "end": {
+              "line": 3,
+              "column": 26
+            }
+          }
         },
         "isAbstract": true
       }
@@ -79,14 +159,34 @@
       "span": {
         "start": 154,
         "end": 163,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 5,
+            "column": 24
+          },
+          "end": {
+            "line": 5,
+            "column": 33
+          }
+        }
       },
       "decl": {
         "type": "ClassExpression",
         "span": {
           "start": 154,
           "end": 163,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 24
+            },
+            "end": {
+              "line": 5,
+              "column": 33
+            }
+          }
         },
         "isAbstract": true
       }
@@ -96,7 +196,17 @@
       "span": {
         "start": 188,
         "end": 199,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 6,
+            "column": 24
+          },
+          "end": {
+            "line": 6,
+            "column": 35
+          }
+        }
       },
       "decl": {
         "type": "ClassExpression",
@@ -105,7 +215,17 @@
           "span": {
             "start": 194,
             "end": 195,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 30
+              },
+              "end": {
+                "line": 6,
+                "column": 31
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -113,7 +233,17 @@
         "span": {
           "start": 188,
           "end": 199,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 24
+            },
+            "end": {
+              "line": 6,
+              "column": 35
+            }
+          }
         },
         "isAbstract": true
       }

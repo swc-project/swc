@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 28,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 28
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 6,
           "end": 7,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 6
+            },
+            "end": {
+              "line": 1,
+              "column": 7
+            }
+          }
         },
         "value": "C",
         "optional": false
@@ -22,7 +42,17 @@
       "span": {
         "start": 0,
         "end": 28,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        }
       },
       "isAbstract": false,
       "implements": [
@@ -31,7 +61,17 @@
           "span": {
             "start": 19,
             "end": 25,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 19
+              },
+              "end": {
+                "line": 1,
+                "column": 25
+              }
+            }
           },
           "expression": {
             "type": "TsQualifiedName",
@@ -40,7 +80,17 @@
               "span": {
                 "start": 19,
                 "end": 20,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 19
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 20
+                  }
+                }
               },
               "value": "X",
               "optional": false
@@ -50,7 +100,17 @@
               "span": {
                 "start": 21,
                 "end": 22,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 21
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22
+                  }
+                }
               },
               "value": "Y",
               "optional": false
@@ -61,7 +121,17 @@
             "span": {
               "start": 22,
               "end": 25,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 22
+                },
+                "end": {
+                  "line": 1,
+                  "column": 25
+                }
+              }
             },
             "params": [
               {
@@ -69,14 +139,34 @@
                 "span": {
                   "start": 23,
                   "end": 24,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 23
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 24
+                    }
+                  }
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 23,
                     "end": 24,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 1,
+                        "column": 23
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 24
+                      }
+                    }
                   },
                   "value": "T",
                   "optional": false

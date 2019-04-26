@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 106,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 4,
+        "column": 14
+      }
+    }
   },
   "body": [
     {
@@ -11,14 +21,34 @@
       "span": {
         "start": 0,
         "end": 1,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 1
+          }
+        }
       },
       "expression": {
         "type": "Identifier",
         "span": {
           "start": 0,
           "end": 1,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 1
+            }
+          }
         },
         "value": "x",
         "optional": false
@@ -28,14 +58,34 @@
         "span": {
           "start": 5,
           "end": 6,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 5
+            },
+            "end": {
+              "line": 1,
+              "column": 6
+            }
+          }
         },
         "typeName": {
           "type": "Identifier",
           "span": {
             "start": 5,
             "end": 6,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 5
+              },
+              "end": {
+                "line": 1,
+                "column": 6
+              }
+            }
           },
           "value": "T",
           "optional": false
@@ -47,14 +97,34 @@
       "span": {
         "start": 8,
         "end": 13,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 5
+          }
+        }
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 8,
           "end": 13,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 0
+            },
+            "end": {
+              "line": 2,
+              "column": 5
+            }
+          }
         },
         "operator": "<",
         "left": {
@@ -62,7 +132,17 @@
           "span": {
             "start": 8,
             "end": 9,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 1
+              }
+            }
           },
           "value": "x",
           "optional": false
@@ -72,7 +152,17 @@
           "span": {
             "start": 12,
             "end": 13,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 4
+              },
+              "end": {
+                "line": 2,
+                "column": 5
+              }
+            }
           },
           "value": "y",
           "optional": false
@@ -83,7 +173,17 @@
         "span": {
           "start": 17,
           "end": 24,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 9
+            },
+            "end": {
+              "line": 2,
+              "column": 16
+            }
+          }
         },
         "kind": "boolean"
       }
@@ -93,7 +193,17 @@
       "span": {
         "start": 49,
         "end": 66,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 17
+          }
+        }
       },
       "operator": "===",
       "left": {
@@ -101,7 +211,17 @@
         "span": {
           "start": 49,
           "end": 50,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 1
+            }
+          }
         },
         "value": "x",
         "optional": false
@@ -111,14 +231,34 @@
         "span": {
           "start": 55,
           "end": 56,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 6
+            },
+            "end": {
+              "line": 3,
+              "column": 7
+            }
+          }
         },
         "expression": {
           "type": "NumericLiteral",
           "span": {
             "start": 55,
             "end": 56,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 6
+              },
+              "end": {
+                "line": 3,
+                "column": 7
+              }
+            }
           },
           "value": 1.0
         },
@@ -127,7 +267,17 @@
           "span": {
             "start": 60,
             "end": 66,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 11
+              },
+              "end": {
+                "line": 3,
+                "column": 17
+              }
+            }
           },
           "kind": "number"
         }
@@ -138,21 +288,51 @@
       "span": {
         "start": 92,
         "end": 100,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 8
+          }
+        }
       },
       "expression": {
         "type": "TsAsExpression",
         "span": {
           "start": 92,
           "end": 93,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 0
+            },
+            "end": {
+              "line": 4,
+              "column": 1
+            }
+          }
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 92,
             "end": 93,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 1
+              }
+            }
           },
           "value": "x",
           "optional": false
@@ -162,7 +342,17 @@
           "span": {
             "start": 97,
             "end": 100,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 5
+              },
+              "end": {
+                "line": 4,
+                "column": 8
+              }
+            }
           },
           "kind": "any"
         }
@@ -172,14 +362,34 @@
         "span": {
           "start": 104,
           "end": 105,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 12
+            },
+            "end": {
+              "line": 4,
+              "column": 13
+            }
+          }
         },
         "typeName": {
           "type": "Identifier",
           "span": {
             "start": 104,
             "end": 105,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 12
+              },
+              "end": {
+                "line": 4,
+                "column": 13
+              }
+            }
           },
           "value": "T",
           "optional": false

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 171,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 4,
+        "column": 1
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 171,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 1
+          }
+        }
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -20,7 +40,17 @@
           "span": {
             "start": 16,
             "end": 51,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 16
+              },
+              "end": {
+                "line": 1,
+                "column": 51
+              }
+            }
           },
           "value": "DirectiveIserviceIdPrefixController",
           "optional": false
@@ -32,7 +62,17 @@
             "span": {
               "start": 52,
               "end": 56,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 52
+                },
+                "end": {
+                  "line": 1,
+                  "column": 56
+                }
+              }
             },
             "value": "this",
             "typeAnnotation": {
@@ -40,14 +80,34 @@
               "span": {
                 "start": 56,
                 "end": 61,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 56
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 61
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 58,
                   "end": 61,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 58
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 61
+                    }
+                  }
                 },
                 "kind": "any"
               }
@@ -59,7 +119,17 @@
             "span": {
               "start": 63,
               "end": 69,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 63
+                },
+                "end": {
+                  "line": 1,
+                  "column": 69
+                }
+              }
             },
             "value": "$scope",
             "typeAnnotation": {
@@ -67,14 +137,34 @@
               "span": {
                 "start": 69,
                 "end": 85,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 69
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 85
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 71,
                   "end": 85,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 71
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 85
+                    }
+                  }
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
@@ -83,7 +173,17 @@
                     "span": {
                       "start": 71,
                       "end": 78,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 71
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 78
+                        }
+                      }
                     },
                     "value": "angular",
                     "optional": false
@@ -93,7 +193,17 @@
                     "span": {
                       "start": 79,
                       "end": 85,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 79
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 85
+                        }
+                      }
                     },
                     "value": "IScope",
                     "optional": false
@@ -108,7 +218,17 @@
             "span": {
               "start": 87,
               "end": 93,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 87
+                },
+                "end": {
+                  "line": 1,
+                  "column": 93
+                }
+              }
             },
             "value": "$attrs",
             "typeAnnotation": {
@@ -116,14 +236,34 @@
               "span": {
                 "start": 93,
                 "end": 114,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 93
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 114
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
                   "start": 95,
                   "end": 114,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 95
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 114
+                    }
+                  }
                 },
                 "typeName": {
                   "type": "TsQualifiedName",
@@ -132,7 +272,17 @@
                     "span": {
                       "start": 95,
                       "end": 102,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 95
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 102
+                        }
+                      }
                     },
                     "value": "angular",
                     "optional": false
@@ -142,7 +292,17 @@
                     "span": {
                       "start": 103,
                       "end": 114,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 103
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 114
+                        }
+                      }
                     },
                     "value": "IAttributes",
                     "optional": false
@@ -156,14 +316,34 @@
         "span": {
           "start": 7,
           "end": 171,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 4,
+              "column": 1
+            }
+          }
         },
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 116,
             "end": 171,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 116
+              },
+              "end": {
+                "line": 4,
+                "column": 1
+              }
+            }
           },
           "stmts": [
             {
@@ -171,7 +351,17 @@
               "span": {
                 "start": 122,
                 "end": 142,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 24
+                  }
+                }
               },
               "operator": "=",
               "left": {
@@ -179,14 +369,34 @@
                 "span": {
                   "start": 126,
                   "end": 133,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 15
+                    }
+                  }
                 },
                 "object": {
                   "type": "ThisExpression",
                   "span": {
                     "start": 122,
                     "end": 126,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 8
+                      }
+                    }
                   }
                 },
                 "property": {
@@ -194,7 +404,17 @@
                   "span": {
                     "start": 127,
                     "end": 133,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 9
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 15
+                      }
+                    }
                   },
                   "value": "$scope",
                   "optional": false
@@ -206,7 +426,17 @@
                 "span": {
                   "start": 136,
                   "end": 142,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 18
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 24
+                    }
+                  }
                 },
                 "value": "$scope",
                 "optional": false
@@ -217,7 +447,17 @@
               "span": {
                 "start": 148,
                 "end": 168,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 3,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 24
+                  }
+                }
               },
               "operator": "=",
               "left": {
@@ -225,14 +465,34 @@
                 "span": {
                   "start": 152,
                   "end": 159,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 15
+                    }
+                  }
                 },
                 "object": {
                   "type": "ThisExpression",
                   "span": {
                     "start": 148,
                     "end": 152,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 3,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 8
+                      }
+                    }
                   }
                 },
                 "property": {
@@ -240,7 +500,17 @@
                   "span": {
                     "start": 153,
                     "end": 159,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 3,
+                        "column": 9
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 15
+                      }
+                    }
                   },
                   "value": "$attrs",
                   "optional": false
@@ -252,7 +522,17 @@
                 "span": {
                   "start": 162,
                   "end": 168,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 18
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 24
+                    }
+                  }
                 },
                 "value": "$attrs",
                 "optional": false

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 11,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 11
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 11,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -22,7 +42,17 @@
             "span": {
               "start": 1,
               "end": 2,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 2
+                }
+              }
             },
             "value": "a",
             "optional": false
@@ -32,7 +62,17 @@
             "span": {
               "start": 3,
               "end": 4,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 3
+                },
+                "end": {
+                  "line": 1,
+                  "column": 4
+                }
+              }
             },
             "value": "b",
             "optional": false
@@ -41,7 +81,17 @@
         "span": {
           "start": 1,
           "end": 5,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "line": 1,
+              "column": 5
+            }
+          }
         },
         "selfClosing": false
       },
@@ -51,7 +101,17 @@
         "span": {
           "start": 7,
           "end": 11,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 1,
+              "column": 11
+            }
+          }
         },
         "name": {
           "type": "JSXMemberExpression",
@@ -60,7 +120,17 @@
             "span": {
               "start": 7,
               "end": 8,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 8
+                }
+              }
             },
             "value": "a",
             "optional": false
@@ -70,7 +140,17 @@
             "span": {
               "start": 9,
               "end": 10,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 9
+                },
+                "end": {
+                  "line": 1,
+                  "column": 10
+                }
+              }
             },
             "value": "b",
             "optional": false

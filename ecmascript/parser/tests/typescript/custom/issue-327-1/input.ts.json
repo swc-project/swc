@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 67,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 67
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 67,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 67
+          }
+        }
       },
       "kind": "const",
       "declare": false,
@@ -21,14 +41,34 @@
           "span": {
             "start": 6,
             "end": 67,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 6
+              },
+              "end": {
+                "line": 1,
+                "column": 67
+              }
+            }
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 6,
               "end": 8,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 6
+                },
+                "end": {
+                  "line": 1,
+                  "column": 8
+                }
+              }
             },
             "value": "fn",
             "optional": false
@@ -38,7 +78,17 @@
             "span": {
               "start": 11,
               "end": 67,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 11
+                },
+                "end": {
+                  "line": 1,
+                  "column": 67
+                }
+              }
             },
             "params": [
               {
@@ -46,7 +96,17 @@
                 "span": {
                   "start": 11,
                   "end": 14,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 11
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 14
+                    }
+                  }
                 },
                 "value": "foo",
                 "optional": false
@@ -57,28 +117,68 @@
               "span": {
                 "start": 18,
                 "end": 67,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 18
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 67
+                  }
+                }
               },
               "expression": {
                 "type": "ConditionalExpression",
                 "span": {
                   "start": 19,
                   "end": 66,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 19
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 66
+                    }
+                  }
                 },
                 "test": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 22,
                     "end": 26,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 1,
+                        "column": 22
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 26
+                      }
+                    }
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
                       "start": 19,
                       "end": 22,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 19
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 22
+                        }
+                      }
                     },
                     "value": "foo",
                     "optional": false
@@ -88,7 +188,17 @@
                     "span": {
                       "start": 23,
                       "end": 26,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 23
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 26
+                        }
+                      }
                     },
                     "value": "bar",
                     "optional": false
@@ -100,35 +210,85 @@
                   "span": {
                     "start": 29,
                     "end": 58,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 1,
+                        "column": 29
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 58
+                      }
+                    }
                   },
                   "expression": {
                     "type": "ConditionalExpression",
                     "span": {
                       "start": 30,
                       "end": 57,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 30
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 57
+                        }
+                      }
                     },
                     "test": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 37,
                         "end": 41,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 1,
+                            "column": 37
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 41
+                          }
+                        }
                       },
                       "object": {
                         "type": "MemberExpression",
                         "span": {
                           "start": 33,
                           "end": 37,
-                          "ctxt": 0
+                          "ctxt": 0,
+                          "loc": {
+                            "start": {
+                              "line": 1,
+                              "column": 33
+                            },
+                            "end": {
+                              "line": 1,
+                              "column": 37
+                            }
+                          }
                         },
                         "object": {
                           "type": "Identifier",
                           "span": {
                             "start": 30,
                             "end": 33,
-                            "ctxt": 0
+                            "ctxt": 0,
+                            "loc": {
+                              "start": {
+                                "line": 1,
+                                "column": 30
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 33
+                              }
+                            }
                           },
                           "value": "foo",
                           "optional": false
@@ -138,7 +298,17 @@
                           "span": {
                             "start": 34,
                             "end": 37,
-                            "ctxt": 0
+                            "ctxt": 0,
+                            "loc": {
+                              "start": {
+                                "line": 1,
+                                "column": 34
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 37
+                              }
+                            }
                           },
                           "value": "bar",
                           "optional": false
@@ -150,7 +320,17 @@
                         "span": {
                           "start": 38,
                           "end": 41,
-                          "ctxt": 0
+                          "ctxt": 0,
+                          "loc": {
+                            "start": {
+                              "line": 1,
+                              "column": 38
+                            },
+                            "end": {
+                              "line": 1,
+                              "column": 41
+                            }
+                          }
                         },
                         "value": "bas",
                         "optional": false
@@ -162,7 +342,17 @@
                       "span": {
                         "start": 44,
                         "end": 49,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 1,
+                            "column": 44
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 49
+                          }
+                        }
                       },
                       "value": "bas",
                       "hasEscape": false
@@ -172,7 +362,17 @@
                       "span": {
                         "start": 52,
                         "end": 57,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 1,
+                            "column": 52
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 57
+                          }
+                        }
                       },
                       "value": "bar",
                       "hasEscape": false
@@ -184,7 +384,17 @@
                   "span": {
                     "start": 61,
                     "end": 66,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 1,
+                        "column": 61
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 66
+                      }
+                    }
                   },
                   "value": "bat",
                   "hasEscape": false

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 64,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 5,
+        "column": 1
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 64,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 1
+          }
+        }
       },
       "declare": true,
       "global": false,
@@ -20,7 +40,17 @@
         "span": {
           "start": 15,
           "end": 18,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 15
+            },
+            "end": {
+              "line": 1,
+              "column": 18
+            }
+          }
         },
         "value": "m",
         "hasEscape": false
@@ -30,7 +60,17 @@
         "span": {
           "start": 19,
           "end": 64,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 19
+            },
+            "end": {
+              "line": 5,
+              "column": 1
+            }
+          }
         },
         "body": [
           {
@@ -38,7 +78,17 @@
             "span": {
               "start": 25,
               "end": 62,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 4
+                },
+                "end": {
+                  "line": 4,
+                  "column": 5
+                }
+              }
             },
             "declare": true,
             "global": true,
@@ -47,7 +97,17 @@
               "span": {
                 "start": 25,
                 "end": 31,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 10
+                  }
+                }
               },
               "value": "global",
               "optional": false
@@ -57,7 +117,17 @@
               "span": {
                 "start": 32,
                 "end": 62,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 11
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 5
+                  }
+                }
               },
               "body": [
                 {
@@ -65,7 +135,17 @@
                   "span": {
                     "start": 42,
                     "end": 56,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 3,
+                        "column": 8
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 22
+                      }
+                    }
                   },
                   "kind": "var",
                   "declare": true,
@@ -75,14 +155,34 @@
                       "span": {
                         "start": 46,
                         "end": 55,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 3,
+                            "column": 12
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 21
+                          }
+                        }
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
                           "start": 46,
                           "end": 47,
-                          "ctxt": 0
+                          "ctxt": 0,
+                          "loc": {
+                            "start": {
+                              "line": 3,
+                              "column": 12
+                            },
+                            "end": {
+                              "line": 3,
+                              "column": 13
+                            }
+                          }
                         },
                         "value": "x",
                         "typeAnnotation": {
@@ -90,14 +190,34 @@
                           "span": {
                             "start": 47,
                             "end": 55,
-                            "ctxt": 0
+                            "ctxt": 0,
+                            "loc": {
+                              "start": {
+                                "line": 3,
+                                "column": 13
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 21
+                              }
+                            }
                           },
                           "typeAnnotation": {
                             "type": "TsKeywordType",
                             "span": {
                               "start": 49,
                               "end": 55,
-                              "ctxt": 0
+                              "ctxt": 0,
+                              "loc": {
+                                "start": {
+                                  "line": 3,
+                                  "column": 15
+                                },
+                                "end": {
+                                  "line": 3,
+                                  "column": 21
+                                }
+                              }
                             },
                             "kind": "number"
                           }

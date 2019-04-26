@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 11,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 2,
+        "column": 2
+      }
+    }
   },
   "body": [
     {
@@ -11,21 +21,51 @@
       "span": {
         "start": 0,
         "end": 11,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 2
+          }
+        }
       },
       "callee": {
         "type": "TaggedTemplateExpression",
         "span": {
           "start": 9,
           "end": 11,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 0
+            },
+            "end": {
+              "line": 2,
+              "column": 2
+            }
+          }
         },
         "tag": {
           "type": "Identifier",
           "span": {
             "start": 4,
             "end": 5,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 4
+              },
+              "end": {
+                "line": 1,
+                "column": 5
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -37,7 +77,17 @@
             "span": {
               "start": 10,
               "end": 10,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 1
+                },
+                "end": {
+                  "line": 2,
+                  "column": 1
+                }
+              }
             },
             "tail": true,
             "cooked": {
@@ -45,7 +95,17 @@
               "span": {
                 "start": 10,
                 "end": 10,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1
+                  }
+                }
               },
               "value": "",
               "hasEscape": false
@@ -55,7 +115,17 @@
               "span": {
                 "start": 10,
                 "end": 10,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 1
+                  }
+                }
               },
               "value": "",
               "hasEscape": false
@@ -67,7 +137,17 @@
           "span": {
             "start": 5,
             "end": 8,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 5
+              },
+              "end": {
+                "line": 1,
+                "column": 8
+              }
+            }
           },
           "params": [
             {
@@ -75,14 +155,34 @@
               "span": {
                 "start": 6,
                 "end": 7,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7
+                  }
+                }
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 6,
                   "end": 7,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 7
+                    }
+                  }
                 },
                 "value": "T",
                 "optional": false

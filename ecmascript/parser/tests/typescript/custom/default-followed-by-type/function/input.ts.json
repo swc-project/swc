@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 99,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 3,
+        "column": 2
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 9,
           "end": 13,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 13
+            }
+          }
         },
         "value": "func",
         "optional": false
@@ -25,14 +45,34 @@
           "span": {
             "start": 14,
             "end": 40,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 14
+              },
+              "end": {
+                "line": 1,
+                "column": 40
+              }
+            }
           },
           "left": {
             "type": "Identifier",
             "span": {
               "start": 14,
               "end": 22,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 14
+                },
+                "end": {
+                  "line": 1,
+                  "column": 22
+                }
+              }
             },
             "value": "greeting",
             "typeAnnotation": {
@@ -40,14 +80,34 @@
               "span": {
                 "start": 22,
                 "end": 30,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 22
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 30
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 24,
                   "end": 30,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 24
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 30
+                    }
+                  }
                 },
                 "kind": "string"
               }
@@ -59,7 +119,17 @@
             "span": {
               "start": 33,
               "end": 40,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 33
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40
+                }
+              }
             },
             "value": "Hello",
             "hasEscape": false
@@ -70,7 +140,17 @@
           "span": {
             "start": 42,
             "end": 48,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 42
+              },
+              "end": {
+                "line": 1,
+                "column": 48
+              }
+            }
           },
           "value": "target",
           "typeAnnotation": {
@@ -78,14 +158,34 @@
             "span": {
               "start": 48,
               "end": 56,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 48
+                },
+                "end": {
+                  "line": 1,
+                  "column": 56
+                }
+              }
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
                 "start": 50,
                 "end": 56,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 50
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 56
+                  }
+                }
               },
               "kind": "string"
             }
@@ -96,14 +196,34 @@
       "span": {
         "start": 0,
         "end": 98,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 1
+          }
+        }
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 58,
           "end": 98,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 58
+            },
+            "end": {
+              "line": 3,
+              "column": 1
+            }
+          }
         },
         "stmts": [
           {
@@ -111,14 +231,34 @@
             "span": {
               "start": 64,
               "end": 96,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 4
+                },
+                "end": {
+                  "line": 2,
+                  "column": 36
+                }
+              }
             },
             "argument": {
               "type": "TemplateLiteral",
               "span": {
                 "start": 71,
                 "end": 95,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 11
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 35
+                  }
+                }
               },
               "expressions": [
                 {
@@ -126,7 +266,17 @@
                   "span": {
                     "start": 74,
                     "end": 82,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 14
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 22
+                      }
+                    }
                   },
                   "value": "greeting",
                   "optional": false
@@ -136,7 +286,17 @@
                   "span": {
                     "start": 86,
                     "end": 92,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 26
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 32
+                      }
+                    }
                   },
                   "value": "target",
                   "optional": false
@@ -148,7 +308,17 @@
                   "span": {
                     "start": 72,
                     "end": 72,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 12
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 12
+                      }
+                    }
                   },
                   "tail": false,
                   "cooked": {
@@ -156,7 +326,17 @@
                     "span": {
                       "start": 72,
                       "end": 72,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 12
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 12
+                        }
+                      }
                     },
                     "value": "",
                     "hasEscape": false
@@ -166,7 +346,17 @@
                     "span": {
                       "start": 72,
                       "end": 72,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 12
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 12
+                        }
+                      }
                     },
                     "value": "",
                     "hasEscape": false
@@ -177,7 +367,17 @@
                   "span": {
                     "start": 83,
                     "end": 84,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 23
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 24
+                      }
+                    }
                   },
                   "tail": false,
                   "cooked": {
@@ -185,7 +385,17 @@
                     "span": {
                       "start": 83,
                       "end": 84,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 23
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 24
+                        }
+                      }
                     },
                     "value": " ",
                     "hasEscape": false
@@ -195,7 +405,17 @@
                     "span": {
                       "start": 83,
                       "end": 84,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 23
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 24
+                        }
+                      }
                     },
                     "value": " ",
                     "hasEscape": false
@@ -206,7 +426,17 @@
                   "span": {
                     "start": 93,
                     "end": 94,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 33
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 34
+                      }
+                    }
                   },
                   "tail": true,
                   "cooked": {
@@ -214,7 +444,17 @@
                     "span": {
                       "start": 93,
                       "end": 94,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 33
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 34
+                        }
+                      }
                     },
                     "value": "!",
                     "hasEscape": false
@@ -224,7 +464,17 @@
                     "span": {
                       "start": 93,
                       "end": 94,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 2,
+                          "column": 33
+                        },
+                        "end": {
+                          "line": 2,
+                          "column": 34
+                        }
+                      }
                     },
                     "value": "!",
                     "hasEscape": false
@@ -243,7 +493,17 @@
       "span": {
         "start": 98,
         "end": 99,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 2
+          }
+        }
       }
     }
   ]
