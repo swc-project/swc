@@ -69,15 +69,17 @@ impl Serialize for Span {
         s.serialize_field("end", &data.hi.0)?;
         s.serialize_field("ctxt", &data.ctxt)?;
 
-        CM.with(|cm| {
-            s.serialize_field(
-                "loc",
-                &Loc {
-                    start: ser!(cm, data.lo),
-                    end: ser!(cm, data.hi),
-                },
-            )
-        })?;
+        if !self.is_dummy() {
+            CM.with(|cm| {
+                s.serialize_field(
+                    "loc",
+                    &Loc {
+                        start: ser!(cm, data.lo),
+                        end: ser!(cm, data.hi),
+                    },
+                )
+            })?;
+        }
 
         s.end()
     }
