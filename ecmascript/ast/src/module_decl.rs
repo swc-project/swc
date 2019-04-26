@@ -39,7 +39,6 @@ pub enum ModuleDecl {
 
 #[ast_node("ExportDefaultExpression")]
 pub struct ExportDefaultExpr {
-    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "expression")]
@@ -48,7 +47,6 @@ pub struct ExportDefaultExpr {
 
 #[ast_node("ExportDeclaration")]
 pub struct ExportDecl {
-    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "declaration")]
@@ -57,7 +55,6 @@ pub struct ExportDecl {
 
 #[ast_node("ImportDeclaration")]
 pub struct ImportDecl {
-    #[serde(default)]
     pub span: Span,
 
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -70,7 +67,6 @@ pub struct ImportDecl {
 /// `export * from 'mod'`
 #[ast_node("ExportAllDeclaration")]
 pub struct ExportAll {
-    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "source")]
@@ -81,7 +77,6 @@ pub struct ExportAll {
 /// `export { foo as bar } from 'mod'`
 #[ast_node("ExportNamedDeclaration")]
 pub struct NamedExport {
-    #[serde(default)]
     pub span: Span,
 
     pub specifiers: Vec<ExportSpecifier>,
@@ -92,7 +87,6 @@ pub struct NamedExport {
 
 #[ast_node("ExportDefaultDeclaration")]
 pub struct ExportDefaultDecl {
-    #[serde(default)]
     pub span: Span,
 
     pub decl: DefaultDecl,
@@ -123,7 +117,6 @@ pub enum ImportSpecifier {
 /// e.g. `import foo from 'mod.js'`
 #[ast_node("ImportDefaultSpecifier")]
 pub struct ImportDefault {
-    #[serde(default)]
     pub span: Span,
 
     pub local: Ident,
@@ -131,7 +124,6 @@ pub struct ImportDefault {
 /// e.g. `import * as foo from 'mod.js'`.
 #[ast_node("ImportNamespaceSpecifier")]
 pub struct ImportStarAs {
-    #[serde(default)]
     pub span: Span,
 
     pub local: Ident,
@@ -141,7 +133,6 @@ pub struct ImportStarAs {
 /// 'mod.js'`
 #[ast_node("ImportSpecifier")]
 pub struct ImportSpecific {
-    #[serde(default)]
     pub span: Span,
 
     pub local: Ident,
@@ -165,7 +156,6 @@ pub enum ExportSpecifier {
 /// `export * as foo from 'src';`
 #[ast_node("ExportNamespaceSpecifer")]
 pub struct NamespaceExportSpecifier {
-    #[serde(default)]
     pub span: Span,
 
     pub name: Ident,
@@ -179,7 +169,6 @@ pub struct DefaultExportSpecifier {
 
 #[ast_node("ExportSpecifier")]
 pub struct NamedExportSpecifier {
-    #[serde(default)]
     pub span: Span,
     /// `foo` in `export { foo as bar }`
     pub orig: Ident,

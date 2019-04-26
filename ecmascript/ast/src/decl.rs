@@ -56,7 +56,6 @@ pub struct ClassDecl {
 
 #[ast_node("VariableDeclaration")]
 pub struct VarDecl {
-    #[serde(default)]
     pub span: Span,
 
     pub kind: VarDeclKind,
@@ -81,7 +80,6 @@ pub enum VarDeclKind {
 
 #[ast_node("VariableDeclarator")]
 pub struct VarDeclarator {
-    #[serde(default)]
     pub span: Span,
     #[serde(rename = "id")]
     pub name: Pat,

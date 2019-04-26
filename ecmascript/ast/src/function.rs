@@ -14,7 +14,6 @@ pub struct Function {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub decorators: Vec<Decorator>,
 
-    #[serde(default)]
     pub span: Span,
 
     #[serde(default)]

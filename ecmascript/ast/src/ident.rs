@@ -5,7 +5,6 @@ use swc_common::{ast_node, Span};
 /// Ident with span.
 #[ast_node("Identifier")]
 pub struct Ident {
-    #[serde(default)]
     pub span: Span,
     #[serde(rename = "value")]
     #[cfg_attr(feature = "fold", fold(ignore))]
@@ -23,7 +22,6 @@ pub struct Ident {
 
 #[ast_node("PrivateName")]
 pub struct PrivateName {
-    #[serde(default)]
     pub span: Span,
     pub id: Ident,
 }

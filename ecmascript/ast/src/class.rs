@@ -16,7 +16,6 @@ use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub struct Class {
-    #[serde(default)]
     pub span: Span,
 
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -147,7 +146,6 @@ method!(PrivateMethod, "PrivateMethod", PrivateName);
 
 #[ast_node("Constructor")]
 pub struct Constructor {
-    #[serde(default)]
     pub span: Span,
 
     pub key: PropName,
@@ -166,7 +164,6 @@ pub struct Constructor {
 
 #[ast_node("Decorator")]
 pub struct Decorator {
-    #[serde(default)]
     pub span: Span,
 
     #[serde(rename = "expression")]
