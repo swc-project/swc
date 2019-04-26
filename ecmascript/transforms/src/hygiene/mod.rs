@@ -563,6 +563,16 @@ macro_rules! track_ident {
                 ClassExpr { ident, class, ..n }
             }
         }
+
+        impl<'a> Fold<KeyValuePatProp> for $T<'a> {
+            fn fold(&mut self, n: KeyValuePatProp) -> KeyValuePatProp {
+                KeyValuePatProp {
+                    key: n.key,
+                    value: n.value.fold_with(self),
+                    ..n
+                }
+            }
+        }
     };
 }
 

@@ -16,6 +16,39 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_369,
+    "export function input(name) {
+    return `${name}.md?render`;
+}
+
+export default function({
+    name, input: inp,
+}) {
+    inp = inp || input(name);
+    return {input: inp};
+}",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.input = input;
+function input(name) {
+    return `${name}.md?render`;
+}
+function _default({ name , input: inp  }) {
+    inp = inp || input(name);
+    return {
+        input: inp
+    };
+}
+exports.default = _default;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_335,
     "import bar from 'bar';
 
