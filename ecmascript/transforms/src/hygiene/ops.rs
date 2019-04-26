@@ -166,11 +166,35 @@ impl Fold<Expr> for VarFolder<'_, '_> {
     }
 }
 
+/// Preserve key of properties.
+impl<'a> Fold<AssignPatProp> for Operator<'a> {
+    fn fold(&mut self, p: AssignPatProp) -> AssignPatProp {
+        match p.value {
+            Some(value) => {
+                return AssignPatProp {
+                    value: Some(value.fold_children(self)),
+                    ..p
+                }
+            }
+            None => {}
+        }
+
+        match self.rename_ident(p.key.clone()) {
+            Ok(renamed) => AssignPatProp {
+                key: p.key,
+                value: Some(box Expr::Ident(renamed)),
+                ..p
+            },
+            Err(i) => p,
+        }
+    }
+}
+
+/// Preserves key
 impl<'a> Fold<Prop> for Operator<'a> {
     fn fold(&mut self, prop: Prop) -> Prop {
         match prop {
             Prop::Shorthand(i) => {
-                // preserve key
                 match self.rename_ident(i.clone()) {
                     Ok(renamed) => Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident {
