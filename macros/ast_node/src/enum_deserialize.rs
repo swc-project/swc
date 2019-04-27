@@ -35,7 +35,7 @@ pub fn expand(
 
     let deserialize = {
         let mut all_tags: Punctuated<_, token::Comma> = Default::default();
-        let mut match_type = data
+        let match_type = data
             .variants
             .iter()
             .map(|variant| {

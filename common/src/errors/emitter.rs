@@ -777,7 +777,7 @@ impl EmitterWriter {
 
         if let Some(ref sm) = self.sm {
             let mut before_after: Vec<(Span, Span)> = vec![];
-            let mut new_labels: Vec<(Span, String)> = vec![];
+            let new_labels: Vec<(Span, String)> = vec![];
 
             // First, find all the spans in <*macros> and point instead at their use site
             for sp in span.primary_spans() {
