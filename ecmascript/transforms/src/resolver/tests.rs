@@ -17,6 +17,18 @@ macro_rules! identical {
     };
 }
 
+macro_rules! to {
+    ($name:ident, $src:literal, $to:literal) => {
+        test!(
+            ::swc_ecma_parser::Syntax::default(),
+            |_| tr(),
+            $name,
+            $src,
+            $to
+        );
+    };
+}
+
 #[test]
 fn test_mark_for() {
     ::testing::run_test(false, |_, _| {
@@ -55,9 +67,7 @@ fn test_mark_for() {
     .unwrap();
 }
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     basic_no_usage,
     "
         let foo;
@@ -73,9 +83,7 @@ test!(
         "
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     class_nested_var,
     "
         var ConstructorScoping = function ConstructorScoping() {
@@ -97,9 +105,7 @@ test!(
         "
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     basic,
     r#"
         {
@@ -123,9 +129,7 @@ test!(
         "#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     general_assignment_patterns,
     r#"const foo = "foo";
 
@@ -145,9 +149,7 @@ function foobar() {
 }"#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     general_function,
     r#"function test() {
   let foo = "bar";
@@ -307,9 +309,7 @@ test!(
 
 // TODO: try {} catch (a) { let a } should report error
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     babel_issue_973,
     r#"let arr = [];
 for(let i = 0; i < 10; i++) {
@@ -357,9 +357,7 @@ a++;
 expect(a).toBe(2);"#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     fn_param,
     r#"let a = 'foo';
     function foo(a) {
@@ -371,9 +369,7 @@ test!(
     }"#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     fn_body,
     r#"let a = 'foo';
     function foo() {
@@ -387,9 +383,7 @@ test!(
     }"#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     shorthand,
     r#"let a = 'foo';
     function foo() {
@@ -403,9 +397,7 @@ test!(
     }"#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     same_level,
     r#"
         var a = 'foo';
@@ -417,9 +409,7 @@ test!(
         "#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     class_block,
     r#"
     var Foo = function(_Bar) {
@@ -439,9 +429,7 @@ test!(
         "#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
+to!(
     class_block_2,
     r#"
     var Foo = (function(_Bar) {
@@ -461,9 +449,7 @@ test!(
         "#
 );
 
-test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_|  tr(),
+to!(
         class_nested,
         r#"
 var Outer = function(_Hello) {
@@ -688,4 +674,32 @@ var Foo = function Foo() {
     bar();
 };
 "
+);
+
+identical!(
+    issue_369_1,
+    "export function input(name) {
+    return `${name}.md?render`;
+}
+
+export default function({
+    name, input: inp,
+}) {
+    inp = inp || input(name);
+    return {input: inp};
+};
+"
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    issue_369_2,
+    "
+function a() {}
+function b() {}
+function foo({a: b}){
+	expect(b).toBe('a')
+}
+foo({a: 'a'})"
 );

@@ -1,0 +1,350 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 92,
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 2,
+        "column": 51
+      }
+    }
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 40,
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 40
+          }
+        }
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 39,
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 4
+              },
+              "end": {
+                "line": 1,
+                "column": 39
+              }
+            }
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 13,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 4
+                },
+                "end": {
+                  "line": 1,
+                  "column": 13
+                }
+              }
+            },
+            "value": "someValue",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 13,
+                "end": 18,
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18
+                  }
+                }
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 15,
+                  "end": 18,
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 18
+                    }
+                  }
+                },
+                "kind": "any"
+              }
+            },
+            "optional": false
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 21,
+              "end": 39,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 21
+                },
+                "end": {
+                  "line": 1,
+                  "column": 39
+                }
+              }
+            },
+            "value": "this is a string",
+            "hasEscape": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 41,
+        "end": 92,
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 51
+          }
+        }
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 45,
+            "end": 91,
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 4
+              },
+              "end": {
+                "line": 2,
+                "column": 50
+              }
+            }
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 45,
+              "end": 54,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 4
+                },
+                "end": {
+                  "line": 2,
+                  "column": 13
+                }
+              }
+            },
+            "value": "strLength",
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 54,
+                "end": 62,
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 21
+                  }
+                }
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 56,
+                  "end": 62,
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 21
+                    }
+                  }
+                },
+                "kind": "number"
+              }
+            },
+            "optional": false
+          },
+          "init": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 84,
+              "end": 91,
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 43
+                },
+                "end": {
+                  "line": 2,
+                  "column": 50
+                }
+              }
+            },
+            "object": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 65,
+                "end": 84,
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 24
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 43
+                  }
+                }
+              },
+              "expression": {
+                "type": "TsTypeAssertion",
+                "span": {
+                  "start": 67,
+                  "end": 83,
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 26
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 42
+                    }
+                  }
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 74,
+                    "end": 83,
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 33
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 42
+                      }
+                    }
+                  },
+                  "value": "someValue",
+                  "optional": false
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 67,
+                    "end": 73,
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 26
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 32
+                      }
+                    }
+                  },
+                  "kind": "string"
+                }
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 85,
+                "end": 91,
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 44
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 50
+                  }
+                }
+              },
+              "value": "length",
+              "optional": false
+            },
+            "computed": false
+          },
+          "definite": false
+        }
+      ]
+    }
+  ]
+}

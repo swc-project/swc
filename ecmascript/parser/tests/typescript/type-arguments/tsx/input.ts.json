@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 30,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 2,
+        "column": 13
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 15,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 15
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -20,7 +40,17 @@
           "span": {
             "start": 1,
             "end": 2,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "line": 1,
+                "column": 2
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -28,7 +58,17 @@
         "span": {
           "start": 1,
           "end": 11,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "line": 1,
+              "column": 11
+            }
+          }
         },
         "selfClosing": false,
         "typeArguments": {
@@ -36,7 +76,17 @@
           "span": {
             "start": 2,
             "end": 10,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 2
+              },
+              "end": {
+                "line": 1,
+                "column": 10
+              }
+            }
           },
           "params": [
             {
@@ -44,7 +94,17 @@
               "span": {
                 "start": 3,
                 "end": 9,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 3
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 9
+                  }
+                }
               },
               "kind": "number"
             }
@@ -57,14 +117,34 @@
         "span": {
           "start": 13,
           "end": 15,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 13
+            },
+            "end": {
+              "line": 1,
+              "column": 15
+            }
+          }
         },
         "name": {
           "type": "Identifier",
           "span": {
             "start": 13,
             "end": 14,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 14
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -76,7 +156,17 @@
       "span": {
         "start": 17,
         "end": 29,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 12
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -85,7 +175,17 @@
           "span": {
             "start": 18,
             "end": 19,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 1
+              },
+              "end": {
+                "line": 2,
+                "column": 2
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -93,7 +193,17 @@
         "span": {
           "start": 18,
           "end": 29,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 1
+            },
+            "end": {
+              "line": 2,
+              "column": 12
+            }
+          }
         },
         "selfClosing": true,
         "typeArguments": {
@@ -101,7 +211,17 @@
           "span": {
             "start": 19,
             "end": 27,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 2
+              },
+              "end": {
+                "line": 2,
+                "column": 10
+              }
+            }
           },
           "params": [
             {
@@ -109,7 +229,17 @@
               "span": {
                 "start": 20,
                 "end": 26,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 3
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 9
+                  }
+                }
               },
               "kind": "number"
             }

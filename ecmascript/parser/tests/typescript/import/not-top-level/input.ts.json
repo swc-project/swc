@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 50,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 3,
+        "column": 1
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 50,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 1
+          }
+        }
       },
       "declare": true,
       "global": false,
@@ -20,7 +40,17 @@
         "span": {
           "start": 15,
           "end": 18,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 15
+            },
+            "end": {
+              "line": 1,
+              "column": 18
+            }
+          }
         },
         "value": "m",
         "hasEscape": false
@@ -30,7 +60,17 @@
         "span": {
           "start": 19,
           "end": 50,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 19
+            },
+            "end": {
+              "line": 3,
+              "column": 1
+            }
+          }
         },
         "body": [
           {
@@ -38,7 +78,17 @@
             "span": {
               "start": 25,
               "end": 48,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 4
+                },
+                "end": {
+                  "line": 2,
+                  "column": 27
+                }
+              }
             },
             "specifiers": [
               {
@@ -46,14 +96,34 @@
                 "span": {
                   "start": 32,
                   "end": 38,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 11
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 17
+                    }
+                  }
                 },
                 "local": {
                   "type": "Identifier",
                   "span": {
                     "start": 37,
                     "end": 38,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 2,
+                        "column": 16
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 17
+                      }
+                    }
                   },
                   "value": "a",
                   "optional": false
@@ -65,7 +135,17 @@
               "span": {
                 "start": 44,
                 "end": 48,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 23
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 27
+                  }
+                }
               },
               "value": "a",
               "hasEscape": false

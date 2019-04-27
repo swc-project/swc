@@ -272,8 +272,8 @@ export class foo9 {}
     value: true
   });
   _exports.foo8 = foo8;
-  _exports.foo3 = _exports.foo4 = _exports.foo2 = _exports.foo7 = _exports.bar =
-      _exports.foo = _exports.foo5 = _exports.foo6 = void 0;
+  _exports.foo2 = _exports.foo7 = _exports.foo3 = _exports.foo4 = _exports.bar =
+    _exports.foo = _exports.foo5 = _exports.foo6 = void 0;
  var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,
@@ -562,7 +562,7 @@ export {foo as default, bar};
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.bar = void 0;
+  _exports.bar = _exports.default = void 0;
   var foo, bar;
   _exports.default = foo;
   _exports.bar = bar;
@@ -1259,7 +1259,7 @@ d = 4;
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.test = _exports.f = _exports.e = _exports.c = _exports.a = void 0;
+  _exports.e = _exports.c = _exports.a = _exports.test = _exports.f = void 0;
   var test = 2;
   _exports.test = test;
   _exports.test = test = 5;
@@ -1666,7 +1666,7 @@ bar2;
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.test = _exports.default = _exports.test2 = void 0;
+  _exports.test2 = _exports.test = _exports.default = void 0;
   var test;
   _exports.test = test;
   var test2 = 5;

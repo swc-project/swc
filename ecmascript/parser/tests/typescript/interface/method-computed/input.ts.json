@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 80,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 4,
+        "column": 1
+      }
+    }
   },
   "body": [
     {
@@ -11,14 +21,34 @@
       "span": {
         "start": 10,
         "end": 80,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 10
+          },
+          "end": {
+            "line": 4,
+            "column": 1
+          }
+        }
       },
       "id": {
         "type": "Identifier",
         "span": {
           "start": 10,
           "end": 11,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 10
+            },
+            "end": {
+              "line": 1,
+              "column": 11
+            }
+          }
         },
         "value": "I",
         "optional": false
@@ -30,7 +60,17 @@
         "span": {
           "start": 12,
           "end": 80,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 12
+            },
+            "end": {
+              "line": 4,
+              "column": 1
+            }
+          }
         },
         "body": [
           {
@@ -38,7 +78,17 @@
             "span": {
               "start": 18,
               "end": 44,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 4
+                },
+                "end": {
+                  "line": 2,
+                  "column": 30
+                }
+              }
             },
             "readonly": false,
             "key": {
@@ -46,14 +96,34 @@
               "span": {
                 "start": 25,
                 "end": 34,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 11
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 20
+                  }
+                }
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 19,
                   "end": 25,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 11
+                    }
+                  }
                 },
                 "value": "Symbol",
                 "optional": false
@@ -63,7 +133,17 @@
                 "span": {
                   "start": 26,
                   "end": 34,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 12
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 20
+                    }
+                  }
                 },
                 "value": "iterator",
                 "optional": false
@@ -78,14 +158,34 @@
               "span": {
                 "start": 37,
                 "end": 43,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 23
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 29
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 39,
                   "end": 43,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 2,
+                      "column": 25
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 29
+                    }
+                  }
                 },
                 "kind": "void"
               }
@@ -96,7 +196,17 @@
             "span": {
               "start": 49,
               "end": 78,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 3,
+                  "column": 4
+                },
+                "end": {
+                  "line": 3,
+                  "column": 33
+                }
+              }
             },
             "readonly": false,
             "key": {
@@ -104,14 +214,34 @@
               "span": {
                 "start": 56,
                 "end": 65,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 3,
+                    "column": 11
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 20
+                  }
+                }
               },
               "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 50,
                   "end": 56,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 5
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 11
+                    }
+                  }
                 },
                 "value": "Symbol",
                 "optional": false
@@ -121,7 +251,17 @@
                 "span": {
                   "start": 57,
                   "end": 65,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 12
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 20
+                    }
+                  }
                 },
                 "value": "iterator",
                 "optional": false
@@ -136,14 +276,34 @@
               "span": {
                 "start": 69,
                 "end": 77,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 3,
+                    "column": 24
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 32
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 71,
                   "end": 77,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 26
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 32
+                    }
+                  }
                 },
                 "kind": "number"
               }

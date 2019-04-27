@@ -1148,11 +1148,7 @@ impl<'a, I: Input> Parser<'a, I> {
                     })
                     | Pat::Rest(RestPat {
                         ref mut type_ann, ..
-                    }) => {
-                        *type_ann = self
-                            .parse_ts_type_ann(/* eat_colon */ true, start)
-                            .map(Some)?
-                    }
+                    }) => *type_ann = self.try_parse_ts_type_ann()?,
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
                 }
 

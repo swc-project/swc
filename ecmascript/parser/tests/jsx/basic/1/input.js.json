@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 5,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 5
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 5,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 5
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -20,7 +40,17 @@
           "span": {
             "start": 1,
             "end": 2,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "line": 1,
+                "column": 2
+              }
+            }
           },
           "value": "a",
           "optional": false
@@ -28,7 +58,17 @@
         "span": {
           "start": 1,
           "end": 5,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "line": 1,
+              "column": 5
+            }
+          }
         },
         "selfClosing": true
       },

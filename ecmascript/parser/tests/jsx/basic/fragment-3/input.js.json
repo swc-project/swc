@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 50,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 6,
+        "column": 3
+      }
+    }
   },
   "body": [
     {
@@ -11,14 +21,34 @@
       "span": {
         "start": 0,
         "end": 50,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 3
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningFragment",
         "span": {
           "start": 2,
           "end": 3,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 2
+            },
+            "end": {
+              "line": 1,
+              "column": 3
+            }
+          }
         }
       },
       "children": [
@@ -27,7 +57,17 @@
           "span": {
             "start": 3,
             "end": 6,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 2
+              }
+            }
           },
           "value": "\n\n  ",
           "raw": "\n\n  "
@@ -37,7 +77,17 @@
           "span": {
             "start": 6,
             "end": 29,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 2
+              },
+              "end": {
+                "line": 4,
+                "column": 9
+              }
+            }
           },
           "opening": {
             "type": "JSXOpeningElement",
@@ -46,7 +96,17 @@
               "span": {
                 "start": 7,
                 "end": 11,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 3
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7
+                  }
+                }
               },
               "value": "span",
               "optional": false
@@ -54,7 +114,17 @@
             "span": {
               "start": 7,
               "end": 12,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 3
+                },
+                "end": {
+                  "line": 2,
+                  "column": 8
+                }
+              }
             },
             "selfClosing": false
           },
@@ -64,7 +134,17 @@
               "span": {
                 "start": 12,
                 "end": 22,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 2
+                  }
+                }
               },
               "value": "\n\n    hi\n\n  ",
               "raw": "\n\n    hi\n\n  "
@@ -75,14 +155,34 @@
             "span": {
               "start": 24,
               "end": 29,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 4,
+                  "column": 4
+                },
+                "end": {
+                  "line": 4,
+                  "column": 9
+                }
+              }
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 24,
                 "end": 28,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 4,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 8
+                  }
+                }
               },
               "value": "span",
               "optional": false
@@ -94,7 +194,17 @@
           "span": {
             "start": 29,
             "end": 32,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 9
+              },
+              "end": {
+                "line": 5,
+                "column": 2
+              }
+            }
           },
           "value": "\n\n  ",
           "raw": "\n\n  "
@@ -104,7 +214,17 @@
           "span": {
             "start": 32,
             "end": 46,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 2
+              },
+              "end": {
+                "line": 5,
+                "column": 16
+              }
+            }
           },
           "opening": {
             "type": "JSXOpeningElement",
@@ -113,7 +233,17 @@
               "span": {
                 "start": 33,
                 "end": 36,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 5,
+                    "column": 3
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 6
+                  }
+                }
               },
               "value": "div",
               "optional": false
@@ -121,7 +251,17 @@
             "span": {
               "start": 33,
               "end": 37,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 3
+                },
+                "end": {
+                  "line": 5,
+                  "column": 7
+                }
+              }
             },
             "selfClosing": false
           },
@@ -131,7 +271,17 @@
               "span": {
                 "start": 37,
                 "end": 40,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 5,
+                    "column": 7
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 10
+                  }
+                }
               },
               "value": "bye",
               "raw": "bye"
@@ -142,14 +292,34 @@
             "span": {
               "start": 42,
               "end": 46,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 12
+                },
+                "end": {
+                  "line": 5,
+                  "column": 16
+                }
+              }
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 42,
                 "end": 45,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 5,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 15
+                  }
+                }
               },
               "value": "div",
               "optional": false
@@ -161,7 +331,17 @@
           "span": {
             "start": 46,
             "end": 47,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 16
+              },
+              "end": {
+                "line": 6,
+                "column": 0
+              }
+            }
           },
           "value": "\n\n",
           "raw": "\n\n"
@@ -172,7 +352,17 @@
         "span": {
           "start": 49,
           "end": 50,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 2
+            },
+            "end": {
+              "line": 6,
+              "column": 3
+            }
+          }
         }
       }
     }

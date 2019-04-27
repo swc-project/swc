@@ -3,7 +3,17 @@
   "span": {
     "start": 99,
     "end": 127,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 2,
+        "column": 0
+      },
+      "end": {
+        "line": 3,
+        "column": 4
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 105,
           "end": 106,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 6
+            },
+            "end": {
+              "line": 2,
+              "column": 7
+            }
+          }
         },
         "value": "C",
         "optional": false
@@ -22,14 +42,34 @@
       "span": {
         "start": 99,
         "end": 122,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 23
+          }
+        }
       },
       "superClass": {
         "type": "Identifier",
         "span": {
           "start": 115,
           "end": 116,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 16
+            },
+            "end": {
+              "line": 2,
+              "column": 17
+            }
+          }
         },
         "value": "D",
         "optional": false
@@ -40,7 +80,17 @@
         "span": {
           "start": 116,
           "end": 119,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 17
+            },
+            "end": {
+              "line": 2,
+              "column": 20
+            }
+          }
         },
         "params": [
           {
@@ -48,14 +98,34 @@
             "span": {
               "start": 117,
               "end": 118,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 18
+                },
+                "end": {
+                  "line": 2,
+                  "column": 19
+                }
+              }
             },
             "typeName": {
               "type": "Identifier",
               "span": {
                 "start": 117,
                 "end": 118,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 18
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 19
+                  }
+                }
               },
               "value": "T",
               "optional": false
@@ -69,7 +139,17 @@
       "span": {
         "start": 123,
         "end": 127,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 4
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -78,7 +158,17 @@
           "span": {
             "start": 124,
             "end": 125,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 1
+              },
+              "end": {
+                "line": 3,
+                "column": 2
+              }
+            }
           },
           "value": "C",
           "optional": false
@@ -86,7 +176,17 @@
         "span": {
           "start": 124,
           "end": 127,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 1
+            },
+            "end": {
+              "line": 3,
+              "column": 4
+            }
+          }
         },
         "selfClosing": true
       },

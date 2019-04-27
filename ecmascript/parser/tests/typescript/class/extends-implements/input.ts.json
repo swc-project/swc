@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 43,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 43
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 6,
           "end": 7,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 6
+            },
+            "end": {
+              "line": 1,
+              "column": 7
+            }
+          }
         },
         "value": "C",
         "optional": false
@@ -22,21 +42,51 @@
       "span": {
         "start": 0,
         "end": 43,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 43
+          }
+        }
       },
       "superClass": {
         "type": "CallExpression",
         "span": {
           "start": 16,
           "end": 19,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 16
+            },
+            "end": {
+              "line": 1,
+              "column": 19
+            }
+          }
         },
         "callee": {
           "type": "Identifier",
           "span": {
             "start": 16,
             "end": 17,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 16
+              },
+              "end": {
+                "line": 1,
+                "column": 17
+              }
+            }
           },
           "value": "f",
           "optional": false
@@ -50,7 +100,17 @@
         "span": {
           "start": 19,
           "end": 22,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 19
+            },
+            "end": {
+              "line": 1,
+              "column": 22
+            }
+          }
         },
         "params": [
           {
@@ -58,14 +118,34 @@
             "span": {
               "start": 20,
               "end": 21,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 20
+                },
+                "end": {
+                  "line": 1,
+                  "column": 21
+                }
+              }
             },
             "typeName": {
               "type": "Identifier",
               "span": {
                 "start": 20,
                 "end": 21,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 20
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 21
+                  }
+                }
               },
               "value": "T",
               "optional": false
@@ -79,7 +159,17 @@
           "span": {
             "start": 34,
             "end": 40,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 34
+              },
+              "end": {
+                "line": 1,
+                "column": 40
+              }
+            }
           },
           "expression": {
             "type": "TsQualifiedName",
@@ -88,7 +178,17 @@
               "span": {
                 "start": 34,
                 "end": 35,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 34
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 35
+                  }
+                }
               },
               "value": "X",
               "optional": false
@@ -98,7 +198,17 @@
               "span": {
                 "start": 36,
                 "end": 37,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 36
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 37
+                  }
+                }
               },
               "value": "Y",
               "optional": false
@@ -109,7 +219,17 @@
             "span": {
               "start": 37,
               "end": 40,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 37
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40
+                }
+              }
             },
             "params": [
               {
@@ -117,14 +237,34 @@
                 "span": {
                   "start": 38,
                   "end": 39,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 38
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 39
+                    }
+                  }
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
                     "start": 38,
                     "end": 39,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 1,
+                        "column": 38
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39
+                      }
+                    }
                   },
                   "value": "T",
                   "optional": false

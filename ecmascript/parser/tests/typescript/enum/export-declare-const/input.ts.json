@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 30,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 30
+      }
+    }
   },
   "body": [
     {
@@ -11,14 +21,34 @@
       "span": {
         "start": 0,
         "end": 30,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 30
+          }
+        }
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 0,
           "end": 30,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 30
+            }
+          }
         },
         "declare": true,
         "isConst": true,
@@ -27,7 +57,17 @@
           "span": {
             "start": 26,
             "end": 27,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 26
+              },
+              "end": {
+                "line": 1,
+                "column": 27
+              }
+            }
           },
           "value": "E",
           "optional": false

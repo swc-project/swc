@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 66,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 4,
+        "column": 1
+      }
+    }
   },
   "body": [
     {
@@ -11,14 +21,34 @@
       "span": {
         "start": 0,
         "end": 19,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 19
+          }
+        }
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
           "start": 7,
           "end": 19,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 1,
+              "column": 19
+            }
+          }
         },
         "kind": "const",
         "declare": false,
@@ -28,14 +58,34 @@
             "span": {
               "start": 13,
               "end": 18,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 13
+                },
+                "end": {
+                  "line": 1,
+                  "column": 18
+                }
+              }
             },
             "id": {
               "type": "Identifier",
               "span": {
                 "start": 13,
                 "end": 14,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14
+                  }
+                }
               },
               "value": "x",
               "optional": false
@@ -45,7 +95,17 @@
               "span": {
                 "start": 17,
                 "end": 18,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 17
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18
+                  }
+                }
               },
               "value": 0.0
             },
@@ -59,14 +119,34 @@
       "span": {
         "start": 20,
         "end": 66,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 1
+          }
+        }
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
           "start": 27,
           "end": 66,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 7
+            },
+            "end": {
+              "line": 4,
+              "column": 1
+            }
+          }
         },
         "declare": false,
         "global": false,
@@ -75,7 +155,17 @@
           "span": {
             "start": 37,
             "end": 38,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 17
+              },
+              "end": {
+                "line": 2,
+                "column": 18
+              }
+            }
           },
           "value": "N",
           "optional": false
@@ -85,7 +175,17 @@
           "span": {
             "start": 39,
             "end": 66,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 19
+              },
+              "end": {
+                "line": 4,
+                "column": 1
+              }
+            }
           },
           "body": [
             {
@@ -93,14 +193,34 @@
               "span": {
                 "start": 45,
                 "end": 64,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 3,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 23
+                  }
+                }
               },
               "declaration": {
                 "type": "VariableDeclaration",
                 "span": {
                   "start": 52,
                   "end": 64,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 3,
+                      "column": 11
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 23
+                    }
+                  }
                 },
                 "kind": "const",
                 "declare": false,
@@ -110,14 +230,34 @@
                     "span": {
                       "start": 58,
                       "end": 63,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 3,
+                          "column": 17
+                        },
+                        "end": {
+                          "line": 3,
+                          "column": 22
+                        }
+                      }
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
                         "start": 58,
                         "end": 59,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 3,
+                            "column": 17
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 18
+                          }
+                        }
                       },
                       "value": "x",
                       "optional": false
@@ -127,7 +267,17 @@
                       "span": {
                         "start": 62,
                         "end": 63,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 3,
+                            "column": 21
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 22
+                          }
+                        }
                       },
                       "value": 1.0
                     },

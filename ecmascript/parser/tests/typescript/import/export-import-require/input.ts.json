@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 31,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 31
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 31,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 31
+          }
+        }
       },
       "declare": false,
       "isExport": true,
@@ -20,7 +40,17 @@
         "span": {
           "start": 14,
           "end": 15,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 14
+            },
+            "end": {
+              "line": 1,
+              "column": 15
+            }
+          }
         },
         "value": "a",
         "optional": false
@@ -30,14 +60,34 @@
         "span": {
           "start": 18,
           "end": 30,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 18
+            },
+            "end": {
+              "line": 1,
+              "column": 30
+            }
+          }
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
             "start": 26,
             "end": 29,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 26
+              },
+              "end": {
+                "line": 1,
+                "column": 29
+              }
+            }
           },
           "value": "a",
           "hasEscape": false

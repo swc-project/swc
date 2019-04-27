@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 51,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 5,
+        "column": 10
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 51,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 10
+          }
+        }
       },
       "opening": {
         "type": "JSXOpeningElement",
@@ -20,7 +40,17 @@
           "span": {
             "start": 1,
             "end": 8,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "line": 1,
+                "column": 8
+              }
+            }
           },
           "value": "AbC-def",
           "optional": false
@@ -28,7 +58,17 @@
         "span": {
           "start": 1,
           "end": 32,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "line": 2,
+              "column": 23
+            }
+          }
         },
         "attributes": [
           {
@@ -36,14 +76,34 @@
             "span": {
               "start": 11,
               "end": 31,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 2
+                },
+                "end": {
+                  "line": 2,
+                  "column": 22
+                }
+              }
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 11,
                 "end": 15,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 6
+                  }
+                }
               },
               "value": "test",
               "optional": false
@@ -53,7 +113,17 @@
               "span": {
                 "start": 16,
                 "end": 31,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 7
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 22
+                  }
+                }
               },
               "value": "&&",
               "hasEscape": false
@@ -68,7 +138,17 @@
           "span": {
             "start": 32,
             "end": 41,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 23
+              },
+              "end": {
+                "line": 5,
+                "column": 0
+              }
+            }
           },
           "value": "\n\nbar\n\nbaz\n\n",
           "raw": "\n\nbar\n\nbaz\n\n"
@@ -79,14 +159,34 @@
         "span": {
           "start": 43,
           "end": 51,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 2
+            },
+            "end": {
+              "line": 5,
+              "column": 10
+            }
+          }
         },
         "name": {
           "type": "Identifier",
           "span": {
             "start": 43,
             "end": 50,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 2
+              },
+              "end": {
+                "line": 5,
+                "column": 9
+              }
+            }
           },
           "value": "AbC-def",
           "optional": false

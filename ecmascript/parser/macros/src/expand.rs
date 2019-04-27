@@ -170,7 +170,7 @@ impl Fold for InjectSelf {
                 let tts = if i.tts.is_empty() {
                     quote_spanned!(span => #parser).into()
                 } else {
-                    let mut args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
+                    let args: Punctuated<Expr, token::Comma> = parse_args(i.tts.into());
                     let args = args
                         .into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))

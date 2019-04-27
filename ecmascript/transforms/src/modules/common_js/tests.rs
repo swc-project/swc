@@ -16,6 +16,39 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_369,
+    "export function input(name) {
+    return `${name}.md?render`;
+}
+
+export default function({
+    name, input: inp,
+}) {
+    inp = inp || input(name);
+    return {input: inp};
+}",
+    "'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.input = input;
+function input(name) {
+    return `${name}.md?render`;
+}
+function _default({ name , input: inp  }) {
+    inp = inp || input(name);
+    return {
+        input: inp
+    };
+}
+exports.default = _default;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_335,
     "import bar from 'bar';
 
@@ -417,7 +450,7 @@ export {foo as default, bar};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.bar = void 0;
+exports.bar = exports.default = void 0;
 var foo, bar;
 exports.default = foo;
 exports.bar = bar;
@@ -451,8 +484,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.foo8 = foo8;
-exports.foo3 = exports.foo4 = exports.foo2 = exports.foo7 = exports.bar =
-    exports.foo = exports.foo5 = exports.foo6 = void 0;
+exports.foo2 = exports.foo7 = exports.foo3 = exports.foo4 = exports.bar =
+  exports.foo = exports.foo5 = exports.foo6 = void 0;
 
 var foo = 1;
 exports.foo = foo;
@@ -688,7 +721,7 @@ d = 4;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.test = exports.f = exports.e = exports.c = exports.a = void 0;
+exports.e = exports.c = exports.a = exports.test = exports.f = void 0;
 var test = 2;
 exports.test = test;
 exports.test = test = 5;
@@ -3607,7 +3640,7 @@ foo;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.test = exports.test2 = void 0;
+exports.test2 = exports.test = void 0;
 
 require("foo");
 

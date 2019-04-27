@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 15,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 15
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 14,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 14
+          }
+        }
       },
       "operator": "+",
       "left": {
@@ -19,7 +39,17 @@
         "span": {
           "start": 0,
           "end": 1,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 1
+            }
+          }
         },
         "value": 1.0
       },
@@ -28,14 +58,34 @@
         "span": {
           "start": 5,
           "end": 14,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 5
+            },
+            "end": {
+              "line": 1,
+              "column": 14
+            }
+          }
         },
         "expression": {
           "type": "NumericLiteral",
           "span": {
             "start": 13,
             "end": 14,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 13
+              },
+              "end": {
+                "line": 1,
+                "column": 14
+              }
+            }
           },
           "value": 1.0
         },
@@ -44,7 +94,17 @@
           "span": {
             "start": 5,
             "end": 11,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 5
+              },
+              "end": {
+                "line": 1,
+                "column": 11
+              }
+            }
           },
           "kind": "number"
         }

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 52,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 52
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 0,
         "end": 52,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 52
+          }
+        }
       },
       "declare": false,
       "id": {
@@ -19,7 +39,17 @@
         "span": {
           "start": 5,
           "end": 6,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 5
+            },
+            "end": {
+              "line": 1,
+              "column": 6
+            }
+          }
         },
         "value": "T",
         "optional": false
@@ -29,7 +59,17 @@
         "span": {
           "start": 6,
           "end": 40,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 6
+            },
+            "end": {
+              "line": 1,
+              "column": 40
+            }
+          }
         },
         "parameters": [
           {
@@ -37,14 +77,34 @@
             "span": {
               "start": 7,
               "end": 39,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 39
+                }
+              }
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 7,
                 "end": 8,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 7
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8
+                  }
+                }
               },
               "value": "U",
               "optional": false
@@ -54,7 +114,17 @@
               "span": {
                 "start": 17,
                 "end": 23,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 17
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 23
+                  }
+                }
               },
               "kind": "object"
             },
@@ -63,7 +133,17 @@
               "span": {
                 "start": 26,
                 "end": 39,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 26
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39
+                  }
+                }
               },
               "members": [
                 {
@@ -71,7 +151,17 @@
                   "span": {
                     "start": 28,
                     "end": 37,
-                    "ctxt": 0
+                    "ctxt": 0,
+                    "loc": {
+                      "start": {
+                        "line": 1,
+                        "column": 28
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37
+                      }
+                    }
                   },
                   "readonly": false,
                   "key": {
@@ -79,7 +169,17 @@
                     "span": {
                       "start": 28,
                       "end": 29,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 28
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 29
+                        }
+                      }
                     },
                     "value": "x",
                     "optional": false
@@ -92,14 +192,34 @@
                     "span": {
                       "start": 29,
                       "end": 37,
-                      "ctxt": 0
+                      "ctxt": 0,
+                      "loc": {
+                        "start": {
+                          "line": 1,
+                          "column": 29
+                        },
+                        "end": {
+                          "line": 1,
+                          "column": 37
+                        }
+                      }
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
                         "start": 31,
                         "end": 37,
-                        "ctxt": 0
+                        "ctxt": 0,
+                        "loc": {
+                          "start": {
+                            "line": 1,
+                            "column": 31
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 37
+                          }
+                        }
                       },
                       "kind": "number"
                     }
@@ -115,14 +235,34 @@
         "span": {
           "start": 43,
           "end": 51,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 43
+            },
+            "end": {
+              "line": 1,
+              "column": 51
+            }
+          }
         },
         "typeName": {
           "type": "Identifier",
           "span": {
             "start": 43,
             "end": 48,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 43
+              },
+              "end": {
+                "line": 1,
+                "column": 48
+              }
+            }
           },
           "value": "Array",
           "optional": false
@@ -132,7 +272,17 @@
           "span": {
             "start": 48,
             "end": 51,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 48
+              },
+              "end": {
+                "line": 1,
+                "column": 51
+              }
+            }
           },
           "params": [
             {
@@ -140,14 +290,34 @@
               "span": {
                 "start": 49,
                 "end": 50,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 49
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50
+                  }
+                }
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
                   "start": 49,
                   "end": 50,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 49
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 50
+                    }
+                  }
                 },
                 "value": "U",
                 "optional": false

@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 24,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 24
+      }
+    }
   },
   "body": [
     {
@@ -13,7 +23,17 @@
         "span": {
           "start": 9,
           "end": 10,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 10
+            }
+          }
         },
         "value": "f",
         "optional": false
@@ -23,14 +43,34 @@
       "span": {
         "start": 0,
         "end": 24,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 24
+          }
+        }
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 22,
           "end": 24,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 22
+            },
+            "end": {
+              "line": 1,
+              "column": 24
+            }
+          }
         },
         "stmts": []
       },
@@ -41,7 +81,17 @@
         "span": {
           "start": 10,
           "end": 19,
-          "ctxt": 0
+          "ctxt": 0,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 10
+            },
+            "end": {
+              "line": 1,
+              "column": 19
+            }
+          }
         },
         "parameters": [
           {
@@ -49,14 +99,34 @@
             "span": {
               "start": 13,
               "end": 14,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 13
+                },
+                "end": {
+                  "line": 1,
+                  "column": 14
+                }
+              }
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 13,
                 "end": 14,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14
+                  }
+                }
               },
               "value": "T",
               "optional": false

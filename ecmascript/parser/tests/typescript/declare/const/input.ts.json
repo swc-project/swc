@@ -3,7 +3,17 @@
   "span": {
     "start": 0,
     "end": 35,
-    "ctxt": 0
+    "ctxt": 0,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 35
+      }
+    }
   },
   "body": [
     {
@@ -11,7 +21,17 @@
       "span": {
         "start": 8,
         "end": 35,
-        "ctxt": 0
+        "ctxt": 0,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 8
+          },
+          "end": {
+            "line": 1,
+            "column": 35
+          }
+        }
       },
       "kind": "const",
       "declare": true,
@@ -21,14 +41,34 @@
           "span": {
             "start": 14,
             "end": 23,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 14
+              },
+              "end": {
+                "line": 1,
+                "column": 23
+              }
+            }
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 14,
               "end": 15,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 14
+                },
+                "end": {
+                  "line": 1,
+                  "column": 15
+                }
+              }
             },
             "value": "x",
             "typeAnnotation": {
@@ -36,14 +76,34 @@
               "span": {
                 "start": 15,
                 "end": 23,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 15
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 23
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 17,
                   "end": 23,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 17
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 23
+                    }
+                  }
                 },
                 "kind": "number"
               }
@@ -57,14 +117,34 @@
           "span": {
             "start": 25,
             "end": 34,
-            "ctxt": 0
+            "ctxt": 0,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 25
+              },
+              "end": {
+                "line": 1,
+                "column": 34
+              }
+            }
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 25,
               "end": 26,
-              "ctxt": 0
+              "ctxt": 0,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 25
+                },
+                "end": {
+                  "line": 1,
+                  "column": 26
+                }
+              }
             },
             "value": "y",
             "typeAnnotation": {
@@ -72,14 +152,34 @@
               "span": {
                 "start": 26,
                 "end": 34,
-                "ctxt": 0
+                "ctxt": 0,
+                "loc": {
+                  "start": {
+                    "line": 1,
+                    "column": 26
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 34
+                  }
+                }
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
                   "start": 28,
                   "end": 34,
-                  "ctxt": 0
+                  "ctxt": 0,
+                  "loc": {
+                    "start": {
+                      "line": 1,
+                      "column": 28
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 34
+                    }
+                  }
                 },
                 "kind": "string"
               }
