@@ -8,7 +8,7 @@ addons:
 
 language: rust
 rust:
-- nightly
+- nightly-2019-04-10
 
 # Need to cache the whole `.cargo` directory to keep .crates.toml for
 # cargo-update to work
