@@ -380,3 +380,19 @@ fn issue_337() {
         },
     );
 }
+
+#[test]
+fn issue_350() {
+    assert_eq_ignore_span!(
+        expr(
+            r#""ok\
+ok\
+hehe.";"#,
+        ),
+        box Expr::Lit(Lit::Str(Str {
+            span,
+            value: "okokhehe.".into(),
+            has_escape: true,
+        }))
+    );
+}
