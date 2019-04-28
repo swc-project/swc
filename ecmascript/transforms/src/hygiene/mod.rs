@@ -192,6 +192,9 @@ impl<'a> Hygiene<'a> {
             ident_type: IdentType::Ref,
         };
 
+        folder.ident_type = IdentType::Ref;
+        node.decorators = node.decorators.fold_with(&mut folder);
+
         folder.ident_type = IdentType::Binding;
         node.params = node.params.fold_with(&mut folder);
 

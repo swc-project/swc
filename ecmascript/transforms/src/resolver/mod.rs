@@ -132,6 +132,9 @@ impl<'a> Fold<Function> for Resolver<'a> {
             self.cur_defining.take(),
         );
 
+        folder.ident_type = IdentType::Ref;
+        f.decorators = f.decorators.fold_with(&mut folder);
+
         folder.ident_type = IdentType::Binding;
         f.params = f.params.fold_with(&mut folder);
 
