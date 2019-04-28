@@ -4,6 +4,7 @@ use crate::{
         es2015::{arrow, Classes},
         es3::PropertyLiteral,
     },
+    modules::common_js::common_js,
     react::display_name,
 };
 
@@ -1039,4 +1040,23 @@ test!(
 const b = <div>test</div>",
     "const a = React.createElement(React.Fragment, null, 'test');
 const b = React.createElement('div', null, 'test');"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |_| chain!(
+        tr(Options {
+            use_builtins: true,
+            ..Default::default()
+        }),
+        common_js(Default::default())
+    ),
+    issue_351,
+    "import React from 'react';
+
+<div />;",
+    ""
 );
