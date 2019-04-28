@@ -1058,5 +1058,7 @@ test!(
     "import React from 'react';
 
 <div />;",
-    ""
+    "'use strict';
+var _react = _interopRequireDefault(require('react'));
+_react.default.createElement('div', null);"
 );
