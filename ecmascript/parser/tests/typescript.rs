@@ -156,6 +156,7 @@ where
                 Session { handler: &handler },
                 Syntax::Typescript(TsConfig {
                     tsx: fname.contains("tsx"),
+                    dynamic_import: true,
                     decorators: true,
                     ..Default::default()
                 }),

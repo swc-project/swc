@@ -1,0 +1,6 @@
+error: Unexpected token Some(Dot)
+ --> $DIR/tests/typescript-errors/custom/issue-380/input.ts:3:16
+  |
+3 |         import(../foo/bar)
+  |                ^
+
