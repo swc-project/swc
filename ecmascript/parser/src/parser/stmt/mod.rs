@@ -1305,4 +1305,43 @@ export default function waitUntil(callback, options = {}) {
         );
     }
 
+    #[test]
+    fn issue_380_1() {
+        test_parser(
+            "import(filePath).then(bar => {})",
+            Syntax::Es(EsConfig {
+                dynamic_import: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
+    #[test]
+    fn issue_380_2() {
+        test_parser(
+            "class Foo {
+                componentDidMount() {
+                    const filePath = '../foo/bar'
+                    import(filePath).then(bar => {})
+                }
+            }",
+            Syntax::Es(EsConfig {
+                dynamic_import: true,
+                ..Default::default()
+            }),
+            |p| {
+                p.parse_module().map_err(|mut e| {
+                    e.emit();
+                    ()
+                })
+            },
+        );
+    }
+
 }

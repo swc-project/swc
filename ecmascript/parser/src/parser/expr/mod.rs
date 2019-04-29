@@ -198,24 +198,7 @@ impl<'a, I: Input> Parser<'a, I> {
         }
 
         if eat!("import") {
-            if !self.input.syntax().dynamic_import() {
-                syntax_error!(span!(start), SyntaxError::DynamicImport);
-            }
-            if !is!('(') {
-                unexpected!();
-            }
-            let args = self.parse_args(true)?;
-            return Ok(Box::new(Expr::Call(CallExpr {
-                span: span!(start),
-                callee: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident {
-                    span: span!(start),
-                    sym: js_word!("import"),
-                    type_ann: None,
-                    optional: false,
-                }))),
-                args,
-                type_args: Default::default(),
-            })));
+            return self.parse_dynamic_import(start);
         }
 
         if is!("async") {
@@ -1264,6 +1247,26 @@ impl<'a, I: Input> Parser<'a, I> {
             _ => unreachable!("parse_lit should not be called"),
         };
         Ok(v)
+    }
+
+    pub(super) fn parse_dynamic_import(&mut self, start: BytePos) -> PResult<'a, Box<Expr>> {
+        if !self.input.syntax().dynamic_import() {
+            syntax_error!(span!(start), SyntaxError::DynamicImport);
+        }
+        let args = self.parse_args(true)?;
+        let import = Box::new(Expr::Call(CallExpr {
+            span: span!(start),
+            callee: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident {
+                span: span!(start),
+                sym: js_word!("import"),
+                type_ann: None,
+                optional: false,
+            }))),
+            args,
+            type_args: Default::default(),
+        }));
+
+        self.parse_subscripts(ExprOrSuper::Expr(import), true)
     }
 }
 

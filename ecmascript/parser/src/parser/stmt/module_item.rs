@@ -2,7 +2,7 @@ use super::*;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
-    fn parse_import(&mut self) -> PResult<'a, ModuleDecl> {
+    fn parse_import(&mut self) -> PResult<'a, ModuleItem> {
         let start = cur_pos!();
         assert_and_bump!("import");
 
@@ -10,7 +10,17 @@ impl<'a, I: Input> Parser<'a, I> {
             if is!(IdentRef) && peeked_is!('=') {
                 return self
                     .parse_ts_import_equals_decl(start, false)
-                    .map(From::from);
+                    .map(ModuleDecl::from)
+                    .map(ModuleItem::from);
+            }
+        }
+
+        if self.input.syntax().dynamic_import() {
+            if is!('(') {
+                return self
+                    .parse_dynamic_import(start)
+                    .map(Stmt::from)
+                    .map(ModuleItem::from);
             }
         }
 
@@ -28,7 +38,8 @@ impl<'a, I: Input> Parser<'a, I> {
                             has_escape,
                         },
                         specifiers: vec![],
-                    }));
+                    }))
+                    .map(ModuleItem::from);
                 }
                 _ => unreachable!(),
             },
@@ -84,6 +95,7 @@ impl<'a, I: Input> Parser<'a, I> {
             specifiers,
             src,
         }))
+        .map(ModuleItem::from)
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
@@ -480,7 +492,7 @@ impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
         let decl = if is!("import") {
             self.parse_import()?
         } else if is!("export") {
-            self.parse_export(decorators)?
+            self.parse_export(decorators).map(ModuleItem::from)?
         } else {
             unreachable!(
                 "handle_import_export should not be called if current token isn't import nor \
@@ -488,6 +500,6 @@ impl<'a, I: Input> StmtLikeParser<'a, ModuleItem> for Parser<'a, I> {
             )
         };
 
-        Ok(ModuleItem::ModuleDecl(decl))
+        Ok(decl)
     }
 }
