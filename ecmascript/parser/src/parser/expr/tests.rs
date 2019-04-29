@@ -2,8 +2,15 @@ use super::*;
 use crate::EsConfig;
 use swc_common::DUMMY_SP as span;
 
+fn syntax() -> Syntax {
+    Syntax::Es(EsConfig {
+        dynamic_import: true,
+        ..Default::default()
+    })
+}
+
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::default(), |p| {
+    test_parser(s, syntax(), |p| {
         p.parse_lhs_expr().map_err(|mut e| {
             e.emit();
             ()
@@ -12,7 +19,7 @@ fn lhs(s: &'static str) -> Box<Expr> {
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::default(), |p| {
+    test_parser(s, syntax(), |p| {
         p.parse_new_expr().map_err(|mut e| {
             e.emit();
             ()
@@ -21,7 +28,7 @@ fn new_expr(s: &'static str) -> Box<Expr> {
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::default(), |p| {
+    test_parser(s, syntax(), |p| {
         p.parse_member_expr().map_err(|mut e| {
             e.emit();
             ()
@@ -30,7 +37,7 @@ fn member_expr(s: &'static str) -> Box<Expr> {
 }
 
 fn expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, Syntax::default(), |p| {
+    test_parser(s, syntax(), |p| {
         p.parse_stmt(true)
             .map(|stmt| match stmt {
                 Stmt::Expr(expr) => expr,
@@ -394,5 +401,17 @@ hehe.";"#,
             value: "okokhehe.".into(),
             has_escape: true,
         }))
+    );
+}
+
+#[test]
+fn issue_380() {
+    expr(
+        " import('../foo/bar')
+    .then(bar => {
+        // bar should be {default: DEFAULT_EXPORTED_THING_IN_BAR} or atleast what it is supposed \
+         to be
+    })
+}",
     );
 }
