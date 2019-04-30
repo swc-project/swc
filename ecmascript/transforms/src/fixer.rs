@@ -350,7 +350,8 @@ impl Fold<Expr> for Fixer {
                     e @ Expr::Assign(..)
                     | e @ Expr::Seq(..)
                     | e @ Expr::Yield(..)
-                    | e @ Expr::Cond(..) => box e.wrap_with_paren(),
+                    | e @ Expr::Cond(..)
+                    | e @ Expr::Arrow(..) => box e.wrap_with_paren(),
                     Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                         if op_of_rhs.precedence() < expr.op.precedence() {
                             box expr.right.wrap_with_paren()
@@ -378,7 +379,8 @@ impl Fold<Expr> for Fixer {
                     e @ Expr::Seq(..)
                     | e @ Expr::Yield(..)
                     | e @ Expr::Cond(..)
-                    | e @ Expr::Assign(..) => Expr::Bin(BinExpr {
+                    | e @ Expr::Assign(..)
+                    | e @ Expr::Arrow(..) => Expr::Bin(BinExpr {
                         left: box e.wrap_with_paren(),
                         ..expr
                     }),
@@ -813,4 +815,15 @@ var store = global[SHARED] || (global[SHARED] = {});
   return 1
 })();"
     );
+
+    identical!(
+        issue_382_1,
+        "const myFilter = (arr, filter) => arr.filter(((x) => x) || filter);"
+    );
+
+    identical!(
+        issue_382_2,
+        "const myFilter = (arr, filter) => arr.filter(filter || ((x) => x));"
+    );
+
 }
