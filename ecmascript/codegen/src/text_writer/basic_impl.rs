@@ -78,7 +78,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
                         srcmap.add(
                             self.line_count as _,
                             self.line_pos as _,
-                            loc.line as _,
+                            (loc.line - 1) as _,
                             loc.col.0 as _,
                             src.as_ref().map(|s| &**s),
                             None,
