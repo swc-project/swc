@@ -8,7 +8,7 @@ documentation = "https://swc-project.github.io/rustdoc/swc_ecma_transforms/"
 description = "rust port of babel and closure compiler."
 
 [dependencies]
-swc_atoms = { version = "0.1", path ="../../atoms" }
+swc_atoms = { version = "0.1.2", path ="../../atoms" }
 swc_common = { version = "0.3", path ="../../common" }
 swc_ecma_ast = { version = "0.9.1", path ="../ast" }
 swc_ecma_parser = { version = "0.10", path ="../parser", features = ["verify"] }
