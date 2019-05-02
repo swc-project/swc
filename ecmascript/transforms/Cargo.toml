@@ -24,8 +24,8 @@ scoped-tls = { version = "0.1", features = ["nightly"] }
 unicode-xid = "0.1"
 
 [dev-dependencies]
-testing = { path ="../../testing" }
-swc_ecma_codegen = { path ="../codegen" }
+testing = { version = "0.3", path ="../../testing" }
+swc_ecma_codegen = { version = "0.7.1", path ="../codegen" }
 tempfile = "3"
 pretty_assertions = "0.5"
 sourcemap = "2.2"
