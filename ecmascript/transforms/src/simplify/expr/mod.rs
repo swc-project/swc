@@ -443,9 +443,8 @@ fn fold_bin(
                     op: left_op,
                     right: left_rhs,
                 }) => {
-                    let v = perform_arithmetic_op(op, &left_rhs, &right);
-                    match v {
-                        Known(value) => {
+                    if left_op == op {
+                        if let Known(value) = perform_arithmetic_op(op, &left_rhs, &right) {
                             return Expr::Bin(BinExpr {
                                 span,
                                 left: left_lhs,
@@ -453,15 +452,13 @@ fn fold_bin(
                                 right: box Expr::Lit(Lit::Num(Number { value, span })),
                             });
                         }
-                        _ => {
-                            left = box Expr::Bin(BinExpr {
-                                left: left_lhs,
-                                op: left_op,
-                                span: left_span,
-                                right: left_rhs,
-                            })
-                        }
                     }
+                    left = box Expr::Bin(BinExpr {
+                        left: left_lhs,
+                        op: left_op,
+                        span: left_span,
+                        right: left_rhs,
+                    })
                 }
                 _ => {}
             }
