@@ -5,8 +5,10 @@ authors = ["강동윤 <kdy1@outlook.kr>"]
 edition = "2018"
 
 [dependencies]
+swc_atoms = { path = "../../atoms" }
 swc_common = { path = "../../common", features = ["fold"] }
 swc_ecma_ast = { path = "../../ecmascript/ast", features = ["fold"] }
 swc_ecma_parser = { path = "../../ecmascript/parser", features = ["verify"] }
 rayon = "1"
 chashmap = "2.2.2"
+crossbeam = "0.7.1"

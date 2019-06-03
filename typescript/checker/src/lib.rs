@@ -1,24 +1,31 @@
+#![feature(box_patterns)]
+#![feature(box_syntax)]
+#![feature(specialization)]
 #![recursion_limit = "1024"]
 
 extern crate chashmap;
+extern crate crossbeam;
 extern crate rayon;
+extern crate swc_atoms;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
 
-use self::{errors::Error, module::Info};
+use self::{analyzer::Info, errors::Error};
 use chashmap::CHashMap;
+use crossbeam::{channel, deque, thread};
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
+use swc_atoms::JsWord;
 use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
 
+pub mod analyzer;
 pub mod errors;
-pub mod module;
 
 /// Module with information.
 pub type ModuleInfo = Arc<(Module, Info)>;
@@ -29,13 +36,74 @@ pub struct Checker {
     handler: Handler,
     ts_config: TsConfig,
     /// Cache
-    modules: CHashMap<PathBuf, ModuleInfo>,
+    modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
+}
+
+#[derive(Debug)]
+enum Task {
+    Resolve { from: PathBuf, src: JsWord },
+    Load { path: PathBuf },
+}
+
+#[derive(Debug)]
+enum TaskResult {
+    Resolve {
+        from: PathBuf,
+        src: JsWord,
+        file: PathBuf,
+    },
+    Load {
+        path: PathBuf,
+        module: ModuleInfo,
+    },
+}
+
+#[derive(Debug)]
+struct Worker {
+    sender: channel::Sender<TaskResult>,
+    queue: channel::Receiver<Task>,
+    modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
+}
+
+impl Worker {
+    pub fn run(&self) {
+        loop {
+            let task = match self.queue.recv() {
+                Ok(task) => task,
+                Err(_) => return,
+            };
+        }
+    }
 }
 
 impl Checker {
-    pub fn check(&self, entry: PathBuf) -> Result<Module, Vec<Error>> {
+    /// Returns empty vector if no error is found.
+    pub fn check(&self, entry: PathBuf) -> Vec<Error> {
         let mut errors = vec![];
-        let module = self.load(entry);
+
+        let module = self.load(entry.clone());
+        let (tasks, receiver) = channel::unbounded();
+        let (result_sender, result_receiver) = channel::unbounded();
+        for import in &module.1.imports {
+            let _ = tasks.send(Task::Resolve {
+                from: entry.clone(),
+                src: import.src.clone(),
+            });
+        }
+
+        for i in 1..6 {
+            let worker = Worker {
+                sender: result_sender.clone(),
+                queue: receiver.clone(),
+                modules: self.modules.clone(),
+            };
+            thread::scope(|s| {
+                s.spawn(|_| worker.run());
+            })
+            .unwrap();
+        }
+
+        errors
     }
 
     fn load_all(&self, files: Vec<PathBuf>) -> Vec<ModuleInfo> {
@@ -53,16 +121,12 @@ impl Checker {
         }
 
         let module = swc_common::GLOBALS.set(&self.globals, || {
-            let cm = self.cm;
-
             let session = Session {
                 handler: &self.handler,
             };
 
             // Real usage
-            let fm = cm
-                .load_file(Path::new("test.js"))
-                .expect("failed to load test.js");
+            let fm = self.cm.load_file(&path).expect("failed to read file");
 
             let mut parser = Parser::new(
                 session,
@@ -80,7 +144,7 @@ impl Checker {
                 .expect("failed to parser module")
         });
 
-        let res = Arc::new(module::analyze_module(module));
+        let res = Arc::new(analyzer::analyze_module(module));
         self.modules.insert(path, res.clone());
 
         res
