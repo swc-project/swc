@@ -33,7 +33,6 @@ fn exprs() -> impl Pass {
         StickyRegex,
         InstanceOf,
         TypeOfSymbol,
-        TemplateLiteral,
         Shorthand,
     )
 }
@@ -47,6 +46,7 @@ pub fn es2015() -> impl Pass {
     chain_at!(
         Module,
         BlockScopedFns,
+        TemplateLiteral::default(),
         Classes,
         spread(),
         stmts(),

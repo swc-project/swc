@@ -1,6 +1,7 @@
 //! Parser for object literal.
 
 use super::*;
+use swc_common::Spanned;
 
 #[parser]
 impl<'a, I: Input> Parser<'a, I> {
@@ -30,7 +31,7 @@ impl<'a, I: Input> Parser<'a, I> {
             props.push(prop);
         }
 
-        Ok(Self::make_object(span!(start), props))
+        self.make_object(span!(start), props)
     }
 
     /// spec: 'PropertyName'
@@ -84,8 +85,8 @@ impl<'a, I: Input> Parser<'a, I> {
 impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
     type Prop = PropOrSpread;
 
-    fn make_object(span: Span, props: Vec<Self::Prop>) -> Box<Expr> {
-        Box::new(Expr::Object(ObjectLit { span, props }))
+    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Box<Expr>> {
+        Ok(Box::new(Expr::Object(ObjectLit { span, props })))
     }
 
     /// spec: 'PropertyDefinition'
@@ -242,12 +243,31 @@ impl<'a, I: Input> ParseObject<'a, (Box<Expr>)> for Parser<'a, I> {
 impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
     type Prop = ObjectPatProp;
 
-    fn make_object(span: Span, props: Vec<Self::Prop>) -> Pat {
-        Pat::Object(ObjectPat {
+    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Pat> {
+        let len = props.len();
+        for (i, p) in props.iter().enumerate() {
+            if i == len - 1 {
+                match p {
+                    ObjectPatProp::Rest(ref rest) => match *rest.arg {
+                        Pat::Ident(..) => {}
+                        _ => syntax_error!(p.span(), SyntaxError::DotsWithoutIdentifier),
+                    },
+                    _ => {}
+                }
+                continue;
+            }
+
+            match p {
+                ObjectPatProp::Rest(..) => syntax_error!(p.span(), SyntaxError::NonLastRestParam),
+                _ => {}
+            }
+        }
+
+        Ok(Pat::Object(ObjectPat {
             span,
             props,
             type_ann: None,
-        })
+        }))
     }
 
     /// Production 'BindingProperty'

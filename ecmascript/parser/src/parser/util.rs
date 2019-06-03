@@ -130,7 +130,7 @@ impl<'a, I: Input> Parser<'a, I> {
 }
 pub trait ParseObject<'a, Obj> {
     type Prop;
-    fn make_object(span: Span, props: Vec<Self::Prop>) -> Obj;
+    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<'a, Obj>;
     fn parse_object_prop(&mut self) -> PResult<'a, Self::Prop>;
 }
 

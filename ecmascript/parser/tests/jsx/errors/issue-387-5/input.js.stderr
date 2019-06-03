@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/jsx/errors/issue-387-5/input.js:1:8
+  |
+1 | {a:1, b:2}
+  |        ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/jsx/errors/issue-387-5/input.js:1:4
+  |
+1 | {a:1, b:2}
+  |    ^^^^
+

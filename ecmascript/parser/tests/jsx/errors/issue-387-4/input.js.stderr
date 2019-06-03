@@ -1,0 +1,6 @@
+error: assignment property is invalid syntax
+ --> $DIR/tests/jsx/errors/issue-387-4/input.js:1:10
+  |
+1 | var a = {b = 1};
+  |          ^^^^^
+

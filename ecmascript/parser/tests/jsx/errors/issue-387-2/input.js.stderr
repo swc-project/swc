@@ -1,0 +1,6 @@
+error: Rest element must be final element
+ --> $DIR/tests/jsx/errors/issue-387-2/input.js:1:6
+  |
+1 | var {...c, ...d} = {};
+  |      ^^^^
+

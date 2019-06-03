@@ -2,16 +2,30 @@ use super::*;
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     issue_231,
     "const truthy = 'a=b';
 const foo = `http://example.com/foo/bar${truthy && '?'}${truthy}`;
 expect(foo).toBe('http://example.com/foo/bar?a=b');"
 );
 
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| TemplateLiteral::default(),
+    issue_388,
+    "
+'use strict';
+const write = (text) => {
+  console.log(text)
+}
+write(1) 
+write('2')
+write`3`"
+);
+
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#,
     r#"var t = "'" + foo + '\' "' + bar + '"';"#,
@@ -20,7 +34,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     expr_first,
     r#"var foo = 5;
 var bar = 10;
@@ -44,7 +58,7 @@ var example5 = '' + '';"#,
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     functions,
     r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
     r#"var foo = 'test ' + _.test(foo) + ' ' + bar;"#
@@ -52,7 +66,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     literals,
     r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
     r#"var foo = '' + 1 + f + 'oo' + true + b + 'ar' + 0 + baz;"#
@@ -60,7 +74,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     multiline,
     r#"var o = `wow
 this is
@@ -71,7 +85,7 @@ actually multiline!`;"#,
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
     r#"var foo = 'test ' + foo + ' ' + bar;"#
@@ -79,7 +93,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     none,
     r#"var foo = `test`;"#,
     r#"var foo = "test";"#
@@ -87,7 +101,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     only,
     r#"var foo = `${test}`;"#,
     r#"var foo = '' + test"#
@@ -95,7 +109,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     order,
     r#"
 const calls = [];
@@ -124,7 +138,7 @@ expect(calls).toEqual([1, 2, 3, 4]);"#
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     order2,
     r#"const calls = [];
 
@@ -149,30 +163,33 @@ expect(calls).toEqual([1, 2]);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     simple_tag,
     r#"var foo = tag`wow`;
 var bar = tag`first${1}second`;"#,
-    r#"var foo = tag(function _templateObject() {
+    r#"
+function _templateObject() {
     const data = _taggedTemplateLiteral(['wow']);
     _templateObject = function() {
         return data;
     };
     return data;
-}());
-var bar = tag(function _templateObject1() {
+}
+var foo = tag(_templateObject());
+function _templateObject1() {
     const data = _taggedTemplateLiteral(['first', 'second']);
     _templateObject1 = function() {
         return data;
     };
     return data;
-}(), 1);
+}
+var bar = tag(_templateObject1(), 1);
 "#
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     single,
     r#"var foo = `test ${foo}`;"#,
     r#"var foo = 'test ' + foo;"#
@@ -180,7 +197,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     statement,
     r#"var foo = `test ${foo + bar}`;"#,
     r#"var foo = 'test ' + foo + bar;"#,
@@ -189,7 +206,7 @@ test!(
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     symbol,
     r#"const fn = () => `${Symbol()}`;
 
@@ -198,34 +215,39 @@ expect(fn).toThrow(TypeError);"#
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     tag,
     r#"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
-    r#"var foo = bar(function _templateObject() {
+    r#"
+function _templateObject() {
     const data = _taggedTemplateLiteral(['wow\na', 'b ', ''], ['wow\\na', 'b ', '']);
     _templateObject = function() {
         return data;
     };
     return data;
-}(), 42, _.foobar());
-var bar = bar(function _templateObject1() {
+}
+var foo = bar(_templateObject(), 42, _.foobar());
+function _templateObject1() {
     const data = _taggedTemplateLiteral(['wow\nab', ' ', ''], ['wow\\nab', ' ', '']);
     _templateObject1 = function() {
         return data;
     };
     return data;
-}(), 42, _.foobar());
-var bar = bar(function _templateObject2() {
+}
+var bar = bar(_templateObject1(), 42, _.foobar());
+function _templateObject2() {
     const data = _taggedTemplateLiteral(['wow\naB', ' ', ''], ['wow\\naB', ' ', '']);
     _templateObject2 = function() {
         return data;
     };
     return data;
-}(), 42, _.baz());"#,
+}
+var bar = bar(_templateObject2(), 42, _.baz());
+"#,
     ok_if_code_eq
 );
 
@@ -233,7 +255,7 @@ var bar = bar(function _templateObject2() {
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::default(),
-    |_| TemplateLiteral,
+    |_| TemplateLiteral::default(),
     template_revision,
     r#"tag`\unicode and \u{55}`;
 tag`\01`;
