@@ -1,4 +1,5 @@
 use super::strip;
+use crate::resolver;
 
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {
@@ -151,7 +152,20 @@ function enter(foo: string): number;
 );
 
 to!(
-    issue_392,
+    issue_392_1,
+    "
+import { PlainObject } from 'simplytyped';
+const dict: PlainObject = {};
+",
+    "
+import 'simplytyped';
+const dict = {};"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| chain!(resolver(), strip()),
+    issue_392_2,
     "
 import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
