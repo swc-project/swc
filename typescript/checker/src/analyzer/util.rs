@@ -60,26 +60,26 @@ pub(super) trait TypeExt {
         }
     }
 
-    fn assign_to(&self, to: &TsType) -> Vec<Error> {
+    fn assign_to(&self, to: &TsType) -> Option<Error> {
         try_assign(
             to,
             match self.ann() {
                 Some(v) => v,
-                None => return vec![],
+                None => return None,
             },
         )
     }
 }
 
-fn try_assign(to: &TsType, rhs: &TsType) -> Vec<Error> {
+fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
     match *to {
         // let a: any = 'foo'
         TsType::TsKeywordType(TsKeywordType {
             kind: TsKeywordTypeKind::TsAnyKeyword,
             ..
-        }) => return vec![],
+        }) => return None,
 
-        TsType::TsThisType(TsThisType { span }) => vec![Error::CannotAssingToThis { span }],
+        TsType::TsThisType(TsThisType { span }) => return Some(Error::CannotAssingToThis { span }),
 
         // let a: string | number = 'string';
         TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
@@ -89,10 +89,12 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Vec<Error> {
                 .par_iter()
                 .map(|to| try_assign(&to, rhs))
                 .collect::<Vec<_>>();
-            if vs.iter().any(|v| v.is_empty()) {
-                return vec![];
+            if vs.iter().any(|v| v.is_none()) {
+                return None;
             }
-            return vs.into_iter().flat_map(|v| v).collect();
+            return Some(Error::UnionError {
+                errors: vs.into_iter().map(Option::unwrap).collect(),
+            });
         }
     }
 }
