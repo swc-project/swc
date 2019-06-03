@@ -49,6 +49,23 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_389,
+    "
+import Foo from 'foo';
+Foo.bar = true;
+",
+    "
+'use strict';
+var _foo = _interopRequireDefault(require('foo'));
+_foo.default.bar = true;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_335,
     "import bar from 'bar';
 
