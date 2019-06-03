@@ -247,6 +247,13 @@ impl<'a, I: Input> ParseObject<'a, Pat> for Parser<'a, I> {
         let len = props.len();
         for (i, p) in props.iter().enumerate() {
             if i == len - 1 {
+                match p {
+                    ObjectPatProp::Rest(ref rest) => match *rest.arg {
+                        Pat::Ident(..) => {}
+                        _ => syntax_error!(p.span(), SyntaxError::DotsWithoutIdentifier),
+                    },
+                    _ => {}
+                }
                 continue;
             }
 
