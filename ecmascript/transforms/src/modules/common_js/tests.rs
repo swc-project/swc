@@ -1,5 +1,14 @@
 use super::{super::util::Lazy, common_js, Config};
-use crate::resolver;
+use crate::{
+    compat,
+    fixer::fixer,
+    helpers::InjectHelpers,
+    hygiene::hygiene,
+    proposals::{class_properties, decorators, export},
+    resolver,
+    simplify::simplifier,
+    typescript,
+};
 use ast::*;
 use swc_common::Fold;
 
@@ -46,10 +55,8 @@ exports.default = _default;"
 
 test!(
     syntax(),
-    |_| tr(Config {
-        ..Default::default()
-    }),
-    issue_389,
+    |_| common_js(Default::default()),
+    issue_389_1,
     "
 import Foo from 'foo';
 Foo.bar = true;
@@ -57,6 +64,68 @@ Foo.bar = true;
     "
 'use strict';
 var _foo = _interopRequireDefault(require('foo'));
+_foo.default.bar = true;
+"
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        // Optional::new(typescript::strip(), syntax.typescript()),
+        super::super::import_analysis::import_analyzer(),
+        InjectHelpers,
+        common_js(Default::default()),
+        hygiene(),
+        fixer()
+    ),
+    issue_389_2,
+    "
+import Foo from 'foo';
+Foo.bar = true;
+",
+    "
+'use strict';
+var _foo = _interopRequireDefault(require('foo'));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+_foo.default.bar = true;
+"
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        typescript::strip(),
+        decorators(),
+        class_properties(),
+        export(),
+        simplifier(),
+        compat::es2018(),
+        compat::es2017(),
+        compat::es2016(),
+        compat::es2015(),
+        compat::es3(),
+        super::super::import_analysis::import_analyzer(),
+        InjectHelpers,
+        common_js(Default::default()),
+    ),
+    issue_389_3,
+    "
+import Foo from 'foo';
+Foo.bar = true;
+",
+    "
+'use strict';
+var _foo = _interopRequireDefault(require('foo'));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 _foo.default.bar = true;
 "
 );
