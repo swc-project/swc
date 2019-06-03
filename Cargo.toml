@@ -16,6 +16,7 @@ name = "swc"
 swc_atoms = { path ="./atoms" }
 swc_common = { path ="./common" }
 swc_ecmascript = { path ="./ecmascript" }
+swc_typescript = { path ="./typescript" }
 sourcemap = "2.2"
 
 [profile.bench]
