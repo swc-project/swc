@@ -13,12 +13,9 @@ extern crate swc_ecma_parser;
 
 use self::{analyzer::Info, errors::Error};
 use chashmap::CHashMap;
-use crossbeam::{channel, deque, thread};
+use crossbeam::{channel, thread};
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::{path::PathBuf, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, SourceMap};
 use swc_ecma_ast::Module;

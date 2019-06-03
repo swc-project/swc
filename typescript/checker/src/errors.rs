@@ -2,7 +2,17 @@ use swc_common::Span;
 
 #[derive(Debug, Clone)]
 pub enum Error {
-    ShouldIncludeUndefinedType { var: Span },
+    ShouldIncludeUndefinedType {
+        /// Span of the variable
+        span: Span,
+    },
 
-    MayBeUndefined { span_of_var: Span },
+    CannotAssingToThis {
+        span: Span,
+    },
+
+    MayBeUndefined {
+        /// Span of the variable
+        span: Span,
+    },
 }

@@ -1,4 +1,4 @@
-use self::{expr::type_of, util::TypeExt};
+use self::util::{PatExt, TypeExt};
 use crate::errors::Error;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
@@ -48,19 +48,29 @@ impl TypeAnn for Pat {
 }
 
 impl Fold<VarDeclarator> for Analyzer {
-    fn fold(&mut self, v: VarDeclarator) -> VarDeclarator {
-        let ty = v.name.type_ann();
-
+    fn fold(&mut self, mut v: VarDeclarator) -> VarDeclarator {
         if let Some(ref init) = v.init {
-            //  TODO: Check if v_ty is assignable to ty
+            //  Check if v_ty is assignable to ty
+            let value_ty = self.type_of(&init);
 
-            let v_ty = type_of(&init);
+            match v.name.type_ann() {
+                Some(ref ty) => {
+                    let errors = value_ty.assign_to(ty);
+
+                    self.errors.extend(errors);
+                }
+                // Infer type from value.
+                None => v.name.set_ty(value_ty.map(Box::new)),
+            }
+
             return v;
         }
 
-        if !ty.contains_undefined() {
-            self.errors
-                .push(Error::ShouldIncludeUndefinedType { var: v.name.span() })
+        // There's no initializer, so undefined is required.
+        if !v.name.type_ann().contains_undefined() {
+            self.errors.push(Error::ShouldIncludeUndefinedType {
+                span: v.name.span(),
+            })
         }
 
         v
