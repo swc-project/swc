@@ -511,7 +511,10 @@ impl<'a, I: Input> Parser<'a, I> {
         //FIXME: This is wrong. Should check in/of only on first loop.
         let init = if !for_loop || !is_one_of!("in", "of") {
             if eat!('=') {
-                Some(self.parse_assignment_expr()?)
+                let expr = self.parse_assignment_expr()?;
+                let expr = self.verify_expr(expr)?;
+
+                Some(expr)
             } else {
                 // Destructuring bindings require initializers, but
                 // typescript allows `declare` vars not to have initializers.
