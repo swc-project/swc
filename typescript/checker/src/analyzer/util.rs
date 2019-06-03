@@ -77,17 +77,23 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Vec<Error> {
         TsType::TsKeywordType(TsKeywordType {
             kind: TsKeywordTypeKind::TsAnyKeyword,
             ..
-        }) => vec![],
+        }) => return vec![],
 
         TsType::TsThisType(TsThisType { span }) => vec![Error::CannotAssingToThis { span }],
 
         // let a: string | number = 'string';
         TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
             TsUnionType { ref types, .. },
-        )) => types
-            .par_iter()
-            .flat_map(|to| try_assign(&to, rhs))
-            .collect(),
+        )) => {
+            let vs = types
+                .par_iter()
+                .map(|to| try_assign(&to, rhs))
+                .collect::<Vec<_>>();
+            if vs.iter().any(|v| v.is_empty()) {
+                return vec![];
+            }
+            return vs.into_iter().flat_map(|v| v).collect();
+        }
     }
 }
 
