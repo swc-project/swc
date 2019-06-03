@@ -149,3 +149,14 @@ function enter(foo: string): number;
 ",
     ""
 );
+
+to!(
+    issue_392,
+    "
+import { PlainObject } from 'simplytyped';
+const dict: PlainObject = {};
+",
+    "
+import 'simplytyped';
+const dict = {};"
+);
