@@ -164,7 +164,7 @@ const dict = {};"
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(resolver(), strip()),
+    |_| chain!(strip(), resolver()),
     issue_392_2,
     "
 import { PlainObject } from 'simplytyped';
