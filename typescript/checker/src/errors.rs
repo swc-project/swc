@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{errors::Handler, Span};
 use swc_ecma_ast::TsType;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -31,4 +31,10 @@ pub enum Error {
         /// Span of the variable
         span: Span,
     },
+}
+
+impl Error {
+    pub fn emit(self, h: &Handler) {
+        h.struct_err(&format!("{:?}", self)).emit();
+    }
 }

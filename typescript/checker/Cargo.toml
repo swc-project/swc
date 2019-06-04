@@ -20,3 +20,4 @@ swc_ecma_codegen = { path ="../../ecmascript/codegen" }
 tempfile = "3"
 pretty_assertions = "0.5"
 sourcemap = "2.2"
+walkdir = "2"
