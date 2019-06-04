@@ -1,8 +1,5 @@
 use self::util::{PatExt, TypeExt};
-use crate::{
-    errors::Error,
-    util::{ModuleItemLike, StmtLike},
-};
+use crate::errors::Error;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
@@ -101,7 +98,7 @@ impl Fold<BlockStmt> for Analyzer<'_> {
 }
 
 impl Fold<VarDeclarator> for Analyzer<'_> {
-    fn fold(&mut self, mut v: VarDeclarator) -> VarDeclarator {
+    fn fold(&mut self, v: VarDeclarator) -> VarDeclarator {
         if let Some(ref init) = v.init {
             //  Check if v_ty is assignable to ty
             let value_ty = self.type_of(&init);
