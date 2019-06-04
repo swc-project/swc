@@ -24,7 +24,7 @@ impl Analyzer {
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
-                span,
+                ..
             }) => Some(negate(self.type_of(arg))),
 
             Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Some(*type_ann.clone()),
