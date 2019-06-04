@@ -1,9 +1,9 @@
 use self::util::{PatExt, TypeExt};
 use crate::errors::Error;
+use fxhash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{Fold, FoldWith, Spanned};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
-use toolshed::{map::Map, Arena};
 
 mod expr;
 #[cfg(test)]
@@ -12,40 +12,51 @@ mod util;
 
 struct Analyzer<'a> {
     info: Info,
-    arena: &'a Arena,
-    scope: &'a Scope<'a>,
-    errors: Vec<Error>,
+    scope: Scope<'a>,
 }
 
 impl<'a> Analyzer<'a> {
-    pub fn new(arena: &'a Arena, scope: &'a Scope<'a>) -> Self {
+    pub fn new(scope: Scope<'a>) -> Self {
         Analyzer {
-            arena,
             scope,
             info: Default::default(),
-            errors: Default::default(),
         }
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
+struct VarInfo {
+    kind: VarDeclKind,
+    ty: Option<Box<TsType>>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ScopeKind {
+    Block,
+    Fn,
+}
+
+#[derive(Debug, Clone)]
 pub struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
-    vars: &'a Map<'a, &'a str, (VarDeclKind, &'a TsType)>,
+    kind: ScopeKind,
+    vars: FxHashMap<JsWord, VarInfo>,
 }
 
 impl<'a> Scope<'a> {
-    fn new(arena: &'a Arena, parent: &'a Scope<'a>) -> Self {
+    fn new(parent: &'a Scope<'a>, kind: ScopeKind) -> Self {
         Scope {
-            vars: arena.alloc(Map::new()),
             parent: Some(parent),
+            kind,
+            vars: Default::default(),
         }
     }
 
-    fn root(arena: &'a Arena) -> Self {
+    fn root() -> Self {
         Scope {
             parent: None,
-            vars: &*arena.alloc(Map::new()),
+            kind: ScopeKind::Fn,
+            vars: Default::default(),
         }
     }
 }
@@ -90,42 +101,68 @@ pub struct ExportInfo {}
 
 impl Fold<BlockStmt> for Analyzer<'_> {
     fn fold(&mut self, stmt: BlockStmt) -> BlockStmt {
-        let scope = self.arena.alloc(Scope::new(self.arena, self.scope));
-        let mut analyzer = Analyzer::new(self.arena, scope);
+        let mut analyzer = Analyzer::new(Scope::new(&self.scope, ScopeKind::Block));
 
         stmt.fold_children(&mut analyzer)
     }
 }
 
-impl Fold<VarDeclarator> for Analyzer<'_> {
-    fn fold(&mut self, v: VarDeclarator) -> VarDeclarator {
-        if let Some(ref init) = v.init {
-            //  Check if v_ty is assignable to ty
-            let value_ty = self.type_of(&init);
+impl Fold<VarDecl> for Analyzer<'_> {
+    fn fold(&mut self, var: VarDecl) -> VarDecl {
+        let kind = var.kind;
 
-            match v.name.get_ty() {
-                Some(ref ty) => {
-                    let errors = value_ty.assign_to(ty);
+        VarDecl {
+            decls: var.decls.move_map(|v| {
+                if let Some(ref init) = v.init {
+                    //  Check if v_ty is assignable to ty
+                    let value_ty = self.type_of(&init);
 
-                    self.errors.extend(errors);
+                    match v.name.get_ty() {
+                        Some(ref ty) => {
+                            let errors = value_ty.assign_to(ty);
+                            if errors.is_none() {
+                                self.insert_vars(kind, &v.name)
+                            } else {
+                                self.info.errors.extend(errors);
+                            }
+                        }
+                        // Infer type from value.
+                        None => {
+                            // v.name.set_ty(value_ty.map(Box::new))
+                        }
+                    }
+
+                    return v;
                 }
-                // Infer type from value.
-                None => {
-                    // v.name.set_ty(value_ty.map(Box::new))
+
+                // There's no initializer, so undefined is required.
+                if !v.name.get_ty().contains_undefined() {
+                    self.info.errors.push(Error::ShouldIncludeUndefinedType {
+                        span: v.name.span(),
+                    })
                 }
+
+                v
+            }),
+            ..var
+        }
+    }
+}
+
+impl Analyzer<'_> {
+    /// Updates variable list
+    fn insert_vars(&mut self, kind: VarDeclKind, pat: &Pat) {
+        match *pat {
+            Pat::Ident(ref i) => {
+                let name = i.sym.clone();
+                let info = VarInfo {
+                    kind,
+                    ty: i.type_ann.as_ref().map(|t| &t.type_ann).cloned(),
+                };
+                self.scope.vars.insert(name, info);
             }
-
-            return v;
+            _ => unimplemented!("insert_vars for patterns other than ident"),
         }
-
-        // There's no initializer, so undefined is required.
-        if !v.name.get_ty().contains_undefined() {
-            self.errors.push(Error::ShouldIncludeUndefinedType {
-                span: v.name.span(),
-            })
-        }
-
-        v
     }
 }
 
@@ -133,11 +170,16 @@ impl Fold<VarDeclarator> for Analyzer<'_> {
 ///
 /// Constants are propagated, and
 pub fn analyze_module(m: Module) -> (Module, Info) {
-    let arena = toolshed::Arena::new();
-    let scope = arena.alloc(Scope::root(&arena));
-
-    let mut a = Analyzer::new(&arena, scope);
+    let mut a = Analyzer::new(Scope::root());
     let m = m.fold_with(&mut a);
 
     (m, a.info)
+}
+
+#[test]
+fn assert_types() {
+    fn is_sync<T: Sync>() {}
+    fn is_send<T: Send>() {}
+    is_sync::<Info>();
+    is_send::<Info>();
 }

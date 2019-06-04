@@ -52,10 +52,9 @@ fn assign(ty: &str, expr: &str) -> Option<Error> {
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => decls.into_iter().next().unwrap(),
             _ => unreachable!(),
         };
-        let arena = toolshed::Arena::new();
-        let scope = arena.alloc(Scope::root(&arena));
-        let checker = Analyzer::new(&arena, scope);
-        let rhs_ty = checker.type_of(&item.init.unwrap());
+        let mut a = Analyzer::new(Scope::root());
+
+        let rhs_ty = a.type_of(&item.init.unwrap());
         let ty = item.name.get_ty().unwrap();
 
         Ok(rhs_ty.assign_to(&ty))

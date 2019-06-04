@@ -13,7 +13,6 @@ rayon = "1"
 chashmap = "2.2.2"
 crossbeam = "0.7.1"
 fxhash = "0.2"
-toolshed=  "0.8"
 
 [dev-dependencies]
 testing = { version = "0.3", path ="../../testing" }
