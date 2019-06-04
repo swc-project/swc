@@ -11,6 +11,8 @@ fn str_lit() {
     assert_assignable("string | number", "'foo'");
     assert_assignable("string | undefined", "'foo'");
     assert_assignable("string", "'foo'");
+    assert_assignable("any", "'foo'");
+    assert_assignable("any & string", "'foo'");
 }
 
 fn assign(ty: &str, expr: &str) -> Option<Error> {

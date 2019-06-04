@@ -19,6 +19,10 @@ pub enum Error {
         errors: Vec<Error>,
     },
 
+    IntersectionError {
+        error: Box<Error>,
+    },
+
     CannotAssingToThis {
         span: Span,
     },

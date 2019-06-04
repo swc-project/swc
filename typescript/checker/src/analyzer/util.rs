@@ -17,9 +17,7 @@ impl PatExt for Pat {
             | Pat::Object(ObjectPat { ref type_ann, .. })
             | Pat::Rest(RestPat { ref type_ann, .. }) => type_ann.as_ref().map(|ty| &*ty.type_ann),
 
-            Pat::Expr(ref pat) => {
-                unreachable!("Cannot set type annottation for expression\n{:?}", pat)
-            }
+            Pat::Expr(ref pat) => unreachable!("Cannot get type from Pat::Expr\n{:?}", pat),
         }
     }
 
@@ -121,24 +119,68 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             });
         }
 
+        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
+            TsIntersectionType { ref types, .. },
+        )) => {
+            let vs = types
+                .par_iter()
+                .map(|to| try_assign(&to, rhs))
+                .collect::<Vec<_>>();
+
+            for v in vs {
+                if let Some(error) = v {
+                    return Some(Error::IntersectionError { error: box error });
+                }
+            }
+
+            return None;
+        }
+
         TsType::TsArrayType(TsArrayType { ref elem_type, .. }) => match rhs {
             TsType::TsArrayType(TsArrayType {
                 elem_type: ref rhs_elem_type,
                 ..
-            }) => try_assign(elem_type, rhs_elem_type).map(|cause| Error::AssignFailed {
-                left: to.clone(),
-                right: rhs.clone(),
-                cause: Some(box cause),
-            }),
-            _ => Some(Error::AssignFailed {
-                left: to.clone(),
-                right: rhs.clone(),
-                cause: None,
-            }),
+            }) => {
+                return try_assign(elem_type, rhs_elem_type).map(|cause| Error::AssignFailed {
+                    left: to.clone(),
+                    right: rhs.clone(),
+                    cause: Some(box cause),
+                })
+            }
+            _ => {
+                return Some(Error::AssignFailed {
+                    left: to.clone(),
+                    right: rhs.clone(),
+                    cause: None,
+                })
+            }
         },
 
-        _ => unimplemented!("try_assign({:?} <- {:?})", to, rhs),
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsStringKeyword,
+            ..
+        }) => match *rhs {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsStringKeyword,
+                ..
+            }) => return None,
+
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::Str(..),
+                ..
+            }) => return None,
+
+            _ => {}
+        },
+
+        _ => {}
     }
+
+    Some(Error::AssignFailed {
+        left: to.clone(),
+        right: rhs.clone(),
+        cause: None,
+    })
 }
 
 impl TypeExt for TsType {
