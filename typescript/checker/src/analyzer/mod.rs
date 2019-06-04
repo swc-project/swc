@@ -93,8 +93,8 @@ pub struct ExportInfo {}
 
 impl Fold<BlockStmt> for Analyzer<'_> {
     fn fold(&mut self, stmt: BlockStmt) -> BlockStmt {
-        let scope = Scope::new(self.arena, self.scope);
-        let mut analyzer = Analyzer::new(self.arena, &scope);
+        let scope = self.arena.alloc(Scope::new(self.arena, self.scope));
+        let mut analyzer = Analyzer::new(self.arena, scope);
 
         stmt.fold_children(&mut analyzer)
     }
