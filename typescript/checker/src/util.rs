@@ -1,4 +1,4 @@
-use swc_ecma_ast::{Module, ModuleDecl, Stmt};
+use swc_ecma_ast::{ModuleDecl, Stmt};
 
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
