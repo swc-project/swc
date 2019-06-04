@@ -3,8 +3,6 @@ use crate::{
     errors::Error,
     util::{ModuleItemLike, StmtLike},
 };
-use fxhash::FxHashMap;
-use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
@@ -15,21 +13,38 @@ mod expr;
 mod tests;
 mod util;
 
-#[derive(Debug)]
 struct Analyzer<'a> {
     info: Info,
+    arena: &'a Arena,
     scope: &'a Scope<'a>,
     errors: Vec<Error>,
+}
+
+impl<'a> Analyzer<'a> {
+    pub fn new(arena: &'a Arena, scope: &'a Scope<'a>) -> Self {
+        Analyzer {
+            arena,
+            scope,
+            info: Default::default(),
+            errors: Default::default(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy)]
 pub struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
-
     vars: &'a Map<'a, &'a str, (VarDeclKind, &'a TsType)>,
 }
 
 impl<'a> Scope<'a> {
+    fn new(arena: &'a Arena, parent: &'a Scope<'a>) -> Self {
+        Scope {
+            vars: arena.alloc(Map::new()),
+            parent: Some(parent),
+        }
+    }
+
     fn root(arena: &'a Arena) -> Self {
         Scope {
             parent: None,
@@ -53,26 +68,35 @@ pub struct ImportInfo {
 #[derive(Debug)]
 pub struct ExportInfo {}
 
-impl<T> Fold<Vec<T>> for Analyzer<'_>
-where
-    Vec<T>: FoldWith<Self>,
-    T: FoldWith<Self>,
-    T: StmtLike + ModuleItemLike,
-{
-    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
-        let mut buf = vec![];
+// impl<T> Fold<Vec<T>> for Analyzer<'_>
+// where
+//     Vec<T>: FoldWith<Self>,
+//     T: FoldWith<Self>,
+//     T: StmtLike + ModuleItemLike,
+// {
+//     fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+//         let mut buf = vec![];
 
-        for item in items {
-            match item.try_into_stmt() {
-                Ok(stmt) => {}
-                Err(item) => match item.try_into_module_decl() {
-                    Ok(decl) => {}
-                    Err(..) => unreachable!(),
-                },
-            }
-        }
+//         for item in items {
+//             match item.try_into_stmt() {
+//                 Ok(stmt) => {}
+//                 Err(item) => match item.try_into_module_decl() {
+//                     Ok(decl) => {}
+//                     Err(..) => unreachable!(),
+//                 },
+//             }
+//         }
 
-        buf
+//         buf
+//     }
+// }
+
+impl Fold<BlockStmt> for Analyzer<'_> {
+    fn fold(&mut self, stmt: BlockStmt) -> BlockStmt {
+        let scope = Scope::new(self.arena, self.scope);
+        let mut analyzer = Analyzer::new(self.arena, &scope);
+
+        stmt.fold_children(&mut analyzer)
     }
 }
 
@@ -115,11 +139,7 @@ pub fn analyze_module(m: Module) -> (Module, Info) {
     let arena = toolshed::Arena::new();
     let scope = arena.alloc(Scope::root(&arena));
 
-    let mut a = Analyzer {
-        errors: Default::default(),
-        info: Default::default(),
-        scope,
-    };
+    let mut a = Analyzer::new(&arena, scope);
     let m = m.fold_with(&mut a);
 
     (m, a.info)

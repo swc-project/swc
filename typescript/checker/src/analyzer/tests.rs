@@ -54,11 +54,7 @@ fn assign(ty: &str, expr: &str) -> Option<Error> {
         };
         let arena = toolshed::Arena::new();
         let scope = arena.alloc(Scope::root(&arena));
-        let checker = Analyzer {
-            errors: Default::default(),
-            info: Default::default(),
-            scope,
-        };
+        let checker = Analyzer::new(&arena, scope);
         let rhs_ty = checker.type_of(&item.init.unwrap());
         let ty = item.name.get_ty().unwrap();
 
