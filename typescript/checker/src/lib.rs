@@ -25,6 +25,7 @@ pub mod analyzer;
 pub mod errors;
 #[cfg(test)]
 mod tests;
+mod util;
 
 /// Module with information.
 pub type ModuleInfo = Arc<(Module, Info)>;
