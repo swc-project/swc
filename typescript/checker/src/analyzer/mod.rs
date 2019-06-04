@@ -1,18 +1,41 @@
 use self::util::{PatExt, TypeExt};
-use crate::errors::Error;
+use crate::{
+    errors::Error,
+    util::{ModuleItemLike, StmtLike},
+};
+use fxhash::FxHashMap;
+use std::sync::Arc;
 use swc_atoms::JsWord;
 use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
+use toolshed::{map::Map, Arena};
 
 mod expr;
 #[cfg(test)]
 mod tests;
 mod util;
 
-#[derive(Debug, Default)]
-struct Analyzer {
+#[derive(Debug)]
+struct Analyzer<'a> {
     info: Info,
+    scope: &'a Scope<'a>,
     errors: Vec<Error>,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct Scope<'a> {
+    parent: Option<&'a Scope<'a>>,
+
+    vars: &'a Map<'a, &'a str, (VarDeclKind, &'a TsType)>,
+}
+
+impl<'a> Scope<'a> {
+    fn root(arena: &'a Arena) -> Self {
+        Scope {
+            parent: None,
+            vars: &*arena.alloc(Map::new()),
+        }
+    }
 }
 
 #[derive(Debug, Default)]
@@ -30,7 +53,30 @@ pub struct ImportInfo {
 #[derive(Debug)]
 pub struct ExportInfo {}
 
-impl Fold<VarDeclarator> for Analyzer {
+impl<T> Fold<Vec<T>> for Analyzer<'_>
+where
+    Vec<T>: FoldWith<Self>,
+    T: FoldWith<Self>,
+    T: StmtLike + ModuleItemLike,
+{
+    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+        let mut buf = vec![];
+
+        for item in items {
+            match item.try_into_stmt() {
+                Ok(stmt) => {}
+                Err(item) => match item.try_into_module_decl() {
+                    Ok(decl) => {}
+                    Err(..) => unreachable!(),
+                },
+            }
+        }
+
+        buf
+    }
+}
+
+impl Fold<VarDeclarator> for Analyzer<'_> {
     fn fold(&mut self, mut v: VarDeclarator) -> VarDeclarator {
         if let Some(ref init) = v.init {
             //  Check if v_ty is assignable to ty
@@ -43,7 +89,9 @@ impl Fold<VarDeclarator> for Analyzer {
                     self.errors.extend(errors);
                 }
                 // Infer type from value.
-                None => v.name.set_ty(value_ty.map(Box::new)),
+                None => {
+                    // v.name.set_ty(value_ty.map(Box::new))
+                }
             }
 
             return v;
@@ -64,7 +112,14 @@ impl Fold<VarDeclarator> for Analyzer {
 ///
 /// Constants are propagated, and
 pub fn analyze_module(m: Module) -> (Module, Info) {
-    let mut a = Analyzer::default();
+    let arena = toolshed::Arena::new();
+    let scope = arena.alloc(Scope::root(&arena));
+
+    let mut a = Analyzer {
+        errors: Default::default(),
+        info: Default::default(),
+        scope,
+    };
     let m = m.fold_with(&mut a);
 
     (m, a.info)

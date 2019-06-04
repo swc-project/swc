@@ -10,6 +10,7 @@ extern crate swc_atoms;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
+extern crate toolshed;
 
 use self::{analyzer::Info, errors::Error};
 use chashmap::CHashMap;
