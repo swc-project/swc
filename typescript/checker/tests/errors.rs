@@ -15,7 +15,6 @@ use std::{
     path::Path,
 };
 use swc_common::CM;
-use swc_ecma_ast::Module;
 use swc_ecma_parser::TsConfig;
 use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName};
 use testing::StdErr;
@@ -92,10 +91,11 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path) -> Result<(), StdErr> {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         CM.set(&cm.clone(), || {
-            let mut checker = swc_ts_checker::Checker::new(
+            let checker = swc_ts_checker::Checker::new(
                 cm.clone(),
                 handler,
                 TsConfig {
+                    tsx: fname.contains("tsx"),
                     ..Default::default()
                 },
             );
