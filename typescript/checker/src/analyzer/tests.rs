@@ -3,6 +3,7 @@ use super::{
     Analyzer, Scope,
 };
 use crate::{errors::Error, tests::Tester};
+use swc_common::FoldWith;
 use swc_ecma_ast::*;
 
 #[test]
@@ -42,7 +43,30 @@ fn bool_lit_2() {
     assert_assignable("boolean", "!'foo'");
 }
 
-fn assign(ty: &str, expr: &str) -> Option<Error> {
+#[test]
+fn assigment_1() {
+    assert_valid(
+        "
+let a: undefined | number;
+a = 2;",
+    );
+;}
+
+#[test]
+fn assigment_2() {
+    assert_valid(
+        "
+        let foo = true
+        let a: undefined | string;
+        if (foo) {
+            a = 'foo';
+            let b: string = a;
+        }
+    ",
+    );
+}
+
+fn assert_assignable(ty: &str, expr: &str) {
     let src = format!("let v: {} = {};", ty, expr);
 
     Tester::run(|tester| {
@@ -56,10 +80,21 @@ fn assign(ty: &str, expr: &str) -> Option<Error> {
         let rhs_ty = a.type_of(&item.init.unwrap());
         let ty = item.name.get_ty().unwrap();
 
-        Ok(rhs_ty.assign_to(&ty))
-    })
+        assert_eq!(rhs_ty.assign_to(&ty), None);
+
+        Ok(())
+    });
 }
 
-fn assert_assignable(ty: &str, expr: &str) {
-    assert_eq!(assign(ty, expr), None);
+fn assert_valid(src: &str) {
+    Tester::run(|tester| {
+        let module = tester
+            .parse_module("test.ts", &src)
+            .expect("failed to parse src");
+        let mut a = Analyzer::new(Scope::root());
+        let module = module.fold_with(&mut a);
+        assert_eq!(a.info.errors, vec![]);
+
+        Ok(())
+    });
 }

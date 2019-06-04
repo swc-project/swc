@@ -100,7 +100,6 @@ impl Fold<AssignExpr> for Analyzer<'_> {
 impl Fold<VarDecl> for Analyzer<'_> {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         let kind = var.kind;
-
         VarDecl {
             decls: var.decls.move_map(|v| {
                 if let Some(ref init) = v.init {
@@ -131,6 +130,8 @@ impl Fold<VarDecl> for Analyzer<'_> {
                         span: v.name.span(),
                     })
                 }
+
+                self.scope.insert_vars(kind, &v.name);
 
                 v
             }),
