@@ -52,8 +52,7 @@ fn assign(ty: &str, expr: &str) -> Option<Error> {
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => decls.into_iter().next().unwrap(),
             _ => unreachable!(),
         };
-        let mut a = Analyzer::new(Scope::root());
-
+        let a = Analyzer::new(Scope::root());
         let rhs_ty = a.type_of(&item.init.unwrap());
         let ty = item.name.get_ty().unwrap();
 
