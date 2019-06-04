@@ -1,5 +1,6 @@
 use super::Analyzer;
-use swc_common::Span;
+use swc_atoms::js_word;
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 impl Analyzer {
@@ -19,6 +20,12 @@ impl Analyzer {
                 span: v.span,
                 lit: TsLit::Number(v),
             })),
+
+            Expr::Unary(UnaryExpr {
+                op: op!("!"),
+                ref arg,
+                span,
+            }) => Some(negate(self.type_of(arg))),
 
             Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Some(*type_ann.clone()),
             Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
@@ -116,5 +123,45 @@ fn is_never(ty: &TsType) -> bool {
             ..
         }) => false,
         _ => true,
+    }
+}
+
+fn negate(ty: Option<TsType>) -> TsType {
+    fn boolean(span: Span) -> TsType {
+        TsType::TsKeywordType(TsKeywordType {
+            span,
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+        })
+    }
+    let ty = match ty {
+        Some(ty) => ty,
+        None => return boolean(DUMMY_SP),
+    };
+
+    match ty {
+        TsType::TsLitType(TsLitType { lit, span }) => match lit {
+            TsLit::Bool(v) => TsType::TsLitType(TsLitType {
+                lit: TsLit::Bool(Bool {
+                    value: !v.value,
+                    ..v
+                }),
+                span,
+            }),
+            TsLit::Number(v) => TsType::TsLitType(TsLitType {
+                lit: TsLit::Bool(Bool {
+                    value: v.value != 0.0,
+                    span: v.span,
+                }),
+                span,
+            }),
+            TsLit::Str(v) => TsType::TsLitType(TsLitType {
+                lit: TsLit::Bool(Bool {
+                    value: v.value != js_word!(""),
+                    span: v.span,
+                }),
+                span,
+            }),
+        },
+        _ => boolean(ty.span()),
     }
 }

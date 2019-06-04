@@ -34,6 +34,14 @@ fn bool_lit() {
     assert_assignable("any & boolean", "true");
 }
 
+#[test]
+fn bool_lit_2() {
+    assert_assignable("boolean", "!1");
+    assert_assignable("boolean", "!!1");
+    assert_assignable("boolean", "!''");
+    assert_assignable("boolean", "!'foo'");
+}
+
 fn assign(ty: &str, expr: &str) -> Option<Error> {
     let src = format!("let v: {} = {};", ty, expr);
 
