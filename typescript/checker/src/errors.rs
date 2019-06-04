@@ -11,6 +11,7 @@ pub enum Error {
     AssignFailed {
         left: TsType,
         right: TsType,
+        cause: Option<Box<Error>>,
     },
 
     /// a or b or c

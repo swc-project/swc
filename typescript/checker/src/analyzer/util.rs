@@ -72,6 +72,14 @@ pub(super) trait TypeExt {
 }
 
 fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
+    if let TsType::TsKeywordType(TsKeywordType {
+        kind: TsKeywordTypeKind::TsAnyKeyword,
+        ..
+    }) = *rhs
+    {
+        return None;
+    }
+
     match *to {
         // let a: any = 'foo'
         TsType::TsKeywordType(TsKeywordType {
@@ -89,13 +97,29 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
                 .par_iter()
                 .map(|to| try_assign(&to, rhs))
                 .collect::<Vec<_>>();
-            if vs.iter().any(|v| v.is_none()) {
+            if vs.iter().any(Option::is_none) {
                 return None;
             }
             return Some(Error::UnionError {
                 errors: vs.into_iter().map(Option::unwrap).collect(),
             });
         }
+
+        TsType::TsArrayType(TsArrayType { ref elem_type, .. }) => match rhs {
+            TsType::TsArrayType(TsArrayType {
+                elem_type: ref rhs_elem_type,
+                ..
+            }) => try_assign(elem_type, rhs_elem_type).map(|cause| Error::AssignFailed {
+                left: to.clone(),
+                right: rhs.clone(),
+                cause: Some(box cause),
+            }),
+            _ => Some(Error::AssignFailed {
+                left: to.clone(),
+                right: rhs.clone(),
+                cause: None,
+            }),
+        },
     }
 }
 
