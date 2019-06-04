@@ -23,6 +23,8 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
 
 pub mod analyzer;
 pub mod errors;
+#[cfg(test)]
+mod tests;
 
 /// Module with information.
 pub type ModuleInfo = Arc<(Module, Info)>;

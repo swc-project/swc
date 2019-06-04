@@ -41,6 +41,7 @@ impl PatExt for Pat {
 pub(super) trait TypeExt {
     /// Returns type annotation.
     fn ann(&self) -> Option<&TsType>;
+
     fn contains_undefined(&self) -> bool {
         match self.ann() {
             None => true,
@@ -120,6 +121,8 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
                 cause: None,
             }),
         },
+
+        _ => unimplemented!("try_assign({:?} <- {:?})", to, rhs),
     }
 }
 

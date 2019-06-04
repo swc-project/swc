@@ -5,6 +5,8 @@ use swc_common::{Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
 
 mod expr;
+#[cfg(test)]
+mod tests;
 mod util;
 
 #[derive(Debug, Default)]
