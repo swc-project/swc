@@ -12,3 +12,10 @@ swc_ecma_parser = { path = "../../ecmascript/parser", features = ["verify"] }
 rayon = "1"
 chashmap = "2.2.2"
 crossbeam = "0.7.1"
+
+[dev-dependencies]
+testing = { version = "0.3", path ="../../testing" }
+swc_ecma_codegen = { path ="../../ecmascript/codegen" }
+tempfile = "3"
+pretty_assertions = "0.5"
+sourcemap = "2.2"

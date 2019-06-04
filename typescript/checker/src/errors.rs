@@ -1,7 +1,7 @@
 use swc_common::Span;
 use swc_ecma_ast::TsType;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Error {
     ShouldIncludeUndefinedType {
         /// Span of the variable

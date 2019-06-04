@@ -30,32 +30,13 @@ pub struct ImportInfo {
 #[derive(Debug)]
 pub struct ExportInfo {}
 
-trait TypeAnn {
-    fn type_ann(&self) -> Option<&TsType>;
-}
-
-impl TypeAnn for Pat {
-    fn type_ann(&self) -> Option<&TsType> {
-        match *self {
-            Pat::Object(ObjectPat { ref type_ann, .. })
-            | Pat::Ident(Ident { ref type_ann, .. })
-            | Pat::Assign(AssignPat { ref type_ann, .. })
-            | Pat::Array(ArrayPat { ref type_ann, .. }) => {
-                type_ann.as_ref().map(|ann| &*ann.type_ann)
-            }
-
-            _ => None,
-        }
-    }
-}
-
 impl Fold<VarDeclarator> for Analyzer {
     fn fold(&mut self, mut v: VarDeclarator) -> VarDeclarator {
         if let Some(ref init) = v.init {
             //  Check if v_ty is assignable to ty
             let value_ty = self.type_of(&init);
 
-            match v.name.type_ann() {
+            match v.name.get_ty() {
                 Some(ref ty) => {
                     let errors = value_ty.assign_to(ty);
 
@@ -69,7 +50,7 @@ impl Fold<VarDeclarator> for Analyzer {
         }
 
         // There's no initializer, so undefined is required.
-        if !v.name.type_ann().contains_undefined() {
+        if !v.name.get_ty().contains_undefined() {
             self.errors.push(Error::ShouldIncludeUndefinedType {
                 span: v.name.span(),
             })

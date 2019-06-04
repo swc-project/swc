@@ -17,7 +17,7 @@ use crossbeam::{channel, thread};
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::JsWord;
-use swc_common::{errors::Handler, SourceMap};
+use swc_common::{errors::Handler, Globals, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
 
@@ -29,13 +29,25 @@ mod tests;
 /// Module with information.
 pub type ModuleInfo = Arc<(Module, Info)>;
 
-pub struct Checker {
+pub struct Checker<'a> {
     globals: swc_common::Globals,
-    cm: SourceMap,
-    handler: Handler,
+    cm: Arc<SourceMap>,
+    handler: &'a Handler,
     ts_config: TsConfig,
     /// Cache
     modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
+}
+
+impl<'a> Checker<'a> {
+    pub fn new(cm: Arc<SourceMap>, handler: &'a Handler, parser_config: TsConfig) -> Self {
+        Checker {
+            globals: Globals::new(),
+            cm,
+            handler,
+            modules: Default::default(),
+            ts_config: parser_config,
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -75,7 +87,7 @@ impl Worker {
     }
 }
 
-impl Checker {
+impl Checker<'_> {
     /// Returns empty vector if no error is found.
     pub fn check(&self, entry: PathBuf) -> Vec<Error> {
         let mut errors = vec![];
