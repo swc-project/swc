@@ -173,6 +173,40 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             _ => {}
         },
 
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsNumberKeyword,
+            ..
+        }) => match *rhs {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNumberKeyword,
+                ..
+            }) => return None,
+
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::Number(..),
+                ..
+            }) => return None,
+
+            _ => {}
+        },
+
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsBooleanKeyword,
+            ..
+        }) => match *rhs {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsBooleanKeyword,
+                ..
+            }) => return None,
+
+            TsType::TsLitType(TsLitType {
+                lit: TsLit::Bool(..),
+                ..
+            }) => return None,
+
+            _ => {}
+        },
+
         _ => {}
     }
 

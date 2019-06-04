@@ -15,6 +15,25 @@ fn str_lit() {
     assert_assignable("any & string", "'foo'");
 }
 
+#[test]
+fn num_lit() {
+    assert_assignable("number", "1");
+    assert_assignable("string | number", "1");
+    assert_assignable("number | undefined", "1");
+    assert_assignable("any", "1");
+    assert_assignable("any & number", "1");
+}
+
+#[test]
+fn bool_lit() {
+    assert_assignable("boolean", "true");
+    assert_assignable("boolean | number", "true");
+    assert_assignable("boolean | undefined", "false");
+    assert_assignable("boolean", "false");
+    assert_assignable("any", "false");
+    assert_assignable("any & boolean", "true");
+}
+
 fn assign(ty: &str, expr: &str) -> Option<Error> {
     let src = format!("let v: {} = {};", ty, expr);
 
