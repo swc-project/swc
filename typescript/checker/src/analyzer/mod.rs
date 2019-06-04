@@ -76,28 +76,40 @@ pub struct ImportInfo {
 #[derive(Debug)]
 pub struct ExportInfo {}
 
-// impl<T> Fold<Vec<T>> for Analyzer<'_>
-// where
-//     Vec<T>: FoldWith<Self>,
-//     T: FoldWith<Self>,
-//     T: StmtLike + ModuleItemLike,
-// {
-//     fn fold(&mut self, items: Vec<T>) -> Vec<T> {
-//         let mut buf = vec![];
+impl Fold<Function> for Analyzer<'_> {
+    fn fold(&mut self, f: Function) -> Function {
+        let mut analyzer = Analyzer::new(Scope::new(&self.scope, ScopeKind::Fn));
 
-//         for item in items {
-//             match item.try_into_stmt() {
-//                 Ok(stmt) => {}
-//                 Err(item) => match item.try_into_module_decl() {
-//                     Ok(decl) => {}
-//                     Err(..) => unreachable!(),
-//                 },
-//             }
-//         }
+        f.params
+            .iter()
+            .for_each(|pat| analyzer.insert_vars(VarDeclKind::Var, pat));
 
-//         buf
-//     }
-// }
+        Function {
+            body: f.body.fold_children(&mut analyzer),
+            ..f
+        }
+    }
+}
+
+impl Fold<ArrowExpr> for Analyzer<'_> {
+    fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
+        let mut analyzer = Analyzer::new(Scope::new(&self.scope, ScopeKind::Fn));
+
+        f.params
+            .iter()
+            .for_each(|pat| analyzer.insert_vars(VarDeclKind::Var, pat));
+
+        ArrowExpr {
+            body: match f.body {
+                BlockStmtOrExpr::Expr(expr) => BlockStmtOrExpr::Expr(expr.fold_with(&mut analyzer)),
+                BlockStmtOrExpr::BlockStmt(stmt) => {
+                    BlockStmtOrExpr::BlockStmt(stmt.fold_children(&mut analyzer))
+                }
+            },
+            ..f
+        }
+    }
+}
 
 impl Fold<BlockStmt> for Analyzer<'_> {
     fn fold(&mut self, stmt: BlockStmt) -> BlockStmt {
