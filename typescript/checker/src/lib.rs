@@ -94,26 +94,29 @@ impl Checker<'_> {
         let mut errors = vec![];
 
         let module = self.load(entry.clone());
-        let (tasks, receiver) = channel::unbounded();
-        let (result_sender, result_receiver) = channel::unbounded();
-        for import in &module.1.imports {
-            let _ = tasks.send(Task::Resolve {
-                from: entry.clone(),
-                src: import.src.clone(),
-            });
-        }
 
-        for i in 1..6 {
-            let worker = Worker {
-                sender: result_sender.clone(),
-                queue: receiver.clone(),
-                modules: self.modules.clone(),
-            };
-            thread::scope(|s| {
-                s.spawn(|_| worker.run());
-            })
-            .unwrap();
-        }
+        errors.extend(module.1.errors.clone());
+
+        // let (tasks, receiver) = channel::unbounded();
+        // let (result_sender, result_receiver) = channel::unbounded();
+        // for import in &module.1.imports {
+        //     let _ = tasks.send(Task::Resolve {
+        //         from: entry.clone(),
+        //         src: import.src.clone(),
+        //     });
+        // }
+
+        // for i in 1..6 {
+        //     let worker = Worker {
+        //         sender: result_sender.clone(),
+        //         queue: receiver.clone(),
+        //         modules: self.modules.clone(),
+        //     };
+        //     thread::scope(|s| {
+        //         s.spawn(|_| worker.run());
+        //     })
+        //     .unwrap();
+        // }
 
         errors
     }

@@ -106,7 +106,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path) -> Result<(), StdErr> {
                 e.emit(&handler);
             }
 
-            Ok(())
+            Err(())
         })
     });
 
