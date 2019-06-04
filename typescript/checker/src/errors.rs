@@ -31,6 +31,10 @@ pub enum Error {
         /// Span of the variable
         span: Span,
     },
+
+    UndefinedSymbol {
+        span: Span,
+    },
 }
 
 impl Error {

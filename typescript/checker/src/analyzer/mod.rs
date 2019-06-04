@@ -1,11 +1,14 @@
-use self::util::{PatExt, TypeExt};
+use self::{
+    scope::{Scope, ScopeKind, VarInfo},
+    util::{PatExt, TypeExt},
+};
 use crate::errors::Error;
-use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
 
 mod expr;
+mod scope;
 #[cfg(test)]
 mod tests;
 mod util;
@@ -20,43 +23,6 @@ impl<'a> Analyzer<'a> {
         Analyzer {
             scope,
             info: Default::default(),
-        }
-    }
-}
-
-#[derive(Debug, Clone)]
-struct VarInfo {
-    kind: VarDeclKind,
-    ty: Option<Box<TsType>>,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ScopeKind {
-    Block,
-    Fn,
-}
-
-#[derive(Debug, Clone)]
-pub struct Scope<'a> {
-    parent: Option<&'a Scope<'a>>,
-    kind: ScopeKind,
-    vars: FxHashMap<JsWord, VarInfo>,
-}
-
-impl<'a> Scope<'a> {
-    fn new(parent: &'a Scope<'a>, kind: ScopeKind) -> Self {
-        Scope {
-            parent: Some(parent),
-            kind,
-            vars: Default::default(),
-        }
-    }
-
-    fn root() -> Self {
-        Scope {
-            parent: None,
-            kind: ScopeKind::Fn,
-            vars: Default::default(),
         }
     }
 }
@@ -82,7 +48,7 @@ impl Fold<Function> for Analyzer<'_> {
 
         f.params
             .iter()
-            .for_each(|pat| analyzer.insert_vars(VarDeclKind::Var, pat));
+            .for_each(|pat| analyzer.scope.insert_vars(VarDeclKind::Let, pat));
 
         Function {
             body: f.body.fold_children(&mut analyzer),
@@ -97,7 +63,7 @@ impl Fold<ArrowExpr> for Analyzer<'_> {
 
         f.params
             .iter()
-            .for_each(|pat| analyzer.insert_vars(VarDeclKind::Var, pat));
+            .for_each(|pat| analyzer.scope.insert_vars(VarDeclKind::Let, pat));
 
         ArrowExpr {
             body: match f.body {
@@ -119,6 +85,18 @@ impl Fold<BlockStmt> for Analyzer<'_> {
     }
 }
 
+impl Fold<AssignExpr> for Analyzer<'_> {
+    fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
+        if let Some(rhs_ty) = self.type_of(&expr.right) {
+            if expr.op == op!("=") {
+                self.assign(&expr.left, rhs_ty);
+            }
+        }
+
+        expr
+    }
+}
+
 impl Fold<VarDecl> for Analyzer<'_> {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         let kind = var.kind;
@@ -133,7 +111,7 @@ impl Fold<VarDecl> for Analyzer<'_> {
                         Some(ref ty) => {
                             let errors = value_ty.assign_to(ty);
                             if errors.is_none() {
-                                self.insert_vars(kind, &v.name)
+                                self.scope.insert_vars(kind, &v.name)
                             } else {
                                 self.info.errors.extend(errors);
                             }
@@ -162,18 +140,49 @@ impl Fold<VarDecl> for Analyzer<'_> {
 }
 
 impl Analyzer<'_> {
-    /// Updates variable list
-    fn insert_vars(&mut self, kind: VarDeclKind, pat: &Pat) {
-        match *pat {
-            Pat::Ident(ref i) => {
-                let name = i.sym.clone();
-                let info = VarInfo {
-                    kind,
-                    ty: i.type_ann.as_ref().map(|t| &t.type_ann).cloned(),
-                };
-                self.scope.vars.insert(name, info);
+    pub fn assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
+        match *lhs {
+            PatOrExpr::Pat(ref pat) => {
+                // Update variable's type
+                match **pat {
+                    Pat::Ident(ref i) => {
+                        if let Some(var_info) = self.scope.vars.get_mut(&i.sym) {
+                            if let Some(ref var_ty) = var_info.ty {
+                                let errors = ty.assign_to(&var_ty);
+                                if errors.is_none() {
+                                    var_info.ty = Some(box ty);
+                                } else {
+                                    self.info.errors.extend(errors)
+                                }
+                            } else {
+                                // let v = foo;
+                                // v = bar;
+                            }
+                        } else {
+                            let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
+                            {
+                                VarInfo {
+                                    ty: Some(box ty),
+                                    ..var_info.clone()
+                                }
+                            } else {
+                                // undefined symbol
+                                self.info
+                                    .errors
+                                    .push(Error::UndefinedSymbol { span: i.span });
+                                return;
+                            };
+                            // Variable is defined on parent scope.
+                            //
+                            // We copy varinfo with enhanced type.
+                            self.scope.vars.insert(i.sym.clone(), var_info);
+                        }
+                    }
+
+                    _ => unimplemented!("assignment with complex pattern"),
+                }
             }
-            _ => unimplemented!("insert_vars for patterns other than ident"),
+            PatOrExpr::Expr(ref expr) => unimplemented!("assign: {:?} = {:?}", expr, ty),
         }
     }
 }
