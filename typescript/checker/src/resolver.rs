@@ -1,5 +1,5 @@
 use crate::errors::Error;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use swc_atoms::JsWord;
 
 ///
@@ -18,6 +18,11 @@ impl Resolver {
 
 impl Resolve for Resolver {
     fn resolve(&self, base: PathBuf, src: &JsWord) -> Result<PathBuf, Error> {
-        unimplemented!("resolve()")
+        if src.starts_with(".") {
+            let p = base.join(Path::new(src.as_ref()));
+            return Ok(p);
+        }
+
+        unimplemented!("resolve({}, {})", base.display(), src)
     }
 }
