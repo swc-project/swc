@@ -58,6 +58,13 @@ where
             .map(|import| self.loader.load(self.path.clone(), import))
             .collect::<Vec<_>>();
 
+        for import in imports {
+            match import {
+                Ok(import) => {}
+                Err(err) => self.info.errors.push(err),
+            }
+        }
+
         stmts
     }
 }

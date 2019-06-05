@@ -1,0 +1,2 @@
+error: NoSuchExport { items: [(Atom('default' type=static), Span { lo: BytePos(7), hi: BytePos(10), ctxt: #0 })] }
+
