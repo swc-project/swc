@@ -1,12 +1,16 @@
+pub use self::export::{ExportExtra, ExportInfo};
 use self::{
     scope::{Scope, ScopeKind, VarInfo},
     util::{PatExt, TypeRefExt},
 };
 use crate::errors::Error;
-use swc_atoms::JsWord;
+use fxhash::FxHashMap;
+use std::sync::Arc;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
 
+mod export;
 mod expr;
 mod scope;
 #[cfg(test)]
@@ -31,7 +35,7 @@ impl<'a> Analyzer<'a> {
 #[derive(Debug, Default)]
 pub struct Info {
     pub imports: Vec<ImportInfo>,
-    pub exports: Vec<ExportInfo>,
+    pub exports: FxHashMap<JsWord, Arc<ExportInfo>>,
     pub errors: Vec<Error>,
 }
 
@@ -39,9 +43,6 @@ pub struct Info {
 pub struct ImportInfo {
     pub src: JsWord,
 }
-
-#[derive(Debug)]
-pub struct ExportInfo {}
 
 impl Fold<Function> for Analyzer<'_> {
     fn fold(&mut self, f: Function) -> Function {
@@ -142,7 +143,7 @@ impl Fold<VarDecl> for Analyzer<'_> {
 }
 
 impl Analyzer<'_> {
-    pub fn assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
+    fn assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
         match *lhs {
             PatOrExpr::Pat(ref pat) => {
                 // Update variable's type
