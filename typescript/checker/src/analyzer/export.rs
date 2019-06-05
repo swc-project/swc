@@ -1,7 +1,7 @@
 use super::Analyzer;
 use std::sync::Arc;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Fold, FromVariant, Spanned};
+use swc_common::{Fold, Spanned};
 use swc_ecma_ast::*;
 
 #[derive(Debug, PartialEq)]

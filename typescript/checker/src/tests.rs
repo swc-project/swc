@@ -1,21 +1,15 @@
-use sourcemap::SourceMapBuilder;
 use std::{
     io::{self, Write},
     sync::{Arc, RwLock},
 };
-use swc_common::{errors::Handler, FileName, Fold, FoldWith, SourceMap};
+use swc_common::{errors::Handler, FileName, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
 
 pub(crate) struct Tester<'a> {
     pub cm: Arc<SourceMap>,
     pub handler: &'a Handler,
 }
-
-struct MyHandlers;
-
-impl swc_ecma_codegen::Handlers for MyHandlers {}
 
 impl<'a> Tester<'a> {
     pub fn run<F, R>(op: F) -> R
@@ -105,15 +99,5 @@ impl Write for Buf {
 
     fn flush(&mut self) -> io::Result<()> {
         self.0.write().unwrap().flush()
-    }
-}
-
-struct Normalizer;
-impl Fold<PatOrExpr> for Normalizer {
-    fn fold(&mut self, n: PatOrExpr) -> PatOrExpr {
-        match n {
-            PatOrExpr::Pat(box Pat::Expr(e)) => PatOrExpr::Expr(e),
-            _ => n,
-        }
     }
 }

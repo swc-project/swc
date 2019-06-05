@@ -16,16 +16,10 @@ extern crate swc_ecma_parser;
 #[cfg(test)]
 extern crate testing;
 
-use self::{
-    analyzer::{ExportExtra, ExportInfo, ImportInfo, Info},
-    errors::Error,
-};
+use self::{analyzer::Info, errors::Error};
 use crate::resolver::Resolver;
 use chashmap::CHashMap;
-use crossbeam::{channel, thread};
-use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::{path::PathBuf, sync::Arc};
-use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Globals, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
