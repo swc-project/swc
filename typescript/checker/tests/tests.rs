@@ -21,18 +21,30 @@ use testing::StdErr;
 use walkdir::WalkDir;
 
 #[test]
-fn errors() {
+fn passes() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    error_tests(&mut tests).unwrap();
+    add_tests(&mut tests, false).unwrap();
     test_main(&args, tests, Options::new());
 }
 
-fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
+#[test]
+fn errors() {
+    let args: Vec<_> = env::args().collect();
+    let mut tests = Vec::new();
+    add_tests(&mut tests, true).unwrap();
+    test_main(&args, tests, Options::new());
+}
+
+fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Error> {
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
-        root.push("errors");
+        if error {
+            root.push("errors");
+        } else {
+            root.push("pass");
+        }
         root
     };
 
@@ -43,7 +55,10 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     for entry in WalkDir::new(&dir).into_iter() {
         let entry = entry?;
         println!("{}", entry.file_name().to_string_lossy());
-        if entry.file_type().is_dir() || !entry.file_name().to_string_lossy().ends_with(".ts") {
+        if entry.file_type().is_dir()
+            || (!entry.file_name().to_string_lossy().ends_with("index.ts")
+                && !entry.file_name().to_string_lossy().ends_with("index.tsx"))
+        {
             continue;
         }
 
@@ -74,12 +89,17 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
             let path = dir.join(&file_name);
             // Parse source
             let module = do_test(false, &path);
-            let err = module.expect_err("should fail, but parsed as");
-            if err
-                .compare_to_file(format!("{}.stderr", path.display()))
-                .is_err()
-            {
-                panic!()
+
+            if error {
+                let err = module.expect_err("should fail, but parsed as");
+                if err
+                    .compare_to_file(format!("{}.stderr", path.display()))
+                    .is_err()
+                {
+                    panic!()
+                }
+            } else {
+                module.expect("should be parsed and validated");
             }
         });
     }
@@ -102,11 +122,13 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path) -> Result<(), StdErr> {
 
             let errors = checker.check(file_name.into());
 
+            let res = if errors.is_empty() { Ok(()) } else { Err(()) };
+
             for e in errors {
                 e.emit(&handler);
             }
 
-            Err(())
+            res
         })
     });
 
