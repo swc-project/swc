@@ -12,13 +12,14 @@ extern crate swc_atoms;
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
+#[cfg(test)]
+extern crate testing;
 
 use self::{
     analyzer::{ExportExtra, ExportInfo, ImportInfo, Info},
     errors::Error,
-    loader::Loader,
-    resolver::Resolver,
 };
+use crate::resolver::Resolver;
 use chashmap::CHashMap;
 use crossbeam::{channel, thread};
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
@@ -46,7 +47,7 @@ pub struct Checker<'a> {
     ts_config: TsConfig,
     /// Cache
     modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
-    loader: Loader<Resolver>,
+    resolver: Resolver,
 }
 
 impl<'a> Checker<'a> {
@@ -57,7 +58,7 @@ impl<'a> Checker<'a> {
             handler,
             modules: Default::default(),
             ts_config: parser_config,
-            loader: Loader::new(Resolver::new()),
+            resolver: Resolver::new(),
         }
     }
 }

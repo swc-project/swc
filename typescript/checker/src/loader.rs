@@ -1,3 +1,4 @@
+use super::Checker;
 use crate::{
     analyzer::{ExportInfo, ImportInfo},
     errors::Error,
@@ -9,27 +10,19 @@ pub trait Load: Send + Sync {
     fn load(&self, base: Arc<PathBuf>, import: ImportInfo) -> Result<Arc<ExportInfo>, Error>;
 }
 
-pub struct Loader<R>
-where
-    R: Resolve,
-{
-    resolver: R,
-}
+impl Load for Checker<'_> {
+    fn load(&self, base: Arc<PathBuf>, import: ImportInfo) -> Result<Arc<ExportInfo>, Error> {
+        let path = self.resolver.resolve((*base).clone(), &import.src)?;
 
-impl<R> Loader<R>
-where
-    R: Resolve,
-{
-    pub fn new(resolver: R) -> Self {
-        Loader { resolver }
+        unimplemented!("load()")
     }
 }
 
-impl<R> Load for Loader<R>
+impl<'a, T> Load for &'a T
 where
-    R: Resolve,
+    T: ?Sized + Load,
 {
     fn load(&self, base: Arc<PathBuf>, import: ImportInfo) -> Result<Arc<ExportInfo>, Error> {
-        unimplemented!("load()")
+        (**self).load(base, import)
     }
 }

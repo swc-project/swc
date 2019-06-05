@@ -233,7 +233,7 @@ impl Analyzer<'_, '_> {
 /// Constants are propagated, and
 impl Checker<'_> {
     pub fn analyze_module(&self, path: Arc<PathBuf>, m: Module) -> (Module, Info) {
-        let mut a = Analyzer::new(Scope::root(), path, &self.loader);
+        let mut a = Analyzer::new(Scope::root(), path, &self);
         let m = m.fold_with(&mut a);
 
         (m, a.info)

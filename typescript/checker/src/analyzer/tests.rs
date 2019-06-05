@@ -2,7 +2,8 @@ use super::{
     util::{PatExt, TypeRefExt},
     Analyzer, Scope,
 };
-use crate::tests::Tester;
+use crate::{tests::Tester, Checker};
+use std::{path::PathBuf, sync::Arc};
 use swc_common::FoldWith;
 use swc_ecma_ast::*;
 
@@ -76,8 +77,8 @@ fn assert_assignable(ty: &str, expr: &str) {
             Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => decls.into_iter().next().unwrap(),
             _ => unreachable!(),
         };
-        let a = Analyzer::new(Scope::root());
-        let rhs_ty = a.type_of(&item.init.unwrap());
+
+        let rhs_ty = with_analyzer(|a| a.type_of(&item.clone().init.unwrap()));
         let ty = item.name.get_ty().unwrap();
 
         assert_eq!(rhs_ty.assign_to(&ty), None);
@@ -91,10 +92,27 @@ fn assert_valid(src: &str) {
         let module = tester
             .parse_module("test.ts", &src)
             .expect("failed to parse src");
-        let mut a = Analyzer::new(Scope::root());
-        module.fold_with(&mut a);
-        assert_eq!(a.info.errors, vec![]);
+
+        with_analyzer(|mut a| {
+            module.fold_with(&mut a);
+
+            assert_eq!(a.info.errors, vec![]);
+        });
 
         Ok(())
     });
+}
+
+fn with_analyzer<F, R>(op: F) -> R
+where
+    F: FnOnce(Analyzer) -> R,
+{
+    ::testing::run_test(false, |cm, handler| {
+        let checker = Checker::new(cm, handler, Default::default());
+
+        let a = Analyzer::new(Scope::root(), Arc::new(PathBuf::from("test.js")), &checker);
+
+        Ok(op(a))
+    })
+    .unwrap()
 }
