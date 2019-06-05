@@ -10,13 +10,10 @@ use crate::{
     util::{ModuleItemLike, StmtLike},
 };
 use fxhash::FxHashMap;
-use rayon::{
-    iter::{IntoParallelIterator, ParallelIterator},
-    join,
-};
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::{path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
+use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Span, Spanned};
 use swc_ecma_ast::*;
 
 mod export;
@@ -72,9 +69,29 @@ struct ImportFinder<'a> {
 
 impl Fold<ImportDecl> for ImportFinder<'_> {
     fn fold(&mut self, import: ImportDecl) -> ImportDecl {
-        self.to.push(ImportInfo {
-            src: import.src.value.clone(),
-        });
+        for s in &import.specifiers {
+            match *s {
+                ImportSpecifier::Default(ref default) => {
+                    self.to.push(ImportInfo {
+                        sym: js_word!("default"),
+                        span: default.span,
+                        src: import.src.value.clone(),
+                    });
+                }
+                ImportSpecifier::Specific(ref s) => {
+                    self.to.push(ImportInfo {
+                        span: s.span,
+                        sym: s
+                            .imported
+                            .clone()
+                            .map(|v| v.sym)
+                            .unwrap_or_else(|| s.local.sym.clone()),
+                        src: import.src.value.clone(),
+                    });
+                }
+                ImportSpecifier::Namespace(..) => unimplemented!("import * as foo from 'src'"),
+            }
+        }
         import
     }
 }
@@ -99,6 +116,8 @@ pub struct Info {
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub struct ImportInfo {
+    pub span: Span,
+    pub sym: JsWord,
     pub src: JsWord,
 }
 

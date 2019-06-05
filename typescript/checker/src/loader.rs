@@ -13,8 +13,12 @@ pub trait Load: Send + Sync {
 impl Load for Checker<'_> {
     fn load(&self, base: Arc<PathBuf>, import: ImportInfo) -> Result<Arc<ExportInfo>, Error> {
         let path = self.resolver.resolve((*base).clone(), &import.src)?;
+        let module = self.load_module(path);
 
-        unimplemented!("load()")
+        if let Some(export) = module.1.exports.get(&import.sym) {
+            return Ok((export).clone());
+        }
+        Err(Error::UndefinedSymbol { span: import.span })
     }
 }
 
