@@ -46,7 +46,7 @@ where
 
         let stmts = items.move_map(|item| {
             // Handle imports
-            item
+            item.fold_with(self)
         });
 
         let imports = imports
