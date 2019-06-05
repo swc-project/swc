@@ -1,7 +1,7 @@
 pub use self::export::{ExportExtra, ExportInfo};
 use self::{
     scope::{Scope, ScopeKind, VarInfo},
-    util::{PatExt, TypeRefExt},
+    util::{PatExt, TypeExt, TypeRefExt},
 };
 use super::Checker;
 use crate::{
@@ -193,7 +193,7 @@ impl Fold<VarDecl> for Analyzer<'_, '_> {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         let kind = var.kind;
         VarDecl {
-            decls: var.decls.move_map(|v| {
+            decls: var.decls.move_map(|mut v| {
                 if let Some(ref init) = v.init {
                     //  Check if v_ty is assignable to ty
                     let value_ty = self.type_of(&init);
@@ -208,9 +208,9 @@ impl Fold<VarDecl> for Analyzer<'_, '_> {
                             }
                         }
                         // Infer type from value.
-                        None => {
-                            // v.name.set_ty(value_ty.map(Box::new))
-                        }
+                        None => v
+                            .name
+                            .set_ty(value_ty.map(|ty| ty.generalize_lit()).map(Box::new)),
                     }
 
                     return v;
