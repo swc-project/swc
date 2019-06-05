@@ -1,3 +1,4 @@
+use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span};
 use swc_ecma_ast::TsType;
 
@@ -37,7 +38,7 @@ pub enum Error {
     },
 
     NoSuchExport {
-        span: Span,
+        items: Vec<(JsWord, Span)>,
     },
 }
 

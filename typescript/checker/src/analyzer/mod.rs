@@ -69,29 +69,35 @@ struct ImportFinder<'a> {
 
 impl Fold<ImportDecl> for ImportFinder<'_> {
     fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+        let mut items = vec![];
+        let mut all = false;
+
         for s in &import.specifiers {
             match *s {
                 ImportSpecifier::Default(ref default) => {
-                    self.to.push(ImportInfo {
-                        sym: js_word!("default"),
-                        span: default.span,
-                        src: import.src.value.clone(),
-                    });
+                    items.push((js_word!("default"), default.span))
                 }
                 ImportSpecifier::Specific(ref s) => {
-                    self.to.push(ImportInfo {
-                        span: s.span,
-                        sym: s
-                            .imported
+                    items.push((
+                        s.imported
                             .clone()
                             .map(|v| v.sym)
                             .unwrap_or_else(|| s.local.sym.clone()),
-                        src: import.src.value.clone(),
-                    });
+                        s.span,
+                    ));
                 }
-                ImportSpecifier::Namespace(..) => unimplemented!("import * as foo from 'src'"),
+                ImportSpecifier::Namespace(..) => all = true,
             }
         }
+
+        if !items.is_empty() {
+            self.to.push(ImportInfo {
+                items,
+                all,
+                src: import.src.value.clone(),
+            });
+        }
+
         import
     }
 }
@@ -116,8 +122,8 @@ pub struct Info {
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub struct ImportInfo {
-    pub span: Span,
-    pub sym: JsWord,
+    pub items: Vec<(JsWord, Span)>,
+    pub all: bool,
     pub src: JsWord,
 }
 
