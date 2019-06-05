@@ -6,6 +6,7 @@
 extern crate bitflags;
 extern crate chashmap;
 extern crate crossbeam;
+extern crate node_resolve;
 extern crate rayon;
 extern crate swc_atoms;
 #[macro_use]
@@ -63,43 +64,6 @@ impl<'a> Checker<'a> {
     }
 }
 
-#[derive(Debug)]
-enum Task {
-    Resolve { from: PathBuf, src: JsWord },
-    Load { path: PathBuf },
-}
-
-#[derive(Debug)]
-enum TaskResult {
-    Resolve {
-        from: PathBuf,
-        src: JsWord,
-        file: PathBuf,
-    },
-    Load {
-        path: PathBuf,
-        module: ModuleInfo,
-    },
-}
-
-#[derive(Debug)]
-struct Worker {
-    sender: channel::Sender<TaskResult>,
-    queue: channel::Receiver<Task>,
-    modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
-}
-
-impl Worker {
-    pub fn run(&self) {
-        loop {
-            let task = match self.queue.recv() {
-                Ok(task) => task,
-                Err(_) => return,
-            };
-        }
-    }
-}
-
 impl Checker<'_> {
     /// Returns empty vector if no error is found.
     pub fn check(&self, entry: PathBuf) -> Vec<Error> {
@@ -133,13 +97,6 @@ impl Checker<'_> {
         errors
     }
 
-    fn load_modules(&self, files: Vec<PathBuf>) -> Vec<ModuleInfo> {
-        files
-            .into_par_iter()
-            .map(|path| self.load_module(path))
-            .collect::<Vec<_>>()
-    }
-
     fn load_module(&self, path: PathBuf) -> ModuleInfo {
         let cached = self.modules.get(&path);
 
@@ -152,7 +109,7 @@ impl Checker<'_> {
                 handler: &self.handler,
             };
 
-            // Real usage
+            println!("{}", path.display());
             let fm = self.cm.load_file(&path).expect("failed to read file");
 
             let mut parser = Parser::new(

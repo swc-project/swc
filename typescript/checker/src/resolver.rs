@@ -1,5 +1,5 @@
 use crate::errors::Error;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use swc_atoms::JsWord;
 
 ///
@@ -7,22 +7,28 @@ pub trait Resolve: Send + Sync {
     fn resolve(&self, base: PathBuf, src: &JsWord) -> Result<PathBuf, Error>;
 }
 
-#[derive(Debug)]
-pub struct Resolver {}
+pub struct Resolver {
+    r: node_resolve::Resolver,
+}
 
 impl Resolver {
     pub fn new() -> Self {
-        Resolver {}
+        Resolver {
+            r: node_resolve::Resolver::new()
+                .with_extensions(&[".js", ".ts", ".tsx", ".json", ".node"]),
+        }
     }
 }
 
 impl Resolve for Resolver {
     fn resolve(&self, base: PathBuf, src: &JsWord) -> Result<PathBuf, Error> {
-        if src.starts_with(".") {
-            let p = base.join(Path::new(src.as_ref()));
-            return Ok(p);
-        }
+        // TODO: Handle error gracefully.
 
-        unimplemented!("resolve({}, {})", base.display(), src)
+        let p = self
+            .r
+            .with_basedir(base)
+            .resolve(&*src)
+            .expect("failed to resolve");
+        return Ok(p);
     }
 }
