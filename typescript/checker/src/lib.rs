@@ -16,6 +16,8 @@ extern crate swc_ecma_parser;
 use self::{
     analyzer::{ExportExtra, ExportInfo, ImportInfo, Info},
     errors::Error,
+    loader::Loader,
+    resolver::Resolver,
 };
 use chashmap::CHashMap;
 use crossbeam::{channel, thread};
@@ -28,6 +30,8 @@ use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
 
 pub mod analyzer;
 pub mod errors;
+pub mod loader;
+pub mod resolver;
 #[cfg(test)]
 mod tests;
 mod util;
@@ -42,6 +46,7 @@ pub struct Checker<'a> {
     ts_config: TsConfig,
     /// Cache
     modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
+    loader: Loader<Resolver>,
 }
 
 impl<'a> Checker<'a> {
@@ -52,6 +57,7 @@ impl<'a> Checker<'a> {
             handler,
             modules: Default::default(),
             ts_config: parser_config,
+            loader: Loader::new(Resolver::new()),
         }
     }
 }
@@ -131,10 +137,6 @@ impl Checker<'_> {
             .into_par_iter()
             .map(|path| self.load_module(path))
             .collect::<Vec<_>>()
-    }
-
-    fn load(&self, import: ImportInfo) -> Result<Arc<ExportInfo>, Error> {
-        unimplemented!()
     }
 
     fn load_module(&self, path: PathBuf) -> ModuleInfo {

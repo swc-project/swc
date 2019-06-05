@@ -6,6 +6,7 @@ use self::{
 use super::Checker;
 use crate::{
     errors::Error,
+    loader::Load,
     util::{ModuleItemLike, StmtLike},
 };
 use fxhash::FxHashMap;
@@ -30,7 +31,7 @@ struct Analyzer<'a, 'b> {
     info: Info,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
-    checker: &'b Checker<'b>,
+    loader: &'b Load,
 }
 
 impl<T> Fold<Vec<T>> for Analyzer<'_, '_>
@@ -50,7 +51,7 @@ where
 
         let imports = imports
             .into_par_iter()
-            .map(|import| self.checker.load(import))
+            .map(|import| self.loader.load(self.path.clone(), import))
             .collect::<Vec<_>>();
 
         stmts
@@ -58,12 +59,12 @@ where
 }
 
 impl<'a, 'b> Analyzer<'a, 'b> {
-    pub fn new(scope: Scope<'a>, path: Arc<PathBuf>, checker: &'b Checker<'b>) -> Self {
+    pub fn new(scope: Scope<'a>, path: Arc<PathBuf>, loader: &'b Load) -> Self {
         Analyzer {
             scope,
             info: Default::default(),
             path,
-            checker,
+            loader,
         }
     }
 }
@@ -232,7 +233,7 @@ impl Analyzer<'_, '_> {
 /// Constants are propagated, and
 impl Checker<'_> {
     pub fn analyze_module(&self, path: Arc<PathBuf>, m: Module) -> (Module, Info) {
-        let mut a = Analyzer::new(Scope::root(), path, self);
+        let mut a = Analyzer::new(Scope::root(), path, &self.loader);
         let m = m.fold_with(&mut a);
 
         (m, a.info)
@@ -252,7 +253,7 @@ impl Analyzer<'_, '_> {
         Analyzer::new(
             Scope::new(&self.scope, kind),
             self.path.clone(),
-            self.checker,
+            self.loader,
         )
     }
 }
