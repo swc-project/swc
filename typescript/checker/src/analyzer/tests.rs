@@ -1,8 +1,8 @@
 use super::{
-    util::{PatExt, TypeExt},
+    util::{PatExt, TypeRefExt},
     Analyzer, Scope,
 };
-use crate::{errors::Error, tests::Tester};
+use crate::tests::Tester;
 use swc_common::FoldWith;
 use swc_ecma_ast::*;
 
@@ -92,7 +92,7 @@ fn assert_valid(src: &str) {
             .parse_module("test.ts", &src)
             .expect("failed to parse src");
         let mut a = Analyzer::new(Scope::root());
-        let module = module.fold_with(&mut a);
+        module.fold_with(&mut a);
         assert_eq!(a.info.errors, vec![]);
 
         Ok(())

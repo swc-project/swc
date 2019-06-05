@@ -1,6 +1,6 @@
 use self::{
     scope::{Scope, ScopeKind, VarInfo},
-    util::{PatExt, TypeExt},
+    util::{PatExt, TypeRefExt},
 };
 use crate::errors::Error;
 use swc_atoms::JsWord;

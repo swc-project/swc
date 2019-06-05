@@ -52,6 +52,11 @@ impl PatExt for Pat {
 }
 
 pub(super) trait TypeExt {
+    /// Returns generalized type if `self` is a literal type.
+    fn generalizd_lit(self) -> TsType;
+}
+
+pub(super) trait TypeRefExt {
     /// Returns type annotation.
     fn ann(&self) -> Option<&TsType>;
 
@@ -217,19 +222,19 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
     })
 }
 
-impl TypeExt for TsType {
+impl TypeRefExt for TsType {
     fn ann(&self) -> Option<&TsType> {
         Some(self)
     }
 }
 
-impl TypeExt for Option<TsType> {
+impl TypeRefExt for Option<TsType> {
     fn ann(&self) -> Option<&TsType> {
         self.as_ref()
     }
 }
 
-impl TypeExt for Option<&'_ TsType> {
+impl TypeRefExt for Option<&'_ TsType> {
     fn ann(&self) -> Option<&TsType> {
         *self
     }
