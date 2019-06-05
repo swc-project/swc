@@ -3,7 +3,7 @@ use swc_atoms::js_word;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
-impl Analyzer<'_> {
+impl Analyzer<'_, '_> {
     pub(super) fn type_of(&self, expr: &Expr) -> Option<TsType> {
         match *expr {
             Expr::This(ThisExpr { span }) => Some(TsType::TsThisType(TsThisType { span })),

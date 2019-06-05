@@ -13,7 +13,10 @@ extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;
 
-use self::{analyzer::Info, errors::Error};
+use self::{
+    analyzer::{ExportExtra, ExportInfo, ImportInfo, Info},
+    errors::Error,
+};
 use chashmap::CHashMap;
 use crossbeam::{channel, thread};
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
@@ -95,7 +98,7 @@ impl Checker<'_> {
     pub fn check(&self, entry: PathBuf) -> Vec<Error> {
         let mut errors = vec![];
 
-        let module = self.load(entry.clone());
+        let module = self.load_module(entry.clone());
 
         errors.extend(module.1.errors.clone());
 
@@ -123,14 +126,18 @@ impl Checker<'_> {
         errors
     }
 
-    fn load_all(&self, files: Vec<PathBuf>) -> Vec<ModuleInfo> {
+    fn load_modules(&self, files: Vec<PathBuf>) -> Vec<ModuleInfo> {
         files
             .into_par_iter()
-            .map(|path| self.load(path))
+            .map(|path| self.load_module(path))
             .collect::<Vec<_>>()
     }
 
-    fn load(&self, path: PathBuf) -> ModuleInfo {
+    fn load(&self, import: ImportInfo) -> Result<Arc<ExportInfo>, Error> {
+        unimplemented!()
+    }
+
+    fn load_module(&self, path: PathBuf) -> ModuleInfo {
         let cached = self.modules.get(&path);
 
         if let Some(cached) = cached {
@@ -161,7 +168,7 @@ impl Checker<'_> {
                 .expect("failed to parser module")
         });
 
-        let res = Arc::new(analyzer::analyze_module(module));
+        let res = Arc::new(self.analyze_module(Arc::new(path.clone()), module));
         self.modules.insert(path, res.clone());
 
         res

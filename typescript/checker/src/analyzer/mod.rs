@@ -3,9 +3,17 @@ use self::{
     scope::{Scope, ScopeKind, VarInfo},
     util::{PatExt, TypeRefExt},
 };
-use crate::errors::Error;
+use super::Checker;
+use crate::{
+    errors::Error,
+    util::{ModuleItemLike, StmtLike},
+};
 use fxhash::FxHashMap;
-use std::sync::Arc;
+use rayon::{
+    iter::{IntoParallelIterator, ParallelIterator},
+    join,
+};
+use std::{path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Fold, FoldWith, Spanned};
 use swc_ecma_ast::*;
@@ -18,16 +26,44 @@ mod tests;
 mod type_facts;
 mod util;
 
-struct Analyzer<'a> {
+struct Analyzer<'a, 'b> {
     info: Info,
     scope: Scope<'a>,
+    path: Arc<PathBuf>,
+    checker: &'b Checker<'b>,
 }
 
-impl<'a> Analyzer<'a> {
-    pub fn new(scope: Scope<'a>) -> Self {
+impl<T> Fold<Vec<T>> for Analyzer<'_, '_>
+where
+    T: FoldWith<Self> + StmtLike + ModuleItemLike + Send + Sync,
+    Vec<T>: FoldWith<Self>,
+{
+    fn fold(&mut self, items: Vec<T>) -> Vec<T> {
+        // We first load imports.
+
+        let mut imports: Vec<ImportInfo> = vec![];
+
+        let stmts = items.move_map(|item| {
+            // Handle imports
+            item
+        });
+
+        let imports = imports
+            .into_par_iter()
+            .map(|import| self.checker.load(import))
+            .collect::<Vec<_>>();
+
+        stmts
+    }
+}
+
+impl<'a, 'b> Analyzer<'a, 'b> {
+    pub fn new(scope: Scope<'a>, path: Arc<PathBuf>, checker: &'b Checker<'b>) -> Self {
         Analyzer {
             scope,
             info: Default::default(),
+            path,
+            checker,
         }
     }
 }
@@ -39,14 +75,14 @@ pub struct Info {
     pub errors: Vec<Error>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub struct ImportInfo {
     pub src: JsWord,
 }
 
-impl Fold<Function> for Analyzer<'_> {
+impl Fold<Function> for Analyzer<'_, '_> {
     fn fold(&mut self, f: Function) -> Function {
-        let mut analyzer = Analyzer::new(Scope::new(&self.scope, ScopeKind::Fn));
+        let mut analyzer = self.child(ScopeKind::Fn);
 
         f.params
             .iter()
@@ -59,9 +95,9 @@ impl Fold<Function> for Analyzer<'_> {
     }
 }
 
-impl Fold<ArrowExpr> for Analyzer<'_> {
+impl Fold<ArrowExpr> for Analyzer<'_, '_> {
     fn fold(&mut self, f: ArrowExpr) -> ArrowExpr {
-        let mut analyzer = Analyzer::new(Scope::new(&self.scope, ScopeKind::Fn));
+        let mut analyzer = self.child(ScopeKind::Fn);
 
         f.params
             .iter()
@@ -79,15 +115,15 @@ impl Fold<ArrowExpr> for Analyzer<'_> {
     }
 }
 
-impl Fold<BlockStmt> for Analyzer<'_> {
+impl Fold<BlockStmt> for Analyzer<'_, '_> {
     fn fold(&mut self, stmt: BlockStmt) -> BlockStmt {
-        let mut analyzer = Analyzer::new(Scope::new(&self.scope, ScopeKind::Block));
+        let mut analyzer = self.child(ScopeKind::Block);
 
         stmt.fold_children(&mut analyzer)
     }
 }
 
-impl Fold<AssignExpr> for Analyzer<'_> {
+impl Fold<AssignExpr> for Analyzer<'_, '_> {
     fn fold(&mut self, expr: AssignExpr) -> AssignExpr {
         if let Some(rhs_ty) = self.type_of(&expr.right) {
             if expr.op == op!("=") {
@@ -99,7 +135,7 @@ impl Fold<AssignExpr> for Analyzer<'_> {
     }
 }
 
-impl Fold<VarDecl> for Analyzer<'_> {
+impl Fold<VarDecl> for Analyzer<'_, '_> {
     fn fold(&mut self, var: VarDecl) -> VarDecl {
         let kind = var.kind;
         VarDecl {
@@ -142,7 +178,7 @@ impl Fold<VarDecl> for Analyzer<'_> {
     }
 }
 
-impl Analyzer<'_> {
+impl Analyzer<'_, '_> {
     fn assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
         match *lhs {
             PatOrExpr::Pat(ref pat) => {
@@ -194,11 +230,13 @@ impl Analyzer<'_> {
 /// Analyzes a module.
 ///
 /// Constants are propagated, and
-pub fn analyze_module(m: Module) -> (Module, Info) {
-    let mut a = Analyzer::new(Scope::root());
-    let m = m.fold_with(&mut a);
+impl Checker<'_> {
+    pub fn analyze_module(&self, path: Arc<PathBuf>, m: Module) -> (Module, Info) {
+        let mut a = Analyzer::new(Scope::root(), path, self);
+        let m = m.fold_with(&mut a);
 
-    (m, a.info)
+        (m, a.info)
+    }
 }
 
 #[test]
@@ -207,4 +245,14 @@ fn assert_types() {
     fn is_send<T: Send>() {}
     is_sync::<Info>();
     is_send::<Info>();
+}
+
+impl Analyzer<'_, '_> {
+    fn child(&self, kind: ScopeKind) -> Analyzer {
+        Analyzer::new(
+            Scope::new(&self.scope, kind),
+            self.path.clone(),
+            self.checker,
+        )
+    }
 }

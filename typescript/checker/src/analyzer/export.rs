@@ -47,7 +47,7 @@ pub enum ExportExtra {
 // unimplemented!("export A = B"), ModuleDecl::TsNamespaceExport(ns) =>
 // unimplemented!("export namespace"),
 
-impl Fold<ExportDecl> for Analyzer<'_> {
+impl Fold<ExportDecl> for Analyzer<'_, '_> {
     fn fold(&mut self, export: ExportDecl) -> ExportDecl {
         match export.decl {
             Decl::Fn(ref f) => {
@@ -73,7 +73,7 @@ impl Fold<ExportDecl> for Analyzer<'_> {
     }
 }
 
-impl Fold<ExportDefaultDecl> for Analyzer<'_> {
+impl Fold<ExportDefaultDecl> for Analyzer<'_, '_> {
     fn fold(&mut self, export: ExportDefaultDecl) -> ExportDefaultDecl {
         match export.decl {
             DefaultDecl::Fn(ref f) => {
@@ -89,7 +89,7 @@ impl Fold<ExportDefaultDecl> for Analyzer<'_> {
     }
 }
 
-impl Fold<ExportDefaultExpr> for Analyzer<'_> {
+impl Fold<ExportDefaultExpr> for Analyzer<'_, '_> {
     fn fold(&mut self, export: ExportDefaultExpr) -> ExportDefaultExpr {
         let ty = self.type_of(&export.expr);
         debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
@@ -101,7 +101,7 @@ impl Fold<ExportDefaultExpr> for Analyzer<'_> {
     }
 }
 
-impl Analyzer<'_> {
+impl Analyzer<'_, '_> {
     fn export_interface(&mut self, name: JsWord, i: &TsInterfaceDecl) {
         debug_assert_eq!(self.info.exports.get(&name), None);
 
