@@ -18,7 +18,7 @@ impl Load for Checker<'_> {
         if let Some(export) = module.1.exports.get(&import.sym) {
             return Ok((export).clone());
         }
-        Err(Error::UndefinedSymbol { span: import.span })
+        Err(Error::NoSuchExport { span: import.span })
     }
 }
 

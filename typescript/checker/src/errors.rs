@@ -35,6 +35,10 @@ pub enum Error {
     UndefinedSymbol {
         span: Span,
     },
+
+    NoSuchExport {
+        span: Span,
+    },
 }
 
 impl Error {
