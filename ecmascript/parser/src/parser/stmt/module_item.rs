@@ -256,8 +256,8 @@ impl<'a, I: Input> Parser<'a, I> {
                 }
 
                 if eat!("interface") {
-                    let decl = self.parse_ts_interface_decl().map(Decl::from)?;
-                    return Ok(ExportDecl {
+                    let decl = self.parse_ts_interface_decl().map(DefaultDecl::from)?;
+                    return Ok(ExportDefaultDecl {
                         span: span!(start),
                         decl,
                     }
