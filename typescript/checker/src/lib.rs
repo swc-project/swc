@@ -103,7 +103,6 @@ impl Checker<'_> {
                 handler: &self.handler,
             };
 
-            println!("{}", path.display());
             let fm = self.cm.load_file(&path).expect("failed to read file");
 
             let mut parser = Parser::new(
