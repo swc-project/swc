@@ -6,6 +6,9 @@ use swc_ecma_ast::*;
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
     pub ty: Option<Box<TsType>>,
+    /// Copied from parent scope. If this is true, it's not a variable
+    /// declaration.
+    pub copied: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -62,6 +65,7 @@ impl Scope<'_> {
                 let info = VarInfo {
                     kind,
                     ty: i.type_ann.as_ref().map(|t| &t.type_ann).cloned(),
+                    copied: false,
                 };
                 self.vars.insert(name, info);
             }

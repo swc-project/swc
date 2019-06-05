@@ -164,6 +164,7 @@ impl Analyzer<'_> {
                             {
                                 VarInfo {
                                     ty: Some(box ty),
+                                    copied: true,
                                     ..var_info.clone()
                                 }
                             } else {
