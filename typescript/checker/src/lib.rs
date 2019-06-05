@@ -43,6 +43,7 @@ pub struct Checker<'a> {
     /// Cache
     modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
     resolver: Resolver,
+    current: Arc<CHashMap<PathBuf, ()>>,
 }
 
 impl<'a> Checker<'a> {
@@ -54,6 +55,7 @@ impl<'a> Checker<'a> {
             modules: Default::default(),
             ts_config: parser_config,
             resolver: Resolver::new(),
+            current: Default::default(),
         }
     }
 }
@@ -98,6 +100,8 @@ impl Checker<'_> {
             return cached.clone();
         }
 
+        self.current.insert(path.clone(), ());
+
         let module = swc_common::GLOBALS.set(&self.globals, || {
             let session = Session {
                 handler: &self.handler,
@@ -122,7 +126,8 @@ impl Checker<'_> {
         });
 
         let res = Arc::new(self.analyze_module(Arc::new(path.clone()), module));
-        self.modules.insert(path, res.clone());
+        self.modules.insert(path.clone(), res.clone());
+        self.current.remove(&path);
 
         res
     }

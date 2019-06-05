@@ -50,10 +50,26 @@ impl PatExt for Pat {
     }
 }
 
-pub(super) trait TypeExt {
+pub(super) trait TypeExt: Into<TsType> {
     /// Returns generalized type if `self` is a literal type.
-    fn generalizd_lit(self) -> TsType;
+    fn generalize_lit(self) -> TsType {
+        let ty = self.into();
+        match ty {
+            TsType::TsLitType(TsLitType { span, lit }) => TsKeywordType {
+                span,
+                kind: match lit {
+                    TsLit::Bool(Bool { span, .. }) => TsKeywordTypeKind::TsBooleanKeyword,
+                    TsLit::Number(Number { span, .. }) => TsKeywordTypeKind::TsNumberKeyword,
+                    TsLit::Str(Str { span, .. }) => TsKeywordTypeKind::TsStringKeyword,
+                },
+            }
+            .into(),
+            _ => ty,
+        }
+    }
 }
+
+impl<T> TypeExt for T where T: Into<TsType> {}
 
 pub(super) trait TypeRefExt {
     /// Returns type annotation.
