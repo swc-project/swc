@@ -36,7 +36,12 @@ struct Analyzer<'a, 'b> {
 
 impl<T> Fold<Vec<T>> for Analyzer<'_, '_>
 where
-    T: FoldWith<Self> + StmtLike + ModuleItemLike + Send + Sync,
+    T: FoldWith<Self>
+        + for<'any> FoldWith<ImportFinder<'any>>
+        + StmtLike
+        + ModuleItemLike
+        + Send
+        + Sync,
     Vec<T>: FoldWith<Self>,
 {
     fn fold(&mut self, items: Vec<T>) -> Vec<T> {
@@ -46,7 +51,9 @@ where
 
         let stmts = items.move_map(|item| {
             // Handle imports
-            item.fold_with(self)
+
+            item.fold_with(&mut ImportFinder { to: &mut imports })
+                .fold_with(self)
         });
 
         let imports = imports
@@ -55,6 +62,20 @@ where
             .collect::<Vec<_>>();
 
         stmts
+    }
+}
+
+#[derive(Debug)]
+struct ImportFinder<'a> {
+    to: &'a mut Vec<ImportInfo>,
+}
+
+impl Fold<ImportDecl> for ImportFinder<'_> {
+    fn fold(&mut self, import: ImportDecl) -> ImportDecl {
+        self.to.push(ImportInfo {
+            src: import.src.value.clone(),
+        });
+        import
     }
 }
 
