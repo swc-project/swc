@@ -5,7 +5,7 @@ use crate::{
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
-    pat::{AssignPat, ObjectPat, RestPat},
+    pat::{ArrayPat, AssignPat, ObjectPat, RestPat},
 };
 use serde::{
     de::{self, Unexpected, Visitor},
@@ -365,6 +365,9 @@ pub struct TsThisType {
 pub enum TsFnParam {
     #[tag("Identifier")]
     Ident(Ident),
+
+    #[tag("ObjectPattern")]
+    Array(ArrayPat),
 
     #[tag("RestElement")]
     Rest(RestPat),
