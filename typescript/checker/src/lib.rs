@@ -3,10 +3,12 @@
 #![feature(specialization)]
 #![recursion_limit = "1024"]
 
+extern crate bitflags;
 extern crate chashmap;
 extern crate crossbeam;
 extern crate rayon;
 extern crate swc_atoms;
+#[macro_use]
 extern crate swc_common;
 extern crate swc_ecma_ast;
 extern crate swc_ecma_parser;

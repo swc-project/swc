@@ -11,6 +11,7 @@ mod expr;
 mod scope;
 #[cfg(test)]
 mod tests;
+mod type_facts;
 mod util;
 
 struct Analyzer<'a> {
