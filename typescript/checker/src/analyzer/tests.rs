@@ -67,6 +67,17 @@ fn assigment_2() {
     );
 }
 
+#[test]
+fn assigment_generalized_lit_ty() {
+    assert_valid(
+        "
+        let a = 'foo';
+        a = 'bar';
+        let b: string = a;
+    ",
+    );
+}
+
 fn assert_assignable(ty: &str, expr: &str) {
     let src = format!("let v: {} = {};", ty, expr);
 
