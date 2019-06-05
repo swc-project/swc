@@ -79,12 +79,23 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Erro
         let ignore = false;
 
         let dir = dir.clone();
-        let name = format!("tsc::error::{}", file_name);
+        let name = format!(
+            "tsc::{}::{}",
+            if error { "error" } else { "passes" },
+            file_name
+        );
         add_test(tests, name, ignore, move || {
-            eprintln!(
-                "\n\n========== Running error reporting test {}\nSource:\n{}\n",
-                file_name, input
-            );
+            if error {
+                eprintln!(
+                    "\n\n========== Running error reporting test {}\nSource:\n{}\n",
+                    file_name, input
+                );
+            } else {
+                eprintln!(
+                    "\n\n========== Running test {}\nSource:\n{}\n",
+                    file_name, input
+                );
+            }
 
             let path = dir.join(&file_name);
             // Parse source
