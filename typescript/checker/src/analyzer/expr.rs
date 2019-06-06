@@ -36,8 +36,53 @@ impl Analyzer<'_, '_> {
                 self.type_of(expr).map(|ty| ty.remove_falsy())
             }
 
+            Expr::Object(ObjectLit { span, ref props }) => Some(TsType::TsTypeLit(TsTypeLit {
+                span,
+                members: props
+                    .iter()
+                    .map(|prop| match *prop {
+                        PropOrSpread::Prop(ref prop) => {
+                            TsTypeElement::TsPropertySignature(self.type_of_prop(&prop))
+                        }
+                        PropOrSpread::Spread(..) => {
+                            unimplemented!("spread element in object literal")
+                        }
+                    })
+                    .collect(),
+            })),
+
             _ => None,
         }
+    }
+
+    fn type_of_prop(&self, prop: &Prop) -> TsPropertySignature {
+        TsPropertySignature {
+            span: prop.span(),
+            key: prop_key_to_expr(&prop),
+            params: Default::default(),
+            init: None,
+            optional: false,
+            readonly: false,
+            computed: false,
+            type_ann: Default::default(),
+            type_params: Default::default(),
+        }
+    }
+}
+
+fn prop_key_to_expr(p: &Prop) -> Box<Expr> {
+    match *p {
+        Prop::Shorthand(ref i) => box Expr::Ident(i.clone()),
+        Prop::Assign(AssignProp { ref key, .. }) => box Expr::Ident(key.clone()),
+        Prop::Getter(GetterProp { ref key, .. })
+        | Prop::KeyValue(KeyValueProp { ref key, .. })
+        | Prop::Method(MethodProp { ref key, .. })
+        | Prop::Setter(SetterProp { ref key, .. }) => match *key {
+            PropName::Computed(ref expr) => expr.clone(),
+            PropName::Ident(ref ident) => box Expr::Ident(ident.clone()),
+            PropName::Str(ref s) => box Expr::Lit(Lit::Str(Str { ..s.clone() })),
+            PropName::Num(ref s) => box Expr::Lit(Lit::Num(Number { ..s.clone() })),
+        },
     }
 }
 
