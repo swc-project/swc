@@ -1,3 +1,4 @@
+use crate::analyzer::type_facts::TypeFacts;
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
@@ -21,7 +22,9 @@ pub(super) enum ScopeKind {
 pub(super) struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
+    /// Declared variables and parameters.
     pub(super) vars: FxHashMap<JsWord, VarInfo>,
+    pub(super) type_facts: FxHashMap<JsWord, TypeFacts>,
 }
 
 impl<'a> Scope<'a> {
@@ -30,6 +33,7 @@ impl<'a> Scope<'a> {
             parent: Some(parent),
             kind,
             vars: Default::default(),
+            type_facts: Default::default(),
         }
     }
 
@@ -38,6 +42,7 @@ impl<'a> Scope<'a> {
             parent: None,
             kind: ScopeKind::Fn,
             vars: Default::default(),
+            type_facts: Default::default(),
         }
     }
 }

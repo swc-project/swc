@@ -4,7 +4,7 @@ use super::{
 };
 use crate::{tests::Tester, Checker};
 use std::{path::PathBuf, sync::Arc};
-use swc_common::FoldWith;
+use swc_common::VisitWith;
 use swc_ecma_ast::*;
 
 #[test]
@@ -105,7 +105,7 @@ fn assert_valid(src: &str) {
             .expect("failed to parse src");
 
         with_analyzer(|mut a| {
-            module.fold_with(&mut a);
+            module.visit_with(&mut a);
 
             assert_eq!(a.info.errors, vec![]);
         });

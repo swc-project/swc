@@ -58,9 +58,9 @@ pub(super) trait TypeExt: Into<TsType> {
             TsType::TsLitType(TsLitType { span, lit }) => TsKeywordType {
                 span,
                 kind: match lit {
-                    TsLit::Bool(Bool { span, .. }) => TsKeywordTypeKind::TsBooleanKeyword,
-                    TsLit::Number(Number { span, .. }) => TsKeywordTypeKind::TsNumberKeyword,
-                    TsLit::Str(Str { span, .. }) => TsKeywordTypeKind::TsStringKeyword,
+                    TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
+                    TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
+                    TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
                 },
             }
             .into(),

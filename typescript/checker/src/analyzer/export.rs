@@ -1,7 +1,7 @@
 use super::Analyzer;
 use std::sync::Arc;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Fold, Spanned};
+use swc_common::{Spanned, Visit};
 use swc_ecma_ast::*;
 
 #[derive(Debug, PartialEq)]
@@ -47,8 +47,8 @@ pub enum ExportExtra {
 // unimplemented!("export A = B"), ModuleDecl::TsNamespaceExport(ns) =>
 // unimplemented!("export namespace"),
 
-impl Fold<ExportDecl> for Analyzer<'_, '_> {
-    fn fold(&mut self, export: ExportDecl) -> ExportDecl {
+impl Visit<ExportDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, export: &ExportDecl) {
         match export.decl {
             Decl::Fn(ref f) => {
                 self.export_fn(f.ident.sym.clone(), &f.function);
@@ -68,13 +68,11 @@ impl Fold<ExportDecl> for Analyzer<'_, '_> {
             Decl::TsModule(..) => unimplemented!("export module "),
             Decl::TsTypeAlias(..) => unimplemented!("export TsTypeAlias"),
         }
-
-        export
     }
 }
 
-impl Fold<ExportDefaultDecl> for Analyzer<'_, '_> {
-    fn fold(&mut self, export: ExportDefaultDecl) -> ExportDefaultDecl {
+impl Visit<ExportDefaultDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, export: &ExportDefaultDecl) {
         match export.decl {
             DefaultDecl::Fn(ref f) => {
                 self.export_fn(js_word!("default"), &f.function);
@@ -84,20 +82,16 @@ impl Fold<ExportDefaultDecl> for Analyzer<'_, '_> {
                 self.export_interface(js_word!("default"), i);
             }
         };
-
-        export
     }
 }
 
-impl Fold<ExportDefaultExpr> for Analyzer<'_, '_> {
-    fn fold(&mut self, export: ExportDefaultExpr) -> ExportDefaultExpr {
+impl Visit<ExportDefaultExpr> for Analyzer<'_, '_> {
+    fn visit(&mut self, export: &ExportDefaultExpr) {
         let ty = self.type_of(&export.expr);
         debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
         self.info
             .exports
             .insert(js_word!("default"), Arc::new(ty.into()));
-
-        export
     }
 }
 

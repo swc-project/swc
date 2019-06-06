@@ -124,8 +124,8 @@ impl Checker<'_> {
                 })
                 .expect("failed to parser module")
         });
-
-        let res = Arc::new(self.analyze_module(Arc::new(path.clone()), module));
+        let info = self.analyze_module(Arc::new(path.clone()), &module);
+        let res = Arc::new((module, info));
         self.modules.insert(path.clone(), res.clone());
         self.current.remove(&path);
 
