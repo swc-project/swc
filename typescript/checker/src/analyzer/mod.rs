@@ -70,6 +70,18 @@ where
     }
 }
 
+impl Visit<TsInterfaceDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, decl: &TsInterfaceDecl) {
+        self.scope.types.insert(
+            decl.id.sym.clone(),
+            TsType::TsTypeLit(TsTypeLit {
+                span: decl.span(),
+                members: decl.body.body.clone(),
+            }),
+        );
+    }
+}
+
 #[derive(Debug)]
 struct ImportFinder<'a> {
     to: &'a mut Vec<ImportInfo>,
