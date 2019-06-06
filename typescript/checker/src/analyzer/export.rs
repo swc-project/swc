@@ -1,7 +1,7 @@
 use super::Analyzer;
 use std::sync::Arc;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Spanned, Visit};
+use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 #[derive(Debug, PartialEq)]
@@ -49,6 +49,8 @@ pub enum ExportExtra {
 
 impl Visit<ExportDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, export: &ExportDecl) {
+        export.visit_children(self);
+
         match export.decl {
             Decl::Fn(ref f) => {
                 self.export_fn(f.ident.sym.clone(), &f.function);
@@ -73,6 +75,8 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
 
 impl Visit<ExportDefaultDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, export: &ExportDefaultDecl) {
+        export.visit_children(self);
+
         match export.decl {
             DefaultDecl::Fn(ref f) => {
                 self.export_fn(js_word!("default"), &f.function);
@@ -87,6 +91,8 @@ impl Visit<ExportDefaultDecl> for Analyzer<'_, '_> {
 
 impl Visit<ExportDefaultExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, export: &ExportDefaultExpr) {
+        export.visit_children(self);
+
         let ty = self.type_of(&export.expr);
         debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
         self.info
