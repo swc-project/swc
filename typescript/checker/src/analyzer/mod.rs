@@ -66,7 +66,7 @@ where
             }
         }
 
-        items.visit_with(self);
+        items.visit_children(self);
     }
 }
 
