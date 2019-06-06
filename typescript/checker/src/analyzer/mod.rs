@@ -136,7 +136,7 @@ impl Visit<Function> for Analyzer<'_, '_> {
 
         f.params
             .iter()
-            .for_each(|pat| analyzer.scope.insert_vars(VarDeclKind::Let, pat));
+            .for_each(|pat| analyzer.scope.declare_var(VarDeclKind::Let, pat));
 
         f.body.visit_children(&mut analyzer);
     }
@@ -148,7 +148,7 @@ impl Visit<ArrowExpr> for Analyzer<'_, '_> {
 
         f.params
             .iter()
-            .for_each(|pat| analyzer.scope.insert_vars(VarDeclKind::Let, pat));
+            .for_each(|pat| analyzer.scope.declare_var(VarDeclKind::Let, pat));
 
         match f.body {
             BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
@@ -169,7 +169,7 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, expr: &AssignExpr) {
         if let Some(rhs_ty) = self.type_of(&expr.right) {
             if expr.op == op!("=") {
-                self.assign(&expr.left, rhs_ty);
+                self.try_assign(&expr.left, rhs_ty);
             }
         }
     }
@@ -188,7 +188,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     Some(ref ty) => {
                         let errors = value_ty.assign_to(ty);
                         if errors.is_none() {
-                            self.scope.insert_vars(kind, &v.name)
+                            self.scope.declare_var(kind, &v.name)
                         } else {
                             self.info.errors.extend(errors);
                         }
@@ -210,13 +210,13 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                 }
             }
 
-            self.scope.insert_vars(kind, &v.name);
+            self.scope.declare_var(kind, &v.name);
         });
     }
 }
 
 impl Analyzer<'_, '_> {
-    fn assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
+    fn try_assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
         match *lhs {
             PatOrExpr::Pat(ref pat) => {
                 // Update variable's type

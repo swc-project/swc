@@ -63,7 +63,7 @@ impl Scope<'_> {
     }
 
     /// Updates variable list
-    pub fn insert_vars(&mut self, kind: VarDeclKind, pat: &Pat) {
+    pub fn declare_var(&mut self, kind: VarDeclKind, pat: &Pat) {
         match *pat {
             Pat::Ident(ref i) => {
                 let name = i.sym.clone();
@@ -74,7 +74,7 @@ impl Scope<'_> {
                 };
                 self.vars.insert(name, info);
             }
-            _ => unimplemented!("insert_vars for patterns other than ident"),
+            _ => unimplemented!("declare_var for patterns other than ident"),
         }
     }
 }
