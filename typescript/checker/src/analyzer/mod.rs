@@ -27,6 +27,7 @@ mod util;
 
 struct Analyzer<'a, 'b> {
     info: Info,
+    resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b Load,
@@ -50,7 +51,7 @@ where
         items.iter().for_each(|item| {
             // EXtract imports
             item.visit_with(&mut ImportFinder { to: &mut imports });
-            item.visit_with(self);
+            // item.visit_with(self);
         });
 
         let imports = imports
@@ -60,10 +61,12 @@ where
 
         for import in imports {
             match import {
-                Ok(import) => {}
+                Ok(import) => self.resolved_imports.extend(import),
                 Err(err) => self.info.errors.push(err),
             }
         }
+
+        items.visit_with(self);
     }
 }
 
@@ -111,6 +114,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             scope,
             info: Default::default(),
             path,
+            resolved_imports: Default::default(),
             loader,
         }
     }
@@ -118,7 +122,6 @@ impl<'a, 'b> Analyzer<'a, 'b> {
 
 #[derive(Debug, Default)]
 pub struct Info {
-    pub imports: Vec<ImportInfo>,
     pub exports: FxHashMap<JsWord, Arc<ExportInfo>>,
     pub errors: Vec<Error>,
 }
@@ -223,7 +226,12 @@ impl Analyzer<'_, '_> {
                 match **pat {
                     Pat::Ident(ref i) => {
                         if let Some(var_info) = self.scope.vars.get_mut(&i.sym) {
+                            // Variable is declared.
+
                             if let Some(ref var_ty) = var_info.ty {
+                                // let foo: string;
+                                // let foo = 'value';
+
                                 let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
                                     var_info.ty = Some(box ty);
