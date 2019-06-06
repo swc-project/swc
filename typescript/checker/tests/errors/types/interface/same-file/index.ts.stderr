@@ -1,0 +1,2 @@
+error: AssignFailed { left: TsTypeRef(TsTypeRef { span: Span { lo: BytePos(42), hi: BytePos(45), ctxt: #0 }, type_name: Ident(Ident { span: Span { lo: BytePos(42), hi: BytePos(45), ctxt: #0 }, sym: Atom('Foo' type=inline), type_ann: None, optional: false }), type_params: None }), right: TsTypeLit(TsTypeLit { span: Span { lo: BytePos(48), hi: BytePos(50), ctxt: #0 }, members: [] }), cause: None }
+
