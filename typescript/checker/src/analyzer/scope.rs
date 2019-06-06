@@ -1,4 +1,3 @@
-use crate::analyzer::type_facts::TypeFacts;
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
@@ -21,28 +20,34 @@ pub(super) enum ScopeKind {
 #[derive(Debug, Clone)]
 pub(super) struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
+
+    /// Expanded type.
+    ///
+    /// e.g. `interface Foo { name: string; }` is saved as `{ 'Foo': { name:
+    /// string; } }`
+    types: FxHashMap<JsWord, TsType>,
+
     kind: ScopeKind,
     /// Declared variables and parameters.
     pub(super) vars: FxHashMap<JsWord, VarInfo>,
-    pub(super) type_facts: FxHashMap<JsWord, TypeFacts>,
 }
 
 impl<'a> Scope<'a> {
     pub fn new(parent: &'a Scope<'a>, kind: ScopeKind) -> Self {
         Scope {
             parent: Some(parent),
+            types: Default::default(),
             kind,
             vars: Default::default(),
-            type_facts: Default::default(),
         }
     }
 
     pub fn root() -> Self {
         Scope {
             parent: None,
+            types: Default::default(),
             kind: ScopeKind::Fn,
             vars: Default::default(),
-            type_facts: Default::default(),
         }
     }
 }
