@@ -96,13 +96,19 @@ pub(super) trait TypeRefExt {
     }
 
     fn assign_to(&self, to: &TsType) -> Option<Error> {
-        try_assign(
-            to,
-            match self.ann() {
-                Some(v) => v,
-                None => return None,
+        let rhs = match self.ann() {
+            Some(v) => v,
+            None => return None,
+        };
+
+        try_assign(to, rhs).map(|err| match err {
+            Error::AssignFailed { .. } => err,
+            _ => Error::AssignFailed {
+                left: to.clone(),
+                right: rhs.clone(),
+                cause: Some(box err),
             },
-        )
+        })
     }
 }
 
@@ -226,14 +232,23 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
         TsType::TsTypeLit(TsTypeLit { span, ref members }) => {
             match rhs {
                 TsType::TsTypeLit(TsTypeLit {
-                    span: r_span,
                     members: ref rhs_members,
+                    ..
                 }) => {
                     //
                     if members.iter().all(|m| rhs_members.contains(m)) {
                         return None;
                     }
-                    unimplemented!("type lit <- type lit")
+
+                    let missing_fields = members
+                        .iter()
+                        .filter(|m| !rhs_members.contains(m))
+                        .cloned()
+                        .collect();
+                    return Some(Error::MissingFields {
+                        span,
+                        fields: missing_fields,
+                    });
                 }
                 _ => {}
             }
