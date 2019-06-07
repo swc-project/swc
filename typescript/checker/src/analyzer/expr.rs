@@ -6,6 +6,7 @@ use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
+    /// TODO(kdy1): type hint (to reduce computation related to array)
     pub(super) fn type_of<'a>(&self, expr: &'a Expr) -> Result<Cow<'a, TsType>, Error> {
         let span = expr.span();
 
