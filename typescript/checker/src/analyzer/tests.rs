@@ -45,7 +45,7 @@ fn bool_lit_2() {
 }
 
 #[test]
-fn assigment_1() {
+fn assignment_1() {
     assert_valid(
         "
 let a: undefined | number;
@@ -54,7 +54,7 @@ a = 2;",
 ;}
 
 #[test]
-fn assigment_2() {
+fn assignment_2() {
     assert_valid(
         "
         let foo = true
@@ -68,7 +68,23 @@ fn assigment_2() {
 }
 
 #[test]
-fn assigment_generalized_lit_ty() {
+fn assignment_call() {
+    assert_valid(
+        "
+        interface Foo {
+            call(n: number): number;
+            call(): string;
+        }
+
+        let a = {} as Foo;
+        let b: number = a.call(1);
+        let c: string = a.call();
+    ",
+    );
+}
+
+#[test]
+fn assignment_generalized_lit_ty() {
     assert_valid(
         "
         let a = 'foo';
