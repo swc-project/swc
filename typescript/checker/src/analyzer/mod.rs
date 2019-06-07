@@ -3,6 +3,7 @@ use self::{
     scope::{Scope, ScopeKind, VarInfo},
     util::{PatExt, TypeRefExt},
 };
+use std::borrow::Cow;
 
 use super::Checker;
 use crate::{
@@ -72,12 +73,9 @@ where
 
 impl Visit<TsInterfaceDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, decl: &TsInterfaceDecl) {
-        self.scope.types.insert(
+        self.scope.register_type(
             decl.id.sym.clone(),
-            TsType::TsTypeLit(TsTypeLit {
-                span: decl.span(),
-                members: decl.body.body.clone(),
-            }),
+            ExportExtra::Interface(decl.clone()).into(),
         );
     }
 }
@@ -182,7 +180,10 @@ impl Visit<BlockStmt> for Analyzer<'_, '_> {
 
 impl Visit<AssignExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, expr: &AssignExpr) {
-        if let Some(rhs_ty) = self.type_of(&expr.right) {
+        if let Some(rhs_ty) = self
+            .type_of(&expr.right)
+            .map(|ty| self.expand(Cow::Owned(ty)))
+        {
             if expr.op == op!("=") {
                 self.try_assign(&expr.left, rhs_ty);
             }
@@ -197,11 +198,12 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
         var.decls.iter().for_each(|v| {
             if let Some(ref init) = v.init {
                 //  Check if v_ty is assignable to ty
-                let value_ty = self.type_of(&init);
+                let value_ty = self.type_of(&init).map(|ty| self.expand(Cow::Owned(ty)));
 
                 match v.name.get_ty() {
-                    Some(ref ty) => {
-                        let errors = value_ty.assign_to(ty);
+                    Some(ty) => {
+                        let ty = self.expand(Cow::Borrowed(ty));
+                        let errors = value_ty.assign_to(&*ty);
                         if errors.is_none() {
                             self.scope.declare_var(kind, &v.name)
                         } else {
@@ -231,7 +233,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 }
 
 impl Analyzer<'_, '_> {
-    fn try_assign(&mut self, lhs: &PatOrExpr, ty: TsType) {
+    fn try_assign(&mut self, lhs: &PatOrExpr, ty: Cow<TsType>) {
         match *lhs {
             PatOrExpr::Pat(ref pat) => {
                 // Update variable's type
@@ -246,7 +248,7 @@ impl Analyzer<'_, '_> {
 
                                 let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
-                                    var_info.ty = Some(box ty);
+                                    var_info.ty = Some(box ty.into_owned());
                                 } else {
                                     self.info.errors.extend(errors)
                                 }
@@ -258,7 +260,7 @@ impl Analyzer<'_, '_> {
                             let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
                             {
                                 VarInfo {
-                                    ty: Some(box ty),
+                                    ty: Some(box ty.into_owned()),
                                     copied: true,
                                     ..var_info.clone()
                                 }

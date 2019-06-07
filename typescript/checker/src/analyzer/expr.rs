@@ -1,4 +1,5 @@
 use super::Analyzer;
+use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -67,6 +68,34 @@ impl Analyzer<'_, '_> {
             type_ann: Default::default(),
             type_params: Default::default(),
         }
+    }
+
+    /// TODO: Make this return Result<TsType, Error>
+    pub(super) fn expand<'a>(&mut self, ty: Cow<'a, TsType>) -> Cow<'a, TsType> {
+        match *ty {
+            TsType::TsTypeRef(TsTypeRef {
+                span,
+                ref type_name,
+                ref type_params,
+            }) => match *type_name {
+                TsEntityName::Ident(ref i) => {
+                    if let Some(info) = self.find_type(&i.sym) {
+                        match info.instantiate(type_params.as_ref()) {
+                            Ok(ty) => return Cow::Owned(ty),
+                            Err(err) => {
+                                self.info.errors.push(err);
+                            }
+                        }
+                    }
+                }
+                TsEntityName::TsQualifiedName(..) => {
+                    // TODO
+                }
+            },
+            _ => {}
+        }
+
+        ty
     }
 }
 

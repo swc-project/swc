@@ -1,4 +1,5 @@
 use super::Analyzer;
+use crate::errors::Error;
 use std::sync::Arc;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Spanned, Visit, VisitWith};
@@ -31,6 +32,42 @@ impl From<ExportExtra> for ExportInfo {
         ExportInfo {
             ty: None,
             extra: Some(extra),
+        }
+    }
+}
+
+impl ExportInfo {
+    pub fn instantiate(
+        &self,
+        type_params: Option<&TsTypeParamInstantiation>,
+    ) -> Result<TsType, Error> {
+        match self.ty {
+            Some(ref ty) => {
+                assert_eq!(type_params, None); // TODO: Error
+                return Ok(ty.clone());
+            }
+            None => {}
+        }
+
+        match self.extra {
+            Some(ref extra) => {
+                // Expand
+                match extra {
+                    ExportExtra::Enum(..) => unimplemented!("ExportExtra::Enum -> instantiate()"),
+                    ExportExtra::Interface(ref i) => {
+                        // TODO: Check length of type parmaters
+                        // TODO: Instantiate type parameters
+
+                        let members = i.body.body.iter().cloned().collect();
+
+                        return Ok(TsType::TsTypeLit(TsTypeLit {
+                            span: i.span,
+                            members,
+                        }));
+                    }
+                }
+            }
+            None => unimplemented!("`ty` and `extra` are both null"),
         }
     }
 }

@@ -1,4 +1,5 @@
 use crate::errors::Error;
+use std::borrow::Cow;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 
@@ -222,6 +223,22 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             });
         }
 
+        TsType::TsTypeLit(TsTypeLit { span, ref members }) => {
+            match rhs {
+                TsType::TsTypeLit(TsTypeLit {
+                    span: r_span,
+                    members: ref rhs_members,
+                }) => {
+                    //
+                    if members.iter().all(|m| rhs_members.contains(m)) {
+                        return None;
+                    }
+                    unimplemented!("type lit <- type lit")
+                }
+                _ => {}
+            }
+        }
+
         _ => {}
     }
 
@@ -230,6 +247,12 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
         to,
         rhs
     )
+}
+
+impl TypeRefExt for Cow<'_, TsType> {
+    fn ann(&self) -> Option<&TsType> {
+        Some(&**self)
+    }
 }
 
 impl TypeRefExt for TsType {
@@ -247,5 +270,11 @@ impl TypeRefExt for Option<TsType> {
 impl TypeRefExt for Option<&'_ TsType> {
     fn ann(&self) -> Option<&TsType> {
         *self
+    }
+}
+
+impl TypeRefExt for Option<Cow<'_, TsType>> {
+    fn ann(&self) -> Option<&TsType> {
+        self.as_ref().map(|t| &**t)
     }
 }

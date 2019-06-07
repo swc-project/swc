@@ -1,3 +1,4 @@
+use super::{export::ExportInfo, Analyzer};
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
@@ -17,7 +18,7 @@ pub(super) enum ScopeKind {
     Fn,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub(super) struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
 
@@ -25,7 +26,7 @@ pub(super) struct Scope<'a> {
     ///
     /// e.g. `interface Foo { name: string; }` is saved as `{ 'Foo': { name:
     /// string; } }`
-    pub(super) types: FxHashMap<JsWord, TsType>,
+    types: FxHashMap<JsWord, ExportInfo>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.
@@ -81,5 +82,35 @@ impl Scope<'_> {
             }
             _ => unimplemented!("declare_var for patterns other than ident"),
         }
+    }
+
+    /// This method does cannot handle imported types.
+    fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
+        if let Some(ty) = self.types.get(name) {
+            return Some(ty);
+        }
+
+        match self.parent {
+            Some(ref parent) => parent.find_type(name),
+            None => None,
+        }
+    }
+
+    pub fn register_type(&mut self, name: JsWord, data: ExportInfo) {
+        self.types.insert(name, data);
+    }
+}
+
+impl Analyzer<'_, '_> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
+        if let Some(ty) = self.resolved_imports.get(name) {
+            return Some(&ty);
+        }
+
+        if let Some(ty) = self.scope.find_type(name) {
+            return Some(ty);
+        }
+
+        None
     }
 }
