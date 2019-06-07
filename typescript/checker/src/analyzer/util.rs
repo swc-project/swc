@@ -176,65 +176,60 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             }
         },
 
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsStringKeyword,
-            ..
-        }) => match *rhs {
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsStringKeyword,
-                ..
-            }) => return None,
+        TsType::TsKeywordType(TsKeywordType { kind, .. }) => {
+            match *rhs {
+                TsType::TsKeywordType(TsKeywordType { kind: rhs_kind, .. }) if rhs_kind == kind => {
+                    return None
+                }
+                _ => {}
+            }
 
-            TsType::TsLitType(TsLitType {
-                lit: TsLit::Str(..),
-                ..
-            }) => return None,
+            match kind {
+                TsKeywordTypeKind::TsStringKeyword => match *rhs {
+                    TsType::TsLitType(TsLitType {
+                        lit: TsLit::Str(..),
+                        ..
+                    }) => return None,
 
-            _ => {}
-        },
+                    _ => {}
+                },
 
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsNumberKeyword,
-            ..
-        }) => match *rhs {
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsNumberKeyword,
-                ..
-            }) => return None,
+                TsKeywordTypeKind::TsNumberKeyword => match *rhs {
+                    TsType::TsLitType(TsLitType {
+                        lit: TsLit::Number(..),
+                        ..
+                    }) => return None,
 
-            TsType::TsLitType(TsLitType {
-                lit: TsLit::Number(..),
-                ..
-            }) => return None,
+                    _ => {}
+                },
 
-            _ => {}
-        },
+                TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
+                    TsType::TsLitType(TsLitType {
+                        lit: TsLit::Bool(..),
+                        ..
+                    }) => return None,
 
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsBooleanKeyword,
-            ..
-        }) => match *rhs {
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsBooleanKeyword,
-                ..
-            }) => return None,
+                    _ => {}
+                },
 
-            TsType::TsLitType(TsLitType {
-                lit: TsLit::Bool(..),
-                ..
-            }) => return None,
+                _ => {}
+            }
 
-            _ => {}
-        },
+            return Some(Error::AssignFailed {
+                left: to.clone(),
+                right: rhs.clone(),
+                cause: None,
+            });
+        }
 
         _ => {}
     }
 
-    Some(Error::AssignFailed {
-        left: to.clone(),
-        right: rhs.clone(),
-        cause: None,
-    })
+    unimplemented!(
+        "assign: not implemented: \nLeft: {:?}\nRight: {:?}",
+        to,
+        rhs
+    )
 }
 
 impl TypeRefExt for TsType {
