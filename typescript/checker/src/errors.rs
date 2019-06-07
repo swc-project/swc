@@ -1,3 +1,4 @@
+use std::ops::Range;
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span};
 use swc_ecma_ast::{TsType, TsTypeElement};
@@ -44,6 +45,24 @@ pub enum Error {
 
     NoSuchExport {
         items: Vec<(JsWord, Span)>,
+    },
+
+    NoNewSignature {
+        span: Span,
+    },
+
+    NoCallSignature {
+        span: Span,
+    },
+
+    WrongTypeParams {
+        expected: Range<usize>,
+        actual: usize,
+    },
+
+    WrongParams {
+        expected: Range<usize>,
+        actual: usize,
     },
 }
 

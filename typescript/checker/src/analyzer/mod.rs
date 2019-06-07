@@ -13,7 +13,7 @@ use fxhash::FxHashMap;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 mod export;
