@@ -2,7 +2,7 @@ use super::{util::TypeExt, Analyzer};
 use crate::errors::Error;
 use std::borrow::Cow;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned};
+use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
@@ -343,189 +343,14 @@ trait EqIgnoreSpan {
 
 impl EqIgnoreSpan for TsType {
     fn eq_ignore_span(&self, to: &TsType) -> bool {
-        match (*self, *to) {
-            (TsType::TsArrayType(ref l), TsType::TsArrayType(ref r)) => {
-                l.elem_type.eq_ignore_span(&r.elem_type)
-            }
-
-            (TsType::TsConditionalType(ref l), TsType::TsConditionalType(ref r)) => {
-                l.eq_ignore_span(&r)
-            }
-
-            (TsType::TsFnOrConstructorType(ref l), TsType::TsFnOrConstructorType(ref r)) => {
-                l.eq_ignore_span(&r)
-            }
-
-            (TsType::TsIndexedAccessType(ref l), TsType::TsIndexedAccessType(ref r)) => {
-                l.eq_ignore_span(&r)
-            }
-
-            (TsType::TsInferType(ref l), TsType::TsInferType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsKeywordType(ref l), TsType::TsKeywordType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsLitType(ref l), TsType::TsLitType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsMappedType(ref l), TsType::TsMappedType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsOptionalType(ref l), TsType::TsOptionalType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsParenthesizedType(ref l), TsType::TsParenthesizedType(ref r)) => {
-                l.eq_ignore_span(&r)
-            }
-
-            (TsType::TsRestType(ref l), TsType::TsRestType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsThisType(ref l), TsType::TsThisType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsTupleType(ref l), TsType::TsTupleType(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsTypeLit(ref l), TsType::TsTypeLit(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsTypeOperator(ref l), TsType::TsTypeOperator(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsTypePredicate(ref l), TsType::TsTypePredicate(ref r)) => {
-                l.eq_ignore_span(&r)
-            }
-
-            (TsType::TsTypeQuery(ref l), TsType::TsTypeQuery(ref r)) => l.eq_ignore_span(&r),
-
-            (TsType::TsTypeRef(ref l), TsType::TsTypeRef(ref r)) => l.eq_ignore_span(&r),
-
-            (
-                TsType::TsUnionOrIntersectionType(ref l),
-                TsType::TsUnionOrIntersectionType(ref r),
-            ) => l.eq_ignore_span(&r),
-
-            _ => false,
-        }
-    }
-}
-
-impl EqIgnoreSpan for TsConditionalType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        self.check_type.eq_ignore_span(&to.check_type)
-            && self.extends_type.eq_ignore_span(&to.extends_type)
-            && self.true_type.eq_ignore_span(&to.true_type)
-            && self.false_type.eq_ignore_span(&to.false_type)
-    }
-}
-
-impl EqIgnoreSpan for TsFnOrConstructorType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        match (*self, *to) {
-            (
-                TsFnOrConstructorType::TsConstructorType(ref l),
-                TsFnOrConstructorType::TsConstructorType(ref r),
-            ) => l.eq_ignore_span(r),
-
-            (TsFnOrConstructorType::TsFnType(ref l), TsFnOrConstructorType::TsFnType(ref r)) => {
-                l.eq_ignore_span(r)
+        struct SpanRemover;
+        impl Fold<Span> for SpanRemover {
+            fn fold(&mut self, _: Span) -> Span {
+                DUMMY_SP
             }
         }
-    }
-}
 
-impl EqIgnoreSpan for TsIndexedAccessType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        self.obj_type.eq_ignore_span(&to.obj_type) && self.index_type.eq_ignore_span(&to.index_type)
-    }
-}
-
-impl EqIgnoreSpan for TsInferType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        self.type_param.eq_ignore_span(&to.type_param)
-    }
-}
-
-impl EqIgnoreSpan for TsKeywordType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsConstructorType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsFnType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsTypeParam {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsLitType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsMappedType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsOptionalType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsParenthesizedType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsRestType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsThisType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        true
-    }
-}
-
-impl EqIgnoreSpan for TsTupleType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsTypeLit {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsTypeOperator {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsTypePredicate {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsTypeQuery {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsTypeRef {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsUnionType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsIntersectionType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {}
-}
-
-impl EqIgnoreSpan for TsUnionOrIntersectionType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        match (*self, *to) {
-            (
-                TsUnionOrIntersectionType::TsIntersectionType(ref l),
-                TsUnionOrIntersectionType::TsIntersectionType(ref r),
-            ) => l.eq_ignore_span(&r),
-            (
-                TsUnionOrIntersectionType::TsUnionType(ref l),
-                TsUnionOrIntersectionType::TsUnionType(ref r),
-            ) => l.eq_ignore_span(&r),
-
-            _ => false,
-        }
+        self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
     }
 }
 
@@ -533,8 +358,21 @@ impl<T> EqIgnoreSpan for Box<T>
 where
     T: EqIgnoreSpan,
 {
-    fn eq_ignore_span(&self, to: &Box<T>) -> bool {
+    fn eq_ignore_span(&self, to: &Self) -> bool {
         (**self).eq_ignore_span(&**to)
+    }
+}
+
+impl<T> EqIgnoreSpan for Option<T>
+where
+    T: EqIgnoreSpan,
+{
+    fn eq_ignore_span(&self, to: &Self) -> bool {
+        match (self.as_ref(), to.as_ref()) {
+            (Some(l), Some(r)) => l.eq_ignore_span(r),
+            (None, None) => true,
+            _ => false,
+        }
     }
 }
 
@@ -542,7 +380,7 @@ impl<T> EqIgnoreSpan for Vec<T>
 where
     T: EqIgnoreSpan,
 {
-    fn eq_ignore_span(&self, to: &Vec<T>) -> bool {
+    fn eq_ignore_span(&self, to: &Self) -> bool {
         if self.len() != to.len() {
             return false;
         }
