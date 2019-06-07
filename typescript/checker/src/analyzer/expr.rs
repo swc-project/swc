@@ -12,6 +12,14 @@ impl Analyzer<'_, '_> {
         Ok(match *expr {
             Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
+            Expr::Ident(ref i) => {
+                if let Some(Some(ty)) = self.scope.vars.get(&i.sym).map(|var| &var.ty) {
+                    Cow::Owned(*ty.clone())
+                } else {
+                    unimplemented!("typeof(Ident: {:?})", i)
+                }
+            }
+
             Expr::Array(ArrayLit { ref elems, .. }) => {
                 let mut types: Vec<TsType> = vec![];
 
@@ -135,10 +143,78 @@ impl Analyzer<'_, '_> {
                 }
             }
 
-            Expr::Member(..) => unimplemented!("typeof(MemberExpression)"),
+            Expr::New(NewExpr { ref callee, .. }) => {
+                let callee_type = self.type_of(callee).map(|ty| {
+                    extract_type(ty, |ty| match *ty {
+                        TsType::TsFnOrConstructorType(
+                            TsFnOrConstructorType::TsConstructorType(..),
+                        ) => true,
+                        _ => false,
+                    })
+                })?;
+                match callee_type.into_owned() {
+                    TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(
+                        TsConstructorType {
+                            params,
+                            type_params,
+                            type_ann,
+                            ..
+                        },
+                    )) => {
+                        //
+                        unimplemented!("typeof(NewExpr)")
+
+                        // Cow::Owned(*type_ann.type_ann)
+                    }
+                    _ => unimplemented!("error: no constructor signature"),
+                }
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(ref callee),
+                ..
+            }) => {
+                let callee_type = self.type_of(callee).map(|ty| {
+                    extract_type(ty, |ty| match *ty {
+                        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..)) => true,
+                        _ => false,
+                    })
+                })?;
+                match callee_type.into_owned() {
+                    TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
+                        params,
+                        type_params,
+                        type_ann,
+                        ..
+                    })) => {
+                        //
+
+                        Cow::Owned(*type_ann.type_ann)
+                    }
+                    _ => unimplemented!("error: no constructor signature"),
+                }
+            }
+
+            Expr::Seq(SeqExpr { ref exprs, .. }) => {
+                assert!(exprs.len() >= 1);
+
+                return self.type_of(&exprs.last().unwrap());
+            }
+
+            Expr::Await(AwaitExpr { .. }) => unimplemented!("typeof(AwaitExpr)"),
+
+            Expr::Class(ClassExpr { .. }) => unimplemented!("typeof(ClassExpr)"),
+
+            Expr::Arrow(ArrowExpr { .. }) => unimplemented!("typeof(ArrowExpr)"),
+            Expr::Fn(FnExpr { .. }) => unimplemented!("typeof(FnExpr)"),
+
+            Expr::Member(MemberExpr { .. }) => unimplemented!("typeof(MemberExpr)"),
+
+            Expr::MetaProp(..) => unimplemented!("typeof(MetaProp)"),
 
             Expr::Assign(AssignExpr { ref right, .. }) => return self.type_of(right),
-            // _ => unimplemented!("typeof ({:#?})", expr),
+
+            _ => unimplemented!("typeof ({:#?})", expr),
         })
     }
 
@@ -389,4 +465,27 @@ where
             .zip(to.iter())
             .all(|(l, r)| l.eq_ignore_span(&r))
     }
+}
+
+fn extract_type<F: Fn(&TsType) -> bool>(ty: Cow<TsType>, pred: F) -> Cow<TsType> {
+    if pred(&ty) {
+        return ty;
+    }
+
+    match *ty {
+        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+            TsUnionType { ref types, .. },
+        )) => {
+            for ty in types {
+                if pred(ty) {
+                    // TODO: Optimize
+                    return Cow::Owned(*ty.clone());
+                }
+            }
+        }
+
+        _ => return ty,
+    }
+
+    ty
 }

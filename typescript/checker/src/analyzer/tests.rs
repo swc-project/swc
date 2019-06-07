@@ -89,7 +89,11 @@ fn assert_assignable(ty: &str, expr: &str) {
             _ => unreachable!(),
         };
 
-        let rhs_ty = with_analyzer(|a| a.type_of(&item.clone().init.unwrap()));
+        let rhs_ty = with_analyzer(|a| {
+            a.type_of(&item.clone().init.unwrap())
+                .expect("failed to get type of expression")
+                .into_owned()
+        });
         let ty = item.name.get_ty().unwrap();
 
         assert_eq!(rhs_ty.assign_to(&ty), None);
