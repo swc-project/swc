@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone)]
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
-    pub ty: Option<Box<TsType>>,
+    pub ty: Option<TsType>,
     /// Copied from parent scope. If this is true, it's not a variable
     /// declaration.
     pub copied: bool,
@@ -68,17 +68,25 @@ impl Scope<'_> {
         None
     }
 
+    pub fn declare_var(&mut self, kind: VarDeclKind, name: JsWord, ty: Option<TsType>) {
+        let info = VarInfo {
+            kind,
+            ty,
+            copied: false,
+        };
+        self.vars.insert(name, info);
+    }
+
     /// Updates variable list
-    pub fn declare_var(&mut self, kind: VarDeclKind, pat: &Pat) {
+    pub fn declare_vars(&mut self, kind: VarDeclKind, pat: &Pat) {
         match *pat {
             Pat::Ident(ref i) => {
                 let name = i.sym.clone();
-                let info = VarInfo {
+                self.declare_var(
                     kind,
-                    ty: i.type_ann.as_ref().map(|t| &t.type_ann).cloned(),
-                    copied: false,
-                };
-                self.vars.insert(name, info);
+                    name,
+                    i.type_ann.as_ref().map(|t| &*t.type_ann).cloned(),
+                );
             }
             _ => unimplemented!("declare_var for patterns other than ident"),
         }
@@ -102,6 +110,20 @@ impl Scope<'_> {
 }
 
 impl Analyzer<'_, '_> {
+    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
+        let mut scope = Some(&self.scope);
+
+        while let Some(s) = scope {
+            if let Some(var) = s.vars.get(name) {
+                return var.ty.as_ref();
+            }
+
+            scope = s.parent;
+        }
+
+        None
+    }
+
     pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
         if let Some(ty) = self.resolved_imports.get(name) {
             return Some(&ty);

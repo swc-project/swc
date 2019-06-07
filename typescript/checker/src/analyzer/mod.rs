@@ -1,10 +1,8 @@
 pub use self::export::{ExportExtra, ExportInfo};
 use self::{
     scope::{Scope, ScopeKind, VarInfo},
-    util::{PatExt, TypeRefExt},
+    util::{PatExt, TypeExt, TypeRefExt},
 };
-use std::borrow::Cow;
-
 use super::Checker;
 use crate::{
     errors::Error,
@@ -13,9 +11,9 @@ use crate::{
 };
 use fxhash::FxHashMap;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
-use std::{path::PathBuf, sync::Arc};
+use std::{borrow::Cow, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Span, Spanned, Visit, VisitWith};
+use swc_common::{Span, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 mod export;
@@ -149,7 +147,7 @@ impl Visit<Function> for Analyzer<'_, '_> {
 
         f.params
             .iter()
-            .for_each(|pat| analyzer.scope.declare_var(VarDeclKind::Let, pat));
+            .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
 
         f.body.visit_children(&mut analyzer);
     }
@@ -161,7 +159,7 @@ impl Visit<ArrowExpr> for Analyzer<'_, '_> {
 
         f.params
             .iter()
-            .for_each(|pat| analyzer.scope.declare_var(VarDeclKind::Let, pat));
+            .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
 
         match f.body {
             BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
@@ -213,17 +211,25 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                         let ty = self.expand(Cow::Borrowed(ty));
                         let errors = value_ty.assign_to(&*ty);
                         if errors.is_none() {
-                            self.scope.declare_var(kind, &v.name)
+                            self.scope.declare_vars(kind, &v.name)
                         } else {
                             self.info.errors.extend(errors);
                         }
                     }
                     None => {
-                        // TODO: infer type from value.
-                        //
-                        // v
-                        // .name
-                        // .set_ty(value_ty.map(|ty| ty.generalize_lit()).map(Box::new)),
+                        // infer type from value.
+
+                        let ty = value_ty.into_owned().generalize_lit();
+
+                        self.scope.declare_var(
+                            kind,
+                            match v.name {
+                                Pat::Ident(ref i) => i.sym.clone(),
+                                _ => unimplemented!("declare_var with complex type inference"),
+                            },
+                            Some(ty),
+                        );
+                        return;
                     }
                 }
             } else {
@@ -235,7 +241,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                 }
             }
 
-            self.scope.declare_var(kind, &v.name);
+            self.scope.declare_vars(kind, &v.name);
         });
     }
 }
@@ -256,7 +262,7 @@ impl Analyzer<'_, '_> {
 
                                 let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
-                                    var_info.ty = Some(box ty.into_owned());
+                                    var_info.ty = Some(ty.into_owned());
                                 } else {
                                     self.info.errors.extend(errors)
                                 }
@@ -268,7 +274,7 @@ impl Analyzer<'_, '_> {
                             let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
                             {
                                 VarInfo {
-                                    ty: Some(box ty.into_owned()),
+                                    ty: Some(ty.into_owned()),
                                     copied: true,
                                     ..var_info.clone()
                                 }

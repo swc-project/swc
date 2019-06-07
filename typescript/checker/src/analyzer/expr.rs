@@ -13,10 +13,10 @@ impl Analyzer<'_, '_> {
             Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
             Expr::Ident(ref i) => {
-                if let Some(Some(ty)) = self.scope.vars.get(&i.sym).map(|var| &var.ty) {
-                    Cow::Owned(*ty.clone())
+                if let Some(ty) = self.find_var_type(&i.sym) {
+                    Cow::Owned(ty.clone())
                 } else {
-                    unimplemented!("typeof(Ident: {:?})", i)
+                    unimplemented!("typeof(undefined ident: {:?})", i)
                 }
             }
 
