@@ -12,6 +12,47 @@ impl Analyzer<'_, '_> {
         Ok(match *expr {
             Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
+            Expr::Array(ArrayLit { ref elems, .. }) => {
+                let mut types = vec![];
+
+                for elem in elems {
+                    match elem {
+                        Some(ExprOrSpread {
+                            spread: None,
+                            ref expr,
+                        }) => {
+                            let ty = self.type_of(expr)?;
+                            if !types.contains(&*ty) {
+                                types.push(ty.into_owned())
+                            }
+                        }
+                        Some(ExprOrSpread {
+                            spread: Some(..), ..
+                        }) => unimplemented!("type of array spread"),
+                        None => {
+                            let ty = undefined(span);
+                            if !types.contains(&ty) {
+                                types.push(ty.clone())
+                            }
+                        }
+                    }
+                }
+
+                Cow::Owned(TsType::TsArrayType(TsArrayType {
+                    span,
+                    elem_type: match types.len() {
+                        0 => box any(span),
+                        1 => box types.into_iter().next().unwrap(),
+                        _ => box TsType::TsUnionOrIntersectionType(
+                            TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                                span,
+                                types: types.into_iter().map(Box::new).collect(),
+                            }),
+                        ),
+                    },
+                }))
+            }
+
             Expr::Lit(Lit::Bool(v)) => Cow::Owned(TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Bool(v),
@@ -70,13 +111,14 @@ impl Analyzer<'_, '_> {
             }
 
             // https://github.com/Microsoft/TypeScript/issues/26959
-            Expr::Yield(..) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+            Expr::Yield(..) => Cow::Owned(any(span)),
+
+            Expr::Update(..) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNumberKeyword,
                 span,
-                kind: TsKeywordTypeKind::TsAnyKeyword,
             })),
 
-    
-
+            Expr::Assign(AssignExpr { ref right, .. }) => return self.type_of(right),
             // _ => unimplemented!("typeof ({:#?})", expr),
         })
     }
@@ -100,9 +142,9 @@ impl Analyzer<'_, '_> {
     pub(super) fn expand<'a>(&mut self, ty: Cow<'a, TsType>) -> Cow<'a, TsType> {
         match *ty {
             TsType::TsTypeRef(TsTypeRef {
-                span,
                 ref type_name,
                 ref type_params,
+                ..
             }) => match *type_name {
                 TsEntityName::Ident(ref i) => {
                     if let Some(info) = self.find_type(&i.sym) {
@@ -259,5 +301,19 @@ fn negate(ty: Cow<TsType>) -> Cow<TsType> {
             }),
         },
         _ => boolean(ty.span()),
+    })
+}
+
+fn undefined(span: Span) -> TsType {
+    TsType::TsKeywordType(TsKeywordType {
+        span,
+        kind: TsKeywordTypeKind::TsUndefinedKeyword,
+    })
+}
+
+fn any(span: Span) -> TsType {
+    TsType::TsKeywordType(TsKeywordType {
+        span,
+        kind: TsKeywordTypeKind::TsAnyKeyword,
     })
 }
