@@ -180,13 +180,10 @@ impl Visit<BlockStmt> for Analyzer<'_, '_> {
 
 impl Visit<AssignExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, expr: &AssignExpr) {
-        if let Some(rhs_ty) = self
-            .type_of(&expr.right)
-            .map(|ty| self.expand(Cow::Owned(ty)))
-        {
-            if expr.op == op!("=") {
-                self.try_assign(&expr.left, rhs_ty);
-            }
+        let rhs_ty = self.type_of(&expr.right);
+        let rhs_ty = self.expand(Cow::Owned(rhs_ty));
+        if expr.op == op!("=") {
+            self.try_assign(&expr.left, rhs_ty);
         }
     }
 }
@@ -198,7 +195,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
         var.decls.iter().for_each(|v| {
             if let Some(ref init) = v.init {
                 //  Check if v_ty is assignable to ty
-                let value_ty = self.type_of(&init).map(|ty| self.expand(Cow::Owned(ty)));
+                let value_ty = self.expand(Cow::Owned(self.type_of(&init)));
 
                 match v.name.get_ty() {
                     Some(ty) => {

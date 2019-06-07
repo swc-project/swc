@@ -5,58 +5,52 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of(&self, expr: &Expr) -> Option<TsType> {
+    pub(super) fn type_of(&self, expr: &Expr) -> TsType {
         match *expr {
-            Expr::This(ThisExpr { span }) => Some(TsType::TsThisType(TsThisType { span })),
+            Expr::This(ThisExpr { span }) => TsType::TsThisType(TsThisType { span }),
 
-            Expr::Lit(Lit::Bool(v)) => Some(TsType::TsLitType(TsLitType {
+            Expr::Lit(Lit::Bool(v)) => TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Bool(v),
-            })),
-            Expr::Lit(Lit::Str(ref v)) => Some(TsType::TsLitType(TsLitType {
+            }),
+            Expr::Lit(Lit::Str(ref v)) => TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Str(v.clone()),
-            })),
-            Expr::Lit(Lit::Num(v)) => Some(TsType::TsLitType(TsLitType {
+            }),
+            Expr::Lit(Lit::Num(v)) => TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Number(v),
-            })),
+            }),
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
                 ..
-            }) => Some(negate(self.type_of(arg))),
+            }) => negate(self.type_of(arg)),
 
-            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Some(*type_ann.clone()),
-            Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
-                Some(*type_ann.type_ann.clone())
-            }
+            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => *type_ann.clone(),
+            Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => *type_ann.type_ann.clone(),
 
-            Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
-                self.type_of(expr).map(|ty| ty.remove_falsy())
-            }
+            Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => self.type_of(expr).remove_falsy(),
 
-            Expr::Object(ObjectLit { span, ref props }) => Some(TsType::TsTypeLit(TsTypeLit {
+            Expr::Object(ObjectLit { span, ref props }) => TsType::TsTypeLit(TsTypeLit {
                 span,
                 members: props
                     .iter()
                     .map(|prop| match *prop {
-                        PropOrSpread::Prop(ref prop) => {
-                            TsTypeElement::TsPropertySignature(self.type_of_prop(&prop))
-                        }
+                        PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
                         PropOrSpread::Spread(..) => {
                             unimplemented!("spread element in object literal")
                         }
                     })
                     .collect(),
-            })),
+            }),
 
-            _ => None,
+            _ => unimplemented!("typeof ({:#?})", expr),
         }
     }
 
-    fn type_of_prop(&self, prop: &Prop) -> TsPropertySignature {
+    fn type_of_prop(&self, prop: &Prop) -> TsTypeElement {
         TsPropertySignature {
             span: prop.span(),
             key: prop_key_to_expr(&prop),
@@ -68,6 +62,7 @@ impl Analyzer<'_, '_> {
             type_ann: Default::default(),
             type_params: Default::default(),
         }
+        .into()
     }
 
     /// TODO: Make this return Result<TsType, Error>
@@ -200,17 +195,13 @@ fn is_never(ty: &TsType) -> bool {
     }
 }
 
-fn negate(ty: Option<TsType>) -> TsType {
+fn negate(ty: TsType) -> TsType {
     fn boolean(span: Span) -> TsType {
         TsType::TsKeywordType(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsBooleanKeyword,
         })
     }
-    let ty = match ty {
-        Some(ty) => ty,
-        None => return boolean(DUMMY_SP),
-    };
 
     match ty {
         TsType::TsLitType(TsLitType { lit, span }) => match lit {
