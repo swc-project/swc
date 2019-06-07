@@ -1,11 +1,13 @@
 use super::Analyzer;
 use std::borrow::Cow;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
     pub(super) fn type_of(&self, expr: &Expr) -> TsType {
+        let span = expr.span();
+
         match *expr {
             Expr::This(ThisExpr { span }) => TsType::TsThisType(TsThisType { span }),
 
@@ -44,6 +46,12 @@ impl Analyzer<'_, '_> {
                         }
                     })
                     .collect(),
+            }),
+
+            // https://github.com/Microsoft/TypeScript/issues/26959
+            Expr::Yield(..) => TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsAnyKeyword,
             }),
 
             _ => unimplemented!("typeof ({:#?})", expr),
