@@ -1,61 +1,84 @@
 use super::Analyzer;
+use crate::errors::Error;
 use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of(&self, expr: &Expr) -> TsType {
+    pub(super) fn type_of<'a>(&self, expr: &'a Expr) -> Result<Cow<'a, TsType>, Error> {
         let span = expr.span();
 
-        match *expr {
-            Expr::This(ThisExpr { span }) => TsType::TsThisType(TsThisType { span }),
+        Ok(match *expr {
+            Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
-            Expr::Lit(Lit::Bool(v)) => TsType::TsLitType(TsLitType {
+            Expr::Lit(Lit::Bool(v)) => Cow::Owned(TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Bool(v),
-            }),
-            Expr::Lit(Lit::Str(ref v)) => TsType::TsLitType(TsLitType {
+            })),
+            Expr::Lit(Lit::Str(ref v)) => Cow::Owned(TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Str(v.clone()),
-            }),
-            Expr::Lit(Lit::Num(v)) => TsType::TsLitType(TsLitType {
+            })),
+            Expr::Lit(Lit::Num(v)) => Cow::Owned(TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Number(v),
-            }),
+            })),
+
+            Expr::Paren(ParenExpr { ref expr, .. }) => return self.type_of(expr),
+
+            Expr::Tpl(..) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsStringKeyword,
+            })),
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
                 ..
-            }) => negate(self.type_of(arg)),
+            }) => negate(self.type_of(arg)?),
 
-            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => *type_ann.clone(),
-            Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => *type_ann.type_ann.clone(),
+            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Cow::Borrowed(type_ann),
+            Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
+                Cow::Borrowed(&*type_ann.type_ann)
+            }
 
-            Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => self.type_of(expr).remove_falsy(),
+            Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
+                return self
+                    .type_of(expr)
+                    .map(|ty| {
+                        // TODO: Optimize
 
-            Expr::Object(ObjectLit { span, ref props }) => TsType::TsTypeLit(TsTypeLit {
-                span,
-                members: props
-                    .iter()
-                    .map(|prop| match *prop {
-                        PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
-                        PropOrSpread::Spread(..) => {
-                            unimplemented!("spread element in object literal")
-                        }
+                        ty.into_owned().remove_falsy()
                     })
-                    .collect(),
-            }),
+                    .map(Cow::Owned);
+            }
+
+            Expr::Object(ObjectLit { span, ref props }) => {
+                Cow::Owned(TsType::TsTypeLit(TsTypeLit {
+                    span,
+                    members: props
+                        .iter()
+                        .map(|prop| match *prop {
+                            PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
+                            PropOrSpread::Spread(..) => {
+                                unimplemented!("spread element in object literal")
+                            }
+                        })
+                        .collect(),
+                }))
+            }
 
             // https://github.com/Microsoft/TypeScript/issues/26959
-            Expr::Yield(..) => TsType::TsKeywordType(TsKeywordType {
+            Expr::Yield(..) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsAnyKeyword,
-            }),
+            })),
 
-            _ => unimplemented!("typeof ({:#?})", expr),
-        }
+    
+
+            // _ => unimplemented!("typeof ({:#?})", expr),
+        })
     }
 
     fn type_of_prop(&self, prop: &Prop) -> TsTypeElement {
@@ -203,7 +226,7 @@ fn is_never(ty: &TsType) -> bool {
     }
 }
 
-fn negate(ty: TsType) -> TsType {
+fn negate(ty: Cow<TsType>) -> Cow<TsType> {
     fn boolean(span: Span) -> TsType {
         TsType::TsKeywordType(TsKeywordType {
             span,
@@ -211,8 +234,8 @@ fn negate(ty: TsType) -> TsType {
         })
     }
 
-    match ty {
-        TsType::TsLitType(TsLitType { lit, span }) => match lit {
+    Cow::Owned(match *ty {
+        TsType::TsLitType(TsLitType { ref lit, span }) => match *lit {
             TsLit::Bool(v) => TsType::TsLitType(TsLitType {
                 lit: TsLit::Bool(Bool {
                     value: !v.value,
@@ -227,7 +250,7 @@ fn negate(ty: TsType) -> TsType {
                 }),
                 span,
             }),
-            TsLit::Str(v) => TsType::TsLitType(TsLitType {
+            TsLit::Str(ref v) => TsType::TsLitType(TsLitType {
                 lit: TsLit::Bool(Bool {
                     value: v.value != js_word!(""),
                     span: v.span,
@@ -236,5 +259,5 @@ fn negate(ty: TsType) -> TsType {
             }),
         },
         _ => boolean(ty.span()),
-    }
+    })
 }
