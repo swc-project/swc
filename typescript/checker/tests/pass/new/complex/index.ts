@@ -26,5 +26,5 @@ class AnalogClock implements ClockInterface {
   }
 }
 
-let digital: DigitalClock = createClock(DigitalClock, 12, 17);
-let analog: AnalogClock = createClock(AnalogClock, 7, 32);
+let digital: ClockInterface = createClock(DigitalClock, 12, 17);
+let analog: ClockInterface = createClock(AnalogClock, 7, 32);
