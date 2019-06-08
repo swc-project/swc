@@ -141,6 +141,26 @@ pub struct ImportInfo {
     pub src: JsWord,
 }
 
+impl Visit<FnDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, f: &FnDecl) {
+        f.visit_children(self);
+
+        let ty = self.type_of_fn(&f.function);
+        let ty = match ty {
+            Ok(ty) => ty,
+            Err(err) => {
+                self.info.errors.push(err);
+                TsType::TsKeywordType(TsKeywordType {
+                    span: f.span(),
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                })
+            }
+        };
+        self.scope
+            .declare_var(VarDeclKind::Var, f.ident.sym.clone(), Some(ty), f.declare);
+    }
+}
+
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
         let mut analyzer = self.child(ScopeKind::Fn);
@@ -228,6 +248,9 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 _ => unimplemented!("declare_var with complex type inference"),
                             },
                             Some(ty),
+                            // Variable declarations does not allow multiple declarations with same
+                            // name
+                            false,
                         );
                         return;
                     }

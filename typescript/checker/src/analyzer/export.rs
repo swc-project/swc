@@ -176,14 +176,7 @@ impl Analyzer<'_, '_> {
                 .params
                 .clone()
                 .into_iter()
-                .map(|p| match p {
-                    Pat::Ident(i) => TsFnParam::Ident(i),
-                    Pat::Rest(rest) => TsFnParam::Rest(rest),
-                    Pat::Array(arr) => TsFnParam::Array(arr),
-                    Pat::Object(obj) => TsFnParam::Object(obj),
-                    // TODO: Pat::Assign()
-                    _ => unimplemented!("function parameter of type {:?}", p),
-                })
+                .map(pat_to_ts_fn_param)
                 .collect(),
             type_params: f.type_params.clone(),
             type_ann: TsTypeAnn {
@@ -193,5 +186,16 @@ impl Analyzer<'_, '_> {
         }));
 
         self.info.exports.insert(name, Arc::new(ty.into()));
+    }
+}
+
+pub fn pat_to_ts_fn_param(p: Pat) -> TsFnParam {
+    match p {
+        Pat::Ident(i) => TsFnParam::Ident(i),
+        Pat::Rest(rest) => TsFnParam::Rest(rest),
+        Pat::Array(arr) => TsFnParam::Array(arr),
+        Pat::Object(obj) => TsFnParam::Object(obj),
+        // TODO: Pat::Assign()
+        _ => unimplemented!("function parameter of type {:?}", p),
     }
 }

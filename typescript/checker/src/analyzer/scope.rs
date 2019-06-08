@@ -68,7 +68,13 @@ impl Scope<'_> {
         None
     }
 
-    pub fn declare_var(&mut self, kind: VarDeclKind, name: JsWord, ty: Option<TsType>) {
+    pub fn declare_var(
+        &mut self,
+        kind: VarDeclKind,
+        name: JsWord,
+        ty: Option<TsType>,
+        allow_multiple: bool,
+    ) {
         let info = VarInfo {
             kind,
             ty,
@@ -86,9 +92,10 @@ impl Scope<'_> {
                     kind,
                     name,
                     i.type_ann.as_ref().map(|t| &*t.type_ann).cloned(),
+                    false,
                 );
             }
-            _ => unimplemented!("declare_var for patterns other than ident"),
+            _ => unimplemented!("declare_vars for patterns other than ident"),
         }
     }
 

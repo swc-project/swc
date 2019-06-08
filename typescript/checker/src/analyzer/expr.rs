@@ -1,4 +1,4 @@
-use super::{util::TypeExt, Analyzer};
+use super::{export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
 use crate::errors::Error;
 use std::borrow::Cow;
 use swc_atoms::js_word;
@@ -195,7 +195,9 @@ impl Analyzer<'_, '_> {
             Expr::Class(ClassExpr { .. }) => unimplemented!("typeof(ClassExpr)"),
 
             Expr::Arrow(ArrowExpr { .. }) => unimplemented!("typeof(ArrowExpr)"),
-            Expr::Fn(FnExpr { .. }) => unimplemented!("typeof(FnExpr)"),
+            Expr::Fn(FnExpr { ref function, .. }) => {
+                return self.type_of_fn(&function).map(Cow::Owned)
+            }
 
             Expr::Member(MemberExpr { .. }) => unimplemented!("typeof(MemberExpr)"),
 
@@ -220,6 +222,32 @@ impl Analyzer<'_, '_> {
             type_params: Default::default(),
         }
         .into()
+    }
+
+    pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<TsType, Error> {
+        unimplemented!("infer_return_type()")
+    }
+
+    pub(super) fn type_of_fn(&self, f: &Function) -> Result<TsType, Error> {
+        let ret_ty = match f.return_type {
+            Some(ref ret_ty) => ret_ty.clone(),
+            None => match f.body {
+                Some(ref body) => self.infer_return_type(body).map(|ty| TsTypeAnn {
+                    span: ty.span(),
+                    type_ann: box ty,
+                })?,
+                None => unreachable!("function without body should have type annotation"),
+            },
+        };
+
+        Ok(TsType::TsFnOrConstructorType(
+            TsFnOrConstructorType::TsFnType(TsFnType {
+                span: f.span,
+                params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
+                type_params: f.type_params.clone(),
+                type_ann: ret_ty,
+            }),
+        ))
     }
 
     fn extract(
