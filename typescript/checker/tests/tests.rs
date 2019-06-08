@@ -76,7 +76,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Erro
             buf
         };
 
-        let ignore = false;
+        let ignore = file_name.contains("circular");
 
         let dir = dir.clone();
         let name = format!(
