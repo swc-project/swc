@@ -161,22 +161,7 @@ impl Analyzer<'_, '_> {
                         )
                     })??
                     .into_owned();
-                match callee_type {
-                    TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(
-                        TsConstructorType {
-                            params,
-                            type_params,
-                            type_ann,
-                            ..
-                        },
-                    )) => {
-                        //
-                        unimplemented!("typeof(NewExpr)")
-
-                        // Cow::Owned(*type_ann.type_ann)
-                    }
-                    _ => unimplemented!("error: no constructor signature"),
-                }
+                return Ok(Cow::Owned(callee_type));
             }
 
             Expr::Call(CallExpr {
@@ -185,23 +170,12 @@ impl Analyzer<'_, '_> {
                 ref type_args,
                 ..
             }) => {
-                let callee_type = self
-                    .type_of(callee)
-                    .map(|ty| self.extract(ty, ExtractKind::Call, args, type_args.as_ref()))??
-                    .into_owned();
-                match callee_type {
-                    TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
-                        params,
-                        type_params,
-                        type_ann,
-                        ..
-                    })) => {
-                        //
+                let callee_type = self.type_of(callee).map(|ty| {
+                    self.extract(ty, ExtractKind::Call, args, type_args.as_ref())
+                        .map(|v| v.into_owned())
+                })??;
 
-                        Cow::Owned(*type_ann.type_ann)
-                    }
-                    _ => unimplemented!("error: no constructor signature"),
-                }
+                return Ok(Cow::Owned(callee_type));
             }
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
@@ -249,6 +223,18 @@ impl Analyzer<'_, '_> {
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Cow<TsType>, Error> {
+        let span = ty.span();
+        let any = any(span);
+
+        macro_rules! ret_err {
+            () => {
+                match kind {
+                    ExtractKind::Call => return Err(Error::NoCallSignature { span: ty.span() }),
+                    ExtractKind::New => return Err(Error::NoNewSignature { span: ty.span() }),
+                }
+            };
+        }
+
         match *ty {
             TsType::TsTypeLit(ref lit) => {
                 for member in &lit.members {
@@ -256,46 +242,88 @@ impl Analyzer<'_, '_> {
                         TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
                             ref params,
                             ref type_params,
+                            ref type_ann,
                             ..
                         }) if kind == ExtractKind::Call => {
-                            return self
-                                .try_instantiate(params, type_params.as_ref(), args, type_args)
+                            //
+                            match self
+                                .try_instantiate(
+                                    &type_ann
+                                        .as_ref()
+                                        .map(|v| &*v.type_ann)
+                                        .unwrap_or_else(|| &any),
+                                    params,
+                                    type_params.as_ref(),
+                                    args,
+                                    type_args,
+                                )
                                 .map(Cow::Owned)
+                            {
+                                Ok(v) => return Ok(v),
+                                Err(..) => {}
+                            };
                         }
 
                         TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
                             ref params,
                             ref type_params,
+                            ref type_ann,
                             ..
                         }) if kind == ExtractKind::New => {
-                            return self
-                                .try_instantiate(params, type_params.as_ref(), args, type_args)
+                            match self
+                                .try_instantiate(
+                                    &type_ann
+                                        .as_ref()
+                                        .map(|v| &*v.type_ann)
+                                        .unwrap_or_else(|| &any),
+                                    params,
+                                    type_params.as_ref(),
+                                    args,
+                                    type_args,
+                                )
                                 .map(Cow::Owned)
+                            {
+                                Ok(v) => return Ok(v),
+                                Err(..) => {
+                                    // TODO: Handle error
+                                }
+                            }
                         }
                         _ => {}
                     }
                 }
 
-                match kind {
-                    ExtractKind::Call => return Err(Error::NoCallSignature { span: ty.span() }),
-                    ExtractKind::New => return Err(Error::NoNewSignature { span: ty.span() }),
-                }
+                ret_err!()
             }
 
             TsType::TsFnOrConstructorType(ref f_c) => match *f_c {
                 TsFnOrConstructorType::TsFnType(TsFnType {
                     ref params,
                     ref type_params,
+                    ref type_ann,
                     ..
                 }) if kind == ExtractKind::Call => self
-                    .try_instantiate(params, type_params.as_ref(), args, type_args)
+                    .try_instantiate(
+                        &type_ann.type_ann,
+                        params,
+                        type_params.as_ref(),
+                        args,
+                        type_args,
+                    )
                     .map(Cow::Owned),
                 TsFnOrConstructorType::TsConstructorType(TsConstructorType {
                     ref params,
                     ref type_params,
+                    ref type_ann,
                     ..
                 }) if kind == ExtractKind::New => self
-                    .try_instantiate(params, type_params.as_ref(), args, type_args)
+                    .try_instantiate(
+                        &type_ann.type_ann,
+                        params,
+                        type_params.as_ref(),
+                        args,
+                        type_args,
+                    )
                     .map(Cow::Owned),
 
                 _ => match kind {
@@ -325,6 +353,7 @@ impl Analyzer<'_, '_> {
 
     fn try_instantiate(
         &self,
+        ret_type: &TsType,
         param_decls: &[TsFnParam],
         ty_params_decl: Option<&TsTypeParamDecl>,
         args: &[ExprOrSpread],
@@ -349,8 +378,7 @@ impl Analyzer<'_, '_> {
             });
         }
 
-        //
-        unimplemented!("try_instantitate()")
+        Ok(ret_type.clone())
     }
 
     /// TODO: Make this return Result<TsType, Error>
