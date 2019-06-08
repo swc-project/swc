@@ -203,7 +203,43 @@ impl Analyzer<'_, '_> {
                 return self.type_of_fn(&function).map(Cow::Owned)
             }
 
-            Expr::Member(MemberExpr { .. }) => unimplemented!("typeof(MemberExpr)"),
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(ref obj),
+                computed,
+                ref prop,
+                ..
+            }) => {
+                // member expression
+                let obj_ty = self
+                    .type_of(obj)
+                    .map(Cow::into_owned)
+                    .map(Box::new)
+                    .map(|obj_type| {
+                        //
+                        Ok(if computed {
+                            let index_type =
+                                self.type_of(&prop).map(Cow::into_owned).map(Box::new)?;
+                            TsIndexedAccessType {
+                                span,
+                                obj_type,
+                                index_type,
+                            }
+                        } else {
+                            TsIndexedAccessType {
+                                span,
+                                obj_type,
+                                index_type: box TsType::TsKeywordType(TsKeywordType {
+                                    span,
+                                    kind: TsKeywordTypeKind::TsStringKeyword,
+                                }),
+                            }
+                        })
+                    })
+                    .map(|res| res.map(TsType::TsIndexedAccessType))
+                    .map(|res| res.map(Cow::Owned))??;
+
+                obj_ty
+            }
 
             Expr::MetaProp(..) => unimplemented!("typeof(MetaProp)"),
 
@@ -229,7 +265,22 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn type_of_class(&self, c: &Class) -> Result<TsType, Error> {
-        unimplemented!("type_of_class()")
+        let mut type_props = vec![];
+        for member in &c.body {
+            match member {
+                ClassMember::ClassProp(..) => {}
+                ClassMember::Constructor(..) => {}
+                ClassMember::Method(..) => {}
+                ClassMember::PrivateMethod(..) => {}
+                ClassMember::PrivateProp(..) => {}
+                ClassMember::TsIndexSignature(..) => {}
+            }
+        }
+
+        Ok(TsType::TsTypeLit(TsTypeLit {
+            span: c.span(),
+            members: type_props,
+        }))
     }
 
     pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<TsType, Error> {
@@ -413,10 +464,7 @@ impl Analyzer<'_, '_> {
                     )
                     .map(Cow::Owned),
 
-                _ => match kind {
-                    ExtractKind::Call => return Err(Error::NoCallSignature { span: ty.span() }),
-                    ExtractKind::New => return Err(Error::NoNewSignature { span: ty.span() }),
-                },
+                _ => ret_err!(),
             },
 
             TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref u)) => {
@@ -431,10 +479,7 @@ impl Analyzer<'_, '_> {
                 Err(Error::UnionError { errors })
             }
 
-            _ => match kind {
-                ExtractKind::Call => return Err(Error::NoCallSignature { span: ty.span() }),
-                ExtractKind::New => return Err(Error::NoNewSignature { span: ty.span() }),
-            },
+            _ => ret_err!(),
         }
     }
 
