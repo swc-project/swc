@@ -141,6 +141,31 @@ pub struct ImportInfo {
     pub src: JsWord,
 }
 
+impl Visit<ClassDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, c: &ClassDecl) {
+        c.visit_children(self);
+
+        let ty = self.type_of_class(&c.class);
+        let ty = match ty {
+            Ok(ty) => ty,
+            Err(err) => {
+                self.info.errors.push(err);
+                TsType::TsKeywordType(TsKeywordType {
+                    span: c.span(),
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                })
+            }
+        };
+        self.scope.declare_var(
+            VarDeclKind::Var,
+            c.ident.sym.clone(),
+            Some(ty),
+            // declare Class does not allow multiple declarations.
+            false,
+        );
+    }
+}
+
 impl Visit<FnDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &FnDecl) {
         f.visit_children(self);

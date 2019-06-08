@@ -1,8 +1,9 @@
 use super::{export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
 use crate::errors::Error;
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::borrow::Cow;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Span, Spanned, DUMMY_SP};
+use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
@@ -31,7 +32,7 @@ impl Analyzer<'_, '_> {
                             ref expr,
                         }) => {
                             let ty = self.type_of(expr)?.into_owned().generalize_lit();
-                            if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
+                            if types.par_iter().all(|l| !l.eq_ignore_span(&ty)) {
                                 types.push(ty)
                             }
                         }
@@ -40,7 +41,7 @@ impl Analyzer<'_, '_> {
                         }) => unimplemented!("type of array spread"),
                         None => {
                             let ty = undefined(span);
-                            if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
+                            if types.par_iter().all(|l| !l.eq_ignore_span(&ty)) {
                                 types.push(ty.clone())
                             }
                         }
@@ -108,7 +109,7 @@ impl Analyzer<'_, '_> {
                 Cow::Owned(TsType::TsTypeLit(TsTypeLit {
                     span,
                     members: props
-                        .iter()
+                        .par_iter()
                         .map(|prop| match *prop {
                             PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
                             PropOrSpread::Spread(..) => {
@@ -192,9 +193,12 @@ impl Analyzer<'_, '_> {
 
             Expr::Await(AwaitExpr { .. }) => unimplemented!("typeof(AwaitExpr)"),
 
-            Expr::Class(ClassExpr { .. }) => unimplemented!("typeof(ClassExpr)"),
+            Expr::Class(ClassExpr { ref class, .. }) => {
+                return self.type_of_class(class).map(Cow::Owned)
+            }
 
             Expr::Arrow(ArrowExpr { .. }) => unimplemented!("typeof(ArrowExpr)"),
+
             Expr::Fn(FnExpr { ref function, .. }) => {
                 return self.type_of_fn(&function).map(Cow::Owned)
             }
@@ -224,8 +228,52 @@ impl Analyzer<'_, '_> {
         .into()
     }
 
+    pub(super) fn type_of_class(&self, c: &Class) -> Result<TsType, Error> {
+        unimplemented!("type_of_class()")
+    }
+
     pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<TsType, Error> {
-        unimplemented!("infer_return_type()")
+        let mut types = vec![];
+
+        struct Visitor<'a> {
+            a: &'a Analyzer<'a, 'a>,
+            span: Span,
+            types: &'a mut Vec<Result<TsType, Error>>,
+        }
+
+        impl Visit<ReturnStmt> for Visitor<'_> {
+            fn visit(&mut self, stmt: &ReturnStmt) {
+                let ty = match stmt.arg {
+                    Some(ref arg) => self.a.type_of(arg),
+                    None => Ok(Cow::Owned(undefined(self.span))),
+                };
+                self.types.push(ty.map(|ty| ty.into_owned()));
+            }
+        }
+
+        let mut v = Visitor {
+            span: body.span(),
+            types: &mut types,
+            a: self,
+        };
+        body.visit_with(&mut v);
+
+        let mut tys = Vec::with_capacity(types.len());
+        for ty in types {
+            let ty = ty?;
+            tys.push(box ty);
+        }
+
+        match tys.len() {
+            0 => Ok(undefined(body.span())),
+            1 => Ok(*tys.into_iter().next().unwrap()),
+            _ => Ok(TsType::TsUnionOrIntersectionType(
+                TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    span: body.span(),
+                    types: tys,
+                }),
+            )),
+        }
     }
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<TsType, Error> {
@@ -243,7 +291,12 @@ impl Analyzer<'_, '_> {
         Ok(TsType::TsFnOrConstructorType(
             TsFnOrConstructorType::TsFnType(TsFnType {
                 span: f.span,
-                params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
+                params: f
+                    .params
+                    .par_iter()
+                    .cloned()
+                    .map(pat_to_ts_fn_param)
+                    .collect(),
                 type_params: f.type_params.clone(),
                 type_ann: ret_ty,
             }),
@@ -504,7 +557,7 @@ impl RemoveTypes for TsIntersectionType {
             .map(|ty| ty.remove_falsy())
             .map(Box::new)
             .collect::<Vec<_>>();
-        if types.iter().any(|ty| is_never(&ty)) {
+        if types.par_iter().any(|ty| is_never(&ty)) {
             return TsType::TsKeywordType(TsKeywordType {
                 span: self.span,
                 kind: TsKeywordTypeKind::TsNeverKeyword,
