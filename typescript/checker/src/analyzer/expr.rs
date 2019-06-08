@@ -178,6 +178,12 @@ impl Analyzer<'_, '_> {
                 return Ok(Cow::Owned(callee_type));
             }
 
+            // super() returns any
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                ..
+            }) => Cow::Owned(any(span)),
+
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
                 assert!(exprs.len() >= 1);
 
