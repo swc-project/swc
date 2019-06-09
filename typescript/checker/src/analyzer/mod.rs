@@ -323,7 +323,7 @@ impl Analyzer<'_, '_> {
         match *lhs {
             PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => match **expr {
                 // TODO(kdy1): Validate
-                Expr::Member(MemberExpr { computed: true, .. }) => return,
+                Expr::Member(MemberExpr { .. }) => return,
                 _ => unimplemented!(
                     "assign: {:?} = {:?}\nFile: {}",
                     expr,

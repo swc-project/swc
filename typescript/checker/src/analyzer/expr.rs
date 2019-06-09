@@ -87,6 +87,22 @@ impl Analyzer<'_, '_> {
                 span: v.span,
                 lit: TsLit::Number(v),
             })),
+            Expr::Lit(Lit::Null(Null { span })) => {
+                Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+                    span,
+                    kind: TsKeywordTypeKind::TsNullKeyword,
+                }))
+            }
+            Expr::Lit(Lit::Regex(..)) => Cow::Owned(TsType::TsTypeRef(TsTypeRef {
+                span,
+                type_name: TsEntityName::Ident(Ident {
+                    span,
+                    sym: js_word!("RegExp"),
+                    optional: false,
+                    type_ann: None,
+                }),
+                type_params: None,
+            })),
 
             Expr::Paren(ParenExpr { ref expr, .. }) => return self.type_of(expr),
 
@@ -100,6 +116,15 @@ impl Analyzer<'_, '_> {
                 ref arg,
                 ..
             }) => negate(self.type_of(arg)?),
+
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                ref arg,
+                ..
+            }) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsStringKeyword,
+            })),
 
             Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Cow::Borrowed(type_ann),
             Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
@@ -252,6 +277,45 @@ impl Analyzer<'_, '_> {
             Expr::MetaProp(..) => unimplemented!("typeof(MetaProp)"),
 
             Expr::Assign(AssignExpr { ref right, .. }) => return self.type_of(right),
+
+            Expr::Bin(BinExpr {
+                op: op!("||"),
+                ref right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op!("&&"),
+                ref right,
+                ..
+            }) => return self.type_of(&right),
+
+            Expr::Bin(BinExpr {
+                op: op!(bin, "-"), ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op!(bin, "+"), ..
+            }) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsNumberKeyword,
+                span,
+            })),
+
+            Expr::Bin(BinExpr { op: op!("==="), .. })
+            | Expr::Bin(BinExpr { op: op!("!=="), .. })
+            | Expr::Bin(BinExpr { op: op!("!="), .. })
+            | Expr::Bin(BinExpr { op: op!("=="), .. })
+            | Expr::Bin(BinExpr { op: op!("<="), .. })
+            | Expr::Bin(BinExpr { op: op!("<"), .. })
+            | Expr::Bin(BinExpr { op: op!(">="), .. })
+            | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
+                Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+                    span,
+                    kind: TsKeywordTypeKind::TsBooleanKeyword,
+                }))
+            }
+
+            Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            }) => Cow::Owned(undefined(span)),
 
             _ => unimplemented!("typeof ({:#?})", expr),
         })
