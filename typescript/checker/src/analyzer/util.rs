@@ -124,6 +124,9 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
         return None;
     }
 
+    // TODO(kdy1):
+    let span = to.span();
+
     match *to {
         // let a: any = 'foo'
         TsType::TsKeywordType(TsKeywordType {
@@ -157,6 +160,7 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
                 return None;
             }
             return Some(Error::UnionError {
+                span,
                 errors: vs.into_iter().map(Option::unwrap).collect(),
             });
         }
@@ -171,7 +175,10 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
 
             for v in vs {
                 if let Some(error) = v {
-                    return Some(Error::IntersectionError { error: box error });
+                    return Some(Error::IntersectionError {
+                        span,
+                        error: box error,
+                    });
                 }
             }
 

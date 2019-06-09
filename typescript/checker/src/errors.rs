@@ -1,9 +1,9 @@
 use std::{ops::Range, path::PathBuf};
 use swc_atoms::JsWord;
-use swc_common::{errors::Handler, Span};
+use swc_common::{errors::Handler, Span, Spanned};
 use swc_ecma_ast::{TsType, TsTypeElement};
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Spanned)]
 pub enum Error {
     ShouldIncludeUndefinedType {
         /// Span of the variable
@@ -11,6 +11,7 @@ pub enum Error {
     },
 
     ResolvedFailed {
+        span: Span,
         base: PathBuf,
         src: JsWord,
     },
@@ -21,17 +22,21 @@ pub enum Error {
     },
 
     AssignFailed {
+        #[span(lo)]
         left: TsType,
+        #[span(hi)]
         right: TsType,
         cause: Option<Box<Error>>,
     },
 
     /// a or b or c
     UnionError {
+        span: Span,
         errors: Vec<Error>,
     },
 
     IntersectionError {
+        span: Span,
         error: Box<Error>,
     },
 
@@ -49,6 +54,7 @@ pub enum Error {
     },
 
     NoSuchExport {
+        span: Span,
         items: Vec<(JsWord, Span)>,
     },
 
@@ -61,11 +67,13 @@ pub enum Error {
     },
 
     WrongTypeParams {
+        span: Span,
         expected: Range<usize>,
         actual: usize,
     },
 
     WrongParams {
+        span: Span,
         expected: Range<usize>,
         actual: usize,
     },
@@ -73,6 +81,7 @@ pub enum Error {
 
 impl Error {
     pub fn emit(self, h: &Handler) {
-        h.struct_err(&format!("{:?}", self)).emit();
+        let span = self.span();
+        h.struct_err(&format!("{:#?}", self)).set_span(span).emit();
     }
 }

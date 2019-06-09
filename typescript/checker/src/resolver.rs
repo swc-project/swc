@@ -1,10 +1,11 @@
 use crate::errors::Error;
 use std::path::PathBuf;
 use swc_atoms::JsWord;
+use swc_common::Span;
 
 ///
 pub trait Resolve: Send + Sync {
-    fn resolve(&self, cur_file: PathBuf, src: &JsWord) -> Result<PathBuf, Error>;
+    fn resolve(&self, cur_file: PathBuf, span: Span, src: &JsWord) -> Result<PathBuf, Error>;
 }
 
 pub struct Resolver {
@@ -21,7 +22,7 @@ impl Resolver {
 }
 
 impl Resolve for Resolver {
-    fn resolve(&self, cur_file: PathBuf, src: &JsWord) -> Result<PathBuf, Error> {
+    fn resolve(&self, cur_file: PathBuf, span: Span, src: &JsWord) -> Result<PathBuf, Error> {
         // TODO: Handle error gracefully.
 
         let base = match cur_file.file_name() {
@@ -37,6 +38,7 @@ impl Resolve for Resolver {
             .with_basedir(base.clone())
             .resolve(&*src)
             .map_err(|_| Error::ResolvedFailed {
+                span,
                 base,
                 src: src.clone(),
             })

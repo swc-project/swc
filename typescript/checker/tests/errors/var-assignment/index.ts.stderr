@@ -1,2 +1,49 @@
-error: AssignFailed { left: TsKeywordType(TsKeywordType { span: Span { lo: BytePos(7), hi: BytePos(13), ctxt: #0 }, kind: TsStringKeyword }), right: TsLitType(TsLitType { span: Span { lo: BytePos(16), hi: BytePos(17), ctxt: #0 }, lit: Number(Number { span: Span { lo: BytePos(16), hi: BytePos(17), ctxt: #0 }, value: 1.0 }) }), cause: None }
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    7,
+                ),
+                hi: BytePos(
+                    13,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsLitType(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    16,
+                ),
+                hi: BytePos(
+                    17,
+                ),
+                ctxt: #0,
+            },
+            lit: Number(
+                Number {
+                    span: Span {
+                        lo: BytePos(
+                            16,
+                        ),
+                        hi: BytePos(
+                            17,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: 1.0,
+                },
+            ),
+        },
+    ),
+    cause: None,
+}
+ --> $DIR/tests/errors/var-assignment/index.ts:1:8
+  |
+1 | let a: string = 1;
+  |        ^^^^^^^^^^
 

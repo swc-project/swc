@@ -635,6 +635,7 @@ impl Analyzer<'_, '_> {
                             //
                             match self
                                 .try_instantiate(
+                                    span,
                                     &type_ann
                                         .as_ref()
                                         .map(|v| &*v.type_ann)
@@ -659,6 +660,7 @@ impl Analyzer<'_, '_> {
                         }) if kind == ExtractKind::New => {
                             match self
                                 .try_instantiate(
+                                    span,
                                     &type_ann
                                         .as_ref()
                                         .map(|v| &*v.type_ann)
@@ -691,6 +693,7 @@ impl Analyzer<'_, '_> {
                     ..
                 }) if kind == ExtractKind::Call => self
                     .try_instantiate(
+                        span,
                         &type_ann.type_ann,
                         params,
                         type_params.as_ref(),
@@ -705,6 +708,7 @@ impl Analyzer<'_, '_> {
                     ..
                 }) if kind == ExtractKind::New => self
                     .try_instantiate(
+                        span,
                         &type_ann.type_ann,
                         params,
                         type_params.as_ref(),
@@ -725,7 +729,7 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
-                Err(Error::UnionError { errors })
+                Err(Error::UnionError { span, errors })
             }
 
             _ => ret_err!(),
@@ -734,6 +738,7 @@ impl Analyzer<'_, '_> {
 
     fn try_instantiate(
         &self,
+        span: Span,
         ret_type: &TsType,
         param_decls: &[TsFnParam],
         ty_params_decl: Option<&TsTypeParamDecl>,
@@ -745,6 +750,7 @@ impl Analyzer<'_, '_> {
 
         if type_args_len > type_params_len {
             return Err(Error::WrongTypeParams {
+                span,
                 // TODO
                 expected: 0..type_params_len,
                 actual: type_args_len,
@@ -753,6 +759,7 @@ impl Analyzer<'_, '_> {
 
         if param_decls.len() > args.len() {
             return Err(Error::WrongParams {
+                span,
                 // TODO
                 expected: 0..param_decls.len(),
                 actual: type_args_len,

@@ -1,2 +1,30 @@
-error: NoSuchExport { items: [(Atom('default' type=static), Span { lo: BytePos(7), hi: BytePos(10), ctxt: #0 })] }
+error: NoSuchExport {
+    span: Span {
+        lo: BytePos(
+            0,
+        ),
+        hi: BytePos(
+            26,
+        ),
+        ctxt: #0,
+    },
+    items: [
+        (
+            Atom('default' type=static),
+            Span {
+                lo: BytePos(
+                    7,
+                ),
+                hi: BytePos(
+                    10,
+                ),
+                ctxt: #0,
+            },
+        ),
+    ],
+}
+ --> $DIR/tests/errors/import-not-existing/index.ts:1:1
+  |
+1 | import Foo from "./model";
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 

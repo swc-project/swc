@@ -79,6 +79,8 @@ struct ImportFinder<'a> {
 /// Extracts require('foo')
 impl Visit<CallExpr> for ImportFinder<'_> {
     fn visit(&mut self, expr: &CallExpr) {
+        let span = expr.span();
+
         match expr.callee {
             ExprOrSuper::Expr(box Expr::Ident(ref i)) if i.sym == js_word!("require") => {
                 let src = expr
@@ -91,6 +93,7 @@ impl Visit<CallExpr> for ImportFinder<'_> {
                     .next()
                     .unwrap();
                 self.to.push(ImportInfo {
+                    span,
                     all: true,
                     items: vec![],
                     src,
@@ -103,6 +106,7 @@ impl Visit<CallExpr> for ImportFinder<'_> {
 
 impl Visit<ImportDecl> for ImportFinder<'_> {
     fn visit(&mut self, import: &ImportDecl) {
+        let span = import.span();
         let mut items = vec![];
         let mut all = false;
 
@@ -126,6 +130,7 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
 
         if !items.is_empty() {
             self.to.push(ImportInfo {
+                span,
                 items,
                 all,
                 src: import.src.value.clone(),
@@ -154,6 +159,7 @@ pub struct Info {
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub struct ImportInfo {
+    pub span: Span,
     pub items: Vec<(JsWord, Span)>,
     pub all: bool,
     pub src: JsWord,

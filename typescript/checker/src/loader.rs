@@ -25,7 +25,9 @@ impl Load for Checker<'_> {
         let mut result = FxHashMap::default();
         let mut errors = vec![];
 
-        let path = self.resolver.resolve((*base).clone(), &import.src)?;
+        let path = self
+            .resolver
+            .resolve((*base).clone(), import.span, &import.src)?;
         let module = self.load_module(path);
 
         if import.all {
@@ -44,7 +46,10 @@ impl Load for Checker<'_> {
             return Ok(result);
         }
 
-        Err(Error::NoSuchExport { items: errors })
+        Err(Error::NoSuchExport {
+            span: import.span,
+            items: errors,
+        })
     }
 }
 
