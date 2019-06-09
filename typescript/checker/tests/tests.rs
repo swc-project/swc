@@ -99,52 +99,58 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Erro
             }
 
             let path = dir.join(&file_name);
-            // Parse source
-            let module = do_test(false, &path);
-
-            if error {
-                let err = module.expect_err("should fail, but parsed as");
-                if err
-                    .compare_to_file(format!("{}.stderr", path.display()))
-                    .is_err()
-                {
-                    panic!()
-                }
-            } else {
-                module.expect("should be parsed and validated");
-            }
+            do_test(false, &path, error).unwrap();
         });
     }
 
     Ok(())
 }
 
-fn do_test(treat_error_as_bug: bool, file_name: &Path) -> Result<(), StdErr> {
+fn do_test(treat_error_as_bug: bool, file_name: &Path, error: bool) -> Result<(), StdErr> {
     let fname = file_name.display().to_string();
-    let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
+    let res = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         CM.set(&cm.clone(), || {
-            let checker = swc_ts_checker::Checker::new(
-                cm.clone(),
-                handler,
-                TsConfig {
-                    tsx: fname.contains("tsx"),
-                    ..Default::default()
-                },
-            );
+            let res = {
+                let checker = swc_ts_checker::Checker::new(
+                    cm.clone(),
+                    handler,
+                    TsConfig {
+                        tsx: fname.contains("tsx"),
+                        ..Default::default()
+                    },
+                );
 
-            let errors = checker.check(file_name.into());
+                let errors = checker.check(file_name.into());
 
-            let res = if errors.is_empty() { Ok(()) } else { Err(()) };
+                let res = if errors.is_empty() { Ok(()) } else { Err(()) };
 
-            for e in errors {
-                e.emit(&handler);
+                for e in errors {
+                    e.emit(&handler);
+                }
+
+                res
+            };
+
+            if error {
+                res
+            } else {
+                res.expect("should be parsed and validated");
+                Ok(())
             }
-
-            res
         })
     });
 
-    output
+    if error {
+        let err = res.expect_err("should fail, but parsed as");
+        if err
+            .compare_to_file(format!("{}.stderr", file_name.display()))
+            .is_err()
+        {
+            panic!()
+        }
+    }
+
+    Ok(())
 }
 
 fn add_test<F: FnOnce() + Send + 'static>(
