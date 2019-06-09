@@ -1,4 +1,7 @@
-use crate::{errors::Error, util::EqIgnoreNameAndSpan};
+use crate::{
+    errors::Error,
+    util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
+};
 use std::borrow::Cow;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
@@ -127,6 +130,18 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             kind: TsKeywordTypeKind::TsAnyKeyword,
             ..
         }) => return None,
+
+        TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
+            TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
+                if lit.eq_ignore_span(r_lit) {
+                    return None;
+                }
+            }
+            // TODO(kdy1): Allow
+            //
+            // let a: true | false = bool
+            _ => {}
+        },
 
         TsType::TsThisType(TsThisType { span }) => return Some(Error::CannotAssingToThis { span }),
 
