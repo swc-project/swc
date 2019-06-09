@@ -65,6 +65,10 @@ impl ExportInfo {
                             members,
                         }));
                     }
+                    ExportExtra::Alias(ref decl) => {
+                        // TODO(kdy1): Handle type parameters.
+                        return Ok(*decl.type_ann.clone());
+                    }
                 }
             }
             None => unimplemented!("`ty` and `extra` are both null"),
@@ -76,6 +80,8 @@ impl ExportInfo {
 pub enum ExportExtra {
     Interface(TsInterfaceDecl),
     Enum(TsEnumDecl),
+    /// export type A<B> = Foo<B>;
+    Alias(TsTypeAliasDecl),
 }
 
 // ModuleDecl::ExportNamed(export) => {}
@@ -105,7 +111,17 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
                 );
             }
             Decl::TsModule(..) => unimplemented!("export module "),
-            Decl::TsTypeAlias(..) => unimplemented!("export TsTypeAlias"),
+            Decl::TsTypeAlias(ref decl) => {
+                // export type Foo = 'a' | 'b';
+                // export type Foo = {};
+
+                // TODO(kdy1): Handle type parameters.
+
+                self.info.exports.insert(
+                    decl.id.sym.clone(),
+                    Arc::new(ExportExtra::Alias(decl.clone()).into()),
+                );
+            }
         }
     }
 }
