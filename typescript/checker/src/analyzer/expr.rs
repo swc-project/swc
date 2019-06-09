@@ -1,9 +1,9 @@
 use super::{export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
-use crate::errors::Error;
+use crate::{errors::Error, util::EqIgnoreSpan};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::borrow::Cow;
 use swc_atoms::js_word;
-use swc_common::{Fold, FoldWith, Span, Spanned, Visit, VisitWith, DUMMY_SP};
+use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
@@ -847,66 +847,6 @@ fn any(span: Span) -> TsType {
         span,
         kind: TsKeywordTypeKind::TsAnyKeyword,
     })
-}
-
-trait EqIgnoreSpan {
-    fn eq_ignore_span(&self, to: &Self) -> bool;
-}
-
-impl EqIgnoreSpan for TsType {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
-    }
-}
-
-impl EqIgnoreSpan for Expr {
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
-    }
-}
-
-struct SpanRemover;
-impl Fold<Span> for SpanRemover {
-    fn fold(&mut self, _: Span) -> Span {
-        DUMMY_SP
-    }
-}
-
-impl<T> EqIgnoreSpan for Box<T>
-where
-    T: EqIgnoreSpan,
-{
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        (**self).eq_ignore_span(&**to)
-    }
-}
-
-impl<T> EqIgnoreSpan for Option<T>
-where
-    T: EqIgnoreSpan,
-{
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        match (self.as_ref(), to.as_ref()) {
-            (Some(l), Some(r)) => l.eq_ignore_span(r),
-            (None, None) => true,
-            _ => false,
-        }
-    }
-}
-
-impl<T> EqIgnoreSpan for Vec<T>
-where
-    T: EqIgnoreSpan,
-{
-    fn eq_ignore_span(&self, to: &Self) -> bool {
-        if self.len() != to.len() {
-            return false;
-        }
-
-        self.iter()
-            .zip(to.iter())
-            .all(|(l, r)| l.eq_ignore_span(&r))
-    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

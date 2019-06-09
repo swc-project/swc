@@ -1,4 +1,4 @@
-use crate::errors::Error;
+use crate::{errors::Error, util::EqIgnoreNameAndSpan};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::borrow::Cow;
 use swc_common::Spanned;
@@ -230,30 +230,30 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             });
         }
 
-        TsType::TsTypeLit(TsTypeLit { span, ref members }) => {
-            match rhs {
-                TsType::TsTypeLit(TsTypeLit {
-                    members: ref rhs_members,
-                    ..
-                }) => {
-                    //
-                    if members.iter().all(|m| rhs_members.contains(m)) {
-                        return None;
-                    }
-
-                    let missing_fields = members
-                        .iter()
-                        .filter(|m| !rhs_members.contains(m))
-                        .cloned()
-                        .collect();
-                    return Some(Error::MissingFields {
-                        span,
-                        fields: missing_fields,
-                    });
+        TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
+            TsType::TsTypeLit(TsTypeLit {
+                members: ref rhs_members,
+                ..
+            }) => {
+                if members
+                    .iter()
+                    .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
+                {
+                    return None;
                 }
-                _ => {}
+
+                let missing_fields = members
+                    .iter()
+                    .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
+                    .cloned()
+                    .collect();
+                return Some(Error::MissingFields {
+                    span,
+                    fields: missing_fields,
+                });
             }
-        }
+            _ => {}
+        },
 
         _ => {}
     }
