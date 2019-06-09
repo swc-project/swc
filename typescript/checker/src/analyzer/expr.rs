@@ -14,6 +14,10 @@ impl Analyzer<'_, '_> {
             Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
             Expr::Ident(ref i) => {
+                if i.sym == js_word!("require") {
+                    unreachable!("typeof(require('...'))");
+                }
+
                 if let Some(ty) = super::defaults::default(&i.sym) {
                     return Ok(Cow::Borrowed(ty));
                 }
@@ -21,15 +25,12 @@ impl Analyzer<'_, '_> {
                 if let Some(ty) = self.find_var_type(&i.sym) {
                     Cow::Owned(ty.clone())
                 } else {
-                    if i.sym == js_word!("require") {
-                        unreachable!("typeof(require('...'))");
-                    }
-
-                    unimplemented!(
-                        "typeof(undefined ident: {})\nFile: {}",
-                        i.sym,
-                        self.path.display()
-                    )
+                    // unimplemented!(
+                    //     "typeof(undefined ident: {})\nFile: {}",
+                    //     i.sym,
+                    //     self.path.display()
+                    // )
+                    return Err(Error::UndefinedSymbol { span: i.span });
                 }
             }
 
@@ -452,7 +453,7 @@ impl Analyzer<'_, '_> {
                     let dep = dep.clone();
                     unimplemented!("dep: {:#?}", dep);
                 } else {
-                    unimplemented!("error reporting for unresolved require('{:?}');", args);
+                    Err(Error::UndefinedSymbol { span: i.span() })
                 }
             }
 
