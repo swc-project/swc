@@ -4,11 +4,7 @@ use self::{
     util::{PatExt, TypeExt, TypeRefExt},
 };
 use super::Checker;
-use crate::{
-    errors::Error,
-    loader::Load,
-    util::{ModuleItemLike, StmtLike},
-};
+use crate::{errors::Error, loader::Load};
 use fxhash::FxHashMap;
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
@@ -36,12 +32,7 @@ struct Analyzer<'a, 'b> {
 
 impl<T> Visit<Vec<T>> for Analyzer<'_, '_>
 where
-    T: VisitWith<Self>
-        + for<'any> VisitWith<ImportFinder<'any>>
-        + StmtLike
-        + ModuleItemLike
-        + Send
-        + Sync,
+    T: VisitWith<Self> + for<'any> VisitWith<ImportFinder<'any>> + Send + Sync,
     Vec<T>: VisitWith<Self>,
 {
     fn visit(&mut self, items: &Vec<T>) {
@@ -195,10 +186,7 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
 
 impl Visit<FnDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &FnDecl) {
-        f.visit_children(self);
-
-        let ty = self.type_of_fn(&f.function);
-        let ty = match ty {
+        let fn_ty = match self.type_of_fn(&f.function) {
             Ok(ty) => ty,
             Err(err) => {
                 self.info.errors.push(err);
@@ -208,8 +196,13 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
                 })
             }
         };
-        self.scope
-            .declare_var(VarDeclKind::Var, f.ident.sym.clone(), Some(ty), f.declare);
+        self.scope.declare_var(
+            VarDeclKind::Var,
+            f.ident.sym.clone(),
+            Some(fn_ty),
+            f.declare,
+        );
+        f.function.visit_with(self);
     }
 }
 
@@ -221,7 +214,10 @@ impl Visit<Function> for Analyzer<'_, '_> {
             .iter()
             .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
 
-        f.body.visit_children(&mut analyzer);
+        match f.body {
+            Some(ref body) => body.visit_children(&mut analyzer),
+            None => {}
+        }
     }
 }
 
