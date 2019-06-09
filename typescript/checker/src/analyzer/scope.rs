@@ -83,7 +83,7 @@ impl Scope<'_> {
         allow_multiple: bool,
     ) {
         if super::LOG {
-            println!("Declare: {}: {}", self.depth(), name);
+            println!("Declare: {:?}{}: {}", self.kind, self.depth(), name);
         }
 
         let info = VarInfo {
@@ -134,7 +134,12 @@ impl Analyzer<'_, '_> {
         let mut scope = Some(&self.scope);
 
         if super::LOG {
-            println!("Search: {} {}", self.scope.depth(), name);
+            println!(
+                "Search: {:?}{} {}",
+                self.scope.kind,
+                self.scope.depth(),
+                name
+            );
         }
 
         while let Some(s) = scope {
