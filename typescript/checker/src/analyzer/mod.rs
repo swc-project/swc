@@ -322,12 +322,16 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 impl Analyzer<'_, '_> {
     fn try_assign(&mut self, lhs: &PatOrExpr, ty: Cow<TsType>) {
         match *lhs {
-            PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => unimplemented!(
-                "assign: {:?} = {:?}\nFile: {}",
-                expr,
-                ty,
-                self.path.display()
-            ),
+            PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => match **expr {
+                // TODO(kdy1): Validate
+                Expr::Member(MemberExpr { computed: true, .. }) => return,
+                _ => unimplemented!(
+                    "assign: {:?} = {:?}\nFile: {}",
+                    expr,
+                    ty,
+                    self.path.display()
+                ),
+            },
 
             PatOrExpr::Pat(ref pat) => {
                 // Update variable's type
