@@ -862,14 +862,14 @@ fn negate(ty: Cow<TsType>) -> Cow<TsType> {
     })
 }
 
-fn undefined(span: Span) -> TsType {
+pub const fn undefined(span: Span) -> TsType {
     TsType::TsKeywordType(TsKeywordType {
         span,
         kind: TsKeywordTypeKind::TsUndefinedKeyword,
     })
 }
 
-fn any(span: Span) -> TsType {
+pub const fn any(span: Span) -> TsType {
     TsType::TsKeywordType(TsKeywordType {
         span,
         kind: TsKeywordTypeKind::TsAnyKeyword,

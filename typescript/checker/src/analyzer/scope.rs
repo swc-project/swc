@@ -1,6 +1,7 @@
-use super::{export::ExportInfo, Analyzer};
+use super::{export::ExportInfo, expr::any, Analyzer};
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
 #[derive(Debug, Clone)]
@@ -20,8 +21,6 @@ pub(super) enum ScopeKind {
 
 #[derive(Debug)]
 pub(super) struct Scope<'a> {
-    parent: Option<&'a Scope<'a>>,
-
     /// Expanded type.
     ///
     /// e.g. `interface Foo { name: string; }` is saved as `{ 'Foo': { name:
@@ -31,6 +30,7 @@ pub(super) struct Scope<'a> {
     kind: ScopeKind,
     /// Declared variables and parameters.
     pub(super) vars: FxHashMap<JsWord, VarInfo>,
+    parent: Option<&'a Scope<'a>>,
 }
 
 impl<'a> Scope<'a> {
@@ -116,13 +116,21 @@ impl Scope<'_> {
     }
 }
 
+static ANY: TsType = any(DUMMY_SP);
+
 impl Analyzer<'_, '_> {
     pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
         let mut scope = Some(&self.scope);
 
         while let Some(s) = scope {
             if let Some(var) = s.vars.get(name) {
-                return var.ty.as_ref();
+                match var.ty {
+                    Some(ref ty) => return Some(ty),
+                    None => {
+                        // TODO(kdy1): No implicit any.
+                        return Some(&ANY);
+                    }
+                }
             }
 
             scope = s.parent;
