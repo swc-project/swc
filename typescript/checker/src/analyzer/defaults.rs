@@ -25,10 +25,22 @@ lazy_static! {
     };
 }
 
+lazy_static! {
+    static ref ERROR_TY: TsType = {
+        let mut members = vec![];
+
+        TsType::TsTypeLit(TsTypeLit {
+            span: DUMMY_SP,
+            members,
+        })
+    };
+}
+
 pub fn default(sym: &JsWord) -> Option<&'static TsType> {
     match *sym {
         js_word!("Object") => Some(&*OBJECT_TY),
         js_word!("String") => Some(&*STRING_TY),
+        js_word!("Error") => Some(&*ERROR_TY),
 
         _ => None,
     }
