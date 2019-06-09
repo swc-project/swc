@@ -17,6 +17,10 @@ impl Analyzer<'_, '_> {
                 if let Some(ty) = self.find_var_type(&i.sym) {
                     Cow::Owned(ty.clone())
                 } else {
+                    if i.sym == js_word!("require") {
+                        unreachable!("typeof(require('...'))");
+                    }
+
                     unimplemented!("typeof(undefined ident: {:?})", i)
                 }
             }
@@ -422,6 +426,28 @@ impl Analyzer<'_, '_> {
         let span = callee.span();
 
         match *callee {
+            Expr::Ident(ref i) if i.sym == js_word!("require") => {
+                if let Some(dep) = self.resolved_imports.get(
+                    &args
+                        .iter()
+                        .cloned()
+                        .map(|arg| match arg {
+                            ExprOrSpread { spread: None, expr } => match *expr {
+                                Expr::Lit(Lit::Str(Str { value, .. })) => value.clone(),
+                                _ => unimplemented!("dynamic import require()"),
+                            },
+                            _ => unimplemented!("error reporting: spread element in require()"),
+                        })
+                        .next()
+                        .unwrap(),
+                ) {
+                    let dep = dep.clone();
+                    unimplemented!("dep: {:#?}", dep);
+                } else {
+                    unimplemented!("error reporting for unresolved require('{:?}');", args);
+                }
+            }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
                 ref prop,

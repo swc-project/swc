@@ -82,6 +82,31 @@ struct ImportFinder<'a> {
     to: &'a mut Vec<ImportInfo>,
 }
 
+/// Extracts require('foo')
+impl Visit<CallExpr> for ImportFinder<'_> {
+    fn visit(&mut self, expr: &CallExpr) {
+        match expr.callee {
+            ExprOrSuper::Expr(box Expr::Ident(ref i)) if i.sym == js_word!("require") => {
+                let src = expr
+                    .args
+                    .iter()
+                    .map(|v| match *v.expr {
+                        Expr::Lit(Lit::Str(Str { ref value, .. })) => value.clone(),
+                        _ => unimplemented!("error reporting for dynamic require"),
+                    })
+                    .next()
+                    .unwrap();
+                self.to.push(ImportInfo {
+                    all: true,
+                    items: vec![],
+                    src,
+                });
+            }
+            _ => return,
+        }
+    }
+}
+
 impl Visit<ImportDecl> for ImportFinder<'_> {
     fn visit(&mut self, import: &ImportDecl) {
         let mut items = vec![];
