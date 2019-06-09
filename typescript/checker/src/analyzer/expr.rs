@@ -20,8 +20,15 @@ impl Analyzer<'_, '_> {
                     if i.sym == js_word!("require") {
                         unreachable!("typeof(require('...'))");
                     }
+                    if let Some(ty) = super::defaults::default(&i.sym) {
+                        return Ok(Cow::Borrowed(ty));
+                    }
 
-                    unimplemented!("typeof(undefined ident: {:?})", i)
+                    unimplemented!(
+                        "typeof(undefined ident: {:?})\nFile: {}",
+                        i,
+                        self.path.display()
+                    )
                 }
             }
 
