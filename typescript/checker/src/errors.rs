@@ -1,4 +1,4 @@
-use std::ops::Range;
+use std::{ops::Range, path::PathBuf};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span};
 use swc_ecma_ast::{TsType, TsTypeElement};
@@ -8,6 +8,11 @@ pub enum Error {
     ShouldIncludeUndefinedType {
         /// Span of the variable
         span: Span,
+    },
+
+    ResolvedFailed {
+        base: PathBuf,
+        src: JsWord,
     },
 
     MissingFields {

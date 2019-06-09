@@ -15,7 +15,7 @@ impl Resolver {
     pub fn new() -> Self {
         Resolver {
             r: node_resolve::Resolver::new()
-                .with_extensions(&[".js", ".ts", ".tsx", ".json", ".node"]),
+                .with_extensions(&[".js", ".ts", ".tsx", ".d.ts", ".json", ".node"]),
         }
     }
 }
@@ -34,8 +34,12 @@ impl Resolve for Resolver {
 
         let p = self
             .r
-            .with_basedir(base)
+            .with_basedir(base.clone())
             .resolve(&*src)
+            .map_err(|_| Error::ResolvedFailed {
+                base,
+                src: src.clone(),
+            })
             .expect("failed to resolve");
         return Ok(p);
     }
