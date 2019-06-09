@@ -1,5 +1,4 @@
 use crate::{errors::Error, util::EqIgnoreNameAndSpan};
-use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::borrow::Cow;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
@@ -88,7 +87,7 @@ pub(super) trait TypeRefExt {
 
                 TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
                     ref t,
-                )) => t.types.par_iter().any(|t| t.contains_undefined()),
+                )) => t.types.iter().any(|t| t.contains_undefined()),
 
                 TsType::TsThisType(..) => false,
                 _ => false,
@@ -136,7 +135,7 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             TsUnionType { ref types, .. },
         )) => {
             let vs = types
-                .par_iter()
+                .iter()
                 .map(|to| try_assign(&to, rhs))
                 .collect::<Vec<_>>();
             if vs.iter().any(Option::is_none) {

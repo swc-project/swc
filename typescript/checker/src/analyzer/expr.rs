@@ -1,6 +1,5 @@
 use super::{export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
 use crate::{errors::Error, util::EqIgnoreSpan};
-use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -32,7 +31,7 @@ impl Analyzer<'_, '_> {
                             ref expr,
                         }) => {
                             let ty = self.type_of(expr)?.into_owned().generalize_lit();
-                            if types.par_iter().all(|l| !l.eq_ignore_span(&ty)) {
+                            if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
                                 types.push(ty)
                             }
                         }
@@ -41,7 +40,7 @@ impl Analyzer<'_, '_> {
                         }) => unimplemented!("type of array spread"),
                         None => {
                             let ty = undefined(span);
-                            if types.par_iter().all(|l| !l.eq_ignore_span(&ty)) {
+                            if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
                                 types.push(ty.clone())
                             }
                         }
@@ -109,7 +108,7 @@ impl Analyzer<'_, '_> {
                 Cow::Owned(TsType::TsTypeLit(TsTypeLit {
                     span,
                     members: props
-                        .par_iter()
+                        .iter()
                         .map(|prop| match *prop {
                             PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
                             PropOrSpread::Spread(..) => {
@@ -406,12 +405,7 @@ impl Analyzer<'_, '_> {
         Ok(TsType::TsFnOrConstructorType(
             TsFnOrConstructorType::TsFnType(TsFnType {
                 span: f.span,
-                params: f
-                    .params
-                    .par_iter()
-                    .cloned()
-                    .map(pat_to_ts_fn_param)
-                    .collect(),
+                params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
                 type_params: f.type_params.clone(),
                 type_ann: ret_ty,
             }),
@@ -758,7 +752,7 @@ impl RemoveTypes for TsIntersectionType {
             .map(|ty| ty.remove_falsy())
             .map(Box::new)
             .collect::<Vec<_>>();
-        if types.par_iter().any(|ty| is_never(&ty)) {
+        if types.iter().any(|ty| is_never(&ty)) {
             return TsType::TsKeywordType(TsKeywordType {
                 span: self.span,
                 kind: TsKeywordTypeKind::TsNeverKeyword,

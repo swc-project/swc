@@ -10,7 +10,6 @@ use crate::{
     util::{ModuleItemLike, StmtLike},
 };
 use fxhash::FxHashMap;
-use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -54,7 +53,7 @@ where
         });
 
         let imports = imports
-            .into_par_iter()
+            .into_iter()
             .map(|import| self.loader.load(self.path.clone(), import))
             .collect::<Vec<_>>();
 
