@@ -56,7 +56,8 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Erro
         let entry = entry?;
         println!("{}", entry.file_name().to_string_lossy());
         if entry.file_type().is_dir()
-            || (!entry.file_name().to_string_lossy().ends_with("index.ts")
+            || (!entry.file_name().to_string_lossy().ends_with("index.d.ts")
+                && !entry.file_name().to_string_lossy().ends_with("index.ts")
                 && !entry.file_name().to_string_lossy().ends_with("index.tsx"))
         {
             continue;
