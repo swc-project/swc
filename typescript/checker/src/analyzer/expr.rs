@@ -263,13 +263,81 @@ impl Analyzer<'_, '_> {
     pub(super) fn type_of_class(&self, c: &Class) -> Result<TsType, Error> {
         let mut type_props = vec![];
         for member in &c.body {
+            let span = member.span();
+            let any = any(span);
+
             match member {
-                ClassMember::ClassProp(..) => {}
-                ClassMember::Constructor(..) => {}
+                ClassMember::ClassProp(ref p) => {
+                    let ty = match p.type_ann.as_ref().map(|ty| &*ty.type_ann) {
+                        Some(ty) => Cow::Borrowed(ty),
+                        None => match p.value {
+                            Some(ref e) => self.type_of(&e)?,
+                            None => Cow::Owned(any),
+                        },
+                    };
+
+                    type_props.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                        span,
+                        key: p.key.clone(),
+                        optional: p.is_optional,
+                        readonly: p.readonly,
+                        init: p.value.clone(),
+                        type_ann: Some(TsTypeAnn {
+                            span: ty.span(),
+                            type_ann: box ty.into_owned(),
+                        }),
+
+                        // TODO(kdy1):
+                        computed: false,
+
+                        // TODO(kdy1):
+                        params: Default::default(),
+
+                        // TODO(kdy1):
+                        type_params: Default::default(),
+                    }));
+                }
+
+                // TODO(kdy1):
+                ClassMember::Constructor(ref c) => {
+                    type_props.push(TsTypeElement::TsConstructSignatureDecl(
+                        TsConstructSignatureDecl {
+                            span,
+
+                            // TODO(kdy1):
+                            type_ann: None,
+
+                            params: c
+                                .params
+                                .iter()
+                                .map(|param| match *param {
+                                    PatOrTsParamProp::Pat(ref pat) => {
+                                        pat_to_ts_fn_param(pat.clone())
+                                    }
+                                    PatOrTsParamProp::TsParamProp(ref prop) => match prop.param {
+                                        TsParamPropParam::Ident(ref i) => {
+                                            TsFnParam::Ident(i.clone())
+                                        }
+                                        TsParamPropParam::Assign(AssignPat {
+                                            ref left, ..
+                                        }) => pat_to_ts_fn_param(*left.clone()),
+                                    },
+                                })
+                                .collect(),
+
+                            // TODO(kdy1):
+                            type_params: Default::default(),
+                        },
+                    ));
+                }
+
+                // TODO(kdy1):
                 ClassMember::Method(..) => {}
-                ClassMember::PrivateMethod(..) => {}
-                ClassMember::PrivateProp(..) => {}
+
+                // TODO(kdy1):
                 ClassMember::TsIndexSignature(..) => {}
+
+                ClassMember::PrivateMethod(..) | ClassMember::PrivateProp(..) => {}
             }
         }
 
