@@ -371,25 +371,51 @@ impl Analyzer<'_, '_> {
 
                 match *obj_type {
                     TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
+                        // Candidates of the method call.
+                        //
+                        // 4 is just an unsientific guess
+                        let mut candidates = Vec::with_capacity(4);
+
                         for m in members {
                             match m {
-                                TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
-                                    ref params,
-                                    ref type_ann,
-                                    ref type_params,
-                                    ..
-                                }) if kind == ExtractKind::Call => {}
-
-                                TsTypeElement::TsConstructSignatureDecl(
-                                    TsConstructSignatureDecl {
-                                        ref params,
-                                        ref type_ann,
-                                        ref type_params,
-                                        ..
-                                    },
-                                ) if kind == ExtractKind::New => {}
+                                TsTypeElement::TsMethodSignature(ref m)
+                                    if kind == ExtractKind::Call =>
+                                {
+                                    // We are only interested on methods named `prop`
+                                    if prop.eq_ignore_span(&m.key) {
+                                        candidates.push(m.clone());
+                                    }
+                                }
 
                                 _ => {}
+                            }
+                        }
+
+                        match candidates.len() {
+                            0 => {}
+                            1 => {
+                                let TsMethodSignature { type_ann, .. } =
+                                    candidates.into_iter().next().unwrap();
+
+                                return Ok(Cow::Owned(
+                                    type_ann.map(|ty| *ty.type_ann).unwrap_or_else(|| any(span)),
+                                ));
+                            }
+                            _ => {
+                                //
+                                for c in candidates {
+                                    if c.params.len() == args.len() {
+                                        return Ok(Cow::Owned(
+                                            c.type_ann
+                                                .map(|ty| *ty.type_ann)
+                                                .unwrap_or_else(|| any(span)),
+                                        ));
+                                    }
+                                }
+
+                                unimplemented!(
+                                    "multiple methods with same name and same number of arguments"
+                                )
                             }
                         }
                     }
@@ -760,15 +786,21 @@ trait EqIgnoreSpan {
 }
 
 impl EqIgnoreSpan for TsType {
-    fn eq_ignore_span(&self, to: &TsType) -> bool {
-        struct SpanRemover;
-        impl Fold<Span> for SpanRemover {
-            fn fold(&mut self, _: Span) -> Span {
-                DUMMY_SP
-            }
-        }
-
+    fn eq_ignore_span(&self, to: &Self) -> bool {
         self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
+    }
+}
+
+impl EqIgnoreSpan for Expr {
+    fn eq_ignore_span(&self, to: &Self) -> bool {
+        self.clone().fold_with(&mut SpanRemover) == to.clone().fold_with(&mut SpanRemover)
+    }
+}
+
+struct SpanRemover;
+impl Fold<Span> for SpanRemover {
+    fn fold(&mut self, _: Span) -> Span {
+        DUMMY_SP
     }
 }
 
