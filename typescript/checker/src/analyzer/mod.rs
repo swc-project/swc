@@ -24,6 +24,8 @@ mod tests;
 mod type_facts;
 mod util;
 
+const LOG: bool = true;
+
 struct Analyzer<'a, 'b> {
     info: Info,
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
@@ -281,7 +283,8 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                         let ty = self.expand(Cow::Borrowed(ty));
                         let errors = value_ty.assign_to(&*ty);
                         if errors.is_none() {
-                            self.scope.declare_vars(kind, &v.name)
+                            self.scope.declare_vars(kind, &v.name);
+                            return;
                         } else {
                             self.info.errors.extend(errors);
                         }

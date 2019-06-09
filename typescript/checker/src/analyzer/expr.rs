@@ -14,14 +14,15 @@ impl Analyzer<'_, '_> {
             Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
             Expr::Ident(ref i) => {
+                if let Some(ty) = super::defaults::default(&i.sym) {
+                    return Ok(Cow::Borrowed(ty));
+                }
+
                 if let Some(ty) = self.find_var_type(&i.sym) {
                     Cow::Owned(ty.clone())
                 } else {
                     if i.sym == js_word!("require") {
                         unreachable!("typeof(require('...'))");
-                    }
-                    if let Some(ty) = super::defaults::default(&i.sym) {
-                        return Ok(Cow::Borrowed(ty));
                     }
 
                     unimplemented!(

@@ -54,6 +54,13 @@ impl<'a> Scope<'a> {
 }
 
 impl Scope<'_> {
+    pub(super) fn depth(&self) -> usize {
+        match self.parent {
+            Some(ref p) => p.depth() + 1,
+            None => 0,
+        }
+    }
+
     pub(super) fn search_parent(&self, sym: &JsWord) -> Option<&VarInfo> {
         let mut parent = self.parent;
 
@@ -75,6 +82,10 @@ impl Scope<'_> {
         ty: Option<TsType>,
         allow_multiple: bool,
     ) {
+        if super::LOG {
+            println!("Declare: {}: {}", self.depth(), name);
+        }
+
         let info = VarInfo {
             kind,
             ty,
@@ -121,6 +132,10 @@ static ANY: TsType = any(DUMMY_SP);
 impl Analyzer<'_, '_> {
     pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
         let mut scope = Some(&self.scope);
+
+        if super::LOG {
+            println!("Search: {} {}", self.scope.depth(), name);
+        }
 
         while let Some(s) = scope {
             if let Some(var) = s.vars.get(name) {
