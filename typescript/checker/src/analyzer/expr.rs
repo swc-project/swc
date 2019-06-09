@@ -152,15 +152,12 @@ impl Analyzer<'_, '_> {
                 ..
             }) => {
                 let callee_type = self
-                    .type_of(callee)
-                    .map(|ty| {
-                        self.extract(
-                            ty,
-                            ExtractKind::New,
-                            args.as_ref().map(|v| &**v).unwrap_or_else(|| &[]),
-                            type_args.as_ref(),
-                        )
-                    })??
+                    .extract_call_new_expr(
+                        callee,
+                        ExtractKind::New,
+                        args.as_ref().map(|v| &**v).unwrap_or_else(|| &[]),
+                        type_args.as_ref(),
+                    )?
                     .into_owned();
                 return Ok(Cow::Owned(callee_type));
             }
@@ -171,10 +168,9 @@ impl Analyzer<'_, '_> {
                 ref type_args,
                 ..
             }) => {
-                let callee_type = self.type_of(callee).map(|ty| {
-                    self.extract(ty, ExtractKind::Call, args, type_args.as_ref())
-                        .map(|v| v.into_owned())
-                })??;
+                let callee_type = self
+                    .extract_call_new_expr(callee, ExtractKind::Call, args, type_args.as_ref())
+                    .map(|v| v.into_owned())?;
 
                 return Ok(Cow::Owned(callee_type));
             }
@@ -352,6 +348,72 @@ impl Analyzer<'_, '_> {
                 type_ann: ret_ty,
             }),
         ))
+    }
+
+    fn extract_call_new_expr(
+        &self,
+        callee: &Expr,
+        kind: ExtractKind,
+        args: &[ExprOrSpread],
+        type_args: Option<&TsTypeParamInstantiation>,
+    ) -> Result<Cow<TsType>, Error> {
+        let span = callee.span();
+
+        match *callee {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(ref obj),
+                ref prop,
+                computed,
+                ..
+            }) => {
+                // member expression
+                let obj_type = self.type_of(obj)?;
+
+                match *obj_type {
+                    TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
+                        for m in members {
+                            match m {
+                                TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
+                                    ref params,
+                                    ref type_ann,
+                                    ref type_params,
+                                    ..
+                                }) if kind == ExtractKind::Call => {}
+
+                                TsTypeElement::TsConstructSignatureDecl(
+                                    TsConstructSignatureDecl {
+                                        ref params,
+                                        ref type_ann,
+                                        ref type_params,
+                                        ..
+                                    },
+                                ) if kind == ExtractKind::New => {}
+
+                                _ => {}
+                            }
+                        }
+                    }
+
+                    _ => {}
+                }
+
+                if computed {
+                    // let index_type = self.type_of(&prop).map(Cow::into_owned).map(Box::new)?;
+                    unimplemented!("typeeof(CallExpr): foo.[dynamic]()")
+                } else {
+                    Err(if kind == ExtractKind::Call {
+                        Error::NoCallSignature { span }
+                    } else {
+                        Error::NoNewSignature { span }
+                    })
+                }
+            }
+            _ => {
+                let ty = self.type_of(callee)?;
+
+                self.extract(ty, kind, args, type_args)
+            }
+        }
     }
 
     fn extract(
