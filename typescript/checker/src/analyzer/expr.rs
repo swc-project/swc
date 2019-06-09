@@ -25,8 +25,8 @@ impl Analyzer<'_, '_> {
                     }
 
                     unimplemented!(
-                        "typeof(undefined ident: {:?})\nFile: {}",
-                        i,
+                        "typeof(undefined ident: {})\nFile: {}",
+                        i.sym,
                         self.path.display()
                     )
                 }
