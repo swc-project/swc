@@ -58,39 +58,45 @@ impl<'a> Checker<'a> {
             current: Default::default(),
         }
     }
+
+    pub const fn globals(&self) -> &swc_common::Globals {
+        &self.globals
+    }
 }
 
 impl Checker<'_> {
     /// Returns empty vector if no error is found.
     pub fn check(&self, entry: PathBuf) -> Vec<Error> {
-        let mut errors = vec![];
+        ::swc_common::GLOBALS.set(&self.globals, || {
+            let mut errors = vec![];
 
-        let module = self.load_module(entry.clone());
+            let module = self.load_module(entry.clone());
 
-        errors.extend(module.1.errors.clone());
+            errors.extend(module.1.errors.clone());
 
-        // let (tasks, receiver) = channel::unbounded();
-        // let (result_sender, result_receiver) = channel::unbounded();
-        // for import in &module.1.imports {
-        //     let _ = tasks.send(Task::Resolve {
-        //         from: entry.clone(),
-        //         src: import.src.clone(),
-        //     });
-        // }
+            // let (tasks, receiver) = channel::unbounded();
+            // let (result_sender, result_receiver) = channel::unbounded();
+            // for import in &module.1.imports {
+            //     let _ = tasks.send(Task::Resolve {
+            //         from: entry.clone(),
+            //         src: import.src.clone(),
+            //     });
+            // }
 
-        // for i in 1..6 {
-        //     let worker = Worker {
-        //         sender: result_sender.clone(),
-        //         queue: receiver.clone(),
-        //         modules: self.modules.clone(),
-        //     };
-        //     thread::scope(|s| {
-        //         s.spawn(|_| worker.run());
-        //     })
-        //     .unwrap();
-        // }
+            // for i in 1..6 {
+            //     let worker = Worker {
+            //         sender: result_sender.clone(),
+            //         queue: receiver.clone(),
+            //         modules: self.modules.clone(),
+            //     };
+            //     thread::scope(|s| {
+            //         s.spawn(|_| worker.run());
+            //     })
+            //     .unwrap();
+            // }
 
-        errors
+            errors
+        })
     }
 
     fn load_module(&self, path: PathBuf) -> ModuleInfo {
