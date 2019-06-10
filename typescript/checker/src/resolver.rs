@@ -1,5 +1,8 @@
 use crate::errors::Error;
-use std::path::PathBuf;
+use std::{
+    borrow::Cow,
+    path::{Path, PathBuf},
+};
 use swc_atoms::JsWord;
 use swc_common::Span;
 
@@ -16,7 +19,8 @@ impl Resolver {
     pub fn new() -> Self {
         Resolver {
             r: node_resolve::Resolver::new()
-                .with_extensions(&[".js", ".ts", ".tsx", ".d.ts", ".json", ".node"]),
+                .with_extensions(&[".js", ".ts", ".tsx", ".d.ts", ".json", ".node"])
+                .with_main_fields(&["types"]),
         }
     }
 }
@@ -24,6 +28,8 @@ impl Resolver {
 impl Resolve for Resolver {
     fn resolve(&self, cur_file: PathBuf, span: Span, src: &JsWord) -> Result<PathBuf, Error> {
         // TODO: Handle error gracefully.
+
+        println!("Resolving: {} from {}", src, cur_file.display());
 
         let base = match cur_file.file_name() {
             Some(..) => cur_file
@@ -33,6 +39,11 @@ impl Resolve for Resolver {
             None => cur_file,
         };
 
+        match find_types(&base, src) {
+            Ok(v) => return Ok(v),
+            Err(()) => {}
+        }
+
         let p = self
             .r
             .with_basedir(base.clone())
@@ -41,8 +52,32 @@ impl Resolve for Resolver {
                 span,
                 base,
                 src: src.clone(),
-            })
-            .expect("failed to resolve");
+            })?;
         return Ok(p);
     }
+}
+
+#[inline]
+fn find_types(base: &Path, src: &JsWord) -> Result<PathBuf, ()> {
+    if src.starts_with(".") {
+        return Err(());
+    }
+
+    let mut base_dir = Some(base);
+    while let Some(mut base) = base_dir {
+        let types_dir = base.join("node_modules").join("@types");
+
+        if types_dir.exists() {
+            let v = src.split("/").next().unwrap();
+
+            let v = types_dir.join(v);
+            if v.exists() {
+                return Ok(v.join("index.d.ts"));
+            }
+        }
+
+        base_dir = base.parent();
+    }
+
+    Err(())
 }

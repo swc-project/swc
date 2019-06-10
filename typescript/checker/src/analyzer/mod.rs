@@ -140,7 +140,7 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
 }
 
 impl<'a, 'b> Analyzer<'a, 'b> {
-    pub fn new(scope: Scope<'a>, path: Arc<PathBuf>, loader: &'b Load) -> Self {
+    pub fn new(scope: Scope<'a>, path: Arc<PathBuf>, loader: &'b dyn Load) -> Self {
         Analyzer {
             scope,
             info: Default::default(),
