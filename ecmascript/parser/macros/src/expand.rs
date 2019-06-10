@@ -19,7 +19,7 @@ struct InjectSelf {
 }
 
 #[cfg(procmacro2_semver_exempt)]
-fn get_joinned_span(t: &ToTokens) -> Span {
+fn get_joinned_span(t: &dyn ToTokens) -> Span {
     let tts: TokenStream = t.dump().into();
     let (mut first, mut last) = (None, None);
     for tt in tts {

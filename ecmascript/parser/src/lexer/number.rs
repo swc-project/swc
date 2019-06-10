@@ -87,7 +87,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut Raw(None))?;
 
-            let dec: &Display = match dec_val {
+            let dec: &dyn Display = match dec_val {
                 Some(ref n) => n,
                 // "0.", "0.e1" is valid
                 None => &"",
