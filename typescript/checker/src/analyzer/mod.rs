@@ -27,7 +27,7 @@ struct Analyzer<'a, 'b> {
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
-    loader: &'b Load,
+    loader: &'b dyn Load,
 }
 
 impl<T> Visit<Vec<T>> for Analyzer<'_, '_>
