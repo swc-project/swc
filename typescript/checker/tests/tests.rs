@@ -134,8 +134,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, error: bool) -> Result<()
             if error {
                 res
             } else {
-                res.expect("should be parsed and validated");
-                Ok(())
+                res
             }
         })
     });
@@ -148,6 +147,8 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, error: bool) -> Result<()
         {
             panic!()
         }
+    } else {
+        res.expect("should be parsed and validated");
     }
 
     Ok(())
