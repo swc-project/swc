@@ -581,12 +581,19 @@ impl Analyzer<'_, '_> {
                         }
                     }
 
+                    TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsAnyKeyword,
+                        ..
+                    }) => {
+                        return Ok(Cow::Owned(any(span)));
+                    }
+
                     _ => {}
                 }
 
                 if computed {
                     // let index_type = self.type_of(&prop).map(Cow::into_owned).map(Box::new)?;
-                    unimplemented!("typeeof(CallExpr): foo.[dynamic]()")
+                    unimplemented!("typeeof(CallExpr): {:?}[{:?}]()", callee, prop)
                 } else {
                     Err(if kind == ExtractKind::Call {
                         Error::NoCallSignature { span }
