@@ -25,6 +25,7 @@ struct Analyzer<'a, 'b> {
     info: Info,
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
     errored_imports: FxHashSet<JsWord>,
+    pending_exports: FxHashMap<(JsWord, Span), Box<Expr>>,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b dyn Load,
@@ -75,6 +76,8 @@ where
         }
 
         items.visit_children(self);
+
+        self.handle_pending_exports();
     }
 }
 
@@ -167,6 +170,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             path,
             resolved_imports: Default::default(),
             errored_imports: Default::default(),
+            pending_exports: Default::default(),
             loader,
         }
     }

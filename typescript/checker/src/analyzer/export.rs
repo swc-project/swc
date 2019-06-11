@@ -85,26 +85,64 @@ pub enum ExportExtra {
 }
 
 // ModuleDecl::ExportNamed(export) => {}
+//
 // ModuleDecl::ExportAll(export) => unimplemented!("export * from
-// 'other-file';"), ModuleDecl::TsExportAssignment(export) =>
-// unimplemented!("export A = B"), ModuleDecl::TsNamespaceExport(ns) =>
+// 'other-file';"),
+//
+// ModuleDecl::TsNamespaceExport(ns) =>
 // unimplemented!("export namespace"),
 
 impl Visit<TsExportAssignment> for Analyzer<'_, '_> {
     fn visit(&mut self, export: &TsExportAssignment) {
         export.visit_children(self);
 
-        let ty = match self.type_of(&export.expr) {
-            Ok(ty) => ty,
+        self.export_default_expr(&export.expr);
+    }
+}
+
+impl Analyzer<'_, '_> {
+    pub(super) fn handle_pending_exports(&mut self) {
+        let pending_exports = ::std::mem::replace(&mut self.pending_exports, Default::default());
+
+        for ((sym, span), expr) in pending_exports {
+            debug_assert_eq!(self.info.exports.get(&sym), None);
+
+            let ty = match self.type_of(&expr) {
+                Ok(ty) => ty.into_owned().into(),
+                Err(err) => {
+                    self.info.errors.push(err);
+                    return;
+                }
+            };
+            self.info.exports.insert(sym, Arc::new(ty));
+        }
+
+        assert_eq!(self.pending_exports, Default::default());
+    }
+
+    fn export_default_expr(&mut self, expr: &Expr) {
+        debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
+
+        let ty = match self.type_of(expr) {
+            Ok(ty) => ty.into_owned().into(),
             Err(err) => {
+                match err {
+                    // Handle hoisting. This allows
+                    //
+                    // export = React
+                    // declare namespace React {}
+                    Error::UndefinedSymbol { .. } => {
+                        self.pending_exports
+                            .insert((js_word!("default"), expr.span()), box expr.clone());
+                        return;
+                    }
+                    _ => {}
+                }
                 self.info.errors.push(err);
                 return;
             }
         };
-        debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
-        self.info
-            .exports
-            .insert(js_word!("default"), Arc::new(ty.into_owned().into()));
+        self.info.exports.insert(js_word!("default"), Arc::new(ty));
     }
 }
 
@@ -164,17 +202,7 @@ impl Visit<ExportDefaultExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, export: &ExportDefaultExpr) {
         export.visit_children(self);
 
-        let ty = match self.type_of(&export.expr) {
-            Ok(ty) => ty,
-            Err(err) => {
-                self.info.errors.push(err);
-                return;
-            }
-        };
-        debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
-        self.info
-            .exports
-            .insert(js_word!("default"), Arc::new(ty.into_owned().into()));
+        self.export_default_expr(&export.expr);
     }
 }
 
