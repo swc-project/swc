@@ -90,6 +90,24 @@ pub enum ExportExtra {
 // unimplemented!("export A = B"), ModuleDecl::TsNamespaceExport(ns) =>
 // unimplemented!("export namespace"),
 
+impl Visit<TsExportAssignment> for Analyzer<'_, '_> {
+    fn visit(&mut self, export: &TsExportAssignment) {
+        export.visit_children(self);
+
+        let ty = match self.type_of(&export.expr) {
+            Ok(ty) => ty,
+            Err(err) => {
+                self.info.errors.push(err);
+                return;
+            }
+        };
+        debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
+        self.info
+            .exports
+            .insert(js_word!("default"), Arc::new(ty.into_owned().into()));
+    }
+}
+
 impl Visit<ExportDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, export: &ExportDecl) {
         export.visit_children(self);
