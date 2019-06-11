@@ -65,7 +65,13 @@ where
                 Ok(import) => {
                     self.resolved_imports.extend(import);
                 }
-                Err((import, err)) => {
+                Err((import, mut err)) => {
+                    match err {
+                        Error::ModuleLoadFailed { ref mut errors, .. } => {
+                            self.info.errors.append(errors);
+                        }
+                        _ => {}
+                    }
                     // Mark errored imported types as any to prevent useless errors
                     self.errored_imports.extend(
                         import

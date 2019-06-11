@@ -53,6 +53,12 @@ pub enum Error {
         span: Span,
     },
 
+    ModuleLoadFailed {
+        /// Span of the import statement.
+        span: Span,
+        errors: Vec<Error>,
+    },
+
     NoSuchExport {
         span: Span,
         items: Vec<(JsWord, Span)>,

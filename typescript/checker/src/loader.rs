@@ -42,6 +42,14 @@ impl Load for Checker<'_> {
             }
         }
 
+        if !module.1.errors.is_empty() {
+            let module = Arc::try_unwrap(module).unwrap();
+            return Err(Error::ModuleLoadFailed {
+                span: import.span,
+                errors: module.1.errors,
+            });
+        }
+
         if errors.is_empty() {
             return Ok(result);
         }

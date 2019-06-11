@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
     /// TODO(kdy1): type hint (to reduce computation related to array)
-    pub(super) fn type_of<'a>(&self, expr: &'a Expr) -> Result<Cow<'a, TsType>, Error> {
+    pub(super) fn type_of<'e>(&self, expr: &'e Expr) -> Result<Cow<'e, TsType>, Error> {
         let span = expr.span();
 
         Ok(match *expr {
@@ -777,7 +777,7 @@ impl Analyzer<'_, '_> {
     }
 
     /// TODO: Make this return Result<TsType, Error>
-    pub(super) fn expand<'a>(&mut self, ty: Cow<'a, TsType>) -> Cow<'a, TsType> {
+    pub(super) fn expand<'t>(&mut self, ty: Cow<'t, TsType>) -> Cow<'t, TsType> {
         match *ty {
             TsType::TsTypeRef(TsTypeRef {
                 ref type_name,
