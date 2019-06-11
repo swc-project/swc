@@ -441,15 +441,18 @@ impl Analyzer<'_, '_> {
                 self.types.push(ty.map(|ty| ty.into_owned()));
             }
         }
-
-        let mut v = Visitor {
-            span: body.span(),
-            types: &mut types,
-            a: self,
+        let types_len = types.len();
+        let types = {
+            let mut v = Visitor {
+                span: body.span(),
+                types: &mut types,
+                a: self,
+            };
+            body.visit_with(&mut v);
+            types
         };
-        body.visit_with(&mut v);
 
-        let mut tys = Vec::with_capacity(types.len());
+        let mut tys = Vec::with_capacity(types_len);
         for ty in types {
             let ty = ty?;
             tys.push(box ty);
@@ -786,12 +789,12 @@ impl Analyzer<'_, '_> {
             }) => match *type_name {
                 TsEntityName::Ident(ref i) => {
                     if let Some(info) = self.find_type(&i.sym) {
-                        match info.instantiate(type_params.as_ref()) {
+                        let err = match info.instantiate(type_params.as_ref()) {
                             Ok(ty) => return Cow::Owned(ty),
-                            Err(err) => {
-                                self.info.errors.push(err);
-                            }
-                        }
+                            Err(err) => err,
+                        };
+
+                        self.info.errors.push(err)
                     }
                 }
                 TsEntityName::TsQualifiedName(..) => {

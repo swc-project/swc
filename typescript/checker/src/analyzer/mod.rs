@@ -386,19 +386,24 @@ impl Analyzer<'_, '_> {
                         if let Some(var_info) = self.scope.vars.get_mut(&i.sym) {
                             // Variable is declared.
 
-                            if let Some(ref var_ty) = var_info.ty {
+                            let var_ty = if let Some(ref var_ty) = var_info.ty {
                                 // let foo: string;
                                 // let foo = 'value';
 
                                 let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
-                                    var_info.ty = Some(ty.into_owned());
+                                    Some(ty.into_owned())
                                 } else {
-                                    self.info.errors.extend(errors)
+                                    self.info.errors.extend(errors);
+                                    None
                                 }
                             } else {
                                 // let v = foo;
                                 // v = bar;
+                                None
+                            };
+                            if let Some(var_ty) = var_ty {
+                                var_info.ty = var_ty;
                             }
                         } else {
                             let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
