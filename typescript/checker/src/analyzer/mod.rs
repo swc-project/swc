@@ -403,7 +403,7 @@ impl Analyzer<'_, '_> {
                                 None
                             };
                             if let Some(var_ty) = var_ty {
-                                var_info.ty = var_ty;
+                                var_info.ty = Some(var_ty);
                             }
                         } else {
                             let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
