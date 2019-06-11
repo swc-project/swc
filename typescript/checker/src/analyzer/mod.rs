@@ -352,11 +352,13 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     }
                 }
             } else {
-                // There's no initializer, so undefined is required.
-                if !v.name.get_ty().contains_undefined() {
-                    self.info.errors.push(Error::ShouldIncludeUndefinedType {
-                        span: v.name.span(),
-                    })
+                if !var.declare {
+                    // There's no initializer, so undefined is required.
+                    if !v.name.get_ty().contains_undefined() {
+                        self.info.errors.push(Error::ShouldIncludeUndefinedType {
+                            span: v.name.span(),
+                        })
+                    }
                 }
             }
 
