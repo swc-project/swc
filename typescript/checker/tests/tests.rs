@@ -126,9 +126,11 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, error: bool) -> Result<()
 
                 let res = if errors.is_empty() { Ok(()) } else { Err(()) };
 
-                for e in errors {
-                    e.emit(&handler);
-                }
+                checker.run(|| {
+                    for e in errors {
+                        e.emit(&handler);
+                    }
+                });
 
                 res
             };

@@ -61,6 +61,13 @@ impl<'a> Checker<'a> {
         }
     }
 
+    pub fn run<F, R>(&self, op: F) -> R
+    where
+        F: FnOnce() -> R,
+    {
+        ::swc_common::GLOBALS.set(&self.globals, || op())
+    }
+
     pub const fn globals(&self) -> &swc_common::Globals {
         &self.globals
     }
