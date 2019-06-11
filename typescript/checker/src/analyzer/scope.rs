@@ -1,5 +1,6 @@
 use super::{export::ExportInfo, expr::any, Analyzer};
 use fxhash::FxHashMap;
+use lazy_static::lazy_static;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -106,6 +107,9 @@ impl Scope<'_> {
                     false,
                 );
             }
+            Pat::Rest(ref p) => {
+                self.declare_vars(kind, &p.arg);
+            }
             _ => unimplemented!("declare_vars for patterns other than ident"),
         }
     }
@@ -131,6 +135,16 @@ static ANY: TsType = any(DUMMY_SP);
 
 impl Analyzer<'_, '_> {
     pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
+        lazy_static! {
+            static ref ANY: TsType = TsType::TsKeywordType(TsKeywordType {
+                span: DUMMY_SP,
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+            });
+        }
+        if self.errored_imports.get(name).is_some() {
+            return Some(&ANY);
+        }
+
         let mut scope = Some(&self.scope);
 
         if super::LOG {
@@ -160,6 +174,20 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
+        lazy_static! {
+            static ref ANY: ExportInfo = ExportInfo {
+                ty: Some(TsType::TsKeywordType(TsKeywordType {
+                    span: DUMMY_SP,
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                })),
+                extra: None,
+            };
+        }
+
+        if self.errored_imports.get(name).is_some() {
+            return Some(&ANY);
+        }
+
         if let Some(ty) = self.resolved_imports.get(name) {
             return Some(&ty);
         }

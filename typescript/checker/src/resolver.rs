@@ -1,8 +1,5 @@
 use crate::errors::Error;
-use std::{
-    borrow::Cow,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 use swc_atoms::JsWord;
 use swc_common::Span;
 
@@ -28,8 +25,6 @@ impl Resolver {
 impl Resolve for Resolver {
     fn resolve(&self, cur_file: PathBuf, span: Span, src: &JsWord) -> Result<PathBuf, Error> {
         // TODO: Handle error gracefully.
-
-        println!("Resolving: {} from {}", src, cur_file.display());
 
         let base = match cur_file.file_name() {
             Some(..) => cur_file

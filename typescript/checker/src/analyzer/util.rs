@@ -116,12 +116,28 @@ pub(super) trait TypeRefExt {
 }
 
 fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
-    if let TsType::TsKeywordType(TsKeywordType {
-        kind: TsKeywordTypeKind::TsAnyKeyword,
-        ..
-    }) = *rhs
-    {
-        return None;
+    match *rhs {
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+            ..
+        }) => return None,
+
+        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+            TsUnionType {
+                span, ref types, ..
+            },
+        )) => {
+            let errors = types
+                .iter()
+                .filter_map(|rhs| try_assign(to, rhs))
+                .collect::<Vec<_>>();
+            if errors.is_empty() {
+                return None;
+            }
+            return Some(Error::UnionError { span, errors });
+        }
+
+        _ => {}
     }
 
     // TODO(kdy1):

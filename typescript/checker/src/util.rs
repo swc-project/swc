@@ -80,8 +80,6 @@ macro_rules! impl_by_clone {
             fn eq_ignore_name_and_span(&self, to: &Self) -> bool {
                 let l = self.clone().fold_with(&mut SpanAndNameRemover);
                 let r = to.clone().fold_with(&mut SpanAndNameRemover);
-                println!("{:#?}", l);
-                println!("{:#?}", r);
                 l == r
             }
         }

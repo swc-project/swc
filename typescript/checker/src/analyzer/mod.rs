@@ -5,7 +5,8 @@ use self::{
 };
 use super::Checker;
 use crate::{errors::Error, loader::Load};
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -25,6 +26,7 @@ const LOG: bool = true;
 struct Analyzer<'a, 'b> {
     info: Info,
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
+    errored_imports: FxHashSet<JsWord>,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b dyn Load,
@@ -46,15 +48,25 @@ where
             // item.visit_with(self);
         });
 
-        let imports = imports
-            .into_iter()
-            .map(|import| self.loader.load(self.path.clone(), import))
+        let import_results = imports
+            .par_iter()
+            .map(|import| {
+                self.loader
+                    .load(self.path.clone(), &*import)
+                    .map_err(|err| (import, err))
+            })
             .collect::<Vec<_>>();
 
-        for import in imports {
-            match import {
+        for res in import_results {
+            match res {
                 Ok(import) => self.resolved_imports.extend(import),
-                Err(err) => self.info.errors.push(err),
+                Err((import, err)) => {
+                    // Mark errored imported types as any to prevent useless errors
+                    self.errored_imports
+                        .extend(import.items.iter().map(|v| v.0.clone()));
+
+                    self.info.errors.push(err);
+                }
             }
         }
 
@@ -146,6 +158,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
             info: Default::default(),
             path,
             resolved_imports: Default::default(),
+            errored_imports: Default::default(),
             loader,
         }
     }

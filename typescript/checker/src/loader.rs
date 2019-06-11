@@ -12,7 +12,7 @@ pub trait Load: Send + Sync {
     fn load(
         &self,
         base: Arc<PathBuf>,
-        import: ImportInfo,
+        import: &ImportInfo,
     ) -> Result<FxHashMap<JsWord, Arc<ExportInfo>>, Error>;
 }
 
@@ -20,7 +20,7 @@ impl Load for Checker<'_> {
     fn load(
         &self,
         base: Arc<PathBuf>,
-        import: ImportInfo,
+        import: &ImportInfo,
     ) -> Result<FxHashMap<JsWord, Arc<ExportInfo>>, Error> {
         let mut result = FxHashMap::default();
         let mut errors = vec![];
@@ -33,11 +33,11 @@ impl Load for Checker<'_> {
         if import.all {
             result.extend(module.1.exports.clone())
         } else {
-            for (sym, span) in import.items {
+            for &(ref sym, span) in &import.items {
                 if let Some(exported) = module.1.exports.get(&sym) {
-                    result.insert(sym, exported.clone());
+                    result.insert(sym.clone(), exported.clone());
                 } else {
-                    errors.push((sym, span));
+                    errors.push((sym.clone(), span));
                 }
             }
         }
@@ -60,7 +60,7 @@ where
     fn load(
         &self,
         base: Arc<PathBuf>,
-        import: ImportInfo,
+        import: &ImportInfo,
     ) -> Result<FxHashMap<JsWord, Arc<ExportInfo>>, Error> {
         (**self).load(base, import)
     }

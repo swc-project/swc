@@ -507,7 +507,7 @@ impl Analyzer<'_, '_> {
                         .map(|arg| match arg {
                             ExprOrSpread { spread: None, expr } => match *expr {
                                 Expr::Lit(Lit::Str(Str { value, .. })) => value.clone(),
-                                _ => unimplemented!("dynamic import require()"),
+                                _ => unimplemented!("dynamic import: require()"),
                             },
                             _ => unimplemented!("error reporting: spread element in require()"),
                         })
