@@ -18,6 +18,13 @@ impl Analyzer<'_, '_> {
                     unreachable!("typeof(require('...'))");
                 }
 
+                if let Some(v) = self.resolved_imports.get(&i.sym) {
+                    match v.instantiate(None) {
+                        Ok(ty) => return Ok(Cow::Owned(ty)),
+                        Err(err) => return Err(err),
+                    }
+                }
+
                 if let Some(ty) = super::defaults::default(&i.sym) {
                     return Ok(Cow::Borrowed(ty));
                 }
