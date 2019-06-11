@@ -1,6 +1,6 @@
 use super::Checker;
 use crate::{
-    analyzer::{ExportInfo, ImportInfo},
+    analyzer::{ExportInfo, ImportInfo, Specifier},
     errors::Error,
     resolver::Resolve,
 };
@@ -33,11 +33,15 @@ impl Load for Checker<'_> {
         if import.all {
             result.extend(module.1.exports.clone())
         } else {
-            for &(ref sym, span) in import.items.iter().map(|v| &v.export) {
-                if let Some(exported) = module.1.exports.get(&sym) {
-                    result.insert(sym.clone(), exported.clone());
+            for &Specifier {
+                ref local,
+                ref export,
+            } in import.items.iter()
+            {
+                if let Some(exported) = module.1.exports.get(&export.0) {
+                    result.insert(local.0.clone(), exported.clone());
                 } else {
-                    errors.push((sym.clone(), span));
+                    errors.push(local.clone());
                 }
             }
         }

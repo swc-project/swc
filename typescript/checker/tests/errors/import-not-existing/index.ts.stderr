@@ -10,7 +10,7 @@ error: NoSuchExport {
     },
     items: [
         (
-            Atom('default' type=static),
+            Atom('Foo' type=inline),
             Span {
                 lo: BytePos(
                     7,
