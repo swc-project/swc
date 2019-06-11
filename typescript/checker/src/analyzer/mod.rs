@@ -21,8 +21,6 @@ mod tests;
 mod type_facts;
 mod util;
 
-const LOG: bool = true;
-
 struct Analyzer<'a, 'b> {
     info: Info,
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
@@ -59,11 +57,17 @@ where
 
         for res in import_results {
             match res {
-                Ok(import) => self.resolved_imports.extend(import),
+                Ok(import) => {
+                    self.resolved_imports.extend(import);
+                }
                 Err((import, err)) => {
                     // Mark errored imported types as any to prevent useless errors
-                    self.errored_imports
-                        .extend(import.items.iter().map(|v| v.0.clone()));
+                    self.errored_imports.extend(
+                        import
+                            .items
+                            .iter()
+                            .map(|&Specifier { ref local, .. }| local.0.clone()),
+                    );
 
                     self.info.errors.push(err);
                 }
@@ -124,17 +128,21 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
 
         for s in &import.specifiers {
             match *s {
-                ImportSpecifier::Default(ref default) => {
-                    items.push((js_word!("default"), default.span))
-                }
+                ImportSpecifier::Default(ref default) => items.push(Specifier {
+                    export: (js_word!("default"), default.span),
+                    local: (default.local.sym.clone(), default.local.span),
+                }),
                 ImportSpecifier::Specific(ref s) => {
-                    items.push((
-                        s.imported
-                            .clone()
-                            .map(|v| v.sym)
-                            .unwrap_or_else(|| s.local.sym.clone()),
-                        s.span,
-                    ));
+                    items.push(Specifier {
+                        export: (
+                            s.imported
+                                .clone()
+                                .map(|v| v.sym)
+                                .unwrap_or_else(|| s.local.sym.clone()),
+                            s.span,
+                        ),
+                        local: (s.local.sym.clone(), s.local.span),
+                    });
                 }
                 ImportSpecifier::Namespace(..) => all = true,
             }
@@ -170,12 +178,18 @@ pub struct Info {
     pub errors: Vec<Error>,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct ImportInfo {
     pub span: Span,
-    pub items: Vec<(JsWord, Span)>,
+    pub items: Vec<Specifier>,
     pub all: bool,
     pub src: JsWord,
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct Specifier {
+    pub local: (JsWord, Span),
+    pub export: (JsWord, Span),
 }
 
 impl Visit<ClassDecl> for Analyzer<'_, '_> {
@@ -406,10 +420,12 @@ impl Analyzer<'_, '_> {
 /// Constants are propagated, and
 impl Checker<'_> {
     pub fn analyze_module(&self, path: Arc<PathBuf>, m: &Module) -> Info {
-        let mut a = Analyzer::new(Scope::root(), path, &self);
-        m.visit_with(&mut a);
+        ::swc_common::GLOBALS.set(&self.globals, || {
+            let mut a = Analyzer::new(Scope::root(), path, &self);
+            m.visit_with(&mut a);
 
-        a.info
+            a.info
+        })
     }
 }
 

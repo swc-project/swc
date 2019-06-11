@@ -83,10 +83,6 @@ impl Scope<'_> {
         ty: Option<TsType>,
         allow_multiple: bool,
     ) {
-        if super::LOG {
-            println!("Declare: {:?}{}: {}", self.kind, self.depth(), name);
-        }
-
         let info = VarInfo {
             kind,
             ty,
@@ -131,30 +127,15 @@ impl Scope<'_> {
     }
 }
 
-static ANY: TsType = any(DUMMY_SP);
+static ANY_TY: TsType = any(DUMMY_SP);
 
 impl Analyzer<'_, '_> {
     pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
-        lazy_static! {
-            static ref ANY: TsType = TsType::TsKeywordType(TsKeywordType {
-                span: DUMMY_SP,
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-            });
-        }
         if self.errored_imports.get(name).is_some() {
-            return Some(&ANY);
+            return Some(&ANY_TY);
         }
 
         let mut scope = Some(&self.scope);
-
-        if super::LOG {
-            println!(
-                "Search: {:?}{} {}",
-                self.scope.kind,
-                self.scope.depth(),
-                name
-            );
-        }
 
         while let Some(s) = scope {
             if let Some(var) = s.vars.get(name) {
@@ -162,7 +143,7 @@ impl Analyzer<'_, '_> {
                     Some(ref ty) => return Some(ty),
                     None => {
                         // TODO(kdy1): No implicit any.
-                        return Some(&ANY);
+                        return Some(&ANY_TY);
                     }
                 }
             }

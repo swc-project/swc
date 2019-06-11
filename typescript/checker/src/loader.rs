@@ -33,7 +33,7 @@ impl Load for Checker<'_> {
         if import.all {
             result.extend(module.1.exports.clone())
         } else {
-            for &(ref sym, span) in &import.items {
+            for &(ref sym, span) in import.items.iter().map(|v| &v.export) {
                 if let Some(exported) = module.1.exports.get(&sym) {
                     result.insert(sym.clone(), exported.clone());
                 } else {

@@ -1,1 +1,1 @@
-import React from "react/cjs/react.development";
+import React from "react";
