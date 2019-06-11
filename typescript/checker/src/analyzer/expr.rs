@@ -788,14 +788,18 @@ impl Analyzer<'_, '_> {
                 ..
             }) => match *type_name {
                 TsEntityName::Ident(ref i) => {
-                    if let Some(info) = self.find_type(&i.sym) {
+                    let err = if let Some(info) = self.find_type(&i.sym) {
                         let err = match info.instantiate(type_params.as_ref()) {
                             Ok(ty) => return Cow::Owned(ty),
                             Err(err) => err,
                         };
 
-                        self.info.errors.push(err)
-                    }
+                        Some(err)
+                    } else {
+                        None
+                    };
+
+                    self.info.errors.extend(err);
                 }
                 TsEntityName::TsQualifiedName(..) => {
                     // TODO
