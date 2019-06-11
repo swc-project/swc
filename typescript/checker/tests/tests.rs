@@ -3,6 +3,8 @@
 #![feature(specialization)]
 #![feature(test)]
 
+extern crate swc_common;
+extern crate swc_ecma_parser;
 extern crate swc_ts_checker;
 extern crate test;
 extern crate testing;
