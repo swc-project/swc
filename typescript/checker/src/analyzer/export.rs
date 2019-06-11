@@ -102,6 +102,10 @@ impl Visit<TsExportAssignment> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     pub(super) fn handle_pending_exports(&mut self) {
+        if self.pending_exports.is_empty() {
+            return;
+        }
+
         let pending_exports = ::std::mem::replace(&mut self.pending_exports, Default::default());
 
         for ((sym, span), expr) in pending_exports {
@@ -110,6 +114,7 @@ impl Analyzer<'_, '_> {
             let ty = match self.type_of(&expr) {
                 Ok(ty) => ty.into_owned().into(),
                 Err(err) => {
+                    println!("Pending export resulted in an error: {:#?}", err);
                     self.info.errors.push(err);
                     return;
                 }

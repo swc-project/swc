@@ -52,7 +52,11 @@ where
             .map(|import| {
                 self.loader
                     .load(self.path.clone(), &*import)
-                    .map_err(|err| (import, err))
+                    .map_err(|err| {
+                        //
+                        println!("File: {}\nError: {:#?}", import.src, err);
+                        (import, err)
+                    })
             })
             .collect::<Vec<_>>();
 
