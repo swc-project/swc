@@ -26,7 +26,7 @@ pub(super) struct Scope<'a> {
     ///
     /// e.g. `interface Foo { name: string; }` is saved as `{ 'Foo': { name:
     /// string; } }`
-    types: FxHashMap<JsWord, ExportInfo>,
+    pub(super) types: FxHashMap<JsWord, ExportInfo>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.

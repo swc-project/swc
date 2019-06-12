@@ -54,7 +54,6 @@ where
                     .load(self.path.clone(), &*import)
                     .map_err(|err| {
                         //
-                        println!("File: {}\nError: {:#?}", import.src, err);
                         (import, err)
                     })
             })
@@ -88,6 +87,42 @@ where
         items.visit_children(self);
 
         self.handle_pending_exports();
+    }
+}
+
+impl Visit<TsModuleDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, decl: &TsModuleDecl) {
+        // TODO(kdy1): Uncomment the line below.
+        // Uncommenting the line somehow returned without excuting subsequent codes.
+        // decl.visit_children(self);
+
+        // println!("after: visit<TsModuleDecl>: {:?}", decl.id);
+
+        match decl.body {
+            None => {
+                return;
+            }
+            Some(ref body) => match *body {
+                TsNamespaceBody::TsModuleBlock(TsModuleBlock { ref body, .. }) => {
+                    let id = match decl.id {
+                        TsModuleName::Ident(ref ident) => ident,
+                        TsModuleName::Str(..) => {
+                            unimplemented!("typescript module with string name")
+                        }
+                    };
+
+                    // TODO(kdy1): Allow multiple exports with same name.
+                    debug_assert_eq!(self.scope.types.get(&id.sym), None);
+
+                    self.scope
+                        .register_type(id.sym.clone(), ExportExtra::Module(decl.clone()).into());
+                }
+                TsNamespaceBody::TsNamespaceDecl(TsNamespaceDecl { .. }) => {
+                    // TOOD: What should we do at here?
+                    // impl below this impl may be enough.
+                }
+            },
+        }
     }
 }
 

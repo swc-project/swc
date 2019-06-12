@@ -25,20 +25,29 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
+                if let Some(ty) = self.find_var_type(&i.sym) {
+                    return Ok(Cow::Owned(ty.clone()));
+                }
+
+                if let Some(info) = self.find_type(&i.sym) {
+                    let err = match info.instantiate(None) {
+                        Ok(ty) => return Ok(Cow::Owned(ty)),
+                        Err(err) => err,
+                    };
+
+                    return Err(err);
+                };
+
                 if let Some(ty) = super::defaults::default(&i.sym) {
                     return Ok(Cow::Borrowed(ty));
                 }
 
-                if let Some(ty) = self.find_var_type(&i.sym) {
-                    Cow::Owned(ty.clone())
-                } else {
-                    // unimplemented!(
-                    //     "typeof(undefined ident: {})\nFile: {}",
-                    //     i.sym,
-                    //     self.path.display()
-                    // )
-                    return Err(Error::UndefinedSymbol { span: i.span });
-                }
+                // unimplemented!(
+                //     "typeof(undefined ident: {})\nFile: {}",
+                //     i.sym,
+                //     self.path.display()
+                // )
+                return Err(Error::UndefinedSymbol { span: i.span });
             }
 
             Expr::Array(ArrayLit { ref elems, .. }) => {

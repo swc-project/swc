@@ -54,6 +54,12 @@ impl ExportInfo {
                 // Expand
                 match extra {
                     ExportExtra::Enum(..) => unimplemented!("ExportExtra::Enum -> instantiate()"),
+                    ExportExtra::Namespace(..) => {
+                        unimplemented!("ExportExtra::Namespace -> instantiate()")
+                    }
+                    ExportExtra::Module(..) => {
+                        unimplemented!("ExportExtra::Module -> instantiate()")
+                    }
                     ExportExtra::Interface(ref i) => {
                         // TODO: Check length of type parmaters
                         // TODO: Instantiate type parameters
@@ -82,6 +88,8 @@ pub enum ExportExtra {
     Enum(TsEnumDecl),
     /// export type A<B> = Foo<B>;
     Alias(TsTypeAliasDecl),
+    Namespace(TsNamespaceDecl),
+    Module(TsModuleDecl),
 }
 
 // ModuleDecl::ExportNamed(export) => {}
@@ -101,6 +109,7 @@ impl Visit<TsExportAssignment> for Analyzer<'_, '_> {
 }
 
 impl Analyzer<'_, '_> {
+    #[inline(always)]
     pub(super) fn handle_pending_exports(&mut self) {
         if self.pending_exports.is_empty() {
             return;
@@ -109,12 +118,13 @@ impl Analyzer<'_, '_> {
         let pending_exports = ::std::mem::replace(&mut self.pending_exports, Default::default());
 
         for ((sym, span), expr) in pending_exports {
+            // TODO(kdy1): Allow multiple exports with same name.
+
             debug_assert_eq!(self.info.exports.get(&sym), None);
 
             let ty = match self.type_of(&expr) {
                 Ok(ty) => ty.into_owned().into(),
                 Err(err) => {
-                    println!("Pending export resulted in an error: {:#?}", err);
                     self.info.errors.push(err);
                     return;
                 }
@@ -126,7 +136,11 @@ impl Analyzer<'_, '_> {
     }
 
     fn export_default_expr(&mut self, expr: &Expr) {
-        debug_assert_eq!(self.info.exports.get(&js_word!("default")), None);
+        assert_eq!(
+            self.info.exports.get(&js_word!("default")),
+            None,
+            "A module can export only one item as default"
+        );
 
         let ty = match self.type_of(expr) {
             Ok(ty) => ty.into_owned().into(),
@@ -165,6 +179,7 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
             Decl::Class(..) => unimplemented!("export class Foo"),
             Decl::Var(..) => unimplemented!("export var Foo = a;"),
             Decl::TsEnum(ref e) => {
+                // TODO(kdy1): Allow multiple exports with same name.
                 debug_assert_eq!(self.info.exports.get(&e.id.sym), None);
                 self.info.exports.insert(
                     e.id.sym.clone(),
@@ -213,6 +228,7 @@ impl Visit<ExportDefaultExpr> for Analyzer<'_, '_> {
 
 impl Analyzer<'_, '_> {
     fn export_interface(&mut self, name: JsWord, i: &TsInterfaceDecl) {
+        // TODO(kdy1): Allow multiple exports with same name.
         debug_assert_eq!(self.info.exports.get(&name), None);
 
         self.info
