@@ -1,4 +1,4 @@
-use std::{ops::Range, path::PathBuf};
+use std::{ops::RangeInclusive, path::PathBuf};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span, Spanned};
 use swc_ecma_ast::{TsType, TsTypeElement};
@@ -74,13 +74,13 @@ pub enum Error {
 
     WrongTypeParams {
         span: Span,
-        expected: Range<usize>,
+        expected: RangeInclusive<usize>,
         actual: usize,
     },
 
     WrongParams {
         span: Span,
-        expected: Range<usize>,
+        expected: RangeInclusive<usize>,
         actual: usize,
     },
 }

@@ -771,22 +771,36 @@ impl Analyzer<'_, '_> {
         let type_params_len = ty_params_decl.map(|decl| decl.params.len()).unwrap_or(0);
         let type_args_len = i.map(|v| v.params.len()).unwrap_or(0);
 
-        if type_args_len > type_params_len {
-            return Err(Error::WrongTypeParams {
-                span,
-                // TODO
-                expected: 0..type_params_len,
-                actual: type_args_len,
-            });
+        {
+            // TODO: Handle multiple definitions
+            let min = ty_params_decl
+                .map(|decl| decl.params.iter().filter(|p| p.default.is_none()).count())
+                .unwrap_or(type_params_len);
+
+            let expected = min..=type_params_len;
+            if !expected.contains(&type_args_len) {
+                return Err(Error::WrongTypeParams {
+                    span,
+                    expected,
+                    actual: type_args_len,
+                });
+            }
         }
 
-        if param_decls.len() > args.len() {
-            return Err(Error::WrongParams {
-                span,
-                // TODO
-                expected: 0..param_decls.len(),
-                actual: type_args_len,
-            });
+        {
+            // TODO: Handle default parameters
+            // TODO: Handle multiple definitions
+
+            let min = param_decls.len();
+
+            let expected = min..=param_decls.len();
+            if !expected.contains(&args.len()) {
+                return Err(Error::WrongParams {
+                    span,
+                    expected,
+                    actual: args.len(),
+                });
+            }
         }
 
         Ok(ret_type.clone())
@@ -847,6 +861,8 @@ impl Analyzer<'_, '_> {
         }
 
         fn access(name: &TsEntityName, body: &TsNamespaceBody) -> Result<TsType, Error> {
+            println!("Access: {:?}", name);
+
             let q_name = match *name {
                 TsEntityName::Ident(ref i) => {
                     return Ok(TsType::TsTypeRef(TsTypeRef {
