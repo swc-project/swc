@@ -869,6 +869,8 @@ impl Analyzer<'_, '_> {
                 return Ok(v);
             }
 
+            // TODO: Resolve transitive imports.
+
             Err(Error::Unimplemented {
                 span,
                 msg: format!(
