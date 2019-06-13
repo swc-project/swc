@@ -1,11 +1,11 @@
 use super::{
-    export::{pat_to_ts_fn_param, ExportExtra, ExportInfo},
+    export::{pat_to_ts_fn_param, ExportExtra},
     util::TypeExt,
     Analyzer,
 };
 use crate::{errors::Error, util::EqIgnoreSpan};
 use std::borrow::Cow;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
@@ -816,62 +816,78 @@ impl Analyzer<'_, '_> {
         name: &TsEntityName,
         type_params: Option<&TsTypeParamInstantiation>,
     ) -> Result<TsType, Error> {
-        fn inner(
-            name: &TsEntityName,
-            e: &ExportInfo,
-            type_params: Option<&TsTypeParamInstantiation>,
-        ) -> Result<TsType, Error> {
-            match e.ty {
-                Some(ref ty) => {
-                    assert_eq!(type_params, None); // TODO: Error
-                    return Ok(ty.clone());
+        let e = (|| {
+            fn root(n: &TsEntityName) -> &Ident {
+                match *n {
+                    TsEntityName::TsQualifiedName(box TsQualifiedName { ref left, .. }) => {
+                        root(left)
+                    }
+                    TsEntityName::Ident(ref i) => i,
                 }
-                None => {}
             }
 
-            match e.extra {
-                Some(ref extra) => {
-                    // Expand
-                    match extra {
-                        ExportExtra::Enum(..) => {
-                            assert_eq!(type_params, None);
+            // Search imports / decls.
+            let root = root(name);
 
-                            unimplemented!("ExportExtra::Enum -> instantiate()")
-                        }
-                        ExportExtra::Module(TsModuleDecl {
-                            body: Some(body), ..
-                        })
-                        | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
-                            assert_eq!(type_params, None);
+            if let Some(v) = self.resolved_imports.get(&root.sym) {
+                return Ok(&**v);
+            }
 
-                            unimplemented!("ExportExtra::Namespace -> instantiate()")
-                        }
-                        ExportExtra::Module(..) => {
-                            assert_eq!(type_params, None);
+            if let Some(v) = self.scope.find_type(&root.sym) {
+                return Ok(v);
+            }
 
-                            unimplemented!(
-                                "ExportExtra::Module without body cannot be instantiated"
-                            )
-                        }
-                        ExportExtra::Interface(ref i) => {
-                            // TODO: Check length of type parmaters
-                            // TODO: Instantiate type parameters
+            Err(Error::UndefinedSymbol { span: root.span })
+        })()?;
 
-                            let members = i.body.body.iter().cloned().collect();
+        match e.ty {
+            Some(ref ty) => {
+                assert_eq!(type_params, None); // TODO: Error
+                return Ok(ty.clone());
+            }
+            None => {}
+        }
 
-                            return Ok(TsType::TsTypeLit(TsTypeLit {
-                                span: i.span,
-                                members,
-                            }));
-                        }
-                        ExportExtra::Alias(ref decl) => {
-                            // TODO(kdy1): Handle type parameters.
-                            return Ok(*decl.type_ann.clone());
-                        }
+        match e.extra {
+            Some(ref extra) => {
+                // Expand
+                match extra {
+                    ExportExtra::Enum(..) => {
+                        assert_eq!(type_params, None);
+
+                        unimplemented!("ExportExtra::Enum -> instantiate()")
+                    }
+                    ExportExtra::Module(TsModuleDecl {
+                        body: Some(body), ..
+                    })
+                    | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
+                        assert_eq!(type_params, None);
+
+                        unimplemented!("ExportExtra::Namespace -> instantiate()")
+                    }
+                    ExportExtra::Module(..) => {
+                        assert_eq!(type_params, None);
+
+                        unimplemented!("ExportExtra::Module without body cannot be instantiated")
+                    }
+                    ExportExtra::Interface(ref i) => {
+                        // TODO: Check length of type parmaters
+                        // TODO: Instantiate type parameters
+
+                        let members = i.body.body.iter().cloned().collect();
+
+                        return Ok(TsType::TsTypeLit(TsTypeLit {
+                            span: i.span,
+                            members,
+                        }));
+                    }
+                    ExportExtra::Alias(ref decl) => {
+                        // TODO(kdy1): Handle type parameters.
+                        return Ok(*decl.type_ann.clone());
                     }
                 }
-                None => unimplemented!("`ty` and `extra` are both null"),
             }
+            None => unimplemented!("`ty` and `extra` are both null"),
         }
     }
 }

@@ -110,7 +110,7 @@ impl Scope<'_> {
     }
 
     /// This method does cannot handle imported types.
-    fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
         if let Some(ty) = self.types.get(name) {
             return Some(ty);
         }
