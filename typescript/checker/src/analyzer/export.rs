@@ -117,7 +117,7 @@ impl Analyzer<'_, '_> {
 
         let pending_exports = ::std::mem::replace(&mut self.pending_exports, Default::default());
 
-        for ((sym, span), expr) in pending_exports {
+        for ((sym, _), expr) in pending_exports {
             // TODO(kdy1): Allow multiple exports with same name.
 
             debug_assert_eq!(self.info.exports.get(&sym), None);

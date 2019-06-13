@@ -134,9 +134,7 @@ impl Analyzer<'_, '_> {
             }) => negate(self.type_of(arg)?),
 
             Expr::Unary(UnaryExpr {
-                op: op!("typeof"),
-                ref arg,
-                ..
+                op: op!("typeof"), ..
             }) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsStringKeyword,
