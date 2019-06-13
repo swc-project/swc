@@ -774,23 +774,24 @@ impl Analyzer<'_, '_> {
         i: Option<&TsTypeParamInstantiation>,
     ) -> Result<TsType, Error> {
         {
-            let type_params_len = ty_params_decl.map(|decl| decl.params.len()).unwrap_or(0);
-            let type_args_len = i.map(|v| v.params.len()).unwrap_or(0);
+            // let type_params_len = ty_params_decl.map(|decl|
+            // decl.params.len()).unwrap_or(0); let type_args_len = i.map(|v|
+            // v.params.len()).unwrap_or(0);
 
-            // TODO: Handle multiple definitions
-            let min = ty_params_decl
-                .map(|decl| decl.params.iter().filter(|p| p.default.is_none()).count())
-                .unwrap_or(type_params_len);
+            // // TODO: Handle multiple definitions
+            // let min = ty_params_decl
+            //     .map(|decl| decl.params.iter().filter(|p| p.default.is_none()).count())
+            //     .unwrap_or(type_params_len);
 
-            let expected = min..=type_params_len;
-            if !expected.contains(&type_args_len) {
-                return Err(Error::WrongTypeParams {
-                    span,
-                    callee: callee_span,
-                    expected,
-                    actual: type_args_len,
-                });
-            }
+            // let expected = min..=type_params_len;
+            // if !expected.contains(&type_args_len) {
+            //     return Err(Error::WrongTypeParams {
+            //         span,
+            //         callee: callee_span,
+            //         expected,
+            //         actual: type_args_len,
+            //     });
+            // }
         }
 
         {
