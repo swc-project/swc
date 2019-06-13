@@ -5,7 +5,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Default)]
 pub struct ExportInfo {
     pub ty: Option<TsType>,
     pub extra: Option<ExportExtra>,
@@ -76,12 +76,15 @@ impl Analyzer<'_, '_> {
 
             debug_assert_eq!(self.info.exports.get(&sym), None);
 
-            let ty = match self.type_of(&expr) {
-                Ok(ty) => ty.into_owned().into(),
-                Err(err) => {
-                    self.info.errors.push(err);
-                    return;
-                }
+            let ty = match self.scope.types.get_mut(&sym) {
+                Some(export) => ::std::mem::replace(export, ExportInfo::default()),
+                None => match self.type_of(&expr) {
+                    Ok(ty) => ty.into_owned().into(),
+                    Err(err) => {
+                        self.info.errors.push(err);
+                        return;
+                    }
+                },
             };
             self.info.exports.insert(sym, Arc::new(ty));
         }
