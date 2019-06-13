@@ -36,52 +36,6 @@ impl From<ExportExtra> for ExportInfo {
     }
 }
 
-impl ExportInfo {
-    pub fn instantiate(
-        &self,
-        type_params: Option<&TsTypeParamInstantiation>,
-    ) -> Result<TsType, Error> {
-        match self.ty {
-            Some(ref ty) => {
-                assert_eq!(type_params, None); // TODO: Error
-                return Ok(ty.clone());
-            }
-            None => {}
-        }
-
-        match self.extra {
-            Some(ref extra) => {
-                // Expand
-                match extra {
-                    ExportExtra::Enum(..) => unimplemented!("ExportExtra::Enum -> instantiate()"),
-                    ExportExtra::Namespace(..) => {
-                        unimplemented!("ExportExtra::Namespace -> instantiate()")
-                    }
-                    ExportExtra::Module(..) => {
-                        unimplemented!("ExportExtra::Module -> instantiate()")
-                    }
-                    ExportExtra::Interface(ref i) => {
-                        // TODO: Check length of type parmaters
-                        // TODO: Instantiate type parameters
-
-                        let members = i.body.body.iter().cloned().collect();
-
-                        return Ok(TsType::TsTypeLit(TsTypeLit {
-                            span: i.span,
-                            members,
-                        }));
-                    }
-                    ExportExtra::Alias(ref decl) => {
-                        // TODO(kdy1): Handle type parameters.
-                        return Ok(*decl.type_ann.clone());
-                    }
-                }
-            }
-            None => unimplemented!("`ty` and `extra` are both null"),
-        }
-    }
-}
-
 #[derive(Debug, PartialEq)]
 pub enum ExportExtra {
     Interface(TsInterfaceDecl),

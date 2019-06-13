@@ -1,4 +1,8 @@
-use super::{export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
+use super::{
+    export::{pat_to_ts_fn_param, ExportExtra, ExportInfo},
+    util::TypeExt,
+    Analyzer,
+};
 use crate::{errors::Error, util::EqIgnoreSpan};
 use std::borrow::Cow;
 use swc_atoms::js_word;
@@ -29,13 +33,8 @@ impl Analyzer<'_, '_> {
                     return Ok(Cow::Owned(ty.clone()));
                 }
 
-                if let Some(info) = self.find_type(&i.sym) {
-                    let err = match info.instantiate(None) {
-                        Ok(ty) => return Ok(Cow::Owned(ty)),
-                        Err(err) => err,
-                    };
-
-                    return Err(err);
+                if let Ok(ty) = self.expand_export_info(&TsEntityName::Ident(i.clone()), None) {
+                    return Ok(Cow::Owned(ty));
                 };
 
                 if let Some(ty) = super::defaults::default(&i.sym) {
@@ -800,29 +799,79 @@ impl Analyzer<'_, '_> {
                 ref type_name,
                 ref type_params,
                 ..
-            }) => match *type_name {
-                TsEntityName::Ident(ref i) => {
-                    let err = if let Some(info) = self.find_type(&i.sym) {
-                        let err = match info.instantiate(type_params.as_ref()) {
-                            Ok(ty) => return Cow::Owned(ty),
-                            Err(err) => err,
-                        };
-
-                        Some(err)
-                    } else {
-                        None
-                    };
-
-                    self.info.errors.extend(err);
-                }
-                TsEntityName::TsQualifiedName(..) => {
-                    // TODO
-                }
-            },
+            }) => {
+                return self
+                    .expand_export_info(type_name, type_params.as_ref())
+                    .map(Cow::Owned)
+            }
             _ => {}
         }
 
         ty
+    }
+
+    fn expand_export_info(
+        &self,
+        name: &TsEntityName,
+        type_params: Option<&TsTypeParamInstantiation>,
+    ) -> Result<TsType, Error> {
+        fn inner(
+            name: &TsEntityName,
+            e: &ExportInfo,
+            type_params: Option<&TsTypeParamInstantiation>,
+        ) -> Result<TsType, Error> {
+            match e.ty {
+                Some(ref ty) => {
+                    assert_eq!(type_params, None); // TODO: Error
+                    return Ok(ty.clone());
+                }
+                None => {}
+            }
+
+            match e.extra {
+                Some(ref extra) => {
+                    // Expand
+                    match extra {
+                        ExportExtra::Enum(..) => {
+                            assert_eq!(type_params, None);
+
+                            unimplemented!("ExportExtra::Enum -> instantiate()")
+                        }
+                        ExportExtra::Module(TsModuleDecl {
+                            body: Some(body), ..
+                        })
+                        | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
+                            assert_eq!(type_params, None);
+
+                            unimplemented!("ExportExtra::Namespace -> instantiate()")
+                        }
+                        ExportExtra::Module(..) => {
+                            assert_eq!(type_params, None);
+
+                            unimplemented!(
+                                "ExportExtra::Module without body cannot be instantiated"
+                            )
+                        }
+                        ExportExtra::Interface(ref i) => {
+                            // TODO: Check length of type parmaters
+                            // TODO: Instantiate type parameters
+
+                            let members = i.body.body.iter().cloned().collect();
+
+                            return Ok(TsType::TsTypeLit(TsTypeLit {
+                                span: i.span,
+                                members,
+                            }));
+                        }
+                        ExportExtra::Alias(ref decl) => {
+                            // TODO(kdy1): Handle type parameters.
+                            return Ok(*decl.type_ann.clone());
+                        }
+                    }
+                }
+                None => unimplemented!("`ty` and `extra` are both null"),
+            }
+        }
     }
 }
 
