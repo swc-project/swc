@@ -27,7 +27,7 @@ impl Analyzer<'_, '_> {
                         return Ok(Cow::Owned(ty.clone()));
                     }
 
-                    match self.expand_export_info(&TsEntityName::Ident(i.clone()), None) {
+                    match self.expand_export_info(span, &TsEntityName::Ident(i.clone()), None) {
                         Ok(ty) => return Ok(Cow::Owned(ty)),
                         Err(..) => {}
                     }
@@ -820,7 +820,11 @@ impl Analyzer<'_, '_> {
         Ok(ret_type.clone())
     }
 
-    pub(super) fn expand<'t>(&mut self, ty: Cow<'t, TsType>) -> Result<Cow<'t, TsType>, Error> {
+    pub(super) fn expand<'t>(
+        &mut self,
+        span: Span,
+        ty: Cow<'t, TsType>,
+    ) -> Result<Cow<'t, TsType>, Error> {
         match *ty {
             TsType::TsTypeRef(TsTypeRef {
                 ref type_name,
@@ -828,7 +832,7 @@ impl Analyzer<'_, '_> {
                 ..
             }) => {
                 return self
-                    .expand_export_info(type_name, type_params.as_ref())
+                    .expand_export_info(span, type_name, type_params.as_ref())
                     .map(Cow::Owned)
             }
             _ => {}
@@ -839,6 +843,7 @@ impl Analyzer<'_, '_> {
 
     fn expand_export_info(
         &self,
+        span: Span,
         name: &TsEntityName,
         type_params: Option<&TsTypeParamInstantiation>,
     ) -> Result<TsType, Error> {
@@ -864,7 +869,7 @@ impl Analyzer<'_, '_> {
             }
 
             Err(Error::Unimplemented {
-                span: root.span,
+                span,
                 msg: format!(
                     "expand_export_info({})\nImports: {:?}\nFile: {}",
                     root.sym,

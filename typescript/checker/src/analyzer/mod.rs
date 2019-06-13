@@ -330,7 +330,12 @@ impl Visit<BlockStmt> for Analyzer<'_, '_> {
 
 impl Visit<AssignExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, expr: &AssignExpr) {
-        let rhs_ty = match self.type_of(&expr.right).and_then(|ty| self.expand(ty)) {
+        let span = expr.span();
+
+        let rhs_ty = match self
+            .type_of(&expr.right)
+            .and_then(|ty| self.expand(span, ty))
+        {
             Ok(rhs_ty) => rhs_ty,
             Err(err) => {
                 self.info.errors.push(err);
@@ -348,9 +353,11 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
         let kind = var.kind;
 
         var.decls.iter().for_each(|v| {
+            let span = v.span();
+
             if let Some(ref init) = v.init {
                 //  Check if v_ty is assignable to ty
-                let value_ty = match self.type_of(&init).and_then(|ty| self.expand(ty)) {
+                let value_ty = match self.type_of(&init).and_then(|ty| self.expand(span, ty)) {
                     Ok(ty) => ty,
                     Err(err) => {
                         self.info.errors.push(err);
@@ -360,7 +367,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
                 match v.name.get_ty() {
                     Some(ty) => {
-                        let ty = match self.expand(Cow::Borrowed(ty)) {
+                        let ty = match self.expand(span, Cow::Borrowed(ty)) {
                             Ok(ty) => ty,
                             Err(err) => {
                                 self.info.errors.push(err);
