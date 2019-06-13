@@ -10,6 +10,11 @@ pub enum Error {
         span: Span,
     },
 
+    Unimplemented {
+        span: Span,
+        msg: String,
+    },
+
     ResolvedFailed {
         span: Span,
         base: PathBuf,
