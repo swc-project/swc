@@ -23,20 +23,19 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(v) = self.resolved_imports.get(&i.sym) {
-                    unreachable!(
-                        "Analyzer.type_of() should handle resolved imports. But got {}: {:?}",
-                        i.sym, v
+                    if let Some(ref ty) = v.ty {
+                        return Ok(Cow::Owned(ty.clone()));
+                    }
+
+                    unimplemented!(
+                        "Analyzer.type_of() should handle resolved imports. But got {}\n{:?}",
+                        i.sym,
+                        v
                     );
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
                     return Ok(Cow::Owned(ty.clone()));
-                }
-
-                // We can return TsTypeRef and depend on expand, but we don't do it in the way
-                // in the name of performance.
-                if let Ok(ty) = self.expand_export_info(&TsEntityName::Ident(i.clone()), None) {
-                    return Ok(Cow::Owned(ty));
                 }
 
                 if let Some(ty) = super::defaults::default(&i.sym) {
@@ -848,6 +847,31 @@ impl Analyzer<'_, '_> {
             None => {}
         }
 
+        fn access(name: &TsEntityName, body: &TsNamespaceBody) -> Result<TsType, Error> {
+            let q_name = match *name {
+                TsEntityName::Ident(ref i) => {
+                    return Ok(TsType::TsTypeRef(TsTypeRef {
+                        span: i.span,
+                        type_name: TsEntityName::Ident(i.clone()),
+                        type_params: Default::default(),
+                    }))
+                }
+                TsEntityName::TsQualifiedName(ref q) => q,
+            };
+
+            let left_ty = access(&q_name.left, body)?;
+            let ident = &q_name.right.sym;
+
+            match body {
+                TsNamespaceBody::TsModuleBlock(TsModuleBlock { ref body, .. }) => {
+                    Err(Error::UndefinedSymbol {
+                        span: q_name.right.span,
+                    })
+                }
+                TsNamespaceBody::TsNamespaceDecl(..) => unimplemented!(),
+            }
+        }
+
         match e.extra {
             Some(ref extra) => {
                 // Expand
@@ -863,7 +887,7 @@ impl Analyzer<'_, '_> {
                     | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
                         assert_eq!(type_params, None);
 
-                        unimplemented!("ExportExtra::Namespace -> instantiate()")
+                        access(name, body)
                     }
                     ExportExtra::Module(..) => {
                         assert_eq!(type_params, None);

@@ -1,6 +1,7 @@
 use super::Analyzer;
+
 use crate::errors::Error;
-use std::sync::Arc;
+use std::{mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -69,16 +70,25 @@ impl Analyzer<'_, '_> {
             return;
         }
 
-        let pending_exports: Vec<_> =
-            ::std::mem::replace(&mut self.pending_exports, Default::default());
+        let pending_exports: Vec<_> = mem::replace(&mut self.pending_exports, Default::default());
 
         for ((sym, _), expr) in pending_exports {
             // TODO(kdy1): Allow multiple exports with same name.
 
             debug_assert_eq!(self.info.exports.get(&sym), None);
 
-            let ty = match self.scope.types.get_mut(&sym) {
-                Some(export) => ::std::mem::replace(export, ExportInfo::default()),
+            let exported_sym = if *sym != js_word!("default") {
+                Some(&sym)
+            } else {
+                match *expr {
+                    Expr::Ident(ref i) => Some(&i.sym),
+                    _ => None,
+                }
+            };
+            let ty = match exported_sym
+                .and_then(|exported_sym| self.scope.types.get_mut(&exported_sym))
+            {
+                Some(export) => mem::replace(export, ExportInfo::default()),
                 None => match self.type_of(&expr) {
                     Ok(ty) => ty.into_owned().into(),
                     Err(err) => {

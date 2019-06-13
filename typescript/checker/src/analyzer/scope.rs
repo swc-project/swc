@@ -126,6 +126,8 @@ impl Scope<'_> {
     }
 
     pub fn register_type(&mut self, name: JsWord, data: ExportInfo) {
+        println!("({}) Registering: {}", self.depth(), name);
+
         self.types.insert(name, data);
     }
 }
