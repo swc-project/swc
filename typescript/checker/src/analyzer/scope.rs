@@ -1,6 +1,5 @@
 use super::{export::ExportInfo, expr::any, Analyzer};
 use fxhash::FxHashMap;
-use lazy_static::lazy_static;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -155,15 +154,13 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
-        lazy_static! {
-            static ref ANY: ExportInfo = ExportInfo {
-                ty: Some(TsType::TsKeywordType(TsKeywordType {
-                    span: DUMMY_SP,
-                    kind: TsKeywordTypeKind::TsAnyKeyword,
-                })),
-                extra: None,
-            };
-        }
+        static ANY: ExportInfo = ExportInfo {
+            ty: Some(TsType::TsKeywordType(TsKeywordType {
+                span: DUMMY_SP,
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+            })),
+            extra: None,
+        };
 
         if self.errored_imports.get(name).is_some() {
             return Some(&ANY);
