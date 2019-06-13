@@ -27,11 +27,10 @@ impl Analyzer<'_, '_> {
                         return Ok(Cow::Owned(ty.clone()));
                     }
 
-                    unimplemented!(
-                        "Analyzer.type_of() should handle resolved imports. But got {}\n{:?}",
-                        i.sym,
-                        v
-                    );
+                    match self.expand_export_info(&TsEntityName::Ident(i.clone()), None) {
+                        Ok(ty) => return Ok(Cow::Owned(ty)),
+                        Err(..) => {}
+                    }
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
