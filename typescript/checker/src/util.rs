@@ -114,18 +114,12 @@ impl Fold<Ident> for SpanAndNameRemover {
     }
 }
 
-// TODO(kdy1): Preserve meaningful idents (I mean idents in the type position)
-
-// macro_rules! impl_noop {
-//     ($T:ty) => {
-//         impl Fold<$T> for SpanAndNameRemover {
-//             fn fold(&mut self, node: $T) -> $T {
-//                 node
-//             }
-//         }
-//     };
-// }
-// impl_noop!(TsTypeRef);
+/// TsEntityName is used in type position.
+impl Fold<TsEntityName> for SpanAndNameRemover {
+    fn fold(&mut self, n: TsEntityName) -> TsEntityName {
+        n
+    }
+}
 
 impl<T> EqIgnoreSpan for Box<T>
 where
