@@ -25,10 +25,14 @@ pub(super) struct Scope<'a> {
     ///
     /// e.g. `interface Foo { name: string; }` is saved as `{ 'Foo': { name:
     /// string; } }`
+    ///
+    /// TODO(kdy1): Use vector (for performance)
     pub(super) types: FxHashMap<JsWord, ExportInfo>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.
+    ///
+    /// TODO(kdy1): Use vector (for performance)
     pub(super) vars: FxHashMap<JsWord, VarInfo>,
     parent: Option<&'a Scope<'a>>,
 }

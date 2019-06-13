@@ -23,7 +23,9 @@ mod util;
 
 struct Analyzer<'a, 'b> {
     info: Info,
+    /// TODO(kdy1): Use vector (for performance)
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
+    /// TODO(kdy1): Use vector (for performance)
     errored_imports: FxHashSet<JsWord>,
     pending_exports: Vec<((JsWord, Span), Box<Expr>)>,
     scope: Scope<'a>,
