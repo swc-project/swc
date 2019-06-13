@@ -328,7 +328,7 @@ impl Visit<BlockStmt> for Analyzer<'_, '_> {
 
 impl Visit<AssignExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, expr: &AssignExpr) {
-        let rhs_ty = match self.type_of(&expr.right).map(|ty| self.expand(ty)) {
+        let rhs_ty = match self.type_of(&expr.right).and_then(|ty| self.expand(ty)) {
             Ok(rhs_ty) => rhs_ty,
             Err(err) => {
                 self.info.errors.push(err);
@@ -348,7 +348,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
         var.decls.iter().for_each(|v| {
             if let Some(ref init) = v.init {
                 //  Check if v_ty is assignable to ty
-                let value_ty = match self.type_of(&init).map(|ty| self.expand(ty)) {
+                let value_ty = match self.type_of(&init).and_then(|ty| self.expand(ty)) {
                     Ok(ty) => ty,
                     Err(err) => {
                         self.info.errors.push(err);
@@ -358,7 +358,13 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
                 match v.name.get_ty() {
                     Some(ty) => {
-                        let ty = self.expand(Cow::Borrowed(ty));
+                        let ty = match self.expand(Cow::Borrowed(ty)) {
+                            Ok(ty) => ty,
+                            Err(err) => {
+                                self.info.errors.push(err);
+                                return;
+                            }
+                        };
                         let errors = value_ty.assign_to(&*ty);
                         if errors.is_none() {
                             self.scope.declare_vars(kind, &v.name);

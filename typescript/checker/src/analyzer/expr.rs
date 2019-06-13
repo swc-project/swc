@@ -33,9 +33,11 @@ impl Analyzer<'_, '_> {
                     return Ok(Cow::Owned(ty.clone()));
                 }
 
+                // We can return TsTypeRef and depend on expand, but we don't do it in the way
+                // in the name of performance.
                 if let Ok(ty) = self.expand_export_info(&TsEntityName::Ident(i.clone()), None) {
                     return Ok(Cow::Owned(ty));
-                };
+                }
 
                 if let Some(ty) = super::defaults::default(&i.sym) {
                     return Ok(Cow::Borrowed(ty));
@@ -792,8 +794,7 @@ impl Analyzer<'_, '_> {
         Ok(ret_type.clone())
     }
 
-    /// TODO: Make this return Result<TsType, Error>
-    pub(super) fn expand<'t>(&mut self, ty: Cow<'t, TsType>) -> Cow<'t, TsType> {
+    pub(super) fn expand<'t>(&mut self, ty: Cow<'t, TsType>) -> Result<Cow<'t, TsType>, Error> {
         match *ty {
             TsType::TsTypeRef(TsTypeRef {
                 ref type_name,
@@ -807,7 +808,7 @@ impl Analyzer<'_, '_> {
             _ => {}
         }
 
-        ty
+        Ok(ty)
     }
 
     fn expand_export_info(
