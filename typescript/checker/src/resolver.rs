@@ -59,7 +59,7 @@ fn find_types(base: &Path, src: &JsWord) -> Result<PathBuf, ()> {
     }
 
     let mut base_dir = Some(base);
-    while let Some(mut base) = base_dir {
+    while let Some(base) = base_dir {
         let types_dir = base.join("node_modules").join("@types");
 
         if types_dir.exists() {
