@@ -10,7 +10,6 @@ use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    /// TODO(kdy1): type hint (to reduce computation related to array)
     pub(super) fn type_of<'e>(&self, expr: &'e Expr) -> Result<Cow<'e, TsType>, Error> {
         let span = expr.span();
 
