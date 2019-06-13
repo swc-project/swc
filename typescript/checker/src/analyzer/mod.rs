@@ -25,7 +25,7 @@ struct Analyzer<'a, 'b> {
     info: Info,
     resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
     errored_imports: FxHashSet<JsWord>,
-    pending_exports: FxHashMap<(JsWord, Span), Box<Expr>>,
+    pending_exports: Vec<((JsWord, Span), Box<Expr>)>,
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b dyn Load,

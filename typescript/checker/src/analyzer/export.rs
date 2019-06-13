@@ -69,7 +69,8 @@ impl Analyzer<'_, '_> {
             return;
         }
 
-        let pending_exports = ::std::mem::replace(&mut self.pending_exports, Default::default());
+        let pending_exports: Vec<_> =
+            ::std::mem::replace(&mut self.pending_exports, Default::default());
 
         for ((sym, _), expr) in pending_exports {
             // TODO(kdy1): Allow multiple exports with same name.
@@ -89,7 +90,7 @@ impl Analyzer<'_, '_> {
             self.info.exports.insert(sym, Arc::new(ty));
         }
 
-        assert_eq!(self.pending_exports, Default::default());
+        assert_eq!(self.pending_exports, vec![]);
     }
 
     fn export_default_expr(&mut self, expr: &Expr) {
@@ -109,7 +110,7 @@ impl Analyzer<'_, '_> {
                     // declare namespace React {}
                     Error::UndefinedSymbol { .. } => {
                         self.pending_exports
-                            .insert((js_word!("default"), expr.span()), box expr.clone());
+                            .push(((js_word!("default"), expr.span()), box expr.clone()));
                         return;
                     }
                     _ => {}
