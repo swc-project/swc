@@ -863,7 +863,15 @@ impl Analyzer<'_, '_> {
                 return Ok(v);
             }
 
-            Err(Error::UndefinedSymbol { span: root.span })
+            Err(Error::Unimplemented {
+                span: root.span,
+                msg: format!(
+                    "expand_export_info({})\nImports: {:?}\nFile: {}",
+                    root.sym,
+                    self.resolved_imports,
+                    self.path.display()
+                ),
+            })
         })()?;
 
         match e.ty {
@@ -893,8 +901,9 @@ impl Analyzer<'_, '_> {
 
             match body {
                 TsNamespaceBody::TsModuleBlock(TsModuleBlock { ref body, .. }) => {
-                    Err(Error::UndefinedSymbol {
+                    Err(Error::Unimplemented {
                         span: q_name.right.span,
+                        msg: format!("TsModuleBlock. ident: {}", ident),
                     })
                 }
                 TsNamespaceBody::TsNamespaceDecl(..) => unimplemented!(),

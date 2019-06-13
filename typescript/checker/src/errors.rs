@@ -99,6 +99,14 @@ pub enum Error {
 impl Error {
     pub fn emit(self, h: &Handler) {
         let span = self.span();
-        h.struct_err(&format!("{:#?}", self)).set_span(span).emit();
+
+        let mut err = match self {
+            Error::Unimplemented { ref msg, .. } => {
+                h.struct_err(&format!("unimplemented\n{}", msg))
+            }
+            _ => h.struct_err(&format!("{:#?}", self)),
+        };
+
+        err.set_span(span).emit();
     }
 }
