@@ -356,6 +356,8 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
             let span = v.span();
 
             if let Some(ref init) = v.init {
+                let span = init.span();
+
                 //  Check if v_ty is assignable to ty
                 let value_ty = match self.type_of(&init).and_then(|ty| self.expand(span, ty)) {
                     Ok(ty) => ty,
