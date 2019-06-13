@@ -12,13 +12,6 @@ pub struct ExportInfo {
     pub extra: Option<ExportExtra>,
 }
 
-/// TODO: Remove this
-impl From<Option<TsType>> for ExportInfo {
-    fn from(ty: Option<TsType>) -> Self {
-        ExportInfo { ty, extra: None }
-    }
-}
-
 impl From<TsType> for ExportInfo {
     fn from(ty: TsType) -> Self {
         ExportInfo {
