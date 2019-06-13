@@ -871,9 +871,8 @@ impl Analyzer<'_, '_> {
             Err(Error::Unimplemented {
                 span,
                 msg: format!(
-                    "expand_export_info({})\nImports: {:?}\nFile: {}",
+                    "expand_export_info({})\nFile: {}",
                     root.sym,
-                    self.resolved_imports,
                     self.path.display()
                 ),
             })
