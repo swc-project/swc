@@ -768,10 +768,10 @@ impl Analyzer<'_, '_> {
         args: &[ExprOrSpread],
         i: Option<&TsTypeParamInstantiation>,
     ) -> Result<TsType, Error> {
-        let type_params_len = ty_params_decl.map(|decl| decl.params.len()).unwrap_or(0);
-        let type_args_len = i.map(|v| v.params.len()).unwrap_or(0);
-
         {
+            let type_params_len = ty_params_decl.map(|decl| decl.params.len()).unwrap_or(0);
+            let type_args_len = i.map(|v| v.params.len()).unwrap_or(0);
+
             // TODO: Handle multiple definitions
             let min = ty_params_decl
                 .map(|decl| decl.params.iter().filter(|p| p.default.is_none()).count())
