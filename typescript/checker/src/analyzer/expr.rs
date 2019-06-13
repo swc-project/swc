@@ -798,7 +798,13 @@ impl Analyzer<'_, '_> {
             // TODO: Handle default parameters
             // TODO: Handle multiple definitions
 
-            let min = param_decls.len();
+            let min = param_decls
+                .iter()
+                .filter(|p| match p {
+                    TsFnParam::Ident(Ident { optional: true, .. }) => false,
+                    _ => true,
+                })
+                .count();
 
             let expected = min..=param_decls.len();
             if !expected.contains(&args.len()) {
