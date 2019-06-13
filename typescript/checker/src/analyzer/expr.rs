@@ -621,19 +621,19 @@ impl Analyzer<'_, '_> {
             _ => {
                 let ty = self.type_of(callee)?;
 
-                self.extract(ty, kind, args, type_args)
+                self.extract(span, ty, kind, args, type_args)
             }
         }
     }
 
     fn extract(
         &self,
+        span: Span,
         ty: Cow<TsType>,
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Cow<TsType>, Error> {
-        let span = ty.span();
         let any = any(span);
 
         macro_rules! ret_err {
@@ -659,6 +659,7 @@ impl Analyzer<'_, '_> {
                             match self
                                 .try_instantiate(
                                     span,
+                                    ty.span(),
                                     &type_ann
                                         .as_ref()
                                         .map(|v| &*v.type_ann)
@@ -684,6 +685,7 @@ impl Analyzer<'_, '_> {
                             match self
                                 .try_instantiate(
                                     span,
+                                    ty.span(),
                                     &type_ann
                                         .as_ref()
                                         .map(|v| &*v.type_ann)
@@ -717,6 +719,7 @@ impl Analyzer<'_, '_> {
                 }) if kind == ExtractKind::Call => self
                     .try_instantiate(
                         span,
+                        ty.span(),
                         &type_ann.type_ann,
                         params,
                         type_params.as_ref(),
@@ -732,6 +735,7 @@ impl Analyzer<'_, '_> {
                 }) if kind == ExtractKind::New => self
                     .try_instantiate(
                         span,
+                        ty.span(),
                         &type_ann.type_ann,
                         params,
                         type_params.as_ref(),
@@ -746,7 +750,7 @@ impl Analyzer<'_, '_> {
             TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref u)) => {
                 let mut errors = vec![];
                 for ty in &u.types {
-                    match self.extract(Cow::Borrowed(&*ty), kind, args, type_args) {
+                    match self.extract(span, Cow::Borrowed(&*ty), kind, args, type_args) {
                         Ok(ty) => return Ok(ty),
                         Err(err) => errors.push(err),
                     }
@@ -762,6 +766,7 @@ impl Analyzer<'_, '_> {
     fn try_instantiate(
         &self,
         span: Span,
+        callee_span: Span,
         ret_type: &TsType,
         param_decls: &[TsFnParam],
         ty_params_decl: Option<&TsTypeParamDecl>,
@@ -781,6 +786,7 @@ impl Analyzer<'_, '_> {
             if !expected.contains(&type_args_len) {
                 return Err(Error::WrongTypeParams {
                     span,
+                    callee: callee_span,
                     expected,
                     actual: type_args_len,
                 });
@@ -797,6 +803,7 @@ impl Analyzer<'_, '_> {
             if !expected.contains(&args.len()) {
                 return Err(Error::WrongParams {
                     span,
+                    callee: callee_span,
                     expected,
                     actual: args.len(),
                 });

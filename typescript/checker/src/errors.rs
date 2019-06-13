@@ -73,13 +73,19 @@ pub enum Error {
     },
 
     WrongTypeParams {
+        /// Span of caller.
         span: Span,
+        /// Span of callee.
+        callee: Span,
         expected: RangeInclusive<usize>,
         actual: usize,
     },
 
     WrongParams {
+        /// Span of caller.
         span: Span,
+        /// Span of callee.
+        callee: Span,
         expected: RangeInclusive<usize>,
         actual: usize,
     },
