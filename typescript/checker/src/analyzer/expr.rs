@@ -19,10 +19,10 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(v) = self.resolved_imports.get(&i.sym) {
-                    match v.instantiate(None) {
-                        Ok(ty) => return Ok(Cow::Owned(ty)),
-                        Err(err) => return Err(err),
-                    }
+                    unreachable!(
+                        "Analyzer.type_of() should handle resolved imports. But got {}: {:?}",
+                        i.sym, v
+                    );
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
