@@ -635,14 +635,15 @@ impl Analyzer<'_, '_> {
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Cow<TsType>, Error> {
         let any = any(span);
+        let ty = self.expand(span, ty)?;
 
         macro_rules! ret_err {
-            () => {
+            () => {{
                 match kind {
-                    ExtractKind::Call => return Err(Error::NoCallSignature { span: ty.span() }),
-                    ExtractKind::New => return Err(Error::NoNewSignature { span: ty.span() }),
+                    ExtractKind::Call => return Err(Error::NoCallSignature { span }),
+                    ExtractKind::New => return Err(Error::NoNewSignature { span }),
                 }
-            };
+            }};
         }
 
         match *ty {
@@ -821,7 +822,7 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn expand<'t>(
-        &mut self,
+        &self,
         span: Span,
         ty: Cow<'t, TsType>,
     ) -> Result<Cow<'t, TsType>, Error> {
