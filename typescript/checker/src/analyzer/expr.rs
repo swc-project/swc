@@ -4,7 +4,6 @@ use super::{
     Analyzer,
 };
 use crate::{errors::Error, util::EqIgnoreSpan};
-use backtrace::Backtrace;
 use std::borrow::Cow;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
