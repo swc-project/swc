@@ -157,7 +157,12 @@ where
     ::testing::run_test(false, |cm, handler| {
         let checker = Checker::new(cm, handler, Default::default());
 
-        let a = Analyzer::new(Scope::root(), Arc::new(PathBuf::from("test.js")), &checker);
+        let a = Analyzer::new(
+            checker.rule,
+            Scope::root(),
+            Arc::new(PathBuf::from("test.js")),
+            &checker,
+        );
 
         Ok(op(a))
     })

@@ -24,8 +24,6 @@ impl Resolver {
 
 impl Resolve for Resolver {
     fn resolve(&self, cur_file: PathBuf, span: Span, src: &JsWord) -> Result<PathBuf, Error> {
-        // TODO: Handle error gracefully.
-
         let base = match cur_file.file_name() {
             Some(..) => cur_file
                 .parent()

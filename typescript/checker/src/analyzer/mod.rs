@@ -4,7 +4,7 @@ use self::{
     util::{PatExt, TypeExt, TypeRefExt},
 };
 use super::Checker;
-use crate::{errors::Error, loader::Load};
+use crate::{errors::Error, loader::Load, Rule};
 use fxhash::{FxHashMap, FxHashSet};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
@@ -31,6 +31,7 @@ struct Analyzer<'a, 'b> {
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b dyn Load,
+    rule: Rule,
 }
 
 impl<T> Visit<Vec<T>> for Analyzer<'_, '_>
@@ -210,8 +211,9 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
 }
 
 impl<'a, 'b> Analyzer<'a, 'b> {
-    pub fn new(scope: Scope<'a>, path: Arc<PathBuf>, loader: &'b dyn Load) -> Self {
+    pub fn new(rule: Rule, scope: Scope<'a>, path: Arc<PathBuf>, loader: &'b dyn Load) -> Self {
         Analyzer {
+            rule,
             scope,
             info: Default::default(),
             path,
@@ -492,9 +494,9 @@ impl Analyzer<'_, '_> {
 ///
 /// Constants are propagated, and
 impl Checker<'_> {
-    pub fn analyze_module(&self, path: Arc<PathBuf>, m: &Module) -> Info {
+    pub fn analyze_module(&self, rule: Rule, path: Arc<PathBuf>, m: &Module) -> Info {
         ::swc_common::GLOBALS.set(&self.globals, || {
-            let mut a = Analyzer::new(Scope::root(), path, &self);
+            let mut a = Analyzer::new(rule, Scope::root(), path, &self);
             m.visit_with(&mut a);
 
             a.info
@@ -513,6 +515,7 @@ fn assert_types() {
 impl Analyzer<'_, '_> {
     fn child(&self, kind: ScopeKind) -> Analyzer {
         Analyzer::new(
+            self.rule,
             Scope::new(&self.scope, kind),
             self.path.clone(),
             self.loader,

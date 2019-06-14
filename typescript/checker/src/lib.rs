@@ -37,6 +37,35 @@ mod util;
 /// Module with information.
 pub type ModuleInfo = Arc<(Module, Info)>;
 
+#[derive(Debug)]
+pub struct Config {
+    /// Should we generate .d.ts?
+    declaration: bool,
+    /// Directory to store .d.ts files.
+    declarationDir: PathBuf,
+
+    pub rule: Rule,
+}
+
+#[derive(Debug, Clone, Copy, Default)]
+pub struct Rule {
+    pub no_implicit_any: bool,
+    pub no_implicit_this: bool,
+    pub always_strict: bool,
+    pub strict_null_checks: bool,
+    pub strict_function_types: bool,
+
+    pub allow_unreachable_code: bool,
+    pub allow_unused_labels: bool,
+    pub no_fallthrough_cases_in_switch: bool,
+    pub no_implicit_returns: bool,
+    pub suppress_excess_property_errors: bool,
+    pub suppress_implicit_any_index_errors: bool,
+    pub no_strict_generic_checks: bool,
+    pub no_unused_locals: bool,
+    pub no_unused_parameters: bool,
+}
+
 pub struct Checker<'a> {
     globals: swc_common::Globals,
     cm: Arc<SourceMap>,
@@ -46,6 +75,7 @@ pub struct Checker<'a> {
     modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
     resolver: Resolver,
     current: Arc<CHashMap<PathBuf, ()>>,
+    rule: Rule,
 }
 
 impl<'a> Checker<'a> {
@@ -58,6 +88,7 @@ impl<'a> Checker<'a> {
             ts_config: parser_config,
             resolver: Resolver::new(),
             current: Default::default(),
+            rule: Default::default(),
         }
     }
 
@@ -139,7 +170,7 @@ impl Checker<'_> {
                 })
                 .expect("failed to parser module")
         });
-        let info = self.analyze_module(Arc::new(path.clone()), &module);
+        let info = self.analyze_module(self.rule, Arc::new(path.clone()), &module);
         let res = Arc::new((module, info));
         self.modules.insert(path.clone(), res.clone());
         self.current.remove(&path);
