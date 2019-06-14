@@ -3850,3 +3850,55 @@ tests.forEach(function (code) {
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_396_1,
+    "
+function foo() {
+  bar;
+  function bar() {}
+}
+",
+    "
+'use strict';
+function foo() {
+    bar;
+    function bar() {
+    }
+}
+"
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        typescript::strip(),
+        resolver(),
+        decorators(),
+        class_properties(),
+        export(),
+        simplifier(),
+        compat::es2018(),
+        compat::es2017(),
+        compat::es2016(),
+        compat::es2015(),
+        compat::es3(),
+        super::super::import_analysis::import_analyzer(),
+        InjectHelpers,
+        tr(Default::default()),
+    ),
+    issue_396_2,
+    "
+function foo() {
+  bar;
+  function bar() {}
+}
+",
+    "
+"
+);
