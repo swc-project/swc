@@ -4,6 +4,7 @@ use super::{
     Analyzer,
 };
 use crate::{errors::Error, util::EqIgnoreSpan};
+use backtrace::Backtrace;
 use std::borrow::Cow;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -221,9 +222,7 @@ impl Analyzer<'_, '_> {
                     .extract_call_new_expr(callee, ExtractKind::Call, args, type_args.as_ref())
                     .map(|v| v.into_owned())?;
 
-                let callee_type = self.expand(span, Cow::Owned(callee_type))?;
-
-                return Ok(callee_type);
+                return Ok(callee_type).map(Cow::Owned);
             }
 
             // super() returns any
@@ -875,7 +874,6 @@ impl Analyzer<'_, '_> {
             }
 
             // TODO: Resolve transitive imports.
-            println!("{:?}", name);
 
             Err(Error::Unimplemented {
                 span,

@@ -16,6 +16,7 @@ crossbeam = "0.7.1"
 fxhash = "0.2"
 node-resolve = "2.2"
 lazy_static = "1"
+backtrace = "0.3"
 
 [dev-dependencies]
 testing = { version = "0.3", path ="../../testing" }

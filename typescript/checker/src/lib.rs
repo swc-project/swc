@@ -3,6 +3,7 @@
 #![feature(specialization)]
 #![recursion_limit = "1024"]
 
+extern crate backtrace;
 extern crate bitflags;
 extern crate chashmap;
 extern crate crossbeam;
