@@ -90,7 +90,7 @@ error: AssignFailed {
             members: [],
         },
     ),
-    cause: Some(
+    cause: [
         MissingFields {
             span: Span {
                 lo: BytePos(
@@ -166,7 +166,7 @@ error: AssignFailed {
                 ),
             ],
         },
-    ),
+    ],
 }
  --> $DIR/tests/errors/types/object-lit/index.ts:1:8
   |

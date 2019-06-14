@@ -31,7 +31,7 @@ pub enum Error {
         left: TsType,
         #[span(hi)]
         right: TsType,
-        cause: Option<Box<Error>>,
+        cause: Vec<Error>,
     },
 
     /// a or b or c

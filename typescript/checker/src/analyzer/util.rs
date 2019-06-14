@@ -109,7 +109,7 @@ pub(super) trait TypeRefExt {
             _ => Error::AssignFailed {
                 left: to.clone(),
                 right: rhs.clone(),
-                cause: Some(box err),
+                cause: vec![err],
             },
         })
     }
@@ -209,14 +209,14 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
                 return try_assign(elem_type, rhs_elem_type).map(|cause| Error::AssignFailed {
                     left: to.clone(),
                     right: rhs.clone(),
-                    cause: Some(box cause),
+                    cause: vec![cause],
                 })
             }
             _ => {
                 return Some(Error::AssignFailed {
                     left: to.clone(),
                     right: rhs.clone(),
-                    cause: None,
+                    cause: vec![],
                 })
             }
         },
@@ -263,7 +263,7 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             return Some(Error::AssignFailed {
                 left: to.clone(),
                 right: rhs.clone(),
-                cause: None,
+                cause: vec![],
             });
         }
 

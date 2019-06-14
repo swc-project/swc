@@ -40,7 +40,7 @@ error: AssignFailed {
             ),
         },
     ),
-    cause: None,
+    cause: [],
 }
  --> $DIR/tests/errors/var-assignment/index.ts:1:8
   |
