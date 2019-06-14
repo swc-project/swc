@@ -486,14 +486,12 @@ impl Analyzer<'_, '_> {
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<TsType, Error> {
         let ret_ty = match f.return_type {
-            Some(ref ret_ty) => Cow::Borrowed(&*ret_ty.type_ann),
+            Some(ref ret_ty) => self.expand(f.span, Cow::Borrowed(&*ret_ty.type_ann))?,
             None => match f.body {
                 Some(ref body) => self.infer_return_type(body).map(Cow::Owned)?,
                 None => unreachable!("function without body should have type annotation"),
             },
         };
-
-        let ret_ty = self.expand(f.span, ret_ty)?;
 
         Ok(TsType::TsFnOrConstructorType(
             TsFnOrConstructorType::TsFnType(TsFnType {
