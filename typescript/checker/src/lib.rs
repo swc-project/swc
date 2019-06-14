@@ -42,7 +42,7 @@ pub struct Config {
     /// Should we generate .d.ts?
     declaration: bool,
     /// Directory to store .d.ts files.
-    declarationDir: PathBuf,
+    declaration_dir: PathBuf,
 
     pub rule: Rule,
 }
