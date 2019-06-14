@@ -338,14 +338,14 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
             .type_of(&expr.right)
             .and_then(|ty| self.expand(span, ty))
         {
-            Ok(rhs_ty) => rhs_ty,
+            Ok(rhs_ty) => rhs_ty.into_owned(),
             Err(err) => {
                 self.info.errors.push(err);
                 return;
             }
         };
         if expr.op == op!("=") {
-            self.try_assign(&expr.left, rhs_ty);
+            self.try_assign(&expr.left, Cow::Owned(rhs_ty));
         }
     }
 }

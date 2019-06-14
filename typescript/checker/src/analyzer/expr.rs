@@ -10,7 +10,7 @@ use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of<'e>(&self, expr: &'e Expr) -> Result<Cow<'e, TsType>, Error> {
+    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<Cow<'e, TsType>, Error> {
         let span = expr.span();
 
         Ok(match *expr {
@@ -23,7 +23,7 @@ impl Analyzer<'_, '_> {
 
                 if let Some(v) = self.resolved_imports.get(&i.sym) {
                     if let Some(ref ty) = v.ty {
-                        return Ok(Cow::Owned(ty.clone()));
+                        return Ok(Cow::Borrowed(ty));
                     }
 
                     match self.expand_export_info(span, &TsEntityName::Ident(i.clone()), None) {
@@ -33,7 +33,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
-                    return Ok(Cow::Owned(ty.clone()));
+                    return Ok(Cow::Borrowed(ty));
                 }
 
                 if let Some(ty) = super::defaults::default(&i.sym) {
