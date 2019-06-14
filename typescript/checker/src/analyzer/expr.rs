@@ -221,7 +221,9 @@ impl Analyzer<'_, '_> {
                     .extract_call_new_expr(callee, ExtractKind::Call, args, type_args.as_ref())
                     .map(|v| v.into_owned())?;
 
-                return Ok(Cow::Owned(callee_type));
+                let callee_type = self.expand(span, Cow::Owned(callee_type))?;
+
+                return Ok(callee_type);
             }
 
             // super() returns any
@@ -484,22 +486,24 @@ impl Analyzer<'_, '_> {
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<TsType, Error> {
         let ret_ty = match f.return_type {
-            Some(ref ret_ty) => ret_ty.clone(),
+            Some(ref ret_ty) => Cow::Borrowed(&*ret_ty.type_ann),
             None => match f.body {
-                Some(ref body) => self.infer_return_type(body).map(|ty| TsTypeAnn {
-                    span: ty.span(),
-                    type_ann: box ty,
-                })?,
+                Some(ref body) => self.infer_return_type(body).map(Cow::Owned)?,
                 None => unreachable!("function without body should have type annotation"),
             },
         };
+
+        let ret_ty = self.expand(f.span, ret_ty)?;
 
         Ok(TsType::TsFnOrConstructorType(
             TsFnOrConstructorType::TsFnType(TsFnType {
                 span: f.span,
                 params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
                 type_params: f.type_params.clone(),
-                type_ann: ret_ty,
+                type_ann: TsTypeAnn {
+                    span: ret_ty.span(),
+                    type_ann: box ret_ty.into_owned(),
+                },
             }),
         ))
     }
@@ -820,11 +824,16 @@ impl Analyzer<'_, '_> {
         Ok(ret_type.clone())
     }
 
+    /// Expands
+    ///
+    ///   - Type alias
     pub(super) fn expand<'t>(
         &self,
         span: Span,
         ty: Cow<'t, TsType>,
     ) -> Result<Cow<'t, TsType>, Error> {
+        println!("File: {}", self.path.display());
+
         match *ty {
             TsType::TsTypeRef(TsTypeRef {
                 ref type_name,
@@ -835,6 +844,7 @@ impl Analyzer<'_, '_> {
                     .expand_export_info(span, type_name, type_params.as_ref())
                     .map(Cow::Owned)
             }
+
             _ => {}
         }
 
@@ -869,6 +879,7 @@ impl Analyzer<'_, '_> {
             }
 
             // TODO: Resolve transitive imports.
+            println!("{:?}", name);
 
             Err(Error::Unimplemented {
                 span,

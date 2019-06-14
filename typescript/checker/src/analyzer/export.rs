@@ -131,9 +131,10 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
         export.visit_children(self);
 
         match export.decl {
-            Decl::Fn(ref f) => {
-                self.export_fn(f.ident.sym.clone(), &f.function);
-            }
+            Decl::Fn(ref f) => match self.export_fn(f.ident.sym.clone(), &f.function) {
+                Ok(()) => {}
+                Err(err) => self.info.errors.push(err),
+            },
             Decl::TsInterface(ref i) => {
                 self.export_interface(i.id.sym.clone(), &i);
             }
@@ -168,9 +169,10 @@ impl Visit<ExportDefaultDecl> for Analyzer<'_, '_> {
         export.visit_children(self);
 
         match export.decl {
-            DefaultDecl::Fn(ref f) => {
-                self.export_fn(js_word!("default"), &f.function);
-            }
+            DefaultDecl::Fn(ref f) => match self.export_fn(js_word!("default"), &f.function) {
+                Ok(()) => {}
+                Err(err) => self.info.errors.push(err),
+            },
             DefaultDecl::Class(..) => unimplemented!("export default class"),
             DefaultDecl::TsInterfaceDecl(ref i) => {
                 self.export_interface(js_word!("default"), i);
@@ -197,39 +199,12 @@ impl Analyzer<'_, '_> {
             .insert(name, Arc::new(ExportExtra::Interface(i.clone()).into()));
     }
 
-    fn export_fn(&mut self, name: JsWord, f: &Function) {
-        let ret_ty = f
-            .return_type
-            .as_ref()
-            .map(|t| &*t.type_ann)
-            .cloned()
-            .unwrap_or_else(|| {
-                if let Some(_) = f.body {
-                    unimplemented!("return type inference (based on function's body)")
-                }
-
-                TsType::TsKeywordType(TsKeywordType {
-                    span: f.span,
-                    kind: TsKeywordTypeKind::TsAnyKeyword,
-                })
-            });
-
-        let ty = TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
-            span: f.span,
-            params: f
-                .params
-                .clone()
-                .into_iter()
-                .map(pat_to_ts_fn_param)
-                .collect(),
-            type_params: f.type_params.clone(),
-            type_ann: TsTypeAnn {
-                span: ret_ty.span(),
-                type_ann: box ret_ty,
-            },
-        }));
+    fn export_fn(&mut self, name: JsWord, f: &Function) -> Result<(), Error> {
+        let ty = self.type_of_fn(f)?;
 
         self.info.exports.insert(name, Arc::new(ty.into()));
+
+        Ok(())
     }
 }
 
