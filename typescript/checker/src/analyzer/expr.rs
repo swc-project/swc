@@ -832,8 +832,6 @@ impl Analyzer<'_, '_> {
         span: Span,
         ty: Cow<'t, TsType>,
     ) -> Result<Cow<'t, TsType>, Error> {
-        println!("File: {}", self.path.display());
-
         match *ty {
             TsType::TsTypeRef(TsTypeRef {
                 ref type_name,
@@ -899,34 +897,6 @@ impl Analyzer<'_, '_> {
             None => {}
         }
 
-        fn access(name: &TsEntityName, body: &TsNamespaceBody) -> Result<TsType, Error> {
-            println!("Access: {:?}", name);
-
-            let q_name = match *name {
-                TsEntityName::Ident(ref i) => {
-                    return Ok(TsType::TsTypeRef(TsTypeRef {
-                        span: i.span,
-                        type_name: TsEntityName::Ident(i.clone()),
-                        type_params: Default::default(),
-                    }))
-                }
-                TsEntityName::TsQualifiedName(ref q) => q,
-            };
-
-            let left_ty = access(&q_name.left, body)?;
-            let ident = &q_name.right.sym;
-
-            match body {
-                TsNamespaceBody::TsModuleBlock(TsModuleBlock { ref body, .. }) => {
-                    Err(Error::Unimplemented {
-                        span: q_name.right.span,
-                        msg: format!("TsModuleBlock. ident: {}", ident),
-                    })
-                }
-                TsNamespaceBody::TsNamespaceDecl(..) => unimplemented!(),
-            }
-        }
-
         match e.extra {
             Some(ref extra) => {
                 // Expand
@@ -940,9 +910,48 @@ impl Analyzer<'_, '_> {
                         body: Some(body), ..
                     })
                     | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
-                        assert_eq!(type_params, None);
+                        let mut name = name;
+                        let mut body = body;
+                        let mut ty = None;
 
-                        access(name, body)
+                        while let TsEntityName::TsQualifiedName(q) = name {
+                            body = match body {
+                                TsNamespaceBody::TsModuleBlock(ref module) => match q.left {
+                                    TsEntityName::Ident(ref left) => {
+                                        for item in module.body.iter() {}
+                                        return Err(Error::UndefinedSymbol { span: left.span });
+                                    }
+                                    _ => {
+                                        //
+                                        unimplemented!("qname")
+                                    }
+                                },
+                                TsNamespaceBody::TsNamespaceDecl(TsNamespaceDecl {
+                                    ref id,
+                                    ref body,
+                                    ..
+                                }) => {
+                                    match q.left {
+                                        TsEntityName::Ident(ref left) => {
+                                            if id.sym != left.sym {
+                                                return Err(Error::UndefinedSymbol {
+                                                    span: left.span,
+                                                });
+                                            }
+                                        }
+                                        _ => {}
+                                    }
+                                    //
+                                    body
+                                }
+                            };
+                            name = &q.left;
+                        }
+
+                        match ty {
+                            Some(ty) => Ok(ty),
+                            None => Err(Error::UndefinedSymbol { span }),
+                        }
                     }
                     ExportExtra::Module(..) => {
                         assert_eq!(type_params, None);
