@@ -3886,7 +3886,8 @@ function foo() {
     "
 function foo() {
   bar;
-  function bar() {}
+  var bar = function bar() {
+  };
 }
 "
 );
