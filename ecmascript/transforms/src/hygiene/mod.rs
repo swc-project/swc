@@ -322,7 +322,6 @@ impl<'a> Scope<'a> {
     }
 
     fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope {
-        println!("scope_of({}, {:?}): {:?}", sym, ctxt, self);
         if let Some(prev) = self.declared_symbols.borrow().get(&sym) {
             if prev.contains(&ctxt) {
                 return self;
