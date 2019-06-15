@@ -38,6 +38,7 @@ BiquadFilterNode
 Blob
 BlobEvent
 Boolean
+Bottom line
 BroadcastChannel
 BudgetService
 ByteLengthQueuingStrategy
@@ -113,6 +114,8 @@ EvalError
 Event
 EventSource
 EventTarget
+Exclude
+Extract
 File
 FileList
 FileReader
@@ -289,6 +292,7 @@ Node
 NodeFilter
 NodeIterator
 NodeList
+NonNullable
 Notification
 Number
 Object
@@ -299,6 +303,7 @@ Option
 OscillatorNode
 PageTransitionEvent
 PannerNode
+Partial
 Path2D
 PaymentAddress
 PaymentRequest
@@ -320,6 +325,7 @@ PeriodicWave
 PermissionStatus
 Permissions
 PhotoCapabilities
+Pick
 Plugin
 PluginArray
 PointerEvent
@@ -361,14 +367,19 @@ Range
 RangeError
 React
 ReadableStream
+Readonly
+ReadonlyArray
+Record
 ReferenceError
 Reflect
 RegExp
 RemotePlayback
 Request
+Required
 ResizeObserver
 ResizeObserverEntry
 Response
+ReturnType
 SVGAElement
 SVGAngle
 SVGAnimateElement
@@ -634,7 +645,6 @@ super
 switch
 symbol
 target
-this
 this
 throw
 true
