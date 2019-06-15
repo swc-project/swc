@@ -3889,6 +3889,7 @@ function foo() {
 }
 ",
     "
+'use strict';
 function foo() {
   var bar = function bar() {
   };
