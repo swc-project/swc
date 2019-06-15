@@ -1954,7 +1954,7 @@ function () {
     value: function foo() {}
   }, {
     key: "foo",
-    value: function foo() {}
+    value: function foo1() {}
   }, {
     key: bar,
     value: function() {}
