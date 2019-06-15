@@ -3879,7 +3879,7 @@ test!(
         resolver(),
         compat::es2015::BlockScopedFns,
         compat::es2015::block_scoping(),
-        tr(Default::default()),
+        common_js(Default::default()),
     ),
     issue_396_2,
     "
@@ -3890,9 +3890,9 @@ function foo() {
 ",
     "
 function foo() {
-  bar;
   var bar = function bar() {
   };
+  bar;
 }
 "
 );

@@ -272,8 +272,8 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                     if cfg!(debug_assertions) && LOG {
                         eprintln!("\t -> Unresolved");
                     }
-                    // Cannot resolve reference. (TODO: Report error)
-                    Ident { sym, span, ..i }
+                    // Support hoisting
+                    self.fold_binding_ident(Ident { sym, span, ..i })
                 }
             }
             IdentType::Label => {
