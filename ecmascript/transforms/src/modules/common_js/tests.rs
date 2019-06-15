@@ -3897,3 +3897,88 @@ function foo() {
 }
 "
 );
+
+fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        decorators: true,
+        ..Default::default()
+    })
+}
+
+test!(
+    issue_395_syntax(),
+    |_| chain!(
+        decorators(),
+        common_js(Config {
+            strict: false,
+            strict_mode: true,
+            no_interop: true,
+            ..Default::default()
+        }),
+    ),
+    issue_395_1,
+    "
+import Test from './moduleA.js'
+
+ @Test('0.0.1')
+ class Demo {
+   constructor() {
+      this.author = 'alan'
+   }
+ }
+",
+    "
+'use strict';
+var _moduleAJs = require('./moduleA.js');
+let Demo = _decorate([_moduleAJs.default('0.0.1')], function(_initialize) {
+    class Demo{
+        constructor(){
+            _initialize(this);
+            this.author = 'alan';
+        }
+    }
+    return {
+        F: Demo,
+        d: []
+    };
+});
+
+"
+);
+
+test!(
+    issue_395_syntax(),
+    |_| chain!(
+        decorators(),
+        common_js(Config {
+            strict: false,
+            strict_mode: true,
+            no_interop: true,
+            ..Default::default()
+        }),
+    ),
+    issue_395_2,
+    "
+const Test = (version) => {
+  return (target) => {
+    target.version = version
+ }
+}
+
+export default Test
+",
+    "
+'use strict';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.default = void 0;
+const Test = (version)=>{
+    return (target)=>{
+        target.version = version;
+    };
+};
+var _default = Test;
+exports.default = _default;
+"
+);
