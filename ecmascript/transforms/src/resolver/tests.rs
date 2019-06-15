@@ -718,7 +718,7 @@ identical!(
     issue_396_2,
     "
 function foo() {
-    var bar1 = function bar1() {
+    var bar = function bar() {
     };
     bar;
 }

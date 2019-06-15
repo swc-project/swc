@@ -3875,7 +3875,12 @@ function foo() {
 
 test!(
     syntax(),
-    |_| chain!(resolver(), compat::es2015(), tr(Default::default()),),
+    |_| chain!(
+        resolver(),
+        compat::es2015::BlockScopedFns,
+        compat::es2015::block_scoping(),
+        tr(Default::default()),
+    ),
     issue_396_2,
     "
 function foo() {
