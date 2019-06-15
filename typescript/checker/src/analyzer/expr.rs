@@ -851,6 +851,26 @@ impl Analyzer<'_, '_> {
         name: &TsEntityName,
         type_params: Option<&TsTypeParamInstantiation>,
     ) -> Result<TsType, Error> {
+        match *name {
+            // Check for builtin types
+            TsEntityName::Ident(ref i) => match i.sym {
+                js_word!("Record") => {}
+                js_word!("Readonly") => {}
+                js_word!("ReadonlyArray") => {}
+                js_word!("ReturnType") => {}
+                js_word!("Partial") => {}
+                js_word!("Required") => {}
+                js_word!("NonNullable") => {}
+                js_word!("Pick") => {}
+                js_word!("Record") => {}
+                js_word!("Extract") => {}
+                js_word!("Exclude") => {}
+
+                _ => {}
+            },
+            _ => {}
+        }
+
         let e = (|| {
             fn root(n: &TsEntityName) -> &Ident {
                 match *n {
