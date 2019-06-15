@@ -4,7 +4,7 @@ use self::{
     util::{PatExt, TypeExt, TypeRefExt},
 };
 use super::Checker;
-use crate::{errors::Error, loader::Load, Rule};
+use crate::{builtin_types::Lib, errors::Error, loader::Load, Rule};
 use fxhash::{FxHashMap, FxHashSet};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
@@ -12,7 +12,6 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
-mod defaults;
 mod export;
 mod expr;
 mod scope;
@@ -31,6 +30,7 @@ struct Analyzer<'a, 'b> {
     scope: Scope<'a>,
     path: Arc<PathBuf>,
     loader: &'b dyn Load,
+    libs: &'b [Lib],
     rule: Rule,
 }
 
@@ -211,8 +211,15 @@ impl Visit<ImportDecl> for ImportFinder<'_> {
 }
 
 impl<'a, 'b> Analyzer<'a, 'b> {
-    pub fn new(rule: Rule, scope: Scope<'a>, path: Arc<PathBuf>, loader: &'b dyn Load) -> Self {
+    pub fn new(
+        libs: &'b [Lib],
+        rule: Rule,
+        scope: Scope<'a>,
+        path: Arc<PathBuf>,
+        loader: &'b dyn Load,
+    ) -> Self {
         Analyzer {
+            libs,
             rule,
             scope,
             info: Default::default(),
@@ -496,7 +503,7 @@ impl Analyzer<'_, '_> {
 impl Checker<'_> {
     pub fn analyze_module(&self, rule: Rule, path: Arc<PathBuf>, m: &Module) -> Info {
         ::swc_common::GLOBALS.set(&self.globals, || {
-            let mut a = Analyzer::new(rule, Scope::root(), path, &self);
+            let mut a = Analyzer::new(&self.libs, rule, Scope::root(), path, &self);
             m.visit_with(&mut a);
 
             a.info
@@ -515,6 +522,7 @@ fn assert_types() {
 impl Analyzer<'_, '_> {
     fn child(&self, kind: ScopeKind) -> Analyzer {
         Analyzer::new(
+            self.libs,
             self.rule,
             Scope::new(&self.scope, kind),
             self.path.clone(),

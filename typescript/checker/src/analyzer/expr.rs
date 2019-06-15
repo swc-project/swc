@@ -3,7 +3,7 @@ use super::{
     util::TypeExt,
     Analyzer,
 };
-use crate::{errors::Error, util::EqIgnoreSpan};
+use crate::{builtin_types, errors::Error, util::EqIgnoreSpan};
 use std::borrow::Cow;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -36,7 +36,7 @@ impl Analyzer<'_, '_> {
                     return Ok(Cow::Borrowed(ty));
                 }
 
-                if let Some(ty) = super::defaults::default(&i.sym) {
+                if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
                     return Ok(Cow::Borrowed(ty));
                 }
 

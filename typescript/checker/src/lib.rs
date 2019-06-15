@@ -19,8 +19,7 @@ extern crate swc_ecma_parser;
 #[cfg(test)]
 extern crate testing;
 
-use self::{analyzer::Info, errors::Error};
-use crate::resolver::Resolver;
+use self::{analyzer::Info, builtin_types::Lib, errors::Error, resolver::Resolver};
 use chashmap::CHashMap;
 use std::{path::PathBuf, sync::Arc};
 use swc_common::{errors::Handler, Globals, SourceMap};
@@ -28,6 +27,7 @@ use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, Session, SourceFileInput, Syntax, TsConfig};
 
 pub mod analyzer;
+mod builtin_types;
 pub mod errors;
 pub mod loader;
 pub mod resolver;
@@ -46,6 +46,7 @@ pub struct Config {
     declaration_dir: PathBuf,
 
     pub rule: Rule,
+    pub libs: Vec<Lib>,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
@@ -76,6 +77,7 @@ pub struct Checker<'a> {
     modules: Arc<CHashMap<PathBuf, ModuleInfo>>,
     resolver: Resolver,
     current: Arc<CHashMap<PathBuf, ()>>,
+    libs: Vec<Lib>,
     rule: Rule,
 }
 
@@ -89,6 +91,9 @@ impl<'a> Checker<'a> {
             ts_config: parser_config,
             resolver: Resolver::new(),
             current: Default::default(),
+            // TODO
+            libs: vec![Lib::Es5, Lib::Dom],
+            // TODO
             rule: Default::default(),
         }
     }

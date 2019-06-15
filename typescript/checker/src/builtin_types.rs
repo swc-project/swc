@@ -47,7 +47,14 @@ lazy_static! {
     };
 }
 
-pub fn default(sym: &JsWord) -> Option<&'static TsType> {
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Lib {
+    Dom,
+    Es5,
+    Es2015Promise,
+}
+
+pub fn get(libs: &[Lib], sym: &JsWord) -> Option<&'static TsType> {
     match *sym {
         js_word!("Object") => Some(&*OBJECT_TY),
         js_word!("String") => Some(&*STRING_TY),
