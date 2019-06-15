@@ -3875,23 +3875,7 @@ function foo() {
 
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        typescript::strip(),
-        resolver(),
-        decorators(),
-        class_properties(),
-        export(),
-        simplifier(),
-        compat::es2018(),
-        compat::es2017(),
-        compat::es2016(),
-        compat::es2015(),
-        compat::es3(),
-        super::super::import_analysis::import_analyzer(),
-        InjectHelpers,
-        tr(Default::default()),
-    ),
+    |_| chain!(resolver(), compat::es2015(), tr(Default::default()),),
     issue_396_2,
     "
 function foo() {
