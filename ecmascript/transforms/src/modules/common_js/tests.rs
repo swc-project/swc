@@ -3884,5 +3884,9 @@ function foo() {
 }
 ",
     "
+function foo() {
+  bar;
+  function bar() {}
+}
 "
 );
