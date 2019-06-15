@@ -269,6 +269,9 @@ impl<'a> Fold<Ident> for Resolver<'a> {
                         ..i
                     }
                 } else {
+                    if cfg!(debug_assertions) && LOG {
+                        eprintln!("\t -> Unresolved");
+                    }
                     // Cannot resolve reference. (TODO: Report error)
                     Ident { sym, span, ..i }
                 }
