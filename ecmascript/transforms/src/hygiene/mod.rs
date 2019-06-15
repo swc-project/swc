@@ -81,17 +81,18 @@ impl<'a> Hygiene<'a> {
             eprintln!("\t{}{:?} -> {}", sym, ctxt, renamed);
         }
 
-        let scope = self.current.scope_of(&sym, ctxt);
+        let sym = self.current.change_symbol(sym, ctxt);
+        let scope = self.current.scope_of(sym.clone(), ctxt);
 
         // Update symbol list
         let mut declared_symbols = scope.declared_symbols.borrow_mut();
 
+        let is_not_renamed = scope.ops.borrow().iter().all(|op| match *op {
+            ScopeOp::Rename { ref from, .. } => from.0 != sym || from.1 != ctxt,
+        });
+
         debug_assert!(
-            {
-                scope.ops.borrow().iter().all(|op| match *op {
-                    ScopeOp::Rename { ref from, .. } => from.0 != sym || from.1 != ctxt,
-                })
-            },
+            is_not_renamed,
             "failed to rename {}{:?}: should not rename an ident multiple time\n{:?}",
             sym,
             ctxt,
@@ -99,7 +100,13 @@ impl<'a> Hygiene<'a> {
         );
 
         let old = declared_symbols.entry(sym.clone()).or_default();
-        debug_assert!(old.contains(&ctxt));
+        assert!(
+            old.contains(&ctxt),
+            "{:?} does not contain {}{:?}",
+            declared_symbols,
+            sym,
+            ctxt
+        );
         old.retain(|c| *c != ctxt);
         debug_assert!(old.len() == 0 || old.len() == 1);
 
@@ -314,8 +321,9 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn scope_of(&self, sym: &JsWord, ctxt: SyntaxContext) -> &'a Scope {
-        if let Some(prev) = self.declared_symbols.borrow().get(sym) {
+    fn scope_of(&self, sym: JsWord, ctxt: SyntaxContext) -> &'a Scope {
+        println!("scope_of({}, {:?}): {:?}", sym, ctxt, self);
+        if let Some(prev) = self.declared_symbols.borrow().get(&sym) {
             if prev.contains(&ctxt) {
                 return self;
             }
