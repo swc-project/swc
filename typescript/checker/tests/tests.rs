@@ -103,7 +103,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
         };
 
         let ignore = file_name.contains("circular")
-            || (mode == Mode::Conformance && !file_name.contains("types/any"));
+            || (mode == Mode::Conformance && !file_name.contains("types"));
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
@@ -140,9 +140,10 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
 
             Some(
                 buf.lines()
-                    .filter(|s| s.contains("// error"))
-                    .map(|s| String::from(s))
-                    .map(|s| s.parse().unwrap())
+                    .enumerate()
+                    .filter(|(_, s)| s.contains("// error"))
+                    .map(|(i, s)| (i, String::from(s)))
+                    .map(|(i, s)| i + 1)
                     .collect::<Vec<_>>(),
             )
         }
@@ -203,21 +204,21 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 Err(err) => err,
             };
 
-            let err_count = err.lines().filter(|l| l.contains("$DIR")).count();
-
-            if err
+            let err_count = err
                 .lines()
                 .enumerate()
                 .filter(|(_, l)| l.contains("$DIR"))
-                .filter(|(i, _)| lines.as_ref().unwrap().contains(i))
-                .count()
-                != lines.as_ref().unwrap().len()
-            {
+                // .filter(|(i, _)| lines.as_ref().unwrap().contains(&(i + 1)))
+                .count();
+
+            if err_count != lines.as_ref().unwrap().len() {
                 panic!(
-                    "{:?}\nExpected {} errors, got {}",
+                    "{:?}\nExpected {} errors, got {}\nLines: {:?}\nErrors: {:?}",
                     err,
-                    lines.unwrap().len(),
+                    lines.as_ref().unwrap().len(),
                     err_count,
+                    lines.as_ref().unwrap(),
+                    err
                 );
             }
 

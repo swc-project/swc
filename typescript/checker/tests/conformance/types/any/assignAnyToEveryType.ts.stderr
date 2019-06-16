@@ -1,0 +1,25 @@
+error: NotVariable {
+    span: Span {
+        lo: BytePos(
+            453,
+        ),
+        hi: BytePos(
+            454,
+        ),
+        ctxt: #0,
+    },
+    left: Span {
+        lo: BytePos(
+            453,
+        ),
+        hi: BytePos(
+            454,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:41:1
+   |
+41 | M = x; // error
+   | ^
+
