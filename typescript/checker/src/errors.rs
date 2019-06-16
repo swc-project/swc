@@ -5,11 +5,6 @@ use swc_ecma_ast::{TsType, TsTypeElement};
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub enum Error {
-    ShouldIncludeUndefinedType {
-        /// Span of the variable
-        span: Span,
-    },
-
     ReturnRequired {
         /// Span of the return type.
         span: Span,

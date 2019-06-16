@@ -7,6 +7,7 @@ use swc_ecma_ast::*;
 #[derive(Debug, Clone)]
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
+    pub initialized: bool,
     pub ty: Option<TsType>,
     /// Copied from parent scope. If this is true, it's not a variable
     /// declaration.
@@ -84,11 +85,13 @@ impl Scope<'_> {
         kind: VarDeclKind,
         name: JsWord,
         ty: Option<TsType>,
+        initialized: bool,
         allow_multiple: bool,
     ) {
         let info = VarInfo {
             kind,
             ty,
+            initialized,
             copied: false,
         };
         self.vars.insert(name, info);
@@ -103,6 +106,9 @@ impl Scope<'_> {
                     kind,
                     name,
                     i.type_ann.as_ref().map(|t| &*t.type_ann).cloned(),
+                    // initialized
+                    true,
+                    // allow_multiple
                     false,
                 );
             }

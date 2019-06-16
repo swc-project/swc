@@ -265,6 +265,8 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
             VarDeclKind::Var,
             c.ident.sym.clone(),
             Some(ty),
+            // initialized = true
+            true,
             // declare Class does not allow multiple declarations.
             false,
         );
@@ -287,6 +289,9 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
             VarDeclKind::Var,
             f.ident.sym.clone(),
             Some(fn_ty),
+            // initialized
+            true,
+            // allow_multiple
             f.declare,
         );
         f.function.visit_with(self);
@@ -427,6 +432,8 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 _ => unimplemented!("declare_var with complex type inference"),
                             },
                             Some(ty),
+                            // initialized
+                            true,
                             // Variable declarations does not allow multiple declarations with same
                             // name
                             false,
@@ -436,12 +443,22 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                 }
             } else {
                 if !var.declare {
-                    // There's no initializer, so undefined is required.
-                    if !v.name.get_ty().contains_undefined() && !v.name.get_ty().is_any() {
-                        self.info.errors.push(Error::ShouldIncludeUndefinedType {
-                            span: v.name.span(),
-                        })
-                    }
+                    let (sym, ty) = match v.name {
+                        Pat::Ident(Ident {
+                            ref sym,
+                            ref type_ann,
+                            ..
+                        }) => (sym.clone(), type_ann.as_ref().map(|t| *t.type_ann.clone())),
+                        _ => unreachable!(
+                            "complex pattern without initializer is invalid syntax and parser \
+                             should handle it"
+                        ),
+                    };
+                    self.scope.declare_var(
+                        kind, sym, ty, false, // initialized
+                        false, // allow_multiple
+                    );
+                    return;
                 }
             }
 
