@@ -130,7 +130,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
 
 fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(), StdErr> {
     let fname = file_name.display().to_string();
-    let error_cmt_count = match mode {
+    let lines = match mode {
         Mode::Conformance => {
             let mut buf = String::new();
             File::open(file_name)
@@ -138,7 +138,13 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 .read_to_string(&mut buf)
                 .expect("failed to read file's content");
 
-            Some(buf.lines().filter(|s| s.contains("// error")).count())
+            Some(
+                buf.lines()
+                    .filter(|s| s.contains("// error"))
+                    .map(|s| String::from(s))
+                    .map(|s| s.parse().unwrap())
+                    .collect::<Vec<_>>(),
+            )
         }
         _ => None,
     };
@@ -155,7 +161,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             );
 
             let errors = checker.check(file_name.into());
-            if let Some(count) = error_cmt_count {
+            if let count = lines.as_ref().unwrap().len() {
                 if count != errors.len() {
                     checker.run(|| {
                         for e in errors {
@@ -199,11 +205,27 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
 
             let err_count = err.lines().filter(|l| l.contains("$DIR")).count();
 
-            if err_count != error_cmt_count.unwrap() {
+            if err
+                .lines()
+                .enumerate()
+                .filter(|(_, l)| l.contains("$DIR"))
+                .filter(|(i, _)| lines.as_ref().unwrap().contains(i))
+                .count()
+                != lines.as_ref().unwrap().len()
+            {
                 panic!(
                     "{:?}\nExpected {} errors, got {}",
                     err,
-                    error_cmt_count.unwrap(),
+                    lines.unwrap().len(),
+                    err_count,
+                );
+            }
+
+            if err_count != lines.as_ref().unwrap().len() {
+                panic!(
+                    "{:?}\nExpected {} errors, got {}",
+                    err,
+                    lines.unwrap().len(),
                     err_count,
                 );
             }
