@@ -132,11 +132,17 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
     let fname = file_name.display().to_string();
     let error_cmt_count = match mode {
         Mode::Conformance => {
-            // TODO:
-            Some(0)
+            let mut buf = String::new();
+            File::open(file_name)
+                .expect("failed to open file for testing")
+                .read_to_string(&mut buf)
+                .expect("failed to read file's content");
+
+            Some(buf.lines().filter(|s| s.contains("// error")).count())
         }
         _ => None,
     };
+
     let res = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         CM.set(&cm.clone(), || {
             let checker = swc_ts_checker::Checker::new(
@@ -151,7 +157,14 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             let errors = checker.check(file_name.into());
             if let Some(count) = error_cmt_count {
                 if count != errors.len() {
-                    panic!("Expected {} errors, but {} found", count, errors.len());
+                    let len = errors.len();
+
+                    checker.run(|| {
+                        for e in errors {
+                            e.emit(&handler);
+                        }
+                    });
+                    return Err(());
                 }
             }
 
@@ -185,6 +198,17 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 Ok(_) => StdErr::from(String::from("")),
                 Err(err) => err,
             };
+
+            let err_count = err.lines().filter(|l| l.contains("$DIR")).count();
+
+            if err_count != error_cmt_count.unwrap() {
+                panic!(
+                    "Expected {} errors, got {}\n{:?}",
+                    error_cmt_count.unwrap(),
+                    err_count,
+                    err
+                );
+            }
 
             if err
                 .compare_to_file(format!("{}.stderr", file_name.display()))
