@@ -1,8 +1,0 @@
-error: unimplemented
-expand_export_info(T)
-File: $DIR/tests/conformance/es6/computedProperties/computedPropertyNamesContextualType6_ES5.ts
- --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNamesContextualType6_ES5.ts:6:9
-  |
-6 | declare function foo<T>(obj: I<T>): T
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-

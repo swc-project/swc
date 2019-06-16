@@ -1,8 +1,0 @@
-error: unimplemented
-expand_export_info(Constructor)
-File: $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceExtendsObjectIntersection.ts
-  --> $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceExtendsObjectIntersection.ts:20:9
-   |
-20 | declare function Constructor<T>(): Constructor<T>;
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-

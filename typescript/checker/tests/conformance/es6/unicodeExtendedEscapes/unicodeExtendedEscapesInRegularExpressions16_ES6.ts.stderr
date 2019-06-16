@@ -1,8 +1,0 @@
-error: unimplemented
-expand_export_info(RegExp)
-File: $DIR/tests/conformance/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInRegularExpressions16_ES6.ts
- --> $DIR/tests/conformance/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInRegularExpressions16_ES6.ts:3:9
-  |
-3 | var x = /\u{ABCD}\u{EF12}\u{3456}\u{7890}/g;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
