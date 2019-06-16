@@ -98,7 +98,8 @@ fn add_tests(
             buf
         };
 
-        let ignore = file_name.contains("circular");
+        let ignore =
+            file_name.contains("circular") || (conformance && !file_name.contains("types/any"));
 
         let dir = dir.clone();
         let name = format!(
