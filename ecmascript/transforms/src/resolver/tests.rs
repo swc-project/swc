@@ -703,3 +703,24 @@ function foo({a: b}){
 }
 foo({a: 'a'})"
 );
+
+identical!(
+    issue_396_1,
+    "
+function foo() {
+  bar;
+  function bar() {}
+}
+"
+);
+
+identical!(
+    issue_396_2,
+    "
+function foo() {
+    var bar = function bar() {
+    };
+    bar;
+}
+"
+);
