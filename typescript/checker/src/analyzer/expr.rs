@@ -435,7 +435,7 @@ impl Analyzer<'_, '_> {
         }))
     }
 
-    pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<TsType, Error> {
+    pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<Option<TsType>, Error> {
         let mut types = vec![];
 
         struct Visitor<'a> {
@@ -471,14 +471,14 @@ impl Analyzer<'_, '_> {
         }
 
         match tys.len() {
-            0 => Ok(undefined(body.span())),
-            1 => Ok(*tys.into_iter().next().unwrap()),
-            _ => Ok(TsType::TsUnionOrIntersectionType(
+            0 => Ok(None),
+            1 => Ok(Some(*tys.into_iter().next().unwrap())),
+            _ => Ok(Some(TsType::TsUnionOrIntersectionType(
                 TsUnionOrIntersectionType::TsUnionType(TsUnionType {
                     span: body.span(),
                     types: tys,
                 }),
-            )),
+            ))),
         }
     }
 
@@ -486,7 +486,11 @@ impl Analyzer<'_, '_> {
         let ret_ty = match f.return_type {
             Some(ref ret_ty) => self.expand(f.span, Cow::Borrowed(&*ret_ty.type_ann))?,
             None => match f.body {
-                Some(ref body) => self.infer_return_type(body).map(Cow::Owned)?,
+                Some(ref body) => match self.infer_return_type(body) {
+                    Ok(Some(ty)) => Cow::Owned(ty),
+                    Ok(None) => Cow::Owned(undefined(body.span())),
+                    Err(err) => return Err(err),
+                },
                 None => unreachable!("function without body should have type annotation"),
             },
         };

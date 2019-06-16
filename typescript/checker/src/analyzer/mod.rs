@@ -301,6 +301,34 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
 
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
+        {
+            let err = if let Some(ref ret_ty) = f.return_type {
+                if let Some(ref body) = f.body {
+                    // Validate function's return type.
+                    match self.infer_return_type(&body) {
+                        Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
+                        Ok(None) => {
+                            if ret_ty.type_ann.is_any() || ret_ty.type_ann.contains_void() {
+                                None
+                            } else {
+                                Some(Error::ReturnRequired {
+                                    span: ret_ty.span(),
+                                })
+                            }
+                        }
+                        Err(err) => Some(err),
+                    }
+                } else {
+                    None
+                }
+            } else {
+                None
+            };
+            if let Some(err) = err {
+                self.info.errors.push(err);
+            }
+        }
+
         let mut analyzer = self.child(ScopeKind::Fn);
 
         f.params

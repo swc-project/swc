@@ -79,6 +79,25 @@ pub(super) trait TypeRefExt {
     /// Returns type annotation.
     fn ann(&self) -> Option<&TsType>;
 
+    fn contains_void(&self) -> bool {
+        match self.ann() {
+            None => false,
+            Some(ref ty) => match **ty {
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsVoidKeyword,
+                    ..
+                }) => true,
+
+                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                    ref t,
+                )) => t.types.iter().any(|t| t.contains_void()),
+
+                TsType::TsThisType(..) => false,
+                _ => false,
+            },
+        }
+    }
+
     fn is_any(&self) -> bool {
         match self.ann() {
             None => true,

@@ -10,6 +10,11 @@ pub enum Error {
         span: Span,
     },
 
+    ReturnRequired {
+        /// Span of the return type.
+        span: Span,
+    },
+
     Unimplemented {
         span: Span,
         msg: String,
