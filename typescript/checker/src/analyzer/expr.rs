@@ -31,8 +31,15 @@ impl Analyzer<'_, '_> {
                         return Ok(Cow::Borrowed(ty));
                     }
 
-                    match self.expand_export_info(span, &TsEntityName::Ident(i.clone()), None) {
-                        Ok(ty) => return Ok(Cow::Owned(ty)),
+                    match self.expand(
+                        span,
+                        Cow::Owned(TsType::TsTypeRef(TsTypeRef {
+                            span,
+                            type_name: TsEntityName::Ident(i.clone()),
+                            type_params: None,
+                        })),
+                    ) {
+                        Ok(ty) => return Ok(ty),
                         Err(..) => {}
                     }
                 }
@@ -853,7 +860,7 @@ impl Analyzer<'_, '_> {
     ///
     ///   - Type alias
     pub(super) fn expand<'t>(
-        &self,
+        &'t self,
         span: Span,
         ty: Cow<'t, TsType>,
     ) -> Result<Cow<'t, TsType>, Error> {
@@ -863,168 +870,159 @@ impl Analyzer<'_, '_> {
                 ref type_params,
                 ..
             }) => {
-                return self
-                    .expand_export_info(span, type_name, type_params.as_ref())
-                    .map(Cow::Owned)
+                match *type_name {
+                    // Check for builtin types
+                    TsEntityName::Ident(ref i) => match i.sym {
+                        js_word!("Record") => {}
+                        js_word!("Readonly") => {}
+                        js_word!("ReadonlyArray") => {}
+                        js_word!("ReturnType") => {}
+                        js_word!("Partial") => {}
+                        js_word!("Required") => {}
+                        js_word!("NonNullable") => {}
+                        js_word!("Pick") => {}
+                        js_word!("Record") => {}
+                        js_word!("Extract") => {}
+                        js_word!("Exclude") => {}
+
+                        _ => {}
+                    },
+                    _ => {}
+                }
+
+                let e = (|| {
+                    fn root(n: &TsEntityName) -> &Ident {
+                        match *n {
+                            TsEntityName::TsQualifiedName(box TsQualifiedName {
+                                ref left, ..
+                            }) => root(left),
+                            TsEntityName::Ident(ref i) => i,
+                        }
+                    }
+
+                    // Search imports / decls.
+                    let root = root(type_name);
+
+                    if let Some(v) = self.resolved_imports.get(&root.sym) {
+                        return Ok(&**v);
+                    }
+
+                    if let Some(v) = self.scope.find_type(&root.sym) {
+                        return Ok(v);
+                    }
+
+                    // TODO: Resolve transitive imports.
+
+                    Err(Error::Unimplemented {
+                        span,
+                        msg: format!(
+                            "expand_export_info({})\nFile: {}",
+                            root.sym,
+                            self.path.display()
+                        ),
+                    })
+                })()?;
+
+                match e.ty {
+                    Some(ref ty) => {
+                        assert_eq!(*type_params, None); // TODO: Error
+                        return Ok(Cow::Borrowed(ty));
+                    }
+                    None => {}
+                }
+
+                match e.extra {
+                    Some(ref extra) => {
+                        // Expand
+                        match extra {
+                            ExportExtra::Enum(..) => {
+                                assert_eq!(*type_params, None);
+
+                                return Ok(ty);
+                            }
+                            ExportExtra::Module(TsModuleDecl {
+                                body: Some(body), ..
+                            })
+                            | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
+                                let mut name = type_name;
+                                let mut body = body;
+                                let mut ty = None;
+
+                                while let TsEntityName::TsQualifiedName(q) = name {
+                                    body = match body {
+                                        TsNamespaceBody::TsModuleBlock(ref module) => {
+                                            match q.left {
+                                                TsEntityName::Ident(ref left) => {
+                                                    for item in module.body.iter() {}
+                                                    return Err(Error::UndefinedSymbol {
+                                                        span: left.span,
+                                                    });
+                                                }
+                                                _ => {
+                                                    //
+                                                    unimplemented!("qname")
+                                                }
+                                            }
+                                        }
+                                        TsNamespaceBody::TsNamespaceDecl(TsNamespaceDecl {
+                                            ref id,
+                                            ref body,
+                                            ..
+                                        }) => {
+                                            match q.left {
+                                                TsEntityName::Ident(ref left) => {
+                                                    if id.sym != left.sym {
+                                                        return Err(Error::UndefinedSymbol {
+                                                            span: left.span,
+                                                        });
+                                                    }
+                                                }
+                                                _ => {}
+                                            }
+                                            //
+                                            body
+                                        }
+                                    };
+                                    name = &q.left;
+                                }
+
+                                return match ty {
+                                    Some(ty) => Ok(ty),
+                                    None => Err(Error::UndefinedSymbol { span }),
+                                };
+                            }
+                            ExportExtra::Module(..) => {
+                                assert_eq!(*type_params, None);
+
+                                unimplemented!(
+                                    "ExportExtra::Module without body cannot be instantiated"
+                                )
+                            }
+                            ExportExtra::Interface(ref i) => {
+                                // TODO: Check length of type parmaters
+                                // TODO: Instantiate type parameters
+
+                                let members = i.body.body.iter().cloned().collect();
+
+                                return Ok(Cow::Owned(TsType::TsTypeLit(TsTypeLit {
+                                    span: i.span,
+                                    members,
+                                })));
+                            }
+                            ExportExtra::Alias(ref decl) => {
+                                // TODO(kdy1): Handle type parameters.
+                                return Ok(Cow::Borrowed(&*decl.type_ann));
+                            }
+                        }
+                    }
+                    None => unimplemented!("`ty` and `extra` are both null"),
+                }
             }
 
             _ => {}
         }
 
         Ok(ty)
-    }
-
-    fn expand_export_info(
-        &self,
-        span: Span,
-        name: &TsEntityName,
-        type_params: Option<&TsTypeParamInstantiation>,
-    ) -> Result<TsType, Error> {
-        match *name {
-            // Check for builtin types
-            TsEntityName::Ident(ref i) => match i.sym {
-                js_word!("Record") => {}
-                js_word!("Readonly") => {}
-                js_word!("ReadonlyArray") => {}
-                js_word!("ReturnType") => {}
-                js_word!("Partial") => {}
-                js_word!("Required") => {}
-                js_word!("NonNullable") => {}
-                js_word!("Pick") => {}
-                js_word!("Record") => {}
-                js_word!("Extract") => {}
-                js_word!("Exclude") => {}
-
-                _ => {}
-            },
-            _ => {}
-        }
-
-        let e = (|| {
-            fn root(n: &TsEntityName) -> &Ident {
-                match *n {
-                    TsEntityName::TsQualifiedName(box TsQualifiedName { ref left, .. }) => {
-                        root(left)
-                    }
-                    TsEntityName::Ident(ref i) => i,
-                }
-            }
-
-            // Search imports / decls.
-            let root = root(name);
-
-            if let Some(v) = self.resolved_imports.get(&root.sym) {
-                return Ok(&**v);
-            }
-
-            if let Some(v) = self.scope.find_type(&root.sym) {
-                return Ok(v);
-            }
-
-            // TODO: Resolve transitive imports.
-
-            Err(Error::Unimplemented {
-                span,
-                msg: format!(
-                    "expand_export_info({})\nFile: {}",
-                    root.sym,
-                    self.path.display()
-                ),
-            })
-        })()?;
-
-        match e.ty {
-            Some(ref ty) => {
-                assert_eq!(type_params, None); // TODO: Error
-                return Ok(ty.clone());
-            }
-            None => {}
-        }
-
-        match e.extra {
-            Some(ref extra) => {
-                // Expand
-                match extra {
-                    ExportExtra::Enum(..) => {
-                        assert_eq!(type_params, None);
-
-                        Ok(TsType::TsTypeRef(TsTypeRef {
-                            span,
-                            type_name: name.clone(),
-                            type_params: None,
-                        }))
-                    }
-                    ExportExtra::Module(TsModuleDecl {
-                        body: Some(body), ..
-                    })
-                    | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
-                        let mut name = name;
-                        let mut body = body;
-                        let mut ty = None;
-
-                        while let TsEntityName::TsQualifiedName(q) = name {
-                            body = match body {
-                                TsNamespaceBody::TsModuleBlock(ref module) => match q.left {
-                                    TsEntityName::Ident(ref left) => {
-                                        for item in module.body.iter() {}
-                                        return Err(Error::UndefinedSymbol { span: left.span });
-                                    }
-                                    _ => {
-                                        //
-                                        unimplemented!("qname")
-                                    }
-                                },
-                                TsNamespaceBody::TsNamespaceDecl(TsNamespaceDecl {
-                                    ref id,
-                                    ref body,
-                                    ..
-                                }) => {
-                                    match q.left {
-                                        TsEntityName::Ident(ref left) => {
-                                            if id.sym != left.sym {
-                                                return Err(Error::UndefinedSymbol {
-                                                    span: left.span,
-                                                });
-                                            }
-                                        }
-                                        _ => {}
-                                    }
-                                    //
-                                    body
-                                }
-                            };
-                            name = &q.left;
-                        }
-
-                        match ty {
-                            Some(ty) => Ok(ty),
-                            None => Err(Error::UndefinedSymbol { span }),
-                        }
-                    }
-                    ExportExtra::Module(..) => {
-                        assert_eq!(type_params, None);
-
-                        unimplemented!("ExportExtra::Module without body cannot be instantiated")
-                    }
-                    ExportExtra::Interface(ref i) => {
-                        // TODO: Check length of type parmaters
-                        // TODO: Instantiate type parameters
-
-                        let members = i.body.body.iter().cloned().collect();
-
-                        return Ok(TsType::TsTypeLit(TsTypeLit {
-                            span: i.span,
-                            members,
-                        }));
-                    }
-                    ExportExtra::Alias(ref decl) => {
-                        // TODO(kdy1): Handle type parameters.
-                        return Ok(*decl.type_ann.clone());
-                    }
-                }
-            }
-            None => unimplemented!("`ty` and `extra` are both null"),
-        }
     }
 }
 
