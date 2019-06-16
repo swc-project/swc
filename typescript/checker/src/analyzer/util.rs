@@ -79,6 +79,25 @@ pub(super) trait TypeRefExt {
     /// Returns type annotation.
     fn ann(&self) -> Option<&TsType>;
 
+    fn is_any(&self) -> bool {
+        match self.ann() {
+            None => true,
+            Some(ref ty) => match **ty {
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                    ..
+                }) => true,
+
+                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                    ref t,
+                )) => t.types.iter().any(|t| t.is_any()),
+
+                TsType::TsThisType(..) => false,
+                _ => false,
+            },
+        }
+    }
+
     fn contains_undefined(&self) -> bool {
         match self.ann() {
             None => true,

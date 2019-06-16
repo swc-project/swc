@@ -415,7 +415,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
             } else {
                 if !var.declare {
                     // There's no initializer, so undefined is required.
-                    if !v.name.get_ty().contains_undefined() {
+                    if !v.name.get_ty().contains_undefined() && !v.name.get_ty().is_any() {
                         self.info.errors.push(Error::ShouldIncludeUndefinedType {
                             span: v.name.span(),
                         })
