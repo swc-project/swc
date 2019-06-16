@@ -205,14 +205,13 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             };
 
             // TODO: filter line correctly
-            let err_count = err
-                .lines()
-                .enumerate()
-                .filter(|(_, l)| l.contains("$DIR"))
-                // .filter(|(i, _)| lines.as_ref().unwrap().contains(&(i + 1)))
-                .count();
+            let err_lines = err.lines().enumerate().filter(|(_, l)| l.contains("$DIR"));
+            let all = err_lines
+                .clone()
+                .all(|(i, _)| lines.as_ref().unwrap().contains(&(i + 1)));
+            let err_count = err_lines.count();
 
-            if err_count != lines.as_ref().unwrap().len() {
+            if !all || err_count != lines.as_ref().unwrap().len() {
                 panic!(
                     "{:?}\nExpected {} errors, got {}\nLines: {:?}\nErrors: {:?}",
                     err,
