@@ -1,20 +1,22 @@
 {
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/*.bk": true,
-    },
-    "[rust]": {
-        "editor.formatOnSave": true
-    },
-    "rust.rustflags": "--cfg procmacro2_semver_exempt",
-    // Important
-    "rust.cfg_test": false,
-    "rust-client.revealOutputChannelOn": "warn",
-    "rust-client.logToFile": true,
-    "editor.formatOnSave": true,
-    
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/*.bk": true
+  },
+  "[rust]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false
+  },
+  "rust.rustflags": "--cfg procmacro2_semver_exempt",
+  // Important
+  "rust.cfg_test": false,
+  "rust-client.revealOutputChannelOn": "warn",
+  "rust-client.logToFile": true,
+  "editor.formatOnSave": true
 }
