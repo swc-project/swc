@@ -1,0 +1,48 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            59,
+        ),
+        hi: BytePos(
+            61,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/constructorDeclarations/classConstructorParametersAccessibility2.ts:4:5
+  |
+4 | var c1: C1;
+  |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            144,
+        ),
+        hi: BytePos(
+            146,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/classConstructorParametersAccessibility2.ts:11:5
+   |
+11 | var c2: C2;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            243,
+        ),
+        hi: BytePos(
+            245,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/classConstructorParametersAccessibility2.ts:18:5
+   |
+18 | var c3: C3;
+   |     ^^
+

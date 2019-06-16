@@ -1,0 +1,18 @@
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            110,
+        ),
+        hi: BytePos(
+            132,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./m1' type=inline),
+}
+ --> $DIR/tests/conformance/es6/modules/exportAndImport-es5.ts:9:1
+  |
+9 | import f1 from "./m1";
+  | ^^^^^^^^^^^^^^^^^^^^^^
+

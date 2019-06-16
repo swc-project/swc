@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            105,
+        ),
+        hi: BytePos(
+            106,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/for-ofStatements/for-of16.ts:8:5
+  |
+8 | var v: string;
+  |     ^
+

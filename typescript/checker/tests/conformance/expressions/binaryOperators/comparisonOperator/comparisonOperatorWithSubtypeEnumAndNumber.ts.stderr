@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            24,
+        ),
+        hi: BytePos(
+            25,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeEnumAndNumber.ts:3:5
+  |
+3 | var a: E;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            35,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeEnumAndNumber.ts:4:5
+  |
+4 | var b: number;
+  |     ^
+

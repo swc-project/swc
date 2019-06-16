@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            5,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithTypeParameter.ts:1:5
+  |
+1 | var a: {};
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            15,
+        ),
+        hi: BytePos(
+            16,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithTypeParameter.ts:2:5
+  |
+2 | var b: Object;
+  |     ^
+

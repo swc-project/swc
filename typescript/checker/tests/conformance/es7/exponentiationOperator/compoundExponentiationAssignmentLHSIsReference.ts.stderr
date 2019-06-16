@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            60,
+        ),
+        hi: BytePos(
+            62,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsReference.ts:4:5
+  |
+4 | var x1: number;
+  |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            160,
+        ),
+        hi: BytePos(
+            162,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSIsReference.ts:12:5
+   |
+12 | var x3: { a: number };
+   |     ^^
+

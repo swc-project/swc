@@ -1,0 +1,192 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            21,
+        ),
+        hi: BytePos(
+            22,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:3:5
+  |
+3 | var a: void;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            35,
+        ),
+        hi: BytePos(
+            37,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:5:5
+  |
+5 | var x1: boolean;
+  |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            84,
+        ),
+        hi: BytePos(
+            85,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:9:7
+  |
+9 | x1 += E.a;
+  |       ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            117,
+        ),
+        hi: BytePos(
+            126,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:12:7
+   |
+12 | x1 += undefined;
+   |       ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            133,
+        ),
+        hi: BytePos(
+            135,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:14:5
+   |
+14 | var x2: {};
+   |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            177,
+        ),
+        hi: BytePos(
+            178,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:18:7
+   |
+18 | x2 += E.a;
+   |       ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            210,
+        ),
+        hi: BytePos(
+            219,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:21:7
+   |
+21 | x2 += undefined;
+   |       ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            226,
+        ),
+        hi: BytePos(
+            228,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:23:5
+   |
+23 | var x3: void;
+   |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            272,
+        ),
+        hi: BytePos(
+            273,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:27:7
+   |
+27 | x3 += E.a;
+   |       ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            305,
+        ),
+        hi: BytePos(
+            314,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:30:7
+   |
+30 | x3 += undefined;
+   |       ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            321,
+        ),
+        hi: BytePos(
+            323,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:32:5
+   |
+32 | var x4: number;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            369,
+        ),
+        hi: BytePos(
+            371,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentWithInvalidOperands.ts:37:5
+   |
+37 | var x5: E;
+   |     ^^
+

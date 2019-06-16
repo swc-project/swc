@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            144,
+        ),
+        hi: BytePos(
+            151,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/TypeGuardWithArrayUnion.ts:7:16
+  |
+7 |         return message.length;  // Should have type Message[] here
+  |                ^^^^^^^
+

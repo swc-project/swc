@@ -1,0 +1,208 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            96,
+        ),
+        hi: BytePos(
+            98,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:9:5
+  |
+9 | var a1: { new <T>(x: T): T };
+  |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            126,
+        ),
+        hi: BytePos(
+            128,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:10:5
+   |
+10 | var b1: { new (x: string): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            164,
+        ),
+        hi: BytePos(
+            166,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:12:5
+   |
+12 | var a2: { new <T>(x: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            194,
+        ),
+        hi: BytePos(
+            196,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:13:5
+   |
+13 | var b2: { new (x: string, y: number): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            243,
+        ),
+        hi: BytePos(
+            245,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:15:5
+   |
+15 | var a3: { new <T, U>(x: T, y: U): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            282,
+        ),
+        hi: BytePos(
+            284,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:16:5
+   |
+16 | var b3: { new (x: string, y: number): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            331,
+        ),
+        hi: BytePos(
+            333,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:18:5
+   |
+18 | var a4: { new <T>(x?: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            362,
+        ),
+        hi: BytePos(
+            364,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:19:5
+   |
+19 | var b4: { new (x?: string): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            401,
+        ),
+        hi: BytePos(
+            403,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:21:5
+   |
+21 | var a5: { new <T>(...x: T[]): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            436,
+        ),
+        hi: BytePos(
+            438,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:22:5
+   |
+22 | var b5: { new (...x: string[]): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            479,
+        ),
+        hi: BytePos(
+            481,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:24:5
+   |
+24 | var a6: { new <T>(x: T, y: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            515,
+        ),
+        hi: BytePos(
+            517,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:25:5
+   |
+25 | var b6: { new (x: string, y: number): {} };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            611,
+        ),
+        hi: BytePos(
+            613,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedConstructorSignature.ts:28:5
+   |
+28 | var b7: { new (x: Base, y: Derived): Base };
+   |     ^^
+

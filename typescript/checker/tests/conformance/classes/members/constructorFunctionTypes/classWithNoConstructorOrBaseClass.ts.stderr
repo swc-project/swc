@@ -1,0 +1,48 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            44,
+        ),
+        hi: BytePos(
+            45,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/members/constructorFunctionTypes/classWithNoConstructorOrBaseClass.ts:5:13
+  |
+5 | var c = new C();
+  |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            119,
+        ),
+        hi: BytePos(
+            120,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/constructorFunctionTypes/classWithNoConstructorOrBaseClass.ts:13:13
+   |
+13 | var d = new D();
+   |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            138,
+        ),
+        hi: BytePos(
+            139,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/constructorFunctionTypes/classWithNoConstructorOrBaseClass.ts:14:14
+   |
+14 | var d2 = new D<string, number>();
+   |              ^
+

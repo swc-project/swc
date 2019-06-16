@@ -1,0 +1,16 @@
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            109,
+        ),
+        hi: BytePos(
+            124,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/yieldExpressions/generatorOverloads4.ts:5:15
+  |
+5 |     *f(s: any): Iterable<any> { }
+  |               ^^^^^^^^^^^^^^^
+

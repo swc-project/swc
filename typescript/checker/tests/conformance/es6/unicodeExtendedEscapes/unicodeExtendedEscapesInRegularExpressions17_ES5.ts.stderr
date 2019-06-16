@@ -1,0 +1,8 @@
+error: unimplemented
+expand_export_info(RegExp)
+File: $DIR/tests/conformance/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInRegularExpressions17_ES5.ts
+ --> $DIR/tests/conformance/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInRegularExpressions17_ES5.ts:3:9
+  |
+3 | var x = /\u{r}\u{n}\u{t}/g;
+  |         ^^^^^^^^^^^^^^^^^^
+

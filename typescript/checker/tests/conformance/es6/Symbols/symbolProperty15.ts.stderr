@@ -1,0 +1,24 @@
+error: unimplemented
+expand_export_info(C)
+File: $DIR/tests/conformance/es6/Symbols/symbolProperty15.ts
+  --> $DIR/tests/conformance/es6/Symbols/symbolProperty15.ts:10:9
+   |
+10 | declare function bar(i: C): C;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            238,
+        ),
+        hi: BytePos(
+            239,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/Symbols/symbolProperty15.ts:14:5
+   |
+14 | var i: I;
+   |     ^
+

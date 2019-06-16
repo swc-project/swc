@@ -1,0 +1,16 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            227,
+        ),
+        hi: BytePos(
+            228,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/Symbols/symbolProperty41.ts:10:13
+   |
+10 | var c = new C;
+   |             ^
+

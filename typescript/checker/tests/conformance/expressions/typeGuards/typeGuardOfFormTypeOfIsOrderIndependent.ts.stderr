@@ -1,0 +1,128 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            12,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:1:5
+  |
+1 | var strOrNum: string | number;
+  |     ^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            35,
+        ),
+        hi: BytePos(
+            44,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:2:5
+  |
+2 | var strOrBool: string | boolean;
+  |     ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            68,
+        ),
+        hi: BytePos(
+            77,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:3:5
+  |
+3 | var strOrFunc: string | (() => void);
+  |     ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            106,
+        ),
+        hi: BytePos(
+            115,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:4:5
+  |
+4 | var numOrBool: number | boolean
+  |     ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            138,
+        ),
+        hi: BytePos(
+            141,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:5:5
+  |
+5 | var str: string;
+  |     ^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            155,
+        ),
+        hi: BytePos(
+            158,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:6:5
+  |
+6 | var num: number;
+  |     ^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            172,
+        ),
+        hi: BytePos(
+            176,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:7:5
+  |
+7 | var bool: boolean;
+  |     ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            191,
+        ),
+        hi: BytePos(
+            195,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfIsOrderIndependent.ts:8:5
+  |
+8 | var func: () => void;
+  |     ^^^^
+

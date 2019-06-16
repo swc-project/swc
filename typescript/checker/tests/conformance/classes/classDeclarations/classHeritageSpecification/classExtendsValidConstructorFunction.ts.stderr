@@ -1,0 +1,16 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            37,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classDeclarations/classHeritageSpecification/classExtendsValidConstructorFunction.ts:3:13
+  |
+3 | var x = new foo(); // can be used as a constructor function
+  |             ^^^
+

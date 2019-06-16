@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            417,
+        ),
+        hi: BytePos(
+            419,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/mergedClassInterface.ts:38:5
+   |
+38 | var c5 : C5;
+   |     ^^
+

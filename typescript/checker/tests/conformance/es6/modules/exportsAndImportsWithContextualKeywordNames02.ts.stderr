@@ -1,0 +1,36 @@
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            222,
+        ),
+        hi: BytePos(
+            254,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImportsWithContextualKeywordNames02.ts:15:1
+   |
+15 | import { as as as } from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            280,
+        ),
+        hi: BytePos(
+            306,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImportsWithContextualKeywordNames02.ts:18:1
+   |
+18 | import { as } from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+

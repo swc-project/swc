@@ -1,0 +1,64 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            57,
+        ),
+        hi: BytePos(
+            58,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/classWithoutExplicitConstructor.ts:6:13
+  |
+6 | var c = new C();
+  |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            76,
+        ),
+        hi: BytePos(
+            77,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/classWithoutExplicitConstructor.ts:7:14
+  |
+7 | var c2 = new C(null); // error
+  |              ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            170,
+        ),
+        hi: BytePos(
+            171,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/classWithoutExplicitConstructor.ts:14:13
+   |
+14 | var d = new D();
+   |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            189,
+        ),
+        hi: BytePos(
+            190,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/classWithoutExplicitConstructor.ts:15:14
+   |
+15 | var d2 = new D(null); // error
+   |              ^
+

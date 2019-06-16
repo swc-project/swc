@@ -1,0 +1,128 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            333,
+        ),
+        hi: BytePos(
+            334,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:27:5
+   |
+27 | var a: string[];
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            350,
+        ),
+        hi: BytePos(
+            351,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:28:5
+   |
+28 | var b: A;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            360,
+        ),
+        hi: BytePos(
+            361,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:29:5
+   |
+29 | var c: C;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            370,
+        ),
+        hi: BytePos(
+            371,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:30:5
+   |
+30 | var d: A[];
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            382,
+        ),
+        hi: BytePos(
+            383,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:31:5
+   |
+31 | var e: { [key: string]: A };
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            411,
+        ),
+        hi: BytePos(
+            412,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:32:5
+   |
+32 | var g: C[];
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            423,
+        ),
+        hi: BytePos(
+            424,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:33:5
+   |
+33 | var h: { [key: string]: C };
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            452,
+        ),
+        hi: BytePos(
+            453,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/newWithSpreadES6.ts:34:5
+   |
+34 | var i: C[][];
+   |     ^
+

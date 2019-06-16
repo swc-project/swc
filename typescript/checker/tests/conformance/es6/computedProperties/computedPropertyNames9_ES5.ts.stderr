@@ -1,0 +1,8 @@
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/es6/computedProperties/computedPropertyNames9_ES5.ts
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames9_ES5.ts:4:1
+  |
+4 | function f<T>(x: T): T;
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+

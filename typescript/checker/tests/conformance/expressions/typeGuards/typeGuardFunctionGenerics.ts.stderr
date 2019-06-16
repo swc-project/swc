@@ -1,0 +1,96 @@
+error: unimplemented
+expand_export_info(C)
+File: $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:16:9
+   |
+16 | declare function retC(x): C; 
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:18:9
+   |
+18 | declare function funA<T>(p1: (p1) => T): T;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:20:9
+   |
+20 | declare function funC<T>(p1: (p1) => p1 is T): T;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:22:9
+   |
+22 | declare function funE<T, U>(p1: (p1) => p1 is T, p2: U): T;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            491,
+        ),
+        hi: BytePos(
+            492,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:24:5
+   |
+24 | let a: A;
+   |     ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            518,
+        ),
+        hi: BytePos(
+            522,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:25:22
+   |
+25 | let test1: boolean = funA(isB);
+   |                      ^^^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            580,
+        ),
+        hi: BytePos(
+            584,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:29:16
+   |
+29 | let test2: B = funC(isB);
+   |                ^^^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            641,
+        ),
+        hi: BytePos(
+            645,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardFunctionGenerics.ts:33:16
+   |
+33 | let test3: B = funE(isB, 1);
+   |                ^^^^
+

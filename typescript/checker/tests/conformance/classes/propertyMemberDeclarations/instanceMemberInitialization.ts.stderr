@@ -1,0 +1,32 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            40,
+        ),
+        hi: BytePos(
+            41,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/instanceMemberInitialization.ts:5:13
+  |
+5 | var c = new C();
+  |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            69,
+        ),
+        hi: BytePos(
+            70,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/instanceMemberInitialization.ts:7:14
+  |
+7 | var c2 = new C();
+  |              ^
+

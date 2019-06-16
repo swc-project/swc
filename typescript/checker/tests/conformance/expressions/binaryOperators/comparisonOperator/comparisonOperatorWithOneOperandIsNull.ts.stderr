@@ -1,0 +1,112 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            500,
+        ),
+        hi: BytePos(
+            501,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:23:5
+   |
+23 | var a: boolean;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            516,
+        ),
+        hi: BytePos(
+            517,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:24:5
+   |
+24 | var b: number;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            531,
+        ),
+        hi: BytePos(
+            532,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:25:5
+   |
+25 | var c: string;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            546,
+        ),
+        hi: BytePos(
+            547,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:26:5
+   |
+26 | var d: void;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            559,
+        ),
+        hi: BytePos(
+            560,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:27:5
+   |
+27 | var e: E;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            569,
+        ),
+        hi: BytePos(
+            570,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:28:5
+   |
+28 | var f: {};
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            580,
+        ),
+        hi: BytePos(
+            581,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithOneOperandIsNull.ts:29:5
+   |
+29 | var g: string[];
+   |     ^
+

@@ -1,0 +1,25 @@
+error: unimplemented
+expand_export_info(Promise)
+File: $DIR/tests/conformance/async/es2017/functionDeclarations/asyncFunctionDeclaration1_es2017.ts
+ --> $DIR/tests/conformance/async/es2017/functionDeclarations/asyncFunctionDeclaration1_es2017.ts:3:1
+  |
+3 | / async function foo(): Promise<void> {
+4 | | }
+  | |_^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            63,
+        ),
+        hi: BytePos(
+            78,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es2017/functionDeclarations/asyncFunctionDeclaration1_es2017.ts:3:21
+  |
+3 | async function foo(): Promise<void> {
+  |                     ^^^^^^^^^^^^^^^
+

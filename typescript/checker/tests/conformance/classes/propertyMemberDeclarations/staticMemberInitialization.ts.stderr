@@ -1,0 +1,16 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            47,
+        ),
+        hi: BytePos(
+            48,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/staticMemberInitialization.ts:5:13
+  |
+5 | var c = new C();
+  |             ^
+

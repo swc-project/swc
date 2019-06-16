@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            52,
+        ),
+        hi: BytePos(
+            53,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/spread/iteratorSpreadInCall11.ts:2:37
+  |
+2 | function foo<T>(...s: T[]) { return s[0] }
+  |                                     ^
+

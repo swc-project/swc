@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            23,
+        ),
+        hi: BytePos(
+            24,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesProtectedMembers3.ts:3:5
+  |
+3 | var x: { foo: string; }
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            48,
+        ),
+        hi: BytePos(
+            49,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesProtectedMembers3.ts:4:5
+  |
+4 | var y: { foo: string; bar: string; }
+  |     ^
+

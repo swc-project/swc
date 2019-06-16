@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            8,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInWhileStatement.ts:1:5
+  |
+1 | let cond: boolean;
+  |     ^^^^
+

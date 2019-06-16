@@ -1,0 +1,80 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            69,
+        ),
+        hi: BytePos(
+            76,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithBooleanType.ts:4:5
+  |
+4 | var BOOLEAN: boolean;
+  |     ^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            256,
+        ),
+        hi: BytePos(
+            257,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithBooleanType.ts:16:16
+   |
+16 | var objA = new A();
+   |                ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            834,
+        ),
+        hi: BytePos(
+            835,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithBooleanType.ts:43:5
+   |
+43 | var z: boolean;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            850,
+        ),
+        hi: BytePos(
+            851,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithBooleanType.ts:44:5
+   |
+44 | var x: boolean[];
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            868,
+        ),
+        hi: BytePos(
+            869,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithBooleanType.ts:45:5
+   |
+45 | var r: () => boolean;
+   |     ^
+

@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            168,
+        ),
+        hi: BytePos(
+            169,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorsAreNotContextuallyTyped.ts:12:5
+   |
+12 | var c: C;
+   |     ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            184,
+        ),
+        hi: BytePos(
+            186,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberAccessorDeclarations/accessorsAreNotContextuallyTyped.ts:13:10
+   |
+13 | var r = c.x(''); // string
+   |          ^^
+

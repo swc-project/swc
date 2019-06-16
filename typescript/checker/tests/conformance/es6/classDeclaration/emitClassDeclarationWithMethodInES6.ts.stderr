@@ -1,0 +1,64 @@
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    195,
+                ),
+                hi: BytePos(
+                    201,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsIndexedAccessType(
+        TsIndexedAccessType {
+            span: Span {
+                lo: BytePos(
+                    224,
+                ),
+                hi: BytePos(
+                    229,
+                ),
+                ctxt: #0,
+            },
+            obj_type: TsThisType(
+                TsThisType {
+                    span: Span {
+                        lo: BytePos(
+                            220,
+                        ),
+                        hi: BytePos(
+                            224,
+                        ),
+                        ctxt: #0,
+                    },
+                },
+            ),
+            index_type: TsKeywordType(
+                TsKeywordType {
+                    span: Span {
+                        lo: BytePos(
+                            224,
+                        ),
+                        hi: BytePos(
+                            229,
+                        ),
+                        ctxt: #0,
+                    },
+                    kind: TsStringKeyword,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/es6/classDeclaration/emitClassDeclarationWithMethodInES6.ts:8:12
+  |
+8 |       bar(): string {
+  |  ____________^
+9 | |         return this._bar;
+  | |________________________^
+

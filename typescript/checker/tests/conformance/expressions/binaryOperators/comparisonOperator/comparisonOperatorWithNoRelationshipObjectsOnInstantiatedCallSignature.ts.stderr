@@ -1,0 +1,192 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            131,
+        ),
+        hi: BytePos(
+            133,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:13:5
+   |
+13 | var a1: { fn<T>(x: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            159,
+        ),
+        hi: BytePos(
+            161,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:14:5
+   |
+14 | var b1: { fn(): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            186,
+        ),
+        hi: BytePos(
+            188,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:16:5
+   |
+16 | var a2: { fn<T>(x: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            214,
+        ),
+        hi: BytePos(
+            216,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:17:5
+   |
+17 | var b2: { fn(x: string): number };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            250,
+        ),
+        hi: BytePos(
+            252,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:19:5
+   |
+19 | var a3: { fn<T>(x?: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            279,
+        ),
+        hi: BytePos(
+            281,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:20:5
+   |
+20 | var b3: { fn(x?: string): number };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            316,
+        ),
+        hi: BytePos(
+            318,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:22:5
+   |
+22 | var a4: { fn<T>(...x: T[]): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            349,
+        ),
+        hi: BytePos(
+            351,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:23:5
+   |
+23 | var b4: { fn(...x: string[]): number };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            390,
+        ),
+        hi: BytePos(
+            392,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:25:5
+   |
+25 | var a5: { fn<T>(x: T, y: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            424,
+        ),
+        hi: BytePos(
+            426,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:26:5
+   |
+26 | var b5: { fn(x: string, y: number): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            471,
+        ),
+        hi: BytePos(
+            473,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:28:5
+   |
+28 | var a6: { fn<T, U extends T>(x: T, y: U): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            518,
+        ),
+        hi: BytePos(
+            520,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNoRelationshipObjectsOnInstantiatedCallSignature.ts:29:5
+   |
+29 | var b6: { fn(x: Base, y: C): Base };
+   |     ^^
+

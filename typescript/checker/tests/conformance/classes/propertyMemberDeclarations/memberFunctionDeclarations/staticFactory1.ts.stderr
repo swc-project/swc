@@ -1,0 +1,16 @@
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            175,
+        ),
+        hi: BytePos(
+            182,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/staticFactory1.ts:11:16
+   |
+11 | var d = Derived.create(); 
+   |                ^^^^^^^
+

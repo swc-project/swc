@@ -1,0 +1,16 @@
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            101,
+        ),
+        hi: BytePos(
+            115,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/yieldExpressions/generatorTypeCheck8.ts:3:15
+  |
+3 | function* g3(): BadGenerator { }
+  |               ^^^^^^^^^^^^^^
+

@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            371,
+        ),
+        hi: BytePos(
+            380,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping2.ts:9:12
+  |
+9 |     return undefined;
+  |            ^^^^^^^^^
+

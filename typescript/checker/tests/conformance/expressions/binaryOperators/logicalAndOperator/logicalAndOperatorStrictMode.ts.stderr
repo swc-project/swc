@@ -1,0 +1,432 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            109,
+        ),
+        hi: BytePos(
+            118,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:7:17
+  |
+7 | const v: void = undefined;
+  |                 ^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            131,
+        ),
+        hi: BytePos(
+            140,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:8:11
+  |
+8 | const u = undefined;
+  |           ^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            180,
+        ),
+        hi: BytePos(
+            181,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:10:21
+   |
+10 | const z = s || x || u;
+   |                     ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            282,
+        ),
+        hi: BytePos(
+            283,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:16:17
+   |
+16 | const a5 = a && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            302,
+        ),
+        hi: BytePos(
+            303,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:17:17
+   |
+17 | const a6 = a && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            342,
+        ),
+        hi: BytePos(
+            343,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:19:17
+   |
+19 | const a8 = a && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            444,
+        ),
+        hi: BytePos(
+            445,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:25:17
+   |
+25 | const s5 = s && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            464,
+        ),
+        hi: BytePos(
+            465,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:26:17
+   |
+26 | const s6 = s && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            504,
+        ),
+        hi: BytePos(
+            505,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:28:17
+   |
+28 | const s8 = s && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            606,
+        ),
+        hi: BytePos(
+            607,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:34:17
+   |
+34 | const x5 = x && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            626,
+        ),
+        hi: BytePos(
+            627,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:35:17
+   |
+35 | const x6 = x && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            666,
+        ),
+        hi: BytePos(
+            667,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:37:17
+   |
+37 | const x8 = x && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            768,
+        ),
+        hi: BytePos(
+            769,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:43:17
+   |
+43 | const b5 = b && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            788,
+        ),
+        hi: BytePos(
+            789,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:44:17
+   |
+44 | const b6 = b && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            828,
+        ),
+        hi: BytePos(
+            829,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:46:17
+   |
+46 | const b8 = b && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            930,
+        ),
+        hi: BytePos(
+            931,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:52:17
+   |
+52 | const v5 = v && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            950,
+        ),
+        hi: BytePos(
+            951,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:53:17
+   |
+53 | const v6 = v && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            990,
+        ),
+        hi: BytePos(
+            991,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:55:17
+   |
+55 | const v8 = v && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1092,
+        ),
+        hi: BytePos(
+            1093,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:61:17
+   |
+61 | const u5 = u && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1112,
+        ),
+        hi: BytePos(
+            1113,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:62:17
+   |
+62 | const u6 = u && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1152,
+        ),
+        hi: BytePos(
+            1153,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:64:17
+   |
+64 | const u8 = u && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1254,
+        ),
+        hi: BytePos(
+            1255,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:70:17
+   |
+70 | const n5 = n && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1274,
+        ),
+        hi: BytePos(
+            1275,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:71:17
+   |
+71 | const n6 = n && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1314,
+        ),
+        hi: BytePos(
+            1315,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:73:17
+   |
+73 | const n8 = n && z;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1416,
+        ),
+        hi: BytePos(
+            1417,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:79:17
+   |
+79 | const z5 = z && v;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1436,
+        ),
+        hi: BytePos(
+            1437,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:80:17
+   |
+80 | const z6 = z && u;
+   |                 ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1476,
+        ),
+        hi: BytePos(
+            1477,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/logicalAndOperator/logicalAndOperatorStrictMode.ts:82:17
+   |
+82 | const z8 = z && z;
+   |                 ^
+

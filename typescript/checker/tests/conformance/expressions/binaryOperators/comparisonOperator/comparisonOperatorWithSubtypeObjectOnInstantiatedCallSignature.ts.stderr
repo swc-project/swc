@@ -1,0 +1,208 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            96,
+        ),
+        hi: BytePos(
+            98,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:9:5
+  |
+9 | var a1: { fn<T>(x: T): T };
+  |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            124,
+        ),
+        hi: BytePos(
+            126,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:10:5
+   |
+10 | var b1: { fn(x: string): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            160,
+        ),
+        hi: BytePos(
+            162,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:12:5
+   |
+12 | var a2: { fn<T>(x: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            188,
+        ),
+        hi: BytePos(
+            190,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:13:5
+   |
+13 | var b2: { fn(x: string, y: number): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            235,
+        ),
+        hi: BytePos(
+            237,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:15:5
+   |
+15 | var a3: { fn<T, U>(x: T, y: U): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            272,
+        ),
+        hi: BytePos(
+            274,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:16:5
+   |
+16 | var b3: { fn(x: string, y: number): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            319,
+        ),
+        hi: BytePos(
+            321,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:18:5
+   |
+18 | var a4: { fn<T>(x?: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            348,
+        ),
+        hi: BytePos(
+            350,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:19:5
+   |
+19 | var b4: { fn(x?: string): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            385,
+        ),
+        hi: BytePos(
+            387,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:21:5
+   |
+21 | var a5: { fn<T>(...x: T[]): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            418,
+        ),
+        hi: BytePos(
+            420,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:22:5
+   |
+22 | var b5: { fn(...x: string[]): string };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            459,
+        ),
+        hi: BytePos(
+            461,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:24:5
+   |
+24 | var a6: { fn<T>(x: T, y: T): T };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            493,
+        ),
+        hi: BytePos(
+            495,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:25:5
+   |
+25 | var b6: { fn(x: string, y: number): {} };
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            585,
+        ),
+        hi: BytePos(
+            587,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnInstantiatedCallSignature.ts:28:5
+   |
+28 | var b7: { fn(x: Base, y: Derived): Base };
+   |     ^^
+

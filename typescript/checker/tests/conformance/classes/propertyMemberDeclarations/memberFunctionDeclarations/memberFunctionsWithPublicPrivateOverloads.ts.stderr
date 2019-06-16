@@ -1,0 +1,64 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1730,
+        ),
+        hi: BytePos(
+            1731,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionsWithPublicPrivateOverloads.ts:58:5
+   |
+58 | var c: C;
+   |     ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            1746,
+        ),
+        hi: BytePos(
+            1750,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionsWithPublicPrivateOverloads.ts:59:10
+   |
+59 | var r = c.foo(1); // error
+   |          ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1771,
+        ),
+        hi: BytePos(
+            1772,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionsWithPublicPrivateOverloads.ts:61:5
+   |
+61 | var d: D<number>;
+   |     ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            1796,
+        ),
+        hi: BytePos(
+            1800,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/memberFunctionDeclarations/memberFunctionsWithPublicPrivateOverloads.ts:62:11
+   |
+62 | var r2 = d.foo(2); // error
+   |           ^^^^
+

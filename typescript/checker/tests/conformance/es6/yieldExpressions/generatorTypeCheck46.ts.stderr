@@ -1,0 +1,8 @@
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/es6/yieldExpressions/generatorTypeCheck46.ts
+ --> $DIR/tests/conformance/es6/yieldExpressions/generatorTypeCheck46.ts:2:9
+  |
+2 | declare function foo<T, U>(x: T, fun: () => Iterable<(x: T) => U>, fun2: (y: U) => T): T;
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            30,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typePredicateOnVariableDeclaration01.ts:3:5
+  |
+3 | var x: this is string;
+  |     ^
+

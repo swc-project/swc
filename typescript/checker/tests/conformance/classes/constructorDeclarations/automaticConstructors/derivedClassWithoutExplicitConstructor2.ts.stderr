@@ -1,0 +1,128 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            245,
+        ),
+        hi: BytePos(
+            252,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:13:13
+   |
+13 | var r = new Derived(); // error
+   |             ^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            279,
+        ),
+        hi: BytePos(
+            286,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:14:14
+   |
+14 | var r2 = new Derived(1); 
+   |              ^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            306,
+        ),
+        hi: BytePos(
+            313,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:15:14
+   |
+15 | var r3 = new Derived(1, 2);
+   |              ^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            335,
+        ),
+        hi: BytePos(
+            342,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:16:14
+   |
+16 | var r4 = new Derived(1, 2, 3);
+   |              ^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            588,
+        ),
+        hi: BytePos(
+            589,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:30:13
+   |
+30 | var d = new D(); // error
+   |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            616,
+        ),
+        hi: BytePos(
+            617,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:31:14
+   |
+31 | var d2 = new D(new Date()); // ok
+   |              ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            651,
+        ),
+        hi: BytePos(
+            652,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:32:14
+   |
+32 | var d3 = new D(new Date(), new Date());
+   |              ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            692,
+        ),
+        hi: BytePos(
+            693,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/automaticConstructors/derivedClassWithoutExplicitConstructor2.ts:33:14
+   |
+33 | var d4 = new D(new Date(), new Date(), new Date());
+   |              ^
+

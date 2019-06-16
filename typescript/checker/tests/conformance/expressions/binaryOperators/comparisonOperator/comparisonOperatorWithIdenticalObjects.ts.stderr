@@ -1,0 +1,338 @@
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    145,
+                ),
+                hi: BytePos(
+                    151,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    169,
+                ),
+                hi: BytePos(
+                    173,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNullKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:7:27
+  |
+7 |       public fn(a: string): string {
+  |  ___________________________^
+8 | |         return null;
+  | |___________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    328,
+                ),
+                hi: BytePos(
+                    334,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    352,
+                ),
+                hi: BytePos(
+                    356,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNullKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:17:27
+   |
+17 |       public fn(b: string): string {
+   |  ___________________________^
+18 | |         return null;
+   | |___________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    430,
+                ),
+                hi: BytePos(
+                    436,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    454,
+                ),
+                hi: BytePos(
+                    458,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNullKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:24:28
+   |
+24 |       private fn(b: string): string {
+   |  ____________________________^
+25 | |         return null;
+   | |___________________^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            835,
+        ),
+        hi: BytePos(
+            837,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:43:5
+   |
+43 | var a1: A1;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            847,
+        ),
+        hi: BytePos(
+            849,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:44:5
+   |
+44 | var a2: A2;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            859,
+        ),
+        hi: BytePos(
+            861,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:45:5
+   |
+45 | var a3: A3;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            871,
+        ),
+        hi: BytePos(
+            873,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:46:5
+   |
+46 | var a4: A4;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            883,
+        ),
+        hi: BytePos(
+            885,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:47:5
+   |
+47 | var a5: A5;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            895,
+        ),
+        hi: BytePos(
+            897,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:48:5
+   |
+48 | var a6: A6;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            908,
+        ),
+        hi: BytePos(
+            910,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:50:5
+   |
+50 | var b1: B1;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            920,
+        ),
+        hi: BytePos(
+            922,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:51:5
+   |
+51 | var b2: B2;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            932,
+        ),
+        hi: BytePos(
+            934,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:52:5
+   |
+52 | var b3: B3;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            944,
+        ),
+        hi: BytePos(
+            946,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:53:5
+   |
+53 | var b4: B4;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            956,
+        ),
+        hi: BytePos(
+            958,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:54:5
+   |
+54 | var b5: B5;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            968,
+        ),
+        hi: BytePos(
+            970,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:55:5
+   |
+55 | var b6: B6;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            981,
+        ),
+        hi: BytePos(
+            986,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:57:5
+   |
+57 | var base1: Base;
+   |     ^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            998,
+        ),
+        hi: BytePos(
+            1003,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithIdenticalObjects.ts:58:5
+   |
+58 | var base2: Base;
+   |     ^^^^^
+

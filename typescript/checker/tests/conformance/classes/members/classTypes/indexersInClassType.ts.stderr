@@ -1,0 +1,64 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            148,
+        ),
+        hi: BytePos(
+            149,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/classTypes/indexersInClassType.ts:12:13
+   |
+12 | var c = new C();
+   |             ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            162,
+        ),
+        hi: BytePos(
+            163,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/classTypes/indexersInClassType.ts:13:9
+   |
+13 | var r = c.fn();
+   |         ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            180,
+        ),
+        hi: BytePos(
+            181,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/classTypes/indexersInClassType.ts:14:10
+   |
+14 | var r2 = r[1];
+   |          ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            196,
+        ),
+        hi: BytePos(
+            197,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/classTypes/indexersInClassType.ts:15:10
+   |
+15 | var r3 = r.a
+   |          ^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            55,
+        ),
+        hi: BytePos(
+            56,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithNumericLiteral.ts:2:5
+  |
+2 | var x : BrandedNum;
+  |     ^
+

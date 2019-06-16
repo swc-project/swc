@@ -1,0 +1,352 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            81,
+        ),
+        hi: BytePos(
+            89,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:5:5
+  |
+5 | var noParams: NoParams;
+  |     ^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            294,
+        ),
+        hi: BytePos(
+            309,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:14:5
+   |
+14 | var noGenericParams: noGenericParams;
+   |     ^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            583,
+        ),
+        hi: BytePos(
+            596,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:23:5
+   |
+23 | var someGenerics1: someGenerics1;
+   |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            889,
+        ),
+        hi: BytePos(
+            903,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:32:5
+   |
+32 | var someGenerics2a: someGenerics2a;
+   |     ^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1136,
+        ),
+        hi: BytePos(
+            1150,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:40:5
+   |
+40 | var someGenerics2b: someGenerics2b;
+   |     ^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1553,
+        ),
+        hi: BytePos(
+            1566,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:49:5
+   |
+49 | var someGenerics3: someGenerics3;
+   |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1916,
+        ),
+        hi: BytePos(
+            1929,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:58:5
+   |
+58 | var someGenerics4: someGenerics4;
+   |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            2367,
+        ),
+        hi: BytePos(
+            2380,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:68:5
+   |
+68 | var someGenerics5: someGenerics5;
+   |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            2806,
+        ),
+        hi: BytePos(
+            2819,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:78:5
+   |
+78 | var someGenerics6: someGenerics6;
+   |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            3321,
+        ),
+        hi: BytePos(
+            3334,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:88:5
+   |
+88 | var someGenerics7: someGenerics7;
+   |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            3677,
+        ),
+        hi: BytePos(
+            3690,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:97:5
+   |
+97 | var someGenerics8: someGenerics8;
+   |     ^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:98:9
+   |
+98 | var x = new someGenerics8(someGenerics7);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            3972,
+        ),
+        hi: BytePos(
+            3985,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:105:5
+    |
+105 | var someGenerics9: someGenerics9;
+    |     ^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:106:11
+    |
+106 | var a9a = new someGenerics9('', 0, []);
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4048,
+        ),
+        hi: BytePos(
+            4051,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:107:5
+    |
+107 | var a9a: {};
+    |     ^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:108:11
+    |
+108 | var a9b = new someGenerics9<{ a?: number; b?: string; }>({ a: 0 }, { b: '' }, null);
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4148,
+        ),
+        hi: BytePos(
+            4151,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:109:5
+    |
+109 | var a9b: { a?: number; b?: string; };
+    |     ^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:120:11
+    |
+120 | var a9e = new someGenerics9(undefined, { x: 6, z: window }, { x: 6, y: '' });
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4481,
+        ),
+        hi: BytePos(
+            4484,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:121:5
+    |
+121 | var a9e: {};
+    |     ^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:122:11
+    |
+122 | var a9f = new someGenerics9<A92>(undefined, { x: 6, z: window }, { x: 6, y: '' });
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4579,
+        ),
+        hi: BytePos(
+            4582,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:123:5
+    |
+123 | var a9f: A92;
+    |     ^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:126:11
+    |
+126 | var a9d = new someGenerics9({ x: 3 }, { x: 6 }, { x: 6 });
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4762,
+        ),
+        hi: BytePos(
+            4765,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:127:5
+    |
+127 | var a9d: { x: number; };
+    |     ^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:131:9
+    |
+131 | var a = new someGenerics9(7, anyVar, 4);
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:135:11
+    |
+135 | var arr = new someGenerics9([], null, undefined);
+    |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            5120,
+        ),
+        hi: BytePos(
+            5123,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceConstructSignatures.ts:136:5
+    |
+136 | var arr: any[];
+    |     ^^^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            126,
+        ),
+        hi: BytePos(
+            127,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty17.ts:8:5
+  |
+8 | var i: I;
+  |     ^
+

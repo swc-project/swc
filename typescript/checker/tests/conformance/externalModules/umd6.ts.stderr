@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            258,
+        ),
+        hi: BytePos(
+            261,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/externalModules/umd6.ts:13:17
+   |
+13 | let y: number = Foo.fn();
+   |                 ^^^
+

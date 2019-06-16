@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            33,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/for-ofStatements/for-of37.ts:2:15
+  |
+2 | var map = new Map([["", true]]);
+  |               ^^^
+

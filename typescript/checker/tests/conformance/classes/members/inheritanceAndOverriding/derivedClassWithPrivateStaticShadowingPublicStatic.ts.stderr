@@ -1,0 +1,32 @@
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            494,
+        ),
+        hi: BytePos(
+            497,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassWithPrivateStaticShadowingPublicStatic.ts:26:14
+   |
+26 | var r3 = Base.fn(); // ok
+   |              ^^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            524,
+        ),
+        hi: BytePos(
+            527,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassWithPrivateStaticShadowingPublicStatic.ts:27:17
+   |
+27 | var r4 = Derived.fn(); // error
+   |                 ^^^
+

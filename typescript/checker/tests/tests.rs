@@ -113,7 +113,7 @@ fn add_tests(
             file_name
         );
         add_test(tests, name, ignore, move || {
-            if error {
+            if error || conformance {
                 eprintln!(
                     "\n\n========== Running error reporting test {}\nSource:\n{}\n",
                     file_name, input
@@ -126,7 +126,7 @@ fn add_tests(
             }
 
             let path = dir.join(&file_name);
-            do_test(false, &path, error).unwrap();
+            do_test(false, &path, error || conformance).unwrap();
         });
     }
 

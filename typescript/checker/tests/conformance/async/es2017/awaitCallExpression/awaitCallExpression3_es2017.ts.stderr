@@ -1,0 +1,28 @@
+error: unimplemented
+expand_export_info(Promise)
+File: $DIR/tests/conformance/async/es2017/awaitCallExpression/awaitCallExpression3_es2017.ts
+  --> $DIR/tests/conformance/async/es2017/awaitCallExpression/awaitCallExpression3_es2017.ts:11:1
+   |
+11 | / async function func(): Promise<void> {
+12 | |     before();
+13 | |     var b = fn(a, await p, a);
+14 | |     after();
+15 | | }
+   | |_^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            502,
+        ),
+        hi: BytePos(
+            517,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/async/es2017/awaitCallExpression/awaitCallExpression3_es2017.ts:11:22
+   |
+11 | async function func(): Promise<void> {
+   |                      ^^^^^^^^^^^^^^^
+

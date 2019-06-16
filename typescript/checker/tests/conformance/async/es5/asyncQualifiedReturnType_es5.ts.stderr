@@ -1,0 +1,32 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            170,
+        ),
+        hi: BytePos(
+            171,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es5/asyncQualifiedReturnType_es5.ts:9:21
+  |
+9 | async function f(): X.MyPromise<void> {
+  |                     ^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            168,
+        ),
+        hi: BytePos(
+            187,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es5/asyncQualifiedReturnType_es5.ts:9:19
+  |
+9 | async function f(): X.MyPromise<void> {
+  |                   ^^^^^^^^^^^^^^^^^^^
+

@@ -1,0 +1,40 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            119,
+        ),
+        hi: BytePos(
+            120,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty9.ts:9:5
+  |
+9 | var i: I;
+  |     ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            134,
+        ),
+        hi: BytePos(
+            135,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/Symbols/symbolProperty9.ts:10:9
+   |
+10 | i = new C;
+   |         ^
+
+error: unimplemented
+expand_export_info(C)
+File: $DIR/tests/conformance/es6/Symbols/symbolProperty9.ts
+  --> $DIR/tests/conformance/es6/Symbols/symbolProperty9.ts:11:12
+   |
+11 | var c: C = i;
+   |            ^
+

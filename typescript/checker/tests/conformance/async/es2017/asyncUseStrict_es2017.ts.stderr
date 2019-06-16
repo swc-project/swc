@@ -1,0 +1,27 @@
+error: unimplemented
+expand_export_info(Promise)
+File: $DIR/tests/conformance/async/es2017/asyncUseStrict_es2017.ts
+ --> $DIR/tests/conformance/async/es2017/asyncUseStrict_es2017.ts:5:1
+  |
+5 | / async function func(): Promise<void> {
+6 | |     "use strict";
+7 | |     var b = await p || a;
+8 | | }
+  | |_^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            125,
+        ),
+        hi: BytePos(
+            140,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es2017/asyncUseStrict_es2017.ts:5:22
+  |
+5 | async function func(): Promise<void> {
+  |                      ^^^^^^^^^^^^^^^
+

@@ -1,0 +1,80 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            106,
+        ),
+        hi: BytePos(
+            108,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentLHSCannotBeAssigned.ts:4:5
+  |
+4 | var x1: boolean;
+  |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            134,
+        ),
+        hi: BytePos(
+            136,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentLHSCannotBeAssigned.ts:7:5
+  |
+7 | var x2: number;
+  |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            161,
+        ),
+        hi: BytePos(
+            163,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentLHSCannotBeAssigned.ts:10:5
+   |
+10 | var x3: E;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            183,
+        ),
+        hi: BytePos(
+            185,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentLHSCannotBeAssigned.ts:13:5
+   |
+13 | var x4: {a: string};
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            215,
+        ),
+        hi: BytePos(
+            217,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundAdditionAssignmentLHSCannotBeAssigned.ts:16:5
+   |
+16 | var x5: void;
+   |     ^^
+

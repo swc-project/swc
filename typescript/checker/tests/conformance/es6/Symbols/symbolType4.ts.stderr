@@ -1,0 +1,16 @@
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType4.ts:2:15
+  |
+2 | var s = Symbol.for("postfix");
+  |               ^^^^
+

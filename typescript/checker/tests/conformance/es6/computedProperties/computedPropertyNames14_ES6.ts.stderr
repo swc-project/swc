@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            21,
+        ),
+        hi: BytePos(
+            22,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames14_ES6.ts:2:5
+  |
+2 | var b: boolean;
+  |     ^
+

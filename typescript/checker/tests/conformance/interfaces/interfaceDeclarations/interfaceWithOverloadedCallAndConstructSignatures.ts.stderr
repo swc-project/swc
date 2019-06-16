@@ -1,0 +1,24 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            119,
+        ),
+        hi: BytePos(
+            120,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceWithOverloadedCallAndConstructSignatures.ts:9:5
+  |
+9 | var f: Foo;
+  |     ^
+
+error: unimplemented
+expand_export_info(Object)
+File: $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceWithOverloadedCallAndConstructSignatures.ts
+  --> $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceWithOverloadedCallAndConstructSignatures.ts:13:10
+   |
+13 | var r4 = new f('');
+   |          ^^^^^^^^^
+

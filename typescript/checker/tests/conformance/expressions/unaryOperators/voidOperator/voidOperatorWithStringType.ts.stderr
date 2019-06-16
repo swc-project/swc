@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            37,
+        ),
+        hi: BytePos(
+            43,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithStringType.ts:2:5
+  |
+2 | var STRING: string;
+  |     ^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            254,
+        ),
+        hi: BytePos(
+            255,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithStringType.ts:15:16
+   |
+15 | var objA = new A();
+   |                ^
+

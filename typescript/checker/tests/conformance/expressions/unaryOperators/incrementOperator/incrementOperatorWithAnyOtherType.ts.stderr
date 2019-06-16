@@ -1,0 +1,16 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            191,
+        ),
+        hi: BytePos(
+            192,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithAnyOtherType.ts:13:16
+   |
+13 | var objA = new A();
+   |                ^
+

@@ -1,0 +1,28 @@
+error: unimplemented
+expand_export_info(Iterator)
+File: $DIR/tests/conformance/es6/yieldExpressions/generatorTypeCheck31.ts
+ --> $DIR/tests/conformance/es6/yieldExpressions/generatorTypeCheck31.ts:2:1
+  |
+2 | / function* g2(): Iterator<() => Iterable<(x: string) => number>> {
+3 | |     yield function* () {
+4 | |         yield x => x.length;
+5 | |     } ()
+6 | | }
+  | |_^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            30,
+        ),
+        hi: BytePos(
+            79,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/yieldExpressions/generatorTypeCheck31.ts:2:15
+  |
+2 | function* g2(): Iterator<() => Iterable<(x: string) => number>> {
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

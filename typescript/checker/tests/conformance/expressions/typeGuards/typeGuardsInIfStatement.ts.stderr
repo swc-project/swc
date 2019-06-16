@@ -1,0 +1,176 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            405,
+        ),
+        hi: BytePos(
+            406,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:7:16
+  |
+7 |         return x.length; // string
+  |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            589,
+        ),
+        hi: BytePos(
+            590,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:16:16
+   |
+16 |         return x; // number
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            769,
+        ),
+        hi: BytePos(
+            770,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:25:16
+   |
+25 |         return x; // string
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            927,
+        ),
+        hi: BytePos(
+            928,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:33:16
+   |
+33 |         return x; // string
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1102,
+        ),
+        hi: BytePos(
+            1103,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:42:16
+   |
+42 |         return x; // string
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1299,
+        ),
+        hi: BytePos(
+            1300,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:52:16
+   |
+52 |         return x; // number
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1577,
+        ),
+        hi: BytePos(
+            1578,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:64:16
+   |
+64 |         return x; // boolean
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            1914,
+        ),
+        hi: BytePos(
+            1915,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:77:20
+   |
+77 |             return x; // boolean
+   |                    ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            2724,
+        ),
+        hi: BytePos(
+            2725,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:105:15
+    |
+105 |             : x; // x should be boolean
+    |               ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            3030,
+        ),
+        hi: BytePos(
+            3031,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:112:16
+    |
+112 |         return x; // string | number | boolean - x changed in else branch
+    |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            3850,
+        ),
+        hi: BytePos(
+            3851,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInIfStatement.ts:132:16
+    |
+132 |         return x.toString(); // string | number | boolean - x changed in else branch
+    |                ^
+

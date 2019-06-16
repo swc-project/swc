@@ -1,0 +1,240 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            33,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:4:5
+  |
+4 | var b: void;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            47,
+        ),
+        hi: BytePos(
+            49,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:6:5
+  |
+6 | var x1: boolean;
+  |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            120,
+        ),
+        hi: BytePos(
+            121,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:12:8
+   |
+12 | x1 **= E.a;
+   |        ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            156,
+        ),
+        hi: BytePos(
+            165,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:15:8
+   |
+15 | x1 **= undefined;
+   |        ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            172,
+        ),
+        hi: BytePos(
+            174,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:17:5
+   |
+17 | var x2: string;
+   |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            244,
+        ),
+        hi: BytePos(
+            245,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:23:8
+   |
+23 | x2 **= E.a;
+   |        ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            280,
+        ),
+        hi: BytePos(
+            289,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:26:8
+   |
+26 | x2 **= undefined;
+   |        ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            296,
+        ),
+        hi: BytePos(
+            298,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:28:5
+   |
+28 | var x3: {};
+   |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            364,
+        ),
+        hi: BytePos(
+            365,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:34:8
+   |
+34 | x3 **= E.a;
+   |        ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            400,
+        ),
+        hi: BytePos(
+            409,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:37:8
+   |
+37 | x3 **= undefined;
+   |        ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            416,
+        ),
+        hi: BytePos(
+            418,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:39:5
+   |
+39 | var x4: void;
+   |     ^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            486,
+        ),
+        hi: BytePos(
+            487,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:45:8
+   |
+45 | x4 **= E.a;
+   |        ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            522,
+        ),
+        hi: BytePos(
+            531,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:48:8
+   |
+48 | x4 **= undefined;
+   |        ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            538,
+        ),
+        hi: BytePos(
+            540,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:50:5
+   |
+50 | var x5: number;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            599,
+        ),
+        hi: BytePos(
+            601,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es7/exponentiationOperator/compoundExponentiationAssignmentLHSCannotBeAssigned.ts:56:5
+   |
+56 | var x6: E;
+   |     ^^
+

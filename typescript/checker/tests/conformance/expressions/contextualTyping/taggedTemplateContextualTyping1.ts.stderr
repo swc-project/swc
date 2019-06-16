@@ -1,0 +1,42 @@
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts
+ --> $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts:5:1
+  |
+5 | function tempTag1<T>(templateStrs: TemplateStringsArray, f: FuncType, x: T): T;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts
+ --> $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts:6:1
+  |
+6 | function tempTag1<T>(templateStrs: TemplateStringsArray, f: FuncType, h: FuncType, x: T): T;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts
+ --> $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts:7:1
+  |
+7 | / function tempTag1<T>(...rest: any[]): T {
+8 | |     return undefined;
+9 | | }
+  | |_^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            300,
+        ),
+        hi: BytePos(
+            309,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/contextualTyping/taggedTemplateContextualTyping1.ts:8:12
+  |
+8 |     return undefined;
+  |            ^^^^^^^^^
+

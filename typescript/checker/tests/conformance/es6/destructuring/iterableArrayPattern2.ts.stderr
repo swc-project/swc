@@ -1,0 +1,16 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            229,
+        ),
+        hi: BytePos(
+            243,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/destructuring/iterableArrayPattern2.ts:15:21
+   |
+15 | var [a, ...b] = new SymbolIterator;
+   |                     ^^^^^^^^^^^^^^
+

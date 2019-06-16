@@ -1,0 +1,8 @@
+error: unimplemented
+expand_export_info(U)
+File: $DIR/tests/conformance/es6/Symbols/symbolProperty22.ts
+ --> $DIR/tests/conformance/es6/Symbols/symbolProperty22.ts:6:9
+  |
+6 | declare function foo<T, U>(p1: T, p2: I<T, U>): U;
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

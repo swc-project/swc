@@ -1,0 +1,96 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            50,
+        ),
+        hi: BytePos(
+            57,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorWithSecondOperandAnyType.ts:4:5
+  |
+4 | var BOOLEAN: boolean;
+  |     ^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            72,
+        ),
+        hi: BytePos(
+            78,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorWithSecondOperandAnyType.ts:5:5
+  |
+5 | var NUMBER: number;
+  |     ^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            92,
+        ),
+        hi: BytePos(
+            98,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorWithSecondOperandAnyType.ts:6:5
+  |
+6 | var STRING: string;
+  |     ^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            112,
+        ),
+        hi: BytePos(
+            118,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorWithSecondOperandAnyType.ts:7:5
+  |
+7 | var OBJECT: Object;
+  |     ^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            715,
+        ),
+        hi: BytePos(
+            724,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorWithSecondOperandAnyType.ts:36:41
+   |
+36 | var resultIsAny9 = ("string".charAt(0), undefined);
+   |                                         ^^^^^^^^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            754,
+        ),
+        hi: BytePos(
+            755,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorWithSecondOperandAnyType.ts:37:28
+   |
+37 | var resultIsAny10 = (true, x("any"));
+   |                            ^
+

@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            67,
+        ),
+        hi: BytePos(
+            72,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/functionCalls/forgottenNew.ts:5:14
+  |
+5 | var logger = Tools.NullLogger();
+  |              ^^^^^
+

@@ -1,0 +1,48 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            496,
+        ),
+        hi: BytePos(
+            497,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classExpressions/genericClassExpressionInFunction.ts:25:13
+   |
+25 | var c = new C();
+   |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            514,
+        ),
+        hi: BytePos(
+            515,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classExpressions/genericClassExpressionInFunction.ts:26:13
+   |
+26 | var k = new K();
+   |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            532,
+        ),
+        hi: BytePos(
+            533,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classExpressions/genericClassExpressionInFunction.ts:27:13
+   |
+27 | var s = new S();
+   |             ^
+

@@ -1,0 +1,80 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            136,
+        ),
+        hi: BytePos(
+            145,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndInvalidOperands.ts:3:31
+  |
+3 | function foo(): void { return undefined }
+  |                               ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            153,
+        ),
+        hi: BytePos(
+            154,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndInvalidOperands.ts:5:5
+  |
+5 | var a: boolean;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            169,
+        ),
+        hi: BytePos(
+            170,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndInvalidOperands.ts:6:5
+  |
+6 | var b: Object;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            184,
+        ),
+        hi: BytePos(
+            185,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndInvalidOperands.ts:7:5
+  |
+7 | var c: void;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            197,
+        ),
+        hi: BytePos(
+            198,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndInvalidOperands.ts:8:5
+  |
+8 | var d: Number;
+  |     ^
+

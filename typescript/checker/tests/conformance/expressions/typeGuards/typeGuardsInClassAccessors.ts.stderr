@@ -1,0 +1,48 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            187,
+        ),
+        hi: BytePos(
+            190,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInClassAccessors.ts:7:5
+  |
+7 | var num: number;
+  |     ^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            205,
+        ),
+        hi: BytePos(
+            213,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInClassAccessors.ts:8:5
+  |
+8 | var strOrNum: string | number;
+  |     ^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            237,
+        ),
+        hi: BytePos(
+            241,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsInClassAccessors.ts:9:5
+  |
+9 | var var1: string | number;
+  |     ^^^^
+

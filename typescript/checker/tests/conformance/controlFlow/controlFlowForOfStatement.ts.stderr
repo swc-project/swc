@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            7,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/controlFlow/controlFlowForOfStatement.ts:1:5
+  |
+1 | let obj: number[];
+  |     ^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            23,
+        ),
+        hi: BytePos(
+            24,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/controlFlow/controlFlowForOfStatement.ts:2:5
+  |
+2 | let x: string | number | boolean | RegExp;
+  |     ^
+

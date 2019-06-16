@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            306,
+        ),
+        hi: BytePos(
+            307,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/interfaces/declarationMerging/mergedInterfacesWithInheritedPrivates.ts:25:5
+   |
+25 | var a: A;
+   |     ^
+

@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            190,
+        ),
+        hi: BytePos(
+            191,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/interfaces/declarationMerging/mergeThreeInterfaces.ts:16:5
+   |
+16 | var a: A;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            384,
+        ),
+        hi: BytePos(
+            385,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/interfaces/declarationMerging/mergeThreeInterfaces.ts:34:5
+   |
+34 | var b: B<string>;
+   |     ^
+

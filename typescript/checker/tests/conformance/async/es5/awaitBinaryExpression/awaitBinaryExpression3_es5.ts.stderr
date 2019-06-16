@@ -1,0 +1,28 @@
+error: unimplemented
+expand_export_info(Promise)
+File: $DIR/tests/conformance/async/es5/awaitBinaryExpression/awaitBinaryExpression3_es5.ts
+  --> $DIR/tests/conformance/async/es5/awaitBinaryExpression/awaitBinaryExpression3_es5.ts:8:1
+   |
+8  | / async function func(): Promise<void> {
+9  | |     before();
+10 | |     var b = await p + a;
+11 | |     after();
+12 | | }
+   | |_^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            209,
+        ),
+        hi: BytePos(
+            224,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es5/awaitBinaryExpression/awaitBinaryExpression3_es5.ts:8:22
+  |
+8 | async function func(): Promise<void> {
+  |                      ^^^^^^^^^^^^^^^
+

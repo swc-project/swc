@@ -1,0 +1,32 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            130,
+        ),
+        hi: BytePos(
+            134,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/externalModules/exportAssignImportedIdentifier.ts:8:9
+  |
+8 | var x = foo1.x;
+  |         ^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            219,
+        ),
+        hi: BytePos(
+            223,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/externalModules/exportAssignImportedIdentifier.ts:13:9
+   |
+13 | var x = foo2(); // should be boolean
+   |         ^^^^
+

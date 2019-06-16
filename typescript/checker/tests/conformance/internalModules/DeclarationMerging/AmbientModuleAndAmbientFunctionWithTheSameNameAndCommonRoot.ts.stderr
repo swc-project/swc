@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            217,
+        ),
+        hi: BytePos(
+            219,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/internalModules/DeclarationMerging/AmbientModuleAndAmbientFunctionWithTheSameNameAndCommonRoot.ts:10:5
+   |
+10 | var cl: { x: number; y: number; }
+   |     ^^
+

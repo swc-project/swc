@@ -1,0 +1,136 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            5,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:1:5
+  |
+1 | var x: { foo: string; }
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            29,
+        ),
+        hi: BytePos(
+            30,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:2:5
+  |
+2 | var y: { foo: string; bar: string; }
+  |     ^
+
+error: unimplemented
+expand_export_info(Derived)
+File: $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:36:18
+   |
+36 | var d: Derived = new Derived(y);
+   |                  ^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            829,
+        ),
+        hi: BytePos(
+            830,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:37:10
+   |
+37 | var r1 = d.a;
+   |          ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            844,
+        ),
+        hi: BytePos(
+            845,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:38:10
+   |
+38 | var r2 = d.b(y);
+   |          ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            862,
+        ),
+        hi: BytePos(
+            863,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:39:10
+   |
+39 | var r3 = d.c;
+   |          ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            878,
+        ),
+        hi: BytePos(
+            879,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:40:11
+   |
+40 | var r3a = d.d;
+   |           ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            931,
+        ),
+        hi: BytePos(
+            933,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:43:17
+   |
+43 | var r5 = Derived.s(y);
+   |                 ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1171,
+        ),
+        hi: BytePos(
+            1173,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/members/inheritanceAndOverriding/derivedClassOverridesPublicMembers.ts:58:5
+   |
+58 | var d2: Derived2;
+   |     ^^
+

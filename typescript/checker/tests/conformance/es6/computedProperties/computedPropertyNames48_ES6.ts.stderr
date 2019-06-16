@@ -1,0 +1,8 @@
+error: unimplemented
+expand_export_info(T)
+File: $DIR/tests/conformance/es6/computedProperties/computedPropertyNames48_ES6.ts
+ --> $DIR/tests/conformance/es6/computedProperties/computedPropertyNames48_ES6.ts:2:9
+  |
+2 | declare function extractIndexer<T>(p: { [n: number]: T }): T;
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

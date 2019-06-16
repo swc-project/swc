@@ -1,0 +1,25 @@
+error: unimplemented
+expand_export_info(PromiseAlias)
+File: $DIR/tests/conformance/async/es6/asyncAliasReturnType_es6.ts
+ --> $DIR/tests/conformance/async/es6/asyncAliasReturnType_es6.ts:5:1
+  |
+5 | / async function f(): PromiseAlias<void> {
+6 | | }
+  | |_^
+
+error: ReturnRequired {
+    span: Span {
+        lo: BytePos(
+            98,
+        ),
+        hi: BytePos(
+            118,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/async/es6/asyncAliasReturnType_es6.ts:5:19
+  |
+5 | async function f(): PromiseAlias<void> {
+  |                   ^^^^^^^^^^^^^^^^^^^^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            197,
+        ),
+        hi: BytePos(
+            202,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/externalModules/exportAssignmentTopLevelEnumdule.ts:13:5
+   |
+13 | var color: foo;
+   |     ^^^^^
+

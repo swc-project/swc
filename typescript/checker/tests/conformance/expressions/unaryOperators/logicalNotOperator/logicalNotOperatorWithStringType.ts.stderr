@@ -1,0 +1,96 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            33,
+        ),
+        hi: BytePos(
+            39,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithStringType.ts:2:5
+  |
+2 | var STRING: string;
+  |     ^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            250,
+        ),
+        hi: BytePos(
+            251,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithStringType.ts:15:16
+   |
+15 | var objA = new A();
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            554,
+        ),
+        hi: BytePos(
+            558,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithStringType.ts:27:25
+   |
+27 | var ResultIsBoolean6 = !objA.a;
+   |                         ^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            586,
+        ),
+        hi: BytePos(
+            587,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithStringType.ts:28:25
+   |
+28 | var ResultIsBoolean7 = !M.n;
+   |                         ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            684,
+        ),
+        hi: BytePos(
+            688,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithStringType.ts:31:27
+   |
+31 | var ResultIsBoolean10 = !A.foo();
+   |                           ^^^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            767,
+        ),
+        hi: BytePos(
+            774,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithStringType.ts:33:32
+   |
+33 | var ResultIsBoolean12 = !STRING.charAt(0);
+   |                                ^^^^^^^
+

@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            194,
+        ),
+        hi: BytePos(
+            198,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/externalModules/exportDeclaredModule.ts:11:17
+   |
+11 | var x: number = foo1.b();
+   |                 ^^^^
+

@@ -1,0 +1,16 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            131,
+        ),
+        hi: BytePos(
+            135,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/externalModules/exportAssignDottedName.ts:8:10
+  |
+8 | export = foo1.x; // Ok
+  |          ^^^^
+

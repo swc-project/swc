@@ -1,0 +1,32 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            98,
+        ),
+        hi: BytePos(
+            99,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractFactoryFunction.ts:6:16
+  |
+6 |     return new A;
+  |                ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            158,
+        ),
+        hi: BytePos(
+            159,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractFactoryFunction.ts:10:16
+   |
+10 |     return new B;
+   |                ^
+

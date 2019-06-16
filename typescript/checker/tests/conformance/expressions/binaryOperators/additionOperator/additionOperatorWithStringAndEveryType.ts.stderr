@@ -1,0 +1,112 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            36,
+        ),
+        hi: BytePos(
+            37,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:4:5
+  |
+4 | var b: boolean;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            52,
+        ),
+        hi: BytePos(
+            53,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:5:5
+  |
+5 | var c: number;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            67,
+        ),
+        hi: BytePos(
+            68,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:6:5
+  |
+6 | var d: string;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            82,
+        ),
+        hi: BytePos(
+            83,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:7:5
+  |
+7 | var e: Object;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            97,
+        ),
+        hi: BytePos(
+            98,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:8:5
+  |
+8 | var f: void;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            110,
+        ),
+        hi: BytePos(
+            111,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:9:5
+  |
+9 | var g: E;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            121,
+        ),
+        hi: BytePos(
+            122,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithStringAndEveryType.ts:11:5
+   |
+11 | var x: string;
+   |     ^
+

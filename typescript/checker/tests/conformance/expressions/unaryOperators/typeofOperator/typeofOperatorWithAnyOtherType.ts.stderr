@@ -1,0 +1,80 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            89,
+        ),
+        hi: BytePos(
+            92,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:6:5
+  |
+6 | var obj: () => {}
+  |     ^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            184,
+        ),
+        hi: BytePos(
+            185,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:11:12
+   |
+11 |     return a;
+   |            ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            329,
+        ),
+        hi: BytePos(
+            330,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:23:16
+   |
+23 | var objA = new A();
+   |                ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1448,
+        ),
+        hi: BytePos(
+            1449,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:66:5
+   |
+66 | var x: any[];
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1462,
+        ),
+        hi: BytePos(
+            1463,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/typeofOperator/typeofOperatorWithAnyOtherType.ts:67:5
+   |
+67 | var r: () => any;
+   |     ^
+

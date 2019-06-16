@@ -1,0 +1,144 @@
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            151,
+        ),
+        hi: BytePos(
+            172,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:10:1
+   |
+10 | import b from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            218,
+        ),
+        hi: BytePos(
+            254,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:14:1
+   |
+14 | import { default as d } from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            260,
+        ),
+        hi: BytePos(
+            291,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:16:1
+   |
+16 | import e1, * as e2 from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            311,
+        ),
+        hi: BytePos(
+            352,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:19:1
+   |
+19 | import f1, { default as f2 } from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            444,
+        ),
+        hi: BytePos(
+            465,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:27:1
+   |
+27 | import b from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            511,
+        ),
+        hi: BytePos(
+            547,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:31:1
+   |
+31 | import { default as d } from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            553,
+        ),
+        hi: BytePos(
+            584,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:33:1
+   |
+33 | import e1, * as e2 from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            604,
+        ),
+        hi: BytePos(
+            645,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./t1' type=inline),
+}
+  --> $DIR/tests/conformance/es6/modules/exportsAndImports4.ts:36:1
+   |
+36 | import f1, { default as f2 } from "./t1";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

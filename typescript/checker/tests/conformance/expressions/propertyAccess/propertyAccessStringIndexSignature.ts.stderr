@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            49,
+        ),
+        hi: BytePos(
+            54,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/propertyAccess/propertyAccessStringIndexSignature.ts:2:5
+  |
+2 | let flags: Flags;
+  |     ^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            163,
+        ),
+        hi: BytePos(
+            168,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/propertyAccess/propertyAccessStringIndexSignature.ts:9:5
+  |
+9 | let empty: Empty;
+  |     ^^^^^
+

@@ -1,0 +1,80 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            41,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithBooleanType.ts:2:5
+  |
+2 | var BOOLEAN: boolean;
+  |     ^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            221,
+        ),
+        hi: BytePos(
+            222,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithBooleanType.ts:14:16
+   |
+14 | var objA = new A();
+   |                ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            435,
+        ),
+        hi: BytePos(
+            439,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithBooleanType.ts:24:25
+   |
+24 | var ResultIsBoolean4 = !objA.a;
+   |                         ^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            467,
+        ),
+        hi: BytePos(
+            468,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithBooleanType.ts:25:25
+   |
+25 | var ResultIsBoolean5 = !M.n;
+   |                         ^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            528,
+        ),
+        hi: BytePos(
+            532,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithBooleanType.ts:27:26
+   |
+27 | var ResultIsBoolean7 = !A.foo();
+   |                          ^^^^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            38,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/controlFlow/controlFlowIteration.ts:3:5
+  |
+3 | let cond: boolean;
+  |     ^^^^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            73,
+        ),
+        hi: BytePos(
+            76,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es6/Symbols/symbolType16.ts:6:5
+  |
+6 | var sym: symbol;
+  |     ^^^
+

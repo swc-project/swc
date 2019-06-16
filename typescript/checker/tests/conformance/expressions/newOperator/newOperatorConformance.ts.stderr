@@ -1,0 +1,112 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            130,
+        ),
+        hi: BytePos(
+            137,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:13:5
+   |
+13 | var anyCtor: {
+   |     ^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            170,
+        ),
+        hi: BytePos(
+            178,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:17:5
+   |
+17 | var anyCtor1: {
+   |     ^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            264,
+        ),
+        hi: BytePos(
+            274,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:24:5
+   |
+24 | var nestedCtor: nestedCtor;
+   |     ^^^^^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            390,
+        ),
+        hi: BytePos(
+            392,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:27:13
+   |
+27 | var a = new C0;
+   |             ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            399,
+        ),
+        hi: BytePos(
+            400,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:28:5
+   |
+28 | var a: C0;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            485,
+        ),
+        hi: BytePos(
+            487,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:33:5
+   |
+33 | var c1: T<{}>;
+   |     ^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            1222,
+        ),
+        hi: BytePos(
+            1228,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/newOperator/newOperatorConformance.ts:56:13
+   |
+56 | var t = new fnVoid();
+   |             ^^^^^^
+

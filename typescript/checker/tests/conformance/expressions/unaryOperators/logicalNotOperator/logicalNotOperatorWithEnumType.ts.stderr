@@ -1,0 +1,48 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            109,
+        ),
+        hi: BytePos(
+            113,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithEnumType.ts:7:25
+  |
+7 | var ResultIsBoolean1 = !ENUM;
+  |                         ^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            165,
+        ),
+        hi: BytePos(
+            169,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithEnumType.ts:10:25
+   |
+10 | var ResultIsBoolean2 = !ENUM["B"];
+   |                         ^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            272,
+        ),
+        hi: BytePos(
+            276,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/logicalNotOperator/logicalNotOperatorWithEnumType.ts:14:26
+   |
+14 | var ResultIsBoolean4 = !!ENUM;
+   |                          ^^^^
+

@@ -1,0 +1,48 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            142,
+        ),
+        hi: BytePos(
+            143,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndValidOperator.ts:6:5
+  |
+6 | var b: number;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            157,
+        ),
+        hi: BytePos(
+            158,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndValidOperator.ts:7:5
+  |
+7 | var c: E;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            167,
+        ),
+        hi: BytePos(
+            168,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/binaryOperators/additionOperator/additionOperatorWithUndefinedValueAndValidOperator.ts:8:5
+  |
+8 | var d: string;
+  |     ^
+

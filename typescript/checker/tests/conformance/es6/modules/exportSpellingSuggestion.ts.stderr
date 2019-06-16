@@ -1,0 +1,18 @@
+error: ResolvedFailed {
+    span: Span {
+        lo: BytePos(
+            136,
+        ),
+        hi: BytePos(
+            170,
+        ),
+        ctxt: #0,
+    },
+    base: "$DIR/tests/conformance/es6/modules",
+    src: Atom('./a' type=inline),
+}
+ --> $DIR/tests/conformance/es6/modules/exportSpellingSuggestion.ts:7:1
+  |
+7 | import { assertNevar } from "./a";
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

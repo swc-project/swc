@@ -1,0 +1,80 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4325,
+        ),
+        hi: BytePos(
+            4326,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/classes/members/accessibility/protectedClassPropertyAccessibleWithinNestedSubclass1.ts:104:5
+    |
+104 | var b: Base;
+    |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4339,
+        ),
+        hi: BytePos(
+            4341,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/classes/members/accessibility/protectedClassPropertyAccessibleWithinNestedSubclass1.ts:105:5
+    |
+105 | var d1: Derived1;
+    |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4358,
+        ),
+        hi: BytePos(
+            4360,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/classes/members/accessibility/protectedClassPropertyAccessibleWithinNestedSubclass1.ts:106:5
+    |
+106 | var d2: Derived2;
+    |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4377,
+        ),
+        hi: BytePos(
+            4379,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/classes/members/accessibility/protectedClassPropertyAccessibleWithinNestedSubclass1.ts:107:5
+    |
+107 | var d3: Derived3;
+    |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4396,
+        ),
+        hi: BytePos(
+            4398,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/classes/members/accessibility/protectedClassPropertyAccessibleWithinNestedSubclass1.ts:108:5
+    |
+108 | var d4: Derived4;
+    |     ^^
+

@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            558,
+        ),
+        hi: BytePos(
+            563,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/mergedInheritedClassInterface.ts:31:5
+   |
+31 | var child : Child;
+   |     ^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            710,
+        ),
+        hi: BytePos(
+            720,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/mergedInheritedClassInterface.ts:40:5
+   |
+40 | var grandchild: Grandchild;
+   |     ^^^^^^^^^^
+

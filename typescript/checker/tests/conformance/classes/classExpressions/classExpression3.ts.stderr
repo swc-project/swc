@@ -1,0 +1,16 @@
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            86,
+        ),
+        hi: BytePos(
+            87,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/classExpressions/classExpression3.ts:2:13
+  |
+2 | let c = new C();
+  |             ^
+

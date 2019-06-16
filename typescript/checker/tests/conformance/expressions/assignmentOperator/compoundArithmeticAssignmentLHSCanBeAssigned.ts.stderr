@@ -1,0 +1,136 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            36,
+        ),
+        hi: BytePos(
+            37,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:4:5
+  |
+4 | var b: number;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            51,
+        ),
+        hi: BytePos(
+            52,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:5:5
+  |
+5 | var c: E;
+  |     ^
+
+error: unimplemented
+expand_export_info(E)
+File: $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:10:1
+   |
+10 | x1 *= c;
+   | ^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            116,
+        ),
+        hi: BytePos(
+            125,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:12:7
+   |
+12 | x1 *= undefined;
+   |       ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            132,
+        ),
+        hi: BytePos(
+            134,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:14:5
+   |
+14 | var x2: number;
+   |     ^^
+
+error: unimplemented
+expand_export_info(E)
+File: $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:17:1
+   |
+17 | x2 *= c;
+   | ^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            189,
+        ),
+        hi: BytePos(
+            198,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:19:7
+   |
+19 | x2 *= undefined;
+   |       ^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            205,
+        ),
+        hi: BytePos(
+            207,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:21:5
+   |
+21 | var x3: E;
+   |     ^^
+
+error: unimplemented
+expand_export_info(E)
+File: $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:24:1
+   |
+24 | x3 *= c;
+   | ^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            257,
+        ),
+        hi: BytePos(
+            266,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/assignmentOperator/compoundArithmeticAssignmentLHSCanBeAssigned.ts:26:7
+   |
+26 | x3 *= undefined;
+   |       ^^^^^^^^^
+

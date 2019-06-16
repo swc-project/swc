@@ -1,0 +1,136 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            111,
+        ),
+        hi: BytePos(
+            112,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:8:5
+  |
+8 | var s: string;
+  |     ^
+
+error: unimplemented
+expand_export_info(U)
+File: $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:25:9
+   |
+25 | declare function f1<T, U>(a: { w: (x: T) => U; r: () => T; }, b: T): U;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            524,
+        ),
+        hi: BytePos(
+            526,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:27:5
+   |
+27 | var v1: number;
+   |     ^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            546,
+        ),
+        hi: BytePos(
+            548,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:28:10
+   |
+28 | var v1 = f1({ w: x => x, r: () => 0 }, 0);
+   |          ^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            590,
+        ),
+        hi: BytePos(
+            592,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:29:10
+   |
+29 | var v1 = f1({ w: x => x, r: () => 0 }, E1.X);
+   |          ^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            637,
+        ),
+        hi: BytePos(
+            639,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:30:10
+   |
+30 | var v1 = f1({ w: x => x, r: () => E1.X }, 0);
+   |          ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            681,
+        ),
+        hi: BytePos(
+            683,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:32:5
+   |
+32 | var v2: E1;
+   |     ^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            699,
+        ),
+        hi: BytePos(
+            701,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:33:10
+   |
+33 | var v2 = f1({ w: x => x, r: () => E1.X }, E1.X);
+   |          ^^
+
+error: NoCallSignature {
+    span: Span {
+        lo: BytePos(
+            751,
+        ),
+        hi: BytePos(
+            753,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/functionCalls/typeArgumentInferenceWithObjectLiteral.ts:35:10
+   |
+35 | var v3 = f1({ w: x => x, r: () => E1.X }, E2.X);  // Error
+   |          ^^
+

@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            200,
+        ),
+        hi: BytePos(
+            201,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceWithConstructSignaturesThatHidesBaseSignature2.ts:9:5
+  |
+9 | var d: Derived;
+  |     ^
+

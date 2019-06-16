@@ -1,0 +1,128 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            109,
+        ),
+        hi: BytePos(
+            113,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:9:5
+  |
+9 | var obj1: A | string;
+  |     ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            424,
+        ),
+        hi: BytePos(
+            428,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:30:5
+   |
+30 | var obj3: B<number> | string;
+   |     ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            960,
+        ),
+        hi: BytePos(
+            964,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:61:5
+   |
+61 | var obj5: C1 | A;
+   |     ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1264,
+        ),
+        hi: BytePos(
+            1268,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:82:5
+   |
+82 | var obj7: D | string;
+   |     ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            1664,
+        ),
+        hi: BytePos(
+            1668,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:108:5
+    |
+108 | var obj9: E1 | A;
+    |     ^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            2035,
+        ),
+        hi: BytePos(
+            2040,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:132:5
+    |
+132 | var obj11: F | string;
+    |     ^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            2514,
+        ),
+        hi: BytePos(
+            2519,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:157:5
+    |
+157 | var obj13: G1 | G2;
+    |     ^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            3007,
+        ),
+        hi: BytePos(
+            3012,
+        ),
+        ctxt: #0,
+    },
+}
+   --> $DIR/tests/conformance/expressions/typeGuards/typeGuardsWithInstanceOfByConstructorSignature.ts:179:5
+    |
+179 | var obj15: H | string;
+    |     ^^^^^
+

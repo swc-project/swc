@@ -1,0 +1,96 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            202,
+        ),
+        hi: BytePos(
+            203,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations1.ts:17:5
+   |
+17 | var a : A;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            214,
+        ),
+        hi: BytePos(
+            215,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations1.ts:18:5
+   |
+18 | var b : B;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            226,
+        ),
+        hi: BytePos(
+            227,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations1.ts:19:5
+   |
+19 | var c : C;
+   |     ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            244,
+        ),
+        hi: BytePos(
+            245,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations1.ts:21:9
+   |
+21 | a = new B;
+   |         ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            256,
+        ),
+        hi: BytePos(
+            257,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations1.ts:22:9
+   |
+22 | b = new B;
+   |         ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            268,
+        ),
+        hi: BytePos(
+            269,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/classDeclarations/classAbstractKeyword/classAbstractInstantiations1.ts:23:9
+   |
+23 | c = new B;
+   |         ^
+

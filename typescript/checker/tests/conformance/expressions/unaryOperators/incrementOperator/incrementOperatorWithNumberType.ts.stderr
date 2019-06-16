@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            34,
+        ),
+        hi: BytePos(
+            40,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithNumberType.ts:2:5
+  |
+2 | var NUMBER: number;
+  |     ^^^^^^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            172,
+        ),
+        hi: BytePos(
+            173,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/incrementOperator/incrementOperatorWithNumberType.ts:12:16
+   |
+12 | var objA = new A();
+   |                ^
+

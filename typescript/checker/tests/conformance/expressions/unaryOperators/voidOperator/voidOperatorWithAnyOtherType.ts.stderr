@@ -1,0 +1,48 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            87,
+        ),
+        hi: BytePos(
+            90,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithAnyOtherType.ts:6:5
+  |
+6 | var obj: () => {}
+  |     ^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            169,
+        ),
+        hi: BytePos(
+            170,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithAnyOtherType.ts:11:12
+   |
+11 |     return a;
+   |            ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            314,
+        ),
+        hi: BytePos(
+            315,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/unaryOperators/voidOperator/voidOperatorWithAnyOtherType.ts:23:16
+   |
+23 | var objA = new A();
+   |                ^
+

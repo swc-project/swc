@@ -1,0 +1,168 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            88,
+        ),
+        hi: BytePos(
+            98,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:2:5
+  |
+2 | var condString: string;
+  |     ^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            132,
+        ),
+        hi: BytePos(
+            144,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:5:5
+  |
+5 | var exprBoolean1: boolean;
+  |     ^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            159,
+        ),
+        hi: BytePos(
+            170,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:6:5
+  |
+6 | var exprNumber1: number;
+  |     ^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            184,
+        ),
+        hi: BytePos(
+            195,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:7:5
+  |
+7 | var exprString1: string;
+  |     ^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            209,
+        ),
+        hi: BytePos(
+            222,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:8:5
+  |
+8 | var exprIsObject1: Object;
+  |     ^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            256,
+        ),
+        hi: BytePos(
+            268,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:11:5
+   |
+11 | var exprBoolean2: boolean;
+   |     ^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            283,
+        ),
+        hi: BytePos(
+            294,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:12:5
+   |
+12 | var exprNumber2: number;
+   |     ^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            308,
+        ),
+        hi: BytePos(
+            319,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:13:5
+   |
+13 | var exprString2: string;
+   |     ^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            333,
+        ),
+        hi: BytePos(
+            346,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:14:5
+   |
+14 | var exprIsObject2: Object;
+   |     ^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(Object)
+File: $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:48:23
+   |
+48 | var resultIsObject1 = condString ? exprIsObject1 : exprIsObject2;
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(Object)
+File: $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:55:23
+   |
+55 | var resultIsObject2 = "  " ? exprIsObject1 : exprIsObject2;
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: unimplemented
+expand_export_info(Object)
+File: $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts
+  --> $DIR/tests/conformance/expressions/conditonalOperator/conditionalOperatorConditoinIsStringType.ts:62:23
+   |
+62 | var resultIsObject3 = array[1] ? exprIsObject1 : exprIsObject2;
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

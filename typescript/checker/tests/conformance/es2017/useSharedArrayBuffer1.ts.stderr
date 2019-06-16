@@ -1,0 +1,48 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            68,
+        ),
+        hi: BytePos(
+            85,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es2017/useSharedArrayBuffer1.ts:4:16
+  |
+4 | var foge = new SharedArrayBuffer(1024);
+  |                ^^^^^^^^^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            104,
+        ),
+        hi: BytePos(
+            108,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es2017/useSharedArrayBuffer1.ts:5:11
+  |
+5 | var bar = foge.slice(1, 10);
+  |           ^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            134,
+        ),
+        hi: BytePos(
+            138,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/es2017/useSharedArrayBuffer1.ts:6:11
+  |
+6 | var len = foge.byteLength;
+  |           ^^^^
+

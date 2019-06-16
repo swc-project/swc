@@ -1,0 +1,48 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            255,
+        ),
+        hi: BytePos(
+            256,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/destructuring/iterableArrayPattern4.ts:17:5
+   |
+17 | var a: Bar, b: Bar[];
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            263,
+        ),
+        hi: BytePos(
+            264,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/destructuring/iterableArrayPattern4.ts:17:13
+   |
+17 | var a: Bar, b: Bar[];
+   |             ^
+
+error: NoNewSignature {
+    span: Span {
+        lo: BytePos(
+            290,
+        ),
+        hi: BytePos(
+            301,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/destructuring/iterableArrayPattern4.ts:18:17
+   |
+18 | [a, ...b] = new FooIterator
+   |                 ^^^^^^^^^^^
+

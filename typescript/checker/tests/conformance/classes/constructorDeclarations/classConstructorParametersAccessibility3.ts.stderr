@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            186,
+        ),
+        hi: BytePos(
+            187,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/classConstructorParametersAccessibility3.ts:12:5
+   |
+12 | var d: Derived;
+   |     ^
+

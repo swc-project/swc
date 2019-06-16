@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            239,
+        ),
+        hi: BytePos(
+            240,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/es6/templates/taggedTemplateStringsWithManyCallAndMemberExpressionsES6.ts:12:5
+   |
+12 | var f: I;
+   |     ^
+

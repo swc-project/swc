@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            5,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfPrimitiveSubtype.ts:1:5
+  |
+1 | let a: {};
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            16,
+        ),
+        hi: BytePos(
+            17,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/typeGuards/typeGuardOfFormTypeOfPrimitiveSubtype.ts:2:5
+  |
+2 | let b: {toString(): string};
+  |     ^
+

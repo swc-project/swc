@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            97,
+        ),
+        hi: BytePos(
+            98,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/constructorParameterProperties.ts:6:5
+  |
+6 | var c: C;
+  |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            259,
+        ),
+        hi: BytePos(
+            260,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/constructorDeclarations/constructorParameters/constructorParameterProperties.ts:16:5
+   |
+16 | var d: D<string>;
+   |     ^
+

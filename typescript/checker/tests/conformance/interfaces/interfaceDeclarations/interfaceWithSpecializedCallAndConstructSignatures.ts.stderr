@@ -1,0 +1,16 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            128,
+        ),
+        hi: BytePos(
+            129,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/interfaces/interfaceDeclarations/interfaceWithSpecializedCallAndConstructSignatures.ts:9:5
+  |
+9 | var f: Foo;
+  |     ^
+

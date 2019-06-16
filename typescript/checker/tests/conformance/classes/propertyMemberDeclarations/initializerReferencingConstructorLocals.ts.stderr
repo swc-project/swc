@@ -1,0 +1,32 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            222,
+        ),
+        hi: BytePos(
+            223,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/classes/propertyMemberDeclarations/initializerReferencingConstructorLocals.ts:4:9
+  |
+4 |     a = z; // error
+  |         ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            392,
+        ),
+        hi: BytePos(
+            393,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/classes/propertyMemberDeclarations/initializerReferencingConstructorLocals.ts:14:9
+   |
+14 |     a = z; // error
+   |         ^
+

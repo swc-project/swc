@@ -1,0 +1,39 @@
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    55,
+                ),
+                hi: BytePos(
+                    59,
+                ),
+                ctxt: #0,
+            },
+            kind: TsVoidKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    77,
+                ),
+                ctxt: #0,
+            },
+            kind: TsUndefinedKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/functions/functionOverloadCompatibilityWithVoid01.ts:2:24
+  |
+2 |   function f(x: string): void {
+  |  ________________________^
+3 | |     return;
+4 | | } 
+  | |_^
+

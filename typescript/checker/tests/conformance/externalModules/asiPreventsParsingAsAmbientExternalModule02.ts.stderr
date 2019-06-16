@@ -1,0 +1,32 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            6,
+        ),
+        hi: BytePos(
+            13,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/externalModules/asiPreventsParsingAsAmbientExternalModule02.ts:2:5
+  |
+2 | var declare: number;
+  |     ^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            28,
+        ),
+        hi: BytePos(
+            34,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/externalModules/asiPreventsParsingAsAmbientExternalModule02.ts:3:5
+  |
+3 | var module: string;
+  |     ^^^^^^
+

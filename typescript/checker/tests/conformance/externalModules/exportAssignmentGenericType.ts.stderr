@@ -1,0 +1,32 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            162,
+        ),
+        hi: BytePos(
+            165,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/externalModules/exportAssignmentGenericType.ts:10:13
+   |
+10 | var x = new foo<number>();
+   |             ^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            193,
+        ),
+        hi: BytePos(
+            194,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/externalModules/exportAssignmentGenericType.ts:11:16
+   |
+11 | var y:number = x.test;
+   |                ^
+

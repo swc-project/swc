@@ -1,0 +1,342 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            36,
+        ),
+        hi: BytePos(
+            43,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:3:5
+  |
+3 | var BOOLEAN: boolean;
+  |     ^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            58,
+        ),
+        hi: BytePos(
+            64,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:4:5
+  |
+4 | var NUMBER: number;
+  |     ^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            78,
+        ),
+        hi: BytePos(
+            84,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:5:5
+  |
+5 | var STRING: string;
+  |     ^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            99,
+        ),
+        hi: BytePos(
+            114,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:7:5
+  |
+7 | var resultIsBoolean: boolean
+  |     ^^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            128,
+        ),
+        hi: BytePos(
+            142,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:8:5
+  |
+8 | var resultIsNumber: number
+  |     ^^^^^^^^^^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            155,
+        ),
+        hi: BytePos(
+            169,
+        ),
+        ctxt: #0,
+    },
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:9:5
+  |
+9 | var resultIsString: string
+  |     ^^^^^^^^^^^^^^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    116,
+                ),
+                hi: BytePos(
+                    123,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    86,
+                ),
+                hi: BytePos(
+                    92,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:5:19
+  |
+5 |   var STRING: string;
+  |  ___________________^
+6 | |
+7 | | var resultIsBoolean: boolean
+  | |_____________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    116,
+                ),
+                hi: BytePos(
+                    123,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    66,
+                ),
+                hi: BytePos(
+                    72,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:4:19
+  |
+4 |   var NUMBER: number;
+  |  ___________________^
+5 | | var STRING: string;
+6 | |
+7 | | var resultIsBoolean: boolean
+  | |_____________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    144,
+                ),
+                hi: BytePos(
+                    150,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    45,
+                ),
+                hi: BytePos(
+                    52,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:3:21
+  |
+3 |   var BOOLEAN: boolean;
+  |  _____________________^
+4 | | var NUMBER: number;
+5 | | var STRING: string;
+6 | |
+7 | | var resultIsBoolean: boolean
+8 | | var resultIsNumber: number
+  | |____________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    144,
+                ),
+                hi: BytePos(
+                    150,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    86,
+                ),
+                hi: BytePos(
+                    92,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:5:19
+  |
+5 |   var STRING: string;
+  |  ___________________^
+6 | |
+7 | | var resultIsBoolean: boolean
+8 | | var resultIsNumber: number
+  | |____________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    171,
+                ),
+                hi: BytePos(
+                    177,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    45,
+                ),
+                hi: BytePos(
+                    52,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:3:21
+  |
+3 |   var BOOLEAN: boolean;
+  |  _____________________^
+4 | | var NUMBER: number;
+5 | | var STRING: string;
+6 | |
+7 | | var resultIsBoolean: boolean
+8 | | var resultIsNumber: number
+9 | | var resultIsString: string
+  | |____________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    171,
+                ),
+                hi: BytePos(
+                    177,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    66,
+                ),
+                hi: BytePos(
+                    72,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/expressions/commaOperator/commaOperatorInvalidAssignmentType.ts:4:19
+  |
+4 |   var NUMBER: number;
+  |  ___________________^
+5 | | var STRING: string;
+6 | |
+7 | | var resultIsBoolean: boolean
+8 | | var resultIsNumber: number
+9 | | var resultIsString: string
+  | |____________________^
+

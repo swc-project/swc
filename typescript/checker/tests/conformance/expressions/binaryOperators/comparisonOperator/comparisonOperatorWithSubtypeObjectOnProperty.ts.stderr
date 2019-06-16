@@ -1,0 +1,64 @@
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            276,
+        ),
+        hi: BytePos(
+            278,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnProperty.ts:27:5
+   |
+27 | var a1: A1;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            288,
+        ),
+        hi: BytePos(
+            290,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnProperty.ts:28:5
+   |
+28 | var a2: A2;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            300,
+        ),
+        hi: BytePos(
+            302,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnProperty.ts:29:5
+   |
+29 | var b1: B1;
+   |     ^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            312,
+        ),
+        hi: BytePos(
+            314,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/expressions/binaryOperators/comparisonOperator/comparisonOperatorWithSubtypeObjectOnProperty.ts:30:5
+   |
+30 | var b2: B2;
+   |     ^^
+
