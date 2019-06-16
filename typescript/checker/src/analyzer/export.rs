@@ -38,6 +38,7 @@ pub enum ExportExtra {
     Alias(TsTypeAliasDecl),
     Namespace(TsNamespaceDecl),
     Module(TsModuleDecl),
+    Class(ClassDecl),
 }
 
 // ModuleDecl::ExportNamed(export) => {}

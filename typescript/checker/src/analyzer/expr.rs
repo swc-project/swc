@@ -914,7 +914,7 @@ impl Analyzer<'_, '_> {
                     // TODO: Resolve transitive imports.
 
                     Err(Error::Unimplemented {
-                        span,
+                        span: ty.span(),
                         msg: format!(
                             "expand_export_info({})\nFile: {}",
                             root.sym,
@@ -940,6 +940,11 @@ impl Analyzer<'_, '_> {
 
                                 return Ok(ty);
                             }
+                            ExportExtra::Class(c) => {
+                                // TODO(kdy1): Handle type parameters.
+                                return Ok(ty);
+                            }
+
                             ExportExtra::Module(TsModuleDecl {
                                 body: Some(body), ..
                             })
