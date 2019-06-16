@@ -1,5 +1,6 @@
 pub use self::export::{ExportExtra, ExportInfo};
 use self::{
+    expr::any,
     scope::{Scope, ScopeKind, VarInfo},
     util::{PatExt, TypeExt, TypeRefExt},
 };
@@ -487,13 +488,22 @@ impl Analyzer<'_, '_> {
                                 None
                             };
                             if let Some(var_ty) = var_ty {
-                                var_info.ty = Some(var_ty);
+                                if var_info.ty.is_none() || !var_info.ty.as_ref().unwrap().is_any()
+                                {
+                                    var_info.ty = Some(var_ty);
+                                }
                             }
                         } else {
                             let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
                             {
                                 VarInfo {
-                                    ty: Some(ty.into_owned()),
+                                    ty: if var_info.ty.is_some()
+                                        && var_info.ty.as_ref().unwrap().is_any()
+                                    {
+                                        Some(any(var_info.ty.as_ref().unwrap().span()))
+                                    } else {
+                                        Some(ty.into_owned())
+                                    },
                                     copied: true,
                                     ..var_info.clone()
                                 }
