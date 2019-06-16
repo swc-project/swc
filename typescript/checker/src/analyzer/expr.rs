@@ -16,6 +16,11 @@ impl Analyzer<'_, '_> {
         Ok(match *expr {
             Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
 
+            Expr::Ident(Ident {
+                sym: js_word!("undefined"),
+                ..
+            }) => Cow::Owned(undefined(span)),
+
             Expr::Ident(ref i) => {
                 if i.sym == js_word!("require") {
                     unreachable!("typeof(require('...'))");
