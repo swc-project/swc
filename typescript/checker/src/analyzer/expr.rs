@@ -933,7 +933,11 @@ impl Analyzer<'_, '_> {
                     ExportExtra::Enum(..) => {
                         assert_eq!(type_params, None);
 
-                        unimplemented!("ExportExtra::Enum -> instantiate()")
+                        Ok(TsType::TsTypeRef(TsTypeRef {
+                            span,
+                            type_name: name.clone(),
+                            type_params: None,
+                        }))
                     }
                     ExportExtra::Module(TsModuleDecl {
                         body: Some(body), ..
