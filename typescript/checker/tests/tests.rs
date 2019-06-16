@@ -23,10 +23,18 @@ use testing::StdErr;
 use walkdir::WalkDir;
 
 #[test]
+fn conformance() {
+    let args: Vec<_> = env::args().collect();
+    let mut tests = Vec::new();
+    add_tests(&mut tests, false, true).unwrap();
+    test_main(&args, tests, Options::new());
+}
+
+#[test]
 fn passes() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    add_tests(&mut tests, false).unwrap();
+    add_tests(&mut tests, false, false).unwrap();
     test_main(&args, tests, Options::new());
 }
 
@@ -34,18 +42,24 @@ fn passes() {
 fn errors() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    add_tests(&mut tests, true).unwrap();
+    add_tests(&mut tests, true, false).unwrap();
     test_main(&args, tests, Options::new());
 }
 
-fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Error> {
+fn add_tests(
+    tests: &mut Vec<TestDescAndFn>,
+    error: bool,
+    conformance: bool,
+) -> Result<(), io::Error> {
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
         if error {
             root.push("errors");
-        } else {
+        } else if !conformance {
             root.push("pass");
+        } else {
+            root.push("conformance");
         }
         root
     };
@@ -57,11 +71,16 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Erro
     for entry in WalkDir::new(&dir).into_iter() {
         let entry = entry?;
         println!("{}", entry.file_name().to_string_lossy());
-        if entry.file_type().is_dir()
-            || (!entry.file_name().to_string_lossy().ends_with("index.d.ts")
-                && !entry.file_name().to_string_lossy().ends_with("index.ts")
-                && !entry.file_name().to_string_lossy().ends_with("index.tsx"))
-        {
+        let is_ts = entry.file_name().to_string_lossy().ends_with(".ts")
+            || entry.file_name().to_string_lossy().ends_with(".tsx");
+        if entry.file_type().is_dir() || !is_ts {
+            continue;
+        }
+
+        let is_not_index = !entry.file_name().to_string_lossy().ends_with("index.d.ts")
+            && !entry.file_name().to_string_lossy().ends_with("index.ts")
+            && !entry.file_name().to_string_lossy().ends_with("index.tsx");
+        if is_not_index && !conformance {
             continue;
         }
 
@@ -84,7 +103,13 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, error: bool) -> Result<(), io::Erro
         let dir = dir.clone();
         let name = format!(
             "tsc::{}::{}",
-            if error { "error" } else { "passes" },
+            if error {
+                "error"
+            } else if conformance {
+                "conformance"
+            } else {
+                "passes"
+            },
             file_name
         );
         add_test(tests, name, ignore, move || {
