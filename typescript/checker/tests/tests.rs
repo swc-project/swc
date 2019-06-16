@@ -203,10 +203,10 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
 
             if err_count != error_cmt_count.unwrap() {
                 panic!(
-                    "Expected {} errors, got {}\n{:?}",
+                    "{:?}\nExpected {} errors, got {}",
+                    err,
                     error_cmt_count.unwrap(),
                     err_count,
-                    err
                 );
             }
 
