@@ -107,7 +107,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
-        add_test(tests, name, ignore, move || {
+        add_test(tests, name, ignore, ove || {
             if mode == Mode::Error || mode == Mode::Conformance {
                 eprintln!(
                     "\n\n========== Running error reporting test {}\nSource:\n{}\n",
@@ -157,8 +157,6 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
             let errors = checker.check(file_name.into());
             if let Some(count) = error_cmt_count {
                 if count != errors.len() {
-                    let len = errors.len();
-
                     checker.run(|| {
                         for e in errors {
                             e.emit(&handler);
