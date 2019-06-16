@@ -107,7 +107,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
-        add_test(tests, name, ignore, ove || {
+        add_test(tests, name, ignore, move || {
             if mode == Mode::Error || mode == Mode::Conformance {
                 eprintln!(
                     "\n\n========== Running error reporting test {}\nSource:\n{}\n",
