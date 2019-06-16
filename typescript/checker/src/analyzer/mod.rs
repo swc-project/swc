@@ -525,6 +525,24 @@ impl Analyzer<'_, '_> {
                                     ..var_info.clone()
                                 }
                             } else {
+                                if let Some(extra) = self
+                                    .scope
+                                    .find_type(&i.sym)
+                                    .as_ref()
+                                    .and_then(|v| v.extra.as_ref())
+                                {
+                                    match extra {
+                                        ExportExtra::Module(..) => {
+                                            self.info.errors.push(Error::NotVariable {
+                                                span: i.span,
+                                                left: lhs.span(),
+                                            });
+
+                                            return;
+                                        }
+                                        _ => {}
+                                    }
+                                }
                                 // undefined symbol
                                 self.info
                                     .errors
