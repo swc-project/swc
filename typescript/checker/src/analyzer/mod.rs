@@ -252,6 +252,15 @@ pub struct Specifier {
     pub export: (JsWord, Span),
 }
 
+impl Visit<TsEnumDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, e: &TsEnumDecl) {
+        e.visit_children(self);
+
+        self.scope
+            .register_type(e.id.sym.clone(), ExportExtra::Enum(e.clone()).into());
+    }
+}
+
 impl Visit<ClassDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, c: &ClassDecl) {
         c.visit_children(self);
