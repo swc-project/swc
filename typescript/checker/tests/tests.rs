@@ -129,30 +129,38 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
 
 fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(), StdErr> {
     let fname = file_name.display().to_string();
+    let error_cmt_count = match mode {
+        Mode::Conformance => {
+            // TODO:
+            Some(0)
+        }
+        _ => None,
+    };
     let res = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         CM.set(&cm.clone(), || {
-            let res = {
-                let checker = swc_ts_checker::Checker::new(
-                    cm.clone(),
-                    handler,
-                    TsConfig {
-                        tsx: fname.contains("tsx"),
-                        ..Default::default()
-                    },
-                );
+            let checker = swc_ts_checker::Checker::new(
+                cm.clone(),
+                handler,
+                TsConfig {
+                    tsx: fname.contains("tsx"),
+                    ..Default::default()
+                },
+            );
 
-                let errors = checker.check(file_name.into());
+            let errors = checker.check(file_name.into());
+            if let Some(count) = error_cmt_count {
+                if count != errors.len() {
+                    panic!("Expected {} errors, but {} found", count, errors.len());
+                }
+            }
 
-                let res = if errors.is_empty() { Ok(()) } else { Err(()) };
+            let res = if errors.is_empty() { Ok(()) } else { Err(()) };
 
-                checker.run(|| {
-                    for e in errors {
-                        e.emit(&handler);
-                    }
-                });
-
-                res
-            };
+            checker.run(|| {
+                for e in errors {
+                    e.emit(&handler);
+                }
+            });
 
             res
         })
