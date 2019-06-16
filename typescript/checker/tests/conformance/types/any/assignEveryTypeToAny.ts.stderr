@@ -1,0 +1,815 @@
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsLitType(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    78,
+                ),
+                hi: BytePos(
+                    82,
+                ),
+                ctxt: #0,
+            },
+            lit: Bool(
+                Bool {
+                    span: Span {
+                        lo: BytePos(
+                            78,
+                        ),
+                        hi: BytePos(
+                            82,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: true,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+ --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+  |
+6 |   var a = 2;
+  |  _________^
+7 | | x = a;
+8 | | 
+9 | | x = true;
+  | |________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    93,
+                ),
+                hi: BytePos(
+                    97,
+                ),
+                ctxt: #0,
+            },
+            kind: TsBooleanKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+10 | | var b = true;
+   | |____________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsLitType(
+        TsLitType {
+            span: Span {
+                lo: BytePos(
+                    114,
+                ),
+                hi: BytePos(
+                    116,
+                ),
+                ctxt: #0,
+            },
+            lit: Str(
+                Str {
+                    span: Span {
+                        lo: BytePos(
+                            114,
+                        ),
+                        hi: BytePos(
+                            116,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('' type=static),
+                    has_escape: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+12 | | 
+13 | | x = "";
+   | |______^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    127,
+                ),
+                hi: BytePos(
+                    129,
+                ),
+                ctxt: #0,
+            },
+            kind: TsStringKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+13 | | x = "";
+14 | | var c = "";
+   | |__________^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            146,
+        ),
+        hi: BytePos(
+            147,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:17:5
+   |
+17 | var d: void;
+   |     ^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    149,
+                ),
+                hi: BytePos(
+                    153,
+                ),
+                ctxt: #0,
+            },
+            kind: TsVoidKeyword,
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+16 | | 
+17 | | var d: void;
+   | |___________^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            174,
+        ),
+        hi: BytePos(
+            183,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:20:9
+   |
+20 | var e = undefined;
+   |         ^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            190,
+        ),
+        hi: BytePos(
+            191,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:21:5
+   |
+21 | x = e;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            200,
+        ),
+        hi: BytePos(
+            202,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:23:5
+   |
+23 | var e2: typeof undefined;
+   |     ^^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsTypeQuery(
+        TsTypeQuery {
+            span: Span {
+                lo: BytePos(
+                    204,
+                ),
+                hi: BytePos(
+                    220,
+                ),
+                ctxt: #0,
+            },
+            expr_name: Ident(
+                Ident {
+                    span: Span {
+                        lo: BytePos(
+                            211,
+                        ),
+                        hi: BytePos(
+                            220,
+                        ),
+                        ctxt: #0,
+                    },
+                    sym: Atom('undefined' type=static),
+                    type_ann: None,
+                    optional: false,
+                },
+            ),
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+22 | | 
+23 | | var e2: typeof undefined;
+   | |________________________^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            260,
+        ),
+        hi: BytePos(
+            261,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:30:5
+   |
+30 | x = E.A;
+   |     ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            274,
+        ),
+        hi: BytePos(
+            275,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:31:9
+   |
+31 | var f = E.A;
+   |         ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            284,
+        ),
+        hi: BytePos(
+            285,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:32:5
+   |
+32 | x = f;
+   |     ^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            332,
+        ),
+        hi: BytePos(
+            333,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:38:5
+   |
+38 | var g: I;
+   |     ^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsTypeLit(
+        TsTypeLit {
+            span: Span {
+                lo: BytePos(
+                    300,
+                ),
+                hi: BytePos(
+                    324,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                TsPropertySignature(
+                    TsPropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                309,
+                            ),
+                            hi: BytePos(
+                                321,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        309,
+                                    ),
+                                    hi: BytePos(
+                                        312,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('foo' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        init: None,
+                        params: [],
+                        type_ann: Some(
+                            TsTypeAnn {
+                                span: Span {
+                                    lo: BytePos(
+                                        312,
+                                    ),
+                                    hi: BytePos(
+                                        320,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                type_ann: TsKeywordType(
+                                    TsKeywordType {
+                                        span: Span {
+                                            lo: BytePos(
+                                                314,
+                                            ),
+                                            hi: BytePos(
+                                                320,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        kind: TsStringKeyword,
+                                    },
+                                ),
+                            },
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+35 | |     foo: string;
+36 | | }
+   | |_^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            387,
+        ),
+        hi: BytePos(
+            388,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:45:5
+   |
+45 | var h: C;
+   |     ^
+
+error: unimplemented
+expand_export_info(C)
+File: $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:46:1
+   |
+46 | x = h;
+   | ^^^^^
+
+error: ShouldIncludeUndefinedType {
+    span: Span {
+        lo: BytePos(
+            408,
+        ),
+        hi: BytePos(
+            409,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:48:5
+   |
+48 | var i: { (): string };
+   |     ^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsTypeLit(
+        TsTypeLit {
+            span: Span {
+                lo: BytePos(
+                    411,
+                ),
+                hi: BytePos(
+                    425,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                TsCallSignatureDecl(
+                    TsCallSignatureDecl {
+                        span: Span {
+                            lo: BytePos(
+                                413,
+                            ),
+                            hi: BytePos(
+                                423,
+                            ),
+                            ctxt: #0,
+                        },
+                        params: [],
+                        type_ann: Some(
+                            TsTypeAnn {
+                                span: Span {
+                                    lo: BytePos(
+                                        415,
+                                    ),
+                                    hi: BytePos(
+                                        423,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                type_ann: TsKeywordType(
+                                    TsKeywordType {
+                                        span: Span {
+                                            lo: BytePos(
+                                                417,
+                                            ),
+                                            hi: BytePos(
+                                                423,
+                                            ),
+                                            ctxt: #0,
+                                        },
+                                        kind: TsStringKeyword,
+                                    },
+                                ),
+                            },
+                        ),
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+47 | | 
+48 | | var i: { (): string };
+   | |_____________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsTypeLit(
+        TsTypeLit {
+            span: Span {
+                lo: BytePos(
+                    440,
+                ),
+                hi: BytePos(
+                    461,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                TsPropertySignature(
+                    TsPropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                442,
+                            ),
+                            hi: BytePos(
+                                459,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        442,
+                                    ),
+                                    hi: BytePos(
+                                        443,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('f' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        init: None,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+49 | | x = i;
+50 | | x = { f() { return 1; } }
+   | |_________________________^
+
+error: AssignFailed {
+    left: TsKeywordType(
+        TsKeywordType {
+            span: Span {
+                lo: BytePos(
+                    60,
+                ),
+                hi: BytePos(
+                    61,
+                ),
+                ctxt: #0,
+            },
+            kind: TsNumberKeyword,
+        },
+    ),
+    right: TsTypeLit(
+        TsTypeLit {
+            span: Span {
+                lo: BytePos(
+                    467,
+                ),
+                hi: BytePos(
+                    495,
+                ),
+                ctxt: #0,
+            },
+            members: [
+                TsPropertySignature(
+                    TsPropertySignature {
+                        span: Span {
+                            lo: BytePos(
+                                469,
+                            ),
+                            hi: BytePos(
+                                493,
+                            ),
+                            ctxt: #0,
+                        },
+                        readonly: false,
+                        key: Ident(
+                            Ident {
+                                span: Span {
+                                    lo: BytePos(
+                                        469,
+                                    ),
+                                    hi: BytePos(
+                                        470,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                sym: Atom('f' type=inline),
+                                type_ann: None,
+                                optional: false,
+                            },
+                        ),
+                        computed: false,
+                        optional: false,
+                        init: None,
+                        params: [],
+                        type_ann: None,
+                        type_params: None,
+                    },
+                ),
+            ],
+        },
+    ),
+    cause: [],
+}
+  --> $DIR/tests/conformance/types/any/assignEveryTypeToAny.ts:6:9
+   |
+6  |   var a = 2;
+   |  _________^
+7  | | x = a;
+8  | | 
+9  | | x = true;
+...  |
+50 | | x = { f() { return 1; } }
+51 | | x = { f<T>(x: T) { return x; } }
+   | |________________________________^
+

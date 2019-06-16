@@ -22,11 +22,18 @@ use test::{test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAnd
 use testing::StdErr;
 use walkdir::WalkDir;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Mode {
+    Error,
+    Pass,
+    Conformance,
+}
+
 #[test]
 fn conformance() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    add_tests(&mut tests, false, true).unwrap();
+    add_tests(&mut tests, Mode::Conformance).unwrap();
     test_main(&args, tests, Options::new());
 }
 
@@ -34,7 +41,7 @@ fn conformance() {
 fn passes() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    add_tests(&mut tests, false, false).unwrap();
+    add_tests(&mut tests, Mode::Pass).unwrap();
     test_main(&args, tests, Options::new());
 }
 
@@ -42,25 +49,22 @@ fn passes() {
 fn errors() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
-    add_tests(&mut tests, true, false).unwrap();
+    add_tests(&mut tests, Mode::Error).unwrap();
     test_main(&args, tests, Options::new());
 }
 
-fn add_tests(
-    tests: &mut Vec<TestDescAndFn>,
-    error: bool,
-    conformance: bool,
-) -> Result<(), io::Error> {
+fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error> {
+    let test_kind = match mode {
+        Mode::Error => "errors",
+        Mode::Conformance => "conformance",
+        Mode::Pass => "pass",
+    };
+
     let root = {
         let mut root = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
         root.push("tests");
-        if error {
-            root.push("errors");
-        } else if !conformance {
-            root.push("pass");
-        } else {
-            root.push("conformance");
-        }
+        root.push(test_kind);
+
         root
     };
 
@@ -80,7 +84,7 @@ fn add_tests(
         let is_not_index = !entry.file_name().to_string_lossy().ends_with("index.d.ts")
             && !entry.file_name().to_string_lossy().ends_with("index.ts")
             && !entry.file_name().to_string_lossy().ends_with("index.tsx");
-        if is_not_index && !conformance {
+        if is_not_index && mode != Mode::Conformance {
             continue;
         }
 
@@ -98,23 +102,13 @@ fn add_tests(
             buf
         };
 
-        let ignore =
-            file_name.contains("circular") || (conformance && !file_name.contains("types/any"));
+        let ignore = file_name.contains("circular")
+            || (mode == Mode::Conformance && !file_name.contains("types/any"));
 
         let dir = dir.clone();
-        let name = format!(
-            "tsc::{}::{}",
-            if error {
-                "error"
-            } else if conformance {
-                "conformance"
-            } else {
-                "passes"
-            },
-            file_name
-        );
+        let name = format!("tsc::{}::{}", test_kind, file_name);
         add_test(tests, name, ignore, move || {
-            if error || conformance {
+            if mode == Mode::Error || mode == Mode::Conformance {
                 eprintln!(
                     "\n\n========== Running error reporting test {}\nSource:\n{}\n",
                     file_name, input
@@ -127,14 +121,14 @@ fn add_tests(
             }
 
             let path = dir.join(&file_name);
-            do_test(false, &path, error || conformance).unwrap();
+            do_test(false, &path, mode).unwrap();
         });
     }
 
     Ok(())
 }
 
-fn do_test(treat_error_as_bug: bool, file_name: &Path, error: bool) -> Result<(), StdErr> {
+fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(), StdErr> {
     let fname = file_name.display().to_string();
     let res = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         CM.set(&cm.clone(), || {
@@ -161,24 +155,35 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, error: bool) -> Result<()
                 res
             };
 
-            if error {
-                res
-            } else {
-                res
-            }
+            res
         })
     });
 
-    if error {
-        let err = res.expect_err("should fail, but parsed as");
-        if err
-            .compare_to_file(format!("{}.stderr", file_name.display()))
-            .is_err()
-        {
-            panic!()
+    match mode {
+        Mode::Error => {
+            let err = res.expect_err("should fail, but parsed as");
+            if err
+                .compare_to_file(format!("{}.stderr", file_name.display()))
+                .is_err()
+            {
+                panic!()
+            }
         }
-    } else {
-        res.expect("should be parsed and validated");
+        Mode::Pass => {
+            res.expect("should be parsed and validated");
+        }
+        Mode::Conformance => {
+            let err = match res {
+                Ok(_) => StdErr::from(String::from("")),
+                Err(err) => err,
+            };
+            if err
+                .compare_to_file(format!("{}.stderr", file_name.display()))
+                .is_err()
+            {
+                panic!()
+            }
+        }
     }
 
     Ok(())

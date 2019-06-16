@@ -1,0 +1,96 @@
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            154,
+        ),
+        hi: BytePos(
+            163,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:11:9
+   |
+11 | var f = undefined;
+   |         ^^^^^^^^^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            166,
+        ),
+        hi: BytePos(
+            167,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:12:1
+   |
+12 | f = x;
+   | ^
+
+error: unimplemented
+expand_export_info(E)
+File: $DIR/tests/conformance/types/any/assignAnyToEveryType.ts
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:18:12
+   |
+18 | var g: E = x;
+   |            ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            222,
+        ),
+        hi: BytePos(
+            223,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:19:10
+   |
+19 | var g2 = E.A;
+   |          ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            228,
+        ),
+        hi: BytePos(
+            230,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:20:1
+   |
+20 | g2 = x;
+   | ^^
+
+error: unimplemented
+expand_export_info(C)
+File: $DIR/tests/conformance/types/any/assignAnyToEveryType.ts
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:26:12
+   |
+26 | var h: C = x;
+   |            ^
+
+error: UndefinedSymbol {
+    span: Span {
+        lo: BytePos(
+            453,
+        ),
+        hi: BytePos(
+            454,
+        ),
+        ctxt: #0,
+    },
+}
+  --> $DIR/tests/conformance/types/any/assignAnyToEveryType.ts:41:1
+   |
+41 | M = x;
+   | ^
+
