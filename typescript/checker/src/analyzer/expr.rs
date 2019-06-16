@@ -650,6 +650,11 @@ impl Analyzer<'_, '_> {
         }
 
         match *ty {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+                ..
+            }) => return Ok(Cow::Owned(any)),
+
             TsType::TsTypeLit(ref lit) => {
                 for member in &lit.members {
                     match *member {
