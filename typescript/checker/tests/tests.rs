@@ -143,7 +143,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                     .enumerate()
                     .filter(|(_, s)| s.contains("// error"))
                     .map(|(i, s)| (i, String::from(s)))
-                    .map(|(i, s)| i + 1)
+                    .map(|(i, _)| i + 1)
                     .collect::<Vec<_>>(),
             )
         }
@@ -204,6 +204,7 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
                 Err(err) => err,
             };
 
+            // TODO: filter line correctly
             let err_count = err
                 .lines()
                 .enumerate()
