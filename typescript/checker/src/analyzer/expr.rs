@@ -259,6 +259,21 @@ impl Analyzer<'_, '_> {
                 ref prop,
                 ..
             }) => {
+                match **obj {
+                    Expr::Ident(ref i) => {
+                        if let Some(ty) = self.scope.find_type(&i.sym) {
+                            if let Some(ExportExtra::Enum(ref e)) = ty.extra {
+                                // TODO(kdy1): Check if variant exists.
+                                return Ok(Cow::Owned(TsType::TsTypeRef(TsTypeRef {
+                                    span,
+                                    type_name: TsEntityName::Ident(i.clone()),
+                                    type_params: None,
+                                })));
+                            }
+                        }
+                    }
+                    _ => {}
+                }
                 // member expression
                 let obj_ty = self
                     .type_of(obj)
