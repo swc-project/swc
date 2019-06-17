@@ -179,6 +179,27 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             ..
         }) => return None,
 
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsUnknownKeyword,
+            ..
+        }) => match *to {
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+                ..
+            })
+            | TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsUnknownKeyword,
+                ..
+            }) => return None,
+            _ => {
+                return Some(Error::AssignFailed {
+                    left: to.clone(),
+                    right: rhs.clone(),
+                    cause: vec![],
+                })
+            }
+        },
+
         TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
             TsUnionType {
                 span, ref types, ..
