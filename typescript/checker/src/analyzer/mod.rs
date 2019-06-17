@@ -121,6 +121,15 @@ impl Visit<TsInterfaceDecl> for Analyzer<'_, '_> {
     }
 }
 
+impl Visit<TsTypeAliasDecl> for Analyzer<'_, '_> {
+    fn visit(&mut self, decl: &TsTypeAliasDecl) {
+        self.scope
+            .register_type(decl.id.sym.clone(), ExportExtra::Alias(decl.clone()).into());
+
+        // TODO(kdy1): Validate type
+    }
+}
+
 #[derive(Debug)]
 struct ImportFinder<'a> {
     to: &'a mut Vec<ImportInfo>,
