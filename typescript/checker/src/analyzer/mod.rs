@@ -13,6 +13,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
+mod control_flow;
 mod export;
 mod expr;
 mod scope;
