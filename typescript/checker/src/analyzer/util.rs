@@ -117,6 +117,25 @@ pub(super) trait TypeRefExt {
         }
     }
 
+    fn is_unknown(&self) -> bool {
+        match self.ann() {
+            None => true,
+            Some(ref ty) => match **ty {
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsUnknownKeyword,
+                    ..
+                }) => true,
+
+                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                    ref t,
+                )) => t.types.iter().any(|t| t.is_unknown()),
+
+                TsType::TsThisType(..) => false,
+                _ => false,
+            },
+        }
+    }
+
     fn contains_undefined(&self) -> bool {
         match self.ann() {
             None => true,
@@ -344,10 +363,7 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
         return None;
     }
 
-    Some(Error::Unimplemented {
-        span: to.span(),
-        msg: format!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs),
-    })
+    unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
 }
 
 impl TypeRefExt for Cow<'_, TsType> {

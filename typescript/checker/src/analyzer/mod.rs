@@ -329,7 +329,10 @@ impl Visit<Function> for Analyzer<'_, '_> {
                     match analyzer.infer_return_type(&body) {
                         Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
                         Ok(None) => {
-                            if ret_ty.type_ann.is_any() || ret_ty.type_ann.contains_void() {
+                            if ret_ty.type_ann.is_any()
+                                || ret_ty.type_ann.is_unknown()
+                                || ret_ty.type_ann.contains_void()
+                            {
                                 None
                             } else {
                                 Some(Error::ReturnRequired {
