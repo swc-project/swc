@@ -1,3 +1,11 @@
-function switchResponseWrong(x: unknown): any {
-    type End = isTrue<isUnknown<typeof x>>
+function normal(x: any): any {
+  const a = x;
 }
+
+const unnamed = function(x: any): any {
+  const a = x;
+};
+
+const arrow = (x: any): any => {
+  const a = x;
+};
