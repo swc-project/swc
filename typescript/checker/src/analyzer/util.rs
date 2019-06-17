@@ -333,11 +333,10 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
         _ => {}
     }
 
-    unimplemented!(
-        "assign: not implemented: \nLeft: {:?}\nRight: {:?}",
-        to,
-        rhs
-    )
+    Some(Error::Unimplemented {
+        span: to.span(),
+        msg: format!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs),
+    })
 }
 
 impl TypeRefExt for Cow<'_, TsType> {
