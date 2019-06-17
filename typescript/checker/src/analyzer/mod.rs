@@ -284,6 +284,8 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
 
 impl Visit<FnDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &FnDecl) {
+        f.visit_children(self);
+
         let fn_ty = match self.type_of_fn(&f.function) {
             Ok(ty) => ty,
             Err(err) => {
@@ -309,11 +311,22 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
 
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
+        let mut analyzer = self.child(ScopeKind::Fn);
+
+        f.params
+            .iter()
+            .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
+
+        match f.body {
+            Some(ref body) => body.visit_children(&mut analyzer),
+            None => {}
+        }
+
         {
             let err = if let Some(ref ret_ty) = f.return_type {
                 if let Some(ref body) = f.body {
                     // Validate function's return type.
-                    match self.infer_return_type(&body) {
+                    match analyzer.infer_return_type(&body) {
                         Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
                         Ok(None) => {
                             if ret_ty.type_ann.is_any() || ret_ty.type_ann.contains_void() {
@@ -333,20 +346,11 @@ impl Visit<Function> for Analyzer<'_, '_> {
                 None
             };
             if let Some(err) = err {
-                self.info.errors.push(err);
+                analyzer.info.errors.push(err);
             }
         }
 
-        let mut analyzer = self.child(ScopeKind::Fn);
-
-        f.params
-            .iter()
-            .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
-
-        match f.body {
-            Some(ref body) => body.visit_children(&mut analyzer),
-            None => {}
-        }
+        self.info.errors.extend(analyzer.info.errors);
     }
 }
 
@@ -362,6 +366,8 @@ impl Visit<ArrowExpr> for Analyzer<'_, '_> {
             BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
             BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(&mut analyzer),
         }
+
+        self.info.errors.extend(analyzer.info.errors)
     }
 }
 
@@ -369,7 +375,9 @@ impl Visit<BlockStmt> for Analyzer<'_, '_> {
     fn visit(&mut self, stmt: &BlockStmt) {
         let mut analyzer = self.child(ScopeKind::Block);
 
-        stmt.visit_children(&mut analyzer)
+        stmt.visit_children(&mut analyzer);
+
+        self.info.errors.extend(analyzer.info.errors)
     }
 }
 
