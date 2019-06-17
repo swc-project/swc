@@ -102,8 +102,7 @@ fn add_tests(tests: &mut Vec<TestDescAndFn>, mode: Mode) -> Result<(), io::Error
             buf
         };
 
-        let ignore = file_name.contains("circular")
-            || (mode == Mode::Conformance && !file_name.contains("types"));
+        let ignore = file_name.contains("circular");
 
         let dir = dir.clone();
         let name = format!("tsc::{}::{}", test_kind, file_name);
@@ -213,12 +212,11 @@ fn do_test(treat_error_as_bug: bool, file_name: &Path, mode: Mode) -> Result<(),
 
             if !all || err_count != lines.as_ref().unwrap().len() {
                 panic!(
-                    "{:?}\nExpected {} errors, got {}\nLines: {:?}\nErrors: {:?}",
+                    "{:?}\nExpected {} errors, got {}\nLines: {:?}",
                     err,
                     lines.as_ref().unwrap().len(),
                     err_count,
                     lines.as_ref().unwrap(),
-                    err
                 );
             }
 
