@@ -339,6 +339,11 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
         _ => {}
     }
 
+    // This is slow (at the time of writing)
+    if to.eq_ignore_name_and_span(&rhs) {
+        return None;
+    }
+
     Some(Error::Unimplemented {
         span: to.span(),
         msg: format!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs),

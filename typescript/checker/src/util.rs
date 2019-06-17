@@ -117,7 +117,25 @@ impl Fold<Ident> for SpanAndNameRemover {
 /// TsEntityName is used in type position.
 impl Fold<TsEntityName> for SpanAndNameRemover {
     fn fold(&mut self, n: TsEntityName) -> TsEntityName {
-        n
+        match n {
+            TsEntityName::Ident(i) => TsEntityName::Ident(Ident {
+                span: DUMMY_SP,
+                ..i.fold_children(self)
+            }),
+            TsEntityName::TsQualifiedName(q) => TsEntityName::TsQualifiedName(q.fold_with(self)),
+        }
+    }
+}
+
+impl Fold<TsQualifiedName> for SpanRemover {
+    fn fold(&mut self, n: TsQualifiedName) -> TsQualifiedName {
+        TsQualifiedName {
+            left: n.left.fold_with(self),
+            right: Ident {
+                span: DUMMY_SP,
+                ..n.right
+            },
+        }
     }
 }
 
