@@ -188,6 +188,12 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             ..
         }) => return None,
 
+        // let a: unknown = undefined
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsUnknownKeyword,
+            ..
+        }) => return None,
+
         TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
             TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
                 if lit.eq_ignore_span(r_lit) {
