@@ -1050,6 +1050,15 @@ impl Analyzer<'_, '_> {
                 }
             }
 
+            TsType::TsTypeQuery(TsTypeQuery { ref expr_name, .. }) => match *expr_name {
+                TsEntityName::Ident(ref i) => {
+                    return Ok(Cow::Owned(
+                        self.type_of(&Expr::Ident(i.clone()))?.into_owned(),
+                    ))
+                }
+                _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
+            },
+
             _ => {}
         }
 
