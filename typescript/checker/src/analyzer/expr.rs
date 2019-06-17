@@ -254,7 +254,7 @@ impl Analyzer<'_, '_> {
                 return self.type_of_class(class).map(Cow::Owned)
             }
 
-            Expr::Arrow(ArrowExpr { .. }) => unimplemented!("typeof(ArrowExpr)"),
+            Expr::Arrow(ref e) => return self.type_of_arrow_fn(e).map(Cow::Owned),
 
             Expr::Fn(FnExpr { ref function, .. }) => {
                 return self.type_of_fn(&function).map(Cow::Owned)
@@ -507,6 +507,32 @@ impl Analyzer<'_, '_> {
                 }),
             ))),
         }
+    }
+
+    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<TsType, Error> {
+        let ret_ty = match f.return_type {
+            Some(ref ret_ty) => self.expand(f.span, Cow::Borrowed(&*ret_ty.type_ann))?,
+            None => match f.body {
+                BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
+                    Ok(Some(ty)) => Cow::Owned(ty),
+                    Ok(None) => Cow::Owned(undefined(body.span())),
+                    Err(err) => return Err(err),
+                },
+                BlockStmtOrExpr::Expr(ref expr) => self.type_of(&expr)?,
+            },
+        };
+
+        Ok(TsType::TsFnOrConstructorType(
+            TsFnOrConstructorType::TsFnType(TsFnType {
+                span: f.span,
+                params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
+                type_params: f.type_params.clone(),
+                type_ann: TsTypeAnn {
+                    span: ret_ty.span(),
+                    type_ann: box ret_ty.into_owned(),
+                },
+            }),
+        ))
     }
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<TsType, Error> {
