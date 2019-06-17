@@ -6,7 +6,7 @@ use super::{
 };
 use crate::{builtin_types, errors::Error, util::EqIgnoreSpan};
 use std::borrow::Cow;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 

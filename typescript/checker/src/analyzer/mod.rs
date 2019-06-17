@@ -1,7 +1,6 @@
 pub use self::export::{ExportExtra, ExportInfo};
 use self::{
-    expr::any,
-    scope::{Scope, ScopeKind, VarInfo},
+    scope::{Scope, ScopeKind},
     util::{PatExt, TypeExt, TypeRefExt},
 };
 use super::Checker;
