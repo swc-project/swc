@@ -1,8 +1,110 @@
-use super::{expr::never_ty, scope::ScopeKind, Analyzer};
-use swc_common::{Visit, VisitWith};
+use super::{
+    export::ExportExtra,
+    expr::{any, never_ty},
+    scope::{ScopeKind, VarInfo},
+    util::TypeRefExt,
+    Analyzer,
+};
+use crate::errors::Error;
+use std::borrow::Cow;
+use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
+    pub(super) fn try_assign(&mut self, lhs: &PatOrExpr, ty: Cow<TsType>) {
+        match *lhs {
+            PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => match **expr {
+                // TODO(kdy1): Validate
+                Expr::Member(MemberExpr { .. }) => return,
+                _ => unimplemented!(
+                    "assign: {:?} = {:?}\nFile: {}",
+                    expr,
+                    ty,
+                    self.path.display()
+                ),
+            },
+
+            PatOrExpr::Pat(ref pat) => {
+                // Update variable's type
+                match **pat {
+                    Pat::Ident(ref i) => {
+                        if let Some(var_info) = self.scope.vars.get_mut(&i.sym) {
+                            // Variable is declared.
+
+                            let var_ty = if let Some(ref var_ty) = var_info.ty {
+                                // let foo: string;
+                                // let foo = 'value';
+
+                                let errors = ty.assign_to(&var_ty);
+                                if errors.is_none() {
+                                    Some(ty.into_owned())
+                                } else {
+                                    self.info.errors.extend(errors);
+                                    None
+                                }
+                            } else {
+                                // let v = foo;
+                                // v = bar;
+                                None
+                            };
+                            if let Some(var_ty) = var_ty {
+                                if var_info.ty.is_none() || !var_info.ty.as_ref().unwrap().is_any()
+                                {
+                                    var_info.ty = Some(var_ty);
+                                }
+                            }
+                        } else {
+                            let var_info = if let Some(var_info) = self.scope.search_parent(&i.sym)
+                            {
+                                VarInfo {
+                                    ty: if var_info.ty.is_some()
+                                        && var_info.ty.as_ref().unwrap().is_any()
+                                    {
+                                        Some(any(var_info.ty.as_ref().unwrap().span()))
+                                    } else {
+                                        Some(ty.into_owned())
+                                    },
+                                    copied: true,
+                                    ..var_info.clone()
+                                }
+                            } else {
+                                if let Some(extra) = self
+                                    .scope
+                                    .find_type(&i.sym)
+                                    .as_ref()
+                                    .and_then(|v| v.extra.as_ref())
+                                {
+                                    match extra {
+                                        ExportExtra::Module(..) => {
+                                            self.info.errors.push(Error::NotVariable {
+                                                span: i.span,
+                                                left: lhs.span(),
+                                            });
+
+                                            return;
+                                        }
+                                        _ => {}
+                                    }
+                                }
+                                // undefined symbol
+                                self.info
+                                    .errors
+                                    .push(Error::UndefinedSymbol { span: i.span });
+                                return;
+                            };
+                            // Variable is defined on parent scope.
+                            //
+                            // We copy varinfo with enhanced type.
+                            self.scope.vars.insert(i.sym.clone(), var_info);
+                        }
+                    }
+
+                    _ => unimplemented!("assignment with complex pattern"),
+                }
+            }
+        }
+    }
+
     fn visit_flow<F>(&mut self, op: F)
     where
         F: for<'a, 'b> FnOnce(&mut Analyzer<'a, 'b>),
