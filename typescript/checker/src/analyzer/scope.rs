@@ -141,28 +141,35 @@ impl Scope<'_> {
 static ANY_TY: TsType = any(DUMMY_SP);
 
 impl Analyzer<'_, '_> {
-    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
+    #[inline(never)]
+    pub(super) fn find_var(&self, name: &JsWord) -> Option<&VarInfo> {
+        static ERR_VAR: VarInfo = VarInfo {
+            ty: Some(any(DUMMY_SP)),
+            kind: VarDeclKind::Const,
+            initialized: true,
+            copied: false,
+        };
+
         if self.errored_imports.get(name).is_some() {
-            return Some(&ANY_TY);
+            return Some(&ERR_VAR);
         }
 
         let mut scope = Some(&self.scope);
 
         while let Some(s) = scope {
             if let Some(var) = s.vars.get(name) {
-                match var.ty {
-                    Some(ref ty) => return Some(ty),
-                    None => {
-                        // TODO(kdy1): No implicit any.
-                        return Some(&ANY_TY);
-                    }
-                }
+                return Some(var);
             }
 
             scope = s.parent;
         }
 
         None
+    }
+
+    #[inline]
+    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
+        self.find_var(name).and_then(|v| v.ty.as_ref())
     }
 
     pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
