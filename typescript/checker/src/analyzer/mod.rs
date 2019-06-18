@@ -315,76 +315,90 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
 
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
-        let mut analyzer = self.child(ScopeKind::Fn);
+        let info = {
+            let mut analyzer = self.child(ScopeKind::Fn);
 
-        f.params
-            .iter()
-            .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
+            f.params
+                .iter()
+                .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
 
-        match f.body {
-            Some(ref body) => body.visit_children(&mut analyzer),
-            None => {}
-        }
+            match f.body {
+                Some(ref body) => body.visit_children(&mut analyzer),
+                None => {}
+            }
 
-        {
-            let err = if let Some(ref ret_ty) = f.return_type {
-                if let Some(ref body) = f.body {
-                    // Validate function's return type.
-                    match analyzer.infer_return_type(&body) {
-                        Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
-                        Ok(None) => {
-                            if ret_ty.type_ann.is_any()
-                                || ret_ty.type_ann.is_unknown()
-                                || ret_ty.type_ann.contains_void()
-                            {
-                                None
-                            } else {
-                                Some(Error::ReturnRequired {
-                                    span: ret_ty.span(),
-                                })
+            {
+                let err = if let Some(ref ret_ty) = f.return_type {
+                    if let Some(ref body) = f.body {
+                        // Validate function's return type.
+                        match analyzer.infer_return_type(&body) {
+                            Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
+                            Ok(None) => {
+                                if ret_ty.type_ann.is_any()
+                                    || ret_ty.type_ann.is_unknown()
+                                    || ret_ty.type_ann.contains_void()
+                                {
+                                    None
+                                } else {
+                                    Some(Error::ReturnRequired {
+                                        span: ret_ty.span(),
+                                    })
+                                }
                             }
+                            Err(err) => Some(err),
                         }
-                        Err(err) => Some(err),
+                    } else {
+                        None
                     }
                 } else {
                     None
+                };
+                if let Some(err) = err {
+                    analyzer.info.errors.push(err);
                 }
-            } else {
-                None
-            };
-            if let Some(err) = err {
-                analyzer.info.errors.push(err);
             }
-        }
 
-        self.info.errors.extend(analyzer.info.errors);
+            analyzer.info
+        };
+
+        assert_eq!(info.exports, Default::default());
+        self.info.errors.extend(info.errors);
     }
 }
 
 impl Visit<ArrowExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &ArrowExpr) {
-        let mut analyzer = self.child(ScopeKind::Fn);
+        let info = {
+            let mut analyzer = self.child(ScopeKind::Fn);
 
-        f.params
-            .iter()
-            .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
+            f.params
+                .iter()
+                .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
 
-        match f.body {
-            BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
-            BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(&mut analyzer),
-        }
+            match f.body {
+                BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
+                BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(&mut analyzer),
+            }
+            analyzer.info
+        };
 
-        self.info.errors.extend(analyzer.info.errors)
+        assert_eq!(info.exports, Default::default());
+        self.info.errors.extend(info.errors)
     }
 }
 
 impl Visit<BlockStmt> for Analyzer<'_, '_> {
     fn visit(&mut self, stmt: &BlockStmt) {
-        let mut analyzer = self.child(ScopeKind::Block);
+        let info = {
+            let mut analyzer = self.child(ScopeKind::Block);
 
-        stmt.visit_children(&mut analyzer);
+            stmt.visit_children(&mut analyzer);
 
-        self.info.errors.extend(analyzer.info.errors)
+            analyzer.info
+        };
+
+        assert_eq!(info.exports, Default::default());
+        self.info.errors.extend(info.errors)
     }
 }
 
@@ -447,7 +461,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
 
-                        let ty = value_ty.generalize_lit();
+                        let ty = value_ty.generalize_lit().into_owned();
 
                         self.scope.declare_var(
                             kind,
@@ -455,7 +469,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 Pat::Ident(ref i) => i.sym.clone(),
                                 _ => unimplemented!("declare_var with complex type inference"),
                             },
-                            Some(ty.into_owned()),
+                            Some(ty),
                             // initialized
                             true,
                             // Variable declarations does not allow multiple declarations with same
