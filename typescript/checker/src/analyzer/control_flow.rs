@@ -159,7 +159,7 @@ impl Analyzer<'_, '_> {
     fn add_true_false(&self, facts: &mut Facts, sym: &JsWord, ty: Cow<TsType>) {
         macro_rules! base {
             () => {{
-                match self.find_var(sym) {
+                match self.find_var(&sym) {
                     Some(v) => VarInfo {
                         copied: true,
                         ..v.clone()
@@ -264,7 +264,9 @@ impl Analyzer<'_, '_> {
                 ref right,
                 ..
             }) => {
-                // Check typeof a === 'string'
+                let l_ty = self.type_of(left)?.generalize_lit();
+                let r_ty = self.type_of(right)?.generalize_lit();
+
                 match op {
                     op!("===") | op!("!==") | op!("==") | op!("!=") => {
                         let is_eq = op == op!("===") || op == op!("==");
@@ -274,46 +276,80 @@ impl Analyzer<'_, '_> {
                             right: &**right,
                         };
 
-                        match c.take(|l, r| match l {
-                            Expr::Unary(UnaryExpr {
-                                op: op!("typeof"),
-                                ref arg,
-                                ..
-                            }) => match r {
-                                Expr::Lit(Lit::Str(Str { ref value, .. })) => Some((
-                                    Name::try_from(&**arg),
-                                    if is_eq {
-                                        (
-                                            TypeFacts::typeof_eq(&*value),
-                                            TypeFacts::typeof_neq(&*value),
-                                        )
-                                    } else {
-                                        (
-                                            TypeFacts::typeof_neq(&*value),
-                                            TypeFacts::typeof_eq(&*value),
-                                        )
-                                    },
-                                )),
+                        // Check typeof a === 'string'
+                        {
+                            match c.take(|l, r| match l {
+                                Expr::Unary(UnaryExpr {
+                                    op: op!("typeof"),
+                                    ref arg,
+                                    ..
+                                }) => match r {
+                                    Expr::Lit(Lit::Str(Str { ref value, .. })) => Some((
+                                        Name::try_from(&**arg),
+                                        if is_eq {
+                                            (
+                                                TypeFacts::typeof_eq(&*value),
+                                                TypeFacts::typeof_neq(&*value),
+                                            )
+                                        } else {
+                                            (
+                                                TypeFacts::typeof_neq(&*value),
+                                                TypeFacts::typeof_eq(&*value),
+                                            )
+                                        },
+                                    )),
+                                    _ => None,
+                                },
                                 _ => None,
-                            },
-                            _ => None,
-                        }) {
-                            Some((Ok(name), (Some(t), Some(f)))) => {
-                                // Add type facts
+                            }) {
+                                Some((Ok(name), (Some(t), Some(f)))) => {
+                                    // Add type facts
 
-                                facts.true_facts.facts.insert(name.clone(), t);
-                                facts.false_facts.facts.insert(name.clone(), f);
-                                return Ok(());
+                                    facts.true_facts.facts.insert(name.clone(), t);
+                                    facts.false_facts.facts.insert(name.clone(), f);
+                                    return Ok(());
+                                }
+                                _ => {}
                             }
-                            _ => {}
+                        }
+
+                        // Try narrowing type
+                        if is_eq {
+                            let c_ty = Comparator {
+                                left: (&**left, &*l_ty),
+                                right: (&**right, &*r_ty),
+                            };
+                            println!("narrowing type.\n{:#?}", c_ty);
+
+                            match c_ty.take(|(l, l_ty), (r, r_ty)| match l_ty {
+                                TsType::TsKeywordType(TsKeywordType {
+                                    kind: TsKeywordTypeKind::TsUnknownKeyword,
+                                    ..
+                                }) => {
+                                    //
+                                    Some((Name::try_from(l), r_ty))
+                                }
+                                _ => None,
+                            }) {
+                                Some((Ok(name), ty)) => {
+                                    facts.true_facts.types.insert(
+                                        name,
+                                        VarInfo {
+                                            kind: VarDeclKind::Const,
+                                            initialized: true,
+                                            copied: true,
+                                            ty: Some(ty.clone()),
+                                        },
+                                    );
+                                    return Ok(());
+                                }
+                                _ => {}
+                            }
                         }
                     }
 
                     _ => {}
                 }
-
-                let l_ty = self.type_of(left)?.generalize_lit();
-                let r_ty = self.type_of(right)?.generalize_lit();
 
                 unimplemented!("detect_facts({:?})", test)
             }
