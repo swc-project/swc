@@ -319,7 +319,6 @@ impl Analyzer<'_, '_> {
                                 left: (&**left, &*l_ty),
                                 right: (&**right, &*r_ty),
                             };
-                            println!("narrowing type.\n{:#?}", c_ty);
 
                             match c_ty.take(|(l, l_ty), (r, r_ty)| match l_ty {
                                 TsType::TsKeywordType(TsKeywordType {
