@@ -70,9 +70,9 @@ impl Analyzer<'_, '_> {
                             spread: None,
                             ref expr,
                         }) => {
-                            let ty = self.type_of(expr)?.into_owned().generalize_lit();
+                            let ty = self.type_of(expr)?.generalize_lit();
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty)
+                                types.push(ty.into_owned())
                             }
                         }
                         Some(ExprOrSpread {

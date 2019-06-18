@@ -443,7 +443,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
 
-                        let ty = value_ty.into_owned().generalize_lit();
+                        let ty = value_ty.generalize_lit();
 
                         self.scope.declare_var(
                             kind,
@@ -451,7 +451,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 Pat::Ident(ref i) => i.sym.clone(),
                                 _ => unimplemented!("declare_var with complex type inference"),
                             },
-                            Some(ty),
+                            Some(ty.into_owned()),
                             // initialized
                             true,
                             // Variable declarations does not allow multiple declarations with same
