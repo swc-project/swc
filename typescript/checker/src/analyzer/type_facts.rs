@@ -213,7 +213,7 @@ add_bitflags!(
 impl TypeFacts {
     pub fn typeof_eq(s: &str) -> Option<Self> {
         Some(match s {
-            "string:" => TypeFacts::TypeofEQString,
+            "string" => TypeFacts::TypeofEQString,
             "number" => TypeFacts::TypeofEQNumber,
             "bigint" => TypeFacts::TypeofEQBigInt,
             "boolean" => TypeFacts::TypeofEQBoolean,
@@ -226,7 +226,7 @@ impl TypeFacts {
     }
     pub fn typeof_neq(s: &str) -> Option<Self> {
         Some(match s {
-            "string:" => TypeFacts::TypeofNEString,
+            "string" => TypeFacts::TypeofNEString,
             "number" => TypeFacts::TypeofNENumber,
             "bigint" => TypeFacts::TypeofNEBigInt,
             "boolean" => TypeFacts::TypeofNEBoolean,
