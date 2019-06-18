@@ -1,4 +1,5 @@
 use smallvec::{smallvec, SmallVec};
+use std::convert::TryFrom;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 
@@ -30,5 +31,17 @@ impl From<JsWord> for Name {
     #[inline(always)]
     fn from(v: JsWord) -> Name {
         Name(smallvec![v])
+    }
+}
+
+impl TryFrom<&'_ Expr> for Name {
+    type Error = ();
+
+    fn try_from(e: &Expr) -> Result<Self, Self::Error> {
+        match *e {
+            Expr::Ident(ref i) => Ok(i.into()),
+            // TODO
+            _ => Err(()),
+        }
     }
 }

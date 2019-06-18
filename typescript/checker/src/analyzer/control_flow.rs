@@ -2,12 +2,13 @@ use super::{
     export::ExportExtra,
     expr::{any, never_ty},
     scope::{ScopeKind, VarInfo},
-    util::TypeRefExt,
-    Analyzer,
+    type_facts::TypeFacts,
+    util::{TypeExt, TypeRefExt},
+    Analyzer, Name,
 };
 use crate::errors::Error;
 use fxhash::FxHashMap;
-use std::{borrow::Cow, ops::AddAssign};
+use std::{borrow::Cow, convert::TryFrom, ops::AddAssign};
 use swc_atoms::JsWord;
 use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -39,7 +40,8 @@ impl AddAssign<Option<Self>> for Facts {
 /// Conditional facts
 #[derive(Debug, Default)]
 struct CondFacts {
-    types: FxHashMap<JsWord, VarInfo>,
+    facts: FxHashMap<Name, TypeFacts>,
+    types: FxHashMap<Name, VarInfo>,
 }
 
 impl AddAssign for CondFacts {
@@ -170,14 +172,14 @@ impl Analyzer<'_, '_> {
         }
 
         facts.true_facts.types.insert(
-            sym.clone(),
+            sym.into(),
             VarInfo {
                 ty: Some(ty.clone().into_owned().remove_falsy()),
                 ..base!()
             },
         );
         facts.false_facts.types.insert(
-            sym.clone(),
+            sym.into(),
             VarInfo {
                 ty: Some(ty.into_owned().remove_truthy()),
                 ..base!()
@@ -251,24 +253,96 @@ impl Analyzer<'_, '_> {
                 ref right,
                 ..
             }) => {
+                // order is important
                 self.detect_facts(left, facts)?;
                 self.detect_facts(right, facts)?;
             }
 
             Expr::Bin(BinExpr {
-                op: op!("==="),
+                op,
                 ref left,
                 ref right,
                 ..
             }) => {
-                let l_ty = self.type_of(left)?;
-                let r_ty = self.type_of(right)?;
-            }
+                match op {
+                    op!("===") | op!("!==") | op!("==") | op!("!=") => {
+                        let is_eq = op == op!("===") || op == op!("==");
 
+                        let c = Comparator {
+                            left: &**left,
+                            right: &**right,
+                        };
+
+                        // Check typeof a === 'string'
+                        match c.take(|l, r| match l {
+                            Expr::Unary(UnaryExpr {
+                                op: op!("typeof"),
+                                ref arg,
+                                ..
+                            }) => match r {
+                                Expr::Lit(Lit::Str(Str { ref value, .. })) => Some((
+                                    Name::try_from(&**arg),
+                                    if is_eq {
+                                        (
+                                            TypeFacts::typeof_eq(&*value),
+                                            TypeFacts::typeof_neq(&*value),
+                                        )
+                                    } else {
+                                        (
+                                            TypeFacts::typeof_neq(&*value),
+                                            TypeFacts::typeof_eq(&*value),
+                                        )
+                                    },
+                                )),
+                                _ => None,
+                            },
+                            _ => None,
+                        }) {
+                            Some((Ok(name), (Some(t), Some(f)))) => {
+                                // Add type facts
+
+                                facts.true_facts.facts.insert(name.clone(), t);
+                                facts.false_facts.facts.insert(name.clone(), f);
+                                return Ok(());
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    _ => {}
+                }
+
+                let l_ty = self.type_of(left)?.generalize_lit();
+                let r_ty = self.type_of(right)?.generalize_lit();
+
+                unimplemented!("detect_facts({:?})", test)
+            }
             _ => unimplemented!("detect_facts({:?})", test),
         }
 
         Ok(())
+    }
+}
+
+/// SImple utility to check (l, r) and (r, l) with same code.
+#[derive(Debug, Clone, Copy)]
+struct Comparator<T>
+where
+    T: Copy,
+{
+    left: T,
+    right: T,
+}
+
+impl<T> Comparator<T>
+where
+    T: Copy,
+{
+    fn take<F, R>(&self, mut op: F) -> Option<R>
+    where
+        F: FnMut(T, T) -> Option<R>,
+    {
+        op(self.left, self.right).or_else(|| op(self.right, self.left))
     }
 }
 
