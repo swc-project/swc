@@ -264,6 +264,7 @@ impl Analyzer<'_, '_> {
                 ref right,
                 ..
             }) => {
+                // Check typeof a === 'string'
                 match op {
                     op!("===") | op!("!==") | op!("==") | op!("!=") => {
                         let is_eq = op == op!("===") || op == op!("==");
@@ -273,7 +274,6 @@ impl Analyzer<'_, '_> {
                             right: &**right,
                         };
 
-                        // Check typeof a === 'string'
                         match c.take(|l, r| match l {
                             Expr::Unary(UnaryExpr {
                                 op: op!("typeof"),
