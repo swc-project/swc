@@ -17,6 +17,7 @@ fxhash = "0.2"
 node-resolve = "2.2"
 lazy_static = "1"
 backtrace = "0.3"
+smallvec = "0.6"
 
 [dev-dependencies]
 testing = { version = "0.3", path ="../../testing" }

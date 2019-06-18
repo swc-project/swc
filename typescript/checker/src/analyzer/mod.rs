@@ -1,4 +1,7 @@
-pub use self::export::{ExportExtra, ExportInfo};
+pub use self::{
+    export::{ExportExtra, ExportInfo},
+    name::Name,
+};
 use self::{
     scope::{Scope, ScopeKind},
     util::{PatExt, TypeExt, TypeRefExt},
@@ -15,6 +18,7 @@ use swc_ecma_ast::*;
 mod control_flow;
 mod export;
 mod expr;
+mod name;
 mod scope;
 #[cfg(test)]
 mod tests;

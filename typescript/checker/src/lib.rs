@@ -11,6 +11,7 @@ extern crate fxhash;
 extern crate lazy_static;
 extern crate node_resolve;
 extern crate rayon;
+extern crate smallvec;
 extern crate swc_atoms;
 #[macro_use]
 extern crate swc_common;
