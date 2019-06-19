@@ -6,41 +6,6 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
-#[derive(Debug, PartialEq, Default)]
-pub struct ExportInfo {
-    pub ty: Option<TsType>,
-    pub extra: Option<ExportExtra>,
-}
-
-impl From<TsType> for ExportInfo {
-    fn from(ty: TsType) -> Self {
-        ExportInfo {
-            ty: Some(ty),
-            extra: None,
-        }
-    }
-}
-
-impl From<ExportExtra> for ExportInfo {
-    fn from(extra: ExportExtra) -> Self {
-        ExportInfo {
-            ty: None,
-            extra: Some(extra),
-        }
-    }
-}
-
-#[derive(Debug, PartialEq)]
-pub enum ExportExtra {
-    Interface(TsInterfaceDecl),
-    Enum(TsEnumDecl),
-    /// export type A<B> = Foo<B>;
-    Alias(TsTypeAliasDecl),
-    Namespace(TsNamespaceDecl),
-    Module(TsModuleDecl),
-    Class(ClassDecl),
-}
-
 // ModuleDecl::ExportNamed(export) => {}
 //
 // ModuleDecl::ExportAll(export) => unimplemented!("export * from
@@ -82,7 +47,7 @@ impl Analyzer<'_, '_> {
             let ty = match exported_sym
                 .and_then(|exported_sym| self.scope.types.get_mut(&exported_sym))
             {
-                Some(export) => mem::replace(export, ExportInfo::default()),
+                Some(export) => mem::replace(export, Default::default()),
                 None => match self.type_of(&expr) {
                     Ok(ty) => ty.into_owned().into(),
                     Err(err) => {
@@ -144,10 +109,9 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
             Decl::TsEnum(ref e) => {
                 // TODO(kdy1): Allow multiple exports with same name.
                 debug_assert_eq!(self.info.exports.get(&e.id.sym), None);
-                self.info.exports.insert(
-                    e.id.sym.clone(),
-                    Arc::new(ExportExtra::Enum(e.clone()).into()),
-                );
+                self.info
+                    .exports
+                    .insert(e.id.sym.clone(), Arc::new(e.clone().into()));
             }
             Decl::TsModule(..) => unimplemented!("export module "),
             Decl::TsTypeAlias(ref decl) => {
@@ -156,10 +120,9 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
 
                 // TODO(kdy1): Handle type parameters.
 
-                self.info.exports.insert(
-                    decl.id.sym.clone(),
-                    Arc::new(ExportExtra::Alias(decl.clone()).into()),
-                );
+                self.info
+                    .exports
+                    .insert(decl.id.sym.clone(), Arc::new(decl.clone().into()));
             }
         }
     }
@@ -195,9 +158,7 @@ impl Analyzer<'_, '_> {
         // TODO(kdy1): Allow multiple exports with same name.
         debug_assert_eq!(self.info.exports.get(&name), None);
 
-        self.info
-            .exports
-            .insert(name, Arc::new(ExportExtra::Interface(i.clone()).into()));
+        self.info.exports.insert(name, Arc::new(i.clone().into()));
     }
 
     fn export_fn(&mut self, name: JsWord, f: &Function) -> Result<(), Error> {

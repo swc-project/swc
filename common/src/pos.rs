@@ -1,5 +1,6 @@
 #[cfg(feature = "fold")]
 use fold::{FoldWith, VisitWith};
+use std::borrow::Cow;
 pub use syntax_pos::{
     hygiene, BytePos, CharPos, ExpnInfo, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan,
     SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError,
@@ -12,6 +13,16 @@ pub use syntax_pos::{
 pub trait Spanned {
     /// Get span of `self`.
     fn span(&self) -> Span;
+}
+
+impl<'a, T> Spanned for Cow<'a, T>
+where
+    T: Spanned + Clone,
+{
+    #[inline(always)]
+    fn span(&self) -> Span {
+        (**self).span()
+    }
 }
 
 impl Spanned for Span {

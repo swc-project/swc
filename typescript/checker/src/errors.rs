@@ -1,3 +1,4 @@
+use crate::ty::Type;
 use std::{ops::RangeInclusive, path::PathBuf};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span, Spanned};
@@ -34,9 +35,9 @@ pub enum Error {
 
     AssignFailed {
         #[span(lo)]
-        left: TsType,
+        left: Type<'static>,
         #[span(hi)]
-        right: TsType,
+        right: Type<'static>,
         cause: Vec<Error>,
     },
 

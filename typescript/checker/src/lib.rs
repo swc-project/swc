@@ -36,6 +36,7 @@ pub mod loader;
 pub mod resolver;
 #[cfg(test)]
 mod tests;
+pub mod ty;
 mod util;
 
 /// Module with information.

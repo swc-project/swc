@@ -1,8 +1,9 @@
 use super::Checker;
 use crate::{
-    analyzer::{ExportInfo, ImportInfo, Specifier},
+    analyzer::{ImportInfo, Specifier},
     errors::Error,
     resolver::Resolve,
+    ty::Type,
 };
 use fxhash::FxHashMap;
 use std::{path::PathBuf, sync::Arc};
@@ -13,7 +14,7 @@ pub trait Load: Send + Sync {
         &self,
         base: Arc<PathBuf>,
         import: &ImportInfo,
-    ) -> Result<FxHashMap<JsWord, Arc<ExportInfo>>, Error>;
+    ) -> Result<FxHashMap<JsWord, Arc<Type<'static>>>, Error>;
 }
 
 impl Load for Checker<'_> {
@@ -21,7 +22,7 @@ impl Load for Checker<'_> {
         &self,
         base: Arc<PathBuf>,
         import: &ImportInfo,
-    ) -> Result<FxHashMap<JsWord, Arc<ExportInfo>>, Error> {
+    ) -> Result<FxHashMap<JsWord, Arc<Type<'static>>>, Error> {
         let mut result = FxHashMap::default();
         let mut errors = vec![];
 
@@ -72,7 +73,7 @@ where
         &self,
         base: Arc<PathBuf>,
         import: &ImportInfo,
-    ) -> Result<FxHashMap<JsWord, Arc<ExportInfo>>, Error> {
+    ) -> Result<FxHashMap<JsWord, Arc<Type<'static>>>, Error> {
         (**self).load(base, import)
     }
 }

@@ -1,3 +1,4 @@
+use crate::ty::Type;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -85,7 +86,7 @@ macro_rules! impl_by_clone {
         }
     };
 }
-
+impl_by_clone!(Type<'_>);
 impl_by_clone!(TsType);
 impl_by_clone!(Expr);
 impl_by_clone!(TsTypeElement);

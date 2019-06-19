@@ -1,5 +1,7 @@
-use super::{control_flow::CondFacts, export::ExportInfo, expr::any, Analyzer, Name};
+use super::{control_flow::CondFacts, expr::any, Analyzer, Name};
+use crate::ty::Type;
 use fxhash::FxHashMap;
+use std::borrow::Cow;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -8,7 +10,7 @@ use swc_ecma_ast::*;
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
     pub initialized: bool,
-    pub ty: Option<TsType>,
+    pub ty: Option<Type<'static>>,
     /// Copied from parent scope. If this is true, it's not a variable
     /// declaration.
     pub copied: bool,
@@ -30,7 +32,7 @@ pub(super) struct Scope<'a> {
     /// string; } }`
     ///
     /// TODO(kdy1): Use vector (for performance)
-    pub(super) types: FxHashMap<JsWord, ExportInfo>,
+    pub(super) types: FxHashMap<JsWord, Type<'a>>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.
@@ -63,7 +65,7 @@ impl<'a> Scope<'a> {
     }
 }
 
-impl Scope<'_> {
+impl<'a> Scope<'a> {
     pub(super) fn depth(&self) -> usize {
         match self.parent {
             Some(ref p) => p.depth() + 1,
@@ -89,7 +91,7 @@ impl Scope<'_> {
         &mut self,
         kind: VarDeclKind,
         name: JsWord,
-        ty: Option<TsType>,
+        ty: Option<Type<'static>>,
         initialized: bool,
         allow_multiple: bool,
     ) {
@@ -110,7 +112,11 @@ impl Scope<'_> {
                 self.declare_var(
                     kind,
                     name,
-                    i.type_ann.as_ref().map(|t| &*t.type_ann).cloned(),
+                    i.type_ann
+                        .as_ref()
+                        .map(|t| &*t.type_ann)
+                        .cloned()
+                        .map(Type::from),
                     // initialized
                     true,
                     // allow_multiple
@@ -125,9 +131,9 @@ impl Scope<'_> {
     }
 
     /// This method does cannot handle imported types.
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<Type> {
         if let Some(ty) = self.types.get(name) {
-            return Some(ty);
+            return Some(*ty);
         }
 
         match self.parent {
@@ -136,12 +142,10 @@ impl Scope<'_> {
         }
     }
 
-    pub fn register_type(&mut self, name: JsWord, data: ExportInfo) {
+    pub fn register_type(&mut self, name: JsWord, data: Type<'a>) {
         self.types.insert(name, data);
     }
 }
-
-static ANY_TY: TsType = any(DUMMY_SP);
 
 impl Analyzer<'_, '_> {
     #[inline(never)]
@@ -171,40 +175,33 @@ impl Analyzer<'_, '_> {
     }
 
     #[inline]
-    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
+    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<Type> {
         println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
-            if let Some(v) = s
-                .facts
-                .types
-                .get(&Name::from(name))
-                .and_then(|v| v.ty.as_ref())
-            {
+            if let Some(v) = s.facts.types.get(&Name::from(name)).and_then(|v| v.ty) {
                 return Some(v);
             }
 
             scope = s.parent;
         }
 
-        self.find_var(name).and_then(|v| v.ty.as_ref())
+        self.find_var(name).and_then(|v| v.ty)
     }
 
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<&ExportInfo> {
-        static ANY: ExportInfo = ExportInfo {
-            ty: Some(TsType::TsKeywordType(TsKeywordType {
-                span: DUMMY_SP,
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-            })),
-            extra: None,
-        };
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<Type> {
+        static ANY_TY: TsType = TsType::TsKeywordType(TsKeywordType {
+            span: DUMMY_SP,
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+        });
+        static ANY: Type = Type::Simple(Cow::Borrowed(&ANY_TY));
 
         if self.errored_imports.get(name).is_some() {
-            return Some(&ANY);
+            return Some(ANY);
         }
 
         if let Some(ty) = self.resolved_imports.get(name) {
-            return Some(&ty);
+            return Some(**ty);
         }
 
         if let Some(ty) = self.scope.find_type(name) {

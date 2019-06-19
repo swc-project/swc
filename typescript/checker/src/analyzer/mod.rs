@@ -1,17 +1,13 @@
+pub use self::name::Name;
 use self::{
-    control_flow::CondFacts,
     scope::{Scope, ScopeKind},
-    util::{PatExt, TypeExt, TypeRefExt},
-};
-pub use self::{
-    export::{ExportExtra, ExportInfo},
-    name::Name,
+    util::{PatExt, TypeExt},
 };
 use super::Checker;
-use crate::{builtin_types::Lib, errors::Error, loader::Load, Rule};
+use crate::{builtin_types::Lib, errors::Error, loader::Load, ty::Type, Rule};
 use fxhash::{FxHashMap, FxHashSet};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-use std::{borrow::Cow, path::PathBuf, sync::Arc};
+use std::{path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -28,9 +24,7 @@ mod util;
 
 struct Analyzer<'a, 'b> {
     info: Info,
-    /// TODO(kdy1): Use vector (for performance)
-    resolved_imports: FxHashMap<JsWord, Arc<ExportInfo>>,
-    /// TODO(kdy1): Use vector (for performance)
+    resolved_imports: FxHashMap<JsWord, Arc<Type<'static>>>,
     errored_imports: FxHashSet<JsWord>,
     pending_exports: Vec<((JsWord, Span), Box<Expr>)>,
     scope: Scope<'a>,
@@ -112,24 +106,22 @@ impl Visit<TsModuleDecl> for Analyzer<'_, '_> {
                 TsModuleName::Ident(ref i) => i.sym.clone(),
                 TsModuleName::Str(ref s) => s.value.clone(),
             },
-            ExportExtra::Module(decl.clone()).into(),
+            decl.clone().into(),
         );
     }
 }
 
 impl Visit<TsInterfaceDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, decl: &TsInterfaceDecl) {
-        self.scope.register_type(
-            decl.id.sym.clone(),
-            ExportExtra::Interface(decl.clone()).into(),
-        );
+        self.scope
+            .register_type(decl.id.sym.clone(), decl.clone().into());
     }
 }
 
 impl Visit<TsTypeAliasDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, decl: &TsTypeAliasDecl) {
         self.scope
-            .register_type(decl.id.sym.clone(), ExportExtra::Alias(decl.clone()).into());
+            .register_type(decl.id.sym.clone(), decl.clone().into());
 
         // TODO(kdy1): Validate type
     }
@@ -231,7 +223,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
 
 #[derive(Debug, Default)]
 pub struct Info {
-    pub exports: FxHashMap<JsWord, Arc<ExportInfo>>,
+    pub exports: FxHashMap<JsWord, Arc<Type<'static>>>,
     pub errors: Vec<Error>,
 }
 
@@ -253,8 +245,7 @@ impl Visit<TsEnumDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, e: &TsEnumDecl) {
         e.visit_children(self);
 
-        self.scope
-            .register_type(e.id.sym.clone(), ExportExtra::Enum(e.clone()).into());
+        self.scope.register_type(e.id.sym.clone(), e.clone().into());
     }
 }
 
@@ -271,10 +262,11 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
                     span: c.span(),
                     kind: TsKeywordTypeKind::TsAnyKeyword,
                 })
+                .into()
             }
         };
         self.scope
-            .register_type(c.ident.sym.clone(), ExportExtra::Class(c.clone()).into());
+            .register_type(c.ident.sym.clone(), c.clone().into());
         self.scope.declare_var(
             VarDeclKind::Var,
             c.ident.sym.clone(),
@@ -299,6 +291,7 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
                     span: f.span(),
                     kind: TsKeywordTypeKind::TsAnyKeyword,
                 })
+                .into()
             }
         };
         self.scope.declare_var(
@@ -327,15 +320,13 @@ impl Visit<Function> for Analyzer<'_, '_> {
             }
 
             {
-                let err = if let Some(ref ret_ty) = f.return_type {
+                let err = if let Some(ref ret_ty) = f.return_type.map(Type::from) {
                     if let Some(ref body) = f.body {
                         // Validate function's return type.
                         match child.infer_return_type(&body) {
-                            Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
+                            Ok(Some(ty)) => ty.assign_to(ret_ty),
                             Ok(None) => {
-                                if ret_ty.type_ann.is_any()
-                                    || ret_ty.type_ann.is_unknown()
-                                    || ret_ty.type_ann.contains_void()
+                                if ret_ty.is_any() || ret_ty.is_unknown() || ret_ty.contains_void()
                                 {
                                     None
                                 } else {
@@ -391,14 +382,14 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
             .type_of(&expr.right)
             .and_then(|ty| self.expand(span, ty))
         {
-            Ok(rhs_ty) => rhs_ty.into_owned(),
+            Ok(rhs_ty) => rhs_ty,
             Err(err) => {
                 self.info.errors.push(err);
                 return;
             }
         };
         if expr.op == op!("=") {
-            self.try_assign(&expr.left, Cow::Owned(rhs_ty));
+            self.try_assign(&expr.left, rhs_ty);
         }
     }
 }
@@ -424,14 +415,14 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
                 match v.name.get_ty() {
                     Some(ty) => {
-                        let ty = match self.expand(span, Cow::Borrowed(ty)) {
+                        let ty = match self.expand(span, Type::from(ty)) {
                             Ok(ty) => ty,
                             Err(err) => {
                                 self.info.errors.push(err);
                                 return;
                             }
                         };
-                        let errors = value_ty.assign_to(&*ty);
+                        let errors = value_ty.assign_to(&ty);
                         if errors.is_none() {
                             self.scope.declare_vars(kind, &v.name);
                             return;

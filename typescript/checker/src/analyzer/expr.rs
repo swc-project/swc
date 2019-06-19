@@ -1,17 +1,12 @@
-use super::{
-    control_flow::RemoveTypes,
-    export::{pat_to_ts_fn_param, ExportExtra},
-    util::TypeExt,
-    Analyzer,
-};
-use crate::{builtin_types, errors::Error, util::EqIgnoreSpan};
+use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
+use crate::{builtin_types, errors::Error, ty::Type, util::EqIgnoreSpan};
 use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<Cow<'e, TsType>, Error> {
+    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<Type<'e>, Error> {
         let span = expr.span();
 
         Ok(match *expr {
@@ -27,22 +22,8 @@ impl Analyzer<'_, '_> {
                     unreachable!("typeof(require('...'))");
                 }
 
-                if let Some(v) = self.resolved_imports.get(&i.sym) {
-                    if let Some(ref ty) = v.ty {
-                        return Ok(Cow::Borrowed(ty));
-                    }
-
-                    match self.expand(
-                        span,
-                        Cow::Owned(TsType::TsTypeRef(TsTypeRef {
-                            span,
-                            type_name: TsEntityName::Ident(i.clone()),
-                            type_params: None,
-                        })),
-                    ) {
-                        Ok(ty) => return Ok(ty),
-                        Err(..) => {}
-                    }
+                if let Some(ty) = self.resolved_imports.get(&i.sym) {
+                    return Ok(ty);
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
@@ -269,25 +250,24 @@ impl Analyzer<'_, '_> {
             }) => {
                 match **obj {
                     Expr::Ident(ref i) => {
-                        if let Some(ty) = self.scope.find_type(&i.sym) {
-                            if let Some(ExportExtra::Enum(ref e)) = ty.extra {
-                                // TODO(kdy1): Check if variant exists.
-                                return Ok(Cow::Owned(TsType::TsTypeRef(TsTypeRef {
-                                    span,
-                                    type_name: TsEntityName::TsQualifiedName(box TsQualifiedName {
-                                        left: TsEntityName::Ident(i.clone()),
-                                        right: match **prop {
-                                            Expr::Ident(ref v) => v.clone(),
-                                            _ => unimplemented!(
-                                                "error reporting: typeof(non-ident property of \
-                                                 enum)\nEnum.{:?} ",
-                                                prop
-                                            ),
-                                        },
-                                    }),
-                                    type_params: None,
-                                })));
-                            }
+                        if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
+                            // TODO(kdy1): Check if variant exists.
+                            return Ok(TsType::TsTypeRef(TsTypeRef {
+                                span,
+                                type_name: TsEntityName::TsQualifiedName(box TsQualifiedName {
+                                    left: TsEntityName::Ident(i.clone()),
+                                    right: match **prop {
+                                        Expr::Ident(ref v) => v.clone(),
+                                        _ => unimplemented!(
+                                            "error reporting: typeof(non-ident property of \
+                                             enum)\nEnum.{:?} ",
+                                            prop
+                                        ),
+                                    },
+                                }),
+                                type_params: None,
+                            })
+                            .into());
                         }
                     }
                     _ => {}
@@ -386,7 +366,7 @@ impl Analyzer<'_, '_> {
         .into()
     }
 
-    pub(super) fn type_of_class(&self, c: &Class) -> Result<TsType, Error> {
+    pub(super) fn type_of_class(&self, c: &Class) -> Result<Type<'static>, Error> {
         let mut type_props = vec![];
         for member in &c.body {
             let span = member.span();
@@ -473,7 +453,10 @@ impl Analyzer<'_, '_> {
         }))
     }
 
-    pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<Option<TsType>, Error> {
+    pub(super) fn infer_return_type(
+        &self,
+        body: &BlockStmt,
+    ) -> Result<Option<Type<'static>>, Error> {
         let mut types = vec![];
 
         struct Visitor<'a> {
@@ -546,7 +529,7 @@ impl Analyzer<'_, '_> {
         ))
     }
 
-    pub(super) fn type_of_fn(&self, f: &Function) -> Result<TsType, Error> {
+    pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
         let ret_ty = match f.return_type {
             Some(ref ret_ty) => self.expand(f.span, Cow::Borrowed(&*ret_ty.type_ann))?,
             None => match f.body {
@@ -570,6 +553,7 @@ impl Analyzer<'_, '_> {
                 },
             }),
         ))
+        .map(Type::from)
     }
 
     fn extract_call_new_expr(
@@ -578,7 +562,7 @@ impl Analyzer<'_, '_> {
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Cow<TsType>, Error> {
+    ) -> Result<Type, Error> {
         let span = callee.span();
 
         match *callee {
@@ -601,14 +585,13 @@ impl Analyzer<'_, '_> {
                     unimplemented!("dep: {:#?}", dep);
                 }
 
-                if let Some(ty) = self.scope.find_type(&i.sym) {
-                    if let Some(ExportExtra::Enum(ref e)) = ty.extra {
-                        return Ok(Cow::Owned(TsType::TsTypeRef(TsTypeRef {
-                            span,
-                            type_name: TsEntityName::Ident(i.clone()),
-                            type_params: None,
-                        })));
-                    }
+                if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
+                    return Ok(TsType::TsTypeRef(TsTypeRef {
+                        span,
+                        type_name: TsEntityName::Ident(i.clone()),
+                        type_params: None,
+                    })
+                    .into());
                 }
 
                 Err(Error::UndefinedSymbol { span: i.span() })
@@ -623,65 +606,67 @@ impl Analyzer<'_, '_> {
                 // member expression
                 let obj_type = self.type_of(obj)?;
 
-                match *obj_type {
-                    TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
-                        // Candidates of the method call.
-                        //
-                        // 4 is just an unsientific guess
-                        let mut candidates = Vec::with_capacity(4);
+                match obj_type {
+                    Type::Simple(obj_type) => match *obj_type {
+                        TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
+                            // Candidates of the method call.
+                            //
+                            // 4 is just an unsientific guess
+                            let mut candidates = Vec::with_capacity(4);
 
-                        for m in members {
-                            match m {
-                                TsTypeElement::TsMethodSignature(ref m)
-                                    if kind == ExtractKind::Call =>
-                                {
-                                    // We are only interested on methods named `prop`
-                                    if prop.eq_ignore_span(&m.key) {
-                                        candidates.push(m.clone());
+                            for m in members {
+                                match m {
+                                    TsTypeElement::TsMethodSignature(ref m)
+                                        if kind == ExtractKind::Call =>
+                                    {
+                                        // We are only interested on methods named `prop`
+                                        if prop.eq_ignore_span(&m.key) {
+                                            candidates.push(m.clone());
+                                        }
                                     }
-                                }
 
-                                _ => {}
+                                    _ => {}
+                                }
+                            }
+
+                            match candidates.len() {
+                                0 => {}
+                                1 => {
+                                    let TsMethodSignature { type_ann, .. } =
+                                        candidates.into_iter().next().unwrap();
+
+                                    return Ok(type_ann
+                                        .map(|ty| Type::from(*ty.type_ann))
+                                        .unwrap_or_else(|| any(span)));
+                                }
+                                _ => {
+                                    //
+                                    for c in candidates {
+                                        if c.params.len() == args.len() {
+                                            return Ok(c
+                                                .type_ann
+                                                .map(|ty| Type::from(*ty.type_ann))
+                                                .unwrap_or_else(|| any(span)));
+                                        }
+                                    }
+
+                                    unimplemented!(
+                                        "multiple methods with same name and same number of \
+                                         arguments"
+                                    )
+                                }
                             }
                         }
 
-                        match candidates.len() {
-                            0 => {}
-                            1 => {
-                                let TsMethodSignature { type_ann, .. } =
-                                    candidates.into_iter().next().unwrap();
-
-                                return Ok(Cow::Owned(
-                                    type_ann.map(|ty| *ty.type_ann).unwrap_or_else(|| any(span)),
-                                ));
-                            }
-                            _ => {
-                                //
-                                for c in candidates {
-                                    if c.params.len() == args.len() {
-                                        return Ok(Cow::Owned(
-                                            c.type_ann
-                                                .map(|ty| *ty.type_ann)
-                                                .unwrap_or_else(|| any(span)),
-                                        ));
-                                    }
-                                }
-
-                                unimplemented!(
-                                    "multiple methods with same name and same number of arguments"
-                                )
-                            }
+                        TsType::TsKeywordType(TsKeywordType {
+                            kind: TsKeywordTypeKind::TsAnyKeyword,
+                            ..
+                        }) => {
+                            return Ok(any(span));
                         }
-                    }
 
-                    TsType::TsKeywordType(TsKeywordType {
-                        kind: TsKeywordTypeKind::TsAnyKeyword,
-                        ..
-                    }) => {
-                        return Ok(Cow::Owned(any(span)));
-                    }
-
-                    _ => {}
+                        _ => {}
+                    },
                 }
 
                 if computed {
@@ -703,14 +688,14 @@ impl Analyzer<'_, '_> {
         }
     }
 
-    fn extract(
-        &self,
+    fn extract<'a>(
+        &'a self,
         span: Span,
-        ty: Cow<TsType>,
+        ty: Type<'a>,
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Cow<TsType>, Error> {
+    ) -> Result<Type<'a>, Error> {
         let any = any(span);
         let ty = self.expand(span, ty)?;
 
@@ -723,139 +708,134 @@ impl Analyzer<'_, '_> {
             }};
         }
 
-        match *ty {
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-                ..
-            }) => return Ok(Cow::Owned(any)),
+        match ty {
+            Type::Simple(s_ty) => match *s_ty {
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                    ..
+                }) => return Ok(any),
 
-            TsType::TsTypeLit(ref lit) => {
-                for member in &lit.members {
-                    match *member {
-                        TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
-                            ref params,
-                            ref type_params,
-                            ref type_ann,
-                            ..
-                        }) if kind == ExtractKind::Call => {
-                            //
-                            match self
-                                .try_instantiate(
+                TsType::TsTypeLit(ref lit) => {
+                    for member in &lit.members {
+                        match *member {
+                            TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
+                                ref params,
+                                ref type_params,
+                                ref type_ann,
+                                ..
+                            }) if kind == ExtractKind::Call => {
+                                //
+                                match self.try_instantiate(
                                     span,
                                     ty.span(),
-                                    &type_ann
+                                    type_ann
                                         .as_ref()
-                                        .map(|v| &*v.type_ann)
-                                        .unwrap_or_else(|| &any),
+                                        .map(|v| Type::from(&*v.type_ann))
+                                        .unwrap_or_else(|| any),
                                     params,
                                     type_params.as_ref(),
                                     args,
                                     type_args,
-                                )
-                                .map(Cow::Owned)
-                            {
-                                Ok(v) => return Ok(v),
-                                Err(..) => {}
-                            };
-                        }
+                                ) {
+                                    Ok(v) => return Ok(v),
+                                    Err(..) => {}
+                                };
+                            }
 
-                        TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
-                            ref params,
-                            ref type_params,
-                            ref type_ann,
-                            ..
-                        }) if kind == ExtractKind::New => {
-                            match self
-                                .try_instantiate(
+                            TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
+                                ref params,
+                                ref type_params,
+                                ref type_ann,
+                                ..
+                            }) if kind == ExtractKind::New => {
+                                match self.try_instantiate(
                                     span,
                                     ty.span(),
-                                    &type_ann
+                                    type_ann
                                         .as_ref()
-                                        .map(|v| &*v.type_ann)
-                                        .unwrap_or_else(|| &any),
+                                        .map(|v| Type::from(&*v.type_ann))
+                                        .unwrap_or_else(|| any),
                                     params,
                                     type_params.as_ref(),
                                     args,
                                     type_args,
-                                )
-                                .map(Cow::Owned)
-                            {
-                                Ok(v) => return Ok(v),
-                                Err(..) => {
-                                    // TODO: Handle error
+                                ) {
+                                    Ok(v) => return Ok(v),
+                                    Err(..) => {
+                                        // TODO: Handle error
+                                    }
                                 }
                             }
+                            _ => {}
                         }
-                        _ => {}
                     }
+
+                    ret_err!()
                 }
 
-                ret_err!()
-            }
+                TsType::TsFnOrConstructorType(ref f_c) => match *f_c {
+                    TsFnOrConstructorType::TsFnType(TsFnType {
+                        ref params,
+                        ref type_params,
+                        ref type_ann,
+                        ..
+                    }) if kind == ExtractKind::Call => self.try_instantiate(
+                        span,
+                        ty.span(),
+                        Type::from(&*type_ann.type_ann),
+                        params,
+                        type_params.as_ref(),
+                        args,
+                        type_args,
+                    ),
 
-            TsType::TsFnOrConstructorType(ref f_c) => match *f_c {
-                TsFnOrConstructorType::TsFnType(TsFnType {
-                    ref params,
-                    ref type_params,
-                    ref type_ann,
-                    ..
-                }) if kind == ExtractKind::Call => self
-                    .try_instantiate(
+                    TsFnOrConstructorType::TsConstructorType(TsConstructorType {
+                        ref params,
+                        ref type_params,
+                        ref type_ann,
+                        ..
+                    }) if kind == ExtractKind::New => self.try_instantiate(
                         span,
                         ty.span(),
-                        &type_ann.type_ann,
+                        Type::from(&*type_ann.type_ann),
                         params,
                         type_params.as_ref(),
                         args,
                         type_args,
-                    )
-                    .map(Cow::Owned),
-                TsFnOrConstructorType::TsConstructorType(TsConstructorType {
-                    ref params,
-                    ref type_params,
-                    ref type_ann,
-                    ..
-                }) if kind == ExtractKind::New => self
-                    .try_instantiate(
-                        span,
-                        ty.span(),
-                        &type_ann.type_ann,
-                        params,
-                        type_params.as_ref(),
-                        args,
-                        type_args,
-                    )
-                    .map(Cow::Owned),
+                    ),
+
+                    _ => ret_err!(),
+                },
+
+                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                    ref u,
+                )) => {
+                    let mut errors = vec![];
+                    for ty in &u.types {
+                        match self.extract(span, (&**ty).into(), kind, args, type_args) {
+                            Ok(ty) => return Ok(ty),
+                            Err(err) => errors.push(err),
+                        }
+                    }
+
+                    Err(Error::UnionError { span, errors })
+                }
 
                 _ => ret_err!(),
             },
-
-            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref u)) => {
-                let mut errors = vec![];
-                for ty in &u.types {
-                    match self.extract(span, Cow::Borrowed(&*ty), kind, args, type_args) {
-                        Ok(ty) => return Ok(ty),
-                        Err(err) => errors.push(err),
-                    }
-                }
-
-                Err(Error::UnionError { span, errors })
-            }
-
-            _ => ret_err!(),
         }
     }
 
-    fn try_instantiate(
-        &self,
+    fn try_instantiate<'a>(
+        &'a self,
         span: Span,
         callee_span: Span,
-        ret_type: &TsType,
+        ret_type: Type<'a>,
         param_decls: &[TsFnParam],
         ty_params_decl: Option<&TsTypeParamDecl>,
         args: &[ExprOrSpread],
         i: Option<&TsTypeParamInstantiation>,
-    ) -> Result<TsType, Error> {
+    ) -> Result<Type<'a>, Error> {
         {
             // let type_params_len = ty_params_decl.map(|decl|
             // decl.params.len()).unwrap_or(0); let type_args_len = i.map(|v|
@@ -900,187 +880,168 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        Ok(ret_type.clone())
+        Ok(ret_type.into())
     }
 
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn expand<'t>(
-        &'t self,
-        span: Span,
-        ty: Cow<'t, TsType>,
-    ) -> Result<Cow<'t, TsType>, Error> {
-        match *ty {
-            TsType::TsTypeRef(TsTypeRef {
-                ref type_name,
-                ref type_params,
-                ..
-            }) => {
-                match *type_name {
-                    // Check for builtin types
-                    TsEntityName::Ident(ref i) => match i.sym {
-                        js_word!("Record") => {}
-                        js_word!("Readonly") => {}
-                        js_word!("ReadonlyArray") => {}
-                        js_word!("ReturnType") => {}
-                        js_word!("Partial") => {}
-                        js_word!("Required") => {}
-                        js_word!("NonNullable") => {}
-                        js_word!("Pick") => {}
-                        js_word!("Record") => {}
-                        js_word!("Extract") => {}
-                        js_word!("Exclude") => {}
+    pub(super) fn expand<'t>(&'t self, span: Span, ty: Type<'t>) -> Result<Type<'t>, Error> {
+        match ty {
+            Type::Simple(s_ty) => match *s_ty {
+                TsType::TsTypeRef(TsTypeRef {
+                    ref type_name,
+                    ref type_params,
+                    ..
+                }) => {
+                    match *type_name {
+                        // Check for builtin types
+                        TsEntityName::Ident(ref i) => match i.sym {
+                            js_word!("Record") => {}
+                            js_word!("Readonly") => {}
+                            js_word!("ReadonlyArray") => {}
+                            js_word!("ReturnType") => {}
+                            js_word!("Partial") => {}
+                            js_word!("Required") => {}
+                            js_word!("NonNullable") => {}
+                            js_word!("Pick") => {}
+                            js_word!("Record") => {}
+                            js_word!("Extract") => {}
+                            js_word!("Exclude") => {}
 
+                            _ => {}
+                        },
                         _ => {}
-                    },
-                    _ => {}
-                }
-
-                let e = (|| {
-                    fn root(n: &TsEntityName) -> &Ident {
-                        match *n {
-                            TsEntityName::TsQualifiedName(box TsQualifiedName {
-                                ref left, ..
-                            }) => root(left),
-                            TsEntityName::Ident(ref i) => i,
-                        }
                     }
 
-                    // Search imports / decls.
-                    let root = root(type_name);
-
-                    if let Some(v) = self.resolved_imports.get(&root.sym) {
-                        return Ok(&**v);
-                    }
-
-                    if let Some(v) = self.scope.find_type(&root.sym) {
-                        return Ok(v);
-                    }
-
-                    // TODO: Resolve transitive imports.
-
-                    Err(Error::Unimplemented {
-                        span: ty.span(),
-                        msg: format!(
-                            "expand_export_info({})\nFile: {}",
-                            root.sym,
-                            self.path.display()
-                        ),
-                    })
-                })()?;
-
-                match e.ty {
-                    Some(ref ty) => {
-                        assert_eq!(*type_params, None); // TODO: Error
-                        return Ok(Cow::Borrowed(ty));
-                    }
-                    None => {}
-                }
-
-                match e.extra {
-                    Some(ref extra) => {
-                        // Expand
-                        match extra {
-                            ExportExtra::Enum(..) => {
-                                assert_eq!(*type_params, None);
-
-                                return Ok(ty);
-                            }
-                            ExportExtra::Class(c) => {
-                                // TODO(kdy1): Handle type parameters.
-                                return Ok(ty);
-                            }
-
-                            ExportExtra::Module(TsModuleDecl {
-                                body: Some(body), ..
-                            })
-                            | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
-                                let mut name = type_name;
-                                let mut body = body;
-                                let mut ty = None;
-
-                                while let TsEntityName::TsQualifiedName(q) = name {
-                                    body = match body {
-                                        TsNamespaceBody::TsModuleBlock(ref module) => {
-                                            match q.left {
-                                                TsEntityName::Ident(ref left) => {
-                                                    for item in module.body.iter() {}
-                                                    return Err(Error::UndefinedSymbol {
-                                                        span: left.span,
-                                                    });
-                                                }
-                                                _ => {
-                                                    //
-                                                    unimplemented!("qname")
-                                                }
-                                            }
-                                        }
-                                        TsNamespaceBody::TsNamespaceDecl(TsNamespaceDecl {
-                                            ref id,
-                                            ref body,
-                                            ..
-                                        }) => {
-                                            match q.left {
-                                                TsEntityName::Ident(ref left) => {
-                                                    if id.sym != left.sym {
-                                                        return Err(Error::UndefinedSymbol {
-                                                            span: left.span,
-                                                        });
-                                                    }
-                                                }
-                                                _ => {}
-                                            }
-                                            //
-                                            body
-                                        }
-                                    };
-                                    name = &q.left;
-                                }
-
-                                return match ty {
-                                    Some(ty) => Ok(ty),
-                                    None => Err(Error::UndefinedSymbol { span }),
-                                };
-                            }
-                            ExportExtra::Module(..) => {
-                                assert_eq!(*type_params, None);
-
-                                unimplemented!(
-                                    "ExportExtra::Module without body cannot be instantiated"
-                                )
-                            }
-                            ExportExtra::Interface(ref i) => {
-                                // TODO: Check length of type parmaters
-                                // TODO: Instantiate type parameters
-
-                                let members = i.body.body.iter().cloned().collect();
-
-                                return Ok(Cow::Owned(TsType::TsTypeLit(TsTypeLit {
-                                    span: i.span,
-                                    members,
-                                })));
-                            }
-                            ExportExtra::Alias(ref decl) => {
-                                // TODO(kdy1): Handle type parameters.
-                                return Ok(Cow::Borrowed(&*decl.type_ann));
+                    let e = (|| {
+                        fn root(n: &TsEntityName) -> &Ident {
+                            match *n {
+                                TsEntityName::TsQualifiedName(box TsQualifiedName {
+                                    ref left,
+                                    ..
+                                }) => root(left),
+                                TsEntityName::Ident(ref i) => i,
                             }
                         }
-                    }
-                    None => unimplemented!("`ty` and `extra` are both null"),
-                }
-            }
 
-            TsType::TsTypeQuery(TsTypeQuery { ref expr_name, .. }) => match *expr_name {
-                TsEntityName::Ident(ref i) => {
-                    return Ok(Cow::Owned(
-                        self.type_of(&Expr::Ident(i.clone()))?.into_owned(),
-                    ))
+                        // Search imports / decls.
+                        let root = root(type_name);
+
+                        if let Some(v) = self.resolved_imports.get(&root.sym) {
+                            return Ok(**v);
+                        }
+
+                        if let Some(v) = self.scope.find_type(&root.sym) {
+                            return Ok(v);
+                        }
+
+                        // TODO: Resolve transitive imports.
+
+                        Err(Error::Unimplemented {
+                            span: ty.span(),
+                            msg: format!(
+                                "expand_export_info({})\nFile: {}",
+                                root.sym,
+                                self.path.display()
+                            ),
+                        })
+                    })()?;
+
+                    return Ok(ty);
+
+                    // match e.extra {
+                    //     Some(ref extra) => {
+                    //         // Expand
+                    //         match extra {
+
+                    //             ExportExtra::Module(TsModuleDecl {
+                    //                 body: Some(body), ..
+                    //             })
+                    //             | ExportExtra::Namespace(TsNamespaceDecl { box body, .. }) => {
+                    //                 let mut name = type_name;
+                    //                 let mut body = body;
+                    //                 let mut ty = None;
+
+                    //                 while let TsEntityName::TsQualifiedName(q) = name {
+                    //                     body = match body {
+                    //                         TsNamespaceBody::TsModuleBlock(ref module) => {
+                    //                             match q.left {
+                    //                                 TsEntityName::Ident(ref left) => {
+                    //                                     for item in module.body.iter() {}
+                    //                                     return Err(Error::UndefinedSymbol {
+                    //                                         span: left.span,
+                    //                                     });
+                    //                                 }
+                    //                                 _ => {
+                    //                                     //
+                    //                                     unimplemented!("qname")
+                    //                                 }
+                    //                             }
+                    //                         }
+                    //                         TsNamespaceBody::TsNamespaceDecl(TsNamespaceDecl {
+                    //                             ref id,
+                    //                             ref body,
+                    //                             ..
+                    //                         }) => {
+                    //                             match q.left {
+                    //                                 TsEntityName::Ident(ref left) => {
+                    //                                     if id.sym != left.sym {
+                    //                                         return Err(Error::UndefinedSymbol {
+                    //                                             span: left.span,
+                    //                                         });
+                    //                                     }
+                    //                                 }
+                    //                                 _ => {}
+                    //                             }
+                    //                             //
+                    //                             body
+                    //                         }
+                    //                     };
+                    //                     name = &q.left;
+                    //                 }
+
+                    //                 return match ty {
+                    //                     Some(ty) => Ok(ty),
+                    //                     None => Err(Error::UndefinedSymbol { span }),
+                    //                 };
+                    //             }
+                    //             ExportExtra::Module(..) => {
+                    //                 assert_eq!(*type_params, None);
+
+                    //                 unimplemented!(
+                    //                     "ExportExtra::Module without body cannot be instantiated"
+                    //                 )
+                    //             }
+                    //             ExportExtra::Interface(ref i) => {
+                    //                 // TODO: Check length of type parmaters
+                    //                 // TODO: Instantiate type parameters
+
+                    //                 let members = i.body.body.iter().cloned().collect();
+
+                    //                 return Ok(TsType::TsTypeLit(TsTypeLit {
+                    //                     span: i.span,
+                    //                     members,
+                    //                 })
+                    //                 .into());
+                    //             }
+                    //             ExportExtra::Alias(ref decl) => {
+                    //                 // TODO(kdy1): Handle type parameters.
+                    //                 return Ok(decl.type_ann.into());
+                    //             }
+                    //         }
+                    //     }
+                    //     None => unimplemented!("`ty` and `extra` are both null"),
+                    // }
                 }
-                _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
+
+                TsType::TsTypeQuery(TsTypeQuery { ref expr_name, .. }) => match *expr_name {
+                    TsEntityName::Ident(ref i) => return self.type_of(&Expr::Ident(i.clone())),
+                    _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
+                },
+
+                _ => {}
             },
-
-            _ => {}
         }
 
         Ok(ty)
@@ -1146,18 +1107,20 @@ fn negate(ty: Cow<TsType>) -> Cow<TsType> {
     })
 }
 
-pub const fn undefined(span: Span) -> TsType {
+pub const fn undefined(span: Span) -> Type<'static> {
     TsType::TsKeywordType(TsKeywordType {
         span,
         kind: TsKeywordTypeKind::TsUndefinedKeyword,
     })
+    .into()
 }
 
-pub const fn any(span: Span) -> TsType {
+pub const fn any(span: Span) -> Type<'static> {
     TsType::TsKeywordType(TsKeywordType {
         span,
         kind: TsKeywordTypeKind::TsAnyKeyword,
     })
+    .into()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -1,12 +1,10 @@
 use super::{
-    export::ExportExtra,
     expr::{any, never_ty},
     scope::{Scope, ScopeKind, VarInfo},
     type_facts::TypeFacts,
-    util::{TypeExt, TypeRefExt},
     Analyzer, Name,
 };
-use crate::errors::Error;
+use crate::{errors::Error, ty::Type};
 use fxhash::FxHashMap;
 use std::{
     borrow::Cow,
@@ -196,7 +194,7 @@ impl BitOr for CondFacts {
 }
 
 impl Analyzer<'_, '_> {
-    pub(super) fn try_assign(&mut self, lhs: &PatOrExpr, ty: Cow<TsType>) {
+    pub(super) fn try_assign(&mut self, lhs: &PatOrExpr, ty: Type) {
         match *lhs {
             PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => match **expr {
                 // TODO(kdy1): Validate
@@ -253,23 +251,11 @@ impl Analyzer<'_, '_> {
                                     ..var_info.clone()
                                 }
                             } else {
-                                if let Some(extra) = self
-                                    .scope
-                                    .find_type(&i.sym)
-                                    .as_ref()
-                                    .and_then(|v| v.extra.as_ref())
-                                {
-                                    match extra {
-                                        ExportExtra::Module(..) => {
-                                            self.info.errors.push(Error::NotVariable {
-                                                span: i.span,
-                                                left: lhs.span(),
-                                            });
-
-                                            return;
-                                        }
-                                        _ => {}
-                                    }
+                                if let Some(Type::Module(..)) = self.scope.find_type(&i.sym) {
+                                    self.info.errors.push(Error::NotVariable {
+                                        span: i.span,
+                                        left: lhs.span(),
+                                    });
                                 }
                                 // undefined symbol
                                 self.info
