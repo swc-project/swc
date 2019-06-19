@@ -8,7 +8,12 @@ use super::{
 };
 use crate::errors::Error;
 use fxhash::FxHashMap;
-use std::{borrow::Cow, convert::TryFrom, ops::AddAssign};
+use std::{
+    borrow::Cow,
+    collections::hash_map::Entry,
+    convert::TryFrom,
+    ops::{AddAssign, BitOr},
+};
 use swc_atoms::JsWord;
 use swc_common::{Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -37,11 +42,81 @@ impl AddAssign<Option<Self>> for Facts {
     }
 }
 
+impl BitOr for Facts {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self {
+        Facts {
+            true_facts: self.true_facts | rhs.true_facts,
+            false_facts: self.false_facts | rhs.false_facts,
+        }
+    }
+}
+
 /// Conditional facts
 #[derive(Debug, Default)]
 struct CondFacts {
     facts: FxHashMap<Name, TypeFacts>,
     types: FxHashMap<Name, VarInfo>,
+}
+
+impl CondFacts {
+    fn or<T>(mut map: FxHashMap<Name, T>, map2: FxHashMap<Name, T>) -> FxHashMap<Name, T>
+    where
+        T: Merge,
+    {
+        for (k, v) in map2 {
+            match map.entry(k) {
+                Entry::Occupied(mut e) => {
+                    e.get_mut().or(v);
+                }
+                Entry::Vacant(e) => {
+                    e.insert(v);
+                }
+            }
+        }
+
+        map
+    }
+}
+
+trait Merge {
+    fn or(&mut self, other: Self);
+}
+
+impl Merge for TypeFacts {
+    fn or(&mut self, other: Self) {
+        *self |= other
+    }
+}
+
+impl Merge for VarInfo {
+    fn or(&mut self, other: Self) {
+        self.copied |= other.copied;
+        self.initialized |= other.initialized;
+        Merge::or(&mut self.ty, other.ty);
+    }
+}
+
+impl Merge for TsType {
+    fn or(&mut self, other: Self) {
+        unimplemented!("Merge::or() for TsType")
+    }
+}
+
+impl<T> Merge for Option<T>
+where
+    T: Merge,
+{
+    fn or(&mut self, other: Self) {
+        match *self {
+            Some(ref mut v) => match other {
+                Some(other) => v.or(other),
+                None => {}
+            },
+            _ => *self = other,
+        }
+    }
 }
 
 impl AddAssign for CondFacts {
@@ -57,6 +132,16 @@ impl AddAssign<Option<Self>> for CondFacts {
                 *self += rhs;
             }
             None => {}
+        }
+    }
+}
+
+impl BitOr for CondFacts {
+    type Output = Self;
+    fn bitor(mut self, rhs: Self) -> Self {
+        CondFacts {
+            facts: CondFacts::or(self.facts, rhs.facts),
+            types: CondFacts::or(self.types, rhs.types),
         }
     }
 }
@@ -259,13 +344,30 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Bin(BinExpr {
+                op: op!("||"),
+                ref left,
+                ref right,
+                ..
+            }) => {
+                let (mut l_facts, mut r_facts) = Default::default();
+                self.detect_facts(&left, &mut l_facts)?;
+                self.detect_facts(&right, &mut r_facts)?;
+
+                let facts = l_facts | r_facts;
+
+                // allow assinging true | false to boolean
+
+                unimplemented!("detect_facts({:?})", test)
+            }
+
+            Expr::Bin(BinExpr {
                 op,
                 ref left,
                 ref right,
                 ..
             }) => {
-                let l_ty = self.type_of(left)?.generalize_lit();
-                let r_ty = self.type_of(right)?.generalize_lit();
+                let l_ty = self.type_of(left)?;
+                let r_ty = self.type_of(right)?;
 
                 match op {
                     op!("===") | op!("!==") | op!("==") | op!("!=") => {
