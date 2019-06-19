@@ -43,9 +43,11 @@ impl<'a> Type<'a> {
                 ..
             }) => true,
 
-            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref t)) => {
-                t.types.iter().any(|t| t.contains_void())
-            }
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref t)) => t
+                .types
+                .iter()
+                .map(|ty| Type::from(**ty))
+                .any(|t| t.contains_void()),
 
             TsType::TsThisType(..) => false,
             _ => false,
@@ -53,9 +55,8 @@ impl<'a> Type<'a> {
     }
 
     pub fn is_any(&self) -> bool {
-        match self.ann() {
-            None => true,
-            Some(ref ty) => match **ty {
+        match *self {
+            Type::Simple(ref ty) => match **ty {
                 TsType::TsKeywordType(TsKeywordType {
                     kind: TsKeywordTypeKind::TsAnyKeyword,
                     ..
@@ -63,7 +64,11 @@ impl<'a> Type<'a> {
 
                 TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
                     ref t,
-                )) => t.types.iter().any(|t| t.is_any()),
+                )) => t
+                    .types
+                    .iter()
+                    .map(|ty| Type::from(**ty))
+                    .any(|t| t.is_any()),
 
                 TsType::TsThisType(..) => false,
                 _ => false,
@@ -72,9 +77,8 @@ impl<'a> Type<'a> {
     }
 
     pub fn is_unknown(&self) -> bool {
-        match self.ann() {
-            None => true,
-            Some(ref ty) => match **ty {
+        match *self {
+            Type::Simple(ty) => match *ty {
                 TsType::TsKeywordType(TsKeywordType {
                     kind: TsKeywordTypeKind::TsUnknownKeyword,
                     ..
@@ -82,7 +86,11 @@ impl<'a> Type<'a> {
 
                 TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
                     ref t,
-                )) => t.types.iter().any(|t| t.is_unknown()),
+                )) => t
+                    .types
+                    .iter()
+                    .map(|t| Type::from(**t))
+                    .any(|t| t.is_unknown()),
 
                 TsType::TsThisType(..) => false,
                 _ => false,
@@ -101,9 +109,11 @@ impl<'a> Type<'a> {
                 ..
             }) => true,
 
-            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref t)) => {
-                t.types.iter().any(|t| t.contains_undefined())
-            }
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref t)) => t
+                .types
+                .iter()
+                .map(|t| Type::from(**t))
+                .any(|t| t.contains_undefined()),
 
             TsType::TsThisType(..) => false,
             _ => false,
