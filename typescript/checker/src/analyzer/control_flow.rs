@@ -463,8 +463,8 @@ impl Analyzer<'_, '_> {
 
                         // Try narrowing type
                         let c = Comparator {
-                            left: (&**left, &*l_ty),
-                            right: (&**right, &*r_ty),
+                            left: (&**left, &l_ty),
+                            right: (&**right, &r_ty),
                         };
 
                         match c.take(|(l, l_ty), (r, r_ty)| match l_ty {

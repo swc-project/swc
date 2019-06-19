@@ -143,47 +143,50 @@ impl<'a> Type<'a> {
 
 fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
     match *rhs {
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsAnyKeyword,
-            ..
-        }) => return None,
-
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsUnknownKeyword,
-            ..
-        }) => match *to {
+        Type::Simple(r) => match *r {
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
-            })
-            | TsType::TsKeywordType(TsKeywordType {
+            }) => return None,
+
+            TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
-            }) => return None,
-            _ => {
-                return Some(Error::AssignFailed {
-                    left: to.clone(),
-                    right: rhs.clone(),
-                    cause: vec![],
-                })
+            }) => match *to {
+                Type::Simple(l) => match *l {
+                    TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsAnyKeyword,
+                        ..
+                    })
+                    | TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsUnknownKeyword,
+                        ..
+                    }) => return None,
+                    _ => {
+                        return Some(Error::AssignFailed {
+                            left: to.clone(),
+                            right: rhs.clone(),
+                            cause: vec![],
+                        })
+                    }
+                },
+            },
+
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                TsUnionType {
+                    span, ref types, ..
+                },
+            )) => {
+                let errors = types
+                    .iter()
+                    .filter_map(|rhs| try_assign(to, &Type::from(&**rhs)))
+                    .collect::<Vec<_>>();
+                if errors.is_empty() {
+                    return None;
+                }
+                return Some(Error::UnionError { span, errors });
             }
         },
-
-        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
-            TsUnionType {
-                span, ref types, ..
-            },
-        )) => {
-            let errors = types
-                .iter()
-                .filter_map(|rhs| try_assign(to, rhs))
-                .collect::<Vec<_>>();
-            if errors.is_empty() {
-                return None;
-            }
-            return Some(Error::UnionError { span, errors });
-        }
-
         _ => {}
     }
 
@@ -229,15 +232,13 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             }
 
             TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
-                Type::Simple(lty) => match *lty {
-                    TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
-                        if lit.eq_ignore_span(r_lit) {
-                            return None;
-                        }
-                    } /* TODO(kdy1): Allow
-                       *
-                       * let a: true | false = bool */
-                },
+                TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
+                    if lit.eq_ignore_span(r_lit) {
+                        return None;
+                    }
+                }
+                // TODO: allow
+                // let a: true | false = bool
                 _ => {}
             },
 
@@ -290,14 +291,14 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => {
                         return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
                             .map(|cause| Error::AssignFailed {
-                                left: to.clone(),
+                                left: to.into(),
                                 right: rhs.clone(),
                                 cause: vec![cause],
                             })
                     }
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.clone(),
+                            left: to.into(),
                             right: rhs.clone(),
                             cause: vec![],
                         })
@@ -361,7 +362,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 }
 
                 return Some(Error::AssignFailed {
-                    left: to.clone(),
+                    left: to.into(),
                     right: rhs.clone(),
                     cause: vec![],
                 });
