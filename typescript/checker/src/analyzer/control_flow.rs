@@ -334,8 +334,6 @@ impl Analyzer<'_, '_> {
         let errors = {
             let mut child = self.child(kind, facts);
 
-            println!("({}) {:#?}", child.scope.depth(), child.scope.facts);
-
             op(&mut child);
 
             assert_eq!(
