@@ -388,11 +388,9 @@ impl Analyzer<'_, '_> {
                 self.detect_facts(&left, &mut l_facts)?;
                 self.detect_facts(&right, &mut r_facts)?;
 
-                let facts = l_facts | r_facts;
+                *facts += l_facts | r_facts;
 
-                // allow assinging true | false to boolean
-
-                unimplemented!("detect_facts({:?})", test)
+                return Ok(());
             }
 
             Expr::Bin(BinExpr {
