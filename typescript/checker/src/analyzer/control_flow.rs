@@ -276,7 +276,7 @@ impl Analyzer<'_, '_> {
         }
     }
 
-    fn add_true_false(&self, facts: &mut Facts, sym: &JsWord, ty: Cow<TsType>) {
+    fn add_true_false(&self, facts: &mut Facts, sym: &JsWord, ty: Type) {
         macro_rules! base {
             () => {{
                 match self.find_var(&sym) {

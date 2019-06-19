@@ -191,204 +191,213 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
     let span = to.span();
 
     match *to {
-        // let a: any = 'foo'
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsAnyKeyword,
-            ..
-        }) => return None,
+        Type::Simple(to) => match *to {
+            // let a: any = 'foo'
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+                ..
+            }) => return None,
 
-        // let a: unknown = undefined
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsUnknownKeyword,
-            ..
-        }) => return None,
+            // let a: unknown = undefined
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsUnknownKeyword,
+                ..
+            }) => return None,
 
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsObjectKeyword,
-            ..
-        }) => {
-            // let a: object = {};
-            match *rhs {
-                TsType::TsTypeLit(..)
-                | TsType::TsKeywordType(TsKeywordType {
-                    kind: TsKeywordTypeKind::TsNumberKeyword,
-                    ..
-                })
-                | TsType::TsKeywordType(TsKeywordType {
-                    kind: TsKeywordTypeKind::TsStringKeyword,
-                    ..
-                })
-                | TsType::TsFnOrConstructorType(..) => return None,
-                _ => {}
+            TsType::TsKeywordType(TsKeywordType {
+                kind: TsKeywordTypeKind::TsObjectKeyword,
+                ..
+            }) => {
+                // let a: object = {};
+                match *rhs {
+                    Type::Simple(rhs) => match *rhs {
+                        TsType::TsTypeLit(..)
+                        | TsType::TsKeywordType(TsKeywordType {
+                            kind: TsKeywordTypeKind::TsNumberKeyword,
+                            ..
+                        })
+                        | TsType::TsKeywordType(TsKeywordType {
+                            kind: TsKeywordTypeKind::TsStringKeyword,
+                            ..
+                        })
+                        | TsType::TsFnOrConstructorType(..) => return None,
+
+                        _ => {}
+                    },
+                    _ => {}
+                }
             }
-        }
 
-        TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
-            TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
-                if lit.eq_ignore_span(r_lit) {
+            TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
+                Type::Simple(lty) => match *lty {
+                    TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
+                        if lit.eq_ignore_span(r_lit) {
+                            return None;
+                        }
+                    } /* TODO(kdy1): Allow
+                       *
+                       * let a: true | false = bool */
+                },
+                _ => {}
+            },
+
+            TsType::TsThisType(TsThisType { span }) => {
+                return Some(Error::CannotAssingToThis { span })
+            }
+
+            // let a: string | number = 'string';
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                TsUnionType { ref types, .. },
+            )) => {
+                let vs = types
+                    .iter()
+                    .map(|to| try_assign(&Type::from(&**to), rhs))
+                    .collect::<Vec<_>>();
+                if vs.iter().any(Option::is_none) {
                     return None;
                 }
+                return Some(Error::UnionError {
+                    span,
+                    errors: vs.into_iter().map(Option::unwrap).collect(),
+                });
             }
-            // TODO(kdy1): Allow
-            //
-            // let a: true | false = bool
-            _ => {}
-        },
 
-        TsType::TsThisType(TsThisType { span }) => return Some(Error::CannotAssingToThis { span }),
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
+                TsIntersectionType { ref types, .. },
+            )) => {
+                let vs = types
+                    .iter()
+                    .map(|to| try_assign(&Type::from(&**to), rhs))
+                    .collect::<Vec<_>>();
 
-        // let a: string | number = 'string';
-        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
-            TsUnionType { ref types, .. },
-        )) => {
-            let vs = types
-                .iter()
-                .map(|to| try_assign(&Type::from(&**to), rhs))
-                .collect::<Vec<_>>();
-            if vs.iter().any(Option::is_none) {
+                for v in vs {
+                    if let Some(error) = v {
+                        return Some(Error::IntersectionError {
+                            span,
+                            error: box error,
+                        });
+                    }
+                }
+
                 return None;
             }
-            return Some(Error::UnionError {
-                span,
-                errors: vs.into_iter().map(Option::unwrap).collect(),
-            });
-        }
 
-        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
-            TsIntersectionType { ref types, .. },
-        )) => {
-            let vs = types
-                .iter()
-                .map(|to| try_assign(&Type::from(&**to), rhs))
-                .collect::<Vec<_>>();
-
-            for v in vs {
-                if let Some(error) = v {
-                    return Some(Error::IntersectionError {
-                        span,
-                        error: box error,
-                    });
-                }
-            }
-
-            return None;
-        }
-
-        TsType::TsArrayType(TsArrayType { ref elem_type, .. }) => match rhs {
-            Type::Simple(rty) => match **rty {
-                TsType::TsArrayType(TsArrayType {
-                    elem_type: ref rhs_elem_type,
-                    ..
-                }) => {
-                    return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
-                        .map(|cause| Error::AssignFailed {
+            TsType::TsArrayType(TsArrayType { ref elem_type, .. }) => match rhs {
+                Type::Simple(rty) => match **rty {
+                    TsType::TsArrayType(TsArrayType {
+                        elem_type: ref rhs_elem_type,
+                        ..
+                    }) => {
+                        return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
+                            .map(|cause| Error::AssignFailed {
+                                left: to.clone(),
+                                right: rhs.clone(),
+                                cause: vec![cause],
+                            })
+                    }
+                    _ => {
+                        return Some(Error::AssignFailed {
                             left: to.clone(),
                             right: rhs.clone(),
-                            cause: vec![cause],
+                            cause: vec![],
                         })
-                }
-                _ => {
-                    return Some(Error::AssignFailed {
-                        left: to.clone(),
-                        right: rhs.clone(),
-                        cause: vec![],
-                    })
-                }
-            },
-        },
-
-        TsType::TsKeywordType(TsKeywordType { kind, .. }) => {
-            match *rhs {
-                Type::Simple(rhs) => match *rhs {
-                    TsType::TsKeywordType(TsKeywordType { kind: rhs_kind, .. })
-                        if rhs_kind == kind =>
-                    {
-                        return None
                     }
                 },
-                _ => {}
-            }
+            },
 
-            match kind {
-                TsKeywordTypeKind::TsStringKeyword => match *rhs {
+            TsType::TsKeywordType(TsKeywordType { kind, .. }) => {
+                match *rhs {
                     Type::Simple(rhs) => match *rhs {
-                        TsType::TsLitType(TsLitType {
-                            lit: TsLit::Str(..),
-                            ..
-                        }) => return None,
-
-                        _ => {}
+                        TsType::TsKeywordType(TsKeywordType { kind: rhs_kind, .. })
+                            if rhs_kind == kind =>
+                        {
+                            return None
+                        }
                     },
-
                     _ => {}
-                },
-
-                TsKeywordTypeKind::TsNumberKeyword => match *rhs {
-                    Type::Simple(rhs) => match *rhs {
-                        TsType::TsLitType(TsLitType {
-                            lit: TsLit::Number(..),
-                            ..
-                        }) => return None,
-
-                        _ => {}
-                    },
-
-                    _ => {}
-                },
-
-                TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
-                    Type::Simple(rhs) => match *rhs {
-                        TsType::TsLitType(TsLitType {
-                            lit: TsLit::Bool(..),
-                            ..
-                        }) => return None,
-
-                        _ => {}
-                    },
-
-                    _ => {}
-                },
-
-                _ => {}
-            }
-
-            return Some(Error::AssignFailed {
-                left: to.clone(),
-                right: rhs.clone(),
-                cause: vec![],
-            });
-        }
-
-        TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
-            Type::Simple(rhs) => match **rhs {
-                TsType::TsTypeLit(TsTypeLit {
-                    members: ref rhs_members,
-                    ..
-                }) => {
-                    if members
-                        .iter()
-                        .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
-                    {
-                        return None;
-                    }
-
-                    let missing_fields = members
-                        .iter()
-                        .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
-                        .cloned()
-                        .collect();
-                    return Some(Error::MissingFields {
-                        span,
-                        fields: missing_fields,
-                    });
                 }
 
+                match kind {
+                    TsKeywordTypeKind::TsStringKeyword => match *rhs {
+                        Type::Simple(rhs) => match *rhs {
+                            TsType::TsLitType(TsLitType {
+                                lit: TsLit::Str(..),
+                                ..
+                            }) => return None,
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    },
+
+                    TsKeywordTypeKind::TsNumberKeyword => match *rhs {
+                        Type::Simple(rhs) => match *rhs {
+                            TsType::TsLitType(TsLitType {
+                                lit: TsLit::Number(..),
+                                ..
+                            }) => return None,
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    },
+
+                    TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
+                        Type::Simple(rhs) => match *rhs {
+                            TsType::TsLitType(TsLitType {
+                                lit: TsLit::Bool(..),
+                                ..
+                            }) => return None,
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    },
+
+                    _ => {}
+                }
+
+                return Some(Error::AssignFailed {
+                    left: to.clone(),
+                    right: rhs.clone(),
+                    cause: vec![],
+                });
+            }
+
+            TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
+                Type::Simple(rhs) => match **rhs {
+                    TsType::TsTypeLit(TsTypeLit {
+                        members: ref rhs_members,
+                        ..
+                    }) => {
+                        if members
+                            .iter()
+                            .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
+                        {
+                            return None;
+                        }
+
+                        let missing_fields = members
+                            .iter()
+                            .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
+                            .cloned()
+                            .collect();
+                        return Some(Error::MissingFields {
+                            span,
+                            fields: missing_fields,
+                        });
+                    }
+
+                    _ => {}
+                },
                 _ => {}
             },
+
             _ => {}
         },
-
-        _ => {}
     }
 
     // This is slow (at the time of writing)

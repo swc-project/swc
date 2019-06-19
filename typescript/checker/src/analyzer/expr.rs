@@ -1071,12 +1071,13 @@ pub(super) const fn never_ty(span: Span) -> TsType {
     })
 }
 
-fn negate(ty: Cow<TsType>) -> Cow<TsType> {
-    fn boolean(span: Span) -> TsType {
+fn negate(ty: Type) -> Type {
+    fn boolean(span: Span) -> Type<'static> {
         TsType::TsKeywordType(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsBooleanKeyword,
         })
+        .into()
     }
 
     Cow::Owned(match *ty {
