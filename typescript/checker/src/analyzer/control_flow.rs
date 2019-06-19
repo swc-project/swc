@@ -13,7 +13,7 @@ use std::{
     collections::hash_map::Entry,
     convert::TryFrom,
     iter, mem,
-    ops::{AddAssign, BitOr},
+    ops::{AddAssign, BitOr, Not},
 };
 use swc_atoms::JsWord;
 use swc_common::{Spanned, Visit, VisitWith};
@@ -23,6 +23,17 @@ use swc_ecma_ast::*;
 struct Facts {
     true_facts: CondFacts,
     false_facts: CondFacts,
+}
+
+impl Not for Facts {
+    type Output = Self;
+    #[inline(always)]
+    fn not(self) -> Self {
+        Facts {
+            true_facts: self.false_facts,
+            false_facts: self.true_facts,
+        }
+    }
 }
 
 impl AddAssign for Facts {
@@ -487,6 +498,17 @@ impl Analyzer<'_, '_> {
 
                 unimplemented!("detect_facts({:?})", test)
             }
+
+            Expr::Unary(UnaryExpr {
+                op: op!("!"),
+                ref arg,
+                ..
+            }) => {
+                let mut f = Default::default();
+                self.detect_facts(&arg, &mut f)?;
+                *facts += !f;
+            }
+
             _ => unimplemented!("detect_facts({:?})", test),
         }
 
