@@ -114,8 +114,8 @@ impl<'a> Type<'a> {
         try_assign(to, self).map(|err| match err {
             Error::AssignFailed { .. } => err,
             _ => Error::AssignFailed {
-                left: to.clone(),
-                right: self.clone(),
+                left: to.into_owned(),
+                right: self.into_owned(),
                 cause: vec![err],
             },
         })
@@ -125,15 +125,17 @@ impl<'a> Type<'a> {
     pub fn generalize_lit(self) -> Self {
         match self {
             Type::Simple(ty) => match *ty {
-                TsType::TsLitType(TsLitType { span, ref lit }) => TsKeywordType {
-                    span,
-                    kind: match *lit {
-                        TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
-                        TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
-                        TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
-                    },
+                TsType::TsLitType(TsLitType { span, ref lit }) => {
+                    TsType::TsKeywordType(TsKeywordType {
+                        span,
+                        kind: match *lit {
+                            TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
+                            TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
+                            TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
+                        },
+                    })
+                    .into()
                 }
-                .into(),
                 _ => self,
             },
             _ => self,
