@@ -706,6 +706,7 @@ impl EndsWithRet for Stmt {
     fn ends_with_ret(&self) -> bool {
         match *self {
             Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
+            Stmt::Block(ref stmt) => stmt.ends_with_ret(),
             _ => false,
         }
     }
