@@ -1,5 +1,10 @@
 use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
-use crate::{builtin_types, errors::Error, ty::Type, util::EqIgnoreSpan};
+use crate::{
+    builtin_types,
+    errors::Error,
+    ty::{Type, Union},
+    util::EqIgnoreSpan,
+};
 use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -179,12 +184,11 @@ impl Analyzer<'_, '_> {
                 if cons_ty.eq_ignore_span(&alt_ty) {
                     cons_ty
                 } else {
-                    Cow::Owned(TsType::TsUnionOrIntersectionType(
-                        TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                            span,
-                            types: vec![box cons_ty.into_owned(), box alt_ty.into_owned()],
-                        }),
-                    ))
+                    Union {
+                        span,
+                        types: vec![box cons_ty.into_owned(), box alt_ty.into_owned()],
+                    }
+                    .into()
                 }
             }
 
@@ -194,15 +198,13 @@ impl Analyzer<'_, '_> {
                 ref args,
                 ..
             }) => {
-                let callee_type = self
-                    .extract_call_new_expr(
-                        callee,
-                        ExtractKind::New,
-                        args.as_ref().map(|v| &**v).unwrap_or_else(|| &[]),
-                        type_args.as_ref(),
-                    )?
-                    .into_owned();
-                return Ok(Cow::Owned(callee_type));
+                let callee_type = self.extract_call_new_expr(
+                    callee,
+                    ExtractKind::New,
+                    args.as_ref().map(|v| &**v).unwrap_or_else(|| &[]),
+                    type_args.as_ref(),
+                )?;
+                return Ok(callee_type);
             }
 
             Expr::Call(CallExpr {
@@ -275,13 +277,11 @@ impl Analyzer<'_, '_> {
                 // member expression
                 let obj_ty = self
                     .type_of(obj)
-                    .map(Cow::into_owned)
                     .map(Box::new)
                     .map(|obj_type| {
                         //
                         Ok(if computed {
-                            let index_type =
-                                self.type_of(&prop).map(Cow::into_owned).map(Box::new)?;
+                            let index_type = self.type_of(&prop).map(Box::new)?;
                             TsIndexedAccessType {
                                 span,
                                 obj_type,
@@ -298,10 +298,9 @@ impl Analyzer<'_, '_> {
                             }
                         })
                     })
-                    .map(|res| res.map(TsType::TsIndexedAccessType))
-                    .map(|res| res.map(Cow::Owned))??;
+                    .map(|res| res.map(TsType::TsIndexedAccessType))??;
 
-                obj_ty
+                obj_ty.into()
             }
 
             Expr::MetaProp(..) => unimplemented!("typeof(MetaProp)"),
@@ -336,16 +335,15 @@ impl Analyzer<'_, '_> {
             | Expr::Bin(BinExpr { op: op!("<="), .. })
             | Expr::Bin(BinExpr { op: op!("<"), .. })
             | Expr::Bin(BinExpr { op: op!(">="), .. })
-            | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                Cow::Owned(TsType::TsKeywordType(TsKeywordType {
-                    span,
-                    kind: TsKeywordTypeKind::TsBooleanKeyword,
-                }))
-            }
+            | Expr::Bin(BinExpr { op: op!(">"), .. }) => TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsBooleanKeyword,
+            })
+            .into(),
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
-            }) => Cow::Owned(undefined(span)),
+            }) => undefined(span),
 
             _ => unimplemented!("typeof ({:#?})", expr),
         })
@@ -374,11 +372,11 @@ impl Analyzer<'_, '_> {
 
             match member {
                 ClassMember::ClassProp(ref p) => {
-                    let ty = match p.type_ann.as_ref().map(|ty| &*ty.type_ann) {
-                        Some(ty) => Cow::Borrowed(ty),
+                    let ty = match p.type_ann.as_ref().map(|ty| Type::from(&*ty.type_ann)) {
+                        Some(ty) => ty,
                         None => match p.value {
                             Some(ref e) => self.type_of(&e)?,
-                            None => Cow::Owned(any),
+                            None => any,
                         },
                     };
 
@@ -450,7 +448,8 @@ impl Analyzer<'_, '_> {
         Ok(TsType::TsTypeLit(TsTypeLit {
             span: c.span(),
             members: type_props,
-        }))
+        })
+        .into())
     }
 
     pub(super) fn infer_return_type(
@@ -462,7 +461,7 @@ impl Analyzer<'_, '_> {
         struct Visitor<'a> {
             a: &'a Analyzer<'a, 'a>,
             span: Span,
-            types: &'a mut Vec<Result<TsType, Error>>,
+            types: &'a mut Vec<Result<Type<'static>, Error>>,
         }
 
         impl Visit<ReturnStmt> for Visitor<'_> {
@@ -488,18 +487,16 @@ impl Analyzer<'_, '_> {
         let mut tys = Vec::with_capacity(types_len);
         for ty in types {
             let ty = ty?;
-            tys.push(box ty);
+            tys.push(ty);
         }
 
         match tys.len() {
             0 => Ok(None),
-            1 => Ok(Some(*tys.into_iter().next().unwrap())),
-            _ => Ok(Some(TsType::TsUnionOrIntersectionType(
-                TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                    span: body.span(),
-                    types: tys,
-                }),
-            ))
+            1 => Ok(Some(tys.into_iter().next().unwrap())),
+            _ => Ok(Some(Type::Union(Union {
+                span: body.span(),
+                types: tys,
+            }))
             .map(Type::from)),
         }
     }

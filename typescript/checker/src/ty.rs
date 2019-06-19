@@ -3,12 +3,13 @@ use crate::{
     util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
 };
 use std::borrow::Cow;
-use swc_common::{Fold, FromVariant, Spanned};
+use swc_common::{Fold, FromVariant, Span, Spanned};
 use swc_ecma_ast::*;
 
 #[derive(Debug, Fold, Clone, PartialEq, FromVariant, Spanned)]
 pub(crate) enum Type<'a> {
     Simple(Cow<'a, TsType>),
+    Union(Union<'a>),
     Interface(TsInterfaceDecl),
     Enum(TsEnumDecl),
     /// export type A<B> = Foo<B>;
@@ -16,6 +17,12 @@ pub(crate) enum Type<'a> {
     Namespace(TsNamespaceDecl),
     Module(TsModuleDecl),
     Class(ClassDecl),
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Union<'a> {
+    pub span: Span,
+    pub types: Vec<Type<'a>>,
 }
 
 impl<'a> From<&'a TsType> for Type<'a> {

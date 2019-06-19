@@ -4,7 +4,10 @@ use super::{
     type_facts::TypeFacts,
     Analyzer, Name,
 };
-use crate::{errors::Error, ty::Type};
+use crate::{
+    errors::Error,
+    ty::{Type, Union},
+};
 use fxhash::FxHashMap;
 use std::{
     borrow::Cow,
@@ -128,25 +131,18 @@ impl Merge for TsType {
         let mut tys = vec![];
         for mut ty in iter::once(l).chain(iter::once(r)) {
             match ty {
-                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
-                    TsUnionType { ref mut types, .. },
-                )) => {
+                Type::Union(Union { ref mut types, .. }) => {
                     tys.append(types);
                 }
 
-                _ => tys.push(box ty),
+                _ => tys.push(ty),
             }
         }
 
         *self = match tys.len() {
             0 => unreachable!(),
             1 => *tys.into_iter().next().unwrap(),
-            _ => TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
-                TsUnionType {
-                    span: l_span,
-                    types: tys,
-                },
-            )),
+            _ => Type::Union(Union(span: l_span, types: tys)),
         };
     }
 }
@@ -623,16 +619,16 @@ impl Visit<SwitchStmt> for Analyzer<'_, '_> {
     }
 }
 
-pub(super) trait RemoveTypes {
+pub(super) trait RemoveTypes<'a> {
     /// Removes falsy values from `self`.
-    fn remove_falsy(self) -> Type<'static>;
+    fn remove_falsy(self) -> Type<'a>;
 
     /// Removes truthy values from `self`.
-    fn remove_truthy(self) -> Type<'static>;
+    fn remove_truthy(self) -> Type<'a>;
 }
 
-impl RemoveTypes for Type<'_> {
-    fn remove_falsy(self) -> Type<'static> {
+impl<'a> RemoveTypes<'a> for Type<'a> {
+    fn remove_falsy(self) -> Type<'a> {
         match self {
             Type::Simple(ref ty) => match **ty {
                 TsType::TsUnionOrIntersectionType(n) => n.remove_falsy().into(),
@@ -644,14 +640,14 @@ impl RemoveTypes for Type<'_> {
                 },
                 TsType::TsLitType(ty) => match ty.lit {
                     TsLit::Bool(Bool { value: false, span }) => never_ty(span),
-                    _ => TsType::TsLitType(ty),
+                    _ => TsType::TsLitType(ty).into(),
                 },
                 _ => self,
             },
         }
     }
 
-    fn remove_truthy(self) -> Type<'static> {
+    fn remove_truthy(self) -> Type<'a> {
         match self {
             TsType::TsUnionOrIntersectionType(n) => n.remove_truthy().into(),
             TsType::TsLitType(ty) => match ty.lit {
@@ -663,15 +659,15 @@ impl RemoveTypes for Type<'_> {
     }
 }
 
-impl RemoveTypes for TsUnionOrIntersectionType {
-    fn remove_falsy(self) -> Type<'static> {
+impl<'a> RemoveTypes<'a> for TsUnionOrIntersectionType {
+    fn remove_falsy(self) -> Type<'a> {
         match self {
             TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_falsy(),
             TsUnionOrIntersectionType::TsUnionType(n) => n.remove_falsy(),
         }
     }
 
-    fn remove_truthy(self) -> Type<'static> {
+    fn remove_truthy(self) -> Type<'a> {
         match self {
             TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_truthy(),
             TsUnionOrIntersectionType::TsUnionType(n) => n.remove_truthy(),
@@ -679,8 +675,8 @@ impl RemoveTypes for TsUnionOrIntersectionType {
     }
 }
 
-impl RemoveTypes for TsIntersectionType {
-    fn remove_falsy(self) -> Type<'static> {
+impl<'a> RemoveTypes<'a> for TsIntersectionType {
+    fn remove_falsy(self) -> Type<'a> {
         let types = self
             .types
             .into_iter()
@@ -697,7 +693,7 @@ impl RemoveTypes for TsIntersectionType {
         TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())
     }
 
-    fn remove_truthy(self) -> Type<'static> {
+    fn remove_truthy(self) -> Type<'a> {
         let types = self
             .types
             .into_iter()
@@ -715,8 +711,8 @@ impl RemoveTypes for TsIntersectionType {
     }
 }
 
-impl RemoveTypes for TsUnionType {
-    fn remove_falsy(mut self) -> Type<'static> {
+impl<'a> RemoveTypes<'a> for TsUnionType {
+    fn remove_falsy(mut self) -> Type<'a> {
         let types = self
             .types
             .into_iter()
@@ -726,7 +722,7 @@ impl RemoveTypes for TsUnionType {
         TsType::TsUnionOrIntersectionType(TsUnionType { types, ..self }.into())
     }
 
-    fn remove_truthy(mut self) -> Type<'static> {
+    fn remove_truthy(mut self) -> Type<'a> {
         let types = self
             .types
             .into_iter()
@@ -737,12 +733,15 @@ impl RemoveTypes for TsUnionType {
     }
 }
 
-impl RemoveTypes for Box<TsType> {
-    fn remove_falsy(self) -> Type<'static> {
+impl<'a, T> RemoveTypes<'a> for Box<T>
+where
+    T: RemoveTypes<'a>,
+{
+    fn remove_falsy(self) -> Type<'a> {
         (*self).remove_falsy()
     }
 
-    fn remove_truthy(self) -> Type<'static> {
+    fn remove_truthy(self) -> Type<'a> {
         (*self).remove_truthy()
     }
 }
