@@ -12,6 +12,7 @@ use std::{
     borrow::Cow,
     collections::hash_map::Entry,
     convert::TryFrom,
+    iter, mem,
     ops::{AddAssign, BitOr},
 };
 use swc_atoms::JsWord;
@@ -99,8 +100,40 @@ impl Merge for VarInfo {
 }
 
 impl Merge for TsType {
-    fn or(&mut self, other: Self) {
-        unimplemented!("Merge::or() for TsType")
+    fn or(&mut self, r: Self) {
+        let l_span = self.span();
+
+        let l = mem::replace(
+            self,
+            TsType::TsKeywordType(TsKeywordType {
+                span: l_span,
+                kind: TsKeywordTypeKind::TsNeverKeyword,
+            }),
+        );
+
+        let mut tys = vec![];
+        for mut ty in iter::once(l).chain(iter::once(r)) {
+            match ty {
+                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                    TsUnionType { ref mut types, .. },
+                )) => {
+                    tys.append(types);
+                }
+
+                _ => tys.push(box ty),
+            }
+        }
+
+        *self = match tys.len() {
+            0 => unreachable!(),
+            1 => *tys.into_iter().next().unwrap(),
+            _ => TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                TsUnionType {
+                    span: l_span,
+                    types: tys,
+                },
+            )),
+        };
     }
 }
 
@@ -421,6 +454,8 @@ impl Analyzer<'_, '_> {
                                 left: (&**left, &*l_ty),
                                 right: (&**right, &*r_ty),
                             };
+
+                            println!("Narrowing type",);
 
                             match c_ty.take(|(l, l_ty), (r, r_ty)| match l_ty {
                                 TsType::TsKeywordType(TsKeywordType {
