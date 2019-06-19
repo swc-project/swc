@@ -470,13 +470,7 @@ impl Analyzer<'_, '_> {
                             }
                         }
 
-                        // We cannot do something more for !==, !=
-                        if !is_eq {
-                            return Ok(());
-                        }
-
                         // Try narrowing type
-
                         let c = Comparator {
                             left: (&**left, &*l_ty),
                             right: (&**right, &*r_ty),
@@ -493,19 +487,23 @@ impl Analyzer<'_, '_> {
                             _ => None,
                         }) {
                             Some((Ok(name), ty)) => {
-                                facts.true_facts.types.insert(
-                                    name,
-                                    VarInfo {
-                                        kind: VarDeclKind::Const,
-                                        initialized: true,
-                                        copied: true,
-                                        ty: Some(ty.clone()),
-                                    },
-                                );
+                                let v = VarInfo {
+                                    kind: VarDeclKind::Const,
+                                    initialized: true,
+                                    copied: true,
+                                    ty: Some(ty.clone()),
+                                };
+                                if is_eq {
+                                    facts.true_facts.types.insert(name, v);
+                                } else {
+                                    facts.false_facts.types.insert(name, v);
+                                }
                                 return Ok(());
                             }
                             _ => {}
                         }
+
+                        return Ok(());
                     }
 
                     _ => {}
