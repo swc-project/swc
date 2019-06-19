@@ -468,21 +468,23 @@ impl Analyzer<'_, '_> {
                         };
 
                         match c.take(|(l, l_ty), (r, r_ty)| match l_ty {
-                            TsType::TsKeywordType(TsKeywordType {
-                                kind: TsKeywordTypeKind::TsUnknownKeyword,
-                                ..
-                            }) => {
-                                //
-                                Some((Name::try_from(l), r_ty))
-                            }
-                            _ => None,
+                            Type::Simple(ref l_ty) => match **l_ty {
+                                TsType::TsKeywordType(TsKeywordType {
+                                    kind: TsKeywordTypeKind::TsUnknownKeyword,
+                                    ..
+                                }) => {
+                                    //
+                                    Some((Name::try_from(l), r_ty))
+                                }
+                                _ => None,
+                            },
                         }) {
                             Some((Ok(name), ty)) => {
                                 let v = VarInfo {
                                     kind: VarDeclKind::Const,
                                     initialized: true,
                                     copied: true,
-                                    ty: Some(ty.clone()),
+                                    ty: Some(ty.into_owned()),
                                 };
                                 if is_eq {
                                     facts.true_facts.types.insert(name, v);

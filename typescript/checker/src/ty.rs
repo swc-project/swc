@@ -430,7 +430,7 @@ impl From<TsTypeAnn> for Type<'_> {
 }
 
 impl<'a> Type<'a> {
-    fn into_owned(self) -> Type<'static> {
+    pub fn into_owned(self) -> Type<'static> {
         match self {
             Type::Simple(c) => Type::Simple(Cow::Owned(c.into_owned())),
             Type::Alias(a) => Type::Alias(a),

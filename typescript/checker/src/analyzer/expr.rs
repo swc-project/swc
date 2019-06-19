@@ -469,7 +469,7 @@ impl Analyzer<'_, '_> {
             fn visit(&mut self, stmt: &ReturnStmt) {
                 let ty = match stmt.arg {
                     Some(ref arg) => self.a.type_of(arg),
-                    None => Ok(Cow::Owned(undefined(self.span))),
+                    None => Ok(undefined(self.span).into()),
                 };
                 self.types.push(ty.map(|ty| ty.into_owned()));
             }
@@ -499,17 +499,18 @@ impl Analyzer<'_, '_> {
                     span: body.span(),
                     types: tys,
                 }),
-            ))),
+            ))
+            .map(Type::from)),
         }
     }
 
-    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<TsType, Error> {
+    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type<'static>, Error> {
         let ret_ty = match f.return_type {
-            Some(ref ret_ty) => self.expand(f.span, Cow::Borrowed(&*ret_ty.type_ann))?,
+            Some(ref ret_ty) => self.expand(f.span, Type::from(&*ret_ty.type_ann))?,
             None => match f.body {
                 BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
-                    Ok(Some(ty)) => Cow::Owned(ty),
-                    Ok(None) => Cow::Owned(undefined(body.span())),
+                    Ok(Some(ty)) => ty,
+                    Ok(None) => undefined(body.span()),
                     Err(err) => return Err(err),
                 },
                 BlockStmtOrExpr::Expr(ref expr) => self.type_of(&expr)?,
@@ -527,15 +528,16 @@ impl Analyzer<'_, '_> {
                 },
             }),
         ))
+        .map(Type::from)
     }
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
         let ret_ty = match f.return_type {
-            Some(ref ret_ty) => self.expand(f.span, Cow::Borrowed(&*ret_ty.type_ann))?,
+            Some(ref ret_ty) => self.expand(f.span, Type::from(&*ret_ty.type_ann))?,
             None => match f.body {
                 Some(ref body) => match self.infer_return_type(body) {
-                    Ok(Some(ty)) => Cow::Owned(ty),
-                    Ok(None) => Cow::Owned(undefined(body.span())),
+                    Ok(Some(ty)) => ty,
+                    Ok(None) => undefined(body.span()),
                     Err(err) => return Err(err),
                 },
                 None => unreachable!("function without body should have type annotation"),
@@ -556,13 +558,13 @@ impl Analyzer<'_, '_> {
         .map(Type::from)
     }
 
-    fn extract_call_new_expr(
-        &self,
-        callee: &Expr,
+    fn extract_call_new_expr<'e>(
+        &'e self,
+        callee: &'e Expr,
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Type, Error> {
+    ) -> Result<Type<'e>, Error> {
         let span = callee.span();
 
         match *callee {
@@ -1080,32 +1082,37 @@ fn negate(ty: Type) -> Type {
         .into()
     }
 
-    Cow::Owned(match *ty {
-        TsType::TsLitType(TsLitType { ref lit, span }) => match *lit {
-            TsLit::Bool(v) => TsType::TsLitType(TsLitType {
-                lit: TsLit::Bool(Bool {
-                    value: !v.value,
-                    ..v
-                }),
-                span,
-            }),
-            TsLit::Number(v) => TsType::TsLitType(TsLitType {
-                lit: TsLit::Bool(Bool {
-                    value: v.value != 0.0,
-                    span: v.span,
-                }),
-                span,
-            }),
-            TsLit::Str(ref v) => TsType::TsLitType(TsLitType {
-                lit: TsLit::Bool(Bool {
-                    value: v.value != js_word!(""),
-                    span: v.span,
-                }),
-                span,
-            }),
+    match ty {
+        Type::Simple(ref ty) => match **ty {
+            TsType::TsLitType(TsLitType { ref lit, span }) => match *lit {
+                TsLit::Bool(v) => TsType::TsLitType(TsLitType {
+                    lit: TsLit::Bool(Bool {
+                        value: !v.value,
+                        ..v
+                    }),
+                    span,
+                })
+                .into(),
+                TsLit::Number(v) => TsType::TsLitType(TsLitType {
+                    lit: TsLit::Bool(Bool {
+                        value: v.value != 0.0,
+                        span: v.span,
+                    }),
+                    span,
+                })
+                .into(),
+                TsLit::Str(ref v) => TsType::TsLitType(TsLitType {
+                    lit: TsLit::Bool(Bool {
+                        value: v.value != js_word!(""),
+                        span: v.span,
+                    }),
+                    span,
+                })
+                .into(),
+            },
+            _ => boolean(ty.span()),
         },
-        _ => boolean(ty.span()),
-    })
+    }
 }
 
 pub const fn undefined(span: Span) -> Type<'static> {
