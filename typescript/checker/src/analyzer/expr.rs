@@ -1066,11 +1066,12 @@ fn prop_key_to_expr(p: &Prop) -> Box<Expr> {
     }
 }
 
-pub(super) const fn never_ty(span: Span) -> TsType {
+pub(super) const fn never_ty(span: Span) -> Type<'static> {
     TsType::TsKeywordType(TsKeywordType {
         span,
         kind: TsKeywordTypeKind::TsNeverKeyword,
     })
+    .into()
 }
 
 fn negate(ty: Type) -> Type {

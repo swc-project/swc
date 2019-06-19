@@ -220,7 +220,7 @@ impl Analyzer<'_, '_> {
 
                                 let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
-                                    Some(ty)
+                                    Some(ty.into_owned())
                                 } else {
                                     self.info.errors.extend(errors);
                                     None
@@ -245,7 +245,7 @@ impl Analyzer<'_, '_> {
                                     {
                                         Some(any(var_info.ty.as_ref().unwrap().span()))
                                     } else {
-                                        Some(ty)
+                                        Some(ty.into_owned())
                                     },
                                     copied: true,
                                     ..var_info.clone()
@@ -634,7 +634,7 @@ pub(super) trait RemoveTypes {
 impl RemoveTypes for Type<'_> {
     fn remove_falsy(self) -> Type<'static> {
         match self {
-            Type::Simple(ty) => match ty {
+            Type::Simple(ref ty) => match **ty {
                 TsType::TsUnionOrIntersectionType(n) => n.remove_falsy().into(),
                 TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
                     TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
