@@ -1,4 +1,4 @@
-use super::{control_flow::CondFacts, export::ExportInfo, expr::any, Analyzer};
+use super::{control_flow::CondFacts, export::ExportInfo, expr::any, Analyzer, Name};
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
@@ -172,6 +172,21 @@ impl Analyzer<'_, '_> {
 
     #[inline]
     pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&TsType> {
+        println!("({}) find_var_type({})", self.scope.depth(), name);
+        let mut scope = Some(&self.scope);
+        while let Some(s) = scope {
+            if let Some(v) = s
+                .facts
+                .types
+                .get(&Name::from(name))
+                .and_then(|v| v.ty.as_ref())
+            {
+                return Some(v);
+            }
+
+            scope = s.parent;
+        }
+
         self.find_var(name).and_then(|v| v.ty.as_ref())
     }
 

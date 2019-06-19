@@ -68,8 +68,8 @@ impl BitOr for Facts {
 /// Conditional facts
 #[derive(Debug, Default)]
 pub(super) struct CondFacts {
-    facts: FxHashMap<Name, TypeFacts>,
-    types: FxHashMap<Name, VarInfo>,
+    pub facts: FxHashMap<Name, TypeFacts>,
+    pub types: FxHashMap<Name, VarInfo>,
 }
 
 impl CondFacts {
@@ -334,6 +334,8 @@ impl Analyzer<'_, '_> {
         let errors = {
             let mut child = self.child(kind, facts);
 
+            println!("({}) {:#?}", child.scope.depth(), child.scope.facts);
+
             op(&mut child);
 
             assert_eq!(
@@ -570,7 +572,7 @@ impl Visit<IfStmt> for Analyzer<'_, '_> {
 
             }
 
-            //
+            //TODO: No extra scope due to block statement
             stmt.visit_children(child)
         });
     }
