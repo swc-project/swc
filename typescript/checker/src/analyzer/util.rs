@@ -236,6 +236,26 @@ fn try_assign(to: &TsType, rhs: &TsType) -> Option<Error> {
             ..
         }) => return None,
 
+        TsType::TsKeywordType(TsKeywordType {
+            kind: TsKeywordTypeKind::TsObjectKeyword,
+            ..
+        }) => {
+            // let a: object = {};
+            match *rhs {
+                TsType::TsTypeLit(..)
+                | TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNumberKeyword,
+                    ..
+                })
+                | TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                    ..
+                })
+                | TsType::TsFnOrConstructorType(..) => return None,
+                _ => {}
+            }
+        }
+
         TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
             TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
                 if lit.eq_ignore_span(r_lit) {
