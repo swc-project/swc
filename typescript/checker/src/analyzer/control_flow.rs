@@ -116,7 +116,7 @@ impl Merge for VarInfo {
     }
 }
 
-impl Merge for TsType {
+impl Merge for Type<'_> {
     fn or(&mut self, r: Self) {
         let l_span = self.span();
 
@@ -125,7 +125,8 @@ impl Merge for TsType {
             TsType::TsKeywordType(TsKeywordType {
                 span: l_span,
                 kind: TsKeywordTypeKind::TsNeverKeyword,
-            }),
+            })
+            .into(),
         );
 
         let mut tys = vec![];
@@ -141,7 +142,7 @@ impl Merge for TsType {
 
         *self = match tys.len() {
             0 => unreachable!(),
-            1 => *tys.into_iter().next().unwrap(),
+            1 => tys.into_iter().next().unwrap(),
             _ => Type::Union(Union {
                 span: l_span,
                 types: tys,
@@ -293,14 +294,14 @@ impl Analyzer<'_, '_> {
         facts.true_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.clone().remove_falsy()),
+                ty: Some(ty.clone().remove_falsy().into_owned()),
                 ..base!()
             },
         );
         facts.false_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.remove_truthy()),
+                ty: Some(ty.remove_truthy().into_owned()),
                 ..base!()
             },
         );
