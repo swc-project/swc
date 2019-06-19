@@ -1,4 +1,7 @@
-use crate::{errors::Error, util::EqIgnoreNameAndSpan};
+use crate::{
+    errors::Error,
+    util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
+};
 use std::borrow::Cow;
 use swc_common::{Fold, FromVariant, Spanned};
 use swc_ecma_ast::*;
@@ -240,7 +243,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
         )) => {
             let vs = types
                 .iter()
-                .map(|to| try_assign(&to, rhs))
+                .map(|to| try_assign(&Type::from(&**to), rhs))
                 .collect::<Vec<_>>();
             if vs.iter().any(Option::is_none) {
                 return None;
@@ -256,7 +259,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
         )) => {
             let vs = types
                 .iter()
-                .map(|to| try_assign(&to, rhs))
+                .map(|to| try_assign(&Type::from(&**to), rhs))
                 .collect::<Vec<_>>();
 
             for v in vs {
@@ -272,25 +275,26 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
         }
 
         TsType::TsArrayType(TsArrayType { ref elem_type, .. }) => match rhs {
-            TsType::TsArrayType(TsArrayType {
-                elem_type: ref rhs_elem_type,
-                ..
-            }) => {
-                return try_assign(elem_type, Type::from(rhs_elem_type)).map(|cause| {
-                    Error::AssignFailed {
+            Type::Simple(rty) => match **rty {
+                TsType::TsArrayType(TsArrayType {
+                    elem_type: ref rhs_elem_type,
+                    ..
+                }) => {
+                    return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
+                        .map(|cause| Error::AssignFailed {
+                            left: to.clone(),
+                            right: rhs.clone(),
+                            cause: vec![cause],
+                        })
+                }
+                _ => {
+                    return Some(Error::AssignFailed {
                         left: to.clone(),
                         right: rhs.clone(),
-                        cause: vec![cause],
-                    }
-                })
-            }
-            _ => {
-                return Some(Error::AssignFailed {
-                    left: to.clone(),
-                    right: rhs.clone(),
-                    cause: vec![],
-                })
-            }
+                        cause: vec![],
+                    })
+                }
+            },
         },
 
         TsType::TsKeywordType(TsKeywordType { kind, .. }) => {

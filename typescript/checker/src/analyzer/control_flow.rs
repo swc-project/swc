@@ -194,7 +194,7 @@ impl BitOr for CondFacts {
 }
 
 impl Analyzer<'_, '_> {
-    pub(super) fn try_assign(&mut self, lhs: &PatOrExpr, ty: Type) {
+    pub(super) fn try_assign<'any>(&mut self, lhs: &PatOrExpr, ty: Type<'any>) {
         match *lhs {
             PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => match **expr {
                 // TODO(kdy1): Validate
@@ -220,7 +220,7 @@ impl Analyzer<'_, '_> {
 
                                 let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
-                                    Some(ty.into_owned())
+                                    Some(ty)
                                 } else {
                                     self.info.errors.extend(errors);
                                     None
@@ -245,7 +245,7 @@ impl Analyzer<'_, '_> {
                                     {
                                         Some(any(var_info.ty.as_ref().unwrap().span()))
                                     } else {
-                                        Some(ty.into_owned())
+                                        Some(ty)
                                     },
                                     copied: true,
                                     ..var_info.clone()
@@ -294,14 +294,14 @@ impl Analyzer<'_, '_> {
         facts.true_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.clone().into_owned().remove_falsy()),
+                ty: Some(ty.clone().remove_falsy()),
                 ..base!()
             },
         );
         facts.false_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.into_owned().remove_truthy()),
+                ty: Some(ty.remove_truthy()),
                 ..base!()
             },
         );
@@ -623,31 +623,33 @@ impl Visit<SwitchStmt> for Analyzer<'_, '_> {
 
 pub(super) trait RemoveTypes {
     /// Removes falsy values from `self`.
-    fn remove_falsy(self) -> TsType;
+    fn remove_falsy(self) -> Type<'static>;
 
     /// Removes truthy values from `self`.
-    fn remove_truthy(self) -> TsType;
+    fn remove_truthy(self) -> Type<'static>;
 }
 
-impl RemoveTypes for TsType {
-    fn remove_falsy(self) -> TsType {
+impl RemoveTypes for Type<'_> {
+    fn remove_falsy(self) -> Type<'static> {
         match self {
-            TsType::TsUnionOrIntersectionType(n) => n.remove_falsy().into(),
-            TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
-                TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
-                    never_ty(span)
-                }
+            Type::Simple(ty) => match ty {
+                TsType::TsUnionOrIntersectionType(n) => n.remove_falsy().into(),
+                TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
+                    TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
+                        never_ty(span)
+                    }
+                    _ => self,
+                },
+                TsType::TsLitType(ty) => match ty.lit {
+                    TsLit::Bool(Bool { value: false, span }) => never_ty(span),
+                    _ => TsType::TsLitType(ty),
+                },
                 _ => self,
             },
-            TsType::TsLitType(ty) => match ty.lit {
-                TsLit::Bool(Bool { value: false, span }) => never_ty(span),
-                _ => TsType::TsLitType(ty),
-            },
-            _ => self,
         }
     }
 
-    fn remove_truthy(self) -> TsType {
+    fn remove_truthy(self) -> Type<'static> {
         match self {
             TsType::TsUnionOrIntersectionType(n) => n.remove_truthy().into(),
             TsType::TsLitType(ty) => match ty.lit {
@@ -660,23 +662,23 @@ impl RemoveTypes for TsType {
 }
 
 impl RemoveTypes for TsUnionOrIntersectionType {
-    fn remove_falsy(self) -> TsType {
+    fn remove_falsy(self) -> Type<'static> {
         match self {
-            TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_falsy().into(),
-            TsUnionOrIntersectionType::TsUnionType(n) => n.remove_falsy().into(),
+            TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_falsy(),
+            TsUnionOrIntersectionType::TsUnionType(n) => n.remove_falsy(),
         }
     }
 
-    fn remove_truthy(self) -> TsType {
+    fn remove_truthy(self) -> Type<'static> {
         match self {
-            TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_truthy().into(),
-            TsUnionOrIntersectionType::TsUnionType(n) => n.remove_truthy().into(),
+            TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_truthy(),
+            TsUnionOrIntersectionType::TsUnionType(n) => n.remove_truthy(),
         }
     }
 }
 
 impl RemoveTypes for TsIntersectionType {
-    fn remove_falsy(self) -> TsType {
+    fn remove_falsy(self) -> Type<'static> {
         let types = self
             .types
             .into_iter()
@@ -693,7 +695,7 @@ impl RemoveTypes for TsIntersectionType {
         TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())
     }
 
-    fn remove_truthy(self) -> TsType {
+    fn remove_truthy(self) -> Type<'static> {
         let types = self
             .types
             .into_iter()
@@ -712,7 +714,7 @@ impl RemoveTypes for TsIntersectionType {
 }
 
 impl RemoveTypes for TsUnionType {
-    fn remove_falsy(mut self) -> TsType {
+    fn remove_falsy(mut self) -> Type<'static> {
         let types = self
             .types
             .into_iter()
@@ -722,7 +724,7 @@ impl RemoveTypes for TsUnionType {
         TsType::TsUnionOrIntersectionType(TsUnionType { types, ..self }.into())
     }
 
-    fn remove_truthy(mut self) -> TsType {
+    fn remove_truthy(mut self) -> Type<'static> {
         let types = self
             .types
             .into_iter()
@@ -734,11 +736,11 @@ impl RemoveTypes for TsUnionType {
 }
 
 impl RemoveTypes for Box<TsType> {
-    fn remove_falsy(self) -> TsType {
+    fn remove_falsy(self) -> Type<'static> {
         (*self).remove_falsy()
     }
 
-    fn remove_truthy(self) -> TsType {
+    fn remove_truthy(self) -> Type<'static> {
         (*self).remove_truthy()
     }
 }

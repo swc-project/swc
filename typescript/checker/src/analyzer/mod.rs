@@ -1,7 +1,7 @@
 pub use self::name::Name;
 use self::{
     scope::{Scope, ScopeKind},
-    util::{PatExt, TypeExt},
+    util::PatExt,
 };
 use super::Checker;
 use crate::{builtin_types::Lib, errors::Error, loader::Load, ty::Type, Rule};
@@ -433,7 +433,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
 
-                        let ty = value_ty.generalize_lit().into_owned();
+                        let ty = value_ty.generalize_lit();
 
                         self.scope.declare_var(
                             kind,
@@ -458,7 +458,10 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                             ref sym,
                             ref type_ann,
                             ..
-                        }) => (sym.clone(), type_ann.as_ref().map(|t| *t.type_ann.clone())),
+                        }) => (
+                            sym.clone(),
+                            type_ann.as_ref().map(|t| Type::from(*t.type_ann)),
+                        ),
                         _ => unreachable!(
                             "complex pattern without initializer is invalid syntax and parser \
                              should handle it"

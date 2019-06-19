@@ -1,4 +1,4 @@
-use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, util::TypeExt, Analyzer};
+use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{builtin_types, errors::Error, ty::Type, util::EqIgnoreSpan};
 use std::borrow::Cow;
 use swc_atoms::js_word;
