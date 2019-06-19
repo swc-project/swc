@@ -316,13 +316,13 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
 
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
-        self.with_child(ScopeKind::Fn, Default::default(), |mut child| {
+        self.with_child(ScopeKind::Fn, Default::default(), |child| {
             f.params
                 .iter()
                 .for_each(|pat| child.scope.declare_vars(VarDeclKind::Let, pat));
 
             match f.body {
-                Some(ref body) => body.visit_children(&mut child),
+                Some(ref body) => body.visit_children(child),
                 None => {}
             }
 
@@ -362,14 +362,14 @@ impl Visit<Function> for Analyzer<'_, '_> {
 
 impl Visit<ArrowExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &ArrowExpr) {
-        self.with_child(ScopeKind::Fn, Default::default(), |mut analyzer| {
+        self.with_child(ScopeKind::Fn, Default::default(), |analyzer| {
             f.params
                 .iter()
                 .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
 
             match f.body {
-                BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
-                BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(&mut analyzer),
+                BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(analyzer),
+                BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(analyzer),
             }
         })
     }
@@ -377,8 +377,8 @@ impl Visit<ArrowExpr> for Analyzer<'_, '_> {
 
 impl Visit<BlockStmt> for Analyzer<'_, '_> {
     fn visit(&mut self, stmt: &BlockStmt) {
-        self.with_child(ScopeKind::Block, Default::default(), |mut analyzer| {
-            stmt.visit_children(&mut analyzer);
+        self.with_child(ScopeKind::Block, Default::default(), |analyzer| {
+            stmt.visit_children(analyzer);
         })
     }
 }
