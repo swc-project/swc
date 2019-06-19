@@ -66,7 +66,7 @@ impl BitOr for Facts {
 }
 
 /// Conditional facts
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub(super) struct CondFacts {
     pub facts: FxHashMap<Name, TypeFacts>,
     pub types: FxHashMap<Name, VarInfo>,
@@ -572,6 +572,65 @@ impl Visit<IfStmt> for Analyzer<'_, '_> {
         });
         if ends_with_ret {
             self.scope.facts.extend(facts.false_facts);
+        }
+    }
+}
+
+impl Visit<SwitchStmt> for Analyzer<'_, '_> {
+    fn visit(&mut self, stmt: &SwitchStmt) {
+        let mut false_facts = CondFacts::default();
+        let mut true_facts = CondFacts::default();
+        // Declared at here as it's important to know if last one ends with return.
+        let mut ends_with_ret = false;
+        let len = stmt.cases.len();
+
+        // Check cases *in order*
+        for (i, case) in stmt.cases.iter().enumerate() {
+            let last = i == len - 1;
+            let mut facts = Default::default();
+
+            ends_with_ret = case.cons.ends_with_ret();
+            let span = case
+                .test
+                .as_ref()
+                .map(|v| v.span())
+                .unwrap_or_else(|| stmt.span());
+
+            match case.test {
+                Some(ref test) => {
+                    match self.detect_facts(
+                        &Expr::Bin(BinExpr {
+                            op: op!("==="),
+                            span,
+                            left: stmt.discriminant.clone(),
+                            right: test.clone(),
+                        }),
+                        &mut facts,
+                    ) {
+                        Ok(()) => {}
+                        Err(err) => {
+                            self.info.errors.push(err);
+                            return;
+                        }
+                    }
+                }
+                None => {}
+            }
+
+            true_facts = true_facts | facts.true_facts;
+            self.with_child(ScopeKind::Flow, true_facts.clone(), |child| {
+                case.cons.visit_with(child);
+            });
+            false_facts += facts.false_facts;
+
+            if ends_with_ret || last {
+                true_facts = CondFacts::default();
+                true_facts += false_facts.clone();
+            }
+        }
+
+        if ends_with_ret {
+            self.scope.facts.extend(false_facts);
         }
     }
 }
