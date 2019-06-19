@@ -1,7 +1,7 @@
 use super::{
     export::ExportExtra,
     expr::{any, never_ty},
-    scope::{ScopeKind, VarInfo},
+    scope::{Scope, ScopeKind, VarInfo},
     type_facts::TypeFacts,
     util::{TypeExt, TypeRefExt},
     Analyzer, Name,
@@ -67,7 +67,7 @@ impl BitOr for Facts {
 
 /// Conditional facts
 #[derive(Debug, Default)]
-struct CondFacts {
+pub(super) struct CondFacts {
     facts: FxHashMap<Name, TypeFacts>,
     types: FxHashMap<Name, VarInfo>,
 }
@@ -316,12 +316,23 @@ impl Analyzer<'_, '_> {
         );
     }
 
-    fn visit_flow<F>(&mut self, op: F)
+    #[inline]
+    fn child(&self, kind: ScopeKind, facts: CondFacts) -> Analyzer {
+        Analyzer::new(
+            self.libs,
+            self.rule,
+            Scope::new(&self.scope, kind, facts),
+            self.path.clone(),
+            self.loader,
+        )
+    }
+
+    pub(super) fn with_child<F>(&mut self, kind: ScopeKind, facts: CondFacts, op: F)
     where
         F: for<'a, 'b> FnOnce(&mut Analyzer<'a, 'b>),
     {
         let errors = {
-            let mut child = self.child(ScopeKind::Flow);
+            let mut child = self.child(kind, facts);
 
             op(&mut child);
 
@@ -545,8 +556,14 @@ where
 impl Visit<IfStmt> for Analyzer<'_, '_> {
     fn visit(&mut self, stmt: &IfStmt) {
         let mut facts = Default::default();
-        let facts = self.detect_facts(&stmt.test, &mut facts);
-        self.visit_flow(|child| {
+        match self.detect_facts(&stmt.test, &mut facts) {
+            Ok(()) => (),
+            Err(err) => {
+                self.info.errors.push(err);
+                return;
+            }
+        };
+        self.with_child(ScopeKind::Flow, facts.true_facts, |child| {
             if stmt.cons.ends_with_ret() {
 
             } else {

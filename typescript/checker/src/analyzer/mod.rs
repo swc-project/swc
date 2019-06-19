@@ -1,10 +1,11 @@
+use self::{
+    control_flow::CondFacts,
+    scope::{Scope, ScopeKind},
+    util::{PatExt, TypeExt, TypeRefExt},
+};
 pub use self::{
     export::{ExportExtra, ExportInfo},
     name::Name,
-};
-use self::{
-    scope::{Scope, ScopeKind},
-    util::{PatExt, TypeExt, TypeRefExt},
 };
 use super::Checker;
 use crate::{builtin_types::Lib, errors::Error, loader::Load, Rule};
@@ -315,15 +316,13 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
 
 impl Visit<Function> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &Function) {
-        let info = {
-            let mut analyzer = self.child(ScopeKind::Fn);
-
+        self.with_child(ScopeKind::Fn, Default::default(), |mut child| {
             f.params
                 .iter()
-                .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
+                .for_each(|pat| child.scope.declare_vars(VarDeclKind::Let, pat));
 
             match f.body {
-                Some(ref body) => body.visit_children(&mut analyzer),
+                Some(ref body) => body.visit_children(&mut child),
                 None => {}
             }
 
@@ -331,7 +330,7 @@ impl Visit<Function> for Analyzer<'_, '_> {
                 let err = if let Some(ref ret_ty) = f.return_type {
                     if let Some(ref body) = f.body {
                         // Validate function's return type.
-                        match analyzer.infer_return_type(&body) {
+                        match child.infer_return_type(&body) {
                             Ok(Some(ty)) => ty.assign_to(&ret_ty.type_ann),
                             Ok(None) => {
                                 if ret_ty.type_ann.is_any()
@@ -354,23 +353,16 @@ impl Visit<Function> for Analyzer<'_, '_> {
                     None
                 };
                 if let Some(err) = err {
-                    analyzer.info.errors.push(err);
+                    child.info.errors.push(err);
                 }
             }
-
-            analyzer.info
-        };
-
-        assert_eq!(info.exports, Default::default());
-        self.info.errors.extend(info.errors);
+        })
     }
 }
 
 impl Visit<ArrowExpr> for Analyzer<'_, '_> {
     fn visit(&mut self, f: &ArrowExpr) {
-        let info = {
-            let mut analyzer = self.child(ScopeKind::Fn);
-
+        self.with_child(ScopeKind::Fn, Default::default(), |mut analyzer| {
             f.params
                 .iter()
                 .for_each(|pat| analyzer.scope.declare_vars(VarDeclKind::Let, pat));
@@ -379,26 +371,15 @@ impl Visit<ArrowExpr> for Analyzer<'_, '_> {
                 BlockStmtOrExpr::Expr(ref expr) => expr.visit_with(&mut analyzer),
                 BlockStmtOrExpr::BlockStmt(ref stmt) => stmt.visit_children(&mut analyzer),
             }
-            analyzer.info
-        };
-
-        assert_eq!(info.exports, Default::default());
-        self.info.errors.extend(info.errors)
+        })
     }
 }
 
 impl Visit<BlockStmt> for Analyzer<'_, '_> {
     fn visit(&mut self, stmt: &BlockStmt) {
-        let info = {
-            let mut analyzer = self.child(ScopeKind::Block);
-
+        self.with_child(ScopeKind::Block, Default::default(), |mut analyzer| {
             stmt.visit_children(&mut analyzer);
-
-            analyzer.info
-        };
-
-        assert_eq!(info.exports, Default::default());
-        self.info.errors.extend(info.errors)
+        })
     }
 }
 
@@ -525,16 +506,4 @@ fn assert_types() {
     fn is_send<T: Send>() {}
     is_sync::<Info>();
     is_send::<Info>();
-}
-
-impl Analyzer<'_, '_> {
-    fn child(&self, kind: ScopeKind) -> Analyzer {
-        Analyzer::new(
-            self.libs,
-            self.rule,
-            Scope::new(&self.scope, kind),
-            self.path.clone(),
-            self.loader,
-        )
-    }
 }

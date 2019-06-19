@@ -1,4 +1,4 @@
-use super::{export::ExportInfo, expr::any, Analyzer};
+use super::{control_flow::CondFacts, export::ExportInfo, expr::any, Analyzer};
 use fxhash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
@@ -37,16 +37,18 @@ pub(super) struct Scope<'a> {
     ///
     /// TODO(kdy1): Use vector (for performance)
     pub(super) vars: FxHashMap<JsWord, VarInfo>,
+    pub(super) facts: CondFacts,
     parent: Option<&'a Scope<'a>>,
 }
 
 impl<'a> Scope<'a> {
-    pub fn new(parent: &'a Scope<'a>, kind: ScopeKind) -> Self {
+    pub fn new(parent: &'a Scope<'a>, kind: ScopeKind, facts: CondFacts) -> Self {
         Scope {
             parent: Some(parent),
             types: Default::default(),
             kind,
             vars: Default::default(),
+            facts,
         }
     }
 
@@ -56,6 +58,7 @@ impl<'a> Scope<'a> {
             types: Default::default(),
             kind: ScopeKind::Fn,
             vars: Default::default(),
+            facts: Default::default(),
         }
     }
 }
