@@ -599,9 +599,19 @@ impl Analyzer<'_, '_> {
                 ) {
                     let dep = dep.clone();
                     unimplemented!("dep: {:#?}", dep);
-                } else {
-                    Err(Error::UndefinedSymbol { span: i.span() })
                 }
+
+                if let Some(ty) = self.scope.find_type(&i.sym) {
+                    if let Some(ExportExtra::Enum(ref e)) = ty.extra {
+                        return Ok(Cow::Owned(TsType::TsTypeRef(TsTypeRef {
+                            span,
+                            type_name: TsEntityName::Ident(i.clone()),
+                            type_params: None,
+                        })));
+                    }
+                }
+
+                Err(Error::UndefinedSymbol { span: i.span() })
             }
 
             Expr::Member(MemberExpr {
