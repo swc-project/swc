@@ -459,37 +459,41 @@ impl Analyzer<'_, '_> {
                             }
                         }
 
-                        // Try narrowing type
-                        if is_eq {
-                            let c = Comparator {
-                                left: (&**left, &*l_ty),
-                                right: (&**right, &*r_ty),
-                            };
+                        // We cannot do something more for !==, !=
+                        if !is_eq {
+                            return Ok(());
+                        }
 
-                            match c.take(|(l, l_ty), (r, r_ty)| match l_ty {
-                                TsType::TsKeywordType(TsKeywordType {
-                                    kind: TsKeywordTypeKind::TsUnknownKeyword,
-                                    ..
-                                }) => {
-                                    //
-                                    Some((Name::try_from(l), r_ty))
-                                }
-                                _ => None,
-                            }) {
-                                Some((Ok(name), ty)) => {
-                                    facts.true_facts.types.insert(
-                                        name,
-                                        VarInfo {
-                                            kind: VarDeclKind::Const,
-                                            initialized: true,
-                                            copied: true,
-                                            ty: Some(ty.clone()),
-                                        },
-                                    );
-                                    return Ok(());
-                                }
-                                _ => {}
+                        // Try narrowing type
+
+                        let c = Comparator {
+                            left: (&**left, &*l_ty),
+                            right: (&**right, &*r_ty),
+                        };
+
+                        match c.take(|(l, l_ty), (r, r_ty)| match l_ty {
+                            TsType::TsKeywordType(TsKeywordType {
+                                kind: TsKeywordTypeKind::TsUnknownKeyword,
+                                ..
+                            }) => {
+                                //
+                                Some((Name::try_from(l), r_ty))
                             }
+                            _ => None,
+                        }) {
+                            Some((Ok(name), ty)) => {
+                                facts.true_facts.types.insert(
+                                    name,
+                                    VarInfo {
+                                        kind: VarDeclKind::Const,
+                                        initialized: true,
+                                        copied: true,
+                                        ty: Some(ty.clone()),
+                                    },
+                                );
+                                return Ok(());
+                            }
+                            _ => {}
                         }
                     }
 
