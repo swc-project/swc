@@ -73,6 +73,11 @@ pub(super) struct CondFacts {
 }
 
 impl CondFacts {
+    fn extend(&mut self, other: Self) {
+        self.facts.extend(other.facts);
+        self.types.extend(other.types);
+    }
+
     fn or<T>(mut map: FxHashMap<Name, T>, map2: FxHashMap<Name, T>) -> FxHashMap<Name, T>
     where
         T: Merge,
@@ -561,16 +566,13 @@ impl Visit<IfStmt> for Analyzer<'_, '_> {
                 return;
             }
         };
+        let ends_with_ret = stmt.cons.ends_with_ret();
         self.with_child(ScopeKind::Flow, facts.true_facts, |child| {
-            if stmt.cons.ends_with_ret() {
-
-            } else {
-
-            }
-
-            //TODO: No extra scope due to block statement
             stmt.visit_children(child)
         });
+        if ends_with_ret {
+            self.scope.facts.extend(facts.false_facts);
+        }
     }
 }
 
