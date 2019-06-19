@@ -328,6 +328,8 @@ impl Analyzer<'_, '_> {
     /// Returns (type facts when test is matched, type facts when test is not
     /// matched)
     fn detect_facts(&self, test: &Expr, facts: &mut Facts) -> Result<(), Error> {
+        let span = test.span();
+
         match *test {
             // Useless
             Expr::Fn(..)
@@ -450,14 +452,12 @@ impl Analyzer<'_, '_> {
 
                         // Try narrowing type
                         if is_eq {
-                            let c_ty = Comparator {
+                            let c = Comparator {
                                 left: (&**left, &*l_ty),
                                 right: (&**right, &*r_ty),
                             };
 
-                            println!("Narrowing type",);
-
-                            match c_ty.take(|(l, l_ty), (r, r_ty)| match l_ty {
+                            match c.take(|(l, l_ty), (r, r_ty)| match l_ty {
                                 TsType::TsKeywordType(TsKeywordType {
                                     kind: TsKeywordTypeKind::TsUnknownKeyword,
                                     ..
