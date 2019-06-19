@@ -142,7 +142,10 @@ impl Merge for TsType {
         *self = match tys.len() {
             0 => unreachable!(),
             1 => *tys.into_iter().next().unwrap(),
-            _ => Type::Union(Union(span: l_span, types: tys)),
+            _ => Type::Union(Union {
+                span: l_span,
+                types: tys,
+            }),
         };
     }
 }
