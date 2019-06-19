@@ -123,10 +123,9 @@ impl<'a> Type<'a> {
 
     /// Returns generalized type if `self` is a literal type.
     pub fn generalize_lit(self) -> Self {
-        let ty = self.into();
-        match *ty {
-            TsType::TsLitType(TsLitType { span, ref lit }) => Cow::Owned(
-                TsKeywordType {
+        match self {
+            Type::Simple(ty) => match *ty {
+                TsType::TsLitType(TsLitType { span, ref lit }) => TsKeywordType {
                     span,
                     kind: match *lit {
                         TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
@@ -135,8 +134,9 @@ impl<'a> Type<'a> {
                     },
                 }
                 .into(),
-            ),
-            _ => ty,
+                _ => self,
+            },
+            _ => self,
         }
     }
 }
@@ -164,8 +164,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => return None,
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.clone(),
-                            right: rhs.clone(),
+                            left: to.into_owned(),
+                            right: rhs.into_owned(),
                             cause: vec![],
                         })
                     }
@@ -194,7 +194,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
     let span = to.span();
 
     match *to {
-        Type::Simple(to) => match *to {
+        Type::Simple(l) => match *l {
             // let a: any = 'foo'
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
@@ -232,11 +232,13 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             }
 
             TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
-                TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
-                    if lit.eq_ignore_span(r_lit) {
-                        return None;
+                Type::Simple(ty) => match *ty {
+                    TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
+                        if lit.eq_ignore_span(r_lit) {
+                            return None;
+                        }
                     }
-                }
+                },
                 // TODO: allow
                 // let a: true | false = bool
                 _ => {}
@@ -291,15 +293,15 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => {
                         return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
                             .map(|cause| Error::AssignFailed {
-                                left: to.into(),
-                                right: rhs.clone(),
+                                left: to.into_owned(),
+                                right: rhs.into_owned(),
                                 cause: vec![cause],
                             })
                     }
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.into(),
-                            right: rhs.clone(),
+                            left: to.into_owned(),
+                            right: rhs.into_owned(),
                             cause: vec![],
                         })
                     }
@@ -362,8 +364,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 }
 
                 return Some(Error::AssignFailed {
-                    left: to.into(),
-                    right: rhs.clone(),
+                    left: to.into_owned(),
+                    right: rhs.into_owned(),
                     cause: vec![],
                 });
             }
@@ -412,5 +414,19 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 impl From<TsTypeAnn> for Type<'_> {
     fn from(ann: TsTypeAnn) -> Self {
         Type::Simple(Cow::Owned(*ann.type_ann))
+    }
+}
+
+impl<'a> Type<'a> {
+    fn into_owned(self) -> Type<'static> {
+        match self {
+            Type::Simple(c) => Type::Simple(Cow::Owned(c.into_owned())),
+            Type::Alias(a) => Type::Alias(a),
+            Type::Interface(i) => Type::Interface(i),
+            Type::Enum(e) => Type::Enum(e),
+            Type::Namespace(ns) => Type::Namespace(ns),
+            Type::Module(m) => Type::Module(m),
+            Type::Class(c) => Type::Class(c),
+        }
     }
 }
