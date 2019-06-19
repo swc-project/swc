@@ -274,7 +274,17 @@ impl Analyzer<'_, '_> {
                                 // TODO(kdy1): Check if variant exists.
                                 return Ok(Cow::Owned(TsType::TsTypeRef(TsTypeRef {
                                     span,
-                                    type_name: TsEntityName::Ident(i.clone()),
+                                    type_name: TsEntityName::TsQualifiedName(box TsQualifiedName {
+                                        left: TsEntityName::Ident(i.clone()),
+                                        right: match **prop {
+                                            Expr::Ident(ref v) => v.clone(),
+                                            _ => unimplemented!(
+                                                "error reporting: typeof(non-ident property of \
+                                                 enum)\nEnum.{:?} ",
+                                                prop
+                                            ),
+                                        },
+                                    }),
                                     type_params: None,
                                 })));
                             }
