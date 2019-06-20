@@ -11,7 +11,7 @@ use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<Type<'e>, Error> {
+    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<Cow<'e, Type<'e>>, Error> {
         let span = expr.span();
 
         Ok(match *expr {
@@ -28,7 +28,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.resolved_imports.get(&i.sym) {
-                    return Ok(**ty);
+                    return Ok(&**ty);
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
@@ -266,31 +266,32 @@ impl Analyzer<'_, '_> {
                     _ => {}
                 }
                 // member expression
-                let obj_ty = self
-                    .type_of(obj)
-                    .map(|obj_type| {
-                        //
-                        Ok(if computed {
-                            let index_type = self.type_of(&prop).map(Box::new)?;
-                            TsIndexedAccessType {
-                                span,
-                                obj_type,
-                                index_type,
-                            }
-                        } else {
-                            TsIndexedAccessType {
-                                span,
-                                obj_type,
-                                index_type: box TsType::TsKeywordType(TsKeywordType {
-                                    span,
-                                    kind: TsKeywordTypeKind::TsStringKeyword,
-                                }),
-                            }
-                        })
-                    })
-                    .map(|res| res.map(TsType::TsIndexedAccessType))??;
+                let obj_ty = self.type_of(obj)?;
 
-                obj_ty.into()
+                unimplemented!(
+                    "type_of(MemberExpr):\nObject: {:?},Prop: {:?}",
+                    obj_ty,
+                    prop
+                );
+                //
+                // Ok(if computed {
+                //     let index_type = self.type_of(&prop).map(Box::new)?;
+                //     TsIndexedAccessType {
+                //         span,
+                //         obj_type,
+                //         index_type,
+                //     }
+                // } else {
+                //     TsIndexedAccessType {
+                //         span,
+                //         obj_type,
+                //         index_type: box TsType::TsKeywordType(TsKeywordType {
+                //             span,
+                //             kind: TsKeywordTypeKind::TsStringKeyword,
+                //         }),
+                //     }
+                // })
+                // .map(Type::from)
             }
 
             Expr::MetaProp(..) => unimplemented!("typeof(MetaProp)"),
@@ -646,6 +647,8 @@ impl Analyzer<'_, '_> {
 
                         _ => {}
                     },
+
+                    _ => {}
                 }
 
                 if computed {
@@ -864,9 +867,13 @@ impl Analyzer<'_, '_> {
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn expand<'t>(&'t self, span: Span, ty: Type<'t>) -> Result<Type<'t>, Error> {
-        match ty {
-            Type::Simple(s_ty) => match *s_ty {
+    pub(super) fn expand<'t>(
+        &'t self,
+        span: Span,
+        ty: &'t Type<'t>,
+    ) -> Result<Cow<'t, Type<'t>>, Error> {
+        match *ty {
+            Type::Simple(ref s_ty) => match **s_ty {
                 TsType::TsTypeRef(TsTypeRef {
                     ref type_name,
                     ref type_params,
@@ -1022,7 +1029,7 @@ impl Analyzer<'_, '_> {
             },
         }
 
-        Ok(ty)
+        Ok(&ty)
     }
 }
 

@@ -5,7 +5,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
 lazy_static! {
-    static ref OBJECT_TY: Type<'static> = {
+    static ref OBJECT_TY: TsType = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -17,7 +17,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref STRING_TY: Type<'static> = {
+    static ref STRING_TY: TsType = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -29,7 +29,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref ERROR_TY: Type<'static> = {
+    static ref ERROR_TY: TsType = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -41,7 +41,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref SYMBOL_TY: Type<'static> = {
+    static ref SYMBOL_TY: TsType = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -60,12 +60,15 @@ pub enum Lib {
 }
 
 pub fn get(libs: &[Lib], sym: &JsWord) -> Option<Type<'static>> {
-    match *sym {
-        js_word!("Object") => Some(*OBJECT_TY),
-        js_word!("String") => Some(*STRING_TY),
-        js_word!("Error") => Some(*ERROR_TY),
-        js_word!("Symbol") => Some(*SYMBOL_TY),
+    Some(
+        match *sym {
+            js_word!("Object") => &*OBJECT_TY,
+            js_word!("String") => &*STRING_TY,
+            js_word!("Error") => &*ERROR_TY,
+            js_word!("Symbol") => &*SYMBOL_TY,
 
-        _ => None,
-    }
+            _ => return None,
+        }
+        .into(),
+    )
 }

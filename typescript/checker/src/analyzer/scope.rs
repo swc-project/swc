@@ -174,22 +174,21 @@ impl Analyzer<'_, '_> {
         None
     }
 
-    #[inline]
-    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<Type> {
+    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&Type> {
         println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
-            if let Some(v) = s.facts.types.get(&Name::from(name)).and_then(|v| v.ty) {
+            if let Some(ref v) = s.facts.types.get(&Name::from(name)).and_then(|v| v.ty) {
                 return Some(v);
             }
 
             scope = s.parent;
         }
 
-        self.find_var(name).and_then(|v| v.ty)
+        self.find_var(name).and_then(|v| v.ty.as_ref())
     }
 
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<Type> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
         static ANY_TY: TsType = TsType::TsKeywordType(TsKeywordType {
             span: DUMMY_SP,
             kind: TsKeywordTypeKind::TsAnyKeyword,
@@ -197,15 +196,15 @@ impl Analyzer<'_, '_> {
         static ANY: Type = Type::Simple(Cow::Borrowed(&ANY_TY));
 
         if self.errored_imports.get(name).is_some() {
-            return Some(ANY);
+            return Some(&ANY);
         }
 
         if let Some(ty) = self.resolved_imports.get(name) {
-            return Some(**ty);
+            return Some(&**ty);
         }
 
         if let Some(ty) = self.scope.find_type(name) {
-            return Some(ty);
+            return Some(&ty);
         }
 
         None

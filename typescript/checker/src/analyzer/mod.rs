@@ -415,7 +415,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
                 match v.name.get_ty() {
                     Some(ty) => {
-                        let ty = match self.expand(span, Type::from(ty)) {
+                        let ty = match self.expand(span, &Type::from(ty)) {
                             Ok(ty) => ty,
                             Err(err) => {
                                 self.info.errors.push(err);

@@ -93,7 +93,7 @@ impl<'a> Type<'a> {
             TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref t)) => t
                 .types
                 .iter()
-                .map(|ty| Type::from(**ty))
+                .map(|ty| Type::from(&**ty))
                 .any(|t| t.contains_void()),
 
             TsType::TsThisType(..) => false,
@@ -114,7 +114,7 @@ impl<'a> Type<'a> {
                 )) => t
                     .types
                     .iter()
-                    .map(|ty| Type::from(**ty))
+                    .map(|ty| Type::from(&**ty))
                     .any(|t| t.is_any()),
 
                 TsType::TsThisType(..) => false,
@@ -125,7 +125,7 @@ impl<'a> Type<'a> {
 
     pub fn is_unknown(&self) -> bool {
         match *self {
-            Type::Simple(ty) => match *ty {
+            Type::Simple(ref ty) => match **ty {
                 TsType::TsKeywordType(TsKeywordType {
                     kind: TsKeywordTypeKind::TsUnknownKeyword,
                     ..
@@ -136,7 +136,7 @@ impl<'a> Type<'a> {
                 )) => t
                     .types
                     .iter()
-                    .map(|t| Type::from(**t))
+                    .map(|t| Type::from(&**t))
                     .any(|t| t.is_unknown()),
 
                 TsType::TsThisType(..) => false,
@@ -159,7 +159,7 @@ impl<'a> Type<'a> {
             TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(ref t)) => t
                 .types
                 .iter()
-                .map(|t| Type::from(**t))
+                .map(|t| Type::from(&**t))
                 .any(|t| t.contains_undefined()),
 
             TsType::TsThisType(..) => false,
@@ -171,8 +171,8 @@ impl<'a> Type<'a> {
         try_assign(to, self).map(|err| match err {
             Error::AssignFailed { .. } => err,
             _ => Error::AssignFailed {
-                left: to.into_owned(),
-                right: self.into_owned(),
+                left: to.clone().into_owned(),
+                right: self.clone().into_owned(),
                 cause: vec![err],
             },
         })
@@ -193,16 +193,16 @@ impl<'a> Type<'a> {
                     })
                     .into()
                 }
-                _ => self,
+                _ => ty.into(),
             },
-            _ => self,
+            v => v,
         }
     }
 }
 
 fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
     match *rhs {
-        Type::Simple(r) => match *r {
+        Type::Simple(ref r) => match **r {
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
@@ -212,7 +212,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
             }) => match *to {
-                Type::Simple(l) => match *l {
+                Type::Simple(ref l) => match **l {
                     TsType::TsKeywordType(TsKeywordType {
                         kind: TsKeywordTypeKind::TsAnyKeyword,
                         ..
@@ -223,8 +223,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => return None,
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.into_owned(),
-                            right: rhs.into_owned(),
+                            left: to.clone().into_owned(),
+                            right: rhs.clone().into_owned(),
                             cause: vec![],
                         })
                     }
@@ -253,7 +253,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
     let span = to.span();
 
     match *to {
-        Type::Simple(l) => match *l {
+        Type::Simple(ref l) => match **l {
             // let a: any = 'foo'
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
@@ -272,7 +272,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             }) => {
                 // let a: object = {};
                 match *rhs {
-                    Type::Simple(rhs) => match *rhs {
+                    Type::Simple(ref rhs) => match **rhs {
                         TsType::TsTypeLit(..)
                         | TsType::TsKeywordType(TsKeywordType {
                             kind: TsKeywordTypeKind::TsNumberKeyword,
@@ -291,7 +291,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             }
 
             TsType::TsLitType(TsLitType { ref lit, .. }) => match *to {
-                Type::Simple(ty) => match *ty {
+                Type::Simple(ref ty) => match **ty {
                     TsType::TsLitType(TsLitType { lit: ref r_lit, .. }) => {
                         if lit.eq_ignore_span(r_lit) {
                             return None;
@@ -352,15 +352,15 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => {
                         return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
                             .map(|cause| Error::AssignFailed {
-                                left: to.into_owned(),
-                                right: rhs.into_owned(),
+                                left: to.clone().into_owned(),
+                                right: rhs.clone().into_owned(),
                                 cause: vec![cause],
                             })
                     }
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.into_owned(),
-                            right: rhs.into_owned(),
+                            left: to.clone().into_owned(),
+                            right: rhs.clone().into_owned(),
                             cause: vec![],
                         })
                     }
@@ -369,7 +369,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 
             TsType::TsKeywordType(TsKeywordType { kind, .. }) => {
                 match *rhs {
-                    Type::Simple(rhs) => match *rhs {
+                    Type::Simple(ref rhs) => match **rhs {
                         TsType::TsKeywordType(TsKeywordType { kind: rhs_kind, .. })
                             if rhs_kind == kind =>
                         {
@@ -381,7 +381,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 
                 match kind {
                     TsKeywordTypeKind::TsStringKeyword => match *rhs {
-                        Type::Simple(rhs) => match *rhs {
+                        Type::Simple(ref rhs) => match **rhs {
                             TsType::TsLitType(TsLitType {
                                 lit: TsLit::Str(..),
                                 ..
@@ -394,7 +394,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     },
 
                     TsKeywordTypeKind::TsNumberKeyword => match *rhs {
-                        Type::Simple(rhs) => match *rhs {
+                        Type::Simple(ref rhs) => match **rhs {
                             TsType::TsLitType(TsLitType {
                                 lit: TsLit::Number(..),
                                 ..
@@ -407,7 +407,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     },
 
                     TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
-                        Type::Simple(rhs) => match *rhs {
+                        Type::Simple(ref rhs) => match **rhs {
                             TsType::TsLitType(TsLitType {
                                 lit: TsLit::Bool(..),
                                 ..
@@ -423,14 +423,14 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 }
 
                 return Some(Error::AssignFailed {
-                    left: to.into_owned(),
-                    right: rhs.into_owned(),
+                    left: to.clone().into_owned(),
+                    right: rhs.clone().into_owned(),
                     cause: vec![],
                 });
             }
 
             TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
-                Type::Simple(rhs) => match **rhs {
+                Type::Simple(ref rhs) => match **rhs {
                     TsType::TsTypeLit(TsTypeLit {
                         members: ref rhs_members,
                         ..

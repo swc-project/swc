@@ -194,7 +194,7 @@ impl BitOr for CondFacts {
 }
 
 impl Analyzer<'_, '_> {
-    pub(super) fn try_assign<'any>(&mut self, lhs: &PatOrExpr, ty: Type<'any>) {
+    pub(super) fn try_assign<'any>(&mut self, lhs: &PatOrExpr, ty: &'any Type<'any>) {
         match *lhs {
             PatOrExpr::Expr(ref expr) | PatOrExpr::Pat(box Pat::Expr(ref expr)) => match **expr {
                 // TODO(kdy1): Validate
@@ -276,7 +276,7 @@ impl Analyzer<'_, '_> {
         }
     }
 
-    fn add_true_false(&self, facts: &mut Facts, sym: &JsWord, ty: Type) {
+    fn add_true_false(&self, facts: &mut Facts, sym: &JsWord, ty: &Type) {
         macro_rules! base {
             () => {{
                 match self.find_var(&sym) {
@@ -301,7 +301,7 @@ impl Analyzer<'_, '_> {
         facts.false_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.remove_truthy().into_owned()),
+                ty: Some(ty.clone().remove_truthy().into_owned()),
                 ..base!()
             },
         );
@@ -478,6 +478,7 @@ impl Analyzer<'_, '_> {
                                 }
                                 _ => None,
                             },
+                            _ => None,
                         }) {
                             Some((Ok(name), ty)) => {
                                 let v = VarInfo {
@@ -653,10 +654,13 @@ impl<'a> RemoveTypes<'a> for Cow<'a, TsType> {
     fn remove_truthy(self) -> Type<'a> {
         match *self {
             TsType::TsLitType(ty) => match ty.lit {
-                TsLit::Bool(Bool { value: true, span }) => never_ty(span),
-                _ => TsType::TsLitType(ty).into(),
+                TsLit::Bool(Bool { value: true, span }) => return never_ty(span),
+                _ => return TsType::TsLitType(ty).into(),
             },
+            _ => {}
         }
+
+        Type::Simple(self)
     }
 }
 
