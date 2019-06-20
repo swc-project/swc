@@ -1,5 +1,5 @@
 use super::{expr::never_ty, Analyzer};
-use crate::errors::Error;
+use crate::{errors::Error, ty::Type};
 use std::{mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};

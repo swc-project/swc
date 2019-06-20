@@ -2,7 +2,7 @@ use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    ty::{Array, Type, Union},
+    ty::{self, Array, Type, Union},
     util::EqIgnoreSpan,
 };
 use std::borrow::Cow;
@@ -530,18 +530,13 @@ impl Analyzer<'_, '_> {
             },
         };
 
-        Ok(TsType::TsFnOrConstructorType(
-            TsFnOrConstructorType::TsFnType(TsFnType {
-                span: f.span,
-                params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
-                type_params: f.type_params.clone(),
-                type_ann: TsTypeAnn {
-                    span: ret_ty.span(),
-                    type_ann: box ret_ty.into_owned(),
-                },
-            }),
-        ))
-        .map(Type::from)
+        Ok(ty::Function {
+            span: f.span,
+            params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
+            type_params: f.type_params.clone(),
+            ret_ty: box ret_ty,
+        }
+        .into())
     }
 
     fn extract_call_new_expr<'e>(

@@ -4,7 +4,12 @@ use crate::{
 };
 use std::borrow::Cow;
 use swc_common::{Fold, FromVariant, Span, Spanned};
-use swc_ecma_ast::*;
+use swc_ecma_ast::{
+    Bool, ClassDecl, Number, Str, TsArrayType, TsEnumDecl, TsFnParam, TsInterfaceDecl,
+    TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsModuleDecl,
+    TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeLit, TsTypeParamDecl,
+    TsUnionOrIntersectionType, TsUnionType,
+};
 
 #[derive(Debug, Fold, Clone, PartialEq, FromVariant, Spanned)]
 pub(crate) enum Type<'a> {
@@ -12,6 +17,9 @@ pub(crate) enum Type<'a> {
     Array(Array<'a>),
     Union(Union<'a>),
     Intersection(Intersection<'a>),
+    Function(Function<'a>),
+    Constructor(Constructor<'a>),
+
     Interface(TsInterfaceDecl),
     Enum(TsEnumDecl),
     /// export type A<B> = Foo<B>;
@@ -39,6 +47,22 @@ pub struct Union<'a> {
 pub struct Intersection<'a> {
     pub span: Span,
     pub types: Vec<Type<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Function<'a> {
+    pub span: Span,
+    pub type_params: Option<TsTypeParamDecl>,
+    pub params: Vec<TsFnParam>,
+    pub ret_ty: Box<Type<'a>>,
+}
+
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Constructor<'a> {
+    pub span: Span,
+    pub type_params: Option<TsTypeParamDecl>,
+    pub params: Vec<TsFnParam>,
+    pub ret_ty: Box<Type<'a>>,
 }
 
 impl<'a> From<&'a TsType> for Type<'a> {
