@@ -17,14 +17,12 @@ mod export;
 mod expr;
 mod name;
 mod scope;
-#[cfg(test)]
-mod tests;
 mod type_facts;
 mod util;
 
 struct Analyzer<'a, 'b> {
     info: Info,
-    resolved_imports: FxHashMap<JsWord, Arc<Type<'static>>>,
+    resolved_imports: FxHashMap<JsWord, Arc<Type>>,
     errored_imports: FxHashSet<JsWord>,
     pending_exports: Vec<((JsWord, Span), Box<Expr>)>,
     scope: Scope<'a>,
@@ -223,7 +221,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
 
 #[derive(Debug, Default)]
 pub struct Info {
-    pub exports: FxHashMap<JsWord, Arc<Type<'static>>>,
+    pub exports: FxHashMap<JsWord, Arc<Type>>,
     pub errors: Vec<Error>,
 }
 
@@ -320,11 +318,11 @@ impl Visit<Function> for Analyzer<'_, '_> {
             }
 
             {
-                let err = if let Some(ref ret_ty) = f.return_type.map(Type::from) {
+                let err = if let Some(ret_ty) = f.return_type.clone().map(Type::from) {
                     if let Some(ref body) = f.body {
                         // Validate function's return type.
                         match child.infer_return_type(&body) {
-                            Ok(Some(ty)) => ty.assign_to(ret_ty),
+                            Ok(Some(ty)) => ty.assign_to(&ret_ty),
                             Ok(None) => {
                                 if ret_ty.is_any() || ret_ty.is_unknown() || ret_ty.contains_void()
                                 {
@@ -382,7 +380,7 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
             .type_of(&expr.right)
             .and_then(|ty| self.expand(span, ty))
         {
-            Ok(rhs_ty) => rhs_ty,
+            Ok(rhs_ty) => rhs_ty.into_owned(),
             Err(err) => {
                 self.info.errors.push(err);
                 return;
@@ -415,7 +413,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
                 match v.name.get_ty() {
                     Some(ty) => {
-                        let ty = match self.expand(span, Cow::Owned(Type::from(ty))) {
+                        let ty = match self.expand(span, Cow::Owned(Type::from(ty.clone()))) {
                             Ok(ty) => ty,
                             Err(err) => {
                                 self.info.errors.push(err);
@@ -433,7 +431,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
 
-                        let ty = value_ty.generalize_lit();
+                        let ty = value_ty.into_owned().generalize_lit();
 
                         self.scope.declare_var(
                             kind,
@@ -441,7 +439,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 Pat::Ident(ref i) => i.sym.clone(),
                                 _ => unimplemented!("declare_var with complex type inference"),
                             },
-                            Some(ty.into_static()),
+                            Some(ty),
                             // initialized
                             true,
                             // Variable declarations does not allow multiple declarations with same
@@ -460,7 +458,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                             ..
                         }) => (
                             sym.clone(),
-                            type_ann.as_ref().map(|t| Type::from(*t.type_ann)),
+                            type_ann.as_ref().map(|t| Type::from(t.type_ann.clone())),
                         ),
                         _ => unreachable!(
                             "complex pattern without initializer is invalid syntax and parser \

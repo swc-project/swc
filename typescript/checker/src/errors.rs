@@ -35,9 +35,9 @@ pub enum Error {
 
     AssignFailed {
         #[span(lo)]
-        left: Type<'static>,
+        left: Type,
         #[span(hi)]
-        right: Type<'static>,
+        right: Type,
         cause: Vec<Error>,
     },
 

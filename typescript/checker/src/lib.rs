@@ -1,3 +1,4 @@
+#![deny(unreachable_patterns)]
 #![deny(mutable_borrow_reservation_conflict)]
 #![deny(irrefutable_let_patterns)]
 #![feature(box_patterns)]

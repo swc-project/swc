@@ -48,7 +48,7 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut types: Vec<Cow<Type>> = vec![];
+                let mut types: Vec<Type> = vec![];
 
                 for elem in elems {
                     match elem {
@@ -56,9 +56,9 @@ impl Analyzer<'_, '_> {
                             spread: None,
                             ref expr,
                         }) => {
-                            let ty = self.type_of(expr)?.generalize_lit();
+                            let ty = self.type_of(expr)?.into_owned().generalize_lit();
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty.into_static().owned())
+                                types.push(ty)
                             }
                         }
                         Some(ExprOrSpread {
@@ -67,7 +67,7 @@ impl Analyzer<'_, '_> {
                         None => {
                             let ty = Type::undefined(span);
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty.owned())
+                                types.push(ty)
                             }
                         }
                     }
@@ -76,9 +76,9 @@ impl Analyzer<'_, '_> {
                 Type::Array(Array {
                     span,
                     elem_type: match types.len() {
-                        0 => box Type::any(span).owned(),
+                        0 => box Type::any(span),
                         1 => box types.into_iter().next().unwrap(),
-                        _ => box Union { span, types }.into_cow(),
+                        _ => box Union { span, types }.into(),
                     },
                 })
                 .owned()
@@ -138,9 +138,9 @@ impl Analyzer<'_, '_> {
             })
             .into_cow(),
 
-            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => (&**type_ann).into_cow(),
+            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => type_ann.clone().into_cow(),
             Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
-                (&*type_ann.type_ann).into_cow()
+                type_ann.type_ann.clone().into_cow()
             }
 
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
@@ -184,7 +184,7 @@ impl Analyzer<'_, '_> {
                 } else {
                     Union {
                         span,
-                        types: vec![cons_ty, alt_ty],
+                        types: vec![cons_ty.into_owned(), alt_ty.into_owned()],
                     }
                     .into_cow()
                 }
@@ -213,7 +213,7 @@ impl Analyzer<'_, '_> {
             }) => {
                 let callee_type = self
                     .extract_call_new_expr(callee, ExtractKind::Call, args, type_args.as_ref())
-                    .map(|v| v.into_static())?;
+                    .map(|v| v)?;
 
                 return Ok(callee_type.into_cow());
             }
@@ -360,7 +360,7 @@ impl Analyzer<'_, '_> {
         .into()
     }
 
-    pub(super) fn type_of_class(&self, c: &Class) -> Result<Type<'static>, Error> {
+    pub(super) fn type_of_class(&self, c: &Class) -> Result<Type, Error> {
         // let mut type_props = vec![];
         // for member in &c.body {
         //     let span = member.span();
@@ -450,22 +450,19 @@ impl Analyzer<'_, '_> {
         Ok(Type::Class(c.clone()))
     }
 
-    pub(super) fn infer_return_type(
-        &self,
-        body: &BlockStmt,
-    ) -> Result<Option<Type<'static>>, Error> {
+    pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<Option<Type>, Error> {
         let mut types = vec![];
 
         struct Visitor<'a> {
             a: &'a Analyzer<'a, 'a>,
             span: Span,
-            types: &'a mut Vec<Result<Type<'static>, Error>>,
+            types: &'a mut Vec<Result<Type, Error>>,
         }
 
         impl Visit<ReturnStmt> for Visitor<'_> {
             fn visit(&mut self, stmt: &ReturnStmt) {
                 let ty = match stmt.arg {
-                    Some(ref arg) => self.a.type_of(arg).map(|ty| ty.into_static()),
+                    Some(ref arg) => self.a.type_of(arg).map(|ty| ty.into_owned()),
                     None => Ok(Type::undefined(self.span)),
                 };
                 self.types.push(ty);
@@ -485,12 +482,12 @@ impl Analyzer<'_, '_> {
         let mut tys = Vec::with_capacity(types_len);
         for ty in types {
             let ty = ty?;
-            tys.push(ty.owned());
+            tys.push(ty);
         }
 
         match tys.len() {
             0 => Ok(None),
-            1 => Ok(Some(tys.into_iter().next().unwrap().into_owned())),
+            1 => Ok(Some(tys.into_iter().next().unwrap())),
             _ => Ok(Some(Type::Union(Union {
                 span: body.span(),
                 types: tys,
@@ -499,16 +496,18 @@ impl Analyzer<'_, '_> {
         }
     }
 
-    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type<'static>, Error> {
+    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type, Error> {
         let ret_ty = match f.return_type {
-            Some(ref ret_ty) => self.expand(f.span, (&*ret_ty.type_ann).into_cow())?,
+            Some(ref ret_ty) => self
+                .expand(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
+                .into_owned(),
             None => match f.body {
                 BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
                     Ok(Some(ty)) => ty,
                     Ok(None) => Type::undefined(body.span()),
                     Err(err) => return Err(err),
                 },
-                BlockStmtOrExpr::Expr(ref expr) => self.type_of(&expr)?,
+                BlockStmtOrExpr::Expr(ref expr) => self.type_of(&expr)?.into_owned(),
             },
         };
 
@@ -516,14 +515,16 @@ impl Analyzer<'_, '_> {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
             type_params: f.type_params.clone(),
-            ret_ty: box ret_ty.into_owned(),
+            ret_ty: box ret_ty,
         }
         .into())
     }
 
-    pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
+    pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type, Error> {
         let ret_ty = match f.return_type {
-            Some(ref ret_ty) => self.expand(f.span, Type::from(&*ret_ty.type_ann))?,
+            Some(ref ret_ty) => self
+                .expand(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
+                .into_owned(),
             None => match f.body {
                 Some(ref body) => match self.infer_return_type(body) {
                     Ok(Some(ty)) => ty,
@@ -538,7 +539,7 @@ impl Analyzer<'_, '_> {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
             type_params: f.type_params.clone(),
-            ret_ty: box ret_ty.into_owned(),
+            ret_ty: box ret_ty,
         }
         .into())
     }
@@ -549,7 +550,7 @@ impl Analyzer<'_, '_> {
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Type<'e>, Error> {
+    ) -> Result<Type, Error> {
         let span = callee.span();
 
         match *callee {
@@ -593,8 +594,15 @@ impl Analyzer<'_, '_> {
                 // member expression
                 let obj_type = self.type_of(obj)?;
 
-                match obj_type {
-                    Type::Simple(obj_type) => match *obj_type {
+                match *obj_type {
+                    Type::Keyword(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsAnyKeyword,
+                        ..
+                    }) => {
+                        return Ok(Type::any(span));
+                    }
+
+                    Type::Simple(ref obj_type) => match *obj_type {
                         TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
                             // Candidates of the method call.
                             //
@@ -645,13 +653,6 @@ impl Analyzer<'_, '_> {
                             }
                         }
 
-                        TsType::TsKeywordType(TsKeywordType {
-                            kind: TsKeywordTypeKind::TsAnyKeyword,
-                            ..
-                        }) => {
-                            return Ok(Type::any(span));
-                        }
-
                         _ => {}
                     },
 
@@ -683,7 +684,7 @@ impl Analyzer<'_, '_> {
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Type<'a>, Error> {
+    ) -> Result<Type, Error> {
         let any = Type::any(span);
         let ty = self.expand(span, ty)?;
 
@@ -696,13 +697,55 @@ impl Analyzer<'_, '_> {
             }};
         }
 
-        match ty {
-            Type::Simple(s_ty) => match *s_ty {
-                TsType::TsKeywordType(TsKeywordType {
-                    kind: TsKeywordTypeKind::TsAnyKeyword,
-                    ..
-                }) => return Ok(any),
+        match *ty {
+            Type::Keyword(TsKeywordType {
+                kind: TsKeywordTypeKind::TsAnyKeyword,
+                ..
+            }) => return Ok(any),
 
+            Type::Function(ty::Function {
+                ref params,
+                ref type_params,
+                ref ret_ty,
+                ..
+            }) if kind == ExtractKind::Call => self.try_instantiate(
+                span,
+                ty.span(),
+                *ret_ty.clone(),
+                params,
+                type_params.as_ref(),
+                args,
+                type_args,
+            ),
+
+            Type::Constructor(ty::Constructor {
+                ref params,
+                ref type_params,
+                ref ret_ty,
+                ..
+            }) if kind == ExtractKind::New => self.try_instantiate(
+                span,
+                ty.span(),
+                *ret_ty.clone(),
+                params,
+                type_params.as_ref(),
+                args,
+                type_args,
+            ),
+
+            Type::Union(ref u) => {
+                let mut errors = vec![];
+                for ty in &u.types {
+                    match self.extract(span, Cow::Borrowed(ty), kind, args, type_args) {
+                        Ok(ty) => return Ok(ty),
+                        Err(err) => errors.push(err),
+                    }
+                }
+
+                Err(Error::UnionError { span, errors })
+            }
+
+            Type::Simple(ref s) => match *s {
                 TsType::TsTypeLit(ref lit) => {
                     for member in &lit.members {
                         match *member {
@@ -718,8 +761,8 @@ impl Analyzer<'_, '_> {
                                     ty.span(),
                                     type_ann
                                         .as_ref()
-                                        .map(|v| Type::from(&*v.type_ann))
-                                        .unwrap_or_else(|| any),
+                                        .map(|v| Type::from(v.type_ann.clone()))
+                                        .unwrap_or_else(|| Type::any(span)),
                                     params,
                                     type_params.as_ref(),
                                     args,
@@ -741,8 +784,8 @@ impl Analyzer<'_, '_> {
                                     ty.span(),
                                     type_ann
                                         .as_ref()
-                                        .map(|v| Type::from(&*v.type_ann))
-                                        .unwrap_or_else(|| any),
+                                        .map(|v| Type::from(v.type_ann.clone()))
+                                        .unwrap_or_else(|| Type::any(span)),
                                     params,
                                     type_params.as_ref(),
                                     args,
@@ -761,56 +804,10 @@ impl Analyzer<'_, '_> {
                     ret_err!()
                 }
 
-                TsType::TsFnOrConstructorType(ref f_c) => match *f_c {
-                    TsFnOrConstructorType::TsFnType(TsFnType {
-                        ref params,
-                        ref type_params,
-                        ref type_ann,
-                        ..
-                    }) if kind == ExtractKind::Call => self.try_instantiate(
-                        span,
-                        ty.span(),
-                        Type::from(&*type_ann.type_ann),
-                        params,
-                        type_params.as_ref(),
-                        args,
-                        type_args,
-                    ),
-
-                    TsFnOrConstructorType::TsConstructorType(TsConstructorType {
-                        ref params,
-                        ref type_params,
-                        ref type_ann,
-                        ..
-                    }) if kind == ExtractKind::New => self.try_instantiate(
-                        span,
-                        ty.span(),
-                        Type::from(&*type_ann.type_ann),
-                        params,
-                        type_params.as_ref(),
-                        args,
-                        type_args,
-                    ),
-
-                    _ => ret_err!(),
-                },
-
-                TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
-                    ref u,
-                )) => {
-                    let mut errors = vec![];
-                    for ty in &u.types {
-                        match self.extract(span, (&**ty).into(), kind, args, type_args) {
-                            Ok(ty) => return Ok(ty),
-                            Err(err) => errors.push(err),
-                        }
-                    }
-
-                    Err(Error::UnionError { span, errors })
-                }
-
                 _ => ret_err!(),
             },
+
+            _ => ret_err!(),
         }
     }
 
@@ -818,12 +815,12 @@ impl Analyzer<'_, '_> {
         &'a self,
         span: Span,
         callee_span: Span,
-        ret_type: Type<'a>,
+        ret_type: Type,
         param_decls: &[TsFnParam],
         ty_params_decl: Option<&TsTypeParamDecl>,
         args: &[ExprOrSpread],
         i: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Type<'a>, Error> {
+    ) -> Result<Type, Error> {
         {
             // let type_params_len = ty_params_decl.map(|decl|
             // decl.params.len()).unwrap_or(0); let type_args_len = i.map(|v|
@@ -876,7 +873,7 @@ impl Analyzer<'_, '_> {
     ///   - Type alias
     pub(super) fn expand<'t>(&'t self, span: Span, ty: TypeRef<'t>) -> Result<TypeRef<'t>, Error> {
         match *ty {
-            Type::Simple(ref s_ty) => match **s_ty {
+            Type::Simple(ref s_ty) => match *s_ty {
                 TsType::TsTypeRef(TsTypeRef {
                     ref type_name,
                     ref type_params,
@@ -1024,12 +1021,19 @@ impl Analyzer<'_, '_> {
                 }
 
                 TsType::TsTypeQuery(TsTypeQuery { ref expr_name, .. }) => match *expr_name {
-                    TsEntityName::Ident(ref i) => return self.type_of(&Expr::Ident(i.clone())),
+                    TsEntityName::Ident(ref i) => {
+                        return self
+                            .type_of(&Expr::Ident(i.clone()))
+                            .map(|ty| ty.into_owned())
+                            .map(Cow::Owned)
+                    }
                     _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
                 },
 
                 _ => {}
             },
+
+            _ => {}
         }
 
         Ok(ty)
@@ -1054,39 +1058,44 @@ fn prop_key_to_expr(p: &Prop) -> Box<Expr> {
 
 fn negate(ty: Type) -> Type {
     match ty {
-        Type::Simple(ref ty) => match **ty {
-            TsType::TsLitType(TsLitType { ref lit, span }) => match *lit {
-                TsLit::Bool(v) => TsType::TsLitType(TsLitType {
+        Type::Lit(TsLitType { ref lit, span }) => match *lit {
+            TsLit::Bool(v) => {
+                return Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: !v.value,
                         ..v
                     }),
                     span,
                 })
-                .into(),
-                TsLit::Number(v) => TsType::TsLitType(TsLitType {
+            }
+            TsLit::Number(v) => {
+                return Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: v.value != 0.0,
                         span: v.span,
                     }),
                     span,
                 })
-                .into(),
-                TsLit::Str(ref v) => TsType::TsLitType(TsLitType {
+            }
+            TsLit::Str(ref v) => {
+                return Type::Lit(TsLitType {
                     lit: TsLit::Bool(Bool {
                         value: v.value != js_word!(""),
                         span: v.span,
                     }),
                     span,
                 })
-                .into(),
-            },
-            _ => TsType::TsKeywordType(TsKeywordType {
-                span: ty.span(),
-                kind: TsKeywordTypeKind::TsBooleanKeyword,
-            }),
+            }
         },
+
+        _ => {}
     }
+
+    TsKeywordType {
+        span: ty.span(),
+        kind: TsKeywordTypeKind::TsBooleanKeyword,
+    }
+    .into()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

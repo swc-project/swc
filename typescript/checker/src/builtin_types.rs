@@ -6,7 +6,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
 lazy_static! {
-    static ref OBJECT_TY: Type<'static> = {
+    static ref OBJECT_TY: Type = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -18,7 +18,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref STRING_TY: Type<'static> = {
+    static ref STRING_TY: Type = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -30,7 +30,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref ERROR_TY: Type<'static> = {
+    static ref ERROR_TY: Type = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -42,7 +42,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref SYMBOL_TY: Type<'static> = {
+    static ref SYMBOL_TY: Type = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
