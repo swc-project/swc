@@ -208,20 +208,16 @@ impl Type {
     /// Returns generalized type if `self` is a literal type.
     pub fn generalize_lit(self) -> Self {
         match self {
-            Type::Simple(ty) => match ty {
-                TsType::TsLitType(TsLitType { span, ref lit }) => {
-                    TsType::TsKeywordType(TsKeywordType {
-                        span,
-                        kind: match *lit {
-                            TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
-                            TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
-                            TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
-                        },
-                    })
-                    .into()
-                }
-                _ => ty.into(),
-            },
+            Type::Lit(TsLitType { span, ref lit }) => Type::Keyword(TsKeywordType {
+                span,
+                kind: match *lit {
+                    TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
+                    TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
+                    TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
+                },
+            })
+            .into(),
+            Type::Simple(ty) => ty.into(),
             v => v,
         }
     }
@@ -330,6 +326,45 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             return None;
         }
 
+        // let a: any = 'foo'
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+            ..
+        }) => return None,
+
+        // let a: unknown = undefined
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsUnknownKeyword,
+            ..
+        }) => return None,
+
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsObjectKeyword,
+            ..
+        }) => {
+            // let a: object = {};
+            match *rhs {
+                Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNumberKeyword,
+                    ..
+                })
+                | Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                    ..
+                })
+                | Type::Function(..)
+                | Type::Constructor(..) => return None,
+
+                Type::Simple(ref rhs) => match *rhs {
+                    TsType::TsTypeLit(..) => return None,
+
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+
+        // Handle same keyword type.
         Type::Keyword(TsKeywordType { kind, .. }) => {
             match *rhs {
                 Type::Keyword(TsKeywordType { kind: rhs_kind, .. }) if rhs_kind == kind => {
@@ -389,42 +424,6 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
         }
 
         Type::Simple(ref l) => match *l {
-            // let a: any = 'foo'
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-                ..
-            }) => return None,
-
-            // let a: unknown = undefined
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsUnknownKeyword,
-                ..
-            }) => return None,
-
-            TsType::TsKeywordType(TsKeywordType {
-                kind: TsKeywordTypeKind::TsObjectKeyword,
-                ..
-            }) => {
-                // let a: object = {};
-                match *rhs {
-                    Type::Simple(ref rhs) => match *rhs {
-                        TsType::TsTypeLit(..)
-                        | TsType::TsKeywordType(TsKeywordType {
-                            kind: TsKeywordTypeKind::TsNumberKeyword,
-                            ..
-                        })
-                        | TsType::TsKeywordType(TsKeywordType {
-                            kind: TsKeywordTypeKind::TsStringKeyword,
-                            ..
-                        })
-                        | TsType::TsFnOrConstructorType(..) => return None,
-
-                        _ => {}
-                    },
-                    _ => {}
-                }
-            }
-
             TsType::TsThisType(TsThisType { span }) => {
                 return Some(Error::CannotAssingToThis { span })
             }
@@ -480,7 +479,11 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
         return None;
     }
 
-    unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
+    Some(Error::Unimplemented {
+        span,
+        msg: format!("Not implemented yet"),
+    })
+    // unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
 }
 
 impl From<TsTypeAnn> for Type {

@@ -256,7 +256,7 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
             Ok(ty) => ty,
             Err(err) => {
                 self.info.errors.push(err);
-                TsType::TsKeywordType(TsKeywordType {
+                Type::Keyword(TsKeywordType {
                     span: c.span(),
                     kind: TsKeywordTypeKind::TsAnyKeyword,
                 })
@@ -285,7 +285,7 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
             Ok(ty) => ty,
             Err(err) => {
                 self.info.errors.push(err);
-                TsType::TsKeywordType(TsKeywordType {
+                Type::Keyword(TsKeywordType {
                     span: f.span(),
                     kind: TsKeywordTypeKind::TsAnyKeyword,
                 })

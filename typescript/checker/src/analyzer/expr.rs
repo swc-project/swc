@@ -84,22 +84,22 @@ impl Analyzer<'_, '_> {
                 .owned()
             }
 
-            Expr::Lit(Lit::Bool(v)) => TsType::TsLitType(TsLitType {
+            Expr::Lit(Lit::Bool(v)) => Type::Lit(TsLitType {
                 span: v.span,
                 lit: TsLit::Bool(v),
             })
             .into_cow(),
-            Expr::Lit(Lit::Str(ref v)) => TsType::TsLitType(TsLitType {
+            Expr::Lit(Lit::Str(ref v)) => Type::Lit(TsLitType {
                 span: v.span,
                 lit: TsLit::Str(v.clone()),
             })
             .into_cow(),
-            Expr::Lit(Lit::Num(v)) => TsType::TsLitType(TsLitType {
+            Expr::Lit(Lit::Num(v)) => Type::Lit(TsLitType {
                 span: v.span,
                 lit: TsLit::Number(v),
             })
             .into_cow(),
-            Expr::Lit(Lit::Null(Null { span })) => TsType::TsKeywordType(TsKeywordType {
+            Expr::Lit(Lit::Null(Null { span })) => Type::Keyword(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsNullKeyword,
             })
@@ -118,7 +118,7 @@ impl Analyzer<'_, '_> {
 
             Expr::Paren(ParenExpr { ref expr, .. }) => return self.type_of(expr),
 
-            Expr::Tpl(..) => TsType::TsKeywordType(TsKeywordType {
+            Expr::Tpl(..) => Type::Keyword(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsStringKeyword,
             })
@@ -132,7 +132,7 @@ impl Analyzer<'_, '_> {
 
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"), ..
-            }) => TsType::TsKeywordType(TsKeywordType {
+            }) => Type::Keyword(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsStringKeyword,
             })
@@ -168,7 +168,7 @@ impl Analyzer<'_, '_> {
             // https://github.com/Microsoft/TypeScript/issues/26959
             Expr::Yield(..) => Type::any(span).into_cow(),
 
-            Expr::Update(..) => TsType::TsKeywordType(TsKeywordType {
+            Expr::Update(..) => Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
                 span,
             })
@@ -312,7 +312,7 @@ impl Analyzer<'_, '_> {
 
             Expr::Bin(BinExpr {
                 op: op!(bin, "-"), ..
-            }) => TsType::TsKeywordType(TsKeywordType {
+            }) => Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
                 span,
             })
@@ -325,7 +325,7 @@ impl Analyzer<'_, '_> {
             | Expr::Bin(BinExpr { op: op!("<="), .. })
             | Expr::Bin(BinExpr { op: op!("<"), .. })
             | Expr::Bin(BinExpr { op: op!(">="), .. })
-            | Expr::Bin(BinExpr { op: op!(">"), .. }) => TsType::TsKeywordType(TsKeywordType {
+            | Expr::Bin(BinExpr { op: op!(">"), .. }) => Type::Keyword(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsBooleanKeyword,
             })
@@ -866,7 +866,10 @@ impl Analyzer<'_, '_> {
     ///
     ///   - Type alias
     pub(super) fn expand<'t>(&'t self, span: Span, ty: TypeRef<'t>) -> Result<TypeRef<'t>, Error> {
+        println!("({}) expand({:?})", self.scope.depth(), ty);
+
         match *ty {
+            // TOOD:
             Type::Simple(ref s_ty) => match *s_ty {
                 TsType::TsTypeRef(TsTypeRef {
                     ref type_name,
@@ -1056,7 +1059,7 @@ impl Analyzer<'_, '_> {
                     _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
                 },
 
-                _ => {}
+                _ => return Ok(s_ty.clone().into_cow()),
             },
 
             _ => {}

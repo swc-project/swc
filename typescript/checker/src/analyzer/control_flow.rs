@@ -120,14 +120,7 @@ impl Merge for Type {
     fn or(&mut self, r: Self) {
         let l_span = self.span();
 
-        let l = mem::replace(
-            self,
-            TsType::TsKeywordType(TsKeywordType {
-                span: l_span,
-                kind: TsKeywordTypeKind::TsNeverKeyword,
-            })
-            .into(),
-        );
+        let l = mem::replace(self, Type::never(l_span));
 
         let mut tys = vec![];
         for mut ty in iter::once(l).chain(iter::once(r)) {
