@@ -653,10 +653,12 @@ impl<'a> RemoveTypes<'a> for Type<'a> {
 
     fn remove_truthy(self) -> Type<'a> {
         match self {
-            TsType::TsUnionOrIntersectionType(n) => n.remove_truthy().into(),
-            TsType::TsLitType(ty) => match ty.lit {
-                TsLit::Bool(Bool { value: true, span }) => never_ty(span),
-                _ => TsType::TsLitType(ty),
+            Type::Simple(ty) => match *ty {
+                TsType::TsUnionOrIntersectionType(n) => n.remove_truthy().into(),
+                TsType::TsLitType(ty) => match ty.lit {
+                    TsLit::Bool(Bool { value: true, span }) => never_ty(span),
+                    _ => TsType::TsLitType(ty).into(),
+                },
             },
             _ => self,
         }
@@ -688,7 +690,7 @@ impl<'a> RemoveTypes<'a> for TsIntersectionType {
             .map(Box::new)
             .collect::<Vec<_>>();
         if types.iter().any(|ty| is_never(&ty)) {
-            return never_ty(span);
+            return never_ty(self.span);
         }
 
         TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())

@@ -15,12 +15,12 @@ impl Analyzer<'_, '_> {
         let span = expr.span();
 
         Ok(match *expr {
-            Expr::This(ThisExpr { span }) => Cow::Owned(TsType::TsThisType(TsThisType { span })),
+            Expr::This(ThisExpr { span }) => TsType::TsThisType(TsThisType { span }).into(),
 
             Expr::Ident(Ident {
                 sym: js_word!("undefined"),
                 ..
-            }) => Cow::Owned(undefined(span)),
+            }) => undefined(span),
 
             Expr::Ident(ref i) => {
                 if i.sym == js_word!("require") {
@@ -138,9 +138,7 @@ impl Analyzer<'_, '_> {
             })),
 
             Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Cow::Borrowed(type_ann),
-            Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
-                Cow::Borrowed(&*type_ann.type_ann)
-            }
+            Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => (&*type_ann.type_ann).into(),
 
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
                 return self.type_of(expr).map(|ty| {
@@ -213,7 +211,7 @@ impl Analyzer<'_, '_> {
                     .extract_call_new_expr(callee, ExtractKind::Call, args, type_args.as_ref())
                     .map(|v| v.into_owned())?;
 
-                return Ok(callee_type).map(Cow::Owned);
+                return Ok(callee_type);
             }
 
             // super() returns any
@@ -230,15 +228,11 @@ impl Analyzer<'_, '_> {
 
             Expr::Await(AwaitExpr { .. }) => unimplemented!("typeof(AwaitExpr)"),
 
-            Expr::Class(ClassExpr { ref class, .. }) => {
-                return self.type_of_class(class).map(Cow::Owned)
-            }
+            Expr::Class(ClassExpr { ref class, .. }) => return self.type_of_class(class),
 
-            Expr::Arrow(ref e) => return self.type_of_arrow_fn(e).map(Cow::Owned),
+            Expr::Arrow(ref e) => return self.type_of_arrow_fn(e),
 
-            Expr::Fn(FnExpr { ref function, .. }) => {
-                return self.type_of_fn(&function).map(Cow::Owned)
-            }
+            Expr::Fn(FnExpr { ref function, .. }) => return self.type_of_fn(&function),
 
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
@@ -665,7 +659,6 @@ impl Analyzer<'_, '_> {
                 }
 
                 if computed {
-                    // let index_type = self.type_of(&prop).map(Cow::into_owned).map(Box::new)?;
                     unimplemented!("typeeof(CallExpr): {:?}[{:?}]()", callee, prop)
                 } else {
                     Err(if kind == ExtractKind::Call {
