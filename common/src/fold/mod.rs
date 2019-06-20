@@ -284,6 +284,17 @@ where
     }
 }
 
+impl<'a, A, F> FoldWith<F> for Cow<'a, A>
+where
+    A: Clone + FoldWith<F>,
+{
+    /// `#[inline(always)]`: To optimize .into_owned()
+    #[inline(always)]
+    fn fold_children(self, f: &mut F) -> Self {
+        Cow::Owned(self.into_owned().fold_with(f))
+    }
+}
+
 impl<A, F> VisitWith<F> for Cow<'_, A>
 where
     A: Clone + VisitWith<F>,
