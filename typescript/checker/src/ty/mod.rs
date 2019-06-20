@@ -6,10 +6,10 @@ use std::borrow::Cow;
 use swc_atoms::JsWord;
 use swc_common::{Fold, Span, Spanned};
 use swc_ecma_ast::{
-    Bool, Class, Number, Str, TsArrayType, TsEnumDecl, TsFnParam, TsInterfaceDecl,
-    TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsModuleDecl,
-    TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeLit, TsTypeParamDecl,
-    TsUnionOrIntersectionType, TsUnionType,
+    Bool, Class, Number, Str, TsArrayType, TsConstructorType, TsEnumDecl, TsFnOrConstructorType,
+    TsFnParam, TsFnType, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind,
+    TsLit, TsLitType, TsModuleDecl, TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl,
+    TsTypeAnn, TsTypeLit, TsTypeParamDecl, TsUnionOrIntersectionType, TsUnionType,
 };
 
 pub type TypeRef<'a> = Cow<'a, Type>;
@@ -91,6 +91,30 @@ impl From<TsType> for Type {
             }) => Type::Array(Array {
                 span,
                 elem_type: box elem_type.into(),
+            }),
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
+                span,
+                params,
+                type_params,
+                type_ann,
+            })) => Type::Function(Function {
+                span,
+                params,
+                type_params,
+                ret_ty: box type_ann.type_ann.into(),
+            }),
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(
+                TsConstructorType {
+                    span,
+                    params,
+                    type_params,
+                    type_ann,
+                },
+            )) => Type::Constructor(Constructor {
+                span,
+                params,
+                type_params,
+                ret_ty: box type_ann.type_ann.into(),
             }),
             _ => Type::Simple(ty),
         }
@@ -224,6 +248,18 @@ impl Type {
 }
 
 fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
+    for (i, ty) in [to, rhs].iter().enumerate() {
+        match *ty {
+            Type::Simple(ref ty) => match *ty {
+                TsType::TsFnOrConstructorType(..)
+                | TsType::TsArrayType(..)
+                | TsType::TsUnionOrIntersectionType(..) => unreachable!("i = ({})", i),
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     match *rhs {
         Type::Union(Union {
             ref types, span, ..
@@ -375,40 +411,28 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 
             match kind {
                 TsKeywordTypeKind::TsStringKeyword => match *rhs {
-                    Type::Simple(ref rhs) => match *rhs {
-                        TsType::TsLitType(TsLitType {
-                            lit: TsLit::Str(..),
-                            ..
-                        }) => return None,
-
-                        _ => {}
-                    },
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Str(..),
+                        ..
+                    }) => return None,
 
                     _ => {}
                 },
 
                 TsKeywordTypeKind::TsNumberKeyword => match *rhs {
-                    Type::Simple(ref rhs) => match *rhs {
-                        TsType::TsLitType(TsLitType {
-                            lit: TsLit::Number(..),
-                            ..
-                        }) => return None,
-
-                        _ => {}
-                    },
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Number(..),
+                        ..
+                    }) => return None,
 
                     _ => {}
                 },
 
                 TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
-                    Type::Simple(ref rhs) => match *rhs {
-                        TsType::TsLitType(TsLitType {
-                            lit: TsLit::Bool(..),
-                            ..
-                        }) => return None,
-
-                        _ => {}
-                    },
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Bool(..),
+                        ..
+                    }) => return None,
 
                     _ => {}
                 },
@@ -479,11 +503,11 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
         return None;
     }
 
-    Some(Error::Unimplemented {
-        span,
-        msg: format!("Not implemented yet"),
-    })
-    // unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
+    // Some(Error::Unimplemented {
+    //     span,
+    //     msg: format!("Not implemented yet"),
+    // })
+    unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
 }
 
 impl From<TsTypeAnn> for Type {
