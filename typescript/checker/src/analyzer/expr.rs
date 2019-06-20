@@ -2,7 +2,7 @@ use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    ty::{self, Array, Type, TypeRef, Union},
+    ty::{self, Array, EnumVariant, Type, TypeRef, Union},
     util::{CowUtil, EqIgnoreSpan, IntoCow},
 };
 use std::borrow::Cow;
@@ -252,22 +252,16 @@ impl Analyzer<'_, '_> {
                     Expr::Ident(ref i) => {
                         if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
                             // TODO(kdy1): Check if variant exists.
-                            return Ok(TsType::TsTypeRef(TsTypeRef {
-                                span,
-                                type_name: TsEntityName::TsQualifiedName(box TsQualifiedName {
-                                    left: TsEntityName::Ident(i.clone()),
-                                    right: match **prop {
-                                        Expr::Ident(ref v) => v.clone(),
-                                        _ => unimplemented!(
-                                            "error reporting: typeof(non-ident property of \
-                                             enum)\nEnum.{:?} ",
-                                            prop
-                                        ),
-                                    },
-                                }),
-                                type_params: None,
-                            })
-                            .into_cow());
+                            match **prop {
+                                Expr::Ident(ref v) => {
+                                    return Ok(Cow::Owned(Type::EnumVariant(EnumVariant {
+                                        span,
+                                        enum_name: e.id.sym.clone(),
+                                        name: v.sym.clone(),
+                                    })))
+                                }
+                                _ => {}
+                            }
                         }
                     }
                     _ => {}

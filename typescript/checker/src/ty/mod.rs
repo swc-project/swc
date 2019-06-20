@@ -3,6 +3,7 @@ use crate::{
     util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan},
 };
 use std::borrow::Cow;
+use swc_atoms::JsWord;
 use swc_common::{Fold, Span, Spanned};
 use swc_ecma_ast::{
     Bool, Class, Number, Str, TsArrayType, TsEnumDecl, TsFnParam, TsInterfaceDecl,
@@ -23,6 +24,8 @@ pub enum Type {
     Intersection(Intersection),
     Function(Function),
     Constructor(Constructor),
+
+    EnumVariant(EnumVariant),
 
     Interface(TsInterfaceDecl),
     Enum(TsEnumDecl),
@@ -52,6 +55,7 @@ impl_from!(Keyword, TsKeywordType);
 impl_from!(Array);
 impl_from!(Union);
 impl_from!(Intersection);
+impl_from!(EnumVariant);
 impl_from!(Function);
 impl_from!(Constructor);
 
@@ -111,6 +115,14 @@ pub struct Union {
 pub struct Intersection {
     pub span: Span,
     pub types: Vec<Type>,
+}
+
+/// FooEnum.A
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct EnumVariant {
+    pub span: Span,
+    pub enum_name: JsWord,
+    pub name: JsWord,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
