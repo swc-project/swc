@@ -688,10 +688,7 @@ impl<'a> RemoveTypes<'a> for TsIntersectionType {
             .map(Box::new)
             .collect::<Vec<_>>();
         if types.iter().any(|ty| is_never(&ty)) {
-            return TsType::TsKeywordType(TsKeywordType {
-                span: self.span,
-                kind: TsKeywordTypeKind::TsNeverKeyword,
-            });
+            return never_ty(span);
         }
 
         TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())

@@ -143,30 +143,26 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
-                return self
-                    .type_of(expr)
-                    .map(|ty| {
-                        // TODO: Optimize
+                return self.type_of(expr).map(|ty| {
+                    // TODO: Optimize
 
-                        ty.into_owned().remove_falsy()
+                    ty.into_owned().remove_falsy()
+                });
+            }
+
+            Expr::Object(ObjectLit { span, ref props }) => TsType::TsTypeLit(TsTypeLit {
+                span,
+                members: props
+                    .iter()
+                    .map(|prop| match *prop {
+                        PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
+                        PropOrSpread::Spread(..) => {
+                            unimplemented!("spread element in object literal")
+                        }
                     })
-                    .map(Cow::Owned);
-            }
-
-            Expr::Object(ObjectLit { span, ref props }) => {
-                Cow::Owned(TsType::TsTypeLit(TsTypeLit {
-                    span,
-                    members: props
-                        .iter()
-                        .map(|prop| match *prop {
-                            PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
-                            PropOrSpread::Spread(..) => {
-                                unimplemented!("spread element in object literal")
-                            }
-                        })
-                        .collect(),
-                }))
-            }
+                    .collect(),
+            })
+            .into(),
 
             // https://github.com/Microsoft/TypeScript/issues/26959
             Expr::Yield(..) => Cow::Owned(any(span)),
@@ -186,7 +182,7 @@ impl Analyzer<'_, '_> {
                 } else {
                     Union {
                         span,
-                        types: vec![box cons_ty.into_owned(), box alt_ty.into_owned()],
+                        types: vec![cons_ty.into_owned(), alt_ty.into_owned()],
                     }
                     .into()
                 }
