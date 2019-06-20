@@ -268,7 +268,6 @@ impl Analyzer<'_, '_> {
                 // member expression
                 let obj_ty = self
                     .type_of(obj)
-                    .map(Box::new)
                     .map(|obj_type| {
                         //
                         Ok(if computed {
@@ -503,18 +502,13 @@ impl Analyzer<'_, '_> {
             },
         };
 
-        Ok(TsType::TsFnOrConstructorType(
-            TsFnOrConstructorType::TsFnType(TsFnType {
-                span: f.span,
-                params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
-                type_params: f.type_params.clone(),
-                type_ann: TsTypeAnn {
-                    span: ret_ty.span(),
-                    type_ann: box ret_ty.into_owned(),
-                },
-            }),
-        ))
-        .map(Type::from)
+        Ok(ty::Function {
+            span: f.span,
+            params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
+            type_params: f.type_params.clone(),
+            ret_ty: box ret_ty.into_owned(),
+        }
+        .into())
     }
 
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
@@ -534,7 +528,7 @@ impl Analyzer<'_, '_> {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
             type_params: f.type_params.clone(),
-            ret_ty: box ret_ty,
+            ret_ty: box ret_ty.into_owned(),
         }
         .into())
     }
