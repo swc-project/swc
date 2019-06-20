@@ -894,7 +894,15 @@ impl Analyzer<'_, '_> {
                             js_word!("Extract") => {}
                             js_word!("Exclude") => {}
 
-                            _ => {}
+                            _ => {
+                                // Handle enum
+                                if let Some(ref ty) = self.scope.find_type(&i.sym) {
+                                    match ty {
+                                        Type::Enum(..) => return Ok(Cow::Borrowed(ty)),
+                                        _ => {}
+                                    }
+                                }
+                            }
                         },
                         _ => {}
                     }
