@@ -3,16 +3,17 @@ use crate::{
     util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan},
 };
 use std::borrow::Cow;
-use swc_common::{Fold, FromVariant, Span, Spanned};
+use swc_common::{Fold, Span, Spanned};
 use swc_ecma_ast::{
-    Bool, Class, Number, Str, TsEnumDecl, TsFnParam, TsInterfaceDecl, TsKeywordType,
-    TsKeywordTypeKind, TsLit, TsLitType, TsModuleDecl, TsNamespaceDecl, TsThisType, TsType,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeLit, TsTypeParamDecl,
+    Bool, Class, Number, Str, TsArrayType, TsEnumDecl, TsFnParam, TsInterfaceDecl,
+    TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsModuleDecl,
+    TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeLit, TsTypeParamDecl,
+    TsUnionOrIntersectionType, TsUnionType,
 };
 
 pub type TypeRef<'a> = Cow<'a, Type>;
 
-#[derive(Debug, Fold, Clone, PartialEq, FromVariant, Spanned)]
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub enum Type {
     Lit(TsLitType),
     Keyword(TsKeywordType),
@@ -30,6 +31,66 @@ pub enum Type {
     Namespace(TsNamespaceDecl),
     Module(TsModuleDecl),
     Class(Class),
+}
+
+macro_rules! impl_from {
+    ($i:ident) => {
+        impl_from!($i, $i);
+    };
+
+    ($i:ident, $T:ty) => {
+        impl From<$T> for Type {
+            fn from(v: $T) -> Self {
+                Type::$i(v)
+            }
+        }
+    };
+}
+
+impl_from!(Lit, TsLitType);
+impl_from!(Keyword, TsKeywordType);
+impl_from!(Array);
+impl_from!(Union);
+impl_from!(Intersection);
+impl_from!(Function);
+impl_from!(Constructor);
+
+impl_from!(Interface, TsInterfaceDecl);
+impl_from!(Alias, TsTypeAliasDecl);
+impl_from!(Enum, TsEnumDecl);
+impl_from!(Namespace, TsNamespaceDecl);
+impl_from!(Module, TsModuleDecl);
+impl_from!(Class);
+
+impl From<TsType> for Type {
+    fn from(ty: TsType) -> Self {
+        match ty {
+            TsType::TsLitType(ty) => ty.into(),
+            TsType::TsKeywordType(ty) => ty.into(),
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(
+                TsUnionType { span, types },
+            )) => Union {
+                span,
+                types: types.into_iter().map(From::from).collect(),
+            }
+            .into(),
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
+                TsIntersectionType { span, types },
+            )) => Intersection {
+                span,
+                types: types.into_iter().map(From::from).collect(),
+            }
+            .into(),
+            TsType::TsArrayType(TsArrayType {
+                span,
+                box elem_type,
+            }) => Type::Array(Array {
+                span,
+                elem_type: box elem_type.into(),
+            }),
+            _ => Type::Simple(ty),
+        }
+    }
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]

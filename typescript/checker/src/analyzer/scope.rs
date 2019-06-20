@@ -193,6 +193,7 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
+        #[allow(dead_code)]
         static ANY: Type = Type::Keyword(TsKeywordType {
             span: DUMMY_SP,
             kind: TsKeywordTypeKind::TsAnyKeyword,
