@@ -266,7 +266,7 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
             }
         };
         self.scope
-            .register_type(c.ident.sym.clone(), c.clone().into());
+            .register_type(c.ident.sym.clone(), c.class.clone().into());
         self.scope.declare_var(
             VarDeclKind::Var,
             c.ident.sym.clone(),

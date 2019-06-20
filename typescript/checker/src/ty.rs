@@ -5,7 +5,7 @@ use crate::{
 use std::borrow::Cow;
 use swc_common::{Fold, FromVariant, Span, Spanned};
 use swc_ecma_ast::{
-    Bool, ClassDecl, Number, Str, TsArrayType, TsEnumDecl, TsFnParam, TsInterfaceDecl,
+    Bool, Class, Number, Str, TsArrayType, TsEnumDecl, TsFnParam, TsInterfaceDecl,
     TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsModuleDecl,
     TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeLit, TsTypeParamDecl,
     TsUnionOrIntersectionType, TsUnionType,
@@ -26,7 +26,7 @@ pub(crate) enum Type<'a> {
     Alias(TsTypeAliasDecl),
     Namespace(TsNamespaceDecl),
     Module(TsModuleDecl),
-    Class(ClassDecl),
+    Class(Class),
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
