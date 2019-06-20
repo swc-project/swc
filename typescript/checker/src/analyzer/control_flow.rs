@@ -1,5 +1,4 @@
 use super::{
-    expr::{any, never_ty},
     scope::{Scope, ScopeKind, VarInfo},
     type_facts::TypeFacts,
     Analyzer, Name,
@@ -136,13 +135,13 @@ impl Merge for Type<'_> {
                     tys.append(types);
                 }
 
-                _ => tys.push(ty),
+                _ => tys.push(Cow::Owned(ty)),
             }
         }
 
         *self = match tys.len() {
             0 => unreachable!(),
-            1 => tys.into_iter().next().unwrap(),
+            1 => tys.into_iter().next().unwrap().into_owned(),
             _ => Type::Union(Union {
                 span: l_span,
                 types: tys,
@@ -190,6 +189,39 @@ impl BitOr for CondFacts {
             facts: CondFacts::or(self.facts, rhs.facts),
             types: CondFacts::or(self.types, rhs.types),
         }
+    }
+}
+
+impl Analyzer<'_, '_> {
+    #[inline]
+    fn child(&self, kind: ScopeKind, facts: CondFacts) -> Analyzer {
+        Analyzer::new(
+            self.libs,
+            self.rule,
+            Scope::new(&self.scope, kind, facts),
+            self.path.clone(),
+            self.loader,
+        )
+    }
+
+    pub(super) fn with_child<F>(&mut self, kind: ScopeKind, facts: CondFacts, op: F)
+    where
+        F: for<'a, 'b> FnOnce(&mut Analyzer<'a, 'b>),
+    {
+        let errors = {
+            let mut child = self.child(kind, facts);
+
+            op(&mut child);
+
+            assert_eq!(
+                child.info.exports,
+                Default::default(),
+                "Child node cannot export"
+            );
+            child.info.errors
+        };
+
+        self.info.errors.extend(errors);
     }
 }
 
@@ -243,7 +275,7 @@ impl Analyzer<'_, '_> {
                                     ty: if var_info.ty.is_some()
                                         && var_info.ty.as_ref().unwrap().is_any()
                                     {
-                                        Some(any(var_info.ty.as_ref().unwrap().span()))
+                                        Some(Type::any(var_info.ty.as_ref().unwrap().span()))
                                     } else {
                                         Some(ty.into_owned())
                                     },
@@ -305,37 +337,6 @@ impl Analyzer<'_, '_> {
                 ..base!()
             },
         );
-    }
-
-    #[inline]
-    fn child(&self, kind: ScopeKind, facts: CondFacts) -> Analyzer {
-        Analyzer::new(
-            self.libs,
-            self.rule,
-            Scope::new(&self.scope, kind, facts),
-            self.path.clone(),
-            self.loader,
-        )
-    }
-
-    pub(super) fn with_child<F>(&mut self, kind: ScopeKind, facts: CondFacts, op: F)
-    where
-        F: for<'a, 'b> FnOnce(&mut Analyzer<'a, 'b>),
-    {
-        let errors = {
-            let mut child = self.child(kind, facts);
-
-            op(&mut child);
-
-            assert_eq!(
-                child.info.exports,
-                Default::default(),
-                "Child node cannot export"
-            );
-            child.info.errors
-        };
-
-        self.info.errors.extend(errors);
     }
 
     /// Returns (type facts when test is matched, type facts when test is not
@@ -637,13 +638,13 @@ impl<'a> RemoveTypes<'a> for Cow<'a, TsType> {
         match *self {
             TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
                 TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
-                    return never_ty(span)
+                    return Type::never(span)
                 }
                 _ => {}
             },
             TsType::TsLitType(ty) => match ty.lit {
-                TsLit::Bool(Bool { value: false, span }) => return never_ty(span),
-                _ => return TsType::TsLitType(ty).into(),
+                TsLit::Bool(Bool { value: false, span }) => return Type::never(span),
+                _ => return ty.into(),
             },
             _ => {}
         }
@@ -654,7 +655,7 @@ impl<'a> RemoveTypes<'a> for Cow<'a, TsType> {
     fn remove_truthy(self) -> Type<'a> {
         match *self {
             TsType::TsLitType(ty) => match ty.lit {
-                TsLit::Bool(Bool { value: true, span }) => return never_ty(span),
+                TsLit::Bool(Bool { value: true, span }) => return Type::never(span),
                 _ => return TsType::TsLitType(ty).into(),
             },
             _ => {}
@@ -692,7 +693,7 @@ impl<'a> RemoveTypes<'a> for Intersection<'a> {
             .map(|ty| ty.remove_falsy())
             .collect::<Vec<_>>();
         if types.iter().any(Type::is_never) {
-            return never_ty(self.span);
+            return Type::never(self.span);
         }
 
         Intersection {
@@ -709,7 +710,7 @@ impl<'a> RemoveTypes<'a> for Intersection<'a> {
             .map(|ty| ty.remove_truthy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
-            return never_ty(self.span);
+            return Type::never(self.span);
         }
 
         Intersection {

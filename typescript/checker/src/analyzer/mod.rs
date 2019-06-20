@@ -7,7 +7,7 @@ use super::Checker;
 use crate::{builtin_types::Lib, errors::Error, loader::Load, ty::Type, Rule};
 use fxhash::{FxHashMap, FxHashSet};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-use std::{path::PathBuf, sync::Arc};
+use std::{borrow::Cow, path::PathBuf, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
@@ -389,7 +389,7 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
             }
         };
         if expr.op == op!("=") {
-            self.try_assign(&expr.left, rhs_ty);
+            self.try_assign(&expr.left, &rhs_ty);
         }
     }
 }
@@ -415,7 +415,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
                 match v.name.get_ty() {
                     Some(ty) => {
-                        let ty = match self.expand(span, &Type::from(ty)) {
+                        let ty = match self.expand(span, Cow::Owned(Type::from(ty))) {
                             Ok(ty) => ty,
                             Err(err) => {
                                 self.info.errors.push(err);

@@ -2,7 +2,7 @@ use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    ty::{self, Array, Type, Union},
+    ty::{self, Array, Type, TypeRef, Union},
     util::EqIgnoreSpan,
 };
 use std::borrow::Cow;
@@ -11,16 +11,16 @@ use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<Cow<'e, Type<'e>>, Error> {
+    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<TypeRef<'e>, Error> {
         let span = expr.span();
 
         Ok(match *expr {
-            Expr::This(ThisExpr { span }) => TsType::TsThisType(TsThisType { span }).into(),
+            Expr::This(ThisExpr { span }) => Cow::Owned(TsType::from(TsThisType { span }).into()),
 
             Expr::Ident(Ident {
                 sym: js_word!("undefined"),
                 ..
-            }) => undefined(span),
+            }) => Cow::Owned(Type::undefined(span)),
 
             Expr::Ident(ref i) => {
                 if i.sym == js_word!("require") {
@@ -28,7 +28,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.resolved_imports.get(&i.sym) {
-                    return Ok(&**ty);
+                    return Ok(Cow::Borrowed(&**ty));
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
@@ -65,7 +65,7 @@ impl Analyzer<'_, '_> {
                             spread: Some(..), ..
                         }) => unimplemented!("type of array spread"),
                         None => {
-                            let ty = undefined(span);
+                            let ty = Type::undefined(span);
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
                                 types.push(ty)
                             }
@@ -75,11 +75,11 @@ impl Analyzer<'_, '_> {
 
                 Type::Array(Array {
                     span,
-                    elem_type: match types.len() {
-                        0 => box any(span),
+                    elem_type: Cow::Owned(match types.len() {
+                        0 => box Type::any(span),
                         1 => box types.into_iter().next().unwrap(),
                         _ => box Union { span, types }.into(),
-                    },
+                    }),
                 })
             }
 
@@ -163,7 +163,7 @@ impl Analyzer<'_, '_> {
             .into(),
 
             // https://github.com/Microsoft/TypeScript/issues/26959
-            Expr::Yield(..) => any(span),
+            Expr::Yield(..) => Type::any(span),
 
             Expr::Update(..) => TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
@@ -219,7 +219,7 @@ impl Analyzer<'_, '_> {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 ..
-            }) => any(span),
+            }) => Type::any(span),
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
                 assert!(exprs.len() >= 1);
@@ -332,7 +332,7 @@ impl Analyzer<'_, '_> {
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
-            }) => undefined(span),
+            }) => Type::undefined(span),
 
             _ => unimplemented!("typeof ({:#?})", expr),
         })
@@ -459,7 +459,7 @@ impl Analyzer<'_, '_> {
             fn visit(&mut self, stmt: &ReturnStmt) {
                 let ty = match stmt.arg {
                     Some(ref arg) => self.a.type_of(arg),
-                    None => Ok(undefined(self.span).into()),
+                    None => Ok(Type::undefined(self.span).into()),
                 };
                 self.types.push(ty.map(|ty| ty.into_owned()));
             }
@@ -498,7 +498,7 @@ impl Analyzer<'_, '_> {
             None => match f.body {
                 BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
                     Ok(Some(ty)) => ty,
-                    Ok(None) => undefined(body.span()),
+                    Ok(None) => Type::undefined(body.span()),
                     Err(err) => return Err(err),
                 },
                 BlockStmtOrExpr::Expr(ref expr) => self.type_of(&expr)?,
@@ -520,7 +520,7 @@ impl Analyzer<'_, '_> {
             None => match f.body {
                 Some(ref body) => match self.infer_return_type(body) {
                     Ok(Some(ty)) => ty,
-                    Ok(None) => undefined(body.span()),
+                    Ok(None) => Type::undefined(body.span()),
                     Err(err) => return Err(err),
                 },
                 None => unreachable!("function without body should have type annotation"),
@@ -617,7 +617,7 @@ impl Analyzer<'_, '_> {
 
                                     return Ok(type_ann
                                         .map(|ty| Type::from(*ty.type_ann))
-                                        .unwrap_or_else(|| any(span)));
+                                        .unwrap_or_else(|| Type::any(span)));
                                 }
                                 _ => {
                                     //
@@ -626,7 +626,7 @@ impl Analyzer<'_, '_> {
                                             return Ok(c
                                                 .type_ann
                                                 .map(|ty| Type::from(*ty.type_ann))
-                                                .unwrap_or_else(|| any(span)));
+                                                .unwrap_or_else(|| Type::any(span)));
                                         }
                                     }
 
@@ -642,7 +642,7 @@ impl Analyzer<'_, '_> {
                             kind: TsKeywordTypeKind::TsAnyKeyword,
                             ..
                         }) => {
-                            return Ok(any(span));
+                            return Ok(Type::any(span));
                         }
 
                         _ => {}
@@ -672,12 +672,12 @@ impl Analyzer<'_, '_> {
     fn extract<'a>(
         &'a self,
         span: Span,
-        ty: Type<'a>,
+        ty: TypeRef<'a>,
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Type<'a>, Error> {
-        let any = any(span);
+        let any = Type::any(span);
         let ty = self.expand(span, ty)?;
 
         macro_rules! ret_err {
@@ -867,11 +867,7 @@ impl Analyzer<'_, '_> {
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn expand<'t>(
-        &'t self,
-        span: Span,
-        ty: &'t Type<'t>,
-    ) -> Result<Cow<'t, Type<'t>>, Error> {
+    pub(super) fn expand<'t>(&'t self, span: Span, ty: TypeRef<'t>) -> Result<TypeRef<'t>, Error> {
         match *ty {
             Type::Simple(ref s_ty) => match **s_ty {
                 TsType::TsTypeRef(TsTypeRef {
@@ -1029,7 +1025,7 @@ impl Analyzer<'_, '_> {
             },
         }
 
-        Ok(&ty)
+        Ok(ty)
     }
 }
 
@@ -1047,15 +1043,6 @@ fn prop_key_to_expr(p: &Prop) -> Box<Expr> {
             PropName::Num(ref s) => box Expr::Lit(Lit::Num(Number { ..s.clone() })),
         },
     }
-}
-
-#[inline]
-pub(super) fn never_ty(span: Span) -> Type<'static> {
-    TsType::TsKeywordType(TsKeywordType {
-        span,
-        kind: TsKeywordTypeKind::TsNeverKeyword,
-    })
-    .into()
 }
 
 fn negate(ty: Type) -> Type {
@@ -1098,22 +1085,6 @@ fn negate(ty: Type) -> Type {
             _ => boolean(ty.span()),
         },
     }
-}
-
-pub const fn undefined(span: Span) -> Type<'static> {
-    TsType::TsKeywordType(TsKeywordType {
-        span,
-        kind: TsKeywordTypeKind::TsUndefinedKeyword,
-    })
-    .into()
-}
-
-pub const fn any(span: Span) -> Type<'static> {
-    TsType::TsKeywordType(TsKeywordType {
-        span,
-        kind: TsKeywordTypeKind::TsAnyKeyword,
-    })
-    .into()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

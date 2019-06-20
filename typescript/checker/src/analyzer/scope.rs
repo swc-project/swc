@@ -1,5 +1,6 @@
-use super::{control_flow::CondFacts, expr::any, Analyzer, Name};
+use super::{control_flow::CondFacts, Analyzer, Name};
 use crate::ty::Type;
+
 use fxhash::FxHashMap;
 use std::borrow::Cow;
 use swc_atoms::JsWord;
@@ -32,7 +33,7 @@ pub(super) struct Scope<'a> {
     /// string; } }`
     ///
     /// TODO(kdy1): Use vector (for performance)
-    pub(super) types: FxHashMap<JsWord, Type<'a>>,
+    pub(super) types: FxHashMap<JsWord, Type<'static>>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.
@@ -131,9 +132,9 @@ impl<'a> Scope<'a> {
     }
 
     /// This method does cannot handle imported types.
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<Type> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
         if let Some(ty) = self.types.get(name) {
-            return Some(*ty);
+            return Some(&*ty);
         }
 
         match self.parent {
@@ -151,7 +152,7 @@ impl Analyzer<'_, '_> {
     #[inline(never)]
     pub(super) fn find_var(&self, name: &JsWord) -> Option<&VarInfo> {
         static ERR_VAR: VarInfo = VarInfo {
-            ty: Some(any(DUMMY_SP)),
+            ty: Some(Type::any(DUMMY_SP)),
             kind: VarDeclKind::Const,
             initialized: true,
             copied: false,
@@ -179,7 +180,7 @@ impl Analyzer<'_, '_> {
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
             if let Some(ref v) = s.facts.types.get(&Name::from(name)).and_then(|v| v.ty) {
-                return Some(v);
+                return Some(&*v);
             }
 
             scope = s.parent;
