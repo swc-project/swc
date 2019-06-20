@@ -1,9 +1,8 @@
-use super::Analyzer;
-
+use super::{expr::never_ty, Analyzer};
 use crate::errors::Error;
 use std::{mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Spanned, Visit, VisitWith};
+use swc_common::{Spanned, Visit, VisitWith, DUMMY_SP};
 use swc_ecma_ast::*;
 
 // ModuleDecl::ExportNamed(export) => {}
@@ -47,7 +46,7 @@ impl Analyzer<'_, '_> {
             let ty = match exported_sym
                 .and_then(|exported_sym| self.scope.types.get_mut(&exported_sym))
             {
-                Some(export) => mem::replace(export, Default::default()),
+                Some(export) => mem::replace(export, never_ty(DUMMY_SP)),
                 None => match self.type_of(&expr) {
                     Ok(ty) => ty.into_owned().into(),
                     Err(err) => {

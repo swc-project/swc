@@ -2,7 +2,7 @@ use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    ty::{Type, Union},
+    ty::{Array, Type, Union},
     util::EqIgnoreSpan,
 };
 use std::borrow::Cow;
@@ -28,15 +28,15 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.resolved_imports.get(&i.sym) {
-                    return Ok(ty);
+                    return Ok(**ty);
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
-                    return Ok(Cow::Borrowed(ty));
+                    return Ok(ty);
                 }
 
                 if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
-                    return Ok(Cow::Borrowed(ty));
+                    return Ok(ty);
                 }
 
                 // unimplemented!(
@@ -48,7 +48,7 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut types = vec![];
+                let mut types: Vec<Type> = vec![];
 
                 for elem in elems {
                     match elem {
@@ -73,35 +73,37 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
-                Cow::Owned(TsType::TsArrayType(TsArrayType {
+                Type::Array(Array {
                     span,
                     elem_type: match types.len() {
-                        0 => any(span),
-                        1 => types.into_iter().next().unwrap(),
-                        _ => Union { span, types }.into(),
+                        0 => box any(span),
+                        1 => box types.into_iter().next().unwrap(),
+                        _ => box Union { span, types }.into(),
                     },
-                }))
+                })
             }
 
-            Expr::Lit(Lit::Bool(v)) => Cow::Owned(TsType::TsLitType(TsLitType {
+            Expr::Lit(Lit::Bool(v)) => TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Bool(v),
-            })),
-            Expr::Lit(Lit::Str(ref v)) => Cow::Owned(TsType::TsLitType(TsLitType {
+            })
+            .into(),
+            Expr::Lit(Lit::Str(ref v)) => TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Str(v.clone()),
-            })),
-            Expr::Lit(Lit::Num(v)) => Cow::Owned(TsType::TsLitType(TsLitType {
+            })
+            .into(),
+            Expr::Lit(Lit::Num(v)) => TsType::TsLitType(TsLitType {
                 span: v.span,
                 lit: TsLit::Number(v),
-            })),
-            Expr::Lit(Lit::Null(Null { span })) => {
-                Cow::Owned(TsType::TsKeywordType(TsKeywordType {
-                    span,
-                    kind: TsKeywordTypeKind::TsNullKeyword,
-                }))
-            }
-            Expr::Lit(Lit::Regex(..)) => Cow::Owned(TsType::TsTypeRef(TsTypeRef {
+            })
+            .into(),
+            Expr::Lit(Lit::Null(Null { span })) => TsType::TsKeywordType(TsKeywordType {
+                span,
+                kind: TsKeywordTypeKind::TsNullKeyword,
+            })
+            .into(),
+            Expr::Lit(Lit::Regex(..)) => TsType::TsTypeRef(TsTypeRef {
                 span,
                 type_name: TsEntityName::Ident(Ident {
                     span,
@@ -110,14 +112,16 @@ impl Analyzer<'_, '_> {
                     type_ann: None,
                 }),
                 type_params: None,
-            })),
+            })
+            .into(),
 
             Expr::Paren(ParenExpr { ref expr, .. }) => return self.type_of(expr),
 
-            Expr::Tpl(..) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+            Expr::Tpl(..) => TsType::TsKeywordType(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsStringKeyword,
-            })),
+            })
+            .into(),
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
@@ -127,12 +131,13 @@ impl Analyzer<'_, '_> {
 
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"), ..
-            }) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+            }) => TsType::TsKeywordType(TsKeywordType {
                 span,
                 kind: TsKeywordTypeKind::TsStringKeyword,
-            })),
+            })
+            .into(),
 
-            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => Cow::Borrowed(type_ann),
+            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => (&**type_ann).into(),
             Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => (&*type_ann.type_ann).into(),
 
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
@@ -158,12 +163,13 @@ impl Analyzer<'_, '_> {
             .into(),
 
             // https://github.com/Microsoft/TypeScript/issues/26959
-            Expr::Yield(..) => Cow::Owned(any(span)),
+            Expr::Yield(..) => any(span),
 
-            Expr::Update(..) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+            Expr::Update(..) => TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
                 span,
-            })),
+            })
+            .into(),
 
             Expr::Cond(CondExpr {
                 ref cons, ref alt, ..
@@ -213,7 +219,7 @@ impl Analyzer<'_, '_> {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 ..
-            }) => Cow::Owned(any(span)),
+            }) => any(span),
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
                 assert!(exprs.len() >= 1);
@@ -305,13 +311,11 @@ impl Analyzer<'_, '_> {
 
             Expr::Bin(BinExpr {
                 op: op!(bin, "-"), ..
-            })
-            | Expr::Bin(BinExpr {
-                op: op!(bin, "+"), ..
-            }) => Cow::Owned(TsType::TsKeywordType(TsKeywordType {
+            }) => TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
                 span,
-            })),
+            })
+            .into(),
 
             Expr::Bin(BinExpr { op: op!("==="), .. })
             | Expr::Bin(BinExpr { op: op!("!=="), .. })

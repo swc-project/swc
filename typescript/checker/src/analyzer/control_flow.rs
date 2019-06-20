@@ -708,7 +708,11 @@ impl<'a> RemoveTypes<'a> for Intersection<'a> {
             return never_ty(self.span);
         }
 
-        TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())
+        Intersection {
+            span: self.span,
+            types,
+        }
+        .into()
     }
 }
 
@@ -731,7 +735,7 @@ impl<'a> RemoveTypes<'a> for Union<'a> {
         let types = self
             .types
             .into_iter()
-            .map(|ty| box ty.remove_truthy())
+            .map(|ty| ty.remove_truthy())
             .filter(|ty| !ty.is_never())
             .collect();
         Union {
