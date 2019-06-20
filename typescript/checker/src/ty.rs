@@ -9,7 +9,9 @@ use swc_ecma_ast::*;
 #[derive(Debug, Fold, Clone, PartialEq, FromVariant, Spanned)]
 pub(crate) enum Type<'a> {
     Simple(Cow<'a, TsType>),
+    Array(Array<'a>),
     Union(Union<'a>),
+    Intersection(Intersection<'a>),
     Interface(TsInterfaceDecl),
     Enum(TsEnumDecl),
     /// export type A<B> = Foo<B>;
@@ -20,7 +22,21 @@ pub(crate) enum Type<'a> {
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Array<'a> {
+    pub span: Span,
+    pub elem_type: Box<Type<'a>>,
+}
+
+/// a | b
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Union<'a> {
+    pub span: Span,
+    pub types: Vec<Type<'a>>,
+}
+
+/// a & b
+#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
+pub struct Intersection<'a> {
     pub span: Span,
     pub types: Vec<Type<'a>>,
 }
@@ -446,6 +462,19 @@ impl<'a> Type<'a> {
             Type::Namespace(ns) => Type::Namespace(ns),
             Type::Module(m) => Type::Module(m),
             Type::Class(c) => Type::Class(c),
+        }
+    }
+
+    pub fn is_never(&self) -> bool {
+        match *self {
+            Type::Simple(ref ty) => match **ty {
+                TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNeverKeyword,
+                    ..
+                }) => false,
+                _ => true,
+            },
+            _ => false,
         }
     }
 }

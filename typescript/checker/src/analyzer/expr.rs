@@ -76,14 +76,9 @@ impl Analyzer<'_, '_> {
                 Cow::Owned(TsType::TsArrayType(TsArrayType {
                     span,
                     elem_type: match types.len() {
-                        0 => box any(span),
-                        1 => box types.into_iter().next().unwrap(),
-                        _ => box TsType::TsUnionOrIntersectionType(
-                            TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                                span,
-                                types: types.into_iter().map(Box::new).collect(),
-                            }),
-                        ),
+                        0 => any(span),
+                        1 => types.into_iter().next().unwrap(),
+                        _ => Union { span, types }.into(),
                     },
                 }))
             }
@@ -1052,7 +1047,8 @@ fn prop_key_to_expr(p: &Prop) -> Box<Expr> {
     }
 }
 
-pub(super) const fn never_ty(span: Span) -> Type<'static> {
+#[inline]
+pub(super) fn never_ty(span: Span) -> Type<'static> {
     TsType::TsKeywordType(TsKeywordType {
         span,
         kind: TsKeywordTypeKind::TsNeverKeyword,

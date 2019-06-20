@@ -2,7 +2,7 @@ use crate::ty::Type;
 use std::{ops::RangeInclusive, path::PathBuf};
 use swc_atoms::JsWord;
 use swc_common::{errors::Handler, Span, Spanned};
-use swc_ecma_ast::{TsType, TsTypeElement};
+use swc_ecma_ast::TsTypeElement;
 
 #[derive(Debug, Clone, PartialEq, Spanned)]
 pub enum Error {

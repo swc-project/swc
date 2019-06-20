@@ -6,7 +6,7 @@ use super::{
 };
 use crate::{
     errors::Error,
-    ty::{Type, Union},
+    ty::{Intersection, Type, Union},
 };
 use fxhash::FxHashMap;
 use std::{
@@ -631,69 +631,71 @@ pub(super) trait RemoveTypes<'a> {
     fn remove_truthy(self) -> Type<'a>;
 }
 
+impl<'a> RemoveTypes<'a> for Cow<'a, TsType> {
+    fn remove_falsy(self) -> Type<'a> {
+        match *self {
+            TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
+                TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
+                    return never_ty(span)
+                }
+                _ => {}
+            },
+            TsType::TsLitType(ty) => match ty.lit {
+                TsLit::Bool(Bool { value: false, span }) => return never_ty(span),
+                _ => return TsType::TsLitType(ty).into(),
+            },
+            _ => {}
+        }
+
+        Type::Simple(self)
+    }
+
+    fn remove_truthy(self) -> Type<'a> {
+        match *self {
+            TsType::TsLitType(ty) => match ty.lit {
+                TsLit::Bool(Bool { value: true, span }) => never_ty(span),
+                _ => TsType::TsLitType(ty).into(),
+            },
+        }
+    }
+}
+
 impl<'a> RemoveTypes<'a> for Type<'a> {
     fn remove_falsy(self) -> Type<'a> {
         match self {
-            Type::Simple(ref ty) => match **ty {
-                TsType::TsUnionOrIntersectionType(n) => n.remove_falsy().into(),
-                TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
-                    TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
-                        never_ty(span)
-                    }
-                    _ => self,
-                },
-                TsType::TsLitType(ty) => match ty.lit {
-                    TsLit::Bool(Bool { value: false, span }) => never_ty(span),
-                    _ => TsType::TsLitType(ty).into(),
-                },
-                _ => self,
-            },
+            Type::Simple(ty) => ty.remove_falsy(),
+            Type::Union(u) => u.remove_falsy(),
+            Type::Intersection(i) => i.remove_falsy(),
+            _ => self,
         }
     }
 
     fn remove_truthy(self) -> Type<'a> {
         match self {
-            Type::Simple(ty) => match *ty {
-                TsType::TsUnionOrIntersectionType(n) => n.remove_truthy().into(),
-                TsType::TsLitType(ty) => match ty.lit {
-                    TsLit::Bool(Bool { value: true, span }) => never_ty(span),
-                    _ => TsType::TsLitType(ty).into(),
-                },
-            },
+            Type::Simple(ty) => ty.remove_truthy(),
+            Type::Union(u) => u.remove_truthy(),
+            Type::Intersection(i) => i.remove_truthy(),
             _ => self,
         }
     }
 }
 
-impl<'a> RemoveTypes<'a> for TsUnionOrIntersectionType {
-    fn remove_falsy(self) -> Type<'a> {
-        match self {
-            TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_falsy(),
-            TsUnionOrIntersectionType::TsUnionType(n) => n.remove_falsy(),
-        }
-    }
-
-    fn remove_truthy(self) -> Type<'a> {
-        match self {
-            TsUnionOrIntersectionType::TsIntersectionType(n) => n.remove_truthy(),
-            TsUnionOrIntersectionType::TsUnionType(n) => n.remove_truthy(),
-        }
-    }
-}
-
-impl<'a> RemoveTypes<'a> for TsIntersectionType {
+impl<'a> RemoveTypes<'a> for Intersection<'a> {
     fn remove_falsy(self) -> Type<'a> {
         let types = self
             .types
             .into_iter()
             .map(|ty| ty.remove_falsy())
-            .map(Box::new)
             .collect::<Vec<_>>();
-        if types.iter().any(|ty| is_never(&ty)) {
+        if types.iter().any(Type::is_never) {
             return never_ty(self.span);
         }
 
-        TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())
+        Intersection {
+            span: self.span,
+            types,
+        }
+        .into()
     }
 
     fn remove_truthy(self) -> Type<'a> {
@@ -701,28 +703,28 @@ impl<'a> RemoveTypes<'a> for TsIntersectionType {
             .types
             .into_iter()
             .map(|ty| ty.remove_truthy())
-            .map(Box::new)
             .collect::<Vec<_>>();
-        if types.iter().any(|ty| is_never(&ty)) {
-            return TsType::TsKeywordType(TsKeywordType {
-                span: self.span,
-                kind: TsKeywordTypeKind::TsNeverKeyword,
-            });
+        if types.iter().any(|ty| ty.is_never()) {
+            return never_ty(self.span);
         }
 
         TsType::TsUnionOrIntersectionType(TsIntersectionType { types, ..self }.into())
     }
 }
 
-impl<'a> RemoveTypes<'a> for TsUnionType {
+impl<'a> RemoveTypes<'a> for Union<'a> {
     fn remove_falsy(mut self) -> Type<'a> {
         let types = self
             .types
             .into_iter()
-            .map(|ty| box ty.remove_falsy())
-            .filter(|ty| !is_never(ty))
+            .map(|ty| ty.remove_falsy())
+            .filter(|ty| !ty.is_never())
             .collect();
-        TsType::TsUnionOrIntersectionType(TsUnionType { types, ..self }.into())
+        Union {
+            span: self.span,
+            types,
+        }
+        .into()
     }
 
     fn remove_truthy(mut self) -> Type<'a> {
@@ -730,9 +732,13 @@ impl<'a> RemoveTypes<'a> for TsUnionType {
             .types
             .into_iter()
             .map(|ty| box ty.remove_truthy())
-            .filter(|ty| !is_never(ty))
+            .filter(|ty| !ty.is_never())
             .collect();
-        TsType::TsUnionOrIntersectionType(TsUnionType { types, ..self }.into())
+        Union {
+            span: self.span,
+            types,
+        }
+        .into()
     }
 }
 
@@ -782,15 +788,5 @@ where
             Some(ref stmt) => stmt.ends_with_ret(),
             _ => false,
         }
-    }
-}
-
-fn is_never(ty: &TsType) -> bool {
-    match *ty {
-        TsType::TsKeywordType(TsKeywordType {
-            kind: TsKeywordTypeKind::TsNeverKeyword,
-            ..
-        }) => false,
-        _ => true,
     }
 }

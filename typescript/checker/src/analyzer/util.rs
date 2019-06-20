@@ -1,4 +1,3 @@
-use std::borrow::Cow;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 

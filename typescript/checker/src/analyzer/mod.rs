@@ -441,7 +441,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 Pat::Ident(ref i) => i.sym.clone(),
                                 _ => unimplemented!("declare_var with complex type inference"),
                             },
-                            Some(ty),
+                            Some(ty.into_owned()),
                             // initialized
                             true,
                             // Variable declarations does not allow multiple declarations with same
