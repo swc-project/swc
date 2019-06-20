@@ -3,7 +3,7 @@ use crate::{
     builtin_types,
     errors::Error,
     ty::{self, Array, Type, TypeRef, Union},
-    util::EqIgnoreSpan,
+    util::{CowUtil, EqIgnoreSpan},
 };
 use std::borrow::Cow;
 use swc_atoms::js_word;
@@ -32,7 +32,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
-                    return Ok(ty);
+                    return Ok(Cow::Borrowed(ty));
                 }
 
                 if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
@@ -58,7 +58,7 @@ impl Analyzer<'_, '_> {
                         }) => {
                             let ty = self.type_of(expr)?.generalize_lit();
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty.into_owned())
+                                types.push(ty.into_static().owned())
                             }
                         }
                         Some(ExprOrSpread {
@@ -67,7 +67,7 @@ impl Analyzer<'_, '_> {
                         None => {
                             let ty = Type::undefined(span);
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty)
+                                types.push(ty.owned())
                             }
                         }
                     }
@@ -75,10 +75,10 @@ impl Analyzer<'_, '_> {
 
                 Type::Array(Array {
                     span,
-                    elem_type: Cow::Owned(match types.len() {
-                        0 => box Type::any(span),
-                        1 => box types.into_iter().next().unwrap(),
-                        _ => box Union { span, types }.into(),
+                    elem_type: box Cow::Owned(match types.len() {
+                        0 => Type::any(span),
+                        1 => types.into_iter().next().unwrap(),
+                        _ => Union { span, types }.into(),
                     }),
                 })
             }

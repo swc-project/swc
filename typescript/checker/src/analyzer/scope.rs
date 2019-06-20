@@ -143,7 +143,7 @@ impl<'a> Scope<'a> {
         }
     }
 
-    pub fn register_type(&mut self, name: JsWord, data: Type<'a>) {
+    pub fn register_type(&mut self, name: JsWord, data: Type<'static>) {
         self.types.insert(name, data);
     }
 }
@@ -176,7 +176,7 @@ impl Analyzer<'_, '_> {
     }
 
     pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&Type> {
-        println!("({}) find_var_type({})", self.scope.depth(), name);
+        // println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
             if let Some(ref v) = s.facts.types.get(&Name::from(name)).and_then(|v| v.ty) {

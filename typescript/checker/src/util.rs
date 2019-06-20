@@ -1,4 +1,5 @@
 use crate::ty::Type;
+use std::borrow::Cow;
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -212,4 +213,26 @@ where
             .zip(to.iter())
             .all(|(l, r)| l.eq_ignore_name_and_span(&r))
     }
+}
+
+pub trait IntoCow<'a, T>: Sized + Into<T>
+where
+    T: Clone,
+{
+    fn into_cow(self) -> Cow<'a, T> {
+        Cow::Owned(self.into())
+    }
+}
+
+pub trait CowUtil<'a>: Clone {
+    fn owned(self) -> Cow<'a, Self> {
+        Cow::Owned(self)
+    }
+}
+
+impl<T, S> IntoCow<'_, T> for S
+where
+    Self: Into<T>,
+    T: Clone,
+{
 }

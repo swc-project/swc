@@ -46,9 +46,9 @@ impl Analyzer<'_, '_> {
             let ty = match exported_sym
                 .and_then(|exported_sym| self.scope.types.remove(&exported_sym))
             {
-                Some(export) => export.into_owned(),
+                Some(export) => export.into_static(),
                 None => match self.type_of(&expr) {
-                    Ok(ty) => ty.into_owned().into(),
+                    Ok(ty) => ty.into_static().into(),
                     Err(err) => {
                         self.info.errors.push(err);
                         return;
@@ -69,7 +69,7 @@ impl Analyzer<'_, '_> {
         );
 
         let ty = match self.type_of(expr) {
-            Ok(ty) => ty.into_owned().into(),
+            Ok(ty) => ty.into_static().into(),
             Err(err) => {
                 match err {
                     // Handle hoisting. This allows

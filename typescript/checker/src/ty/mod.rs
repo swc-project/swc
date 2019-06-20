@@ -1,6 +1,6 @@
 use crate::{
     errors::Error,
-    util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
+    util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan},
 };
 use std::borrow::Cow;
 use swc_common::{Fold, FromVariant, Span, Spanned};
@@ -15,6 +15,7 @@ pub(crate) type TypeRef<'a> = Cow<'a, Type<'a>>;
 
 #[derive(Debug, Fold, Clone, PartialEq, FromVariant, Spanned)]
 pub(crate) enum Type<'a> {
+    Keyword(TsKeywordType),
     Simple(Cow<'a, TsType>),
     Array(Array<'a>),
     Union(Union<'a>),
@@ -173,8 +174,8 @@ impl<'a> Type<'a> {
         try_assign(to, self).map(|err| match err {
             Error::AssignFailed { .. } => err,
             _ => Error::AssignFailed {
-                left: to.clone().into_owned(),
-                right: self.clone().into_owned(),
+                left: to.clone().into_static(),
+                right: self.clone().into_static(),
                 cause: vec![err],
             },
         })
@@ -225,8 +226,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => return None,
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.clone().into_owned(),
-                            right: rhs.clone().into_owned(),
+                            left: to.clone().into_static(),
+                            right: rhs.clone().into_static(),
                             cause: vec![],
                         })
                     }
@@ -354,15 +355,15 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                     }) => {
                         return try_assign(&Type::from(&**elem_type), &Type::from(&**rhs_elem_type))
                             .map(|cause| Error::AssignFailed {
-                                left: to.clone().into_owned(),
-                                right: rhs.clone().into_owned(),
+                                left: to.clone().into_static(),
+                                right: rhs.clone().into_static(),
                                 cause: vec![cause],
                             })
                     }
                     _ => {
                         return Some(Error::AssignFailed {
-                            left: to.clone().into_owned(),
-                            right: rhs.clone().into_owned(),
+                            left: to.clone().into_static(),
+                            right: rhs.clone().into_static(),
                             cause: vec![],
                         })
                     }
@@ -425,8 +426,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 }
 
                 return Some(Error::AssignFailed {
-                    left: to.clone().into_owned(),
-                    right: rhs.clone().into_owned(),
+                    left: to.clone().into_static(),
+                    right: rhs.clone().into_static(),
                     cause: vec![],
                 });
             }
@@ -479,7 +480,7 @@ impl From<TsTypeAnn> for Type<'_> {
 }
 
 impl<'a> Type<'a> {
-    pub fn into_owned(self) -> Type<'static> {
+    pub fn into_static(self) -> Type<'static> {
         match self {
             Type::Simple(c) => Type::Simple(Cow::Owned(c.into_owned())),
             Type::Alias(a) => Type::Alias(a),
@@ -504,27 +505,26 @@ impl<'a> Type<'a> {
         }
     }
 
-    pub fn never(span: Span) -> Type<'static> {
-        TsType::TsKeywordType(TsKeywordType {
+    pub const fn never(span: Span) -> Type<'static> {
+        Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsNeverKeyword,
         })
-        .into()
     }
 
     pub const fn undefined(span: Span) -> Type<'static> {
-        TsType::TsKeywordType(TsKeywordType {
+        Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsUndefinedKeyword,
         })
-        .into()
     }
 
     pub const fn any(span: Span) -> Type<'static> {
-        TsType::TsKeywordType(TsKeywordType {
+        Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsAnyKeyword,
         })
-        .into()
     }
 }
+
+impl<'a> CowUtil<'a> for Type<'a> {}
