@@ -866,6 +866,8 @@ impl Analyzer<'_, '_> {
     ///
     ///   - Type alias
     pub(super) fn expand<'t>(&'t self, span: Span, ty: TypeRef<'t>) -> Result<TypeRef<'t>, Error> {
+        println!("({}) expand({:?})", self.scope.depth(), ty);
+
         match *ty {
             Type::Simple(ref s_ty) => match *s_ty {
                 TsType::TsTypeRef(TsTypeRef {
@@ -874,30 +876,54 @@ impl Analyzer<'_, '_> {
                     ..
                 }) => {
                     match *type_name {
-                        // Check for builtin types
-                        TsEntityName::Ident(ref i) => match i.sym {
-                            js_word!("Record") => {}
-                            js_word!("Readonly") => {}
-                            js_word!("ReadonlyArray") => {}
-                            js_word!("ReturnType") => {}
-                            js_word!("Partial") => {}
-                            js_word!("Required") => {}
-                            js_word!("NonNullable") => {}
-                            js_word!("Pick") => {}
-                            js_word!("Record") => {}
-                            js_word!("Extract") => {}
-                            js_word!("Exclude") => {}
+                        TsEntityName::Ident(ref i) => {
+                            // Check for builtin types
+                            match i.sym {
+                                js_word!("Record") => {}
+                                js_word!("Readonly") => {}
+                                js_word!("ReadonlyArray") => {}
+                                js_word!("ReturnType") => {}
+                                js_word!("Partial") => {}
+                                js_word!("Required") => {}
+                                js_word!("NonNullable") => {}
+                                js_word!("Pick") => {}
+                                js_word!("Record") => {}
+                                js_word!("Extract") => {}
+                                js_word!("Exclude") => {}
 
-                            _ => {
-                                // Handle enum
-                                if let Some(ref ty) = self.scope.find_type(&i.sym) {
-                                    match ty {
-                                        Type::Enum(..) => return Ok(Cow::Borrowed(ty)),
-                                        _ => {}
-                                    }
+                                _ => {}
+                            }
+
+                            // Handle enum
+                            if let Some(ref ty) = self.scope.find_type(&i.sym) {
+                                match ty {
+                                    Type::Enum(..) => return Ok(Cow::Borrowed(ty)),
+                                    _ => {}
                                 }
                             }
-                        },
+                        }
+
+                        // Handle enum variant type.
+                        //
+                        //  let a: StringEnum.Foo = x;
+                        TsEntityName::TsQualifiedName(box TsQualifiedName {
+                            left: TsEntityName::Ident(ref left),
+                            ref right,
+                        }) => {
+                            if let Some(ref ty) = self.scope.find_type(&left.sym) {
+                                match *ty {
+                                    Type::Enum(..) => {
+                                        return Ok(EnumVariant {
+                                            span,
+                                            enum_name: left.sym.clone(),
+                                            name: right.sym.clone(),
+                                        }
+                                        .into_cow())
+                                    }
+                                    _ => {}
+                                }
+                            }
+                        }
                         _ => {}
                     }
 
