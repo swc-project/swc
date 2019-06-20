@@ -132,7 +132,7 @@ impl<'a> Scope<'a> {
     }
 
     /// This method does cannot handle imported types.
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type<'static>> {
         if let Some(ty) = self.types.get(name) {
             return Some(&*ty);
         }
@@ -189,7 +189,7 @@ impl Analyzer<'_, '_> {
         self.find_var(name).and_then(|v| v.ty.as_ref())
     }
 
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type<'static>> {
         static ANY_TY: TsType = TsType::TsKeywordType(TsKeywordType {
             span: DUMMY_SP,
             kind: TsKeywordTypeKind::TsAnyKeyword,
