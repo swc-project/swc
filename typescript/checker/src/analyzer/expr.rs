@@ -866,8 +866,6 @@ impl Analyzer<'_, '_> {
     ///
     ///   - Type alias
     pub(super) fn expand<'t>(&'t self, span: Span, ty: TypeRef<'t>) -> Result<TypeRef<'t>, Error> {
-        println!("({}) expand({:?})", self.scope.depth(), ty);
-
         match *ty {
             Type::Simple(ref s_ty) => match *s_ty {
                 TsType::TsTypeRef(TsTypeRef {
