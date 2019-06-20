@@ -35,8 +35,6 @@ mod builtin_types;
 pub mod errors;
 pub mod loader;
 pub mod resolver;
-#[cfg(test)]
-mod tests;
 pub mod ty;
 mod util;
 
