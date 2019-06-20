@@ -505,21 +505,21 @@ impl<'a> Type<'a> {
         }
     }
 
-    pub const fn never(span: Span) -> Type<'static> {
+    pub const fn never<'any>(span: Span) -> Type<'any> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsNeverKeyword,
         })
     }
 
-    pub const fn undefined(span: Span) -> Type<'static> {
+    pub const fn undefined<'any>(span: Span) -> Type<'any> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsUndefinedKeyword,
         })
     }
 
-    pub const fn any(span: Span) -> Type<'static> {
+    pub const fn any<'any>(span: Span) -> Type<'any> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsAnyKeyword,
