@@ -44,9 +44,9 @@ impl Analyzer<'_, '_> {
                 }
             };
             let ty = match exported_sym
-                .and_then(|exported_sym| self.scope.types.get_mut(&exported_sym))
+                .and_then(|exported_sym| self.scope.types.remove(&exported_sym))
             {
-                Some(export) => mem::replace(export, never_ty(DUMMY_SP)),
+                Some(export) => export.into_owned(),
                 None => match self.type_of(&expr) {
                     Ok(ty) => ty.into_owned().into(),
                     Err(err) => {
