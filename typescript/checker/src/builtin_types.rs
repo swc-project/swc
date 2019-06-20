@@ -1,11 +1,12 @@
-use crate::ty::Type;
+use crate::ty::{Type, TypeRef};
 use lazy_static::lazy_static;
+use std::borrow::Cow;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
 lazy_static! {
-    static ref OBJECT_TY: TsType = {
+    static ref OBJECT_TY: Type<'static> = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -17,7 +18,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref STRING_TY: TsType = {
+    static ref STRING_TY: Type<'static> = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -29,7 +30,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref ERROR_TY: TsType = {
+    static ref ERROR_TY: Type<'static> = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -41,7 +42,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref SYMBOL_TY: TsType = {
+    static ref SYMBOL_TY: Type<'static> = {
         let members = vec![];
 
         TsType::TsTypeLit(TsTypeLit {
@@ -59,16 +60,13 @@ pub enum Lib {
     Es2015Promise,
 }
 
-pub fn get(libs: &[Lib], sym: &JsWord) -> Option<Type<'static>> {
-    Some(
-        match *sym {
-            js_word!("Object") => &*OBJECT_TY,
-            js_word!("String") => &*STRING_TY,
-            js_word!("Error") => &*ERROR_TY,
-            js_word!("Symbol") => &*SYMBOL_TY,
+pub fn get(libs: &[Lib], sym: &JsWord) -> Option<TypeRef<'static>> {
+    Some(Cow::Borrowed(match *sym {
+        js_word!("Object") => &*OBJECT_TY,
+        js_word!("String") => &*STRING_TY,
+        js_word!("Error") => &*ERROR_TY,
+        js_word!("Symbol") => &*SYMBOL_TY,
 
-            _ => return None,
-        }
-        .into(),
-    )
+        _ => return None,
+    }))
 }

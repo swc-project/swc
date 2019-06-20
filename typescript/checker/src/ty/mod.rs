@@ -11,6 +11,8 @@ use swc_ecma_ast::{
     TsUnionOrIntersectionType, TsUnionType,
 };
 
+pub(crate) type TypeRef<'a> = Cow<'a, Type<'a>>;
+
 #[derive(Debug, Fold, Clone, PartialEq, FromVariant, Spanned)]
 pub(crate) enum Type<'a> {
     Simple(Cow<'a, TsType>),
@@ -32,21 +34,21 @@ pub(crate) enum Type<'a> {
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Array<'a> {
     pub span: Span,
-    pub elem_type: Box<Type<'a>>,
+    pub elem_type: Box<TypeRef<'a>>,
 }
 
 /// a | b
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Union<'a> {
     pub span: Span,
-    pub types: Vec<Type<'a>>,
+    pub types: Vec<TypeRef<'a>>,
 }
 
 /// a & b
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
 pub struct Intersection<'a> {
     pub span: Span,
-    pub types: Vec<Type<'a>>,
+    pub types: Vec<TypeRef<'a>>,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
@@ -54,7 +56,7 @@ pub struct Function<'a> {
     pub span: Span,
     pub type_params: Option<TsTypeParamDecl>,
     pub params: Vec<TsFnParam>,
-    pub ret_ty: Box<Type<'a>>,
+    pub ret_ty: Box<TypeRef<'a>>,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
@@ -62,7 +64,7 @@ pub struct Constructor<'a> {
     pub span: Span,
     pub type_params: Option<TsTypeParamDecl>,
     pub params: Vec<TsFnParam>,
-    pub ret_ty: Box<Type<'a>>,
+    pub ret_ty: Box<TypeRef<'a>>,
 }
 
 impl<'a> From<&'a TsType> for Type<'a> {
@@ -500,5 +502,29 @@ impl<'a> Type<'a> {
             },
             _ => false,
         }
+    }
+
+    pub fn never(span: Span) -> Type<'static> {
+        TsType::TsKeywordType(TsKeywordType {
+            span,
+            kind: TsKeywordTypeKind::TsNeverKeyword,
+        })
+        .into()
+    }
+
+    pub const fn undefined(span: Span) -> Type<'static> {
+        TsType::TsKeywordType(TsKeywordType {
+            span,
+            kind: TsKeywordTypeKind::TsUndefinedKeyword,
+        })
+        .into()
+    }
+
+    pub const fn any(span: Span) -> Type<'static> {
+        TsType::TsKeywordType(TsKeywordType {
+            span,
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+        })
+        .into()
     }
 }
