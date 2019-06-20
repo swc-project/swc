@@ -48,7 +48,7 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut types: Vec<TsType> = vec![];
+                let mut types = vec![];
 
                 for elem in elems {
                     match elem {
@@ -67,7 +67,7 @@ impl Analyzer<'_, '_> {
                         None => {
                             let ty = undefined(span);
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty.clone())
+                                types.push(ty)
                             }
                         }
                     }
