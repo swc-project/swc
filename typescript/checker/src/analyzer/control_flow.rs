@@ -633,8 +633,8 @@ pub(super) trait RemoveTypes<'a> {
     fn remove_truthy(self) -> TypeRef<'a>;
 }
 
-impl RemoveTypes<'static> for Cow<'static, TsType> {
-    fn remove_falsy(self) -> TypeRef<'static> {
+impl<'a> RemoveTypes<'a> for Cow<'a, TsType> {
+    fn remove_falsy(self) -> TypeRef<'a> {
         match *self {
             TsType::TsKeywordType(TsKeywordType { kind, span }) => match kind {
                 TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
@@ -652,7 +652,7 @@ impl RemoveTypes<'static> for Cow<'static, TsType> {
         self.into_cow()
     }
 
-    fn remove_truthy(self) -> TypeRef<'static> {
+    fn remove_truthy(self) -> TypeRef<'a> {
         match *self {
             TsType::TsLitType(ty) => match ty.lit {
                 TsLit::Bool(Bool { value: true, span }) => return Cow::Owned(Type::never(span)),
@@ -665,8 +665,8 @@ impl RemoveTypes<'static> for Cow<'static, TsType> {
     }
 }
 
-impl RemoveTypes<'static> for Type<'static> {
-    fn remove_falsy(self) -> TypeRef<'static> {
+impl<'a> RemoveTypes<'a> for Type<'a> {
+    fn remove_falsy(self) -> TypeRef<'a> {
         match self {
             Type::Simple(ty) => ty.remove_falsy(),
             Type::Union(u) => u.remove_falsy(),
@@ -675,7 +675,7 @@ impl RemoveTypes<'static> for Type<'static> {
         }
     }
 
-    fn remove_truthy(self) -> TypeRef<'static> {
+    fn remove_truthy(self) -> TypeRef<'a> {
         match self {
             Type::Simple(ty) => ty.remove_truthy(),
             Type::Union(u) => u.remove_truthy(),
@@ -685,8 +685,8 @@ impl RemoveTypes<'static> for Type<'static> {
     }
 }
 
-impl RemoveTypes<'static> for Intersection<'static> {
-    fn remove_falsy(self) -> TypeRef<'static> {
+impl<'a> RemoveTypes<'a> for Intersection<'a> {
+    fn remove_falsy(self) -> TypeRef<'a> {
         let types = self
             .types
             .into_iter()
@@ -703,7 +703,7 @@ impl RemoveTypes<'static> for Intersection<'static> {
         .into_cow()
     }
 
-    fn remove_truthy(self) -> TypeRef<'static> {
+    fn remove_truthy(self) -> TypeRef<'a> {
         let types = self
             .types
             .into_iter()
@@ -721,8 +721,8 @@ impl RemoveTypes<'static> for Intersection<'static> {
     }
 }
 
-impl RemoveTypes<'static> for Union<'static> {
-    fn remove_falsy(mut self) -> TypeRef<'static> {
+impl<'a> RemoveTypes<'a> for Union<'a> {
+    fn remove_falsy(mut self) -> TypeRef<'a> {
         let types = self
             .types
             .into_iter()
@@ -736,7 +736,7 @@ impl RemoveTypes<'static> for Union<'static> {
         .into_cow()
     }
 
-    fn remove_truthy(mut self) -> TypeRef<'static> {
+    fn remove_truthy(mut self) -> TypeRef<'a> {
         let types = self
             .types
             .into_iter()
