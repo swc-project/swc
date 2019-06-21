@@ -447,6 +447,45 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             });
         }
 
+        Type::Enum(ref e) => {
+            //
+            match *rhs {
+                Type::EnumVariant(ref r) => {
+                    if r.enum_name == e.id.sym {
+                        return None;
+                    }
+                }
+                _ => {}
+            }
+
+            return Some(Error::AssignFailed {
+                left: Type::Enum(e.clone()),
+                right: rhs.clone(),
+                cause: vec![],
+            });
+        }
+
+        Type::EnumVariant(ref l) => match *rhs {
+            Type::EnumVariant(ref r) => {
+                if l.enum_name == r.enum_name && l.name == r.name {
+                    return None;
+                }
+
+                return Some(Error::AssignFailed {
+                    left: Type::EnumVariant(l.clone()),
+                    right: rhs.clone(),
+                    cause: vec![],
+                });
+            }
+            _ => {
+                return Some(Error::AssignFailed {
+                    left: Type::EnumVariant(l.clone()),
+                    right: rhs.clone(),
+                    cause: vec![],
+                })
+            }
+        },
+
         Type::Simple(ref l) => match *l {
             TsType::TsThisType(TsThisType { span }) => {
                 return Some(Error::CannotAssingToThis { span })

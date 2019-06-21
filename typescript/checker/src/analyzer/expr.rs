@@ -2,7 +2,7 @@ use super::{control_flow::RemoveTypes, export::pat_to_ts_fn_param, Analyzer};
 use crate::{
     builtin_types,
     errors::Error,
-    ty::{self, Array, EnumVariant, Type, TypeRef, Union},
+    ty::{self, Array, EnumVariant, Intersection, Type, TypeRef, Union},
     util::{CowUtil, EqIgnoreSpan, IntoCow},
 };
 use std::borrow::Cow;
@@ -250,10 +250,10 @@ impl Analyzer<'_, '_> {
             }) => {
                 match **obj {
                     Expr::Ident(ref i) => {
-                        if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
+                        if let Some(Type::Enum(ref e)) = self.find_type(&i.sym) {
                             // TODO(kdy1): Check if variant exists.
                             match **prop {
-                                Expr::Ident(ref v) => {
+                                Expr::Ident(ref v) if !computed => {
                                     return Ok(Cow::Owned(Type::EnumVariant(EnumVariant {
                                         span,
                                         enum_name: e.id.sym.clone(),
@@ -876,6 +876,7 @@ impl Analyzer<'_, '_> {
                     ref type_params,
                     ..
                 }) => {
+                    println!("!!!",);
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
                             // Check for builtin types
@@ -896,7 +897,7 @@ impl Analyzer<'_, '_> {
                             }
 
                             // Handle enum
-                            if let Some(ref ty) = self.scope.find_type(&i.sym) {
+                            if let Some(ref ty) = self.find_type(&i.sym) {
                                 match ty {
                                     Type::Enum(..) => return Ok(Cow::Borrowed(ty)),
                                     _ => {}
@@ -911,6 +912,8 @@ impl Analyzer<'_, '_> {
                             left: TsEntityName::Ident(ref left),
                             ref right,
                         }) => {
+                            println!("!!!: {}.{}", left.sym, right.sym);
+
                             if let Some(ref ty) = self.scope.find_type(&left.sym) {
                                 match *ty {
                                     Type::Enum(..) => {
@@ -1067,7 +1070,32 @@ impl Analyzer<'_, '_> {
             _ => {}
         }
 
-        Ok(ty)
+        let ty = match ty.into_owned() {
+            Type::Union(Union { span, types }) => {
+                return Ok(Union {
+                    span,
+                    types: types
+                        .into_iter()
+                        .map(|ty| Ok(self.expand(span, Cow::Owned(ty))?.into_owned()))
+                        .collect::<Result<_, _>>()?,
+                }
+                .into_cow())
+            }
+            Type::Intersection(Intersection { span, types }) => {
+                return Ok(Intersection {
+                    span,
+                    types: types
+                        .into_iter()
+                        .map(|ty| Ok(self.expand(span, Cow::Owned(ty))?.into_owned()))
+                        .collect::<Result<_, _>>()?,
+                }
+                .into_cow())
+            }
+
+            ty => ty,
+        };
+
+        Ok(ty.into_cow())
     }
 }
 
