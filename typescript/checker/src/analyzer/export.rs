@@ -2,7 +2,7 @@ use super::Analyzer;
 use crate::errors::Error;
 use std::{mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Spanned, Visit, VisitWith};
+use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 // ModuleDecl::ExportNamed(export) => {}
@@ -96,13 +96,8 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
         export.visit_children(self);
 
         match export.decl {
-            Decl::Fn(ref f) => match self.export_fn(f.ident.sym.clone(), &f.function) {
-                Ok(()) => {}
-                Err(err) => self.info.errors.push(err),
-            },
-            Decl::TsInterface(ref i) => {
-                self.export_interface(i.id.sym.clone(), &i);
-            }
+            Decl::Fn(ref f) => self.export(f.span(), f.ident.sym.clone(), None),
+            Decl::TsInterface(ref i) => self.export(i.span(), i.id.sym.clone(), None),
             Decl::Class(..) => unimplemented!("export class Foo"),
             Decl::Var(..) => unimplemented!("export var Foo = a;"),
             Decl::TsEnum(ref e) => {
@@ -119,9 +114,7 @@ impl Visit<ExportDecl> for Analyzer<'_, '_> {
 
                 // TODO(kdy1): Handle type parameters.
 
-                self.info
-                    .exports
-                    .insert(decl.id.sym.clone(), Arc::new(decl.clone().into()));
+                self.export(decl.span, decl.id.sym.clone(), None)
             }
         }
     }
@@ -132,13 +125,25 @@ impl Visit<ExportDefaultDecl> for Analyzer<'_, '_> {
         export.visit_children(self);
 
         match export.decl {
-            DefaultDecl::Fn(ref f) => match self.export_fn(js_word!("default"), &f.function) {
-                Ok(()) => {}
-                Err(err) => self.info.errors.push(err),
-            },
+            DefaultDecl::Fn(ref f) => {
+                let i = f
+                    .ident
+                    .as_ref()
+                    .map(|v| v.sym.clone())
+                    .unwrap_or(js_word!("default"));
+                let fn_ty = match self.type_of_fn(&f.function) {
+                    Ok(ty) => ty,
+                    Err(err) => {
+                        self.info.errors.push(err);
+                        return;
+                    }
+                };
+                self.scope.register_type(i.clone(), fn_ty);
+                self.export(f.span(), js_word!("default"), Some(i))
+            }
             DefaultDecl::Class(..) => unimplemented!("export default class"),
             DefaultDecl::TsInterfaceDecl(ref i) => {
-                self.export_interface(js_word!("default"), i);
+                self.export(i.span(), js_word!("default"), Some(i.id.sym.clone()))
             }
         };
     }
@@ -153,19 +158,21 @@ impl Visit<ExportDefaultExpr> for Analyzer<'_, '_> {
 }
 
 impl Analyzer<'_, '_> {
-    fn export_interface(&mut self, name: JsWord, i: &TsInterfaceDecl) {
-        // TODO(kdy1): Allow multiple exports with same name.
-        debug_assert_eq!(self.info.exports.get(&name), None);
+    /// `scope.regsiter_type` should be called before calling this method.
+    fn export(&mut self, span: Span, name: JsWord, from: Option<JsWord>) {
+        let from = from.unwrap_or_else(|| name.clone());
 
-        self.info.exports.insert(name, Arc::new(i.clone().into()));
-    }
+        let ty = match self.scope.find_type(&from) {
+            Some(ty) => ty.clone(),
+            None => {
+                self.info.errors.push(Error::UndefinedSymbol { span });
+                return;
+            }
+        };
 
-    fn export_fn(&mut self, name: JsWord, f: &Function) -> Result<(), Error> {
-        let ty = self.type_of_fn(f)?;
-
-        self.info.exports.insert(name, Arc::new(ty.into()));
-
-        Ok(())
+        // TODO: Change this to error.
+        assert_eq!(self.info.exports.get(&name), None);
+        self.info.exports.insert(name, Arc::new(ty));
     }
 }
 

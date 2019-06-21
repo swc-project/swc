@@ -1,6 +1,7 @@
 use super::{control_flow::CondFacts, Analyzer, Name};
 use crate::ty::Type;
 use fxhash::FxHashMap;
+use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -142,9 +143,32 @@ impl<'a> Scope<'a> {
         }
     }
 
-    pub fn register_type(&mut self, name: JsWord, data: Type) {
-        println!("({}) register_type({})", self.depth(), name);
-        self.types.insert(name, data);
+    /// # Interface
+    ///
+    /// Registers an interface, and merges it with previous interface
+    /// declaration if required.
+    pub fn register_type(&mut self, name: JsWord, ty: Type) {
+        let depth = self.depth();
+
+        match self.types.entry(name) {
+            Entry::Occupied(mut e) => {
+                println!("({}) register_type({}): duplicate", depth, e.key());
+
+                match (e.get_mut(), ty) {
+                    (&mut Type::Interface(ref mut orig), Type::Interface(ref mut i)) => {
+                        // TODO: Check fields' type
+                        // TODO: Sort function members like
+                        // https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces
+                        orig.body.body.append(&mut i.body.body);
+                    }
+                    ref ty => unreachable!("{:?} cannot be merged with {:?}", ty.0, ty.1),
+                }
+            }
+            Entry::Vacant(e) => {
+                println!("({}) register_type({})", depth, e.key());
+                e.insert(ty);
+            }
+        }
     }
 }
 
