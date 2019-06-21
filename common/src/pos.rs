@@ -1,6 +1,6 @@
 #[cfg(feature = "fold")]
 use fold::{FoldWith, VisitWith};
-use std::borrow::Cow;
+use std::{borrow::Cow, sync::Arc};
 pub use syntax_pos::{
     hygiene, BytePos, CharPos, ExpnInfo, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan,
     SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanData, SpanLinesError,
@@ -49,6 +49,15 @@ where
             Some(ref s) => s.span(),
             None => DUMMY_SP,
         }
+    }
+}
+
+impl<S> Spanned for Arc<S>
+where
+    S: ?Sized + Spanned,
+{
+    fn span(&self) -> Span {
+        <S as Spanned>::span(&*self)
     }
 }
 
