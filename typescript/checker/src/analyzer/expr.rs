@@ -39,15 +39,26 @@ impl Analyzer<'_, '_> {
                     return Ok(Cow::Borrowed(ty));
                 }
 
+                if let Some(_var) = self.find_var(&i.sym) {
+                    // TODO: Infer type or use type hint to handle
+                    //
+                    // let id: (x: Foo) => Foo = x => x;
+                    //
+
+                    return Ok(Type::any(span).into_cow());
+                }
+
                 if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
                     return Ok(ty);
                 }
 
-                // unimplemented!(
-                //     "typeof(undefined ident: {})\nFile: {}",
+                // println!(
+                //     "({}) undefined symbol: {}\n{:#?}",
+                //     self.scope.depth(),
                 //     i.sym,
-                //     self.path.display()
-                // )
+                //     self.scope
+                // );
+
                 return Err(Error::UndefinedSymbol { span: i.span });
             }
 
@@ -510,7 +521,12 @@ impl Analyzer<'_, '_> {
                     Ok(None) => Type::undefined(body.span()),
                     Err(err) => return Err(err),
                 },
-                BlockStmtOrExpr::Expr(ref expr) => self.type_of(&expr)?.into_owned(),
+                BlockStmtOrExpr::Expr(ref expr) => match self.type_of(&expr) {
+                    Ok(ty) => ty.into_owned(),
+                    // We failed to infer type.
+                    Err(Error::UndefinedSymbol { .. }) => return Ok(Type::any(f.span)),
+                    Err(err) => return Err(err),
+                },
             },
         };
 
@@ -633,7 +649,6 @@ impl Analyzer<'_, '_> {
                 //     })
                 //     .into());
                 // }
-
                 Err(Error::UndefinedSymbol { span: i.span() })
             }
 

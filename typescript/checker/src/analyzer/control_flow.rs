@@ -624,6 +624,7 @@ impl Visit<CondExpr> for Analyzer<'_, '_> {
                 return;
             }
         };
+        e.test.visit_with(self);
         self.with_child(ScopeKind::Flow, facts.true_facts, |child| {
             e.cons.visit_with(child)
         });
