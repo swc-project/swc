@@ -614,6 +614,25 @@ impl Visit<SwitchStmt> for Analyzer<'_, '_> {
     }
 }
 
+impl Visit<CondExpr> for Analyzer<'_, '_> {
+    fn visit(&mut self, e: &CondExpr) {
+        let mut facts = Default::default();
+        match self.detect_facts(&e.test, &mut facts) {
+            Ok(()) => (),
+            Err(err) => {
+                self.info.errors.push(err);
+                return;
+            }
+        };
+        self.with_child(ScopeKind::Flow, facts.true_facts, |child| {
+            e.cons.visit_with(child)
+        });
+        self.with_child(ScopeKind::Flow, facts.false_facts, |child| {
+            e.alt.visit_with(child)
+        });
+    }
+}
+
 pub(super) trait RemoveTypes<'a> {
     /// Removes falsy values from `self`.
     fn remove_falsy(self) -> TypeRef<'a>;
