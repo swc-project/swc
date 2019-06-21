@@ -924,7 +924,6 @@ impl Analyzer<'_, '_> {
         // println!("({}) expand({:?})", self.scope.depth(), ty);
 
         match *ty {
-            // TOOD:
             Type::Simple(ref s_ty) => match *s_ty {
                 TsType::TsTypeRef(TsTypeRef {
                     ref type_name,
@@ -951,10 +950,13 @@ impl Analyzer<'_, '_> {
                             }
 
                             println!(".expand(): find_type for ident");
+
                             // Handle enum
                             if let Some(ref ty) = self.find_type(&i.sym) {
                                 match ty {
-                                    Type::Enum(..) => return Ok(Cow::Borrowed(ty)),
+                                    Type::Enum(..) | Type::Interface(..) => {
+                                        return Ok(Cow::Borrowed(ty))
+                                    }
                                     _ => {}
                                 }
                             }
