@@ -6,7 +6,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ts_checker_macros::builtin;
 
-builtin!("./lib/es5.d.ts");
+builtin!(Es5, "./lib/es5.d.ts");
 
 lazy_static! {
     static ref OBJECT_TY: Type = {
