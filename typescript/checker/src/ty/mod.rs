@@ -390,7 +390,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 })
                 | Type::Function(..)
                 | Type::Constructor(..)
-                | Type::Enum(..) => return None,
+                | Type::Enum(..)
+                | Type::Class(..) => return None,
 
                 Type::Simple(ref rhs) => match *rhs {
                     TsType::TsTypeLit(..) => return None,

@@ -949,12 +949,10 @@ impl Analyzer<'_, '_> {
                                 _ => {}
                             }
 
-                            println!(".expand(): find_type for ident");
-
                             // Handle enum
                             if let Some(ref ty) = self.find_type(&i.sym) {
                                 match ty {
-                                    Type::Enum(..) | Type::Interface(..) => {
+                                    Type::Enum(..) | Type::Interface(..) | Type::Class(..) => {
                                         return Ok(Cow::Borrowed(ty))
                                     }
                                     _ => {}
@@ -969,7 +967,6 @@ impl Analyzer<'_, '_> {
                             left: TsEntityName::Ident(ref left),
                             ref right,
                         }) => {
-                            println!(".expand(): find_type from qualified name");
                             if let Some(ref ty) = self.scope.find_type(&left.sym) {
                                 match *ty {
                                     Type::Enum(..) => {
