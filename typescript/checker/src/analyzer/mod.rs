@@ -378,7 +378,7 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
 
         let rhs_ty = match self
             .type_of(&expr.right)
-            // .and_then(|ty| self.expand(span, ty))
+            .and_then(|ty| self.fix_type(span, ty))
         {
             Ok(rhs_ty) => rhs_ty.into_owned(),
             Err(err) => {
@@ -404,9 +404,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                 let span = init.span();
 
                 //  Check if v_ty is assignable to ty
-                let value_ty = match self.type_of(&init)
-                // .and_then(|ty| self.expand(span, ty)) 
-                {
+                let value_ty = match self.type_of(&init).and_then(|ty| self.fix_type(span, ty)) {
                     Ok(ty) => ty,
                     Err(err) => {
                         self.info.errors.push(err);
