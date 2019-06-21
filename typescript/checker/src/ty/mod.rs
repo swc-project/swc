@@ -1,6 +1,6 @@
 use crate::{
     errors::Error,
-    util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan},
+    util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
 };
 use std::borrow::Cow;
 use swc_atoms::JsWord;
@@ -11,6 +11,41 @@ use swc_ecma_ast::{
     TsLit, TsLitType, TsModuleDecl, TsNamespaceDecl, TsThisType, TsType, TsTypeAliasDecl,
     TsTypeAnn, TsTypeLit, TsTypeParamDecl, TsUnionOrIntersectionType, TsUnionType,
 };
+
+pub trait TypeRefExt<'a>: Sized {
+    fn into_type_ref(self) -> Cow<'a, Type>;
+
+    /// Returns generalized type if `self` is a literal type.
+    fn generalize_lit(self) -> Cow<'a, Type> {
+        let ty = self.into_type_ref();
+        match *ty {
+            Type::Lit(TsLitType { span, ref lit }) => Type::Keyword(TsKeywordType {
+                span,
+                kind: match *lit {
+                    TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
+                    TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
+                    TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
+                },
+            })
+            .into_cow(),
+            _ => return ty,
+        }
+    }
+}
+
+impl<'a> TypeRefExt<'a> for TypeRef<'a> {
+    #[inline(always)]
+    fn into_type_ref(self) -> Cow<'a, Type> {
+        self
+    }
+}
+
+impl<'a> TypeRefExt<'a> for Type {
+    #[inline(always)]
+    fn into_type_ref(self) -> Cow<'a, Type> {
+        Cow::Owned(self)
+    }
+}
 
 pub type TypeRef<'a> = Cow<'a, Type>;
 
@@ -227,23 +262,6 @@ impl Type {
                 cause: vec![err],
             },
         })
-    }
-
-    /// Returns generalized type if `self` is a literal type.
-    pub fn generalize_lit(self) -> Self {
-        match self {
-            Type::Lit(TsLitType { span, ref lit }) => Type::Keyword(TsKeywordType {
-                span,
-                kind: match *lit {
-                    TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
-                    TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
-                    TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
-                },
-            })
-            .into(),
-            Type::Simple(ty) => ty.into(),
-            v => v,
-        }
     }
 }
 

@@ -4,7 +4,13 @@ use self::{
     util::PatExt,
 };
 use super::Checker;
-use crate::{builtin_types::Lib, errors::Error, loader::Load, ty::Type, Rule};
+use crate::{
+    builtin_types::Lib,
+    errors::Error,
+    loader::Load,
+    ty::{Type, TypeRefExt},
+    Rule,
+};
 use fxhash::{FxHashMap, FxHashSet};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::{borrow::Cow, path::PathBuf, sync::Arc};
@@ -433,7 +439,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
 
-                        let ty = value_ty.into_owned().generalize_lit();
+                        let ty = value_ty.generalize_lit().into_owned();
 
                         self.scope.declare_var(
                             kind,
