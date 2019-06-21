@@ -340,7 +340,10 @@ impl Analyzer<'_, '_> {
         prop: &Expr,
         computed: bool,
     ) -> Result<TypeRef<'a>, Error> {
+        let obj = obj.generalize_lit();
         match *obj {
+            Type::Lit(..) => unreachable!(),
+
             Type::Enum(ref e) => {
                 // TODO(kdy1): Check if variant exists.
                 match *prop {
