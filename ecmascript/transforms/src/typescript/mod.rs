@@ -107,9 +107,9 @@ impl Strip {
     }
 }
 
-impl Visit<Constructor> for Strip {
-    fn visit(&mut self, c: Constructor) -> Constructor {
-        let c = c.visit_children(self);
+impl Fold<Constructor> for Strip {
+    fn fold(&mut self, c: Constructor) -> Constructor {
+        let c = c.fold_children(self);
 
         let mut stmts = vec![];
 
@@ -157,9 +157,9 @@ impl Visit<Constructor> for Strip {
     }
 }
 
-impl Visit<Vec<ClassMember>> for Strip {
-    fn visit(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
-        let members = members.visit_children(self);
+impl Fold<Vec<ClassMember>> for Strip {
+    fn fold(&mut self, members: Vec<ClassMember>) -> Vec<ClassMember> {
+        let members = members.fold_children(self);
 
         members.move_flat_map(|member| match member {
             ClassMember::Constructor(Constructor { body: None, .. }) => None,
@@ -176,9 +176,9 @@ impl Visit<Vec<ClassMember>> for Strip {
     }
 }
 
-impl Visit<Vec<Pat>> for Strip {
-    fn visit(&mut self, pats: Vec<Pat>) -> Vec<Pat> {
-        let mut pats = pats.visit_children(self);
+impl Fold<Vec<Pat>> for Strip {
+    fn fold(&mut self, pats: Vec<Pat>) -> Vec<Pat> {
+        let mut pats = pats.fold_children(self);
 
         // Remove this from parameter list
         pats.retain(|pat| match *pat {
@@ -193,10 +193,10 @@ impl Visit<Vec<Pat>> for Strip {
     }
 }
 
-impl Visit<Vec<ModuleItem>> for Strip {
-    fn visit(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
+impl Fold<Vec<ModuleItem>> for Strip {
+    fn fold(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         // First pass
-        let items = items.visit_children(self);
+        let items = items.fold_children(self);
 
         let old = self.phase;
         self.phase = Phase::DropImports.into();
@@ -269,7 +269,7 @@ impl Visit<Vec<ModuleItem>> for Strip {
                         })],
                         src: None,
                     })
-                    .visit_with(self),
+                    .fold_with(self),
                 ))
             }
 
@@ -279,7 +279,7 @@ impl Visit<Vec<ModuleItem>> for Strip {
                         span: export.span(),
                         expr: export.expr,
                     })
-                    .visit_with(self),
+                    .fold_with(self),
                 ))
             }
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
@@ -305,7 +305,7 @@ impl Visit<Vec<ModuleItem>> for Strip {
                 )))
             }
 
-            _ => Some(item.visit_with(self)),
+            _ => Some(item.fold_with(self)),
         });
         self.phase = old;
 
@@ -313,8 +313,8 @@ impl Visit<Vec<ModuleItem>> for Strip {
     }
 }
 
-impl Visit<ImportDecl> for Strip {
-    fn visit(&mut self, mut import: ImportDecl) -> ImportDecl {
+impl Fold<ImportDecl> for Strip {
+    fn fold(&mut self, mut import: ImportDecl) -> ImportDecl {
         match self.phase {
             Phase::Analysis => {
                 macro_rules! store {
@@ -359,8 +359,8 @@ impl Visit<ImportDecl> for Strip {
     }
 }
 
-impl Visit<Ident> for Strip {
-    fn visit(&mut self, i: Ident) -> Ident {
+impl Fold<Ident> for Strip {
+    fn fold(&mut self, i: Ident) -> Ident {
         self.scope
             .imported_idents
             .entry((i.sym.clone(), i.span.ctxt()))
@@ -368,7 +368,7 @@ impl Visit<Ident> for Strip {
 
         Ident {
             optional: false,
-            ..i.visit_children(self)
+            ..i.fold_children(self)
         }
     }
 }
@@ -392,21 +392,21 @@ impl Visit<TsEntityName> for Strip {
     }
 }
 
-impl Visit<Decl> for Strip {
-    fn visit(&mut self, decl: Decl) -> Decl {
+impl Fold<Decl> for Strip {
+    fn fold(&mut self, decl: Decl) -> Decl {
         self.handle_decl(&decl);
 
         let old = self.non_top_level;
         self.non_top_level = true.into();
-        let decl = decl.visit_children(self);
+        let decl = decl.fold_children(self);
         self.non_top_level = old;
         decl
     }
 }
 
-impl Visit<Stmt> for Strip {
-    fn visit(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.visit_children(self);
+impl Fold<Stmt> for Strip {
+    fn fold(&mut self, stmt: Stmt) -> Stmt {
+        let stmt = stmt.fold_children(self);
 
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -426,9 +426,9 @@ impl Visit<Stmt> for Strip {
 
 macro_rules! type_to_none {
     ($T:ty) => {
-        impl Visit<Option<$T>> for Strip {
-            fn visit(&mut self, node: Option<$T>) -> Option<$T> {
-                node.visit_with(self);
+        impl Fold<Option<$T>> for Strip {
+            fn fold(&mut self, node: Option<$T>) -> Option<$T> {
+                node.fold_with(self);
 
                 None
             }
@@ -443,16 +443,16 @@ macro_rules! type_to_none {
     };
 }
 
-impl Visit<Option<Accessibility>> for Strip {
-    fn visit(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
+impl Fold<Option<Accessibility>> for Strip {
+    fn fold(&mut self, _: Option<Accessibility>) -> Option<Accessibility> {
         None
     }
 }
 
 type_to_none!(TsType, TsTypeAnn, TsTypeParamDecl, TsTypeParamInstantiation);
 
-impl Visit<Expr> for Strip {
-    fn visit(&mut self, expr: Expr) -> Expr {
+impl Fold<Expr> for Strip {
+    fn fold(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
             Expr::Member(MemberExpr {
                 span,
@@ -461,15 +461,11 @@ impl Visit<Expr> for Strip {
                 computed,
             }) => Expr::Member(MemberExpr {
                 span,
-                obj: obj.visit_with(self),
-                prop: if computed {
-                    prop.visit_with(self)
-                } else {
-                    prop
-                },
+                obj: obj.fold_with(self),
+                prop: if computed { prop.fold_with(self) } else { prop },
                 computed,
             }),
-            _ => expr.visit_children(self),
+            _ => expr.fold_with(self),
         };
 
         match expr {
