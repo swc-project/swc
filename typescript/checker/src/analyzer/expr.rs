@@ -268,12 +268,20 @@ impl Analyzer<'_, '_> {
                 ref prop,
                 ..
             }) => {
-                // Handle enum variant.
-                match **obj {
-                    Expr::Ident(ref i) => {
-                        if let Some(Type::Enum(ref e)) = self.find_type(&i.sym) {
+                // member expression
+                let obj_ty = self.type_of(obj)?;
+
+                fn access_property<'a>(
+                    a: &Analyzer,
+                    span: Span,
+                    obj: TypeRef<'a>,
+                    prop: &Expr,
+                    computed: bool,
+                ) -> Result<TypeRef<'a>, Error> {
+                    match *obj {
+                        Type::Enum(ref e) => {
                             // TODO(kdy1): Check if variant exists.
-                            match **prop {
+                            match *prop {
                                 Expr::Ident(ref v) if !computed => {
                                     return Ok(Cow::Owned(Type::EnumVariant(EnumVariant {
                                         span,
@@ -284,77 +292,48 @@ impl Analyzer<'_, '_> {
                                 _ => {}
                             }
                         }
-                    }
-                    _ => {}
-                }
 
-                // member expression
-                let obj_ty = self.type_of(obj)?;
-
-                let builtin = match *obj_ty {
-                    Type::Lit(TsLitType {
-                        lit: TsLit::Number(..),
-                        ..
-                    })
-                    | Type::Keyword(TsKeywordType {
-                        kind: TsKeywordTypeKind::TsNumberKeyword,
-                        ..
-                    }) => builtin_types::get(self.libs, &js_word!("number")),
-
-                    Type::Lit(TsLitType {
-                        lit: TsLit::Str(..),
-                        ..
-                    })
-                    | Type::Keyword(TsKeywordType {
-                        kind: TsKeywordTypeKind::TsStringKeyword,
-                        ..
-                    }) => builtin_types::get(self.libs, &js_word!("string")),
-                    _ => None,
-                };
-
-                if let Some(ty) = builtin {
-                    match *ty {
-                        Type::Simple(ref ty) => {
-                            //
-                            match *ty {
-                                TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
-                                    for m in members {
-                                        // Check if a member has same name with the property.
-                                    }
+                        // enum Foo { A }
+                        //
+                        // Foo.A.toString()
+                        Type::EnumVariant(EnumVariant {
+                            ref enum_name,
+                            ref name,
+                            span,
+                            ..
+                        }) => match a.find_type(enum_name) {
+                            Some(&Type::Enum(ref e)) => {
+                                for (i, v) in e.members.iter().enumerate() {
+                                    let new_obj = v.init.clone().unwrap_or_else(|| {
+                                        box Expr::Lit(Lit::Num(Number {
+                                            span,
+                                            value: i as f64,
+                                        }))
+                                    });
+                                    let new_obj_ty = a.type_of(&new_obj)?.into_owned();
+                                    return access_property(
+                                        a,
+                                        span,
+                                        Cow::Owned(new_obj_ty),
+                                        prop,
+                                        computed,
+                                    );
                                 }
-
-                                _ => {}
+                                unreachable!(
+                                    "Enum {} does not have a variant named {}",
+                                    enum_name, name
+                                );
                             }
-                        }
+                            _ => unreachable!("Enum named {} does not exist", enum_name),
+                        },
 
                         _ => {}
                     }
+
+                    unimplemented!("type_of(MemberExpr):\nObject: {:?}\nProp: {:?}", obj, prop);
                 }
 
-                unimplemented!(
-                    "type_of(MemberExpr):\nObject: {:?}\nProp: {:?}",
-                    obj_ty,
-                    prop
-                );
-                //
-                // Ok(if computed {
-                //     let index_type = self.type_of(&prop).map(Box::new)?;
-                //     TsIndexedAccessType {
-                //         span,
-                //         obj_type,
-                //         index_type,
-                //     }
-                // } else {
-                //     TsIndexedAccessType {
-                //         span,
-                //         obj_type,
-                //         index_type: box TsType::TsKeywordType(TsKeywordType {
-                //             span,
-                //             kind: TsKeywordTypeKind::TsStringKeyword,
-                //         }),
-                //     }
-                // })
-                // .map(Type::from)
+                return access_property(self, span, obj_ty, prop, computed);
             }
 
             Expr::MetaProp(..) => unimplemented!("typeof(MetaProp)"),
