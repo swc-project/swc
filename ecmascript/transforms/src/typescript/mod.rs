@@ -428,7 +428,7 @@ macro_rules! type_to_none {
     ($T:ty) => {
         impl Fold<Option<$T>> for Strip {
             fn fold(&mut self, node: Option<$T>) -> Option<$T> {
-                node.fold_with(self);
+                node.visit_with(self);
 
                 None
             }
@@ -465,7 +465,7 @@ impl Fold<Expr> for Strip {
                 prop: if computed { prop.fold_with(self) } else { prop },
                 computed,
             }),
-            _ => expr.fold_with(self),
+            _ => expr.fold_children(self),
         };
 
         match expr {
