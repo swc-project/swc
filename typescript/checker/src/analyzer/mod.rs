@@ -404,7 +404,6 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
 
         var.decls.iter().for_each(|v| {
             v.visit_with(self);
-            let span = v.span();
 
             if let Some(ref init) = v.init {
                 let span = init.span();

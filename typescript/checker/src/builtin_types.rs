@@ -5,6 +5,10 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
+macro_rules! decl {
+    () => {};
+}
+
 lazy_static! {
     static ref OBJECT_TY: Type = {
         let members = vec![];

@@ -101,6 +101,13 @@ impl<'a> Scope<'a> {
             initialized,
             copied: false,
         };
+        if !allow_multiple {
+            assert!(
+                self.vars.get(&name).is_none(),
+                "unimplemnted: error reporting: variable with same name"
+            );
+        }
+
         self.vars.insert(name, info);
     }
 

@@ -460,7 +460,7 @@ impl Analyzer<'_, '_> {
                             right: (&**right, &r_ty),
                         };
 
-                        match c.take(|(l, l_ty), (r, r_ty)| match **l_ty {
+                        match c.take(|(l, l_ty), (_, r_ty)| match **l_ty {
                             Type::Keyword(TsKeywordType {
                                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                                 ..

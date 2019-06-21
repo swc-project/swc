@@ -978,7 +978,16 @@ impl Analyzer<'_, '_> {
                             // Handle enum
                             if let Some(ref ty) = self.find_type(&i.sym) {
                                 match ty {
-                                    Type::Enum(..) | Type::Interface(..) | Type::Class(..) => {
+                                    Type::Enum(..) => {
+                                        assert_eq!(
+                                            *type_params, None,
+                                            "unimplemented: error rerporting: Enum reference \
+                                             cannot have type parameters."
+                                        );
+                                        return Ok(Cow::Borrowed(ty));
+                                    }
+
+                                    Type::Interface(..) | Type::Class(..) => {
                                         return Ok(Cow::Borrowed(ty))
                                     }
                                     _ => {}
