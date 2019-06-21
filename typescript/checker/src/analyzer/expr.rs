@@ -31,6 +31,10 @@ impl Analyzer<'_, '_> {
                     return Ok(Cow::Borrowed(&**ty));
                 }
 
+                if let Some(ty) = self.find_type(&i.sym) {
+                    return Ok(Cow::Borrowed(ty));
+                }
+
                 if let Some(ty) = self.find_var_type(&i.sym) {
                     return Ok(Cow::Borrowed(ty));
                 }
@@ -493,7 +497,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type, Error> {
         let ret_ty = match f.return_type {
             Some(ref ret_ty) => self
-                .expand(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
+                .fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
                 .into_owned(),
             None => match f.body {
                 BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
@@ -517,7 +521,7 @@ impl Analyzer<'_, '_> {
     pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type, Error> {
         let ret_ty = match f.return_type {
             Some(ref ret_ty) => self
-                .expand(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
+                .fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
                 .into_owned(),
             None => match f.body {
                 Some(ref body) => match self.infer_return_type(body) {
@@ -567,14 +571,14 @@ impl Analyzer<'_, '_> {
                     unimplemented!("dep: {:#?}", dep);
                 }
 
-                if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
-                    return Ok(TsType::TsTypeRef(TsTypeRef {
-                        span,
-                        type_name: TsEntityName::Ident(i.clone()),
-                        type_params: None,
-                    })
-                    .into());
-                }
+                // if let Some(Type::Enum(ref e)) = self.scope.find_type(&i.sym) {
+                //     return Ok(TsType::TsTypeRef(TsTypeRef {
+                //         span,
+                //         type_name: TsEntityName::Ident(i.clone()),
+                //         type_params: None,
+                //     })
+                //     .into());
+                // }
 
                 Err(Error::UndefinedSymbol { span: i.span() })
             }
@@ -589,6 +593,11 @@ impl Analyzer<'_, '_> {
                 let obj_type = self.type_of(obj)?;
 
                 match *obj_type {
+                    Type::Function(ref f) if kind == ExtractKind::Call => {
+                        //
+                        return Ok(*f.ret_ty.clone());
+                    }
+
                     Type::Keyword(TsKeywordType {
                         kind: TsKeywordTypeKind::TsAnyKeyword,
                         ..
@@ -598,6 +607,8 @@ impl Analyzer<'_, '_> {
 
                     Type::Simple(ref obj_type) => match *obj_type {
                         TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
+                            println!("extract_call_new_expr: Searching type literal",);
+
                             // Candidates of the method call.
                             //
                             // 4 is just an unsientific guess
@@ -656,6 +667,7 @@ impl Analyzer<'_, '_> {
                 if computed {
                     unimplemented!("typeeof(CallExpr): {:?}[{:?}]()", callee, prop)
                 } else {
+                    println!("extract_call_hew_expr: No signature",);
                     Err(if kind == ExtractKind::Call {
                         Error::NoCallSignature { span }
                     } else {
@@ -680,7 +692,6 @@ impl Analyzer<'_, '_> {
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Type, Error> {
         let any = Type::any(span);
-        let ty = self.expand(span, ty)?;
 
         macro_rules! ret_err {
             () => {{
@@ -865,7 +876,11 @@ impl Analyzer<'_, '_> {
     /// Expands
     ///
     ///   - Type alias
-    pub(super) fn expand<'t>(&'t self, span: Span, ty: TypeRef<'t>) -> Result<TypeRef<'t>, Error> {
+    pub(super) fn fix_type<'t>(
+        &'t self,
+        span: Span,
+        ty: TypeRef<'t>,
+    ) -> Result<TypeRef<'t>, Error> {
         // println!("({}) expand({:?})", self.scope.depth(), ty);
 
         match *ty {
@@ -876,7 +891,6 @@ impl Analyzer<'_, '_> {
                     ref type_params,
                     ..
                 }) => {
-                    println!("!!!",);
                     match *type_name {
                         TsEntityName::Ident(ref i) => {
                             // Check for builtin types
@@ -896,6 +910,7 @@ impl Analyzer<'_, '_> {
                                 _ => {}
                             }
 
+                            println!(".expand(): find_type for ident");
                             // Handle enum
                             if let Some(ref ty) = self.find_type(&i.sym) {
                                 match ty {
@@ -912,8 +927,7 @@ impl Analyzer<'_, '_> {
                             left: TsEntityName::Ident(ref left),
                             ref right,
                         }) => {
-                            println!("!!!: {}.{}", left.sym, right.sym);
-
+                            println!(".expand(): find_type from qualified name");
                             if let Some(ref ty) = self.scope.find_type(&left.sym) {
                                 match *ty {
                                     Type::Enum(..) => {
@@ -930,40 +944,6 @@ impl Analyzer<'_, '_> {
                         }
                         _ => {}
                     }
-
-                    let e = (|| {
-                        fn root(n: &TsEntityName) -> &Ident {
-                            match *n {
-                                TsEntityName::TsQualifiedName(box TsQualifiedName {
-                                    ref left,
-                                    ..
-                                }) => root(left),
-                                TsEntityName::Ident(ref i) => i,
-                            }
-                        }
-
-                        // Search imports / decls.
-                        let root = root(type_name);
-
-                        if let Some(v) = self.resolved_imports.get(&root.sym) {
-                            return Ok(&**v);
-                        }
-
-                        if let Some(v) = self.scope.find_type(&root.sym) {
-                            return Ok(v);
-                        }
-
-                        // TODO: Resolve transitive imports.
-
-                        Err(Error::Unimplemented {
-                            span: ty.span(),
-                            msg: format!(
-                                "expand_export_info({})\nFile: {}",
-                                root.sym,
-                                self.path.display()
-                            ),
-                        })
-                    })()?;
 
                     return Ok(ty);
 
@@ -1076,7 +1056,7 @@ impl Analyzer<'_, '_> {
                     span,
                     types: types
                         .into_iter()
-                        .map(|ty| Ok(self.expand(span, Cow::Owned(ty))?.into_owned()))
+                        .map(|ty| Ok(self.fix_type(span, Cow::Owned(ty))?.into_owned()))
                         .collect::<Result<_, _>>()?,
                 }
                 .into_cow())
@@ -1086,7 +1066,7 @@ impl Analyzer<'_, '_> {
                     span,
                     types: types
                         .into_iter()
-                        .map(|ty| Ok(self.expand(span, Cow::Owned(ty))?.into_owned()))
+                        .map(|ty| Ok(self.fix_type(span, Cow::Owned(ty))?.into_owned()))
                         .collect::<Result<_, _>>()?,
                 }
                 .into_cow())
