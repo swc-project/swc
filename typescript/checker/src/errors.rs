@@ -78,10 +78,12 @@ pub enum Error {
 
     NoNewSignature {
         span: Span,
+        callee: Type,
     },
 
     NoCallSignature {
         span: Span,
+        callee: Type,
     },
 
     WrongTypeParams {

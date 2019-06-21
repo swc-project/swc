@@ -200,7 +200,7 @@ impl Analyzer<'_, '_> {
                 ref args,
                 ..
             }) => {
-                let callee_type = self.extract_call_new_expr(
+                let callee_type = self.extract_call_new_expr_member(
                     callee,
                     ExtractKind::New,
                     args.as_ref().map(|v| &**v).unwrap_or_else(|| &[]),
@@ -216,7 +216,12 @@ impl Analyzer<'_, '_> {
                 ..
             }) => {
                 let callee_type = self
-                    .extract_call_new_expr(callee, ExtractKind::Call, args, type_args.as_ref())
+                    .extract_call_new_expr_member(
+                        callee,
+                        ExtractKind::Call,
+                        args,
+                        type_args.as_ref(),
+                    )
                     .map(|v| v)?;
 
                 return Ok(callee_type.into_cow());
@@ -542,7 +547,7 @@ impl Analyzer<'_, '_> {
         .into())
     }
 
-    fn extract_call_new_expr<'e>(
+    fn extract_call_new_expr_member<'e>(
         &'e self,
         callee: &'e Expr,
         kind: ExtractKind,
@@ -550,6 +555,55 @@ impl Analyzer<'_, '_> {
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Type, Error> {
         let span = callee.span();
+
+        macro_rules! search_members_for_prop {
+            ($members:expr, $prop:expr) => {{
+                // Candidates of the method call.
+                //
+                // 4 is just an unsientific guess
+                let mut candidates = Vec::with_capacity(4);
+
+                for m in $members {
+                    match m {
+                        TsTypeElement::TsMethodSignature(ref m) if kind == ExtractKind::Call => {
+                            // We are only interested on methods named `prop`
+                            if $prop.eq_ignore_span(&m.key) {
+                                candidates.push(m.clone());
+                            }
+                        }
+
+                        _ => {}
+                    }
+                }
+
+                match candidates.len() {
+                    0 => {}
+                    1 => {
+                        let TsMethodSignature { type_ann, .. } =
+                            candidates.into_iter().next().unwrap();
+
+                        return Ok(type_ann
+                            .map(|ty| Type::from(*ty.type_ann))
+                            .unwrap_or_else(|| Type::any(span)));
+                    }
+                    _ => {
+                        //
+                        for c in candidates {
+                            if c.params.len() == args.len() {
+                                return Ok(c
+                                    .type_ann
+                                    .map(|ty| Type::from(*ty.type_ann))
+                                    .unwrap_or_else(|| Type::any(span)));
+                            }
+                        }
+
+                        unimplemented!(
+                            "multiple methods with same name and same number of arguments"
+                        )
+                    }
+                }
+            }};
+        }
 
         match *callee {
             Expr::Ident(ref i) if i.sym == js_word!("require") => {
@@ -605,57 +659,13 @@ impl Analyzer<'_, '_> {
                         return Ok(Type::any(span));
                     }
 
+                    Type::Interface(ref i) => {
+                        search_members_for_prop!(&i.body.body, prop);
+                    }
+
                     Type::Simple(ref obj_type) => match *obj_type {
                         TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
-                            println!("extract_call_new_expr: Searching type literal",);
-
-                            // Candidates of the method call.
-                            //
-                            // 4 is just an unsientific guess
-                            let mut candidates = Vec::with_capacity(4);
-
-                            for m in members {
-                                match m {
-                                    TsTypeElement::TsMethodSignature(ref m)
-                                        if kind == ExtractKind::Call =>
-                                    {
-                                        // We are only interested on methods named `prop`
-                                        if prop.eq_ignore_span(&m.key) {
-                                            candidates.push(m.clone());
-                                        }
-                                    }
-
-                                    _ => {}
-                                }
-                            }
-
-                            match candidates.len() {
-                                0 => {}
-                                1 => {
-                                    let TsMethodSignature { type_ann, .. } =
-                                        candidates.into_iter().next().unwrap();
-
-                                    return Ok(type_ann
-                                        .map(|ty| Type::from(*ty.type_ann))
-                                        .unwrap_or_else(|| Type::any(span)));
-                                }
-                                _ => {
-                                    //
-                                    for c in candidates {
-                                        if c.params.len() == args.len() {
-                                            return Ok(c
-                                                .type_ann
-                                                .map(|ty| Type::from(*ty.type_ann))
-                                                .unwrap_or_else(|| Type::any(span)));
-                                        }
-                                    }
-
-                                    unimplemented!(
-                                        "multiple methods with same name and same number of \
-                                         arguments"
-                                    )
-                                }
-                            }
+                            search_members_for_prop!(members, prop);
                         }
 
                         _ => {}
@@ -669,9 +679,15 @@ impl Analyzer<'_, '_> {
                 } else {
                     println!("extract_call_hew_expr: No signature",);
                     Err(if kind == ExtractKind::Call {
-                        Error::NoCallSignature { span }
+                        Error::NoCallSignature {
+                            span,
+                            callee: self.type_of(callee)?.into_owned(),
+                        }
                     } else {
-                        Error::NoNewSignature { span }
+                        Error::NoNewSignature {
+                            span,
+                            callee: self.type_of(callee)?.into_owned(),
+                        }
                     })
                 }
             }
@@ -696,8 +712,77 @@ impl Analyzer<'_, '_> {
         macro_rules! ret_err {
             () => {{
                 match kind {
-                    ExtractKind::Call => return Err(Error::NoCallSignature { span }),
-                    ExtractKind::New => return Err(Error::NoNewSignature { span }),
+                    ExtractKind::Call => {
+                        return Err(Error::NoCallSignature {
+                            span,
+                            callee: ty.clone().into_owned(),
+                        })
+                    }
+                    ExtractKind::New => {
+                        return Err(Error::NoNewSignature {
+                            span,
+                            callee: ty.clone().into_owned(),
+                        })
+                    }
+                }
+            }};
+        }
+
+        /// Search for members and returns if there's a match
+        macro_rules! search_members {
+            ($members:expr) => {{
+                for member in &$members {
+                    match *member {
+                        TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
+                            ref params,
+                            ref type_params,
+                            ref type_ann,
+                            ..
+                        }) if kind == ExtractKind::Call => {
+                            //
+                            match self.try_instantiate(
+                                span,
+                                ty.span(),
+                                type_ann
+                                    .as_ref()
+                                    .map(|v| Type::from(v.type_ann.clone()))
+                                    .unwrap_or_else(|| Type::any(span)),
+                                params,
+                                type_params.as_ref(),
+                                args,
+                                type_args,
+                            ) {
+                                Ok(v) => return Ok(v),
+                                Err(..) => {}
+                            };
+                        }
+
+                        TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
+                            ref params,
+                            ref type_params,
+                            ref type_ann,
+                            ..
+                        }) if kind == ExtractKind::New => {
+                            match self.try_instantiate(
+                                span,
+                                ty.span(),
+                                type_ann
+                                    .as_ref()
+                                    .map(|v| Type::from(v.type_ann.clone()))
+                                    .unwrap_or_else(|| Type::any(span)),
+                                params,
+                                type_params.as_ref(),
+                                args,
+                                type_args,
+                            ) {
+                                Ok(v) => return Ok(v),
+                                Err(..) => {
+                                    // TODO: Handle error
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
                 }
             }};
         }
@@ -750,61 +835,16 @@ impl Analyzer<'_, '_> {
                 Err(Error::UnionError { span, errors })
             }
 
+            Type::Interface(ref i) => {
+                // Search for methods
+                search_members!(i.body.body);
+
+                ret_err!()
+            }
+
             Type::Simple(ref s) => match *s {
                 TsType::TsTypeLit(ref lit) => {
-                    for member in &lit.members {
-                        match *member {
-                            TsTypeElement::TsCallSignatureDecl(TsCallSignatureDecl {
-                                ref params,
-                                ref type_params,
-                                ref type_ann,
-                                ..
-                            }) if kind == ExtractKind::Call => {
-                                //
-                                match self.try_instantiate(
-                                    span,
-                                    ty.span(),
-                                    type_ann
-                                        .as_ref()
-                                        .map(|v| Type::from(v.type_ann.clone()))
-                                        .unwrap_or_else(|| Type::any(span)),
-                                    params,
-                                    type_params.as_ref(),
-                                    args,
-                                    type_args,
-                                ) {
-                                    Ok(v) => return Ok(v),
-                                    Err(..) => {}
-                                };
-                            }
-
-                            TsTypeElement::TsConstructSignatureDecl(TsConstructSignatureDecl {
-                                ref params,
-                                ref type_params,
-                                ref type_ann,
-                                ..
-                            }) if kind == ExtractKind::New => {
-                                match self.try_instantiate(
-                                    span,
-                                    ty.span(),
-                                    type_ann
-                                        .as_ref()
-                                        .map(|v| Type::from(v.type_ann.clone()))
-                                        .unwrap_or_else(|| Type::any(span)),
-                                    params,
-                                    type_params.as_ref(),
-                                    args,
-                                    type_args,
-                                ) {
-                                    Ok(v) => return Ok(v),
-                                    Err(..) => {
-                                        // TODO: Handle error
-                                    }
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
+                    search_members!(lit.members);
 
                     ret_err!()
                 }
