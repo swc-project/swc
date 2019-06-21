@@ -268,6 +268,7 @@ impl Analyzer<'_, '_> {
                 ref prop,
                 ..
             }) => {
+                // Handle enum variant.
                 match **obj {
                     Expr::Ident(ref i) => {
                         if let Some(Type::Enum(ref e)) = self.find_type(&i.sym) {
@@ -286,11 +287,52 @@ impl Analyzer<'_, '_> {
                     }
                     _ => {}
                 }
+
                 // member expression
                 let obj_ty = self.type_of(obj)?;
 
+                let builtin = match *obj_ty {
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Number(..),
+                        ..
+                    })
+                    | Type::Keyword(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsNumberKeyword,
+                        ..
+                    }) => builtin_types::get(self.libs, &js_word!("number")),
+
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Str(..),
+                        ..
+                    })
+                    | Type::Keyword(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsStringKeyword,
+                        ..
+                    }) => builtin_types::get(self.libs, &js_word!("string")),
+                    _ => None,
+                };
+
+                if let Some(ty) = builtin {
+                    match *ty {
+                        Type::Simple(ref ty) => {
+                            //
+                            match *ty {
+                                TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
+                                    for m in members {
+                                        // Check if a member has same name with the property.
+                                    }
+                                }
+
+                                _ => {}
+                            }
+                        }
+
+                        _ => {}
+                    }
+                }
+
                 unimplemented!(
-                    "type_of(MemberExpr):\nObject: {:?},Prop: {:?}",
+                    "type_of(MemberExpr):\nObject: {:?}\nProp: {:?}",
                     obj_ty,
                     prop
                 );
@@ -692,7 +734,6 @@ impl Analyzer<'_, '_> {
                 if computed {
                     unimplemented!("typeeof(CallExpr): {:?}[{:?}]()", callee, prop)
                 } else {
-                    println!("extract_call_hew_expr: No signature",);
                     Err(if kind == ExtractKind::Call {
                         Error::NoCallSignature {
                             span,
