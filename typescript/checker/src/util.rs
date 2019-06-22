@@ -1,5 +1,5 @@
 use crate::ty::Type;
-use std::borrow::Cow;
+use std::{borrow::Cow, mem::transmute};
 use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -66,8 +66,8 @@ pub trait EqIgnoreSpan {
     fn eq_ignore_span(&self, to: &Self) -> bool;
 }
 
-pub trait EqIgnoreNameAndSpan {
-    fn eq_ignore_name_and_span(&self, to: &Self) -> bool;
+pub trait EqIgnoreNameAndSpan<T = Self> {
+    fn eq_ignore_name_and_span(&self, to: &T) -> bool;
 }
 
 macro_rules! impl_by_clone {
@@ -78,10 +78,15 @@ macro_rules! impl_by_clone {
             }
         }
 
-        impl EqIgnoreNameAndSpan for $T {
-            fn eq_ignore_name_and_span(&self, to: &Self) -> bool {
+        impl EqIgnoreNameAndSpan<$T> for $T {
+            fn eq_ignore_name_and_span(&self, to: &$T) -> bool {
                 let l = self.clone().fold_with(&mut SpanAndNameRemover);
                 let r = to.clone().fold_with(&mut SpanAndNameRemover);
+                // In current implementation, l and r lives until the functions return, so it's
+                // safe.
+
+                // TODO: Ensure that this is correct.
+                let r: Self = unsafe { transmute(r) };
                 l == r
             }
         }
