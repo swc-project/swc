@@ -42,7 +42,7 @@ pub trait TypeRefExt<'a>: Sized + Clone {
         'a: 'b,
     {
         // 'a lives longer than 'b, so this is ok
-        unsafe { ::std::mem::transmute(self.to_type_ref()) }
+        unsafe { ::std::mem::transmute::<TypeRef<'a>, TypeRef<'b>>(self.to_type_ref()) }
     }
 }
 
