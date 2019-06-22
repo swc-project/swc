@@ -1,7 +1,7 @@
 use super::{control_flow::CondFacts, Analyzer, Name};
-use crate::ty::{Type, TypeRef, TypeRefExt};
+use crate::ty::Type;
 use fxhash::FxHashMap;
-use std::{borrow::Cow, collections::hash_map::Entry};
+use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;

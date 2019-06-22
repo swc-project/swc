@@ -16,6 +16,7 @@ extern crate node_resolve;
 extern crate rayon;
 extern crate smallvec;
 extern crate swc_atoms;
+extern crate swc_ts_builtin_types;
 extern crate swc_ts_checker_macros;
 #[macro_use]
 extern crate swc_common;
@@ -96,7 +97,7 @@ impl<'a> Checker<'a> {
             resolver: Resolver::new(),
             current: Default::default(),
             // TODO
-            libs: vec![Lib::Es5, Lib::Dom],
+            libs: vec![Lib::ES5, Lib::ES2015],
             // TODO
             rule: Default::default(),
         }

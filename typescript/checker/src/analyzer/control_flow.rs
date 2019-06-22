@@ -13,7 +13,7 @@ use std::{
     borrow::Cow,
     collections::hash_map::Entry,
     convert::TryFrom,
-    iter, mem,
+    mem,
     ops::{AddAssign, BitOr, Not},
 };
 use swc_atoms::JsWord;
