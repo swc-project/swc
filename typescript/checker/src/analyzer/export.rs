@@ -1,5 +1,5 @@
 use super::Analyzer;
-use crate::errors::Error;
+use crate::{errors::Error, ty::TypeRefExt};
 use std::{mem, sync::Arc};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Span, Spanned, Visit, VisitWith};
@@ -48,7 +48,7 @@ impl Analyzer<'_, '_> {
             {
                 Some(export) => export,
                 None => match self.type_of(&expr) {
-                    Ok(ty) => ty.into_owned(),
+                    Ok(ty) => ty.to_static(),
                     Err(err) => {
                         self.info.errors.push(err);
                         return;
@@ -69,7 +69,7 @@ impl Analyzer<'_, '_> {
         );
 
         let ty = match self.type_of(expr) {
-            Ok(ty) => ty.into_owned(),
+            Ok(ty) => ty.to_static(),
             Err(err) => {
                 match err {
                     // Handle hoisting. This allows
@@ -163,7 +163,7 @@ impl Analyzer<'_, '_> {
         let from = from.unwrap_or_else(|| name.clone());
 
         let ty = match self.scope.find_type(&from) {
-            Some(ty) => ty.clone(),
+            Some(ty) => ty.to_static(),
             None => {
                 self.info.errors.push(Error::UndefinedSymbol { span });
                 return;

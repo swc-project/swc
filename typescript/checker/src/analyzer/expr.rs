@@ -28,15 +28,15 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.resolved_imports.get(&i.sym) {
-                    return Ok(Cow::Borrowed(&**ty));
+                    return Ok((&**ty).cast());
                 }
 
                 if let Some(ty) = self.find_type(&i.sym) {
-                    return Ok(Cow::Borrowed(ty));
+                    return Ok(ty.cast());
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
-                    return Ok(Cow::Borrowed(ty));
+                    return Ok(ty);
                 }
 
                 if let Some(_var) = self.find_var(&i.sym) {
@@ -49,7 +49,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
-                    return Ok(ty);
+                    return Ok(ty.cast());
                 }
 
                 // println!(
@@ -63,7 +63,7 @@ impl Analyzer<'_, '_> {
             }
 
             Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut types: Vec<Type> = vec![];
+                let mut types: Vec<TypeRef> = vec![];
 
                 for elem in elems {
                     match elem {
@@ -73,7 +73,7 @@ impl Analyzer<'_, '_> {
                         }) => {
                             let ty = self.type_of(expr)?.generalize_lit();
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty.into_owned())
+                                types.push(ty)
                             }
                         }
                         Some(ExprOrSpread {
@@ -82,7 +82,7 @@ impl Analyzer<'_, '_> {
                         None => {
                             let ty = Type::undefined(span);
                             if types.iter().all(|l| !l.eq_ignore_span(&ty)) {
-                                types.push(ty)
+                                types.push(ty.into_cow())
                             }
                         }
                     }
@@ -91,9 +91,9 @@ impl Analyzer<'_, '_> {
                 Type::Array(Array {
                     span,
                     elem_type: match types.len() {
-                        0 => box Type::any(span),
+                        0 => box Type::any(span).into_cow(),
                         1 => box types.into_iter().next().unwrap(),
-                        _ => box Union { span, types }.into(),
+                        _ => box Union { span, types }.into_cow(),
                     },
                 })
                 .owned()
@@ -199,7 +199,7 @@ impl Analyzer<'_, '_> {
                 } else {
                     Union {
                         span,
-                        types: vec![cons_ty.into_owned(), alt_ty.into_owned()],
+                        types: vec![cons_ty.cast(), alt_ty.cast()],
                     }
                     .into_cow()
                 }
@@ -217,7 +217,7 @@ impl Analyzer<'_, '_> {
                     args.as_ref().map(|v| &**v).unwrap_or_else(|| &[]),
                     type_args.as_ref(),
                 )?;
-                return Ok(callee_type.into_cow());
+                return Ok(callee_type);
             }
 
             Expr::Call(CallExpr {
@@ -235,7 +235,7 @@ impl Analyzer<'_, '_> {
                     )
                     .map(|v| v)?;
 
-                return Ok(callee_type.into_cow());
+                return Ok(callee_type);
             }
 
             // super() returns any
@@ -253,14 +253,12 @@ impl Analyzer<'_, '_> {
             Expr::Await(AwaitExpr { .. }) => unimplemented!("typeof(AwaitExpr)"),
 
             Expr::Class(ClassExpr { ref class, .. }) => {
-                return Ok(self.type_of_class(class)?.into_cow())
+                return Ok(self.type_of_class(class)?.cast())
             }
 
-            Expr::Arrow(ref e) => return Ok(self.type_of_arrow_fn(e)?.into_cow()),
+            Expr::Arrow(ref e) => return Ok(self.type_of_arrow_fn(e)?.cast()),
 
-            Expr::Fn(FnExpr { ref function, .. }) => {
-                return Ok(self.type_of_fn(&function)?.into_cow())
-            }
+            Expr::Fn(FnExpr { ref function, .. }) => return Ok(self.type_of_fn(&function)?.cast()),
 
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
@@ -367,19 +365,22 @@ impl Analyzer<'_, '_> {
                 span,
                 ..
             }) => match self.find_type(enum_name) {
-                Some(&Type::Enum(ref e)) => {
-                    for (i, v) in e.members.iter().enumerate() {
-                        let new_obj = v.init.clone().unwrap_or_else(|| {
-                            box Expr::Lit(Lit::Num(Number {
-                                span,
-                                value: i as f64,
-                            }))
-                        });
-                        let new_obj_ty = self.type_of(&new_obj)?.into_owned();
-                        return self.access_property(span, Cow::Owned(new_obj_ty), prop, computed);
+                Some(ref v) => match **v {
+                    Type::Enum(ref e) => {
+                        for (i, v) in e.members.iter().enumerate() {
+                            let new_obj = v.init.clone().unwrap_or_else(|| {
+                                box Expr::Lit(Lit::Num(Number {
+                                    span,
+                                    value: i as f64,
+                                }))
+                            });
+                            let new_obj_ty = self.type_of(&new_obj)?.cast();
+                            return self.access_property(span, new_obj_ty, prop, computed);
+                        }
+                        unreachable!("Enum {} does not have a variant named {}", enum_name, name);
                     }
-                    unreachable!("Enum {} does not have a variant named {}", enum_name, name);
-                }
+                    _ => unreachable!("Enum named {} does not exist", enum_name),
+                },
                 _ => unreachable!("Enum named {} does not exist", enum_name),
             },
 
@@ -389,7 +390,7 @@ impl Analyzer<'_, '_> {
         unimplemented!("type_of(MemberExpr):\nObject: {:?}\nProp: {:?}", obj, prop);
     }
 
-    pub(super) fn type_of_class(&self, c: &Class) -> Result<Type, Error> {
+    pub(super) fn type_of_class(&self, c: &Class) -> Result<Type<'static>, Error> {
         // let mut type_props = vec![];
         // for member in &c.body {
         //     let span = member.span();
@@ -479,19 +480,22 @@ impl Analyzer<'_, '_> {
         Ok(Type::Class(c.clone()))
     }
 
-    pub(super) fn infer_return_type(&self, body: &BlockStmt) -> Result<Option<Type>, Error> {
+    pub(super) fn infer_return_type(
+        &self,
+        body: &BlockStmt,
+    ) -> Result<Option<Type<'static>>, Error> {
         let mut types = vec![];
 
         struct Visitor<'a> {
             a: &'a Analyzer<'a, 'a>,
             span: Span,
-            types: &'a mut Vec<Result<Type, Error>>,
+            types: &'a mut Vec<Result<Type<'static>, Error>>,
         }
 
         impl Visit<ReturnStmt> for Visitor<'_> {
             fn visit(&mut self, stmt: &ReturnStmt) {
                 let ty = match stmt.arg {
-                    Some(ref arg) => self.a.type_of(arg).map(|ty| ty.into_owned()),
+                    Some(ref arg) => self.a.type_of(arg).map(|ty| ty.to_static()),
                     None => Ok(Type::undefined(self.span)),
                 };
                 self.types.push(ty);
@@ -511,12 +515,12 @@ impl Analyzer<'_, '_> {
         let mut tys = Vec::with_capacity(types_len);
         for ty in types {
             let ty = ty?;
-            tys.push(ty);
+            tys.push(ty.cast());
         }
 
         match tys.len() {
             0 => Ok(None),
-            1 => Ok(Some(tys.into_iter().next().unwrap())),
+            1 => Ok(Some(tys.into_iter().next().unwrap().into_owned())),
             _ => Ok(Some(Type::Union(Union {
                 span: body.span(),
                 types: tys,
@@ -525,19 +529,20 @@ impl Analyzer<'_, '_> {
         }
     }
 
-    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type, Error> {
-        let ret_ty = match f.return_type {
+    pub(super) fn type_of_arrow_fn(&self, f: &ArrowExpr) -> Result<Type<'static>, Error> {
+        let ret_ty: TypeRef<'static> = match f.return_type {
             Some(ref ret_ty) => self
                 .fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
-                .into_owned(),
+                .to_static()
+                .into_cow(),
             None => match f.body {
                 BlockStmtOrExpr::BlockStmt(ref body) => match self.infer_return_type(body) {
-                    Ok(Some(ty)) => ty,
-                    Ok(None) => Type::undefined(body.span()),
+                    Ok(Some(ty)) => ty.into_cow(),
+                    Ok(None) => Type::undefined(body.span()).into_cow(),
                     Err(err) => return Err(err),
                 },
                 BlockStmtOrExpr::Expr(ref expr) => match self.type_of(&expr) {
-                    Ok(ty) => ty.into_owned(),
+                    Ok(ty) => ty.to_static().into_cow(),
                     // We failed to infer type.
                     Err(Error::UndefinedSymbol { .. }) => return Ok(Type::any(f.span)),
                     Err(err) => return Err(err),
@@ -554,11 +559,11 @@ impl Analyzer<'_, '_> {
         .into())
     }
 
-    pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type, Error> {
+    pub(super) fn type_of_fn(&self, f: &Function) -> Result<Type<'static>, Error> {
         let ret_ty = match f.return_type {
             Some(ref ret_ty) => self
                 .fix_type(f.span, Cow::Owned(Type::from(ret_ty.type_ann.clone())))?
-                .into_owned(),
+                .to_static(),
             None => match f.body {
                 Some(ref body) => match self.infer_return_type(body) {
                     Ok(Some(ty)) => ty,
@@ -573,7 +578,7 @@ impl Analyzer<'_, '_> {
             span: f.span,
             params: f.params.iter().cloned().map(pat_to_ts_fn_param).collect(),
             type_params: f.type_params.clone(),
-            ret_ty: box ret_ty,
+            ret_ty: box Cow::Owned(ret_ty),
         }
         .into())
     }
@@ -584,7 +589,7 @@ impl Analyzer<'_, '_> {
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
-    ) -> Result<Type, Error> {
+    ) -> Result<TypeRef<'e>, Error> {
         let span = callee.span();
 
         macro_rules! search_members_for_prop {
@@ -615,7 +620,8 @@ impl Analyzer<'_, '_> {
 
                         return Ok(type_ann
                             .map(|ty| Type::from(*ty.type_ann))
-                            .unwrap_or_else(|| Type::any(span)));
+                            .unwrap_or_else(|| Type::any(span))
+                            .into_cow());
                     }
                     _ => {
                         //
@@ -624,7 +630,8 @@ impl Analyzer<'_, '_> {
                                 return Ok(c
                                     .type_ann
                                     .map(|ty| Type::from(*ty.type_ann))
-                                    .unwrap_or_else(|| Type::any(span)));
+                                    .unwrap_or_else(|| Type::any(span))
+                                    .into_cow());
                             }
                         }
 
@@ -686,14 +693,14 @@ impl Analyzer<'_, '_> {
                         kind: TsKeywordTypeKind::TsAnyKeyword,
                         ..
                     }) => {
-                        return Ok(Type::any(span));
+                        return Ok(Type::any(span).into_cow());
                     }
 
                     Type::Interface(ref i) => {
                         search_members_for_prop!(&i.body.body, prop);
                     }
 
-                    Type::Simple(ref obj_type) => match *obj_type {
+                    Type::Simple(ref obj_type) => match **obj_type {
                         TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
                             search_members_for_prop!(members, prop);
                         }
@@ -710,12 +717,12 @@ impl Analyzer<'_, '_> {
                     Err(if kind == ExtractKind::Call {
                         Error::NoCallSignature {
                             span,
-                            callee: self.type_of(callee)?.into_owned(),
+                            callee: self.type_of(callee)?.to_static(),
                         }
                     } else {
                         Error::NoNewSignature {
                             span,
-                            callee: self.type_of(callee)?.into_owned(),
+                            callee: self.type_of(callee)?.to_static(),
                         }
                     })
                 }
@@ -723,7 +730,7 @@ impl Analyzer<'_, '_> {
             _ => {
                 let ty = self.type_of(callee)?;
 
-                self.extract(span, ty, kind, args, type_args)
+                Ok(self.extract(span, &ty, kind, args, type_args)?.into_cow())
             }
         }
     }
@@ -731,26 +738,24 @@ impl Analyzer<'_, '_> {
     fn extract<'a>(
         &'a self,
         span: Span,
-        ty: TypeRef<'a>,
+        ty: &Type<'a>,
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
     ) -> Result<Type, Error> {
-        let any = Type::any(span);
-
         macro_rules! ret_err {
             () => {{
                 match kind {
                     ExtractKind::Call => {
                         return Err(Error::NoCallSignature {
                             span,
-                            callee: ty.clone().into_owned(),
+                            callee: ty.to_static(),
                         })
                     }
                     ExtractKind::New => {
                         return Err(Error::NoNewSignature {
                             span,
-                            callee: ty.clone().into_owned(),
+                            callee: ty.to_static(),
                         })
                     }
                 }
@@ -775,7 +780,8 @@ impl Analyzer<'_, '_> {
                                 type_ann
                                     .as_ref()
                                     .map(|v| Type::from(v.type_ann.clone()))
-                                    .unwrap_or_else(|| Type::any(span)),
+                                    .unwrap_or_else(|| Type::any(span))
+                                    .into_cow(),
                                 params,
                                 type_params.as_ref(),
                                 args,
@@ -798,7 +804,8 @@ impl Analyzer<'_, '_> {
                                 type_ann
                                     .as_ref()
                                     .map(|v| Type::from(v.type_ann.clone()))
-                                    .unwrap_or_else(|| Type::any(span)),
+                                    .unwrap_or_else(|| Type::any(span))
+                                    .into_cow(),
                                 params,
                                 type_params.as_ref(),
                                 args,
@@ -820,7 +827,7 @@ impl Analyzer<'_, '_> {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
-            }) => return Ok(any),
+            }) => return Ok(Type::any(span)),
 
             Type::Function(ty::Function {
                 ref params,
@@ -855,7 +862,7 @@ impl Analyzer<'_, '_> {
             Type::Union(ref u) => {
                 let mut errors = vec![];
                 for ty in &u.types {
-                    match self.extract(span, Cow::Borrowed(ty), kind, args, type_args) {
+                    match self.extract(span, ty, kind, args, type_args) {
                         Ok(ty) => return Ok(ty),
                         Err(err) => errors.push(err),
                     }
@@ -871,7 +878,7 @@ impl Analyzer<'_, '_> {
                 ret_err!()
             }
 
-            Type::Simple(ref s) => match *s {
+            Type::Simple(ref s) => match **s {
                 TsType::TsTypeLit(ref lit) => {
                     search_members!(lit.members);
 
@@ -889,7 +896,7 @@ impl Analyzer<'_, '_> {
         &'a self,
         span: Span,
         callee_span: Span,
-        ret_type: Type,
+        ret_type: TypeRef<'a>,
         param_decls: &[TsFnParam],
         ty_params_decl: Option<&TsTypeParamDecl>,
         args: &[ExprOrSpread],
@@ -939,7 +946,7 @@ impl Analyzer<'_, '_> {
             }
         }
 
-        Ok(ret_type.into())
+        Ok(ret_type.into_owned())
     }
 
     /// Expands
@@ -953,7 +960,7 @@ impl Analyzer<'_, '_> {
         // println!("({}) expand({:?})", self.scope.depth(), ty);
 
         match *ty {
-            Type::Simple(ref s_ty) => match *s_ty {
+            Type::Simple(ref s_ty) => match **s_ty {
                 TsType::TsTypeRef(TsTypeRef {
                     ref type_name,
                     ref type_params,
@@ -979,20 +986,18 @@ impl Analyzer<'_, '_> {
                             }
 
                             // Handle enum
-                            if let Some(ref ty) = self.find_type(&i.sym) {
-                                match ty {
+                            if let Some(ty) = self.find_type(&i.sym) {
+                                match *ty {
                                     Type::Enum(..) => {
                                         assert_eq!(
                                             *type_params, None,
                                             "unimplemented: error rerporting: Enum reference \
                                              cannot have type parameters."
                                         );
-                                        return Ok(Cow::Borrowed(ty));
+                                        return Ok(ty.cast());
                                     }
 
-                                    Type::Interface(..) | Type::Class(..) => {
-                                        return Ok(Cow::Borrowed(ty))
-                                    }
+                                    Type::Interface(..) | Type::Class(..) => return Ok(ty.cast()),
                                     _ => {}
                                 }
                             }
@@ -1113,8 +1118,7 @@ impl Analyzer<'_, '_> {
                     TsEntityName::Ident(ref i) => {
                         return self
                             .type_of(&Expr::Ident(i.clone()))
-                            .map(|ty| ty.into_owned())
-                            .map(Cow::Owned)
+                            .map(|ty| ty.to_static().cast());
                     }
                     _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
                 },
@@ -1133,7 +1137,7 @@ impl Analyzer<'_, '_> {
                     span,
                     types: types
                         .into_iter()
-                        .map(|ty| Ok(self.fix_type(span, Cow::Owned(ty))?.into_owned()))
+                        .map(|ty| Ok(self.fix_type(span, ty)?))
                         .collect::<Result<_, _>>()?,
                 }
                 .into_cow())
@@ -1143,7 +1147,7 @@ impl Analyzer<'_, '_> {
                     span,
                     types: types
                         .into_iter()
-                        .map(|ty| Ok(self.fix_type(span, Cow::Owned(ty))?.into_owned()))
+                        .map(|ty| Ok(self.fix_type(span, ty)?))
                         .collect::<Result<_, _>>()?,
                 }
                 .into_cow())

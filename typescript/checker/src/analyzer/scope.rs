@@ -1,7 +1,7 @@
 use super::{control_flow::CondFacts, Analyzer, Name};
-use crate::ty::Type;
+use crate::ty::{Type, TypeRef, TypeRefExt};
 use fxhash::FxHashMap;
-use std::collections::hash_map::Entry;
+use std::{borrow::Cow, collections::hash_map::Entry};
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -10,7 +10,7 @@ use swc_ecma_ast::*;
 pub(super) struct VarInfo {
     pub kind: VarDeclKind,
     pub initialized: bool,
-    pub ty: Option<Type>,
+    pub ty: Option<Type<'static>>,
     /// Copied from parent scope. If this is true, it's not a variable
     /// declaration.
     pub copied: bool,
@@ -32,7 +32,7 @@ pub(super) struct Scope<'a> {
     /// string; } }`
     ///
     /// TODO(kdy1): Use vector (for performance)
-    pub(super) types: FxHashMap<JsWord, Type>,
+    pub(super) types: FxHashMap<JsWord, Type<'static>>,
 
     kind: ScopeKind,
     /// Declared variables and parameters.
@@ -91,7 +91,7 @@ impl<'a> Scope<'a> {
         &mut self,
         kind: VarDeclKind,
         name: JsWord,
-        ty: Option<Type>,
+        ty: Option<Type<'static>>,
         initialized: bool,
         allow_multiple: bool,
     ) {
@@ -138,10 +138,10 @@ impl<'a> Scope<'a> {
     }
 
     /// This method does cannot handle imported types.
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
+    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type<'static>> {
         if let Some(ty) = self.types.get(name) {
             println!("({}) find_type({}): Found", self.depth(), name);
-            return Some(&*ty);
+            return Some(&ty);
         }
 
         match self.parent {
@@ -173,7 +173,7 @@ impl<'a> Scope<'a> {
             }
             Entry::Vacant(e) => {
                 println!("({}) register_type({})", depth, e.key());
-                e.insert(ty);
+                e.insert(ty.into_static());
             }
         }
     }
@@ -206,7 +206,7 @@ impl Analyzer<'_, '_> {
         None
     }
 
-    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<&Type> {
+    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<TypeRef> {
         // println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
@@ -216,16 +216,23 @@ impl Analyzer<'_, '_> {
                 .get(&Name::from(name))
                 .and_then(|v| v.ty.as_ref())
             {
-                return Some(v);
+                return Some(v.cast());
             }
 
             scope = s.parent;
         }
 
-        self.find_var(name).and_then(|v| v.ty.as_ref())
+        if let Some(var) = self.find_var(name) {
+            match var.ty {
+                Some(ref ty) => return Some(ty.cast()),
+                _ => {}
+            }
+        }
+
+        None
     }
 
-    pub(super) fn find_type(&self, name: &JsWord) -> Option<&Type> {
+    pub(super) fn find_type<'me>(&'me self, name: &JsWord) -> Option<TypeRef<'me>> {
         #[allow(dead_code)]
         static ANY: Type = Type::Keyword(TsKeywordType {
             span: DUMMY_SP,
@@ -233,15 +240,15 @@ impl Analyzer<'_, '_> {
         });
 
         if self.errored_imports.get(name).is_some() {
-            return Some(&ANY);
+            return Some(ANY.cast());
         }
 
         if let Some(ty) = self.resolved_imports.get(name) {
-            return Some(&**ty);
+            return Some(ty.cast());
         }
 
         if let Some(ty) = self.scope.find_type(name) {
-            return Some(&ty);
+            return Some(ty.cast());
         }
 
         None

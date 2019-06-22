@@ -28,7 +28,7 @@ mod util;
 
 struct Analyzer<'a, 'b> {
     info: Info,
-    resolved_imports: FxHashMap<JsWord, Arc<Type>>,
+    resolved_imports: FxHashMap<JsWord, Arc<Type<'static>>>,
     errored_imports: FxHashSet<JsWord>,
     pending_exports: Vec<((JsWord, Span), Box<Expr>)>,
     scope: Scope<'a>,
@@ -227,7 +227,7 @@ impl<'a, 'b> Analyzer<'a, 'b> {
 
 #[derive(Debug, Default)]
 pub struct Info {
-    pub exports: FxHashMap<JsWord, Arc<Type>>,
+    pub exports: FxHashMap<JsWord, Arc<Type<'static>>>,
     pub errors: Vec<Error>,
 }
 
@@ -386,7 +386,7 @@ impl Visit<AssignExpr> for Analyzer<'_, '_> {
             .type_of(&expr.right)
             .and_then(|ty| self.fix_type(span, ty))
         {
-            Ok(rhs_ty) => rhs_ty.into_owned(),
+            Ok(rhs_ty) => rhs_ty.to_static(),
             Err(err) => {
                 self.info.errors.push(err);
                 return;
@@ -438,7 +438,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                     None => {
                         // infer type from value.
 
-                        let ty = value_ty.generalize_lit().into_owned();
+                        let ty = value_ty.generalize_lit().to_static();
 
                         self.scope.declare_var(
                             kind,

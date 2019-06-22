@@ -5,7 +5,7 @@ use super::{
 };
 use crate::{
     errors::Error,
-    ty::{Intersection, Type, TypeRef, Union},
+    ty::{Intersection, Type, TypeRef, TypeRefExt, Union},
     util::{CowUtil, IntoCow},
 };
 use fxhash::FxHashMap;
@@ -116,7 +116,7 @@ impl Merge for VarInfo {
     }
 }
 
-impl Merge for Type {
+impl Merge for Type<'_> {
     fn or(&mut self, r: Self) {
         let l_span = self.span();
 
@@ -129,13 +129,13 @@ impl Merge for Type {
                     tys.append(types);
                 }
 
-                _ => tys.push(ty),
+                _ => tys.push(ty.into_cow()),
             }
         }
 
         *self = match tys.len() {
             0 => unreachable!(),
-            1 => tys.into_iter().next().unwrap(),
+            1 => tys.into_iter().next().unwrap().cast().into_owned(),
             _ => Type::Union(Union {
                 span: l_span,
                 types: tys,
@@ -244,7 +244,7 @@ impl Analyzer<'_, '_> {
                                 // let foo: string;
                                 // let foo = 'value';
 
-                                let errors = ty.assign_to(&var_ty);
+                                let errors = ty.assign_to(&var_ty.cast());
                                 if errors.is_none() {
                                     Some(ty.clone())
                                 } else {
@@ -259,7 +259,7 @@ impl Analyzer<'_, '_> {
                             if let Some(var_ty) = var_ty {
                                 if var_info.ty.is_none() || !var_info.ty.as_ref().unwrap().is_any()
                                 {
-                                    var_info.ty = Some(var_ty);
+                                    var_info.ty = Some(var_ty.into_static());
                                 }
                             }
                         } else {
@@ -271,7 +271,7 @@ impl Analyzer<'_, '_> {
                                     {
                                         Some(Type::any(var_info.ty.as_ref().unwrap().span()))
                                     } else {
-                                        Some(ty.clone())
+                                        Some(ty.to_static())
                                     },
                                     copied: true,
                                     ..var_info.clone()
@@ -320,14 +320,14 @@ impl Analyzer<'_, '_> {
         facts.true_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.clone().remove_falsy().into_owned()),
+                ty: Some(ty.to_static().remove_falsy().into_owned()),
                 ..base!()
             },
         );
         facts.false_facts.types.insert(
             sym.into(),
             VarInfo {
-                ty: Some(ty.clone().remove_truthy().into_owned()),
+                ty: Some(ty.to_static().remove_truthy().into_owned()),
                 ..base!()
             },
         );
@@ -466,7 +466,7 @@ impl Analyzer<'_, '_> {
                                 ..
                             }) => {
                                 //
-                                Some((Name::try_from(l), r_ty.clone().into_owned()))
+                                Some((Name::try_from(l), r_ty.to_static()))
                             }
                             _ => None,
                         }) {
@@ -642,7 +642,18 @@ pub(super) trait RemoveTypes<'a> {
     fn remove_truthy(self) -> TypeRef<'a>;
 }
 
-impl<'a> RemoveTypes<'a> for Type {
+/// TODO: Optimize
+impl<'a> RemoveTypes<'a> for TypeRef<'a> {
+    fn remove_falsy(self) -> TypeRef<'a> {
+        self.into_owned().remove_falsy()
+    }
+
+    fn remove_truthy(self) -> TypeRef<'a> {
+        self.into_owned().remove_truthy()
+    }
+}
+
+impl<'a> RemoveTypes<'a> for Type<'a> {
     fn remove_falsy(self) -> TypeRef<'a> {
         match self {
             Type::Keyword(TsKeywordType { kind, span }) => match kind {
@@ -683,12 +694,12 @@ impl<'a> RemoveTypes<'a> for Type {
     }
 }
 
-impl<'a> RemoveTypes<'a> for Intersection {
+impl<'a> RemoveTypes<'a> for Intersection<'a> {
     fn remove_falsy(self) -> TypeRef<'a> {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_falsy().into_owned())
+            .map(|ty| ty.remove_falsy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
             return Type::never(self.span).owned();
@@ -705,7 +716,7 @@ impl<'a> RemoveTypes<'a> for Intersection {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_truthy().into_owned())
+            .map(|ty| ty.remove_truthy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
             return Type::never(self.span).owned();
@@ -719,12 +730,12 @@ impl<'a> RemoveTypes<'a> for Intersection {
     }
 }
 
-impl<'a> RemoveTypes<'a> for Union {
+impl<'a> RemoveTypes<'a> for Union<'a> {
     fn remove_falsy(self) -> TypeRef<'a> {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_falsy().into_owned())
+            .map(|ty| ty.remove_falsy())
             .filter(|ty| !ty.is_never())
             .collect();
         Union {
@@ -738,7 +749,7 @@ impl<'a> RemoveTypes<'a> for Union {
         let types = self
             .types
             .into_iter()
-            .map(|ty| ty.remove_truthy().into_owned())
+            .map(|ty| ty.remove_truthy())
             .filter(|ty| !ty.is_never())
             .collect();
         Union {

@@ -87,7 +87,7 @@ macro_rules! impl_by_clone {
         }
     };
 }
-impl_by_clone!(Type);
+impl_by_clone!(Type<'_>);
 impl_by_clone!(TsType);
 impl_by_clone!(Expr);
 impl_by_clone!(TsTypeElement);

@@ -4,7 +4,7 @@ use crate::{
 };
 use std::borrow::Cow;
 use swc_atoms::JsWord;
-use swc_common::{Fold, Span, Spanned};
+use swc_common::{Fold, FromVariant, Span, Spanned};
 use swc_ecma_ast::{
     Bool, Class, Number, Str, TsArrayType, TsConstructorType, TsEnumDecl, TsFnOrConstructorType,
     TsFnParam, TsFnType, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind,
@@ -12,11 +12,11 @@ use swc_ecma_ast::{
     TsTypeAnn, TsTypeLit, TsTypeParamDecl, TsUnionOrIntersectionType, TsUnionType,
 };
 
-pub trait TypeRefExt<'a>: Sized {
-    fn into_type_ref(self) -> Cow<'a, Type>;
+pub trait TypeRefExt<'a>: Sized + Clone {
+    fn into_type_ref(self) -> TypeRef<'a>;
 
     /// Returns generalized type if `self` is a literal type.
-    fn generalize_lit(self) -> Cow<'a, Type> {
+    fn generalize_lit(self) -> TypeRef<'a> {
         let ty = self.into_type_ref();
         match *ty {
             Type::Lit(TsLitType { span, ref lit }) => Type::Keyword(TsKeywordType {
@@ -31,34 +31,42 @@ pub trait TypeRefExt<'a>: Sized {
             _ => return ty,
         }
     }
+
+    fn to_static(&self) -> Type<'static> {
+        self.clone().into_type_ref().into_owned().into_static()
+    }
+
+    fn cast<'b>(&self) -> TypeRef<'b> {
+        unimplemented!()
+    }
 }
 
 impl<'a> TypeRefExt<'a> for TypeRef<'a> {
     #[inline(always)]
-    fn into_type_ref(self) -> Cow<'a, Type> {
+    fn into_type_ref(self) -> TypeRef<'a> {
         self
     }
 }
 
-impl<'a> TypeRefExt<'a> for Type {
+impl<'a> TypeRefExt<'a> for Type<'a> {
     #[inline(always)]
-    fn into_type_ref(self) -> Cow<'a, Type> {
+    fn into_type_ref(self) -> TypeRef<'a> {
         Cow::Owned(self)
     }
 }
 
-pub type TypeRef<'a> = Cow<'a, Type>;
+pub type TypeRef<'a> = Cow<'a, Type<'a>>;
 
-#[derive(Debug, Fold, Clone, PartialEq, Spanned)]
-pub enum Type {
+#[derive(Debug, Fold, Clone, PartialEq, Spanned, FromVariant)]
+pub enum Type<'a> {
     Lit(TsLitType),
     Keyword(TsKeywordType),
-    Simple(TsType),
-    Array(Array),
-    Union(Union),
-    Intersection(Intersection),
-    Function(Function),
-    Constructor(Constructor),
+    Simple(Cow<'a, TsType>),
+    Array(Array<'a>),
+    Union(Union<'a>),
+    Intersection(Intersection<'a>),
+    Function(Function<'a>),
+    Constructor(Constructor<'a>),
 
     EnumVariant(EnumVariant),
 
@@ -71,37 +79,39 @@ pub enum Type {
     Class(Class),
 }
 
-macro_rules! impl_from {
-    ($i:ident) => {
-        impl_from!($i, $i);
-    };
+// macro_rules! impl_from {
+//     ($i:ident, $T:ty) => {
+//         impl From<$T> for Type<'_> {
+//             fn from(v: $T) -> Self {
+//                 Type::$i(v)
+//             }
+//         }
+//     };
+//     ($i:ident, $T:path, $lt:lifetime) => {
+//         impl From<$T<$lt>> for Type<$lt> {
+//             fn from(v: $T) -> Self {
+//                 Type::$i(v)
+//             }
+//         }
+//     };
+// }
 
-    ($i:ident, $T:ty) => {
-        impl From<$T> for Type {
-            fn from(v: $T) -> Self {
-                Type::$i(v)
-            }
-        }
-    };
-}
+// impl_from!(Lit, TsLitType);
+// impl_from!(Keyword, TsKeywordType);
+// impl_from!(Array, Array, 'a);
+// impl_from!(Union, Union, 'a);
+// impl_from!(Intersection, Intersection, 'a);
+// impl_from!(EnumVariant, EnumVariant, 'a);
+// impl_from!(Function, Function, 'a);
+// impl_from!(Constructor, Constructor, 'a);
+// impl_from!(Interface, TsInterfaceDecl);
+// impl_from!(Alias, TsTypeAliasDecl);
+// impl_from!(Enum, TsEnumDecl);
+// impl_from!(Namespace, TsNamespaceDecl);
+// impl_from!(Module, TsModuleDecl);
+// impl_from!(Class);
 
-impl_from!(Lit, TsLitType);
-impl_from!(Keyword, TsKeywordType);
-impl_from!(Array);
-impl_from!(Union);
-impl_from!(Intersection);
-impl_from!(EnumVariant);
-impl_from!(Function);
-impl_from!(Constructor);
-
-impl_from!(Interface, TsInterfaceDecl);
-impl_from!(Alias, TsTypeAliasDecl);
-impl_from!(Enum, TsEnumDecl);
-impl_from!(Namespace, TsNamespaceDecl);
-impl_from!(Module, TsModuleDecl);
-impl_from!(Class);
-
-impl From<TsType> for Type {
+impl From<TsType> for Type<'_> {
     fn from(ty: TsType) -> Self {
         match ty {
             TsType::TsLitType(ty) => ty.into(),
@@ -110,14 +120,14 @@ impl From<TsType> for Type {
                 TsUnionType { span, types },
             )) => Union {
                 span,
-                types: types.into_iter().map(From::from).collect(),
+                types: types.into_iter().map(|v| v.into_cow()).collect(),
             }
             .into(),
             TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(
                 TsIntersectionType { span, types },
             )) => Intersection {
                 span,
-                types: types.into_iter().map(From::from).collect(),
+                types: types.into_iter().map(|v| v.into_cow()).collect(),
             }
             .into(),
             TsType::TsArrayType(TsArrayType {
@@ -125,7 +135,7 @@ impl From<TsType> for Type {
                 box elem_type,
             }) => Type::Array(Array {
                 span,
-                elem_type: box elem_type.into(),
+                elem_type: box elem_type.into_cow(),
             }),
             TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(TsFnType {
                 span,
@@ -136,7 +146,7 @@ impl From<TsType> for Type {
                 span,
                 params,
                 type_params,
-                ret_ty: box type_ann.type_ann.into(),
+                ret_ty: box type_ann.type_ann.into_cow(),
             }),
             TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsConstructorType(
                 TsConstructorType {
@@ -149,31 +159,31 @@ impl From<TsType> for Type {
                 span,
                 params,
                 type_params,
-                ret_ty: box type_ann.type_ann.into(),
+                ret_ty: box type_ann.type_ann.into_cow(),
             }),
-            _ => Type::Simple(ty),
+            _ => Type::Simple(ty.into_cow()),
         }
     }
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
-pub struct Array {
+pub struct Array<'a> {
     pub span: Span,
-    pub elem_type: Box<Type>,
+    pub elem_type: Box<TypeRef<'a>>,
 }
 
 /// a | b
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
-pub struct Union {
+pub struct Union<'a> {
     pub span: Span,
-    pub types: Vec<Type>,
+    pub types: Vec<TypeRef<'a>>,
 }
 
 /// a & b
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
-pub struct Intersection {
+pub struct Intersection<'a> {
     pub span: Span,
-    pub types: Vec<Type>,
+    pub types: Vec<TypeRef<'a>>,
 }
 
 /// FooEnum.A
@@ -185,22 +195,22 @@ pub struct EnumVariant {
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
-pub struct Function {
+pub struct Function<'a> {
     pub span: Span,
     pub type_params: Option<TsTypeParamDecl>,
     pub params: Vec<TsFnParam>,
-    pub ret_ty: Box<Type>,
+    pub ret_ty: Box<TypeRef<'a>>,
 }
 
 #[derive(Debug, Fold, Clone, PartialEq, Spanned)]
-pub struct Constructor {
+pub struct Constructor<'a> {
     pub span: Span,
     pub type_params: Option<TsTypeParamDecl>,
     pub params: Vec<TsFnParam>,
-    pub ret_ty: Box<Type>,
+    pub ret_ty: Box<TypeRef<'a>>,
 }
 
-impl Type {
+impl Type<'_> {
     pub fn contains_void(&self) -> bool {
         match *self {
             Type::Keyword(TsKeywordType {
@@ -253,22 +263,22 @@ impl Type {
         }
     }
 
-    pub fn assign_to(&self, to: &Type) -> Option<Error> {
+    pub fn assign_to(&self, to: &Self) -> Option<Error> {
         try_assign(to, self).map(|err| match err {
             Error::AssignFailed { .. } => err,
             _ => Error::AssignFailed {
-                left: to.clone(),
-                right: self.clone(),
+                left: to.to_static(),
+                right: self.to_static(),
                 cause: vec![err],
             },
         })
     }
 }
 
-fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
+fn try_assign<'a>(to: &Type<'a>, rhs: &Type<'a>) -> Option<Error> {
     for (i, ty) in [to, rhs].iter().enumerate() {
         match *ty {
-            Type::Simple(ref ty) => match *ty {
+            Type::Simple(ref ty) => match **ty {
                 TsType::TsFnOrConstructorType(..)
                 | TsType::TsArrayType(..)
                 | TsType::TsUnionOrIntersectionType(..) => unreachable!("i = ({})", i),
@@ -312,8 +322,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             }) => return None,
             _ => {
                 return Some(Error::AssignFailed {
-                    left: to.clone(),
-                    right: rhs.clone(),
+                    left: to.to_static(),
+                    right: rhs.to_static(),
                     cause: vec![],
                 })
             }
@@ -332,15 +342,15 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 ..
             }) => {
                 return try_assign(&elem_type, &rhs_elem_type).map(|cause| Error::AssignFailed {
-                    left: to.clone(),
-                    right: rhs.clone(),
+                    left: to.to_static(),
+                    right: rhs.to_static(),
                     cause: vec![cause],
                 })
             }
             _ => {
                 return Some(Error::AssignFailed {
-                    left: to.clone(),
-                    right: rhs.clone(),
+                    left: to.to_static(),
+                    right: rhs.to_static(),
                     cause: vec![],
                 })
             }
@@ -411,7 +421,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
                 | Type::Enum(..)
                 | Type::Class(..) => return None,
 
-                Type::Simple(ref rhs) => match *rhs {
+                Type::Simple(ref rhs) => match **rhs {
                     TsType::TsTypeLit(..) => return None,
 
                     _ => {}
@@ -461,8 +471,8 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
             }
 
             return Some(Error::AssignFailed {
-                left: to.clone(),
-                right: rhs.clone(),
+                left: to.to_static(),
+                right: rhs.to_static(),
                 cause: vec![],
             });
         }
@@ -480,7 +490,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 
             return Some(Error::AssignFailed {
                 left: Type::Enum(e.clone()),
-                right: rhs.clone(),
+                right: rhs.to_static(),
                 cause: vec![],
             });
         }
@@ -493,26 +503,26 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 
                 return Some(Error::AssignFailed {
                     left: Type::EnumVariant(l.clone()),
-                    right: rhs.clone(),
+                    right: rhs.to_static(),
                     cause: vec![],
                 });
             }
             _ => {
                 return Some(Error::AssignFailed {
                     left: Type::EnumVariant(l.clone()),
-                    right: rhs.clone(),
+                    right: rhs.to_static(),
                     cause: vec![],
                 })
             }
         },
 
-        Type::Simple(ref l) => match *l {
+        Type::Simple(ref l) => match **l {
             TsType::TsThisType(TsThisType { span }) => {
                 return Some(Error::CannotAssingToThis { span })
             }
 
             TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
-                Type::Simple(ref rhs) => match *rhs {
+                Type::Simple(ref rhs) => match **rhs {
                     TsType::TsTypeLit(TsTypeLit {
                         members: ref rhs_members,
                         ..
@@ -569,22 +579,24 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
     unimplemented!("assign: \nLeft: {:?}\nRight: {:?}", to, rhs)
 }
 
-impl From<TsTypeAnn> for Type {
+impl From<TsTypeAnn> for Type<'_> {
+    #[inline(always)]
     fn from(ann: TsTypeAnn) -> Self {
         ann.type_ann.into()
     }
 }
 
-impl<T> From<Box<T>> for Type
+impl<T> From<Box<T>> for Type<'_>
 where
     T: Into<Self>,
 {
+    #[inline(always)]
     fn from(ty: Box<T>) -> Self {
         (*ty).into()
     }
 }
 
-impl Type {
+impl Type<'_> {
     pub fn is_never(&self) -> bool {
         match &self {
             Type::Keyword(TsKeywordType {
@@ -595,26 +607,36 @@ impl Type {
         }
     }
 
-    pub const fn never(span: Span) -> Type {
+    pub const fn never<'any>(span: Span) -> Type<'any> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsNeverKeyword,
         })
     }
 
-    pub const fn undefined(span: Span) -> Type {
+    pub const fn undefined<'any>(span: Span) -> Type<'any> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsUndefinedKeyword,
         })
     }
 
-    pub const fn any(span: Span) -> Type {
+    pub const fn any<'any>(span: Span) -> Type<'any> {
         Type::Keyword(TsKeywordType {
             span,
             kind: TsKeywordTypeKind::TsAnyKeyword,
         })
     }
+
+    pub fn into_static(self) -> Type<'static> {
+        unimplemented!()
+    }
 }
 
-impl CowUtil<'_> for Type {}
+impl Type<'static> {
+    pub fn downcast<'a>(self) -> Type<'a> {
+        unimplemented!()
+    }
+}
+
+impl<'a> CowUtil<'a> for Type<'a> {}
