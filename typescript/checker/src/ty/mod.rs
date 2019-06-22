@@ -279,7 +279,7 @@ impl Type<'_> {
         }
     }
 
-    pub fn assign_to(&self, to: &Self) -> Option<Error> {
+    pub fn assign_to(&self, to: &Type) -> Option<Error> {
         try_assign(to, self).map(|err| match err {
             Error::AssignFailed { .. } => err,
             _ => Error::AssignFailed {
@@ -291,18 +291,31 @@ impl Type<'_> {
     }
 }
 
-fn try_assign<'a>(to: &Type<'a>, rhs: &Type<'a>) -> Option<Error> {
-    for (i, ty) in [to, rhs].iter().enumerate() {
-        match *ty {
-            Type::Simple(ref ty) => match **ty {
-                TsType::TsFnOrConstructorType(..)
-                | TsType::TsArrayType(..)
-                | TsType::TsUnionOrIntersectionType(..) => unreachable!("i = ({})", i),
-                _ => {}
-            },
-            _ => {}
-        }
+fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
+    /// Ensure that $ty is valid.
+    /// TsType::Array / TsType::FnOrConstructor / TsType::UnionOrIntersection is
+    /// considered invalid
+    macro_rules! verify {
+        ($ty:expr) => {{
+            if cfg!(debug_assertions) {
+                match $ty {
+                    Type::Simple(ref ty) => match **ty {
+                        TsType::TsFnOrConstructorType(..)
+                        | TsType::TsArrayType(..)
+                        | TsType::TsKeywordType(..)
+                        | TsType::TsLitType(..)
+                        | TsType::TsUnionOrIntersectionType(..) => {
+                            unreachable!("this type should be changed into `Type`")
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+        }};
     }
+    verify!(to);
+    verify!(rhs);
 
     match *rhs {
         Type::Union(Union {
