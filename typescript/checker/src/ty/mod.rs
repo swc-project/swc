@@ -629,14 +629,65 @@ impl Type<'_> {
     }
 
     pub fn into_static(self) -> Type<'static> {
-        unimplemented!()
+        match self {
+            Type::Lit(lit) => Type::Lit(lit),
+            Type::Keyword(lit) => Type::Keyword(lit),
+            Type::Simple(s) => Type::Simple(s.into_owned().into_cow()),
+            Type::Array(Array { span, elem_type }) => Type::Array(Array {
+                span,
+                elem_type: box static_type(*elem_type),
+            }),
+
+            Type::Union(Union { span, types }) => Type::Union(Union {
+                span,
+                types: static_types(types),
+            }),
+            Type::Intersection(Intersection { span, types }) => Type::Intersection(Intersection {
+                span,
+                types: static_types(types),
+            }),
+
+            Type::Function(Function {
+                span,
+                type_params,
+                params,
+                ret_ty,
+            }) => Type::Function(Function {
+                span,
+                type_params,
+                params,
+                ret_ty: box static_type(*ret_ty),
+            }),
+
+            Type::Constructor(Constructor {
+                span,
+                type_params,
+                params,
+                ret_ty,
+            }) => Type::Constructor(Constructor {
+                span,
+                type_params,
+                params,
+                ret_ty: box static_type(*ret_ty),
+            }),
+
+            Type::Enum(e) => Type::Enum(e),
+            Type::EnumVariant(e) => Type::EnumVariant(e),
+            Type::Interface(t) => Type::Interface(t),
+            Type::Class(c) => Type::Class(c),
+            Type::Alias(a) => Type::Alias(a),
+            Type::Namespace(n) => Type::Namespace(n),
+            Type::Module(m) => Type::Module(m),
+        }
     }
 }
 
-impl Type<'static> {
-    pub fn downcast<'a>(self) -> Type<'a> {
-        unimplemented!()
-    }
+fn static_type(ty: Cow<Type>) -> TypeRef<'static> {
+    ty.into_owned().into_static().into_cow()
+}
+
+fn static_types(types: Vec<Cow<Type>>) -> Vec<TypeRef<'static>> {
+    types.into_iter().map(static_type).collect()
 }
 
 impl<'a> CowUtil<'a> for Type<'a> {}
