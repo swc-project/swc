@@ -22,7 +22,7 @@ impl Visit<TsExportAssignment> for Analyzer<'_, '_> {
 }
 
 impl Analyzer<'_, '_> {
-    #[inline(always)]
+    #[inline]
     pub(super) fn handle_pending_exports(&mut self) {
         if self.pending_exports.is_empty() {
             return;

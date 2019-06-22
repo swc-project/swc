@@ -1,6 +1,6 @@
 use crate::{
     errors::Error,
-    util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
+    util::{EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
 };
 use std::{borrow::Cow, mem::transmute};
 use swc_atoms::JsWord;
@@ -47,7 +47,7 @@ pub trait TypeRefExt<'a>: Sized + Clone {
 }
 
 impl<'a> TypeRefExt<'a> for TypeRef<'a> {
-    #[inline(always)]
+    #[inline]
     fn into_type_ref(self) -> TypeRef<'a> {
         self
     }
@@ -61,7 +61,7 @@ impl<'a> TypeRefExt<'a> for TypeRef<'a> {
 }
 
 impl<'a> TypeRefExt<'a> for Type<'a> {
-    #[inline(always)]
+    #[inline]
     fn into_type_ref(self) -> TypeRef<'a> {
         Cow::Owned(self)
     }
@@ -609,7 +609,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Option<Error> {
 }
 
 impl From<TsTypeAnn> for Type<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(ann: TsTypeAnn) -> Self {
         ann.type_ann.into()
     }
@@ -619,7 +619,7 @@ impl<T> From<Box<T>> for Type<'_>
 where
     T: Into<Self>,
 {
-    #[inline(always)]
+    #[inline]
     fn from(ty: Box<T>) -> Self {
         (*ty).into()
     }
@@ -731,11 +731,14 @@ impl Type<'_> {
 }
 
 impl Type<'static> {
-    /// Converts `Type<'static>` into `Type<'a>`.
-    #[inline(always)]
+    /// Converts `Type<'static>` into `TypeRef<'a>`.
+    pub fn owned<'a>(self) -> TypeRef<'a> {
+        unsafe { transmute::<Cow<'_, Type<'static>>, TypeRef<'a>>(Cow::Owned(self)) }
+    }
+
+    /// Converts `Type<'static>` into `TypeRef<'a>`.
+    #[inline]
     pub fn static_cast(&self) -> TypeRef {
         unsafe { transmute::<Cow<'_, Type<'static>>, TypeRef<'_>>(Cow::Borrowed(self)) }
     }
 }
-
-impl<'a> CowUtil<'a> for Type<'a> {}

@@ -6,7 +6,7 @@ use super::{
 use crate::{
     errors::Error,
     ty::{Intersection, Type, TypeRef, TypeRefExt, Union},
-    util::{CowUtil, IntoCow},
+    util::IntoCow,
 };
 use fxhash::FxHashMap;
 use std::{
@@ -28,7 +28,7 @@ struct Facts {
 
 impl Not for Facts {
     type Output = Self;
-    #[inline(always)]
+    #[inline]
     fn not(self) -> Self {
         Facts {
             true_facts: self.false_facts,
@@ -117,30 +117,41 @@ impl Merge for VarInfo {
 }
 
 impl Merge for Type<'_> {
-    fn or(&mut self, r: Self) {
+    fn or(&mut self, mut r: Self) {
         let l_span = self.span();
 
-        let l = mem::replace(self, Type::never(l_span));
+        let mut l = mem::replace(self, Type::never(l_span));
 
         let mut tys = vec![];
-        for mut ty in iter::once(l).chain(iter::once(r)) {
-            match ty {
-                Type::Union(Union { ref mut types, .. }) => {
-                    tys.append(types);
-                }
+        macro_rules! check {
+            ($ty:expr) => {{
+                match $ty {
+                    Type::Union(Union { ref mut types, .. }) => {
+                        tys.append(types);
+                    }
 
-                _ => tys.push(ty.into_cow()),
+                    _ => tys.push($ty.into_cow()),
+                }
+            }};
+        }
+        check!(l);
+        check!(r);
+
+        match tys.len() {
+            0 => unreachable!(),
+            1 => {
+                *self = {
+                    let v = tys.into_iter().next().unwrap();
+                    v.into_owned()
+                }
+            }
+            _ => {
+                *self = Type::Union(Union {
+                    span: l_span,
+                    types: tys,
+                })
             }
         }
-
-        *self = match tys.len() {
-            0 => unreachable!(),
-            1 => tys.into_iter().next().unwrap().cast().into_owned(),
-            _ => Type::Union(Union {
-                span: l_span,
-                types: tys,
-            }),
-        };
     }
 }
 
@@ -244,9 +255,9 @@ impl Analyzer<'_, '_> {
                                 // let foo: string;
                                 // let foo = 'value';
 
-                                let errors = ty.assign_to(&var_ty.cast());
+                                let errors = ty.assign_to(&var_ty);
                                 if errors.is_none() {
-                                    Some(ty.clone())
+                                    Some(ty.to_static())
                                 } else {
                                     self.info.errors.extend(errors);
                                     None
@@ -259,7 +270,7 @@ impl Analyzer<'_, '_> {
                             if let Some(var_ty) = var_ty {
                                 if var_info.ty.is_none() || !var_info.ty.as_ref().unwrap().is_any()
                                 {
-                                    var_info.ty = Some(var_ty.into_static());
+                                    var_info.ty = Some(var_ty);
                                 }
                             }
                         } else {
@@ -658,7 +669,7 @@ impl<'a> RemoveTypes<'a> for Type<'a> {
         match self {
             Type::Keyword(TsKeywordType { kind, span }) => match kind {
                 TsKeywordTypeKind::TsUndefinedKeyword | TsKeywordTypeKind::TsNullKeyword => {
-                    return Type::never(span).owned()
+                    return Type::never(span).into_cow()
                 }
                 _ => {}
             },
@@ -668,7 +679,7 @@ impl<'a> RemoveTypes<'a> for Type<'a> {
                         value: false, span, ..
                     }),
                 ..
-            }) => return Type::never(span).owned(),
+            }) => return Type::never(span).into_cow(),
 
             Type::Union(u) => return u.remove_falsy(),
             Type::Intersection(i) => return i.remove_falsy(),
@@ -685,7 +696,7 @@ impl<'a> RemoveTypes<'a> for Type<'a> {
                     value: true, span, ..
                 }),
                 ..
-            }) => return Type::never(span).owned(),
+            }) => return Type::never(span).into_cow(),
 
             Type::Union(u) => u.remove_truthy(),
             Type::Intersection(i) => i.remove_truthy(),
@@ -702,7 +713,7 @@ impl<'a> RemoveTypes<'a> for Intersection<'a> {
             .map(|ty| ty.remove_falsy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
-            return Type::never(self.span).owned();
+            return Type::never(self.span).into_cow();
         }
 
         Intersection {
@@ -719,7 +730,7 @@ impl<'a> RemoveTypes<'a> for Intersection<'a> {
             .map(|ty| ty.remove_truthy())
             .collect::<Vec<_>>();
         if types.iter().any(|ty| ty.is_never()) {
-            return Type::never(self.span).owned();
+            return Type::never(self.span).into_cow();
         }
 
         Intersection {

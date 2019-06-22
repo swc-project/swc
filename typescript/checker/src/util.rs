@@ -229,12 +229,6 @@ where
     }
 }
 
-pub trait CowUtil<'a>: Clone {
-    fn owned(self) -> Cow<'a, Self> {
-        Cow::Owned(self)
-    }
-}
-
 impl<T, S> IntoCow<'_, T> for S
 where
     Self: Into<T>,

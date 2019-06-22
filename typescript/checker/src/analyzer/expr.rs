@@ -3,7 +3,7 @@ use crate::{
     builtin_types,
     errors::Error,
     ty::{self, Array, EnumVariant, Intersection, Type, TypeRef, TypeRefExt, Union},
-    util::{CowUtil, EqIgnoreSpan, IntoCow},
+    util::{EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
 };
 use std::borrow::Cow;
 use swc_atoms::js_word;
@@ -11,16 +11,18 @@ use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
-    pub(super) fn type_of<'e>(&'e self, expr: &'e Expr) -> Result<TypeRef<'e>, Error> {
+    pub(super) fn type_of<'e>(&'e self, expr: &Expr) -> Result<TypeRef<'e>, Error> {
         let span = expr.span();
 
-        Ok(match *expr {
-            Expr::This(ThisExpr { span }) => Cow::Owned(TsType::from(TsThisType { span }).into()),
+        match *expr {
+            Expr::This(ThisExpr { span }) => {
+                return Ok(Cow::Owned(TsType::from(TsThisType { span }).into()))
+            }
 
             Expr::Ident(Ident {
                 sym: js_word!("undefined"),
                 ..
-            }) => Type::undefined(span).owned(),
+            }) => return Ok(Type::undefined(span).into_cow()),
 
             Expr::Ident(ref i) => {
                 if i.sym == js_word!("require") {
@@ -28,15 +30,15 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = self.resolved_imports.get(&i.sym) {
-                    return Ok((&**ty).cast());
+                    return Ok(ty.static_cast());
                 }
 
                 if let Some(ty) = self.find_type(&i.sym) {
-                    return Ok(ty.cast());
+                    return Ok(ty.static_cast());
                 }
 
                 if let Some(ty) = self.find_var_type(&i.sym) {
-                    return Ok(ty);
+                    return Ok(ty.static_cast());
                 }
 
                 if let Some(_var) = self.find_var(&i.sym) {
@@ -49,7 +51,7 @@ impl Analyzer<'_, '_> {
                 }
 
                 if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
-                    return Ok(ty.cast());
+                    return Ok(ty.static_cast());
                 }
 
                 // println!(
@@ -88,7 +90,7 @@ impl Analyzer<'_, '_> {
                     }
                 }
 
-                Type::Array(Array {
+                return Ok(Type::Array(Array {
                     span,
                     elem_type: match types.len() {
                         0 => box Type::any(span).into_cow(),
@@ -96,113 +98,131 @@ impl Analyzer<'_, '_> {
                         _ => box Union { span, types }.into_cow(),
                     },
                 })
-                .owned()
+                .into_cow());
             }
 
-            Expr::Lit(Lit::Bool(v)) => Type::Lit(TsLitType {
-                span: v.span,
-                lit: TsLit::Bool(v),
-            })
-            .into_cow(),
-            Expr::Lit(Lit::Str(ref v)) => Type::Lit(TsLitType {
-                span: v.span,
-                lit: TsLit::Str(v.clone()),
-            })
-            .into_cow(),
-            Expr::Lit(Lit::Num(v)) => Type::Lit(TsLitType {
-                span: v.span,
-                lit: TsLit::Number(v),
-            })
-            .into_cow(),
-            Expr::Lit(Lit::Null(Null { span })) => Type::Keyword(TsKeywordType {
-                span,
-                kind: TsKeywordTypeKind::TsNullKeyword,
-            })
-            .into_cow(),
-            Expr::Lit(Lit::Regex(..)) => TsType::TsTypeRef(TsTypeRef {
-                span,
-                type_name: TsEntityName::Ident(Ident {
+            Expr::Lit(Lit::Bool(v)) => {
+                return Ok(Type::Lit(TsLitType {
+                    span: v.span,
+                    lit: TsLit::Bool(v),
+                })
+                .into_cow())
+            }
+            Expr::Lit(Lit::Str(ref v)) => {
+                return Ok(Type::Lit(TsLitType {
+                    span: v.span,
+                    lit: TsLit::Str(v.clone()),
+                })
+                .into_cow())
+            }
+            Expr::Lit(Lit::Num(v)) => {
+                return Ok(Type::Lit(TsLitType {
+                    span: v.span,
+                    lit: TsLit::Number(v),
+                })
+                .into_cow())
+            }
+            Expr::Lit(Lit::Null(Null { span })) => {
+                return Ok(Type::Keyword(TsKeywordType {
                     span,
-                    sym: js_word!("RegExp"),
-                    optional: false,
-                    type_ann: None,
-                }),
-                type_params: None,
-            })
-            .into_cow(),
+                    kind: TsKeywordTypeKind::TsNullKeyword,
+                })
+                .into_cow())
+            }
+            Expr::Lit(Lit::Regex(..)) => {
+                return Ok(TsType::TsTypeRef(TsTypeRef {
+                    span,
+                    type_name: TsEntityName::Ident(Ident {
+                        span,
+                        sym: js_word!("RegExp"),
+                        optional: false,
+                        type_ann: None,
+                    }),
+                    type_params: None,
+                })
+                .into_cow())
+            }
 
             Expr::Paren(ParenExpr { ref expr, .. }) => return self.type_of(expr),
 
-            Expr::Tpl(..) => Type::Keyword(TsKeywordType {
-                span,
-                kind: TsKeywordTypeKind::TsStringKeyword,
-            })
-            .into_cow(),
+            Expr::Tpl(..) => {
+                return Ok(Type::Keyword(TsKeywordType {
+                    span,
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                })
+                .into_cow())
+            }
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
                 ..
-            }) => negate(self.type_of(arg)?.into_owned()).owned(),
+            }) => return Ok(negate(self.type_of(arg)?.into_owned()).into_cow()),
 
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"), ..
-            }) => Type::Keyword(TsKeywordType {
-                span,
-                kind: TsKeywordTypeKind::TsStringKeyword,
-            })
-            .into_cow(),
+            }) => {
+                return Ok(Type::Keyword(TsKeywordType {
+                    span,
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                })
+                .into_cow())
+            }
 
-            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => type_ann.clone().into_cow(),
+            Expr::TsAs(TsAsExpr { ref type_ann, .. }) => return Ok(type_ann.clone().into_cow()),
             Expr::TsTypeCast(TsTypeCastExpr { ref type_ann, .. }) => {
-                type_ann.type_ann.clone().into_cow()
+                return Ok(type_ann.type_ann.clone().into_cow())
             }
 
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. }) => {
                 return self.type_of(expr).map(|ty| {
                     // TODO: Optimize
 
-                    ty.into_owned().remove_falsy()
+                    ty.remove_falsy()
                 });
             }
 
-            Expr::Object(ObjectLit { span, ref props }) => TsType::TsTypeLit(TsTypeLit {
-                span,
-                members: props
-                    .iter()
-                    .map(|prop| match *prop {
-                        PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
-                        PropOrSpread::Spread(..) => {
-                            unimplemented!("spread element in object literal")
-                        }
-                    })
-                    .collect(),
-            })
-            .into_cow(),
+            Expr::Object(ObjectLit { span, ref props }) => {
+                return Ok(TsType::TsTypeLit(TsTypeLit {
+                    span,
+                    members: props
+                        .iter()
+                        .map(|prop| match *prop {
+                            PropOrSpread::Prop(ref prop) => self.type_of_prop(&prop),
+                            PropOrSpread::Spread(..) => {
+                                unimplemented!("spread element in object literal")
+                            }
+                        })
+                        .collect(),
+                })
+                .into_cow())
+            }
 
             // https://github.com/Microsoft/TypeScript/issues/26959
-            Expr::Yield(..) => Type::any(span).into_cow(),
+            Expr::Yield(..) => return Ok(Type::any(span).into_cow()),
 
-            Expr::Update(..) => Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsNumberKeyword,
-                span,
-            })
-            .into_cow(),
+            Expr::Update(..) => {
+                return Ok(Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNumberKeyword,
+                    span,
+                })
+                .into_cow())
+            }
 
             Expr::Cond(CondExpr {
                 ref cons, ref alt, ..
             }) => {
                 let cons_ty = self.type_of(cons)?;
                 let alt_ty = self.type_of(alt)?;
-                if cons_ty.eq_ignore_span(&alt_ty) {
+                return Ok(if cons_ty.eq_ignore_name_and_span(&alt_ty) {
                     cons_ty
                 } else {
                     Union {
                         span,
-                        types: vec![cons_ty.cast(), alt_ty.cast()],
+                        types: vec![cons_ty, alt_ty],
                     }
                     .into_cow()
-                }
+                });
             }
 
             Expr::New(NewExpr {
@@ -242,7 +262,7 @@ impl Analyzer<'_, '_> {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 ..
-            }) => Type::any(span).into_cow(),
+            }) => return Ok(Type::any(span).into_cow()),
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
                 assert!(exprs.len() >= 1);
@@ -253,12 +273,14 @@ impl Analyzer<'_, '_> {
             Expr::Await(AwaitExpr { .. }) => unimplemented!("typeof(AwaitExpr)"),
 
             Expr::Class(ClassExpr { ref class, .. }) => {
-                return Ok(self.type_of_class(class)?.cast())
+                return Ok(self.type_of_class(class)?.owned())
             }
 
-            Expr::Arrow(ref e) => return Ok(self.type_of_arrow_fn(e)?.cast()),
+            Expr::Arrow(ref e) => return Ok(self.type_of_arrow_fn(e)?.owned()),
 
-            Expr::Fn(FnExpr { ref function, .. }) => return Ok(self.type_of_fn(&function)?.cast()),
+            Expr::Fn(FnExpr { ref function, .. }) => {
+                return Ok(self.type_of_fn(&function)?.owned())
+            }
 
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(ref obj),
@@ -289,11 +311,13 @@ impl Analyzer<'_, '_> {
 
             Expr::Bin(BinExpr {
                 op: op!(bin, "-"), ..
-            }) => Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsNumberKeyword,
-                span,
-            })
-            .into_cow(),
+            }) => {
+                return Ok(Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNumberKeyword,
+                    span,
+                })
+                .into_cow())
+            }
 
             Expr::Bin(BinExpr { op: op!("==="), .. })
             | Expr::Bin(BinExpr { op: op!("!=="), .. })
@@ -302,18 +326,19 @@ impl Analyzer<'_, '_> {
             | Expr::Bin(BinExpr { op: op!("<="), .. })
             | Expr::Bin(BinExpr { op: op!("<"), .. })
             | Expr::Bin(BinExpr { op: op!(">="), .. })
-            | Expr::Bin(BinExpr { op: op!(">"), .. }) => Type::Keyword(TsKeywordType {
-                span,
-                kind: TsKeywordTypeKind::TsBooleanKeyword,
-            })
-            .into_cow(),
+            | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
+                return Ok(Type::Keyword(TsKeywordType {
+                    span,
+                    kind: TsKeywordTypeKind::TsBooleanKeyword,
+                })
+                .into_cow())
+            }
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
-            }) => Type::undefined(span).into_cow(),
-
+            }) => return Ok(Type::undefined(span).into_cow()),
             _ => unimplemented!("typeof ({:#?})", expr),
-        })
+        }
     }
 
     fn type_of_prop(&self, prop: &Prop) -> TsTypeElement {
@@ -334,7 +359,7 @@ impl Analyzer<'_, '_> {
     fn access_property<'a>(
         &self,
         span: Span,
-        obj: TypeRef<'a>,
+        obj: TypeRef,
         prop: &Expr,
         computed: bool,
     ) -> Result<TypeRef<'a>, Error> {
@@ -374,7 +399,7 @@ impl Analyzer<'_, '_> {
                                     value: i as f64,
                                 }))
                             });
-                            let new_obj_ty = self.type_of(&new_obj)?.cast();
+                            let new_obj_ty = self.type_of(&new_obj)?;
                             return self.access_property(span, new_obj_ty, prop, computed);
                         }
                         unreachable!("Enum {} does not have a variant named {}", enum_name, name);
@@ -515,7 +540,7 @@ impl Analyzer<'_, '_> {
         let mut tys = Vec::with_capacity(types_len);
         for ty in types {
             let ty = ty?;
-            tys.push(ty.cast());
+            tys.push(ty.owned());
         }
 
         match tys.len() {
@@ -585,7 +610,7 @@ impl Analyzer<'_, '_> {
 
     fn extract_call_new_expr_member<'e>(
         &'e self,
-        callee: &'e Expr,
+        callee: &Expr,
         kind: ExtractKind,
         args: &[ExprOrSpread],
         type_args: Option<&TsTypeParamInstantiation>,
@@ -994,10 +1019,12 @@ impl Analyzer<'_, '_> {
                                             "unimplemented: error rerporting: Enum reference \
                                              cannot have type parameters."
                                         );
-                                        return Ok(ty.cast());
+                                        return Ok(ty.static_cast());
                                     }
 
-                                    Type::Interface(..) | Type::Class(..) => return Ok(ty.cast()),
+                                    Type::Interface(..) | Type::Class(..) => {
+                                        return Ok(ty.static_cast())
+                                    }
                                     _ => {}
                                 }
                             }
@@ -1116,9 +1143,9 @@ impl Analyzer<'_, '_> {
 
                 TsType::TsTypeQuery(TsTypeQuery { ref expr_name, .. }) => match *expr_name {
                     TsEntityName::Ident(ref i) => {
-                        return self
-                            .type_of(&Expr::Ident(i.clone()))
-                            .map(|ty| ty.to_static().cast());
+                        let ty = self.type_of(&Expr::Ident(i.clone()))?;
+
+                        return Ok(ty);
                     }
                     _ => unimplemented!("expand(TsTypeQuery): typeof member.expr"),
                 },

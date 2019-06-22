@@ -206,7 +206,7 @@ impl Analyzer<'_, '_> {
         None
     }
 
-    pub(super) fn find_var_type(&self, name: &JsWord) -> Option<TypeRef> {
+    pub(super) fn find_var_type<'a>(&'a self, name: &JsWord) -> Option<&'a Type<'static>> {
         // println!("({}) find_var_type({})", self.scope.depth(), name);
         let mut scope = Some(&self.scope);
         while let Some(s) = scope {
@@ -216,7 +216,7 @@ impl Analyzer<'_, '_> {
                 .get(&Name::from(name))
                 .and_then(|v| v.ty.as_ref())
             {
-                return Some(v.cast());
+                return Some(v);
             }
 
             scope = s.parent;
@@ -224,7 +224,7 @@ impl Analyzer<'_, '_> {
 
         if let Some(var) = self.find_var(name) {
             match var.ty {
-                Some(ref ty) => return Some(ty.cast()),
+                Some(ref ty) => return Some(ty),
                 _ => {}
             }
         }
@@ -232,7 +232,7 @@ impl Analyzer<'_, '_> {
         None
     }
 
-    pub(super) fn find_type<'me>(&'me self, name: &JsWord) -> Option<TypeRef<'me>> {
+    pub(super) fn find_type<'a>(&'a self, name: &JsWord) -> Option<&'a Type<'static>> {
         #[allow(dead_code)]
         static ANY: Type = Type::Keyword(TsKeywordType {
             span: DUMMY_SP,
@@ -240,15 +240,15 @@ impl Analyzer<'_, '_> {
         });
 
         if self.errored_imports.get(name).is_some() {
-            return Some(ANY.cast());
+            return Some(&ANY);
         }
 
         if let Some(ty) = self.resolved_imports.get(name) {
-            return Some(ty.cast());
+            return Some(ty);
         }
 
         if let Some(ty) = self.scope.find_type(name) {
-            return Some(ty.cast());
+            return Some(ty);
         }
 
         None

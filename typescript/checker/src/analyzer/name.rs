@@ -7,28 +7,28 @@ use swc_ecma_ast::*;
 pub struct Name(SmallVec<[JsWord; 2]>);
 
 impl From<&'_ Ident> for Name {
-    #[inline(always)]
+    #[inline]
     fn from(i: &Ident) -> Name {
         i.sym.clone().into()
     }
 }
 
 impl From<Ident> for Name {
-    #[inline(always)]
+    #[inline]
     fn from(i: Ident) -> Name {
         i.sym.into()
     }
 }
 
 impl From<&'_ JsWord> for Name {
-    #[inline(always)]
+    #[inline]
     fn from(v: &JsWord) -> Name {
         Name(smallvec![v.clone()])
     }
 }
 
 impl From<JsWord> for Name {
-    #[inline(always)]
+    #[inline]
     fn from(v: JsWord) -> Name {
         Name(smallvec![v])
     }

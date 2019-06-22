@@ -1,4 +1,4 @@
-use crate::ty::TypeRef;
+use crate::ty::Type;
 use lazy_static::lazy_static;
 use std::borrow::Cow;
 use swc_atoms::JsWord;
@@ -16,8 +16,8 @@ pub enum Lib {
     Es2015Promise,
 }
 
-pub fn get(libs: &[Lib], sym: &JsWord) -> Option<TypeRef<'static>> {
-    Some(Cow::Borrowed(match *sym {
+pub fn get<'a>(libs: &[Lib], sym: &JsWord) -> Option<&'a Type<'static>> {
+    Some(match sym {
         _ => return None,
-    }))
+    })
 }
