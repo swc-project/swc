@@ -7,6 +7,7 @@ use swc_ecma_ast::*;
 use swc_ts_checker_macros::builtin;
 
 builtin!(Es5, "./lib/es5.d.ts");
+builtin!(Es2015, "./lib/es2015.d.ts");
 
 lazy_static! {
     static ref OBJECT_TY: Type = {

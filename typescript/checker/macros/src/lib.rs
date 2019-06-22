@@ -922,7 +922,9 @@ fn quote_type_element(e: &TsTypeElement) -> syn::Expr {
 fn quote_ts_namespace_body(e: Option<&TsNamespaceBody>) -> syn::Expr {
     quote_option(e, |ty| match ty {
         TsNamespaceBody::TsModuleBlock(ref m) => {
-            let mut tokens = q();
+            let mut tokens = q().quote_with(smart_quote!(Vars {}, {
+                let mut body = vec![];
+            }));
 
             for v in m.body.iter().map(|v| match v {
                 ModuleItem::Stmt(Stmt::Decl(ref decl)) => quote_decl(&decl),
