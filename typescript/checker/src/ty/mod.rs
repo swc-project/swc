@@ -2,7 +2,7 @@ use crate::{
     errors::Error,
     util::{CowUtil, EqIgnoreNameAndSpan, EqIgnoreSpan, IntoCow},
 };
-use std::borrow::Cow;
+use std::{borrow::Cow, mem::transmute};
 use swc_atoms::JsWord;
 use swc_common::{Fold, FromVariant, Span, Spanned};
 use swc_ecma_ast::{
@@ -42,7 +42,7 @@ pub trait TypeRefExt<'a>: Sized + Clone {
         'a: 'b,
     {
         // 'a lives longer than 'b, so this is ok
-        unsafe { ::std::mem::transmute::<TypeRef<'a>, TypeRef<'b>>(self.to_type_ref()) }
+        unsafe { transmute::<TypeRef<'a>, TypeRef<'b>>(self.to_type_ref()) }
     }
 }
 
@@ -727,6 +727,14 @@ macro_rules! fix_lt {
 impl Type<'_> {
     pub fn into_static(self) -> Type<'static> {
         fix_lt!(self, static_type, |v: Cow<TsType>| v.into_owned())
+    }
+}
+
+impl Type<'static> {
+    /// Converts `Type<'static>` into `Type<'a>`.
+    #[inline(always)]
+    pub fn static_cast(&self) -> TypeRef {
+        unsafe { transmute::<Cow<'_, Type<'static>>, TypeRef<'_>>(Cow::Borrowed(self)) }
     }
 }
 
