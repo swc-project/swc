@@ -14,6 +14,7 @@ use swc_ecma_ast::{
 
 pub trait TypeRefExt<'a>: Sized + Clone {
     fn into_type_ref(self) -> TypeRef<'a>;
+    fn to_type_ref(&'a self) -> TypeRef<'a>;
 
     /// Returns generalized type if `self` is a literal type.
     fn generalize_lit(self) -> TypeRef<'a> {
@@ -36,8 +37,12 @@ pub trait TypeRefExt<'a>: Sized + Clone {
         self.clone().into_type_ref().into_owned().into_static()
     }
 
-    fn cast<'b>(&self) -> TypeRef<'b> {
-        unimplemented!()
+    fn cast<'b>(&'a self) -> TypeRef<'b>
+    where
+        'a: 'b,
+    {
+        // 'a lives longer than 'b, so this is ok
+        unsafe { ::std::mem::transmute(self.to_type_ref()) }
     }
 }
 
@@ -46,12 +51,23 @@ impl<'a> TypeRefExt<'a> for TypeRef<'a> {
     fn into_type_ref(self) -> TypeRef<'a> {
         self
     }
+
+    fn to_type_ref(&'a self) -> TypeRef<'a> {
+        match *self {
+            Cow::Borrowed(b) => Cow::Borrowed(b),
+            Cow::Owned(ref o) => Cow::Borrowed(o),
+        }
+    }
 }
 
 impl<'a> TypeRefExt<'a> for Type<'a> {
     #[inline(always)]
     fn into_type_ref(self) -> TypeRef<'a> {
         Cow::Owned(self)
+    }
+
+    fn to_type_ref(&'a self) -> TypeRef<'a> {
+        Cow::Borrowed(self)
     }
 }
 
