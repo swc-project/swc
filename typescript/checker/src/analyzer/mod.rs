@@ -262,11 +262,7 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
             Ok(ty) => ty,
             Err(err) => {
                 self.info.errors.push(err);
-                Type::Keyword(TsKeywordType {
-                    span: c.span(),
-                    kind: TsKeywordTypeKind::TsAnyKeyword,
-                })
-                .into()
+                Type::any(c.span()).into()
             }
         };
         self.scope
@@ -291,11 +287,7 @@ impl Visit<FnDecl> for Analyzer<'_, '_> {
             Ok(ty) => ty,
             Err(err) => {
                 self.info.errors.push(err);
-                Type::Keyword(TsKeywordType {
-                    span: f.span(),
-                    kind: TsKeywordTypeKind::TsAnyKeyword,
-                })
-                .into()
+                Type::any(f.span()).into()
             }
         };
         self.scope.declare_var(
