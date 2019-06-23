@@ -22,18 +22,19 @@ pub trait TypeRefExt<'a>: Sized + Clone {
     fn generalize_lit(self) -> TypeRef<'a> {
         let ty = self.into_type_ref();
 
-        if let Some(v) = ty.map_ref(|ty| match *ty {
-            Type::Lit(TsLitType { span, ref lit }) => Some(Type::Keyword(TsKeywordType {
-                span,
-                kind: match *lit {
-                    TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
-                    TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
-                    TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
-                },
-            })),
-            _ => None,
-        }) {
-            return ty;
+        match *ty.as_ref() {
+            Type::Lit(TsLitType { span, ref lit }) => {
+                return Type::Keyword(TsKeywordType {
+                    span,
+                    kind: match *lit {
+                        TsLit::Bool(Bool { .. }) => TsKeywordTypeKind::TsBooleanKeyword,
+                        TsLit::Number(Number { .. }) => TsKeywordTypeKind::TsNumberKeyword,
+                        TsLit::Str(Str { .. }) => TsKeywordTypeKind::TsStringKeyword,
+                    },
+                })
+                .owned()
+            }
+            _ => {}
         }
 
         ty
@@ -237,7 +238,7 @@ pub struct Constructor<'a> {
 
 impl Type<'_> {
     pub fn contains_void(&self) -> bool {
-        self.is(|ty| match *ty {
+        match *self.as_ref() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsVoidKeyword,
                 ..
@@ -246,11 +247,11 @@ impl Type<'_> {
             Type::Union(ref t) => t.types.iter().any(|t| t.contains_void()),
 
             _ => false,
-        })
+        }
     }
 
     pub fn is_any(&self) -> bool {
-        self.is(|ty| match *ty {
+        match *self.as_ref() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsAnyKeyword,
                 ..
@@ -259,11 +260,11 @@ impl Type<'_> {
             Type::Union(ref t) => t.types.iter().any(|t| t.is_any()),
 
             _ => false,
-        })
+        }
     }
 
     pub fn is_unknown(&self) -> bool {
-        self.is(|ty| match *ty {
+        match *self.as_ref() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsUnknownKeyword,
                 ..
@@ -272,11 +273,11 @@ impl Type<'_> {
             Type::Union(ref t) => t.types.iter().any(|t| t.is_unknown()),
 
             _ => false,
-        })
+        }
     }
 
     pub fn contains_undefined(&self) -> bool {
-        self.is(|ty| match *ty {
+        match *self.as_ref() {
             Type::Keyword(TsKeywordType {
                 kind: TsKeywordTypeKind::TsUndefinedKeyword,
                 ..
@@ -285,7 +286,7 @@ impl Type<'_> {
             Type::Union(ref t) => t.types.iter().any(|t| t.contains_undefined()),
 
             _ => false,
-        })
+        }
     }
 
     pub fn assign_to(&self, to: &Type) -> Result<(), Error> {
@@ -326,304 +327,287 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
     verify!(to);
     verify!(rhs);
 
-    if let Ok(res) = rhs.map_ref(|rhs| -> Result<Result<(), _>, ()> {
-        // Returning Err(() means that the assignment is not handled by this closure
-
-        match *rhs {
-            Type::Union(Union {
-                ref types, span, ..
-            }) => {
-                let errors = types
-                    .iter()
-                    .filter_map(|rhs| match try_assign(to, rhs) {
-                        Ok(()) => None,
-                        Err(err) => Some(err),
-                    })
-                    .collect::<Vec<_>>();
-                if errors.is_empty() {
-                    return Ok(Ok(()));
-                }
-                return Ok(Err(Error::UnionError { span, errors }));
+    match *rhs.as_ref() {
+        Type::Union(Union {
+            ref types, span, ..
+        }) => {
+            let errors = types
+                .iter()
+                .filter_map(|rhs| match try_assign(to, rhs) {
+                    Ok(()) => None,
+                    Err(err) => Some(err),
+                })
+                .collect::<Vec<_>>();
+            if errors.is_empty() {
+                return Ok(());
             }
-
-            Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-                ..
-            }) => return Ok(Ok(())),
-
-            // Handle unknown on rhs
-            Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsUnknownKeyword,
-                ..
-            }) => {
-                if to.is_keyword(TsKeywordTypeKind::TsAnyKeyword)
-                    || to.is_keyword(TsKeywordTypeKind::TsUndefinedKeyword)
-                {
-                    return Ok(Ok(()));
-                }
-
-                return Ok(Err(Error::AssignFailed {
-                    left: to.to_static(),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                }));
-            }
-
-            _ => return Err(()),
+            return Err(Error::UnionError { span, errors });
         }
-    }) {
-        return res;
+
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+            ..
+        }) => return Ok(()),
+
+        // Handle unknown on rhs
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsUnknownKeyword,
+            ..
+        }) => {
+            if to.is_keyword(TsKeywordTypeKind::TsAnyKeyword)
+                || to.is_keyword(TsKeywordTypeKind::TsUndefinedKeyword)
+            {
+                return Ok(());
+            }
+
+            return Err(Error::AssignFailed {
+                left: to.to_static(),
+                right: rhs.to_static(),
+                cause: vec![],
+            });
+        }
+
+        _ => {}
     }
 
     // TODO(kdy1):
     let span = to.span();
 
-    if let Ok(res) = to.map_ref(|to| -> Result<Result<(), _>, ()> {
-        // Returning Err(() means that the assignment is not handled by this closure
-
-        match *to {
-            Type::Array(Array { ref elem_type, .. }) => match rhs {
-                Type::Array(Array {
-                    elem_type: ref rhs_elem_type,
-                    ..
-                }) => {
-                    //
-                    match try_assign(&elem_type, &rhs_elem_type).map_err(|cause| {
-                        Error::AssignFailed {
-                            left: to.to_static(),
-                            right: rhs.to_static(),
-                            cause: vec![cause],
-                        }
-                    }) {
-                        Ok(()) => return Ok(Ok(())),
-                        Err(err) => return Ok(Err(err)),
-                    }
-                }
-                _ => {
-                    return Ok(Err(Error::AssignFailed {
-                        left: to.to_static(),
-                        right: rhs.to_static(),
-                        cause: vec![],
-                    }))
-                }
-            },
-
-            // let a: string | number = 'string';
-            Type::Union(Union { ref types, .. }) => {
-                let vs = types
-                    .iter()
-                    .map(|to| try_assign(&to, rhs))
-                    .collect::<Vec<_>>();
-                if vs.iter().any(Result::is_ok) {
-                    return Ok(Ok(()));
-                }
-                return Ok(Err(Error::UnionError {
-                    span,
-                    errors: vs.into_iter().map(Result::unwrap_err).collect(),
-                }));
-            }
-
-            Type::Intersection(Intersection { ref types, .. }) => {
-                let vs = types
-                    .iter()
-                    .map(|to| try_assign(&to, rhs))
-                    .collect::<Vec<_>>();
-
-                // TODO: Multiple error
-                for v in vs {
-                    if let Err(error) = v {
-                        return Ok(Err(Error::IntersectionError {
-                            span,
-                            error: box error,
-                        }));
-                    }
-                }
-
-                return Ok(Ok(()));
-            }
-
-            // let a: any = 'foo'
-            Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsAnyKeyword,
-                ..
-            }) => return Ok(Ok(())),
-
-            // let a: unknown = undefined
-            Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsUnknownKeyword,
-                ..
-            }) => return Ok(Ok(())),
-
-            Type::Keyword(TsKeywordType {
-                kind: TsKeywordTypeKind::TsObjectKeyword,
+    match *to.as_ref() {
+        Type::Array(Array { ref elem_type, .. }) => match rhs {
+            Type::Array(Array {
+                elem_type: ref rhs_elem_type,
                 ..
             }) => {
-                // let a: object = {};
-                match *rhs {
-                    Type::Keyword(TsKeywordType {
-                        kind: TsKeywordTypeKind::TsNumberKeyword,
-                        ..
-                    })
-                    | Type::Keyword(TsKeywordType {
-                        kind: TsKeywordTypeKind::TsStringKeyword,
-                        ..
-                    })
-                    | Type::Function(..)
-                    | Type::Constructor(..)
-                    | Type::Enum(..)
-                    | Type::Class(..) => return Ok(Ok(())),
-
-                    Type::Simple(ref rhs) => match **rhs {
-                        TsType::TsTypeLit(..) => return Ok(Ok(())),
-
-                        _ => return Err(()),
-                    },
-                    _ => return Err(()),
-                }
-            }
-
-            // Handle same keyword type.
-            Type::Keyword(TsKeywordType { kind, .. }) => {
-                match *rhs {
-                    Type::Keyword(TsKeywordType { kind: rhs_kind, .. }) if rhs_kind == kind => {
-                        return Ok(Ok(()))
+                //
+                return try_assign(&elem_type, &rhs_elem_type).map_err(|cause| {
+                    Error::AssignFailed {
+                        left: to.to_static(),
+                        right: rhs.to_static(),
+                        cause: vec![cause],
                     }
-                    _ => {}
-                }
-
-                match kind {
-                    TsKeywordTypeKind::TsStringKeyword => match *rhs {
-                        Type::Lit(TsLitType {
-                            lit: TsLit::Str(..),
-                            ..
-                        }) => return Ok(Ok(())),
-
-                        _ => {}
-                    },
-
-                    TsKeywordTypeKind::TsNumberKeyword => match *rhs {
-                        Type::Lit(TsLitType {
-                            lit: TsLit::Number(..),
-                            ..
-                        }) => return Ok(Ok(())),
-
-                        _ => {}
-                    },
-
-                    TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
-                        Type::Lit(TsLitType {
-                            lit: TsLit::Bool(..),
-                            ..
-                        }) => return Ok(Ok(())),
-
-                        _ => {}
-                    },
-
-                    _ => {}
-                }
-
-                return Ok(Err(Error::AssignFailed {
+                });
+            }
+            _ => {
+                return Err(Error::AssignFailed {
                     left: to.to_static(),
                     right: rhs.to_static(),
                     cause: vec![],
-                }));
+                })
+            }
+        },
+
+        // let a: string | number = 'string';
+        Type::Union(Union { ref types, .. }) => {
+            let vs = types
+                .iter()
+                .map(|to| try_assign(&to, rhs))
+                .collect::<Vec<_>>();
+            if vs.iter().any(Result::is_ok) {
+                return Ok(());
+            }
+            return Err(Error::UnionError {
+                span,
+                errors: vs.into_iter().map(Result::unwrap_err).collect(),
+            });
+        }
+
+        Type::Intersection(Intersection { ref types, .. }) => {
+            let vs = types
+                .iter()
+                .map(|to| try_assign(&to, rhs))
+                .collect::<Vec<_>>();
+
+            // TODO: Multiple error
+            for v in vs {
+                if let Err(error) = v {
+                    return Err(Error::IntersectionError {
+                        span,
+                        error: box error,
+                    });
+                }
             }
 
-            Type::Enum(ref e) => {
-                //
-                match *rhs {
-                    Type::EnumVariant(ref r) => {
-                        if r.enum_name == e.id.sym {
-                            return Ok(Ok(()));
-                        }
-                    }
+            return Ok(());
+        }
+
+        // let a: any = 'foo'
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsAnyKeyword,
+            ..
+        }) => return Ok(()),
+
+        // let a: unknown = undefined
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsUnknownKeyword,
+            ..
+        }) => return Ok(()),
+
+        Type::Keyword(TsKeywordType {
+            kind: TsKeywordTypeKind::TsObjectKeyword,
+            ..
+        }) => {
+            // let a: object = {};
+            match *rhs {
+                Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsNumberKeyword,
+                    ..
+                })
+                | Type::Keyword(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsStringKeyword,
+                    ..
+                })
+                | Type::Function(..)
+                | Type::Constructor(..)
+                | Type::Enum(..)
+                | Type::Class(..) => return Ok(()),
+
+                Type::Simple(ref rhs) => match **rhs {
+                    TsType::TsTypeLit(..) => return Ok(()),
+
                     _ => {}
-                }
+                },
+                _ => {}
+            }
+        }
 
-                return Ok(Err(Error::AssignFailed {
-                    left: Type::Enum(e.clone()),
-                    right: rhs.to_static(),
-                    cause: vec![],
-                }));
+        // Handle same keyword type.
+        Type::Keyword(TsKeywordType { kind, .. }) => {
+            match *rhs {
+                Type::Keyword(TsKeywordType { kind: rhs_kind, .. }) if rhs_kind == kind => {
+                    return Ok(())
+                }
+                _ => {}
             }
 
-            Type::EnumVariant(ref l) => match *rhs {
-                Type::EnumVariant(ref r) => {
-                    if l.enum_name == r.enum_name && l.name == r.name {
-                        return Ok(Ok(()));
-                    }
+            match kind {
+                TsKeywordTypeKind::TsStringKeyword => match *rhs {
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Str(..),
+                        ..
+                    }) => return Ok(()),
 
-                    return Ok(Err(Error::AssignFailed {
-                        left: Type::EnumVariant(l.clone()),
-                        right: rhs.to_static(),
-                        cause: vec![],
-                    }));
-                }
-                _ => {
-                    return Ok(Err(Error::AssignFailed {
-                        left: Type::EnumVariant(l.clone()),
-                        right: rhs.to_static(),
-                        cause: vec![],
-                    }))
-                }
-            },
-
-            Type::Simple(ref l) => match **l {
-                TsType::TsThisType(TsThisType { span }) => {
-                    return Ok(Err(Error::CannotAssingToThis { span }))
-                }
-
-                TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
-                    Type::Simple(ref rhs) => match **rhs {
-                        TsType::TsTypeLit(TsTypeLit {
-                            members: ref rhs_members,
-                            ..
-                        }) => {
-                            if members
-                                .iter()
-                                .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
-                            {
-                                return Ok(Ok(()));
-                            }
-
-                            let missing_fields = members
-                                .iter()
-                                .filter(|m| {
-                                    rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m))
-                                })
-                                .cloned()
-                                .collect();
-                            return Ok(Err(Error::MissingFields {
-                                span,
-                                fields: missing_fields,
-                            }));
-                        }
-
-                        _ => return Err(()),
-                    },
-                    _ => return Err(()),
+                    _ => {}
                 },
 
-                _ => return Err(()),
-            },
+                TsKeywordTypeKind::TsNumberKeyword => match *rhs {
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Number(..),
+                        ..
+                    }) => return Ok(()),
 
-            Type::Lit(TsLitType { ref lit, .. }) => match *to {
-                Type::Lit(TsLitType { lit: ref r_lit, .. }) => {
-                    if lit.eq_ignore_span(r_lit) {
-                        return Ok(Ok(()));
+                    _ => {}
+                },
+
+                TsKeywordTypeKind::TsBooleanKeyword => match *rhs {
+                    Type::Lit(TsLitType {
+                        lit: TsLit::Bool(..),
+                        ..
+                    }) => return Ok(()),
+
+                    _ => {}
+                },
+
+                _ => {}
+            }
+
+            return Err(Error::AssignFailed {
+                left: to.to_static(),
+                right: rhs.to_static(),
+                cause: vec![],
+            });
+        }
+
+        Type::Enum(ref e) => {
+            //
+            match *rhs {
+                Type::EnumVariant(ref r) => {
+                    if r.enum_name == e.id.sym {
+                        return Ok(());
+                    }
+                }
+                _ => {}
+            }
+
+            return Err(Error::AssignFailed {
+                left: Type::Enum(e.clone()),
+                right: rhs.to_static(),
+                cause: vec![],
+            });
+        }
+
+        Type::EnumVariant(ref l) => match *rhs {
+            Type::EnumVariant(ref r) => {
+                if l.enum_name == r.enum_name && l.name == r.name {
+                    return Ok(());
+                }
+
+                return Err(Error::AssignFailed {
+                    left: Type::EnumVariant(l.clone()),
+                    right: rhs.to_static(),
+                    cause: vec![],
+                });
+            }
+            _ => {
+                return Err(Error::AssignFailed {
+                    left: Type::EnumVariant(l.clone()),
+                    right: rhs.to_static(),
+                    cause: vec![],
+                })
+            }
+        },
+
+        Type::Simple(ref l) => match **l {
+            TsType::TsThisType(TsThisType { span }) => {
+                return Err(Error::CannotAssingToThis { span })
+            }
+
+            TsType::TsTypeLit(TsTypeLit { span, ref members }) => match rhs {
+                Type::Simple(ref rhs) => match **rhs {
+                    TsType::TsTypeLit(TsTypeLit {
+                        members: ref rhs_members,
+                        ..
+                    }) => {
+                        if members
+                            .iter()
+                            .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
+                        {
+                            return Ok(());
+                        }
+
+                        let missing_fields = members
+                            .iter()
+                            .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
+                            .cloned()
+                            .collect();
+                        return Err(Error::MissingFields {
+                            span,
+                            fields: missing_fields,
+                        });
                     }
 
-                    return Err(());
-                }
-                // TODO: allow
-                // let a: true | false = bool
-                _ => return Err(()),
+                    _ => {}
+                },
+                _ => {}
             },
 
-            _ => return Err(()),
-        }
-    }) {
-        return res;
+            _ => {}
+        },
+
+        Type::Lit(TsLitType { ref lit, .. }) => match *to {
+            Type::Lit(TsLitType { lit: ref r_lit, .. }) => {
+                if lit.eq_ignore_span(r_lit) {
+                    return Ok(());
+                }
+
+                {};
+            }
+            // TODO: allow
+            // let a: true | false = bool
+            _ => {}
+        },
+
+        _ => {}
     }
 
     // This is slow (at the time of writing)
@@ -657,10 +641,10 @@ where
 
 impl Type<'_> {
     pub fn is_keyword(&self, k: TsKeywordTypeKind) -> bool {
-        self.is(|ty| match *ty {
+        match *self.as_ref() {
             Type::Keyword(TsKeywordType { kind, .. }) if kind == k => true,
             _ => false,
-        })
+        }
     }
     pub fn is_never(&self) -> bool {
         self.is_keyword(TsKeywordTypeKind::TsNeverKeyword)
@@ -754,39 +738,24 @@ impl Type<'_> {
             Type::Static(s) => Type::Static(s),
         }
     }
-
-    /// `Type::Static` is excluded.
-    pub fn is<F>(&self, op: F) -> bool
-    where
-        F: for<'a, 'b> FnOnce(&'a Type<'b>) -> bool,
-    {
-        match *self {
-            Type::Static(s) => op(s),
-            _ => op(self),
-        }
-    }
-
-    /// `Type::Static` is excluded.
-    pub fn map_ref<Ret, F>(&self, op: F) -> Ret
-    where
-        F: for<'a, 'b> FnOnce(&'a Type<'b>) -> Ret,
-    {
-        match *self {
-            Type::Static(s) => op(s),
-            _ => op(self),
-        }
-    }
 }
 
 impl<'a> Type<'a> {
     /// `Type::Static` is normalized.
-    pub fn as_ref(&'a self) -> &'a Type<'a> {
+    pub fn as_ref<'s, 'c, 'd>(&'s self) -> &'c Type<'d>
+    where
+        'a: 'c + 'd,
+        's: 'c + 'd,
+    {
         match *self {
             Type::Static(v) => unsafe {
                 // 'static lives longer than anything
-                transmute::<_, &'a Type<'a>>(v)
+                transmute::<_, &'c Type<'d>>(v)
             },
-            _ => self,
+            _ => unsafe {
+                // Shorten lifetimes
+                transmute::<_, &'c Type<'d>>(self)
+            },
         }
     }
 }
