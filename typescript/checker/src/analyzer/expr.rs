@@ -50,8 +50,8 @@ impl Analyzer<'_, '_> {
                     return Ok(Type::any(span).into_cow());
                 }
 
-                if let Some(ty) = builtin_types::get(self.libs, &i.sym) {
-                    return Ok(ty.static_cast());
+                if let Some(ty) = builtin_types::get_var(self.libs, &i.sym) {
+                    return Ok(ty.owned());
                 }
 
                 // println!(

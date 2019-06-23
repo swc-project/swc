@@ -19,7 +19,7 @@ use swc_common::{Span, Spanned, Visit, VisitWith};
 use swc_ecma_ast::*;
 
 mod control_flow;
-mod export;
+pub mod export;
 mod expr;
 mod name;
 mod scope;
