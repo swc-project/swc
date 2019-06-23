@@ -12,6 +12,8 @@ use swc_ecma_ast::{
     TsTypeAnn, TsTypeLit, TsTypeParamDecl, TsUnionOrIntersectionType, TsUnionType,
 };
 
+pub mod merge;
+
 pub trait TypeRefExt<'a>: Sized + Clone {
     fn into_type_ref(self) -> TypeRef<'a>;
     fn to_type_ref(&'a self) -> TypeRef<'a>;
@@ -93,6 +95,9 @@ pub enum Type<'a> {
     Namespace(TsNamespaceDecl),
     Module(TsModuleDecl),
     Class(Class),
+
+    /// Used for storing core types.
+    Static(#[fold(ignore)] &'static Type<'static>),
 }
 
 // macro_rules! impl_from {
@@ -669,24 +674,24 @@ where
     types.into_iter().map(map).collect()
 }
 
-macro_rules! fix_lt {
-    ($ty:expr, $map:expr, $map_simple:expr) => {
-        match $ty {
+impl Type<'_> {
+    pub fn into_static(self) -> Type<'static> {
+        match self {
             Type::Lit(lit) => Type::Lit(lit),
             Type::Keyword(lit) => Type::Keyword(lit),
             Type::Simple(s) => Type::Simple(s.into_owned().into_cow()),
             Type::Array(Array { span, elem_type }) => Type::Array(Array {
                 span,
-                elem_type: box $map(*elem_type),
+                elem_type: box static_type(*elem_type),
             }),
 
             Type::Union(Union { span, types }) => Type::Union(Union {
                 span,
-                types: map_types(types, $map),
+                types: map_types(types, static_type),
             }),
             Type::Intersection(Intersection { span, types }) => Type::Intersection(Intersection {
                 span,
-                types: map_types(types, $map),
+                types: map_types(types, static_type),
             }),
 
             Type::Function(Function {
@@ -698,7 +703,7 @@ macro_rules! fix_lt {
                 span,
                 type_params,
                 params,
-                ret_ty: box $map(*ret_ty),
+                ret_ty: box static_type(*ret_ty),
             }),
 
             Type::Constructor(Constructor {
@@ -710,7 +715,7 @@ macro_rules! fix_lt {
                 span,
                 type_params,
                 params,
-                ret_ty: box $map(*ret_ty),
+                ret_ty: box static_type(*ret_ty),
             }),
 
             Type::Enum(e) => Type::Enum(e),
@@ -720,13 +725,19 @@ macro_rules! fix_lt {
             Type::Alias(a) => Type::Alias(a),
             Type::Namespace(n) => Type::Namespace(n),
             Type::Module(m) => Type::Module(m),
-        }
-    };
-}
 
-impl Type<'_> {
-    pub fn into_static(self) -> Type<'static> {
-        fix_lt!(self, static_type, |v: Cow<TsType>| v.into_owned())
+            Type::Static(s) => Type::Static(s),
+        }
+    }
+
+    pub fn is<F>(&self, mut op: F) -> bool
+    where
+        F: for<'a, 'b> FnMut(&'a Type<'b>) -> bool,
+    {
+        match *self {
+            Type::Static(s) => op(s),
+            _ => op(self),
+        }
     }
 }
 
