@@ -255,12 +255,13 @@ impl Analyzer<'_, '_> {
                                 // let foo: string;
                                 // let foo = 'value';
 
-                                let errors = ty.assign_to(&var_ty);
-                                if errors.is_none() {
-                                    Some(ty.to_static())
-                                } else {
-                                    self.info.errors.extend(errors);
-                                    None
+                                let error = ty.assign_to(&var_ty);
+                                match error {
+                                    Ok(()) => Some(ty.to_static()),
+                                    Err(err) => {
+                                        self.info.errors.push(err);
+                                        None
+                                    }
                                 }
                             } else {
                                 // let v = foo;

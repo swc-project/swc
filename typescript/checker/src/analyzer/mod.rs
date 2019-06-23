@@ -257,8 +257,7 @@ impl Visit<ClassDecl> for Analyzer<'_, '_> {
     fn visit(&mut self, c: &ClassDecl) {
         c.visit_children(self);
 
-        let ty = self.type_of_class(&c.class);
-        let ty = match ty {
+        let ty = match self.type_of_class(&c.class) {
             Ok(ty) => ty,
             Err(err) => {
                 self.info.errors.push(err);
@@ -324,22 +323,22 @@ impl Visit<Function> for Analyzer<'_, '_> {
                             Ok(None) => {
                                 if ret_ty.is_any() || ret_ty.is_unknown() || ret_ty.contains_void()
                                 {
-                                    None
+                                    Ok(())
                                 } else {
-                                    Some(Error::ReturnRequired {
+                                    Err(Error::ReturnRequired {
                                         span: ret_ty.span(),
                                     })
                                 }
                             }
-                            Err(err) => Some(err),
+                            Err(err) => Err(err),
                         }
                     } else {
-                        None
+                        Ok(())
                     }
                 } else {
-                    None
+                    Ok(())
                 };
-                if let Some(err) = err {
+                if let Err(err) = err {
                     child.info.errors.push(err);
                 }
             }
@@ -419,12 +418,15 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 return;
                             }
                         };
-                        let errors = value_ty.assign_to(&ty);
-                        if errors.is_none() {
-                            self.scope.declare_vars(kind, &v.name);
-                            return;
-                        } else {
-                            self.info.errors.extend(errors);
+                        let error = value_ty.assign_to(&ty);
+                        match error {
+                            Ok(()) => {
+                                self.scope.declare_vars(kind, &v.name);
+                                return;
+                            }
+                            Err(err) => {
+                                self.info.errors.push(err);
+                            }
                         }
                     }
                     None => {

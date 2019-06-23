@@ -364,7 +364,7 @@ impl Analyzer<'_, '_> {
         computed: bool,
     ) -> Result<TypeRef<'a>, Error> {
         let obj = obj.generalize_lit();
-        match *obj {
+        match *obj.as_ref() {
             Type::Lit(..) => unreachable!(),
 
             Type::Enum(ref e) => {

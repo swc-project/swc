@@ -161,6 +161,7 @@ impl<'a> Scope<'a> {
             Entry::Occupied(mut e) => {
                 println!("({}) register_type({}): duplicate", depth, e.key());
 
+                // TODO: Match -> .map
                 match (e.get_mut(), ty) {
                     (&mut Type::Interface(ref mut orig), Type::Interface(ref mut i)) => {
                         // TODO: Check fields' type
