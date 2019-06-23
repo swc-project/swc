@@ -4,6 +4,8 @@ use swc_atoms::js_word;
 use swc_common::{Fold, FoldWith, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 
+pub(crate) mod named;
+
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
