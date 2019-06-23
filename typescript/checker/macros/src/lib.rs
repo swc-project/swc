@@ -117,7 +117,11 @@ fn quote_decl(decl: &Decl) -> syn::Stmt {
                     decls_v: match var.decls.iter().next().unwrap().name {
                         Pat::Ident(ref i) => id_to_str(&i),
                         _ => unreachable!(),
-                    }
+                    },
+                    type_ann_v: quote_opt_type_ann(match var.decls.iter().next().unwrap().name {
+                        Pat::Ident(ref i) => i.type_ann.as_ref(),
+                        _ => unreachable!(),
+                    })
                 },
                 {
                     body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -126,7 +130,12 @@ fn quote_decl(decl: &Decl) -> syn::Stmt {
                         kind: kind_v,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: Pat::Ident(Ident::new(decls_v.into(), DUMMY_SP)),
+                            name: Pat::Ident(Ident {
+                                span: DUMMY_SP,
+                                sym: decls_v.into(),
+                                type_ann: type_ann_v,
+                                optional: false,
+                            }),
                             definite: false,
                             init: None,
                         }],
@@ -458,6 +467,20 @@ fn quote_ty(ty: &TsType) -> syn::Expr {
             }));
         }
 
+        TsType::TsTypeLit(TsTypeLit { ref members, .. }) => {
+            q = q.quote_with(smart_quote!(
+                Vars {
+                    members_v: quote_type_elements(members),
+                },
+                {
+                    TsType::TsTypeLit(TsTypeLit {
+                        span: DUMMY_SP,
+                        members: vec![members_v],
+                    })
+                }
+            ));
+        }
+
         TsType::TsTypePredicate(TsTypePredicate {
             ref param_name,
             ref type_ann,
@@ -769,8 +792,11 @@ fn quote_ty(ty: &TsType) -> syn::Expr {
     q.parse()
 }
 
+fn quote_type_elements(els: &[TsTypeElement]) -> Punctuated<syn::Expr, Token![,]> {
+    els.iter().map(|e| quote_type_element(e)).collect()
+}
+
 fn quote_type_element(e: &TsTypeElement) -> syn::Expr {
-    // TODO
     match *e {
         TsTypeElement::TsPropertySignature(TsPropertySignature {
             readonly,
