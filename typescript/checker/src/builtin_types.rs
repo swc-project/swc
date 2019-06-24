@@ -1,8 +1,8 @@
 use crate::{analyzer::export::pat_to_ts_fn_param, ty};
-use chashmap::{CHashMap, ReadGuard};
+use chashmap::CHashMap;
 use fxhash::FxHashMap;
 use lazy_static::lazy_static;
-use std::{collections::hash_map::Entry, sync::Arc};
+use std::collections::hash_map::Entry;
 use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -36,7 +36,18 @@ fn merge(ls: &[Lib]) -> &'static Merged {
                     match item {
                         ModuleItem::ModuleDecl(ref md) => unreachable!("ModuleDecl: {:#?}", md),
                         ModuleItem::Stmt(ref stmt) => match *stmt {
-                            Stmt::Decl(Decl::Var(..)) => {}
+                            Stmt::Decl(Decl::Var(VarDecl { ref decls, .. })) => {
+                                assert!(decls.len() == 1);
+                                let decl = decls.iter().next().unwrap();
+                                let name = match decl.name {
+                                    Pat::Ident(ref i) => i,
+                                    _ => unreachable!(),
+                                };
+                                merged.vars.insert(
+                                    name.sym.clone(),
+                                    name.type_ann.clone().unwrap().into(),
+                                );
+                            }
 
                             Stmt::Decl(Decl::Fn(FnDecl {
                                 ref ident,
