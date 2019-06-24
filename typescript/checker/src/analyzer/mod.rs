@@ -8,7 +8,7 @@ use crate::{
     builtin_types::Lib,
     errors::Error,
     loader::Load,
-    ty::{self, Type, TypeRefExt},
+    ty::{Type, TypeRefExt},
     Rule,
 };
 use fxhash::{FxHashMap, FxHashSet};

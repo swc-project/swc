@@ -7,7 +7,7 @@ use crate::{
 };
 use std::borrow::Cow;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, Visit};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 impl Analyzer<'_, '_> {
