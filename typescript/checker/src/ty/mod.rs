@@ -102,40 +102,10 @@ pub enum Type<'a> {
     Class(Class),
 
     /// Used for storing core types.
+    ///
+    /// Don't match on this directly. Instead, use `.as_eef()`.
     Static(#[fold(ignore)] &'static Type<'static>),
 }
-
-// macro_rules! impl_from {
-//     ($i:ident, $T:ty) => {
-//         impl From<$T> for Type<'_> {
-//             fn from(v: $T) -> Self {
-//                 Type::$i(v)
-//             }
-//         }
-//     };
-//     ($i:ident, $T:path, $lt:lifetime) => {
-//         impl From<$T<$lt>> for Type<$lt> {
-//             fn from(v: $T) -> Self {
-//                 Type::$i(v)
-//             }
-//         }
-//     };
-// }
-
-// impl_from!(Lit, TsLitType);
-// impl_from!(Keyword, TsKeywordType);
-// impl_from!(Array, Array, 'a);
-// impl_from!(Union, Union, 'a);
-// impl_from!(Intersection, Intersection, 'a);
-// impl_from!(EnumVariant, EnumVariant, 'a);
-// impl_from!(Function, Function, 'a);
-// impl_from!(Constructor, Constructor, 'a);
-// impl_from!(Interface, TsInterfaceDecl);
-// impl_from!(Alias, TsTypeAliasDecl);
-// impl_from!(Enum, TsEnumDecl);
-// impl_from!(Namespace, TsNamespaceDecl);
-// impl_from!(Module, TsModuleDecl);
-// impl_from!(Class);
 
 impl From<TsType> for Type<'_> {
     fn from(ty: TsType) -> Self {
