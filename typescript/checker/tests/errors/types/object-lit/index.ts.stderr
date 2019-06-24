@@ -1,4 +1,13 @@
 error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            28,
+        ),
+        ctxt: #0,
+    },
     left: TypeLit(
         TypeLit {
             span: Span {
@@ -83,10 +92,10 @@ error: AssignFailed {
         MissingFields {
             span: Span {
                 lo: BytePos(
-                    7,
+                    4,
                 ),
                 hi: BytePos(
-                    23,
+                    28,
                 ),
                 ctxt: #0,
             },
@@ -146,8 +155,8 @@ error: AssignFailed {
         },
     ],
 }
- --> $DIR/tests/errors/types/object-lit/index.ts:1:8
+ --> $DIR/tests/errors/types/object-lit/index.ts:1:5
   |
 1 | let a: { name: string } = {};
-  |        ^^^^^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
 

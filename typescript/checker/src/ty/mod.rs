@@ -343,6 +343,54 @@ impl Type<'_> {
     }
 }
 
+impl Type<'_> {
+    pub fn respan(self, span: Span) -> Self {
+        match self {
+            Type::This(this) => Type::This(TsThisType { span, ..this }),
+
+            Type::Lit(lit) => Type::Lit(TsLitType { span, ..lit }),
+
+            Type::TypeLit(lit) => Type::TypeLit(TypeLit { span, ..lit }),
+
+            Type::Keyword(kwd) => Type::Keyword(TsKeywordType { span, ..kwd }),
+
+            Type::Array(arr) => Type::Array(Array { span, ..arr }),
+
+            Type::Union(u) => Type::Union(Union { span, ..u }),
+
+            Type::Intersection(u) => Type::Intersection(Intersection { span, ..u }),
+
+            Type::Function(f) => Type::Function(Function { span, ..f }),
+
+            Type::Constructor(c) => Type::Constructor(Constructor { span, ..c }),
+
+            Type::Enum(e) => Type::Enum(TsEnumDecl { span, ..e }),
+
+            Type::EnumVariant(e) => Type::EnumVariant(EnumVariant { span, ..e }),
+
+            Type::Interface(e) => Type::Interface(Interface { span, ..e }),
+
+            Type::Alias(a) => Type::Alias(Alias { span, ..a }),
+
+            Type::Namespace(n) => Type::Namespace(TsNamespaceDecl { span, ..n }),
+
+            Type::Module(m) => Type::Module(TsModuleDecl { span, ..m }),
+
+            Type::Class(c) => Type::Class(Class { span, ..c }),
+
+            Type::Simple(ty) => Type::Simple(Cow::Owned(match *ty {
+                TsType::TsTypeRef(ref t) => TsType::TsTypeRef(TsTypeRef { span, ..t.clone() }),
+                ref ty => ty.clone(),
+            })),
+
+            Type::Static(..) => {
+                // We don't change span of static items.
+                self
+            }
+        }
+    }
+}
+
 fn static_type(ty: Cow<Type>) -> TypeRef<'static> {
     ty.into_owned().into_static().into_cow()
 }

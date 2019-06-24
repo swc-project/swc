@@ -3,14 +3,15 @@ use crate::{
     errors::Error,
     util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
 };
-use swc_common::Spanned;
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 impl Type<'_> {
-    pub fn assign_to(&self, to: &Type) -> Result<(), Error> {
-        try_assign(to, self).map_err(|err| match err {
+    pub fn assign_to(&self, to: &Type, span: Span) -> Result<(), Error> {
+        try_assign(to, self, span).map_err(|err| match err {
             Error::AssignFailed { .. } => err,
             _ => Error::AssignFailed {
+                span,
                 left: to.to_static(),
                 right: self.to_static(),
                 cause: vec![err],
@@ -19,10 +20,11 @@ impl Type<'_> {
     }
 }
 
-fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
+fn try_assign(to: &Type, rhs: &Type, span: Span) -> Result<(), Error> {
     macro_rules! fail {
         () => {{
             return Err(Error::AssignFailed {
+                span,
                 left: to.to_static(),
                 right: rhs.to_static(),
                 cause: vec![],
@@ -56,9 +58,6 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
     }
     verify!(to);
     verify!(rhs);
-
-    // TODO
-    let span = to.span();
 
     macro_rules! handle_type_lit {
         ($members:expr) => {{
@@ -100,7 +99,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
         }) => {
             let errors = types
                 .iter()
-                .filter_map(|rhs| match try_assign(to, rhs) {
+                .filter_map(|rhs| match try_assign(to, rhs, span) {
                     Ok(()) => None,
                     Err(err) => Some(err),
                 })
@@ -140,8 +139,9 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
                 ..
             }) => {
                 //
-                return try_assign(&elem_type, &rhs_elem_type).map_err(|cause| {
+                return try_assign(&elem_type, &rhs_elem_type, span).map_err(|cause| {
                     Error::AssignFailed {
+                        span,
                         left: to.to_static(),
                         right: rhs.to_static(),
                         cause: vec![cause],
@@ -155,7 +155,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
         Type::Union(Union { ref types, .. }) => {
             let vs = types
                 .iter()
-                .map(|to| try_assign(&to, rhs))
+                .map(|to| try_assign(&to, rhs, span))
                 .collect::<Vec<_>>();
             if vs.iter().any(Result::is_ok) {
                 return Ok(());
@@ -169,7 +169,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
         Type::Intersection(Intersection { ref types, .. }) => {
             let vs = types
                 .iter()
-                .map(|to| try_assign(&to, rhs))
+                .map(|to| try_assign(&to, rhs, span))
                 .collect::<Vec<_>>();
 
             // TODO: Multiple error
@@ -276,6 +276,7 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
             }
 
             return Err(Error::AssignFailed {
+                span,
                 left: Type::Enum(e.clone()),
                 right: rhs.to_static(),
                 cause: vec![],

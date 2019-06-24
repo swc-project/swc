@@ -408,7 +408,7 @@ impl Visit<VarDecl> for Analyzer<'_, '_> {
                                 return;
                             }
                         };
-                        let error = value_ty.assign_to(&ty);
+                        let error = value_ty.assign_to(&ty, v.span());
                         match error {
                             Ok(()) => {
                                 self.scope.declare_vars(kind, &v.name);

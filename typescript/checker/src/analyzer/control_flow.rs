@@ -272,7 +272,7 @@ impl Analyzer<'_, '_> {
                                 // let foo: string;
                                 // let foo = 'value';
 
-                                let error = ty.assign_to(&var_ty);
+                                let error = ty.assign_to(&var_ty, i.span);
                                 match error {
                                     Ok(()) => Some(ty.to_static()),
                                     Err(err) => {
@@ -570,13 +570,16 @@ impl Visit<ReturnStmt> for Analyzer<'_, '_> {
         stmt.visit_children(self);
 
         let ty = match stmt.arg {
-            Some(ref expr) => match self.type_of(&expr) {
-                Ok(ty) => ty.to_static(),
-                Err(err) => {
-                    self.info.errors.push(err);
-                    return;
+            Some(ref expr) => {
+                let span = expr.span();
+                match self.type_of(&expr) {
+                    Ok(ty) => ty.to_static().respan(span),
+                    Err(err) => {
+                        self.info.errors.push(err);
+                        return;
+                    }
                 }
-            },
+            }
             None => Type::undefined(stmt.span),
         };
 

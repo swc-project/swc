@@ -50,7 +50,6 @@ impl Analyzer<'_, '_> {
                     //
                     // let id: (x: Foo) => Foo = x => x;
                     //
-
                     return Ok(Type::any(span).into_cow());
                 }
 
@@ -513,32 +512,19 @@ impl Analyzer<'_, '_> {
         &self,
         body: &BlockStmt,
     ) -> Result<Option<Type<'static>>, Error> {
-        let types = {
-            // let mut types = vec![];
-            // let mut v = Visitor {
-            //     span: body.span(),
-            //     types: &mut types,
-            //     a: self,
-            // };
-            // body.visit_with(&mut v);
-            // types
-            ::std::mem::replace(&mut *self.inferred_return_types.borrow_mut(), vec![])
-        };
+        let types = { ::std::mem::replace(&mut *self.inferred_return_types.borrow_mut(), vec![]) };
 
         let mut tys = Vec::with_capacity(types.len());
+        let mut span = body.span;
         for ty in types {
-            // let ty = ty?;
+            span = ty.span();
             tys.push(ty.owned());
         }
 
         match tys.len() {
             0 => Ok(None),
             1 => Ok(Some(tys.into_iter().next().unwrap().into_owned())),
-            _ => Ok(Some(Type::Union(Union {
-                span: body.span(),
-                types: tys,
-            }))
-            .map(Type::from)),
+            _ => Ok(Some(Type::Union(Union { span, types: tys })).map(Type::from)),
         }
     }
 
@@ -593,7 +579,8 @@ impl Analyzer<'_, '_> {
         let inferred_return_type = match inferred_return_type {
             Some(Ok(inferred_return_type)) => {
                 if let Some(ref declared) = declared_ret_ty {
-                    inferred_return_type.assign_to(declared)?;
+                    let span = inferred_return_type.span();
+                    inferred_return_type.assign_to(declared, span)?;
                 }
 
                 inferred_return_type

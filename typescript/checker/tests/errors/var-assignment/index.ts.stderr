@@ -1,4 +1,13 @@
 error: AssignFailed {
+    span: Span {
+        lo: BytePos(
+            4,
+        ),
+        hi: BytePos(
+            17,
+        ),
+        ctxt: #0,
+    },
     left: Keyword(
         TsKeywordType {
             span: Span {
@@ -42,8 +51,8 @@ error: AssignFailed {
     ),
     cause: [],
 }
- --> $DIR/tests/errors/var-assignment/index.ts:1:8
+ --> $DIR/tests/errors/var-assignment/index.ts:1:5
   |
 1 | let a: string = 1;
-  |        ^^^^^^^^^^
+  |     ^^^^^^^^^^^^^
 
