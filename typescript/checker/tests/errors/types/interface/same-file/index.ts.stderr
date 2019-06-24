@@ -1,6 +1,6 @@
 error: AssignFailed {
-    left: TsTypeLit(
-        TsTypeLit {
+    left: Interface(
+        Interface {
             span: Span {
                 lo: BytePos(
                     10,
@@ -10,9 +10,11 @@ error: AssignFailed {
                 ),
                 ctxt: #0,
             },
-            members: [
-                TsPropertySignature(
-                    TsPropertySignature {
+            type_params: None,
+            extends: [],
+            body: [
+                Property(
+                    PropertySignature {
                         span: Span {
                             lo: BytePos(
                                 18,
@@ -44,31 +46,20 @@ error: AssignFailed {
                         init: None,
                         params: [],
                         type_ann: Some(
-                            TsTypeAnn {
-                                span: Span {
-                                    lo: BytePos(
-                                        22,
-                                    ),
-                                    hi: BytePos(
-                                        30,
-                                    ),
-                                    ctxt: #0,
-                                },
-                                type_ann: TsKeywordType(
-                                    TsKeywordType {
-                                        span: Span {
-                                            lo: BytePos(
-                                                24,
-                                            ),
-                                            hi: BytePos(
-                                                30,
-                                            ),
-                                            ctxt: #0,
-                                        },
-                                        kind: TsStringKeyword,
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            24,
+                                        ),
+                                        hi: BytePos(
+                                            30,
+                                        ),
+                                        ctxt: #0,
                                     },
-                                ),
-                            },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
                         ),
                         type_params: None,
                     },
@@ -76,8 +67,8 @@ error: AssignFailed {
             ],
         },
     ),
-    right: TsTypeLit(
-        TsTypeLit {
+    right: TypeLit(
+        TypeLit {
             span: Span {
                 lo: BytePos(
                     48,
@@ -102,8 +93,8 @@ error: AssignFailed {
                 ctxt: #0,
             },
             fields: [
-                TsPropertySignature(
-                    TsPropertySignature {
+                Property(
+                    PropertySignature {
                         span: Span {
                             lo: BytePos(
                                 18,
@@ -135,31 +126,20 @@ error: AssignFailed {
                         init: None,
                         params: [],
                         type_ann: Some(
-                            TsTypeAnn {
-                                span: Span {
-                                    lo: BytePos(
-                                        22,
-                                    ),
-                                    hi: BytePos(
-                                        30,
-                                    ),
-                                    ctxt: #0,
-                                },
-                                type_ann: TsKeywordType(
-                                    TsKeywordType {
-                                        span: Span {
-                                            lo: BytePos(
-                                                24,
-                                            ),
-                                            hi: BytePos(
-                                                30,
-                                            ),
-                                            ctxt: #0,
-                                        },
-                                        kind: TsStringKeyword,
+                            Keyword(
+                                TsKeywordType {
+                                    span: Span {
+                                        lo: BytePos(
+                                            24,
+                                        ),
+                                        hi: BytePos(
+                                            30,
+                                        ),
+                                        ctxt: #0,
                                     },
-                                ),
-                            },
+                                    kind: TsStringKeyword,
+                                },
+                            ),
                         ),
                         type_params: None,
                     },

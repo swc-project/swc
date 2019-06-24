@@ -1,4 +1,4 @@
-use super::{Array, Intersection, Type, TypeLit, TypeRefExt, Union};
+use super::{Array, Interface, Intersection, Type, TypeLit, TypeRefExt, Union};
 use crate::{
     errors::Error,
     util::{EqIgnoreNameAndSpan, EqIgnoreSpan},
@@ -47,15 +47,55 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
     verify!(to);
     verify!(rhs);
 
+    // TODO
+    let span = to.span();
+
+    macro_rules! handle_type_lit {
+        ($members:expr) => {{
+            let members = $members;
+            match rhs {
+                Type::TypeLit(TypeLit {
+                    members: ref rhs_members,
+                    ..
+                }) => {
+                    // TODO: Assign property to proerty, instead of checking equality
+
+                    if members
+                        .iter()
+                        .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
+                    {
+                        return Ok(());
+                    }
+
+                    let missing_fields = members
+                        .iter()
+                        .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
+                        .cloned()
+                        .map(|v| v.into_static())
+                        .collect();
+                    return Err(Error::MissingFields {
+                        span,
+                        fields: missing_fields,
+                    });
+                }
+
+                _ => {}
+            }
+        }};
+    }
+
     match *rhs.as_ref() {
         Type::Union(Union {
             ref types, span, ..
         }) => {
             let errors = types
                 .iter()
-                .filter_map(|rhs| match try_assign(to, rhs) {
-                    Ok(()) => None,
-                    Err(err) => Some(err),
+                .filter_map(|rhs| {
+                    println!("try_assign: {:?} = {:?}", to, rhs);
+                    match try_assign(to, rhs) {
+                        Ok(()) => None,
+                        Err(err) => Some(err),
+                    }
                 })
                 .collect::<Vec<_>>();
             if errors.is_empty() {
@@ -89,9 +129,6 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
 
         _ => {}
     }
-
-    // TODO(kdy1):
-    let span = to.span();
 
     match *to.as_ref() {
         Type::Array(Array { ref elem_type, .. }) => match rhs {
@@ -275,34 +312,10 @@ fn try_assign(to: &Type, rhs: &Type) -> Result<(), Error> {
 
         Type::This(TsThisType { span }) => return Err(Error::CannotAssingToThis { span }),
 
-        Type::TypeLit(TypeLit { span, ref members }) => match rhs {
-            Type::TypeLit(TypeLit {
-                members: ref rhs_members,
-                ..
-            }) => {
-                // TODO: Assign property to proerty, instead of checking equality
+        // TODO: Handle extends
+        Type::Interface(Interface { ref body, .. }) => handle_type_lit!(body),
 
-                if members
-                    .iter()
-                    .all(|m| rhs_members.iter().any(|rm| rm.eq_ignore_name_and_span(m)))
-                {
-                    return Ok(());
-                }
-
-                let missing_fields = members
-                    .iter()
-                    .filter(|m| rhs_members.iter().all(|rm| !rm.eq_ignore_name_and_span(m)))
-                    .cloned()
-                    .map(|v| v.into_static())
-                    .collect();
-                return Err(Error::MissingFields {
-                    span,
-                    fields: missing_fields,
-                });
-            }
-
-            _ => {}
-        },
+        Type::TypeLit(TypeLit { span, ref members }) => handle_type_lit!(members),
 
         Type::Lit(TsLitType { ref lit, .. }) => match *to {
             Type::Lit(TsLitType { lit: ref r_lit, .. }) => {
