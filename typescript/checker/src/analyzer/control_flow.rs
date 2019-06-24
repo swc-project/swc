@@ -838,7 +838,7 @@ impl EndsWithRet for Stmt {
     /// Returns true if the statement ends with return, break, continue;
     fn ends_with_ret(&self) -> bool {
         match *self {
-            Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
+            Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) | Stmt::Throw(..) => true,
             Stmt::Block(ref stmt) => stmt.ends_with_ret(),
             _ => false,
         }
